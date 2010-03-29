@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.type.types.container;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import net.sourceforge.cilib.util.Cloneable;
@@ -32,8 +33,8 @@ import net.sourceforge.cilib.util.Cloneable;
  * @param <E> The type that this {@linkplain Tree} instance is defined to contain.
  */
 public class NaryTree<E extends Comparable<? super E> & Cloneable> extends AbstractTree<E> {
-    private static final long serialVersionUID = -1136444941205621381L;
 
+    private static final long serialVersionUID = -1136444941205621381L;
     private int degree;
     private List<NaryTree<E>> subTrees;
 
@@ -64,8 +65,9 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
         this.key = element;
         this.degree = degree;
         this.subTrees = new ArrayList<NaryTree<E>>();
-        for (int i = 0; i < degree; i++)
+        for (int i = 0; i < degree; i++) {
             this.subTrees.add(new NaryTree<E>(degree));
+        }
     }
 
     /**
@@ -94,11 +96,13 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
+        }
 
-        if ((obj == null) || (this.getClass() != obj.getClass()))
+        if ((obj == null) || (this.getClass() != obj.getClass())) {
             return false;
+        }
 
         NaryTree<?> other = (NaryTree<?>) obj;
 
@@ -120,12 +124,14 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
      * {@inheritDoc}
      */
     public boolean addSubTree(Tree<E> subTree) {
-        if (isEmpty())
+        if (isEmpty()) {
             throw new UnsupportedOperationException();
+        }
 
         for (int i = 0; i < degree; i++) {
-            if (!subTrees.get(i).isEmpty())
+            if (!subTrees.get(i).isEmpty()) {
                 continue;
+            }
 
             subTrees.set(i, (NaryTree<E>) subTree);
             return true;
@@ -140,11 +146,13 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
     public Tree<E> getSubTree(E element) {
         for (int i = 0; i < degree; i++) {
             NaryTree<E> subTree = subTrees.get(i);
-            if (subTree.isEmpty())
+            if (subTree.isEmpty()) {
                 continue;
+            }
 
-            if (subTree.getKey().equals(element))
+            if (subTree.getKey().equals(element)) {
                 return subTree;
+            }
         }
 
         return new NaryTree<E>();
@@ -154,8 +162,9 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
      * {@inheritDoc}
      */
     public Tree<E> removeSubTree(E element) {
-        if (isEmpty())
+        if (isEmpty()) {
             throw new UnsupportedOperationException();
+        }
 
         Tree<E> subTree = getSubTree(element);
         int index = subTrees.indexOf(subTree);
@@ -193,8 +202,9 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
     public boolean contains(E element) {
         for (int i = 0; i < degree; i++) {
             Tree<E> subTree = getSubTree(i);
-            if (!subTree.isEmpty() && subTree.getKey().equals(element))
+            if (!subTree.isEmpty() && subTree.getKey().equals(element)) {
                 return true;
+            }
         }
 
         return false;
@@ -225,8 +235,9 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
      * {@inheritDoc}
      */
     public Tree<E> getSubTree(int index) {
-        if (isEmpty())
+        if (isEmpty()) {
             throw new UnsupportedOperationException();
+        }
 
         return this.subTrees.get(index);
     }
@@ -235,9 +246,11 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
      * {@inheritDoc}
      */
     public boolean isLeaf() {
-        for (int i = 0; i < degree; i++)
-            if (!subTrees.get(i).isEmpty())
+        for (int i = 0; i < degree; i++) {
+            if (!subTrees.get(i).isEmpty()) {
                 return false;
+            }
+        }
 
         return true;
     }
@@ -247,8 +260,9 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
      */
     @Override
     public void setKey(E element) {
-        if (!isEmpty())
+        if (!isEmpty()) {
             throw new UnsupportedOperationException();
+        }
 
         this.key = element;
         this.subTrees = new ArrayList<NaryTree<E>>();
@@ -264,4 +278,43 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
         return this.degree;
     }
 
+    @Override
+    public boolean contains(Object o) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Object[] toArray() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends E> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

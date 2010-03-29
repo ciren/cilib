@@ -40,8 +40,8 @@ public class RealTest {
 
     @Test
     public void cloning() {
-        Real r = new Real(-10.0);
-        Real test = r.getClone();
+        Real r = Real.valueOf(-10.0);
+        Real test = Real.valueOf(-10.0);
 
         assertEquals(r.doubleValue(), test.doubleValue(), Double.MIN_NORMAL);
         assertNotSame(r, test);
@@ -92,7 +92,7 @@ public class RealTest {
     @Test
     public void randomizeWithinDefinedBounds() {
         Real r1 = new Real(0.0, new Bounds(-30.0, 30.0));
-        Real r2 = r1.getClone();
+        Real r2 = new Real(0.0, new Bounds(-30.0, 30.0));
 
         assertTrue(r1.doubleValue() == r2.doubleValue());
         r1.randomize(new MersenneTwister());

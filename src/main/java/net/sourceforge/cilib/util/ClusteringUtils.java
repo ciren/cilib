@@ -42,17 +42,17 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public final class ClusteringUtils {
-    private static final long serialVersionUID = 4878437477807660149L;
 
+    private static final long serialVersionUID = 4878437477807660149L;
     /**
      * A thread local instance of this class.
      */
     private static transient ThreadLocal<ClusteringUtils> instance = new ThreadLocal<ClusteringUtils>() {
+
         protected ClusteringUtils initialValue() {
             return new ClusteringUtils();
         }
     };
-
     private ClusteringProblem clusteringProblem = null;
     private ClusterableDataSet clusterableDataSet = null;
     // ArrayList of Vectors
@@ -82,8 +82,7 @@ public final class ClusteringUtils {
                 clusterableDataSet = (ClusterableDataSet) clusteringProblem.getDataSetBuilder();
 
                 System.out.println("Initialised Algorithm found: " + ClusteringUtils.class.getSimpleName() + " is now configured");
-            }
-            catch (EmptyStackException ese) {
+            } catch (EmptyStackException ese) {
                 System.out.println("Preliminary: Algorithm not initialised yet");
                 // there is no active algorithm when running the unit test
                 // we need to return, otherwise it will break

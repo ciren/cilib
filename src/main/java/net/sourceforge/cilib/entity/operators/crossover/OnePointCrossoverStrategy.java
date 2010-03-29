@@ -70,15 +70,13 @@ public class OnePointCrossoverStrategy extends CrossoverStrategy {
             Vector offspringVector1 = (Vector) offspring1.getCandidateSolution();
             Vector offspringVector2 = (Vector) offspring2.getCandidateSolution();
 
-            for (int j = crossoverPoint; j < offspringVector2.getDimension(); j++) {
-                offspringVector1.remove(j);
-                offspringVector1.insert(j, offspringVector2.get(j).getClone());
-            }
+            Vector.Builder offspringVector1Builder = Vector.newBuilder();
+            Vector.Builder offspringVector2Builder = Vector.newBuilder();
 
-            for (int j = crossoverPoint; j < offspringVector1.getDimension(); j++) {
-                offspringVector2.remove(j);
-                offspringVector2.insert(j, offspringVector1.get(j).getClone());
-            }
+            offspringVector1Builder.copyOf(offspringVector1.subList(0, crossoverPoint));
+            offspringVector2Builder.copyOf(offspringVector2.subList(0, crossoverPoint));
+            offspringVector1Builder.copyOf(offspringVector2.subList(crossoverPoint, offspringVector2.size()));
+            offspringVector2Builder.copyOf(offspringVector1.subList(crossoverPoint, offspringVector1.size()));
 
             offspring1.calculateFitness();
             offspring2.calculateFitness();

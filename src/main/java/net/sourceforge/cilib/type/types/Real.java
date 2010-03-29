@@ -150,7 +150,7 @@ public class Real implements Numeric {
      */
     @Override
     public void randomize(RandomProvider random) {
-        this.value = checkNotNull(random).nextDouble() * (getBounds().getUpperBound() - getBounds().getLowerBound()) + getBounds().getLowerBound();
+        this.value = checkNotNull(random).nextDouble() * (bounds.getUpperBound() - bounds.getLowerBound()) + bounds.getLowerBound();
     }
 
     /**

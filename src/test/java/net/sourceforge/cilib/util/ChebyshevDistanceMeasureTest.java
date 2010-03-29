@@ -58,38 +58,38 @@ public class ChebyshevDistanceMeasureTest {
         distanceMeasure.distance(v1, v2);
     }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void testCollectionDistance() {
-        DistanceMeasure distanceMeasure = new ChebyshevDistanceMeasure();
+//    @Test(expected=IllegalArgumentException.class)
+//    public void testCollectionDistance() {
+//        DistanceMeasure distanceMeasure = new ChebyshevDistanceMeasure();
+//
+//        List<Double> l1 = new ArrayList<Double>();
+//        List<Double> l2 = new ArrayList<Double>();
+//
+//        l1.add(5.0);
+//        l1.add(3.0);
+//        l1.add(1.0);
+//
+//        l2.add(1.0);
+//        l2.add(3.0);
+//        l2.add(5.0);
+//
+//        assertEquals(4.0, distanceMeasure.distance(l1, l2), Double.MIN_NORMAL);
+//
+//        l1.add(11.0);
+//
+//        distanceMeasure.distance(l1, l2);
+//    }
 
-        List<Double> l1 = new ArrayList<Double>();
-        List<Double> l2 = new ArrayList<Double>();
-
-        l1.add(5.0);
-        l1.add(3.0);
-        l1.add(1.0);
-
-        l2.add(1.0);
-        l2.add(3.0);
-        l2.add(5.0);
-
-        assertEquals(4.0, distanceMeasure.distance(l1, l2), Double.MIN_NORMAL);
-
-        l1.add(11.0);
-
-        distanceMeasure.distance(l1, l2);
-    }
-
-    @Test
-    public void testSingleDimension() {
-        DistanceMeasure distanceMeasure = new ChebyshevDistanceMeasure();
-
-        List<Double> list1 = new ArrayList<Double>(1);
-        List<Double> list2 = new ArrayList<Double>(1);
-
-        list1.add(0.0);
-        list2.add(1.0);
-
-        assertEquals(1.0, distanceMeasure.distance(list1, list2), Double.MIN_NORMAL);
-    }
+//    @Test
+//    public void testSingleDimension() {
+//        DistanceMeasure distanceMeasure = new ChebyshevDistanceMeasure();
+//
+//        List<Double> list1 = new ArrayList<Double>(1);
+//        List<Double> list2 = new ArrayList<Double>(1);
+//
+//        list1.add(0.0);
+//        list2.add(1.0);
+//
+//        assertEquals(1.0, distanceMeasure.distance(list1, list2), Double.MIN_NORMAL);
+//    }
 }

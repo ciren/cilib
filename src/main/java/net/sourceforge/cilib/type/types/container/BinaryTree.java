@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
-
+import java.util.Collection;
 import net.sourceforge.cilib.container.visitor.PrePostVisitor;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -31,8 +31,8 @@ import net.sourceforge.cilib.util.Cloneable;
  * @param <E> The {@linkplain Comparable} and {@linkplain Cloneable} type.
  */
 public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends AbstractTree<E> {
-    private static final long serialVersionUID = 3537717751647961525L;
 
+    private static final long serialVersionUID = 3537717751647961525L;
     private BinaryTree<E> left;
     private BinaryTree<E> right;
 
@@ -90,17 +90,19 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
      */
     @Override
     public boolean equals(Object obj) {
-        if (obj == this)
+        if (obj == this) {
             return true;
+        }
 
-        if ((obj == null) || (this.getClass() != obj.getClass()))
+        if ((obj == null) || (this.getClass() != obj.getClass())) {
             return false;
+        }
 
         BinaryTree<?> other = (BinaryTree<?>) obj;
 
-        return this.key.equals(other.key) &&
-            this.left.equals(other.left) &&
-            this.right.equals(other.right);
+        return this.key.equals(other.key)
+                && this.left.equals(other.left)
+                && this.right.equals(other.right);
     }
 
     /**
@@ -133,8 +135,9 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
      */
     @Override
     public boolean addSubTree(Tree<E> subTree) {
-        if (isEmpty())
+        if (isEmpty()) {
             throw new UnsupportedOperationException("Cannot add a subtree to an empty tree");
+        }
 
         BinaryTree<E> child = (BinaryTree<E>) subTree;
 
@@ -154,11 +157,16 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
      * {@inheritDoc}
      */
     public Tree<E> getSubTree(E element) {
-        if (isEmpty())
+        if (isEmpty()) {
             throw new UnsupportedOperationException("Cannot get a subtree from an empty tree");
+        }
 
-        if (!left.isEmpty() && left.getKey().equals(element)) return left;
-        if (!right.isEmpty() && right.getKey().equals(element)) return right;
+        if (!left.isEmpty() && left.getKey().equals(element)) {
+            return left;
+        }
+        if (!right.isEmpty() && right.getKey().equals(element)) {
+            return right;
+        }
 
         return new BinaryTree<E>();
     }
@@ -167,10 +175,13 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
      * {@inheritDoc}
      */
     public Tree<E> getSubTree(int index) {
-        if (index < 0 || index >= 2)
+        if (index < 0 || index >= 2) {
             throw new IndexOutOfBoundsException("BinaryTree subTree indexes of 0 or 1 are ony allowed.");
+        }
 
-        if (index == 0) return left;
+        if (index == 0) {
+            return left;
+        }
 
         return right;
     }
@@ -181,8 +192,12 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
     public Tree<E> removeSubTree(E element) {
         AbstractTree<E> subTreeFound = (AbstractTree<E>) this.getSubTree(element);
 
-        if (subTreeFound == left) left = new BinaryTree<E>();
-        if (subTreeFound == right) right = new BinaryTree<E>();
+        if (subTreeFound == left) {
+            left = new BinaryTree<E>();
+        }
+        if (subTreeFound == right) {
+            right = new BinaryTree<E>();
+        }
 
         return subTreeFound;
     }
@@ -262,4 +277,43 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
         return 2;
     }
 
+    @Override
+    public boolean contains(Object o) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Object[] toArray() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends E> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

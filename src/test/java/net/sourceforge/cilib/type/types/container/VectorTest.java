@@ -154,30 +154,30 @@ public class VectorTest {
         vector.insert(-1, new Real(1.0));
     }
 
-    @Test
-    public void testRemove() {
-        Vector m = new Vector();
-
-        m.add(new Real(1.0));
-        m.add(new Real(2.2));
-
-        assertEquals(2, m.getDimension());
-
-        m.remove(1);
-        assertEquals(1.0, m.getReal(0), 0.0);
-        assertEquals(1, m.getDimension());
-    }
-
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void removeNegativeIndex() {
-        // Invalid indexes
-        vector.remove(-1);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void removeIndexToLarge() {
-        vector.remove(10);
-    }
+//    @Test
+//    public void testRemove() {
+//        Vector m = new Vector();
+//
+//        m.add(new Real(1.0));
+//        m.add(new Real(2.2));
+//
+//        assertEquals(2, m.getDimension());
+//
+//        m.remove(1);
+//        assertEquals(1.0, m.getReal(0), 0.0);
+//        assertEquals(1, m.getDimension());
+//    }
+//
+//    @Test(expected = IndexOutOfBoundsException.class)
+//    public void removeNegativeIndex() {
+//        // Invalid indexes
+//        vector.remove(-1);
+//    }
+//
+//    @Test(expected = IllegalArgumentException.class)
+//    public void removeIndexToLarge() {
+//        vector.remove(10);
+//    }
 
     @Test
     public void testAdd() {

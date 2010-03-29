@@ -25,8 +25,6 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
  * The Minkowski Metric is a generic measure of distance. It is defined in:<br/>
@@ -48,6 +46,7 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * @author Theuns Cloete
  */
 public class MinkowskiMetric implements DistanceMeasure {
+
     protected int alpha = 0;
 
     /**
@@ -63,8 +62,9 @@ public class MinkowskiMetric implements DistanceMeasure {
      * @param a the value to which 'alpha' should be set
      */
     public MinkowskiMetric(int a) {
-        if(a < 1)
+        if (a < 1) {
             throw new IllegalArgumentException("The 'alpha' parameter of the Minkowski Metric must be >= 1");
+        }
 
         alpha = a;
     }
@@ -76,44 +76,23 @@ public class MinkowskiMetric implements DistanceMeasure {
      * @return the distance (as a double) between the two vectors.
      * @throws IllegalArgumentException when the two vectors' dimension differ.
      */
-    public <T extends Type, U extends StructuredType<T>> double distance(U x, U y) {
-        if(x.size() != y.size())
+    public double distance(Collection<? extends Numeric> x, Collection<? extends Numeric> y) {
+        if (x.size() != y.size()) {
             throw new IllegalArgumentException("Cannot calculate Minkowski Metric for vectors of different dimensions: " + x.size() + " != " + y.size());
-        if(alpha < 1)
+        }
+        if (alpha < 1) {
             throw new IllegalArgumentException("The 'alpha' parameter of the Minkowski Metric must be >= 1, i.e. not " + alpha);
+        }
 
-        Iterator<T> xIterator = x.iterator();
-        Iterator<T> yIterator = y.iterator();
+        Iterator<?> xIterator = x.iterator();
+        Iterator<?> yIterator = y.iterator();
 
         double distance = 0.0;
-        for(int i = 0; i < x.size(); ++i) {
+        for (int i = 0; i < x.size(); ++i) {
             Numeric xElement = (Numeric) xIterator.next();
             Numeric yElement = (Numeric) yIterator.next();
 
             distance += Math.pow(Math.abs(xElement.doubleValue() - yElement.doubleValue()), alpha);
-        }
-        return Math.pow(distance, 1.0 / alpha);
-    }
-
-    /**
-     * Calculate the distance between two vectors represented by Java Collection objects.
-     * @param x the one Java Collection object.
-     * @param y the other Java Collection object.
-     * @return the distance (as a double) between the two vectors.
-     * @throws IllegalArgumentException when the two vectors' dimension differ.
-     */
-    public <T extends Collection<? extends Number>> double distance(T x, T y) {
-        if (x.size() != y.size())
-            throw new IllegalArgumentException("Cannot calculate Minkowski Metric for vectors of different dimensions: " + x.size() + " != " + y.size());
-        if(alpha < 1)
-            throw new IllegalArgumentException("The 'alpha' parameter of the Minkowski Metric must be >= 1, i.e. not " + alpha);
-
-        double distance = 0;
-        Iterator<? extends Number> i = x.iterator();
-        Iterator<? extends Number> j = y.iterator();
-
-        while (i.hasNext() && j.hasNext()) {
-            distance += Math.pow(Math.abs(i.next().doubleValue() - j.next().doubleValue()), alpha);
         }
         return Math.pow(distance, 1.0 / alpha);
     }
@@ -124,8 +103,9 @@ public class MinkowskiMetric implements DistanceMeasure {
      * @throws IllegalArgumentException when the given parameter is less than one.
      */
     public void setAlpha(int a) {
-        if(a < 1)
+        if (a < 1) {
             throw new IllegalArgumentException("The 'alpha' parameter of the Minkowski Metric must be >= 1");
+        }
         alpha = a;
     }
 }

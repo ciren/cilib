@@ -25,9 +25,6 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.StructuredType;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Chebyshev Distance is a special case of the
@@ -49,16 +46,17 @@ public class ChebyshevDistanceMeasure extends MinkowskiMetric {
      * {@inheritDoc}
      */
     @Override
-    public <T extends Type, U extends StructuredType<T>> double distance(U x, U y) {
+    public double distance(Collection<? extends Numeric> x, Collection<? extends Numeric> y) {
         /*
          * TODO: Consider re-implementing for different sized vectors, especially as everything is
          * equivalent relative to infinity
          */
-        if (x.size() != y.size())
+        if (x.size() != y.size()) {
             throw new IllegalArgumentException("Cannot calculate Chebyshev Metric for vectors of different dimensions");
+        }
 
-        Iterator<T> xIterator = x.iterator();
-        Iterator<T> yIterator = y.iterator();
+        Iterator<? extends Numeric> xIterator = x.iterator();
+        Iterator<? extends Numeric> yIterator = y.iterator();
 
         double maxDistance = 0.0;
         for (int i = 0; i < x.size(); ++i) {
@@ -66,32 +64,9 @@ public class ChebyshevDistanceMeasure extends MinkowskiMetric {
             Numeric yElement = (Numeric) yIterator.next();
 
             double distance = Math.abs(xElement.doubleValue() - yElement.doubleValue());
-            if (distance > maxDistance)
+            if (distance > maxDistance) {
                 maxDistance = distance;
-        }
-
-        return maxDistance;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public <T extends Collection<? extends Number>> double distance(T x, T y) {
-        /*
-         * TODO: Consider re-implementing for different sized collections, especially as everything is
-         * equivalent relative to infinity
-         */
-        if (x.size() != y.size())
-            throw new IllegalArgumentException("Cannot calculate Chebyshev Metric for vectors of different dimensions");
-
-        Iterator<? extends Number> i = x.iterator();
-        Iterator<? extends Number> j = y.iterator();
-        double maxDistance = 0.0;
-
-        while (i.hasNext() && j.hasNext()) {
-            double distance = Math.abs(i.next().doubleValue() - j.next().doubleValue());
-            if (distance > maxDistance)
-                maxDistance = distance;
+            }
         }
 
         return maxDistance;

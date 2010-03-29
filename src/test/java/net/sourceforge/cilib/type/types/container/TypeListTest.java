@@ -33,15 +33,14 @@ public class TypeListTest {
 
     @Test
     public void subList() {
-       TypeList list = new TypeList();
-       list.add(new Vector());
-       list.add(new BinaryTree());
-       list.add(new Int(0));
-       list.add(new Set());
-       list.add(new NaryTree());
+        TypeList list = new TypeList();
+        list.add(new Vector());
+        list.add(new BinaryTree());
+        list.add(new Int(0));
+        list.add(new NaryTree());
 
-       TypeList subList = list.subList(0, 3);
+        TypeList subList = list.subList(0, 3);
 
-       Assert.assertEquals(4, subList.size());
+        Assert.assertEquals(4, subList.size());
     }
 }

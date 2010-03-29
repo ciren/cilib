@@ -25,8 +25,6 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -60,16 +58,17 @@ public class CosineDistanceMeasure implements DistanceMeasure {
      * @throws IllegalArgumentException when the two vectors' dimension differ.
      * @TODO: Can this not be replaced with x.dot(y)?
      */
-    public <T extends Type, U extends StructuredType<T>> double distance(U x, U y) {
-        if(x.size() != y.size())
+    public double distance(Collection<? extends Numeric> x, Collection<? extends Numeric> y) {
+        if (x.size() != y.size()) {
             throw new IllegalArgumentException("Cannot calculate Cosine Distance for vectors of different dimensions");
+        }
 
-        Iterator<T> xIterator = x.iterator();
-        Iterator<T> yIterator = y.iterator();
+        Iterator<? extends Numeric> xIterator = x.iterator();
+        Iterator<? extends Numeric> yIterator = y.iterator();
 
         double distance = 0.0, norm_x = 0.0, norm_y = 0.0;
         double x_i = 0.0, y_i = 0.0;
-        for(int i = 0; i < x.size(); ++i) {
+        for (int i = 0; i < x.size(); ++i) {
             Numeric xElement = (Numeric) xIterator.next();
             Numeric yElement = (Numeric) yIterator.next();
             x_i = xElement.doubleValue();
@@ -80,42 +79,12 @@ public class CosineDistanceMeasure implements DistanceMeasure {
         }
         norm_x = Math.sqrt(norm_x);
         norm_y = Math.sqrt(norm_y);
-        if(norm_x <= 0.0 || norm_y <= 0.0)
+        if (norm_x <= 0.0 || norm_y <= 0.0) {
             throw new ArithmeticException("Division by zero");
+        }
 
         // TODO: return x.dot(y) ???
 
-        //convert to distance by subtracting from 1
-        return 1.0 - (distance / (norm_x * norm_y));
-    }
-
-    /**
-     * Calculate the "distance" (dot product) between (of) two vectors represented by Java Collection objects.
-     * @param <T> The {@linkplain Vector} type.
-     * @param x the one Java Collection object.
-     * @param y the other Java Collection object.
-     * @return the distance (or angle or dot product) (as a double) between the two vectors.
-     * @throws IllegalArgumentException when the two vectors' dimension differ.
-     */
-    public <T extends Collection<? extends Number>> double distance(T x, T y) {
-        if (x.size() != y.size())
-            throw new IllegalArgumentException("Cannot calculate Cosine Distance for vectors  of different dimensions");
-
-        Iterator<? extends Number> i = x.iterator();
-        Iterator<? extends Number> j = y.iterator();
-        double distance = 0.0, norm_x = 0.0, norm_y = 0.0;
-        double x_i = 0.0, y_i = 0.0;
-        while (i.hasNext() && j.hasNext()) {
-            x_i = i.next().doubleValue();
-            y_i = j.next().doubleValue();
-            distance += x_i * y_i;
-            norm_x += x_i * x_i;
-            norm_y += y_i * y_i;
-        }
-        norm_x = Math.sqrt(norm_x);
-        norm_y = Math.sqrt(norm_y);
-        if(norm_x <= 0.0 || norm_y <= 0.0)
-            throw new ArithmeticException("Division by zero");
         //convert to distance by subtracting from 1
         return 1.0 - (distance / (norm_x * norm_y));
     }

@@ -42,8 +42,8 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  * @param <E> The {@code Comparable} type.
  */
 public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> {
-    private static final long serialVersionUID = -5517089079342858152L;
 
+    private static final long serialVersionUID = -5517089079342858152L;
     private Map<E, List<Graph.Edge<E>>> adjacencyMap;
 
     public StandardGraph() {
@@ -76,25 +76,33 @@ public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> 
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
+        }
 
-        if ((obj == null) || (this.getClass() != obj.getClass()))
+        if ((obj == null) || (this.getClass() != obj.getClass())) {
             return false;
+        }
 
         StandardGraph<E> graph = (StandardGraph<E>) obj;
-        if (this.adjacencyMap.size() != graph.adjacencyMap.size()) return false;
-        if (this.edgeCount() != graph.edgeCount()) return false;
+        if (this.adjacencyMap.size() != graph.adjacencyMap.size()) {
+            return false;
+        }
+        if (this.edgeCount() != graph.edgeCount()) {
+            return false;
+        }
 
-        if (!adjacencyMap.keySet().containsAll(graph.adjacencyMap.keySet()))
-                return false;
+        if (!adjacencyMap.keySet().containsAll(graph.adjacencyMap.keySet())) {
+            return false;
+        }
 
         // Set up the edge sets.
         Set<Pair<E, E>> currentEdgeSet = this.getEdgeSet();
         Set<Pair<E, E>> otherEdgeSet = graph.getEdgeSet();
 
-        if (!otherEdgeSet.containsAll(currentEdgeSet))
+        if (!otherEdgeSet.containsAll(currentEdgeSet)) {
             return false;
+        }
 
         return true;
     }
@@ -169,9 +177,15 @@ public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> 
      */
     @Override
     public boolean addEdge(E a, E b, double cost, double weight) {
-        if (!contains(a)) return false;
-        if (!contains(b)) return false;
-        if (a == b) return false;
+        if (!contains(a)) {
+            return false;
+        }
+        if (!contains(b)) {
+            return false;
+        }
+        if (a == b) {
+            return false;
+        }
 
         List<Graph.Edge<E>> connectedVerticies = this.adjacencyMap.get(a);
         connectedVerticies.add(new Edge<E>(b, cost, weight));
@@ -188,15 +202,22 @@ public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> 
      */
     @Override
     public boolean isConnected(E a, E b) {
-        if (!contains(a)) return false;
-        if (!contains(b)) return false;
-        if (a == b) return false;
+        if (!contains(a)) {
+            return false;
+        }
+        if (!contains(b)) {
+            return false;
+        }
+        if (a == b) {
+            return false;
+        }
 
         List<Graph.Edge<E>> connectedVerticies = this.adjacencyMap.get(a);
 
         for (Graph.Edge<E> pair : connectedVerticies) {
-            if (pair.getConnectedVertex().equals(b))
+            if (pair.getConnectedVertex().equals(b)) {
                 return true;
+            }
         }
 
         return false;
@@ -215,8 +236,9 @@ public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> 
      */
     @Override
     public boolean add(E element) {
-        if (this.adjacencyMap.containsKey(element))
+        if (this.adjacencyMap.containsKey(element)) {
             return false;
+        }
 
         this.adjacencyMap.put(element, new LinkedList<Graph.Edge<E>>());
         return true;
@@ -234,8 +256,8 @@ public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> 
      * {@inheritDoc}
      */
     @Override
-    public boolean contains(E element) {
-        return this.adjacencyMap.containsKey(element);
+    public boolean contains(Object o) {
+        return this.adjacencyMap.containsKey(o);
     }
 
     /**
@@ -258,18 +280,20 @@ public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> 
      * {@inheritDoc}
      */
     @Override
-    public boolean remove(E element) {
-        if (!this.adjacencyMap.containsKey(element))
+    public boolean remove(Object o) {
+        if (!this.adjacencyMap.containsKey(o)) {
             return false;
+        }
 
-        this.adjacencyMap.remove(element);
+        this.adjacencyMap.remove(o);
 
         Collection<List<Graph.Edge<E>>> lists = this.adjacencyMap.values();
 
         for (List<Graph.Edge<E>> list : lists) {
             for (Graph.Edge<E> entry : list) {
-                if (entry.getConnectedVertex().equals(element))
+                if (entry.getConnectedVertex().equals(o)) {
                     list.remove(entry);
+                }
             }
         }
 
@@ -279,20 +303,20 @@ public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> 
     /**
      * {@inheritDoc}
      */
-    @Override
-    public E remove(int index) {
-        int count = 0;
-        for (Map.Entry<E, List<Graph.Edge<E>>> e : this.adjacencyMap.entrySet()) {
-            if (count == index) {
-                this.adjacencyMap.remove(e.getKey());
-                return e.getKey();
-            }
-
-            count++;
-        }
-
-        return null;
-    }
+//    @Override
+//    public E remove(int index) {
+//        int count = 0;
+//        for (Map.Entry<E, List<Graph.Edge<E>>> e : this.adjacencyMap.entrySet()) {
+//            if (count == index) {
+//                this.adjacencyMap.remove(e.getKey());
+//                return e.getKey();
+//            }
+//
+//            count++;
+//        }
+//
+//        return null;
+//    }
 
     /**
      * {@inheritDoc}
@@ -306,9 +330,10 @@ public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> 
      * {@inheritDoc}
      */
     @Override
-    public boolean addAll(StructuredType<? extends E> structure) {
-        for (E element : structure)
+    public boolean addAll(Collection<? extends E> c) {
+        for (E element : c) {
             add(element);
+        }
 
         return true;
     }
@@ -317,7 +342,7 @@ public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> 
      * {@inheritDoc}
      */
     @Override
-    public boolean removeAll(StructuredType<E> structure) {
+    public boolean removeAll(Collection<?> c) {
         // TODO Auto-generated method stub
         return false;
     }
@@ -341,13 +366,15 @@ public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> 
      * @return The total cost from <code>a</code> to <code>b</code>.
      */
     public double distance(E a, E b) {
-        if (!isConnected(a, b))
+        if (!isConnected(a, b)) {
             throw new UnsupportedOperationException("Cannot determine the distance. Node(" + a + ") and Node(" + b + ") are not connected");
+        }
 
         List<Graph.Edge<E>> distances = this.adjacencyMap.get(a);
         for (Graph.Edge<E> pair : distances) {
-            if (pair.getConnectedVertex().equals(b))
+            if (pair.getConnectedVertex().equals(b)) {
                 return pair.getCost();
+            }
         }
 
         throw new NoSuchElementException("The distance between Node(" + a + ") and Node(" + b + ") does not exist");
@@ -359,24 +386,26 @@ public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> 
     @Override
     public E getVertex(int index) {
         Set<E> keySet = this.adjacencyMap.keySet();
-        int count  = 0;
+        int count = 0;
 
         for (E element : keySet) {
-            if (count == index) return element;
+            if (count == index) {
+                return element;
+            }
             count++;
         }
 
         return null;
     }
 
-
     private Set<Pair<E, E>> getEdgeSet() {
         Set<Pair<E, E>> edgeSet = new HashSet<Pair<E, E>>();
 
         for (E vertex : adjacencyMap.keySet()) {
             List<Graph.Edge<E>> connections = adjacencyMap.get(vertex);
-            for (Graph.Edge<E> edge : connections)
+            for (Graph.Edge<E> edge : connections) {
                 edgeSet.add(new Pair<E, E>(vertex, edge.getConnectedVertex()));
+            }
         }
 
         return edgeSet;
@@ -392,6 +421,25 @@ public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> 
         return this.adjacencyMap.get(vertex);
     }
 
+    @Override
+    public Object[] toArray() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
     /**
      * Class to represent the element, cost and weight associated to the connection between
@@ -400,6 +448,7 @@ public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> 
      * @param <E> The {@linkplain Comparable} type.
      */
     public static class Edge<E extends Comparable<? super E>> implements Graph.Edge<E> {
+
         private static final long serialVersionUID = 1697479517382450802L;
         private double weight;
         private double cost;
@@ -477,16 +526,18 @@ public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> 
 
         @Override
         public boolean equals(Object obj) {
-            if (this == obj)
+            if (this == obj) {
                 return true;
+            }
 
-            if ((obj == null) || (this.getClass() != obj.getClass()))
+            if ((obj == null) || (this.getClass() != obj.getClass())) {
                 return false;
+            }
 
             Edge<?> other = (Edge<?>) obj;
-            return this.vertex.equals(other) &&
-                (this.cost == other.cost) &&
-                (this.weight == other.weight);
+            return this.vertex.equals(other)
+                    && (this.cost == other.cost)
+                    && (this.weight == other.weight);
         }
 
         @Override

@@ -21,10 +21,10 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.collect.Lists;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.cilib.container.visitor.Visitor;
@@ -285,16 +285,16 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
     /**
      * Add all the elements from the provided {@code structure} to the current
      * {@code Vector}.
-     * @param structure The structure containing the elements to add.
+     * @param c The structure containing the elements to add.
      * @return {@code true} if successful, {@code false} otherwise.
      */
     @Override
-    public boolean addAll(StructuredType<? extends Numeric> structure) {
-        int size = components.length + structure.size();
+    public boolean addAll(Collection<? extends Numeric> c) {
+        int size = components.length + c.size();
         Numeric[] array = new Numeric[size];
         System.arraycopy(components, 0, array, 0, components.length);
         int index = components.length;
-        for (Numeric numeric : structure) {
+        for (Numeric numeric : c) {
             array[index++] = numeric;
         }
 
@@ -313,15 +313,15 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
     /**
      * Returns {@code true} if the specified {@code element} is contained
      * within the current {@code Vector}.
-     * @param element wlemet whose presence in the {@code Vector} is to be tested.
+     * @param o wlemet whose presence in the {@code Vector} is to be tested.
      * @return {@code true} if {@code element} is contained in the {@code Vector}.
      * @throws NullPointerException if the specified element is null and this
      *         list does not permit null elements. (optional).
      */
     @Override
-    public boolean contains(Numeric element) {
+    public boolean contains(Object o) {
         for (int i = 0; i < components.length; i++) {
-            if (element.equals(components[i])) {
+            if (o.equals(components[i])) {
                 return true;
             }
         }
@@ -375,9 +375,26 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @return {@code true} if successful, {@code false} otherwise.
      */
     @Override
-    public boolean remove(Numeric element) {
-//        return this.components.remove(element);
-        throw new UnsupportedOperationException();
+    public boolean remove(Object o) {
+        for (int i = 0; i < components.length; i++) {
+            if (components[i].equals(o)) {
+                return remove(i);
+            }
+        }
+        return false;
+    }
+
+    private boolean remove(final int index) {
+        Numeric[] array = new Numeric[components.length - 1];
+        int count = 0;
+        for (int i = 0; i < index; i++) {
+            array[count++] = components[i];
+        }
+        for (int i = index + 1; i < components.length; i++) {
+            array[count++] = components[i];
+        }
+        components = array;
+        return true;
     }
 
     /**
@@ -385,29 +402,28 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @param index index of the element to remove.
      * @return The removed {@code Numeric} instance.
      */
-    @Override
-    public Numeric remove(int index) {
-        checkArgument(index < components.length);
-        Numeric result = null;
-        Numeric[] array = new Numeric[components.length - 1];
-        for (int i = 0, count = 0; i < components.length; i++) {
-            if (i == index) {
-                result = components[i];
-                continue;
-            }
-            array[count++] = components[i];
-        }
-        this.components = array;
-        return result;
-    }
-
+//    @Override
+//    public Numeric remove(int index) {
+//        checkArgument(index < components.length);
+//        Numeric result = null;
+//        Numeric[] array = new Numeric[components.length - 1];
+//        for (int i = 0, count = 0; i < components.length; i++) {
+//            if (i == index) {
+//                result = components[i];
+//                continue;
+//            }
+//            array[count++] = components[i];
+//        }
+//        this.components = array;
+//        return result;
+//    }
     /**
      * Remove all the objects contained within {@code structure}.
      * @param structure The structure containing objects to remove.
      * @return {@code true} if successful, {@code false} otherwise.
      */
     @Override
-    public boolean removeAll(StructuredType<Numeric> structure) {
+    public boolean removeAll(Collection<?> c) {
 //        for (Numeric numeric : structure) {
 //            this.components.remove(numeric);
 //        }
@@ -668,6 +684,21 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
 
     public int intValueOf(int index) {
         return this.components[index].intValue();
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
