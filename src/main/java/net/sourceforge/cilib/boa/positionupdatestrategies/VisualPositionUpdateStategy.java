@@ -59,8 +59,7 @@ public class VisualPositionUpdateStategy implements BeePositionUpdateStrategy {
         Vector otherPosition = otherBee.getPosition();
         double value = newPosition.getReal(j);
         double other = otherPosition.getReal(j);
-        Real newValue = (Real) newPosition.get(j);
-        newValue.valueOf(value + (twister.nextDouble() * 2 - 1) * (value - other));
+        Real newValue = Real.valueOf(value + (twister.nextDouble() * 2 - 1) * (value - other));
         newPosition.set(j, newValue);
 
         //Determine if new position is better than old and update

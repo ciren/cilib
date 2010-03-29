@@ -45,6 +45,7 @@ public class ReinitialisationBoundary implements BoundaryConstraint {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void enforce(Entity entity) {
         if (!Types.isInsideBounds(entity.getCandidateSolution())) {
             entity.reinitialise();

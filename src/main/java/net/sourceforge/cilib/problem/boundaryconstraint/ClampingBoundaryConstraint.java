@@ -21,12 +21,14 @@
  */
 package net.sourceforge.cilib.problem.boundaryconstraint;
 
-import java.util.Iterator;
+import com.google.common.base.Function;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.StructuredType;
+import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Vectors;
 
 /**
  * Prevent any {@link Entity} from over-shooting the problem search space. Any
@@ -35,6 +37,7 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * @author gpampara
  */
 public class ClampingBoundaryConstraint implements BoundaryConstraint {
+
     private static final long serialVersionUID = 3910725111116160491L;
 
     /**
@@ -50,19 +53,20 @@ public class ClampingBoundaryConstraint implements BoundaryConstraint {
      */
     @Override
     public void enforce(Entity entity) {
-        StructuredType candidateSolution = entity.getCandidateSolution();
+        StructuredType<?> candidateSolution = entity.getCandidateSolution();
+        Vector result = Vectors.transform((Vector) candidateSolution, new Function<Numeric, Double>() {
 
-        for (Iterator i = candidateSolution.iterator(); i.hasNext();) {
-            Numeric numeric = (Numeric) i.next();
-            Bounds bounds = numeric.getBounds();
-
-            if (Double.compare(numeric.doubleValue(), bounds.getLowerBound()) < 0) {
-                numeric.valueOf(bounds.getLowerBound());
+            @Override
+            public Double apply(Numeric from) {
+                Bounds bounds = from.getBounds();
+                if (Double.compare(from.doubleValue(), bounds.getLowerBound()) < 0) {
+                    return bounds.getLowerBound();
+                } else if (Double.compare(from.doubleValue(), bounds.getUpperBound()) > 0) { // number > upper bound
+                    return bounds.getUpperBound() - Maths.EPSILON;
+                }
+                return from.doubleValue();
             }
-            else if (Double.compare(numeric.doubleValue(), bounds.getUpperBound()) > 0) { // number > upper bound
-                numeric.valueOf(bounds.getUpperBound() - Maths.EPSILON);
-            }
-        }
+        });
+        entity.setCandidateSolution(result);
     }
-
 }

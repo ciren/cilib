@@ -60,7 +60,6 @@ public class BackPropagationVisitorTest {
         double[][] previousWeightUpdates = null;
 
         for (int i = 0; i < 3; i++) {
-
             //FF
             topology.evaluate(new PatternInputSource(pattern));
             network.evaluatePattern(pattern);
@@ -76,7 +75,7 @@ public class BackPropagationVisitorTest {
             Vector topologyWeights = topology.getWeights();
             Vector networkWeights = network.getWeights();
             for (int j = 0; j < topology.getWeights().size(); j++) {
-                Assert.assertEquals(topologyWeights.get(j).doubleValue(), networkWeights.get(j).doubleValue(), Maths.EPSILON);
+                Assert.assertEquals(topologyWeights.doubleValueOf(j), networkWeights.doubleValueOf(j), Maths.EPSILON);
             }
         }
 

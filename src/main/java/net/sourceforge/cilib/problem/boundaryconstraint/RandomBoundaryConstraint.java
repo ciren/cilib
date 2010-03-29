@@ -29,6 +29,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.StructuredType;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * <p>
@@ -39,12 +40,12 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * References:
  * </p>
  * <pre>
- * &nbsp;@inproceedings{ZXB04, author = "W.-J. Zhang and X.-F. Xie and D.-C. Bi",
+ * {@literal @}inproceedings{ZXB04, author = "W.-J. Zhang and X.-F. Xie and D.-C. Bi",
  *                      title = "Handling boundary constraints for numerical optimization by
  *                      particle swarm flying in periodic search space",
  *                      booktitle = "IEEE Congress on Evolutionary Computation", month = jun,
  *                      year = {2004}, volume = "2", pages = {2307--2311} }
- * &nbsp;@inproceedings{HW07, author = "S. Helwig and R. Wanka",
+ * {@literal @}inproceedings{HW07, author = "S. Helwig and R. Wanka",
  *                      title = "Particle Swarm Optimization in High-Dimensional Bounded Search Spaces",
  *                      booktitle = "Proceedings of the 2007 IEEE Swarm Intelligence Symposium", month = apr,
  *                      year = {2007}, pages = {198--205} }
@@ -52,8 +53,8 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * @author Wiehann Matthysen
  */
 public class RandomBoundaryConstraint implements BoundaryConstraint {
-    private static final long serialVersionUID = -4090871319456989303L;
 
+    private static final long serialVersionUID = -4090871319456989303L;
     private RandomProvider random;
 
     public RandomBoundaryConstraint() {
@@ -73,15 +74,18 @@ public class RandomBoundaryConstraint implements BoundaryConstraint {
      */
     @Override
     public void enforce(Entity entity) {
-        StructuredType velocity = (StructuredType) entity.getProperties().get(EntityType.Particle.VELOCITY);
+        StructuredType<?> velocity = (StructuredType<?>) entity.getProperties().get(EntityType.Particle.VELOCITY);
 
         if (velocity == null) {
             throw new UnsupportedOperationException("Cannot perform this boundary constrain on a "
-                + entity.getClass().getSimpleName());
+                    + entity.getClass().getSimpleName());
         }
 
-        Iterator pIterator = entity.getCandidateSolution().iterator();
-        Iterator vIterator = velocity.iterator();
+        Vector.Builder newPosition = Vector.newBuilder();
+        Vector.Builder newVelocity = Vector.newBuilder();
+
+        Iterator<?> pIterator = entity.getCandidateSolution().iterator();
+        Iterator<?> vIterator = velocity.iterator();
 
         while (pIterator.hasNext()) {
             Numeric pos = (Numeric) pIterator.next();
@@ -89,11 +93,17 @@ public class RandomBoundaryConstraint implements BoundaryConstraint {
             Bounds bounds = pos.getBounds();
 
             if (Double.compare(pos.doubleValue(), bounds.getLowerBound()) < 0) {
-                constrain(pos, vel);
+                constrain(pos, vel, newPosition, newVelocity);
             } else if (Double.compare(pos.doubleValue(), bounds.getUpperBound()) > 0) {
-                constrain(pos, vel);
+                constrain(pos, vel, newPosition, newVelocity);
+            } else {
+                newPosition.add(pos);
+                newVelocity.add(vel);
             }
         }
+
+        entity.getProperties().put(EntityType.CANDIDATE_SOLUTION, newPosition.build());
+        entity.getProperties().put(EntityType.Particle.VELOCITY, newVelocity.build());
     }
 
     /**
@@ -101,9 +111,11 @@ public class RandomBoundaryConstraint implements BoundaryConstraint {
      * @param position The {@linkplain Numeric} representing the position.
      * @param velocity The {@linkplain Numeric} representing the velocity.
      */
-    private void constrain(Numeric position, Numeric velocity) {
-        Numeric previousPosition = position.getClone();
-        position.randomize(random);
-        velocity.valueOf(position.doubleValue() - previousPosition.doubleValue());
+    private void constrain(Numeric position, Numeric velocity, Vector.Builder newPosition, Vector.Builder newVelocity) {
+        double previousPosition = position.doubleValue();
+        Numeric pos = position.getClone();
+        pos.randomize(random);
+        newPosition.add(pos);
+        newVelocity.add(position.doubleValue() - previousPosition);
     }
 }

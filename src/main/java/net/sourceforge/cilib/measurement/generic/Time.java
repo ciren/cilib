@@ -26,15 +26,13 @@ import net.sourceforge.cilib.algorithm.AlgorithmEvent;
 import net.sourceforge.cilib.algorithm.AlgorithmListener;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.Real;
-
 
 /**
  * @author Edwin Peer
  */
 public class Time implements Measurement<Int>, AlgorithmListener {
-    private static final long serialVersionUID = -3516066813688827758L;
 
+    private static final long serialVersionUID = -3516066813688827758L;
     private boolean running = false;
     private long startTime;
     private long endTime;
@@ -68,6 +66,7 @@ public class Time implements Measurement<Int>, AlgorithmListener {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomain() {
         return "Z";
     }
@@ -75,17 +74,13 @@ public class Time implements Measurement<Int>, AlgorithmListener {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Int getValue(Algorithm algorithm) {
-        Int t = new Int(0);
-        
         if (running) {
-            t.valueOf(Long.valueOf(System.currentTimeMillis() - startTime));
+            return Int.valueOf(Long.valueOf(System.currentTimeMillis() - startTime).intValue());
+        } else {
+            return Int.valueOf(Long.valueOf(endTime - startTime).intValue());
         }
-        else {
-            t.valueOf(endTime - startTime);
-        }
-
-        return t;
     }
 
     /**
@@ -116,7 +111,5 @@ public class Time implements Measurement<Int>, AlgorithmListener {
      * {@inheritDoc}
      */
     public void iterationCompleted(AlgorithmEvent e) {
-
     }
-
 }

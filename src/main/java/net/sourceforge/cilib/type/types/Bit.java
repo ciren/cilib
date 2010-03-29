@@ -38,6 +38,10 @@ public class Bit implements Numeric {
     private boolean state;
     private final Bounds bounds;
 
+    public static Bit valueOf(boolean state) {
+        return new Bit(state);
+    }
+
     /**
      * Copy-constructor. Create a <tt>Bit</tt> object with the specified state.
      * @param state The state for the <tt>Bit</tt> object to be in
@@ -102,16 +106,6 @@ public class Bit implements Numeric {
     }
 
     /**
-     * Set the state of of this <tt>Bit</tt> object.
-     *
-     * @param value The state to be set.
-     */
-    @Override
-    public void valueOf(boolean value) {
-        this.state = value;
-    }
-
-    /**
      * Get the integer representation of the current <tt>Bit</tt> object.
      *
      * @return The integer value of the current <tt>Bit</tt>. Returns 1 if the state
@@ -127,23 +121,6 @@ public class Bit implements Numeric {
     }
 
     /**
-     * Set the state of the current <tt>Bit</tt> object.
-     *
-     * If the integer value is 0, the state of <tt>false</tt> is assigned, else
-     * a state of <tt>true</tt> is set.
-     *
-     * @param value The value to be used to set the state.
-     */
-    @Override
-    public void valueOf(int value) {
-        if (value == 0) {
-            this.state = false;
-        } else {
-            this.state = true;
-        }
-    }
-
-    /**
      * Get the state of the <tt>Bit</tt> returned as a double value.
      *
      * @return The state of this <tt>Bit</tt> object returned as a double.
@@ -155,18 +132,6 @@ public class Bit implements Numeric {
         } else {
             return 0.0;
         }
-    }
-
-    /**
-     * Set the state of the <tt>Bit</tt> object using <i>value</i> as input. If the
-     * value of <i>value</i> is 0.0, the state of the <tt>Bit</tt> is set to
-     * <tt>false</tt>, else a state value of <tt>true</tt> is set.
-     *
-     * @param value The double value to be used to set the state.
-     */
-    @Override
-    public void valueOf(double value) {
-        this.state = (Double.compare(value, 0.5) < 0) ? false : true;
     }
 
     /**
@@ -195,7 +160,7 @@ public class Bit implements Numeric {
      */
     @Override
     public void reset() {
-        this.valueOf(false);
+        this.state = false;
     }
 
     /**

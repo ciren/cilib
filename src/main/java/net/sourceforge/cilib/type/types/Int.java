@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.type.types;
 
-
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -35,6 +34,27 @@ public class Int implements Numeric {
     private static final Bounds DEFAULT_BOUND = new Bounds(Integer.MIN_VALUE, Integer.MAX_VALUE);
     private int value;
     private final Bounds bounds;
+
+    public static Int valueOf(int value) {
+        return new Int(value);
+    }
+
+    public static Int valueOf(int value, Bounds bounds) {
+        return new Int(value, bounds);
+    }
+
+    @Deprecated
+    public static Int valueOf(double value, Bounds bounds) {
+        int result = 0;
+        if (Double.compare(0, value) <= 0) // value is bigger or is equal
+        {
+            result = Double.valueOf(Math.ceil(value)).intValue();
+        } else {
+            result = Double.valueOf(Math.floor(value)).intValue();
+        }
+
+        return new Int(result, bounds);
+    }
 
     /**
      * Create an {@linkplain Int} with the specified value.
@@ -113,14 +133,6 @@ public class Int implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public void valueOf(boolean value) {
-        this.value = (value) ? 1 : 0;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public int intValue() {
         return this.value;
     }
@@ -129,29 +141,8 @@ public class Int implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public void valueOf(int value) {
-        this.value = value;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public double doubleValue() {
         return Integer.valueOf(value).doubleValue();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void valueOf(double value) {
-        if (Double.compare(0, value) <= 0) // value is bigger or is equal
-        {
-            this.value = Double.valueOf(Math.ceil(value)).intValue();
-        } else {
-            this.value = Double.valueOf(Math.floor(value)).intValue();
-        }
     }
 
     /**

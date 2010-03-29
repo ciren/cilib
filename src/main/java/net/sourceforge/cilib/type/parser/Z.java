@@ -31,11 +31,13 @@ import net.sourceforge.cilib.type.types.Type;
  *
  */
 final class Z implements TypeCreator {
+
     private static final long serialVersionUID = -5763440861780552761L;
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public Type create() {
         return new Int(0);
     }
@@ -43,15 +45,15 @@ final class Z implements TypeCreator {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Type create(double value) {
-        Int i = new Int(0);
-        i.valueOf(value);
-        return i;
+        return new Int(Double.valueOf(value).intValue());
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public Type create(final Bounds bounds) {
         return new Int(0, bounds);
     }

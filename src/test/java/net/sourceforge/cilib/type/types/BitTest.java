@@ -73,11 +73,11 @@ public class BitTest {
 
     @Test
     public void testSet() {
-        Bit b1 = new Bit(true);
-        Bit b2 = new Bit(false);
+//        Bit b1 = new Bit(true);
+//        Bit b2 = new Bit(false);
 
-        b1.valueOf(false);
-        b2.valueOf(true);
+        Bit b1 = Bit.valueOf(false);
+        Bit b2 = Bit.valueOf(true);
 
         assertEquals(false, b1.booleanValue());
         assertEquals(true, b2.booleanValue());

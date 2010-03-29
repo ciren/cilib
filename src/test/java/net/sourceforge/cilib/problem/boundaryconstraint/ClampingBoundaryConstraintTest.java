@@ -24,7 +24,6 @@ package net.sourceforge.cilib.problem.boundaryconstraint;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
@@ -39,42 +38,32 @@ public class ClampingBoundaryConstraintTest {
 
     @Test
     public void testEnforce() {
-        Vector candidateSolution = new Vector();
-
         Bounds bounds = new Bounds(-5.0, 5.0);
-        Real r1 = new Real(-6.0, bounds);
-        Real r2 = new Real(3.0, bounds);
-        Real r3 = new Real(6.0, bounds);
-
-        candidateSolution.add(r1);
-        candidateSolution.add(r2);
-        candidateSolution.add(r3);
+        Vector.Builder candidateSolutionBuilder = Vector.newBuilder();
+        candidateSolutionBuilder.add(new Real(-6.0, bounds));
+        candidateSolutionBuilder.add(new Real(3.0, bounds));
+        candidateSolutionBuilder.add(new Real(6.0, bounds));
 
         Individual i = new Individual();
-        i.setCandidateSolution(candidateSolution);
+        i.setCandidateSolution(candidateSolutionBuilder.build());
 
         ClampingBoundaryConstraint clampingBoundaryConstraint = new ClampingBoundaryConstraint();
         clampingBoundaryConstraint.enforce(i);
 
-        Assert.assertThat(((Real)candidateSolution.get(0)).doubleValue(), is(-5.0));
-        Assert.assertThat(((Real)candidateSolution.get(1)).doubleValue(), is(3.0));
-        Assert.assertThat(((Real)candidateSolution.get(2)).doubleValue(), is(5.0-Maths.EPSILON));
+        Vector solution = (Vector) i.getCandidateSolution();
+        Assert.assertThat(solution.doubleValueOf(0), is(-5.0));
+        Assert.assertThat(solution.doubleValueOf(1), is(3.0));
+        Assert.assertThat(solution.doubleValueOf(2), is(5.0 - Maths.EPSILON));
     }
 
     @Test
     public void integerUpperBound() {
-        Int i = new Int(5, new Bounds(0, 4));
-
-        Vector candidateSolution = new Vector();
-        candidateSolution.add(i);
-
         Individual individual = new Individual();
-        individual.setCandidateSolution(candidateSolution);
+        individual.setCandidateSolution(Vector.newBuilder().addWithin(5, new Bounds(0, 4)).build());
 
         ClampingBoundaryConstraint clampingBoundaryConstraint = new ClampingBoundaryConstraint();
         clampingBoundaryConstraint.enforce(individual);
 
-        Assert.assertThat(i.intValue(), is(4));
+        Assert.assertThat(((Vector) individual.getCandidateSolution()).intValueOf(0), is(4));
     }
-
 }

@@ -81,21 +81,4 @@ public class IntTest {
         i1.randomize(new MersenneTwister());
         assertTrue(i1.intValue() != i2.intValue());
     }
-
-    @Test
-    public void bucketPositiveRealValue() {
-        Int i = new Int(0);
-        i.valueOf(4.6);
-
-        Assert.assertEquals(5, i.intValue());
-    }
-
-    @Test
-    public void bucketNegativeRealValue() {
-        Int i = new Int(0);
-        i.valueOf(-4.6);
-
-        Assert.assertEquals(-5, i.intValue());
-    }
-
 }

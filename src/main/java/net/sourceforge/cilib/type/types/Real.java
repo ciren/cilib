@@ -32,8 +32,17 @@ public class Real implements Numeric {
 
     private static final long serialVersionUID = 5290504438178510485L;
     private static final Bounds DEFAULT_BOUND = new Bounds(Double.MIN_VALUE, Double.MAX_VALUE);
+
     private double value;
     private final Bounds bounds;
+
+    public static Real valueOf(double value) {
+        return new Real(value);
+    }
+
+    public static Real valueOf(double value, Bounds bounds) {
+        return new Real(value, bounds);
+    }
 
     /**
      * Create the instance with the given value.
@@ -112,14 +121,6 @@ public class Real implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public void valueOf(boolean value) {
-        this.value = value ? 1.0 : 0.0;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public int intValue() {
         int result = Double.compare(value, 0.0);
         return (result >= 0)
@@ -131,24 +132,8 @@ public class Real implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public void valueOf(int value) {
-        this.value = Integer.valueOf(value).doubleValue();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public double doubleValue() {
         return this.value;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void valueOf(double value) {
-        this.value = value;
     }
 
     /**
@@ -173,7 +158,8 @@ public class Real implements Numeric {
      */
     @Override
     public void reset() {
-        this.valueOf(0.0);
+//        this.valueOf(0.0);
+        this.value = 0.0;
     }
 
     /**

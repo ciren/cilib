@@ -107,4 +107,15 @@ public class RealTest {
         Assert.assertThat(r.doubleValue(), not(equalTo(Double.NaN)));
     }
 
+    @Test
+    public void bucketPositiveRealValue() {
+        Real r = Real.valueOf(4.6);
+        Assert.assertEquals(5, r.intValue());
+    }
+
+    @Test
+    public void bucketNegativeRealValue() {
+        Real r = Real.valueOf(-4.6);
+        Assert.assertEquals(-5, r.intValue());
+    }
 }

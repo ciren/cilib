@@ -44,7 +44,7 @@ public interface Numeric extends Type, BoundedType, Resetable, Comparable<Numeri
      * Set the bit value with the provided value.
      * @param value The value to set.
      */
-    void valueOf(boolean value);
+//    void valueOf(boolean value);
 
     /**
      * Get the value of this {@linkplain Numeric}.
@@ -56,7 +56,7 @@ public interface Numeric extends Type, BoundedType, Resetable, Comparable<Numeri
      * Set the integer value with the provided value.
      * @param value The value to set.
      */
-    void valueOf(int value);
+//    void valueOf(int value);
 
     /**
      * Get the value of this {@linkplain Numeric}.
@@ -68,7 +68,7 @@ public interface Numeric extends Type, BoundedType, Resetable, Comparable<Numeri
      * Set the real value with the provided value.
      * @param value The value to set.
      */
-    void valueOf(double value);
+//    void valueOf(double value);
 
     String getRepresentation();
 

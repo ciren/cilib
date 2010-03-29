@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.math;
 
+import com.google.common.base.Function;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -72,8 +73,9 @@ public final class Stats {
      * @return a {@link Vector} that represents the mean/center of the given set
      */
     public static Vector meanVector(Collection<Pattern> set) {
-        if (set.isEmpty())
+        if (set.isEmpty()) {
             throw new IllegalArgumentException("Cannot calculate the mean for an empty set");
+        }
 
         Vector mean = null;
 
@@ -95,7 +97,7 @@ public final class Stats {
     public static double variance(final Vector vector) {
         double mean = mean(vector);
         double summation = 0.0;
-        
+
         for (int i = 0; i < vector.size(); i++) {
             summation += (vector.getReal(i) - mean) * (vector.getReal(i) - mean);
         }
@@ -117,16 +119,21 @@ public final class Stats {
      * @return a double representing the variance of the given set with the given center
      */
     public static double variance(Collection<Pattern> set, Vector center) {
-        if (set.isEmpty())
+        if (set.isEmpty()) {
             throw new IllegalArgumentException("Cannot calculate the variance for an empty set");
+        }
 
         Vector variance = center.getClone();
 
-        variance.reset();        // initialize the variance to be all zeroes
+        variance.reset(); // initialize the variance to be all zeroes
         for (Pattern pattern : set) {
-            Vector diffSquare = pattern.data.subtract(center);
-            for (Numeric numeric : diffSquare)
-                numeric.valueOf(numeric.doubleValue()*numeric.doubleValue());
+            Vector diffSquare = Vectors.transform(pattern.data.subtract(center), new Function<Numeric, Double>() {
+
+                @Override
+                public Double apply(Numeric from) {
+                    return from.doubleValue() * from.doubleValue();
+                }
+            });
             variance = variance.plus(diffSquare);
         }
         return variance.norm() / set.size();
@@ -144,5 +151,4 @@ public final class Stats {
     public static double stdDeviation(Number... values) {
         return Math.sqrt(variance(Vectors.create(values)));
     }
-
 }

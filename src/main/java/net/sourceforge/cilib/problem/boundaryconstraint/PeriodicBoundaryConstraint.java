@@ -26,8 +26,8 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * <p>
@@ -38,7 +38,7 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * References:
  * </p>
  * <pre>
- * &nbsp;@inproceedings{ZXB04, author = "W.-J. Zhang and X.-F. Xie and D.-C. Bi",
+ * {@literal @}inproceedings{ZXB04, author = "W.-J. Zhang and X.-F. Xie and D.-C. Bi",
  *                      title = "Handling boundary constraints for numerical optimization by
  *                      particle swarm flying in periodic search space",
  *                      booktitle = "IEEE Congress on Evolutionary Computation", month = jun,
@@ -71,22 +71,25 @@ public class PeriodicBoundaryConstraint implements BoundaryConstraint {
                     + "] to an Entity that is not a Particle");
         }
 
-        Iterator<Type> i = entity.getCandidateSolution().iterator();
-        Iterator<Type> velocityIterator = (Iterator<Type>) velocity.iterator();
+        Vector.Builder positionBuilder = Vector.newBuilder();
+
+        Iterator<?> i = entity.getCandidateSolution().iterator();
+        Iterator<?> velocityIterator = velocity.iterator();
 
         for (; i.hasNext();) {
             Numeric v = (Numeric) velocityIterator.next();
             Numeric p = (Numeric) i.next();
             Bounds bounds = p.getBounds();
-            Numeric desiredPosition = p.getClone();
-
-            desiredPosition.valueOf(p.doubleValue() + v.doubleValue());
+            double desiredPosition = p.doubleValue() + v.doubleValue();
 
             if (Double.compare(p.doubleValue(), bounds.getLowerBound()) < 0) {
-                p.valueOf(bounds.getUpperBound() - (bounds.getLowerBound() - desiredPosition.doubleValue()) % bounds.getRange());
+                positionBuilder.add(bounds.getUpperBound() - (bounds.getLowerBound() - desiredPosition) % bounds.getRange());
             } else if (Double.compare(p.doubleValue(), bounds.getUpperBound()) > 0) {
-                p.valueOf(bounds.getLowerBound() + (desiredPosition.doubleValue() - bounds.getUpperBound()) % bounds.getRange());
+                positionBuilder.add(bounds.getLowerBound() + (desiredPosition - bounds.getUpperBound()) % bounds.getRange());
+            } else {
+                positionBuilder.add(p);
             }
         }
+        entity.getProperties().put(EntityType.CANDIDATE_SOLUTION, positionBuilder.build());
     }
 }

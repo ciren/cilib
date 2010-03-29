@@ -21,16 +21,24 @@
  */
 package net.sourceforge.cilib.util;
 
+import com.google.common.base.Function;
 import java.util.Arrays;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Utility methods for {@linkplain Vector}s.
  */
 public final class Vectors {
+
+    public static <T extends Number> Vector transform(Vector vector, Function<Numeric, T> function) {
+        Vector.Builder builder = Vector.newBuilder();
+        for (Numeric n : vector) {
+            builder.addWithin(function.apply(n).doubleValue(), n.getBounds()); //??
+        }
+        return builder.build();
+    }
 
     /**
      * Default constructor. Specified constructor to be private so that an instance
@@ -48,14 +56,11 @@ public final class Vectors {
      * @return a {@link Vector} with all the elements set to their respective upper bounds
      */
     public static Vector upperBoundVector(Vector vector) {
-        Vector upper = vector.getClone();
-
-        for (Type element : upper) {
-            Numeric numeric = (Numeric) element;
-            numeric.valueOf(numeric.getBounds().getUpperBound());
+        Vector.Builder upper = Vector.newBuilder();
+        for (Numeric element : vector) {
+            upper.addWithin(element.getBounds().getUpperBound(), element.getBounds());
         }
-
-        return upper;
+        return upper.build();
     }
 
     /**
@@ -67,14 +72,11 @@ public final class Vectors {
      * @return a {@link Vector} with all the elements set to their respective lower bounds
      */
     public static Vector lowerBoundVector(Vector vector) {
-        Vector lower = vector.getClone();
-
-        for (Type element : lower) {
-            Numeric numeric = (Numeric) element;
-            numeric.valueOf(numeric.getBounds().getLowerBound());
+        Vector.Builder lower = Vector.newBuilder();
+        for (Numeric element : vector) {
+            lower.addWithin(element.getBounds().getLowerBound(), element.getBounds());
         }
-
-        return lower;
+        return lower.build();
     }
 
     /**
@@ -96,8 +98,9 @@ public final class Vectors {
     public static <T extends Number> Vector create(Iterable<T> iterable) {
         Vector vector = new Vector();
 
-        for (T element : iterable)
+        for (T element : iterable) {
             vector.add(new Real(element.doubleValue()));
+        }
 
         return vector;
     }
@@ -111,10 +114,10 @@ public final class Vectors {
         Vector result = vectors[0].getClone();
         result.reset();
 
-        for (Vector vector : vectors)
+        for (Vector vector : vectors) {
             result = result.plus(vector);
+        }
 
         return result;
     }
-
 }

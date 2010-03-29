@@ -29,6 +29,7 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.StructuredType;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * {@linkplain net.sourceforge.cilib.entity.Particle Particles} that overstep the
@@ -37,8 +38,8 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * @author Wiehann Matthysen
  */
 public class DeflectionBoundaryConstraint implements BoundaryConstraint {
-    private static final long serialVersionUID = 3678992841264721007L;
 
+    private static final long serialVersionUID = 3678992841264721007L;
     private ControlParameter velocityDampingFactor;
 
     /**
@@ -70,14 +71,18 @@ public class DeflectionBoundaryConstraint implements BoundaryConstraint {
      */
     @Override
     public void enforce(Entity entity) {
-        StructuredType structuredType = (StructuredType) entity.getProperties().get(EntityType.Particle.VELOCITY);
+        StructuredType<?> structuredType = (StructuredType<?>) entity.getProperties().get(EntityType.Particle.VELOCITY);
 
-        if (structuredType == null)
+        if (structuredType == null) {
             throw new UnsupportedOperationException("Cannot perform this boundary constrain on a "
-                + entity.getClass().getSimpleName());
+                    + entity.getClass().getSimpleName());
+        }
 
-        Iterator pIterator = entity.getCandidateSolution().iterator();
-        Iterator vIterator = structuredType.iterator();
+        Vector.Builder newVelocity = Vector.newBuilder();
+        Vector.Builder newPosition = Vector.newBuilder();
+
+        Iterator<?> pIterator = entity.getCandidateSolution().iterator();
+        Iterator<?> vIterator = structuredType.iterator();
 
         while (pIterator.hasNext()) {
             Numeric position = (Numeric) pIterator.next();
@@ -86,14 +91,19 @@ public class DeflectionBoundaryConstraint implements BoundaryConstraint {
             double desiredPosition = position.doubleValue() + velocity.doubleValue();
 
             if (Double.compare(position.doubleValue(), bounds.getLowerBound()) < 0) {
-                position.valueOf(bounds.getLowerBound() + (bounds.getLowerBound() - desiredPosition) % bounds.getRange());
-                velocity.valueOf(velocity.doubleValue() * velocityDampingFactor.getParameter());
-            }
-            else if (Double.compare(position.doubleValue(), bounds.getUpperBound()) > 0) {
-                position.valueOf(bounds.getUpperBound() - (desiredPosition - bounds.getUpperBound()) % bounds.getRange());
-                velocity.valueOf(velocity.doubleValue() * velocityDampingFactor.getParameter());
+                newPosition.add(bounds.getLowerBound() + (bounds.getLowerBound() - desiredPosition) % bounds.getRange());
+                newVelocity.add(velocity.doubleValue() * velocityDampingFactor.getParameter());
+            } else if (Double.compare(position.doubleValue(), bounds.getUpperBound()) > 0) {
+                newPosition.add(bounds.getUpperBound() - (desiredPosition - bounds.getUpperBound()) % bounds.getRange());
+                newVelocity.add(velocity.doubleValue() * velocityDampingFactor.getParameter());
+            } else {
+                newPosition.add(position);
+                newVelocity.add(velocity);
             }
         }
+
+        entity.getProperties().put(EntityType.CANDIDATE_SOLUTION, newPosition.build());
+        entity.getProperties().put(EntityType.Particle.VELOCITY, newVelocity.build());
     }
 
     /**
@@ -111,5 +121,4 @@ public class DeflectionBoundaryConstraint implements BoundaryConstraint {
     public void setVelocityDampingFactor(ControlParameter velocityDampingFactor) {
         this.velocityDampingFactor = velocityDampingFactor;
     }
-
 }

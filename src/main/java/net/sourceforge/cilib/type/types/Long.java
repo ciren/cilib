@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.type.types;
 
-
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -111,14 +110,13 @@ public class Long implements Numeric {
         return (this.value == 0) ? false : true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void valueOf(boolean value) {
-        this.value = (value) ? 1 : 0;
-    }
-
+//    /**
+//     * {@inheritDoc}
+//     */
+//    @Override
+//    public void valueOf(boolean value) {
+//        this.value = (value) ? 1 : 0;
+//    }
     public long getLong() {
         return value;
     }
@@ -131,14 +129,13 @@ public class Long implements Numeric {
         return (int) this.value;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void valueOf(int value) {
-        this.value = value;
-    }
-
+//    /**
+//     * {@inheritDoc}
+//     */
+//    @Override
+//    public void valueOf(int value) {
+//        this.value = value;
+//    }
     /**
      * {@inheritDoc}
      */
@@ -147,19 +144,18 @@ public class Long implements Numeric {
         return java.lang.Long.valueOf(value).doubleValue();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void valueOf(double value) {
-        if (Double.compare(0, value) <= 0) // value is bigger or is equal
-        {
-            this.value = Double.valueOf(Math.ceil(value)).longValue();
-        } else {
-            this.value = Double.valueOf(Math.floor(value)).longValue();
-        }
-    }
-
+//    /**
+//     * {@inheritDoc}
+//     */
+//    @Override
+//    public void valueOf(double value) {
+//        if (Double.compare(0, value) <= 0) // value is bigger or is equal
+//        {
+//            this.value = Double.valueOf(Math.ceil(value)).longValue();
+//        } else {
+//            this.value = Double.valueOf(Math.floor(value)).longValue();
+//        }
+//    }
     /**
      * {@inheritDoc}
      */
@@ -187,7 +183,8 @@ public class Long implements Numeric {
      */
     @Override
     public void reset() {
-        this.valueOf(0);
+//        this.valueOf(0);
+        this.value = 0;
     }
 
     /**

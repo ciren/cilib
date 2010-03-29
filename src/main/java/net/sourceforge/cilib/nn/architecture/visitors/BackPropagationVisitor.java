@@ -132,7 +132,7 @@ public class BackPropagationVisitor implements ArchitectureVisitor {
                     Real weight = (Real) currentNeuron.getWeights().get(j);
                     double newWeightUpdate = tmp * previousLayer.getNeuralInput(j);
                     double update = newWeightUpdate + momentum * previousWeightUpdates[currentLayerIdx - 1][k * previousLayerSize + j];
-                    weight.valueOf(weight.doubleValue() + update);
+                    currentNeuron.getWeights().set(j, Real.valueOf(weight.doubleValue() + update));
                     previousWeightUpdates[currentLayerIdx -1][k * previousLayerSize + j] = newWeightUpdate;
                 }
             }
