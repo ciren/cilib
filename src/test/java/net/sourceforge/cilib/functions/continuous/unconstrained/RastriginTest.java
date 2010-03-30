@@ -49,8 +49,8 @@ public class RastriginTest {
         function.setDomain("R(-5.12, 5.12)^2");
 
         Vector x = new Vector();
-        x.append(new Real(0.0));
-        x.append(new Real(0.0));
+        x.add(new Real(0.0));
+        x.add(new Real(0.0));
 
         assertEquals(0.0, function.evaluate(x), 0.0);
 

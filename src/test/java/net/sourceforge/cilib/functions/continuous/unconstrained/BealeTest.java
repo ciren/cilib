@@ -52,8 +52,8 @@ public class BealeTest {
         function.setDomain("R(-4.5, 4.5)^2");
 
         Vector x = new Vector();
-        x.append(new Real(1.0));
-        x.append(new Real(2.0));
+        x.add(new Real(1.0));
+        x.add(new Real(2.0));
         assertEquals(126.4531250, function.evaluate(x), 0.0);
 
         x.setReal(0, 3.0);

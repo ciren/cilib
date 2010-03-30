@@ -60,20 +60,20 @@ public class ClusteringUtilsTest {
         problem.setDataSetBuilder(dataSetBuilder);
 
         centroids = new Vector();
-        centroids.append(new Int(1));
-        centroids.append(new Int(1));
-        centroids.append(new Int(33));
-        centroids.append(new Int(8));
-        centroids.append(new Int(20));
-        centroids.append(new Int(19));
-        centroids.append(new Int(11));
-        centroids.append(new Int(22));
-        centroids.append(new Int(30));
-        centroids.append(new Int(27));
-        centroids.append(new Int(19));
-        centroids.append(new Int(40));
-        centroids.append(new Int(5));
-        centroids.append(new Int(50));
+        centroids.add(new Int(1));
+        centroids.add(new Int(1));
+        centroids.add(new Int(33));
+        centroids.add(new Int(8));
+        centroids.add(new Int(20));
+        centroids.add(new Int(19));
+        centroids.add(new Int(11));
+        centroids.add(new Int(22));
+        centroids.add(new Int(30));
+        centroids.add(new Int(27));
+        centroids.add(new Int(19));
+        centroids.add(new Int(40));
+        centroids.add(new Int(5));
+        centroids.add(new Int(50));
         helper.arrangeClustersAndCentroids(centroids);
         arrangedClusters = helper.getArrangedClusters();
         arrangedCentroids = helper.getArrangedCentroids();
@@ -261,17 +261,17 @@ public class ClusteringUtilsTest {
 
     @Test(expected = IndexOutOfBoundsException.class)
     public void testArrangedCentroids() {
-        assertThat(arrangedCentroids.get(0), equalTo(centroids.subList(0, 2)));
+        assertThat(arrangedCentroids.get(0), equalTo(centroids.copyOfRange(0, 2)));
 
-        assertThat(arrangedCentroids.get(1), equalTo(centroids.subList(2, 4)));
+        assertThat(arrangedCentroids.get(1), equalTo(centroids.copyOfRange(2, 4)));
 
-        assertThat(arrangedCentroids.get(2), equalTo(centroids.subList(4, 6)));
+        assertThat(arrangedCentroids.get(2), equalTo(centroids.copyOfRange(4, 6)));
 
-        assertThat(arrangedCentroids.get(3), equalTo(centroids.subList(6, 8)));
+        assertThat(arrangedCentroids.get(3), equalTo(centroids.copyOfRange(6, 8)));
 
-        assertThat(arrangedCentroids.get(4), equalTo(centroids.subList(8, 10)));
+        assertThat(arrangedCentroids.get(4), equalTo(centroids.copyOfRange(8, 10)));
 
-        assertThat(arrangedCentroids.get(5), equalTo(centroids.subList(10, 12)));
+        assertThat(arrangedCentroids.get(5), equalTo(centroids.copyOfRange(10, 12)));
 
         // the last centroid is useless, i.e. no pattern "belongs" to it
         // should throw an exception (no such element / index out of bounds)

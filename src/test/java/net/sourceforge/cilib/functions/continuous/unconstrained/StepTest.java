@@ -43,8 +43,8 @@ public class StepTest {
         function.setDomain("R(-100, 100)^2");
 
         Vector x = new Vector();
-        x.append(new Real(-0.5));
-        x.append(new Real(-0.5));
+        x.add(new Real(-0.5));
+        x.add(new Real(-0.5));
 
         assertEquals(0.0, function.evaluate(x), 0.0);
 

@@ -41,7 +41,7 @@ import net.sourceforge.cilib.type.types.Resetable;
  *
  * @author gpampara
  */
-public class Vector extends AbstractList<Numeric> implements VectorMath, Resetable {
+public class Vector implements StructuredType<Numeric>, VectorMath, Resetable {
 
     private static final long serialVersionUID = -4853190809813810272L;
     private Numeric[] components;
@@ -188,7 +188,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @param index The index of the {@code Numeric} in the {@code Vector}.
      * @return The {@code Numeric} at index {@code index}.
      */
-    @Override
+    @Deprecated
     public Numeric get(int index) {
         return components[index];
     }
@@ -198,7 +198,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @param index The index to set.
      * @param value The value to set.
      */
-    @Override
+    @Deprecated
     public void set(int index, Numeric value) {
         this.components[index] = value;
     }
@@ -208,18 +208,18 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @param index The index to insert the {@code Numeric}.
      * @param value The {@code Numeric} to insert.
      */
-    @Override
-    public void insert(int index, Numeric value) {
-        Numeric[] array = new Numeric[components.length + 1];
-        for (int i = 0, n = index; i < n; i++) {
-            array[i] = components[i];
-        }
-        array[index] = value;
-        for (int i = index + 1, n = array.length; i < n; i++) {
-            array[i] = components[i - 1];
-        }
-        components = array;
-    }
+//    @Override
+//    public void insert(int index, Numeric value) {
+//        Numeric[] array = new Numeric[components.length + 1];
+//        for (int i = 0, n = index; i < n; i++) {
+//            array[i] = components[i];
+//        }
+//        array[index] = value;
+//        for (int i = index + 1, n = array.length; i < n; i++) {
+//            array[i] = components[i - 1];
+//        }
+//        components = array;
+//    }
 
     /**
      * Add the elements of {@code list} to the end of the current {@code Vector}.
@@ -227,18 +227,18 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @return {@code true} if successful, {@code false} otherwise.
      * @deprecated This method has been deprecated in favor of the {@code Vector.Builder}.
      */
-    @Deprecated
-    @Override
-    public boolean append(AbstractList<Numeric> list) {
-        Numeric[] array = new Numeric[components.length + list.size()];
-        int index = 0;
-        for (Numeric numeric : list) {
-            array[index++] = numeric;
-        }
-        System.arraycopy(components, 0, array, list.size(), components.length);
-        components = array;
-        return true;
-    }
+//    @Deprecated
+//    @Override
+//    public boolean append(AbstractList<Numeric> list) {
+//        Numeric[] array = new Numeric[components.length + list.size()];
+//        int index = 0;
+//        for (Numeric numeric : list) {
+//            array[index++] = numeric;
+//        }
+//        System.arraycopy(components, 0, array, list.size(), components.length);
+//        components = array;
+//        return true;
+//    }
 
     /**
      * Add all the elements contained within {@code list} to the beginning
@@ -246,16 +246,16 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @param list The list to prepend to the beginning of the {@code Vector}.
      * @return {@code true} if successful, {@code false} otherwise.
      */
-    @Override
-    public boolean prepend(AbstractList<Numeric> list) {
-        Numeric[] array = new Numeric[components.length + list.size()];
-        for (int i = 0, n = list.size(); i < n; i++) {
-            array[i] = list.get(i);
-        }
-        System.arraycopy(components, 0, array, list.size(), components.length);
-        components = array;
-        return true;
-    }
+//    @Override
+//    public boolean prepend(AbstractList<Numeric> list) {
+//        Numeric[] array = new Numeric[components.length + list.size()];
+//        for (int i = 0, n = list.size(); i < n; i++) {
+//            array[i] = list.get(i);
+//        }
+//        System.arraycopy(components, 0, array, list.size(), components.length);
+//        components = array;
+//        return true;
+//    }
 
     /**
      * Obtain an array representing this {@code Vector}.
@@ -277,8 +277,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @param toIndex The ending point, excluding.
      * @return A {@code Vector} which is a subset of the current {@code Vector}.
      */
-    @Override
-    public Vector subList(final int fromIndex, final int toIndex) {
+    public Vector copyOfRange(final int fromIndex, final int toIndex) {
         return new Vector(Arrays.copyOfRange(components, fromIndex, toIndex));
     }
 
@@ -702,6 +701,10 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
         return this.components[index].intValue();
     }
 
+    public long longValueOf(int index) {
+        return components[index].longValue();
+    }
+
     @Override
     public <T> T[] toArray(T[] a) {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -715,6 +718,25 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
     @Override
     public boolean retainAll(Collection<?> c) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public Bounds boundsOf(int i) {
+        return components[i].getBounds();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[");
+        int index = 0;
+        if (size() >= 1) {
+            builder.append(components[index++]);
+        }
+        for (int i = index; i < components.length; i++) {
+            builder.append(",").append(components[index++]);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
     /**

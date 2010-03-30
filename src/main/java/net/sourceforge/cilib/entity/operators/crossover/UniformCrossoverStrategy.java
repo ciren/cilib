@@ -30,10 +30,11 @@ import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
-*
-* @author  Andries Engelbrecht
-*/
+ *
+ * @author  Andries Engelbrecht
+ */
 public class UniformCrossoverStrategy extends CrossoverStrategy {
+
     private static final long serialVersionUID = 8912494112973025634L;
 
     public UniformCrossoverStrategy() {
@@ -71,25 +72,28 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
             // Calculate the mask for the cross-over
             boolean[] mask = new boolean[minDimension];
             for (int i = 0; i < minDimension; i++) {
-                if (this.getRandomNumber().getUniform() <= 0.5)
+                if (this.getRandomNumber().getUniform() <= 0.5) {
                     mask[i] = true;
+                }
             }
 
             // Now apply the mask
             Vector parentChromosome1 = (Vector) parent1.getCandidateSolution();
             Vector parentChromosome2 = (Vector) parent2.getCandidateSolution();
-            Vector offspringChromosome1 = (Vector) offspring1.getCandidateSolution();
-            Vector offspringChromosome2 = (Vector) offspring2.getCandidateSolution();
+            Vector.Builder offspringChromosome1Builder = Vector.newBuilder();
+            Vector.Builder offspringChromosome2Builder = Vector.newBuilder();
             for (int i = 0; i < minDimension; i++) {
                 if (!mask[i]) {
-                    offspringChromosome1.set(i, parentChromosome1.get(i).getClone());
-                    offspringChromosome2.set(i, parentChromosome2.get(i).getClone());
-                }
-                else {
-                    offspringChromosome1.set(i, parentChromosome2.get(i).getClone());
-                    offspringChromosome2.set(i, parentChromosome1.get(i).getClone());
+                    offspringChromosome1Builder.add(parentChromosome1.get(i).getClone());
+                    offspringChromosome2Builder.add(parentChromosome2.get(i).getClone());
+                } else {
+                    offspringChromosome1Builder.add(parentChromosome2.get(i).getClone());
+                    offspringChromosome2Builder.add(parentChromosome1.get(i).getClone());
                 }
             }
+
+            offspring1.setCandidateSolution(offspringChromosome1Builder.build());
+            offspring2.setCandidateSolution(offspringChromosome2Builder.build());
 
             offspring1.calculateFitness();
             offspring2.calculateFitness();
@@ -100,7 +104,6 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 
         return offspring;
     }
-
 
     /**
      * {@inheritDoc}
@@ -119,5 +122,4 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 //        offspring.addAll(this.crossover(parentCollection));
         holder.addAll(this.crossover(parentCollection));
     }
-
 }

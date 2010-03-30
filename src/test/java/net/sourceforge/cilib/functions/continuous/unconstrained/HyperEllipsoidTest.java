@@ -50,9 +50,9 @@ public class HyperEllipsoidTest {
         Vector x = new Vector();
 
         //test the defined global minimum
-        x.append(new Real(0.0));
-        x.append(new Real(0.0));
-        x.append(new Real(0.0));
+        x.add(new Real(0.0));
+        x.add(new Real(0.0));
+        x.add(new Real(0.0));
         Assert.assertEquals(0.0, function.evaluate(x), EPSILON);
 
         //test another point

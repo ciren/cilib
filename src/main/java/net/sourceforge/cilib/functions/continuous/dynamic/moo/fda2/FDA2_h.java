@@ -218,9 +218,9 @@ public class FDA2_h extends ContinuousFunction {
         Vector xII = input;
         Vector xIII = input;
         if (input.getDimension() > 1) {
-            xI = input.subList(0, 1);
-            xII = input.subList(1, 16);
-            xIII = input.subList(16, input.getDimension());
+            xI = input.copyOfRange(0, 1);
+            xII = input.copyOfRange(1, 16);
+            xIII = input.copyOfRange(16, input.getDimension());
         }
 
         double f = this.fda2_f.evaluate(xI);

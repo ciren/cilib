@@ -144,9 +144,9 @@ public class ContextEntity implements Entity {
      */
     public void append(Type value) {
         if(value instanceof Vector)
-            context.append((Vector) value.getClone());
+            context.addAll((Vector) value.getClone());
         else
-            context.append((Numeric) value.getClone());
+            context.add((Numeric) value.getClone());
     }
 
     /**

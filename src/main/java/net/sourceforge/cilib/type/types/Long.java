@@ -210,4 +210,9 @@ public class Long implements Numeric {
     public Bounds getBounds() {
         return this.bounds;
     }
+
+    @Override
+    public long longValue() {
+        return value;
+    }
 }

@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.functions.continuous;
 
-
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
@@ -34,14 +33,13 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * TODO: Complete this javadoc.
  */
 public class FunctionDimensionMapping extends ContinuousFunction {
-    private static final long serialVersionUID = 3785385852226926590L;
 
-    private double [] generatedPoints;
-    private double [][] generatedDistanceMatrix;
-    private double [][] higherDimensionDistanceMatrix;
+    private static final long serialVersionUID = 3785385852226926590L;
+    private double[] generatedPoints;
+    private double[][] generatedDistanceMatrix;
+    private double[][] higherDimensionDistanceMatrix;
     private int dataDimension;
     private int number;
-
     private DistanceMeasure measure;
 
     /**
@@ -76,7 +74,7 @@ public class FunctionDimensionMapping extends ContinuousFunction {
 
         // Now generate all the data points
         //System.out.println(Double.valueOf(dataDimension*number).intValue());
-        generatedPoints = new double[Double.valueOf(dataDimension*number).intValue()];
+        generatedPoints = new double[Double.valueOf(dataDimension * number).intValue()];
         for (int i = 0; i < generatedPoints.length; i++) {
             double num = generator.nextDouble();
             generatedPoints[i] = num; //generator.nextDouble();
@@ -91,14 +89,14 @@ public class FunctionDimensionMapping extends ContinuousFunction {
             for (int j = 0; j < size; j++) {
                 Vector v1 = new Vector();
                 Vector v2 = new Vector();
-                v1.add(new Real(generatedPoints[i*this.dataDimension]));
-                v1.add(new Real(generatedPoints[i*this.dataDimension+1]));
+                v1.add(new Real(generatedPoints[i * this.dataDimension]));
+                v1.add(new Real(generatedPoints[i * this.dataDimension + 1]));
 
-                v2.add(new Real(generatedPoints[j*this.dataDimension]));
-                v2.add(new Real(generatedPoints[j*this.dataDimension+1]));
+                v2.add(new Real(generatedPoints[j * this.dataDimension]));
+                v2.add(new Real(generatedPoints[j * this.dataDimension + 1]));
                 double distance = measure.distance(v1, v2);
                 generatedDistanceMatrix[i][j] = distance;
-        //        System.out.println("generated[" + i + "][" + j + "]: " + generatedDistanceMatrix[i][j]);
+                //        System.out.println("generated[" + i + "][" + j + "]: " + generatedDistanceMatrix[i][j]);
             }
         }
 
@@ -108,7 +106,7 @@ public class FunctionDimensionMapping extends ContinuousFunction {
         double c = 0.0;
         for (int i = 0; i < higherDimensionDistanceMatrix.length; i++) {
             for (int j = 0; (j < i) && (j < higherDimensionDistanceMatrix.length); j++) {
-                c +=  higherDimensionDistanceMatrix[i][j];
+                c += higherDimensionDistanceMatrix[i][j];
             }
         }
         //System.out.println("C: " + C);
@@ -120,18 +118,18 @@ public class FunctionDimensionMapping extends ContinuousFunction {
                 fitness += (numerator * numerator) / d_star;
             }
         }
-        return fitness/c;
+        return fitness / c;
     }
-
 
     private long convert(Vector vector) {
         long result = 0;
 
-        String s = vector.toString(' ', ' ', ' ');
+        String s = vector.toString();
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) != ' ')
+            if (s.charAt(i) != ' ') {
                 builder.append(s.charAt(i));
+            }
         }
 
         result = Long.parseLong(builder.toString(), 2);

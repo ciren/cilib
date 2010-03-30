@@ -33,7 +33,7 @@ import net.sourceforge.cilib.entity.Harmony;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -45,6 +45,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Andries Engelbrecht
  */
 public class HS extends AbstractAlgorithm implements SingularAlgorithm {
+
     private static final long serialVersionUID = 8019668923312811974L;
     private RandomNumber random1;
     private RandomNumber random2;
@@ -198,21 +199,22 @@ public class HS extends AbstractAlgorithm implements SingularAlgorithm {
 //        Real newHarmonyValue;
         for (int i = 0; i < problem.getDomain().getDimension(); ++i) {
             if (random1.getUniform() < harmonyMemoryConsideringRate.getParameter()) {
-                Harmony selectedHarmony = this.harmonyMemory.get((int) random2.getUniform(0, harmonyMemory.size()-1));
+                Harmony selectedHarmony = this.harmonyMemory.get((int) random2.getUniform(0, harmonyMemory.size() - 1));
                 Vector selectedHarmonyContents = (Vector) selectedHarmony.getCandidateSolution();
-                Real newHarmonyValue = (Real) selectedHarmonyContents.get(i).getClone();
+                double newHarmonyValue = selectedHarmonyContents.doubleValueOf(i);
+                Bounds bounds = selectedHarmonyContents.boundsOf(i);
                 if (random1.getUniform() < pitchAdjustingRate.getParameter()) {
-                    double pitchedValue = newHarmonyValue.doubleValue() + random3.getUniform(-1, 1) * distanceBandwidth.getParameter();
-                    if ((pitchedValue > newHarmonyValue.getBounds().getLowerBound()) && (pitchedValue < newHarmonyValue.getBounds().getUpperBound()))
-                        newHarmonyValue.valueOf(pitchedValue);
+                    double pitchedValue = newHarmonyValue + random3.getUniform(-1, 1) * distanceBandwidth.getParameter();
+                    if ((pitchedValue > bounds.getLowerBound()) && (pitchedValue < bounds.getUpperBound())) {
+                        newHarmonyValue = pitchedValue;
+                    }
                 }
 
-                newHarmonyVector.set(i, newHarmonyValue);
-            }
-            else {
-                double upper = ((Vector) problem.getDomain().getBuiltRepresenation()).get(i).getBounds().getUpperBound();
-                double lower = ((Vector) problem.getDomain().getBuiltRepresenation()).get(i).getBounds().getLowerBound();
-                newHarmonyVector.set(i, new Real(random3.getUniform(lower, upper)));
+                newHarmonyVector.setReal(i, newHarmonyValue);
+            } else {
+                double upper = ((Vector) problem.getDomain().getBuiltRepresenation()).boundsOf(i).getUpperBound();
+                double lower = ((Vector) problem.getDomain().getBuiltRepresenation()).boundsOf(i).getLowerBound();
+                newHarmonyVector.setReal(i, random3.getUniform(lower, upper));
             }
         }
 

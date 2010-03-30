@@ -54,8 +54,8 @@ public class Bukin6Test {
         function.setDomain("R(-15,-5),R(-3,3)");
 
         Vector x = new Vector();
-        x.append(new Real(1.0));
-        x.append(new Real(2.0));
+        x.add(new Real(1.0));
+        x.add(new Real(2.0));
         assertEquals(141.17735979665886, function.evaluate(x), 0.000000000001);
 
         x.setReal(0, -10.0);

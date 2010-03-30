@@ -41,12 +41,14 @@ public class VectorsTest {
 
     @Before
     public void initialise() {
-        vector = new Vector();
+        Vector.Builder vectorBuilder = Vector.newBuilder();
 
         for(int i = 1; i < 5; i++) {
             Numeric element = new Real(i, new Bounds(i*-2, i*2));
-            vector.append(element);
+            vectorBuilder.add(element);
         }
+
+        vector = vectorBuilder.build();
     }
 
     @Test

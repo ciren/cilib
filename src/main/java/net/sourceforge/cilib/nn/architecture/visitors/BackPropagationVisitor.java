@@ -77,7 +77,7 @@ public class BackPropagationVisitor implements ArchitectureVisitor {
         layerWeightsDelta[currentLayerIdx - 1] = new double[layerSize];
         for (int k = 0; k < layerSize; k++) {
             currentNeuron = currentLayer.get(k);
-            double t_k = layerSize > 1 ? ((Vector) previousPattern.getTarget()).getReal(k) : ((Real)previousPattern.getTarget()).doubleValue();
+            double t_k = layerSize > 1 ? ((Vector) previousPattern.getTarget()).getReal(k) : ((Real) previousPattern.getTarget()).doubleValue();
             double o_k = currentNeuron.getActivation();
             layerWeightsDelta[currentLayerIdx - 1][k] = -1.0 * (t_k - o_k) * currentNeuron.getActivationFunction().getGradient(o_k);
         }
@@ -109,12 +109,12 @@ public class BackPropagationVisitor implements ArchitectureVisitor {
                 for (int k = 0; k < layerSize; k++) {
                     layerSize = currentLayer.isBias() ? currentLayer.size() - 1 : currentLayer.size();
                     int previousLayerSize = layers.get(currentLayerIdx - 1).size();
-                    previousWeightUpdates[currentLayerIdx -1] = new double[layerSize * previousLayerSize + previousLayerSize + 1];
+                    previousWeightUpdates[currentLayerIdx - 1] = new double[layerSize * previousLayerSize + previousLayerSize + 1];
                 }
             }
         }
 
-        ((ForwardingLayer)layers.get(0)).setSource(new PatternInputSource(previousPattern));
+        ((ForwardingLayer) layers.get(0)).setSource(new PatternInputSource(previousPattern));
         //updates output and all hidden layer weights 
         for (currentLayerIdx = numLayers - 1; currentLayerIdx > 0; currentLayerIdx--) { // loop excludes input layer
             currentLayer = layers.get(currentLayerIdx);
@@ -129,11 +129,11 @@ public class BackPropagationVisitor implements ArchitectureVisitor {
 
                 double tmp = (-1.0 * learningRate) * layerWeightsDelta[currentLayerIdx - 1][k];
                 for (int j = 0; j < previousLayerSize; j++) {
-                    Real weight = (Real) currentNeuron.getWeights().get(j);
+                    double weight = currentNeuron.getWeights().doubleValueOf(j);
                     double newWeightUpdate = tmp * previousLayer.getNeuralInput(j);
                     double update = newWeightUpdate + momentum * previousWeightUpdates[currentLayerIdx - 1][k * previousLayerSize + j];
-                    currentNeuron.getWeights().set(j, Real.valueOf(weight.doubleValue() + update));
-                    previousWeightUpdates[currentLayerIdx -1][k * previousLayerSize + j] = newWeightUpdate;
+                    currentNeuron.getWeights().setReal(j, weight + update);
+                    previousWeightUpdates[currentLayerIdx - 1][k * previousLayerSize + j] = newWeightUpdate;
                 }
             }
         }

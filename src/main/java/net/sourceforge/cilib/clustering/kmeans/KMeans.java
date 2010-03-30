@@ -155,7 +155,7 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
         Vector tmp = centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getClusterableDataSet());
 
         // this first centroid will do
-        return tmp.subList(0, centroid.getDimension());
+        return tmp.copyOfRange(0, centroid.getDimension());
     }
 
     /**

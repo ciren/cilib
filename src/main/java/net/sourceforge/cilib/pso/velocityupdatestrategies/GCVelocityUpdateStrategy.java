@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
-
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -32,7 +31,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -61,6 +60,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * value within problems which have a domain that spans <code>[0,1]</code>
  */
 public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
+
     private static final long serialVersionUID = 5985694749940610522L;
     private RandomProvider randomNumberGenerator;
     private ControlParameter rhoLowerBound;
@@ -69,7 +69,6 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
     private int failureCount;
     private int successCountThreshold;
     private int failureCountThreshold;
-
     private Fitness oldFitness;
     private ControlParameter rhoExpandCoefficient;
     private ControlParameter rhoContractCoefficient;
@@ -136,9 +135,9 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
             final Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getPosition();
 
             for (int i = 0; i < velocity.getDimension(); ++i) {
-                double component = -position.getReal(i) + nBestPosition.getReal(i) +
-                    this.inertiaWeight.getParameter()*velocity.getReal(i) +
-                    rho.getParameter()*(1-2*randomNumberGenerator.nextDouble());
+                double component = -position.getReal(i) + nBestPosition.getReal(i)
+                        + this.inertiaWeight.getParameter() * velocity.getReal(i)
+                        + rho.getParameter() * (1 - 2 * randomNumberGenerator.nextDouble());
 
                 velocity.setReal(i, component);
                 clamp(velocity, i);
@@ -164,8 +163,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
             if (!newFitness.equals(oldFitness)) {
                 this.failureCount = 0;
                 this.successCount++;
-            }
-            else {
+            } else {
                 this.successCount = 0;
                 this.failureCount++;
             }
@@ -186,14 +184,22 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
     private void updateRho(Vector position) { // the Rho value is problem and dimension dependent
         double tmp = 0.0;
 
-        Numeric component = position.get(0);
-        double average = (component.getBounds().getUpperBound() - component.getBounds().getLowerBound()) / rhoExpandCoefficient.getParameter();
+        Bounds component = position.boundsOf(0);
+        double average = (component.getUpperBound() - component.getLowerBound()) / rhoExpandCoefficient.getParameter();
 
-        if (successCount >= successCountThreshold) tmp = rhoExpandCoefficient.getParameter()*rho.getParameter();
-        if (failureCount >= failureCountThreshold) tmp = rhoContractCoefficient.getParameter()*rho.getParameter();
+        if (successCount >= successCountThreshold) {
+            tmp = rhoExpandCoefficient.getParameter() * rho.getParameter();
+        }
+        if (failureCount >= failureCountThreshold) {
+            tmp = rhoContractCoefficient.getParameter() * rho.getParameter();
+        }
 
-        if (tmp <= rhoLowerBound.getParameter()) tmp = rhoLowerBound.getParameter();
-        if (tmp >= average) tmp = average;
+        if (tmp <= rhoLowerBound.getParameter()) {
+            tmp = rhoLowerBound.getParameter();
+        }
+        if (tmp >= average) {
+            tmp = average;
+        }
 
         rho.setParameter(tmp);
     }
@@ -293,5 +299,4 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
     public void setRhoContractCoefficient(ControlParameter rhoContractCoefficient) {
         this.rhoContractCoefficient = rhoContractCoefficient;
     }
-
 }

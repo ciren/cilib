@@ -47,8 +47,8 @@ public class DamavandiTest {
         function.setDomain("R(0, 12)^2");
 
         Vector x = new Vector();
-        x.append(new Real(2.0000001));
-        x.append(new Real(2.0000001));
+        x.add(new Real(2.0000001));
+        x.add(new Real(2.0000001));
         assertEquals(0.0, function.evaluate(x), 0.000000001);
 
         x.setReal(0, 7.0);

@@ -43,8 +43,8 @@ public class SalomonTest {
         function.setDomain("R(-600, 600)^2");
 
         Vector x = new Vector();
-        x.append(new Real(0));
-        x.append(new Real(0));
+        x.add(new Real(0));
+        x.add(new Real(0));
 
         assertEquals(0.0, function.evaluate(x), 0.0);
 

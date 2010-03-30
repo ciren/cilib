@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -48,10 +47,10 @@ public class ColvilleTest {
         function.setDomain("R(-10, 10)^4");
 
         Vector x = new Vector();
-        x.append(new Real(0.0));
-        x.append(new Real(0.0));
-        x.append(new Real(0.0));
-        x.append(new Real(0.0));
+        x.add(new Real(0.0));
+        x.add(new Real(0.0));
+        x.add(new Real(0.0));
+        x.add(new Real(0.0));
        // assertEquals(42.0, function.evaluate(x), 0.0);
 
         x.setReal(0, 1.0);

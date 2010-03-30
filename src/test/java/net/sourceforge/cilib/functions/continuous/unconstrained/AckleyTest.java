@@ -51,9 +51,9 @@ public class AckleyTest {
         function.setDomain("R(-32.768, 32.768)^3");
 
         Vector x = new Vector();
-        x.append(new Real(1.0));
-        x.append(new Real(2.0));
-        x.append(new Real(3.0));
+        x.add(new Real(1.0));
+        x.add(new Real(2.0));
+        x.add(new Real(3.0));
         assertEquals(7.0164536, function.evaluate(x), 0.000000009);
 
         x.setReal(0, 0.0);

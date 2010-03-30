@@ -96,10 +96,10 @@ public class AngleModulationTest {
         angle.setFunction(new Rastrigin());
 
         Vector testVector = new Vector();
-        testVector.append(new Real(0.0));
-        testVector.append(new Real(1.0));
-        testVector.append(new Real(1.0));
-        testVector.append(new Real(0.0));
+        testVector.add(new Real(0.0));
+        testVector.add(new Real(1.0));
+        testVector.add(new Real(1.0));
+        testVector.add(new Real(0.0));
 
         String converted = angle.generateBitString(testVector, 14);
 

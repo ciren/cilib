@@ -73,10 +73,10 @@ public class OnePointCrossoverStrategy extends CrossoverStrategy {
             Vector.Builder offspringVector1Builder = Vector.newBuilder();
             Vector.Builder offspringVector2Builder = Vector.newBuilder();
 
-            offspringVector1Builder.copyOf(offspringVector1.subList(0, crossoverPoint));
-            offspringVector2Builder.copyOf(offspringVector2.subList(0, crossoverPoint));
-            offspringVector1Builder.copyOf(offspringVector2.subList(crossoverPoint, offspringVector2.size()));
-            offspringVector2Builder.copyOf(offspringVector1.subList(crossoverPoint, offspringVector1.size()));
+            offspringVector1Builder.copyOf(offspringVector1.copyOfRange(0, crossoverPoint));
+            offspringVector2Builder.copyOf(offspringVector2.copyOfRange(0, crossoverPoint));
+            offspringVector1Builder.copyOf(offspringVector2.copyOfRange(crossoverPoint, offspringVector2.size()));
+            offspringVector2Builder.copyOf(offspringVector1.copyOfRange(crossoverPoint, offspringVector1.size()));
 
             offspring1.calculateFitness();
             offspring2.calculateFitness();

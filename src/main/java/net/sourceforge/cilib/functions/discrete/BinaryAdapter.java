@@ -148,7 +148,7 @@ public class BinaryAdapter extends ContinuousFunction {
             double tmp = valueOf(bits, i, i+this.bitsPerDimension);
             tmp = transform(tmp);
 
-            vector.append(new Real(tmp));
+            vector.add(new Real(tmp));
             i += this.bitsPerDimension;
         }
 

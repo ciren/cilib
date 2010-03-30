@@ -110,7 +110,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
             }*/
             Vector tSolution = new Vector();
             for (int i = 0; i < distanceSolution.length; i++) {
-                tSolution.set(i, new Real(distanceSolution[i].doubleValue()));
+                tSolution.setReal(i, distanceSolution[i].doubleValue());
             }
 
             // calcaulate the distance between the solution and the previousely found

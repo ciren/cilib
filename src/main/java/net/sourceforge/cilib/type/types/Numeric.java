@@ -41,22 +41,12 @@ public interface Numeric extends Type, BoundedType, Resetable, Comparable<Numeri
     boolean booleanValue();
 
     /**
-     * Set the bit value with the provided value.
-     * @param value The value to set.
-     */
-//    void valueOf(boolean value);
-
-    /**
      * Get the value of this {@linkplain Numeric}.
      * @return The value of this {@linkplain Numeric} as a {@literal int}.
      */
     int intValue();
 
-    /**
-     * Set the integer value with the provided value.
-     * @param value The value to set.
-     */
-//    void valueOf(int value);
+    long longValue();
 
     /**
      * Get the value of this {@linkplain Numeric}.
@@ -64,12 +54,5 @@ public interface Numeric extends Type, BoundedType, Resetable, Comparable<Numeri
      */
     double doubleValue();
 
-    /**
-     * Set the real value with the provided value.
-     * @param value The value to set.
-     */
-//    void valueOf(double value);
-
     String getRepresentation();
-
 }

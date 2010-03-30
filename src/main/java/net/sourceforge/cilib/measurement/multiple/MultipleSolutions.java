@@ -54,7 +54,7 @@ public class MultipleSolutions implements Measurement<Vector> {
         Iterable<OptimisationSolution> solutions = algorithm.getSolutions();
 
         for (OptimisationSolution solution : solutions) {
-            v.append((Vector) solution.getPosition());
+            v.addAll((Vector) solution.getPosition());
         }
 
         return v;

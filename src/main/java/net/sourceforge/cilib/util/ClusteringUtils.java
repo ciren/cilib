@@ -194,7 +194,7 @@ public final class ClusteringUtils {
         int dimension = centroids.size() / numberOfClusters;
 
         for (int i = 0; i < numberOfClusters; i++) {
-            Vector list = centroids.subList(i * dimension, (i * dimension) + dimension);
+            Vector list = centroids.copyOfRange(i * dimension, (i * dimension) + dimension);
             originalCentroids.add(list);
         }
     }

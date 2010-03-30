@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
-
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.problem.changestrategy.ChangeStrategy;
 import net.sourceforge.cilib.problem.changestrategy.IterationBasedSingleChangeStrategy;
@@ -57,12 +56,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class RotatingFunctionDecorator extends ContinuousFunction {
+
     private static final long serialVersionUID = 3107473364744861153L;
     private ContinuousFunction function;
     private int N;
-    private double alpha=0;
+    private double alpha = 0;
     private Matrix matrix;
-
     private int cycleLength = 100;
     private int rotatingFrequency = 5;
     private double center = 0;
@@ -93,14 +92,14 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
         changeStrategy = new IterationBasedSingleChangeStrategy(rotatingFrequency);
     }
 
-    private Matrix initMatrices(){
+    private Matrix initMatrices() {
         Matrix.Builder matrixBuilder = Matrix.builder().dimensions(N, N);
-        for(int i=0; i<N; i++){
-            for(int j=0; j<N; j++){
-                if(i==j){
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (i == j) {
                     matrixBuilder.valueAt(i, j, 1);
                 }//if
-                else{
+                else {
                     matrixBuilder.valueAt(i, j, 0);
                 }//else
             }//for
@@ -109,24 +108,24 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
         return matrixBuilder.build();
     }
 
-    private Matrix localRotate(int i, int j){
+    private Matrix localRotate(int i, int j) {
         Matrix tmp = this.matrix.getClone();
 
-        if (this.changeStrategy.shouldApply(null)){
-            alpha += 2*Math.PI/cycleLength;
+        if (this.changeStrategy.shouldApply(null)) {
+            alpha += 2 * Math.PI / cycleLength;
         }
 
         return tmp.rotate(alpha, i, j);
     }
 
-    private Matrix createMatrix(){
+    private Matrix createMatrix() {
         Matrix result = this.matrix.getClone();
-        for(int i=1; i<N; i++){
-            Matrix rotated = localRotate(0,i);
+        for (int i = 1; i < N; i++) {
+            Matrix rotated = localRotate(0, i);
             result = result.times(rotated);
         }//for
-        for(int i=1; i<N-1; i++){
-            Matrix rotated = localRotate(i,N-1);
+        for (int i = 1; i < N - 1; i++) {
+            Matrix rotated = localRotate(i, N - 1);
             result = result.multiply(rotated);
         }//for
 
@@ -151,12 +150,12 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
         Vector rotatedX = input.getClone();
         rotatedX.reset();
 
-        for(int j = 0; j < input.getDimension(); j++) {
-            for(int i = 0; i < input.getDimension(); i++) {
-                double value = rotatedX.getReal(j) + (input.getReal(i)-center) * result.valueAt(i, j);
+        for (int j = 0; j < input.getDimension(); j++) {
+            for (int i = 0; i < input.getDimension(); i++) {
+                double value = rotatedX.getReal(j) + (input.getReal(i) - center) * result.valueAt(i, j);
                 rotatedX.setReal(j, value);
             }
-            double rotatedValue=rotatedX.getReal(j)+center;
+            double rotatedValue = rotatedX.getReal(j) + center;
             rotatedX.setReal(j, rotatedValue);
         }
 
@@ -178,7 +177,7 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
         this.setDomain(function.getDomainRegistry().getDomainString());
 
         Vector structure = (Vector) DomainParser.parse(function.getDomainRegistry().getDomainString());
-        Bounds bounds = structure.get(0).getBounds();
+        Bounds bounds = structure.boundsOf(0);
         double lowerLimit = bounds.getLowerBound();
         double upperLimit = bounds.getUpperBound();
 
