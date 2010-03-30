@@ -71,11 +71,11 @@ public class VectorsTest {
 
     @Test
     public void vectorSum() {
-        Vector v1 = Vectors.create(1.0);
-        Vector v2 = Vectors.create(1.0);
-        Vector v3 = Vectors.create(1.0);
-        Vector v4 = Vectors.create(1.0);
-        Vector v5 = Vectors.create(1.0);
+        Vector v1 = Vector.of(1.0);
+        Vector v2 = Vector.of(1.0);
+        Vector v3 = Vector.of(1.0);
+        Vector v4 = Vector.of(1.0);
+        Vector v5 = Vector.of(1.0);
 
         Vector result = Vectors.sumOf(v1, v2, v3, v4, v5);
 

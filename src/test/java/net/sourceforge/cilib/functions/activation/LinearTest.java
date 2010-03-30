@@ -23,7 +23,7 @@ package net.sourceforge.cilib.functions.activation;
 
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.util.Vectors;
+import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -52,15 +52,15 @@ public class LinearTest {
     public void gradient() {
         Linear linear = new Linear();
         Assert.assertEquals(1.0, linear.getGradient(0.0), Maths.EPSILON);
-        Assert.assertEquals(1.0, linear.getGradient(Vectors.create(0.0)).get(0).doubleValue(), Maths.EPSILON);
+        Assert.assertEquals(1.0, linear.getGradient(Vector.of(0.0)).get(0).doubleValue(), Maths.EPSILON);
 
         Assert.assertEquals(1.0, linear.getGradient(0.5), Maths.EPSILON);
-        Assert.assertEquals(1.0, linear.getGradient(Vectors.create(0.5)).get(0).doubleValue(), Maths.EPSILON);
+        Assert.assertEquals(1.0, linear.getGradient(Vector.of(0.5)).get(0).doubleValue(), Maths.EPSILON);
 
         Assert.assertEquals(1.0, linear.getGradient(Double.MAX_VALUE), Maths.EPSILON);
-        Assert.assertEquals(1.0, linear.getGradient(Vectors.create(Double.MIN_VALUE)).get(0).doubleValue(), Maths.EPSILON);
-        Assert.assertEquals(1.0, linear.getGradient(Vectors.create(-Double.MIN_VALUE)).get(0).doubleValue(), Maths.EPSILON);
-        Assert.assertEquals(1.0, linear.getGradient(Vectors.create(-Double.MAX_VALUE)).get(0).doubleValue(), Maths.EPSILON);
+        Assert.assertEquals(1.0, linear.getGradient(Double.MIN_VALUE), Maths.EPSILON);
+        Assert.assertEquals(1.0, linear.getGradient(-Double.MIN_VALUE), Maths.EPSILON);
+        Assert.assertEquals(1.0, linear.getGradient(-Double.MAX_VALUE), Maths.EPSILON);
     }
 
     @Test

@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
+import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.InferiorFitness;
@@ -28,7 +29,6 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.container.TypeList;
-import net.sourceforge.cilib.util.Vectors;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -52,7 +52,7 @@ public class SolutionTest {
     @Test
     public void result() {
         final Algorithm algorithm = mockery.mock(Algorithm.class);
-        final OptimisationSolution mockSolution = new OptimisationSolution(Vectors.create(1.0), InferiorFitness.instance());
+        final OptimisationSolution mockSolution = new OptimisationSolution(Vector.of(1.0), InferiorFitness.instance());
 
         mockery.checking(new Expectations() {{
             oneOf(algorithm).getBestSolution(); will(returnValue(mockSolution));

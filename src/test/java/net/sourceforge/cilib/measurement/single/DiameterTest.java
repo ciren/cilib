@@ -29,8 +29,8 @@ import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.Vector;
 
-import net.sourceforge.cilib.util.Vectors;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -52,8 +52,8 @@ public class DiameterTest {
         Particle p1 = new StandardParticle();
         Particle p2 = new StandardParticle();
 
-        p1.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(0.0, 0.0));
-        p2.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(2.0, 2.0));
+        p1.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(0.0, 0.0));
+        p2.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(2.0, 2.0));
 
         final Topology<Particle> topology = new GBestTopology<Particle>();
         topology.add(p1);
@@ -76,10 +76,10 @@ public class DiameterTest {
         Particle p3 = new StandardParticle();
         Particle p4 = new StandardParticle();
 
-        p1.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(0.0, 0.0));
-        p2.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(1.0, 1.0));
-        p3.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(1.5, 1.5));
-        p4.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(2.0, 2.0));
+        p1.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(0.0, 0.0));
+        p2.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(1.0, 1.0));
+        p3.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(1.5, 1.5));
+        p4.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(2.0, 2.0));
 
         final Topology<Particle> topology = new GBestTopology<Particle>();
         topology.add(p1);

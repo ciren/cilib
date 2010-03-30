@@ -27,7 +27,6 @@ import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -39,8 +38,8 @@ public class OutputErrorVisitorTest {
 
     @Test
     public void testVisit() {
-        Vector vector = Vectors.create(0.1, 0.2, 0.3, 0.4, 0.5);
-        Vector target = Vectors.create(0.9, 0.9);
+        Vector vector = Vector.of(0.1, 0.2, 0.3, 0.4, 0.5);
+        Vector target = Vector.of(0.9, 0.9);
         StandardPattern pattern = new StandardPattern(vector,target);
 
         NeuralNetwork network = new NeuralNetwork();

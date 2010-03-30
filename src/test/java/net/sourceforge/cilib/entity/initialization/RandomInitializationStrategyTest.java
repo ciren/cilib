@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -47,11 +46,12 @@ import static org.hamcrest.CoreMatchers.not;
  */
 @RunWith(JMock.class)
 public class RandomInitializationStrategyTest {
+
     private Mockery mockery = new JUnit4Mockery();
 
     @Test
     public void testInitialize() {
-        Vector expected = Vectors.create(1.0, 1.0, 1.0);
+        Vector expected = Vector.of(1.0, 1.0, 1.0);
         Particle particle = new StandardParticle();
         particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, expected.getClone());
 
@@ -68,18 +68,18 @@ public class RandomInitializationStrategyTest {
     @Test
     public void randomized() {
         final Particle particle = mockery.mock(Particle.class);
-        final StructuredType randomizable = mockery.mock(StructuredType.class);
+        final StructuredType<?> randomizable = mockery.mock(StructuredType.class);
         final Blackboard<Enum<?>, Type> blackboard = new Blackboard<Enum<?>, Type>();
         blackboard.put(EntityType.CANDIDATE_SOLUTION, randomizable);
 
         RandomInitializationStrategy<Particle> strategy = new RandomInitializationStrategy<Particle>();
 
         mockery.checking(new Expectations() {{
-            oneOf(particle).getProperties(); will(returnValue(blackboard));
+            oneOf(particle).getProperties();
+            will(returnValue(blackboard));
             oneOf(randomizable).randomize(with(any(RandomProvider.class)));
         }});
 
         strategy.initialize(EntityType.CANDIDATE_SOLUTION, particle);
     }
-
 }

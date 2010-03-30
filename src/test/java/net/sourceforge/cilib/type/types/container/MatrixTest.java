@@ -22,7 +22,6 @@
 
 package net.sourceforge.cilib.type.types.container;
 
-import net.sourceforge.cilib.util.Vectors;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
@@ -109,8 +108,8 @@ public class MatrixTest {
 
         Matrix c = a.plus(b);
 
-        Assert.assertThat(c.getRow(0), equalTo(Vectors.create(2.0, 4.0)));
-        Assert.assertThat(c.getRow(1), equalTo(Vectors.create(6.0, 8.0)));
+        Assert.assertThat(c.getRow(0), equalTo(Vector.of(2.0, 4.0)));
+        Assert.assertThat(c.getRow(1), equalTo(Vector.of(6.0, 8.0)));
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -133,8 +132,8 @@ public class MatrixTest {
 
         Matrix c = a.minus(b);
 
-        Assert.assertThat(c.getRow(0), equalTo(Vectors.create(1.0, 2.0)));
-        Assert.assertThat(c.getRow(1), equalTo(Vectors.create(3.0, 4.0)));
+        Assert.assertThat(c.getRow(0), equalTo(Vector.of(1.0, 2.0)));
+        Assert.assertThat(c.getRow(1), equalTo(Vector.of(3.0, 4.0)));
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -157,8 +156,8 @@ public class MatrixTest {
 
         Matrix c = a.times(b);
 
-        Assert.assertThat(c.getRow(0), equalTo(Vectors.create(14.0, 20.0)));
-        Assert.assertThat(c.getRow(1), equalTo(Vectors.create(30.0, 44.0)));
+        Assert.assertThat(c.getRow(0), equalTo(Vector.of(14.0, 20.0)));
+        Assert.assertThat(c.getRow(1), equalTo(Vector.of(30.0, 44.0)));
     }
 
     @Test
@@ -170,8 +169,8 @@ public class MatrixTest {
 
         Matrix c = a.transpose();
 
-        Assert.assertThat(c.getRow(0), equalTo(Vectors.create(2.0, 6.0)));
-        Assert.assertThat(c.getRow(1), equalTo(Vectors.create(4.0, 8.0)));
+        Assert.assertThat(c.getRow(0), equalTo(Vector.of(2.0, 6.0)));
+        Assert.assertThat(c.getRow(1), equalTo(Vector.of(4.0, 8.0)));
     }
 
     @Test

@@ -27,6 +27,7 @@ import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -52,13 +53,13 @@ public class CollectiveMeanErrorTest {
     @Test
     public void results() {
         final Algorithm algorithm = mockery.mock(Algorithm.class);
-        final OptimisationSolution mockSolution1 = new OptimisationSolution(Vectors.create(1.0), new MinimisationFitness(1.0));
+        final OptimisationSolution mockSolution1 = new OptimisationSolution(Vector.of(1.0), new MinimisationFitness(1.0));
         final FunctionOptimisationProblem mockProblem = mockery.mock(FunctionOptimisationProblem.class);
 
         mockery.checking(new Expectations() {{
             exactly(3).of(algorithm).getBestSolution(); will(returnValue(mockSolution1));
             exactly(3).of(algorithm).getOptimisationProblem();will(returnValue(mockProblem));
-            exactly(3).of(mockProblem).getError(Vectors.create(1.0));will(onConsecutiveCalls(returnValue(5.0),returnValue(4.0),returnValue(0.0)));
+            exactly(3).of(mockProblem).getError(Vector.of(1.0));will(onConsecutiveCalls(returnValue(5.0),returnValue(4.0),returnValue(0.0)));
             exactly(3).of(algorithm).getIterations(); will(onConsecutiveCalls(returnValue(1), returnValue(2),returnValue(3)));
         }});
 

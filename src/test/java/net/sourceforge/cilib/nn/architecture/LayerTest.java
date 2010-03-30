@@ -24,7 +24,6 @@ package net.sourceforge.cilib.nn.architecture;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.nn.components.Neuron;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +42,7 @@ public class LayerTest {
         layer = new Layer();
         layer.setBias(false);
         Neuron neuron = new Neuron();
-        refActivations = Vectors.create(-0.1, 0.7, 0.3, -0.5);
+        refActivations = Vector.of(-0.1, 0.7, 0.3, -0.5);
         for (int i = 0; i < refActivations.size(); i++) {
             neuron.setActivation(refActivations.getReal(i));
             layer.add((Neuron) neuron.getClone());

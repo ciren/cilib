@@ -25,7 +25,6 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 
 /**
  * The generalised sigmoid function. The function is the general case of the sigmoid function
@@ -33,6 +32,7 @@ import net.sourceforge.cilib.util.Vectors;
  * be taken into consideration.
  */
 public class Sigmoid extends ActivationFunction {
+
     private static final long serialVersionUID = 8291966233976579855L;
     private ControlParameter steepness;
     private ControlParameter offset;
@@ -90,7 +90,7 @@ public class Sigmoid extends ActivationFunction {
 
     @Override
     public Vector getGradient(Vector x) {
-        return Vectors.create(this.getGradient((Real) x.get(0)).doubleValue());
+        return Vector.of(this.getGradient(x.doubleValueOf(0)));
     }
 
     /**

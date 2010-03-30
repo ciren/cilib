@@ -27,7 +27,7 @@ import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.util.Vectors;
+import net.sourceforge.cilib.type.types.container.Vector;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -52,13 +52,13 @@ public class ErrorMeasurementTest {
     @Test
     public void results() {
         final Algorithm algorithm = mockery.mock(Algorithm.class);
-        final OptimisationSolution mockSolution = new OptimisationSolution(Vectors.create(1.0), new MinimisationFitness(100.0));
+        final OptimisationSolution mockSolution = new OptimisationSolution(Vector.of(1.0), new MinimisationFitness(100.0));
         final FunctionOptimisationProblem mockProblem = mockery.mock(FunctionOptimisationProblem.class);
 
         mockery.checking(new Expectations() {{
             exactly(1).of(algorithm).getBestSolution(); will(returnValue(mockSolution));
             exactly(1).of(algorithm).getOptimisationProblem();will(returnValue(mockProblem));
-            exactly(1).of(mockProblem).getError(Vectors.create(1.0));will(returnValue(10.0));
+            exactly(1).of(mockProblem).getError(Vector.of(1.0));will(returnValue(10.0));
         }});
 
         Measurement m = new ErrorMeasurement();

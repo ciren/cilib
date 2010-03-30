@@ -25,7 +25,6 @@ import net.sourceforge.cilib.functions.activation.Sigmoid;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.nn.architecture.NeuralInputSource;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +40,7 @@ public class NeuronTest {
     @Before
     public void setupNeuron() {
         neuron = new Neuron();
-        Vector weights = Vectors.create(0.1, 0.2, 0.3, 0.4, 0.5);
+        Vector weights = Vector.of(0.1, 0.2, 0.3, 0.4, 0.5);
         neuron.setWeights(weights);
         neuron.setActivationFunction(new Sigmoid());
     }
@@ -50,7 +49,7 @@ public class NeuronTest {
     public void testActivation() {
         NeuralInputSource source = new NeuralInputSource() {
 
-            Vector input = Vectors.create(0.5, 0.4, 0.3, 0.2, 0.1);
+            Vector input = Vector.of(0.5, 0.4, 0.3, 0.2, 0.1);
 
             @Override
             public double getNeuralInput(int index) {
@@ -66,7 +65,7 @@ public class NeuronTest {
                 return input;
             }
         };
-        Vector input = Vectors.create(0.5, 0.4, 0.3, 0.2, 0.1); // duplicate of vector above
+        Vector input = Vector.of(0.5, 0.4, 0.3, 0.2, 0.1); // duplicate of vector above
         Vector weights = neuron.getWeights();
         double dotP = input.dot(weights);
         Sigmoid sigmoid = new Sigmoid();

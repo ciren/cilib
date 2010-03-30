@@ -74,10 +74,11 @@ public final class Matrix implements Type {
     public Vector getRow(int row) {
         List<Double> rowList = new ArrayList<Double>(this.contents[row].length);
 
-        for (double d : this.contents[row])
+        for (double d : this.contents[row]) {
             rowList.add(d);
+        }
 
-        return Vectors.create(rowList);
+        return Vector.copyOf(rowList);
     }
 
     /**

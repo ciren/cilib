@@ -72,6 +72,26 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
         return new Vector(elements);
     }
 
+    public static Vector copyOf(Iterable<? extends Number> iterable) {
+        if (iterable instanceof Collection) {
+            @SuppressWarnings("unchecked")
+            Collection<? extends Number> coll = (Collection<? extends Number>) iterable;
+            return copyOfInternal(coll);
+        } else {
+            return copyOfInternal(Lists.newArrayList(iterable));
+        }
+    }
+
+    private static Vector copyOfInternal(Collection<? extends Number> collection) {
+        int size = collection.size();
+        Numeric[] array = new Numeric[size];
+        int index = 0;
+        for (Number n : collection) {
+            array[index++] = Real.valueOf(n.doubleValue());
+        }
+        return new Vector(array);
+    }
+
     private Vector(Numeric[] elements) {
         this.components = elements;
     }
@@ -259,11 +279,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public Vector subList(final int fromIndex, final int toIndex) {
-        Numeric[] array = new Numeric[toIndex - fromIndex];
-        for (int i = fromIndex, index = 0; i < toIndex; i++) {
-            array[index++] = components[i];
-        }
-        return new Vector(array);
+        return new Vector(Arrays.copyOfRange(components, fromIndex, toIndex));
     }
 
     /**

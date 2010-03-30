@@ -27,7 +27,6 @@ import net.sourceforge.cilib.nn.components.BiasNeuron;
 import net.sourceforge.cilib.nn.components.PatternInputSource;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +42,7 @@ public class ForwardingLayerTest {
 
     @Before
     public void setup() {
-        input = Vectors.create(0.1, 0.2, 0.3, 0.4, 0.5);
+        input = Vector.of(0.1, 0.2, 0.3, 0.4, 0.5);
         StandardPattern pattern = new StandardPattern(input, input);
         layer = new ForwardingLayer();
         layer.setSource(new PatternInputSource(pattern));

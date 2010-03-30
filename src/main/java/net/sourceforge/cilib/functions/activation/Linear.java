@@ -23,7 +23,6 @@ package net.sourceforge.cilib.functions.activation;
 
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 
 /**
  * The linear activation function, f(x) = x; f '(x) = 1; Since it
@@ -32,6 +31,7 @@ import net.sourceforge.cilib.util.Vectors;
  * @author andrich
  */
 public class Linear extends ActivationFunction {
+
     private static final long serialVersionUID = -6826800182176063079L;
 
     /**
@@ -79,7 +79,7 @@ public class Linear extends ActivationFunction {
      */
     @Override
     public Vector getGradient(Vector x) {
-        return Vectors.create(this.getGradient(x.getReal(0)));
+        return Vector.of(this.getGradient(x.getReal(0)));
     }
 
     /**

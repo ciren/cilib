@@ -30,7 +30,6 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 import org.junit.Assert;
 import org.junit.Test;
@@ -46,8 +45,8 @@ public class UniformCrossoverStrategyTest {
         Individual i1 = new Individual();
         Individual i2 = new Individual();
 
-        i1.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(0.0, 1.0, 2.0, 3.0, 4.0));
-        i2.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(5.0, 6.0, 7.0, 8.0, 9.0));
+        i1.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(0.0, 1.0, 2.0, 3.0, 4.0));
+        i2.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(5.0, 6.0, 7.0, 8.0, 9.0));
 
         i1.setFitnessCalculator(new MockFitnessCalculator());
         i2.setFitnessCalculator(new MockFitnessCalculator());
@@ -78,6 +77,7 @@ public class UniformCrossoverStrategyTest {
      * This kind of thing would be awesome to just imject with Guice.
      */
     private class MockFitnessCalculator implements FitnessCalculator<Individual> {
+
         private static final long serialVersionUID = -7744000392817056355L;
 
         @Override
@@ -90,5 +90,4 @@ public class UniformCrossoverStrategyTest {
             return InferiorFitness.instance();
         }
     }
-
 }

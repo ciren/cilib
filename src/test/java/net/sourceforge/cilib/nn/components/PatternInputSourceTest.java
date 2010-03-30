@@ -26,7 +26,6 @@ import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.nn.architecture.NeuralInputSource;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +40,7 @@ public class PatternInputSourceTest {
 
     @Before
     public void setup() {
-        Vector vector = Vectors.create(0.1, 0.2, 0.3, 0.4, 0.5);
+        Vector vector = Vector.of(0.1, 0.2, 0.3, 0.4, 0.5);
         standardPattern = new StandardPattern(vector, vector);
     }
 

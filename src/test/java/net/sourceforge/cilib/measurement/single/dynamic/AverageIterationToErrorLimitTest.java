@@ -27,7 +27,7 @@ import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.util.Vectors;
+import net.sourceforge.cilib.type.types.container.Vector;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -52,14 +52,14 @@ public class AverageIterationToErrorLimitTest {
     @Test
     public void results() {
         final Algorithm algorithm = mockery.mock(Algorithm.class);
-        final OptimisationSolution mockSolution1 = new OptimisationSolution(Vectors.create(1.0), new MinimisationFitness(0.0));
+        final OptimisationSolution mockSolution1 = new OptimisationSolution(Vector.of(1.0), new MinimisationFitness(0.0));
         final FunctionOptimisationProblem mockProblem = mockery.mock(FunctionOptimisationProblem.class);
 
         mockery.checking(new Expectations() {{
             exactly(6).of(algorithm).getBestSolution(); will(returnValue(mockSolution1));
             exactly(6).of(algorithm).getOptimisationProblem();will(returnValue(mockProblem));
             exactly(2).of(algorithm).isFinished();will(returnValue(false));
-            exactly(6).of(mockProblem).getError(Vectors.create(1.0));
+            exactly(6).of(mockProblem).getError(Vector.of(1.0));
             will(onConsecutiveCalls(returnValue(7.0),
                                     returnValue(5.0),
                                     returnValue(35.0),

@@ -29,7 +29,6 @@ import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.nn.components.PatternInputSource;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -41,8 +40,8 @@ public class BackPropagationVisitorTest {
 
     @Test
     public void testVisit3Layers() {
-        Vector input = Vectors.create(0.1, 0.2, 0.3, 0.4, 0.5);
-        Vector target = Vectors.create(0.1, 0.9);
+        Vector input = Vector.of(0.1, 0.2, 0.3, 0.4, 0.5);
+        Vector target = Vector.of(0.1, 0.9);
         StandardPattern pattern = new StandardPattern(input, target);
 
         NeuralNetwork network = new NeuralNetwork();
@@ -87,7 +86,7 @@ public class BackPropagationVisitorTest {
      */
     @Test
     public void testVisit5Layers() {
-        Vector input = Vectors.create(0.1, 0.2, 0.3, 0.4, 0.5);
+        Vector input = Vector.of(0.1, 0.2, 0.3, 0.4, 0.5);
         Real target = new Real(0.9);
         StandardPattern pattern = new StandardPattern(input, target);
 

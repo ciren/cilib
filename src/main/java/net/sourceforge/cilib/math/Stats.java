@@ -149,6 +149,6 @@ public final class Stats {
     }
 
     public static double stdDeviation(Number... values) {
-        return Math.sqrt(variance(Vectors.create(values)));
+        return Math.sqrt(variance(Vector.of(values)));
     }
 }

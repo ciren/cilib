@@ -26,7 +26,6 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
@@ -49,7 +48,7 @@ public class ConstantInitializationStrategyTest {
 
     @Test
     public void initialize() {
-        Vector vector = Vectors.create(1.0, 1.0, 1.0);
+        Vector vector = Vector.of(1.0, 1.0, 1.0);
         Individual individual = new Individual();
         individual.getProperties().put(EntityType.CANDIDATE_SOLUTION, vector.getClone());
 
@@ -63,7 +62,7 @@ public class ConstantInitializationStrategyTest {
         }
     }
 
-    @Test(expected=UnsupportedOperationException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void invalidInitialize() {
         Individual individual = new Individual();
         individual.getProperties().put(EntityType.CANDIDATE_SOLUTION, new Real(0.0));
@@ -72,5 +71,4 @@ public class ConstantInitializationStrategyTest {
 
         initializationStrategy.initialize(EntityType.CANDIDATE_SOLUTION, individual);
     }
-
 }

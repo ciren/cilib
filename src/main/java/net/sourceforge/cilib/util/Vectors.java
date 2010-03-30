@@ -22,23 +22,13 @@
 package net.sourceforge.cilib.util;
 
 import com.google.common.base.Function;
-import java.util.Arrays;
 import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Utility methods for {@linkplain Vector}s.
  */
 public final class Vectors {
-
-    public static <T extends Number> Vector transform(Vector vector, Function<Numeric, T> function) {
-        Vector.Builder builder = Vector.newBuilder();
-        for (Numeric n : vector) {
-            builder.addWithin(function.apply(n).doubleValue(), n.getBounds()); //??
-        }
-        return builder.build();
-    }
 
     /**
      * Default constructor. Specified constructor to be private so that an instance
@@ -80,32 +70,6 @@ public final class Vectors {
     }
 
     /**
-     * Utility method to create a {@linkplain Vector}, given any number of {@linkplain Number} instances.
-     * @param <T> The type extending {@linkplain Number}.
-     * @param elements The list of values to include within the created {@linkplain Vector}.
-     * @return The created {@linkplain Vector} object, containing the provided list of items.
-     */
-    public static <T extends Number> Vector create(T... elements) {
-        return create(Arrays.asList(elements));
-    }
-
-    /**
-     * Create a {@code Vector} from the provided {@code Iterable}.
-     * @param <T> The number type.
-     * @param iterable The iterable of data elements.
-     * @return A {@code Vector} of the provided objects.
-     */
-    public static <T extends Number> Vector create(Iterable<T> iterable) {
-        Vector vector = new Vector();
-
-        for (T element : iterable) {
-            vector.add(new Real(element.doubleValue()));
-        }
-
-        return vector;
-    }
-
-    /**
      * Determine the sum of a list of {@code Vector} instances.
      * @param vectors The {@code Vector} instances to sum.
      * @return The resultant {@code Vector}.
@@ -119,5 +83,13 @@ public final class Vectors {
         }
 
         return result;
+    }
+
+    public static <T extends Number> Vector transform(Vector vector, Function<Numeric, T> function) {
+        Vector.Builder builder = Vector.newBuilder();
+        for (Numeric n : vector) {
+            builder.addWithin(function.apply(n).doubleValue(), n.getBounds()); //??
+        }
+        return builder.build();
     }
 }

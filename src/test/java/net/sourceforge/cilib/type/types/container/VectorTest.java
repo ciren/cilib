@@ -518,7 +518,7 @@ public class VectorTest {
 
     @Test
     public void subList() {
-        Vector original = Vectors.create(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        Vector original = Vector.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
         Vector subVector = original.subList(0, 4);
 
         Assert.assertEquals(4, subVector.size());

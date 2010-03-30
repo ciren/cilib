@@ -32,7 +32,6 @@ import net.sourceforge.cilib.math.random.generator.ZeroSeederStrategy;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -91,8 +90,8 @@ public class ConstrictionVelocityUpdateTest {
         Seeder.setSeederStrategy(new ZeroSeederStrategy());
 
         try {
-            Particle particle = createParticle(Vectors.create(0.0));
-            Particle nBest = createParticle(Vectors.create(1.0));
+            Particle particle = createParticle(Vector.of(0.0));
+            Particle nBest = createParticle(Vector.of(1.0));
             particle.setNeighbourhoodBest(nBest);
             nBest.setNeighbourhoodBest(nBest);
 
@@ -113,9 +112,9 @@ public class ConstrictionVelocityUpdateTest {
 
         try {
             ConstrictionVelocityUpdate velocityUpdate = new ConstrictionVelocityUpdate();
-            Particle particle = createParticle(Vectors.create(0.0));
+            Particle particle = createParticle(Vector.of(0.0));
             particle.setVelocityUpdateStrategy(velocityUpdate);
-            Particle nBest = createParticle(Vectors.create(1.0));
+            Particle nBest = createParticle(Vector.of(1.0));
             particle.setNeighbourhoodBest(nBest);
             nBest.setNeighbourhoodBest(nBest);
             Particle clone = particle.getClone();
@@ -145,7 +144,7 @@ public class ConstrictionVelocityUpdateTest {
     private Particle createParticle(Vector vector) {
         Particle particle = new StandardParticle();
         particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, vector);
-        particle.getProperties().put(EntityType.Particle.VELOCITY, Vectors.create(0.0));
+        particle.getProperties().put(EntityType.Particle.VELOCITY, Vector.of(0.0));
         particle.getProperties().put(EntityType.Particle.BEST_POSITION, vector.getClone());
 
         return particle;
@@ -160,12 +159,9 @@ public class ConstrictionVelocityUpdateTest {
         velocityUpdate.setCognitiveAcceleration(randomizingControlParameter);
         velocityUpdate.setSocialAcceleration(randomizingControlParameter);
 
-        mockery.checking(new Expectations() {
-
-            {
-                ignoring(particle);
-            }
-        });
+        mockery.checking(new Expectations() {{
+            ignoring(particle);
+        }});
 
         velocityUpdate.updateVelocity(particle);
     }
@@ -175,8 +171,8 @@ public class ConstrictionVelocityUpdateTest {
      */
     @Test
     public void testClamping() {
-        Particle particle = createParticle(Vectors.create(0.0));
-        Particle nBest = createParticle(Vectors.create(1.0));
+        Particle particle = createParticle(Vector.of(0.0));
+        Particle nBest = createParticle(Vector.of(1.0));
         particle.setNeighbourhoodBest(nBest);
         nBest.setNeighbourhoodBest(nBest);
 

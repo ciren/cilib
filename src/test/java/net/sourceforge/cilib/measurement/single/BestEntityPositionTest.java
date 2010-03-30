@@ -26,7 +26,6 @@ import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -46,7 +45,7 @@ public class BestEntityPositionTest {
 
     @Test
     public void testBestParticlePositionDomain() {
-        Vector expectedPosition = Vectors.create(4.0);
+        Vector expectedPosition = Vector.of(4.0);
         final Algorithm algorithm = mockery.mock(Algorithm.class);
         final OptimisationSolution mockSolution = new OptimisationSolution(expectedPosition, InferiorFitness.instance());
 
