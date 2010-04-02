@@ -58,7 +58,7 @@ public class CollectiveFitness implements Measurement<Real> {
             collectiveFitness += e.getFitness().getValue();
         }
 
-        return new Real(collectiveFitness);
+        return Real.valueOf(collectiveFitness);
     }
 
 }

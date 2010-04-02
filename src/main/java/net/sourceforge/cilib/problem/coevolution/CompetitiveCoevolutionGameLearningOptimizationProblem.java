@@ -118,7 +118,7 @@ public class CompetitiveCoevolutionGameLearningOptimizationProblem extends
 		//if before algorithm.initialize then this
 		Entity sp = pba.getInitialisationStrategy().getEntityType().getClone();
 		sp.getProperties().put(EntityType.Coevolution.BOARD, new EntityScoreboard());
-		sp.getProperties().put(EntityType.Coevolution.POPULATION_ID, new Int(populationID));
+		sp.getProperties().put(EntityType.Coevolution.POPULATION_ID, Int.valueOf(populationID));
 		//sp.getProperties().put(EntityType.Coevolution.COMPETITOR_LIST, new CoevolutionCompetitorList());
 		/*change the fitness calculator to be of type property based and not vector based
 		if the fitness calculator object can be generic to these entity types then this code can be generic, otherwise we are limited to what is

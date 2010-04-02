@@ -54,8 +54,8 @@ public class BraninTest {
         function.setDomain("R(-5,10),R(0,15)");
 
         Vector x = new Vector();
-        x.add(new Real(1.0));
-        x.add(new Real(2.0));
+        x.add(Real.valueOf(1.0));
+        x.add(Real.valueOf(2.0));
 
         assertEquals(21.62763539206238, function.evaluate(x), 0.00000000000001);
 

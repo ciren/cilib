@@ -61,7 +61,7 @@ public class OutputErrorVisitorTest {
         
         Vector referenceError = new Vector();
         for (int i = 0; i < output.size(); i++) {
-            referenceError.add(new Real(target.getReal(i) - output.getReal(i)));
+            referenceError.add(Real.valueOf(target.getReal(i) - output.getReal(i)));
         }
 
         Assert.assertEquals(referenceError, outputError);

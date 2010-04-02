@@ -38,7 +38,7 @@ public class IntTest {
 
     @Test
     public void testClone() {
-        Int i = new Int(-10);
+        Int i = Int.valueOf(-10);
         Int clone = i.getClone();
 
         assertEquals(i.intValue(), clone.intValue());
@@ -47,9 +47,9 @@ public class IntTest {
 
     @Test
     public void testEquals() {
-        Int i1 = new Int(10);
-        Int i2 = new Int(10);
-        Int i3 = new Int(-5);
+        Int i1 = Int.valueOf(10);
+        Int i2 = Int.valueOf(10);
+        Int i3 = Int.valueOf(-5);
 
         assertTrue(i1.equals(i1));
         assertTrue(i2.equals(i2));
@@ -63,8 +63,8 @@ public class IntTest {
 
     @Test
     public void testCompareTo() {
-        Int i1 = new Int(15, new Bounds(0, 30));
-        Int i2 = new Int(-15, new Bounds(-30, 0));
+        Int i1 = Int.valueOf(15, new Bounds(0, 30));
+        Int i2 = Int.valueOf(-15, new Bounds(-30, 0));
 
         assertEquals(0, i1.compareTo(i1));
         assertEquals(0, i2.compareTo(i2));
@@ -74,7 +74,7 @@ public class IntTest {
 
     @Test
     public void testRandomize() {
-        Int i1 = new Int(0, new Bounds(-300, 300));
+        Int i1 = Int.valueOf(0, new Bounds(-300, 300));
         Int i2 = i1.getClone();
 
         assertTrue(i1.intValue() == i2.intValue());

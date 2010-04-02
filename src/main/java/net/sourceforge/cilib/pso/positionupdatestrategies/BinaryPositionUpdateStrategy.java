@@ -25,13 +25,13 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.functions.activation.Sigmoid;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
  * Binary position update strategy to enable the BinaryPSO.
  *
  * @author Gary Pampara
  */
 public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
+
     private static final long serialVersionUID = -2136786203855125909L;
     private Sigmoid sigmoid;
 
@@ -64,14 +64,13 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
         Vector position = (Vector) particle.getPosition();
         Vector velocity = (Vector) particle.getVelocity();
 
-        for (int i = 0; i < position.getDimension(); i++) {
+        for (int i = 0; i < position.size(); i++) {
             double result = sigmoid.evaluate(velocity.getReal(i));
             double rand = Math.random();
 
             if (rand < result) {
                 position.setBit(i, true);
-            }
-            else {
+            } else {
                 position.setBit(i, false);
             }
         }
@@ -92,5 +91,4 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
     public void setSigmoid(Sigmoid sigmoid) {
         this.sigmoid = sigmoid;
     }
-
 }

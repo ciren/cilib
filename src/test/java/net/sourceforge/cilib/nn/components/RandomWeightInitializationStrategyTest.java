@@ -36,7 +36,7 @@ public class RandomWeightInitializationStrategyTest {
     public void testInitialize() {
         Neuron neuron = new Neuron();
         for (int i = 0; i < 10; i++) {
-            neuron.getWeights().add(new Real(0.0, new Bounds(-5, 5)));
+            neuron.getWeights().add(Real.valueOf(0.0, new Bounds(-5, 5)));
         }
         RandomWeightInitializationStrategy initializationStrategy = new RandomWeightInitializationStrategy();
         initializationStrategy.initialize(neuron.getWeights());

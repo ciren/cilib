@@ -201,7 +201,7 @@ public class AngleModulation extends ContinuousFunction {
             double tmp = valueOf(bits, i, i+dimensionBits);
             tmp = transform(tmp);
 
-            vector.add(new Real(tmp));
+            vector.add(Real.valueOf(tmp));
             i += dimensionBits;
         }
 

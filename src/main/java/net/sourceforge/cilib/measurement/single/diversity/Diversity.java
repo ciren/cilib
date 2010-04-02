@@ -42,6 +42,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  *
  */
 public class Diversity implements Measurement<Real> {
+
     private static final long serialVersionUID = 7417526206433000209L;
     protected DistanceMeasure distanceMeasure;
     protected CenterInitialisationStrategy populationCenter;
@@ -89,7 +90,7 @@ public class Diversity implements Measurement<Real> {
         normalisationParameter.setDistanceMeasure(distanceMeasure);
         distanceSum /= normalisationParameter.getValue();
 
-        return new Real(distanceSum);
+        return Real.valueOf(distanceSum);
     }
 
     /**
@@ -133,5 +134,4 @@ public class Diversity implements Measurement<Real> {
     public void setPopulationCenter(CenterInitialisationStrategy populationCenter) {
         this.populationCenter = populationCenter;
     }
-
 }

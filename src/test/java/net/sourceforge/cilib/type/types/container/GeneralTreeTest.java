@@ -31,30 +31,30 @@ public class GeneralTreeTest {
 
     @Test
     public void creation() {
-        Tree<Real> tree = new GeneralTree<Real>(new Real(3.0));
+        Tree<Real> tree = new GeneralTree<Real>(Real.valueOf(3.0));
 
         assertEquals(0, tree.getDegree());
 
-        tree.add(new Real(1.0));
-        tree.add(new Real(2.0));
+        tree.add(Real.valueOf(1.0));
+        tree.add(Real.valueOf(2.0));
 
         assertEquals(2, tree.getDegree());
 
-        Tree<Real> child = tree.getSubTree(new Real(2.0));
+        Tree<Real> child = tree.getSubTree(Real.valueOf(2.0));
         assertEquals(0, child.getDegree());
     }
 
     @Test
     public void preOrderVisitorTraversal() {
-        Tree<Real> tree = new GeneralTree<Real>(new Real(0.0));
-        tree.add(new Real(1.0));
-        tree.add(new Real(2.0));
-        tree.add(new Real(3.0));
+        Tree<Real> tree = new GeneralTree<Real>(Real.valueOf(0.0));
+        tree.add(Real.valueOf(1.0));
+        tree.add(Real.valueOf(2.0));
+        tree.add(Real.valueOf(3.0));
 
         assertEquals(3, tree.size());
 
-        Tree<Real> child1 = tree.getSubTree(new Real(1.0));
-        child1.add(new Real(4.0));
+        Tree<Real> child1 = tree.getSubTree(Real.valueOf(1.0));
+        child1.add(Real.valueOf(4.0));
 
         assertEquals(1, child1.size());
 

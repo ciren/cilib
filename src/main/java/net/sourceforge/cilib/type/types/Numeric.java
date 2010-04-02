@@ -26,7 +26,7 @@ package net.sourceforge.cilib.type.types;
  *
  * @author Gary Pampara
  */
-public interface Numeric extends Type, BoundedType, Resetable, Comparable<Numeric>, Randomizable {
+public interface Numeric extends Type, BoundedType, Comparable<Numeric>, Randomizable {
 
     /**
      * {@inheritDoc}

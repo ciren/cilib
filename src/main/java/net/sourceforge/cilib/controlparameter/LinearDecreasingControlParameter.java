@@ -23,6 +23,7 @@ package net.sourceforge.cilib.controlparameter;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.type.types.Real;
 
 /**
  * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}
@@ -33,6 +34,7 @@ import net.sourceforge.cilib.algorithm.Algorithm;
  * @author Gary Pampara
  */
 public class LinearDecreasingControlParameter extends BoundedControlParameter {
+
     private static final long serialVersionUID = -7213083955334884076L;
 
     /**
@@ -60,9 +62,10 @@ public class LinearDecreasingControlParameter extends BoundedControlParameter {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void update() {
         double result = getUpperBound() - (getUpperBound() - getLowerBound()) * AbstractAlgorithm.get().getPercentageComplete();
-        parameter.valueOf(result);
+        parameter = Real.valueOf(result);
     }
 
     /**
@@ -71,7 +74,6 @@ public class LinearDecreasingControlParameter extends BoundedControlParameter {
     @Override
     public void setUpperBound(double value) {
         super.setUpperBound(value);
-        this.parameter.valueOf(value);
+        this.parameter = Real.valueOf(value);
     }
-
 }

@@ -88,7 +88,7 @@ public class Quartic extends ContinuousFunction {
     public Double evaluate(Vector input) {
         double result = 0.0;
 
-        for (int i = 0; i < input.getDimension(); i++) {
+        for (int i = 0; i < input.size(); i++) {
             double square = input.getReal(i) * input.getReal(i);
             double square2 = square * square;
 

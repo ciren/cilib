@@ -48,8 +48,8 @@ public class GriewankTest {
         function.setDomain("R(-600,600)^2");
 
         Vector x = new Vector();
-        x.add(new Real(0.0));
-        x.add(new Real(0.0));
+        x.add(Real.valueOf(0.0));
+        x.add(Real.valueOf(0.0));
 
         assertEquals(0.0, function.evaluate(x), 0.0);
 

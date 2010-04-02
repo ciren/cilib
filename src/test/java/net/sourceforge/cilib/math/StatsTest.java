@@ -46,13 +46,13 @@ public class StatsTest {
         set = new ArrayList<Pattern>();
 
         for (int i = 1; i <= SIZE; i++) {
-            tmp.add(new Real(i));
+            tmp.add(Real.valueOf(i));
         }
         set.add(new Pattern("class0", tmp));
 
         tmp = Vector.of();
         for (int i = SIZE; i > 0; i--) {
-            tmp.add(new Real(i));
+            tmp.add(Real.valueOf(i));
         }
         set.add(new Pattern("class1", tmp));
 
@@ -92,6 +92,6 @@ public class StatsTest {
 
     @Test
     public void testVarianceScalar() {
-        assertThat(Stats.variance(set, mean), equalTo(1.2));    // more accurate than Stats.varianceVector()
+        assertThat(Stats.variance(set, mean), equalTo(1.2)); // more accurate than Stats.varianceVector()
     }
 }

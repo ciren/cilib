@@ -136,7 +136,7 @@ public class FDA1_g extends ContinuousFunction {
         double G = Math.sin(0.5*Math.PI*t);
 
         double sum = 1.0;
-        for (int k=0; k < input.getDimension(); k++) {
+        for (int k=0; k < input.size(); k++) {
             sum += Math.pow(input.getReal(k) - G, 2);
         }
 

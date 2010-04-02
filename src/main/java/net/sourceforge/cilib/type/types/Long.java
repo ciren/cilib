@@ -36,11 +36,14 @@ public class Long implements Numeric {
     private long value;
     private final Bounds bounds;
 
+    public static Long valueOf(long value) {
+        return new Long(value);
+    }
     /**
      * Create an {@linkplain Long} with the specified value.
      * @param value The value of the {@linkplain Long}.
      */
-    public Long(long value) {
+    private Long(long value) {
         this.value = value;
         this.bounds = DEFAULT_BOUND;
     }
@@ -49,7 +52,7 @@ public class Long implements Numeric {
      * Create an instance of {@linkplain Long} with the defined {@code Bounds}.
      * @param bounds The {@code Bounds} for the instance.
      */
-    public Long(long value, Bounds bounds) {
+    private Long(long value, Bounds bounds) {
         this.value = value;
         this.bounds = checkNotNull(bounds);
     }
@@ -58,7 +61,7 @@ public class Long implements Numeric {
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public Long(Long copy) {
+    private Long(Long copy) {
         this.value = copy.value;
         this.bounds = copy.bounds;
     }
@@ -110,17 +113,6 @@ public class Long implements Numeric {
         return (this.value == 0) ? false : true;
     }
 
-//    /**
-//     * {@inheritDoc}
-//     */
-//    @Override
-//    public void valueOf(boolean value) {
-//        this.value = (value) ? 1 : 0;
-//    }
-    public long getLong() {
-        return value;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -129,13 +121,6 @@ public class Long implements Numeric {
         return (int) this.value;
     }
 
-//    /**
-//     * {@inheritDoc}
-//     */
-//    @Override
-//    public void valueOf(int value) {
-//        this.value = value;
-//    }
     /**
      * {@inheritDoc}
      */
@@ -144,18 +129,6 @@ public class Long implements Numeric {
         return java.lang.Long.valueOf(value).doubleValue();
     }
 
-//    /**
-//     * {@inheritDoc}
-//     */
-//    @Override
-//    public void valueOf(double value) {
-//        if (Double.compare(0, value) <= 0) // value is bigger or is equal
-//        {
-//            this.value = Double.valueOf(Math.ceil(value)).longValue();
-//        } else {
-//            this.value = Double.valueOf(Math.floor(value)).longValue();
-//        }
-//    }
     /**
      * {@inheritDoc}
      */
@@ -176,15 +149,6 @@ public class Long implements Numeric {
         checkNotNull(random);
         double tmp = random.nextDouble() * (getBounds().getUpperBound() - getBounds().getLowerBound()) + getBounds().getLowerBound();
         this.value = Double.valueOf(tmp).intValue();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void reset() {
-//        this.valueOf(0);
-        this.value = 0;
     }
 
     /**

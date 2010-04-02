@@ -60,7 +60,7 @@ public class Int implements Numeric {
      * Create an {@linkplain Int} with the specified value.
      * @param value The value of the {@linkplain Int}.
      */
-    public Int(int value) {
+    private Int(int value) {
         this.value = value;
         this.bounds = DEFAULT_BOUND;
     }
@@ -69,7 +69,7 @@ public class Int implements Numeric {
      * Create an instance of {@linkplain Int} with the defined bounds.
      * @param bounds The defined {@code Bounds}.
      */
-    public Int(int value, Bounds bounds) {
+    private Int(int value, Bounds bounds) {
         this.value = value;
         this.bounds = checkNotNull(bounds);
     }
@@ -78,7 +78,7 @@ public class Int implements Numeric {
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public Int(Int copy) {
+    private Int(Int copy) {
         this.value = copy.value;
         this.bounds = copy.bounds;
     }
@@ -165,14 +165,6 @@ public class Int implements Numeric {
         checkNotNull(random);
         double tmp = random.nextDouble() * (getBounds().getUpperBound() - getBounds().getLowerBound()) + getBounds().getLowerBound();
         this.value = Double.valueOf(tmp).intValue();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void reset() {
-        this.valueOf(0);
     }
 
     /**

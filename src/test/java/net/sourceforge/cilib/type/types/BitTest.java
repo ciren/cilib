@@ -37,7 +37,7 @@ public class BitTest {
 
     @Test
     public void testClone() {
-        Bit b = new Bit(false);
+        Bit b = Bit.valueOf(false);
         Bit clone = b.getClone();
 
         assertNotSame(b, clone);
@@ -46,10 +46,10 @@ public class BitTest {
 
     @Test
     public void testEquals() {
-        Bit b1 = new Bit(false);
-        Bit b2 = new Bit(false);
-        Bit b3 = new Bit(true);
-        Bit b4 = new Bit(true);
+        Bit b1 = Bit.valueOf(false);
+        Bit b2 = Bit.valueOf(false);
+        Bit b3 = Bit.valueOf(true);
+        Bit b4 = Bit.valueOf(true);
 
         assertTrue(b1.equals(b1));
         assertTrue(b2.equals(b2));
@@ -64,8 +64,8 @@ public class BitTest {
 
     @Test
     public void testGet() {
-        Bit b1 = new Bit(true);
-        Bit b2 = new Bit(false);
+        Bit b1 = Bit.valueOf(true);
+        Bit b2 = Bit.valueOf(false);
 
         assertEquals(true, b1.booleanValue());
         assertEquals(false, b2.booleanValue());
@@ -73,8 +73,8 @@ public class BitTest {
 
     @Test
     public void testSet() {
-//        Bit b1 = new Bit(true);
-//        Bit b2 = new Bit(false);
+//        Bit b1 = Bit.valueOf(true);
+//        Bit b2 = Bit.valueOf(false);
 
         Bit b1 = Bit.valueOf(false);
         Bit b2 = Bit.valueOf(true);
@@ -85,8 +85,8 @@ public class BitTest {
 
     @Test
     public void testCompareTo() {
-        Bit b1 = new Bit(true);
-        Bit b2 = new Bit(false);
+        Bit b1 = Bit.valueOf(true);
+        Bit b2 = Bit.valueOf(false);
 
         assertEquals(0, b1.compareTo(b1));
         assertEquals(-1, b2.compareTo(b1));
@@ -95,8 +95,8 @@ public class BitTest {
 
     @Test
     public void testRandomize() {
-        Bit b1 = new Bit(true);
-        Bit b2 = new Bit(true);
+        Bit b1 = Bit.valueOf(true);
+        Bit b2 = Bit.valueOf(true);
         b2.randomize(new MersenneTwister());
 
         if (b2.booleanValue())

@@ -51,20 +51,19 @@ public class ForwardingLayerTest {
 
     @Test
     public void testNeuralInput() {
-        Vector refInput = new Vector(input);
-        refInput.add(new Real(-1.0));
+        Vector refInput = Vector.copyOf(input);
+        refInput.add(Real.valueOf(-1.0));
         Assert.assertEquals(6, layer.size());
 
         for (int i = 0; i < refInput.size(); i++) {
-            Assert.assertEquals(refInput.getReal(i), layer.getNeuralInput(i),
-                    Maths.EPSILON);
+            Assert.assertEquals(refInput.getReal(i), layer.getNeuralInput(i), Maths.EPSILON);
         }
     }
 
     @Test
     public void testGetActivations() {
-        Vector refInput = new Vector(input);
-        refInput.add(new Real(-1.0));
+        Vector refInput = Vector.copyOf(input);
+        refInput.add(Real.valueOf(-1.0));
         Assert.assertEquals(refInput, layer.getActivations());
     }
 }

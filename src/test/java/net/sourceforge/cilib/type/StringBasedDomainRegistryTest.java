@@ -38,7 +38,7 @@ public class StringBasedDomainRegistryTest {
         registry.setDomainString("R(-30.0, 30)^30");
 
         Vector vector = (Vector) registry.getBuiltRepresenation();
-        Assert.assertEquals(30, vector.getDimension());
+        Assert.assertEquals(30, vector.size());
         Assert.assertTrue(Types.isInsideBounds(vector));
     }
 

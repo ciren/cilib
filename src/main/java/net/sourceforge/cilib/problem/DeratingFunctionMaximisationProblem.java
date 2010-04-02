@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.problem;
 
 //TODO: Add domain validators to check that this is working on ContinuousFunctions
-
 import java.util.Iterator;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
@@ -48,8 +47,8 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * @author Clive Naicker
  */
 public class DeratingFunctionMaximisationProblem extends FunctionMaximisationProblem {
-    private static final long serialVersionUID = 6513411928705015979L;
 
+    private static final long serialVersionUID = 6513411928705015979L;
     /**
      * This vector contains all the solutions (or positions) in the search
      * space that will be modified using the deratingFunction.
@@ -106,7 +105,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
             // convert the object into a double array that we can use.
             /*double[] t_solution = new double[d_solution.length];
             for (int i = 0; i < d_solution.length; i++) {
-                t_solution[i] = d_solution[i].doubleValue();
+            t_solution[i] = d_solution[i].doubleValue();
             }*/
             Vector tSolution = new Vector();
             for (int i = 0; i < distanceSolution.length; i++) {
@@ -124,7 +123,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
             // inorder to evaluate the derating function the distance needs to be
             // a array.
             Vector dist = new Vector();
-            dist.add(new Real(distance));
+            dist.add(Real.valueOf(distance));
 
             // modify the fitness.
             if (distance < radius) {
@@ -171,16 +170,15 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
      */
     /*
     public void addSolution(Object key, double[] solution) {
-        if (!hashtableSolutions.containsKey(key)) {
-            addSolution(solution);
-        }
-        else {
-            hashtableSolutions.put(key, solution);
-            addSolution(solution);
-        }
+    if (!hashtableSolutions.containsKey(key)) {
+    addSolution(solution);
     }
-    */
-
+    else {
+    hashtableSolutions.put(key, solution);
+    addSolution(solution);
+    }
+    }
+     */
     /**
      * This method gets the function that is used to modify the
      * search space, i.e. the derating function

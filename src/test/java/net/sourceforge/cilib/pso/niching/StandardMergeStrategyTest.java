@@ -56,10 +56,10 @@ public class StandardMergeStrategyTest {
         pso1.setTopology(new GBestTopology<Particle>());
         pso2.setTopology(new GBestTopology<Particle>());
 
-        Particle p1 = createParticle(new MinimisationFitness(0.0), new Real(0.0), new Real(0.0));
-        Particle p2 = createParticle(new MinimisationFitness(1.0), new Real(Math.sqrt(0.6)), new Real(Math.sqrt(0.6)));
-        Particle p3 = createParticle(new MinimisationFitness(2.0), new Real(Math.sqrt(0.3)), new Real(Math.sqrt(0.3)));
-        Particle p4 = createParticle(new MinimisationFitness(3.0), new Real(1.0), new Real(1.0));
+        Particle p1 = createParticle(new MinimisationFitness(0.0), Real.valueOf(0.0), Real.valueOf(0.0));
+        Particle p2 = createParticle(new MinimisationFitness(1.0), Real.valueOf(Math.sqrt(0.6)), Real.valueOf(Math.sqrt(0.6)));
+        Particle p3 = createParticle(new MinimisationFitness(2.0), Real.valueOf(Math.sqrt(0.3)), Real.valueOf(Math.sqrt(0.3)));
+        Particle p4 = createParticle(new MinimisationFitness(3.0), Real.valueOf(1.0), Real.valueOf(1.0));
 
         pso1.getTopology().add(p1); pso1.getTopology().add(p2);
         pso2.getTopology().add(p3); pso2.getTopology().add(p4);

@@ -79,7 +79,7 @@ public class MultipleFitness implements Measurement<Vector> {
 
         for (OptimisationSolution solution : solutions) {
             Double fitness = solution.getFitness().getValue();
-            fitnessValues.add(new Real(fitness));
+            fitnessValues.add(Real.valueOf(fitness));
         }
 
         return fitnessValues;

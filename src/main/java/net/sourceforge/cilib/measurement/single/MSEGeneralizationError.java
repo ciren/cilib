@@ -39,6 +39,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author andrich
  */
 public class MSEGeneralizationError implements Measurement {
+
     private static final long serialVersionUID = -1014032196750640716L;
 
     /**
@@ -81,6 +82,6 @@ public class MSEGeneralizationError implements Measurement {
             }
         }
         errorGeneralization /= generalizationSet.getNumRows() * error.size();
-        return new Real(errorGeneralization);
+        return Real.valueOf(errorGeneralization);
     }
 }

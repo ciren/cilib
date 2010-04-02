@@ -72,7 +72,7 @@ public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
         Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
         Vector.Builder builder = Vector.newBuilder();
-        for (int i = 0; i < velocity.getDimension(); i++) {
+        for (int i = 0; i < velocity.size(); i++) {
             builder.add(0.0);
         }
         Vector acceleration = builder.build();

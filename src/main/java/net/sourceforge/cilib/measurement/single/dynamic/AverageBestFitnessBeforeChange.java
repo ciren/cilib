@@ -25,7 +25,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-
 package net.sourceforge.cilib.measurement.single.dynamic;
 
 import java.io.IOException;
@@ -52,11 +51,12 @@ import net.sourceforge.cilib.type.types.Type;
 public class AverageBestFitnessBeforeChange extends DynamicMeasurement {
 
     private static final long serialVersionUID = -2848258016113713942L;
-
     private int cycleSize = 50; //period between 2 changes in the environment
     private int cycleNr = 0;
 
-    public AverageBestFitnessBeforeChange(){super();}
+    public AverageBestFitnessBeforeChange() {
+        super();
+    }
 
     public AverageBestFitnessBeforeChange(AverageBestFitnessBeforeChange copy) {
         this.setStateAware(copy.isStateAware());
@@ -72,14 +72,14 @@ public class AverageBestFitnessBeforeChange extends DynamicMeasurement {
 
     @Override
     public Type getValue(Algorithm algorithm) {
-        if((algorithm.getIterations()+1)%cycleSize == 0){
+        if ((algorithm.getIterations() + 1) % cycleSize == 0) {
             OptimisationProblem function = algorithm.getOptimisationProblem();
             double fitness = function.getFitness(algorithm.getBestSolution().getPosition()).getValue();
             avg = (avg * cycleNr + fitness) / (cycleNr + 1);
             cycleNr++;
         }
 
-        return new Real(avg);
+        return Real.valueOf(avg);
     }
 
     public int getCycleSize() {

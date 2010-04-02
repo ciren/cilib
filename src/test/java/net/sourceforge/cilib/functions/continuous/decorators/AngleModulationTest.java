@@ -43,7 +43,7 @@ public class AngleModulationTest {
         angle.setDomain("R(-1000,1000)^4");
         Vector builtRepresentation = (Vector) angle.getDomainRegistry().getBuiltRepresenation();
 
-        assertEquals(4, builtRepresentation.getDimension());
+        assertEquals(4, builtRepresentation.size());
     }
 
     @Test(expected=ArithmeticException.class)
@@ -96,10 +96,10 @@ public class AngleModulationTest {
         angle.setFunction(new Rastrigin());
 
         Vector testVector = new Vector();
-        testVector.add(new Real(0.0));
-        testVector.add(new Real(1.0));
-        testVector.add(new Real(1.0));
-        testVector.add(new Real(0.0));
+        testVector.add(Real.valueOf(0.0));
+        testVector.add(Real.valueOf(1.0));
+        testVector.add(Real.valueOf(1.0));
+        testVector.add(Real.valueOf(0.0));
 
         String converted = angle.generateBitString(testVector, 14);
 

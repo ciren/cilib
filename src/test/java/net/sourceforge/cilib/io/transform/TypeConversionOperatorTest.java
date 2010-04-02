@@ -53,33 +53,33 @@ public class TypeConversionOperatorTest {
         List<String> tokens = Arrays.asList("0","0.2","0.3E-6","TRUE","-0.5E-2","class1");
         dataTable.addRow(tokens);
         List<Type> row = new ArrayList<Type>();
-        row.add(new Real(new Double(tokens.get(0))));
-        row.add(new Real(new Double(tokens.get(1))));
-        row.add(new Real(new Double(tokens.get(2))));
-        row.add(new Bit(true));
-        row.add(new Real(new Double(tokens.get(4))));
+        row.add(Real.valueOf(new Double(tokens.get(0))));
+        row.add(Real.valueOf(new Double(tokens.get(1))));
+        row.add(Real.valueOf(new Double(tokens.get(2))));
+        row.add(Bit.valueOf(true));
+        row.add(Real.valueOf(new Double(tokens.get(4))));
         row.add(new StringType(tokens.get(5)));
         referenceRows.add(row);
 
         tokens = Arrays.asList("1","1.2","1.3E-6","T","-1.5E-3","class2");
         dataTable.addRow(tokens);
         row = new ArrayList<Type>();
-        row.add(new Real(new Double(tokens.get(0))));
-        row.add(new Real(new Double(tokens.get(1))));
-        row.add(new Real(new Double(tokens.get(2))));
-        row.add(new Bit(true));
-        row.add(new Real(new Double(tokens.get(4))));
+        row.add(Real.valueOf(new Double(tokens.get(0))));
+        row.add(Real.valueOf(new Double(tokens.get(1))));
+        row.add(Real.valueOf(new Double(tokens.get(2))));
+        row.add(Bit.valueOf(true));
+        row.add(Real.valueOf(new Double(tokens.get(4))));
         row.add(new StringType(tokens.get(5)));
         referenceRows.add(row);
 
         tokens = Arrays.asList("2","2.2","2.3E-2","false","-2.5E-2","class3");
         dataTable.addRow(tokens);
         row = new ArrayList<Type>();
-        row.add(new Real(new Double(tokens.get(0))));
-        row.add(new Real(new Double(tokens.get(1))));
-        row.add(new Real(new Double(tokens.get(2))));
-        row.add(new Bit(false));
-        row.add(new Real(new Double(tokens.get(4))));
+        row.add(Real.valueOf(new Double(tokens.get(0))));
+        row.add(Real.valueOf(new Double(tokens.get(1))));
+        row.add(Real.valueOf(new Double(tokens.get(2))));
+        row.add(Bit.valueOf(false));
+        row.add(Real.valueOf(new Double(tokens.get(4))));
         row.add(new StringType(tokens.get(5)));
         referenceRows.add(row);
     }

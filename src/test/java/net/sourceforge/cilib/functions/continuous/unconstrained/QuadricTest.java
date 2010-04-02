@@ -51,9 +51,9 @@ public class QuadricTest {
         Vector x = new Vector();
 
         //test global minimum
-        x.add(new Real(0.0));
-        x.add(new Real(0.0));
-        x.add(new Real(0.0));
+        x.add(Real.valueOf(0.0));
+        x.add(Real.valueOf(0.0));
+        x.add(Real.valueOf(0.0));
         Assert.assertEquals(0.0, function.evaluate(x), EPSILON);
 
         x.setReal(0, 1.0);

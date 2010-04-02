@@ -118,10 +118,10 @@ public class FunctionDimensionMappingProblem extends OptimisationProblemAdapter 
 
 
     private Vector vectorise(String [] parts) {
-        Vector v = new Vector();
+        Vector v = Vector.of();
 
         for (String s : parts) {
-            v.add(new Real(Double.valueOf(s)));
+            v.add(Real.valueOf(Double.valueOf(s)));
         }
 
         return v;

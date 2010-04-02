@@ -46,10 +46,10 @@ public class StandardAbsorptionStrategyTest {
      */
     @Test
     public void absorption() {
-        Particle p1 = createParticle(new MinimisationFitness(0.0), new Real(0.0));
-        Particle p2 = createParticle(new MinimisationFitness(1.0), new Real(1.0));
-        Particle p3 = createParticle(new MinimisationFitness(0.5), new Real(0.5));
-        Particle p4 = createParticle(new MinimisationFitness(5.0), new Real(5.0));
+        Particle p1 = createParticle(new MinimisationFitness(0.0), Real.valueOf(0.0));
+        Particle p2 = createParticle(new MinimisationFitness(1.0), Real.valueOf(1.0));
+        Particle p3 = createParticle(new MinimisationFitness(0.5), Real.valueOf(0.5));
+        Particle p4 = createParticle(new MinimisationFitness(5.0), Real.valueOf(5.0));
 
         PSO mainSwarm = new PSO();
         mainSwarm.getTopology().addAll(Arrays.asList(p3, p4));

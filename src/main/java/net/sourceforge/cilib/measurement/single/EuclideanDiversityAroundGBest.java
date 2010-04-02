@@ -27,7 +27,6 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -36,6 +35,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * TODO: Complete this javadoc.
  */
 public class EuclideanDiversityAroundGBest implements Measurement<Real> {
+
     private static final long serialVersionUID = 8221420456303029095L;
 
     @Override
@@ -58,10 +58,9 @@ public class EuclideanDiversityAroundGBest implements Measurement<Real> {
 
         Topology<? extends Entity> topology = populationBasedAlgorithm.getTopology();
         for (Entity entity : topology) {
-             diameter += distance.distance(center, (Vector) entity.getCandidateSolution());
+            diameter += distance.distance(center, (Vector) entity.getCandidateSolution());
         }
 
-        return new Real(diameter/topology.size());
+        return Real.valueOf(diameter / topology.size());
     }
-
 }

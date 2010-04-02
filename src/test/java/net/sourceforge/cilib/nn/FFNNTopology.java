@@ -151,7 +151,7 @@ public class FFNNTopology {
         TypeList temp = new TypeList();
         output = new ArrayList<Double>();
         for (int i = 0; i < nrOutput; i++) {
-            temp.add(new Real(outputResult[i]));
+            temp.add(Real.valueOf(outputResult[i]));
             output.add(Double.valueOf(outputResult[i]));
         }
 
@@ -166,7 +166,7 @@ public class FFNNTopology {
     public Vector getWeights() {
         Vector temp = new Vector();
         for (int i = 0; i < nrWeights; i++) {
-            temp.add(new Real(weights[i]));
+            temp.add(Real.valueOf(weights[i]));
         }
         return temp;
     }

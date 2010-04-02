@@ -25,7 +25,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-
 package net.sourceforge.cilib.measurement.single.dynamic;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
@@ -47,7 +46,9 @@ public class CollectiveMeanError extends DynamicMeasurement {
 
     private static final long serialVersionUID = -2848258016113713942L;
 
-    public CollectiveMeanError(){super();}
+    public CollectiveMeanError() {
+        super();
+    }
 
     public CollectiveMeanError(CollectiveMeanError copy) {
         this.setStateAware(copy.isStateAware());
@@ -64,7 +65,7 @@ public class CollectiveMeanError extends DynamicMeasurement {
         int iteration = algorithm.getIterations();
         FunctionOptimisationProblem function = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
         double error = function.getError(algorithm.getBestSolution().getPosition());
-        avg = (avg * (iteration-1) + error) / (iteration);
-        return new Real(avg);
+        avg = (avg * (iteration - 1) + error) / (iteration);
+        return Real.valueOf(avg);
     }
 }

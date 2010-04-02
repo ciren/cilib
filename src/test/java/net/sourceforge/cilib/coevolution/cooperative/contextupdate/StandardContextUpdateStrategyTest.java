@@ -48,15 +48,15 @@ public class StandardContextUpdateStrategyTest {
                 will(returnValue(new MinimisationFitness(1.0)));
             }});
          Vector testContext = new Vector();
-         testContext.add(new Real(1.0));
-         testContext.add(new Real(1.0));
+         testContext.add(Real.valueOf(1.0));
+         testContext.add(Real.valueOf(1.0));
 
          contextEntity.setCandidateSolution(testContext);
          contextEntity.setFitnessCalculator(test);
          contextEntity.setFitness(new MinimisationFitness(0.0));
 
          Vector solution = new Vector();
-         solution.add(new Real(0.0));
+         solution.add(Real.valueOf(0.0));
          DimensionAllocation allocation = new SequencialDimensionAllocation(0, 1);
 
          StandardContextUpdateStrategy strategy = new StandardContextUpdateStrategy();

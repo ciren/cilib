@@ -73,9 +73,10 @@ public class AverageItemDistanceMeasure extends AgentMeasure {
      */
     public Type getMeasuredData() {
         double av = 0;
-        for(Double d: vals)
+        for(Double d: vals) {
             av += d;
-        return new Real(av / (double)vals.size());
+        }
+        return Real.valueOf(av / (double)vals.size());
     }
 
     /* (non-Javadoc)

@@ -45,8 +45,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </li></ul></p>
  * @author Andries Engelbrecht
  */
-
 public class Diversity implements Measurement<Real> {
+
     private static final long serialVersionUID = -6536136932133521018L;
 
     @Override
@@ -70,11 +70,13 @@ public class Diversity implements Measurement<Real> {
         while (k.hasNext()) {
             entity = k.next();
             Vector v = (Vector) entity.getCandidateSolution();
-            for (int j = 0; j < averageParticlePosition.getDimension(); ++j)
-               averageParticlePosition.setReal(j, averageParticlePosition.getReal(j)+v.getReal(j));
+            for (int j = 0; j < averageParticlePosition.size(); ++j) {
+                averageParticlePosition.setReal(j, averageParticlePosition.getReal(j) + v.getReal(j));
+            }
         }
-        for (int j = 0; j < averageParticlePosition.getDimension(); ++j)
-           averageParticlePosition.setReal(j, averageParticlePosition.getReal(j)/numberOfEntities);
+        for (int j = 0; j < averageParticlePosition.size(); ++j) {
+            averageParticlePosition.setReal(j, averageParticlePosition.getReal(j) / numberOfEntities);
+        }
 
         Iterator<? extends Entity> i = populationBasedAlgorithm.getTopology().iterator();
         double particleSum = 0.0;
@@ -84,13 +86,12 @@ public class Diversity implements Measurement<Real> {
             double dimensionSum = 0.0;
             Vector v = (Vector) entity.getCandidateSolution();
             for (int j = 0; j < entity.getDimension(); ++j) {
-                dimensionSum += (v.getReal(j)-averageParticlePosition.getReal(j))*(v.getReal(j)-averageParticlePosition.getReal(j));
+                dimensionSum += (v.getReal(j) - averageParticlePosition.getReal(j)) * (v.getReal(j) - averageParticlePosition.getReal(j));
 
             }
             particleSum += Math.sqrt(dimensionSum);
         }
 
-        return new Real(particleSum/numberOfEntities);
+        return Real.valueOf(particleSum / numberOfEntities);
     }
-
 }

@@ -53,11 +53,11 @@ public class RandomAlgorithmImperfectSplitDistributionTest {
             problemDomain.setDomainString("R(0.0, 4.0)^5");
             Bounds bounds = new Bounds(0.0, 4.0);
             Vector data = new Vector();
-            data.add(new Real(0.0, bounds));
-            data.add(new Real(0.0, bounds));
-            data.add(new Real(0.0, bounds));
-            data.add(new Real(0.0, bounds));
-            data.add(new Real(0.0, bounds));
+            data.add(Real.valueOf(0.0, bounds));
+            data.add(Real.valueOf(0.0, bounds));
+            data.add(Real.valueOf(0.0, bounds));
+            data.add(Real.valueOf(0.0, bounds));
+            data.add(Real.valueOf(0.0, bounds));
 
             List<PopulationBasedAlgorithm> populations = Arrays.asList((PopulationBasedAlgorithm)new PSO(), (PopulationBasedAlgorithm)new PSO());
 

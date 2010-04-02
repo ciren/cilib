@@ -87,7 +87,7 @@ public class BackPropagationVisitorTest {
     @Test
     public void testVisit5Layers() {
         Vector input = Vector.of(0.1, 0.2, 0.3, 0.4, 0.5);
-        Real target = new Real(0.9);
+        Real target = Real.valueOf(0.9);
         StandardPattern pattern = new StandardPattern(input, target);
 
         NeuralNetwork network = new NeuralNetwork();

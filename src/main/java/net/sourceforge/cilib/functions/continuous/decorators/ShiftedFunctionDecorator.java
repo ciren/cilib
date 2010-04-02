@@ -76,10 +76,10 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        Vector tmp = new Vector();
+        Vector tmp = Vector.of();
 
-        for (int i = 0; i < input.getDimension(); i++) {
-            tmp.add(new Real(input.getReal(i) + horizontalShift));
+        for (int i = 0; i < input.size(); i++) {
+            tmp.add(Real.valueOf(input.getReal(i) + horizontalShift));
         }
 
         return function.evaluate(tmp) + verticalShift;

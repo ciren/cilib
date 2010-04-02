@@ -99,11 +99,11 @@ public class TypeConversionOperator extends SelectiveDataOperator {
                 for (Object token : row) {
                     String object = token.toString();
                     if (isDouble(object)) {
-                        newRow.add(new Real(Double.parseDouble(object)));
+                        newRow.add(Real.valueOf(Double.parseDouble(object)));
                     } else if (isTrueBoolean(object)) {
-                        newRow.add(new Bit(true));
+                        newRow.add(Bit.valueOf(true));
                     } else if (isFalseBoolean(object)) {
-                        newRow.add(new Bit(false));
+                        newRow.add(Bit.valueOf(false));
                     } else {
                         newRow.add(new StringType(object));
                     }

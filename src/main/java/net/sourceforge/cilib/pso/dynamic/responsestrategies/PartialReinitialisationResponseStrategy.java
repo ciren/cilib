@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
+import com.google.common.base.Function;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
@@ -30,14 +31,15 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
+import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.util.Vectors;
 
 /**
  * @author Anna Rakitianskaia, Julien Duhain
  */
-public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAlgorithm> extends
-        ParticleReevaluationResponseStrategy<E> {
-    private static final long serialVersionUID = 4619744183683905269L;
+public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAlgorithm> extends ParticleReevaluationResponseStrategy<E> {
 
+    private static final long serialVersionUID = 4619744183683905269L;
     private double reinitialisationRatio;
     private RandomProvider randomiser;
 
@@ -74,21 +76,22 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
         int populationSize = algorithm.getTopology().size();
         while (iterator.hasNext()) {
             DynamicParticle current = (DynamicParticle) iterator.next();
+            ZeroTransformation zt = new ZeroTransformation();
 
             //makes sure the charged particles are randomly positionned accross the topology
-            if(reinitCounter < Math.floor(populationSize*reinitialisationRatio) && randomiser.nextDouble() < reinitialisationRatio && current != (algorithm).getTopology().getBestEntity()){
+            if (reinitCounter < Math.floor(populationSize * reinitialisationRatio) && randomiser.nextDouble() < reinitialisationRatio && current != (algorithm).getTopology().getBestEntity()) {
                 current.getPosition().randomize(this.randomiser);
-                current.getVelocity().reset();
+                current.getProperties().put(EntityType.Particle.VELOCITY, Vectors.transform(current.getVelocity(), zt));
                 current.getProperties().put(EntityType.Particle.BEST_POSITION, current.getPosition().getClone());
                 ++reinitCounter;
             }//if
-            else if(keepCounter > Math.floor(populationSize*(1.0-reinitialisationRatio)) && current != (algorithm).getTopology().getBestEntity()){
+            else if (keepCounter > Math.floor(populationSize * (1.0 - reinitialisationRatio)) && current != (algorithm).getTopology().getBestEntity()) {
                 current.getPosition().randomize(this.randomiser);
-                current.getVelocity().reset();
+                current.getProperties().put(EntityType.Particle.VELOCITY, Vectors.transform(current.getVelocity(), zt));
                 current.getProperties().put(EntityType.Particle.BEST_POSITION, current.getPosition().getClone());
                 ++reinitCounter;
             }//else if
-            else{
+            else {
                 ++keepCounter;
             }//else
         }
@@ -123,5 +126,13 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
      */
     public void setRandomiser(RandomProvider randomiser) {
         this.randomiser = randomiser;
+    }
+
+    private static class ZeroTransformation implements Function<Numeric, Number> {
+
+        @Override
+        public Number apply(Numeric from) {
+            return 0.0;
+        }
     }
 }

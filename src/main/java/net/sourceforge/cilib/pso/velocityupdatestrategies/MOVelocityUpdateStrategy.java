@@ -122,7 +122,7 @@ public class MOVelocityUpdateStrategy extends StandardVelocityUpdate {
         Vector localGuide = (Vector) particle.getProperties().get(EntityType.Particle.Guide.LOCAL_GUIDE);
         Vector globalGuide = (Vector) particle.getProperties().get(EntityType.Particle.Guide.GLOBAL_GUIDE);
 
-        int min = Math.min(localGuide.getDimension(), globalGuide.getDimension());
+        int min = Math.min(localGuide.size(), globalGuide.size());
         int i = 0;
 
         for (; i < min; ++i) {

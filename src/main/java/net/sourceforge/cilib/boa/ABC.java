@@ -130,8 +130,9 @@ public class ABC extends SinglePopulationBasedAlgorithm {
     public void performInitialisation() {
         Iterable<? extends Entity> bees = this.initialisationStrategy.initialise(this.optimisationProblem);
         //Iterables.addAll(getTopology(), particles); // Use this instead?
-        for (Entity bee : bees)
+        for (Entity bee : bees) {
             hive.add((HoneyBee) bee);
+        }
 
         int i;
         int numWorkerBees = (int) (workerBeePercentage.getParameter() * hive.size());

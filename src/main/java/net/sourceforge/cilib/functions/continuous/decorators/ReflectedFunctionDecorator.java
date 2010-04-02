@@ -73,7 +73,7 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
         Vector tmp = input.getClone();
 
         if (horizontalReflection) {
-            for (int i = 0; i < input.getDimension(); i++) {
+            for (int i = 0; i < input.size(); i++) {
                 tmp.setReal(i, -input.getReal(i));
             }
         }

@@ -38,6 +38,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  Andries Engelbrecht
  */
 public class PbestBoundViolations implements Measurement<Real> {
+
     private static final long serialVersionUID = 7547646366505677446L;
 
     /**
@@ -68,8 +69,9 @@ public class PbestBoundViolations implements Measurement<Real> {
 
         for (Entity populationEntity : populationBasedAlgorithm.getTopology()) {
             Vector pbest = (Vector) populationEntity.getProperties().get(EntityType.Particle.BEST_POSITION);
-        if (pbest == null)
-               throw new UnsupportedOperationException("Entity is not a particle.");
+            if (pbest == null) {
+                throw new UnsupportedOperationException("Entity is not a particle.");
+            }
 
             for (Numeric position : pbest) {
                 Bounds bounds = position.getBounds();
@@ -81,7 +83,6 @@ public class PbestBoundViolations implements Measurement<Real> {
             }
         }
 
-        return new Real((double)numberOfViolations/(double)populationSize);
+        return Real.valueOf((double) numberOfViolations / (double) populationSize);
     }
-
 }

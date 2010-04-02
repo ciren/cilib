@@ -35,8 +35,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public abstract class BoundedControlParameter implements ControlParameter {
-    private static final long serialVersionUID = 3658446987351378005L;
 
+    private static final long serialVersionUID = 3658446987351378005L;
     protected Real parameter;
     protected String range = "";
 
@@ -44,7 +44,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
      * Create an instance of the {@code BoundedControlParameter}.
      */
     public BoundedControlParameter() {
-        this.parameter = new Real(0.0);
+        this.parameter = Real.valueOf(0.0);
     }
 
     /**
@@ -79,7 +79,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
      * {@inheritDoc}
      */
     public void setParameter(double value) {
-        this.parameter.valueOf(value);
+        this.parameter = Real.valueOf(value);
     }
 
     /**
@@ -99,10 +99,11 @@ public abstract class BoundedControlParameter implements ControlParameter {
      * Clamp the current paramter vaue between the lower and upper bound values.
      */
     protected void clamp() {
-        if (this.parameter.doubleValue() < this.parameter.getBounds().getLowerBound())
-            this.parameter.valueOf(this.parameter.getBounds().getLowerBound());
-        else if (this.parameter.doubleValue() > this.parameter.getBounds().getUpperBound())
-            this.parameter.valueOf(this.parameter.getBounds().getUpperBound());
+        if (this.parameter.doubleValue() < this.parameter.getBounds().getLowerBound()) {
+            this.parameter = Real.valueOf(this.parameter.getBounds().getLowerBound());
+        } else if (this.parameter.doubleValue() > this.parameter.getBounds().getUpperBound()) {
+            this.parameter = Real.valueOf(this.parameter.getBounds().getUpperBound());
+        }
     }
 
     /**
@@ -120,7 +121,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
      */
     public void setLowerBound(double lower) {
         Bounds bounds = parameter.getBounds();
-        this.parameter = new Real(this.parameter.doubleValue(), new Bounds(lower, bounds.getUpperBound()));
+        this.parameter = Real.valueOf(this.parameter.doubleValue(), new Bounds(lower, bounds.getUpperBound()));
     }
 
     /**
@@ -138,7 +139,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
      */
     public void setUpperBound(double value) {
         Bounds bounds = parameter.getBounds();
-        this.parameter = new Real(this.parameter.doubleValue(), new Bounds(bounds.getLowerBound(), value));
+        this.parameter = Real.valueOf(this.parameter.doubleValue(), new Bounds(bounds.getLowerBound(), value));
     }
 
     /**
@@ -157,10 +158,10 @@ public abstract class BoundedControlParameter implements ControlParameter {
         this.range = range;
         Vector v = (Vector) DomainParser.parse(this.range);
 
-        if (v.getDimension() != 1)
+        if (v.size() != 1) {
             throw new RuntimeException("Range incorrect in BoundedUpdateStrategy! Please correct");
-        else
+        } else {
             this.parameter = (Real) v.get(0);
+        }
     }
-
 }

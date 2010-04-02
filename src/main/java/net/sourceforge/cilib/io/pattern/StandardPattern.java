@@ -49,7 +49,7 @@ public class StandardPattern implements Cloneable {
      * @param target the new pattern's target.
      */
     public StandardPattern(Vector vector, Type target) {
-        this.vector = new Vector(vector);
+        this.vector = Vector.copyOf(vector);
         this.target = target.getClone();
     }
 

@@ -56,12 +56,12 @@ public class SpatialRadiusVisitor extends TopologyVisitor {
         while (calculateCenterIterator.hasNext()) {
             entity = calculateCenterIterator.next();
             Vector entityContents = (Vector) entity.getCandidateSolution();
-            for (int j = 0; j < spatialCenter.getDimension(); ++j)
+            for (int j = 0; j < spatialCenter.size(); ++j)
                spatialCenter.setReal(j, spatialCenter.getReal(j)+entityContents.getReal(j));
         }
 
         // calculate center - evaluate average position of entity contents (spatial center)
-        for (int j = 0; j < spatialCenter.getDimension(); ++j)
+        for (int j = 0; j < spatialCenter.size(); ++j)
            spatialCenter.setReal(j, spatialCenter.getReal(j)/numberOfEntities);
 
         // initialize iterator to be used to calculate radius

@@ -67,7 +67,7 @@ public class Diameter implements Measurement<Real> {
         DiameterVisitor visitor = new DiameterVisitor();
         topology.accept(visitor);
 
-        return new Real(visitor.getResult());
+        return Real.valueOf(visitor.getResult());
     }
 
 }

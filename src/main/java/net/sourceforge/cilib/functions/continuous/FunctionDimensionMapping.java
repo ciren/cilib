@@ -89,11 +89,11 @@ public class FunctionDimensionMapping extends ContinuousFunction {
             for (int j = 0; j < size; j++) {
                 Vector v1 = new Vector();
                 Vector v2 = new Vector();
-                v1.add(new Real(generatedPoints[i * this.dataDimension]));
-                v1.add(new Real(generatedPoints[i * this.dataDimension + 1]));
+                v1.add(Real.valueOf(generatedPoints[i * this.dataDimension]));
+                v1.add(Real.valueOf(generatedPoints[i * this.dataDimension + 1]));
 
-                v2.add(new Real(generatedPoints[j * this.dataDimension]));
-                v2.add(new Real(generatedPoints[j * this.dataDimension + 1]));
+                v2.add(Real.valueOf(generatedPoints[j * this.dataDimension]));
+                v2.add(Real.valueOf(generatedPoints[j * this.dataDimension + 1]));
                 double distance = measure.distance(v1, v2);
                 generatedDistanceMatrix[i][j] = distance;
                 //        System.out.println("generated[" + i + "][" + j + "]: " + generatedDistanceMatrix[i][j]);

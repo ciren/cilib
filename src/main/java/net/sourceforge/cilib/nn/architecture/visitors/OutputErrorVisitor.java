@@ -50,7 +50,7 @@ public class OutputErrorVisitor extends ArchitectureOperationVisitor {
             double t_k = layerSize > 1 ? ((Vector) input.getTarget()).getReal(k) : ((Real)input.getTarget()).doubleValue();
             double o_k = currentNeuron.getActivation();
             double tmp = (t_k - o_k);
-            output.add(new Real(tmp));
+            output.add(Real.valueOf(tmp));
         }
     }
 

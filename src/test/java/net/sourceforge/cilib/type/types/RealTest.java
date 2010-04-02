@@ -49,9 +49,9 @@ public class RealTest {
 
     @Test
     public void equality() {
-        Real i1 = new Real(10.0);
-        Real i2 = new Real(10.0);
-        Real i3 = new Real(-5.0);
+        Real i1 = Real.valueOf(10.0);
+        Real i2 = Real.valueOf(10.0);
+        Real i3 = Real.valueOf(-5.0);
 
         assertTrue(i1.equals(i1));
         assertTrue(i2.equals(i2));
@@ -65,7 +65,7 @@ public class RealTest {
 
     @Test
     public void hashValue() {
-        Real r = new Real(-10.0, new Bounds(-30.0, 30.0));
+        Real r = Real.valueOf(-10.0, new Bounds(-30.0, 30.0));
 
         // This is the hasCode evaluation of the super classes bound information as well
         assertEquals(1195970368, r.hashCode());
@@ -73,8 +73,8 @@ public class RealTest {
 
     @Test
     public void comparison() {
-        Real r1 = new Real(15.0, new Bounds(0.0, 30.0));
-        Real r2 = new Real(-15.0, new Bounds(-30.0, 0.0));
+        Real r1 = Real.valueOf(15.0, new Bounds(0.0, 30.0));
+        Real r2 = Real.valueOf(-15.0, new Bounds(-30.0, 0.0));
 
         assertEquals(0, r1.compareTo(r1));
         assertEquals(0, r2.compareTo(r2));
@@ -84,15 +84,15 @@ public class RealTest {
 
     @Test
     public void representation() {
-        Real r = new Real(0.0, new Bounds(-30.0, 30.0));
+        Real r = Real.valueOf(0.0, new Bounds(-30.0, 30.0));
 
         assertEquals("R(-30.0,30.0)", r.getRepresentation());
     }
 
     @Test
     public void randomizeWithinDefinedBounds() {
-        Real r1 = new Real(0.0, new Bounds(-30.0, 30.0));
-        Real r2 = new Real(0.0, new Bounds(-30.0, 30.0));
+        Real r1 = Real.valueOf(0.0, new Bounds(-30.0, 30.0));
+        Real r2 = Real.valueOf(0.0, new Bounds(-30.0, 30.0));
 
         assertTrue(r1.doubleValue() == r2.doubleValue());
         r1.randomize(new MersenneTwister());
@@ -101,7 +101,7 @@ public class RealTest {
 
     @Test
     public void randomizeBetweenInfiniteBounds() {
-        Real r = new Real(0.0);
+        Real r = Real.valueOf(0.0);
         r.randomize(new MersenneTwister());
         Assert.assertThat(r.doubleValue(), not(equalTo(0.0)));
         Assert.assertThat(r.doubleValue(), not(equalTo(Double.NaN)));

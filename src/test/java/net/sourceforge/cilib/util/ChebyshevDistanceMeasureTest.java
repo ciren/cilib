@@ -43,17 +43,17 @@ public class ChebyshevDistanceMeasureTest {
         Vector v1 = new Vector();
         Vector v2 = new Vector();
 
-        v1.add(new Real(5.0));
-        v1.add(new Real(3.0));
-        v1.add(new Real(1.0));
+        v1.add(Real.valueOf(5.0));
+        v1.add(Real.valueOf(3.0));
+        v1.add(Real.valueOf(1.0));
 
-        v2.add(new Real(1.0));
-        v2.add(new Real(3.0));
-        v2.add(new Real(5.5));
+        v2.add(Real.valueOf(1.0));
+        v2.add(Real.valueOf(3.0));
+        v2.add(Real.valueOf(5.5));
 
         assertEquals(4.5, distanceMeasure.distance(v1, v2), Double.MIN_NORMAL);
 
-        v1.add(new Real(22.0));
+        v1.add(Real.valueOf(22.0));
 
         distanceMeasure.distance(v1, v2);
     }

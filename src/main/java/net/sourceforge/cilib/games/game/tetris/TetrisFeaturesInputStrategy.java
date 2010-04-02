@@ -230,44 +230,44 @@ public class TetrisFeaturesInputStrategy extends NeuralStateInputStrategy {
             }
 
             if (removedLines){
-                input.add(new Real(currentPlayer.getScaledInput(amLinesRemoved, 0, 4)));
+                input.add(Real.valueOf(currentPlayer.getScaledInput(amLinesRemoved, 0, 4)));
             }
             if(erodedShapeBlocks){
-            	input.add(new Real(currentPlayer.getScaledInput(erodedPieceCount, 0, 4 * 4)));
+            	input.add(Real.valueOf(currentPlayer.getScaledInput(erodedPieceCount, 0, 4 * 4)));
             }
             if (pileHeight){
-                input.add(new Real(currentPlayer.getScaledInput((Height - 1) - HighestYCell, 0, Height - 1))); //highest block
+                input.add(Real.valueOf(currentPlayer.getScaledInput((Height - 1) - HighestYCell, 0, Height - 1))); //highest block
             }
             if (this.landingHeight){
-                input.add(new Real(currentPlayer.getScaledInput((Height - 1) - landingHeight, 0, Height - 1)));
+                input.add(Real.valueOf(currentPlayer.getScaledInput((Height - 1) - landingHeight, 0, Height - 1)));
             }
             if (altitudeDiff){
-                input.add(new Real(currentPlayer.getScaledInput((((Height - 1) - HighestYCell) + 1) - ((Height - 1) - lowestFreeCell), 0, Height - 1))); //highest block
+                input.add(Real.valueOf(currentPlayer.getScaledInput((((Height - 1) - HighestYCell) + 1) - ((Height - 1) - lowestFreeCell), 0, Height - 1))); //highest block
             }
             if (holes){
-                input.add(new Real(currentPlayer.getScaledInput(amHoleCells, 0, (Height - 1) * Width)));
+                input.add(Real.valueOf(currentPlayer.getScaledInput(amHoleCells, 0, (Height - 1) * Width)));
             }
             if (connectedHoles){
-                input.add(new Real(currentPlayer.getScaledInput(amHoles, 0, Width * (Height / 2))));
+                input.add(Real.valueOf(currentPlayer.getScaledInput(amHoles, 0, Width * (Height / 2))));
             }
 
             if (maxWellDepth){
-                input.add(new Real(currentPlayer.getScaledInput(maximumWellDepth, 0, Height)));
+                input.add(Real.valueOf(currentPlayer.getScaledInput(maximumWellDepth, 0, Height)));
             }
             if (sumWells){
-                input.add(new Real(currentPlayer.getScaledInput(wellCount, 0, Height * (Width / 2))));
+                input.add(Real.valueOf(currentPlayer.getScaledInput(wellCount, 0, Height * (Width / 2))));
             }
             if (rowTransitions){
-                input.add(new Real(currentPlayer.getScaledInput(rowTransitionsCount, 0, Height * Width)));
+                input.add(Real.valueOf(currentPlayer.getScaledInput(rowTransitionsCount, 0, Height * Width)));
             }
             if (columnTransitions){
-                input.add(new Real(currentPlayer.getScaledInput(columnTransitionsCount, 0, Height * Width))); //highest block
+                input.add(Real.valueOf(currentPlayer.getScaledInput(columnTransitionsCount, 0, Height * Width))); //highest block
             }
             if (noBlocks){
-                input.add(new Real(currentPlayer.getScaledInput(blockCount, 0, Height * Width)));
+                input.add(Real.valueOf(currentPlayer.getScaledInput(blockCount, 0, Height * Width)));
             }
             if (weightedBlocks){
-                input.add(new Real(currentPlayer.getScaledInput(weightedBlockCount, 0, MaxWeightedSum)));
+                input.add(Real.valueOf(currentPlayer.getScaledInput(weightedBlockCount, 0, MaxWeightedSum)));
             }
             return input;
 	}

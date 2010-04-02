@@ -65,6 +65,6 @@ public class NumberOfClustersFormed implements Measurement<Int> {
         ClusteringUtils helper = ClusteringUtils.get();
         Vector centroids = (Vector) algorithm.getBestSolution().getPosition();
         helper.arrangeClustersAndCentroids(centroids);
-        return new Int(helper.getArrangedCentroids().size());
+        return Int.valueOf(helper.getArrangedCentroids().size());
     }
 }

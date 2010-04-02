@@ -111,8 +111,8 @@ public class BlendCrossoverStrategy extends CrossoverStrategy {
             Vector offspringChromosome1 = (Vector) offspring1.getCandidateSolution();
             Vector offspringChromosome2 = (Vector) offspring2.getCandidateSolution();
 
-            int sizeParent1 = parentChromosome1.getDimension();
-            int sizeParent2 = parentChromosome2.getDimension();
+            int sizeParent1 = parentChromosome1.size();
+            int sizeParent2 = parentChromosome2.size();
 
             int minDimension = Math.min(sizeParent1, sizeParent2);
 

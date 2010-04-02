@@ -31,8 +31,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  barlad
  */
 public class LFVelocityUpdate implements VelocityUpdateStrategy {
-    private static final long serialVersionUID = 2786412133881308328L;
 
+    private static final long serialVersionUID = 2786412133881308328L;
     private StandardVelocityUpdate standard;
     private GradientOptimisationProblem problem;
 
@@ -121,8 +121,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
                 // LeapFrog Algorithm Step 5a: Update p and deltaT
                 p = p + delta1;
                 deltaT = deltaT * p;
-            }
-            else {
+            } else {
                 for (int l = 0; l < particle.getDimension(); ++l) {
                     //velocity[l] = delta * velocity[l] / (lenDeltaX);
                     velocity.setReal(l, delta * velocity.getReal(l) / (lenDeltaX));
@@ -159,7 +158,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
                 //previousPosition[l] = position[l];
                 //position[l] += velocity[l] * deltaT;
                 previousPosition.setReal(l, position.getReal(l));
-                position.setReal(l, position.getReal(l)+velocity.getReal(l)*deltaT);
+                position.setReal(l, position.getReal(l) + velocity.getReal(l) * deltaT);
             }
 
             boolean repeatEndLoop = true;
@@ -177,14 +176,13 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
                     //previousVelocity[l] = velocity[l];
                     //velocity[l] += nextGradient[l] * deltaT;
                     previousVelocity.setReal(l, velocity.getReal(l));
-                    velocity.setReal(l, velocity.getReal(i)+nextGradient[l]*deltaT);
+                    velocity.setReal(l, velocity.getReal(i) + nextGradient[l] * deltaT);
                 }
 
                 // LeapFrog Algorithm Step 7a
                 if (calculateDotProduct(nextGradient, gradient) > 0) {
                     s = 0;
-                }
-                else {
+                } else {
                     ++s;
                     p = 1;
                 }
@@ -199,8 +197,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
                     if (calculateEuclidianLength(velocity) > calculateEuclidianLength(previousVelocity)) {
                         i = 0;
                         repeatEndLoop = false;
-                        }
-                    else {
+                    } else {
                         double tmp;
                         for (int l = 0; l < particle.getDimension(); ++l) {
                             /*tmp = position[l] + previousPosition[l];
@@ -208,7 +205,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
                             position[l] = tmp / 2.0;*/
                             tmp = position.getReal(l) + previousPosition.getReal(l);
                             previousPosition.setReal(l, position.getReal(l));
-                            position.setReal(l, tmp/2.0);
+                            position.setReal(l, tmp / 2.0);
                         }
                         ++i;
 
@@ -220,21 +217,19 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
                                 //velocity[l] = tmp / 4.0;
                                 tmp = velocity.getReal(l) + previousVelocity.getReal(l);
                                 previousVelocity.setReal(l, velocity.getReal(l));
-                                velocity.setReal(l, tmp/4.0);
+                                velocity.setReal(l, tmp / 4.0);
                             }
-                        }
-                        else {
+                        } else {
                             for (int l = 0; l < particle.getDimension(); ++l) {
-                               // previousVelocity[l] = velocity[l];
-                               // velocity[l] = 0;
+                                // previousVelocity[l] = velocity[l];
+                                // velocity[l] = 0;
                                 previousVelocity.setReal(l, velocity.getReal(l));
                                 velocity.setReal(l, 0.0);
                                 j = 1;
                             }
                         }
                     }
-                }
-                else {
+                } else {
                     repeatEndLoop = false;
                 }
             }
@@ -245,8 +240,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
             lfParticle.setS(s);
             lfParticle.setI(i);
             lfParticle.setJ(j);
-        }
-        else {
+        } else {
             lfParticle.setWasNeighbourhoodBest(false);
             standard.updateVelocity(particle);
         }
@@ -258,15 +252,15 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
     private double calculateEuclidianLength(Vector x) {
         double l = 0;
         /*for (int i = 0; i < x.length; i++) {
-            l += x[i] * x[i];
+        l += x[i] * x[i];
         } */
-        for (int i = 0; i < x.getDimension(); i++) {
+        for (int i = 0; i < x.size(); i++) {
             l += x.getReal(i) * x.getReal(i);
         }
         return (Math.sqrt(l));
     }
 
-    private double calculateEuclidianLength(double [] x) {
+    private double calculateEuclidianLength(double[] x) {
         double l = 0;
         for (int i = 0; i < x.length; i++) {
             l += x[i] * x[i];
@@ -277,14 +271,13 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
     /**
      *  Returns the dot product of two vectors.
      */
-    private double calculateDotProduct(double [] x, double [] y) {
+    private double calculateDotProduct(double[] x, double[] y) {
         if (x.length != y.length) {
             throw new RuntimeException("Cannot calculate dot product because vectors are of different sizes.");
-        }
-        else {
+        } else {
             double t = 0;
             for (int i = 0; i < x.length; i++) {
-            t += x[i] * y[i];
+                t += x[i] * y[i];
             }
             return t;
         }
@@ -301,9 +294,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
         return problem.getGradient(position);
     }
 
-
     public void updateControlParameters(Particle particle) {
         // TODO Auto-generated method stub
-
     }
 }

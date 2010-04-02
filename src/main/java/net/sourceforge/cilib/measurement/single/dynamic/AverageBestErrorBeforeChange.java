@@ -77,7 +77,7 @@ public class AverageBestErrorBeforeChange extends DynamicMeasurement {
             this.avg = (this.avg * this.cycleNr + error) / (this.cycleNr + 1);
             this.cycleNr++;
         }
-        return new Real(avg);
+        return Real.valueOf(avg);
     }
 
     public int getCycleSize() {

@@ -54,7 +54,7 @@ public class Fitness implements Measurement<Real> {
     @Override
     public Real getValue(Algorithm algorithm) {
         double fitness = algorithm.getBestSolution().getFitness().getValue();
-        return new Real(fitness);
+        return Real.valueOf(fitness);
     }
 
 }

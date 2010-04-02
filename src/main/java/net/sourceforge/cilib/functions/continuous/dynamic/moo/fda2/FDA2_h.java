@@ -217,10 +217,10 @@ public class FDA2_h extends ContinuousFunction {
         Vector xI = input;
         Vector xII = input;
         Vector xIII = input;
-        if (input.getDimension() > 1) {
+        if (input.size() > 1) {
             xI = input.copyOfRange(0, 1);
             xII = input.copyOfRange(1, 16);
-            xIII = input.copyOfRange(16, input.getDimension());
+            xIII = input.copyOfRange(16, input.size());
         }
 
         double f = this.fda2_f.evaluate(xI);
@@ -229,7 +229,7 @@ public class FDA2_h extends ContinuousFunction {
         double value = 1.0;
         double power = H;
 
-        for (int k=0; k < xIII.getDimension(); k++) {
+        for (int k=0; k < xIII.size(); k++) {
             power += Math.pow(xIII.getReal(k) - H, 2);
         }
 

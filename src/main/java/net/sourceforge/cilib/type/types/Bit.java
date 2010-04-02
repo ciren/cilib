@@ -46,7 +46,7 @@ public class Bit implements Numeric {
      * Copy-constructor. Create a <tt>Bit</tt> object with the specified state.
      * @param state The state for the <tt>Bit</tt> object to be in
      */
-    public Bit(boolean state) {
+    private Bit(boolean state) {
         this.state = state;
         this.bounds = DEFAULT_BOUND;
     }
@@ -55,7 +55,7 @@ public class Bit implements Numeric {
      * Copy constructor. Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public Bit(Bit copy) {
+    private Bit(Bit copy) {
         this.state = copy.state;
         this.bounds = DEFAULT_BOUND;
     }
@@ -153,14 +153,6 @@ public class Bit implements Numeric {
     public void randomize(RandomProvider random) {
         checkNotNull(random);
         this.state = random.nextBoolean();
-    }
-
-    /**
-     * Set the <tt>Bit</tt> object to an initial value of <tt>false</tt>.
-     */
-    @Override
-    public void reset() {
-        this.state = false;
     }
 
     /**

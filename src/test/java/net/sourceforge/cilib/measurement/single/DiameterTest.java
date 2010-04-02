@@ -66,7 +66,7 @@ public class DiameterTest {
         }});
 
         Measurement m = new Diameter();
-        Assert.assertEquals(new Real(Math.sqrt(8)), m.getValue(algorithm));
+        Assert.assertEquals(Real.valueOf(Math.sqrt(8)), m.getValue(algorithm));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class DiameterTest {
         }});
         
         Measurement m = new Diameter();
-        Assert.assertEquals(new Real(Math.sqrt(8)), m.getValue(algorithm));
+        Assert.assertEquals(Real.valueOf(Math.sqrt(8)), m.getValue(algorithm));
     }
 
 }

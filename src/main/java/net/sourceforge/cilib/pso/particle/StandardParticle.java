@@ -102,7 +102,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public int getDimension() {
-        return getPosition().getDimension();
+        return getPosition().size();
     }
 
     /**

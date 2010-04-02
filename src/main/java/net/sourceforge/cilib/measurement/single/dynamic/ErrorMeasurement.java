@@ -19,7 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.measurement.single.dynamic;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
@@ -36,6 +35,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Anna Rakitianskaia, Julien Duhain
  */
 public class ErrorMeasurement implements Measurement {
+
     private static final long serialVersionUID = 2632671785674388015L;
 
     @Override
@@ -45,7 +45,7 @@ public class ErrorMeasurement implements Measurement {
 
     @Override
     public Type getValue(Algorithm algorithm) {
-          return new Real(((FunctionOptimisationProblem) (algorithm.getOptimisationProblem())).getError(algorithm.getBestSolution().getPosition()));
+        return Real.valueOf(((FunctionOptimisationProblem) (algorithm.getOptimisationProblem())).getError(algorithm.getBestSolution().getPosition()));
     }
 
     @Override

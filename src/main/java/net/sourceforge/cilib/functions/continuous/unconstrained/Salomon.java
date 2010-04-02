@@ -80,7 +80,7 @@ public class Salomon extends ContinuousFunction {
     public Double evaluate(Vector input) {
         double sumSquares = 0.0;
 
-        for (int i = 0; i < input.getDimension(); i++) {
+        for (int i = 0; i < input.size(); i++) {
             sumSquares += input.getReal(i) * input.getReal(i);
         }
 

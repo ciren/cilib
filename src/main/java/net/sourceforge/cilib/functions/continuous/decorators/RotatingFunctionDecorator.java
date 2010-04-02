@@ -145,13 +145,16 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
     }
 
     @Override
-    public Double evaluate(Vector input) {
+    public Double evaluate(final Vector input) {
         Matrix result = createMatrix();
-        Vector rotatedX = input.getClone();
-        rotatedX.reset();
+        Vector.Builder builder = Vector.newBuilder();
+        for (int i = 0, n = input.size(); i < n; i++) {
+            builder.add(0);
+        }
+        Vector rotatedX = builder.build();
 
-        for (int j = 0; j < input.getDimension(); j++) {
-            for (int i = 0; i < input.getDimension(); i++) {
+        for (int j = 0; j < input.size(); j++) {
+            for (int i = 0; i < input.size(); i++) {
                 double value = rotatedX.getReal(j) + (input.getReal(i) - center) * result.valueAt(i, j);
                 rotatedX.setReal(j, value);
             }

@@ -54,20 +54,16 @@ public class ABCTest {
         assertEquals(abc.getOnlookerBees().size(), 30);
         HashMap<Type, Type> map = new HashMap<Type, Type>();
 
-        for (HoneyBee bee : abc.getTopology())
-        {
+        for (HoneyBee bee : abc.getTopology()) {
             map.put(bee.getCandidateSolution(), bee.getCandidateSolution());
         }
-        for (HoneyBee bee : abc.getWorkerBees())
-        {
+        for (HoneyBee bee : abc.getWorkerBees()) {
             map.put(bee.getCandidateSolution(), bee.getCandidateSolution());
         }
-        for (HoneyBee bee : abc.getOnlookerBees())
-        {
+        for (HoneyBee bee : abc.getOnlookerBees()) {
             map.put(bee.getCandidateSolution(), bee.getCandidateSolution());
         }
 
         assertEquals(100, map.size());
     }
-
 }

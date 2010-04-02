@@ -52,8 +52,8 @@ public class GoldsteinPriceTest {
 
         Vector x = new Vector();
 
-        x.add(new Real(0.0));
-        x.add(new Real(-1.0));
+        x.add(Real.valueOf(0.0));
+        x.add(Real.valueOf(-1.0));
         Assert.assertEquals(3.0, function.evaluate(x), Maths.EPSILON);
 
         x.setReal(0, 2.0);

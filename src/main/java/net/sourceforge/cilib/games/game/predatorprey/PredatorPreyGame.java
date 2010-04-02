@@ -45,57 +45,59 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * The goal of the Predator is to catch the Prey, and vice versa. For this implimentation the players take turns making movement decisions.
  */
 public class PredatorPreyGame extends Game<ListGameState> {
+
     private static final long serialVersionUID = 332203013419474482L;
     int maxIterations;
     int boardHeight;
     int boardWidth;
     PredPreyPositionInitializationStrategy initializationStrategy;
+
     /**
      * {@inheritDoc}
      */
-    public PredatorPreyGame(){
+    public PredatorPreyGame() {
         maxIterations = 20;
         boardHeight = 9;
         boardWidth = 9;
         setCurrentGameState(new ListGameState());
         initializationStrategy = new RandomPredPreyInitializationStrategy();
     }
+
     /**
      * {@inheritDoc}
      */
-    public PredatorPreyGame(PredatorPreyGame other){
+    public PredatorPreyGame(PredatorPreyGame other) {
         super(other);
         boardHeight = other.boardHeight;
         boardWidth = other.boardWidth;
         maxIterations = other.maxIterations;
         initializationStrategy = other.initializationStrategy.getClone();
     }
+
     /**
      * {@inheritDoc}
      */
-    public PredatorPreyGame(PredatorPreyGame other, ListGameState newState){
+    public PredatorPreyGame(PredatorPreyGame other, ListGameState newState) {
         super(other, newState);
         boardHeight = other.boardHeight;
         boardWidth = other.boardWidth;
         maxIterations = other.maxIterations;
         initializationStrategy = other.initializationStrategy;
     }
+
     /**
      * This function determins whether or not the predator has caught the prey
      * @return true if the predator has caught the prey, otherwise false.
      */
-    private boolean predatorCaughtPrey()
-    {
-        try
-        {
+    private boolean predatorCaughtPrey() {
+        try {
             //if predator and prey players are next to or on the same cell then game over
-            if(getCurrentState().getItem(0).getLocation().getDistance(new EuclideanDistanceMeasure(), getCurrentState().getItem(1).getLocation()) < 2.0)
+            if (getCurrentState().getItem(0).getLocation().getDistance(new EuclideanDistanceMeasure(), getCurrentState().getItem(1).getLocation()) < 2.0) {
                 return true;
+            }
 
             return false;
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             throw new InitialisationException("Game not initialized, predator and prey items do not exist");
         }
     }
@@ -106,19 +108,18 @@ public class PredatorPreyGame extends Game<ListGameState> {
      * @param x the amount to move on the X axes
      * @param y the amount to move on the Y axes
      */
-    public void movePlayer(int playerID, int x, int y){
-        try{
+    public void movePlayer(int playerID, int x, int y) {
+        try {
             Vector moveVector = new Vector();
-            moveVector.add(new Int(x));
-            moveVector.add(new Int(y));
-            for(int i = 0; i < getCurrentState().getSize(); ++i){
-                if(((PlayerItem)getCurrentState().getItem(i)).getPlayerID() == playerID){
+            moveVector.add(Int.valueOf(x));
+            moveVector.add(Int.valueOf(y));
+            for (int i = 0; i < getCurrentState().getSize(); ++i) {
+                if (((PlayerItem) getCurrentState().getItem(i)).getPlayerID() == playerID) {
                     //move the item by the specified coords
                     getCurrentState().getItem(i).getLocation().moveItem(moveVector);
                 }
             }
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             throw new InitialisationException("Game not initialized, predator and prey items not found");
         }
     }
@@ -128,8 +129,9 @@ public class PredatorPreyGame extends Game<ListGameState> {
      */
     @Override
     public boolean gameOver() {
-        if(getCurrentIteration() >= maxIterations)
+        if (getCurrentIteration() >= maxIterations) {
             return true;
+        }
 
         return predatorCaughtPrey();
     }
@@ -141,6 +143,7 @@ public class PredatorPreyGame extends Game<ListGameState> {
     public PredatorPreyGame getClone() {
         return new PredatorPreyGame(this);
     }
+
     /**
      * {@inheritDoc}
      */
@@ -155,12 +158,14 @@ public class PredatorPreyGame extends Game<ListGameState> {
     @Override
     public AbstractGameResult getGameResult() {
         int predatorID = 2;
-        if(getPlayer(1).getAgentToken().equals(GameToken.PredatorPrey.PREDATOR))
+        if (getPlayer(1).getAgentToken().equals(GameToken.PredatorPrey.PREDATOR)) {
             predatorID = 1;
-        if((getCurrentIteration() >= maxIterations) && !predatorCaughtPrey())
+        }
+        if ((getCurrentIteration() >= maxIterations) && !predatorCaughtPrey()) {
             return new WinGameResult(predatorID == 1 ? 2 : 1); //prey won
-        else
+        } else {
             return new WinGameResult(predatorID); //predator won
+        }
     }
 
     /**
@@ -169,11 +174,12 @@ public class PredatorPreyGame extends Game<ListGameState> {
     @SuppressWarnings("unchecked")
     @Override
     public void initializeGame() {
-        if(players.size() != 2)
+        if (players.size() != 2) {
             throw new RuntimeException("Predator prey can only be played with 2 players");
+        }
 
         getCurrentState().clearState();
-        for(Agent p : players){
+        for (Agent p : players) {
             getCurrentState().addGameItem(new GridItem(p.getPlayerID(), p.getAgentToken(), boardWidth, boardHeight));
         }
         initializationStrategy.initializePP(this);
@@ -187,18 +193,18 @@ public class PredatorPreyGame extends Game<ListGameState> {
         System.out.println("");
         GridLocation itemLoc = new GridLocation(boardWidth, boardHeight);
         StringBuilder builder = new StringBuilder();
-        for(int y = 0; y < boardHeight; ++y){
+        for (int y = 0; y < boardHeight; ++y) {
             builder.append("|");
-            for(int x = 0; x < boardWidth; ++x){
+            for (int x = 0; x < boardWidth; ++x) {
                 itemLoc.setInt(0, x);
                 itemLoc.setInt(1, y);
                 GameItem item = getCurrentState().getItem(itemLoc);
-                if(item != null){
+                if (item != null) {
                     Enum<?> pp = item.getToken();
-                    builder.append(((GameEnum)pp).getDescription()).append("|");
-                }
-                else
+                    builder.append(((GameEnum) pp).getDescription()).append("|");
+                } else {
                     builder.append(" |");
+                }
             }
             System.out.println(builder.toString());
         }

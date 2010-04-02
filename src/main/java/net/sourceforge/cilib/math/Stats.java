@@ -82,7 +82,8 @@ public final class Stats {
         for (Pattern pattern : set) {
             if (mean == null) {
                 mean = pattern.data.getClone();
-                mean.reset();        // initialize the mean to be all zeroes
+//                mean.reset();        // initialize the mean to be all zeroes
+                continue;
             }
             mean = mean.plus(pattern.data);
         }
@@ -123,9 +124,12 @@ public final class Stats {
             throw new IllegalArgumentException("Cannot calculate the variance for an empty set");
         }
 
-        Vector variance = center.getClone();
+        Vector.Builder builder = Vector.newBuilder();
+        for (int i = 0; i < center.size(); i++) {
+            builder.add(0.0);
+        }
+        Vector variance = builder.build();
 
-        variance.reset(); // initialize the variance to be all zeroes
         for (Pattern pattern : set) {
             Vector diffSquare = Vectors.transform(pattern.data.subtract(center), new Function<Numeric, Double>() {
 

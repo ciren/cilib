@@ -32,11 +32,9 @@ import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
  *
  * @author Marde Greeff
  */
-
 public class FDA1_h extends ContinuousFunction {
 
     private static final long serialVersionUID = -539665464941830813L;
-
     //members
     private ContinuousFunction fda1_g;
     private ContinuousFunction fda1_f1;
@@ -76,7 +74,7 @@ public class FDA1_h extends ContinuousFunction {
      */
     public void setFDA1_g(FunctionMinimisationProblem problem) {
         this.fda1_g_problem = problem;
-        this.fda1_g = (ContinuousFunction)problem.getFunction();
+        this.fda1_g = (ContinuousFunction) problem.getFunction();
         this.setDomain(fda1_g.getDomainRegistry().getDomainString());
     }
 
@@ -111,7 +109,7 @@ public class FDA1_h extends ContinuousFunction {
      */
     public void setFDA1_f(FunctionMinimisationProblem problem) {
         this.fda1_f1_problem = problem;
-        this.fda1_f1 = (ContinuousFunction)problem.getFunction();
+        this.fda1_f1 = (ContinuousFunction) problem.getFunction();
         this.setDomain(fda1_f1.getDomainRegistry().getDomainString());
     }
 
@@ -150,7 +148,7 @@ public class FDA1_h extends ContinuousFunction {
         //only the first element
         Vector y = input.copyOfRange(0, 1);
         //all the elements except the first element
-        Vector z = input.copyOfRange(1, input.getDimension());
+        Vector z = input.copyOfRange(1, input.size());
         //evaluate the fda1_g function
         double g = this.fda1_g.evaluate(z);
         //evaluate the fda1_f1 function
@@ -161,5 +159,4 @@ public class FDA1_h extends ContinuousFunction {
 
         return value;
     }
-
 }

@@ -70,7 +70,7 @@ public class PrototypeFullyConnectedLayerBuilder extends LayerBuilder {
                 throw new UnsupportedOperationException("The domain string of the neural network weights has to be real valued");
             }
 
-            Real weight = new Real(domainReal);
+            Real weight = Real.valueOf(domainReal.doubleValue(), domainReal.getBounds());
             Vector weights = newNeuron.getWeights();
             weights.add(weight);
             for (int j = 1; j < previousLayerAbsoluteSize; j++) {

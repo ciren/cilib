@@ -47,7 +47,7 @@ public class Real implements Numeric {
      * Create the instance with the given value.
      * @param value The value of the {@linkplain Real}.
      */
-    public Real(double value) {
+    private Real(double value) {
         this.value = value;
         this.bounds = DEFAULT_BOUND;
     }
@@ -57,7 +57,7 @@ public class Real implements Numeric {
      * @param value The initial value.
      * @param bounds The defined {@code Bounds}.
      */
-    public Real(double value, Bounds bounds) {
+    private Real(double value, Bounds bounds) {
         this.value = value;
         this.bounds = checkNotNull(bounds);
     }
@@ -66,7 +66,7 @@ public class Real implements Numeric {
      * Copy construtor.
      * @param copy The instance to copy.
      */
-    public Real(Real copy) {
+    private Real(Real copy) {
         this.value = copy.value;
         this.bounds = copy.bounds;
     }
@@ -76,7 +76,7 @@ public class Real implements Numeric {
      */
     @Override
     public Real getClone() {
-        return new Real(this);
+        return Real.valueOf(value, bounds);
     }
 
     /**
@@ -150,15 +150,6 @@ public class Real implements Numeric {
     @Override
     public void randomize(RandomProvider random) {
         this.value = checkNotNull(random).nextDouble() * (bounds.getUpperBound() - bounds.getLowerBound()) + bounds.getLowerBound();
-    }
-
-    /**
-     * Set the value of the <tt>Real</tt> to a default value of 0.0.
-     */
-    @Override
-    public void reset() {
-//        this.valueOf(0.0);
-        this.value = 0.0;
     }
 
     /**

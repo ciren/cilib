@@ -73,13 +73,13 @@ public class DimensionBoundViolationsPerParticleTest {
         }});
 
         Measurement m = new DimensionBoundViolationsPerParticle();
-        Assert.assertEquals(new Real(1.25), m.getValue(pba));
+        Assert.assertEquals(Real.valueOf(1.25), m.getValue(pba));
     }
 
     private Vector vectorOf(Bounds bounds, double... values) {
         Vector vector = new Vector();
         for (int i = 0; i < values.length; i++) {
-            vector.add(new Real(values[i], bounds));
+            vector.add(Real.valueOf(values[i], bounds));
         }
         return vector;
     }

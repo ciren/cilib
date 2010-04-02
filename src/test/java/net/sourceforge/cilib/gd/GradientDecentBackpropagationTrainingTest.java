@@ -63,7 +63,7 @@ public class GradientDecentBackpropagationTrainingTest {
         Vector errors = new Vector();
         for (int i = 0; i < 10; i++) {
             training.algorithmIteration();
-            errors.add(new Real(training.getBestSolution().getFitness().getValue()));
+            errors.add(Real.valueOf(training.getBestSolution().getFitness().getValue()));
         }
     }
 }

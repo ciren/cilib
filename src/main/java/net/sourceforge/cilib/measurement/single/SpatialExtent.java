@@ -48,6 +48,7 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  * @author Andries Engelbrecht
  */
 public class SpatialExtent implements Measurement<Real> {
+
     private static final long serialVersionUID = -6846992935896199456L;
 
     @Override
@@ -71,26 +72,26 @@ public class SpatialExtent implements Measurement<Real> {
         Vector maxVector = pos.clone();
         Vector minVector = pos.clone();
         while (k.hasNext()) {
-            particle = (Particle) k.next();
-            Vector position = (Vector) particle.getPosition();
-            for (int j = 0; j < position.getDimension(); ++j) {
-                double posValue = position.getReal(j);
-                double maxValue = maxVector.getReal(j);
-                double minValue = minVector.getReal(j);
+        particle = (Particle) k.next();
+        Vector position = (Vector) particle.getPosition();
+        for (int j = 0; j < position.getDimension(); ++j) {
+        double posValue = position.getReal(j);
+        double maxValue = maxVector.getReal(j);
+        double minValue = minVector.getReal(j);
 
-                if (posValue > maxValue)
-                    maxVector.setReal(j,posValue);
+        if (posValue > maxValue)
+        maxVector.setReal(j,posValue);
 
-                if (posValue < minValue)
-                    minVector.setReal(j,posValue);
-            }
+        if (posValue < minValue)
+        minVector.setReal(j,posValue);
+        }
         }
 
         double maxDimensionalDifference = 0.0;
         for (int j = 0; j < maxVector.getDimension(); ++j) {
-            double dimensionDifference = maxVector.getReal(j) - minVector.getReal(j);
-            if (dimensionDifference > maxDimensionalDifference)
-                maxDimensionalDifference = dimensionDifference;
+        double dimensionDifference = maxVector.getReal(j) - minVector.getReal(j);
+        if (dimensionDifference > maxDimensionalDifference)
+        maxDimensionalDifference = dimensionDifference;
         }
         return new Real(maxDimensionalDifference);*/
 
@@ -108,18 +109,18 @@ public class SpatialExtent implements Measurement<Real> {
 
             Iterator<? extends Entity> populationIterator_2 = populationBasedAlgorithm.getTopology().iterator();
 
-            while(populationIterator_2.hasNext()) {
+            while (populationIterator_2.hasNext()) {
                 Entity entity_2 = populationIterator_2.next();
                 Vector entity_2Contents = (Vector) entity_2.getCandidateSolution();
 
                 double dimensionalDifference = chebyshevDistance.distance(entity_1Contents, entity_2Contents);
 
-                if(dimensionalDifference > maxDimensionalDifference)
+                if (dimensionalDifference > maxDimensionalDifference) {
                     maxDimensionalDifference = dimensionalDifference;
+                }
             }
         }
 
-        return new Real(maxDimensionalDifference);
+        return Real.valueOf(maxDimensionalDifference);
     }
-
 }

@@ -32,7 +32,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @param <E> The entity type.
  */
 public class DomainPercentageInitializationStrategy<E extends Entity> implements
-    InitializationStrategy<E> {
+        InitializationStrategy<E> {
 
     private static final long serialVersionUID = -7178323673738508287L;
     private InitializationStrategy velocityInitialisationStrategy;
@@ -59,7 +59,7 @@ public class DomainPercentageInitializationStrategy<E extends Entity> implements
         Type type = entity.getProperties().get(key);
         Vector vector = (Vector) type;
 
-        for (int i = 0; i < vector.getDimension(); ++i) {
+        for (int i = 0; i < vector.size(); ++i) {
             vector.setReal(i, vector.getReal(i) * percentage);
         }
     }
@@ -79,5 +79,4 @@ public class DomainPercentageInitializationStrategy<E extends Entity> implements
     public void setVelocityInitialisationStrategy(InitializationStrategy velocityInitialisationStrategy) {
         this.velocityInitialisationStrategy = velocityInitialisationStrategy;
     }
-
 }

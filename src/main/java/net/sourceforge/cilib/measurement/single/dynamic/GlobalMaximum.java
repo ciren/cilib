@@ -19,7 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.measurement.single.dynamic;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
@@ -38,8 +37,12 @@ import net.sourceforge.cilib.type.types.Type;
 public class GlobalMaximum implements Measurement {
 
     private static final long serialVersionUID = 2658868675629949642L;
-    public GlobalMaximum() {}
-    public GlobalMaximum(GlobalMaximum rhs) {}
+
+    public GlobalMaximum() {
+    }
+
+    public GlobalMaximum(GlobalMaximum rhs) {
+    }
 
     @Override
     public GlobalMaximum clone() {
@@ -55,7 +58,7 @@ public class GlobalMaximum implements Measurement {
     public Type getValue(Algorithm algorithm) {
         FunctionOptimisationProblem problem = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
         double value = problem.getFunction().getMaximum().doubleValue();
-        return new Real(value);
+        return Real.valueOf(value);
     }
 
     @Override
@@ -63,4 +66,3 @@ public class GlobalMaximum implements Measurement {
         return new GlobalMaximum(this);
     }
 }
-

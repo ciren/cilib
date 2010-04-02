@@ -33,8 +33,8 @@ public class BlackboardTest {
     public void toStringTest() {
         Blackboard<String, Real> properties = new Blackboard<String, Real>();
 
-        properties.put("first", new Real(1.0));
-        properties.put("second", new Real(2.0));
+        properties.put("first", Real.valueOf(1.0));
+        properties.put("second", Real.valueOf(2.0));
 
         // The output will be different as the hascode of the string "second" evaluates before
         // the value of "first"

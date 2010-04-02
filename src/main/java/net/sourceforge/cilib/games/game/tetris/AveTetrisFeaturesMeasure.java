@@ -97,11 +97,11 @@ public class AveTetrisFeaturesMeasure extends AgentMeasure {
 	@Override
 	public Type getMeasuredData() {
 		Vector data = new Vector();
-		data.add(new Int(counter));
-		data.add(new Long(holesCount));
-		data.add(new Long(rowTransitionsCount));
-		data.add(new Long(columntransitionsCount));
-		data.add(new Long(heightCount));
+		data.add(Int.valueOf(counter));
+		data.add(Long.valueOf(holesCount));
+		data.add(Long.valueOf(rowTransitionsCount));
+		data.add(Long.valueOf(columntransitionsCount));
+		data.add(Long.valueOf(heightCount));
 		return data;
 	}
 

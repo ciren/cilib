@@ -24,6 +24,7 @@ package net.sourceforge.cilib.problem.dataset;
 import java.util.ArrayList;
 
 import net.sourceforge.cilib.math.Stats;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
 
@@ -38,12 +39,12 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  * @author Theuns Cloete
  */
 public class AssociatedPairDataSetBuilder extends DataSetBuilder implements ClusterableDataSet {
-    private static final long serialVersionUID = -7035524554252462144L;
 
+    private static final long serialVersionUID = -7035524554252462144L;
     protected ArrayList<Pattern> patterns = null;
     private Vector cachedMean = null;
     private double cachedVariance = 0.0;
-    private double [] distanceCache = null;
+    private double[] distanceCache = null;
     private String identifier = null;
 
     /**
@@ -92,21 +93,21 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
      */
     @Override
     public void addDataSet(DataSet ds) {
-        if (!(ds instanceof LocalDataSet))
+        if (!(ds instanceof LocalDataSet)) {
             throw new IllegalArgumentException("This DataSetBuilder expects a LocalDataSet\nONLY FOR NOW\nBECAUSE I didn't want to change the more generic DataSets");
+        }
 
         LocalDataSet dataset = (LocalDataSet) ds;
         ArrayList<Pattern> data = DataSetManager.getInstance().getDataFromSet(dataset);
 
-        if (!patterns.isEmpty() && data.get(0).data.getDimension() != patterns.get(0).data.getDimension()) {
+        if (!patterns.isEmpty() && data.get(0).data.size() != patterns.get(0).data.size()) {
             throw new IllegalArgumentException("Cannot combine datasets of different dimensions");
         }
         patterns.addAll(data);
 
         if (identifier.equals("")) {
             identifier += dataset.getFile();
-        }
-        else {
+        } else {
             identifier += "#|#" + dataset.getFile();
         }
         //        log.debug(data.size() + " patterns added");
@@ -188,11 +189,13 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
      * @return the cached distance between the two given patterns
      */
     public double getCachedDistance(int x, int y) {
-        if (x < 0 || y < 0)
+        if (x < 0 || y < 0) {
             throw new IllegalArgumentException("No pattern at (" + x + ", " + y + ")");
+        }
 
-        if (x == y)
+        if (x == y) {
             return 0.0;
+        }
 
         if (y > x) {
             return getCachedDistance(y, x); // use recursion to swap the x and y index

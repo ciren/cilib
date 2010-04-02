@@ -33,16 +33,18 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  * A location inside a grid
  */
 public class GridLocation extends Vector implements ItemLocation {
+
     private static final long serialVersionUID = 4974578979607886491L;
+
     public GridLocation(int gridWidth, int gridHeight) {
-        this.add(new Int(0, new Bounds(0, gridWidth)));
-        this.add(new Int(0, new Bounds(0, gridHeight)));
+        this.add(Int.valueOf(0, new Bounds(0, gridWidth)));
+        this.add(Int.valueOf(0, new Bounds(0, gridHeight)));
     }
 
     public GridLocation(int xMax, int yMax, int zMax) {
-        this.add(new Int(0, new Bounds(0, xMax)));
-        this.add(new Int(0, new Bounds(0, yMax)));
-        this.add(new Int(0, new Bounds(0, zMax)));
+        this.add(Int.valueOf(0, new Bounds(0, xMax)));
+        this.add(Int.valueOf(0, new Bounds(0, yMax)));
+        this.add(Int.valueOf(0, new Bounds(0, zMax)));
     }
 
     /**
@@ -51,19 +53,21 @@ public class GridLocation extends Vector implements ItemLocation {
     public GridLocation(GridLocation other) {
         super(other);
     }
+
     /**
      * Set the position of this GridLocation to the given vector
      * @param newPos the specified position
      */
-    public void setPosition(Vector newPos){
-        if(newPos.getDimension() != this.getDimension()){
+    public void setPosition(Vector newPos) {
+        if (newPos.size() != this.size()) {
             throw new UnsupportedOperationException("Cannot set the postition to a vector with a different dimention");
         }
         this.clear();
-        for(Numeric t : newPos){
+        for (Numeric t : newPos) {
             this.add(t.getClone());
         }
     }
+
     /**
      * {@inheritDoc}
      */
@@ -77,8 +81,9 @@ public class GridLocation extends Vector implements ItemLocation {
      */
     @Override
     public double getDistance(DistanceMeasure measure, ItemLocation other) {
-        if(!(other instanceof GridLocation))
+        if (!(other instanceof GridLocation)) {
             throw new RuntimeException("can only determine the distance between two gridlocation itemlocations");
+        }
         return measure.distance(this, ((GridLocation) other));
     }
 
@@ -87,15 +92,17 @@ public class GridLocation extends Vector implements ItemLocation {
      */
     @Override
     public void moveItem(Type amount) {
-        if(!(amount instanceof Vector))
+        if (!(amount instanceof Vector)) {
             throw new RuntimeException("can only add a vector to gridlocation");
-        for(int i = 0; i < ((Vector)amount).size(); ++i){
+        }
+        for (int i = 0; i < ((Vector) amount).size(); ++i) {
 
-            int newVal = ((Vector)amount).getInt(i) + this.getInt(i);
-            if(newVal < this.get(i).getBounds().getLowerBound())
-                newVal = (int)this.get(i).getBounds().getLowerBound();
-            else if(newVal >= this.get(i).getBounds().getUpperBound())
-                newVal = (int)this.get(i).getBounds().getUpperBound() - 1;
+            int newVal = ((Vector) amount).getInt(i) + this.getInt(i);
+            if (newVal < this.get(i).getBounds().getLowerBound()) {
+                newVal = (int) this.get(i).getBounds().getLowerBound();
+            } else if (newVal >= this.get(i).getBounds().getUpperBound()) {
+                newVal = (int) this.get(i).getBounds().getUpperBound() - 1;
+            }
             this.setInt(i, newVal);
         }
     }
@@ -105,8 +112,9 @@ public class GridLocation extends Vector implements ItemLocation {
      */
     @Override
     public boolean equals(Object other) {
-        if(other instanceof GridLocation)
-            return super.equals(((GridLocation)other));
+        if (other instanceof GridLocation) {
+            return super.equals(((GridLocation) other));
+        }
         return false;
     }
 }

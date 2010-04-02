@@ -27,7 +27,6 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.type.types.Resetable;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -36,8 +35,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Implements the Entity interface. Individual represents entities used within the EC paradigm.
  */
 public class Individual extends AbstractEntity {
-    private static final long serialVersionUID = -578986147850240655L;
 
+    private static final long serialVersionUID = -578986147850240655L;
     protected int dimension;
 
     /**
@@ -62,24 +61,26 @@ public class Individual extends AbstractEntity {
      * {@inheritDoc}
      */
     @Override
-     public Individual getClone() {
-         return new Individual(this);
-     }
+    public Individual getClone() {
+        return new Individual(this);
+    }
 
-     /**
-      * {@inheritDoc}
-      */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object object) {
-        if (this == object)
+        if (this == object) {
             return true;
+        }
 
-        if ((object == null) || (this.getClass() != object.getClass()))
+        if ((object == null) || (this.getClass() != object.getClass())) {
             return false;
+        }
 
         Individual other = (Individual) object;
-        return super.equals(other) &&
-            (this.dimension == other.dimension);
+        return super.equals(other)
+                && (this.dimension == other.dimension);
     }
 
     /**
@@ -94,47 +95,50 @@ public class Individual extends AbstractEntity {
     }
 
     /**
-      * Resets the fitness to <code>InferiorFitness</code>.
-      */
-     public void resetFitness() {
-         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
-     }
+     * Resets the fitness to <code>InferiorFitness</code>.
+     */
+    public void resetFitness() {
+        this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+    }
 
-     /**
-      * {@inheritDoc}
-      */
-     @Override
-     public void initialise(OptimisationProblem problem) {
-         // ID initialization is done in the clone method...
-         // which is always enforced due to the semantics of the performInitialisation methods
-         MersenneTwister random = new MersenneTwister();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void initialise(OptimisationProblem problem) {
+        // ID initialization is done in the clone method...
+        // which is always enforced due to the semantics of the performInitialisation methods
+        MersenneTwister random = new MersenneTwister();
 
-         this.setCandidateSolution(problem.getDomain().getBuiltRepresenation().getClone());
-         this.getCandidateSolution().randomize(random);
+        this.setCandidateSolution(problem.getDomain().getBuiltRepresenation().getClone());
+        this.getCandidateSolution().randomize(random);
 
-         this.getProperties().put(EntityType.STRATEGY_PARAMETERS, getCandidateSolution().getClone());
-         ((Resetable) this.getProperties().get(EntityType.STRATEGY_PARAMETERS)).reset();
+        Vector.Builder builder = Vector.newBuilder();
+        for (int i = 0, n = getCandidateSolution().size(); i < n; i++) {
+            builder.add(0.0);
+        }
+        this.getProperties().put(EntityType.STRATEGY_PARAMETERS, builder.build());
 
-         this.dimension = this.getCandidateSolution().size();
-         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
-     }
+        this.dimension = this.getCandidateSolution().size();
+        this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+    }
 
-     /**
-      * {@inheritDoc}
-      */
-     @Override
-     public int compareTo(Entity o) {
-         return this.getFitness().compareTo(o.getFitness());
-     }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int compareTo(Entity o) {
+        return this.getFitness().compareTo(o.getFitness());
+    }
 
-     /**
-      * {@inheritDoc}
-      */
-     @Override
-     public void setCandidateSolution(StructuredType type) {
-         super.setCandidateSolution(type);
-         this.dimension = type.size();
-     }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setCandidateSolution(StructuredType type) {
+        super.setCandidateSolution(type);
+        this.dimension = type.size();
+    }
 
     /**
      * {@inheritDoc}

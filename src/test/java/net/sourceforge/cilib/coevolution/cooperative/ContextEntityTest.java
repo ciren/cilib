@@ -34,14 +34,14 @@ public class ContextEntityTest {
     public void CopyFromTest(){
         ContextEntity testEntity = new ContextEntity();
         Vector context = new Vector();
-        context.add(new Real(0));
-        context.add(new Real(0));
-        context.add(new Real(0));
-        context.add(new Real(0));
+        context.add(Real.valueOf(0));
+        context.add(Real.valueOf(0));
+        context.add(Real.valueOf(0));
+        context.add(Real.valueOf(0));
         testEntity.setCandidateSolution(context);
         Vector data = new Vector();
-        data.add(new Real(1));
-        data.add(new Real(2));
+        data.add(Real.valueOf(1));
+        data.add(Real.valueOf(2));
 
         SequencialDimensionAllocation allocation = new SequencialDimensionAllocation(1, 2);
 

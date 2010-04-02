@@ -43,8 +43,8 @@ public class EggHolderTest {
         function.setDomain("R(-512,512)^2");
 
         Vector vector = new Vector();
-        vector.add(new Real(200));
-        vector.add(new Real(100));
+        vector.add(Real.valueOf(200));
+        vector.add(Real.valueOf(100));
 
         Assert.assertEquals(-166.745338888944,function.evaluate(vector),0.00000000001);
     }
@@ -55,8 +55,8 @@ public class EggHolderTest {
         function.setDomain("R(-512,512)^2");
 
         Vector vector = new Vector();
-        vector.add(new Real(512));
-        vector.add(new Real(404.2319));
+        vector.add(Real.valueOf(512));
+        vector.add(Real.valueOf(404.2319));
 
         Assert.assertEquals(-959.640662710616,function.evaluate(vector),0.00000000001);
     }

@@ -48,9 +48,9 @@ public class AbsoluteValueTest {
         function.setDomain("R(-100, 100)^3");
 
         Vector x = new Vector();
-        x.add(new Real(-1.0));
-        x.add(new Real(2.0));
-        x.add(new Real(-3.0));
+        x.add(Real.valueOf(-1.0));
+        x.add(Real.valueOf(2.0));
+        x.add(Real.valueOf(-3.0));
         assertEquals(6.0, function.evaluate(x), 0.0);
 
         x.setReal(0, 0.0);

@@ -57,7 +57,7 @@ public class Restarts implements Measurement<Int> {
     public Int getValue(Algorithm algorithm) {
         MultistartOptimisationAlgorithm m = (MultistartOptimisationAlgorithm) algorithm;
 
-        return new Int(m.getRestarts());
+        return Int.valueOf(m.getRestarts());
     }
 
 }

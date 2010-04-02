@@ -78,7 +78,7 @@ public class Rosenbrock extends ContinuousFunction {
     public Double evaluate(Vector input) {
         double tmp = 0;
 
-        for (int i = 0; i < input.getDimension()-1; ++i) {
+        for (int i = 0; i < input.size()-1; ++i) {
             double a = input.getReal(i);
             double b = input.getReal(i+1);
 

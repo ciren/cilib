@@ -53,7 +53,7 @@ public class TanH extends ActivationFunction {
      */
     @Override
     public Real evaluate(Real input) {
-        return new Real(this.evaluate(input.doubleValue()));
+        return Real.valueOf(this.evaluate(input.doubleValue()));
     }
 
     /**
@@ -71,7 +71,7 @@ public class TanH extends ActivationFunction {
      */
     @Override
     public Real getMaximum() {
-        return new Real(1.0);
+        return Real.valueOf(1.0);
     }
 
     /**
@@ -79,7 +79,7 @@ public class TanH extends ActivationFunction {
      */
     @Override
     public Real getMinimum() {
-        return new Real(0.0);
+        return Real.valueOf(0.0);
     }
 
     @Override

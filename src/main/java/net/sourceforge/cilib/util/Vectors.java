@@ -75,10 +75,13 @@ public final class Vectors {
      * @return The resultant {@code Vector}.
      */
     public static Vector sumOf(Vector... vectors) {
-        Vector result = vectors[0].getClone();
-        result.reset();
+        Vector result = null;//vectors[0].getClone();
 
         for (Vector vector : vectors) {
+            if (result == null) {
+                result = vector;
+                continue;
+            }
             result = result.plus(vector);
         }
 

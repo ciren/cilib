@@ -66,12 +66,12 @@ public class TTTStateInputStrategy extends NeuralStateInputStrategy {
                 GameItem item =gstate.getItem(i, j);
                 if(item != null){
                     if(((PlayerItem)item).getPlayerID() == currentPlayer.getPlayerID())
-                        input.add(new Real(currentPlayer.getScaledInput(1, -1, 1))); //it is me
+                        input.add(Real.valueOf(currentPlayer.getScaledInput(1, -1, 1))); //it is me
                     else
-                        input.add(new Real(currentPlayer.getScaledInput(-1, -1, 1))); //it is not me
+                        input.add(Real.valueOf(currentPlayer.getScaledInput(-1, -1, 1))); //it is not me
                 }
                 else
-                    input.add(new Real(currentPlayer.getScaledInput(0, -1, 1))); //it is nobody
+                    input.add(Real.valueOf(currentPlayer.getScaledInput(0, -1, 1))); //it is nobody
             }
         }
         return input;

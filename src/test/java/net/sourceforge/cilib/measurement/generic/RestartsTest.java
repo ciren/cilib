@@ -42,7 +42,7 @@ public class RestartsTest {
 
         Vector vector = (Vector) DomainParser.parse(m.getDomain());
 
-        assertEquals(1, vector.getDimension());
+        assertEquals(1, vector.size());
         assertTrue(vector.get(0) instanceof Int);
     }
 

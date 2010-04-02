@@ -78,7 +78,7 @@ public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
             Vector position = (Vector) particle.getPosition();
             Vector velocity = (Vector) particle.getVelocity();
 
-            for (int i = 0; i < position.getDimension(); ++i) {
+            for (int i = 0; i < position.size(); ++i) {
                 double value = position.getReal(i);
                 value += velocity.getReal(i);
                 position.setReal(i, value);
@@ -97,7 +97,7 @@ public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
             nucleus = (Vector) AbstractAlgorithm.get().getBestSolution().getPosition();
 
             double distance = Math.pow(this.radius,2); //square of the radius
-            int dimensions = position.getDimension();
+            int dimensions = position.size();
             double[] pieces = new double[dimensions]; // break up of the distance
             pieces[dimensions-1] = distance;
             for(int i=0; i<dimensions-1; i++){

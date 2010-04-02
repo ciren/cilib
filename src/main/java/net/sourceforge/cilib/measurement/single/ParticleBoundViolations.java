@@ -40,6 +40,7 @@ import net.sourceforge.cilib.type.types.Real;
  * @author  Andries Engelbrecht
  */
 public class ParticleBoundViolations implements Measurement<Real> {
+
     private static final long serialVersionUID = 2232130008790333636L;
 
     /**
@@ -84,7 +85,6 @@ public class ParticleBoundViolations implements Measurement<Real> {
                 }
             }
         }
-        return new Real((double)numberOfViolations/(double)populationSize);
+        return Real.valueOf((double) numberOfViolations / (double) populationSize);
     }
-
 }

@@ -37,15 +37,15 @@ public class LinearTest {
     public void evaluate() {
         Linear linear = new Linear();
         Assert.assertEquals(0.0, linear.evaluate(0.0), Maths.EPSILON);
-        Assert.assertEquals(0.0, linear.evaluate(new Real(0.0)).doubleValue(), Maths.EPSILON);
+        Assert.assertEquals(0.0, linear.evaluate(Real.valueOf(0.0)).doubleValue(), Maths.EPSILON);
 
         Assert.assertEquals(0.5, linear.evaluate(0.5), Maths.EPSILON);
-        Assert.assertEquals(0.5, linear.evaluate(new Real(0.5)).doubleValue(), Maths.EPSILON);
+        Assert.assertEquals(0.5, linear.evaluate(Real.valueOf(0.5)).doubleValue(), Maths.EPSILON);
 
         Assert.assertEquals(Double.MAX_VALUE, linear.evaluate(Double.MAX_VALUE), Maths.EPSILON);
-        Assert.assertEquals(Double.MIN_VALUE, linear.evaluate(new Real(Double.MIN_VALUE)).doubleValue(), Maths.EPSILON);
-        Assert.assertEquals(-Double.MIN_VALUE, linear.evaluate(new Real(-Double.MIN_VALUE)).doubleValue(), Maths.EPSILON);
-        Assert.assertEquals(-Double.MAX_VALUE, linear.evaluate(new Real(-Double.MAX_VALUE)).doubleValue(), Maths.EPSILON);
+        Assert.assertEquals(Double.MIN_VALUE, linear.evaluate(Real.valueOf(Double.MIN_VALUE)).doubleValue(), Maths.EPSILON);
+        Assert.assertEquals(-Double.MIN_VALUE, linear.evaluate(Real.valueOf(-Double.MIN_VALUE)).doubleValue(), Maths.EPSILON);
+        Assert.assertEquals(-Double.MAX_VALUE, linear.evaluate(Real.valueOf(-Double.MAX_VALUE)).doubleValue(), Maths.EPSILON);
     }
 
     @Test

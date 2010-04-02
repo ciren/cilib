@@ -181,7 +181,7 @@ public class LocalDataSet extends DataSet {
         Vector pattern = new Vector();
 
         for (int i = beginIndex; i <= endIndex; i++) {
-            pattern.add(new Real(Double.valueOf(elements[i])));
+            pattern.add(Real.valueOf(Double.valueOf(elements[i])));
         }
 
         String clazz = "";

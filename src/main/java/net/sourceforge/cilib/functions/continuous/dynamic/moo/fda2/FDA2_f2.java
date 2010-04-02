@@ -32,11 +32,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Marde Greeff
  */
-
 public class FDA2_f2 extends ContinuousFunction {
 
     private static final long serialVersionUID = 7814549850032093196L;
-
     //member
     ContinuousFunction fda2_g;
     ContinuousFunction fda2_h;
@@ -76,7 +74,7 @@ public class FDA2_f2 extends ContinuousFunction {
      */
     public void setFDA2_g(FunctionMinimisationProblem problem) {
         this.fda2_g_problem = problem;
-        this.fda2_g = (ContinuousFunction)problem.getFunction();
+        this.fda2_g = (ContinuousFunction) problem.getFunction();
         this.fda2_g.setDomain(fda2_g.getDomainRegistry().getDomainString());
     }
 
@@ -111,7 +109,7 @@ public class FDA2_f2 extends ContinuousFunction {
      */
     public void setFDA2_h(FunctionMinimisationProblem problem) {
         this.fda2_h_problem = problem;
-        this.fda2_h = (ContinuousFunction)problem.getFunction();
+        this.fda2_h = (ContinuousFunction) problem.getFunction();
         this.fda2_h.setDomain(fda2_h.getDomainRegistry().getDomainString());
     }
 
@@ -146,12 +144,13 @@ public class FDA2_f2 extends ContinuousFunction {
      */
     public Double evaluate(Vector input) {
         Vector y = input;
-        if (input.getDimension() > 1)
+        if (input.size() > 1) {
             y = input.copyOfRange(1, fda2_g.getDimension()); //-1
+        }
         double g = this.fda2_g.evaluate(y);
         double h = this.fda2_h.evaluate(input);
 
-        double value = g*h;
+        double value = g * h;
         return value;
     }
 }

@@ -25,7 +25,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-
 package net.sourceforge.cilib.measurement.single.dynamic;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
@@ -47,7 +46,9 @@ public class CollectiveMeanFitness extends DynamicMeasurement {
 
     private static final long serialVersionUID = -2848258016113713942L;
 
-    public CollectiveMeanFitness(){super();}
+    public CollectiveMeanFitness() {
+        super();
+    }
 
     public CollectiveMeanFitness(CollectiveMeanFitness copy) {
         this.setStateAware(copy.isStateAware());
@@ -64,7 +65,7 @@ public class CollectiveMeanFitness extends DynamicMeasurement {
         int iteration = algorithm.getIterations();
         OptimisationProblem function = algorithm.getOptimisationProblem();
         double fitness = function.getFitness(algorithm.getBestSolution().getPosition()).getValue();
-        avg = (avg * (iteration-1) + fitness) / (iteration);
-        return new Real(avg);
+        avg = (avg * (iteration - 1) + fitness) / (iteration);
+        return Real.valueOf(avg);
     }
 }

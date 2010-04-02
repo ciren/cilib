@@ -58,7 +58,7 @@ public class FunctionOptimisationError implements Measurement<Real> {
 
         double d = problem.getError(algorithm.getBestSolution().getPosition());
 
-        return new Real(d);
+        return Real.valueOf(d);
     }
 
 }

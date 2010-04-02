@@ -36,7 +36,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class BitStringMatcher extends DiscreteFunction {
 
     private static final long serialVersionUID = 7535776840908399415L;
-
     private String targetRandomString;
     private int numberOfBits;
 
@@ -50,7 +49,6 @@ public class BitStringMatcher extends DiscreteFunction {
         return new BitStringMatcher();
     }
 
-
     /**
      * Set the domain of the function and generate a random bit string. The generated
      * random bit string is generated to ensure that there is a target bit string to
@@ -61,7 +59,7 @@ public class BitStringMatcher extends DiscreteFunction {
      */
     public void setDomain(String newDomain) {
         super.setDomain(newDomain);
-        this.numberOfBits = this.getDimension();
+        this.numberOfBits = getDimension();
 
         BigInteger bi = new BigInteger(this.numberOfBits, new RandomAdaptor(new MersenneTwister()));
         this.targetRandomString = bi.toString(2);
@@ -80,7 +78,6 @@ public class BitStringMatcher extends DiscreteFunction {
         }
     }
 
-
     /**
      * Get the target random bit string to match.
      * @return The target random bit string
@@ -88,7 +85,6 @@ public class BitStringMatcher extends DiscreteFunction {
     public String getTargetRandomString() {
         return this.targetRandomString;
     }
-
 
     /**
      * Set the target random bit string to match.
@@ -98,8 +94,6 @@ public class BitStringMatcher extends DiscreteFunction {
         this.targetRandomString = target;
     }
 
-
-
     /**
      * Get the number of bits in the bit string that must be matched.
      * @return The number of bits within the bit string
@@ -108,7 +102,6 @@ public class BitStringMatcher extends DiscreteFunction {
         return this.numberOfBits;
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -116,14 +109,14 @@ public class BitStringMatcher extends DiscreteFunction {
     public Integer evaluate(Vector input) {
         int result = 0;
 
-        for (int i = 0; i < input.getDimension(); i++) {
+        for (int i = 0; i < input.size(); i++) {
             boolean bitValue = (this.targetRandomString.charAt(i) == '1') ? true : false;
 
-            if (input.getBit(i) == bitValue)
+            if (input.getBit(i) == bitValue) {
                 result++;
+            }
         }
 
         return result;
     }
-
 }

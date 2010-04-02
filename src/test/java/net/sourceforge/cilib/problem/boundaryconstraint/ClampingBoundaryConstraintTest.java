@@ -40,9 +40,9 @@ public class ClampingBoundaryConstraintTest {
     public void testEnforce() {
         Bounds bounds = new Bounds(-5.0, 5.0);
         Vector.Builder candidateSolutionBuilder = Vector.newBuilder();
-        candidateSolutionBuilder.add(new Real(-6.0, bounds));
-        candidateSolutionBuilder.add(new Real(3.0, bounds));
-        candidateSolutionBuilder.add(new Real(6.0, bounds));
+        candidateSolutionBuilder.add(Real.valueOf(-6.0, bounds));
+        candidateSolutionBuilder.add(Real.valueOf(3.0, bounds));
+        candidateSolutionBuilder.add(Real.valueOf(6.0, bounds));
 
         Individual i = new Individual();
         i.setCandidateSolution(candidateSolutionBuilder.build());

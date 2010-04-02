@@ -64,7 +64,7 @@ public class DifferentialEvolutionExponentialCrossover extends CrossoverStrategy
         Vector trialVector = (Vector) parentCollection.get(1).getCandidateSolution();
         Vector offspringVector = parentVector.getClone();
 
-        for (Integer point : getMutationPoints(trialVector.getDimension())) {
+        for (Integer point : getMutationPoints(trialVector.size())) {
             offspringVector.setReal(point, trialVector.getReal(point));
         }
 

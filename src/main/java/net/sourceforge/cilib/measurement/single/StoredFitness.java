@@ -34,6 +34,7 @@ import net.sourceforge.cilib.type.types.Real;
  * @author leo
  */
 public class StoredFitness implements Measurement<Real> {
+
     private static final long serialVersionUID = 6502384299554109943L;
 
     /**
@@ -58,12 +59,12 @@ public class StoredFitness implements Measurement<Real> {
     @Override
     public Real getValue(Algorithm algorithm) {
         Fitness best = null;
-        PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm)algorithm;
-        for(Entity e: currentAlgorithm.getTopology().asList()){
-            if(best == null || ((Fitness)e.getProperties().get(EntityType.Particle.BEST_FITNESS)).compareTo(best) > 0)
-                best = ((Fitness)e.getProperties().get(EntityType.Particle.BEST_FITNESS));
+        PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm) algorithm;
+        for (Entity e : currentAlgorithm.getTopology().asList()) {
+            if (best == null || ((Fitness) e.getProperties().get(EntityType.Particle.BEST_FITNESS)).compareTo(best) > 0) {
+                best = ((Fitness) e.getProperties().get(EntityType.Particle.BEST_FITNESS));
+            }
         }
-        return new Real(best.getValue());
+        return Real.valueOf(best.getValue());
     }
-
 }

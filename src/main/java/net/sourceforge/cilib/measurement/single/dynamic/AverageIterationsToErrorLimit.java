@@ -25,7 +25,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-
 package net.sourceforge.cilib.measurement.single.dynamic;
 
 import java.io.IOException;
@@ -54,7 +53,9 @@ public class AverageIterationsToErrorLimit extends DynamicMeasurement {
     private double limit; //the acceptable error limit
     private boolean flag = true; //false if the limit has been reach for the current cycle
 
-    public AverageIterationsToErrorLimit(){super();}
+    public AverageIterationsToErrorLimit() {
+        super();
+    }
 
     public AverageIterationsToErrorLimit(AverageIterationsToErrorLimit copy) {
         setStateAware(copy.isStateAware());
@@ -94,18 +95,18 @@ public class AverageIterationsToErrorLimit extends DynamicMeasurement {
         double error = function.getError(algorithm.getBestSolution().getPosition());
         int score = this.cycleSize;
 
-        if(flag &&(error <= limit || (iteration)%cycleSize == 0)){
-            score = iteration-this.cycleNr*this.cycleSize;
-            avg = (avg * this.cycleNr + score) / (this.cycleNr+1);
+        if (flag && (error <= limit || (iteration) % cycleSize == 0)) {
+            score = iteration - this.cycleNr * this.cycleSize;
+            avg = (avg * this.cycleNr + score) / (this.cycleNr + 1);
             cycleNr++;
             flag = false;
         }//if
 
-        if((iteration)%cycleSize == 0 && !algorithm.isFinished()){
+        if ((iteration) % cycleSize == 0 && !algorithm.isFinished()) {
             flag = true;
         }//if
 
-        return new Real(avg);
+        return Real.valueOf(avg);
     }
 
     @Override

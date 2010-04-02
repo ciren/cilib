@@ -38,15 +38,15 @@ public class NaryTreeTest {
 
     @Before
     public void setupNaryTree() {
-        doubleTree = new NaryTree<Real>(3, new Real(1.0));
-        doubleTree.addSubTree(new NaryTree<Real>(3, new Real(2.0)));
-        doubleTree.addSubTree(new NaryTree<Real>(3, new Real(3.0)));
-        doubleTree.addSubTree(new NaryTree<Real>(3, new Real(4.0)));
+        doubleTree = new NaryTree<Real>(3, Real.valueOf(1.0));
+        doubleTree.addSubTree(new NaryTree<Real>(3, Real.valueOf(2.0)));
+        doubleTree.addSubTree(new NaryTree<Real>(3, Real.valueOf(3.0)));
+        doubleTree.addSubTree(new NaryTree<Real>(3, Real.valueOf(4.0)));
     }
 
     @Test
     public void getSubtreeWithinTree() {
-        Tree<Real> result = doubleTree.getSubTree(new Real(3.0));
+        Tree<Real> result = doubleTree.getSubTree(Real.valueOf(3.0));
         assertEquals(3.0, result.getKey().doubleValue(), 0);
     }
 
@@ -64,10 +64,10 @@ public class NaryTreeTest {
 
     @Test
     public void removalOfSubtreeByKey() {
-        Tree<Real> removed = doubleTree.removeSubTree(new Real(2.0));
+        Tree<Real> removed = doubleTree.removeSubTree(Real.valueOf(2.0));
         assertNotNull(removed);
         assertEquals(2.0, removed.getKey().doubleValue(), 0);
-        assertTrue(doubleTree.getSubTree(new Real(2.0)).isEmpty());
+        assertTrue(doubleTree.getSubTree(Real.valueOf(2.0)).isEmpty());
     }
 
     @Test

@@ -55,14 +55,14 @@ public class CooperativeCoevolutionTest {
 
          //fake result vectors for the two subpopulation algorithms
          final Vector pop1Result = new Vector();
-         pop1Result.add(new Real(1));
+         pop1Result.add(Real.valueOf(1));
          final Vector pop2Result = new Vector();
-         pop2Result.add(new Real(2));
+         pop2Result.add(Real.valueOf(2));
          //fake random vectors for the two subpopulation algorithms
          final Vector pop1Rand = new Vector();
-         pop1Rand.add(new Real(4));
+         pop1Rand.add(Real.valueOf(4));
          final Vector pop2Rand = new Vector();
-         pop2Rand.add(new Real(4));
+         pop2Rand.add(Real.valueOf(4));
 
          //mock contribution selection that will return desired contribution
          final ContributionSelectionStrategy strategy = context.mock(ContributionSelectionStrategy.class);

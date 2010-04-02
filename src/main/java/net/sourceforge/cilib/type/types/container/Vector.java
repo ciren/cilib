@@ -35,13 +35,12 @@ import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Resetable;
 
 /**
  *
  * @author gpampara
  */
-public class Vector implements StructuredType<Numeric>, VectorMath, Resetable {
+public class Vector implements StructuredType<Numeric>, VectorMath {
 
     private static final long serialVersionUID = -4853190809813810272L;
     private Numeric[] components;
@@ -58,7 +57,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath, Resetable {
         Numeric[] elements = new Numeric[numbers.length];
         int index = 0;
         for (Number number : numbers) {
-            elements[index++] = new Real(number.doubleValue());
+            elements[index++] = Real.valueOf(number.doubleValue());
         }
         return new Vector(elements);
     }
@@ -80,6 +79,10 @@ public class Vector implements StructuredType<Numeric>, VectorMath, Resetable {
         } else {
             return copyOfInternal(Lists.newArrayList(iterable));
         }
+    }
+
+    public static Vector copyOf(Vector input) {
+        return newBuilder().copyOf(input).build(); // this is a little weird :(
     }
 
     private static Vector copyOfInternal(Collection<? extends Number> collection) {
@@ -136,7 +139,9 @@ public class Vector implements StructuredType<Numeric>, VectorMath, Resetable {
     /**
      * Create a new {@code Vector} which is a copy of the provided instance.
      * @param copy The {@code Vector} to copy.
+     * @deprecated Use {@link Vector#copyOf(java.lang.Iterable)} instead.
      */
+    @Deprecated
     public Vector(Vector copy) {
         this.components = new Numeric[copy.components.length];
         for (int i = 0, n = components.length; i < n; i++) {
@@ -146,10 +151,12 @@ public class Vector implements StructuredType<Numeric>, VectorMath, Resetable {
 
     /**
      * {@inheritDoc}
+     * @deprecated Use {@link Vector#copyOf(java.lang.Iterable)} instead.
      */
+    @Deprecated
     @Override
     public Vector getClone() {
-        return new Vector(this);
+        return Vector.copyOf(this);
     }
 
     /**
@@ -187,6 +194,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath, Resetable {
      * Get the {@code Numeric} at the provided {@code index}.
      * @param index The index of the {@code Numeric} in the {@code Vector}.
      * @return The {@code Numeric} at index {@code index}.
+     * @deprecated
      */
     @Deprecated
     public Numeric get(int index) {
@@ -197,65 +205,12 @@ public class Vector implements StructuredType<Numeric>, VectorMath, Resetable {
      * Set the {@code Numeric} type at the specified index.
      * @param index The index to set.
      * @param value The value to set.
+     * @deprecated
      */
     @Deprecated
     public void set(int index, Numeric value) {
         this.components[index] = value;
     }
-
-    /**
-     * Insert the provided {@code Numeric} at the specified {@code index}.
-     * @param index The index to insert the {@code Numeric}.
-     * @param value The {@code Numeric} to insert.
-     */
-//    @Override
-//    public void insert(int index, Numeric value) {
-//        Numeric[] array = new Numeric[components.length + 1];
-//        for (int i = 0, n = index; i < n; i++) {
-//            array[i] = components[i];
-//        }
-//        array[index] = value;
-//        for (int i = index + 1, n = array.length; i < n; i++) {
-//            array[i] = components[i - 1];
-//        }
-//        components = array;
-//    }
-
-    /**
-     * Add the elements of {@code list} to the end of the current {@code Vector}.
-     * @param list The list of elements to add.
-     * @return {@code true} if successful, {@code false} otherwise.
-     * @deprecated This method has been deprecated in favor of the {@code Vector.Builder}.
-     */
-//    @Deprecated
-//    @Override
-//    public boolean append(AbstractList<Numeric> list) {
-//        Numeric[] array = new Numeric[components.length + list.size()];
-//        int index = 0;
-//        for (Numeric numeric : list) {
-//            array[index++] = numeric;
-//        }
-//        System.arraycopy(components, 0, array, list.size(), components.length);
-//        components = array;
-//        return true;
-//    }
-
-    /**
-     * Add all the elements contained within {@code list} to the beginning
-     * of the current {@code Vector}.
-     * @param list The list to prepend to the beginning of the {@code Vector}.
-     * @return {@code true} if successful, {@code false} otherwise.
-     */
-//    @Override
-//    public boolean prepend(AbstractList<Numeric> list) {
-//        Numeric[] array = new Numeric[components.length + list.size()];
-//        for (int i = 0, n = list.size(); i < n; i++) {
-//            array[i] = list.get(i);
-//        }
-//        System.arraycopy(components, 0, array, list.size(), components.length);
-//        components = array;
-//        return true;
-//    }
 
     /**
      * Obtain an array representing this {@code Vector}.
@@ -365,7 +320,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath, Resetable {
     public Iterator<Numeric> iterator() {
         return new Iterator<Numeric>() {
 
-            int index = 0;
+            private int index = 0;
 
             @Override
             public boolean hasNext() {
@@ -386,7 +341,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath, Resetable {
 
     /**
      * Remove the first occurance of the provided object.
-     * @param element The object instace to remove.
+     * @param o The object instace to remove.
      * @return {@code true} if successful, {@code false} otherwise.
      */
     @Override
@@ -413,37 +368,12 @@ public class Vector implements StructuredType<Numeric>, VectorMath, Resetable {
     }
 
     /**
-     * Remove the element at {@code index} from the {@code Vector}.
-     * @param index index of the element to remove.
-     * @return The removed {@code Numeric} instance.
-     */
-//    @Override
-//    public Numeric remove(int index) {
-//        checkArgument(index < components.length);
-//        Numeric result = null;
-//        Numeric[] array = new Numeric[components.length - 1];
-//        for (int i = 0, count = 0; i < components.length; i++) {
-//            if (i == index) {
-//                result = components[i];
-//                continue;
-//            }
-//            array[count++] = components[i];
-//        }
-//        this.components = array;
-//        return result;
-//    }
-    /**
      * Remove all the objects contained within {@code structure}.
-     * @param structure The structure containing objects to remove.
+     * @param c The structure containing objects to remove.
      * @return {@code true} if successful, {@code false} otherwise.
      */
     @Override
     public boolean removeAll(Collection<?> c) {
-//        for (Numeric numeric : structure) {
-//            this.components.remove(numeric);
-//        }
-//
-//        return true;
         throw new UnsupportedOperationException();
     }
 
@@ -461,6 +391,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath, Resetable {
      * @return The dimension of the {@code Vector}.
      * @see Vector#size()
      */
+    @Deprecated
     public int getDimension() {
         return this.components.length;
     }
@@ -611,16 +542,6 @@ public class Vector implements StructuredType<Numeric>, VectorMath, Resetable {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void reset() {
-        for (Numeric numeric : this.components) {
-            numeric.reset();
-        }
-    }
-
-    /**
      * Randomize all the elements contained within the {@code Vector}.
      * @param random The {@code Random} to use to randomize the {@code Vector}.
      */
@@ -747,17 +668,17 @@ public class Vector implements StructuredType<Numeric>, VectorMath, Resetable {
         private List<Numeric> elements = Lists.newArrayList();
 
         public Builder add(double value) {
-            elements.add(new Real(value));
+            elements.add(Real.valueOf(value));
             return this;
         }
 
         public Builder add(int value) {
-            elements.add(new Int(value));
+            elements.add(Int.valueOf(value));
             return this;
         }
 
         public Builder add(boolean value) {
-            elements.add(new Bit(value));
+            elements.add(Bit.valueOf(value));
             return this;
         }
 
@@ -767,12 +688,12 @@ public class Vector implements StructuredType<Numeric>, VectorMath, Resetable {
         }
 
         public Builder addWithin(double value, Bounds bounds) {
-            elements.add(new Real(value, checkNotNull(bounds)));
+            elements.add(Real.valueOf(value, checkNotNull(bounds)));
             return this;
         }
 
         public Builder addWithin(int value, Bounds bounds) {
-            elements.add(new Int(value, checkNotNull(bounds)));
+            elements.add(Int.valueOf(value, checkNotNull(bounds)));
             return this;
         }
 

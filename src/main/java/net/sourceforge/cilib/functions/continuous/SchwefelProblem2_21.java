@@ -69,7 +69,7 @@ public class SchwefelProblem2_21 extends ContinuousFunction {
         double max = Math.abs(input.getReal(0));
         double value;
 
-        for (int i = 1; i < input.getDimension(); ++i) {
+        for (int i = 1; i < input.size(); ++i) {
             value = Math.abs(input.getReal(i));
             if (value > max)
                 max = value;

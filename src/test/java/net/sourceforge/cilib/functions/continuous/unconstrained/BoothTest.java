@@ -54,8 +54,8 @@ public class BoothTest {
         function.setDomain("R(-10,10)^2");
 
         Vector x = new Vector();
-        x.add(new Real(1.0));
-        x.add(new Real(2.0));
+        x.add(Real.valueOf(1.0));
+        x.add(Real.valueOf(2.0));
 
         assertEquals(5.0, function.evaluate(x), 0.0);
 

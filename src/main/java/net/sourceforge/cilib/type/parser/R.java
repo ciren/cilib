@@ -37,7 +37,7 @@ final class R implements TypeCreator {
      */
     @Override
     public Type create() {
-        return new Real(0.0);
+        return Real.valueOf(0.0);
     }
 
     /**
@@ -45,7 +45,7 @@ final class R implements TypeCreator {
      */
     @Override
     public Type create(double value) {
-        return new Real(value);
+        return Real.valueOf(value);
     }
 
     /**
@@ -53,7 +53,7 @@ final class R implements TypeCreator {
      */
     @Override
     public Type create(final Bounds bounds) {
-        return new Real(0.0, bounds);
+        return Real.valueOf(0.0, bounds);
     }
 
 }

@@ -54,7 +54,7 @@ public class FitnessEvaluations implements Measurement<Int> {
     @Override
     public Int getValue(Algorithm algorithm) {
         int evaluations = algorithm.getOptimisationProblem().getFitnessEvaluations();
-        return new Int(evaluations);
+        return Int.valueOf(evaluations);
     }
 
 }

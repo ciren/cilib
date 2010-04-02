@@ -147,7 +147,7 @@ public class ARFFFileReader extends FileReader<List<Type>> {
      */
     private Type getTypeData(int columnn, String datatype) throws CIlibIOException {
         if (datatype.equalsIgnoreCase("NUMERIC")) {
-            return new Real(0.0);
+            return Real.valueOf(0.0);
         }
         if (datatype.equalsIgnoreCase("STRING")) {
             return new StringType("");
@@ -173,7 +173,7 @@ public class ARFFFileReader extends FileReader<List<Type>> {
             nominalMap.put(nominalAttribute, i);
         }
         columnToNominalAttributesMap.put(columnn, nominalMap);
-        return new Int(0);
+        return Int.valueOf(0);
     }
 
     /**
@@ -185,7 +185,7 @@ public class ARFFFileReader extends FileReader<List<Type>> {
     private Type mapTokenToType(int index, String token) {
         Type type = columnTypePrototypes.get(index);
         if (type instanceof Real) {
-            return new Real(Double.parseDouble(token));
+            return Real.valueOf(Double.parseDouble(token));
         }
 
         if (type instanceof StringType) {
@@ -194,7 +194,7 @@ public class ARFFFileReader extends FileReader<List<Type>> {
 
         //If none of the above, has to be a nominal attribute.
         HashMap<String, Integer> nominalMap = this.columnToNominalAttributesMap.get(index);
-        return new Int(nominalMap.get(token));
+        return Int.valueOf(nominalMap.get(token));
     }
 
     /**

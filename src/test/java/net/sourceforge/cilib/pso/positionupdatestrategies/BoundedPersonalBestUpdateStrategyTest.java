@@ -44,7 +44,7 @@ public class BoundedPersonalBestUpdateStrategyTest {
 
     @Test
     public void updatePersonalBest() {
-        Real real = new Real(0.0, new Bounds(-5.0, 5.0));
+        Real real = Real.valueOf(0.0, new Bounds(-5.0, 5.0));
         Particle particle = new StandardParticle();
 
         particle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(200.0));
@@ -60,7 +60,7 @@ public class BoundedPersonalBestUpdateStrategyTest {
 
     @Test
     public void updatePersonalBestFails() {
-        Real real = new Real(-10.0, new Bounds(-5.0, 5.0));
+        Real real = Real.valueOf(-10.0, new Bounds(-5.0, 5.0));
         Particle particle = new StandardParticle();
 
         particle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(200.0));

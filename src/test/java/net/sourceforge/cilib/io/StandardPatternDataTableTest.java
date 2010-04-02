@@ -175,21 +175,21 @@ public class StandardPatternDataTableTest {
     @Test
     public void testGetColumn() {
         TypeList expected = new TypeList();
-        expected.add(new Real(0.2));
-        expected.add(new Real(1.2));
+        expected.add(Real.valueOf(0.2));
+        expected.add(Real.valueOf(1.2));
         TypeList column = stringTargetPatterns.getColumn(1);
         Assert.assertEquals(expected, column);
 
         expected = new TypeList();
         Vector target = new Vector();
-        target.add(new Real(1.0));
-        target.add(new Real(1.0));
-        target.add(new Real(0.0));
+        target.add(Real.valueOf(1.0));
+        target.add(Real.valueOf(1.0));
+        target.add(Real.valueOf(0.0));
         expected.add(target);
         target = new Vector();
-        target.add(new Real(0.0));
-        target.add(new Real(0.0));
-        target.add(new Real(1.0));
+        target.add(Real.valueOf(0.0));
+        target.add(Real.valueOf(0.0));
+        target.add(Real.valueOf(1.0));
         expected.add(target);
         column = vectorTargetPatterns.getColumn(5);
         Assert.assertEquals(expected, column);
@@ -198,7 +198,7 @@ public class StandardPatternDataTableTest {
     @Test
     public void testSetColumn() {
         TypeList newColumn = new TypeList();
-        List<Real> list = Arrays.asList(new Real(5.2), new Real(6.2));
+        List<Real> list = Arrays.asList(Real.valueOf(5.2), Real.valueOf(6.2));
         for (Real real : list) {
             newColumn.add(real);
         }
@@ -207,14 +207,14 @@ public class StandardPatternDataTableTest {
 
         newColumn = new TypeList();
         Vector target = new Vector();
-        target.add(new Real(1.0));
-        target.add(new Real(1.0));
-        target.add(new Real(0.0));
+        target.add(Real.valueOf(1.0));
+        target.add(Real.valueOf(1.0));
+        target.add(Real.valueOf(0.0));
         newColumn.add(target);
         target = new Vector();
-        target.add(new Real(0.0));
-        target.add(new Real(0.0));
-        target.add(new Real(1.0));
+        target.add(Real.valueOf(0.0));
+        target.add(Real.valueOf(0.0));
+        target.add(Real.valueOf(1.0));
         newColumn.add(target);
         newColumn = vectorTargetPatterns.getColumn(5);
         Assert.assertEquals(newColumn, vectorTargetPatterns.getColumn(5));

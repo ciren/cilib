@@ -45,14 +45,15 @@ public class SpatialCenterInitialisationStrategy implements CenterInitialisation
         while (averageIterator.hasNext()) {
             entity = averageIterator.next();
             Vector entityContents = (Vector) entity.getCandidateSolution();
-            for (int j = 0; j < averageEntityPosition.getDimension(); ++j)
-               averageEntityPosition.setReal(j, averageEntityPosition.getReal(j)+entityContents.getReal(j));
+            for (int j = 0; j < averageEntityPosition.size(); ++j) {
+                averageEntityPosition.setReal(j, averageEntityPosition.getReal(j) + entityContents.getReal(j));
+            }
         }
 
-        for (int j = 0; j < averageEntityPosition.getDimension(); ++j)
-           averageEntityPosition.setReal(j, averageEntityPosition.getReal(j)/numberOfEntities);
+        for (int j = 0; j < averageEntityPosition.size(); ++j) {
+            averageEntityPosition.setReal(j, averageEntityPosition.getReal(j) / numberOfEntities);
+        }
 
         return averageEntityPosition;
     }
-
 }

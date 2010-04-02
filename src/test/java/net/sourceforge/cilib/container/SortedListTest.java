@@ -39,9 +39,9 @@ public class SortedListTest {
     public void addition() {
         SortedList<Int> intList = new SortedList<Int>();
 
-        intList.add(new Int(5));
-        intList.add(new Int(8));
-        intList.add(new Int(2));
+        intList.add(Int.valueOf(5));
+        intList.add(Int.valueOf(8));
+        intList.add(Int.valueOf(2));
 
         assertEquals(2, intList.get(0).intValue());
         assertEquals(5, intList.get(1).intValue());
@@ -82,11 +82,11 @@ public class SortedListTest {
     public void setValue() {
         SortedList<Int> list = new SortedList<Int>();
 
-        list.add(new Int(3));
-        list.add(new Int(1));
-        list.add(new Int(12));
+        list.add(Int.valueOf(3));
+        list.add(Int.valueOf(1));
+        list.add(Int.valueOf(12));
 
-        list.set(0, new Int(4));
+        list.set(0, Int.valueOf(4));
 
         assertEquals(3, list.get(0).intValue());
         assertEquals(4, list.get(1).intValue());
@@ -97,13 +97,13 @@ public class SortedListTest {
     public void addCollection() {
         SortedList<Int> list = new SortedList<Int>();
 
-        list.add(new Int(0));
-        list.add(new Int(200));
+        list.add(Int.valueOf(0));
+        list.add(Int.valueOf(200));
 
         List<Int> v = new ArrayList<Int>();
-        v.add(new Int(4));
-        v.add(new Int(1));
-        v.add(new Int(50));
+        v.add(Int.valueOf(4));
+        v.add(Int.valueOf(1));
+        v.add(Int.valueOf(50));
 
         list.addAll(list.size()-1, v);
 

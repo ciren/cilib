@@ -47,10 +47,10 @@ public class ColvilleTest {
         function.setDomain("R(-10, 10)^4");
 
         Vector x = new Vector();
-        x.add(new Real(0.0));
-        x.add(new Real(0.0));
-        x.add(new Real(0.0));
-        x.add(new Real(0.0));
+        x.add(Real.valueOf(0.0));
+        x.add(Real.valueOf(0.0));
+        x.add(Real.valueOf(0.0));
+        x.add(Real.valueOf(0.0));
        // assertEquals(42.0, function.evaluate(x), 0.0);
 
         x.setReal(0, 1.0);

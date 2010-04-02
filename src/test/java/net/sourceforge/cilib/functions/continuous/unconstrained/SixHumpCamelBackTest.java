@@ -51,8 +51,8 @@ public class SixHumpCamelBackTest {
         Vector x = new Vector();
 
         //test the two global minima
-        x.add(new Real(-0.0898));
-        x.add(new Real(0.7126));
+        x.add(Real.valueOf(-0.0898));
+        x.add(Real.valueOf(0.7126));
         Assert.assertEquals(-1.0316, function.evaluate(x), EPSILON);
 
         x.setReal(0, 0.0898);

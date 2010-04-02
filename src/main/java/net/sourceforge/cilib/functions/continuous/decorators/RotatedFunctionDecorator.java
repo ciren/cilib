@@ -35,10 +35,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class RotatedFunctionDecorator extends ContinuousFunction {
+
     private static final long serialVersionUID = 3107473364744861153L;
     private ContinuousFunction function;
     private double[][] rotationMatrix;
-
     /**
      * Specifies a probability that determines whether the rotationMatrix should be
      * re-created for a particular function evaluation.
@@ -67,17 +67,21 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
      * being decorated with the rotated vector as the parameter.
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double evaluate(final Vector input) {
         RandomNumber rotateOrNot = new RandomNumber();
 
-        if(rotationMatrix == null || rotateOrNot.getUniform() < rotationProbability.getParameter())
+        if (rotationMatrix == null || rotateOrNot.getUniform() < rotationProbability.getParameter()) {
             setRotationMatrix();
+        }
 
-        Vector rotatedX = input.getClone();
-        rotatedX.reset();
+        Vector.Builder rotatedXBuilder = Vector.newBuilder();
+        for (int i = 0, n = input.size(); i < n; i++) {
+            rotatedXBuilder.add(0.0);
+        }
+        Vector rotatedX = rotatedXBuilder.build();
 
-        for(int j = 0; j < input.getDimension(); j++) {
-            for(int i = 0; i < input.getDimension(); i++) {
+        for (int j = 0; j < input.size(); j++) {
+            for (int i = 0; i < input.size(); i++) {
                 rotatedX.setReal(j, rotatedX.getReal(j) + input.getReal(i) * rotationMatrix[i][j]);
             }
         }
@@ -110,8 +114,8 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
         rotationMatrix = new double[dimension][dimension];
         RandomNumber initializer = new RandomNumber();
 
-        for(int i = 0; i < dimension; i++) {
-            for(int j = 0; j < dimension; j++) {
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
                 rotationMatrix[i][j] = initializer.getNormal();
             }
         }
@@ -128,35 +132,35 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
          *
          *       This makes for somewhat easier array representation and operations.
          */
-        for(int i = 0; i < dimension; i++) {
+        for (int i = 0; i < dimension; i++) {
 
             /*
              * create a vector to store the result of projecting the current column on
              * column_j, where j e [0, i-1]
              */
             double[] projection = new double[dimension];
-            for(int contents = 0; contents < dimension; contents++) {
+            for (int contents = 0; contents < dimension; contents++) {
                 projection[contents] = 0;
             }
 
             /*
              * set up the projection vector
              */
-            for(int j = 0; j < i; j++) {
+            for (int j = 0; j < i; j++) {
                 double[] column_j = rotationMatrix[j];
                 double innerProduct = 0.0;
 
                 /*
                  * calculate inner product for the current vector and column_j
                  */
-                for(int contents = 0; contents < dimension; contents++) {
+                for (int contents = 0; contents < dimension; contents++) {
                     innerProduct += (rotationMatrix[i][contents] * column_j[contents]);
                 }
 
                 /*
                  * multiply column_j by above inner product and add to the projection
                  */
-                for(int contents = 0; contents < dimension; contents++) {
+                for (int contents = 0; contents < dimension; contents++) {
                     projection[contents] += (column_j[contents] * innerProduct);
                 }
             }
@@ -164,7 +168,7 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
             /*
              * subtract the projection from the column to be replaced and normalize
              */
-            for(int contents = 0; contents < dimension; contents++) {
+            for (int contents = 0; contents < dimension; contents++) {
                 rotationMatrix[i][contents] -= projection[contents];
             }
 
@@ -173,7 +177,7 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
              */
             double columnNorm = 0.0;
 
-            for(int contents = 0; contents < dimension; contents++) {
+            for (int contents = 0; contents < dimension; contents++) {
                 columnNorm += rotationMatrix[i][contents] * rotationMatrix[i][contents];
             }
 
@@ -182,7 +186,7 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
             /*
              * normalize the vector
              */
-            for(int contents = 0; contents < dimension; contents++) {
+            for (int contents = 0; contents < dimension; contents++) {
                 rotationMatrix[i][contents] /= columnNorm;
             }
         }
@@ -231,5 +235,4 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
     public void setRotationProbability(ControlParameter rotationProbability) {
         this.rotationProbability = rotationProbability;
     }
-
 }

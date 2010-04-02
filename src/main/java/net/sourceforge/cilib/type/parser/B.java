@@ -42,7 +42,7 @@ final class B implements TypeCreator {
      */
     @Override
     public Type create() {
-        return new Bit(random.nextBoolean());
+        return Bit.valueOf(random.nextBoolean());
     }
 
     /**
@@ -51,9 +51,9 @@ final class B implements TypeCreator {
     @Override
     public Type create(double value) {
         if (Double.compare(value, 0.0) == 0) {
-            return new Bit(false);
+            return Bit.valueOf(false);
         } else if (Double.compare(value, 1.0) == 0) {
-            return new Bit(true);
+            return Bit.valueOf(true);
         }
         throw new UnsupportedOperationException("Cannot create a bit type with the specified value.");
     }

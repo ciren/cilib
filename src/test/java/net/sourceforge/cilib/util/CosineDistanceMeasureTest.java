@@ -42,19 +42,19 @@ public class CosineDistanceMeasureTest {
         Vector v1 = new Vector();
         Vector v2 = new Vector();
 
-        v1.add(new Real(4.0));
-        v1.add(new Real(3.0));
-        v1.add(new Real(2.0));
+        v1.add(Real.valueOf(4.0));
+        v1.add(Real.valueOf(3.0));
+        v1.add(Real.valueOf(2.0));
 
-        v2.add(new Real(2.0));
-        v2.add(new Real(3.0));
-        v2.add(new Real(4.0));
+        v2.add(Real.valueOf(2.0));
+        v2.add(Real.valueOf(3.0));
+        v2.add(Real.valueOf(4.0));
 
         double distance = distanceMeasure.distance(v1, v2);
         assertTrue(distance >= -1 && distance <= 1);
         assertEquals(1 - (25.0 / 29.0), distance, 0.000000000000001);
 
-        v1.add(new Real(22.0));
+        v1.add(Real.valueOf(22.0));
 
         distanceMeasure.distance(v1, v2);
     }

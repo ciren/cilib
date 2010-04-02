@@ -70,7 +70,7 @@ public class BestPositionBoundViolations implements Measurement<Real> {
             }
         }
 
-        return new Real(numberOfViolations);
+        return Real.valueOf(numberOfViolations);
     }
 
 }

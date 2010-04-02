@@ -39,7 +39,7 @@ public abstract class ActivationFunction extends AbstractFunction<Real, Real> im
      * @return The value of the gradient and the provided input.
      */
     public Real getGradient(Real number) {
-        return new Real(this.getGradient(number.doubleValue()));
+        return Real.valueOf(this.getGradient(number.doubleValue()));
     }
 
     /**

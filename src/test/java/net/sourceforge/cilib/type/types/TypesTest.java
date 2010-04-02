@@ -34,9 +34,9 @@ public class TypesTest {
 
     @Test
     public void numericDimension() {
-        Real r = new Real(0.0);
-        Int i = new Int(0);
-        Bit b = new Bit(false);
+        Real r = Real.valueOf(0.0);
+        Int i = Int.valueOf(0);
+        Bit b = Bit.valueOf(false);
 
         Assert.assertEquals(1, Types.dimensionOf(r));
         Assert.assertEquals(1, Types.dimensionOf(i));
@@ -48,13 +48,13 @@ public class TypesTest {
         Vector vector = new Vector();
         Assert.assertEquals(0, Types.dimensionOf(vector));
 
-        vector.add(new Real(0.0));
+        vector.add(Real.valueOf(0.0));
         Assert.assertEquals(1, Types.dimensionOf(vector));
     }
 
     @Test
     public void nonStructureDimension() {
-        Real r = new Real(0.0);
+        Real r = Real.valueOf(0.0);
 
         Assert.assertEquals(1, Types.dimensionOf(r));
     }
@@ -62,7 +62,7 @@ public class TypesTest {
     @Test
     public void structureIsNotInsideBounds() {
         Vector vector = new Vector();
-        Real r = new Real(-7.0, new Bounds(-5.0, 5.0));
+        Real r = Real.valueOf(-7.0, new Bounds(-5.0, 5.0));
 
         vector.add(r);
 
@@ -72,8 +72,8 @@ public class TypesTest {
     @Test
     public void structureInBounds() {
         Bounds bounds = new Bounds(-5.0, 5.0);
-        Real r1 = new Real(-5.0, bounds);
-        Real r2 = new Real(5.0, bounds);
+        Real r1 = Real.valueOf(-5.0, bounds);
+        Real r2 = Real.valueOf(5.0, bounds);
 
         Vector vector = new Vector();
         vector.add(r1);

@@ -38,6 +38,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * the fitness.
  */
 public class MultiPopulationFitness implements Measurement<Vector> {
+
     private static final long serialVersionUID = -608120128187899491L;
 
     /**
@@ -63,15 +64,15 @@ public class MultiPopulationFitness implements Measurement<Vector> {
     public Vector getValue(Algorithm algorithm) {
         Vector fitness = new Vector();
         CoevolutionAlgorithm ca = (CoevolutionAlgorithm) algorithm;
-        for(PopulationBasedAlgorithm currentAlgorithm : ca) {
+        for (PopulationBasedAlgorithm currentAlgorithm : ca) {
             Fitness best = null;
-            for(Entity e: currentAlgorithm.getTopology().asList()){
-                if(best == null || ((Fitness)e.getProperties().get(EntityType.Particle.BEST_FITNESS)).compareTo(best) > 0)
-                    best = ((Fitness)e.getProperties().get(EntityType.Particle.BEST_FITNESS));
+            for (Entity e : currentAlgorithm.getTopology().asList()) {
+                if (best == null || ((Fitness) e.getProperties().get(EntityType.Particle.BEST_FITNESS)).compareTo(best) > 0) {
+                    best = ((Fitness) e.getProperties().get(EntityType.Particle.BEST_FITNESS));
+                }
             }
-            fitness.add(new Real(best.getValue()));
+            fitness.add(Real.valueOf(best.getValue()));
         }
         return fitness;
     }
-
 }

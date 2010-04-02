@@ -41,17 +41,17 @@ public class MinkowskiMetricTest {
         Vector v1 = new Vector();
         Vector v2 = new Vector();
 
-        v1.add(new Real(4.0));
-        v1.add(new Real(3.0));
-        v1.add(new Real(2.0));
+        v1.add(Real.valueOf(4.0));
+        v1.add(Real.valueOf(3.0));
+        v1.add(Real.valueOf(2.0));
 
-        v2.add(new Real(2.0));
-        v2.add(new Real(3.0));
-        v2.add(new Real(4.0));
+        v2.add(Real.valueOf(2.0));
+        v2.add(Real.valueOf(3.0));
+        v2.add(Real.valueOf(4.0));
 
         assertEquals(Math.pow(16, 1/3.0), distanceMeasure.distance(v1, v2), Double.MIN_NORMAL);
 
-        v1.add(new Real(22.0));
+        v1.add(Real.valueOf(22.0));
 
         distanceMeasure.distance(v1, v2);
     }

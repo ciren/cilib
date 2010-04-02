@@ -45,13 +45,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </li></ul></p>
  * @author Andries Engelbrecht
  */
-
 /**
  * TODO: Rather let this extend Diversity, call super.getValue, but how
  * to type-cast this back to a double?
  */
-
 public class NormalisedDiversity implements Measurement<Real> {
+
     private static final long serialVersionUID = 93751729329230145L;
 
     /**
@@ -84,11 +83,13 @@ public class NormalisedDiversity implements Measurement<Real> {
         while (k.hasNext()) {
             particle = k.next();
             Vector v = (Vector) particle.getPosition();
-            for (int j = 0; j < averageParticlePosition.getDimension(); ++j)
-               averageParticlePosition.setReal(j, averageParticlePosition.getReal(j)+v.getReal(j));
+            for (int j = 0; j < averageParticlePosition.size(); ++j) {
+                averageParticlePosition.setReal(j, averageParticlePosition.getReal(j) + v.getReal(j));
+            }
         }
-        for (int j = 0; j < averageParticlePosition.getDimension(); ++j)
-           averageParticlePosition.setReal(j, averageParticlePosition.getReal(j)/numberParticles);
+        for (int j = 0; j < averageParticlePosition.size(); ++j) {
+            averageParticlePosition.setReal(j, averageParticlePosition.getReal(j) / numberParticles);
+        }
 
         Iterator<Particle> i = pso.getTopology().iterator();
         double particleSum = 0.0;
@@ -98,19 +99,17 @@ public class NormalisedDiversity implements Measurement<Real> {
             double dimensionSum = 0.0;
             Vector v = (Vector) particle.getPosition();
             for (int j = 0; j < particle.getDimension(); ++j) {
-                dimensionSum += (v.getReal(j)-averageParticlePosition.getReal(j))*(v.getReal(j)-averageParticlePosition.getReal(j));
-
+                dimensionSum += (v.getReal(j) - averageParticlePosition.getReal(j)) * (v.getReal(j) - averageParticlePosition.getReal(j));
             }
             particleSum += Math.sqrt(dimensionSum);
         }
 
-        double diversity = particleSum/numberParticles;
+        double diversity = particleSum / numberParticles;
 
         DiameterVisitor diameterVisitor = new DiameterVisitor();
         pso.accept(diameterVisitor);
         double diameter = diameterVisitor.getResult();
 
-        return new Real(diversity/diameter);
+        return Real.valueOf(diversity / diameter);
     }
-
 }

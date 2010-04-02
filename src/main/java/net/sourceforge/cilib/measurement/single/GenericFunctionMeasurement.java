@@ -34,6 +34,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Theuns Cloete
  */
 public class GenericFunctionMeasurement<F, T> implements Measurement<Real> {
+
     private static final long serialVersionUID = 3301062975775598397L;
     private Function<Vector, Double> function = null;
 
@@ -73,11 +74,12 @@ public class GenericFunctionMeasurement<F, T> implements Measurement<Real> {
      */
     @Override
     public Real getValue(Algorithm algorithm) {
-        if (function == null)
+        if (function == null) {
             throw new InitialisationException("The function that should be evaluated has not been set");
+        }
 
         Vector vector = (Vector) algorithm.getBestSolution().getPosition();
-        return new Real(function.evaluate(vector));
+        return Real.valueOf(function.evaluate(vector));
     }
 
     /**

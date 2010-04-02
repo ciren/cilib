@@ -28,6 +28,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * TODO: Complete this javadoc.
  */
 public class Step extends ContinuousFunction {
+
     private static final long serialVersionUID = -3888436745417400797L;
 
     /**
@@ -60,12 +61,11 @@ public class Step extends ContinuousFunction {
     public Double evaluate(Vector input) {
         double sum = 0.0;
 
-        for (int i = 0; i < input.getDimension(); i++){
+        for (int i = 0; i < input.size(); i++) {
             double val = Math.floor(input.getReal(i) + 0.5);
-            sum += val*val;
+            sum += val * val;
         }
 
         return sum;
     }
-
 }

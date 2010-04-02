@@ -47,7 +47,7 @@ public class WeightSettingVisitorTest {
 
         Vector expectedWeights = new Vector();
         for (int i = 0; i < network.getWeights().size(); i++) {
-            expectedWeights.add(new Real(Math.random()));
+            expectedWeights.add(Real.valueOf(Math.random()));
         }
 
         WeightSettingVisitor visitor = new WeightSettingVisitor();

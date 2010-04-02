@@ -47,7 +47,7 @@ public class Linear extends ActivationFunction {
      */
     @Override
     public Real evaluate(Real input) {
-        return new Real(this.evaluate(input.doubleValue()));
+        return Real.valueOf(this.evaluate(input.doubleValue()));
     }
 
     /**
@@ -63,7 +63,7 @@ public class Linear extends ActivationFunction {
      */
     @Override
     public Real getMaximum() {
-        return new Real(Double.MAX_VALUE);
+        return Real.valueOf(Double.MAX_VALUE);
     }
 
     /**
@@ -71,7 +71,7 @@ public class Linear extends ActivationFunction {
      */
     @Override
     public Real getMinimum() {
-        return new Real(-Double.MAX_VALUE);
+        return Real.valueOf(-Double.MAX_VALUE);
     }
 
     /**

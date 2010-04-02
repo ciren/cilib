@@ -56,20 +56,20 @@ public class ClusteringFitnessFunctionTest {
         problem.setDataSetBuilder(dataSetBuilder);
 
         centroids = new Vector();
-        centroids.add(new Int(1));
-        centroids.add(new Int(1));
-        centroids.add(new Int(33));
-        centroids.add(new Int(8));
-        centroids.add(new Int(20));
-        centroids.add(new Int(19));
-        centroids.add(new Int(11));
-        centroids.add(new Int(22));
-        centroids.add(new Int(30));
-        centroids.add(new Int(27));
-        centroids.add(new Int(19));
-        centroids.add(new Int(40));
-        centroids.add(new Int(5));
-        centroids.add(new Int(50));
+        centroids.add(Int.valueOf(1));
+        centroids.add(Int.valueOf(1));
+        centroids.add(Int.valueOf(33));
+        centroids.add(Int.valueOf(8));
+        centroids.add(Int.valueOf(20));
+        centroids.add(Int.valueOf(19));
+        centroids.add(Int.valueOf(11));
+        centroids.add(Int.valueOf(22));
+        centroids.add(Int.valueOf(30));
+        centroids.add(Int.valueOf(27));
+        centroids.add(Int.valueOf(19));
+        centroids.add(Int.valueOf(40));
+        centroids.add(Int.valueOf(5));
+        centroids.add(Int.valueOf(50));
     }
 
 

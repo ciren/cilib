@@ -43,9 +43,9 @@ public class RandomBoundedInitializationStrategyTest {
     @Test
     public void initialize() {
         Vector vector = new Vector();
-        vector.add(new Real(5.0));
-        vector.add(new Real(10.0));
-        vector.add(new Int(7));
+        vector.add(Real.valueOf(5.0));
+        vector.add(Real.valueOf(10.0));
+        vector.add(Int.valueOf(7));
 
         Particle particle = new StandardParticle();
         particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, vector);

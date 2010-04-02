@@ -39,6 +39,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  Andries Engelbrecht
  */
 public class DimensionBoundViolationsPerParticle implements Measurement<Real> {
+
     private static final long serialVersionUID = -3633155366562479197L;
 
     /** Creates a new instance of DimensionBoundViolationsPerParticle. */
@@ -50,7 +51,6 @@ public class DimensionBoundViolationsPerParticle implements Measurement<Real> {
      * @param copy The instance to copy.
      */
     public DimensionBoundViolationsPerParticle(DimensionBoundViolationsPerParticle copy) {
-
     }
 
     /**
@@ -87,13 +87,13 @@ public class DimensionBoundViolationsPerParticle implements Measurement<Real> {
             for (Numeric position : (Vector) populationEntity.getCandidateSolution()) {
                 Bounds bounds = position.getBounds();
 
-                if (!bounds.isInsideBounds(position.doubleValue()))
+                if (!bounds.isInsideBounds(position.doubleValue())) {
                     numberOfViolations++;
+                }
             }
-            sumOfAverageViolations += (double)numberOfViolations / (double)dimension;
+            sumOfAverageViolations += (double) numberOfViolations / (double) dimension;
         }
 
-        return new Real(sumOfAverageViolations / (double)populationSize * (double)dimension);
+        return Real.valueOf(sumOfAverageViolations / (double) populationSize * (double) dimension);
     }
-
 }

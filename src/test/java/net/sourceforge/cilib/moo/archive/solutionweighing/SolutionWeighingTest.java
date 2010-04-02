@@ -115,28 +115,28 @@ public class SolutionWeighingTest {
         }
 
         Vector position = new Vector();
-        position.add(new Real(1));
-        position.add(new Real(1));
+        position.add(Real.valueOf(1));
+        position.add(Real.valueOf(1));
         solutions.add(new OptimisationSolution(position, moProblem.getFitness(position)));
 
         position = new Vector();
-        position.add(new Real(2));
-        position.add(new Real(4));
+        position.add(Real.valueOf(2));
+        position.add(Real.valueOf(4));
         solutions.add(new OptimisationSolution(position, moProblem.getFitness(position)));
 
         position = new Vector();
-        position.add(new Real(3));
-        position.add(new Real(2));
+        position.add(Real.valueOf(3));
+        position.add(Real.valueOf(2));
         solutions.add(new OptimisationSolution(position, moProblem.getFitness(position)));
 
         position = new Vector();
-        position.add(new Real(4));
-        position.add(new Real(6));
+        position.add(Real.valueOf(4));
+        position.add(Real.valueOf(6));
         solutions.add(new OptimisationSolution(position, moProblem.getFitness(position)));
 
         position = new Vector();
-        position.add(new Real(5));
-        position.add(new Real(1));
+        position.add(Real.valueOf(5));
+        position.add(Real.valueOf(1));
         solutions.add(new OptimisationSolution(position, moProblem.getFitness(position)));
     }
 

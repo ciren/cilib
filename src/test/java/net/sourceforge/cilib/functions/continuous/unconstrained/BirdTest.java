@@ -51,8 +51,8 @@ public class BirdTest {
         function.setDomain("R(-6.285714286,6.285714286)^2");
 
         Vector x = new Vector();
-        x.add(new Real(1.0));
-        x.add(new Real(2.0));
+        x.add(Real.valueOf(1.0));
+        x.add(Real.valueOf(2.0));
 
         assertEquals(6.8250541015507, function.evaluate(x), 0.00000000001);
     }

@@ -193,7 +193,7 @@ public class ArchiveTest {
         for (int i = 1; i <= 3; ++i) {
             Vector vector = new Vector();
             for (int j = i; j < i + 5; ++j) {
-                vector.add(new Real(j));
+                vector.add(Real.valueOf(j));
             }
             testVectors.add(vector);
         }

@@ -35,6 +35,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class RandomBoundedInitializationStrategy<E extends Entity> implements
         InitializationStrategy<E> {
+
     private static final long serialVersionUID = -7926839076670354209L;
     private ControlParameter lowerBound;
     private ControlParameter upperBound;
@@ -62,8 +63,9 @@ public class RandomBoundedInitializationStrategy<E extends Entity> implements
         Type type = entity.getProperties().get(key);
         Vector velocity = (Vector) type;
 
-        for (int i = 0; i < velocity.getDimension(); i++)
+        for (int i = 0; i < velocity.size(); i++) {
             velocity.setReal(i, random.getUniform(lowerBound.getParameter(), upperBound.getParameter()));
+        }
     }
 
     public ControlParameter getLowerBound() {

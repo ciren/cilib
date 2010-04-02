@@ -112,7 +112,7 @@ public class ContextEntity implements Entity {
      */
     @Override
     public int getDimension() {
-        return context.getDimension();
+        return context.size();
     }
 
     /**

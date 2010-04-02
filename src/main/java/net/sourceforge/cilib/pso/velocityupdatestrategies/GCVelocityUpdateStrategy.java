@@ -134,7 +134,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
             final Vector position = (Vector) particle.getPosition();
             final Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getPosition();
 
-            for (int i = 0; i < velocity.getDimension(); ++i) {
+            for (int i = 0; i < velocity.size(); ++i) {
                 double component = -position.getReal(i) + nBestPosition.getReal(i)
                         + this.inertiaWeight.getParameter() * velocity.getReal(i)
                         + rho.getParameter() * (1 - 2 * randomNumberGenerator.nextDouble());

@@ -54,7 +54,7 @@ public class Layer extends ArrayList<Neuron> implements NeuralInputSource {
     public Vector getActivations() {
         Vector v = new Vector();
         for (Neuron neuron : this) {
-            v.add(new Real(neuron.getActivation()));
+            v.add(Real.valueOf(neuron.getActivation()));
         }
         return v;
     }

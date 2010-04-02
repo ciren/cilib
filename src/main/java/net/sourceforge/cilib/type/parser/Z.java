@@ -39,7 +39,7 @@ final class Z implements TypeCreator {
      */
     @Override
     public Type create() {
-        return new Int(0);
+        return Int.valueOf(0);
     }
 
     /**
@@ -47,7 +47,7 @@ final class Z implements TypeCreator {
      */
     @Override
     public Type create(double value) {
-        return new Int(Double.valueOf(value).intValue());
+        return Int.valueOf(Double.valueOf(value).intValue());
     }
 
     /**
@@ -55,6 +55,6 @@ final class Z implements TypeCreator {
      */
     @Override
     public Type create(final Bounds bounds) {
-        return new Int(0, bounds);
+        return Int.valueOf(0, bounds);
     }
 }

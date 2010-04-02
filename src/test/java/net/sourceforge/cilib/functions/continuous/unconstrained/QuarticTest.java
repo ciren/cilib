@@ -50,9 +50,9 @@ public class QuarticTest {
         Vector x = new Vector();
 
         //test the global minimum
-        x.add(new Real(0.0));
-        x.add(new Real(0.0));
-        x.add(new Real(0.0));
+        x.add(Real.valueOf(0.0));
+        x.add(Real.valueOf(0.0));
+        x.add(Real.valueOf(0.0));
         Assert.assertEquals(0.0, function.evaluate(x), EPSILON);
 
         //test another point

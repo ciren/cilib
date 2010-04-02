@@ -36,9 +36,9 @@ public class BinaryTreeTest {
 
     @Before
     public void setupBinaryTree() {
-        doubleTree = new BinaryTree<Real>(new Real(1.0));
-        doubleTree.addSubTree(new BinaryTree<Real>(new Real(2.0)));
-        doubleTree.addSubTree(new BinaryTree<Real>(new Real(3.0)));
+        doubleTree = new BinaryTree<Real>(Real.valueOf(1.0));
+        doubleTree.addSubTree(new BinaryTree<Real>(Real.valueOf(2.0)));
+        doubleTree.addSubTree(new BinaryTree<Real>(Real.valueOf(3.0)));
     }
 
     @Test
@@ -55,15 +55,15 @@ public class BinaryTreeTest {
 
     @Test
     public void removalOfSubtreeByKey() {
-        Tree<Real> removed = doubleTree.removeSubTree(new Real(2.0));
+        Tree<Real> removed = doubleTree.removeSubTree(Real.valueOf(2.0));
         assertNotNull(removed);
         assertEquals(2.0, removed.getKey().doubleValue(), 0);
-        assertTrue(doubleTree.getSubTree(new Real(2.0)).isEmpty());
+        assertTrue(doubleTree.getSubTree(Real.valueOf(2.0)).isEmpty());
     }
 
     @Test
     public void removeSubTreeWithElement() {
-        assertTrue(doubleTree.remove(new Real(2.0)));
+        assertTrue(doubleTree.remove(Real.valueOf(2.0)));
     }
 
     @Test

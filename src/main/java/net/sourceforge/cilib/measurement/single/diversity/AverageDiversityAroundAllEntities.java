@@ -38,6 +38,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class AverageDiversityAroundAllEntities extends Diversity {
+
     private static final long serialVersionUID = 898972772053582980L;
 
     /**
@@ -61,7 +62,7 @@ public class AverageDiversityAroundAllEntities extends Diversity {
                 currentDistanceSum += distanceMeasure.distance(currentCenter, currentEntityPosition);
             }
 
-            totalDistanceSum += currentDistanceSum/numberOfEntities;
+            totalDistanceSum += currentDistanceSum / numberOfEntities;
         }
 
         totalDistanceSum /= numberOfEntities;
@@ -69,7 +70,6 @@ public class AverageDiversityAroundAllEntities extends Diversity {
         normalisationParameter.setDistanceMeasure(distanceMeasure);
         totalDistanceSum /= normalisationParameter.getValue();
 
-        return new Real(totalDistanceSum);
+        return Real.valueOf(totalDistanceSum);
     }
-
 }

@@ -43,8 +43,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  Andries Engelbrecht
  */
 public class ConvergedDimensions implements Measurement<Real> {
-    private static final long serialVersionUID = 7322191932976445577L;
 
+    private static final long serialVersionUID = 7322191932976445577L;
     private ControlParameter errorThreshold;
     private Vector targetSolution;
 
@@ -130,14 +130,14 @@ public class ConvergedDimensions implements Measurement<Real> {
                 double upperBound = targetSolution.getReal(dimension) + this.errorThreshold.getParameter();
                 double value = position.doubleValue();
 
-                if ((value >= lowerBound) && (value <= upperBound))
+                if ((value >= lowerBound) && (value <= upperBound)) {
                     numberConvergedDimensions++;
+                }
                 dimension++;
             }
-            sumOfAverageConvergedDimensions += (double)numberConvergedDimensions / (double)dimensions;
+            sumOfAverageConvergedDimensions += (double) numberConvergedDimensions / (double) dimensions;
         }
 
-        return new Real(sumOfAverageConvergedDimensions / (double)populationSize * (double)dimensions);
+        return Real.valueOf(sumOfAverageConvergedDimensions / (double) populationSize * (double) dimensions);
     }
-
 }

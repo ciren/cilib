@@ -35,11 +35,11 @@ public class IndividualTest {
     @Test
     public void testClone() {
         Vector genes = new Vector();
-        genes.add(new Real(1.0));
-        genes.add(new Real(2.0));
-        genes.add(new Real(3.0));
-        genes.add(new Real(4.0));
-        genes.add(new Real(5.0));
+        genes.add(Real.valueOf(1.0));
+        genes.add(Real.valueOf(2.0));
+        genes.add(Real.valueOf(3.0));
+        genes.add(Real.valueOf(4.0));
+        genes.add(Real.valueOf(5.0));
 
         Individual i = new Individual();
         i.setCandidateSolution(genes);
@@ -52,7 +52,7 @@ public class IndividualTest {
 
         Vector cloneVector = (Vector) clone.getCandidateSolution();
 
-        for (int k = 0; k < cloneVector.getDimension(); k++) {
+        for (int k = 0; k < cloneVector.size(); k++) {
             assertEquals(genes.get(k), cloneVector.get(k));
         }
     }

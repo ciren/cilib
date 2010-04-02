@@ -46,7 +46,7 @@ public class PercentageComplete implements Measurement<Real> {
     @Override
     public Real getValue(Algorithm algorithm) {
         AbstractAlgorithm alg = (AbstractAlgorithm) algorithm;
-        return new Real(alg.getPercentageComplete());
+        return Real.valueOf(alg.getPercentageComplete());
     }
 
 }
