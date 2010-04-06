@@ -34,7 +34,7 @@ public class TypeListTest {
     @Test
     public void subList() {
         TypeList list = new TypeList();
-        list.add(new Vector());
+        list.add(Vector.of());
         list.add(new BinaryTree());
         list.add(Int.valueOf(0));
         list.add(new NaryTree());

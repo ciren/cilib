@@ -164,7 +164,7 @@ public class FFNNTopology {
      * @see net.sourceforge.cilib.NeuralNetwork.Foundation.NeuralNetworkTopology#getWeights()
      */
     public Vector getWeights() {
-        Vector temp = new Vector();
+        Vector temp = Vector.of();
         for (int i = 0; i < nrWeights; i++) {
             temp.add(Real.valueOf(weights[i]));
         }

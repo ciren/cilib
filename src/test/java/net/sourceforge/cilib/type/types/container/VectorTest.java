@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import static java.lang.Math.sqrt;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -31,10 +30,8 @@ import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 
-import net.sourceforge.cilib.util.Vectors;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -50,12 +47,11 @@ public class VectorTest {
 
     @BeforeClass
     public static void setUp() {
-        vector = new Vector();
-
+        Vector.Builder builder = Vector.newBuilder();
         for (int i = 1; i < 5; i++) {
-            Numeric element = Real.valueOf(i, new Bounds(i * -2, i * 2));
-            vector.add(element);
+            builder.addWithin(i, new Bounds(i * -2, i * 2));
         }
+        vector = builder.build();
     }
 
     @AfterClass
@@ -65,15 +61,13 @@ public class VectorTest {
     }
 
     private void recreateTmpVector() {
-        tmpVector = new Vector();
-        tmpVector.add(Real.valueOf(1.0));
-        tmpVector.add(Real.valueOf(2.0));
-        tmpVector.add(Real.valueOf(3.0));
+        Vector.Builder builder = Vector.newBuilder().add(Real.valueOf(1.0)).add(Real.valueOf(2.0)).add(Real.valueOf(3.0));
+        tmpVector = builder.build();
     }
 
     @Test
     public void testClone() {
-        Vector v = vector.getClone();
+        Vector v = Vector.copyOf(vector);
 
         assertEquals(v.size(), vector.size());
 
@@ -126,7 +120,7 @@ public class VectorTest {
 
     @Test
     public void testAdd() {
-        Vector m = new Vector();
+        Vector m = Vector.of();
         assertEquals(0, m.size());
 
         m.add(Real.valueOf(1.0));
@@ -141,7 +135,7 @@ public class VectorTest {
 
     @Test
     public void testSetReal() {
-        Vector m = new Vector();
+        Vector m = Vector.of();
         m.add(Real.valueOf(10.0, new Bounds(-10.0, 10.0)));
 
         assertEquals(10.0, m.getReal(0), 0.0);
@@ -155,7 +149,7 @@ public class VectorTest {
 
     @Test
     public void testSetInt() {
-        Vector m = new Vector();
+        Vector m = Vector.of();
         m.add(Int.valueOf(2));
         assertEquals(2, m.getInt(0));
         m.setInt(0, 5);
@@ -177,19 +171,18 @@ public class VectorTest {
 
     @Test
     public void testSetBit() {
-        Vector m = new Vector();
-        m.add(Bit.valueOf(false));
+        Vector m = Vector.of(Bit.valueOf(false));
 
         assertFalse(m.getBit(0));
     }
 
     @Test
     public void randomize() {
-        Vector target = new Vector();
-        target.add(Real.valueOf(1.0));
-        target.add(Real.valueOf(2.0));
-        target.add(Real.valueOf(3.0));
-        target.randomize(new MersenneTwister());
+        Vector target = Vector.newBuilder()
+                .add(Real.valueOf(1.0))
+                .add(Real.valueOf(2.0))
+                .add(Real.valueOf(3.0))
+                .buildRandom();
 
         assertFalse(target.getReal(0) == 1.0);
         assertFalse(target.getReal(1) == 2.0);
@@ -198,38 +191,20 @@ public class VectorTest {
 
     @Test
     public void testVectorNorm() {
-        Vector m = new Vector();
-
-        m.add(Real.valueOf(1.0));
-        m.add(Real.valueOf(1.0));
-        m.add(Real.valueOf(1.0));
-        m.add(Real.valueOf(1.0));
-        m.add(Real.valueOf(1.0));
+        Vector m = Vector.of(1.0, 1.0, 1.0, 1.0, 1.0);
         assertEquals(sqrt(5.0), m.norm(), 0.0);
+    }
 
-        m.clear();
-
-        m.add(Real.valueOf(2.0));
-        m.add(Real.valueOf(-2.0));
-        m.add(Real.valueOf(2.0));
-        m.add(Real.valueOf(-2.0));
-        m.add(Real.valueOf(2.0));
-        m.add(Real.valueOf(-2.0));
+    @Test
+    public void alternativeVectorNorm() {
+        Vector m = Vector.of(2.0, -2.0, 2.0, -2.0, 2.0, -2.0);
         assertEquals(sqrt(24.0), m.norm(), 0.0);
     }
 
     @Test
     public void testVectorDotProduct() {
-        Vector v1 = new Vector();
-        Vector v2 = new Vector();
-
-        v1.add(Real.valueOf(1.0));
-        v1.add(Real.valueOf(2.0));
-        v1.add(Real.valueOf(3.0));
-
-        v2.add(Real.valueOf(3.0));
-        v2.add(Real.valueOf(2.0));
-        v2.add(Real.valueOf(1.0));
+        Vector v1 = Vector.of(1.0, 2.0, 3.0);
+        Vector v2 = Vector.of(3.0, 2.0, 1.0);
 
         assertEquals(10.0, v1.dot(v2), 0.0);
 
@@ -239,16 +214,8 @@ public class VectorTest {
 
     @Test
     public void vectorCrossProduct() {
-        Vector v1 = new Vector();
-        Vector v2 = new Vector();
-
-        v1.add(Real.valueOf(1.0));
-        v1.add(Real.valueOf(2.0));
-        v1.add(Real.valueOf(3.0));
-
-        v2.add(Real.valueOf(4.0));
-        v2.add(Real.valueOf(5.0));
-        v2.add(Real.valueOf(6.0));
+        Vector v1 = Vector.of(1.0, 2.0, 3.0);
+        Vector v2 = Vector.of(4.0, 5.0, 6.0);
 
         Vector result = v1.cross(v2);
 
@@ -259,54 +226,40 @@ public class VectorTest {
 
     @Test(expected = ArithmeticException.class)
     public void invalidVectorCrossProduct() {
-        Vector v1 = new Vector();
-        Vector v2 = new Vector();
-
-        v1.add(Real.valueOf(1.0));
-        v1.add(Real.valueOf(2.0));
-        v1.add(Real.valueOf(3.0));
-
-        v2.add(Real.valueOf(4.0));
-        v2.add(Real.valueOf(5.0));
-        v2.add(Real.valueOf(6.0));
-        v2.add(Real.valueOf(7.0));
+        Vector v1 = Vector.of(1.0, 2.0, 3.0);
+        Vector v2 = Vector.of(4.0, 5.0, 6.0, 7.0);
 
         v1.cross(v2);
     }
 
     @Test(expected = ArithmeticException.class)
     public void invalidVectorLengthCrossPorduct() {
-        Vector v1 = new Vector();
-        Vector v2 = new Vector();
-
-        v1.add(Real.valueOf(1.0));
-        v1.add(Real.valueOf(2.0));
-
-        v2.add(Real.valueOf(4.0));
-        v2.add(Real.valueOf(7.0));
+        Vector v1 = Vector.of(1.0, 2.0);
+        Vector v2 = Vector.of(4.0, 7.0);
 
         v1.cross(v2);
     }
 
     @Test(expected = ArithmeticException.class)
     public void vectorDivisionByScalarZero() {
-        Vector a = new Vector();
-
+        Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < 10; i++) {
-            a.add(Real.valueOf(i));
+            builder.add(Real.valueOf(i));
         }
 
+        Vector a = builder.build();
         a.divide(0);
     }
 
     @Test
     public void testScalarDivision() {
-        Vector a = new Vector();
+        Vector.Builder builder = Vector.newBuilder();
 
         for (int i = 0; i < 10; i++) {
-            a.add(Real.valueOf(i));
+            builder.add(Real.valueOf(i));
         }
 
+        Vector a = builder.build();
         Vector divided = a.divide(3.0);
 
         assertNotNull(a);
@@ -325,12 +278,12 @@ public class VectorTest {
 
     @Test
     public void testScalarMultiplication() {
-        Vector a = new Vector();
-
+        Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < 10; i++) {
-            a.add(Real.valueOf(i));
+            builder.add(Real.valueOf(i));
         }
 
+        Vector a = builder.build();
         Vector product = a.multiply(3.0);
 
         assertNotNull(a);
@@ -349,16 +302,10 @@ public class VectorTest {
 
     @Test
     public void equals() {
-        Vector a = new Vector();
-        Vector b = new Vector();
+        Vector a = Vector.of(1.0, 2.0);
+        Vector b = Vector.of(1.0, 2.0);
 
-        a.add(Real.valueOf(1.0));
-        a.add(Real.valueOf(2.0));
-
-        b.add(Real.valueOf(1.0));
-        b.add(Real.valueOf(2.0));
-
-        assertFalse(a.equals(null));
+        assertFalse(a == null);
         assertTrue(b.equals(b));
         assertTrue(a.equals(a));
         assertTrue(a.equals(b));
@@ -384,10 +331,7 @@ public class VectorTest {
 
     @Test
     public void copyOf() {
-        Vector initial = new Vector();
-        initial.add(Real.valueOf(1.0));
-        initial.add(Real.valueOf(1.0));
-        initial.add(Real.valueOf(1.0));
+        final Vector initial = Vector.of(1.0, 1.0, 1.0);
 
         Vector.Builder builder = Vector.newBuilder();
         builder.copyOf(initial);

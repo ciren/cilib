@@ -47,9 +47,10 @@ public class NeighbourhoodBestSentriesReactionStrategy<E extends PopulationBased
     public void performReaction(PopulationBasedAlgorithm algorithm) {
         RandomProvider random = new MersenneTwister();
 
-        for (Entity entity : Topologies.getNeighbourhoodBestEntities(algorithm.getTopology()))
+        for (Entity entity : Topologies.getNeighbourhoodBestEntities(algorithm.getTopology())) {
             entity.getCandidateSolution().randomize(random);
             // TODO: What is the influence of reevaluation?
 //            entity.calculateFitness(false);
+        }
     }
 }

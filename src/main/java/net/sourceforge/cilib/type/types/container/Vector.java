@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.math.VectorMath;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Bounds;
@@ -390,6 +391,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath {
      * Get the dimension of the {@code Vector}.
      * @return The dimension of the {@code Vector}.
      * @see Vector#size()
+     * @deprecated Rather user {@link Vector#size()}
      */
     @Deprecated
     public int getDimension() {
@@ -529,8 +531,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath {
             throw new ArithmeticException("Cannot perform the dot product on vectors with differing dimensions");
         }
 
-        if (this.size() != 3) // implicitly checks that vector.size() == 3
-        {
+        if (this.size() != 3) { // implicitly checks that vector.size() == 3
             throw new ArithmeticException("Cannot determine the cross product on non 3-dimensional vectors.");
         }
 
@@ -544,7 +545,9 @@ public class Vector implements StructuredType<Numeric>, VectorMath {
     /**
      * Randomize all the elements contained within the {@code Vector}.
      * @param random The {@code Random} to use to randomize the {@code Vector}.
+     * @deprecated
      */
+    @Deprecated
     @Override
     public void randomize(RandomProvider random) {
         for (int i = 0; i < components.length; i++) {
@@ -704,6 +707,14 @@ public class Vector implements StructuredType<Numeric>, VectorMath {
             return this;
         }
 
+//        public Builder randomCopyOf(Iterable<? extends Numeric> iterable, RandomProvider provider) {
+//            for (Numeric n : iterable) {
+//                n.randomize(provider);
+//                elements.add(n.getClone());
+//            }
+//            return this;
+//        }
+
         public Vector build() {
             if (elements.isEmpty()) {
                 return Vector.of();
@@ -713,6 +724,21 @@ public class Vector implements StructuredType<Numeric>, VectorMath {
             int index = 0;
             for (Numeric n : elements) {
                 numerics[index++] = n;
+            }
+            return new Vector(numerics);
+        }
+
+        public Vector buildRandom() {
+            if (elements.isEmpty()) {
+                return Vector.of();
+            }
+
+            MersenneTwister random = new MersenneTwister(); // needs to come out, must be passed in
+            Numeric[] numerics = new Numeric[elements.size()];
+            int index = 0;
+            for (Numeric element : elements) {
+                element.randomize(random);
+                numerics[index++] = element;
             }
             return new Vector(numerics);
         }

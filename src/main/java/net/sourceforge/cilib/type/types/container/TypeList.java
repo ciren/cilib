@@ -52,7 +52,8 @@ public class TypeList extends AbstractList<Type> {
      * Create a new instance with the predefined size.
      * @param size The predefined size.
      */
-    public TypeList(int size) {
+    @Deprecated
+    private TypeList(int size) {
         this.components = new ArrayList<Type>();
     }
 
@@ -60,7 +61,8 @@ public class TypeList extends AbstractList<Type> {
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public TypeList(TypeList copy) {
+    @Deprecated
+    private TypeList(TypeList copy) {
         this.components = new ArrayList<Type>(copy.components.size());
 
         for (Type type : copy.components) {
