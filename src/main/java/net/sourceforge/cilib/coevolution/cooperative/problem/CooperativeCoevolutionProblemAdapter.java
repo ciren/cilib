@@ -68,8 +68,9 @@ public class CooperativeCoevolutionProblemAdapter extends
         for (int i = 0; i < problemAllocation.getSize(); i++) {
             String tmp = Types.getRepresentation(context.get(problemAllocation.getProblemIndex(i)));
             builder.append(tmp);
-            if (i < problemAllocation.getSize() - 1)
+            if (i < problemAllocation.getSize() - 1) {
                 builder.append(",");
+            }
         }
 
         problemDomain.setDomainString(builder.toString());
@@ -124,6 +125,6 @@ public class CooperativeCoevolutionProblemAdapter extends
      * @param context The new context.
      */
     public void updateContext(Vector context) {
-        this.context = context.getClone();
+        this.context = Vector.copyOf(context);
     }
 }

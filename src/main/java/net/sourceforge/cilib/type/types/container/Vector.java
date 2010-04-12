@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.RandomAccess;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.math.VectorMath;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
@@ -41,7 +42,7 @@ import net.sourceforge.cilib.type.types.Real;
  *
  * @author gpampara
  */
-public class Vector implements StructuredType<Numeric>, VectorMath {
+public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess {
 
     private static final long serialVersionUID = -4853190809813810272L;
     private Numeric[] components;
@@ -195,9 +196,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath {
      * Get the {@code Numeric} at the provided {@code index}.
      * @param index The index of the {@code Numeric} in the {@code Vector}.
      * @return The {@code Numeric} at index {@code index}.
-     * @deprecated
      */
-    @Deprecated
     public Numeric get(int index) {
         return components[index];
     }
@@ -259,6 +258,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath {
      * @param c The structure containing the elements to add.
      * @return {@code true} if successful, {@code false} otherwise.
      */
+    @Deprecated
     @Override
     public boolean addAll(Collection<? extends Numeric> c) {
         int size = components.length + c.size();
@@ -276,6 +276,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath {
     /**
      * Clear the {@code Vector}. Remove all elements within the vector.
      */
+    @Deprecated
     @Override
     public void clear() {
         this.components = new Numeric[]{};
@@ -345,6 +346,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath {
      * @param o The object instace to remove.
      * @return {@code true} if successful, {@code false} otherwise.
      */
+    @Deprecated
     @Override
     public boolean remove(Object o) {
         for (int i = 0; i < components.length; i++) {
@@ -373,6 +375,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath {
      * @param c The structure containing objects to remove.
      * @return {@code true} if successful, {@code false} otherwise.
      */
+    @Deprecated
     @Override
     public boolean removeAll(Collection<?> c) {
         throw new UnsupportedOperationException();
