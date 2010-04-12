@@ -571,7 +571,9 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
      * Get the double value of the {@code Numeric} at position {@code index}.
      * @param index The index of the double value to get.
      * @return The double value of the {@code Numeric} at position {@code index}.
+     * @deprecated Use {@link Vector#doubleValueOf(int)} instead.
      */
+    @Deprecated
     public double getReal(int index) {
         return this.components[index].doubleValue();
     }
@@ -589,7 +591,9 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
      * Get the int value of the {@code Numeric} at position {@code index}.
      * @param index The index of the int value to get.
      * @return The int value of the {@code Numeric} at position {@code index}.
+     * @deprecated Use {@link Vector#intValueOf(int)} instead.
      */
+    @Deprecated
     public int getInt(int index) {
         return this.components[index].intValue();
     }
@@ -607,7 +611,9 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
      * Get the boolean value of the {@code Numeric} at position {@code index}.
      * @param index The index of the bit value to get.
      * @return The boolean value of the {@code Numeric} at position {@code index}.
+     * @deprecated Use {@link Vector#booleanValueOf(int)} instead.
      */
+    @Deprecated
     public boolean getBit(int index) {
         return this.components[index].booleanValue();
     }
@@ -630,6 +636,10 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
 
     public long longValueOf(int index) {
         return components[index].longValue();
+    }
+
+    public boolean booleanValueOf(int index) {
+        return components[index].booleanValue();
     }
 
     @Override
@@ -709,14 +719,6 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
             }
             return this;
         }
-
-//        public Builder randomCopyOf(Iterable<? extends Numeric> iterable, RandomProvider provider) {
-//            for (Numeric n : iterable) {
-//                n.randomize(provider);
-//                elements.add(n.getClone());
-//            }
-//            return this;
-//        }
 
         public Vector build() {
             if (elements.isEmpty()) {
