@@ -74,8 +74,8 @@ public class Bukin4 extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        double x1 = input.getReal(0);
-        double x2 = input.getReal(1);
+        double x1 = input.doubleValueOf(0);
+        double x2 = input.doubleValueOf(1);
 
         return 100*x2*x2 + 0.01*Math.abs(x1+10);
     }

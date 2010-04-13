@@ -72,8 +72,8 @@ public class Bird extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        double x1 = input.getReal(0);
-        double x2 = input.getReal(1);
+        double x1 = input.doubleValueOf(0);
+        double x2 = input.doubleValueOf(1);
 
         return Math.sin(x1)*Math.exp((1-Math.cos(x2))*(1-Math.cos(x2)))+Math.cos(x2)*Math.exp((1-Math.sin(x1))*(1-Math.sin(x1)))+(x1-x2)*(x1-x2);
     }

@@ -73,7 +73,7 @@ public class DomainParserTest {
 
         Assert.assertEquals(6, vector.size());
         for (int i = 0; i < vector.size(); i++) {
-            Assert.assertEquals(8.0, vector.getReal(0), 0.001);
+            Assert.assertEquals(8.0, vector.doubleValueOf(0), 0.001);
         }
     }
 
@@ -82,7 +82,7 @@ public class DomainParserTest {
         Vector vector = (Vector) DomainParser.parse("R(8.0)");
 
         Assert.assertEquals(1, vector.size());
-        Assert.assertEquals(8.0, vector.getReal(0), 0.001);
+        Assert.assertEquals(8.0, vector.doubleValueOf(0), 0.001);
     }
 
     @Test

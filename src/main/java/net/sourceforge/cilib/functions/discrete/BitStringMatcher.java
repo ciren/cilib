@@ -112,7 +112,7 @@ public class BitStringMatcher extends DiscreteFunction {
         for (int i = 0; i < input.size(); i++) {
             boolean bitValue = (this.targetRandomString.charAt(i) == '1') ? true : false;
 
-            if (input.getBit(i) == bitValue) {
+            if (input.booleanValueOf(i) == bitValue) {
                 result++;
             }
         }

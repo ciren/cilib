@@ -56,7 +56,7 @@ public class ForwardingLayerTest {
         Assert.assertEquals(6, layer.size());
 
         for (int i = 0; i < refInput.size(); i++) {
-            Assert.assertEquals(refInput.getReal(i), layer.getNeuralInput(i), Maths.EPSILON);
+            Assert.assertEquals(refInput.doubleValueOf(i), layer.getNeuralInput(i), Maths.EPSILON);
         }
     }
 

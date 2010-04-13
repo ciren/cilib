@@ -102,11 +102,11 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
         double sigmoidValue = sigmoid.evaluate(swarmCoherence);
 
         for (int i = 0; i < particle.getDimension(); ++i) {
-            double value = inertiaWeight.getParameter() * velocity.getReal(i)
-                    + (bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter()
-                    + (nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
+            double value = inertiaWeight.getParameter() * velocity.doubleValueOf(i)
+                    + (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * cognitiveAcceleration.getParameter()
+                    + (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * socialAcceleration.getParameter();
 
-            double coherenceVelocity = scalingFactor.getParameter() * sigmoidValue * averageVelocity.getReal(i) * randomNumber.getCauchy();
+            double coherenceVelocity = scalingFactor.getParameter() * sigmoidValue * averageVelocity.doubleValueOf(i) * randomNumber.getCauchy();
 //                System.out.println("swam center: " + swarmCenterVelocity);
 //                System.out.println("average particle: " + averageParticleVelocity);
 //                System.out.println("sigmoid: " + sigmoidValue);

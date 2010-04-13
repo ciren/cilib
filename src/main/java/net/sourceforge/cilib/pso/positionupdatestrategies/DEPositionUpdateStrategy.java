@@ -111,8 +111,8 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
             int j = Double.valueOf(rand3.getUniform(0, position.size())).intValue();
             for (int i = 0; i < position.size(); ++i) {
                 if ((rand4.getUniform(0, 1) < crossoverProbability.getGaussian(0.5, 0.3)) || (j == i)) {
-                    double value = position1.getReal(i);
-                    value += scaleParameter.getGaussian(0.7, 0.3) * (position2.getReal(i) - position3.getReal(i));
+                    double value = position1.doubleValueOf(i);
+                    value += scaleParameter.getGaussian(0.7, 0.3) * (position2.doubleValueOf(i) - position3.doubleValueOf(i));
                     dePosition.setReal(i, value);
                 }
                 //else

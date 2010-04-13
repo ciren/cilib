@@ -79,8 +79,8 @@ public class MatrixTest {
 
         Vector row = a.getRow(0);
 
-        Assert.assertThat(row.getReal(0), is(1.0));
-        Assert.assertThat(row.getReal(1), is(1.0));
+        Assert.assertThat(row.doubleValueOf(0), is(1.0));
+        Assert.assertThat(row.doubleValueOf(1), is(1.0));
     }
 
     @Test

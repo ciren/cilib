@@ -77,7 +77,7 @@ public class HyperEllipsoid extends ContinuousFunction {
     public Double evaluate(Vector input) {
         double tmp = 0;
         for (int i = 0; i < getDimension(); ++i) {
-            tmp += (i + 1) * input.getReal(i) * input.getReal(i);
+            tmp += (i + 1) * input.doubleValueOf(i) * input.doubleValueOf(i);
         }
         return tmp;
     }

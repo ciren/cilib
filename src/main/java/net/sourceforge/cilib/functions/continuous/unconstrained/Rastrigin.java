@@ -78,7 +78,7 @@ public class Rastrigin extends ContinuousFunction implements Differentiable {
     public Double evaluate(Vector input) {
         double tmp = 0;
         for (int i = 0; i < getDimension(); ++i) {
-            tmp += input.getReal(i) * input.getReal(i) - 10.0 * Math.cos(2 * Math.PI * input.getReal(i));
+            tmp += input.doubleValueOf(i) * input.doubleValueOf(i) - 10.0 * Math.cos(2 * Math.PI * input.doubleValueOf(i));
         }
         return 10*getDimension() + tmp;
     }
@@ -91,7 +91,7 @@ public class Rastrigin extends ContinuousFunction implements Differentiable {
         Vector tmp = new Vector();
 
         for (int i = 0; i < getDimension(); ++i) {
-            tmp.setReal(i, (2.0 * x.getReal(i)) + (20 * Math.PI * Math.sin(2.0 * Math.PI * x.getReal(i))));
+            tmp.setReal(i, (2.0 * x.doubleValueOf(i)) + (20 * Math.PI * Math.sin(2.0 * Math.PI * x.doubleValueOf(i))));
         }
 
         return tmp;

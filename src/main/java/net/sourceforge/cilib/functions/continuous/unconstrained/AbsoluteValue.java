@@ -77,7 +77,7 @@ public class AbsoluteValue extends ContinuousFunction {
     public Double evaluate(Vector input) {
         double tmp = 0.0;
         for (int i = 0; i < getDimension(); ++i) {
-            tmp += Math.abs(input.getReal(i));
+            tmp += Math.abs(input.doubleValueOf(i));
         }
         return tmp;
     }

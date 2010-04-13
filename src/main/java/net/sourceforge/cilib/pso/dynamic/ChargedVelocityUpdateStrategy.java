@@ -98,17 +98,17 @@ public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
                 Vector rij = position.subtract(other.getPosition());
                 double magnitude = rij.norm();
                 if (pCore <= magnitude && magnitude <= p) {
-                    accSum += (qi * qj / Math.pow(magnitude, 3)) * rij.getReal(i);
+                    accSum += (qi * qj / Math.pow(magnitude, 3)) * rij.doubleValueOf(i);
                 }
             }
             acceleration.setReal(i, accSum);
         }
 
         for (int i = 0; i < particle.getDimension(); ++i) {
-            double value = inertiaWeight.getParameter() * velocity.getReal(i)
-                    + (bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter()
-                    + (nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter()
-                    + acceleration.getReal(i);
+            double value = inertiaWeight.getParameter() * velocity.doubleValueOf(i)
+                    + (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * cognitiveAcceleration.getParameter()
+                    + (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * socialAcceleration.getParameter()
+                    + acceleration.doubleValueOf(i);
             velocity.setReal(i, value);
 
             clamp(velocity, i);

@@ -79,8 +79,8 @@ public class Rosenbrock extends ContinuousFunction {
         double tmp = 0;
 
         for (int i = 0; i < input.size()-1; ++i) {
-            double a = input.getReal(i);
-            double b = input.getReal(i+1);
+            double a = input.doubleValueOf(i);
+            double b = input.doubleValueOf(i+1);
 
             tmp += ((100 * (b-a*a) * (b-a*a)) + ((a-1.0) * (a-1.0)));
         }

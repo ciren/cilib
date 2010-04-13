@@ -44,7 +44,7 @@ public class LayerTest {
         Neuron neuron = new Neuron();
         refActivations = Vector.of(-0.1, 0.7, 0.3, -0.5);
         for (int i = 0; i < refActivations.size(); i++) {
-            neuron.setActivation(refActivations.getReal(i));
+            neuron.setActivation(refActivations.doubleValueOf(i));
             layer.add((Neuron) neuron.getClone());
         }
     }

@@ -230,7 +230,7 @@ public class FDA2_h extends ContinuousFunction {
         double power = H;
 
         for (int k=0; k < xIII.size(); k++) {
-            power += Math.pow(xIII.getReal(k) - H, 2);
+            power += Math.pow(xIII.doubleValueOf(k) - H, 2);
         }
 
         power = Math.pow(power, -1);

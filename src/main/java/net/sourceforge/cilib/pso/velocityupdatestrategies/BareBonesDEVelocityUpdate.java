@@ -44,8 +44,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *  @author Andries Engelbrecht
  */
 public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
-    private static final long serialVersionUID = -8781011210069055197L;
 
+    private static final long serialVersionUID = -8781011210069055197L;
     private RandomNumber rand1;
     private RandomNumber rand2;
     private RandomNumber rand3;
@@ -67,7 +67,6 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
         cognitive.setParameter(1);
         social.setParameter(1);
     }
-
 
     /**
      * Copy constructor. Create a copy of the given instance.
@@ -107,13 +106,14 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
 //        Vector position3 = (Vector) positions.get(2).getContents();
         for (int i = 0; i < particle.getDimension(); ++i) {
             double r = r1.getUniform(0, 1);
-            double attractor = r*personalBestPosition.getReal(i)+(1-r)*nBestPosition.getReal(i);
-            double stepSize = rand3.getUniform(0, 1) * (position1.getReal(i)-position2.getReal(i));
+            double attractor = r * personalBestPosition.doubleValueOf(i) + (1 - r) * nBestPosition.doubleValueOf(i);
+            double stepSize = rand3.getUniform(0, 1) * (position1.doubleValueOf(i) - position2.doubleValueOf(i));
 
-            if (rand2.getUniform(0, 1) > crossoverProbability.getParameter())
+            if (rand2.getUniform(0, 1) > crossoverProbability.getParameter()) {
                 velocity.setReal(i, attractor + stepSize);
-            else
-                velocity.setReal(i, ((Vector) particle.getPosition()).getReal(i)); //position3.getReal(i));
+            } else {
+                velocity.setReal(i, ((Vector) particle.getPosition()).doubleValueOf(i)); //position3.getReal(i));
+            }
         }
     }
 
@@ -147,7 +147,6 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      */
     public void updateControlParameters(Particle particle) {
         // TODO Auto-generated method stub
-
     }
 
     /**
@@ -182,7 +181,6 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
         this.rand2 = rand2;
     }
 
-
     /**
      * Get the third {@linkplain RandomNumber}.
      * @return The third {@linkplain RandomNumber}.
@@ -190,7 +188,6 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
     public RandomNumber getRand3() {
         return rand3;
     }
-
 
     /**
      * Set the third {@linkplain RandomNumber}.
@@ -200,7 +197,6 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
         this.rand3 = rand3;
     }
 
-
     /**
      * Get the cognitive component.
      * @return The cognitive component.
@@ -208,7 +204,6 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
     public ControlParameter getCognitive() {
         return cognitive;
     }
-
 
     /**
      * Set the cognitive component.
@@ -249,5 +244,4 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
     public void setCrossoverProbability(ControlParameter crossoverProbability) {
         this.crossoverProbability = crossoverProbability;
     }
-
 }

@@ -72,7 +72,7 @@ public class BareBonesPositionUpdateStrategy implements PositionUpdateStrategy {
         Vector velocity = (Vector) particle.getVelocity();
 
         for (int i = 0; i < position.size(); i++) {
-            position.setReal(i, velocity.getReal(i));
+            position.setReal(i, velocity.doubleValueOf(i));
         }
 
     }

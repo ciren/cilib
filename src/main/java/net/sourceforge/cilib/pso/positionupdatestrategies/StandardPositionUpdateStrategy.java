@@ -63,8 +63,8 @@ public class StandardPositionUpdateStrategy implements PositionUpdateStrategy {
         Vector velocity = (Vector) particle.getVelocity();
 
         for (int i = 0; i < position.size(); ++i) {
-            double value = position.getReal(i);
-            value += velocity.getReal(i);
+            double value = position.doubleValueOf(i);
+            value += velocity.doubleValueOf(i);
             position.setReal(i, value);
         }
 

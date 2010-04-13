@@ -80,7 +80,7 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
         Vector tmp = input.getClone();
 
         for (int i = 0; i < input.size(); i++) {
-            tmp.setReal(i, (horizontalScale * input.getReal(i)));
+            tmp.setReal(i, (horizontalScale * input.doubleValueOf(i)));
         }
 
         return (verticalScale * function.evaluate(tmp));

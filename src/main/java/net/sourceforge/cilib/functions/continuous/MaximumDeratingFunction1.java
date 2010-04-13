@@ -101,10 +101,10 @@ public class MaximumDeratingFunction1 extends ContinuousFunction {
             throw new RuntimeException("derating function may only be used in one dimension");
         }
 
-        if (input.getReal(0) >= radius) {
+        if (input.doubleValueOf(0) >= radius) {
             return 1.0;
         }
 
-        return Math.pow(input.getReal(0) / radius, alpha);
+        return Math.pow(input.doubleValueOf(0) / radius, alpha);
     }
 }

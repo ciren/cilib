@@ -67,7 +67,7 @@ public class SelfAdaptiveMutationStrategy extends MutationStrategy {
 
             // Update the offspring
             for (int i = 0; i < candidateSolution.size(); i++) {
-                double value = candidateSolution.getReal(i) + strategy.getReal(i) * randomDimension.getGaussian();
+                double value = candidateSolution.doubleValueOf(i) + strategy.doubleValueOf(i) * randomDimension.getGaussian();
                 candidateSolution.setReal(i, value);
             }
 

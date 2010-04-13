@@ -63,10 +63,10 @@ public class Neumaier3 extends ContinuousFunction {
         double tmp1 = 0;
         double tmp2 = 0;
         for (int i = 0; i < getDimension(); ++i) {
-            tmp1 += (input.getReal(i) - 1) * (input.getReal(i) - 1);
+            tmp1 += (input.doubleValueOf(i) - 1) * (input.doubleValueOf(i) - 1);
         }
         for (int i = 1; i < getDimension(); ++i) {
-            tmp2 += input.getReal(i) * input.getReal(i - 1);
+            tmp2 += input.doubleValueOf(i) * input.doubleValueOf(i - 1);
         }
         return tmp1 - tmp2;
     }

@@ -82,7 +82,7 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
 
         for (int j = 0; j < input.size(); j++) {
             for (int i = 0; i < input.size(); i++) {
-                rotatedX.setReal(j, rotatedX.getReal(j) + input.getReal(i) * rotationMatrix[i][j]);
+                rotatedX.setReal(j, rotatedX.doubleValueOf(j) + input.doubleValueOf(i) * rotationMatrix[i][j]);
             }
         }
 

@@ -66,8 +66,8 @@ public class Ripple extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        double x = input.getReal(0);
-        double y = input.getReal(1);
+        double x = input.doubleValueOf(0);
+        double y = input.doubleValueOf(1);
 
         double term1 = Math.exp(-1.0*Math.log(2)*Math.pow(((x - 0.1)/0.8), 2));
         double term2 = Math.pow(Math.sin(5*Math.PI*x), 6) + 0.1*Math.pow(Math.cos(500*Math.PI*x), 2);

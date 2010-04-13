@@ -68,13 +68,14 @@ public class SchwefelProblem2_21 extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        double max = Math.abs(input.getReal(0));
+        double max = Math.abs(input.doubleValueOf(0));
         double value;
 
         for (int i = 1; i < input.size(); ++i) {
-            value = Math.abs(input.getReal(i));
-            if (value > max)
+            value = Math.abs(input.doubleValueOf(i));
+            if (value > max) {
                 max = value;
+            }
         }
         return max;
     }

@@ -24,7 +24,6 @@ package net.sourceforge.cilib.functions.continuous;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
  * SchwefelProblem2_22.
  *
@@ -38,6 +37,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 // TODO: Check discontinuous / continuous
 public class SchwefelProblem2_22 extends ContinuousFunction {
+
     private static final long serialVersionUID = -5004170862929300400L;
 
     /**
@@ -70,14 +70,14 @@ public class SchwefelProblem2_22 extends ContinuousFunction {
         double sum = 0;
         double product = 0;
         for (int i = 0; i < getDimension(); ++i) {
-            sum += Math.abs(input.getReal(i));
-            if (i == 0)
-                product = Math.abs(input.getReal(i));
-            else
-                product *= Math.abs(input.getReal(i));
+            sum += Math.abs(input.doubleValueOf(i));
+            if (i == 0) {
+                product = Math.abs(input.doubleValueOf(i));
+            } else {
+                product *= Math.abs(input.doubleValueOf(i));
+            }
         }
 
         return sum + product;
     }
-
 }

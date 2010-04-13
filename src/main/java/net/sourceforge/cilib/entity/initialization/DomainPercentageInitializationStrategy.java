@@ -60,7 +60,7 @@ public class DomainPercentageInitializationStrategy<E extends Entity> implements
         Vector vector = (Vector) type;
 
         for (int i = 0; i < vector.size(); ++i) {
-            vector.setReal(i, vector.getReal(i) * percentage);
+            vector.setReal(i, vector.doubleValueOf(i) * percentage);
         }
     }
 

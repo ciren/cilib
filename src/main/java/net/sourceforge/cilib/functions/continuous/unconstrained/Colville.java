@@ -79,10 +79,10 @@ public class Colville extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        double a = input.getReal(0);
-        double b = input.getReal(1);
-        double c = input.getReal(2);
-        double d = input.getReal(3);
+        double a = input.doubleValueOf(0);
+        double b = input.doubleValueOf(1);
+        double c = input.doubleValueOf(2);
+        double d = input.doubleValueOf(3);
 
         return 100 * (b-a*a) * (b-a*a) +
             (1-a) * (1-a) +

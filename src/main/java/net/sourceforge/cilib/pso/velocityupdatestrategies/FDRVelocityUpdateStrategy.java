@@ -108,7 +108,7 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
                     Vector currentTargetPosition = (Vector) currentTarget.getBestPosition();
 
                     double fitnessDifference = (currentTargetFitness.getValue() - particle.getFitness().getValue());
-                    double testFDR = fitnessDifference / Math.abs(position.getReal(i) - currentTargetPosition.getReal(i));
+                    double testFDR = fitnessDifference / Math.abs(position.doubleValueOf(i) - currentTargetPosition.doubleValueOf(i));
 
                     if (testFDR > maxFDR) {
                         maxFDR = testFDR;
@@ -119,10 +119,10 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
 
             Vector fdrMaximizerPosition = (Vector) fdrMaximizer.getBestPosition();
 
-            double value = (inertiaWeight.getParameter() * velocity.getReal(i)) +
-                        cognitiveAcceleration.getParameter() * (bestPosition.getReal(i) - position.getReal(i)) +
-                        socialAcceleration.getParameter() * (neighbourhoodBestPosition.getReal(i) - position.getReal(i)) +
-                        fdrMaximizerAcceleration.getParameter() * (fdrMaximizerPosition.getReal(i) - position.getReal(i));
+            double value = (inertiaWeight.getParameter() * velocity.doubleValueOf(i)) +
+                        cognitiveAcceleration.getParameter() * (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) +
+                        socialAcceleration.getParameter() * (neighbourhoodBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) +
+                        fdrMaximizerAcceleration.getParameter() * (fdrMaximizerPosition.doubleValueOf(i) - position.doubleValueOf(i));
 
             velocity.setReal(i, value);
             clamp(velocity, i);

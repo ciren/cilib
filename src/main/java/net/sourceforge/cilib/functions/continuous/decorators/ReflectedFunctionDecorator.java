@@ -41,6 +41,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class ReflectedFunctionDecorator extends ContinuousFunction {
+
     private static final long serialVersionUID = -5042848697343918398L;
     private ContinuousFunction function;
     private boolean horizontalReflection;
@@ -74,12 +75,13 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
 
         if (horizontalReflection) {
             for (int i = 0; i < input.size(); i++) {
-                tmp.setReal(i, -input.getReal(i));
+                tmp.setReal(i, -input.doubleValueOf(i));
             }
         }
 
-        if(verticalReflection)
+        if (verticalReflection) {
             return -function.evaluate(tmp);
+        }
 
         return function.evaluate(tmp);
     }
@@ -144,5 +146,4 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
     public void setVerticalReflection(String verticalReflection) {
         this.verticalReflection = Boolean.parseBoolean(verticalReflection);
     }
-
 }

@@ -79,7 +79,7 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
         Vector tmp = Vector.of();
 
         for (int i = 0; i < input.size(); i++) {
-            tmp.add(Real.valueOf(input.getReal(i) + horizontalShift));
+            tmp.add(Real.valueOf(input.doubleValueOf(i) + horizontalShift));
         }
 
         return function.evaluate(tmp) + verticalShift;

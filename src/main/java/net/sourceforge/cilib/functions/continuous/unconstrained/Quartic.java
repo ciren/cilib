@@ -89,7 +89,7 @@ public class Quartic extends ContinuousFunction {
         double result = 0.0;
 
         for (int i = 0; i < input.size(); i++) {
-            double square = input.getReal(i) * input.getReal(i);
+            double square = input.doubleValueOf(i) * input.doubleValueOf(i);
             double square2 = square * square;
 
             result += (i + 1) * square2;

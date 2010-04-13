@@ -62,7 +62,7 @@ public class NastyBenchmark extends ContinuousFunction {
     public Double evaluate(Vector input) {
         double tmp = 0;
         for (int i = 0; i < getDimension(); ++i) {
-            double factor = (input.getReal(i) - (i + 1));
+            double factor = (input.doubleValueOf(i) - (i + 1));
             tmp += factor * factor;
         }
         return tmp;

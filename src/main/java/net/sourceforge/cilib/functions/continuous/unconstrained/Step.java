@@ -62,7 +62,7 @@ public class Step extends ContinuousFunction {
         double sum = 0.0;
 
         for (int i = 0; i < input.size(); i++) {
-            double val = Math.floor(input.getReal(i) + 0.5);
+            double val = Math.floor(input.doubleValueOf(i) + 0.5);
             sum += val * val;
         }
 

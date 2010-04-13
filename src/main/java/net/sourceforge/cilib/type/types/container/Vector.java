@@ -425,7 +425,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
 
         Vector.Builder resultBuilder = Vector.newBuilder();
         for (int i = 0; i < size(); i++) {
-            resultBuilder.add(getReal(i) + vector.getReal(i));
+            resultBuilder.add(doubleValueOf(i) + vector.doubleValueOf(i));
         }
         return resultBuilder.build();
     }
@@ -441,7 +441,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
 
         Vector.Builder resultBuilder = Vector.newBuilder();
         for (int i = 0; i < size(); i++) {
-            resultBuilder.add(getReal(i) - vector.getReal(i));
+            resultBuilder.add(doubleValueOf(i) - vector.doubleValueOf(i));
         }
         return resultBuilder.build();
     }
@@ -519,7 +519,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
         double result = 0.0;
 
         for (int i = 0; i < size(); i++) {
-            result += this.getReal(i) * vector.getReal(i);
+            result += this.doubleValueOf(i) * vector.doubleValueOf(i);
         }
 
         return result;
@@ -539,9 +539,9 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
         }
 
         final Vector.Builder resultBuilder = Vector.newBuilder();
-        resultBuilder.add(this.getReal(1) * vector.getReal(2) - this.getReal(2) * vector.getReal(1));
-        resultBuilder.add(-(vector.getReal(2) * this.getReal(0) - vector.getReal(0) * this.getReal(2)));
-        resultBuilder.add(this.getReal(0) * vector.getReal(1) - this.getReal(1) * vector.getReal(0));
+        resultBuilder.add(this.doubleValueOf(1) * vector.doubleValueOf(2) - this.doubleValueOf(2) * vector.doubleValueOf(1));
+        resultBuilder.add(-(vector.doubleValueOf(2) * this.doubleValueOf(0) - vector.doubleValueOf(0) * this.doubleValueOf(2)));
+        resultBuilder.add(this.doubleValueOf(0) * vector.doubleValueOf(1) - this.doubleValueOf(1) * vector.doubleValueOf(0));
         return resultBuilder.build();
     }
 

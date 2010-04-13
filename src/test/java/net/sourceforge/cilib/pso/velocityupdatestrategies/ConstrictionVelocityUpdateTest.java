@@ -99,7 +99,7 @@ public class ConstrictionVelocityUpdateTest {
             velocityUpdate.updateVelocity(particle);
 
             Vector velocity = (Vector) particle.getVelocity();
-            Assert.assertEquals(1.2189730956981684, velocity.getReal(0), Maths.EPSILON);
+            Assert.assertEquals(1.2189730956981684, velocity.doubleValueOf(0), Maths.EPSILON);
         } finally {
             Seeder.setSeederStrategy(strategy);
         }

@@ -107,7 +107,7 @@ public class RepairingKnightsTour extends DiscreteFunction {
         int move = 0;
         while (true) {
             if (0 <= row && row < boardSize && 0 <= col && col < boardSize) {
-                int moveNum = decode(input.getBit(move * 3), input.getBit(move * 3 + 1), input.getBit(move * 3 + 2));
+                int moveNum = decode(input.booleanValueOf(move * 3), input.booleanValueOf(move * 3 + 1), input.booleanValueOf(move * 3 + 2));
                 if (!visited[row][col]) {
                     fitness++;
                     move++;

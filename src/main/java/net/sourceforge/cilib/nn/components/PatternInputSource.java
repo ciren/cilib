@@ -52,7 +52,7 @@ public class PatternInputSource implements NeuralInputSource {
      */
     @Override
     public double getNeuralInput(int index) {
-        return inputVector.getReal(index);
+        return inputVector.doubleValueOf(index);
     }
 
     /**

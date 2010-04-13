@@ -82,7 +82,7 @@ public class Quadric extends ContinuousFunction {
         for (int i = 0; i < getDimension(); ++i) {
             double sum = 0;
             for (int j = 0; j <= i; ++j) {
-                sum += input.getReal(j);
+                sum += input.doubleValueOf(j);
             }
             sumsq += sum * sum;
         }

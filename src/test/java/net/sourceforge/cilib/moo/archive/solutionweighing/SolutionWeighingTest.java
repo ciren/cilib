@@ -73,7 +73,7 @@ public class SolutionWeighingTest {
         @Override
         public Fitness getFitness(Type solution) {
             Vector position = (Vector) solution;
-            return new MinimisationFitness(position.getReal(index));
+            return new MinimisationFitness(position.doubleValueOf(index));
         }
 
         @Override

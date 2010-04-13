@@ -81,7 +81,7 @@ public class DeJongF4 extends ContinuousFunction {
     public Double evaluate(Vector input) {
         double sum = 0;
         for(int i = 0; i < input.size(); ++i){
-            double xi = input.getReal(i);
+            double xi = input.doubleValueOf(i);
             sum += (i+1) * (xi*xi*xi*xi);
         }
         return sum;

@@ -79,7 +79,7 @@ public class Foxholes extends ContinuousFunction {
                 else
                     tmp_a = a[1][j/5];
 
-                tmp += Math.pow((input.getReal(i) - tmp_a), 6);
+                tmp += Math.pow((input.doubleValueOf(i) - tmp_a), 6);
             }
 
             sum += 1.0 / (j + tmp);

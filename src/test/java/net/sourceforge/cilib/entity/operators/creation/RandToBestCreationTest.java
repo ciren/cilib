@@ -77,7 +77,7 @@ public class RandToBestCreationTest {
 
             Entity resultEntity = creation.create(entityRandom, current, testTopology);
 
-            Assert.assertEquals(0.1, ((Vector) resultEntity.getCandidateSolution()).getReal(0), 0.001);
+            Assert.assertEquals(0.1, ((Vector) resultEntity.getCandidateSolution()).doubleValueOf(0), 0.001);
         } finally {
             Seeder.setSeederStrategy(seedStrategy);
         }

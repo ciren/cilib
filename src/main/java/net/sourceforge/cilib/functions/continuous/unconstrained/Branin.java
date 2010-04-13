@@ -103,8 +103,8 @@ public class Branin extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        double x1 = input.getReal(0);
-        double x2 = input.getReal(1);
+        double x1 = input.doubleValueOf(0);
+        double x2 = input.doubleValueOf(1);
 
         return a*Math.pow((x2 - b*x1*x1 + c*x1 - d), 2) + e*(1 - f)*Math.cos(x1) + e;
     }

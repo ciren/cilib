@@ -73,7 +73,7 @@ public class CauchyMutationStrategy extends MutationStrategy {
                 for (int i = 0; i < chromosome.size(); i++) {
                     Bounds bounds = chromosome.boundsOf(i);
                     double scale = this.scaleStrategy.getParameter(bounds.getLowerBound(), bounds.getUpperBound());
-                    double value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getCauchy(this.location, scale));
+                    double value = this.getOperatorStrategy().evaluate(chromosome.doubleValueOf(i), this.getRandomNumber().getCauchy(this.location, scale));
 
                     chromosome.setReal(i, value);
                 }

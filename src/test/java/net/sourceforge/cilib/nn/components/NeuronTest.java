@@ -53,7 +53,7 @@ public class NeuronTest {
 
             @Override
             public double getNeuralInput(int index) {
-                return input.getReal(index);
+                return input.doubleValueOf(index);
             }
 
             @Override

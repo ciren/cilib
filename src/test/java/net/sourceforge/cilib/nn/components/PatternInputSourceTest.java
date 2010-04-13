@@ -48,7 +48,7 @@ public class PatternInputSourceTest {
     public void testGetNeuralInput() {
         NeuralInputSource source = new PatternInputSource(standardPattern);
         for (int i = 0; i < standardPattern.getVector().size(); i++) {
-            Assert.assertEquals(standardPattern.getVector().getReal(i), source.getNeuralInput(i), Maths.EPSILON);
+            Assert.assertEquals(standardPattern.getVector().doubleValueOf(i), source.getNeuralInput(i), Maths.EPSILON);
         }
     }
 }

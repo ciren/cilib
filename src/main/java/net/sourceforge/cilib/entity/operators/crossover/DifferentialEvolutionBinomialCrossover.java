@@ -79,7 +79,7 @@ public class DifferentialEvolutionBinomialCrossover extends CrossoverStrategy {
 
         for (int j = 0; j < parentVector.size(); j++) {
             if ((getRandomNumber().getUniform() < this.getCrossoverProbability().getParameter()) || (j == i)) {
-                offspringVector.setReal(j, trialVector.getReal(j));
+                offspringVector.setReal(j, trialVector.doubleValueOf(j));
             }
         }
 

@@ -47,13 +47,13 @@ public final class Stats {
     public static double mean(Vector vector) {
         double sum = 0.0;
         for (int i = 0; i < vector.size(); i++) {
-            sum += vector.getReal(i);
+            sum += vector.doubleValueOf(i);
         }
 
         double xbar = sum / vector.size();
         double correction = 0.0;
         for (int i = 0; i < vector.size(); i++) {
-            correction += (vector.getReal(i) - xbar);
+            correction += (vector.doubleValueOf(i) - xbar);
         }
 
         return xbar + (correction / vector.size());
@@ -100,7 +100,7 @@ public final class Stats {
         double summation = 0.0;
 
         for (int i = 0; i < vector.size(); i++) {
-            summation += (vector.getReal(i) - mean) * (vector.getReal(i) - mean);
+            summation += (vector.doubleValueOf(i) - mean) * (vector.doubleValueOf(i) - mean);
         }
 
         return summation / vector.size();

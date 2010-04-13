@@ -57,7 +57,7 @@ public class Schaffer2 extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        double sum_squares = input.getReal(0) * input.getReal(0) + input.getReal(1) * input.getReal(1);
+        double sum_squares = input.doubleValueOf(0) * input.doubleValueOf(0) + input.doubleValueOf(1) * input.doubleValueOf(1);
         double term1 = Math.pow(sum_squares, 0.25);
         double term2 = Math.pow(50 * Math.pow(sum_squares, 0.1), 2) + 1;
         return term1 * term2;

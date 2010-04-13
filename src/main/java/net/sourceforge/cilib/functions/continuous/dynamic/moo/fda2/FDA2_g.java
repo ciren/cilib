@@ -70,7 +70,7 @@ public class FDA2_g extends ContinuousFunction {
         double sum = 1.0;
 
         for (int k=0; k < input.size(); k++) {
-            sum += Math.pow(input.getReal(0), 2);
+            sum += Math.pow(input.doubleValueOf(0), 2);
         }
 
         return sum;

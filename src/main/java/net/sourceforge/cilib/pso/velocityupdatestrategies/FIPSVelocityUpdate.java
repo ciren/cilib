@@ -83,12 +83,12 @@ public class FIPSVelocityUpdate extends StandardVelocityUpdate {
 
                 randomComponent.setParameter(cognitiveAcceleration.getParameter() + socialAcceleration.getParameter());
 
-                informationSum += randomComponent.getParameter() * (currentTargetPosition.getReal(i) - position.getReal(i));
+                informationSum += randomComponent.getParameter() * (currentTargetPosition.doubleValueOf(i) - position.doubleValueOf(i));
 
                 numberOfNeighbours++;
             }
 
-            double value = inertiaWeight.getParameter() * (velocity.getReal(i) + (informationSum / numberOfNeighbours));
+            double value = inertiaWeight.getParameter() * (velocity.doubleValueOf(i) + (informationSum / numberOfNeighbours));
 
             velocity.setReal(i, value);
             // clamp(velocity, i);

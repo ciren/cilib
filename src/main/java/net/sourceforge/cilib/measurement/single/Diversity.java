@@ -71,11 +71,11 @@ public class Diversity implements Measurement<Real> {
             entity = k.next();
             Vector v = (Vector) entity.getCandidateSolution();
             for (int j = 0; j < averageParticlePosition.size(); ++j) {
-                averageParticlePosition.setReal(j, averageParticlePosition.getReal(j) + v.getReal(j));
+                averageParticlePosition.setReal(j, averageParticlePosition.doubleValueOf(j) + v.doubleValueOf(j));
             }
         }
         for (int j = 0; j < averageParticlePosition.size(); ++j) {
-            averageParticlePosition.setReal(j, averageParticlePosition.getReal(j) / numberOfEntities);
+            averageParticlePosition.setReal(j, averageParticlePosition.doubleValueOf(j) / numberOfEntities);
         }
 
         Iterator<? extends Entity> i = populationBasedAlgorithm.getTopology().iterator();
@@ -86,8 +86,7 @@ public class Diversity implements Measurement<Real> {
             double dimensionSum = 0.0;
             Vector v = (Vector) entity.getCandidateSolution();
             for (int j = 0; j < entity.getDimension(); ++j) {
-                dimensionSum += (v.getReal(j) - averageParticlePosition.getReal(j)) * (v.getReal(j) - averageParticlePosition.getReal(j));
-
+                dimensionSum += (v.doubleValueOf(j) - averageParticlePosition.doubleValueOf(j)) * (v.doubleValueOf(j) - averageParticlePosition.doubleValueOf(j));
             }
             particleSum += Math.sqrt(dimensionSum);
         }

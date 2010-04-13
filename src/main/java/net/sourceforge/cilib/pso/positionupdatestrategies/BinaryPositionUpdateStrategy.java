@@ -65,7 +65,7 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
         Vector velocity = (Vector) particle.getVelocity();
 
         for (int i = 0; i < position.size(); i++) {
-            double result = sigmoid.evaluate(velocity.getReal(i));
+            double result = sigmoid.evaluate(velocity.doubleValueOf(i));
             double rand = Math.random();
 
             if (rand < result) {

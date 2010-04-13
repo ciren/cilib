@@ -74,8 +74,8 @@ public class SixHumpCamelBack extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        double x1 = input.getReal(0);
-        double x2 = input.getReal(1);
+        double x1 = input.doubleValueOf(0);
+        double x2 = input.doubleValueOf(1);
 
         double result = (4 - 2.1*x1*x1 + Math.pow(x1, 4.0)/3.0)*x1*x1 + x1*x2 + 4*(x2*x2 -1)*x2*x2;
         return result;

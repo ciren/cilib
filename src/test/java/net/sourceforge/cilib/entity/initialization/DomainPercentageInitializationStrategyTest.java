@@ -56,7 +56,7 @@ public class DomainPercentageInitializationStrategyTest {
 
         Vector velocity = (Vector) particle.getVelocity();
         for (int i = 0; i < velocity.size(); i++) {
-            Assert.assertThat(velocity.getReal(i), is(lessThanOrEqualTo(0.1)));
+            Assert.assertThat(velocity.doubleValueOf(i), is(lessThanOrEqualTo(0.1)));
         }
     }
 

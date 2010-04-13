@@ -67,7 +67,7 @@ public class NeuralStateEvaluator extends NeuralAgent implements StateEvaluator 
         StandardPattern pattern = new StandardPattern(input, input);
         //get the output vector
         Vector NNOutput = neuralNetwork.evaluatePattern(pattern);//perform NN iteration, get output
-        return  NNOutput.getReal(0);
+        return  NNOutput.doubleValueOf(0);
     }
 
     /**

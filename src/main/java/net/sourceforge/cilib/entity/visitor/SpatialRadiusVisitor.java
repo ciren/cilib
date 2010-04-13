@@ -56,26 +56,29 @@ public class SpatialRadiusVisitor extends TopologyVisitor {
         while (calculateCenterIterator.hasNext()) {
             entity = calculateCenterIterator.next();
             Vector entityContents = (Vector) entity.getCandidateSolution();
-            for (int j = 0; j < spatialCenter.size(); ++j)
-               spatialCenter.setReal(j, spatialCenter.getReal(j)+entityContents.getReal(j));
+            for (int j = 0; j < spatialCenter.size(); ++j) {
+                spatialCenter.setReal(j, spatialCenter.doubleValueOf(j) + entityContents.doubleValueOf(j));
+            }
         }
 
         // calculate center - evaluate average position of entity contents (spatial center)
-        for (int j = 0; j < spatialCenter.size(); ++j)
-           spatialCenter.setReal(j, spatialCenter.getReal(j)/numberOfEntities);
+        for (int j = 0; j < spatialCenter.size(); ++j) {
+            spatialCenter.setReal(j, spatialCenter.doubleValueOf(j) / numberOfEntities);
+        }
 
         // initialize iterator to be used to calculate radius
         Iterator<?> calculateRadiusIterator = topology.iterator();
 
         // calculate radius
-        while(calculateRadiusIterator.hasNext()) {
+        while (calculateRadiusIterator.hasNext()) {
             Entity populationEntity = (Entity) calculateRadiusIterator.next();
             Vector entityContents = (Vector) populationEntity.getCandidateSolution();
 
             double currentDistance = distanceMeasure.distance(spatialCenter, entityContents);
 
-            if (currentDistance > maxDistance)
+            if (currentDistance > maxDistance) {
                 maxDistance = currentDistance;
+            }
         }
 
         radius = maxDistance;
@@ -94,5 +97,4 @@ public class SpatialRadiusVisitor extends TopologyVisitor {
     public boolean isDone() {
         return done;
     }
-
 }

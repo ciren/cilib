@@ -83,8 +83,8 @@ public class Schaffer6 extends ContinuousFunction {
         double sum = 0;
         
         for (int i = 0; i < input.size()-1; i++) {
-            double xi = input.getReal(i);
-            double xj = input.getReal(i + 1);
+            double xi = input.doubleValueOf(i);
+            double xj = input.doubleValueOf(i + 1);
             double sinSquared = Math.sin(Math.sqrt((100 * (xi*xi)) + (xj*xj)));
             sinSquared *= sinSquared;
 

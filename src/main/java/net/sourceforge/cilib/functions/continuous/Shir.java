@@ -38,8 +38,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  Andries Engelbrecht
  */
 public class Shir extends ContinuousFunction {
-    private static final long serialVersionUID = 8157687561496975789L;
 
+    private static final long serialVersionUID = 8157687561496975789L;
     private double l1, l2, l3, l4, l5, sharpness;
 
     /**
@@ -82,13 +82,13 @@ public class Shir extends ContinuousFunction {
 
         for (int i = 0; i < getDimension(); i++) {
             sinTerm = 1.0;
-            for (int k = 1; k <= sharpness; k++)
-                sinTerm *= Math.sin(l1*Math.PI*input.getReal(i) + l2);
-            expTerm = Math.exp(-l3*((input.getReal(i)-l4)/l5)*((input.getReal(i)-l4)/l5));
+            for (int k = 1; k <= sharpness; k++) {
+                sinTerm *= Math.sin(l1 * Math.PI * input.doubleValueOf(i) + l2);
+            }
+            expTerm = Math.exp(-l3 * ((input.doubleValueOf(i) - l4) / l5) * ((input.doubleValueOf(i) - l4) / l5));
             product *= (sinTerm * expTerm);
         }
 
         return product;
     }
-
 }

@@ -169,10 +169,10 @@ public class AngleModulation extends ContinuousFunction {
      * @return
      */
     public String generateBitString(Vector x, int dimensionBitNumber) {
-        double a = x.getReal(0);
-        double b = x.getReal(1);
-        double c = x.getReal(2);
-        double d = x.getReal(3);
+        double a = x.doubleValueOf(0);
+        double b = x.doubleValueOf(1);
+        double c = x.doubleValueOf(2);
+        double d = x.doubleValueOf(3);
 
         StringBuilder str = new StringBuilder();
 

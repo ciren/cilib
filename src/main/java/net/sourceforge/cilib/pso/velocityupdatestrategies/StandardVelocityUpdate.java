@@ -27,15 +27,14 @@ import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
  * Implementation of the standard / default velocity update equation.
  *
  * @author  Edwin Peer
  */
 public class StandardVelocityUpdate implements VelocityUpdateStrategy {
-    private static final long serialVersionUID = 8204479765311251730L;
 
+    private static final long serialVersionUID = 8204479765311251730L;
     protected ControlParameter inertiaWeight;
     protected ControlParameter socialAcceleration;
     protected ControlParameter cognitiveAcceleration;
@@ -54,7 +53,6 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
         vMax.setParameter(Double.MAX_VALUE);
     }
 
-
     /**
      * Copy constructor.
      * @param copy The object to copy.
@@ -66,14 +64,12 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
         this.vMax = copy.vMax.getClone();
     }
 
-
     /**
      * {@inheritDoc}
      */
     public StandardVelocityUpdate getClone() {
         return new StandardVelocityUpdate(this);
     }
-
 
     /**
      * Perform the velocity update for the given <tt>Particle</tt>.
@@ -86,15 +82,14 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
         Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
         for (int i = 0; i < particle.getDimension(); ++i) {
-            double value = inertiaWeight.getParameter()*velocity.getReal(i) +
-                (bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter() +
-                (nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
+            double value = inertiaWeight.getParameter() * velocity.doubleValueOf(i)
+                    + (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * cognitiveAcceleration.getParameter()
+                    + (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * socialAcceleration.getParameter();
             velocity.setReal(i, value);
 
             clamp(velocity, i);
         }
     }
-
 
     /**
      * Update the associated <tt>ControlParameter</tt>s for the <tt>VelocityUpdateStrategy</tt>.
@@ -107,19 +102,18 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
         this.vMax.updateParameter();
     }
 
-
     /**
      * TODO: Need to have a VMax strategy.
      * @param velocity The {@link Vector} to be clamped.
      * @param i The dimension index to be clamped
      */
     protected void clamp(Vector velocity, int i) {
-        if (velocity.getReal(i) < -vMax.getParameter())
+        if (velocity.doubleValueOf(i) < -vMax.getParameter()) {
             velocity.setReal(i, -vMax.getParameter());
-        else if (velocity.getReal(i) > vMax.getParameter())
+        } else if (velocity.doubleValueOf(i) > vMax.getParameter()) {
             velocity.setReal(i, vMax.getParameter());
+        }
     }
-
 
     /**
      * Gets the <tt>ControlParameter</tt> representing the cognitive component within this
@@ -185,5 +179,4 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     public void setVMax(ControlParameter max) {
         vMax = max;
     }
-
 }

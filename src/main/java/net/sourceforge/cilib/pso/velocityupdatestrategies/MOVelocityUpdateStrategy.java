@@ -126,18 +126,18 @@ public class MOVelocityUpdateStrategy extends StandardVelocityUpdate {
         int i = 0;
 
         for (; i < min; ++i) {
-            double value = this.inertiaWeight.getParameter() * velocity.getReal(i) +
-                    (localGuide.getReal(i) - position.getReal(i)) * this.cognitiveAcceleration.getParameter() +
-                    (globalGuide.getReal(i) - position.getReal(i)) * this.socialAcceleration.getParameter();
+            double value = this.inertiaWeight.getParameter() * velocity.doubleValueOf(i) +
+                    (localGuide.doubleValueOf(i) - position.doubleValueOf(i)) * this.cognitiveAcceleration.getParameter() +
+                    (globalGuide.doubleValueOf(i) - position.doubleValueOf(i)) * this.socialAcceleration.getParameter();
             velocity.setReal(i, value);
 
             clamp(velocity, i);
         }
 
         for (; i < particle.getDimension(); ++i) {
-            double value = this.inertiaWeight.getParameter() * velocity.getReal(i) +
-                    (localGuide.getReal(i) - position.getReal(i)) * this.cognitiveAcceleration.getParameter() +
-                    (gbest.getReal(i) - position.getReal(i)) * this.socialAcceleration.getParameter();
+            double value = this.inertiaWeight.getParameter() * velocity.doubleValueOf(i) +
+                    (localGuide.doubleValueOf(i) - position.doubleValueOf(i)) * this.cognitiveAcceleration.getParameter() +
+                    (gbest.doubleValueOf(i) - position.doubleValueOf(i)) * this.socialAcceleration.getParameter();
             velocity.setReal(i, value);
 
             clamp(velocity, i);

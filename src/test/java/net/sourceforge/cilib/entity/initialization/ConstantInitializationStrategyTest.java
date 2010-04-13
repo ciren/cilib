@@ -58,7 +58,7 @@ public class ConstantInitializationStrategyTest {
         Vector chromosome = (Vector) individual.getCandidateSolution();
 
         for (int i = 0; i < vector.size(); i++) {
-            Assert.assertThat(vector.getReal(i), is(not(chromosome.getReal(i))));
+            Assert.assertThat(vector.doubleValueOf(i), is(not(chromosome.doubleValueOf(i))));
         }
     }
 

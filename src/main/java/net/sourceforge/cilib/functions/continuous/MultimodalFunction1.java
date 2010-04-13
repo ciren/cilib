@@ -59,7 +59,7 @@ public class MultimodalFunction1 extends ContinuousFunction {
     public Double evaluate(Vector input) {
         double dResult = 0.0;
         for (int i = 0; i < getDimension(); ++i) {
-            double x = Math.pow(Math.sin(5.0 * Math.PI * input.getReal(i)), 6.0);
+            double x = Math.pow(Math.sin(5.0 * Math.PI * input.doubleValueOf(i)), 6.0);
             dResult += x;
         }
         return dResult;

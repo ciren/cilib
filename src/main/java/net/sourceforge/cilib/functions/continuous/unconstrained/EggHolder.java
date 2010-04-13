@@ -76,10 +76,10 @@ class EggHolder extends ContinuousFunction {
     public Double evaluate(Vector input) {
         double sum = 0.0;
         for (int i = 0; i < input.size() - 1; i++) {
-            sum += (-1*(input.getReal(i+1) + 47)
-                    *Math.sin(Math.sqrt(Math.abs(input.getReal(i+1) + input.getReal(i)/2 + 47)))
-                    + Math.sin(Math.sqrt(Math.abs(input.getReal(i) - (input.getReal(i+1)+47))))
-                    *(-1*input.getReal(i)));
+            sum += (-1*(input.doubleValueOf(i+1) + 47)
+                    *Math.sin(Math.sqrt(Math.abs(input.doubleValueOf(i+1) + input.doubleValueOf(i)/2 + 47)))
+                    + Math.sin(Math.sqrt(Math.abs(input.doubleValueOf(i) - (input.doubleValueOf(i+1)+47))))
+                    *(-1*input.doubleValueOf(i)));
         }
         return sum;
     }

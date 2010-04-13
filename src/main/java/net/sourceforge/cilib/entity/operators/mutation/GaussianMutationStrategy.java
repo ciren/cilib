@@ -73,7 +73,7 @@ public class GaussianMutationStrategy extends MutationStrategy {
                 double random = this.getRandomNumber().getUniform();
                 if (random <= this.getMutationProbability().getParameter()) {
                     double deviation = this.getRandomNumber().getGaussian();
-                    double value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getGaussian(this.mean, deviation));
+                    double value = this.getOperatorStrategy().evaluate(chromosome.doubleValueOf(i), this.getRandomNumber().getGaussian(this.mean, deviation));
 
                     chromosome.setReal(i, value);
                 }

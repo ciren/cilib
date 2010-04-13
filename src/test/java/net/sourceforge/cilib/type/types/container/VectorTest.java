@@ -72,7 +72,7 @@ public class VectorTest {
         assertEquals(v.size(), vector.size());
 
         for (int i = 0; i < vector.size(); i++) {
-            assertEquals(vector.getReal(i), v.getReal(i), 0.0);
+            assertEquals(vector.doubleValueOf(i), v.doubleValueOf(i), 0.0);
             assertNotSame(vector.get(i), v.get(i));
         }
     }
@@ -80,18 +80,18 @@ public class VectorTest {
     @Test
     public void testSet() {
         vector.setReal(0, 3.0);
-        assertEquals(3.0, vector.getReal(0), 0.0);
+        assertEquals(3.0, vector.doubleValueOf(0), 0.0);
         vector.setReal(0, 1.0);
-        assertEquals(1.0, vector.getReal(0), 0.0);
+        assertEquals(1.0, vector.doubleValueOf(0), 0.0);
     }
 
     @Test
     public void testNumericGet() {
         recreateTmpVector();
 
-        assertEquals(1.0, tmpVector.getReal(0), 0.0);
-        assertEquals(2.0, tmpVector.getReal(1), 0.0);
-        assertEquals(3.0, tmpVector.getReal(2), 0.0);
+        assertEquals(1.0, tmpVector.doubleValueOf(0), 0.0);
+        assertEquals(2.0, tmpVector.doubleValueOf(1), 0.0);
+        assertEquals(3.0, tmpVector.doubleValueOf(2), 0.0);
 
         Real t = (Real) tmpVector.get(0);
 
@@ -100,15 +100,15 @@ public class VectorTest {
 
     @Test
     public void testNumericSet() {
-        assertEquals(1.0, vector.getReal(0), 0.0);
+        assertEquals(1.0, vector.doubleValueOf(0), 0.0);
         vector.setReal(0, 99.9);
-        assertEquals(99.9, vector.getReal(0), 0.0);
+        assertEquals(99.9, vector.doubleValueOf(0), 0.0);
 
         vector.setInt(0, 2);
-        assertEquals(2, vector.getInt(0), 0.0);
+        assertEquals(2, vector.intValueOf(0), 0.0);
 
         vector.setReal(0, 1.0);
-        assertEquals(1.0, vector.getReal(0), 0.0);
+        assertEquals(1.0, vector.doubleValueOf(0), 0.0);
     }
 
     @Test
@@ -129,7 +129,7 @@ public class VectorTest {
 
     @Test
     public void testGetReal() {
-        Object tmp = vector.getReal(0);
+        Object tmp = vector.doubleValueOf(0);
         assertTrue(tmp instanceof Double);
     }
 
@@ -138,12 +138,12 @@ public class VectorTest {
         Vector m = Vector.of();
         m.add(Real.valueOf(10.0, new Bounds(-10.0, 10.0)));
 
-        assertEquals(10.0, m.getReal(0), 0.0);
+        assertEquals(10.0, m.doubleValueOf(0), 0.0);
     }
 
     @Test
     public void testGetInt() {
-        Object tmp = vector.getInt(0);
+        Object tmp = vector.intValueOf(0);
         assertTrue(tmp instanceof Integer);
     }
 
@@ -151,21 +151,21 @@ public class VectorTest {
     public void testSetInt() {
         Vector m = Vector.of();
         m.add(Int.valueOf(2));
-        assertEquals(2, m.getInt(0));
+        assertEquals(2, m.intValueOf(0));
         m.setInt(0, 5);
-        assertEquals(5, m.getInt(0));
+        assertEquals(5, m.intValueOf(0));
 
         m.add(Real.valueOf(-99.99));
         m.setInt(1, 1);
-        assertEquals(1, m.getInt(1));
+        assertEquals(1, m.intValueOf(1));
 
         m.add(Bit.valueOf(true));
-        assertTrue(m.getBit(2));
+        assertTrue(m.booleanValueOf(2));
     }
 
     @Test
     public void testGetBit() {
-        Object tmp = vector.getBit(0);
+        Object tmp = vector.booleanValueOf(0);
         assertTrue(tmp instanceof Boolean);
     }
 
@@ -173,7 +173,7 @@ public class VectorTest {
     public void testSetBit() {
         Vector m = Vector.of(Bit.valueOf(false));
 
-        assertFalse(m.getBit(0));
+        assertFalse(m.booleanValueOf(0));
     }
 
     @Test
@@ -184,9 +184,9 @@ public class VectorTest {
                 .add(Real.valueOf(3.0))
                 .buildRandom();
 
-        assertFalse(target.getReal(0) == 1.0);
-        assertFalse(target.getReal(1) == 2.0);
-        assertFalse(target.getReal(2) == 3.0);
+        assertFalse(target.doubleValueOf(0) == 1.0);
+        assertFalse(target.doubleValueOf(1) == 2.0);
+        assertFalse(target.doubleValueOf(2) == 3.0);
     }
 
     @Test
@@ -219,9 +219,9 @@ public class VectorTest {
 
         Vector result = v1.cross(v2);
 
-        assertEquals(-3.0, result.getReal(0), 0);
-        assertEquals(6.0, result.getReal(1), 0);
-        assertEquals(-3.0, result.getReal(2), 0);
+        assertEquals(-3.0, result.doubleValueOf(0), 0);
+        assertEquals(6.0, result.doubleValueOf(1), 0);
+        assertEquals(-3.0, result.doubleValueOf(2), 0);
     }
 
     @Test(expected = ArithmeticException.class)
@@ -271,8 +271,8 @@ public class VectorTest {
             assertNotNull(divided.get(i));
             assertNotSame(divided.get(i), a.get(i));
 
-            assertEquals(a.getReal(i), (double) i, 0.0);
-            assertEquals(divided.getReal(i), (i / 3.0), 0.000000001);
+            assertEquals(a.doubleValueOf(i), (double) i, 0.0);
+            assertEquals(divided.doubleValueOf(i), (i / 3.0), 0.000000001);
         }
     }
 
@@ -295,8 +295,8 @@ public class VectorTest {
             assertNotNull(product.get(i));
             assertNotSame(product.get(i), a.get(i));
 
-            assertEquals(a.getReal(i), (double) i, 0.0);
-            assertEquals(product.getReal(i), (i * 3.0), 0.0);
+            assertEquals(a.doubleValueOf(i), (double) i, 0.0);
+            assertEquals(product.doubleValueOf(i), (i * 3.0), 0.0);
         }
     }
 

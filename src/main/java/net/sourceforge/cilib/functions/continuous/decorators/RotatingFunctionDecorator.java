@@ -155,10 +155,10 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
 
         for (int j = 0; j < input.size(); j++) {
             for (int i = 0; i < input.size(); i++) {
-                double value = rotatedX.getReal(j) + (input.getReal(i) - center) * result.valueAt(i, j);
+                double value = rotatedX.doubleValueOf(j) + (input.doubleValueOf(i) - center) * result.valueAt(i, j);
                 rotatedX.setReal(j, value);
             }
-            double rotatedValue = rotatedX.getReal(j) + center;
+            double rotatedValue = rotatedX.doubleValueOf(j) + center;
             rotatedX.setReal(j, rotatedValue);
         }
 

@@ -59,8 +59,8 @@ public class UrsemF1 extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        double x = input.getReal(0);
-        double y = input.getReal(1);
+        double x = input.doubleValueOf(0);
+        double y = input.doubleValueOf(1);
 
         double result = Math.sin(2.0*x - 0.5*Math.PI) + 3.0*Math.cos(y) + 0.5*x;
         return result;

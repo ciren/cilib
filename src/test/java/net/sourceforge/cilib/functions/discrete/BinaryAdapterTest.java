@@ -97,22 +97,22 @@ public class BinaryAdapterTest {
         bitVector.setBit(3, false);
         converted = adapter.decodeBitString(bitVector);
         assertEquals(1, converted.size());
-        assertEquals(14.0, converted.getReal(0), Double.MIN_NORMAL);
+        assertEquals(14.0, converted.doubleValueOf(0), Double.MIN_NORMAL);
 
         bitVector.setBit(2, false);
         converted = adapter.decodeBitString(bitVector);
         assertEquals(1, converted.size());
-        assertEquals(12.0, converted.getReal(0), Double.MIN_NORMAL);
+        assertEquals(12.0, converted.doubleValueOf(0), Double.MIN_NORMAL);
 
         bitVector.setBit(1, false);
         converted = adapter.decodeBitString(bitVector);
         assertEquals(1, converted.size());
-        assertEquals(8.0, converted.getReal(0), Double.MIN_NORMAL);
+        assertEquals(8.0, converted.doubleValueOf(0), Double.MIN_NORMAL);
 
         bitVector.setBit(0, false);
         converted = adapter.decodeBitString(bitVector);
         assertEquals(1, converted.size());
-        assertEquals(0.0, converted.getReal(0), Double.MIN_NORMAL);
+        assertEquals(0.0, converted.doubleValueOf(0), Double.MIN_NORMAL);
     }
 
 
@@ -138,22 +138,22 @@ public class BinaryAdapterTest {
         bitVector.setBit(3, false);
         converted = adapter.decodeBitString(bitVector);
         assertEquals(2, converted.size());
-        assertEquals(14.0, converted.getReal(0), Double.MIN_NORMAL);
+        assertEquals(14.0, converted.doubleValueOf(0), Double.MIN_NORMAL);
 
         bitVector.setBit(2, false);
         converted = adapter.decodeBitString(bitVector);
         assertEquals(2, converted.size());
-        assertEquals(12.0, converted.getReal(0), Double.MIN_NORMAL);
+        assertEquals(12.0, converted.doubleValueOf(0), Double.MIN_NORMAL);
 
         bitVector.setBit(1, false);
         converted = adapter.decodeBitString(bitVector);
         assertEquals(2, converted.size());
-        assertEquals(8.0, converted.getReal(0), Double.MIN_NORMAL);
+        assertEquals(8.0, converted.doubleValueOf(0), Double.MIN_NORMAL);
 
         bitVector.setBit(0, false);
         converted = adapter.decodeBitString(bitVector);
         assertEquals(2, converted.size());
-        assertEquals(0.0, converted.getReal(0), Double.MIN_NORMAL);
+        assertEquals(0.0, converted.doubleValueOf(0), Double.MIN_NORMAL);
     }
 
     @Test
@@ -178,22 +178,22 @@ public class BinaryAdapterTest {
         bitVector.setBit(3, false);
         converted = adapter.decodeBitString(bitVector);
         assertEquals(1, converted.size());
-        assertEquals(239.0, converted.getReal(0), Double.MIN_NORMAL);
+        assertEquals(239.0, converted.doubleValueOf(0), Double.MIN_NORMAL);
 
         bitVector.setBit(2, false);
         converted = adapter.decodeBitString(bitVector);
         assertEquals(1, converted.size());
-        assertEquals(207.0, converted.getReal(0), Double.MIN_NORMAL);
+        assertEquals(207.0, converted.doubleValueOf(0), Double.MIN_NORMAL);
 
         bitVector.setBit(1, false);
         converted = adapter.decodeBitString(bitVector);
         assertEquals(1, converted.size());
-        assertEquals(143.0, converted.getReal(0), Double.MIN_NORMAL);
+        assertEquals(143.0, converted.doubleValueOf(0), Double.MIN_NORMAL);
 
         bitVector.setBit(0, false);
         converted = adapter.decodeBitString(bitVector);
         assertEquals(1, converted.size());
-        assertEquals(15.0, converted.getReal(0), Double.MIN_NORMAL);
+        assertEquals(15.0, converted.doubleValueOf(0), Double.MIN_NORMAL);
     }
 
 }

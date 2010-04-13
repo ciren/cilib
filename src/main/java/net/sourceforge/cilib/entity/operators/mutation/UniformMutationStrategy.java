@@ -69,7 +69,7 @@ public class UniformMutationStrategy extends MutationStrategy {
 
             if (this.getMutationProbability().getParameter() >= this.getRandomNumber().getUniform()) {
                 for (int i = 0; i < chromosome.size(); i++) {
-                    double value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getUniform(minStrategy.getParameter(), maxStrategy.getParameter()));
+                    double value = this.getOperatorStrategy().evaluate(chromosome.doubleValueOf(i), this.getRandomNumber().getUniform(minStrategy.getParameter(), maxStrategy.getParameter()));
                     chromosome.setReal(i, value);
                 }
             }

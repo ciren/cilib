@@ -81,7 +81,7 @@ public class Salomon extends ContinuousFunction {
         double sumSquares = 0.0;
 
         for (int i = 0; i < input.size(); i++) {
-            sumSquares += input.getReal(i) * input.getReal(i);
+            sumSquares += input.doubleValueOf(i) * input.doubleValueOf(i);
         }
 
         return -(Math.cos(2 * Math.PI * Math.sqrt(sumSquares))) + (0.1 * Math.sqrt(sumSquares)) + 1;

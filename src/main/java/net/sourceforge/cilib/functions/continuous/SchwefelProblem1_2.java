@@ -73,7 +73,7 @@ public class SchwefelProblem1_2 extends ContinuousFunction {
             sum = 0.0;
 
             for (int j = 0; j < i; j++) {
-                sum += input.getReal(j);
+                sum += input.doubleValueOf(j);
             }
 
             sumsq += sum * sum;

@@ -73,7 +73,7 @@ public class ParticlePositions implements Measurement<StringType> {
 
             Vector v = (Vector) particle.getPosition();
             for (int j = 0; j < particle.getDimension(); ++j) {
-                tmp.append(v.getReal(j));
+                tmp.append(v.doubleValueOf(j));
                 tmp.append(" ");
             }
         }

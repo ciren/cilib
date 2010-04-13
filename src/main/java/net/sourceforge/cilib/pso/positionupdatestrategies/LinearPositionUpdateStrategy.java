@@ -31,16 +31,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class LinearPositionUpdateStrategy implements PositionUpdateStrategy {
+
     private static final long serialVersionUID = -3328130784035172372L;
 
     public LinearPositionUpdateStrategy() {
     }
 
-
     public LinearPositionUpdateStrategy(LinearPositionUpdateStrategy copy) {
-
     }
-
 
     public LinearPositionUpdateStrategy getClone() {
         return new LinearPositionUpdateStrategy(this);
@@ -53,7 +51,8 @@ public class LinearPositionUpdateStrategy implements PositionUpdateStrategy {
         Vector position = (Vector) particle.getPosition();
         Vector velocity = (Vector) particle.getVelocity();
 
-        for (int i = 0; i < position.size(); ++i)
-            position.setReal(i, velocity.getReal(i));
+        for (int i = 0; i < position.size(); ++i) {
+            position.setReal(i, velocity.doubleValueOf(i));
+        }
     }
 }

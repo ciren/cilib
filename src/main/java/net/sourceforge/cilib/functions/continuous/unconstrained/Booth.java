@@ -82,8 +82,8 @@ public class Booth extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        double x1 = input.getReal(0);
-        double x2 = input.getReal(1);
+        double x1 = input.doubleValueOf(0);
+        double x2 = input.doubleValueOf(1);
 
         return (x1+2*x2-7)*(x1+2*x2-7) + (2*x1+x2-5)*(2*x1+x2-5);
     }

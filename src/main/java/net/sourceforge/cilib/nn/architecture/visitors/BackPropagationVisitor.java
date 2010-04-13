@@ -77,7 +77,7 @@ public class BackPropagationVisitor implements ArchitectureVisitor {
         layerWeightsDelta[currentLayerIdx - 1] = new double[layerSize];
         for (int k = 0; k < layerSize; k++) {
             currentNeuron = currentLayer.get(k);
-            double t_k = layerSize > 1 ? ((Vector) previousPattern.getTarget()).getReal(k) : ((Real) previousPattern.getTarget()).doubleValue();
+            double t_k = layerSize > 1 ? ((Vector) previousPattern.getTarget()).doubleValueOf(k) : ((Real) previousPattern.getTarget()).doubleValue();
             double o_k = currentNeuron.getActivation();
             layerWeightsDelta[currentLayerIdx - 1][k] = -1.0 * (t_k - o_k) * currentNeuron.getActivationFunction().getGradient(o_k);
         }
@@ -94,7 +94,7 @@ public class BackPropagationVisitor implements ArchitectureVisitor {
                 nextLayerSize = nextLayer.size();
                 nextLayerSize = nextLayer.isBias() ? nextLayerSize - 1 : nextLayerSize;
                 for (int k = 0; k < nextLayerSize; k++) {
-                    double w_kj = nextLayer.get(k).getWeights().getReal(j);
+                    double w_kj = nextLayer.get(k).getWeights().doubleValueOf(j);
                     layerWeightsDelta[currentLayerIdx - 1][j] += w_kj * layerWeightsDelta[currentLayerIdx][k];
                 }
                 currentNeuron = currentLayer.get(j);

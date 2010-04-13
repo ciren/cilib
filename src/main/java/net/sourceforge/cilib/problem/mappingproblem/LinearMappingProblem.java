@@ -85,7 +85,7 @@ public class LinearMappingProblem extends MappingProblem {
             for(int d = 0; d < outputDimension; d++) {
 //                output.set(v, d, 0.0);
                 for(int m = 0; m < inputDimension; m++) {
-                    double value = matrix.getReal(base+m) * input.valueAt(v, m);
+                    double value = matrix.doubleValueOf(base+m) * input.valueAt(v, m);
                     //output[v][d] += matrix[base + m] * input[v][m];
 //                    output.set(v, d, value);
                 }

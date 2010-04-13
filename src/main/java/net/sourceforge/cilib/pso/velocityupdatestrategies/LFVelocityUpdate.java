@@ -100,7 +100,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
                 Vector functionGradient = getGradient(position);
                 for (int l = 0; l < particle.getDimension(); ++l) {
                     //gradient[l] = -functionGradient[l];
-                    gradient[l] = -functionGradient.getReal(l);
+                    gradient[l] = -functionGradient.doubleValueOf(l);
                 }
 
                 // Calculate initial velocity
@@ -124,7 +124,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
             } else {
                 for (int l = 0; l < particle.getDimension(); ++l) {
                     //velocity[l] = delta * velocity[l] / (lenDeltaX);
-                    velocity.setReal(l, delta * velocity.getReal(l) / (lenDeltaX));
+                    velocity.setReal(l, delta * velocity.doubleValueOf(l) / (lenDeltaX));
                 }
 
                 // LeapFrog Algorithm Step 5b
@@ -141,12 +141,12 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
                         velocity[l] = tmp / 2.0;
                         s = 0;*/
 
-                        tmp = position.getReal(l) + previousPosition.getReal(l);
-                        previousPosition.setReal(l, position.getReal(l));
+                        tmp = position.doubleValueOf(l) + previousPosition.doubleValueOf(l);
+                        previousPosition.setReal(l, position.doubleValueOf(l));
                         position.setReal(l, tmp / 2.0);
 
-                        tmp = velocity.getReal(l) + previousVelocity.getReal(l);
-                        previousVelocity.setReal(l, velocity.getReal(l));
+                        tmp = velocity.doubleValueOf(l) + previousVelocity.doubleValueOf(l);
+                        previousVelocity.setReal(l, velocity.doubleValueOf(l));
                         velocity.setReal(l, tmp / 2.0);
                         s = 0;
                     }
@@ -157,8 +157,8 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
             for (int l = 0; l < particle.getDimension(); ++l) {
                 //previousPosition[l] = position[l];
                 //position[l] += velocity[l] * deltaT;
-                previousPosition.setReal(l, position.getReal(l));
-                position.setReal(l, position.getReal(l) + velocity.getReal(l) * deltaT);
+                previousPosition.setReal(l, position.doubleValueOf(l));
+                position.setReal(l, position.doubleValueOf(l) + velocity.doubleValueOf(l) * deltaT);
             }
 
             boolean repeatEndLoop = true;
@@ -169,14 +169,14 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
                 Vector functionGradient = getGradient(position);
                 for (int l = 0; l < particle.getDimension(); ++l) {
                     //nextGradient[l] = -functionGradient[l];
-                    nextGradient[l] = -functionGradient.getReal(l);
+                    nextGradient[l] = -functionGradient.doubleValueOf(l);
                 }
 
                 for (int l = 0; l < particle.getDimension(); ++l) {
                     //previousVelocity[l] = velocity[l];
                     //velocity[l] += nextGradient[l] * deltaT;
-                    previousVelocity.setReal(l, velocity.getReal(l));
-                    velocity.setReal(l, velocity.getReal(i) + nextGradient[l] * deltaT);
+                    previousVelocity.setReal(l, velocity.doubleValueOf(l));
+                    velocity.setReal(l, velocity.doubleValueOf(i) + nextGradient[l] * deltaT);
                 }
 
                 // LeapFrog Algorithm Step 7a
@@ -203,8 +203,8 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
                             /*tmp = position[l] + previousPosition[l];
                             previousPosition[l] = position[l];
                             position[l] = tmp / 2.0;*/
-                            tmp = position.getReal(l) + previousPosition.getReal(l);
-                            previousPosition.setReal(l, position.getReal(l));
+                            tmp = position.doubleValueOf(l) + previousPosition.doubleValueOf(l);
+                            previousPosition.setReal(l, position.doubleValueOf(l));
                             position.setReal(l, tmp / 2.0);
                         }
                         ++i;
@@ -215,15 +215,15 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
                                 //tmp = velocity[l] + previousVelocity[l];
                                 //previousVelocity[l] = velocity[l];
                                 //velocity[l] = tmp / 4.0;
-                                tmp = velocity.getReal(l) + previousVelocity.getReal(l);
-                                previousVelocity.setReal(l, velocity.getReal(l));
+                                tmp = velocity.doubleValueOf(l) + previousVelocity.doubleValueOf(l);
+                                previousVelocity.setReal(l, velocity.doubleValueOf(l));
                                 velocity.setReal(l, tmp / 4.0);
                             }
                         } else {
                             for (int l = 0; l < particle.getDimension(); ++l) {
                                 // previousVelocity[l] = velocity[l];
                                 // velocity[l] = 0;
-                                previousVelocity.setReal(l, velocity.getReal(l));
+                                previousVelocity.setReal(l, velocity.doubleValueOf(l));
                                 velocity.setReal(l, 0.0);
                                 j = 1;
                             }
@@ -255,7 +255,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
         l += x[i] * x[i];
         } */
         for (int i = 0; i < x.size(); i++) {
-            l += x.getReal(i) * x.getReal(i);
+            l += x.doubleValueOf(i) * x.doubleValueOf(i);
         }
         return (Math.sqrt(l));
     }

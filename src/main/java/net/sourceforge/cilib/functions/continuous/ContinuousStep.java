@@ -75,7 +75,7 @@ public class ContinuousStep extends ContinuousFunction {
     public Double evaluate(Vector input) {
         double sum = 0.0;
         for (int i = 0; i < getDimension(); ++i) {
-            sum += (input.getReal(i) + 0.5) * (input.getReal(i) + 0.5);
+            sum += (input.doubleValueOf(i) + 0.5) * (input.doubleValueOf(i) + 0.5);
         }
         return sum;
     }

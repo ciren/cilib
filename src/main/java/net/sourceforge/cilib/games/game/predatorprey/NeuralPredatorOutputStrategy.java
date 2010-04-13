@@ -49,18 +49,18 @@ public class NeuralPredatorOutputStrategy extends NeuralOutputInterpretationStra
         }
         PredatorPreyGame game = (PredatorPreyGame) oldState;
         int x = 0;
-        if (outputData.getReal(0) > 0.0) //move on x axis
+        if (outputData.doubleValueOf(0) > 0.0) //move on x axis
         {
-            if (outputData.getReal(1) > 0.0) {
+            if (outputData.doubleValueOf(1) > 0.0) {
                 x = 1;
             } else {
                 x = -1;
             }
         }
         int y = 0;
-        if (outputData.getReal(2) > 0.0) //move on y axis
+        if (outputData.doubleValueOf(2) > 0.0) //move on y axis
         {
-            if (outputData.getReal(3) > 0.0) //move down
+            if (outputData.doubleValueOf(3) > 0.0) //move down
             {
                 y = 1;
             } else {

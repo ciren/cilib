@@ -71,8 +71,8 @@ public class Himmelblau extends ContinuousFunction {
      * {@inheritDoc}
      */
     public Double evaluate(Vector input) {
-        double x = input.getReal(0);
-        double y = input.getReal(1);
+        double x = input.doubleValueOf(0);
+        double y = input.doubleValueOf(1);
 
         return Math.pow((x*x + y -11), 2) + Math.pow((x + y*y -7), 2);
     }

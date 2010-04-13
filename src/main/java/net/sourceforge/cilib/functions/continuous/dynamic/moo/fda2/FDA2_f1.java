@@ -66,6 +66,6 @@ public class FDA2_f1 extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        return Math.abs(input.getReal(0));
+        return Math.abs(input.doubleValueOf(0));
     }
 }

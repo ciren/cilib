@@ -69,7 +69,7 @@ public class Shubert extends ContinuousFunction {
         for (int i=0; i < getDimension(); ++i) {
             double result2 = 0.0;
             for (int j=1; j<=5; j++) {
-                result2 += j*Math.cos((j+1)*input.getReal(i) + j);
+                result2 += j*Math.cos((j+1)*input.doubleValueOf(i) + j);
             }
             result *= result2;
         }

@@ -64,13 +64,13 @@ public class TetrisBlock extends GameItem {
 	}
 
 	public void updateMovesDown(){
-		int currY = ((GridLocation)itemLocation).getInt(1);
+		int currY = ((GridLocation)itemLocation).intValueOf(1);
 		((GridLocation)itemLocation).setInt(1, currY + movesDown);
 		movesDown = 0;
 	}
 
 	public int getInt(int dimension){
-		return ((GridLocation)itemLocation).getInt(dimension);
+		return ((GridLocation)itemLocation).intValueOf(dimension);
 	}
 	public void setInt(int dimention, int value){
 		((GridLocation)itemLocation).setInt(dimention, value);

@@ -103,7 +103,7 @@ public class DeviationDecorator extends ParticleDecorator implements Cloneable {
 
         for (int i = 0; i < super.getDimension(); ++i) {
             //positions[index][i] = position[i];
-            positions[index][i] = position.getReal(i);
+            positions[index][i] = position.doubleValueOf(i);
         }
 
         super.updatePosition();

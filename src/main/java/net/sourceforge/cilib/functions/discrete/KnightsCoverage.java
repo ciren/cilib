@@ -61,7 +61,7 @@ public class KnightsCoverage extends DiscreteFunction {
         // Place the knights (represented by a -1)
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
-                if (input.getBit(i * boardSize + j)) {
+                if (input.booleanValueOf(i * boardSize + j)) {
                     board[i][j] = -1;
                 }
             }

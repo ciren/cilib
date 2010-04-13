@@ -21,10 +21,8 @@
  */
 package net.sourceforge.cilib.functions.continuous;
 
-
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
-
 
 /**
  * SchwefelProblem2_21.
@@ -38,8 +36,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  Andries Engelbrecht
  */
 // TODO: Check discontinuous / continuous
-
 public class SchwefelProblem2_21 extends ContinuousFunction {
+
     private static final long serialVersionUID = 8583159190281586599L;
 
     public SchwefelProblem2_21() {
@@ -66,13 +64,14 @@ public class SchwefelProblem2_21 extends ContinuousFunction {
      * {@inheritDoc}
      */
     public Double evaluate(Vector input) {
-        double max = Math.abs(input.getReal(0));
+        double max = Math.abs(input.doubleValueOf(0));
         double value;
 
         for (int i = 1; i < input.size(); ++i) {
-            value = Math.abs(input.getReal(i));
-            if (value > max)
+            value = Math.abs(input.doubleValueOf(i));
+            if (value > max) {
                 max = value;
+            }
         }
         return max;
     }

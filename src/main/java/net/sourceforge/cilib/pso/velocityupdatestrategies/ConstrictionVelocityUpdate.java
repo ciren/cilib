@@ -154,9 +154,9 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
 
 
         for (int i = 0; i < particle.getDimension(); ++i) {
-            double value = constrictionCoefficient.getParameter() * (velocity.getReal(i) +
-                    (bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter() +
-                    (nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter());
+            double value = constrictionCoefficient.getParameter() * (velocity.doubleValueOf(i) +
+                    (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * cognitiveAcceleration.getParameter() +
+                    (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * socialAcceleration.getParameter());
             velocity.setReal(i, value);
 
             clamp(velocity, i);
@@ -173,9 +173,9 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
         if (Double.compare(vMax.getParameter(), Double.MAX_VALUE) == 0) {
             return;
         }
-        if (velocity.getReal(i) < -vMax.getParameter()) {
+        if (velocity.doubleValueOf(i) < -vMax.getParameter()) {
             velocity.setReal(i, -vMax.getParameter());
-        } else if (velocity.getReal(i) > vMax.getParameter()) {
+        } else if (velocity.doubleValueOf(i) > vMax.getParameter()) {
             velocity.setReal(i, vMax.getParameter());
         }
     }

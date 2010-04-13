@@ -65,7 +65,7 @@ public class SchwefelProblem2_26 extends ContinuousFunction {
         double sum = 0.0;
 
         for (int i = 0; i < getDimension(); i++) {
-            sum += input.getReal(i)*Math.sin(Math.sqrt(Math.abs(input.getReal(i))));
+            sum += input.doubleValueOf(i)*Math.sin(Math.sqrt(Math.abs(input.doubleValueOf(i))));
         }
         return -sum;
     }

@@ -97,7 +97,7 @@ public class GridLocation extends Vector implements ItemLocation {
         }
         for (int i = 0; i < ((Vector) amount).size(); ++i) {
 
-            int newVal = ((Vector) amount).getInt(i) + this.getInt(i);
+            int newVal = ((Vector) amount).intValueOf(i) + this.intValueOf(i);
             if (newVal < this.get(i).getBounds().getLowerBound()) {
                 newVal = (int) this.get(i).getBounds().getLowerBound();
             } else if (newVal >= this.get(i).getBounds().getUpperBound()) {

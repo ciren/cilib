@@ -126,8 +126,8 @@ public class ConvergedDimensions implements Measurement<Real> {
             int dimension = 0;
             numberConvergedDimensions = 0;
             for (Numeric position : (Vector) populationEntity.getCandidateSolution()) {
-                double lowerBound = targetSolution.getReal(dimension) - this.errorThreshold.getParameter();
-                double upperBound = targetSolution.getReal(dimension) + this.errorThreshold.getParameter();
+                double lowerBound = targetSolution.doubleValueOf(dimension) - this.errorThreshold.getParameter();
+                double upperBound = targetSolution.doubleValueOf(dimension) + this.errorThreshold.getParameter();
                 double value = position.doubleValue();
 
                 if ((value >= lowerBound) && (value <= upperBound)) {

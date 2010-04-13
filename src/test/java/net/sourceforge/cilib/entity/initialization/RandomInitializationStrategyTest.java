@@ -61,7 +61,7 @@ public class RandomInitializationStrategyTest {
         Vector position = (Vector) particle.getPosition();
 
         for (int i = 0; i < particle.getDimension(); i++) {
-            Assert.assertThat(expected.getReal(i), is(not(equalTo(position.getReal(i)))));
+            Assert.assertThat(expected.doubleValueOf(i), is(not(equalTo(position.doubleValueOf(i)))));
         }
     }
 

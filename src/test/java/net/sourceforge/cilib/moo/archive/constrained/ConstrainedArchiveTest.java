@@ -55,7 +55,7 @@ public class ConstrainedArchiveTest {
             Vector x = (Vector) solution;
             double y = 0.0;
             for (int i = 0; i < x.size(); ++i) {
-                y += 1.0 / (x.getReal(i) * x.getReal(i));
+                y += 1.0 / (x.doubleValueOf(i) * x.doubleValueOf(i));
             }
             return new MinimisationFitness(y);
         }
@@ -80,7 +80,7 @@ public class ConstrainedArchiveTest {
             Vector x = (Vector) solution;
             double y = 0.0;
             for (int i = 0; i < x.size(); ++i) {
-                y += x.getReal(i) * x.getReal(i);
+                y += x.doubleValueOf(i) * x.doubleValueOf(i);
             }
             return new MinimisationFitness(y);
         }
@@ -105,7 +105,7 @@ public class ConstrainedArchiveTest {
             Vector x = (Vector) solution;
             double y = 0.0;
             for (int i = 0; i < x.size(); ++i) {
-                y += 2.0 / (x.getReal(i) * x.getReal(i));
+                y += 2.0 / (x.doubleValueOf(i) * x.doubleValueOf(i));
             }
             return new MinimisationFitness(y);
         }
@@ -130,7 +130,7 @@ public class ConstrainedArchiveTest {
             Vector x = (Vector) solution;
             double y = 0.0;
             for (int i = 0; i < x.size(); ++i) {
-                y += 2.0 * x.getReal(i) * x.getReal(i);
+                y += 2.0 * x.doubleValueOf(i) * x.doubleValueOf(i);
             }
             return new MinimisationFitness(y);
         }

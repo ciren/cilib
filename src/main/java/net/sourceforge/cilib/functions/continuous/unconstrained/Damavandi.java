@@ -76,8 +76,8 @@ public class Damavandi extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        double x1 = input.getReal(0);
-        double x2 = input.getReal(1);
+        double x1 = input.doubleValueOf(0);
+        double x2 = input.doubleValueOf(1);
 
         double numerator = Math.sin(Math.PI*(x1-2))*Math.sin(Math.PI*(x2-2));
         double denumerator = Math.PI*Math.PI*(x1-2)*(x2-2);

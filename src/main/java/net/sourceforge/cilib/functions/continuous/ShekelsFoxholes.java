@@ -76,7 +76,7 @@ public class ShekelsFoxholes extends ContinuousFunction {
         for (int i=1; i<=25; i++) {
             double resultJ = 0.0;
             for (int j=0; j<2; j++) {
-                resultJ += Math.pow(input.getReal(j) - a[j][i-1], 6);
+                resultJ += Math.pow(input.doubleValueOf(j) - a[j][i-1], 6);
             }
             resultJ = i + resultJ;
             resultI += 1/resultJ;

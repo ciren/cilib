@@ -72,8 +72,8 @@ public class Griewank extends ContinuousFunction {
         double sumsq = 0;
         double prod = 1;
         for (int i = 0; i < getDimension(); ++i) {
-            sumsq += input.getReal(i) * input.getReal(i);
-            prod *= Math.cos(input.getReal(i) / Math.sqrt(i + 1));
+            sumsq += input.doubleValueOf(i) * input.doubleValueOf(i);
+            prod *= Math.cos(input.doubleValueOf(i) / Math.sqrt(i + 1));
         }
         return 1 + sumsq * (1.0/4000.0) - prod;
     }

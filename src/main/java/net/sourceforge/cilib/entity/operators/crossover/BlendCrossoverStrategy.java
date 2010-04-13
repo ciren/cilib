@@ -118,8 +118,8 @@ public class BlendCrossoverStrategy extends CrossoverStrategy {
 
             for (int i = 0; i < minDimension; i++) {
                 double gamma = (1 + (2 * alpha.getParameter())) * this.getRandomNumber().getUniform() - alpha.getParameter();
-                double value1 = (1 - gamma) * parentChromosome1.getReal(i) + gamma * parentChromosome2.getReal(i);
-                double value2 = (1 - gamma) * parentChromosome2.getReal(i) + gamma * parentChromosome1.getReal(i);
+                double value1 = (1 - gamma) * parentChromosome1.doubleValueOf(i) + gamma * parentChromosome2.doubleValueOf(i);
+                double value2 = (1 - gamma) * parentChromosome2.doubleValueOf(i) + gamma * parentChromosome1.doubleValueOf(i);
                 offspringChromosome1.setReal(i, value1);
                 offspringChromosome2.setReal(i,    value2);
 

@@ -69,10 +69,10 @@ public class Easom extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        double powerTerm1 = -((input.getReal(0)-Math.PI)*(input.getReal(0)-Math.PI));
-        double powerTerm2 = -((input.getReal(1)-Math.PI)*(input.getReal(1)-Math.PI));
+        double powerTerm1 = -((input.doubleValueOf(0)-Math.PI)*(input.doubleValueOf(0)-Math.PI));
+        double powerTerm2 = -((input.doubleValueOf(1)-Math.PI)*(input.doubleValueOf(1)-Math.PI));
         double power = powerTerm1 + powerTerm2;
-        return -Math.cos(input.getReal(0)) * Math.cos(input.getReal(1)) * Math.exp(power);
+        return -Math.cos(input.doubleValueOf(0)) * Math.cos(input.doubleValueOf(1)) * Math.exp(power);
     }
 
 }

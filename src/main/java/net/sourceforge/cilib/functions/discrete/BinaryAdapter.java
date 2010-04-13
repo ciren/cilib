@@ -168,7 +168,7 @@ public class BinaryAdapter extends ContinuousFunction {
         int n = 1;
 
         for (int counter = j-1; counter >= i; counter--) {
-            if (vector.getBit(counter)) {
+            if (vector.booleanValueOf(counter)) {
                 result += n;
             }
 

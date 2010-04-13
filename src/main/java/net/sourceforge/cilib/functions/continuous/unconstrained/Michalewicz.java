@@ -91,7 +91,7 @@ public class Michalewicz extends ContinuousFunction {
         double sumsq = 0.0;
 
         for (int i = 0; i < getDimension(); i++) {
-            double x = input.getReal(i);
+            double x = input.doubleValueOf(i);
             sumsq += Math.sin(x) * Math.pow(Math.sin(((i+1) * x * x)/Math.PI), 2*m);
         }
 

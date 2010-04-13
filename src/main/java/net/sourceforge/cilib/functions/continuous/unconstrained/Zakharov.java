@@ -76,8 +76,8 @@ public class Zakharov extends ContinuousFunction {
         double sum1 = 0;
         double sum2 = 0;
         for(int i = 0; i < input.size(); ++i){
-            sum1 += input.getReal(i) * input.getReal(i);
-            sum2 += 0.5 * (i + 1) * input.getReal(i);
+            sum1 += input.doubleValueOf(i) * input.doubleValueOf(i);
+            sum2 += 0.5 * (i + 1) * input.doubleValueOf(i);
         }
         return sum1 + (sum2 * sum2) + (sum2 * sum2 * sum2 * sum2);
     }

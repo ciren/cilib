@@ -81,7 +81,7 @@ public class VectorsTest {
 
         Vector result = Vectors.sumOf(v1, v2, v3, v4, v5);
 
-        Assert.assertThat(result.getReal(0), is(5.0));
+        Assert.assertThat(result.doubleValueOf(0), is(5.0));
     }
 
 }

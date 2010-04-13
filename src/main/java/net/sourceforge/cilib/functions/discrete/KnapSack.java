@@ -67,17 +67,18 @@ public class KnapSack extends DiscreteFunction {
         double weight = 0.0;
 
         for (int i = 0; i < x.size(); i++) {
-            int bitValue = x.getBit(i) ? 1 : 0;
+            int bitValue = x.booleanValueOf(i) ? 1 : 0;
             weight += bitValue * this.weights.get(i);
         }
 
-        if (weight > capacity)
-            return Integer.MIN_VALUE; // This needs to be checked.
+        if (weight > capacity) { // This needs to be checked.
+            return Integer.MIN_VALUE;
+        }
 
         int profit = 0;
 
         for (int i = 0; i < x.size(); i++) {
-            int bitValue = x.getBit(i) ? 1 : 0;
+            int bitValue = x.booleanValueOf(i) ? 1 : 0;
             profit += bitValue * this.values.get(i);
         }
 

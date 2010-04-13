@@ -73,9 +73,9 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
         float cognitive = cognitiveRandomGenerator.nextFloat();
 
         for (int i = 0; i < particle.getDimension(); ++i) {
-            double tmp = inertiaWeight.getParameter()*velocity.getReal(i) +
-                cognitive  * cognitiveAcceleration.getParameter() * (bestPosition.getReal(i) - position.getReal(i)) +
-                social * socialAcceleration.getParameter() * (nBestPosition.getReal(i) - position.getReal(i));
+            double tmp = inertiaWeight.getParameter()*velocity.doubleValueOf(i) +
+                cognitive  * cognitiveAcceleration.getParameter() * (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) +
+                social * socialAcceleration.getParameter() * (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i));
             velocity.setReal(i, tmp);
 
             clamp(velocity, i);

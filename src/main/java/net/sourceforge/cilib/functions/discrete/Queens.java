@@ -131,7 +131,7 @@ public class Queens extends DiscreteFunction {
 
         for (int row = 0; row < boardSize; row++) {
             for (int col = 0; col < boardSize; col++) {
-                board[row][col] = x.getBit(counter++);
+                board[row][col] = x.booleanValueOf(counter++);
             }
         }
     }

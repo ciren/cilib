@@ -58,7 +58,7 @@ public class KnightsTour extends DiscreteFunction {
         int count = 0;
         int [] moves = new int[boardSize*boardSize];
         for (int i = 0; i < input.size(); i += 3) {
-            moves[count++] = decode(input.getBit(i), input.getBit(i+1), input.getBit(i+2));
+            moves[count++] = decode(input.booleanValueOf(i), input.booleanValueOf(i+1), input.booleanValueOf(i+2));
         }
 
         // Initialize the game board
@@ -78,8 +78,9 @@ public class KnightsTour extends DiscreteFunction {
                 fitness++;
                 visited[currentX][currentY] = true;
             }
-            else
+            else {
                 break;
+            }
         }
 
         return Integer.valueOf(fitness);
