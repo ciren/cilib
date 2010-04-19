@@ -28,6 +28,7 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Sequence;
 
 /**
  * Velocity update strategy that the so called Charged PSO makes use of.
@@ -71,11 +72,7 @@ public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
         Vector bestPosition = (Vector) particle.getBestPosition();
         Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
-        Vector.Builder builder = Vector.newBuilder();
-        for (int i = 0; i < velocity.size(); i++) {
-            builder.add(0.0);
-        }
-        Vector acceleration = builder.build();
+        Vector acceleration = Vector.copyOf(Sequence.repeat(0.0, velocity.size()));
         PSO pso = (PSO) AbstractAlgorithm.get();
         Iterator<Particle> iter = null;
         // make iter point to the current particle

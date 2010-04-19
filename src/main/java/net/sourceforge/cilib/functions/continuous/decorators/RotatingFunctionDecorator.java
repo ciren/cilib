@@ -28,6 +28,7 @@ import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.container.Matrix;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Sequence;
 
 /**
  * @author Julien Duhain
@@ -147,11 +148,7 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
     @Override
     public Double evaluate(final Vector input) {
         Matrix result = createMatrix();
-        Vector.Builder builder = Vector.newBuilder();
-        for (int i = 0, n = input.size(); i < n; i++) {
-            builder.add(0);
-        }
-        Vector rotatedX = builder.build();
+        Vector rotatedX = Vector.copyOf(Sequence.repeat(0.0, input.size()));
 
         for (int j = 0; j < input.size(); j++) {
             for (int i = 0; i < input.size(); i++) {

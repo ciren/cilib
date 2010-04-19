@@ -28,6 +28,7 @@ import java.util.Collection;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Sequence;
 import net.sourceforge.cilib.util.Vectors;
 
 /**
@@ -124,11 +125,7 @@ public final class Stats {
             throw new IllegalArgumentException("Cannot calculate the variance for an empty set");
         }
 
-        Vector.Builder builder = Vector.newBuilder();
-        for (int i = 0; i < center.size(); i++) {
-            builder.add(0.0);
-        }
-        Vector variance = builder.build();
+        Vector variance = Vector.copyOf(Sequence.repeat(0.0, center.size()));
 
         for (Pattern pattern : set) {
             Vector diffSquare = Vectors.transform(pattern.data.subtract(center), new Function<Numeric, Double>() {

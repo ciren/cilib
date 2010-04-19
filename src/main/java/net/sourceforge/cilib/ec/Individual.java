@@ -28,6 +28,7 @@ import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Sequence;
 
 /**
  * @author otter
@@ -110,11 +111,8 @@ public class Individual extends AbstractEntity {
         Vector candidate = Vector.newBuilder().copyOf(problem.getDomain().getBuiltRepresenation()).buildRandom();
         this.setCandidateSolution(candidate);
 
-        Vector.Builder builder = Vector.newBuilder();
-        for (int i = 0, n = getCandidateSolution().size(); i < n; i++) {
-            builder.add(0.0);
-        }
-        this.getProperties().put(EntityType.STRATEGY_PARAMETERS, builder.build());
+        Vector strategy = Vector.copyOf(Sequence.repeat(0.0, candidate.size()));
+        this.getProperties().put(EntityType.STRATEGY_PARAMETERS, strategy);
 
         this.dimension = this.getCandidateSolution().size();
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());

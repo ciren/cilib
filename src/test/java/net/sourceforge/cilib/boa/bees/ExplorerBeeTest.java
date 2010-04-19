@@ -66,7 +66,7 @@ public class ExplorerBeeTest {
     @Test
     public void testSearchAllowed() {
         //get up a position with bounds
-        Vector oldPosition = abc.getWorkerBees().get(0).getPosition().getClone();
+        Vector oldPosition = abc.getWorkerBees().get(0).getPosition();
 
         //update position with explorer bee
         ExplorerBee explorerBee = abc.getExplorerBee();
@@ -81,7 +81,7 @@ public class ExplorerBeeTest {
     @Test
     public void testGetNewPosition() {
         //get up a position with bounds
-        Vector oldPosition = abc.getWorkerBees().get(0).getPosition().getClone();
+        Vector oldPosition = abc.getWorkerBees().get(0).getPosition();
 
         //update position with explorer bee
         ExplorerBee explorerBee = abc.getExplorerBee();

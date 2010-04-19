@@ -97,7 +97,7 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
             while (count < 3) {
                 int random = rand2.getRandomGenerator().nextInt(pso.getTopology().size());
                 Entity parent = pso.getTopology().get(random);
-                if (!positions.contains(parent)) {
+                if (!positions.contains((Vector) parent.getCandidateSolution())) {
                     positions.add((Vector) parent.getCandidateSolution());
                     count++;
                 }

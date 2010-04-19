@@ -26,6 +26,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Sequence;
 
 /**
  * @author Olusegun Olorunda
@@ -74,11 +75,7 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
             setRotationMatrix();
         }
 
-        Vector.Builder rotatedXBuilder = Vector.newBuilder();
-        for (int i = 0, n = input.size(); i < n; i++) {
-            rotatedXBuilder.add(0.0);
-        }
-        Vector rotatedX = rotatedXBuilder.build();
+        Vector rotatedX = Vector.copyOf(Sequence.repeat(0.0, input.size()));
 
         for (int j = 0; j < input.size(); j++) {
             for (int i = 0; i < input.size(); i++) {
