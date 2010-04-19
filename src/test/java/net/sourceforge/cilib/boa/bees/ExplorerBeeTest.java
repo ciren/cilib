@@ -21,8 +21,6 @@
  */
 package net.sourceforge.cilib.boa.bees;
 
-
-
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.boa.ABC;
 import net.sourceforge.cilib.boa.bee.ExplorerBee;
@@ -40,7 +38,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ExplorerBeeTest {
+
     private ABC abc;
+
     @Before
     public void setUp() throws Exception {
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
@@ -66,11 +66,12 @@ public class ExplorerBeeTest {
     @Test
     public void testSearchAllowed() {
         //get up a position with bounds
-        Vector oldPosition = abc.getWorkerBees().get(0).getPosition().getClone();;
+        Vector oldPosition = abc.getWorkerBees().get(0).getPosition().getClone();
+
         //update position with explorer bee
         ExplorerBee explorerBee = abc.getExplorerBee();
         Assert.assertTrue(explorerBee.searchAllowed(1));
-        explorerBee.getNewPosition(1,oldPosition);
+        explorerBee.getNewPosition(1, oldPosition);
         //only one update is allowed for the same iteration, this must therefore be false...
         Assert.assertTrue(!explorerBee.searchAllowed(1));
         //and this true.
@@ -80,11 +81,11 @@ public class ExplorerBeeTest {
     @Test
     public void testGetNewPosition() {
         //get up a position with bounds
-        Vector oldPosition = abc.getWorkerBees().get(0).getPosition().getClone();;
+        Vector oldPosition = abc.getWorkerBees().get(0).getPosition().getClone();
+
         //update position with explorer bee
         ExplorerBee explorerBee = abc.getExplorerBee();
-        Vector newPosition = explorerBee.getNewPosition(1,oldPosition);
+        Vector newPosition = explorerBee.getNewPosition(1, oldPosition);
         Assert.assertTrue(!oldPosition.equals(newPosition));
     }
-
 }

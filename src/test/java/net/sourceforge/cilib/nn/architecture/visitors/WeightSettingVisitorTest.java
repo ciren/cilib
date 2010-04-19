@@ -45,24 +45,25 @@ public class WeightSettingVisitorTest {
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3,3)");
         network.initialize();
 
-        Vector expectedWeights = new Vector();
+        Vector.Builder expectedWeightsBuilder = Vector.newBuilder();
         for (int i = 0; i < network.getWeights().size(); i++) {
-            expectedWeights.add(Real.valueOf(Math.random()));
+            expectedWeightsBuilder.add(Real.valueOf(Math.random()));
         }
+        Vector expectedWeights = expectedWeightsBuilder.build();
 
         WeightSettingVisitor visitor = new WeightSettingVisitor();
         visitor.setWeights(expectedWeights);
         visitor.visit(network.getArchitecture());
 
-        Vector actualWeights = new Vector();
+        Vector.Builder actualWeightsBuilder = Vector.newBuilder();
         int numLayers = network.getArchitecture().getNumLayers();
         for (int i = 1; i < numLayers; i++) {
             Layer layer = network.getArchitecture().getLayers().get(i);
             for (Neuron neuron : layer) {
-                actualWeights.addAll(neuron.getWeights());
+                actualWeightsBuilder.copyOf(neuron.getWeights());
             }
         }
 
-        Assert.assertEquals(expectedWeights, actualWeights);
+        Assert.assertEquals(expectedWeights, actualWeightsBuilder.build());
     }
 }

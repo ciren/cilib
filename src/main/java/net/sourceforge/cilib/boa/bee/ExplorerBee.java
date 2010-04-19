@@ -103,7 +103,7 @@ public class ExplorerBee implements Cloneable {
         previousUpdatedIteration = currentIteration;
         numberOfUpdates++;
 
-        return Vector.newBuilder().copyOf(position).build();
+        return Vector.newBuilder().copyOf(position).buildRandom();
     }
 
     /**

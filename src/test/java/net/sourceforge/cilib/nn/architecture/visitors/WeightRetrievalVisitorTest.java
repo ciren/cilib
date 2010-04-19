@@ -45,12 +45,12 @@ public class WeightRetrievalVisitorTest {
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3,3)");
         network.initialize();
 
-        Vector referenceWeights = new Vector();
+        Vector.Builder referenceWeightsBuilder = Vector.newBuilder();
         int numLayers = network.getArchitecture().getNumLayers();
         for (int i = 1; i < numLayers; i++) {
             Layer layer = network.getArchitecture().getLayers().get(i);
             for (Neuron neuron : layer) {
-                referenceWeights.addAll(neuron.getWeights());
+                referenceWeightsBuilder.copyOf(neuron.getWeights());
             }
         }
 
@@ -58,7 +58,7 @@ public class WeightRetrievalVisitorTest {
         visitor.visit(network.getArchitecture());
         Vector weights = visitor.getOutput();
 
-        Assert.assertEquals(referenceWeights, weights);
+        Assert.assertEquals(referenceWeightsBuilder.build(), weights);
     }
 
 }
