@@ -23,6 +23,7 @@ package net.sourceforge.cilib.type.types.container;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.collect.Lists;
+import com.google.common.collect.UnmodifiableIterator;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -39,6 +40,29 @@ import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 
 /**
+ * Mathematical vector implementation. This class represents a vector within
+ * a predefiend vector space.
+ *
+ * <p>The intention of the class is that instances of the {@code Vector} are
+ * generally speaking immutable instances. Modifications on the current
+ * vector will result in a new instance of the {@code Vector} being created
+ * and returned. This maintains the mathematical constructs and additionally
+ * limits the user to very obvious errors with regard to usage.
+ *
+ * <p>If it is required that the {@code Vector} be modified to improve
+ * performance please consider providing an issue on the tracker, the idea
+ * is to create a {@code MutableVector} (or something similar) that will
+ * accept an instance of {@code Vector} and maintain all the modifications
+ * internally, without modifying the current instance.
+ *
+ * <p><strong>Note: Many methods have been deprecated from previous versions
+ * of this class.</strong> The applied deprecations have been made to enable a
+ * clearer API of usage for the user. All constructors have been deprecated in
+ * favor of static factory methods.
+ *
+ * <p><strong>Please take note of all deprecations, it influences the usage
+ * quite substantially. All deprecations will be removed in a subsequent
+ * version.</strong>
  *
  * @author gpampara
  */
@@ -48,13 +72,29 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
     private Numeric[] components;
 
     /**
-     * Returns an emtpty {@code Vector}.
+     * Returns an empty {@code Vector}.
+     * <p>
+     * The {@code Vector} will not have any contents.
+     *
      * @return empty {@code Vector}.
      */
     public static Vector of() {
         return new Vector(new Numeric[]{});
     }
 
+    /**
+     * Create a new {@code Vector} instance, with the provided list of
+     * {@code Number} instances.
+     * <p>
+     * All {@code Number} instances are translated to {@code Real} instances
+     * using {@link Real#valueOf(double)}.
+     * <p>
+     * Alternatively, consider using a {@link Builder} to construct the required
+     * {@code Vector}.
+     *
+     * @param numbers The list of elements the {@code Vector} should contain.
+     * @return A new {@code Vector} instance.
+     */
     public static Vector of(Number... numbers) {
         Numeric[] elements = new Numeric[numbers.length];
         int index = 0;
@@ -64,6 +104,12 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
         return new Vector(elements);
     }
 
+    /**
+     * Create a {@code Vector} instance that consists of the provided
+     * {@code Numeric} instances.
+     * @param numerics The contents of the {@code Vector}.
+     * @return The new {@code Vector} instance.
+     */
     public static Vector of(Numeric... numerics) {
         Numeric[] elements = new Numeric[numerics.length];
         int index = 0;
@@ -73,6 +119,14 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
         return new Vector(elements);
     }
 
+    /**
+     * Returns a {@code Vector} containing the given elements, in order.
+     * This method iterates over the contents of the provided {@code Iterable}
+     * at most once.
+     *
+     * @param iterable The given elements contained within an {@code Iterable}.
+     * @return a new {@code Vector} instance, containing the given elements.
+     */
     public static Vector copyOf(Iterable<? extends Number> iterable) {
         if (iterable instanceof Collection) {
             @SuppressWarnings("unchecked")
@@ -83,6 +137,12 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
         }
     }
 
+    /**
+     * Create a copy of the provided {@code Vector} instance.
+     * @param input the given {@code Vector} to copy.
+     * @return a new {@code Vector} based on the contents of the given
+     *         {@code Vector}.
+     */
     public static Vector copyOf(Vector input) {
         return newBuilder().copyOf(input).build(); // this is a little weird :(
     }
@@ -92,7 +152,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
         Numeric[] array = new Numeric[size];
         int index = 0;
         for (Number n : collection) {
-            array[index++] = Real.valueOf(n.doubleValue());
+            array[index++] = Real.valueOf(checkNotNull(n).doubleValue());
         }
         return new Vector(array);
     }
@@ -257,6 +317,8 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
      * {@code Vector}.
      * @param c The structure containing the elements to add.
      * @return {@code true} if successful, {@code false} otherwise.
+     * @deprecated This method has been deprecated in favor of using the
+     *             {@link Vector.Builder} instead.
      */
     @Deprecated
     @Override
@@ -275,6 +337,8 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
 
     /**
      * Clear the {@code Vector}. Remove all elements within the vector.
+     * @deprecated This method is no longer valid. Rather recreate the
+     *             {@code Vector} instance and update the reference.
      */
     @Deprecated
     @Override
@@ -315,28 +379,24 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
     }
 
     /**
-     * Obtain an iterator to traverse the {@code Vector} iteratively.
+     * Obtain an unmodifiable iterator to traverse the {@code Vector} iteratively.
      * @return An {@code Iterator} of {@code Numeric}s.
+     * @throws UnsupportedOperationException if {@code remove()} is called.
      */
     @Override
     public Iterator<Numeric> iterator() {
-        return new Iterator<Numeric>() {
+        return new UnmodifiableIterator<Numeric>() {
 
             private int index = 0;
 
             @Override
-            public boolean hasNext() {
+            public final boolean hasNext() {
                 return index < components.length;
             }
 
             @Override
-            public Numeric next() {
+            public final Numeric next() {
                 return components[index++];
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException("Not supported yet.");
             }
         };
     }
@@ -345,6 +405,8 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
      * Remove the first occurance of the provided object.
      * @param o The object instace to remove.
      * @return {@code true} if successful, {@code false} otherwise.
+     * @deprecated This method has been deprecated. Rather recreate the {@code Vector}
+     *             without this element using the {@link Vector.Builder} interface.
      */
     @Deprecated
     @Override
@@ -374,6 +436,9 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
      * Remove all the objects contained within {@code structure}.
      * @param c The structure containing objects to remove.
      * @return {@code true} if successful, {@code false} otherwise.
+     * @deprecated This method has been deprecated in favor of recreating
+     *             the {@code Vector} instance.
+     * @throws UnsupportedOperationException if invoked.
      */
     @Deprecated
     @Override
@@ -394,7 +459,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
      * Get the dimension of the {@code Vector}.
      * @return The dimension of the {@code Vector}.
      * @see Vector#size()
-     * @deprecated Rather user {@link Vector#size()}
+     * @deprecated Use {@link Vector#size()} instead.
      */
     @Deprecated
     public int getDimension() {
@@ -422,7 +487,6 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
         if (this.components.length != vector.size()) {
             throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
         }
-
         Vector.Builder resultBuilder = Vector.newBuilder();
         for (int i = 0; i < size(); i++) {
             resultBuilder.add(doubleValueOf(i) + vector.doubleValueOf(i));
@@ -454,7 +518,6 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
         if (scalar == 0.0) {
             throw new ArithmeticException("Vector division by zero");
         }
-
         return this.multiply(1.0 / scalar);
     }
 
@@ -476,11 +539,9 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
     @Override
     public final double norm() {
         double result = 0.0;
-
         for (Numeric numeric : this.components) {
             result += numeric.doubleValue() * numeric.doubleValue();
         }
-
         return Math.sqrt(result);
     }
 
@@ -499,7 +560,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
      */
     @Override
     public final Vector normalize() {
-        Vector local = getClone();
+        Vector local = copyOf(this);
         double value = local.norm();
 
         // If the norm() of the vector is 0.0, then we are takling about the "normal vector"
@@ -517,11 +578,9 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
         }
 
         double result = 0.0;
-
         for (int i = 0; i < size(); i++) {
             result += this.doubleValueOf(i) * vector.doubleValueOf(i);
         }
-
         return result;
     }
 
@@ -548,7 +607,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
     /**
      * Randomize all the elements contained within the {@code Vector}.
      * @param random The {@code Random} to use to randomize the {@code Vector}.
-     * @deprecated
+     * @deprecated Use {@link Vector.Builder#buildRandom()} instead.
      */
     @Deprecated
     @Override
@@ -619,48 +678,138 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
     }
 
     /**
-     *
-     * @return
+     * Obtain a {@link Builder} to create a {@code Vector}.
+     * @return A new {@link Builder}.
      */
     public static Builder newBuilder() {
         return new Builder();
     }
 
+    /**
+     * Obtain the {@code double} representation of the element at the provided index.
+     * @param index position of element
+     * @return {@code double} value of index within {@code Vector}.
+     */
     public double doubleValueOf(int index) {
         return this.components[index].doubleValue();
     }
 
+    /**
+     * Obtain the {@code integer} representation of the element at the provided index.
+     * @param index position of element
+     * @return {@code integer} value of index within {@code Vector}.
+     */
     public int intValueOf(int index) {
         return this.components[index].intValue();
     }
 
+    /**
+     * Obtain the {@code long} representation of the element at the provided index.
+     * @param index position of element
+     * @return {@code long} value of index within {@code Vector}.
+     */
     public long longValueOf(int index) {
         return components[index].longValue();
     }
 
+    /**
+     * Obtain the {@code boolean} representation of the element at the provided index.
+     * @param index position of element
+     * @return {@code boolean} value of index within {@code Vector}.
+     */
     public boolean booleanValueOf(int index) {
         return components[index].booleanValue();
     }
 
+    /**
+     * Returns the array containing all of the elements within this
+     * {@code Vector}. This method transforms the elements within the
+     * {@code Vector} to an array representation.
+     *
+     * <p>If the provided array is large enough to contain the contents
+     * of this {@code Vector}, it will be appended to the end of the given
+     * array and the same reference that was provided will be returned.
+     *
+     * <p>If the given array is, however, smaller than the {@code Vector}
+     * instance, the contents of the array will be copied to a new array,
+     * which will be created internally, with the {@code Vector} elements
+     * appended directly after the contents of the array. The operation also
+     * holds true for arrays of {@code length} 0.
+     *
+     * <p>{@code toArray(new Object[0])} is identical to the method call
+     * {@code toArray()}.
+     *
+     * @param <T>
+     * @param a
+     * @return
+     */
     @Override
     public <T> T[] toArray(T[] a) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (a.length < components.length) {
+            // Make a new array of a's runtime type, but my contents:
+            return (T[]) Arrays.copyOf(components, components.length, a.getClass());
+        }
+
+        System.arraycopy(components, 0, a, 0, components.length);
+        if (a.length > components.length) {
+            a[components.length] = null;
+        }
+        return a;
     }
 
+    /**
+     * Returns {@code true} if all the given instances are contained within
+     * the current {@code Vector}.
+     * @param c the given collection to test.
+     * @return {@code true} if the {@code Vector} contains all the given instances,
+     *         {@code false} otherwise.
+     * @see #contains(java.lang.Object)
+     */
     @Override
+    @SuppressWarnings("element-type-mismatch")
     public boolean containsAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Iterator<?> i = c.iterator();
+        while (i.hasNext()) {
+            if (!contains(i.next())) {
+                return false;
+            }
+        }
+        return true;
     }
 
+    /**
+     * This method is not supported.
+     * @param c
+     * @return
+     * @throws UnsupportedOperationException if invoked.
+     * @deprecated This method is not valid. Rather recreate the {@code Vector}.
+     */
+    @Deprecated
     @Override
     public boolean retainAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported.");
     }
 
-    public Bounds boundsOf(int i) {
-        return components[i].getBounds();
+    /**
+     * Obtain the {@code Bounds} of the associated {@link Numeric} located at
+     * index {@code index}.
+     * @param index The location of the element within the {@code Vector}.
+     * @return The {@link Bounds} instance associated with the {@link Numeric} at
+     *         index {@code index}.
+     */
+    public Bounds boundsOf(int index) {
+        return components[index].getBounds();
     }
 
+    /**
+     * Return the string representation of the {@code Vector}.
+     * <p>
+     * All returned strings will be in the format of:
+     * <pre>
+     * {@literal [<item>, <item>, ..., <item>]}
+     * </pre>
+     * @return The string representation of the current {@code Vector}.
+     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -677,42 +826,100 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
     }
 
     /**
-     *
+     * A builder for creating {@code Vector} instances. It is especially
+     * useful for creating contsant instances that do not change:
+     * <p>
+     * Example:
+     * <pre>    {@code
+     *   public static final Vector IDENTITY
+     *       = Vector.newBuilder()
+     *          .add(1.0)
+     *          .add(0.0)
+     *          .build()}
+     * </pre>
+     * <p>
+     * Builder instances can be reused - it is safe to call {@link #build}
+     * multiple times to build multiple {@code Vector}s in series. Each new vector
+     * contains the one created before it.
      */
     public static class Builder {
 
         private List<Numeric> elements = Lists.newArrayList();
 
+        /**
+         * Add a {@code double} to the {@code Builder}. The {@code double}
+         * is wrapped within a {@link Real} instance.
+         * @param value element to add.
+         * @return The current {@code Builder} for chaining operations.
+         */
         public Builder add(double value) {
             elements.add(Real.valueOf(value));
             return this;
         }
 
+        /**
+         * Add an {@code int} to the {@code Builder}. The {@code int}
+         * is wrapped within a {@link Int} instance.
+         * @param value element to add.
+         * @return The current {@code Builder} for chaining operations.
+         */
         public Builder add(int value) {
             elements.add(Int.valueOf(value));
             return this;
         }
 
+        /**
+         * Add a {@code boolean} to the {@code Builder}. The {@code boolean}
+         * is wrapped within a {@link Bit} instance.
+         * @param value element to add.
+         * @return The current {@code Builder} for chaining operations.
+         */
         public Builder add(boolean value) {
             elements.add(Bit.valueOf(value));
             return this;
         }
 
+        /**
+         * Add a {@code Numeric} to the {@code Builder}.
+         * @param numeric element to add.
+         * @return The current {@code Builder} for chaining operations.
+         */
         public Builder add(Numeric numeric) {
             elements.add(numeric);
             return this;
         }
 
+        /**
+         * Add a {@code double} to the {@code Builder}, given the required
+         * {@code Bounds}. The {@code double} is wrapped within a {@link Real}
+         * instance, together with the given {@code Bounds}.
+         * @param value element to add.
+         * @param bounds bounds for the element.
+         * @return The current {@code Builder} for chaining operations.
+         */
         public Builder addWithin(double value, Bounds bounds) {
             elements.add(Real.valueOf(value, checkNotNull(bounds)));
             return this;
         }
 
+        /**
+         * Add an {@code int} to the {@code Builder}, given the required
+         * {@code Bounds}. The {@code int} is wrapped within a {@link Int}
+         * instance, together with the given {@code Bounds}.
+         * @param value element to add.
+         * @param bounds bounds for the element.
+         * @return The current {@code Builder} for chaining operations.
+         */
         public Builder addWithin(int value, Bounds bounds) {
             elements.add(Int.valueOf(value, checkNotNull(bounds)));
             return this;
         }
 
+        /**
+         * Add all elements provided by {@code iterable} to the current {@code Builder}.
+         * @param iterable the given elemetns.
+         * @return The current {@code Builder} for chaining operations.
+         */
         public Builder copyOf(Iterable<? extends Numeric> iterable) {
             for (Numeric n : iterable) {
                 elements.add(n.getClone());
@@ -720,6 +927,11 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
             return this;
         }
 
+        /**
+         * Construct a {@code Vector} from the built up elements within the
+         * {@code Builder}.
+         * @return a new {@code Vector} instance created from the {@code Builder}.
+         */
         public Vector build() {
             if (elements.isEmpty()) {
                 return Vector.of();
@@ -733,6 +945,12 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
             return new Vector(numerics);
         }
 
+        /**
+         * Construct a {@code Vector} from the built up elements within the
+         * {@code Builder}. All elements are randomized upon {@code Vector}
+         * construction.
+         * @return a new {@code Vector} instance created from the {@code Builder}.
+         */
         public Vector buildRandom() {
             if (elements.isEmpty()) {
                 return Vector.of();
