@@ -71,10 +71,8 @@ public class PSOTest {
             pso.run();
 
             Assert.assertThat(pso.getBestSolution().getFitness().getValue(), is(400.5332366469983));
-        }
-        finally {
+        } finally {
             Seeder.setSeederStrategy(seedStrategy);
         }
     }
-
 }

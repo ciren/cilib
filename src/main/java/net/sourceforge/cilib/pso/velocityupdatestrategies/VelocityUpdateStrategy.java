@@ -50,5 +50,4 @@ public interface VelocityUpdateStrategy extends Serializable, Cloneable {
      * @param particle The particle for whom the VelocityUpdateStrategy parameters need to be updated.
      */
     void updateControlParameters(Particle particle);
-
 }

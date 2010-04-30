@@ -27,15 +27,14 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
  *
  * @author Gary Pampara
  *
  */
 public class NoisyFunctionDecorator extends ContinuousFunction {
-    private static final long serialVersionUID = -3918271655104447420L;
 
+    private static final long serialVersionUID = -3918271655104447420L;
     private ContinuousFunction function;
     private RandomNumber randomNumber;
     private ControlParameter variance;
@@ -64,7 +63,6 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
         return function.evaluate(input) + randomNumber.getGaussian(0.0, this.variance.getParameter());
     }
 
-
     /**
      * Get the function that is decorated.
      * @return Returns the noisyFunction.
@@ -72,7 +70,6 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
     public ContinuousFunction getFunction() {
         return function;
     }
-
 
     /**
      * Set the decorated function.
@@ -90,7 +87,4 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
     public void setVariance(ControlParameter variance) {
         this.variance = variance;
     }
-
-
-
 }
