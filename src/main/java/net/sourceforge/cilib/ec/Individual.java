@@ -38,13 +38,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Individual extends AbstractEntity {
     private static final long serialVersionUID = -578986147850240655L;
 
-    protected int dimension;
-
     /**
      * Create an instance of {@linkplain Individual}.
      */
     public Individual() {
-        dimension = 0;
         setCandidateSolution(new Vector());
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
     }
@@ -55,7 +52,6 @@ public class Individual extends AbstractEntity {
      */
     public Individual(Individual copy) {
         super(copy);
-        this.dimension = copy.dimension;
     }
 
     /**
@@ -78,8 +74,7 @@ public class Individual extends AbstractEntity {
             return false;
 
         Individual other = (Individual) object;
-        return super.equals(other) &&
-            (this.dimension == other.dimension);
+        return super.equals(other);
     }
 
     /**
@@ -89,7 +84,6 @@ public class Individual extends AbstractEntity {
     public int hashCode() {
         int hash = 7;
         hash = 31 * hash + super.hashCode();
-        hash = 31 * hash + Integer.valueOf(dimension).hashCode();
         return hash;
     }
 
@@ -115,7 +109,6 @@ public class Individual extends AbstractEntity {
          this.getProperties().put(EntityType.STRATEGY_PARAMETERS, getCandidateSolution().getClone());
          ((Resetable) this.getProperties().get(EntityType.STRATEGY_PARAMETERS)).reset();
 
-         this.dimension = this.getCandidateSolution().size();
          this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
      }
 
@@ -133,7 +126,6 @@ public class Individual extends AbstractEntity {
      @Override
      public void setCandidateSolution(StructuredType type) {
          super.setCandidateSolution(type);
-         this.dimension = type.size();
      }
 
     /**
@@ -149,15 +141,7 @@ public class Individual extends AbstractEntity {
      */
     @Override
     public int getDimension() {
-        return this.dimension;
-    }
-
-    /**
-     * Set the current dimension value for the current {@linkplain Individual}.
-     * @param dim The dimension value to set.
-     */
-    public void setDimension(int dim) {
-        this.dimension = dim;
+        return getCandidateSolution().size();
     }
 
     /**
