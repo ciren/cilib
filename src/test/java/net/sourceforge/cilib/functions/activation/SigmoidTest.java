@@ -32,12 +32,12 @@ public class SigmoidTest {
     @Test
     public void evaluate() {
         Sigmoid sigmoid = new Sigmoid();
-        assertEquals(0.5, sigmoid.evaluate(new Real(Double.valueOf(0.0))).getReal(), 0);
-        assertEquals(1.0, sigmoid.evaluate(new Real(Double.POSITIVE_INFINITY)).getReal(), 0);
-        assertEquals(1.0, sigmoid.evaluate(new Real(Double.MAX_VALUE)).getReal(), 0);
-        assertEquals(0.0, sigmoid.evaluate(new Real(-Double.MAX_VALUE)).getReal(), 0);
-        assertEquals(0.0, sigmoid.evaluate(new Real(Double.NEGATIVE_INFINITY)).getReal(), 0);
-        assertEquals(0.5, sigmoid.evaluate(new Real(Double.MIN_VALUE)).getReal(), 0);
+        assertEquals(0.5, sigmoid.apply(new Real(Double.valueOf(0.0))).getReal(), 0);
+        assertEquals(1.0, sigmoid.apply(new Real(Double.POSITIVE_INFINITY)).getReal(), 0);
+        assertEquals(1.0, sigmoid.apply(new Real(Double.MAX_VALUE)).getReal(), 0);
+        assertEquals(0.0, sigmoid.apply(new Real(-Double.MAX_VALUE)).getReal(), 0);
+        assertEquals(0.0, sigmoid.apply(new Real(Double.NEGATIVE_INFINITY)).getReal(), 0);
+        assertEquals(0.5, sigmoid.apply(new Real(Double.MIN_VALUE)).getReal(), 0);
     }
 
     @Test(expected = UnsupportedOperationException.class)
@@ -45,6 +45,6 @@ public class SigmoidTest {
         Sigmoid sigmoid = new Sigmoid();
         sigmoid.setSteepness(new ConstantControlParameter(-8.0));
 
-        sigmoid.evaluate(new Real(0.0));
+        sigmoid.apply(new Real(0.0));
     }
 }

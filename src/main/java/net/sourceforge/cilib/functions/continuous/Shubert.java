@@ -64,7 +64,7 @@ public class Shubert extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double result = 1.0;
         for (int i=0; i < getDimension(); ++i) {
             double result2 = 0.0;

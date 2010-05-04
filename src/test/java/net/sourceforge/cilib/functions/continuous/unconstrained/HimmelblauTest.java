@@ -54,24 +54,24 @@ public class HimmelblauTest {
         //test the four global minima
         x.append(new Real(3.0));
         x.append(new Real(2.0));
-        Assert.assertEquals(0.0, function.evaluate(x), EPSILON);
+        Assert.assertEquals(0.0, function.apply(x), EPSILON);
 
         x.setReal(0, -2.805118);
         x.setReal(1, 3.131312);
-        Assert.assertEquals(0.0, function.evaluate(x), EPSILON);
+        Assert.assertEquals(0.0, function.apply(x), EPSILON);
 
         x.setReal(0, -3.779301);
         x.setReal(1, -3.283185);
-        Assert.assertEquals(0.0, function.evaluate(x), EPSILON);
+        Assert.assertEquals(0.0, function.apply(x), EPSILON);
 
         x.setReal(0, 3.584428);
         x.setReal(1, -1.848126);
-        Assert.assertEquals(0.0, function.evaluate(x), EPSILON);
+        Assert.assertEquals(0.0, function.apply(x), EPSILON);
 
         //test one other point
         x.setReal(0, 2.0);
         x.setReal(1, 2.0);
-        Assert.assertEquals(26.0, function.evaluate(x), EPSILON);
+        Assert.assertEquals(26.0, function.apply(x), EPSILON);
     }
 
     /**

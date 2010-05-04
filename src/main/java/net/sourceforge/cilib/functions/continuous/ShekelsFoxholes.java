@@ -71,7 +71,7 @@ public class ShekelsFoxholes extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double resultI = 0.0;
         for (int i=1; i<=25; i++) {
             double resultJ = 0.0;

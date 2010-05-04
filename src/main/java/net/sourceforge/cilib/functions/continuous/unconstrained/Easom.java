@@ -68,7 +68,7 @@ public class Easom extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double powerTerm1 = -((input.getReal(0)-Math.PI)*(input.getReal(0)-Math.PI));
         double powerTerm2 = -((input.getReal(1)-Math.PI)*(input.getReal(1)-Math.PI));
         double power = powerTerm1 + powerTerm2;

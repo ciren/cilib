@@ -53,7 +53,7 @@ public class KnightsTour extends DiscreteFunction {
      * @return
      */
     @Override
-    public Integer evaluate(Vector input) {
+    public Integer apply(Vector input) {
         // First, decode the input vector into moves for the knight to make
         int count = 0;
         int [] moves = new int[boardSize*boardSize];

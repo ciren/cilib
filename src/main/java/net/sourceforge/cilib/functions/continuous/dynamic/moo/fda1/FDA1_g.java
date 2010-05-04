@@ -129,7 +129,7 @@ public class FDA1_g extends ContinuousFunction {
      * f(XII) = 1 + sum ( x_i - G(t))^2
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         this.tau = AbstractAlgorithm.get().getIterations();
 
         double t = (1.0/(double)n_t)*Math.floor((double)this.tau/(double)this.tau_t);

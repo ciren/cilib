@@ -54,11 +54,11 @@ public class GoldsteinPriceTest {
 
         x.append(new Real(0.0));
         x.append(new Real(-1.0));
-        Assert.assertEquals(3.0, function.evaluate(x), Maths.EPSILON);
+        Assert.assertEquals(3.0, function.apply(x), Maths.EPSILON);
 
         x.setReal(0, 2.0);
         x.setReal(1, 2.0);
-        Assert.assertEquals(76728.0, function.evaluate(x), Maths.EPSILON);
+        Assert.assertEquals(76728.0, function.apply(x), Maths.EPSILON);
     }
 
     /**

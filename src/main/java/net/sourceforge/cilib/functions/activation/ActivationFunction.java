@@ -55,7 +55,7 @@ public abstract class ActivationFunction extends AbstractFunction<Real, Real> im
      * @param input the point to evaluate.
      * @return the evaluation result.
      */
-    public abstract double evaluate(double input);
+    public abstract double apply(double input);
 
     /**
      *  Return the lowerbound for the active range of this NeuronFunction

@@ -77,7 +77,7 @@ public class GenericFunctionMeasurement<F, T> implements Measurement<Real> {
             throw new InitialisationException("The function that should be evaluated has not been set");
 
         Vector vector = (Vector) algorithm.getBestSolution().getPosition();
-        return new Real(function.evaluate(vector));
+        return new Real(function.apply(vector));
     }
 
     /**

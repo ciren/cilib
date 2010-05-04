@@ -54,11 +54,11 @@ public class BealeTest {
         Vector x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
-        assertEquals(126.4531250, function.evaluate(x), 0.0);
+        assertEquals(126.4531250, function.apply(x), 0.0);
 
         x.setReal(0, 3.0);
         x.setReal(1, 0.5);
-        assertEquals(0.0, function.evaluate(x), 0.0);
+        assertEquals(0.0, function.apply(x), 0.0);
     }
 
     @Test

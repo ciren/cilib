@@ -57,7 +57,7 @@ public class Step extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double sum = 0.0;
 
         for (int i = 0; i < input.getDimension(); i++){

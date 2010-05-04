@@ -85,7 +85,7 @@ public class Quartic extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double result = 0.0;
 
         for (int i = 0; i < input.getDimension(); i++) {

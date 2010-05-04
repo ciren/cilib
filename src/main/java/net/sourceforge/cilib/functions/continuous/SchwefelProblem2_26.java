@@ -61,7 +61,7 @@ public class SchwefelProblem2_26 extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double sum = 0.0;
 
         for (int i = 0; i < getDimension(); i++) {

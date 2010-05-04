@@ -38,7 +38,7 @@ public interface Function<F, T> extends Cloneable {
      * @param input The input for the function.
      * @return The result of the evaluation.
      */
-    T evaluate(F input);
+    T apply(F input);
 
     /**
      * The maximum of the function.

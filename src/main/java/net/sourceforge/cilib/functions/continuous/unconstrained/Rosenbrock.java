@@ -75,7 +75,7 @@ public class Rosenbrock extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double tmp = 0;
 
         for (int i = 0; i < input.getDimension()-1; ++i) {

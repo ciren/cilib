@@ -69,7 +69,7 @@ public class FunctionDimensionMappingProblem extends OptimisationProblemAdapter 
     //    System.out.println("sil: " + solutionVector);
         function.setHigherDimensionDistanceMatrix(higherDimensionDistanceMatrix);
 
-        return new MinimisationFitness(function.evaluate(solutionVector));
+        return new MinimisationFitness(function.apply(solutionVector));
     }
 
     public DomainRegistry getDomain() {

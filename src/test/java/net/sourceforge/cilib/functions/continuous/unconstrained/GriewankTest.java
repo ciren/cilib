@@ -51,12 +51,12 @@ public class GriewankTest {
         x.append(new Real(0.0));
         x.append(new Real(0.0));
 
-        assertEquals(0.0, function.evaluate(x), 0.0);
+        assertEquals(0.0, function.apply(x), 0.0);
 
         x.setReal(0, Math.PI/2);
         x.setReal(1, Math.PI/2);
 
-        assertEquals(1.0012337, function.evaluate(x), 0.0000001);
+        assertEquals(1.0012337, function.apply(x), 0.0000001);
     }
 
     @Test

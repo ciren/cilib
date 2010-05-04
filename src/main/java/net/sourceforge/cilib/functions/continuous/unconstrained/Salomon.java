@@ -77,7 +77,7 @@ public class Salomon extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double sumSquares = 0.0;
 
         for (int i = 0; i < input.getDimension(); i++) {

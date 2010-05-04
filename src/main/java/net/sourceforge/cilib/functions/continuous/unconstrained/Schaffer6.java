@@ -79,7 +79,7 @@ public class Schaffer6 extends ContinuousFunction {
      * @return A double value representing the function evaluation
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double sum = 0;
         
         for (int i = 0; i < input.size()-1; i++) {

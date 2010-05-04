@@ -64,7 +64,7 @@ public class UrsemF4 extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double x = input.getReal(0);
         double y = input.getReal(1);
         double result = 3.0*Math.sin(0.5*Math.PI*x + 0.5*Math.PI)*(2.0 - Math.sqrt(x*x + y*y)/4.0);

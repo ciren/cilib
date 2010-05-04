@@ -57,11 +57,11 @@ public class BraninTest {
         x.append(new Real(1.0));
         x.append(new Real(2.0));
 
-        assertEquals(21.62763539206238, function.evaluate(x), 0.00000000000001);
+        assertEquals(21.62763539206238, function.apply(x), 0.00000000000001);
 
         x.setReal(0, -Math.PI);
         x.setReal(1, 12.275);
-        assertEquals(0.397887, function.evaluate(x), 0.0000009);
+        assertEquals(0.397887, function.apply(x), 0.0000009);
     }
 
     @Test

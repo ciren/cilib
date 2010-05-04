@@ -81,7 +81,7 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     }
 
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double[] elements = new double[getDimension()];
 
         for (int i = 0; i < getDimension(); ++i) {

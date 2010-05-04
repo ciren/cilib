@@ -94,7 +94,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
      * @return the fitness that has been calculated
      */
     @Override
-    public Double evaluate(Vector centroids) {
+    public Double apply(Vector centroids) {
         helper = ClusteringUtils.get();    //this statement should not be in a constructor
         helper.arrangeClustersAndCentroids(centroids);
         arrangedClusters = helper.getArrangedClusters();

@@ -54,7 +54,7 @@ public class FunctionMinimisationProblem extends FunctionOptimisationProblem {
     @Override
     protected Fitness calculateFitness(Type solution) {
         /* Add code to enforce the boundary constraint */
-        return new MinimisationFitness(function.evaluate((Vector) solution).doubleValue());
+        return new MinimisationFitness(function.apply((Vector) solution).doubleValue());
     }
 
     /**
@@ -72,6 +72,6 @@ public class FunctionMinimisationProblem extends FunctionOptimisationProblem {
      */
     @Override
     public double getError(Type solution) {
-        return function.evaluate((Vector) solution).doubleValue() - function.getMinimum().doubleValue();
+        return function.apply((Vector) solution).doubleValue() - function.getMinimum().doubleValue();
     }
 }

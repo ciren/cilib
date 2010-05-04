@@ -70,7 +70,7 @@ public class Ackley extends ContinuousFunction {
      * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
          double sumsq = 0.0;
             double sumcos = 0.0;
             for (int i = 0; i < getDimension(); ++i) {

@@ -128,7 +128,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
 
             // modify the fitness.
             if (distance < radius) {
-                fitness = fitness * getDeratingFunction().evaluate(dist);
+                fitness = fitness * getDeratingFunction().apply(dist);
             }
         }
         return new MaximisationFitness(new Double(fitness));

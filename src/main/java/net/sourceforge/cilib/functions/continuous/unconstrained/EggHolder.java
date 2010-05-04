@@ -73,7 +73,7 @@ class EggHolder extends ContinuousFunction {
      }
 
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double sum = 0.0;
         for (int i = 0; i < input.getDimension() - 1; i++) {
             sum += (-1*(input.getReal(i+1) + 47)

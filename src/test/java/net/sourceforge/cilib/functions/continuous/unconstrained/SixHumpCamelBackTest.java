@@ -53,11 +53,11 @@ public class SixHumpCamelBackTest {
         //test the two global minima
         x.append(new Real(-0.0898));
         x.append(new Real(0.7126));
-        Assert.assertEquals(-1.0316, function.evaluate(x), EPSILON);
+        Assert.assertEquals(-1.0316, function.apply(x), EPSILON);
 
         x.setReal(0, 0.0898);
         x.setReal(1, -0.7126);
-        Assert.assertEquals(-1.0316, function.evaluate(x), EPSILON);
+        Assert.assertEquals(-1.0316, function.apply(x), EPSILON);
     }
 
     /** Test of the getMinimum method of the {@link SixHumpCamelBack} class */

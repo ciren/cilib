@@ -55,8 +55,8 @@ public class RosenbrockTest {
         y.append(new Real(2.0));
         y.append(new Real(1.0));
 
-        assertEquals(201.0, function.evaluate(x), 0.0);
-        assertEquals(5805.0, function.evaluate(y), 0.0);
+        assertEquals(201.0, function.apply(x), 0.0);
+        assertEquals(5805.0, function.apply(y), 0.0);
 
         function = new Rosenbrock();
         function.setDomain("R(-2.048, 2.048)^4");
@@ -65,7 +65,7 @@ public class RosenbrockTest {
         z.append(new Real(2.0));
         z.append(new Real(3.0));
         z.append(new Real(4.0));
-        assertEquals(2705.0, function.evaluate(z), 0.0);
+        assertEquals(2705.0, function.apply(z), 0.0);
     }
 
 
