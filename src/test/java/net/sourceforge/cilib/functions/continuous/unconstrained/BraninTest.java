@@ -51,7 +51,7 @@ public class BraninTest {
     /** Test of evaluate method, of class za.ac.u.cs.ailib.Functions.Branin. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-5,10),R(0,15)");
+//        function.setDomain("R(-5,10),R(0,15)");
 
         Vector x = new Vector();
         x.add(Real.valueOf(1.0));

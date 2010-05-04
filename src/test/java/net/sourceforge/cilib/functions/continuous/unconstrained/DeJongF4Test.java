@@ -46,7 +46,7 @@ public class DeJongF4Test {
     /** Test of evaluate method, of class cilib.functions.unconstrained.DeJongF4. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-1.28, 1.28)^2");
+//        function.setDomain("R(-1.28, 1.28)^2");
 
         Vector x = new Vector();
         x.add(Real.valueOf(0));

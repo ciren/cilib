@@ -21,10 +21,6 @@
  */
 package net.sourceforge.cilib.problem;
 
-import java.io.Serializable;
-
-import net.sourceforge.cilib.util.Cloneable;
-
 /**
  * This is a common abstraction for all problem classes. All problems should extend this interface.
  * All {@linkplain net.sourceforge.cilib.problem.Problem problems} are effectively dynamic problems
@@ -32,16 +28,10 @@ import net.sourceforge.cilib.util.Cloneable;
  *
  * @author  Edwin Peer
  */
-public interface Problem extends Serializable, Cloneable {
-
-    /**
-     * {@inheritDoc}
-     */
-    Problem getClone();
+public interface Problem {
 
     /**
      * Change the environment. TODO: this might need to be refactored.
      */
     void changeEnvironment();
-
 }

@@ -105,4 +105,9 @@ public class Linear extends ActivationFunction {
     public double getUpperActiveRange() {
         return Double.MAX_VALUE;
     }
+
+    @Override
+    public String getDomain() {
+        return "R";
+    }
 }

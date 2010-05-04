@@ -58,7 +58,11 @@ public class InvertedFunctionDecorator extends ContinuousFunction {
 
     public void setFunction(AbstractFunction function) {
         this.function = function;
-        this.setDomain(function.getDomainRegistry().getDomainString());
+    }
+
+    @Override
+    public String getDomain() {
+        return function.getDomain();
     }
 
 }

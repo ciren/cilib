@@ -41,13 +41,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  engel
  */
 public class Easom extends ContinuousFunction {
+
     private static final long serialVersionUID = 7173528343222997045L;
 
     /**
      * Create an instance of {@linkplain Easom}. Domain is defaulted to R(-100, 100)^2.
      */
     public Easom() {
-        setDomain("R(-100, 100)^2");
     }
 
     /**
@@ -75,4 +75,8 @@ public class Easom extends ContinuousFunction {
         return -Math.cos(input.doubleValueOf(0)) * Math.cos(input.doubleValueOf(1)) * Math.exp(power);
     }
 
+    @Override
+    public String getDomain() {
+        return "R(-100, 100)^2";
+    }
 }

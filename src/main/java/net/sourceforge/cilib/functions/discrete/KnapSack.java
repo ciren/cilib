@@ -205,4 +205,9 @@ public class KnapSack extends DiscreteFunction {
         }
     }
 
+    @Override
+    public String getDomain() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

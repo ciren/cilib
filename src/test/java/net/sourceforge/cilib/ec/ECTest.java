@@ -29,7 +29,6 @@ import net.sourceforge.cilib.math.random.generator.ZeroSeederStrategy;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;

@@ -370,7 +370,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
     }
 
     protected Double worstFitness() {
-        return getMaximum();
+        return Double.MAX_VALUE;
     }
 
     /**
@@ -392,5 +392,10 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
             System.err.println("Number of clusters formed = " + clustersFormed);
         }
         return fitness;
+    }
+
+    @Override
+    public String getDomain() {
+        return "R";
     }
 }

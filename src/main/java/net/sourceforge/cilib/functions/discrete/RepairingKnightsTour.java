@@ -55,7 +55,7 @@ public class RepairingKnightsTour extends DiscreteFunction {
         this.cyclic = false;
         this.startX = 0;
         this.startY = 0;
-        setDomain("B^"+boardSize*boardSize*3);
+//        setDomain("B^"+boardSize*boardSize*3);
     }
 
     @Override
@@ -199,7 +199,7 @@ public class RepairingKnightsTour extends DiscreteFunction {
      */
     public void setBoardSize(int boardSize) {
         this.boardSize = boardSize;
-        setDomain("B^"+boardSize*boardSize*3);
+//        setDomain("B^"+boardSize*boardSize*3);
     }
 
     /**
@@ -233,5 +233,10 @@ public class RepairingKnightsTour extends DiscreteFunction {
      */
     public void setStartingPos(String startingPos) {
         this.startingPos = startingPos;
+    }
+
+    @Override
+    public String getDomain() {
+        return "B^"+boardSize*boardSize*3;
     }
 }

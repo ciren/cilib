@@ -49,26 +49,25 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     /**
      * Creates a new instance of MovingPeaks.
      */
-    public MovingPeaks() {
-        super.setDomain("R(0, 100)^5");
-        exclusionthreshold = (maxcoordinate - mincoordinate)
-                / (2 * (Math.pow(numberOfPeaks, 1 / getDimension())));
-        this.setMovrandseed(nextSeed++);
-        initPeaks();
-    }
+//    public MovingPeaks() {
+//        exclusionthreshold = (maxcoordinate - mincoordinate)
+//                / (2 * (Math.pow(numberOfPeaks, 1 / getDimension())));
+//        this.setMovrandseed(nextSeed++);
+//        initPeaks();
+//    }
 
     @Override
     public MovingPeaks getClone() {
         return new MovingPeaks();
     }
 
-    @Override
-    public void setDomain(String representation) {
-        super.setDomain(representation);
-        exclusionthreshold = (maxcoordinate - mincoordinate)
-                / (2 * (Math.pow(numberOfPeaks, 1 / getDimension())));
-        initPeaks();
-    }
+//    @Override
+//    public void setDomain(String representation) {
+//        super.setDomain(representation);
+//        exclusionthreshold = (maxcoordinate - mincoordinate)
+//                / (2 * (Math.pow(numberOfPeaks, 1 / getDimension())));
+//        initPeaks();
+//    }
 
     /**
      * {@inheritDoc}
@@ -83,15 +82,16 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
         return getGlobalMax();
     }
 
-    @Override
-    public Double apply(Vector input) {
-        double[] elements = new double[getDimension()];
-
-        for (int i = 0; i < getDimension(); ++i) {
-            elements[i] = input.doubleValueOf(i);
-        }
-        return evaluateMovpeaks(elements);
-    }
+//    @Override
+//    public Double evaluate(Vector input) {
+//        double[] elements = new double[getDimension()];
+//
+//        for (int i = 0; i < getDimension(); ++i) {
+//            elements[i] = input.getReal(i);
+//
+//        }
+//        return evaluateMovpeaks(elements);
+//    }
     private int changeFrequency = 0;//number of iteration between changes
 
     public void setChangeFrequency(int cfr) {
@@ -205,61 +205,61 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
      *  initialize all variables at the beginning of the program
      */
     public void initPeaks() {
-        int i, j;
-        double dummy;
-        shift = new double[getDimension()];
-        this.coordinates = new double[getDimension()];
-        this.coveredPeaks = new int[this.numberOfPeaks];
-        this.peak = new double[this.numberOfPeaks][];
-        this.prevMovement = new double[this.numberOfPeaks][];
-
-        for (i = 0; i < this.numberOfPeaks; i++) {
-            peak[i] = new double[getDimension() + 2];
-            prevMovement[i] = new double[getDimension()];
-        }
-
-        for (i = 0; i < this.numberOfPeaks; i++) {
-            for (j = 0; j < getDimension(); j++) {
-                peak[i][j] = 100.0 * this.movrand();
-                this.prevMovement[i][j] = this.movrand() - 0.5;
-            }
-        }
-        if (this.standardheight <= 0.0) {
-            for (i = 0; i < this.numberOfPeaks; i++) {
-                peak[i][getDimension() + 1] = (this.maxheight - this.minheight)
-                        * this.movrand() + this.minheight;
-            }
-        } else {
-            for (i = 0; i < this.numberOfPeaks; i++) {
-                peak[i][getDimension() + 1] = this.standardheight;
-            } // for
-        } // else
-
-        if (this.standardwidth <= 0.0) {
-            for (i = 0; i < this.numberOfPeaks; i++) {
-                peak[i][getDimension()] = (this.maxwidth - this.minwidth)
-                        * this.movrand() + this.minwidth;
-            } // for
-        } else {
-            for (i = 0; i < this.numberOfPeaks; i++) {
-                peak[i][getDimension()] = this.standardwidth;
-            } // for
-        } // else
-
-        if (this.calculateOfflineError) {
-            this.globalMax = -Double.MAX_VALUE;
-            for (i = 0; i < this.numberOfPeaks; i++) {
-                for (j = 0; j < getDimension(); j++) {
-                    this.coordinates[j] = peak[i][j];
-                } // for
-
-                dummy = this.dummyEval(coordinates);
-
-                if (dummy > this.globalMax) {
-                    this.globalMax = dummy;
-                }
-            } // for
-        } // if
+//        int i, j;
+//        double dummy;
+//        shift = new double[getDimension()];
+//        this.coordinates = new double[getDimension()];
+//        this.coveredPeaks = new int[this.numberOfPeaks];
+//        this.peak = new double[this.numberOfPeaks][];
+//        this.prevMovement = new double[this.numberOfPeaks][];
+//
+//        for (i = 0; i < this.numberOfPeaks; i++) {
+//            peak[i] = new double[getDimension() + 2];
+//            prevMovement[i] = new double[getDimension()];
+//        }
+//
+//        for (i = 0; i < this.numberOfPeaks; i++) {
+//            for (j = 0; j < getDimension(); j++) {
+//                peak[i][j] = 100.0 * this.movrand();
+//                this.prevMovement[i][j] = this.movrand() - 0.5;
+//            }
+//        }
+//        if (this.standardheight <= 0.0) {
+//            for (i = 0; i < this.numberOfPeaks; i++) {
+//                peak[i][getDimension() + 1] = (this.maxheight - this.minheight)
+//                        * this.movrand() + this.minheight;
+//            }
+//        } else {
+//            for (i = 0; i < this.numberOfPeaks; i++) {
+//                peak[i][getDimension() + 1] = this.standardheight;
+//            } // for
+//        } // else
+//
+//        if (this.standardwidth <= 0.0) {
+//            for (i = 0; i < this.numberOfPeaks; i++) {
+//                peak[i][getDimension()] = (this.maxwidth - this.minwidth)
+//                        * this.movrand() + this.minwidth;
+//            } // for
+//        } else {
+//            for (i = 0; i < this.numberOfPeaks; i++) {
+//                peak[i][getDimension()] = this.standardwidth;
+//            } // for
+//        } // else
+//
+//        if (this.calculateOfflineError) {
+//            this.globalMax = -Double.MAX_VALUE;
+//            for (i = 0; i < this.numberOfPeaks; i++) {
+//                for (j = 0; j < getDimension(); j++) {
+//                    this.coordinates[j] = peak[i][j];
+//                } // for
+//
+//                dummy = this.dummyEval(coordinates);
+//
+//                if (dummy > this.globalMax) {
+//                    this.globalMax = dummy;
+//                }
+//            } // for
+//        } // if
     } // initPeaks
 
     /* dummy evaluation function allows to evaluate without being counted */
@@ -316,93 +316,93 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
      * Whenever this function is called, the peaks are changed.
      */
     public void changePeaks() {
-        int i, j;
-        double sum, sum2, offset, dummy;
-
-        for (i = 0; i < this.numberOfPeaks; i++) {
-            /* shift peak locations */
-            sum = 0.0;
-            for (j = 0; j < getDimension(); j++) {
-                this.shift[j] = this.movrand() - 0.5;
-                sum += this.shift[j] * this.shift[j];
-            }
-
-            if (sum > 0.0) {
-                sum = this.vlength / Math.sqrt(sum);
-            } else {/* only in case of rounding errors */
-                sum = 0.0;
-            }
-            sum2 = 0.0;
-
-            for (j = 0; j < getDimension(); j++) {
-                this.shift[j] = sum * (1.0 - this.lambda) * this.shift[j]
-                        + this.lambda * this.prevMovement[i][j];
-                sum2 += this.shift[j] * this.shift[j];
-            }
-
-            if (sum2 > 0.0) {
-                sum2 = this.vlength / Math.sqrt(sum2);
-            } else {/* only in case of rounding errors */
-                sum2 = 0.0;
-            }
-
-            for (j = 0; j < getDimension(); j++) {
-                this.shift[j] *= sum2;
-                this.prevMovement[i][j] = this.shift[j];
-                if ((peak[i][j] + this.prevMovement[i][j]) < this.mincoordinate) {
-                    peak[i][j] = 2.0 * this.mincoordinate - peak[i][j]
-                            - this.prevMovement[i][j];
-                    this.prevMovement[i][j] *= -1.0;
-                } else if ((peak[i][j] + this.prevMovement[i][j]) > this.maxcoordinate) {
-                    peak[i][j] = 2.0 * this.maxcoordinate - peak[i][j]
-                            - this.prevMovement[i][j];
-                    this.prevMovement[i][j] *= -1.0;
-                } else {
-                    peak[i][j] += prevMovement[i][j];
-                }
-            }
-
-            /* change peak width */
-            j = getDimension();
-            offset = this.movnrand() * this.widthSeverity;
-
-            if ((peak[i][j] + offset) < this.minwidth) {
-                peak[i][j] = 2.0 * this.minwidth - peak[i][j] - offset;
-            } else if ((peak[i][j] + offset) > this.maxwidth) {
-                peak[i][j] = 2.0 * this.maxwidth - peak[i][j] - offset;
-            } else {
-                peak[i][j] += offset;
-            }
-            /* change peak height */
-            j++;
-            offset = this.heightSeverity * this.movnrand();
-
-            if ((peak[i][j] + offset) < this.minheight) {
-                peak[i][j] = 2.0 * this.minheight - peak[i][j] - offset;
-            } else if ((peak[i][j] + offset) > this.maxheight) {
-                peak[i][j] = 2.0 * this.maxheight - peak[i][j] - offset;
-            } else {
-                peak[i][j] += offset;
-            }
-        }// for each peak
-
-        if (this.calculateOfflineError) {
-            this.globalMax = -Double.MAX_VALUE;
-            for (i = 0; i < this.numberOfPeaks; i++) {
-                for (j = 0; j < getDimension(); j++) {
-                    this.coordinates[j] = peak[i][j];
-                }
-
-                dummy = this.dummyEval(coordinates);
-
-                if (dummy > this.globalMax) {
-                    this.globalMax = dummy;
-                    this.maximumPeak = i;
-                }
-            }
-        }
-        this.recentChange = true;
-        changed = true;
+//        int i, j;
+//        double sum, sum2, offset, dummy;
+//
+//        for (i = 0; i < this.numberOfPeaks; i++) {
+//            /* shift peak locations */
+//            sum = 0.0;
+//            for (j = 0; j < getDimension(); j++) {
+//                this.shift[j] = this.movrand() - 0.5;
+//                sum += this.shift[j] * this.shift[j];
+//            }
+//
+//            if (sum > 0.0) {
+//                sum = this.vlength / Math.sqrt(sum);
+//            } else {/* only in case of rounding errors */
+//                sum = 0.0;
+//            }
+//            sum2 = 0.0;
+//
+//            for (j = 0; j < getDimension(); j++) {
+//                this.shift[j] = sum * (1.0 - this.lambda) * this.shift[j]
+//                        + this.lambda * this.prevMovement[i][j];
+//                sum2 += this.shift[j] * this.shift[j];
+//            }
+//
+//            if (sum2 > 0.0) {
+//                sum2 = this.vlength / Math.sqrt(sum2);
+//            } else {/* only in case of rounding errors */
+//                sum2 = 0.0;
+//            }
+//
+//            for (j = 0; j < getDimension(); j++) {
+//                this.shift[j] *= sum2;
+//                this.prevMovement[i][j] = this.shift[j];
+//                if ((peak[i][j] + this.prevMovement[i][j]) < this.mincoordinate) {
+//                    peak[i][j] = 2.0 * this.mincoordinate - peak[i][j]
+//                            - this.prevMovement[i][j];
+//                    this.prevMovement[i][j] *= -1.0;
+//                } else if ((peak[i][j] + this.prevMovement[i][j]) > this.maxcoordinate) {
+//                    peak[i][j] = 2.0 * this.maxcoordinate - peak[i][j]
+//                            - this.prevMovement[i][j];
+//                    this.prevMovement[i][j] *= -1.0;
+//                } else {
+//                    peak[i][j] += prevMovement[i][j];
+//                }
+//            }
+//
+//            /* change peak width */
+//            j = getDimension();
+//            offset = this.movnrand() * this.widthSeverity;
+//
+//            if ((peak[i][j] + offset) < this.minwidth) {
+//                peak[i][j] = 2.0 * this.minwidth - peak[i][j] - offset;
+//            } else if ((peak[i][j] + offset) > this.maxwidth) {
+//                peak[i][j] = 2.0 * this.maxwidth - peak[i][j] - offset;
+//            } else {
+//                peak[i][j] += offset;
+//            }
+//            /* change peak height */
+//            j++;
+//            offset = this.heightSeverity * this.movnrand();
+//
+//            if ((peak[i][j] + offset) < this.minheight) {
+//                peak[i][j] = 2.0 * this.minheight - peak[i][j] - offset;
+//            } else if ((peak[i][j] + offset) > this.maxheight) {
+//                peak[i][j] = 2.0 * this.maxheight - peak[i][j] - offset;
+//            } else {
+//                peak[i][j] += offset;
+//            }
+//        }// for each peak
+//
+//        if (this.calculateOfflineError) {
+//            this.globalMax = -Double.MAX_VALUE;
+//            for (i = 0; i < this.numberOfPeaks; i++) {
+//                for (j = 0; j < getDimension(); j++) {
+//                    this.coordinates[j] = peak[i][j];
+//                }
+//
+//                dummy = this.dummyEval(coordinates);
+//
+//                if (dummy > this.globalMax) {
+//                    this.globalMax = dummy;
+//                    this.maximumPeak = i;
+//                }
+//            }
+//        }
+//        this.recentChange = true;
+//        changed = true;
     } // change_peaks
 
     /* currentPeakCalculation determines the peak of the current best individual */
@@ -487,24 +487,26 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     }
 
     public double[][] getPeakPositions() {
-        double[][] positions = new double[this.numberOfPeaks][getDimension()];
-
-        for (int i = 0; i < this.numberOfPeaks; i++) {
-            for (int j = 0; j < getDimension(); j++) {
-                positions[i][j] = peak[i][j];
-            }
-        }
-        return positions;
+//        double[][] positions = new double[this.numberOfPeaks][getDimension()];
+//
+//        for (int i = 0; i < this.numberOfPeaks; i++) {
+//            for (int j = 0; j < getDimension(); j++) {
+//                positions[i][j] = peak[i][j];
+//            }
+//        }
+//        return positions;
+        throw new UnsupportedOperationException();
     }
 
     public double[] getPeakHeights() {
-        double[] temp = new double[this.numberOfPeaks];
-        int index = getDimension() + 1;
-
-        for (int i = 0; i < numberOfPeaks; i++) {
-            temp[i] = peak[i][index];
-        }
-        return temp;
+//        double[] temp = new double[this.numberOfPeaks];
+//        int index = getDimension() + 1;
+//
+//        for (int i = 0; i < numberOfPeaks; i++) {
+//            temp[i] = peak[i][index];
+//        }
+//        return temp;
+        throw new UnsupportedOperationException();
     }
 
     public void printPeakData() {
@@ -537,6 +539,16 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
         return maxheight;
     }
 
+    @Override
+    public String getDomain() {
+        return "R(0, 100)^5";
+    }
+
+    @Override
+    public Double apply(Vector input) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     // inner classes
     interface PeakFunction {
 
@@ -546,104 +558,109 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     class PeakFunction1 implements PeakFunction {
 
         public double calculate(double[] gen, int peakNumber) {
-            int j;
-            double dummy;
-
-            dummy = (gen[0] - peak[peakNumber][0])
-                    * (gen[0] - peak[peakNumber][0]);
-            for (j = 1; j < getDimension(); j++) {
-                dummy += (gen[j] - peak[peakNumber][j])
-                        * (gen[j] - peak[peakNumber][j]);
-            }
-
-            return peak[peakNumber][getDimension() + 1]
-                    / (1 + (peak[peakNumber][getDimension()]) * dummy);
+//            int j;
+//            double dummy;
+//
+//            dummy = (gen[0] - peak[peakNumber][0])
+//                    * (gen[0] - peak[peakNumber][0]);
+//            for (j = 1; j < getDimension(); j++) {
+//                dummy += (gen[j] - peak[peakNumber][j])
+//                        * (gen[j] - peak[peakNumber][j]);
+//            }
+//
+//            return peak[peakNumber][getDimension() + 1]
+//                    / (1 + (peak[peakNumber][getDimension()]) * dummy);
+            throw new UnsupportedOperationException();
         } // calculate
     }
 
     class PeakFunctionCone implements PeakFunction {
 
         public double calculate(double[] gen, int peakNumber) {
-            int j;
-            double dummy;
-
-            dummy = (gen[0] - peak[peakNumber][0])
-                    * (gen[0] - peak[peakNumber][0]);
-            for (j = 1; j < getDimension(); j++) {
-                dummy += (gen[j] - peak[peakNumber][j])
-                        * (gen[j] - peak[peakNumber][j]);
-            }
-            // sqrt of dummy is the distance between gen and peak.
-            return peak[peakNumber][getDimension() + 1] - // peak height
-                    (peak[peakNumber][getDimension()] * Math.sqrt(dummy));
+//            int j;
+//            double dummy;
+//
+//            dummy = (gen[0] - peak[peakNumber][0])
+//                    * (gen[0] - peak[peakNumber][0]);
+//            for (j = 1; j < getDimension(); j++) {
+//                dummy += (gen[j] - peak[peakNumber][j])
+//                        * (gen[j] - peak[peakNumber][j]);
+//            }
+//            // sqrt of dummy is the distance between gen and peak.
+//            return peak[peakNumber][getDimension() + 1] - // peak height
+//                    (peak[peakNumber][getDimension()] * Math.sqrt(dummy));
+            throw new UnsupportedOperationException();
         }
     }
 
     class PeakFunctionHilly implements PeakFunction {
 
         public double calculate(double[] gen, int peakNumber) {
-            int j;
-            double dummy;
-
-            dummy = (gen[0] - peak[peakNumber][0])
-                    * (gen[0] - peak[peakNumber][0]);
-            for (j = 1; j < getDimension(); j++) {
-                dummy += (gen[j] - peak[peakNumber][j])
-                        * (gen[j] - peak[peakNumber][j]);
-            }
-
-            return peak[peakNumber][getDimension() + 1]
-                    - (peak[peakNumber][getDimension()] * dummy) - 0.01
-                    * Math.sin(20.0 * dummy);
+//            int j;
+//            double dummy;
+//
+//            dummy = (gen[0] - peak[peakNumber][0])
+//                    * (gen[0] - peak[peakNumber][0]);
+//            for (j = 1; j < getDimension(); j++) {
+//                dummy += (gen[j] - peak[peakNumber][j])
+//                        * (gen[j] - peak[peakNumber][j]);
+//            }
+//
+//            return peak[peakNumber][getDimension() + 1]
+//                    - (peak[peakNumber][getDimension()] * dummy) - 0.01
+//                    * Math.sin(20.0 * dummy);
+            throw new UnsupportedOperationException();
         }
     }
 
     class PeakFunctionSphere implements PeakFunction {
 
         public double calculate(double[] gen, int peakNumber) {
-            int j;
-            double dummy;
-
-            dummy = (gen[0] - peak[peakNumber][0])
-                    * (gen[0] - peak[peakNumber][0]);
-            for (j = 1; j < getDimension(); j++) {
-                dummy += (gen[j] - peak[peakNumber][j])
-                        * (gen[j] - peak[peakNumber][j]);
-            }
-
-            return peak[peakNumber][getDimension() + 1] - dummy;
+//            int j;
+//            double dummy;
+//
+//            dummy = (gen[0] - peak[peakNumber][0])
+//                    * (gen[0] - peak[peakNumber][0]);
+//            for (j = 1; j < getDimension(); j++) {
+//                dummy += (gen[j] - peak[peakNumber][j])
+//                        * (gen[j] - peak[peakNumber][j]);
+//            }
+//
+//            return peak[peakNumber][getDimension() + 1] - dummy;
+            throw new UnsupportedOperationException();
         }
     }
 
     class PeakFunctionTwin implements PeakFunction {
 
         public double calculate(double[] gen, int peakNumber) {
-            int j;
-            double maximum = -Double.MAX_VALUE, dummy;
-            /* difference to first peak */
-            /* static */
-            double[] twin_peak = {1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0};
-
-            dummy = Math.pow(gen[0] - peak[peakNumber][0], 2);
-            for (j = 1; j < getDimension(); j++) {
-                dummy += Math.pow(gen[j] - peak[peakNumber][j], 2);
-            }
-            dummy = peak[peakNumber][getDimension() + 1]
-                    - (peak[peakNumber][getDimension()] * dummy);
-            maximum = dummy;
-            dummy = Math.pow(gen[j] - (peak[peakNumber][0] + twin_peak[0]), 2);
-            for (j = 1; j < getDimension(); j++) {
-                dummy += Math.pow(
-                        gen[j] - (peak[peakNumber][j] + twin_peak[0]), 2);
-            }
-            dummy = peak[peakNumber][getDimension() + 1]
-                    + twin_peak[getDimension() + 1]
-                    - ((peak[peakNumber][getDimension()] + twin_peak[getDimension()]) * dummy);
-            if (dummy > maximum) {
-                maximum = dummy;
-            }
-
-            return maximum;
+//            int j;
+//            double maximum = -Double.MAX_VALUE, dummy;
+//            /* difference to first peak */
+//            /* static */
+//            double[] twin_peak = {1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0};
+//
+//            dummy = Math.pow(gen[0] - peak[peakNumber][0], 2);
+//            for (j = 1; j < getDimension(); j++) {
+//                dummy += Math.pow(gen[j] - peak[peakNumber][j], 2);
+//            }
+//            dummy = peak[peakNumber][getDimension() + 1]
+//                    - (peak[peakNumber][getDimension()] * dummy);
+//            maximum = dummy;
+//            dummy = Math.pow(gen[j] - (peak[peakNumber][0] + twin_peak[0]), 2);
+//            for (j = 1; j < getDimension(); j++) {
+//                dummy += Math.pow(
+//                        gen[j] - (peak[peakNumber][j] + twin_peak[0]), 2);
+//            }
+//            dummy = peak[peakNumber][getDimension() + 1]
+//                    + twin_peak[getDimension() + 1]
+//                    - ((peak[peakNumber][getDimension()] + twin_peak[getDimension()]) * dummy);
+//            if (dummy > maximum) {
+//                maximum = dummy;
+//            }
+//
+//            return maximum;
+            throw new UnsupportedOperationException();
         }
     }
 
@@ -662,27 +679,28 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     class FivePeaksBasisFunction implements BasisFunction {
 
         public double calculate(double[] gen) {
-            int i, j;
-            double maximum = -Double.MAX_VALUE/*-100000.0*/, dummy;
-            double[][] basisPeak = {{8.0, 64.0, 67.0, 55.0, 4.0, 0.1, 50.0},
-                {50.0, 13.0, 76.0, 15.0, 7.0, 0.1, 50.0},
-                {9.0, 19.0, 27.0, 67.0, 24.0, 0.1, 50.0},
-                {66.0, 87.0, 65.0, 19.0, 43.0, 0.1, 50.0},
-                {76.0, 32.0, 43.0, 54.0, 65.0, 0.1, 50.0},};
-
-            for (i = 0; i < 5; i++) {
-                dummy = (gen[0] - basisPeak[i][0]) * (gen[0] - basisPeak[i][0]);
-                for (j = 1; j < getDimension(); j++) {
-                    dummy += (gen[j] - basisPeak[i][j])
-                            * (gen[j] - basisPeak[i][j]);
-                }
-                dummy = basisPeak[i][getDimension() + 1]
-                        - (basisPeak[i][getDimension()] * dummy);
-                if (dummy > maximum) {
-                    maximum = dummy;
-                }
-            }
-            return maximum;
+//            int i, j;
+//            double maximum = -Double.MAX_VALUE/*-100000.0*/, dummy;
+//            double[][] basisPeak = {{8.0, 64.0, 67.0, 55.0, 4.0, 0.1, 50.0},
+//                {50.0, 13.0, 76.0, 15.0, 7.0, 0.1, 50.0},
+//                {9.0, 19.0, 27.0, 67.0, 24.0, 0.1, 50.0},
+//                {66.0, 87.0, 65.0, 19.0, 43.0, 0.1, 50.0},
+//                {76.0, 32.0, 43.0, 54.0, 65.0, 0.1, 50.0},};
+//
+//            for (i = 0; i < 5; i++) {
+//                dummy = (gen[0] - basisPeak[i][0]) * (gen[0] - basisPeak[i][0]);
+//                for (j = 1; j < getDimension(); j++) {
+//                    dummy += (gen[j] - basisPeak[i][j])
+//                            * (gen[j] - basisPeak[i][j]);
+//                }
+//                dummy = basisPeak[i][getDimension() + 1]
+//                        - (basisPeak[i][getDimension()] * dummy);
+//                if (dummy > maximum) {
+//                    maximum = dummy;
+//                }
+//            }
+//            return maximum;
+            throw new UnsupportedOperationException();
         }
     }
 
@@ -822,7 +840,8 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     }
 
     public double getGlobalMax() {
-        this.evaluateMovpeaks(new double[getDimension()]);//updates globalMax
-        return globalMax;
+//        this.evaluateMovpeaks(new double[getDimension()]);//updates globalMax
+//        return globalMax;
+        throw new UnsupportedOperationException();
     }
 }

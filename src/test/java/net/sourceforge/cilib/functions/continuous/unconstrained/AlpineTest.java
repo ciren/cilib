@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class AlpineTest {
+
     private ContinuousFunction function;
 
     @Before
@@ -40,7 +41,7 @@ public class AlpineTest {
     /** Test of evaluate method, of class cilib.functions.unconstrained.Alpine. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-10, 10)^2");
+//        function.setDomain("R(-10, 10)^2");
 
         Vector x = new Vector();
         x.add(Real.valueOf(0.0));

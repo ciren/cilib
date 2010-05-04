@@ -52,12 +52,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author gpampara
  */
-class EggHolder extends ContinuousFunction {
+public class EggHolder extends ContinuousFunction {
 
     private static final long serialVersionUID = 358993985066821115L;
 
     public EggHolder() {
-        this.setDomain("R(-512,512)^30");
     }
 
     @Override
@@ -70,7 +69,7 @@ class EggHolder extends ContinuousFunction {
      */
     public Double getMinimum() {
         return -959.64;
-     }
+    }
 
     @Override
     public Double apply(Vector input) {
@@ -84,4 +83,8 @@ class EggHolder extends ContinuousFunction {
         return sum;
     }
 
+    @Override
+    public String getDomain() {
+        return "R(-512.0,512.0)^30";
+    }
 }

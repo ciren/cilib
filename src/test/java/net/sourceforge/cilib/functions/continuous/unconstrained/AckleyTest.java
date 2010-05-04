@@ -30,7 +30,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-
 /**
  *
  * @author Edwin Peer
@@ -48,7 +47,7 @@ public class AckleyTest {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Ackley. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-32.768, 32.768)^3");
+//        function.setDomain("R(-32.768, 32.768)^3");
 
         Vector x = new Vector();
         x.add(Real.valueOf(1.0));
@@ -66,5 +65,4 @@ public class AckleyTest {
     public void minimum() {
         Assert.assertEquals(0.0, function.getMinimum().doubleValue(), 0.0001);
     }
-
 }

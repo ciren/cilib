@@ -34,6 +34,7 @@ import org.junit.Test;
  * @author Bennie Leonard
  */
 public class HimmelblauTest {
+
     private static final double EPSILON = 1.0E-6;
     private ContinuousFunction function;
 
@@ -47,7 +48,7 @@ public class HimmelblauTest {
      */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-6, 6)^2");
+//        function.setDomain("R(-6, 6)^2");
 
         Vector x = new Vector();
 

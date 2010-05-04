@@ -52,7 +52,6 @@ public class AbsoluteValue extends ContinuousFunction {
      * Create an instance of {@linkplain AbsoluteValue}. Domain is defaulted to R(-100, 100)^30.
      */
     public AbsoluteValue() {
-        setDomain("R(-100, 100)^30");
     }
 
     /**
@@ -76,10 +75,15 @@ public class AbsoluteValue extends ContinuousFunction {
     @Override
     public Double apply(Vector input) {
         double tmp = 0.0;
-        for (int i = 0; i < getDimension(); ++i) {
+        for (int i = 0; i < input.size(); ++i) {
             tmp += Math.abs(input.doubleValueOf(i));
         }
         return tmp;
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(-100, 100)^30";
     }
 
 }

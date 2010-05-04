@@ -28,13 +28,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * TODO: Complete this javadoc.
  */
 public class MultimodalFunction5 extends ContinuousFunction {
+
     private static final long serialVersionUID = -8704025552791904890L;
 
     /**
      * Create a new instance of {@linkplain MultimodalFunction5}.
      */
     public MultimodalFunction5() {
-        setDomain("R(-6, 6)^2");
     }
 
     /**
@@ -63,4 +63,8 @@ public class MultimodalFunction5 extends ContinuousFunction {
         return 200 - Math.pow((x*x + y - 11), 2) - Math.pow((x + y*y - 7), 2);
     }
 
+    @Override
+    public String getDomain() {
+        return "R(-6, 6)^2";
+    }
 }

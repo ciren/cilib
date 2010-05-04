@@ -24,7 +24,6 @@ package net.sourceforge.cilib.functions.continuous.unconstrained;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
  * <p><b>HyperEllipsoid.</b></p>
  *
@@ -48,11 +47,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  engel
  */
 public class HyperEllipsoid extends ContinuousFunction {
+
     private static final long serialVersionUID = 813261964413884141L;
 
     /** Creates a new instance of HyperEllipsoid. Default domain is set to R(-5.12, 5.12)^30 */
     public HyperEllipsoid() {
-        setDomain("R(-5.12,5.12)^30");
     }
 
     /**
@@ -76,10 +75,14 @@ public class HyperEllipsoid extends ContinuousFunction {
     @Override
     public Double apply(Vector input) {
         double tmp = 0;
-        for (int i = 0; i < getDimension(); ++i) {
+        for (int i = 0; i < input.size(); ++i) {
             tmp += (i + 1) * input.doubleValueOf(i) * input.doubleValueOf(i);
         }
         return tmp;
     }
 
+    @Override
+    public String getDomain() {
+        return "R(-5.12,5.12)^30";
+    }
 }

@@ -84,7 +84,7 @@ class SimulatorShell {
             }
             return simulators;
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            throw new RuntimeException("Error preparing: " + specification.getAbsolutePath(), ex);
         }
     }
 

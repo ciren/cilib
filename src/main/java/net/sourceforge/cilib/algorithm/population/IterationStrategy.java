@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.algorithm.population;
 
 import java.io.Serializable;
+import net.sourceforge.cilib.entity.Entity;
 
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.util.Cloneable;
@@ -38,7 +39,7 @@ public interface IterationStrategy<E extends PopulationBasedAlgorithm> extends C
      * {@inheritDoc}
      */
     @Override
-    abstract IterationStrategy<E> getClone();
+    IterationStrategy<E> getClone();
 
     /**
      * Perform the iteration of the PopulationBasedAlgorithm.
@@ -60,7 +61,7 @@ public interface IterationStrategy<E extends PopulationBasedAlgorithm> extends C
      *
      * @param algorithm The algorithm to perform the iteration process on.
      */
-    abstract void performIteration(E algorithm);
+    void performIteration(E algorithm);
 
     /**
      * Get the currently associated {@linkplain BoundaryConstraint}.

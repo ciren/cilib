@@ -35,7 +35,6 @@ public class Schaffer2 extends ContinuousFunction {
     /** Creates a new instance of Schaffer. Domain defaults to R(-100, 100)^2 */
     public Schaffer2() {
         //constraint.add(new DimensionValidator(2));
-        setDomain("R(-100, 100)^2");
     }
 
     /**
@@ -62,5 +61,10 @@ public class Schaffer2 extends ContinuousFunction {
         double term1 = Math.pow(sum_squares, 0.25);
         double term2 = Math.pow(50 * Math.pow(sum_squares, 0.1), 2) + 1;
         return term1 * term2;
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(-100, 100)^2";
     }
 }

@@ -40,7 +40,7 @@ public class FDA2_f1 extends ContinuousFunction {
      */
     public FDA2_f1() {
         super();
-        setDomain("R(0, 1)");
+//        setDomain("R(0, 1)");
     }
 
     /**
@@ -49,7 +49,7 @@ public class FDA2_f1 extends ContinuousFunction {
      */
     public FDA2_f1(FDA2_f1 copy) {
         super(copy);
-        this.setDomain(copy.getDomain());
+//        this.setDomain(copy.getDomain());
     }
 
     /**
@@ -66,5 +66,10 @@ public class FDA2_f1 extends ContinuousFunction {
     @Override
     public Double apply(Vector input) {
         return Math.abs(input.doubleValueOf(0));
+    }
+
+    @Override
+    public String getDomain() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

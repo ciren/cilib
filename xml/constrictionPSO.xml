@@ -22,17 +22,17 @@
         </algorithm>
     </algorithms>
     <problems>
-        <problem id="spherical" class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.unconstrained.Spherical" domain="R(-20.0, 20.0)^30"/>
+        <problem id="spherical" class="problem.FunctionMinimisationProblem" domain="R(-20.0, 20.0)^30">
+            <function class="functions.continuous.unconstrained.Spherical"/>
         </problem>
-        <problem id="rosenbrock" class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.unconstrained.Rosenbrock" domain="R(-10.0, 10.0)^30"/>
+        <problem id="rosenbrock" class="problem.FunctionMinimisationProblem" domain="R(-10.0, 10.0)^30">
+            <function class="functions.continuous.unconstrained.Rosenbrock"/>
         </problem>
-        <problem id="rastrigin" class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.unconstrained.Rastrigin" domain="R(-5.12, 5.12)^30"/>
+        <problem id="rastrigin" class="problem.FunctionMinimisationProblem" domain="R(-5.12, 5.12)^30">
+            <function class="functions.continuous.unconstrained.Rastrigin"/>
         </problem>
-        <problem id="griewank" class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.unconstrained.Griewank" domain="R(-300, 300)^30"/>
+        <problem id="griewank" class="problem.FunctionMinimisationProblem" domain="R(-300, 300)^30">
+            <function class="functions.continuous.unconstrained.Griewank"/>
         </problem>
     </problems>
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">

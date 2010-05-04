@@ -35,6 +35,7 @@ import org.junit.Assert;
  * @author Bennie Leonard
  */
 public class QuadricTest {
+
     private static final double EPSILON = 1.0E-6;
     private ContinuousFunction function;
 
@@ -46,7 +47,7 @@ public class QuadricTest {
     /** Test of the evaluate method of  the {@link Quadric} class */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-100, 100)^3");
+//        function.setDomain("R(-100, 100)^3");
 
         Vector x = new Vector();
 

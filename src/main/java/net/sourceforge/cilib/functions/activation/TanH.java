@@ -29,15 +29,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author leo
  */
-
 public class TanH extends ActivationFunction {
+
     private static final long serialVersionUID = -5843046986587459333L;
 
     /**
      * Create a new instance of {@code TanH}.
      */
     public TanH() {
-        setDomain("R(-1.0, 1.0)");
     }
 
     /**
@@ -63,7 +62,7 @@ public class TanH extends ActivationFunction {
     public double apply(double input) {
         double a = Math.exp(input);
         double b = Math.exp(-input);
-        return ((a-b)/(a+b));
+        return ((a - b) / (a + b));
     }
 
     /**
@@ -112,4 +111,8 @@ public class TanH extends ActivationFunction {
         return 1.732050808;
     }
 
+    @Override
+    public String getDomain() {
+        return "R(-1.0, 1.0)";
+    }
 }

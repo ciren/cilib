@@ -42,7 +42,7 @@
         <addMeasurement class="measurement.single.Solution"/>
     </measurements>
     <simulations>
-        <simulation samples="1">
+     <!--   <simulation samples="1">
             <algorithm idref="de"/>
             <problem idref="spherical"/>
             <measurements idref="measurements" />
@@ -65,6 +65,6 @@
             <problem idref="ackley"/>
             <measurements idref="measurements" />
             <output format="TXT" file="data/de-ackley.txt"/>
-        </simulation>
+        </simulation>-->
     </simulations>
 </simulator>

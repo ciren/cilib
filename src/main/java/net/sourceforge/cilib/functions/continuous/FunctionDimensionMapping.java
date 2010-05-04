@@ -50,8 +50,6 @@ public class FunctionDimensionMapping extends ContinuousFunction {
         number = 200;
 
         measure = new EuclideanDistanceMeasure();
-
-        setDomain("B^10");
     }
 
     /**
@@ -180,5 +178,10 @@ public class FunctionDimensionMapping extends ContinuousFunction {
             double[][] higherDimensionDistanceMatrix) {
         this.higherDimensionDistanceMatrix = higherDimensionDistanceMatrix;
         this.number = this.higherDimensionDistanceMatrix.length;
+    }
+
+    @Override
+    public String getDomain() {
+        return "B^10";
     }
 }

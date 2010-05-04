@@ -45,7 +45,7 @@ public class AbsoluteValueTest {
     /** Test of evaluate method, of class cilib.functions.unconstrained.AbsoluteValue. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-100, 100)^3");
+//        function.setDomain("R(-100, 100)^3");
 
         Vector x = new Vector();
         x.add(Real.valueOf(-1.0));

@@ -42,7 +42,6 @@ public class GoldsteinPrice extends ContinuousFunction {
      * Create a new instance of {@linkplain GoldsteinPrice}. Domain defaults to R(-2, 2)^2
      */
     public GoldsteinPrice() {
-        setDomain("R(-2, 2)^2");
     }
 
     /**
@@ -71,5 +70,10 @@ public class GoldsteinPrice extends ContinuousFunction {
         double part1 = 1 + (x + y + 1.0) * (x + y + 1.0) * (19.0 - 14.0 * x + 3 * x * x - 14 * y + 6 * x * y + 3 * y * y);
         double part2 = 30 + (2 * x - 3 * y) * (2 * x - 3 * y) * (18 - 32 * x + 12 * x * x + 48 * y - 36 * x * y + 27 * y * y);
         return part1 * part2;
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(-2, 2)^2";
     }
 }

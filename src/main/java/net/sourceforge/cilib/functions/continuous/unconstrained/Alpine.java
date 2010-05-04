@@ -28,7 +28,6 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
  * <p><b>The Alpine Function.</b></p>
  *
@@ -52,10 +51,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class Alpine extends ContinuousFunction {
+
     private static final long serialVersionUID = -1365268075451075465L;
 
     public Alpine() {
-        setDomain("R(-10, 10)^30");
     }
 
     /**
@@ -86,4 +85,8 @@ public class Alpine extends ContinuousFunction {
         return sum;
     }
 
+    @Override
+    public String getDomain() {
+        return "R(-10, 10)^30";
+    }
 }

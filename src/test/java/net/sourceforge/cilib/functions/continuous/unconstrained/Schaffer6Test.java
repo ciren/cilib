@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class Schaffer6Test {
+
     private ContinuousFunction function;
 
     @Before
@@ -40,7 +41,7 @@ public class Schaffer6Test {
     /** Test of evaluate method, of class cilib.functions.unconstrained.Pathological. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-100, 100)^2");
+//        function.setDomain("R(-100, 100)^2");
 
         Vector x = new Vector();
         x.add(Real.valueOf(0.0));

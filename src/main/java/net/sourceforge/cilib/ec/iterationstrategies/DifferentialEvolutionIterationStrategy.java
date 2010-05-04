@@ -41,8 +41,8 @@ import net.sourceforge.cilib.entity.operators.selection.SelectionStrategy;
  * @author Gary Pampara
  */
 public class DifferentialEvolutionIterationStrategy extends AbstractIterationStrategy<EC> {
-    private static final long serialVersionUID = 8019668923312811974L;
 
+    private static final long serialVersionUID = 8019668923312811974L;
     private SelectionStrategy targetVectorSelectionStrategy; // x
     private CreationStrategy trialVectorCreationStrategy; // y
     private CrossoverStrategy crossoverStrategy; // z
@@ -158,5 +158,4 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
     public void setTrialVectorCreationStrategy(CreationStrategy trialVectorCreationStrategy) {
         this.trialVectorCreationStrategy = trialVectorCreationStrategy;
     }
-
 }

@@ -33,13 +33,11 @@ import org.junit.Test;
  *
  * @author Andries Engelbrecht
  */
-
 public class Bukin4Test {
 
     private ContinuousFunction function;
 
     public Bukin4Test() {
-
     }
 
     @Before
@@ -50,7 +48,7 @@ public class Bukin4Test {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Beale4. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-15,-5),R(-3,3)");
+//        function.setDomain("R(-15,-5),R(-3,3)");
 
         Vector x = new Vector();
         x.add(Real.valueOf(1.0));

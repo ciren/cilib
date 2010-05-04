@@ -29,6 +29,7 @@ import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.problem.dataset.StringDataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -39,23 +40,23 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * TODO: Complete this javadoc.
  */
 public class FunctionDimensionMappingProblem extends OptimisationProblemAdapter {
-    private static final long serialVersionUID = -5419400002196415792L;
 
+    private static final long serialVersionUID = -5419400002196415792L;
+    private DomainRegistry domainRegistry;
     private FunctionDimensionMapping function;
     private double[][] higherDimensionDistanceMatrix;
 
     public FunctionDimensionMappingProblem() {
+        domainRegistry = new StringBasedDomainRegistry();
         function = new FunctionDimensionMapping();
     }
 
     public FunctionDimensionMappingProblem(FunctionDimensionMappingProblem copy) {
-
     }
 
     public FunctionDimensionMappingProblem getClone() {
         return new FunctionDimensionMappingProblem(this);
     }
-
 
     @Override
     protected Fitness calculateFitness(Type solution) {
@@ -66,16 +67,15 @@ public class FunctionDimensionMappingProblem extends OptimisationProblemAdapter 
 
         //System.out.println(solution);
         Vector solutionVector = (Vector) solution;
-    //    System.out.println("sil: " + solutionVector);
+        //    System.out.println("sil: " + solutionVector);
         function.setHigherDimensionDistanceMatrix(higherDimensionDistanceMatrix);
 
         return new MinimisationFitness(function.apply(solutionVector));
     }
 
     public DomainRegistry getDomain() {
-        return function.getDomainRegistry();
+        return domainRegistry;
     }
-
 
     /**
      * @return Returns the function.
@@ -89,8 +89,8 @@ public class FunctionDimensionMappingProblem extends OptimisationProblemAdapter 
      */
     public void setFunction(FunctionDimensionMapping function) {
         this.function = function;
+        domainRegistry.setDomainString(function.getDomain());
     }
-
 
     private void intialiseMatrix() {
         //System.out.println("intialiseMatrix()");
@@ -116,7 +116,6 @@ public class FunctionDimensionMappingProblem extends OptimisationProblemAdapter 
         }
     }
 
-
     private Vector vectorise(String [] parts) {
         Vector v = Vector.of();
 
@@ -130,5 +129,4 @@ public class FunctionDimensionMappingProblem extends OptimisationProblemAdapter 
     public void setDataSetBuilder(StringDataSetBuilder builder) {
         super.setDataSetBuilder(builder);
     }
-
 }

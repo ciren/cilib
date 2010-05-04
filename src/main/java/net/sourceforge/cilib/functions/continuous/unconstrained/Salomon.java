@@ -48,13 +48,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Olusegun Olorunda
  */
 public class Salomon extends ContinuousFunction {
+
     private static final long serialVersionUID = -6002240316648057218L;
 
     /**
      * Create an instance of the function. Default domain is set to R(-600, 600)^30
      */
     public Salomon() {
-        setDomain("R(-600, 600)^30");
     }
 
     /**
@@ -85,5 +85,10 @@ public class Salomon extends ContinuousFunction {
         }
 
         return -(Math.cos(2 * Math.PI * Math.sqrt(sumSquares))) + (0.1 * Math.sqrt(sumSquares)) + 1;
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(-600, 600)^30";
     }
 }

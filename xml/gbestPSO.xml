@@ -58,7 +58,7 @@
             <measurements idref="fitness" />
 	    <output format="TXT" file="data/spherical3.gbest.p20w1.0c1_2c2_2NoVmax.txt" />
         </simulation>
-        <simulation samples="1">
+<!--        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="rosenbrock"/>
             <measurements idref="fitness" />
@@ -123,6 +123,6 @@
             <problem idref="schwefel"/>
             <measurements idref="fitness" />
 	    <output format="TXT" file="data/schwefel3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
-        </simulation>
+        </simulation>-->
     </simulations>
 </simulator>

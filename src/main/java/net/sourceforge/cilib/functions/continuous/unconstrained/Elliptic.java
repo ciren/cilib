@@ -43,7 +43,7 @@ public class Elliptic extends ContinuousFunction {
     static final double CONDITION_NUMBER = 1000000;
 
     public Elliptic() {
-        setDomain("R(-100,100)^30");
+//        setDomain("R(-100,100)^30");
     }
 
     @Override
@@ -55,8 +55,8 @@ public class Elliptic extends ContinuousFunction {
     public Double apply(Vector input) {
         double sum = 0;
 
-        for(int i = 0; i < getDimension(); i++) {
-            sum += Math.pow(CONDITION_NUMBER, i/(getDimension()-1)) * input.getReal(i) * input.getReal(i);
+        for(int i = 0; i < input.size(); i++) {
+            sum += Math.pow(CONDITION_NUMBER, i/(input.size()-1)) * input.getReal(i) * input.getReal(i);
         }
 
         return new Double(sum);

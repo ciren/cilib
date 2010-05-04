@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class SalomonTest {
+
     private ContinuousFunction function;
 
     @Before
@@ -40,7 +41,7 @@ public class SalomonTest {
     /** Test of evaluate method, of class cilib.functions.unconstrained.Salomon. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-600, 600)^2");
+//        function.setDomain("R(-600, 600)^2");
 
         Vector x = new Vector();
         x.add(Real.valueOf(0));

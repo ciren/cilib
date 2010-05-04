@@ -34,6 +34,7 @@ import org.junit.Test;
  * @author Bennie Leonard
  */
 public class QuarticTest {
+
     private static final double EPSILON = 1.0E-6;
     private ContinuousFunction function;
 
@@ -45,7 +46,7 @@ public class QuarticTest {
     /** Test of the evaluation method of the {@link Quartic} class */
     @Test
     public void evaluationTest() {
-        function.setDomain("R(-1.28, 1.28)^3");
+//        function.setDomain("R(-1.28, 1.28)^3");
 
         Vector x = new Vector();
 

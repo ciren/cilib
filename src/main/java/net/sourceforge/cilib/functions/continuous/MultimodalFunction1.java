@@ -34,7 +34,6 @@ public class MultimodalFunction1 extends ContinuousFunction {
      * Create an instance of {@linkplain MultimodalFunction1}.
      */
     public MultimodalFunction1() {
-        setDomain("R(0, 1)^1");
     }
 
     /**
@@ -58,10 +57,15 @@ public class MultimodalFunction1 extends ContinuousFunction {
     @Override
     public Double apply(Vector input) {
         double dResult = 0.0;
-        for (int i = 0; i < getDimension(); ++i) {
+        for (int i = 0; i < input.size(); ++i) {
             double x = Math.pow(Math.sin(5.0 * Math.PI * input.doubleValueOf(i)), 6.0);
             dResult += x;
         }
         return dResult;
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(0, 1)^1";
     }
 }

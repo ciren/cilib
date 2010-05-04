@@ -52,7 +52,6 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
     private double horizontalShift;
 
     public ShiftedFunctionDecorator() {
-        setDomain("R");
         verticalShift = 0.0;
         horizontalShift = 0.0;
     }
@@ -98,7 +97,6 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
      */
     public void setFunction(ContinuousFunction function) {
         this.function = function;
-        this.setDomain(function.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -131,5 +129,10 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
      */
     public void setVerticalShift(double verticalShift) {
         this.verticalShift = verticalShift;
+    }
+
+    @Override
+    public String getDomain() {
+        return this.function.getDomain();
     }
 }

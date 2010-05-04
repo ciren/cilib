@@ -24,19 +24,18 @@ package net.sourceforge.cilib.functions.continuous;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
  * TODO: Complete this javadoc.
  * @author  Edwin Peer
  */
 public class NastyBenchmark extends ContinuousFunction {
+
     private static final long serialVersionUID = 6848836780892359015L;
 
     /**
      * Create a new instance of {@linkplain NastyBenchmark}.
      */
     public NastyBenchmark() {
-        setDomain("R(-500, 500)^30");
     }
 
     /**
@@ -61,11 +60,15 @@ public class NastyBenchmark extends ContinuousFunction {
     @Override
     public Double apply(Vector input) {
         double tmp = 0;
-        for (int i = 0; i < getDimension(); ++i) {
+        for (int i = 0; i < input.size(); ++i) {
             double factor = (input.doubleValueOf(i) - (i + 1));
             tmp += factor * factor;
         }
         return tmp;
     }
 
+    @Override
+    public String getDomain() {
+        return "R(-500, 500)^30";
+    }
 }

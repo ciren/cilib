@@ -46,8 +46,6 @@ public class Shir extends ContinuousFunction {
      * Create an instance of the function. The domain is set to "R(0, 1)^30" by default.
      */
     public Shir() {
-        setDomain("R(0, 1)^30");
-
         l1 = 1.0;
         l2 = 1.0;
         l3 = 1.0;
@@ -80,7 +78,7 @@ public class Shir extends ContinuousFunction {
         double expTerm;
         double product = 1.0;
 
-        for (int i = 0; i < getDimension(); i++) {
+        for (int i = 0; i < input.size(); i++) {
             sinTerm = 1.0;
             for (int k = 1; k <= sharpness; k++) {
                 sinTerm *= Math.sin(l1 * Math.PI * input.doubleValueOf(i) + l2);
@@ -90,5 +88,10 @@ public class Shir extends ContinuousFunction {
         }
 
         return product;
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(0, 1)^30";
     }
 }

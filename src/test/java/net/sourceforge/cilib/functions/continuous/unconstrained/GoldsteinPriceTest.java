@@ -48,7 +48,7 @@ public class GoldsteinPriceTest {
      */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-2, 2)^2");
+//        function.setDomain("R(-2, 2)^2");
 
         Vector x = new Vector();
 

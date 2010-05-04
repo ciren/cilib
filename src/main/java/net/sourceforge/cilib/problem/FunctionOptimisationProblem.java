@@ -23,6 +23,7 @@ package net.sourceforge.cilib.problem;
 
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -33,9 +34,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  Edwin Peer
  */
 public abstract class FunctionOptimisationProblem extends OptimisationProblemAdapter {
-    private static final long serialVersionUID = 7944544624736580311L;
 
+    private static final long serialVersionUID = 7944544624736580311L;
     protected Function<Vector, ? extends Number> function;
+    private DomainRegistry domainRegistry;
 
     /**
      * Creates a new instance of {@code FunctionOptimisationProblem} with {@code null} function.
@@ -46,6 +48,7 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
      */
     public FunctionOptimisationProblem() {
         function = null;
+        domainRegistry = new StringBasedDomainRegistry();
     }
 
     /**
@@ -70,6 +73,9 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
      */
     public void setFunction(Function<Vector, ? extends Number> function) {
         this.function = function;
+        if (domainRegistry.getDomainString() == null) {
+            this.domainRegistry.setDomainString(function.getDomain());
+        }
     }
 
     /**
@@ -86,9 +92,8 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
      *
      * @return the domain component.
      */
-    @Override
-    public DomainRegistry getDomain() {
-        return function.getDomainRegistry();
+    public String getDomainString() {
+        return domainRegistry.getDomainString();
     }
 
     /**
@@ -105,4 +110,25 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
         visitor.visit(this);
     }
 
+    /**
+     * Accessor for the domain of the function. See {@link net.sourceforge.cilib.Domain.Component}.
+     * @return The function domain.
+     */
+    @Override
+    public DomainRegistry getDomain() {
+        return domainRegistry;
+    }
+
+    /**
+     * Sets the domain of the function.
+     * @param representation the string representation for the function domain.
+     */
+    public void setDomain(String representation) {
+        this.domainRegistry.setDomainString(representation);
+    }
+
+    // This method is questionable....!
+    public int getDimension() {
+        return domainRegistry.getDimension();
+    }
 }

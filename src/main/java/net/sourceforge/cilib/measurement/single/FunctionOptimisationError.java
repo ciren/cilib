@@ -31,7 +31,9 @@ import net.sourceforge.cilib.type.types.Real;
  * @author  Edwin Peer
  */
 public class FunctionOptimisationError implements Measurement<Real> {
+
     private static final long serialVersionUID = 7708362377448599712L;
+    private double target;
 
     /**
      * {@inheritDoc}
@@ -49,16 +51,18 @@ public class FunctionOptimisationError implements Measurement<Real> {
         return "R";
     }
 
+    public void setTarget(double target) {
+        this.target = target;
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public Real getValue(Algorithm algorithm) {
         FunctionOptimisationProblem problem = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
-
         double d = problem.getError(algorithm.getBestSolution().getPosition());
 
         return Real.valueOf(d);
     }
-
 }

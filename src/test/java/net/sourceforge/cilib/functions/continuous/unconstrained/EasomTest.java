@@ -30,8 +30,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
-* @author Andries Engelbrecht
-*/
+ * @author Andries Engelbrecht
+ */
 public class EasomTest {
 
     private ContinuousFunction function;
@@ -44,7 +44,7 @@ public class EasomTest {
     /** Test of evaluate method, of class cilib.functions.unconstrained.Easom. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-100, 100)^2");
+//        function.setDomain("R(-100, 100)^2");
 
         Vector x = new Vector();
         x.add(Real.valueOf(Math.PI));

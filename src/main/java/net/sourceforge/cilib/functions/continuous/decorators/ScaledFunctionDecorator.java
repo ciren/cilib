@@ -50,7 +50,6 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
      * Create an instance of the decorator. Domain is set to "R" by default.
      */
     public ScaledFunctionDecorator() {
-        setDomain("R");
         verticalScale = 1.0;
         horizontalScale = 1.0;
     }
@@ -100,7 +99,6 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
      */
     public void setFunction(ContinuousFunction function) {
         this.function = function;
-        this.setDomain(function.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -135,6 +133,11 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
     public void setVerticalScale(double verticalScale) {
         Preconditions.checkArgument(verticalScale > 0, "Vertical scale factor must be greater than zero!");
         this.verticalScale = verticalScale;
+    }
+
+    @Override
+    public String getDomain() {
+        return function.getDomain();
     }
 
 }

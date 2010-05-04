@@ -24,7 +24,6 @@ package net.sourceforge.cilib.functions.continuous;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
  * The continuous Step function. It is the same as the normal step function, however,
  * it is continuous and not discrete.
@@ -35,11 +34,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Andries Engelbrecht
  */
 public class ContinuousStep extends ContinuousFunction {
+
     private static final long serialVersionUID = 4962101545621686038L;
 
     /** Creates a new instance of Step. */
     public ContinuousStep() {
-        setDomain("R(-100.0, 100.0)^30");
     }
 
     /**
@@ -74,10 +73,14 @@ public class ContinuousStep extends ContinuousFunction {
     @Override
     public Double apply(Vector input) {
         double sum = 0.0;
-        for (int i = 0; i < getDimension(); ++i) {
+        for (int i = 0; i < input.size(); ++i) {
             sum += (input.doubleValueOf(i) + 0.5) * (input.doubleValueOf(i) + 0.5);
         }
         return sum;
     }
 
+    @Override
+    public String getDomain() {
+        return "R(-100.0, 100.0)^30";
+    }
 }

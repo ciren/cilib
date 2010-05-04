@@ -34,19 +34,19 @@ import org.junit.Test;
  * @author Bennie Leonard
  */
 public class SixHumpCamelBackTest {
+
     private static final double EPSILON = 1.0E-4;
     private ContinuousFunction function;
 
     @Before
-    public void instantiate()
-    {
+    public void instantiate() {
         this.function = new SixHumpCamelBack();
     }
 
     /** Test of the evaluate method of the {@link SixHumpCamelBack} class */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-3,3),R(-2,2)");
+//        function.setDomain("R(-3,3),R(-2,2)");
 
         Vector x = new Vector();
 

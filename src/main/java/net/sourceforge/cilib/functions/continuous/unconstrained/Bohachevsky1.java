@@ -60,7 +60,6 @@ public class Bohachevsky1 extends ContinuousFunction {
      */
     public Bohachevsky1() {
         //constraint.add(new DimensionValidator(2));
-        setDomain("R(-100, 100)^2");
     }
 
     /**
@@ -85,5 +84,10 @@ public class Bohachevsky1 extends ContinuousFunction {
         double x = input.doubleValueOf(0);
         double y = input.doubleValueOf(1);
         return x * x + 2 * y * y - 0.3 * Math.cos(3 * Math.PI * x) - 0.4 * Math.cos(4 * Math.PI * y) + 0.7;
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(-100, 100)^2";
     }
 }

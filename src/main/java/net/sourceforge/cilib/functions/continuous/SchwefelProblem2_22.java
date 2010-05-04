@@ -44,7 +44,6 @@ public class SchwefelProblem2_22 extends ContinuousFunction {
      * Creates an new instance. Domain is set to R(-10,10)^30 by default.
      */
     public SchwefelProblem2_22() {
-        setDomain("R(-10, 10)^30");
     }
 
     /**
@@ -69,7 +68,7 @@ public class SchwefelProblem2_22 extends ContinuousFunction {
     public Double apply(Vector input) {
         double sum = 0;
         double product = 0;
-        for (int i = 0; i < getDimension(); ++i) {
+        for (int i = 0; i < input.size(); ++i) {
             sum += Math.abs(input.doubleValueOf(i));
             if (i == 0) {
                 product = Math.abs(input.doubleValueOf(i));
@@ -79,5 +78,10 @@ public class SchwefelProblem2_22 extends ContinuousFunction {
         }
 
         return sum + product;
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(-10, 10)^30";
     }
 }

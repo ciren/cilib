@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ZakharovTest {
+
     private ContinuousFunction function;
 
     @Before
@@ -40,7 +41,7 @@ public class ZakharovTest {
     /** Test of evaluate method, of class cilib.functions.unconstrained.Zakharov. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-5, 10)^2");
+//        function.setDomain("R(-5, 10)^2");
 
         Vector x = new Vector();
         x.add(Real.valueOf(0.0));

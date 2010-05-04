@@ -203,7 +203,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
         for (int i = 1; i < numberOfClusters; i++) {
             duplicated.append(",").append(domainRegistry.getDomainString());
         }
-        innerProblem.getFunction().setDomain(duplicated.toString());
+        innerProblem.setDomain(duplicated.toString());
     }
 
     /**
@@ -230,8 +230,9 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
      * @return the {@link #innerProblem}'s {@linkplain net.sourceforge.cilib.problem.FunctionOptimisationProblem#function function's}
      *         domain registry
      */
+    @Override
     public DomainRegistry getDomain() {
-        return innerProblem.getFunction().getDomainRegistry();
+        return innerProblem.getDomain();
     }
 
     /**

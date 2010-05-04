@@ -44,8 +44,8 @@ public class ExplorerBeeTest {
     @Before
     public void setUp() throws Exception {
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
+        problem.setDomain("R(-5.0, 5.0)^5");
         ContinuousFunction func = new Rastrigin();
-        func.setDomain("R(-5.0, 5.0)^5");
         problem.setFunction(func);
 
         StoppingCondition condition = new MaximumIterations(2);

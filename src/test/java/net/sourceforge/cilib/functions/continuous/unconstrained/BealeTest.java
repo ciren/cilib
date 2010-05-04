@@ -34,8 +34,6 @@ import org.junit.Test;
  *
  * @author Andries Engelbrecht
  */
-
-
 public class BealeTest {
 
     private ContinuousFunction function;
@@ -49,7 +47,7 @@ public class BealeTest {
     @Test
     public void testEvaluate() {
         function = new Beale();
-        function.setDomain("R(-4.5, 4.5)^2");
+//        function.setDomain("R(-4.5, 4.5)^2");
 
         Vector x = new Vector();
         x.add(Real.valueOf(1.0));

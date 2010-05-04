@@ -48,7 +48,7 @@ public class BirdTest {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bird. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-6.285714286,6.285714286)^2");
+//        function.setDomain("R(-6.285714286,6.285714286)^2");
 
         Vector x = new Vector();
         x.add(Real.valueOf(1.0));

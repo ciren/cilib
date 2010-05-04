@@ -44,13 +44,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </p>
  */
 public class Schaffer6 extends ContinuousFunction {
+
     private static final long serialVersionUID = 4959662717057274057L;
 
     /**
      * Constructor. Initialise the function to the initial domain of R(-100.0,100.0)^2
      */
     public Schaffer6() {
-        setDomain("R(-100.0,100.0)^30");
     }
 
     /**
@@ -61,7 +61,6 @@ public class Schaffer6 extends ContinuousFunction {
         return this;
     }
 
-
     /**
      * Initialise the function minimum value.
      * @return The minimum value as a <tt>Double</tt> object with value of 0.0
@@ -70,7 +69,6 @@ public class Schaffer6 extends ContinuousFunction {
     public Double getMinimum() {
         return 0.0;
     }
-
 
     /**
      * Evaluate the function and return the evaluation.
@@ -88,7 +86,7 @@ public class Schaffer6 extends ContinuousFunction {
             double sinSquared = Math.sin(Math.sqrt((100 * (xi*xi)) + (xj*xj)));
             sinSquared *= sinSquared;
 
-            double squaredVal = (xi*xi) - (2*xi*xj) + (xj*xj);
+            double squaredVal = (xi * xi) - (2 * xi * xj) + (xj * xj);
             squaredVal *= squaredVal;
 
             sum += 0.5 + ((sinSquared - 0.5) / (1 + (0.001 * squaredVal)));
@@ -97,4 +95,8 @@ public class Schaffer6 extends ContinuousFunction {
         return sum;
     }
 
+    @Override
+    public String getDomain() {
+        return "R(-100.0,100.0)^30";
+    }
 }

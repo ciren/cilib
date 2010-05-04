@@ -25,11 +25,10 @@ import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
 import org.junit.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
-
 
 /**
  *
@@ -48,7 +47,7 @@ public class SphericalTest {
     @Test
     public void testEvaluate() {
 
-        function.setDomain("R(-100, 100)^3");
+//        function.setDomain("R(-100, 100)^3");
 
         Vector x = new Vector();
         x.add(Real.valueOf(1.0));
@@ -64,7 +63,6 @@ public class SphericalTest {
     }
 
     public void testGradient() {
-        // add gradient test
+        throw new UnsupportedOperationException("gradient test is expected");
     }
-
 }

@@ -23,8 +23,6 @@ package net.sourceforge.cilib.measurement.single.dynamic;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
@@ -56,9 +54,10 @@ public class GlobalMaximum implements Measurement {
 
     @Override
     public Type getValue(Algorithm algorithm) {
-        FunctionOptimisationProblem problem = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
-        double value = problem.getFunction().getMaximum().doubleValue();
-        return Real.valueOf(value);
+//        FunctionOptimisationProblem problem = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
+//        double value = problem.getFunction().getMaximum().doubleValue();
+//        return new Real(value);
+        throw new UnsupportedOperationException("Implementation is required... this is not correct");
     }
 
     @Override

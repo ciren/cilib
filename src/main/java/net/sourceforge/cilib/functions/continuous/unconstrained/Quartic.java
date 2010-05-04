@@ -48,13 +48,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public class Quartic extends ContinuousFunction {
+
     private static final long serialVersionUID = 1830591489569513511L;
 
     /**
      * Create a new instance of {@linkplain Quadric}. Domain defaults to R(-1.28, 1.28)^30.
      */
     public Quartic() {
-        setDomain("R(-1.28, 1.28)^30");
     }
 
     /**
@@ -96,5 +96,10 @@ public class Quartic extends ContinuousFunction {
         }
 
         return result;
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(-1.28, 1.28)^30";
     }
 }

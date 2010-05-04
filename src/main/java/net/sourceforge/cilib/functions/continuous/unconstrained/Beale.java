@@ -59,7 +59,6 @@ public class Beale extends ContinuousFunction {
      * Create an instance of {@linkplain Beale}. The default domain is set to R(-4.5, 4.5)^2.
      */
     public Beale() {
-        setDomain("R(-4.5,4.5)^2");
     }
 
     /**
@@ -84,6 +83,11 @@ public class Beale extends ContinuousFunction {
         double x1 = input.doubleValueOf(0);
         double x2 = input.doubleValueOf(1);
         return (1.5 - x1 + x1 * x2) * (1.5 - x1 + x1 * x2) + (2.25 - x1 + x1 * x2 * x2) * (2.25 - x1 + x1 * x2 * x2) + (2.625 - x1 + x1 * x2 * x2 * x2) * (2.625 - x1 + x1 * x2 * x2 * x2);
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(-4.5,4.5)^2";
     }
 }
 

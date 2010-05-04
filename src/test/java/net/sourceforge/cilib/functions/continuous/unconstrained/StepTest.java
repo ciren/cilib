@@ -40,7 +40,7 @@ public class StepTest {
     /** Test of evaluate method, of class cilib.functions.unconstrained.Step. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-100, 100)^2");
+//        function.setDomain("R(-100, 100)^2");
 
         Vector x = new Vector();
         x.add(Real.valueOf(-0.5));

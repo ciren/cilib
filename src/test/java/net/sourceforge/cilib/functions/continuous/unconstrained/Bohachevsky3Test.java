@@ -50,7 +50,7 @@ public class Bohachevsky3Test {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bohachevsky3. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-100,100)^2");
+//        function.setDomain("R(-100,100)^2");
 
         Vector x = new Vector();
         x.add(Real.valueOf(1.0));

@@ -25,8 +25,8 @@ import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
 import org.junit.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,13 +34,11 @@ import org.junit.Test;
  *
  * @author Andries Engelbrecht
  */
-
 public class BoothTest {
 
     private ContinuousFunction function;
 
     public BoothTest() {
-
     }
 
     @Before
@@ -51,7 +49,7 @@ public class BoothTest {
     /** Test of evaluate method, of class za.ac.u.cs.ailib.Functions.Booth. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-10,10)^2");
+//        function.setDomain("R(-10,10)^2");
 
         Vector x = new Vector();
         x.add(Real.valueOf(1.0));

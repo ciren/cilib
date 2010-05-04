@@ -50,7 +50,6 @@ public class Himmelblau extends ContinuousFunction {
      */
     public Himmelblau() {
         //constraint.add(new DimensionValidator(2));
-        setDomain("R(-6, 6)^2");
     }
 
     /**
@@ -75,5 +74,10 @@ public class Himmelblau extends ContinuousFunction {
         double x = input.doubleValueOf(0);
         double y = input.doubleValueOf(1);
         return Math.pow((x * x + y - 11), 2) + Math.pow((x + y * y - 7), 2);
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(-6, 6)^2";
     }
 }

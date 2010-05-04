@@ -39,7 +39,6 @@ public class MaximumDeratingFunction1 extends ContinuousFunction {
      */
     public MaximumDeratingFunction1() {
         //constraint.add(new DimensionValidator(1));
-        setDomain("R^1");
     }
 
     /**
@@ -106,5 +105,10 @@ public class MaximumDeratingFunction1 extends ContinuousFunction {
         }
 
         return Math.pow(input.doubleValueOf(0) / radius, alpha);
+    }
+
+    @Override
+    public String getDomain() {
+        return "R^1";
     }
 }

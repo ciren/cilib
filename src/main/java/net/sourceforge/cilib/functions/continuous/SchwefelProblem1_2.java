@@ -39,10 +39,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public class SchwefelProblem1_2 extends ContinuousFunction {
+
     private static final long serialVersionUID = -65519037071861168L;
 
     public SchwefelProblem1_2() {
-        setDomain("R(-100,100)^30");
     }
 
     /**
@@ -69,7 +69,7 @@ public class SchwefelProblem1_2 extends ContinuousFunction {
         double sumsq = 0.0;
         double sum = 0.0;
 
-        for (int i = 0; i < getDimension(); i++) {
+        for (int i = 0; i < input.size(); i++) {
             sum = 0.0;
 
             for (int j = 0; j < i; j++) {
@@ -82,4 +82,8 @@ public class SchwefelProblem1_2 extends ContinuousFunction {
         return sumsq;
     }
 
+    @Override
+    public String getDomain() {
+        return "R(-100,100)^30";
+    }
 }

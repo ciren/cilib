@@ -46,7 +46,7 @@ public class FDA2_f2 extends ContinuousFunction {
      */
     public FDA2_f2() {
         super();
-        setDomain("R(-1, 1)^31"); //verander hier
+//        setDomain("R(-1, 1)^31"); //verander hier
     }
 
     /**
@@ -75,7 +75,7 @@ public class FDA2_f2 extends ContinuousFunction {
     public void setFDA2_g(FunctionMinimisationProblem problem) {
         this.fda2_g_problem = problem;
         this.fda2_g = (ContinuousFunction) problem.getFunction();
-        this.fda2_g.setDomain(fda2_g.getDomainRegistry().getDomainString());
+//        this.fda2_g.setDomain(fda2_g.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -92,7 +92,7 @@ public class FDA2_f2 extends ContinuousFunction {
      */
     public void setFDA2_g(ContinuousFunction fda2_g) {
         this.fda2_g = fda2_g;
-        this.setDomain(fda2_g.getDomainRegistry().getDomainString());
+//        this.setDomain(fda2_g.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -110,7 +110,7 @@ public class FDA2_f2 extends ContinuousFunction {
     public void setFDA2_h(FunctionMinimisationProblem problem) {
         this.fda2_h_problem = problem;
         this.fda2_h = (ContinuousFunction) problem.getFunction();
-        this.fda2_h.setDomain(fda2_h.getDomainRegistry().getDomainString());
+//        this.fda2_h.setDomain(fda2_h.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -127,7 +127,7 @@ public class FDA2_f2 extends ContinuousFunction {
      */
     public void setFDA2_h(ContinuousFunction fda2_h) {
         this.fda2_h = fda2_h;
-        this.setDomain(fda2_h.getDomainRegistry().getDomainString());
+//        this.setDomain(fda2_h.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -143,12 +143,20 @@ public class FDA2_f2 extends ContinuousFunction {
      * g*h
      */
     public Double apply(Vector input) {
-        Vector y = input;
-        if (input.size() > 1) {
-            y = input.copyOfRange(1, fda2_g.getDimension()); //-1
-        }
-        double g = this.fda2_g.apply(y);
-        double h = this.fda2_h.apply(input);
-        return g * h;
+//        Vector y = input;
+//        if (input.getDimension() > 1) {
+//            y = input.subList(1, fda2_g.getDimension()); //-1
+//        }
+//        double g = this.fda2_g.evaluate(y);
+//        double h = this.fda2_h.evaluate(input);
+//
+//        double value = g * h;
+//        return value;
+        return 0.0;
+    }
+
+    @Override
+    public String getDomain() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

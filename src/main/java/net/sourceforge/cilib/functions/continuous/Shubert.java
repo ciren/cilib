@@ -24,7 +24,6 @@ package net.sourceforge.cilib.functions.continuous;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
  * Shubert function.
  *
@@ -36,13 +35,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @version 1.0
  */
 public class Shubert extends ContinuousFunction {
+
     private static final long serialVersionUID = 3213789483391643466L;
 
     /**
      * Create an instance of {@linkplain Shubert}. Domain is set to R(-10,10)^2 by default.
      */
     public Shubert() {
-        setDomain("R(-10, 10)^2");
     }
 
     /**
@@ -66,13 +65,18 @@ public class Shubert extends ContinuousFunction {
     @Override
     public Double apply(Vector input) {
         double result = 1.0;
-        for (int i=0; i < getDimension(); ++i) {
+        for (int i = 0; i < input.size(); ++i) {
             double result2 = 0.0;
-            for (int j=1; j<=5; j++) {
+            for (int j = 1; j <= 5; j++) {
                 result2 += j*Math.cos((j+1)*input.doubleValueOf(i) + j);
             }
             result *= result2;
         }
         return result;
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(-10, 10)^2";
     }
 }

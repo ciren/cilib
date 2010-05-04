@@ -33,7 +33,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p><b>Reference:</b> S. Rahnamayan, H. R. Tizhoosh, M. M. A. Salama <i>A novel population initialization method for accelerating evolutionary algorithms</i>,
  * Computers and Mathematics with Applications, 2007</p>
  *
- *
  * <p>Minimum:
  * <ul>
  * <li> &fnof;(<b>x</b>*) = 0</li>
@@ -48,14 +47,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </p>
  *
  * @author leo
- *
  */
 public class DeJongF4 extends ContinuousFunction {
 
     private static final long serialVersionUID = 4835441178770462999L;
 
     public DeJongF4() {
-        setDomain("R(-1.28, 1.28)^30");
     }
 
     /**
@@ -80,11 +77,15 @@ public class DeJongF4 extends ContinuousFunction {
     @Override
     public Double apply(Vector input) {
         double sum = 0;
-        for(int i = 0; i < input.size(); ++i){
+        for (int i = 0; i < input.size(); ++i) {
             double xi = input.doubleValueOf(i);
-            sum += (i+1) * (xi*xi*xi*xi);
+            sum += (i + 1) * (xi * xi * xi * xi);
         }
         return sum;
     }
 
+    @Override
+    public String getDomain() {
+        return "R(-1.28, 1.28)^30";
+    }
 }

@@ -134,7 +134,6 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
     }
 
     public RotatingFunctionDecorator() {
-        setDomain("R");
     }
 
     /**
@@ -174,25 +173,29 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
      */
     public void setFunction(ContinuousFunction function) {
         this.function = function;
-        this.setDomain(function.getDomainRegistry().getDomainString());
 
-        Vector structure = (Vector) DomainParser.parse(function.getDomainRegistry().getDomainString());
-        Bounds bounds = structure.boundsOf(0);
+        Vector structure = (Vector) DomainParser.parse(function.getDomain());
+        Bounds bounds = structure.get(0).getBounds();
         double lowerLimit = bounds.getLowerBound();
         double upperLimit = bounds.getUpperBound();
 
         center = (upperLimit - lowerLimit) / 2 + lowerLimit;
-        this.N = function.getDimension();
+        this.N = structure.size();
         this.matrix = initMatrices();
     }
 
-    @Override
-    public Double getMaximum() {
-        return function.getMaximum();
-    }
+//    @Override
+//    public Double getMaximum() {
+//        return function.getMaximum();
+//    }
+//
+//    @Override
+//    public Double getMinimum() {
+//        return function.getMinimum();
+//    }
 
     @Override
-    public Double getMinimum() {
-        return function.getMinimum();
+    public String getDomain() {
+        return function.getDomain();
     }
 }

@@ -46,10 +46,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author leo
  */
 public class Zakharov extends ContinuousFunction {
+
     private static final long serialVersionUID = -635648546100966058L;
 
     public Zakharov() {
-        setDomain("R(-5, 10)^30");
     }
 
     /**
@@ -80,5 +80,10 @@ public class Zakharov extends ContinuousFunction {
             sum2 += 0.5 * (i + 1) * input.doubleValueOf(i);
         }
         return sum1 + (sum2 * sum2) + (sum2 * sum2 * sum2 * sum2);
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(-5, 10)^30";
     }
 }

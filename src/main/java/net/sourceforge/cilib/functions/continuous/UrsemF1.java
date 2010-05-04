@@ -40,7 +40,6 @@ public class UrsemF1 extends ContinuousFunction {
 
     public UrsemF1() {
         //constraint.add(new DimensionValidator(2));
-        setDomain("R(-2.5, 3)^2");
     }
 
     /**
@@ -64,5 +63,10 @@ public class UrsemF1 extends ContinuousFunction {
         double y = input.doubleValueOf(1);
 
         return Math.sin(2.0 * x - 0.5 * Math.PI) + 3.0 * Math.cos(y) + 0.5 * x;
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(-2.5, 3)^2";
     }
 }

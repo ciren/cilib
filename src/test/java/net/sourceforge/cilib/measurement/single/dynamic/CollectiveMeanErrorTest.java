@@ -47,8 +47,7 @@ public class CollectiveMeanErrorTest {
     private Mockery mockery = new JUnit4Mockery()
     {{
        setImposteriser(ClassImposteriser.INSTANCE);
-    }}
-;
+    }};
 
     @Test
     public void results() {

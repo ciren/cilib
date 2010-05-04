@@ -40,11 +40,11 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Edwin Peer
  */
 public abstract class OptimisationProblemAdapter implements OptimisationProblem {
-    private static final long serialVersionUID = -5008516277429476778L;
 
+    private static final long serialVersionUID = -5008516277429476778L;
+    private ChangeStrategy changeStrategy;
     protected AtomicInteger fitnessEvaluations;
     protected DataSetBuilder dataSetBuilder;
-    private ChangeStrategy changeStrategy;
 
     protected OptimisationProblemAdapter() {
         fitnessEvaluations = new AtomicInteger(0);
@@ -54,8 +54,9 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
     protected OptimisationProblemAdapter(OptimisationProblemAdapter copy) {
         changeStrategy = copy.changeStrategy;
         fitnessEvaluations = new AtomicInteger(copy.fitnessEvaluations.get());
-        if(copy.dataSetBuilder != null)
+        if (copy.dataSetBuilder != null) {
             dataSetBuilder = copy.dataSetBuilder.getClone();
+        }
     }
 
     @Override
@@ -77,8 +78,9 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
     public final Fitness getFitness(Type solution) {
         fitnessEvaluations.incrementAndGet();
 
-        if (this.changeStrategy.shouldApply(this))
+        if (this.changeStrategy.shouldApply(this)) {
             changeEnvironment();
+        }
 
         return calculateFitness(solution);
     }
@@ -128,7 +130,7 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
      * Get the current problem change strategy.
      * @return The current {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy}.
      */
-    public ChangeStrategy getChangeStrategy() {
+    public final ChangeStrategy getChangeStrategy() {
         return changeStrategy;
     }
 
@@ -136,8 +138,7 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
      * Set the {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy} for this problem.
      * @param changeStrategy The {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy} to set.
      */
-    public void setChangeStrategy(ChangeStrategy changeStrategy) {
+    public final void setChangeStrategy(ChangeStrategy changeStrategy) {
         this.changeStrategy = changeStrategy;
     }
-
 }

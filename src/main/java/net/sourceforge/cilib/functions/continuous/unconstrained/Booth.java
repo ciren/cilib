@@ -59,7 +59,6 @@ public class Booth extends ContinuousFunction {
      * R(-10.0,10.0)^2 by default.
      */
     public Booth() {
-        setDomain("R(-10,10)^2");
     }
 
     /**
@@ -86,5 +85,10 @@ public class Booth extends ContinuousFunction {
         double x2 = input.doubleValueOf(1);
 
         return (x1+2*x2-7)*(x1+2*x2-7) + (2*x1+x2-5)*(2*x1+x2-5);
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(-10,10)^2";
     }
 }

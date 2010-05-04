@@ -35,7 +35,6 @@ public class Step extends ContinuousFunction {
      * Create an instance of the {@code Step} function.
      */
     public Step() {
-        setDomain("R(-100.0, 100.0)^6");
     }
 
     /**
@@ -67,5 +66,10 @@ public class Step extends ContinuousFunction {
         }
 
         return sum;
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(-100.0, 100.0)^6";
     }
 }

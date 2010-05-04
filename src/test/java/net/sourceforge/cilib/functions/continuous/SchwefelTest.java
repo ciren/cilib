@@ -44,9 +44,6 @@ public class SchwefelTest {
     @Test
     public void testEvaluate() {
         ContinuousFunction function = new Schwefel();
-        function.setDomain("R(-500, 500)^3");
-        //double[] x = {1, 2, 3};
-        //double[] y = {-1, -2, -3};
 
         Vector x = new Vector();
         x.add(Real.valueOf(1.0));

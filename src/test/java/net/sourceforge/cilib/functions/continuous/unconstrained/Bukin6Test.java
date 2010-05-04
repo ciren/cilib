@@ -25,8 +25,8 @@ import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
 import org.junit.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,13 +34,11 @@ import org.junit.Test;
  *
  * @author Andries Engelbrecht
  */
-
 public class Bukin6Test {
 
     private ContinuousFunction function;
 
     public Bukin6Test() {
-
     }
 
     @Before
@@ -51,7 +49,7 @@ public class Bukin6Test {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bukin6. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-15,-5),R(-3,3)");
+//        function.setDomain("R(-15,-5),R(-3,3)");
 
         Vector x = new Vector();
         x.add(Real.valueOf(1.0));

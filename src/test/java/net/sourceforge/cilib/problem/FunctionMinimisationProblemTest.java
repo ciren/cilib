@@ -60,12 +60,12 @@ public class FunctionMinimisationProblemTest {
     @BeforeClass
     public static void setUp() {
         function = new Spherical();
-        function.setDomain("R^5");
         problem = new FunctionMinimisationProblem();
+        problem.setDomain("R^5");
         problem.setFunction(function);
         random = new Random();
-        x = new double[function.getDimension()];
-        for (int i = 0; i < function.getDimension(); ++i) {
+        x = new double[problem.getDimension()];
+        for (int i = 0; i < x.length; ++i) {
             x[i] = random.nextDouble();
         }
     }

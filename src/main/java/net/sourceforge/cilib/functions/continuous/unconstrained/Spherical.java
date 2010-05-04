@@ -25,7 +25,6 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.Differentiable;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
  * <p>Spherical function.</p>
  *
@@ -49,13 +48,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  Edwin Peer
  */
 public class Spherical extends ContinuousFunction implements Differentiable {
+
     private static final long serialVersionUID = 5811377575647995206L;
 
     /**
      * Create a new instance of {@code Spherical}.
      */
     public Spherical() {
-        setDomain("R(-5.12, 5.12)^30");
     }
 
     /**
@@ -100,4 +99,8 @@ public class Spherical extends ContinuousFunction implements Differentiable {
         return tmp;
     }
 
+    @Override
+    public String getDomain() {
+        return "R(-5.12, 5.12)^30";
+    }
 }

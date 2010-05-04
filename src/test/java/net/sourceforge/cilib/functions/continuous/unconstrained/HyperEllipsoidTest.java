@@ -34,6 +34,7 @@ import org.junit.Test;
  * @author Bennie Leonard
  */
 public class HyperEllipsoidTest {
+
     private static final double EPSILON = 1.0E-6;
     private ContinuousFunction function;
 
@@ -45,7 +46,7 @@ public class HyperEllipsoidTest {
     /** Test of the evaluate method of the {@link HyperEllipsoid} class. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-5.12,5.12)^3");
+//        function.setDomain("R(-5.12,5.12)^3");
 
         Vector x = new Vector();
 

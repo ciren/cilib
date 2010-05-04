@@ -39,7 +39,6 @@ public class ShekelN extends ContinuousFunction {
         n = 10;
 
         //constraint.add(new DimensionValidator(4));
-        setDomain("R(0, 10)^4");
     }
 
     /**
@@ -105,4 +104,9 @@ public class ShekelN extends ContinuousFunction {
         {6.0, 2.0, 6.0, 2.0},
         {7.0, 3.6, 7.0, 3.6},};
     private static final double[] C = {0.1, 0.2, 0.2, 0.4, 0.4, 0.6, 0.3, 0.7, 0.5, 0.5};
+
+    @Override
+    public String getDomain() {
+        return "R(0, 10)^4";
+    }
 }

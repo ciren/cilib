@@ -44,14 +44,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
- *
  * @author  Edwin Peer
  */
 public class Quadric extends ContinuousFunction {
+
     private static final long serialVersionUID = -2555670302543357421L;
 
     public Quadric() {
-        setDomain("R(-100, 100)^30");
     }
 
     /**
@@ -79,7 +78,7 @@ public class Quadric extends ContinuousFunction {
      */
     public Double apply(Vector input) {
         double sumsq = 0;
-        for (int i = 0; i < getDimension(); ++i) {
+        for (int i = 0; i < input.size(); ++i) {
             double sum = 0;
             for (int j = 0; j <= i; ++j) {
                 sum += input.doubleValueOf(j);
@@ -87,5 +86,10 @@ public class Quadric extends ContinuousFunction {
             sumsq += sum * sum;
         }
         return sumsq;
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(-100, 100)^30";
     }
 }

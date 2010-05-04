@@ -24,7 +24,6 @@ package net.sourceforge.cilib.functions.continuous.unconstrained;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
  * <p>Michalewicz funtion 12.</p>
  *
@@ -51,7 +50,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Michalewicz extends ContinuousFunction {
 
     private static final long serialVersionUID = -4391269929189674709L;
-
     /**
      * m controls the steepness of the valleys; the larger m, the
      * more difficult the search
@@ -61,7 +59,6 @@ public class Michalewicz extends ContinuousFunction {
     /** Creates a new instance of EpistaticMichalewicz. */
     public Michalewicz() {
         m = 10;
-        setDomain("R(0, 3.141592653589793)^10");
     }
 
     /**
@@ -75,12 +72,14 @@ public class Michalewicz extends ContinuousFunction {
      * {@inheritDoc}
      */
     public Double getMinimum() {
-        if (this.getDimension() == 5)
-            return -4.687;
-        else if (this.getDimension() == 10)
-            return -9.66;
-
-        return -Double.MAX_VALUE;
+//        if (this.getDimension() == 5) {
+//            return -4.687;
+//        } else if (this.getDimension() == 10) {
+//            return -9.66;
+//        }
+//
+//        return -Double.MAX_VALUE;
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -90,7 +89,7 @@ public class Michalewicz extends ContinuousFunction {
     public Double apply(Vector input) {
         double sumsq = 0.0;
 
-        for (int i = 0; i < getDimension(); i++) {
+        for (int i = 0; i < input.size(); i++) {
             double x = input.doubleValueOf(i);
             sumsq += Math.sin(x) * Math.pow(Math.sin(((i+1) * x * x)/Math.PI), 2*m);
         }
@@ -112,5 +111,10 @@ public class Michalewicz extends ContinuousFunction {
      */
     public void setM(int m) {
         this.m = m;
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(0, 3.141592653589793)^10";
     }
 }

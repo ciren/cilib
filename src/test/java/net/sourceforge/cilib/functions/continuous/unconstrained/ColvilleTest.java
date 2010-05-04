@@ -24,14 +24,14 @@ package net.sourceforge.cilib.functions.continuous.unconstrained;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
 import org.junit.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 
 /**
-* @author Andries Engelbrecht
-*/
+ * @author Andries Engelbrecht
+ */
 public class ColvilleTest {
 
     private ContinuousFunction function;
@@ -44,7 +44,7 @@ public class ColvilleTest {
     /** Test of evaluate method, of class cilib.functions.unconstrained.Colville. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-10, 10)^4");
+//        function.setDomain("R(-10, 10)^4");
 
         Vector x = new Vector();
         x.add(Real.valueOf(0.0));

@@ -50,7 +50,6 @@ public class Schwefel extends ContinuousFunction { // ?
      * Create a new instance of {@linkplain Schwefel}.
      */
     public Schwefel() {
-        setDomain("R(-512.03, 511.97)^30");
     }
 
     /**
@@ -78,8 +77,13 @@ public class Schwefel extends ContinuousFunction { // ?
         for (int i = 0; i < input.size(); ++i) {
             sum += input.doubleValueOf(i) * Math.sin(Math.sqrt(Math.abs(input.doubleValueOf(i))));
         }
-        sum += getDimension() * 4.18982887272434686131e+02;
+        sum += input.size() * 4.18982887272434686131e+02;
         return sum;
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(-512.03, 511.97)^30";
     }
 
 }

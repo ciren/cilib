@@ -21,9 +21,6 @@
  */
 package net.sourceforge.cilib.functions;
 
-import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.StringBasedDomainRegistry;
-
 /**
  * All base function types should inherit from <code>AbstractFunction</code>.
  * @param <F> The "from" type.
@@ -34,13 +31,10 @@ import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 public abstract class AbstractFunction<F, T> implements Function<F, T> {
     private static final long serialVersionUID = -4843291761555348251L;
 
-    private final DomainRegistry domainRegistry;
-
     /**
      * Create a new instance of {@linkplain AbstractFunction}.
      */
     protected AbstractFunction() {
-        domainRegistry = new StringBasedDomainRegistry();
     }
 
     /**
@@ -48,41 +42,6 @@ public abstract class AbstractFunction<F, T> implements Function<F, T> {
      * @param copy The instance to copy.
      */
     public AbstractFunction(AbstractFunction copy) {
-        domainRegistry = copy.domainRegistry.getClone();
-    }
-
-    /**
-     * @return The dimension of the function.
-     */
-    @Override
-    public int getDimension() {
-        return this.getDomainRegistry().getDimension();
-    }
-
-    /**
-     * Accessor for the domain of the function. See {@link net.sourceforge.cilib.Domain.Component}.
-     * @return The function domain.
-     */
-    @Override
-    public DomainRegistry getDomainRegistry() {
-        return domainRegistry;
-    }
-
-    /**
-     * @return The domain {@linkplain String}.
-     */
-    @Override
-    public String getDomain() {
-        return domainRegistry.getDomainString();
-    }
-
-    /**
-     * Sets the domain of the function.
-     * @param representation the string representation for the function domain.
-     */
-    @Override
-    public void setDomain(String representation) {
-        this.domainRegistry.setDomainString(representation);
     }
 
 }

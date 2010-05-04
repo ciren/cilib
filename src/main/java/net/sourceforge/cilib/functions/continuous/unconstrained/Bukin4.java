@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -51,12 +50,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Andries Engelbrecht
  *
  */
-
 public class Bukin4 extends ContinuousFunction {
+
     private static final long serialVersionUID = -7860070866440205636L;
 
     public Bukin4() {
-        setDomain("R(-15,-5),R(-3,3)");
     }
 
     @Override
@@ -77,6 +75,11 @@ public class Bukin4 extends ContinuousFunction {
         double x1 = input.doubleValueOf(0);
         double x2 = input.doubleValueOf(1);
 
-        return 100*x2*x2 + 0.01*Math.abs(x1+10);
+        return 100 * x2 * x2 + 0.01 * Math.abs(x1 + 10);
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(-15,-5),R(-3,3)";
     }
 }

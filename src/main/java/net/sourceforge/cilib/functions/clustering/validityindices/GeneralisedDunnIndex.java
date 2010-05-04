@@ -67,6 +67,6 @@ public abstract class GeneralisedDunnIndex extends ScatterSeperationRatio {
 
     @Override
     protected Double worstFitness() {
-        return getMinimum();
+        return 0.0;
     }
 }

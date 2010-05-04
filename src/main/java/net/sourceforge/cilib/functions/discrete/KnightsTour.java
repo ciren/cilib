@@ -39,7 +39,7 @@ public class KnightsTour extends DiscreteFunction {
 
     public KnightsTour() {
         this.boardSize = 8;
-        setDomain("B^" + 3*boardSize*boardSize);
+//        setDomain("B^" + 3*boardSize*boardSize);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class KnightsTour extends DiscreteFunction {
 
     public void setBoardSize(int boardSize) {
         this.boardSize = boardSize;
-        setDomain("B^" + 3*boardSize*boardSize);
+//        setDomain("B^" + 3*boardSize*boardSize);
     }
 
     // Returns the octal value, values 0 - 7
@@ -101,6 +101,11 @@ public class KnightsTour extends DiscreteFunction {
         int i1 = bit0 ? 1 : 0;
         int i2 = bit1 ? 1 : 0;
         return 4*i0 + 2*i1 + i2;
+    }
+
+    @Override
+    public String getDomain() {
+        return "B^" + 3*boardSize*boardSize;
     }
 
 }

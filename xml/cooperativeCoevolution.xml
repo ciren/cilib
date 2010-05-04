@@ -33,8 +33,8 @@
         </algorithm>
     </algorithms>
     <problems>
-        <problem id="griewank" class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.unconstrained.Griewank" domain="R(-600.0, 600.0)^36"/>
+        <problem id="griewank" class="problem.FunctionMinimisationProblem" domain="R(-600.0, 600.0)^36">
+            <function class="functions.continuous.unconstrained.Griewank"/>
         </problem>
     </problems>
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">

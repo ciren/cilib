@@ -43,7 +43,6 @@ public class Ripple extends ContinuousFunction {
      */
     public Ripple() {
         //constraint.add(new DimensionValidator(2));
-        setDomain("R(0, 1)^2");
     }
 
     /**
@@ -76,5 +75,10 @@ public class Ripple extends ContinuousFunction {
 
         double result = term1 * term2 + term3 * term4;
         return result;
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(0, 1)^2";
     }
 }

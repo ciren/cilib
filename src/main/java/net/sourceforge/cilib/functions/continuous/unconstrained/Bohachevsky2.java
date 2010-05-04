@@ -51,12 +51,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class Bohachevsky2 extends ContinuousFunction {
-      private static final long serialVersionUID = -1572998736995724677L;
+
+    private static final long serialVersionUID = -1572998736995724677L;
 
     /** Creates a new instance of Bohachevsky2. */
     public Bohachevsky2() {
         //constraint.add(new DimensionValidator(2));
-        setDomain("R(-100, 100)^2");
     }
 
     /**
@@ -76,4 +76,8 @@ public class Bohachevsky2 extends ContinuousFunction {
         return x*x + 2*y*y - 0.3*Math.cos(3*Math.PI*x) * Math.cos(4*Math.PI*y)+0.3;
     }
 
+    @Override
+    public String getDomain() {
+        return "R(-100, 100)^2";
+    }
 }

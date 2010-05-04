@@ -48,7 +48,6 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
     private boolean verticalReflection;
 
     public ReflectedFunctionDecorator() {
-        setDomain("R");
         horizontalReflection = false;
         verticalReflection = false;
     }
@@ -100,7 +99,6 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
      */
     public void setFunction(ContinuousFunction function) {
         this.function = function;
-        this.setDomain(function.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -145,5 +143,10 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
      */
     public void setVerticalReflection(String verticalReflection) {
         this.verticalReflection = Boolean.parseBoolean(verticalReflection);
+    }
+
+    @Override
+    public String getDomain() {
+        return function.getDomain();
     }
 }

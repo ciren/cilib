@@ -43,7 +43,7 @@ public class RosenbrockTest {
     @Test
     public void testEvaluate() {
         ContinuousFunction function = new Rosenbrock();
-        function.setDomain("R(-2.048, 2.048)^3");
+//        function.setDomain("R(-2.048, 2.048)^3");
 
         Vector x = new Vector();
         x.add(Real.valueOf(1.0));
@@ -59,7 +59,7 @@ public class RosenbrockTest {
         assertEquals(5805.0, function.apply(y), 0.0);
 
         function = new Rosenbrock();
-        function.setDomain("R(-2.048, 2.048)^4");
+//        function.setDomain("R(-2.048, 2.048)^4");
         Vector z = new Vector();
         z.add(Real.valueOf(1.0));
         z.add(Real.valueOf(2.0));

@@ -40,7 +40,7 @@ public class EggHolderTest {
     @Test
     public void testEvaluate() {
         ContinuousFunction function = new EggHolder();
-        function.setDomain("R(-512,512)^2");
+//        function.setDomain("R(-512,512)^2");
 
         Vector vector = new Vector();
         vector.add(Real.valueOf(200));
@@ -52,7 +52,7 @@ public class EggHolderTest {
     @Test
     public void testMinimum() {
         ContinuousFunction function = new EggHolder();
-        function.setDomain("R(-512,512)^2");
+//        function.setDomain("R(-512,512)^2");
 
         Vector vector = new Vector();
         vector.add(Real.valueOf(512));

@@ -40,7 +40,7 @@ public class KnightsCoverage extends DiscreteFunction {
 
     public KnightsCoverage() {
         this.boardSize = 8;
-        setDomain("B^" + boardSize * boardSize);
+//        setDomain("B^" + boardSize * boardSize);
     }
 
     /**
@@ -114,6 +114,11 @@ public class KnightsCoverage extends DiscreteFunction {
 
     public void setBoardSize(int boardSize) {
         this.boardSize = boardSize;
-        setDomain("B^" + boardSize * boardSize);
+//        setDomain("B^" + boardSize * boardSize);
+    }
+
+    @Override
+    public String getDomain() {
+        return "B^" + boardSize * boardSize;
     }
 }

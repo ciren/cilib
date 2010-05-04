@@ -43,7 +43,6 @@ public class Sigmoid extends ActivationFunction {
      * to a value of {@code 1.0}, with the {@code offset} defined as {@code 0.0}.
      */
     public Sigmoid() {
-        setDomain("R(0.0, 1.0)");
         this.steepness = new ConstantControlParameter(1.0);
         this.offset = new ConstantControlParameter(0.0);
     }
@@ -151,5 +150,10 @@ public class Sigmoid extends ActivationFunction {
     @Override
     public double getUpperActiveRange() {
         return 1.732050808;
+    }
+
+    @Override
+    public String getDomain() {
+        return "R(0.0, 1.0)";
     }
 }

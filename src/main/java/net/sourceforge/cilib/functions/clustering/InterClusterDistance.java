@@ -21,6 +21,9 @@
  */
 package net.sourceforge.cilib.functions.clustering;
 
+import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
+import net.sourceforge.cilib.measurement.single.GenericFunctionMeasurement;
+
 /**
  * This <i>clustering fitness function</i> will probably never be used to train on directly. The
  * main reason why it has been implemented is to be able to take measurements of the
@@ -29,6 +32,7 @@ package net.sourceforge.cilib.functions.clustering;
  * @author Theuns Cloete
  */
 public class InterClusterDistance extends ClusteringFitnessFunction {
+
     private static final long serialVersionUID = 6533014298881438534L;
 
     @Override
@@ -40,6 +44,4 @@ public class InterClusterDistance extends ClusteringFitnessFunction {
     public InterClusterDistance getClone() {
         return new InterClusterDistance();
     }
-
-
 }
