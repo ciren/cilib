@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.algorithm.population;
 
-import net.sourceforge.cilib.entity.operators.CompositeOperator;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.problem.boundaryconstraint.UnconstrainedBoundary;
 
@@ -36,16 +35,15 @@ import net.sourceforge.cilib.problem.boundaryconstraint.UnconstrainedBoundary;
  * @param <E> The {@linkplain PopulationBasedAlgorithm} type.
  */
 public abstract class AbstractIterationStrategy<E extends PopulationBasedAlgorithm> implements IterationStrategy<E> {
+
     private static final long serialVersionUID = -2922555178733552167L;
     protected BoundaryConstraint boundaryConstraint;
-    protected CompositeOperator operatorPipeline;
 
     /**
      * Create an instance of the {@linkplain IterationStrategy}.
      */
     public AbstractIterationStrategy() {
         this.boundaryConstraint = new UnconstrainedBoundary();
-        this.operatorPipeline = new CompositeOperator();
     }
 
     /**
@@ -77,22 +75,4 @@ public abstract class AbstractIterationStrategy<E extends PopulationBasedAlgorit
     public void setBoundaryConstraint(BoundaryConstraint boundaryConstraint) {
         this.boundaryConstraint = boundaryConstraint;
     }
-
-    /**
-     * Get the <code>List&lt;Operator&gt;</code> that represents the sequence
-     * of operators to be performed within the current <tt>IterationStrategy</tt>.
-     * @return The operator pipeline <code>List&lt;Operator&gt;</code>
-     */
-    public CompositeOperator getOperatorPipeline() {
-        return operatorPipeline;
-    }
-
-    /**
-     * Set the pipeline to be used within the current <tt>IterationStrategy</tt>.
-     * @param operatorPipeline The pipeline to be used.
-     */
-    public void setOperatorPipeline(CompositeOperator operatorPipeline) {
-        this.operatorPipeline = operatorPipeline;
-    }
-
 }

@@ -43,7 +43,7 @@ import org.junit.Test;
 /**
  * @author leo
  */
-@Ignore("For some reason this test is failing when run in the suite....")
+@Ignore("For some reason this test is failing when run in the suite.... must be some static state")
 public class RandToBestCreationTest {
 
     @Test

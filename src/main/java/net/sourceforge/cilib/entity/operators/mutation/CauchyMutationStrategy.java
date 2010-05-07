@@ -26,7 +26,6 @@ import java.util.List;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -36,8 +35,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public class CauchyMutationStrategy extends MutationStrategy {
-    private static final long serialVersionUID = 8576581034467137106L;
 
+    private static final long serialVersionUID = 8576581034467137106L;
     private double location;
     private ControlParameter scaleStrategy;
 
@@ -82,7 +81,6 @@ public class CauchyMutationStrategy extends MutationStrategy {
 
     }
 
-
     public double getLocation() {
         return location;
     }
@@ -98,16 +96,4 @@ public class CauchyMutationStrategy extends MutationStrategy {
     public void setScaleStrategy(ControlParameter scaleStrategy) {
         this.scaleStrategy = scaleStrategy;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-    public void performOperation(TopologyHolder holder) {
-//        this.mutate(holder.getOffpsring());
-        throw new UnsupportedOperationException("This needs to be fixed");
-    }
-
-
 }

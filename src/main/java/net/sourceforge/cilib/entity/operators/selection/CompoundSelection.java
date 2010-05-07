@@ -26,7 +26,6 @@ import java.util.List;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 
 /**
  * This class implements the Composite design pattern to correctly
@@ -38,8 +37,8 @@ import net.sourceforge.cilib.entity.topologies.TopologyHolder;
  *
  */
 public class CompoundSelection extends SelectionStrategy {
-    private static final long serialVersionUID = -5547221580096508262L;
 
+    private static final long serialVersionUID = -5547221580096508262L;
     private List<SelectionStrategy> selectors;
 
     public CompoundSelection() {
@@ -47,7 +46,6 @@ public class CompoundSelection extends SelectionStrategy {
     }
 
     public CompoundSelection(CompoundSelection copy) {
-
     }
 
     /**
@@ -67,16 +65,7 @@ public class CompoundSelection extends SelectionStrategy {
         return null;
     }
 
-    /**
-     * @TODO: Correct this method
-     */
-//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-    public void performOperation(TopologyHolder holder) {
-        this.select(holder.getTopology()); // This method needs to be corrected
-    }
-
     public void addSelection(SelectionStrategy selectionOperator) {
         this.selectors.add(selectionOperator);
     }
-
 }

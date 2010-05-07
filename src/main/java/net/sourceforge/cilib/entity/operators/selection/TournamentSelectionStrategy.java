@@ -25,7 +25,6 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.util.selection.recipes.TournamentSelection;
 
 /**
@@ -35,8 +34,8 @@ import net.sourceforge.cilib.util.selection.recipes.TournamentSelection;
  * @author Gary Pampara
  */
 public class TournamentSelectionStrategy extends SelectionStrategy {
-    private static final long serialVersionUID = -7520711765609204590L;
 
+    private static final long serialVersionUID = -7520711765609204590L;
     private ControlParameter tournamentProportion;
 
     /**
@@ -86,18 +85,5 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
      */
     public void setTournamentSize(ControlParameter tournamanetSize) {
         this.tournamentProportion = tournamanetSize;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-    @Override
-    public void performOperation(TopologyHolder holder) {
-//        Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
-        Topology<? extends Entity> topology = holder.getTopology();
-
-//        offspring.add(this.select(topology));
-        holder.add(select(topology));
     }
 }

@@ -29,6 +29,7 @@ import net.sourceforge.cilib.math.random.generator.ZeroSeederStrategy;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -45,15 +46,12 @@ public class ECTest {
         Seeder.setSeederStrategy(new ZeroSeederStrategy());
 
         try {
-            EC ec = new EC();
-
-            ec.addStoppingCondition(new MaximumIterations(10));
-
             FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
             problem.setFunction(new Spherical());
 
+            EC ec = new EC();
+            ec.addStoppingCondition(new MaximumIterations(10));
             ec.setOptimisationProblem(problem);
-
             ec.initialise();
             ec.run();
 
