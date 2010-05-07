@@ -30,7 +30,6 @@ import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.type.types.Int;
 
-import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 public class SortedListTest {
