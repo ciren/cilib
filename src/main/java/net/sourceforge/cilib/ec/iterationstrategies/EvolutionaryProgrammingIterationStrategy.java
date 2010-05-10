@@ -26,7 +26,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
-import net.sourceforge.cilib.container.Pair;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Topology;
@@ -40,8 +39,8 @@ import net.sourceforge.cilib.util.selection.Selection;
  *
  */
 public class EvolutionaryProgrammingIterationStrategy extends AbstractIterationStrategy<EC> {
-    private static final long serialVersionUID = 4966470754016818350L;
 
+    private static final long serialVersionUID = 4966470754016818350L;
     private MutationStrategy mutationStrategy;
 
     public EvolutionaryProgrammingIterationStrategy() {
@@ -69,29 +68,32 @@ public class EvolutionaryProgrammingIterationStrategy extends AbstractIterationS
         // Apply the mutation
         this.mutationStrategy.mutate(offspring);
 
-        for (Individual individual : offspring)
+        for (Individual individual : offspring) {
             individual.calculateFitness();
+        }
 
         topology.addAll(offspring);
 
         List<Individual> newPopulation = new ArrayList<Individual>(algorithm.getInitialisationStrategy().getEntityNumber());
 
-        List<Pair<Individual, Integer>> scores = new ArrayList<Pair<Individual, Integer>>();
+        List<IndividualScore> scores = new ArrayList<IndividualScore>();
         for (int i = 0; i < topology.size(); i++) {
             Individual current = topology.get(i);
             int score = getScore(current, topology);
-            scores.add(new Pair<Individual, Integer>(current, score));
+            scores.add(new IndividualScore(current, score));
         }
 
-        Collections.sort(scores, new Comparator<Pair<Individual, Integer>>() {
+        Collections.sort(scores, new Comparator<IndividualScore>() {
             @Override
-            public int compare(Pair<Individual, Integer> o1, Pair<Individual, Integer> o2) {
-                return o1.getValue().compareTo(o2.getValue());
+            public int compare(IndividualScore o1, IndividualScore o2) {
+                int thisVal = o1.getScore();
+                int anotherVal = o2.getScore();
+                return (thisVal<anotherVal ? -1 : (thisVal==anotherVal ? 0 : 1));
             }
         });
 
         for (int i = 0; i < algorithm.getInitialisationStrategy().getEntityNumber(); i++) {
-            newPopulation.add(scores.get(i).getKey());
+            newPopulation.add(scores.get(i).getEntity());
         }
 
         topology.clear();
@@ -100,12 +102,13 @@ public class EvolutionaryProgrammingIterationStrategy extends AbstractIterationS
 
     private int getScore(Individual current, Topology<Individual> topology) {
         int score = 0;
-        List<Individual> selection = Selection.from(topology).unique()
-                .random(new MersenneTwister(), 10).select(Samples.all()).perform();
+        List<Individual> selection = Selection.from(topology).unique().random(new MersenneTwister(), 10).select(Samples.all()).perform();
 
-        for (Individual i : selection)
-            if (current.getFitness().compareTo(i.getFitness()) < 0)
+        for (Individual i : selection) {
+            if (current.getFitness().compareTo(i.getFitness()) < 0) {
                 score++;
+            }
+        }
 
         return score;
     }
@@ -118,4 +121,21 @@ public class EvolutionaryProgrammingIterationStrategy extends AbstractIterationS
         this.mutationStrategy = mutationStrategy;
     }
 
+    private static final class IndividualScore {
+        private final Individual entity;
+        private final int score;
+
+        IndividualScore(Individual entity, int score) {
+            this.entity = entity;
+            this.score = score;
+        }
+
+        int getScore() {
+            return score;
+        }
+
+        Individual getEntity() {
+            return entity;
+        }
+    }
 }

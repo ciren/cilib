@@ -24,13 +24,10 @@ package net.sourceforge.cilib.container;
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 
-import java.util.Comparator;
 
 import java.util.List;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.type.types.Int;
 
-import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 public class SortedListTest {
@@ -46,30 +43,6 @@ public class SortedListTest {
         assertEquals(2, intList.get(0).intValue());
         assertEquals(5, intList.get(1).intValue());
         assertEquals(8, intList.get(2).intValue());
-    }
-
-
-    @Test
-    public void sortedPairAddition() {
-        SortedList<Pair<Integer, Entity>> pairList = new SortedList<Pair<Integer, Entity>>(new PairComparator());
-
-        Pair<Integer, Entity> p1 = new Pair<Integer, Entity>(3, null);
-        Pair<Integer, Entity> p3 = new Pair<Integer, Entity>(99, null);
-        Pair<Integer, Entity> p4 = new Pair<Integer, Entity>(-9, null);
-        Pair<Integer, Entity> p2 = new Pair<Integer, Entity>(0, null);
-        Pair<Integer, Entity> p5 = new Pair<Integer, Entity>(0, null);
-
-        pairList.add(p1);
-        pairList.add(p2);
-        pairList.add(p3);
-        pairList.add(p4);
-        pairList.add(p5);
-
-        assertEquals(-9, (int) pairList.get(0).getKey());
-        assertEquals(0,  (int) pairList.get(1).getKey());
-        assertEquals(0,  (int) pairList.get(2).getKey());
-        assertEquals(3,  (int) pairList.get(3).getKey());
-        assertEquals(99, (int) pairList.get(4).getKey());
     }
 
     /**
@@ -105,7 +78,7 @@ public class SortedListTest {
         v.add(Int.valueOf(1));
         v.add(Int.valueOf(50));
 
-        list.addAll(list.size()-1, v);
+        list.addAll(list.size() - 1, v);
 
         assertEquals(0, list.get(0).intValue());
         assertEquals(1, list.get(1).intValue());
@@ -113,13 +86,4 @@ public class SortedListTest {
         assertEquals(50, list.get(3).intValue());
         assertEquals(200, list.get(4).intValue());
     }
-
-
-    private class PairComparator implements Comparator<Pair<Integer, Entity>> {
-        @Override
-        public int compare(Pair<Integer, Entity> o1, Pair<Integer, Entity> o2) {
-            return o1.getKey().compareTo(o2.getKey());
-        }
-    }
-
 }

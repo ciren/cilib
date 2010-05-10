@@ -21,9 +21,10 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -32,7 +33,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import net.sourceforge.cilib.container.Pair;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
@@ -41,7 +41,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  *
  * @param <E> The {@code Comparable} type.
  */
-public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> {
+public class StandardGraph<E extends Comparable<? super E>>  implements Graph<E> {
 
     private static final long serialVersionUID = -5517089079342858152L;
     private Map<E, List<Graph.Edge<E>>> adjacencyMap;
@@ -97,11 +97,19 @@ public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> 
         }
 
         // Set up the edge sets.
-        Set<Pair<E, E>> currentEdgeSet = this.getEdgeSet();
-        Set<Pair<E, E>> otherEdgeSet = graph.getEdgeSet();
+        Multimap<E, E> currentEdgeSet = this.getEdgeSet();
+        Multimap<E, E> otherEdgeSet = graph.getEdgeSet();
 
-        if (!otherEdgeSet.containsAll(currentEdgeSet)) {
-            return false;
+        for (Map.Entry<E, E> entry : currentEdgeSet.entries()) {
+            if (!otherEdgeSet.containsEntry(entry.getKey(), entry.getValue())) {
+                return false;
+            }
+        }
+
+        for (Map.Entry<E, E> entry : otherEdgeSet.entries()) {
+            if (!currentEdgeSet.containsEntry(entry.getKey(), entry.getValue())) {
+                return false;
+            }
         }
 
         return true;
@@ -317,7 +325,6 @@ public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> 
 //
 //        return null;
 //    }
-
     /**
      * {@inheritDoc}
      */
@@ -398,13 +405,13 @@ public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> 
         return null;
     }
 
-    private Set<Pair<E, E>> getEdgeSet() {
-        Set<Pair<E, E>> edgeSet = new HashSet<Pair<E, E>>();
+    private Multimap<E, E> getEdgeSet() {
+        Multimap<E, E> edgeSet = HashMultimap.create();
 
         for (E vertex : adjacencyMap.keySet()) {
             List<Graph.Edge<E>> connections = adjacencyMap.get(vertex);
             for (Graph.Edge<E> edge : connections) {
-                edgeSet.add(new Pair<E, E>(vertex, edge.getConnectedVertex()));
+                edgeSet.put(vertex, edge.getConnectedVertex());
             }
         }
 
@@ -447,7 +454,7 @@ public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> 
      *
      * @param <E> The {@linkplain Comparable} type.
      */
-    public static class Edge<E extends Comparable<? super E>> implements Graph.Edge<E> {
+    public static class Edge<E extends Comparable<? super E>>  implements Graph.Edge<E> {
 
         private static final long serialVersionUID = 1697479517382450802L;
         private double weight;
