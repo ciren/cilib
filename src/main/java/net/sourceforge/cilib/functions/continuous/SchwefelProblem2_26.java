@@ -42,17 +42,6 @@ public class SchwefelProblem2_26 implements ContinuousFunction {
 
     private static final long serialVersionUID = -4483598483574144341L;
 
-    public SchwefelProblem2_26() {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public SchwefelProblem2_26 getClone() {
-        return new SchwefelProblem2_26();
-    }
-
     /**
      * {@inheritDoc}
      */

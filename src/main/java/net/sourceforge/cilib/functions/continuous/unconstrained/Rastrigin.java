@@ -54,14 +54,6 @@ public class Rastrigin implements ContinuousFunction, Differentiable {
      * {@inheritDoc}
      */
     @Override
-    public Rastrigin getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         double tmp = 0;
         for (int i = 0; i < input.size(); ++i) {
@@ -73,6 +65,7 @@ public class Rastrigin implements ContinuousFunction, Differentiable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Vector getGradient(Vector input) {
         Vector tmp = new Vector();
 

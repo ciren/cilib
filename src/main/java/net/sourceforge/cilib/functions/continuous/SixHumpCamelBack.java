@@ -51,18 +51,6 @@ public class SixHumpCamelBack implements ContinuousFunction {
 
     private static final long serialVersionUID = -3834640752316926216L;
 
-    public SixHumpCamelBack() {
-        //constraint.add(new DimensionValidator(2));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public SixHumpCamelBack getClone() {
-        return new SixHumpCamelBack();
-    }
-
     /**
      * {@inheritDoc}
      */

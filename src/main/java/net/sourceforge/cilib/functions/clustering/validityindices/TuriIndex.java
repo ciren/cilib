@@ -54,9 +54,4 @@ public class TuriIndex extends ClusteringFitnessFunction {
 //    public void setC(double c) {
 //        this.c = c;
 //    }
-
-    @Override
-    public TuriIndex getClone() {
-        return new TuriIndex();
-    }
 }

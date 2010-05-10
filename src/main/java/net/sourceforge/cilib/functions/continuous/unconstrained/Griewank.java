@@ -49,13 +49,6 @@ public class Griewank implements ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Griewank getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Double apply(Vector input) {
         double sumsq = 0;

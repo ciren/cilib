@@ -55,18 +55,6 @@ public class Bohachevsky2 implements ContinuousFunction {
 
     private static final long serialVersionUID = -1572998736995724677L;
 
-    /** Creates a new instance of Bohachevsky2. */
-    public Bohachevsky2() {
-        //constraint.add(new DimensionValidator(2));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Bohachevsky2 getClone() {
-        return new Bohachevsky2();
-    }
-
     /**
      * {@inheritDoc}
      */

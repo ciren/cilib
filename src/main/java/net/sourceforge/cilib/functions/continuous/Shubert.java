@@ -43,20 +43,6 @@ public class Shubert implements ContinuousFunction {
     private static final long serialVersionUID = 3213789483391643466L;
 
     /**
-     * Create an instance of {@linkplain Shubert}. Domain is set to R(-10,10)^2 by default.
-     */
-    public Shubert() {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Shubert getClone() {
-        return new Shubert();
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

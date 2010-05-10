@@ -60,14 +60,6 @@ public class Bukin6 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Bukin6 getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         double x1 = input.doubleValueOf(0);
         double x2 = input.doubleValueOf(1);

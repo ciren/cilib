@@ -55,14 +55,6 @@ public class Zakharov implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Zakharov getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         double sum1 = 0;
         double sum2 = 0;

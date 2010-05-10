@@ -49,20 +49,6 @@ public class Schwefel implements ContinuousFunction { // ?
     private static final long serialVersionUID = 3835871629510784855L;
 
     /**
-     * Create a new instance of {@linkplain Schwefel}.
-     */
-    public Schwefel() {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Schwefel getClone() {
-        return new Schwefel();
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

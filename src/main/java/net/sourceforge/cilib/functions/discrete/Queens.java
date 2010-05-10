@@ -55,14 +55,6 @@ public class Queens implements DiscreteFunction {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Queens getClone() {
-        return new Queens(this);
-    }
-
-    /**
      * Get the matrix and determine if there are any conflicts. If there are no
      * conflicts, then a suitable solution has been found.
      *

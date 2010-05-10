@@ -61,14 +61,6 @@ public class Shir implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Shir getClone() {
-        return new Shir();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         double sinTerm;
         double expTerm;

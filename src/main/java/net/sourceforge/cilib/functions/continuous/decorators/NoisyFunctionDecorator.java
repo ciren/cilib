@@ -53,14 +53,6 @@ public class NoisyFunctionDecorator implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public NoisyFunctionDecorator getClone() {
-        return new NoisyFunctionDecorator();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         return function.apply(input) + randomNumber.getRandomNumber(0.0, this.variance.getParameter());
     }

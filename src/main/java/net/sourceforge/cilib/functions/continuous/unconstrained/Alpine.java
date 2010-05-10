@@ -52,17 +52,6 @@ public class Alpine implements ContinuousFunction {
 
     private static final long serialVersionUID = -1365268075451075465L;
 
-    public Alpine() {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Alpine getClone() {
-        return new Alpine();
-    }
-
     /**
      * {@inheritDoc}
      */

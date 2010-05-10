@@ -55,14 +55,6 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public RotatedFunctionDecorator getClone() {
-        return new RotatedFunctionDecorator();
-    }
-
-    /**
      * Multiplies the argument vector, x, by the transpose of the rotation matrix
      * stores the result in rotatedX and calls the evaluate method of the function
      * being decorated with the rotated vector as the parameter.

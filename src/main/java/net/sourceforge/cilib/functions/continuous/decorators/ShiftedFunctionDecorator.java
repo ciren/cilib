@@ -56,14 +56,6 @@ public class ShiftedFunctionDecorator implements ContinuousFunction {
         horizontalShift = 0.0;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ShiftedFunctionDecorator getClone() {
-        return new ShiftedFunctionDecorator();
-    }
-
 //    /**
 //     * {@inheritDoc}
 //     */

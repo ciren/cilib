@@ -60,13 +60,6 @@ public class FDA1_h implements ContinuousFunction {
     }
 
     /**
-     * Return a clone
-     */
-    public FDA1_h getClone() {
-        return new FDA1_h(this);
-    }
-
-    /**
      * Sets the g function that is used in FDA1 problem
      * @param problem
      */

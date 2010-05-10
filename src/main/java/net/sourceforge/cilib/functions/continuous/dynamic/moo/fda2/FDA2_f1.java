@@ -52,13 +52,6 @@ public class FDA2_f1 implements ContinuousFunction {
     }
 
     /**
-     * returns a clone
-     */
-    public FDA2_f1 getClone() {
-        return new FDA2_f1(this);
-    }
-
-    /**
      * Evaluates the function
      * f1(X_I) = x_1
      */

@@ -58,11 +58,6 @@ public class RepairingKnightsTour implements DiscreteFunction {
 //        setDomain("B^"+boardSize*boardSize*3);
     }
 
-    @Override
-    public RepairingKnightsTour getClone() {
-        return new RepairingKnightsTour();
-    }
-
     /**
      *
      */

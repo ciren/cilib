@@ -61,13 +61,6 @@ public class FDA2_f2 implements ContinuousFunction {
     }
 
     /**
-     * return a clone
-     */
-    public FDA2_f2 getClone() {
-        return new FDA2_f2(this);
-    }
-
-    /**
      * Sets the g function
      * @param problem
      */

@@ -52,12 +52,6 @@ public class BinaryAdapter implements ContinuousFunction {
         precision = 0;
     }
 
-    @Override
-    public BinaryAdapter getClone() {
-        return new BinaryAdapter();
-    }
-
-
     /**
      * Evaluate the {@see net.sourceforge.cilib.type.types.Vector} by
      * decoding the binary vector into a continuous vector and evaluate the results

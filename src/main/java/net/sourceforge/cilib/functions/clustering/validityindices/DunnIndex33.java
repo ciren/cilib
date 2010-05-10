@@ -68,9 +68,4 @@ public class DunnIndex33 extends GeneralisedDunnIndex {
     protected double calculateBetweenClusterSeperation(int i, int j) {
         return calculateAverageSetDistance(i, j);
     }
-
-    @Override
-    public DunnIndex33 getClone() {
-        return new DunnIndex33();
-    }
 }

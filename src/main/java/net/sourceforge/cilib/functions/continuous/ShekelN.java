@@ -50,16 +50,6 @@ public class ShekelN implements ContinuousFunction {
      */
     public ShekelN() {
         n = 10;
-
-        //constraint.add(new DimensionValidator(4));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ShekelN getClone() {
-        return new ShekelN();
     }
 
     /**

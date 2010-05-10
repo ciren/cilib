@@ -56,14 +56,6 @@ public class Bird implements ContinuousFunction {
 
     private static final long serialVersionUID = -7803711986955989075L;
 
-    public Bird() {
-    }
-
-    @Override
-    public Bird getClone() {
-        return new Bird();
-    }
-
     /* (non-Javadoc)
      * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
      */

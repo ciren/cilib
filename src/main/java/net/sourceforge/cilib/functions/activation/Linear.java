@@ -38,14 +38,6 @@ public class Linear implements ActivationFunction {
      * {@inheritDoc}
      */
     @Override
-    public Linear getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Real apply(Real input) {
         return input;
     }

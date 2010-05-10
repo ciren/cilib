@@ -56,21 +56,6 @@ public class Bohachevsky1 implements ContinuousFunction {
     private static final long serialVersionUID = 44382638223225638L;
 
     /**
-     * Creates a new instance of Bohachevsky1. The domain is set to R(-100.0, 100.0)^2 by
-     * default.
-     */
-    public Bohachevsky1() {
-        //constraint.add(new DimensionValidator(2));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Bohachevsky1 getClone() {
-        return new Bohachevsky1();
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

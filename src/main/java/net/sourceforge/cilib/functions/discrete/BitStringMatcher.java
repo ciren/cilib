@@ -41,10 +41,6 @@ public class BitStringMatcher implements DiscreteFunction {
     public BitStringMatcher() {
     }
 
-    public BitStringMatcher getClone() {
-        return new BitStringMatcher();
-    }
-
     /**
      * Set the domain of the function and generate a random bit string. The generated
      * random bit string is generated to ensure that there is a target bit string to

@@ -44,11 +44,6 @@ public class KnapSack implements DiscreteFunction {
         values = new ArrayList<Double>();
     }
 
-    @Override
-    public KnapSack getClone() {
-        return new KnapSack();
-    }
-
     /**
      * {@inheritDoc}
      */

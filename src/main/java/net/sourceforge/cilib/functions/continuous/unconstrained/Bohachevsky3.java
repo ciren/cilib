@@ -58,13 +58,6 @@ public class Bohachevsky3 implements ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Bohachevsky3 getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Double apply(Vector input) {
         double x = input.doubleValueOf(0);

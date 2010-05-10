@@ -56,14 +56,6 @@ public class HyperEllipsoid implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public HyperEllipsoid getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         double tmp = 0;
         for (int i = 0; i < input.size(); ++i) {

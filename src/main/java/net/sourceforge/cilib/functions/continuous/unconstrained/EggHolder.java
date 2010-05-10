@@ -59,11 +59,6 @@ public class EggHolder implements ContinuousFunction {
     private static final long serialVersionUID = 358993985066821115L;
 
     @Override
-    public ContinuousFunction getClone() {
-        return this;
-    }
-
-    @Override
     public Double apply(Vector input) {
         double sum = 0.0;
         for (int i = 0; i < input.size() - 1; i++) {

@@ -41,11 +41,6 @@ public class KnightsTour implements DiscreteFunction {
 //        setDomain("B^" + 3*boardSize*boardSize);
     }
 
-    @Override
-    public KnightsTour getClone() {
-        return new KnightsTour();
-    }
-
     /**
      * Determine the fitness of the provided bit string.
      * @param input

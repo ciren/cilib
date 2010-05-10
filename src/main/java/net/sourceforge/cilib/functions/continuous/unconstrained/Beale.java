@@ -57,19 +57,6 @@ public class Beale implements ContinuousFunction {
     private static final long serialVersionUID = -7803711986955989075L;
 
     /**
-     * Create an instance of {@linkplain Beale}. The default domain is set to R(-4.5, 4.5)^2.
-     */
-    public Beale() {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Beale getClone() {
-        return new Beale();
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

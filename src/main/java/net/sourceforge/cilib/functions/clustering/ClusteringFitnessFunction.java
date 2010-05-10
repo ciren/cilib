@@ -65,9 +65,6 @@ public abstract class ClusteringFitnessFunction implements ContinuousFunction {
         clusterCenterStrategy = new ClusterCentroidStrategy();
     }
 
-    @Override
-    public abstract ClusteringFitnessFunction getClone();
-
     /**
      * This method is responsible for various things before the fitness can be returned:
      * <ol>

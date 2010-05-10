@@ -52,20 +52,6 @@ public class AbsoluteValue implements ContinuousFunction {
     private static final long serialVersionUID = 1662988096338786773L;
 
     /**
-     * Create an instance of {@linkplain AbsoluteValue}. Domain is defaulted to R(-100, 100)^30.
-     */
-    public AbsoluteValue() {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public AbsoluteValue getClone() {
-        return new AbsoluteValue();
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

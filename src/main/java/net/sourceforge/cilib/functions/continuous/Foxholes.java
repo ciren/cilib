@@ -43,13 +43,6 @@ public class Foxholes implements ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Foxholes getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     // This impl is according to the function defined by Xin Yao in the FastEP and by the DE guys
     @Override
     public Double apply(Vector input) {

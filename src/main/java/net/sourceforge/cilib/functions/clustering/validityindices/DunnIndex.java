@@ -56,12 +56,4 @@ public class DunnIndex extends GeneralisedDunnIndex {
     protected double calculateBetweenClusterSeperation(int i, int j) {
         return calculateMinimumSetDistance(i, j);
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public DunnIndex getClone() {
-        return new DunnIndex();
-    }
 }

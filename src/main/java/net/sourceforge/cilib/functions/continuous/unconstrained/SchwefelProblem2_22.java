@@ -46,14 +46,6 @@ public class SchwefelProblem2_22 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public SchwefelProblem2_22 getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         double sum = 0;
         double product = 0;

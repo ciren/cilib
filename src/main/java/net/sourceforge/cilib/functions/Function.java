@@ -21,8 +21,6 @@
  */
 package net.sourceforge.cilib.functions;
 
-import net.sourceforge.cilib.util.Cloneable;
-
 /**
  * Function definition. All functions apply some or other transformation
  * on a set of input variables and create an output that is representative of
@@ -30,7 +28,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * @param <F> The "from" type.
  * @param <T> The "to" type.
  */
-public interface Function<F, T> extends Cloneable {
+public interface Function<F, T> {
 
     /**
      * Perform the evaluation of the input and return the result.

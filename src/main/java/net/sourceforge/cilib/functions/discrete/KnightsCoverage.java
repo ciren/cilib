@@ -47,14 +47,6 @@ public class KnightsCoverage implements DiscreteFunction {
      * {@inheritDoc}
      */
     @Override
-    public KnightsCoverage getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Integer apply(Vector input) {
         int[][] board = new int[boardSize][boardSize];
 

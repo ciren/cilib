@@ -37,11 +37,6 @@ public class InvertedFunctionDecorator implements ContinuousFunction {
     private Function<Vector, Double> function;
 
     @Override
-    public InvertedFunctionDecorator getClone() {
-        return new InvertedFunctionDecorator();
-    }
-
-    @Override
     public Double apply(Vector input) {
         double innerFunctionValue = function.apply(input);
 

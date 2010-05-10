@@ -50,13 +50,6 @@ public class Himmelblau implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Himmelblau getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public Double apply(Vector input) {
         double x = input.doubleValueOf(0);
         double y = input.doubleValueOf(1);

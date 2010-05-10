@@ -123,12 +123,4 @@ public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
         }
         return density / (clustersFormed * (clustersFormed - 1));
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public HalkidiVazirgiannisIndex getClone() {
-        return new HalkidiVazirgiannisIndex();
-    }
 }

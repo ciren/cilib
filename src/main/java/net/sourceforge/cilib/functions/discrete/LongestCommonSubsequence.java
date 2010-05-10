@@ -38,14 +38,6 @@ public class LongestCommonSubsequence implements DiscreteFunction {
 
     private static final long serialVersionUID = -3586259608521073084L;
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public LongestCommonSubsequence getClone() {
-        return new LongestCommonSubsequence();
-    }
-
     @Override
     public Integer apply(Vector input) {
         int v = 0;

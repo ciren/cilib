@@ -41,14 +41,6 @@ public class ContinuousStep implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public ContinuousStep getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         double sum = 0.0;
         for (int i = 0; i < input.size(); ++i) {

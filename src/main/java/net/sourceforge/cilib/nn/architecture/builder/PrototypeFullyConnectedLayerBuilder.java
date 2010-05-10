@@ -54,7 +54,7 @@ public class PrototypeFullyConnectedLayerBuilder extends LayerBuilder {
      */
     @Override
     public Layer buildLayer(LayerConfiguration layerConfiguration, int previousLayerAbsoluteSize) {
-        prototypeNeuron.setActivationFunction((ActivationFunction)layerConfiguration.getActivationFunction().getClone());
+        prototypeNeuron.setActivationFunction((ActivationFunction)layerConfiguration.getActivationFunction());
         int layerSize = layerConfiguration.getSize();
         boolean bias = layerConfiguration.isBias();
 

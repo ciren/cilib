@@ -57,14 +57,6 @@ public class Colville implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Colville getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         double a = input.doubleValueOf(0);
         double b = input.doubleValueOf(1);

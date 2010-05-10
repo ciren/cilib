@@ -43,21 +43,6 @@ public class Ripple implements ContinuousFunction {
     private static final long serialVersionUID = 2956377362140947929L;
 
     /**
-     * Create an instance of the function. The default domain is defined to be R(0, 1)^2
-     */
-    public Ripple() {
-        //constraint.add(new DimensionValidator(2));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Ripple getClone() {
-        return new Ripple();
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

@@ -61,13 +61,6 @@ public class Michalewicz implements ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Michalewicz getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Double apply(Vector input) {
         double sumsq = 0.0;

@@ -57,10 +57,10 @@ public class MovingPeaks implements ContinuousFunction, DynamicFunction {
 //        initPeaks();
 //    }
 
-    @Override
-    public MovingPeaks getClone() {
-        return new MovingPeaks();
-    }
+//    @Override
+//    public MovingPeaks getClone() {
+//        return new MovingPeaks();
+//    }
 
 //    @Override
 //    public void setDomain(String representation) {

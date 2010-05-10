@@ -67,13 +67,6 @@ public class FDA1_g implements ContinuousFunction {
     }
 
     /**
-     * return a clone
-     */
-    public FDA1_g getClone() {
-        return new FDA1_g(this);
-    }
-
-    /**
      * sets the iteration number
      * @param tau
      */

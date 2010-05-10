@@ -58,14 +58,6 @@ public class ScaledFunctionDecorator implements ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public ScaledFunctionDecorator getClone() {
-        return new ScaledFunctionDecorator();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
 //    @Override
 //    public Double getMinimum() {
 //        // adds the value of the verticalShift to the original function minimum

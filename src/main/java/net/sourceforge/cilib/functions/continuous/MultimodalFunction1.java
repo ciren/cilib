@@ -33,20 +33,6 @@ public class MultimodalFunction1 implements ContinuousFunction {
     private static final long serialVersionUID = -5261002551096587662L;
 
     /**
-     * Create an instance of {@linkplain MultimodalFunction1}.
-     */
-    public MultimodalFunction1() {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public MultimodalFunction1 getClone() {
-        return new MultimodalFunction1();
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

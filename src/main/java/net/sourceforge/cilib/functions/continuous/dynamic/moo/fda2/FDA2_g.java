@@ -52,13 +52,6 @@ public class FDA2_g implements ContinuousFunction {
     }
 
     /**
-     * return a clone
-     */
-    public FDA2_g getClone() {
-        return new FDA2_g(this);
-    }
-
-    /**
      * Evaluates the function
      * g(XII) = 1 + sum((x_i)^2)
      */

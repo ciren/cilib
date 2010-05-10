@@ -37,26 +37,20 @@ public class FDA1_f1 implements ContinuousFunction {
 
     private static final long serialVersionUID = 1914230427150406406L;
 
-    /**
-     * Default Contructor
-     */
-    public FDA1_f1() {
-        super();
-    }
-
-    /**
-     * copy constructor
-     * @param copy
-     */
-    public FDA1_f1(FDA1_f1 copy) {
-    }
-
-    /**
-     * return a clone
-     */
-    public FDA1_f1 getClone() {
-        return new FDA1_f1(this);
-    }
+//    /**
+//     * Default Contructor
+//     */
+//    public FDA1_f1() {
+//        super();
+//    }
+//
+//    /**
+//     * copy constructor
+//     * @param copy
+//     */
+//    public FDA1_f1(FDA1_f1 copy) {
+//    }
+//
 
     /**
      * Evaluates the function

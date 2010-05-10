@@ -34,21 +34,6 @@ public class MaximumDeratingFunction1 implements ContinuousFunction {
     private double alpha = 2.0;
 
     /**
-     * Create an instance of the function. Defualt domain is R^1.
-     */
-    public MaximumDeratingFunction1() {
-        //constraint.add(new DimensionValidator(1));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public MaximumDeratingFunction1 getClone() {
-        return new MaximumDeratingFunction1();
-    }
-
-    /**
      * Set the value of the radius.
      * @param radius The value to set.
      */

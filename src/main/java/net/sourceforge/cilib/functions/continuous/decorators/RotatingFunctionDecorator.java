@@ -133,14 +133,6 @@ public class RotatingFunctionDecorator implements ContinuousFunction {
     public RotatingFunctionDecorator() {
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public RotatedFunctionDecorator getClone() {
-        return new RotatedFunctionDecorator();
-    }
-
     @Override
     public Double apply(final Vector input) {
         Matrix result = createMatrix();

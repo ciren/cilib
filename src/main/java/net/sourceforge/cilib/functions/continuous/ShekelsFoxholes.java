@@ -33,6 +33,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p>Company: </p>
  *
  * R(-65.536, 65.536)^2
+ * Minimum: 0.9980038
  * 
  * @author Clive Naicker
  * @version 1.0
@@ -51,21 +52,8 @@ public class ShekelsFoxholes implements ContinuousFunction {
                 index++;
             }
         }
-        //constraint.add(new DimensionValidator(2));
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ShekelsFoxholes getClone() {
-        return new ShekelsFoxholes();
-    }
-
-//    @Override
-//    public Double getMinimum() {
-//        return 0.9980038;
-//    }
     /**
      * {@inheritDoc}
      */

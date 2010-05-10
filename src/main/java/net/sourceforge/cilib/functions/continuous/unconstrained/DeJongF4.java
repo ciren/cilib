@@ -55,14 +55,6 @@ public class DeJongF4 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public DeJongF4 getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         double sum = 0;
         for (int i = 0; i < input.size(); ++i) {

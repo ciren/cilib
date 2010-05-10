@@ -37,14 +37,6 @@ public class Step implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Step getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         double sum = 0.0;
 

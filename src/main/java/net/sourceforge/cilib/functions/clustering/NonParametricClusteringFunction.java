@@ -43,9 +43,4 @@ public class NonParametricClusteringFunction extends ClusteringFitnessFunction {
     public double calculateFitness() {
         return (calculateMaximumAverageDistance() + calculateQuantisationError()) / calculateMinimumInterClusterDistance();
     }
-
-    @Override
-    public NonParametricClusteringFunction getClone() {
-        return new NonParametricClusteringFunction();
-    }
 }

@@ -56,14 +56,6 @@ public class Bukin4 implements ContinuousFunction {
 
     private static final long serialVersionUID = -7860070866440205636L;
 
-    public Bukin4() {
-    }
-
-    @Override
-    public Bukin4 getClone() {
-        return new Bukin4();
-    }
-
     /* (non-Javadoc)
      * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
      */

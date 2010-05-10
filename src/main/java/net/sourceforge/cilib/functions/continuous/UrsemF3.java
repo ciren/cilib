@@ -42,18 +42,6 @@ public class UrsemF3 implements ContinuousFunction {
 
     private static final long serialVersionUID = -4477290008482842765L;
 
-    public UrsemF3() {
-        //constraint.add(new DimensionValidator(2));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public UrsemF3 getClone() {
-        return new UrsemF3();
-    }
-
     /**
      * {@inheritDoc}
      */

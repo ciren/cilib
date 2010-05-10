@@ -54,14 +54,6 @@ public class ReflectedFunctionDecorator implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public ReflectedFunctionDecorator getClone() {
-        return new ReflectedFunctionDecorator();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         Vector tmp = input.getClone();
 

@@ -51,14 +51,6 @@ public class Sigmoid implements ActivationFunction {
      * {@inheritDoc}
      */
     @Override
-    public Sigmoid getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Real apply(Real input) {
         return Real.valueOf(apply(input.doubleValue()));
     }

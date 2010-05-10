@@ -57,14 +57,6 @@ public class Quartic implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Quartic getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         double result = 0.0;
 

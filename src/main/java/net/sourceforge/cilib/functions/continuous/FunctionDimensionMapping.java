@@ -48,16 +48,7 @@ public class FunctionDimensionMapping implements ContinuousFunction {
     public FunctionDimensionMapping() {
         dataDimension = 2;
         number = 200;
-
         measure = new EuclideanDistanceMeasure();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public FunctionDimensionMapping getClone() {
-        return new FunctionDimensionMapping();
     }
 
     /**

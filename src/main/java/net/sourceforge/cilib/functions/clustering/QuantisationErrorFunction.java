@@ -43,9 +43,4 @@ public class QuantisationErrorFunction extends ClusteringFitnessFunction {
     public double calculateFitness() {
         return calculateQuantisationError();
     }
-
-    @Override
-    public QuantisationErrorFunction getClone() {
-        return new QuantisationErrorFunction();
-    }
 }

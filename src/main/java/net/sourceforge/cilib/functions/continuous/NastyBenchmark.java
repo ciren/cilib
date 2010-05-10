@@ -35,20 +35,6 @@ public class NastyBenchmark implements ContinuousFunction {
     private static final long serialVersionUID = 6848836780892359015L;
 
     /**
-     * Create a new instance of {@linkplain NastyBenchmark}.
-     */
-    public NastyBenchmark() {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public NastyBenchmark getClone() {
-        return new NastyBenchmark();
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

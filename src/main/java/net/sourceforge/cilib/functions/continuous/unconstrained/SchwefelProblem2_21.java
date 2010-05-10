@@ -46,14 +46,6 @@ public class SchwefelProblem2_21 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public SchwefelProblem2_21 getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         double max = Math.abs(input.doubleValueOf(0));
         double value;

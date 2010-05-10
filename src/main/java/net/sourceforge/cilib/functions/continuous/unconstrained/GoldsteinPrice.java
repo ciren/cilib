@@ -44,14 +44,6 @@ public class GoldsteinPrice implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public GoldsteinPrice getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         double x = input.doubleValueOf(0);
         double y = input.doubleValueOf(1);

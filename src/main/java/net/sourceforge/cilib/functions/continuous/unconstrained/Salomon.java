@@ -58,14 +58,6 @@ public class Salomon implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Salomon getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         double sumSquares = 0.0;
 

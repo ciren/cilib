@@ -55,14 +55,6 @@ public class Rosenbrock implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Rosenbrock getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         double tmp = 0;
 

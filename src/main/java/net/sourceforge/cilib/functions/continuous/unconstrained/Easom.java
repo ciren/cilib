@@ -49,13 +49,6 @@ public class Easom implements ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Easom getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Double apply(Vector input) {
         double powerTerm1 = -((input.doubleValueOf(0)-Math.PI)*(input.doubleValueOf(0)-Math.PI));

@@ -79,14 +79,6 @@ public class Branin implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Branin getClone() {
-        return new Branin();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         double x1 = input.doubleValueOf(0);
         double x2 = input.doubleValueOf(1);

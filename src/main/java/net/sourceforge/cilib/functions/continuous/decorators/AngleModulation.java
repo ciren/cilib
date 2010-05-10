@@ -75,39 +75,6 @@ public class AngleModulation extends OptimisationProblemAdapter {
         return new AngleModulation(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-//    @Override
-//    public Double getMinimum() {
-//        Number n = function.getMinimum();
-//        return n.doubleValue();
-//    }
-
-//    /**
-//     * {@inheritDoc}
-//     */
-//    @Override
-//    public Double getMaximum() {
-//        Number n = function.getMaximum();
-//        return n.doubleValue();
-//    }
-//
-//    /**
-//     * {@inheritDoc}
-//     */
-//    @Override
-//    public Double apply(Vector input) {
-//        String solution = generateBitString(input, bitsPerDimension);
-//        Vector expandedVector = decodeBitString(solution, bitsPerDimension);
-//        return function.apply(expandedVector).doubleValue();
-//    }
-//    @Override
-//    public Double getMaximum() {
-//        Number n = function.getMaximum();
-//        return n.doubleValue();
-//    }
-
 //    /**
 //     * {@inheritDoc}
 //     */

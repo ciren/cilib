@@ -54,14 +54,6 @@ public class Damavandi implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Damavandi getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         double x1 = input.doubleValueOf(0);
         double x2 = input.doubleValueOf(1);

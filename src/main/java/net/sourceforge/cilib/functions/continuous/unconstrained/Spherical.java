@@ -57,14 +57,6 @@ public class Spherical implements ContinuousFunction, Differentiable {
      * {@inheritDoc}
      */
     @Override
-    public Spherical getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector input) {
         double tmp = 0;
         for (int i = 0; i < input.size(); i++) {

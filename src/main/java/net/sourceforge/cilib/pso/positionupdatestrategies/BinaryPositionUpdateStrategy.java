@@ -47,7 +47,7 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
      * @param copy The instance to copy.
      */
     public BinaryPositionUpdateStrategy(BinaryPositionUpdateStrategy copy) {
-        this.sigmoid = copy.sigmoid.getClone();
+        this.sigmoid = copy.sigmoid;
     }
 
     /**

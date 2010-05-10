@@ -50,14 +50,6 @@ public class Schaffer6 implements ContinuousFunction {
     private static final long serialVersionUID = 4959662717057274057L;
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Schaffer6 getClone() {
-        return this;
-    }
-
-    /**
      * Evaluate the function and return the evaluation.
      *
      * @param input The input vector to the function

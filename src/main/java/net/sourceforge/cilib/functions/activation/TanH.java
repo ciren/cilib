@@ -34,20 +34,6 @@ public class TanH implements ActivationFunction {
     private static final long serialVersionUID = -5843046986587459333L;
 
     /**
-     * Create a new instance of {@code TanH}.
-     */
-    public TanH() {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public TanH getClone() {
-        return this;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

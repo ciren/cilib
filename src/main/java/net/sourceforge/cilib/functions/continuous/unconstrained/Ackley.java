@@ -55,14 +55,6 @@ public class Ackley implements ContinuousFunction {
 
     private static final long serialVersionUID = -7803711986955989075L;
 
-    public Ackley() {
-    }
-
-    @Override
-    public Ackley getClone() {
-        return new Ackley();
-    }
-
     /* (non-Javadoc)
      * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
      */

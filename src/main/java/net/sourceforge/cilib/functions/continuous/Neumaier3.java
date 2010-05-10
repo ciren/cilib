@@ -34,22 +34,6 @@ public class Neumaier3 implements ContinuousFunction {
 
     private static final long serialVersionUID = 192809046725649930L;
 
-    /**
-     * Creates a new instance of Neumaier. Domain defaults to R(-900, 900)^30
-     */
-    public Neumaier3() {
-        // TODO: Fix this constraint
-        // constraint.add(new ContentValidator(new NeumaierValidator()));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Neumaier3 getClone() {
-        return new Neumaier3();
-    }
-
 //    /**
 //     * {@inheritDoc}
 //     */

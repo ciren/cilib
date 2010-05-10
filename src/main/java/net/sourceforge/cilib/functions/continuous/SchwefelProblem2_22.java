@@ -43,20 +43,6 @@ public class SchwefelProblem2_22 implements ContinuousFunction {
     private static final long serialVersionUID = -5004170862929300400L;
 
     /**
-     * Creates an new instance. Domain is set to R(-10,10)^30 by default.
-     */
-    public SchwefelProblem2_22() {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public SchwefelProblem2_22 getClone() {
-        return new SchwefelProblem2_22();
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

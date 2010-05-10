@@ -56,13 +56,6 @@ public class Quadric implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Quadric getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public Double apply(Vector input) {
         double sumsq = 0;
         for (int i = 0; i < input.size(); ++i) {
