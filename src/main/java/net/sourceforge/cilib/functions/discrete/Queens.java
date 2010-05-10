@@ -31,7 +31,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Gary Pampara
  */
-public class Queens extends DiscreteFunction {
+public class Queens implements DiscreteFunction {
 
     private static final long serialVersionUID = 8900436160526532438L;
     private final double[] xMoves = {1, 1, 1, 0, -1, -1, -1, 0};
@@ -181,9 +181,9 @@ public class Queens extends DiscreteFunction {
 
         return count;
     }
-
-    @Override
-    public String getDomain() {
-        return "B^" + boardSize * boardSize;
-    }
+//
+//    @Override
+//    public String getDomain() {
+//        return "B^" + boardSize * boardSize;
+//    }
 }

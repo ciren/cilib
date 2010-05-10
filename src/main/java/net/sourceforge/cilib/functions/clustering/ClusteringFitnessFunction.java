@@ -46,7 +46,7 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  *
  * @author Theuns Cloete
  */
-public abstract class ClusteringFitnessFunction extends ContinuousFunction {
+public abstract class ClusteringFitnessFunction implements ContinuousFunction {
     private static final long serialVersionUID = 4834673666638644106L;
 
     protected ClusteringUtils helper = null;
@@ -359,16 +359,6 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
         clusterCenterStrategy = ccs;
     }
 
-    @Override
-    public Double getMinimum() {
-        return 0.0;
-    }
-
-    @Override
-    public Double getMaximum() {
-        return Double.MAX_VALUE;
-    }
-
     protected Double worstFitness() {
         return Double.MAX_VALUE;
     }
@@ -392,10 +382,5 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
             System.err.println("Number of clusters formed = " + clustersFormed);
         }
         return fitness;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R";
     }
 }

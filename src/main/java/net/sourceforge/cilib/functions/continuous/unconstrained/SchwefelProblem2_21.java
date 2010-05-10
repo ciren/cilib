@@ -33,31 +33,21 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * x e [-100,100]
  *
+ * R(-100, 100)^30
+ *
  * @author  Andries Engelbrecht
  */
 // TODO: Check discontinuous / continuous
-public class SchwefelProblem2_21 extends ContinuousFunction {
+public class SchwefelProblem2_21 implements ContinuousFunction {
 
     private static final long serialVersionUID = 8583159190281586599L;
-
-    public SchwefelProblem2_21() {
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public SchwefelProblem2_21 getClone() {
-        return new SchwefelProblem2_21();
-    }
-
-    /**
-     * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
-     * @return The function minimum value.
-     */
-    @Override
-    public Double getMinimum() {
-        return 0.0;
+        return this;
     }
 
     /**
@@ -75,10 +65,5 @@ public class SchwefelProblem2_21 extends ContinuousFunction {
             }
         }
         return max;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-100, 100)^30";
     }
 }

@@ -33,26 +33,9 @@ import net.sourceforge.cilib.util.Cloneable;
 public interface Function<F, T> extends Cloneable {
 
     /**
-     * Perfrom the evaluation of the input and return the result.
+     * Perform the evaluation of the input and return the result.
      * @param input The input for the function.
      * @return The result of the evaluation.
      */
     T apply(F input);
-
-    /**
-     * The maximum of the function.
-     * @return The function maximum.
-     */
-    T getMaximum();
-
-    /**
-     * The minimum of the function.
-     * @return The function minimum.
-     */
-    T getMinimum();
-
-    /**
-     * @return The domain {@linkplain String}.
-     */
-    String getDomain();
 }

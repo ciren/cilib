@@ -73,15 +73,10 @@ public class AngleModulationTest {
     }
 
     @Test
-    public void testGetDecoratedFunctionDomain() {
-        AngleModulation angle = new AngleModulation();
-//        assertTrue(angle.getFunction() == null);
-    }
-
-    @Test
     public void testSetDecoratedFunctionDomain() {
         AngleModulation angle = new AngleModulation();
         FunctionMinimisationProblem delegate = new FunctionMinimisationProblem();
+        delegate.setDomain("R(-5.12, 5.12)^30");
         delegate.setFunction(new Rastrigin());
         angle.setProblem(delegate);
         Assert.assertTrue(angle.getProblem().getFunction() instanceof Rastrigin);
@@ -96,6 +91,7 @@ public class AngleModulationTest {
     public void testConversionToBitRepresentationLength() {
         AngleModulation angle = new AngleModulation();
         FunctionMinimisationProblem delegate = new FunctionMinimisationProblem();
+        delegate.setDomain("R(-5.12, 5.12)^30");
         delegate.setFunction(new Rastrigin());
         angle.setProblem(delegate);
 

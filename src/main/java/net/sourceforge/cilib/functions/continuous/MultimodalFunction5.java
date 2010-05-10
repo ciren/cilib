@@ -25,9 +25,10 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * TODO: Complete this javadoc.
+ * Minimum: 0.0
+ * R(-6, 6)^2
  */
-public class MultimodalFunction5 extends ContinuousFunction {
+public class MultimodalFunction5 implements ContinuousFunction {
 
     private static final long serialVersionUID = -8704025552791904890L;
 
@@ -46,14 +47,6 @@ public class MultimodalFunction5 extends ContinuousFunction {
     }
 
     /**
-     * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
-     * @return The function minimum value.
-     */
-    public Double getMinimum() {
-        return 0.0;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -61,10 +54,5 @@ public class MultimodalFunction5 extends ContinuousFunction {
         double x = input.doubleValueOf(0);
         double y = input.doubleValueOf(1);
         return 200 - Math.pow((x*x + y - 11), 2) - Math.pow((x + y*y - 7), 2);
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-6, 6)^2";
     }
 }

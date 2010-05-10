@@ -31,10 +31,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
  * <p>Company: </p>
+ *
+ * Minimum: 2.5
+ * R(-2, 2)^2
+ * 
  * @author Clive Naicker
  * @version 1.0
  */
-public class UrsemF3 extends ContinuousFunction {
+public class UrsemF3 implements ContinuousFunction {
 
     private static final long serialVersionUID = -4477290008482842765L;
 
@@ -51,14 +55,6 @@ public class UrsemF3 extends ContinuousFunction {
     }
 
     /**
-     * Get the minimum of the function. It is defined to be a value of <code>2.5</code>.
-     * @return The function minimum value.
-     */
-    public Double getMinimum() {
-        return 2.5;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -70,10 +66,5 @@ public class UrsemF3 extends ContinuousFunction {
         result += Math.sin(0.5 * Math.PI * y * y + 0.5 * Math.PI) * ((2.0 - Math.abs(y)) / 2.0) * ((2.0 - Math.abs(x)) / 2.0);
 
         return result;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-2, 2)^2";
     }
 }

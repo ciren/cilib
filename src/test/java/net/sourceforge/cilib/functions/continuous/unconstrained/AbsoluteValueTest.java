@@ -26,7 +26,6 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,8 +44,6 @@ public class AbsoluteValueTest {
     /** Test of evaluate method, of class cilib.functions.unconstrained.AbsoluteValue. */
     @Test
     public void testEvaluate() {
-//        function.setDomain("R(-100, 100)^3");
-
         Vector x = new Vector();
         x.add(Real.valueOf(-1.0));
         x.add(Real.valueOf(2.0));
@@ -57,10 +54,5 @@ public class AbsoluteValueTest {
         x.setReal(1, 0.0);
         x.setReal(2, 0.0);
         assertEquals(0.0, function.apply(x), 0.0);
-    }
-
-    @Test
-    public void minimum() {
-        Assert.assertEquals(0.0, function.getMinimum().doubleValue(), 0.0001);
     }
 }

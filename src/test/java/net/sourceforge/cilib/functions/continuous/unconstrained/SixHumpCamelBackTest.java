@@ -46,8 +46,6 @@ public class SixHumpCamelBackTest {
     /** Test of the evaluate method of the {@link SixHumpCamelBack} class */
     @Test
     public void testEvaluate() {
-//        function.setDomain("R(-3,3),R(-2,2)");
-
         Vector x = new Vector();
 
         //test the two global minima
@@ -58,11 +56,5 @@ public class SixHumpCamelBackTest {
         x.setReal(0, 0.0898);
         x.setReal(1, -0.7126);
         Assert.assertEquals(-1.0316, function.apply(x), EPSILON);
-    }
-
-    /** Test of the getMinimum method of the {@link SixHumpCamelBack} class */
-    @Test
-    public void minimum() {
-        Assert.assertEquals(-1.0316, function.getMinimum(), EPSILON);
     }
 }

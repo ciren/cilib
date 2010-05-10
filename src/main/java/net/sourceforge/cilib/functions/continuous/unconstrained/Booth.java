@@ -48,32 +48,19 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
- * @author Andries Engelbrecht
+ * R(-10,10)^2
  *
+ * @author Andries Engelbrecht
  */
-public class Booth extends ContinuousFunction {
+public class Booth implements ContinuousFunction {
     private static final long serialVersionUID = -7803711986955989075L;
-
-    /**
-     * Create an instance of the Booth function. The domain is set to be
-     * R(-10.0,10.0)^2 by default.
-     */
-    public Booth() {
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Booth getClone() {
-        return new Booth();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Double getMinimum() {
-        return 0.0;
+        return this;
     }
 
     /**
@@ -85,10 +72,5 @@ public class Booth extends ContinuousFunction {
         double x2 = input.doubleValueOf(1);
 
         return (x1+2*x2-7)*(x1+2*x2-7) + (2*x1+x2-5)*(2*x1+x2-5);
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-10,10)^2";
     }
 }

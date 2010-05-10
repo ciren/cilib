@@ -31,9 +31,11 @@ import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
  * M.Farina, K.Deb, P.Amato. Dynamic multiobjective optimization problems: test cases, approximations
  * and applications, IEEE Transactions on Evolutionary Computation, 8(5): 425-442, 2003
  *
+ * R(-1, 1)^31
+ *
  * @author Marde Greeff
  */
-public class FDA2_h extends ContinuousFunction {
+public class FDA2_h implements ContinuousFunction {
 
     private static final long serialVersionUID = -637862405309737323L;
     //members
@@ -65,7 +67,6 @@ public class FDA2_h extends ContinuousFunction {
      * @param copy
      */
     public FDA2_h(FDA2_h copy) {
-        super(copy);
         this.tau = copy.tau;
         this.tau_t = copy.tau_t;
         this.n_t = copy.n_t;
@@ -235,10 +236,5 @@ public class FDA2_h extends ContinuousFunction {
         value -= Math.pow(f_div_g, power);
 
         return value;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-1, 1)^31";
     }
 }

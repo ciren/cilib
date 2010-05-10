@@ -27,11 +27,11 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * The generalised sigmoid function. The function is the general case of the sigmoid function
+ * The generalized sigmoid function. The function is the general case of the sigmoid function
  * with the ability to specify the steepness of the function as well as an offset that should
  * be taken into consideration.
  */
-public class Sigmoid extends ActivationFunction {
+public class Sigmoid implements ActivationFunction {
 
     private static final long serialVersionUID = 8291966233976579855L;
     private ControlParameter steepness;
@@ -71,25 +71,9 @@ public class Sigmoid extends ActivationFunction {
         return 1.0 / (1.0 + Math.pow(Math.E, -1.0 * steepness.getParameter() * (input - offset.getParameter())));
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Real getMaximum() {
-        return Real.valueOf(1.0);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Real getMinimum() {
-        return Real.valueOf(0.0);
-    }
-
     @Override
     public Vector getGradient(Vector x) {
-        return Vector.of(this.getGradient(x.doubleValueOf(0)));
+        return Vector.of(this.getGradient(x.getReal(0)));
     }
 
     /**
@@ -150,10 +134,5 @@ public class Sigmoid extends ActivationFunction {
     @Override
     public double getUpperActiveRange() {
         return 1.732050808;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(0.0, 1.0)";
     }
 }

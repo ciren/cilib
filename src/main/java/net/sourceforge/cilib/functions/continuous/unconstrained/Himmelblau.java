@@ -37,34 +37,21 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Continuous</li>
  * </ul>
  *
+ * R(-6, 6)^2
+ *
  * @author Clive Naicker
  * @version 1.0
  */
-public class Himmelblau extends ContinuousFunction {
+public class Himmelblau implements ContinuousFunction {
 
     private static final long serialVersionUID = 7323733640884766707L;
-
-    /**
-     * Create an instance of the Himmelblau function.
-     * The initial domain is set to R(-6.0, 6.0)^2
-     */
-    public Himmelblau() {
-        //constraint.add(new DimensionValidator(2));
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Himmelblau getClone() {
-        return new Himmelblau();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Double getMinimum() {
-        return 0.0;
+        return this;
     }
 
     /**
@@ -74,10 +61,5 @@ public class Himmelblau extends ContinuousFunction {
         double x = input.doubleValueOf(0);
         double y = input.doubleValueOf(1);
         return Math.pow((x * x + y - 11), 2) + Math.pow((x + y * y - 7), 2);
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-6, 6)^2";
     }
 }

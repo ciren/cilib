@@ -61,6 +61,7 @@ public class PSOTest {
 
         try {
             FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
+            problem.setDomain("R(-5.12, 5.12)^30");
             problem.setFunction(new Spherical());
 
             PSO pso = new PSO();

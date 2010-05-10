@@ -47,10 +47,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
- * @author Andries Engelbrecht
+ * R(-100, 100)^2
  *
+ * @author Andries Engelbrecht
  */
-public class Bohachevsky1 extends ContinuousFunction {
+public class Bohachevsky1 implements ContinuousFunction {
 
     private static final long serialVersionUID = 44382638223225638L;
 
@@ -72,22 +73,10 @@ public class Bohachevsky1 extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Double getMinimum() {
-        return 0.0;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Double apply(Vector input) {
         double x = input.doubleValueOf(0);
         double y = input.doubleValueOf(1);
         return x * x + 2 * y * y - 0.3 * Math.cos(3 * Math.PI * x) - 0.4 * Math.cos(4 * Math.PI * y) + 0.7;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-100, 100)^2";
     }
 }

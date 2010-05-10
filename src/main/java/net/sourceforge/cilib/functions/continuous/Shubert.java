@@ -31,10 +31,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
  * <p>Company: </p>
+ *
+ * Minimum: -186.7309088
+ * R(-10, 10)^2
+ * 
  * @author Clive Naicker
  * @version 1.0
  */
-public class Shubert extends ContinuousFunction {
+public class Shubert implements ContinuousFunction {
 
     private static final long serialVersionUID = 3213789483391643466L;
 
@@ -55,13 +59,6 @@ public class Shubert extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Double getMinimum() {
-        return -186.7309088;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Double apply(Vector input) {
         double result = 1.0;
@@ -73,10 +70,5 @@ public class Shubert extends ContinuousFunction {
             result *= result2;
         }
         return result;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-10, 10)^2";
     }
 }

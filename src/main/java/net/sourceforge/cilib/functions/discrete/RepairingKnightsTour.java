@@ -37,7 +37,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Gary Pampara
  */
-public class RepairingKnightsTour extends DiscreteFunction {
+public class RepairingKnightsTour implements DiscreteFunction {
     private static final long serialVersionUID = 6961834833997387285L;
     private int boardSize;
     private boolean cyclic;
@@ -61,29 +61,6 @@ public class RepairingKnightsTour extends DiscreteFunction {
     @Override
     public RepairingKnightsTour getClone() {
         return new RepairingKnightsTour();
-    }
-
-    /**
-     *
-     */
-    @Override
-    public Integer getMaximum() {
-        int tmp = boardSize * boardSize;
-
-        if (isCyclic()) {
-            return tmp;
-        } else {
-            return tmp-1;
-        }
-    }
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public Integer getMinimum() {
-        return 0;
     }
 
     /**
@@ -234,9 +211,9 @@ public class RepairingKnightsTour extends DiscreteFunction {
     public void setStartingPos(String startingPos) {
         this.startingPos = startingPos;
     }
-
-    @Override
-    public String getDomain() {
-        return "B^"+boardSize*boardSize*3;
-    }
+//
+//    @Override
+//    public String getDomain() {
+//        return "B^"+boardSize*boardSize*3;
+//    }
 }

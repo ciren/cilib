@@ -29,7 +29,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Gary Pampara
  */
-public class BitStringMatcher extends DiscreteFunction {
+public class BitStringMatcher implements DiscreteFunction {
 
     private static final long serialVersionUID = 7535776840908399415L;
     private String targetRandomString;
@@ -115,10 +115,5 @@ public class BitStringMatcher extends DiscreteFunction {
         }
 
         return result;
-    }
-
-    @Override
-    public String getDomain() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

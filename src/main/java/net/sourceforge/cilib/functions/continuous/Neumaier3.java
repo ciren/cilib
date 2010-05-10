@@ -26,9 +26,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
+ * R(-900, 900)^30
+ * 
  * @author  engel
  */
-public class Neumaier3 extends ContinuousFunction {
+public class Neumaier3 implements ContinuousFunction {
 
     private static final long serialVersionUID = 192809046725649930L;
 
@@ -48,15 +50,14 @@ public class Neumaier3 extends ContinuousFunction {
         return new Neumaier3();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public Double getMinimum() {
-//        double dimension = getDimension();
-//        return (dimension * (dimension + 4.0) * (dimension - 1.0)) / 6.0;
-        throw new UnsupportedOperationException();
-    }
-
+//    /**
+//     * {@inheritDoc}
+//     */
+//    public Double getMinimum() {
+////        double dimension = getDimension();
+////        return (dimension * (dimension + 4.0) * (dimension - 1.0)) / 6.0;
+//        throw new UnsupportedOperationException();
+//    }
     /**
      * {@inheritDoc}
      */
@@ -70,10 +71,5 @@ public class Neumaier3 extends ContinuousFunction {
             tmp2 += input.doubleValueOf(i) * input.doubleValueOf(i - 1);
         }
         return tmp1 - tmp2;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-900, 900)^30";
     }
 }

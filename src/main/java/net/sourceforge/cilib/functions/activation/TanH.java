@@ -29,7 +29,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author leo
  */
-public class TanH extends ActivationFunction {
+public class TanH implements ActivationFunction {
 
     private static final long serialVersionUID = -5843046986587459333L;
 
@@ -65,22 +65,6 @@ public class TanH extends ActivationFunction {
         return ((a - b) / (a + b));
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Real getMaximum() {
-        return Real.valueOf(1.0);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Real getMinimum() {
-        return Real.valueOf(0.0);
-    }
-
     @Override
     public Vector getGradient(Vector x) {
         throw new RuntimeException("Implement me");
@@ -109,10 +93,5 @@ public class TanH extends ActivationFunction {
     @Override
     public double getUpperActiveRange() {
         return 1.732050808;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-1.0, 1.0)";
     }
 }

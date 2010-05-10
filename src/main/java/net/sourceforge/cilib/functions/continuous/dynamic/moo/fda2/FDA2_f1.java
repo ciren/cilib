@@ -31,7 +31,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Marde Greeff
  */
-public class FDA2_f1 extends ContinuousFunction {
+public class FDA2_f1 implements ContinuousFunction {
 
     private static final long serialVersionUID = 3509865802519318920L;
 
@@ -48,7 +48,6 @@ public class FDA2_f1 extends ContinuousFunction {
      * @param copy
      */
     public FDA2_f1(FDA2_f1 copy) {
-        super(copy);
 //        this.setDomain(copy.getDomain());
     }
 
@@ -66,10 +65,5 @@ public class FDA2_f1 extends ContinuousFunction {
     @Override
     public Double apply(Vector input) {
         return Math.abs(input.doubleValueOf(0));
-    }
-
-    @Override
-    public String getDomain() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

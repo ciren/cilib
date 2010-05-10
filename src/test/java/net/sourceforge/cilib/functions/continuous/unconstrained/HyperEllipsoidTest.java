@@ -46,8 +46,6 @@ public class HyperEllipsoidTest {
     /** Test of the evaluate method of the {@link HyperEllipsoid} class. */
     @Test
     public void testEvaluate() {
-//        function.setDomain("R(-5.12,5.12)^3");
-
         Vector x = new Vector();
 
         //test the defined global minimum
@@ -61,11 +59,5 @@ public class HyperEllipsoidTest {
         x.setReal(1, 2.0);
         x.setReal(2, 2.0);
         Assert.assertEquals(24.0, function.apply(x), EPSILON);
-    }
-
-    /** Test of the getMinimum method of the {@link HyperEllipsoid} class. */
-    @Test
-    public void minimum() {
-        Assert.assertEquals(0.0, function.getMinimum(), EPSILON);
     }
 }

@@ -29,9 +29,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * M.Farina, K.Deb, P.Amato. Dynamic multiobjective optimization problems: test cases, approximations
  * and applications, IEEE Transactions on Evolutionary Computation, 8(5): 425-442, 2003
  *
+ * R(0, 1)
+ *
  * @author Marde Greeff
  */
-public class FDA1_f1 extends ContinuousFunction {
+public class FDA1_f1 implements ContinuousFunction {
 
     private static final long serialVersionUID = 1914230427150406406L;
 
@@ -47,7 +49,6 @@ public class FDA1_f1 extends ContinuousFunction {
      * @param copy
      */
     public FDA1_f1(FDA1_f1 copy) {
-        super(copy);
     }
 
     /**
@@ -65,10 +66,5 @@ public class FDA1_f1 extends ContinuousFunction {
     public Double apply(Vector input) {
         double value = Math.abs(input.doubleValueOf(0));
         return value;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(0, 1)";
     }
 }

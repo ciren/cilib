@@ -37,7 +37,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Gary Pampara
  */
-public class BinaryAdapter extends ContinuousFunction {
+public class BinaryAdapter implements ContinuousFunction {
     private static final long serialVersionUID = -329657439970469569L;
 
     private Function<Vector, Number> function;
@@ -74,21 +74,21 @@ public class BinaryAdapter extends ContinuousFunction {
         return function.apply(decodedVector).doubleValue();
     }
 
-    /**
-     *
-     */
-    @Override
-    public Double getMinimum() {
-        return function.getMinimum().doubleValue();
-    }
-
-    /**
-     *
-     */
-    @Override
-    public Double getMaximum() {
-        return function.getMaximum().doubleValue();
-    }
+//    /**
+//     *
+//     */
+//    @Override
+//    public Double getMinimum() {
+//        return function.getMinimum().doubleValue();
+//    }
+//
+//    /**
+//     *
+//     */
+//    @Override
+//    public Double getMaximum() {
+//        return function.getMaximum().doubleValue();
+//    }
 
     /**
      * @return Returns the bitsPerDimension.
@@ -194,7 +194,6 @@ public class BinaryAdapter extends ContinuousFunction {
         return result;
     }
 
-
 //    @Override
 //    public void setDomain(String representation) {
 //        if (!representation.matches("^B\\^.*"))
@@ -202,10 +201,4 @@ public class BinaryAdapter extends ContinuousFunction {
 //
 //        super.setDomain(representation);
 //    }
-
-    @Override
-    public String getDomain() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 }

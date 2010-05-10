@@ -30,9 +30,9 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
- * TODO: Complete this javadoc.
+ * B^10
  */
-public class FunctionDimensionMapping extends ContinuousFunction {
+public class FunctionDimensionMapping implements ContinuousFunction {
 
     private static final long serialVersionUID = 3785385852226926590L;
     private double[] generatedPoints;
@@ -178,10 +178,5 @@ public class FunctionDimensionMapping extends ContinuousFunction {
             double[][] higherDimensionDistanceMatrix) {
         this.higherDimensionDistanceMatrix = higherDimensionDistanceMatrix;
         this.number = this.higherDimensionDistanceMatrix.length;
-    }
-
-    @Override
-    public String getDomain() {
-        return "B^10";
     }
 }

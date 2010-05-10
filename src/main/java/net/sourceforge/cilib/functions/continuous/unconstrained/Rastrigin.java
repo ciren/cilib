@@ -42,32 +42,20 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * x e [-5.12, 5.12];
  *
+ * R(-5.12, 5.12)^30
+ *
  * @author  Edwin Peer
  */
-public class Rastrigin extends ContinuousFunction implements Differentiable {
+public class Rastrigin implements ContinuousFunction, Differentiable {
 
     private static final long serialVersionUID = 447701182683968035L;
-
-    /**
-     * Create an instance of the Rastrigin function. The default domain is defined to be
-     * R(-5.12, 5.12)^30
-     */
-    public Rastrigin() {
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Rastrigin getClone() {
-        return new Rastrigin();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Double getMinimum() {
-        return 0.0;
+        return this;
     }
 
     /**
@@ -93,10 +81,5 @@ public class Rastrigin extends ContinuousFunction implements Differentiable {
         }
 
         return tmp;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-5.12, 5.12)^30";
     }
 }

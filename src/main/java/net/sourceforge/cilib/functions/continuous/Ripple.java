@@ -31,10 +31,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
  * <p>Company: </p>
+ *
+ * Minimum: 2.2
+ * R(0, 1)^2
+ * 
  * @author Clive Naicker
  * @version 1.0
  */
-public class Ripple extends ContinuousFunction {
+public class Ripple implements ContinuousFunction {
 
     private static final long serialVersionUID = 2956377362140947929L;
 
@@ -56,13 +60,6 @@ public class Ripple extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Double getMinimum() {
-        return 2.2;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Double apply(Vector input) {
         double x = input.doubleValueOf(0);
@@ -73,12 +70,6 @@ public class Ripple extends ContinuousFunction {
         double term3 = Math.exp(-2.0 * Math.log(2) * Math.pow(((y - 0.1) / 0.8), 2));
         double term4 = Math.sin(5 * Math.PI * y) + 0.1 * Math.pow(Math.cos(500 * Math.PI * y), 2);
 
-        double result = term1 * term2 + term3 * term4;
-        return result;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(0, 1)^2";
+        return term1 * term2 + term3 * term4;
     }
 }

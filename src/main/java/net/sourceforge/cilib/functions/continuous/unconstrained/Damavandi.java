@@ -42,33 +42,20 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Deceptive</li>
  * </ul>
  *
+ * R(0, 12)^2
+ *
  * @author  Andries Engelbrecht
  */
-public class Damavandi extends ContinuousFunction {
+public class Damavandi implements ContinuousFunction {
 
     private static final long serialVersionUID = 2857754134712271398L;
-
-    /**
-     * Create a new instance of {@linkplain Damavandi}. Default domain is defined to be
-     * R(0, 12)^2.
-     */
-    public Damavandi() {
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Damavandi getClone() {
-        return new Damavandi();
-    }
-
-    /**
-     * Get the minimum of the function. It is defined to be a value of 0.0.
-     */
-    @Override
-    public Double getMinimum() {
-        return 0.0;
+        return this;
     }
 
     /**
@@ -85,10 +72,5 @@ public class Damavandi extends ContinuousFunction {
         double factor2 = 2 + (x1 - 7) * (x1 - 7) + 2 * (x2 - 7) * (x2 - 7);
 
         return factor1 * factor2;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(0, 12)^2";
     }
 }

@@ -31,6 +31,7 @@ import net.sourceforge.cilib.entity.Topology;
  * @author gpampara
  */
 public class ClosestEntityVisitor extends TopologyVisitor {
+
     private Entity closestEntity;
     private Entity targetEntity;
     private double closest = Double.MAX_VALUE;
@@ -46,8 +47,9 @@ public class ClosestEntityVisitor extends TopologyVisitor {
         closestEntity = null;
 
         for (Entity entity : topology) {
-            if (targetEntity == entity)
+            if (targetEntity == entity) {
                 continue;
+            }
 
             double distance = distanceMeasure.distance(targetEntity.getCandidateSolution(), entity.getCandidateSolution());
             if (distance < closest) {
@@ -91,5 +93,4 @@ public class ClosestEntityVisitor extends TopologyVisitor {
     public boolean isDone() {
         return done;
     }
-
 }

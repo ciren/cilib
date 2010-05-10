@@ -32,7 +32,7 @@ import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
  *
  * @author Marde Greeff
  */
-public class FDA1_h extends ContinuousFunction {
+public class FDA1_h implements ContinuousFunction {
 
     private static final long serialVersionUID = -539665464941830813L;
     //members
@@ -52,7 +52,6 @@ public class FDA1_h extends ContinuousFunction {
      * Copy constructor
      */
     public FDA1_h(FDA1_h copy) {
-        super(copy);
 //        this.setDomain(copy.getDomain());
         this.setFDA1_g(copy.getFDA1_g_problem());
         this.setFDA1_g(copy.getFDA1_g());
@@ -73,7 +72,7 @@ public class FDA1_h extends ContinuousFunction {
      */
     public void setFDA1_g(FunctionMinimisationProblem problem) {
         this.fda1_g_problem = problem;
-        this.fda1_g = (ContinuousFunction)problem.getFunction();
+        this.fda1_g = (ContinuousFunction) problem.getFunction();
 //        this.setDomain(fda1_g.getDomainRegistry().getDomainString());
     }
 
@@ -108,7 +107,7 @@ public class FDA1_h extends ContinuousFunction {
      */
     public void setFDA1_f(FunctionMinimisationProblem problem) {
         this.fda1_f1_problem = problem;
-        this.fda1_f1 = (ContinuousFunction)problem.getFunction();
+        this.fda1_f1 = (ContinuousFunction) problem.getFunction();
 //        this.setDomain(fda1_f1.getDomainRegistry().getDomainString());
     }
 
@@ -157,10 +156,5 @@ public class FDA1_h extends ContinuousFunction {
         value -= Math.sqrt(f1 / g);
 
         return value;
-    }
-
-    @Override
-    public String getDomain() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

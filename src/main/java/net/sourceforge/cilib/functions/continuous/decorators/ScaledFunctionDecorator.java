@@ -40,7 +40,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Olusegun Olorunda
  */
-public class ScaledFunctionDecorator extends ContinuousFunction {
+public class ScaledFunctionDecorator implements ContinuousFunction {
+
     private static final long serialVersionUID = -5316734133098401441L;
     private ContinuousFunction function;
     private double verticalScale;
@@ -65,12 +66,11 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public Double getMinimum() {
-        // adds the value of the verticalShift to the original function minimum
-        return Double.valueOf(function.getMinimum().doubleValue() * verticalScale);
-    }
-
+//    @Override
+//    public Double getMinimum() {
+//        // adds the value of the verticalShift to the original function minimum
+//        return Double.valueOf(function.getMinimum().doubleValue() * verticalScale);
+//    }
     /**
      * {@inheritDoc}
      */
@@ -134,10 +134,4 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
         Preconditions.checkArgument(verticalScale > 0, "Vertical scale factor must be greater than zero!");
         this.verticalScale = verticalScale;
     }
-
-    @Override
-    public String getDomain() {
-        return function.getDomain();
-    }
-
 }

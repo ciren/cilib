@@ -44,29 +44,20 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Convex</li>
  * </ul>
  *
+ * R(-5.12,5.12)^30
+ * 
  * @author  engel
  */
-public class HyperEllipsoid extends ContinuousFunction {
+public class HyperEllipsoid implements ContinuousFunction {
 
     private static final long serialVersionUID = 813261964413884141L;
-
-    /** Creates a new instance of HyperEllipsoid. Default domain is set to R(-5.12, 5.12)^30 */
-    public HyperEllipsoid() {
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public HyperEllipsoid getClone() {
-        return new HyperEllipsoid();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Double getMinimum() {
-        return 0.0;
+        return this;
     }
 
     /**
@@ -79,10 +70,5 @@ public class HyperEllipsoid extends ContinuousFunction {
             tmp += (i + 1) * input.doubleValueOf(i) * input.doubleValueOf(i);
         }
         return tmp;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-5.12,5.12)^30";
     }
 }

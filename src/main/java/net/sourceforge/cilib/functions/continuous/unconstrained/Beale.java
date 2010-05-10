@@ -43,15 +43,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <ul>
  * <li>Only defined for 2 dimensions</li>
  * <li>Unimodal</li>
- * <li>Seperable</li>
+ * <li>Separable</li>
  * <li>Regular</li>
  * </ul>
  * </p>
  *
- * @author Andries Engelbrecht
+ * R(-4.5,4.5)^2
  *
+ * @author Andries Engelbrecht
  */
-public class Beale extends ContinuousFunction {
+public class Beale implements ContinuousFunction {
 
     private static final long serialVersionUID = -7803711986955989075L;
 
@@ -71,23 +72,11 @@ public class Beale extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Double getMinimum() {
-        return 0.0;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Double apply(Vector input) {
         double x1 = input.doubleValueOf(0);
         double x2 = input.doubleValueOf(1);
         return (1.5 - x1 + x1 * x2) * (1.5 - x1 + x1 * x2) + (2.25 - x1 + x1 * x2 * x2) * (2.25 - x1 + x1 * x2 * x2) + (2.625 - x1 + x1 * x2 * x2 * x2) * (2.625 - x1 + x1 * x2 * x2 * x2);
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-4.5,4.5)^2";
     }
 }
 

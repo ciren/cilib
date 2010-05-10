@@ -24,7 +24,6 @@ package net.sourceforge.cilib.functions.continuous;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
  * Schwefel function.
  *
@@ -40,10 +39,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * x e [-512.03,511.97]
  *
+ * R(-512.03, 511.97)^30
+ *
  * @author  Edwin Peer
  */
 // TODO: Check discontinuous / continuous
-public class Schwefel extends ContinuousFunction { // ?
+public class Schwefel implements ContinuousFunction { // ?
+
     private static final long serialVersionUID = 3835871629510784855L;
 
     /**
@@ -61,14 +63,6 @@ public class Schwefel extends ContinuousFunction { // ?
     }
 
     /**
-     * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
-     * @return The function minimum value.
-     */
-    public Double getMinimum() {
-        return 0.0;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -77,13 +71,6 @@ public class Schwefel extends ContinuousFunction { // ?
         for (int i = 0; i < input.size(); ++i) {
             sum += input.doubleValueOf(i) * Math.sin(Math.sqrt(Math.abs(input.doubleValueOf(i))));
         }
-        sum += input.size() * 4.18982887272434686131e+02;
-        return sum;
+        return sum + input.size() * 4.18982887272434686131e+02;
     }
-
-    @Override
-    public String getDomain() {
-        return "R(-512.03, 511.97)^30";
-    }
-
 }

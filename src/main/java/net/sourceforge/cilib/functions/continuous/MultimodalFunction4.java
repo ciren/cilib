@@ -25,9 +25,10 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * TODO: Complete this javadoc.
+ * Minimum for domain: 0.0
+ * R(0, 1)^1
  */
-public class MultimodalFunction4 extends ContinuousFunction {
+public class MultimodalFunction4 implements ContinuousFunction {
 
     private static final long serialVersionUID = -957215773660609565L;
 
@@ -46,14 +47,6 @@ public class MultimodalFunction4 extends ContinuousFunction {
     }
 
     /**
-     * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
-     * @return The function minimum value.
-     */
-    public Double getMinimum() {
-        return 0.0;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -67,10 +60,5 @@ public class MultimodalFunction4 extends ContinuousFunction {
             dResult += x * y;
         }
         return dResult;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(0, 1)^1";
     }
 }

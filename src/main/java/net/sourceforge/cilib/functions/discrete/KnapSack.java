@@ -31,9 +31,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Gary Pampara
  */
-public class KnapSack extends DiscreteFunction {
-    private static final long serialVersionUID = 79098409450300605L;
+public class KnapSack implements DiscreteFunction {
 
+    private static final long serialVersionUID = 79098409450300605L;
     private int capacity;
     private int numberOfObjects;
     private ArrayList<Double> weights;
@@ -49,16 +49,6 @@ public class KnapSack extends DiscreteFunction {
         return new KnapSack();
     }
 
-    @Override
-    public Integer getMinimum() {
-        return 0;
-    }
-
-    @Override
-    public Integer getMaximum() {
-        return this.capacity;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -71,10 +61,9 @@ public class KnapSack extends DiscreteFunction {
             weight += bitValue * this.weights.get(i);
         }
 
-        if (weight > capacity) { // This needs to be checked.
-            return Integer.MIN_VALUE;
+        if (weight > capacity) {
+            return Integer.MIN_VALUE; // This needs to be checked.
         }
-
         int profit = 0;
 
         for (int i = 0; i < x.size(); i++) {
@@ -84,31 +73,29 @@ public class KnapSack extends DiscreteFunction {
 
         return profit;
         /*if (weights.size() == 0 && values.size() == 0) {
-            randomInitialise();
+        randomInitialise();
         }*/
     }
 
 
-/*    private void randomInitialise() {
-        Random random = new MersenneTwister();
+    /*    private void randomInitialise() {
+    Random random = new MersenneTwister();
 
-        for (int i = 0; i < this.numberOfObjects; i++) {
-            int number = 0;
+    for (int i = 0; i < this.numberOfObjects; i++) {
+    int number = 0;
 
-            while (number == 0)
-                number = random.nextInt(this.numberOfObjects);
+    while (number == 0)
+    number = random.nextInt(this.numberOfObjects);
 
-            weights.add(i, Integer.valueOf(number).doubleValue());
+    weights.add(i, Integer.valueOf(number).doubleValue());
 
-            number = 0;
-            while (number == 0)
-                number = random.nextInt(this.numberOfObjects);
+    number = 0;
+    while (number == 0)
+    number = random.nextInt(this.numberOfObjects);
 
-            values.add(i, Integer.valueOf(number).doubleValue());
-        }
+    values.add(i, Integer.valueOf(number).doubleValue());
+    }
     }*/
-
-
     /**
      * @return Returns the capacity.
      */
@@ -139,7 +126,6 @@ public class KnapSack extends DiscreteFunction {
         this.values.ensureCapacity(numberOfObjects);
     }
 
-
     /**
      * @return Returns the value.
      */
@@ -147,14 +133,12 @@ public class KnapSack extends DiscreteFunction {
         return values;
     }
 
-
     /**
      * @param value The value to set.
      */
     public void setValue(ArrayList<Double> value) {
         this.values = value;
     }
-
 
     /**
      * Helper method. This method enables in input of a comma-separated string,
@@ -172,7 +156,6 @@ public class KnapSack extends DiscreteFunction {
         }
     }
 
-
     /**
      * @return Returns the weight.
      */
@@ -180,14 +163,12 @@ public class KnapSack extends DiscreteFunction {
         return weights;
     }
 
-
     /**
      * @param weight The weight to set.
      */
     public void setWeight(ArrayList<Double> weight) {
         this.weights = weight;
     }
-
 
     /**
      * Helper method. This method enables in input of a comma-separated string,
@@ -204,10 +185,4 @@ public class KnapSack extends DiscreteFunction {
             this.weights.add(Double.valueOf(parts[i]));
         }
     }
-
-    @Override
-    public String getDomain() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 }

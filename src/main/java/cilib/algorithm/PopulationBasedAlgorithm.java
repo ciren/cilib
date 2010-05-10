@@ -19,29 +19,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.functions;
+package cilib.algorithm;
+
+import net.sourceforge.cilib.entity.Topology;
 
 /**
- * All base function types should inherit from <code>AbstractFunction</code>.
- * @param <F> The "from" type.
- * @param <T> The "to" type.
- * @author Edwin Peer
- * @author Gary Pampara
+ *
+ * @author gpampara
  */
-public abstract class AbstractFunction<F, T> implements Function<F, T> {
-    private static final long serialVersionUID = -4843291761555348251L;
+public interface PopulationBasedAlgorithm<T> extends Algorithm {
 
     /**
-     * Create a new instance of {@linkplain AbstractFunction}.
+     * Obtain the provided topology. There is no guarantee that the
+     * returned instance has the same reference. If at all possible,
+     * the reference returned will be immutable, preventing modification.
+     * @return
      */
-    protected AbstractFunction() {
-    }
-
-    /**
-     * Create a copy of the provided instance.
-     * @param copy The instance to copy.
-     */
-    public AbstractFunction(AbstractFunction copy) {
-    }
-
+    Topology<T> getTopology();
 }

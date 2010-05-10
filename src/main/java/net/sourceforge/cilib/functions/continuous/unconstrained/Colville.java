@@ -45,33 +45,20 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
+ * R(-10, 10)^4
+ *
  * @author  engel
  */
-public class Colville extends ContinuousFunction {
+public class Colville implements ContinuousFunction {
 
     private static final long serialVersionUID = 4561331100889232057L;
-
-    /**
-     * Creates a new instance of Colville. Sets the domain to R(-10.0, 10.0)^4 by default.
-     */
-    public Colville() {
-        //constraint.add(new DimensionValidator(4));
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Colville getClone() {
-        return new Colville();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double getMinimum() {
-        return 0.0;
+        return this;
     }
 
     /**
@@ -90,10 +77,5 @@ public class Colville extends ContinuousFunction {
                 + (1 - c) * (1 - c)
                 + 10.1 * ((c - 1) * (c - 1) + (d - 1) * (d - 1))
                 + 19.8 * (b - 1) * (d - 1);
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-10, 10)^4";
     }
 }

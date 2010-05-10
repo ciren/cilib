@@ -74,15 +74,4 @@ public class HimmelblauTest {
         x.setReal(1, 2.0);
         Assert.assertEquals(26.0, function.apply(x), EPSILON);
     }
-
-    /**
-     * These the minimum of the function. It should be noted that
-     * this test is based on the assumption that the domain of the
-     * function is {@code R(-6, 6)^2}, therefore the minimum value
-     * expected is {@code 0.0}.
-     */
-    @Test
-    public void minimum() {
-        Assert.assertEquals(0.0, function.getMinimum(), EPSILON);
-    }
 }

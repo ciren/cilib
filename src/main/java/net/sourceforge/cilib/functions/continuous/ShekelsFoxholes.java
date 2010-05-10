@@ -31,10 +31,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
  * <p>Company: </p>
+ *
+ * R(-65.536, 65.536)^2
+ * 
  * @author Clive Naicker
  * @version 1.0
  */
-public class ShekelsFoxholes extends ContinuousFunction {
+public class ShekelsFoxholes implements ContinuousFunction {
 
     private static final long serialVersionUID = 1986501892056164693L;
     private double[][] a = new double[2][25];
@@ -59,11 +62,10 @@ public class ShekelsFoxholes extends ContinuousFunction {
         return new ShekelsFoxholes();
     }
 
-    @Override
-    public Double getMinimum() {
-        return 0.9980038;
-    }
-
+//    @Override
+//    public Double getMinimum() {
+//        return 0.9980038;
+//    }
     /**
      * {@inheritDoc}
      */
@@ -81,10 +83,5 @@ public class ShekelsFoxholes extends ContinuousFunction {
         resultI = 0.002 + resultI;
 
         return 1.0 / resultI;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-65.536, 65.536)^2";
     }
 }

@@ -33,7 +33,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  *
  */
-public class NoisyFunctionDecorator extends ContinuousFunction {
+public class NoisyFunctionDecorator implements ContinuousFunction {
 
     private static final long serialVersionUID = -3918271655104447420L;
     private ContinuousFunction function;
@@ -87,10 +87,5 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
 
     public void setVariance(ControlParameter variance) {
         this.variance = variance;
-    }
-
-    @Override
-    public String getDomain() {
-        return this.function.getDomain();
     }
 }

@@ -47,10 +47,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
+ * R(-15,-5),R(-3,3)
+ *
  * @author Andries Engelbrecht
  *
  */
-public class Bukin4 extends ContinuousFunction {
+public class Bukin4 implements ContinuousFunction {
 
     private static final long serialVersionUID = -7860070866440205636L;
 
@@ -62,11 +64,6 @@ public class Bukin4 extends ContinuousFunction {
         return new Bukin4();
     }
 
-    @Override
-    public Double getMinimum() {
-        return 0.0;
-    }
-
     /* (non-Javadoc)
      * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
      */
@@ -76,10 +73,5 @@ public class Bukin4 extends ContinuousFunction {
         double x2 = input.doubleValueOf(1);
 
         return 100 * x2 * x2 + 0.01 * Math.abs(x1 + 10);
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-15,-5),R(-3,3)";
     }
 }

@@ -42,16 +42,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <ul>
  * </ul>
  * </p>
+ *
+ * R(-100.0,100.0)^30
  */
-public class Schaffer6 extends ContinuousFunction {
+public class Schaffer6 implements ContinuousFunction {
 
     private static final long serialVersionUID = 4959662717057274057L;
-
-    /**
-     * Constructor. Initialise the function to the initial domain of R(-100.0,100.0)^2
-     */
-    public Schaffer6() {
-    }
 
     /**
      * {@inheritDoc}
@@ -59,15 +55,6 @@ public class Schaffer6 extends ContinuousFunction {
     @Override
     public Schaffer6 getClone() {
         return this;
-    }
-
-    /**
-     * Initialise the function minimum value.
-     * @return The minimum value as a <tt>Double</tt> object with value of 0.0
-     */
-    @Override
-    public Double getMinimum() {
-        return 0.0;
     }
 
     /**
@@ -93,10 +80,5 @@ public class Schaffer6 extends ContinuousFunction {
         }
 
         return sum;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-100.0,100.0)^30";
     }
 }

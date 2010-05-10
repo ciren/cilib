@@ -34,7 +34,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author gpampara
  */
-public class LongestCommonSubsequence extends DiscreteFunction {
+public class LongestCommonSubsequence implements DiscreteFunction {
 
     private static final long serialVersionUID = -3586259608521073084L;
 
@@ -138,10 +138,5 @@ public class LongestCommonSubsequence extends DiscreteFunction {
         }
 
         return builder.toString();
-    }
-
-    @Override
-    public String getDomain() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

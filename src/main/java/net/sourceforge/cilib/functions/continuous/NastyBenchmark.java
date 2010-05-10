@@ -25,10 +25,12 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * TODO: Complete this javadoc.
+ * Minimum: 0.0
+ * R(-500, 500)^30
+ * 
  * @author  Edwin Peer
  */
-public class NastyBenchmark extends ContinuousFunction {
+public class NastyBenchmark implements ContinuousFunction {
 
     private static final long serialVersionUID = 6848836780892359015L;
 
@@ -47,14 +49,6 @@ public class NastyBenchmark extends ContinuousFunction {
     }
 
     /**
-     * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
-     * @return The function minimum value.
-     */
-    public Double getMinimum() {
-        return 0.0;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -65,10 +59,5 @@ public class NastyBenchmark extends ContinuousFunction {
             tmp += factor * factor;
         }
         return tmp;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-500, 500)^30";
     }
 }

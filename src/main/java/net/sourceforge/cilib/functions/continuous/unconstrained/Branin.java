@@ -48,10 +48,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
+ * R(-5,10),R(0,15)
+ *
  * @author Clive Naicker
  *
  */
-public class Branin extends ContinuousFunction {
+public class Branin implements ContinuousFunction {
 
     private static final long serialVersionUID = -2254223453957430344L;
     private double a = 1.0;
@@ -71,10 +73,6 @@ public class Branin extends ContinuousFunction {
         d = 6.0;
         e = 10.0;
         f = 1.0 / (8.0 * Math.PI);
-
-        //constraint.add(new DimensionValidator(2));
-        //constraint.add(new ContentValidator(0, new QuantitativeBoundValidator(new Double(-5), new Double(15))));
-        //constraint.add(new ContentValidator(1, new QuantitativeBoundValidator(new Double(0), new Double(15))));
     }
 
     /**
@@ -87,16 +85,6 @@ public class Branin extends ContinuousFunction {
 
     /**
      * {@inheritDoc}
-     *
-     * The minimum is located at <code>0.397887</code>.
-     */
-    @Override
-    public Double getMinimum() {
-        return 0.397887;
-    }
-
-    /**
-     * {@inheritDoc}
      */
     @Override
     public Double apply(Vector input) {
@@ -104,10 +92,5 @@ public class Branin extends ContinuousFunction {
         double x2 = input.doubleValueOf(1);
 
         return a * Math.pow((x2 - b * x1 * x1 + c * x1 - d), 2) + e * (1 - f) * Math.cos(x1) + e;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-5,10),R(0,15)";
     }
 }

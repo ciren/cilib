@@ -48,8 +48,6 @@ public class GoldsteinPriceTest {
      */
     @Test
     public void testEvaluate() {
-//        function.setDomain("R(-2, 2)^2");
-
         Vector x = new Vector();
 
         x.add(Real.valueOf(0.0));
@@ -59,16 +57,5 @@ public class GoldsteinPriceTest {
         x.setReal(0, 2.0);
         x.setReal(1, 2.0);
         Assert.assertEquals(76728.0, function.apply(x), Maths.EPSILON);
-    }
-
-    /**
-     * These the minimum of the function. It should be noted that
-     * this test is based on the assumption that the domain of the
-     * function is {@code R(-2, 2)^2}, therefore the minimum value
-     * expected is {@code 3.0}.
-     */
-    @Test
-    public void minimum() {
-        Assert.assertEquals(3.0, function.getMinimum(), Maths.EPSILON);
     }
 }

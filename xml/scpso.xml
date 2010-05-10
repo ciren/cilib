@@ -30,7 +30,7 @@
             <addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations" maximumFitnessEvaluations="200000"/>
         </algorithm>
 
-        <problem class="problem.FunctionMinimisationProblem">
+        <problem class="problem.FunctionMinimisationProblem" domain="R(-512.03, 511.97)^30">
             <function class="functions.continuous.Schwefel" />
         </problem>
 

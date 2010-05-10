@@ -38,17 +38,17 @@ public class PSOTest {
 
     @Test
     public void someTest() {
-        Module m = new AbstractModule() {
-
-            @Override
-            protected void configure() {
-                bind(Topology.class).to(LBestTopology.class);
-            }
-        };
-
-        Injector injector = Guice.createInjector(Modules.override(new PSOModule()).with(m));
-
-        PSO p = injector.getInstance(PSO.class);
-        p.performIteration();
+//        Module m = new AbstractModule() {
+//
+//            @Override
+//            protected void configure() {
+//                bind(Topology.class).to(LBestTopology.class);
+//            }
+//        };
+//
+//        Injector injector = Guice.createInjector(Modules.override(new PSOModule()).with(m));
+//
+//        PSO p = injector.getInstance(PSO.class);
+//        p.performIteration();
     }
 }

@@ -33,33 +33,21 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * x e [-10,10]
  *
+ * R(-10, 10)^30
+ *
  * @author  Andries Engelbrecht
  */
 // TODO: Check discontinuous / continuous
-public class SchwefelProblem2_22 extends ContinuousFunction {
+public class SchwefelProblem2_22 implements ContinuousFunction {
 
     private static final long serialVersionUID = -5004170862929300400L;
-
-    /**
-     * Creates an new instance. Domain is set to R(-10,10)^30 by default.
-     */
-    public SchwefelProblem2_22() {
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public SchwefelProblem2_22 getClone() {
-        return new SchwefelProblem2_22();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double getMinimum() {
-        return 0.0;
+        return this;
     }
 
     /**
@@ -79,10 +67,5 @@ public class SchwefelProblem2_22 extends ContinuousFunction {
         }
 
         return sum + product;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-10, 10)^30";
     }
 }

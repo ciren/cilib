@@ -73,9 +73,6 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
      */
     public void setFunction(Function<Vector, ? extends Number> function) {
         this.function = function;
-        if (domainRegistry.getDomainString() == null) {
-            this.domainRegistry.setDomainString(function.getDomain());
-        }
     }
 
     /**
@@ -116,6 +113,9 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
      */
     @Override
     public DomainRegistry getDomain() {
+        if (domainRegistry.getDomainString() == null) {
+            throw new IllegalStateException("Domain has not been defined. Please define domain for function optimization.");
+        }
         return domainRegistry;
     }
 

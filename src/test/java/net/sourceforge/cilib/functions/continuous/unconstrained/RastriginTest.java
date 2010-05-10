@@ -25,7 +25,6 @@ import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import org.junit.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -46,8 +45,6 @@ public class RastriginTest {
     /** Test of evaluate method, of class cilib.functions.unconstrained.Rastrigin. */
     @Test
     public void testEvaluate() {
-//        function.setDomain("R(-5.12, 5.12)^2");
-
         Vector x = new Vector();
         x.add(Real.valueOf(0.0));
         x.add(Real.valueOf(0.0));
@@ -58,10 +55,5 @@ public class RastriginTest {
         x.setReal(1, Math.PI / 2);
 
         assertEquals(42.9885094392, function.apply(x), 0.0000000001);
-    }
-
-    @Test
-    public void minimum() {
-        Assert.assertEquals(0.0, function.getMinimum().doubleValue(), 0.0001);
     }
 }

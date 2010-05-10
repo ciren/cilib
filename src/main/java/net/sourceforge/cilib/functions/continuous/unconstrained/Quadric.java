@@ -44,33 +44,20 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
+ * R(-100, 100)^30
+ *
  * @author  Edwin Peer
  */
-public class Quadric extends ContinuousFunction {
+public class Quadric implements ContinuousFunction {
 
     private static final long serialVersionUID = -2555670302543357421L;
-
-    public Quadric() {
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Quadric getClone() {
-        return new Quadric();
-    }
-
-    /**
-     * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
-     * @return The function minimum value.
-     */
-    public Double getMinimum() {
-        return 0.0;
-    }
-
-    public Double getMaximum() {
-        return 1248.2;
+        return this;
     }
 
     /**
@@ -86,10 +73,5 @@ public class Quadric extends ContinuousFunction {
             sumsq += sum * sum;
         }
         return sumsq;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-100, 100)^30";
     }
 }

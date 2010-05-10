@@ -25,10 +25,11 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
+ * f(x) = 0.0 (Minimum)
+ * R(-100, 100)^2
  * @author  engel
  */
-public class Schaffer2 extends ContinuousFunction {
+public class Schaffer2 implements ContinuousFunction {
 
     private static final long serialVersionUID = 7289010453718555694L;
 
@@ -48,23 +49,11 @@ public class Schaffer2 extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Double getMinimum() {
-        return 0.0;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Double apply(Vector input) {
         double sum_squares = input.doubleValueOf(0) * input.doubleValueOf(0) + input.doubleValueOf(1) * input.doubleValueOf(1);
         double term1 = Math.pow(sum_squares, 0.25);
         double term2 = Math.pow(50 * Math.pow(sum_squares, 0.1), 2) + 1;
         return term1 * term2;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-100, 100)^2";
     }
 }

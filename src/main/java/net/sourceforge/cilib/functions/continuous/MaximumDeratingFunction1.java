@@ -25,10 +25,9 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
- *
+ * R^1
  */
-public class MaximumDeratingFunction1 extends ContinuousFunction {
+public class MaximumDeratingFunction1 implements ContinuousFunction {
 
     private static final long serialVersionUID = -2963512750988478604L;
     private double radius = 0.25;
@@ -47,13 +46,6 @@ public class MaximumDeratingFunction1 extends ContinuousFunction {
     @Override
     public MaximumDeratingFunction1 getClone() {
         return new MaximumDeratingFunction1();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Double getMinimum() {
-        return 0.0;
     }
 
     /**
@@ -105,10 +97,5 @@ public class MaximumDeratingFunction1 extends ContinuousFunction {
         }
 
         return Math.pow(input.doubleValueOf(0) / radius, alpha);
-    }
-
-    @Override
-    public String getDomain() {
-        return "R^1";
     }
 }

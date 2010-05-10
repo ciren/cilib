@@ -45,12 +45,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Regular</li>
  * </ul>
  * </p>
+ * R(-32.768, 32.768)^30
+ *
  *
  * @author Edwin Peer
  * @author Olusegun Olorunda
- *
  */
-public class Ackley extends ContinuousFunction {
+public class Ackley implements ContinuousFunction {
 
     private static final long serialVersionUID = -7803711986955989075L;
 
@@ -60,10 +61,6 @@ public class Ackley extends ContinuousFunction {
     @Override
     public Ackley getClone() {
         return new Ackley();
-    }
-
-    public Double getMinimum() {
-        return 0.0;
     }
 
     /* (non-Javadoc)
@@ -79,10 +76,5 @@ public class Ackley extends ContinuousFunction {
             sumcos += Math.cos(2 * Math.PI * input.doubleValueOf(i));
         }
         return -20.0 * Math.exp(-0.2 * Math.sqrt(sumsq / size)) - Math.exp(sumcos / size) + 20 + Math.E;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-32.768, 32.768)^30";
     }
 }

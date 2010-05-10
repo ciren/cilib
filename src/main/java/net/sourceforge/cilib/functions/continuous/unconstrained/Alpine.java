@@ -19,9 +19,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-/**
- *
- */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
@@ -47,10 +44,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
+ * R(-10, 10)^30
+ * 
  * @author leo
- *
  */
-public class Alpine extends ContinuousFunction {
+public class Alpine implements ContinuousFunction {
 
     private static final long serialVersionUID = -1365268075451075465L;
 
@@ -69,24 +67,11 @@ public class Alpine extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double getMinimum() {
-        return 0.0;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Double apply(Vector x) {
         double sum = 0;
         for (Numeric n : x) {
             sum += Math.abs((n.doubleValue() * Math.sin(n.doubleValue())) + (0.1 * n.doubleValue()));
         }
         return sum;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-10, 10)^30";
     }
 }

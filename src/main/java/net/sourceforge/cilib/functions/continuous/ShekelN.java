@@ -26,9 +26,22 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
+ * switch (n) {
+//            case 5:
+//                return -10.15320;
+//            case 7:
+//                return -10.40294;
+//            case 10:
+//                return -10.53641;
+//            default:
+//                return super.getMinimum();
+//        }
+ *
+ * R(0, 10)^4
+ * 
  * @author  engel
  */
-public class ShekelN extends ContinuousFunction {
+public class ShekelN implements ContinuousFunction {
 
     private static final long serialVersionUID = 4420382656606698465L;
 
@@ -47,22 +60,6 @@ public class ShekelN extends ContinuousFunction {
     @Override
     public ShekelN getClone() {
         return new ShekelN();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Double getMinimum() {
-        switch (n) {
-            case 5:
-                return -10.15320;
-            case 7:
-                return -10.40294;
-            case 10:
-                return -10.53641;
-            default:
-                return super.getMinimum();
-        }
     }
 
     /**
@@ -104,9 +101,4 @@ public class ShekelN extends ContinuousFunction {
         {6.0, 2.0, 6.0, 2.0},
         {7.0, 3.6, 7.0, 3.6},};
     private static final double[] C = {0.1, 0.2, 0.2, 0.4, 0.4, 0.6, 0.3, 0.7, 0.5, 0.5};
-
-    @Override
-    public String getDomain() {
-        return "R(0, 10)^4";
-    }
 }

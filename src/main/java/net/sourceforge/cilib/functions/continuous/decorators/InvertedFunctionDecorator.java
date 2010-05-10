@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.functions.continuous.decorators;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.AbstractFunction;
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -32,9 +31,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Gary Pampara
  */
-public class InvertedFunctionDecorator extends ContinuousFunction {
-    private static final long serialVersionUID = -7506823207533866371L;
+public class InvertedFunctionDecorator implements ContinuousFunction {
 
+    private static final long serialVersionUID = -7506823207533866371L;
     private Function<Vector, Double> function;
 
     @Override
@@ -46,8 +45,9 @@ public class InvertedFunctionDecorator extends ContinuousFunction {
     public Double apply(Vector input) {
         double innerFunctionValue = function.apply(input);
 
-        if (innerFunctionValue == 0)
+        if (innerFunctionValue == 0) {
             throw new ArithmeticException("Inner function evaluation equated to 0. Division by zero is undefined");
+        }
 
         return (1.0 / innerFunctionValue);
     }
@@ -56,13 +56,7 @@ public class InvertedFunctionDecorator extends ContinuousFunction {
         return function;
     }
 
-    public void setFunction(AbstractFunction function) {
+    public void setFunction(Function function) {
         this.function = function;
     }
-
-    @Override
-    public String getDomain() {
-        return function.getDomain();
-    }
-
 }

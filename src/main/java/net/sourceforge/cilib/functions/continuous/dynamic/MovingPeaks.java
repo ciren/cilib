@@ -30,10 +30,11 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * R(0, 100)^5
  * @author csbmcd
  * @author Anna Rakitianskaia
  */
-public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
+public class MovingPeaks implements ContinuousFunction, DynamicFunction {
 
     private static final long serialVersionUID = 733952126255493620L;
     private static int nextSeed = 1;
@@ -69,18 +70,18 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
 //        initPeaks();
 //    }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double getMinimum() {
-        return 0.0;
-    }
-
-    @Override
-    public Double getMaximum() {
-        return getGlobalMax();
-    }
+//    /**
+//     * {@inheritDoc}
+//     */
+//    @Override
+//    public Double getMinimum() {
+//        return 0.0;
+//    }
+//
+//    @Override
+//    public Double getMaximum() {
+//        return getGlobalMax();
+//    }
 
 //    @Override
 //    public Double evaluate(Vector input) {
@@ -537,11 +538,6 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
 
     public double getMaxHeight() {
         return maxheight;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(0, 100)^5";
     }
 
     @Override

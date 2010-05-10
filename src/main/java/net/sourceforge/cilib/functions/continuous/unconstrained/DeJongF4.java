@@ -19,9 +19,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-/**
- *
- */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
@@ -46,29 +43,20 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
+ * R(-1.28, 1.28)^30
+ *
  * @author leo
  */
-public class DeJongF4 extends ContinuousFunction {
+public class DeJongF4 implements ContinuousFunction {
 
     private static final long serialVersionUID = 4835441178770462999L;
-
-    public DeJongF4() {
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public DeJongF4 getClone() {
-        return new DeJongF4();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double getMinimum() {
-        return 0.0;
+        return this;
     }
 
     /**
@@ -82,10 +70,5 @@ public class DeJongF4 extends ContinuousFunction {
             sum += (i + 1) * (xi * xi * xi * xi);
         }
         return sum;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-1.28, 1.28)^30";
     }
 }

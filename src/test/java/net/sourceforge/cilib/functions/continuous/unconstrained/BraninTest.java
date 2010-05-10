@@ -26,21 +26,18 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import static org.hamcrest.CoreMatchers.is;
 
 /**
  *
  * @author Andries Engelbrecht
  */
-
 public class BraninTest {
+
     private ContinuousFunction function;
 
     public BraninTest() {
-
     }
 
     @Before
@@ -51,8 +48,6 @@ public class BraninTest {
     /** Test of evaluate method, of class za.ac.u.cs.ailib.Functions.Branin. */
     @Test
     public void testEvaluate() {
-//        function.setDomain("R(-5,10),R(0,15)");
-
         Vector x = new Vector();
         x.add(Real.valueOf(1.0));
         x.add(Real.valueOf(2.0));
@@ -62,10 +57,5 @@ public class BraninTest {
         x.setReal(0, -Math.PI);
         x.setReal(1, 12.275);
         assertEquals(0.397887, function.apply(x), 0.0000009);
-    }
-
-    @Test
-    public void minimum() {
-        Assert.assertThat(function.getMinimum().doubleValue(), is(0.397887));
     }
 }

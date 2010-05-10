@@ -41,8 +41,6 @@ public class SalomonTest {
     /** Test of evaluate method, of class cilib.functions.unconstrained.Salomon. */
     @Test
     public void testEvaluate() {
-//        function.setDomain("R(-600, 600)^2");
-
         Vector x = new Vector();
         x.add(Real.valueOf(0));
         x.add(Real.valueOf(0));
@@ -53,10 +51,5 @@ public class SalomonTest {
         x.setReal(1, 2.0);
 
         assertEquals(1.13618107303302, function.apply(x), 0.0000000001);
-    }
-
-    @Test
-    public void minimum() {
-        assertEquals(0.0, function.getMinimum().doubleValue(), 0.0);
     }
 }

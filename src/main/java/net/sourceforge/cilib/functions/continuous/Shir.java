@@ -35,9 +35,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Multimodal</li>
  * </ul>
  *
+ * Maximum: 1.0
+ * R(0, 1)^30
+ *
  * @author  Andries Engelbrecht
  */
-public class Shir extends ContinuousFunction {
+public class Shir implements ContinuousFunction {
 
     private static final long serialVersionUID = 8157687561496975789L;
     private double l1, l2, l3, l4, l5, sharpness;
@@ -65,13 +68,6 @@ public class Shir extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Double getMaximum() {
-        return 1.0;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Double apply(Vector input) {
         double sinTerm;
@@ -88,10 +84,5 @@ public class Shir extends ContinuousFunction {
         }
 
         return product;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(0, 1)^30";
     }
 }

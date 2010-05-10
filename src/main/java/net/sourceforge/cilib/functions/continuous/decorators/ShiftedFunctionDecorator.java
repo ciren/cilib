@@ -44,7 +44,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Olusegun Olorunda
  */
-public class ShiftedFunctionDecorator extends ContinuousFunction {
+public class ShiftedFunctionDecorator implements ContinuousFunction {
 
     private static final long serialVersionUID = 8687711759870298103L;
     private ContinuousFunction function;
@@ -64,13 +64,12 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
         return new ShiftedFunctionDecorator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public Double getMinimum() {
-        return function.getMinimum() + verticalShift;
-    }
-
+//    /**
+//     * {@inheritDoc}
+//     */
+//    public Double getMinimum() {
+//        return function.getMinimum() + verticalShift;
+//    }
     /**
      * {@inheritDoc}
      */
@@ -129,10 +128,5 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
      */
     public void setVerticalShift(double verticalShift) {
         this.verticalShift = verticalShift;
-    }
-
-    @Override
-    public String getDomain() {
-        return this.function.getDomain();
     }
 }

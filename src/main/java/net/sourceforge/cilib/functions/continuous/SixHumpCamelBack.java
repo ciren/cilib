@@ -42,10 +42,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * f(x) = -1.0316; x = (-0.0898, 0.1726); x = (0.0898, -0.1726)
  * x_1 e [-3, 3]; x_2 e [-2, 2]
  *
+ * R(-3,3),R(-2,2)
+ * 
  * @author Clive Naicker
  * @version 1.0
  */
-public class SixHumpCamelBack extends ContinuousFunction {
+public class SixHumpCamelBack implements ContinuousFunction {
 
     private static final long serialVersionUID = -3834640752316926216L;
 
@@ -62,14 +64,6 @@ public class SixHumpCamelBack extends ContinuousFunction {
     }
 
     /**
-     * Get the minimum of the function. It is defined to be a value of <code>-1.0316</code>.
-     * @return The function minimum value.
-     */
-    public Double getMinimum() {
-        return -1.0316;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -78,10 +72,5 @@ public class SixHumpCamelBack extends ContinuousFunction {
         double x2 = input.doubleValueOf(1);
 
         return (4 - 2.1 * x1 * x1 + Math.pow(x1, 4.0) / 3.0) * x1 * x1 + x1 * x2 + 4 * (x2 * x2 - 1) * x2 * x2;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-3,3),R(-2,2)";
     }
 }

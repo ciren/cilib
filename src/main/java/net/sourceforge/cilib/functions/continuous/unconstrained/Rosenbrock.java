@@ -43,32 +43,20 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * x e [-2.048,2.048]
  *
+ * R(-2.048, 2.048)^30
+ *
  * @author  Edwin Peer
  */
-public class Rosenbrock extends ContinuousFunction {
+public class Rosenbrock implements ContinuousFunction {
 
     private static final long serialVersionUID = -5850480295351224196L;
-
-    /**
-     * Create an instance of {@linkplain Rosenbrock}. Domain is set to R(-2.048, 2.048)^30.
-     */
-    public Rosenbrock() {
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Rosenbrock getClone() {
-        return new Rosenbrock();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double getMinimum() {
-        return 0.0;
+        return this;
     }
 
     /**
@@ -86,10 +74,5 @@ public class Rosenbrock extends ContinuousFunction {
         }
 
         return tmp;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-2.048, 2.048)^30";
     }
 }

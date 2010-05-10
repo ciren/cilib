@@ -36,9 +36,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * x e [-100,100]
  *
+ * R(-100,100)^30
+ *
  * @author Gary Pampara
  */
-public class SchwefelProblem1_2 extends ContinuousFunction {
+public class SchwefelProblem1_2 implements ContinuousFunction {
 
     private static final long serialVersionUID = -65519037071861168L;
 
@@ -51,14 +53,6 @@ public class SchwefelProblem1_2 extends ContinuousFunction {
     @Override
     public SchwefelProblem1_2 getClone() {
         return new SchwefelProblem1_2();
-    }
-
-    /**
-     * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
-     * @return The function minimum value.
-     */
-    public Double getMinimum() {
-        return 0.0;
     }
 
     /**
@@ -80,10 +74,5 @@ public class SchwefelProblem1_2 extends ContinuousFunction {
         }
 
         return sumsq;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-100,100)^30";
     }
 }

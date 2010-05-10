@@ -44,42 +44,25 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Has n! local minima</li>
  * <li>Non seperable</li>
  * </ul>
-
+ *
+ * R(0, 3.141592653589793)^10
+ * 
  * @author  engel
  */
-public class Michalewicz extends ContinuousFunction {
+public class Michalewicz implements ContinuousFunction {
 
     private static final long serialVersionUID = -4391269929189674709L;
     /**
      * m controls the steepness of the valleys; the larger m, the
      * more difficult the search
      */
-    private int m;
-
-    /** Creates a new instance of EpistaticMichalewicz. */
-    public Michalewicz() {
-        m = 10;
-    }
+    private int m = 10;
 
     /**
      * {@inheritDoc}
      */
     public Michalewicz getClone() {
-        return new Michalewicz();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Double getMinimum() {
-//        if (this.getDimension() == 5) {
-//            return -4.687;
-//        } else if (this.getDimension() == 10) {
-//            return -9.66;
-//        }
-//
-//        return -Double.MAX_VALUE;
-        throw new UnsupportedOperationException();
+        return this;
     }
 
     /**
@@ -111,10 +94,5 @@ public class Michalewicz extends ContinuousFunction {
      */
     public void setM(int m) {
         this.m = m;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(0, 3.141592653589793)^10";
     }
 }

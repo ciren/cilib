@@ -38,30 +38,19 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * f(x) = 0; x = (0,0,...,0);
  * x_i e (-600,600)
  *
+ * R(-600, 600)^30
+ *
  * @author  Edwin Peer
  */
-public class Griewank extends ContinuousFunction {
+public class Griewank implements ContinuousFunction {
 
     private static final long serialVersionUID = 1095225532651577254L;
-
-    /**
-     * Create an instance of {@code Griewank}. The default domain is set to R(-600, 600)^30
-     */
-    public Griewank() {
-    }
 
     /**
      * {@inheritDoc}
      */
     public Griewank getClone() {
         return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Double getMinimum() {
-        return 0.0;
     }
 
     /**
@@ -76,10 +65,5 @@ public class Griewank extends ContinuousFunction {
             prod *= Math.cos(input.doubleValueOf(i) / Math.sqrt(i + 1));
         }
         return 1 + sumsq * (1.0 / 4000.0) - prod;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R(-600, 600)^30";
     }
 }

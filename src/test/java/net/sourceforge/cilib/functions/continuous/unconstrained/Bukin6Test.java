@@ -25,7 +25,6 @@ import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import org.junit.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -49,8 +48,6 @@ public class Bukin6Test {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bukin6. */
     @Test
     public void testEvaluate() {
-//        function.setDomain("R(-15,-5),R(-3,3)");
-
         Vector x = new Vector();
         x.add(Real.valueOf(1.0));
         x.add(Real.valueOf(2.0));
@@ -59,10 +56,5 @@ public class Bukin6Test {
         x.setReal(0, -10.0);
         x.setReal(1, 1.0);
         assertEquals(0.0, function.apply(x), 0.0);
-    }
-
-    @Test
-    public void minimum() {
-        Assert.assertEquals(0.0, function.getMinimum().doubleValue(), 0.0001);
     }
 }

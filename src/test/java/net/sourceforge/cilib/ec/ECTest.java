@@ -46,6 +46,7 @@ public class ECTest {
 
         try {
             FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
+            problem.setDomain("R(-5.12, 5.12)^30");
             problem.setFunction(new Spherical());
 
             EC ec = new EC();
@@ -66,16 +67,14 @@ public class ECTest {
         Seeder.setSeederStrategy(new ZeroSeederStrategy());
 
         try {
-            EC ec = new EC();
-            ec.setIterationStrategy(new DifferentialEvolutionIterationStrategy());
-
-            ec.addStoppingCondition(new MaximumIterations(10));
-
             FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
+            problem.setDomain("R(-5.12, 5.12)^30");
             problem.setFunction(new Spherical());
 
+            EC ec = new EC();
+            ec.setIterationStrategy(new DifferentialEvolutionIterationStrategy());
+            ec.addStoppingCondition(new MaximumIterations(10));
             ec.setOptimisationProblem(problem);
-
             ec.initialise();
             ec.run();
 
@@ -84,5 +83,4 @@ public class ECTest {
             Seeder.setSeederStrategy(seedStrategy);
         }
     }
-
 }

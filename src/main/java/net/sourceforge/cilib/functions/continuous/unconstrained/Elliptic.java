@@ -38,13 +38,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * 
  * @author Bennie Leonard
  */
-public class Elliptic extends ContinuousFunction {
+public class Elliptic implements ContinuousFunction {
     //the condition number 10^6 is used to transform a sphere to an elliptic function
     static final double CONDITION_NUMBER = 1000000;
-
-    public Elliptic() {
-//        setDomain("R(-100,100)^30");
-    }
 
     @Override
     public ContinuousFunction getClone() {
@@ -56,7 +52,7 @@ public class Elliptic extends ContinuousFunction {
         double sum = 0;
 
         for(int i = 0; i < input.size(); i++) {
-            sum += Math.pow(CONDITION_NUMBER, i/(input.size()-1)) * input.getReal(i) * input.getReal(i);
+            sum += Math.pow(CONDITION_NUMBER, i/(input.size()-1)) * input.doubleValueOf(i) * input.doubleValueOf(i);
         }
 
         return new Double(sum);

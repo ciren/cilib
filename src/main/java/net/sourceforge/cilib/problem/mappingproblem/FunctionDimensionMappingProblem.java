@@ -89,7 +89,7 @@ public class FunctionDimensionMappingProblem extends OptimisationProblemAdapter 
      */
     public void setFunction(FunctionDimensionMapping function) {
         this.function = function;
-        domainRegistry.setDomainString(function.getDomain());
+//        domainRegistry.setDomainString(function.getDomain());
     }
 
     private void intialiseMatrix() {
