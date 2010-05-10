@@ -23,7 +23,6 @@ package net.sourceforge.cilib.entity.operators.selection;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelection;
 import net.sourceforge.cilib.util.selection.recipes.SelectionRecipe;
 
@@ -32,8 +31,8 @@ import net.sourceforge.cilib.util.selection.recipes.SelectionRecipe;
  * @author gpampara
  */
 public class RandomSelectionStrategy extends SelectionStrategy {
-    private static final long serialVersionUID = -216894674927488180L;
 
+    private static final long serialVersionUID = -216894674927488180L;
     private SelectionRecipe<Entity> recipe;
 
     public RandomSelectionStrategy() {
@@ -48,15 +47,5 @@ public class RandomSelectionStrategy extends SelectionStrategy {
     @Override
     public <T extends Entity> T select(Topology<T> population) {
         return (T) this.recipe.select(population);
-    }
-
-    @Override
-//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-    public void performOperation(TopologyHolder holder) {
-        Topology<? extends Entity> topology = holder.getTopology();
-//        Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
-
-        holder.add(select(topology));
-//        offspring.add(select(topology));
     }
 }

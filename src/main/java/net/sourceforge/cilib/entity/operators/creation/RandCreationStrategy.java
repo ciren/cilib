@@ -28,7 +28,6 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.Real;
@@ -37,8 +36,8 @@ import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
 
 public class RandCreationStrategy implements CreationStrategy {
-    private static final long serialVersionUID = 930740770470361009L;
 
+    private static final long serialVersionUID = 930740770470361009L;
     protected ControlParameter scaleParameter;
     protected ControlParameter numberOfDifferenceVectors;
 
@@ -74,7 +73,7 @@ public class RandCreationStrategy implements CreationStrategy {
     @Override
     public Entity create(Entity targetEntity, Entity current, Topology<? extends Entity> topology) {
         RandomProvider random = new MersenneTwister();
-        List<Entity> participants = Selection.from(topology.asList()).unique().exclude(targetEntity, current).and().random(random, (int)numberOfDifferenceVectors.getParameter()).select(Samples.all()).perform();
+        List<Entity> participants = Selection.from(topology.asList()).unique().exclude(targetEntity, current).and().random(random, (int) numberOfDifferenceVectors.getParameter()).select(Samples.all()).perform();
         Vector differenceVector = determineDistanceVector(participants);
 
         Vector targetVector = (Vector) targetEntity.getCandidateSolution();
@@ -110,14 +109,6 @@ public class RandCreationStrategy implements CreationStrategy {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void performOperation(TopologyHolder holder) {
-        throw new UnsupportedOperationException("Not supported yet. This may need some more refactoring. May require looping operator?");
-    }
-
-    /**
      * Get the number of difference vectors to create.
      * @return The {@code ControlParameter} describing the numberof difference vectors.
      */
@@ -148,5 +139,4 @@ public class RandCreationStrategy implements CreationStrategy {
     public void setScaleParameter(ControlParameter scaleParameter) {
         this.scaleParameter = scaleParameter;
     }
-
 }
