@@ -24,7 +24,6 @@ package net.sourceforge.cilib.util.selection.weighing.entity;
 import net.sourceforge.cilib.util.selection.weighing.*;
 import java.util.Collection;
 import java.util.List;
-import net.sourceforge.cilib.container.Pair;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
@@ -74,17 +73,17 @@ public class EntityWeighing<E extends Entity> implements Weighing<E> {
     /**
      * Obtain the minimum and maximum fitness values.
      * @param entities The entity objects to inspect.
-     * @return A {@link Pair} holding the minimum and maximum fitness values.
+     * @return A {@code FitnessTuple2} holding the minimum and maximum fitness values.
      */
-    private Pair<Fitness, Fitness> getMinMaxFitness(Collection<Selection.Entry<E>> entities) {
-        Pair<Fitness, Fitness> minMaxFitness = new Pair<Fitness, Fitness>(InferiorFitness.instance(), InferiorFitness.instance());
+    private FitnessTuple2 getMinMaxFitness(Collection<Selection.Entry<E>> entities) {
+        FitnessTuple2 minMaxFitness = new FitnessTuple2(InferiorFitness.instance(), InferiorFitness.instance());
         for (Selection.Entry<E> entity : entities) {
             Fitness fitness = this.entityFitness.getFitness(entity.getElement());
-            if (minMaxFitness.getKey() == InferiorFitness.instance() || fitness.compareTo(minMaxFitness.getKey()) < 0) {
-                minMaxFitness.setKey(fitness);
+            if (minMaxFitness.getFirst() == InferiorFitness.instance() || fitness.compareTo(minMaxFitness.getFirst()) < 0) {
+                minMaxFitness = new FitnessTuple2(fitness, minMaxFitness.getSecond());
             }
-            if (minMaxFitness.getValue() == InferiorFitness.instance() || fitness.compareTo(minMaxFitness.getValue()) > 0) {
-                minMaxFitness.setValue(fitness);
+            if (minMaxFitness.getSecond() == InferiorFitness.instance() || fitness.compareTo(minMaxFitness.getSecond()) > 0) {
+                minMaxFitness = new FitnessTuple2(minMaxFitness.getFirst(), fitness);
             }
         }
         return minMaxFitness;
@@ -96,20 +95,39 @@ public class EntityWeighing<E extends Entity> implements Weighing<E> {
      */
     @Override
     public boolean weigh(List<Selection.Entry<E>> entities) {
-        Pair<Fitness, Fitness> minMaxFitness = getMinMaxFitness(entities);
+        FitnessTuple2 minMaxFitness = getMinMaxFitness(entities);
 
-        if (minMaxFitness.getKey() == InferiorFitness.instance() ||
-                minMaxFitness.getValue() == InferiorFitness.instance()) {
+        if (minMaxFitness.getFirst() == InferiorFitness.instance()
+                || minMaxFitness.getSecond() == InferiorFitness.instance()) {
             throw new UnsupportedOperationException("Cannot weigh entities where all entities have Inferior fitness.");
         }
 
-        double minMaxDifference = minMaxFitness.getValue().getValue() - minMaxFitness.getKey().getValue();
+        double minMaxDifference = minMaxFitness.getSecond().getValue() - minMaxFitness.getFirst().getValue();
 
         for (Selection.Entry<E> entity : entities) {
-            double weight = (this.entityFitness.getFitness(entity.getElement()).getValue() - minMaxFitness.getKey().getValue()) / minMaxDifference;
+            double weight = (this.entityFitness.getFitness(entity.getElement()).getValue() - minMaxFitness.getFirst().getValue()) / minMaxDifference;
             entity.setWeight(weight);
         }
 
         return true;
+    }
+
+    private static final class FitnessTuple2 {
+
+        private final Fitness f1;
+        private final Fitness f2;
+
+        FitnessTuple2(Fitness f1, Fitness f2) {
+            this.f1 = f1;
+            this.f2 = f2;
+        }
+
+        Fitness getFirst() {
+            return f1;
+        }
+
+        Fitness getSecond() {
+            return f2;
+        }
     }
 }
