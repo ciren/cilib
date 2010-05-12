@@ -83,7 +83,7 @@ public class ClusteringFitnessFunctionTest {
     @Test
     public void testEvaluate() {
         // the evaluate method arranges the clusters and centroids
-        assertEquals(4.27188655918496, function.evaluate(centroids), DELTA);
+        assertEquals(4.27188655918496, function.apply(centroids), DELTA);
     }
 
     @Test

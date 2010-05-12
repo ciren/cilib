@@ -73,7 +73,7 @@ public class Bukin4 extends ContinuousFunction {
      * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double x1 = input.doubleValueOf(0);
         double x2 = input.doubleValueOf(1);
 

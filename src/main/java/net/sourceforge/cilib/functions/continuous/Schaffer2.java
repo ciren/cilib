@@ -29,6 +29,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  engel
  */
 public class Schaffer2 extends ContinuousFunction {
+
     private static final long serialVersionUID = 7289010453718555694L;
 
     /** Creates a new instance of Schaffer. Domain defaults to R(-100, 100)^2 */
@@ -56,11 +57,10 @@ public class Schaffer2 extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double sum_squares = input.doubleValueOf(0) * input.doubleValueOf(0) + input.doubleValueOf(1) * input.doubleValueOf(1);
         double term1 = Math.pow(sum_squares, 0.25);
         double term2 = Math.pow(50 * Math.pow(sum_squares, 0.1), 2) + 1;
         return term1 * term2;
     }
-
 }

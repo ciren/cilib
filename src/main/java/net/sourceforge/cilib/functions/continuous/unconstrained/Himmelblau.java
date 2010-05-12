@@ -41,6 +41,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @version 1.0
  */
 public class Himmelblau extends ContinuousFunction {
+
     private static final long serialVersionUID = 7323733640884766707L;
 
     /**
@@ -70,11 +71,9 @@ public class Himmelblau extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double x = input.doubleValueOf(0);
         double y = input.doubleValueOf(1);
-
-        return Math.pow((x*x + y -11), 2) + Math.pow((x + y*y -7), 2);
+        return Math.pow((x * x + y - 11), 2) + Math.pow((x + y * y - 7), 2);
     }
-
 }

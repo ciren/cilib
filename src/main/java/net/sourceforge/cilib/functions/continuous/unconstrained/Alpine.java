@@ -78,7 +78,7 @@ public class Alpine extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector x) {
+    public Double apply(Vector x) {
         double sum = 0;
         for (Numeric n : x) {
             sum += Math.abs((n.doubleValue() * Math.sin(n.doubleValue())) + (0.1 * n.doubleValue()));

@@ -43,8 +43,8 @@ public class InvertedFunctionDecorator extends ContinuousFunction {
     }
 
     @Override
-    public Double evaluate(Vector input) {
-        double innerFunctionValue = function.evaluate(input);
+    public Double apply(Vector input) {
+        double innerFunctionValue = function.apply(input);
 
         if (innerFunctionValue == 0)
             throw new ArithmeticException("Inner function evaluation equated to 0. Division by zero is undefined");

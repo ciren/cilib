@@ -75,7 +75,7 @@ public class Shir extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double sinTerm;
         double expTerm;
         double product = 1.0;

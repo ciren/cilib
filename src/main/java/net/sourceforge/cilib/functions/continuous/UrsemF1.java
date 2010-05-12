@@ -35,6 +35,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @version 1.0
  */
 public class UrsemF1 extends ContinuousFunction {
+
     private static final long serialVersionUID = -2595919942608678319L;
 
     public UrsemF1() {
@@ -58,12 +59,10 @@ public class UrsemF1 extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double x = input.doubleValueOf(0);
         double y = input.doubleValueOf(1);
 
-        double result = Math.sin(2.0*x - 0.5*Math.PI) + 3.0*Math.cos(y) + 0.5*x;
-        return result;
+        return Math.sin(2.0 * x - 0.5 * Math.PI) + 3.0 * Math.cos(y) + 0.5 * x;
     }
-
 }

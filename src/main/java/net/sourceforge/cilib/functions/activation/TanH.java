@@ -52,15 +52,15 @@ public class TanH extends ActivationFunction {
      * {@inheritDoc}
      */
     @Override
-    public Real evaluate(Real input) {
-        return Real.valueOf(this.evaluate(input.doubleValue()));
+    public Real apply(Real input) {
+        return Real.valueOf(apply(input.doubleValue()));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public double evaluate(double input) {
+    public double apply(double input) {
         double a = Math.exp(input);
         double b = Math.exp(-input);
         return ((a-b)/(a+b));

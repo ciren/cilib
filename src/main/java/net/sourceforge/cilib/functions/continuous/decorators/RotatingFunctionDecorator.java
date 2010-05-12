@@ -146,7 +146,7 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
     }
 
     @Override
-    public Double evaluate(final Vector input) {
+    public Double apply(final Vector input) {
         Matrix result = createMatrix();
         Vector rotatedX = Vector.copyOf(Sequence.repeat(0.0, input.size()));
 
@@ -159,7 +159,7 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
             rotatedX.setReal(j, rotatedValue);
         }
 
-        return function.evaluate(rotatedX);
+        return function.apply(rotatedX);
     }
 
     /**

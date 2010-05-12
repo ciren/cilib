@@ -77,7 +77,7 @@ public class Quadric extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double sumsq = 0;
         for (int i = 0; i < getDimension(); ++i) {
             double sum = 0;

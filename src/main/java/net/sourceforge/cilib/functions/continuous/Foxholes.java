@@ -65,7 +65,7 @@ public class Foxholes extends ContinuousFunction {
      */
     // This impl is according to the function defined by Xin Yao in the FastEP and by the DE guys
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double result = 0.002;
         double sum = 0.0;
 

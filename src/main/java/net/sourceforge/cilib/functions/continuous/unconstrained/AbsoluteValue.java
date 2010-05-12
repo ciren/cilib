@@ -74,7 +74,7 @@ public class AbsoluteValue extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double tmp = 0.0;
         for (int i = 0; i < getDimension(); ++i) {
             tmp += Math.abs(input.doubleValueOf(i));

@@ -90,10 +90,10 @@ public class AngleModulation extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         String solution = generateBitString(input, bitsPerDimension);
         Vector expandedVector = decodeBitString(solution, bitsPerDimension);
-        return function.evaluate(expandedVector).doubleValue();
+        return function.apply(expandedVector).doubleValue();
     }
 
     /**

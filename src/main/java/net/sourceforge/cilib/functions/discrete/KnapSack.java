@@ -63,7 +63,7 @@ public class KnapSack extends DiscreteFunction {
      * {@inheritDoc}
      */
     @Override
-    public Integer evaluate(Vector x) {
+    public Integer apply(Vector x) {
         double weight = 0.0;
 
         for (int i = 0; i < x.size(); i++) {

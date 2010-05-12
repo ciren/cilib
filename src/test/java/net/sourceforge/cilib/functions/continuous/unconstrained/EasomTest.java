@@ -49,11 +49,11 @@ public class EasomTest {
         Vector x = new Vector();
         x.add(Real.valueOf(Math.PI));
         x.add(Real.valueOf(Math.PI));
-        assertEquals(-1.0, function.evaluate(x), 0.0);
+        assertEquals(-1.0, function.apply(x), 0.0);
 
         x.setReal(0, Math.PI/2.0);
         x.setReal(1, Math.PI/2.0);
-        assertEquals(0.0, function.evaluate(x), 0.0000000001);
+        assertEquals(0.0, function.apply(x), 0.0000000001);
     }
 
     @Test

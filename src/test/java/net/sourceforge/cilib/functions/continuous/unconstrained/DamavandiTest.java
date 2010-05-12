@@ -49,11 +49,11 @@ public class DamavandiTest {
         Vector x = new Vector();
         x.add(Real.valueOf(2.0000001));
         x.add(Real.valueOf(2.0000001));
-        assertEquals(0.0, function.evaluate(x), 0.000000001);
+        assertEquals(0.0, function.apply(x), 0.000000001);
 
         x.setReal(0, 7.0);
         x.setReal(1, 7.0);
-        assertEquals(2.0, function.evaluate(x), 0.0);
+        assertEquals(2.0, function.apply(x), 0.0);
     }
 
     @Test

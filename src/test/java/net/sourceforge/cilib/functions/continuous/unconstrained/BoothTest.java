@@ -57,11 +57,11 @@ public class BoothTest {
         x.add(Real.valueOf(1.0));
         x.add(Real.valueOf(2.0));
 
-        assertEquals(5.0, function.evaluate(x), 0.0);
+        assertEquals(5.0, function.apply(x), 0.0);
 
         x.setReal(0, 1.0);
         x.setReal(1, 3.0);
-        assertEquals(0.0, function.evaluate(x), 0.0);
+        assertEquals(0.0, function.apply(x), 0.0);
     }
 
     @Test

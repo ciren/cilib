@@ -78,7 +78,7 @@ public class Colville extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double a = input.doubleValueOf(0);
         double b = input.doubleValueOf(1);
         double c = input.doubleValueOf(2);

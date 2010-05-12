@@ -49,7 +49,7 @@ public class LongestCommonSubsequence extends DiscreteFunction {
 
 
     @Override
-    public Integer evaluate(Vector input) {
+    public Integer apply(Vector input) {
         int v = 0;
         int l = length(input);
         int m = matches(input);

@@ -46,7 +46,7 @@ public class EggHolderTest {
         vector.add(Real.valueOf(200));
         vector.add(Real.valueOf(100));
 
-        Assert.assertEquals(-166.745338888944,function.evaluate(vector),0.00000000001);
+        Assert.assertEquals(-166.745338888944,function.apply(vector),0.00000000001);
     }
 
     @Test
@@ -58,6 +58,6 @@ public class EggHolderTest {
         vector.add(Real.valueOf(512));
         vector.add(Real.valueOf(404.2319));
 
-        Assert.assertEquals(-959.640662710616,function.evaluate(vector),0.00000000001);
+        Assert.assertEquals(-959.640662710616,function.apply(vector),0.00000000001);
     }
 }

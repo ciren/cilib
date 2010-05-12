@@ -70,7 +70,7 @@ public class ShekelN extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double sum = 0;
         for (int i = 0; i < n; ++i) {
             double innerSum = 0;

@@ -81,10 +81,9 @@ public class Bohachevsky1 extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double x = input.doubleValueOf(0);
         double y = input.doubleValueOf(1);
-        return x*x + 2*y*y - 0.3*Math.cos(3*Math.PI*x) - 0.4*Math.cos(4*Math.PI*y)+0.7;
+        return x * x + 2 * y * y - 0.3 * Math.cos(3 * Math.PI * x) - 0.4 * Math.cos(4 * Math.PI * y) + 0.7;
     }
-
 }

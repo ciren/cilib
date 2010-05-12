@@ -54,7 +54,7 @@ public class BirdTest {
         x.add(Real.valueOf(1.0));
         x.add(Real.valueOf(2.0));
 
-        assertEquals(6.8250541015507, function.evaluate(x), 0.00000000001);
+        assertEquals(6.8250541015507, function.apply(x), 0.00000000001);
     }
 
     @Test

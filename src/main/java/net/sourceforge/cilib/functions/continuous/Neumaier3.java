@@ -59,7 +59,7 @@ public class Neumaier3 extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double tmp1 = 0;
         double tmp2 = 0;
         for (int i = 0; i < getDimension(); ++i) {

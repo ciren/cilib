@@ -68,7 +68,7 @@ public class Griewank extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double sumsq = 0;
         double prod = 1;
         for (int i = 0; i < getDimension(); ++i) {

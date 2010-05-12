@@ -69,7 +69,7 @@ public class Queens extends DiscreteFunction {
      *
      */
     @Override
-    public Integer evaluate(Vector input) {
+    public Integer apply(Vector input) {
         int fitness = 0;
         boolean[][] board = new boolean[boardSize][boardSize];
 

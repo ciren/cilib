@@ -52,12 +52,12 @@ public class DeJongF4Test {
         x.add(Real.valueOf(0));
         x.add(Real.valueOf(0));
 
-        assertEquals(0.0, function.evaluate(x), 0.0);
+        assertEquals(0.0, function.apply(x), 0.0);
 
         x.setReal(0, 1.0);
         x.setReal(1, 2.0);
 
-        assertEquals(33, function.evaluate(x), 0.0000000001);
+        assertEquals(33, function.apply(x), 0.0000000001);
     }
 
     @Test

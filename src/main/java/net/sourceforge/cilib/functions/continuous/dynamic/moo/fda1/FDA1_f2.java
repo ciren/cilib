@@ -33,10 +33,9 @@ import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
  *
  * @author Marde Greeff
  */
-
 public class FDA1_f2 extends ContinuousFunction {
-    private static final long serialVersionUID = 6369118486095689078L;
 
+    private static final long serialVersionUID = 6369118486095689078L;
     //member
     private Function<Vector, ? extends Number> fda1_g;
     private Function<Vector, ? extends Number> fda1_h;
@@ -148,13 +147,10 @@ public class FDA1_f2 extends ContinuousFunction {
      * g*h
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         Vector y = input.copyOfRange(1, input.size());
-        double g = this.fda1_g.evaluate(y).doubleValue();
-        double h = this.fda1_h.evaluate(input).doubleValue();
-
-        double value = g*h;
-
-        return value;
+        double g = this.fda1_g.apply(y).doubleValue();
+        double h = this.fda1_h.apply(input).doubleValue();
+        return g * h;
     }
 }

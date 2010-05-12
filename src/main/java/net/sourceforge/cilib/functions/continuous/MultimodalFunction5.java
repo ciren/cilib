@@ -57,14 +57,10 @@ public class MultimodalFunction5 extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double x = input.doubleValueOf(0);
         double y = input.doubleValueOf(1);
-        double result;
-
-        result = 200 - Math.pow((x*x + y - 11), 2) - Math.pow((x + y*y - 7), 2);
-
-        return result;
+        return 200 - Math.pow((x*x + y - 11), 2) - Math.pow((x + y*y - 7), 2);
     }
 
 }

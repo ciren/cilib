@@ -79,7 +79,7 @@ public class GenericFunctionMeasurement<F, T> implements Measurement<Real> {
         }
 
         Vector vector = (Vector) algorithm.getBestSolution().getPosition();
-        return Real.valueOf(function.evaluate(vector));
+        return Real.valueOf(function.apply(vector));
     }
 
     /**

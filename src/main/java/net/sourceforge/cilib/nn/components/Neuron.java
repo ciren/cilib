@@ -83,7 +83,7 @@ public class Neuron implements Cloneable {
         for (int i = 0; i < size; i++) {
             netInput += netInputSource.getNeuralInput(i) * this.weights.doubleValueOf(i);
         }
-        this.activation = activationFunction.evaluate(netInput);
+        this.activation = activationFunction.apply(netInput);
         return activation;
     }
 

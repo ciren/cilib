@@ -106,7 +106,7 @@ public class BitStringMatcher extends DiscreteFunction {
      * {@inheritDoc}
      */
     @Override
-    public Integer evaluate(Vector input) {
+    public Integer apply(Vector input) {
         int result = 0;
 
         for (int i = 0; i < input.size(); i++) {

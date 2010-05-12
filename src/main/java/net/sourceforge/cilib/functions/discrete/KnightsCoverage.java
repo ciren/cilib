@@ -55,7 +55,7 @@ public class KnightsCoverage extends DiscreteFunction {
      * {@inheritDoc}
      */
     @Override
-    public Integer evaluate(Vector input) {
+    public Integer apply(Vector input) {
         int[][] board = new int[boardSize][boardSize];
 
         // Place the knights (represented by a -1)

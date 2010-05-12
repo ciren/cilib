@@ -52,6 +52,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class Beale extends ContinuousFunction {
+
     private static final long serialVersionUID = -7803711986955989075L;
 
     /**
@@ -79,11 +80,10 @@ public class Beale extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double x1 = input.doubleValueOf(0);
         double x2 = input.doubleValueOf(1);
-
-        return (1.5-x1+x1*x2)*(1.5-x1+x1*x2) + (2.25-x1+x1*x2*x2)*(2.25-x1+x1*x2*x2) + (2.625-x1+x1*x2*x2*x2)*(2.625-x1+x1*x2*x2*x2);
+        return (1.5 - x1 + x1 * x2) * (1.5 - x1 + x1 * x2) + (2.25 - x1 + x1 * x2 * x2) * (2.25 - x1 + x1 * x2 * x2) + (2.625 - x1 + x1 * x2 * x2 * x2) * (2.625 - x1 + x1 * x2 * x2 * x2);
     }
 }
 

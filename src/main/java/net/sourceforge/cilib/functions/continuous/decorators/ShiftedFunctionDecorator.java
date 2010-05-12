@@ -45,6 +45,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Olusegun Olorunda
  */
 public class ShiftedFunctionDecorator extends ContinuousFunction {
+
     private static final long serialVersionUID = 8687711759870298103L;
     private ContinuousFunction function;
     private double verticalShift;
@@ -75,14 +76,14 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         Vector tmp = Vector.of();
 
         for (int i = 0; i < input.size(); i++) {
             tmp.add(Real.valueOf(input.doubleValueOf(i) + horizontalShift));
         }
 
-        return function.evaluate(tmp) + verticalShift;
+        return function.apply(tmp) + verticalShift;
     }
 
     /**
@@ -131,5 +132,4 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
     public void setVerticalShift(double verticalShift) {
         this.verticalShift = verticalShift;
     }
-
 }

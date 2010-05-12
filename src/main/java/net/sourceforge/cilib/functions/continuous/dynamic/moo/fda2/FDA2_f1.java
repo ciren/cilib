@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Marde Greeff
  */
-
 public class FDA2_f1 extends ContinuousFunction {
 
     private static final long serialVersionUID = 3509865802519318920L;
@@ -39,7 +38,7 @@ public class FDA2_f1 extends ContinuousFunction {
     /**
      * Default Contructor
      */
-    public FDA2_f1 () {
+    public FDA2_f1() {
         super();
         setDomain("R(0, 1)");
     }
@@ -65,7 +64,7 @@ public class FDA2_f1 extends ContinuousFunction {
      * f1(X_I) = x_1
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         return Math.abs(input.doubleValueOf(0));
     }
 }

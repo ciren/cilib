@@ -48,7 +48,6 @@ public class KnapSackTest {
         x.add(Bit.valueOf(true));
         x.add(Bit.valueOf(true));
 
-        assertEquals(5, Double.valueOf(k.evaluate(x)).intValue());
+        assertEquals(5, Double.valueOf(k.apply(x)).intValue());
     }
-
 }

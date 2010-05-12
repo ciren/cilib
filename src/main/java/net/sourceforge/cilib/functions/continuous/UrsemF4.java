@@ -24,7 +24,6 @@ package net.sourceforge.cilib.functions.continuous;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
  * UrsemF4 function.
  *
@@ -37,6 +36,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @version 1.0
  */
 public class UrsemF4 extends ContinuousFunction {
+
     private static final long serialVersionUID = 6177837410317967257L;
 
     public UrsemF4() {
@@ -64,10 +64,9 @@ public class UrsemF4 extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double x = input.doubleValueOf(0);
         double y = input.doubleValueOf(1);
-        double result = 3.0*Math.sin(0.5*Math.PI*x + 0.5*Math.PI)*(2.0 - Math.sqrt(x*x + y*y)/4.0);
-        return result;
+        return 3.0 * Math.sin(0.5 * Math.PI * x + 0.5 * Math.PI) * (2.0 - Math.sqrt(x * x + y * y) / 4.0);
     }
 }

@@ -56,10 +56,10 @@ public class Bohachevsky3Test {
         x.add(Real.valueOf(1.0));
         x.add(Real.valueOf(2.0));
 
-        assertEquals(9.6, function.evaluate(x), 0.00000000000001);
+        assertEquals(9.6, function.apply(x), 0.00000000000001);
 
         x.setReal(0, 0.0);
         x.setReal(1, 0.0);
-        assertEquals(0.0, function.evaluate(x), 0.0);
+        assertEquals(0.0, function.apply(x), 0.0);
     }
 }

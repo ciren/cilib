@@ -69,7 +69,7 @@ public class NeuronTest {
         Vector weights = neuron.getWeights();
         double dotP = input.dot(weights);
         Sigmoid sigmoid = new Sigmoid();
-        double reference = sigmoid.evaluate(dotP);
+        double reference = sigmoid.apply(dotP);
         Assert.assertEquals(reference, neuron.calculateActivation(source), Maths.EPSILON);
     }
 

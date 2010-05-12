@@ -60,8 +60,8 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Double evaluate(Vector input) {
-        return function.evaluate(input) + randomNumber.getGaussian(0.0, this.variance.getParameter());
+    public Double apply(Vector input) {
+        return function.apply(input) + randomNumber.getGaussian(0.0, this.variance.getParameter());
     }
 
 
