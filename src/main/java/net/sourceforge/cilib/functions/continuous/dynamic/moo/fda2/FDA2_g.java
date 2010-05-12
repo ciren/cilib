@@ -65,7 +65,7 @@ public class FDA2_g extends ContinuousFunction {
      * g(XII) = 1 + sum((x_i)^2)
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
 
         double sum = 1.0;
 

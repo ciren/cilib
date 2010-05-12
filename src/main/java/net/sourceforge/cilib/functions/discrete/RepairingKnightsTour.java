@@ -90,7 +90,7 @@ public class RepairingKnightsTour extends DiscreteFunction {
      *
      */
     @Override
-    public Integer evaluate(Vector input) {
+    public Integer apply(Vector input) {
         int fitness = 0;
 
         int row = startX;

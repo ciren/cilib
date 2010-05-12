@@ -46,12 +46,12 @@ public class SalomonTest {
         x.append(new Real(0));
         x.append(new Real(0));
 
-        assertEquals(0.0, function.evaluate(x), 0.0);
+        assertEquals(0.0, function.apply(x), 0.0);
 
         x.setReal(0, 1.0);
         x.setReal(1, 2.0);
 
-        assertEquals(1.13618107303302, function.evaluate(x), 0.0000000001);
+        assertEquals(1.13618107303302, function.apply(x), 0.0000000001);
     }
 
     @Test

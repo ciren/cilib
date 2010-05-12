@@ -208,7 +208,7 @@ public class FDA2_h extends ContinuousFunction {
      * h(X_III, f_1, g) = 1-(f_1/g)^(H(t) + sum(x_i-H(t))^2)^(-1)
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         this.tau = AbstractAlgorithm.get().getIterations();
 
         double t = (1.0/(double)n_t)*Math.floor((double)this.tau/(double)this.tau_t);
@@ -223,8 +223,8 @@ public class FDA2_h extends ContinuousFunction {
             xIII = input.subList(16, input.getDimension()-1);
         }
 
-        double f = this.fda2_f.evaluate(xI);
-        double g = this.fda2_g.evaluate(xII);
+        double f = this.fda2_f.apply(xI);
+        double g = this.fda2_g.apply(xII);
 
         double value = 1.0;
         double power = H;

@@ -63,12 +63,12 @@ public class BinaryAdapter extends ContinuousFunction {
      * @param input The {@see net.sourceforge.cilib.type.types.Bit} vector to evaluate
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
 //        System.out.println("vector: " + input);
         Vector decodedVector = this.decodeBitString(input);
 //        System.out.println("decoded: " + decodedVector + " " + decodedVector.size());
 
-        return function.evaluate(decodedVector).doubleValue();
+        return function.apply(decodedVector).doubleValue();
     }
 
     /**

@@ -69,7 +69,7 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         Vector tmp = input.getClone();
 
         if (horizontalReflection) {
@@ -79,9 +79,9 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
         }
 
         if(verticalReflection)
-            return -function.evaluate(tmp);
+            return -function.apply(tmp);
 
-        return function.evaluate(tmp);
+        return function.apply(tmp);
     }
 
     /**

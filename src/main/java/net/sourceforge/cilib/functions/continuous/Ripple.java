@@ -65,7 +65,7 @@ public class Ripple extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double x = input.getReal(0);
         double y = input.getReal(1);
 

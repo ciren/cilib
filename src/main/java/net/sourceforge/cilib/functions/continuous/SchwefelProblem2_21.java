@@ -65,7 +65,7 @@ public class SchwefelProblem2_21 extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double max = Math.abs(input.getReal(0));
         double value;
 

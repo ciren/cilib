@@ -53,13 +53,13 @@ public class HyperEllipsoidTest {
         x.append(new Real(0.0));
         x.append(new Real(0.0));
         x.append(new Real(0.0));
-        Assert.assertEquals(0.0, function.evaluate(x), EPSILON);
+        Assert.assertEquals(0.0, function.apply(x), EPSILON);
 
         //test another point
         x.setReal(0, 2.0);
         x.setReal(1, 2.0);
         x.setReal(2, 2.0);
-        Assert.assertEquals(24.0, function.evaluate(x), EPSILON);
+        Assert.assertEquals(24.0, function.apply(x), EPSILON);
     }
 
     /** Test of the getMinimum method of the {@link HyperEllipsoid} class. */

@@ -51,12 +51,12 @@ public class AbsoluteValueTest {
         x.append(new Real(-1.0));
         x.append(new Real(2.0));
         x.append(new Real(-3.0));
-        assertEquals(6.0, function.evaluate(x), 0.0);
+        assertEquals(6.0, function.apply(x), 0.0);
 
         x.setReal(0, 0.0);
         x.setReal(1, 0.0);
         x.setReal(2, 0.0);
-        assertEquals(0.0, function.evaluate(x), 0.0);
+        assertEquals(0.0, function.apply(x), 0.0);
     }
 
     @Test

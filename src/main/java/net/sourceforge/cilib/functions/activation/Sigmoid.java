@@ -60,15 +60,15 @@ public class Sigmoid extends ActivationFunction {
      * {@inheritDoc}
      */
     @Override
-    public Real evaluate(Real input) {
-        return new Real(this.evaluate(input.getReal()));
+    public Real apply(Real input) {
+        return new Real(this.apply(input.getReal()));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public double evaluate(double input) {
+    public double apply(double input) {
         return 1.0 / (1.0 + Math.pow(Math.E, -1.0 * steepness.getParameter() * (input - offset.getParameter())));
     }
 

@@ -75,7 +75,7 @@ public class Rastrigin extends ContinuousFunction implements Differentiable {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double tmp = 0;
         for (int i = 0; i < getDimension(); ++i) {
             tmp += input.getReal(i) * input.getReal(i) - 10.0 * Math.cos(2 * Math.PI * input.getReal(i));

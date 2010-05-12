@@ -73,7 +73,7 @@ public class Schwefel extends ContinuousFunction { // ?
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double sum = 0;
         for (int i = 0; i < input.getDimension(); ++i) {
             sum += input.getReal(i) * Math.sin(Math.sqrt(Math.abs(input.getReal(i))));

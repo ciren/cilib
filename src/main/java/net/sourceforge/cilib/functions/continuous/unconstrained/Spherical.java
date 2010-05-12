@@ -78,7 +78,7 @@ public class Spherical extends ContinuousFunction implements Differentiable {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double tmp = 0;
         for (int i = 0; i < input.getDimension(); i++) {
             double value = input.getReal(i);

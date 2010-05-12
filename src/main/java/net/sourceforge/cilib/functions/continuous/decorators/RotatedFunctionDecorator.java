@@ -67,7 +67,7 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
      * being decorated with the rotated vector as the parameter.
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         RandomNumber rotateOrNot = new RandomNumber();
 
         if(rotationMatrix == null || rotateOrNot.getUniform() < rotationProbability.getParameter())
@@ -82,7 +82,7 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
             }
         }
 
-        return function.evaluate(rotatedX);
+        return function.apply(rotatedX);
     }
 
     /**

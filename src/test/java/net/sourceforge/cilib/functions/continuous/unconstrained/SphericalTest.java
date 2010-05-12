@@ -55,7 +55,7 @@ public class SphericalTest {
         x.append(new Real(2.0));
         x.append(new Real(3.0));
 
-        assertEquals(14.0, function.evaluate(x), 0.0);
+        assertEquals(14.0, function.apply(x), 0.0);
     }
 
     @Test

@@ -92,7 +92,7 @@ public class MaximumDeratingFunction1 extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         // the derating function is only to be used with Derating Function Problem
         // if the this class is misused, then prcocess will exit inorder to prevent
         // errorneous results.

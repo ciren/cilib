@@ -58,8 +58,8 @@ public class SchwefelTest {
         y.append(new Real(-2.0));
         y.append(new Real(-3.0));
 
-        assertEquals(1262.726744, function.evaluate(x), 0.0000009);
-        assertEquals(1251.170579, function.evaluate(y), 0.0000009);
+        assertEquals(1262.726744, function.apply(x), 0.0000009);
+        assertEquals(1251.170579, function.apply(y), 0.0000009);
     }
 
 

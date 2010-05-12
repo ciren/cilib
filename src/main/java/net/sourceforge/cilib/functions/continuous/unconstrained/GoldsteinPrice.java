@@ -65,7 +65,7 @@ public class GoldsteinPrice extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double part1 = 1 + (input.getReal(0) + input.getReal(1) + 1.0) * (input.getReal(0) + input.getReal(1) + 1.0) * (19.0 - 14.0 * input.getReal(0) + 3 * input.getReal(0) * input.getReal(0) - 14 * input.getReal(1) + 6 * input.getReal(0) * input.getReal(1) + 3 * input.getReal(1) * input.getReal(1));
         double part2 = 30 + (2 * input.getReal(0) - 3 * input.getReal(1)) * (2 * input.getReal(0) - 3 * input.getReal(1)) * (18 - 32 * input.getReal(0) + 12 * input.getReal(0) * input.getReal(0) + 48 * input.getReal(1) - 36 * input.getReal(0) * input.getReal(1) + 27 * input.getReal(1) * input.getReal(1));
         return part1 * part2;

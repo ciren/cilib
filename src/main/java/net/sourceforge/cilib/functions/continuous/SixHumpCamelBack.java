@@ -73,7 +73,7 @@ public class SixHumpCamelBack extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double apply(Vector input) {
         double x1 = input.getReal(0);
         double x2 = input.getReal(1);
 
