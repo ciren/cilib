@@ -27,8 +27,6 @@ import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -76,8 +74,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Olusegun Olorunda
  */
 public class BlendCrossoverStrategy extends CrossoverStrategy {
-    private static final long serialVersionUID = -7955031193090240495L;
 
+    private static final long serialVersionUID = -7955031193090240495L;
     private ControlParameter alpha;
 
     public BlendCrossoverStrategy() {
@@ -121,7 +119,7 @@ public class BlendCrossoverStrategy extends CrossoverStrategy {
                 double value1 = (1 - gamma) * parentChromosome1.doubleValueOf(i) + gamma * parentChromosome2.doubleValueOf(i);
                 double value2 = (1 - gamma) * parentChromosome2.doubleValueOf(i) + gamma * parentChromosome1.doubleValueOf(i);
                 offspringChromosome1.setReal(i, value1);
-                offspringChromosome2.setReal(i,    value2);
+                offspringChromosome2.setReal(i, value2);
 
                 /*
                  * if (i%2 == 0) { offspringChromosome1.set(i,
@@ -155,20 +153,4 @@ public class BlendCrossoverStrategy extends CrossoverStrategy {
     public void setAlpha(ControlParameter alpha) {
         this.alpha = alpha;
     }
-
-    @Override
-//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-    public void performOperation(TopologyHolder holder) {
-        List<Entity> parentCollection = new ArrayList<Entity>();
-
-        Topology<? extends Entity> topology = holder.getTopology();
-//        Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
-
-        parentCollection.add(getSelectionStrategy().select(topology));
-        parentCollection.add(getSelectionStrategy().select(topology));
-
-//        offspring.addAll(this.crossover(parentCollection));
-        holder.addAll(this.crossover(parentCollection));
-    }
-
 }

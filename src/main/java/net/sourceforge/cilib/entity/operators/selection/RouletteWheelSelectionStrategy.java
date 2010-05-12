@@ -23,7 +23,6 @@ package net.sourceforge.cilib.entity.operators.selection;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.util.selection.recipes.RouletteWheelSelection;
 import net.sourceforge.cilib.util.selection.weighing.entity.EntityWeighing;
 
@@ -41,6 +40,7 @@ import net.sourceforge.cilib.util.selection.weighing.entity.EntityWeighing;
  * @author Vikash Ranjan Parida
  */
 public class RouletteWheelSelectionStrategy extends SelectionStrategy {
+
     private static final long serialVersionUID = 6827649649373047787L;
 
     /**
@@ -70,17 +70,5 @@ public class RouletteWheelSelectionStrategy extends SelectionStrategy {
     @Override
     public <T extends Entity> T select(final Topology<T> population) {
         return new RouletteWheelSelection<T>(new EntityWeighing<T>()).select(population);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-    public void performOperation(TopologyHolder holder) {
-//        Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
-        Topology<? extends Entity> topology = holder.getTopology();
-//        offspring.add(select(topology));
-        holder.add(select(topology));
     }
 }

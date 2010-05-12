@@ -176,7 +176,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
 
         performUninitialisation();
 
-        currentAlgorithmStack.remove();
+        currentAlgorithmStack.get().pop();
     }
 
     /**

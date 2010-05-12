@@ -21,12 +21,12 @@
  */
 package net.sourceforge.cilib.entity.operators.crossover;
 
-import java.util.ArrayList;
+import com.google.common.collect.Lists;
 import java.util.List;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.TopologyHolder;
+import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -56,12 +56,23 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
      * {@inheritDoc}
      */
     @Override
-    public List<Entity> crossover(List<Entity> parentCollection) {
-        List<Entity> offspring = new ArrayList<Entity>(parentCollection.size());
+    public List<Entity> crossover(final List<Entity> parentCollection) {
+        // Create a topology for the purposes of selection.
+        // This is a code smell indicating that the crossover
+        // API is not well defined.
+        Topology<Entity> parentTopology = new GBestTopology<Entity>();
+        parentTopology.addAll(parentCollection);
+        List<Entity> offspring = Lists.newArrayListWithCapacity(parentCollection.size());
+
+        // Select two parents, based on the selection strategy - this
+        // is not 100% solid, needs to be looked at.
+        List<Entity> selectedParents = Lists.newArrayList();
+        selectedParents.add(getSelectionStrategy().select(parentTopology));
+        selectedParents.add(getSelectionStrategy().select(parentTopology));
 
         //How do we handle variable sizes? Resizing the entities?
-        Entity parent1 = parentCollection.get(0);
-        Entity parent2 = parentCollection.get(1);
+        Entity parent1 = selectedParents.get(0);
+        Entity parent2 = selectedParents.get(1);
 
         if (this.getCrossoverProbability().getParameter() >= this.getRandomNumber().getUniform()) {
             int minDimension = Math.min(parent1.getDimension(), parent2.getDimension());
@@ -103,23 +114,5 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
         }
 
         return offspring;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-    public void performOperation(TopologyHolder holder) {
-        List<Entity> parentCollection = new ArrayList<Entity>();
-
-        Topology<? extends Entity> topology = holder.getTopology();
-//        Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
-
-        parentCollection.add(getSelectionStrategy().select(topology));
-        parentCollection.add(getSelectionStrategy().select(topology));
-
-//        offspring.addAll(this.crossover(parentCollection));
-        holder.addAll(this.crossover(parentCollection));
     }
 }

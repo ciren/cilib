@@ -36,8 +36,8 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  * @author Gary Pampara
  */
 public abstract class MutationStrategy implements Operator {
-    private static final long serialVersionUID = 6670947597280440404L;
 
+    private static final long serialVersionUID = 6670947597280440404L;
     private ControlParameter mutationProbability;
     private RandomNumber randomNumber;
     private String operator;
@@ -120,5 +120,4 @@ public abstract class MutationStrategy implements Operator {
     public ArithmeticOperator getOperatorStrategy() {
         return this.operatorStrategy;
     }
-
 }

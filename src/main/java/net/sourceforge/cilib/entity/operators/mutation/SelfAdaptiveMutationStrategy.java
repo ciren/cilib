@@ -25,7 +25,6 @@ import com.google.common.base.Function;
 import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -82,11 +81,6 @@ public class SelfAdaptiveMutationStrategy extends MutationStrategy {
             });
             offspring.getProperties().put(EntityType.STRATEGY_PARAMETERS, newStrategy);
         }
-    }
-
-    @Override
-    public void performOperation(TopologyHolder holder) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private void initializeConstants(List<? extends Entity> offspringList) {

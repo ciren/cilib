@@ -27,7 +27,6 @@ import java.util.ListIterator;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -35,8 +34,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public class GaussianMutationStrategy extends MutationStrategy {
-    private static final long serialVersionUID = -4219155909474892419L;
 
+    private static final long serialVersionUID = -4219155909474892419L;
     private double mean;
     private ControlParameter deviationStrategy;
 
@@ -96,14 +95,4 @@ public class GaussianMutationStrategy extends MutationStrategy {
     public void setMean(double mean) {
         this.mean = mean;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-    public void performOperation(TopologyHolder holder) {
-        this.mutate(holder.getModifiable());
-    }
-
 }

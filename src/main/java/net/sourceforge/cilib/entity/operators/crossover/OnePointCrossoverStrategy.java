@@ -25,16 +25,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
-*
-* @author Andries Engelbrecht
-* @author Gary Pampara
-*/
+ *
+ * @author Andries Engelbrecht
+ * @author Gary Pampara
+ */
 public class OnePointCrossoverStrategy extends CrossoverStrategy {
+
     private static final long serialVersionUID = 7313531386910938748L;
 
     public OnePointCrossoverStrategy() {
@@ -62,7 +61,7 @@ public class OnePointCrossoverStrategy extends CrossoverStrategy {
         if (this.getRandomNumber().getUniform() <= this.getCrossoverProbability().getParameter()) {
             // Select the pivot point where crossover will occour
             int maxLength = Math.min(parent1.getDimension(), parent2.getDimension());
-            int crossoverPoint = Double.valueOf(this.getRandomNumber().getUniform(0, maxLength+1)).intValue();
+            int crossoverPoint = Double.valueOf(this.getRandomNumber().getUniform(0, maxLength + 1)).intValue();
 
             Entity offspring1 = parent1.getClone();
             Entity offspring2 = parent2.getClone();
@@ -86,19 +85,5 @@ public class OnePointCrossoverStrategy extends CrossoverStrategy {
         }
 
         return offspring;
-    }
-
-//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-    public void performOperation(TopologyHolder holder) {
-        List<Entity> parentCollection = new ArrayList<Entity>();
-
-        Topology<? extends Entity> topology = holder.getTopology();
-//        Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
-
-        parentCollection.add(getSelectionStrategy().select(topology));
-        parentCollection.add(getSelectionStrategy().select(topology));
-
-//        offspring.addAll(this.crossover(parentCollection));
-        holder.addAll(this.crossover(parentCollection));
     }
 }

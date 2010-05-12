@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -86,13 +85,5 @@ public class DifferentialEvolutionBinomialCrossover extends CrossoverStrategy {
         Entity offspring = parentCollection.get(0).getClone();
         offspring.setCandidateSolution(offspringVector);
         return Arrays.asList(offspring);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-    public void performOperation(TopologyHolder holder) {
-        throw new UnsupportedOperationException("performOperation() is currently not implemented.");
     }
 }

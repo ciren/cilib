@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.ec;
 
-import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
@@ -182,7 +182,7 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
      * {@inheritDoc}
      */
     public List<OptimisationSolution> getSolutions() {
-        return null;
+        return Lists.newArrayList(getBestSolution());
     }
 
     /**

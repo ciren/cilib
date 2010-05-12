@@ -30,7 +30,6 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -44,8 +43,10 @@ import net.sourceforge.cilib.util.selection.Selection;
  * value of 1 will ignore the controbution of the random {@linkplain Entity}.
  */
 public class RandToBestCreationStrategy extends RandCreationStrategy {
+
     private static final long serialVersionUID = 413628791093573875L;
     private ControlParameter greedynessParameter;
+
     /**
      * Create a new instance of {@code RandToBestCreationStrategy}.
      */
@@ -53,6 +54,7 @@ public class RandToBestCreationStrategy extends RandCreationStrategy {
         super();
         greedynessParameter = new ConstantControlParameter(0.5);
     }
+
     /**
      * Copy constructor. Create a copy of the provided instance.
      * @param copy The instance to copy.
@@ -69,15 +71,13 @@ public class RandToBestCreationStrategy extends RandCreationStrategy {
             Topology<? extends Entity> topology) {
         Entity bestEntity = topology.getBestEntity();
         RandomProvider random = new MersenneTwister();
-        List<Entity> participants = Selection.from(topology.asList()).unique()
-                .exclude(targetEntity, bestEntity, current).and()
-                .random(random, (int)numberOfDifferenceVectors.getParameter()).select(Samples.all()).perform();
+        List<Entity> participants = Selection.from(topology.asList()).unique().exclude(targetEntity, bestEntity, current).and().random(random, (int) numberOfDifferenceVectors.getParameter()).select(Samples.all()).perform();
         Vector differenceVector = determineDistanceVector(participants);
 
         Vector targetVector = ((Vector) targetEntity.getCandidateSolution()).multiply(1 - greedynessParameter.getParameter());
-        Vector bestVector =   ((Vector) bestEntity.getCandidateSolution()).multiply(greedynessParameter.getParameter());
+        Vector bestVector = ((Vector) bestEntity.getCandidateSolution()).multiply(greedynessParameter.getParameter());
 
-        Vector trialVector =  bestVector.plus(targetVector.plus(differenceVector.multiply(scaleParameter.getParameter())));
+        Vector trialVector = bestVector.plus(targetVector.plus(differenceVector.multiply(scaleParameter.getParameter())));
 
         Entity trialEntity = current.getClone();
         trialEntity.setCandidateSolution(trialVector);
@@ -92,16 +92,7 @@ public class RandToBestCreationStrategy extends RandCreationStrategy {
         return new RandToBestCreationStrategy(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void performOperation(TopologyHolder holder) {
-        throw new UnsupportedOperationException("Not supported yet. This may need some more refactoring. May require looping operator?");
-    }
-
     public void setGreedynessParameter(ControlParameter greedynessParameter) {
         this.greedynessParameter = greedynessParameter;
     }
-
 }

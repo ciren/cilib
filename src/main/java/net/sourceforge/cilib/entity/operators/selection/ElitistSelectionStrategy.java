@@ -25,12 +25,11 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.util.selection.recipes.ElitistSelection;
 
 public class ElitistSelectionStrategy extends SelectionStrategy {
-    private static final long serialVersionUID = -3055600262753819388L;
 
+    private static final long serialVersionUID = -3055600262753819388L;
     private ControlParameter selectionPercentage;
 
     public ElitistSelectionStrategy() {
@@ -68,17 +67,16 @@ public class ElitistSelectionStrategy extends SelectionStrategy {
      * in no modification operators (cross-over or mutation) being applied to these entities.
      * @param holder The {@link TopologyHolder} maintaining the various entity collections.
      */
-    @Override
-    public void performOperation(TopologyHolder holder) {
-        int size = Double.valueOf(this.selectionPercentage.getParameter() * holder.getTopology().size()).intValue();
-
-        // This effectively removes the selected entity from the topology and adds it to the offspring
-        for (int i = 0; i < size; i++) {
-            Entity selected = this.select(holder.getTopology());
-            holder.add(selected);
-        }
-    }
-
+//    @Override
+//    public void performOperation(TopologyHolder holder) {
+//        int size = Double.valueOf(this.selectionPercentage.getParameter() * holder.getTopology().size()).intValue();
+//
+//        // This effectively removes the selected entity from the topology and adds it to the offspring
+//        for (int i = 0; i < size; i++) {
+//            Entity selected = this.select(holder.getTopology());
+//            holder.add(selected);
+//        }
+//    }
     /**
      * Get the percentage of selection for the elitist selection.
      * @return The value of the selection percentage.

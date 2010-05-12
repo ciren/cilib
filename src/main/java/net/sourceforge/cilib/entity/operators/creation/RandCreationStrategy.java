@@ -28,7 +28,6 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -107,14 +106,6 @@ public class RandCreationStrategy implements CreationStrategy {
         }
 
         return distanceVector;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void performOperation(TopologyHolder holder) {
-        throw new UnsupportedOperationException("Not supported yet. This may need some more refactoring. May require looping operator?");
     }
 
     /**

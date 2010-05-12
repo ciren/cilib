@@ -26,7 +26,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -34,6 +33,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class DifferentialEvolutionExponentialCrossover extends CrossoverStrategy {
+
     private static final long serialVersionUID = -4811879014933329926L;
 
     /**
@@ -57,8 +57,9 @@ public class DifferentialEvolutionExponentialCrossover extends CrossoverStrategy
      * @return A list consisting of the offspring. This operator only returns a single offspring {@linkplain Entity}.
      */
     public List<Entity> crossover(List<Entity> parentCollection) {
-        if (parentCollection.size() != 2)
+        if (parentCollection.size() != 2) {
             throw new UnsupportedOperationException("Cannot use exponential recomination on a parent entity grouping not consisting of 2 entities");
+        }
 
         Vector parentVector = (Vector) parentCollection.get(0).getCandidateSolution();
         Vector trialVector = (Vector) parentCollection.get(1).getCandidateSolution();
@@ -80,22 +81,13 @@ public class DifferentialEvolutionExponentialCrossover extends CrossoverStrategy
      */
     private List<Integer> getMutationPoints(int dimension) {
         List<Integer> points = new ArrayList<Integer>();
-        int j = Double.valueOf(getRandomNumber().getUniform(0, dimension-1)).intValue();
+        int j = Double.valueOf(getRandomNumber().getUniform(0, dimension - 1)).intValue();
 
         while ((getRandomNumber().getUniform() >= getCrossoverProbability().getParameter()) || (points.size() == dimension)) {
-            points.add(j+1);
-            j = (j+1) % dimension;
+            points.add(j + 1);
+            j = (j + 1) % dimension;
         }
 
         return points;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-    public void performOperation(TopologyHolder holder) {
-        throw new UnsupportedOperationException("performOperation() is currently not implemented.");
-    }
-
 }
