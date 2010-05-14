@@ -48,11 +48,7 @@ public class LinearPositionUpdateStrategy implements PositionUpdateStrategy {
      * {@inheritDoc}
      */
     public void updatePosition(Particle particle) {
-        Vector position = (Vector) particle.getPosition();
         Vector velocity = (Vector) particle.getVelocity();
-
-        for (int i = 0; i < position.size(); ++i) {
-            position.setReal(i, velocity.doubleValueOf(i));
-        }
+        particle.setCandidateSolution(Vector.copyOf(velocity));
     }
 }

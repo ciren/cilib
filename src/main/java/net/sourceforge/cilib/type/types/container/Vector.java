@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
+import com.google.common.base.Supplier;
 import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
@@ -38,6 +39,7 @@ import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.util.Sequence;
 
 /**
  * Mathematical vector implementation. This class represents a vector within
@@ -487,11 +489,16 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
         if (this.components.length != vector.size()) {
             throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
         }
-        Vector.Builder resultBuilder = Vector.newBuilder();
-        for (int i = 0; i < size(); i++) {
-            resultBuilder.add(doubleValueOf(i) + vector.doubleValueOf(i));
+        Numeric[] result = new Numeric[components.length];
+        for (int i = 0, n = components.length; i < n; i++) {
+            result[i] = Real.valueOf(components[i].doubleValue() + vector.components[i].doubleValue(), components[i].getBounds());
         }
-        return resultBuilder.build();
+        return new Vector(result);
+//        Vector.Builder resultBuilder = Vector.newBuilder();
+//        for (int i = 0; i < size(); i++) {
+//            resultBuilder.add(doubleValueOf(i) + vector.doubleValueOf(i));
+//        }
+//        return resultBuilder.build();
     }
 
     /**
@@ -502,12 +509,16 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
         if (this.components.length != vector.size()) {
             throw new UnsupportedOperationException("Cannot subtract vectors with differing dimensions");
         }
-
-        Vector.Builder resultBuilder = Vector.newBuilder();
-        for (int i = 0; i < size(); i++) {
-            resultBuilder.add(doubleValueOf(i) - vector.doubleValueOf(i));
+        Numeric[] result = new Numeric[components.length];
+        for (int i = 0, n = components.length; i < n; i++) {
+            result[i] = Real.valueOf(components[i].doubleValue() - vector.components[i].doubleValue(), components[i].getBounds());
         }
-        return resultBuilder.build();
+        return new Vector(result);
+//        Vector.Builder resultBuilder = Vector.newBuilder();
+//        for (int i = 0; i < size(); i++) {
+//            resultBuilder.add(doubleValueOf(i) - vector.doubleValueOf(i));
+//        }
+//        return resultBuilder.build();
     }
 
     /**
@@ -526,11 +537,20 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
      */
     @Override
     public final Vector multiply(double scalar) {
-        Vector.Builder resultBuilder = Vector.newBuilder();
-        for (Numeric numeric : components) {
-            resultBuilder.add(numeric.doubleValue() * scalar);
+//        Vector.Builder resultBuilder = Vector.newBuilder();
+//        for (Numeric numeric : components) {
+//            resultBuilder.add(numeric.doubleValue() * scalar);
+//        }
+//        return resultBuilder.build();
+        return multiply(Sequence.of(scalar));
+    }
+
+    public final Vector multiply(Supplier<Number> supplier) {
+        Numeric[] result = new Numeric[components.length];
+        for (int i = 0, n = components.length; i < n; i++) {
+            result[i] = Real.valueOf(components[i].doubleValue() * supplier.get().doubleValue(), components[i].getBounds());
         }
-        return resultBuilder.build();
+        return new Vector(result);
     }
 
     /**

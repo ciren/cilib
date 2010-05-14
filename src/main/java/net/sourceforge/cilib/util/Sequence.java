@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.util;
 
-import com.google.common.base.Preconditions;
+import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
@@ -31,9 +31,21 @@ import java.util.List;
 /**
  * A {@code Sequence} is defined as a grouping of numbers.
  */
-public final class Sequence implements Iterable<Number> {
+public final class Sequence implements Supplier<Number> {
 
-    private final List<Number> internalSequence;
+    private final Iterator<Number> internalSequence;
+
+    public static Sequence of(Number value) {
+        return new Sequence(ImmutableList.<Number>of(value));
+    }
+
+    public static Sequence copyOf(Iterable<Number> iterable) {
+        return new Sequence(ImmutableList.copyOf(iterable));
+    }
+
+    private Sequence(ImmutableList<Number> values) {
+        this.internalSequence = new CyclicIterator(values);
+    }
 
     /**
      * Generate a range of numbers starting at {@code from} and continuing
@@ -42,12 +54,12 @@ public final class Sequence implements Iterable<Number> {
      * @param to end point
      * @return {@code Sequence} representing the defined range.
      */
-    public static Sequence range(final int from, final int to) {
-        List<Integer> ints = Lists.newArrayList();
+    public static Iterable<Number> finiteRange(final int from, final int to) {
+        List<Number> range = Lists.newArrayListWithCapacity(to - from);
         for (int i = from; i <= to; i++) {
-            ints.add(i);
+            range.add(i);
         }
-        return new Sequence(ImmutableList.<Number>copyOf(ints));
+        return new FiniteSequence(Sequence.copyOf(range), range.size());
     }
 
     /**
@@ -59,61 +71,90 @@ public final class Sequence implements Iterable<Number> {
      * @return A new {@code Sequence} instance containing {@code count} elements
      *         with the value defined by {@code item}.
      */
-    public static Sequence repeat(final Number item, final int count) {
+    public static Iterable<Number> repeat(final Number item, final int count) {
         List<Number> items = Lists.newArrayList();
         for (int i = 0; i < count; i++) {
             items.add(item);
         }
-        return new Sequence(ImmutableList.<Number>copyOf(items));
+        return new FiniteSequence(Sequence.copyOf(items), count);
     }
 
-    private Sequence(List<Number> values) {
-        this.internalSequence = values;
+    public Iterable<Number> withFiniteSizeOf(int size) {
+        return new FiniteSequence(this, size);
     }
 
-    /**
-     * Returns an iterator over the current {@code Sequence}.
-     * <p>
-     * The {@link Iterator} that is returned is unmodifiable and it is
-     * <b>not</b> possible to invoke {@link Iterator#remove()}, doing so will
-     * result in an exception being thrown.
-     *
-     * @return An {@code Iterator} over the current {@code Sequence}.
-     * @throws UnsupportedOperationException if {@link Iterator#remove()} is invoked.
-     */
+//    /**
+//     * Transform the current {@code Sequence} by applying a filter to the current
+//     * elements. The filter will remove all elements that are not found when isolating
+//     * the current indexes of the {@code Sequence}.
+//     * @param increment size of the jump between elements.
+//     * @return A new {@code Sequence} containing the filtered elements.
+//     */
+//    public Sequence by(final int increment) {
+//        Preconditions.checkArgument(increment >= 1);
+//        if (increment == 1) {
+//            return this;
+//        }
+//        ImmutableList.Builder<Number> newList = ImmutableList.builder();
+//        for (int i = 0, n = internalSequence.size(); i < n; i += increment) {
+//            newList.add(internalSequence.get(i));
+//        }
+//        return new Sequence(newList.build());
+//    }
     @Override
-    public Iterator<Number> iterator() {
-        final Iterator<Number> internal = internalSequence.iterator();
-        return new UnmodifiableIterator<Number>() {
-
-            @Override
-            public boolean hasNext() {
-                return internal.hasNext();
-            }
-
-            @Override
-            public Number next() {
-                return internal.next();
-            }
-        };
+    public Number get() {
+        return internalSequence.next();
     }
 
-    /**
-     * Transform the current {@code Sequence} by applying a filter to the current
-     * elements. The filter will remove all elements that are not found when isolating
-     * the current indexes of the {@code Sequence}.
-     * @param increment size of the jump between elements.
-     * @return A new {@code Sequence} containing the filtered elements.
-     */
-    public Sequence by(final int increment) {
-        Preconditions.checkArgument(increment >= 1);
-        if (increment == 1) {
-            return this;
+    private static class FiniteSequence implements Iterable<Number> {
+
+        private final Sequence sequence;
+        private final int size;
+
+        FiniteSequence(Sequence sequence, int size) {
+            this.sequence = sequence;
+            this.size = size;
         }
-        ImmutableList.Builder<Number> newList = ImmutableList.builder();
-        for (int i = 0, n = internalSequence.size(); i < n; i += increment) {
-            newList.add(internalSequence.get(i));
+
+        @Override
+        public Iterator<Number> iterator() {
+            return new UnmodifiableIterator<Number>() {
+
+                private int current = 0;
+
+                @Override
+                public boolean hasNext() {
+                    return current < size;
+                }
+
+                @Override
+                public Number next() {
+                    current++;
+                    return sequence.get();
+                }
+            };
         }
-        return new Sequence(newList.build());
+    }
+
+    private static class CyclicIterator extends UnmodifiableIterator<Number> {
+
+        private final ImmutableList<Number> values;
+        private long current;
+
+        private CyclicIterator(ImmutableList<Number> values) {
+            this.values = values;
+            current = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return true;
+        }
+
+        @Override
+        public Number next() {
+            int index = Long.valueOf(current++ % values.size()).intValue();
+            return values.get(index); // Cop
+        }
     }
 }
