@@ -21,11 +21,9 @@
  */
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
-import com.google.common.base.Supplier;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
-import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -42,9 +40,6 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     protected ControlParameter cognitiveAcceleration;
     protected ControlParameter vMax;
 
-    private final RandomNumberProvider cognitiveSupplier;
-    private final RandomNumberProvider socialSupplier;
-
     /** Creates a new instance of StandardVelocityUpdate. */
     public StandardVelocityUpdate() {
         inertiaWeight = new ConstantControlParameter();
@@ -56,9 +51,6 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
         cognitiveAcceleration.setParameter(1.496180);
         socialAcceleration.setParameter(1.496180);
         vMax.setParameter(Double.MAX_VALUE);
-
-        cognitiveSupplier = new RandomNumberProvider(cognitiveAcceleration);
-        socialSupplier = new RandomNumberProvider(socialAcceleration);
     }
 
     /**
@@ -70,9 +62,6 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
         this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
         this.socialAcceleration = copy.socialAcceleration.getClone();
         this.vMax = copy.vMax.getClone();
-
-        cognitiveSupplier = new RandomNumberProvider(cognitiveAcceleration);
-        socialSupplier = new RandomNumberProvider(socialAcceleration);
     }
 
     /**
@@ -92,10 +81,14 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
         Vector bestPosition = (Vector) particle.getBestPosition();
         Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
-        Vector newVelocity = velocity.multiply(inertiaWeight.getParameter())
-                .plus(bestPosition.subtract(position).multiply(cognitiveSupplier))
-                .plus(nBestPosition.subtract(position).multiply(socialSupplier));
-        particle.getProperties().put(EntityType.Particle.VELOCITY, newVelocity);
+        for (int i = 0; i < particle.getDimension(); ++i) {
+            double value = inertiaWeight.getParameter() * velocity.doubleValueOf(i)
+                    + (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * cognitiveAcceleration.getParameter()
+                    + (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * socialAcceleration.getParameter();
+            velocity.setReal(i, value);
+
+            clamp(velocity, i);
+        }
     }
 
     /**
@@ -185,19 +178,5 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
      */
     public void setVMax(ControlParameter max) {
         vMax = max;
-    }
-
-    private static class RandomNumberProvider implements Supplier<Number> {
-
-        private final ControlParameter parameter;
-
-        private RandomNumberProvider(ControlParameter parameter) {
-            this.parameter = parameter;
-        }
-
-        @Override
-        public Number get() {
-            return parameter.getParameter();
-        }
     }
 }

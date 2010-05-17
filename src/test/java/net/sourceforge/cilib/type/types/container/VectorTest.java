@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
+import com.google.common.base.Predicate;
 import static java.lang.Math.sqrt;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -30,6 +31,7 @@ import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Int;
+import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 
 import org.junit.AfterClass;
@@ -178,11 +180,7 @@ public class VectorTest {
 
     @Test
     public void randomize() {
-        Vector target = Vector.newBuilder()
-                .add(Real.valueOf(1.0))
-                .add(Real.valueOf(2.0))
-                .add(Real.valueOf(3.0))
-                .buildRandom();
+        Vector target = Vector.newBuilder().add(Real.valueOf(1.0)).add(Real.valueOf(2.0)).add(Real.valueOf(3.0)).buildRandom();
 
         assertFalse(target.doubleValueOf(0) == 1.0);
         assertFalse(target.doubleValueOf(1) == 2.0);
@@ -346,5 +344,60 @@ public class VectorTest {
         Vector result = builder.build();
 
         Assert.assertEquals(0, result.size());
+    }
+
+    @Test
+    public void filter() {
+        Vector result = Vector.of(1.0, 2.0, 3.0).filter(new Predicate<Numeric>() {
+
+            @Override
+            public boolean apply(Numeric input) {
+                if (Double.compare(input.doubleValue(), 2.0) != 0) {
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        Assert.assertEquals(2, result.size());
+    }
+
+    @Test
+    public void foreach() {
+        final Vector expected = Vector.of(2.0, 2.0, 2.0);
+        Vector result = Vector.of(1.0, 1.0, 1.0).foreach(new Vector.Function<Numeric, Numeric>() {
+
+            @Override
+            public Numeric apply(Numeric x) {
+                return Real.valueOf(x.doubleValue() * 2, x.getBounds());
+            }
+        });
+        Assert.assertEquals(expected, result);
+    }
+
+    @Test
+    public void foldLeft() {
+        double result = Vector.of(1.0, 2.0, 3.0).foldLeft(4, new Vector.Function<Numeric, Double>() {
+
+            @Override
+            public Double apply(Numeric x) {
+                return x.doubleValue();
+            }
+        });
+
+        Assert.assertEquals(10.0, result, 0.0001);
+    }
+
+    @Test
+    public void reduceLeft() {
+        double result = Vector.of(1.0, 1.0, 1.0, 1.0).reduceLeft(new Vector.BinaryFunction<Double, Double, Number>() {
+
+            @Override
+            public Double apply(Double x, Double y) {
+                return x.doubleValue() + y.doubleValue();
+            }
+        }).doubleValue();
+
+        Assert.assertEquals(4.0, result, 0.0001);
     }
 }

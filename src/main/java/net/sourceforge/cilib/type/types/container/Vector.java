@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
+import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
 import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.collect.Lists;
@@ -57,6 +58,8 @@ import net.sourceforge.cilib.util.Sequence;
  * accept an instance of {@code Vector} and maintain all the modifications
  * internally, without modifying the current instance.
  *
+ * <p>{@code Vector} additionally implements a functional interface.
+ *
  * <p><strong>Note: Many methods have been deprecated from previous versions
  * of this class.</strong> The applied deprecations have been made to enable a
  * clearer API of usage for the user. All constructors have been deprecated in
@@ -68,7 +71,8 @@ import net.sourceforge.cilib.util.Sequence;
  *
  * @author gpampara
  */
-public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess {
+public class Vector implements StructuredType<Numeric>,
+        VectorMath, RandomAccess {
 
     private static final long serialVersionUID = -4853190809813810272L;
     private Numeric[] components;
@@ -494,11 +498,6 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
             result[i] = Real.valueOf(components[i].doubleValue() + vector.components[i].doubleValue(), components[i].getBounds());
         }
         return new Vector(result);
-//        Vector.Builder resultBuilder = Vector.newBuilder();
-//        for (int i = 0; i < size(); i++) {
-//            resultBuilder.add(doubleValueOf(i) + vector.doubleValueOf(i));
-//        }
-//        return resultBuilder.build();
     }
 
     /**
@@ -514,11 +513,6 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
             result[i] = Real.valueOf(components[i].doubleValue() - vector.components[i].doubleValue(), components[i].getBounds());
         }
         return new Vector(result);
-//        Vector.Builder resultBuilder = Vector.newBuilder();
-//        for (int i = 0; i < size(); i++) {
-//            resultBuilder.add(doubleValueOf(i) - vector.doubleValueOf(i));
-//        }
-//        return resultBuilder.build();
     }
 
     /**
@@ -537,11 +531,6 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
      */
     @Override
     public final Vector multiply(double scalar) {
-//        Vector.Builder resultBuilder = Vector.newBuilder();
-//        for (Numeric numeric : components) {
-//            resultBuilder.add(numeric.doubleValue() * scalar);
-//        }
-//        return resultBuilder.build();
         return multiply(Sequence.of(scalar));
     }
 
@@ -558,11 +547,13 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
      */
     @Override
     public final double norm() {
-        double result = 0.0;
-        for (Numeric numeric : this.components) {
-            result += numeric.doubleValue() * numeric.doubleValue();
-        }
-        return Math.sqrt(result);
+        return Math.sqrt(foldLeft(0, new Function<Numeric, Double>() {
+
+            @Override
+            public Double apply(Numeric x) {
+                return x.doubleValue() * x.doubleValue();
+            }
+        }));
     }
 
     /**
@@ -598,7 +589,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
         }
 
         double result = 0.0;
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0, n = components.length; i < n; i++) {
             result += this.doubleValueOf(i) * vector.doubleValueOf(i);
         }
         return result;
@@ -617,11 +608,11 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
             throw new ArithmeticException("Cannot determine the cross product on non 3-dimensional vectors.");
         }
 
-        final Vector.Builder resultBuilder = Vector.newBuilder();
-        resultBuilder.add(this.doubleValueOf(1) * vector.doubleValueOf(2) - this.doubleValueOf(2) * vector.doubleValueOf(1));
-        resultBuilder.add(-(vector.doubleValueOf(2) * this.doubleValueOf(0) - vector.doubleValueOf(0) * this.doubleValueOf(2)));
-        resultBuilder.add(this.doubleValueOf(0) * vector.doubleValueOf(1) - this.doubleValueOf(1) * vector.doubleValueOf(0));
-        return resultBuilder.build();
+        Numeric[] n = new Numeric[components.length];
+        n[0] = Real.valueOf(this.doubleValueOf(1) * vector.doubleValueOf(2) - this.doubleValueOf(2) * vector.doubleValueOf(1));
+        n[1] = Real.valueOf(-(vector.doubleValueOf(2) * this.doubleValueOf(0) - vector.doubleValueOf(0) * this.doubleValueOf(2)));
+        n[2] = Real.valueOf(this.doubleValueOf(0) * vector.doubleValueOf(1) - this.doubleValueOf(1) * vector.doubleValueOf(0));
+        return new Vector(n);
     }
 
     /**
@@ -769,7 +760,6 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
             // Make a new array of a's runtime type, but my contents:
             return (T[]) Arrays.copyOf(components, components.length, a.getClass());
         }
-
         System.arraycopy(components, 0, a, 0, components.length);
         if (a.length > components.length) {
             a[components.length] = null;
@@ -845,12 +835,67 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
         return builder.toString();
     }
 
+    public Vector foreach(Function<Numeric, Numeric> function) {
+        Numeric[] result = new Numeric[components.length];
+        for (int i = 0, n = components.length; i < n; i++) {
+            result[i] = function.apply(components[i]);
+        }
+        return new Vector(result);
+    }
+
+    public Vector filter(Predicate<Numeric> predicate) {
+        List<Numeric> result = Lists.newArrayListWithCapacity(components.length);
+        for (Numeric n : components) {
+            if (predicate.apply(n)) {
+                result.add(n);
+            }
+        }
+        return new Vector(result.toArray(new Numeric[]{}));
+    }
+
+    public double foldLeft(double initial, Function<Numeric, Double> function) {
+        double acc = initial;
+        for (int i = 0, n = components.length; i < n; i++) {
+            acc += function.apply(components[i]);
+        }
+        return acc;
+    }
+
+    public Number reduceLeft(BinaryFunction<Double, Double, Number> function) {
+        if (isEmpty()) {
+            throw new UnsupportedOperationException("empty.reduceLeft");
+        }
+
+        boolean first = true;
+        Number acc = 0.0;
+
+        for (Numeric n : this) {
+            if (first) {
+                acc = n.doubleValue();
+                first = false;
+            }
+            else {
+                acc = function.apply(acc.doubleValue(), n.doubleValue());
+            }
+        }
+        return acc;
+    }
+
+    public interface Function<F, T> {
+
+        T apply(F x);
+    }
+
+    public interface BinaryFunction<A, B, C> {
+        C apply(A a, B b);
+    }
+
     /**
      * A builder for creating {@code Vector} instances. It is especially
      * useful for creating contsant instances that do not change:
      * <p>
      * Example:
-     * <pre>    {@code
+     * <pre>{@code
      *   public static final Vector IDENTITY
      *       = Vector.newBuilder()
      *          .add(1.0)
@@ -956,13 +1001,7 @@ public class Vector implements StructuredType<Numeric>, VectorMath, RandomAccess
             if (elements.isEmpty()) {
                 return Vector.of();
             }
-
-            Numeric[] numerics = new Numeric[elements.size()];
-            int index = 0;
-            for (Numeric n : elements) {
-                numerics[index++] = n;
-            }
-            return new Vector(numerics);
+            return new Vector(elements.toArray(new Numeric[]{}));
         }
 
         /**
