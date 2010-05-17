@@ -74,10 +74,10 @@ public class DifferentialEvolutionBinomialCrossover extends CrossoverStrategy {
         Vector trialVector = (Vector) parentCollection.get(1).getCandidateSolution();
         Vector offspringVector = parentVector.getClone(); // Make the offspring look like the parent vector
 
-        int i = Double.valueOf(this.getRandomNumber().getUniform(0, parentVector.getDimension())).intValue();
+        int i = Double.valueOf(this.getRandomDistribution().getRandomNumber(0, parentVector.getDimension())).intValue();
 
         for (int j = 0; j < parentVector.getDimension(); j++) {
-            if ((getRandomNumber().getUniform() < this.getCrossoverProbability().getParameter()) || (j == i)) {
+            if ((getRandomDistribution().getRandomNumber() < this.getCrossoverProbability().getParameter()) || (j == i)) {
                 offspringVector.setReal(j, trialVector.getReal(j));
             }
         }

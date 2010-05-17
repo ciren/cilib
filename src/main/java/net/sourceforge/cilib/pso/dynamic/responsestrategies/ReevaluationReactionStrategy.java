@@ -54,7 +54,7 @@ public class ReevaluationReactionStrategy<E extends PopulationBasedAlgorithm> ex
     public ReevaluationReactionStrategy(ReevaluationReactionStrategy<E> rhs) {
         super(rhs);
         reevaluationRatio = rhs.reevaluationRatio;
-        randomGenerator = rhs.randomGenerator.getClone();
+        randomGenerator = rhs.randomGenerator;
     }
 
     @Override

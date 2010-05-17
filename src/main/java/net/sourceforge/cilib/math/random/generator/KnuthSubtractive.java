@@ -55,14 +55,6 @@ public class KnuthSubtractive implements RandomProvider {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public KnuthSubtractive getClone() {
-        return new KnuthSubtractive();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     private void setSeed(long seed) {
         buffer = new long[56];
 

@@ -83,15 +83,6 @@ public class MersenneTwister implements RandomProvider {
     }
 
     /**
-     * Get a cloned instance of the current object.
-     * @return The cloned instance.
-     */
-    @Override
-    public MersenneTwister getClone() {
-        return new MersenneTwister(this);
-    }
-
-    /**
      * {@inheritDoc}
      */
     private void setSeed(long seed) {

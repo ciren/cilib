@@ -81,9 +81,9 @@ public class DifferentialEvolutionExponentialCrossover extends CrossoverStrategy
      */
     private List<Integer> getMutationPoints(int dimension) {
         List<Integer> points = new ArrayList<Integer>();
-        int j = Double.valueOf(getRandomNumber().getUniform(0, dimension - 1)).intValue();
+        int j = Double.valueOf(getRandomDistribution().getRandomNumber(0, dimension - 1)).intValue();
 
-        while ((getRandomNumber().getUniform() >= getCrossoverProbability().getParameter()) || (points.size() == dimension)) {
+        while ((getRandomDistribution().getRandomNumber() >= getCrossoverProbability().getParameter()) || (points.size() == dimension)) {
             points.add(j + 1);
             j = (j + 1) % dimension;
         }

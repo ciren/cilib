@@ -72,7 +72,7 @@ public class RouletteWheelSelection<E extends Comparable<? super E>> implements 
      */
     public RouletteWheelSelection(RouletteWheelSelection<E> copy) {
         this.weighing = copy.weighing.getClone();
-        this.random = copy.random.getClone();
+        this.random = copy.random;
     }
 
     /**

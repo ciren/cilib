@@ -89,7 +89,7 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> e
     public RandomSentryDetectionStrategy(RandomSentryDetectionStrategy<E> copy) {
         this.sentries = copy.sentries;
         this.theta = copy.theta;
-        this.randomiser = copy.randomiser.getClone();
+        this.randomiser = copy.randomiser;
     }
 
     public RandomSentryDetectionStrategy<E> getClone() {

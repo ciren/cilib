@@ -24,7 +24,9 @@ package net.sourceforge.cilib.functions.continuous.decorators;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.GaussianDistribution;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -68,9 +70,9 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        RandomNumber rotateOrNot = new RandomNumber();
+        ProbabilityDistributionFuction rotateOrNot = new UniformDistribution();
 
-        if(rotationMatrix == null || rotateOrNot.getUniform() < rotationProbability.getParameter())
+        if(rotationMatrix == null || rotateOrNot.getRandomNumber() < rotationProbability.getParameter())
             setRotationMatrix();
 
         Vector rotatedX = input.getClone();
@@ -108,11 +110,11 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
          */
         int dimension = function.getDimension();
         rotationMatrix = new double[dimension][dimension];
-        RandomNumber initializer = new RandomNumber();
+        ProbabilityDistributionFuction initializer = new GaussianDistribution();
 
         for(int i = 0; i < dimension; i++) {
             for(int j = 0; j < dimension; j++) {
-                rotationMatrix[i][j] = initializer.getNormal();
+                rotationMatrix[i][j] = initializer.getRandomNumber();
             }
         }
 

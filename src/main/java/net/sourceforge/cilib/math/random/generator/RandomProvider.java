@@ -22,16 +22,13 @@
 package net.sourceforge.cilib.math.random.generator;
 
 /**
- * This interface provides a replacement API for the standard java.util.Random
- * classes and API. The reason for _not_ using the standard Java API is due to
- * the API maintaining a large amount of static state. As a result, the classes
- * implementing this interface are all self contained and should be as immutable
- * as possible.
+ * This interface provides a drop-in replacement API for the standard
+ * java.util.Random classes and API. The reason for _not_ using the standard
+ * Java API is due to the API maintaining a large amount of static state.
+ * As a result, the classes implementing this interface are all self contained
+ * and should be as immutable as possible.
  */
-public interface RandomProvider extends net.sourceforge.cilib.util.Cloneable {
-
-    @Override
-    RandomProvider getClone();
+public interface RandomProvider {
 
     boolean nextBoolean();
 
@@ -46,5 +43,4 @@ public interface RandomProvider extends net.sourceforge.cilib.util.Cloneable {
     double nextDouble();
 
     void nextBytes(byte[] bytes);
-
 }

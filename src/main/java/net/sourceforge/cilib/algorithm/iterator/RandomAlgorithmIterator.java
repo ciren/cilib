@@ -26,7 +26,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 
 /**
  * Iterate through a list of {@link Algorithm}s in a random order. With this class it is possible
@@ -37,8 +38,8 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  * @param <E> The {@linkplain Algorithm} type.
  */
 public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgorithmIterator<E> {
-    private static final long serialVersionUID = 9087345802965469395L;
 
+    private static final long serialVersionUID = 9087345802965469395L;
     private List<Integer> randomNumbers = null;
 
     /**
@@ -55,7 +56,7 @@ public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgo
      */
     public RandomAlgorithmIterator(List<E> a) {
         super(a);
-        randomNumbers = generateRandomSequence();
+        randomNumbers = generateRandomSequence(new UniformDistribution());
     }
 
     /**
@@ -66,7 +67,7 @@ public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgo
     @SuppressWarnings("unchecked")
     public RandomAlgorithmIterator(RandomAlgorithmIterator rhs) {
         super(rhs);
-        randomNumbers = generateRandomSequence();
+        randomNumbers = generateRandomSequence(new UniformDistribution());
     }
 
     /**
@@ -86,23 +87,22 @@ public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgo
      * @throws IllegalStateException when the number of elements does not correspond with the number
      *         of random indices.
      */
-    private List<Integer> generateRandomSequence() {
+    private List<Integer> generateRandomSequence(ProbabilityDistributionFuction distribution) {
         List<Integer> list = new ArrayList<Integer>();
-        RandomNumber generator = new RandomNumber();
         Integer random = null;
 
         for (int i = 0; i < algorithms.size(); i++) {
             // make sure each index is used only once
             do {
-                random = Integer.valueOf((int)generator.getUniform(0, algorithms.size()));
-            }
-            while (list.contains(random));
+                random = Integer.valueOf((int) distribution.getRandomNumber(0, algorithms.size()));
+            } while (list.contains(random));
 
             list.add(random);
         }
 
-        if (list.size() != algorithms.size())
+        if (list.size() != algorithms.size()) {
             throw new IllegalStateException("The number of algorithms does not correspond with the number of random indices");
+        }
 
         return list;
     }
@@ -117,8 +117,9 @@ public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgo
      */
     @Override
     public E next() {
-        if (index + 1 >= randomNumbers.size())
+        if (index + 1 >= randomNumbers.size()) {
             throw new NoSuchElementException("Trying to iterate past the end of the list");
+        }
 
         return algorithms.get(randomNumbers.get(++index));
     }
@@ -133,8 +134,9 @@ public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgo
      */
     @Override
     public E previous() {
-        if (index < 0)
+        if (index < 0) {
             throw new NoSuchElementException("Trying to iterate past the beginning of the list");
+        }
 
         return algorithms.get(randomNumbers.get(index--));
     }
@@ -163,8 +165,9 @@ public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgo
      */
     @Override
     public void remove() {
-        if (index < 0 || index >= randomNumbers.size())
+        if (index < 0 || index >= randomNumbers.size()) {
             throw new IndexOutOfBoundsException("The iterator is not at a valid position");
+        }
 
         // post-decrement to prevent elements from being skipped during iteration
         // and also to keep iterator valid (when removing last element in list)
@@ -190,7 +193,7 @@ public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgo
     public void setAlgorithms(List<E> a) {
         algorithms = a;
         index = -1;
-        randomNumbers = generateRandomSequence();
+        randomNumbers = generateRandomSequence(new UniformDistribution());
     }
 
     /**

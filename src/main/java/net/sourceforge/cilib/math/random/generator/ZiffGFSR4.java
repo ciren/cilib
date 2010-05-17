@@ -86,14 +86,6 @@ public class ZiffGFSR4 implements RandomProvider {
         this.seed = seed;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ZiffGFSR4 getClone() {
-        return new ZiffGFSR4();
-    }
-
     private long getLCG(long n) {
         return (69069 * n) & 0xffffffffL;
     }

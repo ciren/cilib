@@ -26,7 +26,9 @@ import java.util.ArrayList;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.GaussianDistribution;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -36,24 +38,24 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Andries Engelbrecht
  */
 public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
-    private static final long serialVersionUID = -4052606351661988520L;
 
-    private RandomNumber differentialEvolutionProbability; //Make a parameter to set via xml
-    private RandomNumber crossoverProbability;
-    private RandomNumber scaleParameter;
-    private RandomNumber rand1;
-    private RandomNumber rand2;
-    private RandomNumber rand3;
-    private RandomNumber rand4;
+    private static final long serialVersionUID = -4052606351661988520L;
+    private ProbabilityDistributionFuction differentialEvolutionProbability; //Make a parameter to set via xml
+    private ProbabilityDistributionFuction crossoverProbability;
+    private ProbabilityDistributionFuction scaleParameter;
+    private ProbabilityDistributionFuction rand1;
+    private ProbabilityDistributionFuction rand2;
+    private ProbabilityDistributionFuction rand3;
+    private ProbabilityDistributionFuction rand4;
 
     public DEPositionUpdateStrategy() {
-       differentialEvolutionProbability = new RandomNumber();
-       rand1 = new RandomNumber();
-       rand2 = new RandomNumber();
-       rand3 = new RandomNumber();
-       rand4 = new RandomNumber();
-       crossoverProbability = new RandomNumber();
-       scaleParameter = new RandomNumber();
+        differentialEvolutionProbability = new GaussianDistribution();
+        rand1 = new UniformDistribution();
+        rand2 = new UniformDistribution();
+        rand3 = new UniformDistribution();
+        rand4 = new UniformDistribution();
+        crossoverProbability = new GaussianDistribution();
+        scaleParameter = new GaussianDistribution();
     }
 
     public DEPositionUpdateStrategy(DEPositionUpdateStrategy copy) {
@@ -63,18 +65,19 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
     /**
      * {@inheritDoc}
      */
+    @Override
     public DEPositionUpdateStrategy getClone() {
         return new DEPositionUpdateStrategy(this);
     }
 
+    @Override
     public void updatePosition(Particle particle) {
         Vector position = (Vector) particle.getPosition();
         Vector velocity = (Vector) particle.getVelocity();
 
-        if (rand1.getUniform() < differentialEvolutionProbability.getGaussian(0.8, 0.1)) {
+        if (rand1.getRandomNumber() < differentialEvolutionProbability.getRandomNumber(0.8, 0.1)) {
             particle.setCandidateSolution(position.plus(velocity));
-        }
-        else {
+        } else {
             ArrayList<Vector> positions = new ArrayList<Vector>(3);
 
             //select three random individuals, all different and different from particle
@@ -85,18 +88,18 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
             String particleId = particle.getId();
             Vector pos;
             while (k.hasNext() && (counter < 3)) {
-                Particle p = (Particle) k.next();
-                if ((p.getId() != particleId) && (rand2.getUniform(0,1) <= 0.5)) {
-                    pos = (Vector) p.getPosition();
-                    positions.add(pos);
-                    counter++;
-                }
+            Particle p = (Particle) k.next();
+            if ((p.getId() != particleId) && (rand2.getUniform(0,1) <= 0.5)) {
+            pos = (Vector) p.getPosition();
+            positions.add(pos);
+            counter++;
+            }
             }*/
 
             int count = 0;
 
             while (count < 3) {
-                int random = rand2.getRandomGenerator().nextInt(pso.getTopology().size());
+                int random = rand2.getRandomProvider().nextInt(pso.getTopology().size());
                 Entity parent = pso.getTopology().get(random);
                 if (!positions.contains(parent)) {
                     positions.add((Vector) parent.getCandidateSolution());
@@ -109,16 +112,16 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
             Vector position3 = positions.get(2);
 
             Vector dePosition = position.getClone();
-            int j = Double.valueOf(rand3.getUniform(0, position.getDimension())).intValue();
+            int j = Double.valueOf(rand3.getRandomNumber(0, position.getDimension())).intValue();
             for (int i = 0; i < position.getDimension(); ++i) {
-                if ((rand4.getUniform(0, 1) < crossoverProbability.getGaussian(0.5, 0.3)) || (j == i)) {
+                if ((rand4.getRandomNumber(0, 1) < crossoverProbability.getRandomNumber(0.5, 0.3)) || (j == i)) {
                     double value = position1.getReal(i);
-                    value += scaleParameter.getGaussian(0.7, 0.3) * (position2.getReal(i) - position3.getReal(i));
+                    value += scaleParameter.getRandomNumber(0.7, 0.3) * (position2.getReal(i) - position3.getReal(i));
 
                     dePosition.setReal(i, value);
                 }
-                    //else
-                        //DEposition.setReal(i, )add(new Real(position3.getReal(i)));
+                //else
+                //DEposition.setReal(i, )add(new Real(position3.getReal(i)));
             }
 
 

@@ -31,7 +31,8 @@ import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -44,11 +45,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *  @author Andries Engelbrecht
  */
 public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
-    private static final long serialVersionUID = -8781011210069055197L;
 
-    private RandomNumber rand1;
-    private RandomNumber rand2;
-    private RandomNumber rand3;
+    private static final long serialVersionUID = -8781011210069055197L;
+    private ProbabilityDistributionFuction rand1;
+    private ProbabilityDistributionFuction rand2;
+    private ProbabilityDistributionFuction rand3;
     private ControlParameter cognitive;
     private ControlParameter social;
     private ControlParameter crossoverProbability;
@@ -57,9 +58,9 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      * Create a new instance of the {@linkplain BareBonesDEVelocityUpdate}.
      */
     public BareBonesDEVelocityUpdate() {
-        rand1 = new RandomNumber();
-        rand2 = new RandomNumber();
-        rand3 = new RandomNumber();
+        rand1 = new UniformDistribution();
+        rand2 = new UniformDistribution();
+        rand3 = new UniformDistribution();
         cognitive = new RandomizingControlParameter();
         social = new RandomizingControlParameter();
         crossoverProbability = new ConstantControlParameter(0.5);
@@ -67,7 +68,6 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
         cognitive.setParameter(1);
         social.setParameter(1);
     }
-
 
     /**
      * Copy constructor. Create a copy of the given instance.
@@ -100,20 +100,21 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
         List<Entity> positions = getRandomParentEntities(pso.getTopology());
 
         //select three random individuals, all different and different from particle
-        RandomNumber r1 = new RandomNumber();
+        ProbabilityDistributionFuction r1 = new UniformDistribution();
 
         Vector position1 = (Vector) positions.get(0).getCandidateSolution();
         Vector position2 = (Vector) positions.get(1).getCandidateSolution();
 //        Vector position3 = (Vector) positions.get(2).getContents();
         for (int i = 0; i < particle.getDimension(); ++i) {
-            double r = r1.getUniform(0, 1);
-            double attractor = r*personalBestPosition.getReal(i)+(1-r)*nBestPosition.getReal(i);
-            double stepSize = rand3.getUniform(0, 1) * (position1.getReal(i)-position2.getReal(i));
+            double r = r1.getRandomNumber(0, 1);
+            double attractor = r * personalBestPosition.getReal(i) + (1 - r) * nBestPosition.getReal(i);
+            double stepSize = rand3.getRandomNumber(0, 1) * (position1.getReal(i) - position2.getReal(i));
 
-            if (rand2.getUniform(0, 1) > crossoverProbability.getParameter())
+            if (rand2.getRandomNumber(0, 1) > crossoverProbability.getParameter()) {
                 velocity.setReal(i, attractor + stepSize);
-            else
+            } else {
                 velocity.setReal(i, ((Vector) particle.getPosition()).getReal(i)); //position3.getReal(i));
+            }
         }
     }
 
@@ -126,12 +127,12 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
     public static List<Entity> getRandomParentEntities(Topology<? extends Entity> topology) {
         List<Entity> parents = new ArrayList<Entity>(3);
 
-        RandomNumber randomNumber = new RandomNumber();
+        ProbabilityDistributionFuction randomNumber = new UniformDistribution();
 
         int count = 0;
 
         while (count < 3) {
-            int random = randomNumber.getRandomGenerator().nextInt(topology.size());
+            int random = randomNumber.getRandomProvider().nextInt(topology.size());
             Entity parent = topology.get(random);
             if (!parents.contains(parent)) {
                 parents.add(parent);
@@ -147,14 +148,13 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      */
     public void updateControlParameters(Particle particle) {
         // TODO Auto-generated method stub
-
     }
 
     /**
      * Get the first {@linkplain RandomNumber}.
      * @return The first {@linkplain RandomNumber}.
      */
-    public RandomNumber getRand1() {
+    public ProbabilityDistributionFuction getRand1() {
         return rand1;
     }
 
@@ -162,7 +162,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      * Set the first {@linkplain RandomNumber}.
      * @param rand1 The value to set.
      */
-    public void setRand1(RandomNumber rand1) {
+    public void setRand1(ProbabilityDistributionFuction rand1) {
         this.rand1 = rand1;
     }
 
@@ -170,7 +170,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      * Get the second{@linkplain RandomNumber}.
      * @return The second {@linkplain RandomNumber}.
      */
-    public RandomNumber getRand2() {
+    public ProbabilityDistributionFuction getRand2() {
         return rand2;
     }
 
@@ -178,28 +178,25 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      * Set the second {@linkplain RandomNumber}.
      * @param rand2 The value to set.
      */
-    public void setRand2(RandomNumber rand2) {
+    public void setRand2(ProbabilityDistributionFuction rand2) {
         this.rand2 = rand2;
     }
-
 
     /**
      * Get the third {@linkplain RandomNumber}.
      * @return The third {@linkplain RandomNumber}.
      */
-    public RandomNumber getRand3() {
+    public ProbabilityDistributionFuction getRand3() {
         return rand3;
     }
-
 
     /**
      * Set the third {@linkplain RandomNumber}.
      * @param rand3 The value to set.
      */
-    public void setRand3(RandomNumber rand3) {
+    public void setRand3(ProbabilityDistributionFuction rand3) {
         this.rand3 = rand3;
     }
-
 
     /**
      * Get the cognitive component.
@@ -208,7 +205,6 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
     public ControlParameter getCognitive() {
         return cognitive;
     }
-
 
     /**
      * Set the cognitive component.
@@ -249,5 +245,4 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
     public void setCrossoverProbability(ControlParameter crossoverProbability) {
         this.crossoverProbability = crossoverProbability;
     }
-
 }

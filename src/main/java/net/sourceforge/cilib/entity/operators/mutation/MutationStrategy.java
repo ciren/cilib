@@ -28,7 +28,8 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.Operator;
 import net.sourceforge.cilib.math.ArithmeticOperator;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 
 /**
  *
@@ -39,7 +40,7 @@ public abstract class MutationStrategy implements Operator {
 
     private static final long serialVersionUID = 6670947597280440404L;
     private ControlParameter mutationProbability;
-    private RandomNumber randomNumber;
+    private ProbabilityDistributionFuction randomDistribution;
     private String operator;
     private ArithmeticOperator operatorStrategy;
 
@@ -47,14 +48,14 @@ public abstract class MutationStrategy implements Operator {
         this.setOperator("+");
 
         mutationProbability = new ConstantControlParameter(0.3);
-        randomNumber = new RandomNumber();
+        randomDistribution = new UniformDistribution();
     }
 
     public MutationStrategy(MutationStrategy copy) {
         this.operator = copy.operator;
         this.operatorStrategy = copy.operatorStrategy;
         this.mutationProbability = copy.mutationProbability.getClone();
-        this.randomNumber = copy.randomNumber.getClone();
+        this.randomDistribution = copy.randomDistribution;
     }
 
     /**
@@ -86,12 +87,12 @@ public abstract class MutationStrategy implements Operator {
         this.mutationProbability = mutationProbability;
     }
 
-    public RandomNumber getRandomNumber() {
-        return randomNumber;
+    public ProbabilityDistributionFuction getRandomDistribution() {
+        return randomDistribution;
     }
 
-    public void setRandomNumber(RandomNumber randomNumber) {
-        this.randomNumber = randomNumber;
+    public void setRandomDistribution(ProbabilityDistributionFuction randomNumber) {
+        this.randomDistribution = randomNumber;
     }
 
     public String getOperator() {

@@ -55,7 +55,7 @@ public class ECTest {
             ec.initialise();
             ec.run();
 
-            Assert.assertThat(ec.getBestSolution().getFitness().getValue(), is(270.0592679172665));
+            Assert.assertThat(ec.getBestSolution().getFitness().getValue(), is(263.49409097186634));
         } finally {
             Seeder.setSeederStrategy(seedStrategy);
         }

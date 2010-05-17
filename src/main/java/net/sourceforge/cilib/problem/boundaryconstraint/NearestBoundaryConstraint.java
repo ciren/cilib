@@ -27,7 +27,8 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -41,23 +42,24 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * References:
  * </p>
  * <pre>
- * &nbsp;@inproceedings{ZXB04, author = "W.-J. Zhang and X.-F. Xie and D.-C. Bi",
+ * {@literal @}inproceedings{ZXB04, author = "W.-J. Zhang and X.-F. Xie and D.-C. Bi",
  *                 title = "Handling boundary constraints for numerical optimization by
  *                 particle swarm flying in periodic search space",
  *                 booktitle = "IEEE Congress on Evolutionary Computation", month = jun,
  *                 year = {2004}, volume = "2", pages = {2307--2311} }
- * &nbsp;@inproceedings{HW07, author = "S. Helwig and R. Wanka",
+ * {@literal @}inproceedings{HW07, author = "S. Helwig and R. Wanka",
  *                 title = "Particle Swarm Optimization in High-Dimensional Bounded Search Spaces",
  *                 booktitle = "Proceedings of the 2007 IEEE Swarm Intelligence Symposium", month = apr,
  *                 year = {2007}, pages = {198--205} }
  * </pre>
+ *
  * @author Wiehann Matthysen
  */
 public class NearestBoundaryConstraint implements BoundaryConstraint {
-    private static final long serialVersionUID = 3177150919194273857L;
 
+    private static final long serialVersionUID = 3177150919194273857L;
     private ControlParameter turbulenceProbability;
-    private RandomNumber random;
+    private ProbabilityDistributionFuction random;
 
     /**
      * Create an instance of the constraint with a turbulence probability
@@ -65,7 +67,7 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
      */
     public NearestBoundaryConstraint() {
         turbulenceProbability = new ConstantControlParameter(0.0);
-        this.random = new RandomNumber();
+        this.random = new UniformDistribution();
     }
 
     /**
@@ -91,9 +93,10 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
     public void enforce(Entity entity) {
         StructuredType s = (StructuredType) entity.getProperties().get(EntityType.Particle.VELOCITY);
 
-        if (s == null)
+        if (s == null) {
             throw new UnsupportedOperationException("Cannot perform this boundary constrain on a "
-                + entity.getClass().getSimpleName());
+                    + entity.getClass().getSimpleName());
+        }
 
         Iterator pIterator = entity.getCandidateSolution().iterator();
         Iterator vIterator = s.iterator();
@@ -108,15 +111,14 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
             if (Double.compare(position.getReal(), bounds.getLowerBound()) < 0) {
                 position.set(bounds.getLowerBound());    // lower boundary is inclusive
 
-                if (random.getUniform() < turbulenceProbability.getParameter()) {
-                    position.set(position.getReal() + random.getUniform() * bounds.getRange());
+                if (random.getRandomNumber() < turbulenceProbability.getParameter()) {
+                    position.set(position.getReal() + random.getRandomNumber() * bounds.getRange());
                 }
                 velocity.set(position.getReal() - previousPosition);
-            }
-            else if (Double.compare(position.getReal(), bounds.getUpperBound()) > 0) {
+            } else if (Double.compare(position.getReal(), bounds.getUpperBound()) > 0) {
                 position.set(bounds.getUpperBound() - Maths.EPSILON);    // upper boundary is exclusive
-                if (random.getUniform() < turbulenceProbability.getParameter()) {
-                    position.set(position.getReal() - random.getUniform() * bounds.getRange());
+                if (random.getRandomNumber() < turbulenceProbability.getParameter()) {
+                    position.set(position.getReal() - random.getRandomNumber() * bounds.getRange());
                 }
                 velocity.set(position.getReal() - previousPosition);
             }
@@ -138,5 +140,4 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
     public void setTurbulenceProbability(ControlParameter turbulenceProbability) {
         this.turbulenceProbability = turbulenceProbability;
     }
-
 }

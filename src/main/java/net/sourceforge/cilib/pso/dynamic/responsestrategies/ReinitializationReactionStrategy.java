@@ -52,7 +52,7 @@ public class ReinitializationReactionStrategy<E extends PopulationBasedAlgorithm
     public ReinitializationReactionStrategy(ReinitializationReactionStrategy<E> rhs) {
         super(rhs);
         reinitializationRatio = rhs.reinitializationRatio;
-        randomGenerator = rhs.randomGenerator.getClone();
+        randomGenerator = rhs.randomGenerator;
     }
 
     @Override

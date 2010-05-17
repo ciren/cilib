@@ -78,14 +78,6 @@ public class RANLUX implements RandomProvider {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public RANLUX getClone() {
-        return new RANLUX();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     private void setSeed(long seed) {
         xdbl = new double[12];
 
