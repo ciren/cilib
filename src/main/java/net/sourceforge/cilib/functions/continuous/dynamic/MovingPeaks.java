@@ -24,7 +24,9 @@ package net.sourceforge.cilib.functions.continuous.dynamic;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.DynamicFunction;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.GaussianDistribution;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -32,6 +34,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Anna Rakitianskaia
  */
 public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
+
     private static final long serialVersionUID = 733952126255493620L;
     private static int nextSeed = 1;
 
@@ -90,7 +93,6 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
         }
         return evaluateMovpeaks(elements);
     }
-
     private int changeFrequency = 0;//number of iteration between changes
 
     public void setChangeFrequency(int cfr) {
@@ -100,21 +102,20 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     public int getChangeFrequency() {
         return changeFrequency;
     }
-
     @SuppressWarnings("unused")
     private long movrandseed = 1;//seed for built-in random number generator
     private double vlength = 1.0;//distance by which the peaks are moved
     private double heightSeverity = 1.0;//severity of height changes
     private double widthSeverity = 0.05;//severity of width changes
-
-    private RandomNumber randomNumberGenerator = new RandomNumber();
+    private ProbabilityDistributionFuction uniform = new UniformDistribution();
+    private ProbabilityDistributionFuction gaussian = new GaussianDistribution();
 
     private double movrand() {
-        return randomNumberGenerator.getUniform();
+        return uniform.getRandomNumber();
     }
 
     private double movnrand() {
-        return randomNumberGenerator.getNormal();
+        return gaussian.getRandomNumber();
     }
 
     /*
@@ -163,14 +164,10 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
      * width chosen randomly when standardwidth = 0.0 Scenario 1: 0.1
      */
     private double standardwidth = 0.1;
-
     public PeakFunction pf = new PeakFunctionCone();
     public BasisFunction bf = new ConstantBasisFunction();
-
     private double exclusionthreshold;
-
     /** *** END OF PARAMETER SECTION **** */
-
     private boolean recentChange = true; //indicates that a change has just ocurred
     private boolean changed = false;
     private int currentPeak; //peak on which the current best individual is located
@@ -180,18 +177,15 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     private double offlineError = 0.0;
     private double currentError = 0; // error of the currently best individual
     private double globalMax; // absolute maximum in the fitness landscape
-
     private int evals = 0; // number of evaluations so far
     public double[][] peak;
     private double[] shift;
     private double[] coordinates;
-
     @SuppressWarnings("unused")
     private int[] coveredPeaks;
 
     /* to store every peak's previous movement */
     private double[][] prevMovement;
-
     private int counter = 1;
     private double frequency = 3.14159 / 20.0;
 
@@ -199,8 +193,9 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
         if (changed) {
             changed = false;
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
     public double getExclusionThreshold() {
@@ -275,19 +270,20 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
 
         for (i = 0; i < this.numberOfPeaks; i++) {
             dummy = this.pf.calculate(gen, i);
-            if (dummy > maximum)
+            if (dummy > maximum) {
                 maximum = dummy;
+            }
         }
 
         if (this.useBasisFunction) {
             dummy = this.bf.calculate(gen);
             /* If value of basis function is higher return it */
-            if (maximum < dummy)
+            if (maximum < dummy) {
                 maximum = dummy;
+            }
         }
         return (maximum);
     }
-
     int changeOnlyOnce = -1;
 
     public double evaluateMovpeaks(double[] gen) {
@@ -543,21 +539,23 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     }
 
     // inner classes
-
     interface PeakFunction {
+
         public double calculate(double[] gen, int peakNumber);
     } // Peak_Function
 
     class PeakFunction1 implements PeakFunction {
+
         public double calculate(double[] gen, int peakNumber) {
             int j;
             double dummy;
 
             dummy = (gen[0] - peak[peakNumber][0])
                     * (gen[0] - peak[peakNumber][0]);
-            for (j = 1; j < getDimension(); j++)
+            for (j = 1; j < getDimension(); j++) {
                 dummy += (gen[j] - peak[peakNumber][j])
                         * (gen[j] - peak[peakNumber][j]);
+            }
 
             return peak[peakNumber][getDimension() + 1]
                     / (1 + (peak[peakNumber][getDimension()]) * dummy);
@@ -565,15 +563,17 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     }
 
     class PeakFunctionCone implements PeakFunction {
+
         public double calculate(double[] gen, int peakNumber) {
             int j;
             double dummy;
 
             dummy = (gen[0] - peak[peakNumber][0])
                     * (gen[0] - peak[peakNumber][0]);
-            for (j = 1; j < getDimension(); j++)
+            for (j = 1; j < getDimension(); j++) {
                 dummy += (gen[j] - peak[peakNumber][j])
                         * (gen[j] - peak[peakNumber][j]);
+            }
             // sqrt of dummy is the distance between gen and peak.
             return peak[peakNumber][getDimension() + 1] - // peak height
                     (peak[peakNumber][getDimension()] * Math.sqrt(dummy));
@@ -581,15 +581,17 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     }
 
     class PeakFunctionHilly implements PeakFunction {
+
         public double calculate(double[] gen, int peakNumber) {
             int j;
             double dummy;
 
             dummy = (gen[0] - peak[peakNumber][0])
                     * (gen[0] - peak[peakNumber][0]);
-            for (j = 1; j < getDimension(); j++)
+            for (j = 1; j < getDimension(); j++) {
                 dummy += (gen[j] - peak[peakNumber][j])
                         * (gen[j] - peak[peakNumber][j]);
+            }
 
             return peak[peakNumber][getDimension() + 1]
                     - (peak[peakNumber][getDimension()] * dummy) - 0.01
@@ -598,77 +600,88 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     }
 
     class PeakFunctionSphere implements PeakFunction {
+
         public double calculate(double[] gen, int peakNumber) {
             int j;
             double dummy;
 
             dummy = (gen[0] - peak[peakNumber][0])
                     * (gen[0] - peak[peakNumber][0]);
-            for (j = 1; j < getDimension(); j++)
+            for (j = 1; j < getDimension(); j++) {
                 dummy += (gen[j] - peak[peakNumber][j])
                         * (gen[j] - peak[peakNumber][j]);
+            }
 
             return peak[peakNumber][getDimension() + 1] - dummy;
         }
     }
 
     class PeakFunctionTwin implements PeakFunction {
+
         public double calculate(double[] gen, int peakNumber) {
             int j;
             double maximum = -Double.MAX_VALUE, dummy;
             /* difference to first peak */
             /* static */
-            double[] twin_peak = { 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0 };
+            double[] twin_peak = {1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0};
 
             dummy = Math.pow(gen[0] - peak[peakNumber][0], 2);
-            for (j = 1; j < getDimension(); j++)
+            for (j = 1; j < getDimension(); j++) {
                 dummy += Math.pow(gen[j] - peak[peakNumber][j], 2);
+            }
             dummy = peak[peakNumber][getDimension() + 1]
                     - (peak[peakNumber][getDimension()] * dummy);
             maximum = dummy;
             dummy = Math.pow(gen[j] - (peak[peakNumber][0] + twin_peak[0]), 2);
-            for (j = 1; j < getDimension(); j++)
+            for (j = 1; j < getDimension(); j++) {
                 dummy += Math.pow(
                         gen[j] - (peak[peakNumber][j] + twin_peak[0]), 2);
+            }
             dummy = peak[peakNumber][getDimension() + 1]
                     + twin_peak[getDimension() + 1]
                     - ((peak[peakNumber][getDimension()] + twin_peak[getDimension()]) * dummy);
-            if (dummy > maximum)
+            if (dummy > maximum) {
                 maximum = dummy;
+            }
 
             return maximum;
         }
     }
 
     interface BasisFunction {
+
         public double calculate(double[] gen);
     }
 
     class ConstantBasisFunction implements BasisFunction {
+
         public double calculate(double[] gen) {
             return 0.0;
         }
     }
 
     class FivePeaksBasisFunction implements BasisFunction {
+
         public double calculate(double[] gen) {
             int i, j;
             double maximum = -Double.MAX_VALUE/*-100000.0*/, dummy;
-            double[][] basisPeak = { { 8.0, 64.0, 67.0, 55.0, 4.0, 0.1, 50.0 },
-                    { 50.0, 13.0, 76.0, 15.0, 7.0, 0.1, 50.0 },
-                    { 9.0, 19.0, 27.0, 67.0, 24.0, 0.1, 50.0 },
-                    { 66.0, 87.0, 65.0, 19.0, 43.0, 0.1, 50.0 },
-                    { 76.0, 32.0, 43.0, 54.0, 65.0, 0.1, 50.0 }, };
+            double[][] basisPeak = {{8.0, 64.0, 67.0, 55.0, 4.0, 0.1, 50.0},
+                {50.0, 13.0, 76.0, 15.0, 7.0, 0.1, 50.0},
+                {9.0, 19.0, 27.0, 67.0, 24.0, 0.1, 50.0},
+                {66.0, 87.0, 65.0, 19.0, 43.0, 0.1, 50.0},
+                {76.0, 32.0, 43.0, 54.0, 65.0, 0.1, 50.0},};
 
             for (i = 0; i < 5; i++) {
                 dummy = (gen[0] - basisPeak[i][0]) * (gen[0] - basisPeak[i][0]);
-                for (j = 1; j < getDimension(); j++)
+                for (j = 1; j < getDimension(); j++) {
                     dummy += (gen[j] - basisPeak[i][j])
                             * (gen[j] - basisPeak[i][j]);
+                }
                 dummy = basisPeak[i][getDimension() + 1]
                         - (basisPeak[i][getDimension()] * dummy);
-                if (dummy > maximum)
+                if (dummy > maximum) {
                     maximum = dummy;
+                }
             }
             return maximum;
         }
@@ -804,7 +817,9 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
 
     public void setMovrandseed(long movrandseed) {
         this.movrandseed = movrandseed;
-        randomNumberGenerator = new RandomNumber(movrandseed);
+
+        uniform = new UniformDistribution(movrandseed);
+        gaussian = new GaussianDistribution(movrandseed);
     }
 
     public double getGlobalMax() {

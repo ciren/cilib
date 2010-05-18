@@ -61,11 +61,6 @@ public class RandomOrderingTest {
         private RandomProvider randomProvider = new MersenneTwister(0);
 
         @Override
-        public RandomProvider getClone() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public boolean nextBoolean() {
             throw new UnsupportedOperationException("Not supported yet.");
         }

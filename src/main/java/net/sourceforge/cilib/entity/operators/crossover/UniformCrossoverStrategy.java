@@ -74,7 +74,7 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
         Entity parent1 = selectedParents.get(0);
         Entity parent2 = selectedParents.get(1);
 
-        if (this.getCrossoverProbability().getParameter() >= this.getRandomNumber().getUniform()) {
+        if (this.getCrossoverProbability().getParameter() >= this.getRandomDistribution().getRandomNumber()) {
             int minDimension = Math.min(parent1.getDimension(), parent2.getDimension());
 
             Entity offspring1 = parent1.getClone();
@@ -83,7 +83,7 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
             // Calculate the mask for the cross-over
             boolean[] mask = new boolean[minDimension];
             for (int i = 0; i < minDimension; i++) {
-                if (this.getRandomNumber().getUniform() <= 0.5) {
+                if (this.getRandomDistribution().getRandomNumber() <= 0.5) {
                     mask[i] = true;
                 }
             }

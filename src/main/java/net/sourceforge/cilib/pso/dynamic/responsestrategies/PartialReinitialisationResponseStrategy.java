@@ -49,7 +49,7 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
 
     public PartialReinitialisationResponseStrategy(PartialReinitialisationResponseStrategy<E> copy) {
         this.reinitialisationRatio = copy.reinitialisationRatio;
-        this.randomiser = copy.randomiser.getClone();
+        this.randomiser = copy.randomiser;
     }
 
     @Override

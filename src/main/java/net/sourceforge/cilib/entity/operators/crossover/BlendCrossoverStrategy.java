@@ -103,7 +103,7 @@ public class BlendCrossoverStrategy extends CrossoverStrategy {
         Entity offspring1 = parentCollection.get(0).getClone();
         Entity offspring2 = parentCollection.get(1).getClone();
 
-        if (this.getCrossoverProbability().getParameter() >= this.getRandomNumber().getUniform()) {
+        if (this.getCrossoverProbability().getParameter() >= this.getRandomDistribution().getRandomNumber()) {
             Vector parentChromosome1 = (Vector) parentCollection.get(0).getCandidateSolution();
             Vector parentChromosome2 = (Vector) parentCollection.get(1).getCandidateSolution();
             Vector offspringChromosome1 = (Vector) offspring1.getCandidateSolution();
@@ -115,7 +115,7 @@ public class BlendCrossoverStrategy extends CrossoverStrategy {
             int minDimension = Math.min(sizeParent1, sizeParent2);
 
             for (int i = 0; i < minDimension; i++) {
-                double gamma = (1 + (2 * alpha.getParameter())) * this.getRandomNumber().getUniform() - alpha.getParameter();
+                double gamma = (1 + (2 * alpha.getParameter())) * this.getRandomDistribution().getRandomNumber() - alpha.getParameter();
                 double value1 = (1 - gamma) * parentChromosome1.getReal(i) + gamma * parentChromosome2.getReal(i);
                 double value2 = (1 - gamma) * parentChromosome2.getReal(i) + gamma * parentChromosome1.getReal(i);
                 offspringChromosome1.setReal(i, value1);

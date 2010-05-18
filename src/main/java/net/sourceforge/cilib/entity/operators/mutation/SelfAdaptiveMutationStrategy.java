@@ -24,7 +24,8 @@ package net.sourceforge.cilib.entity.operators.mutation;
 import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.GaussianDistribution;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -35,14 +36,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class SelfAdaptiveMutationStrategy extends MutationStrategy {
 
     private static final long serialVersionUID = -8942505730267916237L;
-    private RandomNumber randomSingle;
-    private RandomNumber randomDimension;
+    private ProbabilityDistributionFuction randomSingle;
+    private ProbabilityDistributionFuction randomDimension;
     private double tau;
     private double tauPrime;
 
     public SelfAdaptiveMutationStrategy() {
-        this.randomSingle = new RandomNumber();
-        this.randomDimension = new RandomNumber();
+        this.randomSingle = new GaussianDistribution();
+        this.randomDimension = new GaussianDistribution();
         this.tau = Double.NaN;
         this.tauPrime = Double.NaN;
     }
@@ -56,7 +57,7 @@ public class SelfAdaptiveMutationStrategy extends MutationStrategy {
     public void mutate(List<? extends Entity> offspringList) {
         initializeConstants(offspringList);
 
-        double pre = tauPrime * randomSingle.getGaussian();
+        double pre = tauPrime * randomSingle.getRandomNumber();
 
         for (Entity offspring : offspringList) {
             Vector candidateSolution = (Vector) offspring.getCandidateSolution();
@@ -64,13 +65,13 @@ public class SelfAdaptiveMutationStrategy extends MutationStrategy {
 
             // Update the offspring
             for (int i = 0; i < candidateSolution.size(); i++) {
-                double value = candidateSolution.getReal(i) + strategy.getReal(i) * randomDimension.getGaussian();
+                double value = candidateSolution.getReal(i) + strategy.getReal(i) * randomDimension.getRandomNumber();
                 candidateSolution.setReal(i, value);
             }
 
             // Update the strategy parameters
             for (Numeric n : strategy) {
-                double exponent = pre + tau * randomDimension.getGaussian();
+                double exponent = pre + tau * randomDimension.getRandomNumber();
                 double value = n.getReal() * Math.exp(exponent);
                 n.setReal(value);
             }

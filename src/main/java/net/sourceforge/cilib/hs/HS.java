@@ -30,7 +30,8 @@ import net.sourceforge.cilib.container.SortedList;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Harmony;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Real;
@@ -45,10 +46,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Andries Engelbrecht
  */
 public class HS extends AbstractAlgorithm implements SingularAlgorithm {
+
     private static final long serialVersionUID = 8019668923312811974L;
-    private RandomNumber random1;
-    private RandomNumber random2;
-    private RandomNumber random3;
+    private ProbabilityDistributionFuction uniform1;
+    private ProbabilityDistributionFuction uniform2;
+    private ProbabilityDistributionFuction uniform3;
     private ControlParameter harmonyMemorySize;
     private ControlParameter harmonyMemoryConsideringRate;
     private ControlParameter pitchAdjustingRate;
@@ -67,9 +69,9 @@ public class HS extends AbstractAlgorithm implements SingularAlgorithm {
      * </ul>
      */
     public HS() {
-        this.random1 = new RandomNumber();
-        this.random2 = new RandomNumber();
-        this.random3 = new RandomNumber();
+        this.uniform1 = new UniformDistribution();
+        this.uniform2 = new UniformDistribution();
+        this.uniform3 = new UniformDistribution();
 
         this.harmonyMemorySize = new ConstantControlParameter(20); //should be equal to number of individuals
         this.harmonyMemoryConsideringRate = new ConstantControlParameter(0.9);
@@ -84,9 +86,9 @@ public class HS extends AbstractAlgorithm implements SingularAlgorithm {
      * @param copy The instance to copy.
      */
     public HS(HS copy) {
-        this.random1 = copy.random1.getClone();
-        this.random2 = copy.random2.getClone();
-        this.random3 = copy.random3.getClone();
+        this.uniform1 = copy.uniform1;
+        this.uniform2 = copy.uniform2;
+        this.uniform3 = copy.uniform3;
 
         this.harmonyMemorySize = copy.harmonyMemorySize.getClone();
         this.harmonyMemoryConsideringRate = copy.harmonyMemoryConsideringRate.getClone();
@@ -197,22 +199,22 @@ public class HS extends AbstractAlgorithm implements SingularAlgorithm {
         OptimisationProblem problem = getOptimisationProblem();
 //        Real newHarmonyValue;
         for (int i = 0; i < problem.getDomain().getDimension(); ++i) {
-            if (random1.getUniform() < harmonyMemoryConsideringRate.getParameter()) {
-                Harmony selectedHarmony = this.harmonyMemory.get((int) random2.getUniform(0, harmonyMemory.size()-1));
+            if (uniform1.getRandomNumber() < harmonyMemoryConsideringRate.getParameter()) {
+                Harmony selectedHarmony = this.harmonyMemory.get((int) uniform2.getRandomNumber(0, harmonyMemory.size() - 1));
                 Vector selectedHarmonyContents = (Vector) selectedHarmony.getCandidateSolution();
                 Real newHarmonyValue = (Real) selectedHarmonyContents.get(i).getClone();
-                if (random1.getUniform() < pitchAdjustingRate.getParameter()) {
-                    double pitchedValue = newHarmonyValue.getReal() + random3.getUniform(-1, 1) * distanceBandwidth.getParameter();
-                    if ((pitchedValue > newHarmonyValue.getBounds().getLowerBound()) && (pitchedValue < newHarmonyValue.getBounds().getUpperBound()))
+                if (uniform1.getRandomNumber() < pitchAdjustingRate.getParameter()) {
+                    double pitchedValue = newHarmonyValue.getReal() + uniform3.getRandomNumber(-1, 1) * distanceBandwidth.getParameter();
+                    if ((pitchedValue > newHarmonyValue.getBounds().getLowerBound()) && (pitchedValue < newHarmonyValue.getBounds().getUpperBound())) {
                         newHarmonyValue.setReal(pitchedValue);
+                    }
                 }
 
                 newHarmonyVector.set(i, newHarmonyValue);
-            }
-            else {
+            } else {
                 double upper = ((Vector) problem.getDomain().getBuiltRepresenation()).get(i).getBounds().getUpperBound();
                 double lower = ((Vector) problem.getDomain().getBuiltRepresenation()).get(i).getBounds().getLowerBound();
-                newHarmonyVector.set(i, new Real(random3.getUniform(lower, upper)));
+                newHarmonyVector.set(i, new Real(uniform3.getRandomNumber(lower, upper)));
             }
         }
 

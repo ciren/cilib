@@ -41,11 +41,6 @@ public class Sobol extends QuasiRandom {
         skipValue = 0;
     }
 
-    @Override
-    public Sobol getClone() {
-        return new Sobol();
-    }
-
     private int next(int bits) {
         if (currentPoint == null) {
             initialized = false;

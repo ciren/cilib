@@ -21,9 +21,11 @@
  */
 package net.sourceforge.cilib.math;
 
+import net.sourceforge.cilib.math.random.GaussianDistribution;
 import static org.junit.Assert.assertTrue;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import org.junit.Test;
 
 /**
@@ -33,12 +35,14 @@ import org.junit.Test;
  */
 public class RandomNumberTest {
 
+    private ProbabilityDistributionFuction rand;
+
     @Test
     public void testGuassian() {
-        RandomNumber rand = new RandomNumber();
+        rand = new GaussianDistribution();
 
         for (int i = 0; i < 1000; i++) {
-            double number = rand.getGaussian();
+            double number = rand.getRandomNumber();
             assertTrue(-5.0 < number);
             assertTrue(number < 5.0);
         }
@@ -46,10 +50,10 @@ public class RandomNumberTest {
 
     @Test
     public void testUniform() {
-        RandomNumber rand = new RandomNumber();
+        rand = new UniformDistribution();
 
         for (int i = 0; i < 200; i++) {
-            double number = rand.getUniform();
+            double number = rand.getRandomNumber();
             assertTrue(number <= 1.0);
             assertTrue(0.0 <= number);
         }
