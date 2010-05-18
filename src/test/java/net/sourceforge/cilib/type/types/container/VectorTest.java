@@ -365,7 +365,7 @@ public class VectorTest {
     @Test
     public void foreach() {
         final Vector expected = Vector.of(2.0, 2.0, 2.0);
-        Vector result = Vector.of(1.0, 1.0, 1.0).foreach(new Vector.Function<Numeric, Numeric>() {
+        Vector result = Vector.of(1.0, 1.0, 1.0).map(new Vector.Function<Numeric, Numeric>() {
 
             @Override
             public Numeric apply(Numeric x) {

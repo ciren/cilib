@@ -835,7 +835,7 @@ public class Vector implements StructuredType<Numeric>,
         return builder.toString();
     }
 
-    public Vector foreach(Function<Numeric, Numeric> function) {
+    public Vector map(Function<Numeric, Numeric> function) {
         Numeric[] result = new Numeric[components.length];
         for (int i = 0, n = components.length; i < n; i++) {
             result[i] = function.apply(components[i]);
