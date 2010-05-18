@@ -27,6 +27,8 @@ import java.util.ListIterator;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.math.random.GaussianDistribution;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -38,17 +40,20 @@ public class GaussianMutationStrategy extends MutationStrategy {
     private static final long serialVersionUID = -4219155909474892419L;
     private double mean;
     private ControlParameter deviationStrategy;
+    private ProbabilityDistributionFuction gaussian;
 
     public GaussianMutationStrategy() {
         super();
         this.mean = 0;
         this.deviationStrategy = new ProportionalControlParameter();
+        this.gaussian = new GaussianDistribution();
     }
 
     public GaussianMutationStrategy(GaussianMutationStrategy copy) {
         super(copy);
         this.mean = copy.mean;
         this.deviationStrategy = copy.deviationStrategy.getClone();
+        this.gaussian = copy.gaussian;
     }
 
     /**
@@ -69,10 +74,10 @@ public class GaussianMutationStrategy extends MutationStrategy {
             Vector chromosome = (Vector) current.getCandidateSolution();
 
             for (int i = 0; i < chromosome.size(); i++) {
-                double random = this.getRandomNumber().getUniform();
+                double random = this.getRandomDistribution().getRandomNumber();
                 if (random <= this.getMutationProbability().getParameter()) {
-                    double deviation = this.getRandomNumber().getGaussian();
-                    double value = this.getOperatorStrategy().evaluate(chromosome.doubleValueOf(i), this.getRandomNumber().getGaussian(this.mean, deviation));
+                    double deviation = this.gaussian.getRandomNumber();
+                    double value = this.getOperatorStrategy().evaluate(chromosome.doubleValueOf(i), this.gaussian.getRandomNumber(this.mean, deviation));
 
                     chromosome.setReal(i, value);
                 }

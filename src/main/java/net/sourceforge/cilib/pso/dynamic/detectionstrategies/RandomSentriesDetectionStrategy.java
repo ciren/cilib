@@ -57,7 +57,7 @@ public class RandomSentriesDetectionStrategy<E extends PopulationBasedAlgorithm>
     public RandomSentriesDetectionStrategy(RandomSentriesDetectionStrategy<E> rhs) {
         super(rhs);
         numberOfSentries = rhs.numberOfSentries.getClone();
-        randomGenerator = rhs.randomGenerator.getClone();
+        randomGenerator = rhs.randomGenerator;
     }
 
     @Override

@@ -26,7 +26,8 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.functions.activation.Sigmoid;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.CauchyDistribution;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -38,7 +39,7 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 
     private static final long serialVersionUID = -9051938755796130230L;
     private ControlParameter scalingFactor;
-    private RandomNumber randomNumber;
+    private ProbabilityDistributionFuction randomNumber;
     private Sigmoid sigmoid;
 
     /**
@@ -47,7 +48,7 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
     public CoherenceVelocityUpdate() {
         super();
         scalingFactor = new ConstantControlParameter(1.0);
-        randomNumber = new RandomNumber();
+        randomNumber = new CauchyDistribution();
         sigmoid = new Sigmoid();
     }
 
@@ -58,12 +59,13 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
     public CoherenceVelocityUpdate(CoherenceVelocityUpdate copy) {
         super(copy);
         this.scalingFactor = copy.scalingFactor.getClone();
-        this.randomNumber = copy.randomNumber.getClone();
+        this.randomNumber = copy.randomNumber;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public CoherenceVelocityUpdate getClone() {
         return new CoherenceVelocityUpdate(this);
     }
@@ -71,6 +73,7 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void updateVelocity(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getPosition();
@@ -106,7 +109,7 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
                     + (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * cognitiveAcceleration.getParameter()
                     + (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * socialAcceleration.getParameter();
 
-            double coherenceVelocity = scalingFactor.getParameter() * sigmoidValue * averageVelocity.doubleValueOf(i) * randomNumber.getCauchy();
+            double coherenceVelocity = scalingFactor.getParameter() * sigmoidValue * averageVelocity.doubleValueOf(i) * randomNumber.getRandomNumber();
 //                System.out.println("swam center: " + swarmCenterVelocity);
 //                System.out.println("average particle: " + averageParticleVelocity);
 //                System.out.println("sigmoid: " + sigmoidValue);

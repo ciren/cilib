@@ -111,11 +111,6 @@ public class ProportionalOrderingTest {
         }
 
         @Override
-        public RandomProvider getClone() {
-            return this;
-        }
-
-        @Override
         public int nextInt(int n) {
             throw new UnsupportedOperationException();
         }

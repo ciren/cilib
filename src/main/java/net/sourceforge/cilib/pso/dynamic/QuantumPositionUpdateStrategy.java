@@ -25,7 +25,8 @@ import java.util.Arrays;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -41,7 +42,7 @@ public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
     private static final long serialVersionUID = -7844226788317206737L;
     private static final double EPSILON = 0.000000001;
     private double radius;
-    private RandomNumber randomizer;
+    private ProbabilityDistributionFuction randomizer;
     Vector nucleus;
 
     public Vector getNucleus() {
@@ -54,12 +55,12 @@ public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
 
     public QuantumPositionUpdateStrategy() {
         radius = 5;
-        randomizer = new RandomNumber();
+        randomizer = new UniformDistribution();
     }
 
     public QuantumPositionUpdateStrategy(QuantumPositionUpdateStrategy copy) {
         this.radius = copy.radius;
-        this.randomizer = copy.randomizer.getClone();
+        this.randomizer = copy.randomizer;
     }
 
     public QuantumPositionUpdateStrategy getClone() {
@@ -100,23 +101,23 @@ public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
             double[] pieces = new double[dimensions]; // break up of the distance
             pieces[dimensions - 1] = distance;
             for (int i = 0; i < dimensions - 1; i++) {
-                pieces[i] = randomizer.getUniform(0, distance);
+                pieces[i] = randomizer.getRandomNumber(0, distance);
             }//for
             Arrays.sort(pieces);
             int sign = 1;
-            if (randomizer.getUniform() <= 0.5) {
+            if (randomizer.getRandomNumber() <= 0.5) {
                 sign = -1;
             }//if
             //deals with first dimension
-            position.setReal(0, nucleus.doubleValueOf(0) + sign * randomizer.getUniform(0, Math.sqrt(pieces[0])));
+            position.setReal(0, nucleus.doubleValueOf(0) + sign * randomizer.getRandomNumber(0, Math.sqrt(pieces[0])));
             //deals with the other dimensions
             for (int i = 1; i < dimensions; i++) {
                 sign = 1;
-                if (randomizer.getUniform() <= 0.5) {
+                if (randomizer.getRandomNumber() <= 0.5) {
                     sign = -1;
                 }//if
                 double rad = Math.sqrt(pieces[i] - pieces[i - 1]);
-                double dis = randomizer.getUniform(0, rad);
+                double dis = randomizer.getRandomNumber(0, rad);
                 double newpos = nucleus.doubleValueOf(i) + sign * dis;
                 position.setReal(i, newpos);
             }//for

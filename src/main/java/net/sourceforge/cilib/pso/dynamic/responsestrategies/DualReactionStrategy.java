@@ -60,7 +60,7 @@ public class DualReactionStrategy<E extends PopulationBasedAlgorithm> extends En
         super(rhs);
         reevaluation = rhs.reevaluation.getClone();
         reinitialization = rhs.reinitialization.getClone();
-        this.setRandomGenerator(rhs.randomGenerator.getClone());
+        this.setRandomGenerator(rhs.randomGenerator);
     }
 
     @Override

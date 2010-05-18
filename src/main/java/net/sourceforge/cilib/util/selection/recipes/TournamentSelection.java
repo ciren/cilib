@@ -71,7 +71,7 @@ public class TournamentSelection<E extends Comparable<? super E>> implements Sel
     public TournamentSelection(TournamentSelection<E> copy) {
         this.tournamentProportion = copy.tournamentProportion.getClone();
         this.comparator = copy.comparator;
-        this.random = copy.random.getClone();
+        this.random = copy.random;
     }
 
     /**

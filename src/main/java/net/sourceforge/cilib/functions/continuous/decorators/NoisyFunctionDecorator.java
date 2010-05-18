@@ -24,9 +24,9 @@ package net.sourceforge.cilib.functions.continuous.decorators;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.GaussianDistribution;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.type.types.container.Vector;
-
 
 /**
  *
@@ -34,10 +34,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class NoisyFunctionDecorator extends ContinuousFunction {
-    private static final long serialVersionUID = -3918271655104447420L;
 
+    private static final long serialVersionUID = -3918271655104447420L;
     private ContinuousFunction function;
-    private RandomNumber randomNumber;
+    private ProbabilityDistributionFuction randomNumber;
     private ControlParameter variance;
 
     /**
@@ -45,7 +45,7 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
      */
     public NoisyFunctionDecorator() {
         setDomain("R");
-        randomNumber = new RandomNumber();
+        randomNumber = new GaussianDistribution();
         this.variance = new ConstantControlParameter(1.0);
     }
 
@@ -60,10 +60,10 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Double apply(Vector input) {
-        return function.apply(input) + randomNumber.getGaussian(0.0, this.variance.getParameter());
+        return function.apply(input) + randomNumber.getRandomNumber(0.0, this.variance.getParameter());
     }
-
 
     /**
      * Get the function that is decorated.
@@ -72,7 +72,6 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
     public ContinuousFunction getFunction() {
         return function;
     }
-
 
     /**
      * Set the decorated function.
@@ -90,7 +89,4 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
     public void setVariance(ControlParameter variance) {
         this.variance = variance;
     }
-
-
-
 }

@@ -24,7 +24,9 @@ package net.sourceforge.cilib.functions.continuous.dynamic;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.DynamicFunction;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.GaussianDistribution;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -104,14 +106,15 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     private double vlength = 1.0;//distance by which the peaks are moved
     private double heightSeverity = 1.0;//severity of height changes
     private double widthSeverity = 0.05;//severity of width changes
-    private RandomNumber randomNumberGenerator = new RandomNumber();
+    private ProbabilityDistributionFuction uniform = new UniformDistribution();
+    private ProbabilityDistributionFuction gaussian = new GaussianDistribution();
 
     private double movrand() {
-        return randomNumberGenerator.getUniform();
+        return uniform.getRandomNumber();
     }
 
     private double movnrand() {
-        return randomNumberGenerator.getNormal();
+        return gaussian.getRandomNumber();
     }
 
     /*
@@ -813,7 +816,9 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
 
     public void setMovrandseed(long movrandseed) {
         this.movrandseed = movrandseed;
-        randomNumberGenerator = new RandomNumber(movrandseed);
+
+        uniform = new UniformDistribution(movrandseed);
+        gaussian = new GaussianDistribution(movrandseed);
     }
 
     public double getGlobalMax() {

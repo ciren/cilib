@@ -67,11 +67,6 @@ public class Tausworthe implements RandomProvider {
         setSeed(seed); // Not the best code.... nothing should happen in a constructor.
     }
 
-    @Override
-    public Tausworthe getClone() {
-        return new Tausworthe();
-    }
-
     private long getLCG(long n) {
         return (69069 * n) & 0xffffffffL;
     }

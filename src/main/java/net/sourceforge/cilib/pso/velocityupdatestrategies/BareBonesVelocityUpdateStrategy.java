@@ -24,7 +24,8 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.GaussianDistribution;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -37,15 +38,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *  @author Andries Engelbrecht
  */
 public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
-    private static final long serialVersionUID = -823686042197742768L;
 
-    private RandomNumber randomNumber;
+    private static final long serialVersionUID = -823686042197742768L;
+    private ProbabilityDistributionFuction randomNumber;
     private ControlParameter cognitiveAcceleration;
     private ControlParameter socialAcceleration;
 
-
     public BareBonesVelocityUpdateStrategy() {
-        randomNumber = new RandomNumber();
+        randomNumber = new GaussianDistribution();
 
         cognitiveAcceleration = new RandomizingControlParameter();
         socialAcceleration = new RandomizingControlParameter();
@@ -54,7 +54,6 @@ public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
         socialAcceleration.setParameter(1.496180);
     }
 
-
     public BareBonesVelocityUpdateStrategy(BareBonesVelocityUpdateStrategy copy) {
         this();
 
@@ -62,11 +61,9 @@ public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
         socialAcceleration.setParameter(copy.socialAcceleration.getParameter());
     }
 
-
     public BareBonesVelocityUpdateStrategy getClone() {
         return new BareBonesVelocityUpdateStrategy(this);
     }
-
 
     public void updateVelocity(Particle particle) {
         Vector personalBestPosition = (Vector) particle.getBestPosition();
@@ -82,34 +79,27 @@ public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
             double mean = (personalBestPosition.doubleValueOf(i) + nBestPosition.doubleValueOf(i)) / 2;
             //andries proposal: double mean = (tmp1*personalBestPosition.getReal(i) + tmp2*nBestPosition.getReal(i)) / (tmp1+tmp2);
 
-            velocity.setReal(i, randomNumber.getGaussian(mean, sigma));
+            velocity.setReal(i, randomNumber.getRandomNumber(mean, sigma));
         }
     }
 
-
     public void updateControlParameters(Particle particle) {
         // TODO Auto-generated method stub
-
     }
-
 
     public ControlParameter getCognitiveAcceleration() {
         return cognitiveAcceleration;
     }
 
-
     public void setCognitiveAcceleration(ControlParameter cognitiveAcceleration) {
         this.cognitiveAcceleration = cognitiveAcceleration;
     }
-
 
     public ControlParameter getSocialAcceleration() {
         return socialAcceleration;
     }
 
-
     public void setSocialAcceleration(ControlParameter socialAcceleration) {
         this.socialAcceleration = socialAcceleration;
     }
-
 }

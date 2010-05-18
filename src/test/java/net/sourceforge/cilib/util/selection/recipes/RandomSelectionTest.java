@@ -88,11 +88,6 @@ public class RandomSelectionTest {
         }
 
         @Override
-        public RandomProvider getClone() {
-            return this;
-        }
-
-        @Override
         public int nextInt(int n) {
             return 6;
         }

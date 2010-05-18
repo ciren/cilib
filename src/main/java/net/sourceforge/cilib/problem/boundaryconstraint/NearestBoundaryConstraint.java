@@ -27,7 +27,8 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -52,13 +53,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *                 booktitle = "Proceedings of the 2007 IEEE Swarm Intelligence Symposium", month = apr,
  *                 year = {2007}, pages = {198--205} }
  * </pre>
+ *
  * @author Wiehann Matthysen
  */
 public class NearestBoundaryConstraint implements BoundaryConstraint {
 
     private static final long serialVersionUID = 3177150919194273857L;
     private ControlParameter turbulenceProbability;
-    private RandomNumber random;
+    private ProbabilityDistributionFuction random;
 
     /**
      * Create an instance of the constraint with a turbulence probability
@@ -66,7 +68,7 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
      */
     public NearestBoundaryConstraint() {
         turbulenceProbability = new ConstantControlParameter(0.0);
-        this.random = new RandomNumber();
+        this.random = new UniformDistribution();
     }
 
     /**
@@ -111,15 +113,15 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
             double previousPosition = position.doubleValue();
 
             if (Double.compare(position.doubleValue(), bounds.getLowerBound()) < 0) {
-                if (random.getUniform() < turbulenceProbability.getParameter()) {
-                    positionBuilder.add(position.doubleValue() + random.getUniform() * bounds.getRange());
+                if (random.getRandomNumber() < turbulenceProbability.getParameter()) {
+                    positionBuilder.add(position.doubleValue() + random.getRandomNumber() * bounds.getRange());
                 } else {
                     positionBuilder.add(bounds.getLowerBound());    // lower boundary is inclusive
                 }
                 velocityBuilder.add(position.doubleValue() - previousPosition);
             } else if (Double.compare(position.doubleValue(), bounds.getUpperBound()) > 0) {
-                if (random.getUniform() < turbulenceProbability.getParameter()) {
-                    positionBuilder.add(position.doubleValue() - random.getUniform() * bounds.getRange());
+                if (random.getRandomNumber() < turbulenceProbability.getParameter()) {
+                    positionBuilder.add(position.doubleValue() - random.getRandomNumber() * bounds.getRange());
                 } else {
                     positionBuilder.add(bounds.getUpperBound() - Maths.EPSILON);    // upper boundary is exclusive
                 }

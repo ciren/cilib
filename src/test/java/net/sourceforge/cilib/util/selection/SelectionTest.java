@@ -124,11 +124,6 @@ public class SelectionTest {
         }
 
         @Override
-        public RandomProvider getClone() {
-            return this;
-        }
-
-        @Override
         public int nextInt(int n) {
             return 0;
         }

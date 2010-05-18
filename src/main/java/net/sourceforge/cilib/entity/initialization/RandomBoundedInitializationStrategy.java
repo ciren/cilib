@@ -24,7 +24,8 @@ package net.sourceforge.cilib.entity.initialization;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -39,12 +40,12 @@ public class RandomBoundedInitializationStrategy<E extends Entity> implements
     private static final long serialVersionUID = -7926839076670354209L;
     private ControlParameter lowerBound;
     private ControlParameter upperBound;
-    private RandomNumber random;
+    private ProbabilityDistributionFuction random;
 
     public RandomBoundedInitializationStrategy() {
         this.lowerBound = new ConstantControlParameter(0.1);
         this.upperBound = new ConstantControlParameter(0.1);
-        this.random = new RandomNumber();
+        this.random = new UniformDistribution();
     }
 
     public RandomBoundedInitializationStrategy(RandomBoundedInitializationStrategy copy) {
@@ -64,7 +65,7 @@ public class RandomBoundedInitializationStrategy<E extends Entity> implements
         Vector velocity = (Vector) type;
 
         for (int i = 0; i < velocity.size(); i++) {
-            velocity.setReal(i, random.getUniform(lowerBound.getParameter(), upperBound.getParameter()));
+            velocity.setReal(i, random.getRandomNumber(lowerBound.getParameter(), upperBound.getParameter()));
         }
     }
 

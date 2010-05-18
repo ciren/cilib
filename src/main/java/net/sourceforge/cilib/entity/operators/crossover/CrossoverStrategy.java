@@ -29,27 +29,28 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.Operator;
 import net.sourceforge.cilib.entity.operators.selection.RandomSelectionStrategy;
 import net.sourceforge.cilib.entity.operators.selection.SelectionStrategy;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 
 /**
  * @author Andries Engelbrecht
  */
 public abstract class CrossoverStrategy implements Operator {
-    private static final long serialVersionUID = -5058325193277909244L;
 
+    private static final long serialVersionUID = -5058325193277909244L;
     private ControlParameter crossoverProbability;
-    private RandomNumber randomNumber;
+    private ProbabilityDistributionFuction randomDistribution;
     private SelectionStrategy selectionStrategy;
 
     public CrossoverStrategy() {
         crossoverProbability = new ConstantControlParameter(0.5);
-        randomNumber = new RandomNumber();
+        randomDistribution = new UniformDistribution();
         selectionStrategy = new RandomSelectionStrategy();
     }
 
     public CrossoverStrategy(CrossoverStrategy copy) {
         this.crossoverProbability = copy.crossoverProbability.getClone();
-        this.randomNumber = copy.randomNumber.getClone();
+        this.randomDistribution = copy.randomDistribution;
     }
 
     /**
@@ -75,12 +76,12 @@ public abstract class CrossoverStrategy implements Operator {
         this.crossoverProbability = crossoverProbability;
     }
 
-    public RandomNumber getRandomNumber() {
-        return randomNumber;
+    public ProbabilityDistributionFuction getRandomDistribution() {
+        return randomDistribution;
     }
 
-    public void setRandomNumber(RandomNumber randomNumber) {
-        this.randomNumber = randomNumber;
+    public void setRandomDistribution(ProbabilityDistributionFuction randomNumber) {
+        this.randomDistribution = randomNumber;
     }
 
     public SelectionStrategy getSelectionStrategy() {
@@ -90,5 +91,4 @@ public abstract class CrossoverStrategy implements Operator {
     public void setSelectionStrategy(SelectionStrategy selectionStrategy) {
         this.selectionStrategy = selectionStrategy;
     }
-
 }

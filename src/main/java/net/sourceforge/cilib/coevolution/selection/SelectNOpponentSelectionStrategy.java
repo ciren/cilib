@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.cilib.coevolution.competitors.CoevolutionCompetitorList;
 import net.sourceforge.cilib.coevolution.competitors.Competitor;
-import net.sourceforge.cilib.math.random.RandomNumber;
-
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 
 /**
  * Select N random opponents from the pool of competitors
@@ -35,55 +35,59 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  */
 public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy {
 
-	private static final long serialVersionUID = -7703414982437941424L;
-	protected int numberOfOpponents;
-	protected RandomNumber random;
+    private static final long serialVersionUID = -7703414982437941424L;
+    protected int numberOfOpponents;
+    protected ProbabilityDistributionFuction random;
 
-	public SelectNOpponentSelectionStrategy(){
-		numberOfOpponents = 5;
-		random = new RandomNumber();
-	}
+    public SelectNOpponentSelectionStrategy() {
+        numberOfOpponents = 5;
+        random = new UniformDistribution();
+    }
 
-	public SelectNOpponentSelectionStrategy(SelectNOpponentSelectionStrategy copy){
-		this.numberOfOpponents = copy.numberOfOpponents;
-		this.random = copy.random;
-	}
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OpponentSelectionStrategy getClone() {
-		return new SelectNOpponentSelectionStrategy(this);
-	}
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public  CoevolutionCompetitorList selectCompetitors(CoevolutionCompetitorList pool){
-		CoevolutionCompetitorList opponents = new CoevolutionCompetitorList(numberOfOpponents);
+    public SelectNOpponentSelectionStrategy(SelectNOpponentSelectionStrategy copy) {
+        this.numberOfOpponents = copy.numberOfOpponents;
+        this.random = copy.random;
+    }
 
-		for(int i = 0; i < pool.getNumberOfLists(); ++i){
-			List<Competitor> selectedOpponents = new ArrayList<Competitor>();
-			int pID = -1;
-			for(int o=0; o<numberOfOpponents;o++){
-				int selected = (int)random.getUniform(0, pool.getNumberOfCompetitors(i));
-				Competitor sel = pool.getCompetitor(i, selected);
-				if(pID == -1)
-					pID = sel.getPopulationID();
-				selectedOpponents.add(new Competitor(sel.getEntityData(), sel.getPopulationID()));
-				pool.removeCompetitor(i, selected);
-			}
-			if(selectedOpponents.size() > 0)
-				opponents.addCompetitorList(pID, selectedOpponents);
-		}
-		return opponents;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public OpponentSelectionStrategy getClone() {
+        return new SelectNOpponentSelectionStrategy(this);
+    }
 
-	public int getNumberOfOpponents() {
-		return numberOfOpponents;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CoevolutionCompetitorList selectCompetitors(CoevolutionCompetitorList pool) {
+        CoevolutionCompetitorList opponents = new CoevolutionCompetitorList(numberOfOpponents);
 
-	public void setNumberOfOpponents(int numberOfOpponents) {
-		this.numberOfOpponents = numberOfOpponents;
-	}
+        for (int i = 0; i < pool.getNumberOfLists(); ++i) {
+            List<Competitor> selectedOpponents = new ArrayList<Competitor>();
+            int pID = -1;
+            for (int o = 0; o < numberOfOpponents; o++) {
+                int selected = (int) random.getRandomNumber(0, pool.getNumberOfCompetitors(i));
+                Competitor sel = pool.getCompetitor(i, selected);
+                if (pID == -1) {
+                    pID = sel.getPopulationID();
+                }
+                selectedOpponents.add(new Competitor(sel.getEntityData(), sel.getPopulationID()));
+                pool.removeCompetitor(i, selected);
+            }
+            if (selectedOpponents.size() > 0) {
+                opponents.addCompetitorList(pID, selectedOpponents);
+            }
+        }
+        return opponents;
+    }
+
+    public int getNumberOfOpponents() {
+        return numberOfOpponents;
+    }
+
+    public void setNumberOfOpponents(int numberOfOpponents) {
+        this.numberOfOpponents = numberOfOpponents;
+    }
 }

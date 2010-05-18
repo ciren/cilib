@@ -58,10 +58,10 @@ public class OnePointCrossoverStrategy extends CrossoverStrategy {
         Entity parent1 = parentCollection.get(0);
         Entity parent2 = parentCollection.get(1);
 
-        if (this.getRandomNumber().getUniform() <= this.getCrossoverProbability().getParameter()) {
+        if (this.getRandomDistribution().getRandomNumber() <= this.getCrossoverProbability().getParameter()) {
             // Select the pivot point where crossover will occour
             int maxLength = Math.min(parent1.getDimension(), parent2.getDimension());
-            int crossoverPoint = Double.valueOf(this.getRandomNumber().getUniform(0, maxLength + 1)).intValue();
+            int crossoverPoint = Double.valueOf(this.getRandomDistribution().getRandomNumber(0, maxLength + 1)).intValue();
 
             Entity offspring1 = parent1.getClone();
             Entity offspring2 = parent2.getClone();

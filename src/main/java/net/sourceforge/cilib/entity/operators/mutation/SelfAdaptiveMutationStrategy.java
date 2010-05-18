@@ -25,7 +25,8 @@ import com.google.common.base.Function;
 import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.math.random.GaussianDistribution;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
@@ -37,14 +38,14 @@ import net.sourceforge.cilib.util.Vectors;
 public class SelfAdaptiveMutationStrategy extends MutationStrategy {
 
     private static final long serialVersionUID = -8942505730267916237L;
-    private RandomNumber randomSingle;
-    private RandomNumber randomDimension;
+    private ProbabilityDistributionFuction randomSingle;
+    private ProbabilityDistributionFuction randomDimension;
     private double tau;
     private double tauPrime;
 
     public SelfAdaptiveMutationStrategy() {
-        this.randomSingle = new RandomNumber();
-        this.randomDimension = new RandomNumber();
+        this.randomSingle = new GaussianDistribution();
+        this.randomDimension = new GaussianDistribution();
         this.tau = Double.NaN;
         this.tauPrime = Double.NaN;
     }
@@ -58,7 +59,7 @@ public class SelfAdaptiveMutationStrategy extends MutationStrategy {
     public void mutate(List<? extends Entity> offspringList) {
         initializeConstants(offspringList);
 
-        final double pre = tauPrime * randomSingle.getGaussian();
+        final double pre = tauPrime * randomSingle.getRandomNumber();
 
         for (Entity offspring : offspringList) {
             Vector candidateSolution = (Vector) offspring.getCandidateSolution();
@@ -66,7 +67,7 @@ public class SelfAdaptiveMutationStrategy extends MutationStrategy {
 
             // Update the offspring
             for (int i = 0; i < candidateSolution.size(); i++) {
-                double value = candidateSolution.doubleValueOf(i) + strategy.doubleValueOf(i) * randomDimension.getGaussian();
+                double value = candidateSolution.doubleValueOf(i) + strategy.doubleValueOf(i) * randomDimension.getRandomNumber();
                 candidateSolution.setReal(i, value);
             }
 
@@ -75,7 +76,7 @@ public class SelfAdaptiveMutationStrategy extends MutationStrategy {
 
                 @Override
                 public Double apply(Numeric from) {
-                    double exponent = pre + tau * randomDimension.getGaussian();
+                    double exponent = pre + tau * randomDimension.getRandomNumber();
                     return from.doubleValue() * Math.exp(exponent);
                 }
             });
