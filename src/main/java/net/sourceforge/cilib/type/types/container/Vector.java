@@ -1,23 +1,23 @@
 /**
- * Copyright (C) 2003 - 2009
+ * Computational Intelligence Library (CIlib)
+ * Copyright (C) 2003 - 2010
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
 package net.sourceforge.cilib.type.types.container;
 
@@ -835,6 +835,13 @@ public class Vector implements StructuredType<Numeric>,
         return builder.toString();
     }
 
+    /**
+     * Apply the given {@code function} on each element within this
+     * {@code Vector}. The result of the {@code map} is a new {@code Vector}
+     * containing the result of the applied function, for each element.
+     * @param function provided to perform a transform on each element.
+     * @return A new {@code Vector} containing the transformed elements.
+     */
     public Vector map(Function<Numeric, Numeric> function) {
         Numeric[] result = new Numeric[components.length];
         for (int i = 0, n = components.length; i < n; i++) {
@@ -843,6 +850,11 @@ public class Vector implements StructuredType<Numeric>,
         return new Vector(result);
     }
 
+    /**
+     * Filter elements, based on the result of the given {@code predicate}.
+     * @param predicate to determine if an element should be included, or not.
+     * @return a {@code Vector} containing the filtered elements.
+     */
     public Vector filter(Predicate<Numeric> predicate) {
         List<Numeric> result = Lists.newArrayListWithCapacity(components.length);
         for (Numeric n : components) {
@@ -853,6 +865,16 @@ public class Vector implements StructuredType<Numeric>,
         return new Vector(result.toArray(new Numeric[]{}));
     }
 
+    /**
+     * A fold is a process to reduce a collection of values into a single
+     * value, based on the provided function. {@code foldLeft} is effectively
+     * the same as
+     * {@link #map(net.sourceforge.cilib.type.types.container.Vector.Function)}
+     * except that the option of an initial value can be provided.
+     * @param initial The initial value for the {@code fold} operation.
+     * @param function to be used in the folding operations.
+     * @return a scalar vale which is the result of the fold.
+     */
     public double foldLeft(double initial, Function<Numeric, Double> function) {
         double acc = initial;
         for (int i = 0, n = components.length; i < n; i++) {
@@ -861,6 +883,12 @@ public class Vector implements StructuredType<Numeric>,
         return acc;
     }
 
+    /**
+     * Reduce a collection of elements to a single scalar value, based on the
+     * given function (which is used to perfrom the reduction).
+     * @param function provided to perfrom the reduction.
+     * @return scalar value of the reduction operation.
+     */
     public Number reduceLeft(BinaryFunction<Double, Double, Number> function) {
         if (isEmpty()) {
             throw new UnsupportedOperationException("empty.reduceLeft");
@@ -868,7 +896,6 @@ public class Vector implements StructuredType<Numeric>,
 
         boolean first = true;
         Number acc = 0.0;
-
         for (Numeric n : this) {
             if (first) {
                 acc = n.doubleValue();
@@ -904,8 +931,8 @@ public class Vector implements StructuredType<Numeric>,
      * </pre>
      * <p>
      * Builder instances can be reused - it is safe to call {@link #build}
-     * multiple times to build multiple {@code Vector}s in series. Each new vector
-     * contains the one created before it.
+     * multiple times to build multiple {@code Vector}s in series. Each new
+     * vector contains the one created before it.
      */
     public static class Builder {
 
@@ -981,7 +1008,8 @@ public class Vector implements StructuredType<Numeric>,
         }
 
         /**
-         * Add all elements provided by {@code iterable} to the current {@code Builder}.
+         * Add all elements provided by {@code iterable} to the current
+         * {@code Builder}.
          * @param iterable the given elemetns.
          * @return The current {@code Builder} for chaining operations.
          */
@@ -995,7 +1023,8 @@ public class Vector implements StructuredType<Numeric>,
         /**
          * Construct a {@code Vector} from the built up elements within the
          * {@code Builder}.
-         * @return a new {@code Vector} instance created from the {@code Builder}.
+         * @return a new {@code Vector} instance created from the
+         *         {@code Builder}.
          */
         public Vector build() {
             if (elements.isEmpty()) {
@@ -1008,7 +1037,8 @@ public class Vector implements StructuredType<Numeric>,
          * Construct a {@code Vector} from the built up elements within the
          * {@code Builder}. All elements are randomized upon {@code Vector}
          * construction.
-         * @return a new {@code Vector} instance created from the {@code Builder}.
+         * @return a new {@code Vector} instance created from the
+         *         {@code Builder}.
          */
         public Vector buildRandom() {
             if (elements.isEmpty()) {

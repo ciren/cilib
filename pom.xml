@@ -235,7 +235,7 @@
                     </excludes>
                     <useDefaultExcludes>true</useDefaultExcludes>
                     <properties>
-                        <year>2009</year>
+                        <year>2010</year>
                     </properties>
                     <mapping>
                         <grammar>JAVADOC_STYLE</grammar>
