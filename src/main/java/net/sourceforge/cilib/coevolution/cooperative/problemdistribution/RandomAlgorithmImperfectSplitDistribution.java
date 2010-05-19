@@ -24,10 +24,10 @@
  */
 package net.sourceforge.cilib.coevolution.cooperative.problemdistribution;
 
+import com.google.common.base.Preconditions;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.algorithm.iterator.RandomAlgorithmIterator;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgorithm;
@@ -47,8 +47,8 @@ public class RandomAlgorithmImperfectSplitDistribution implements
         ProblemDistributionStrategy {
 
     /**
-     * Splits up the given {@link OptimisationProblem} into sub-problems, where each sub problem contains a sequencial (non-uniform sized) portion of the problem vector, and assigns them to all the participating {@link Algorithm}s.
-     * This implimentation assigns a portion of length dimensionality/number of populations + 1 to dimensionality % number of populations of the participating poopulations.
+     * Splits up the given {@link OptimisationProblem} into sub-problems, where each sub problem contains a sequential (non-uniform sized) portion of the problem vector, and assigns them to all the participating {@link Algorithm}s.
+     * This implementation assigns a portion of length dimensionality/number of populations + 1 to dimensionality % number of populations of the participating poopulations.
      * The order in which the algorithms are assigned is generated randomly.
      * @param populations The list of participating {@linkplain PopulationBasedAlgorithm}s.
      * @param problem The problem that needs to be re-distributed.
@@ -56,8 +56,8 @@ public class RandomAlgorithmImperfectSplitDistribution implements
      */
     public void performDistribution(List<PopulationBasedAlgorithm> populations,
             OptimisationProblem problem, Vector context) {
-        if (populations.size() < 2)
-            throw new InitialisationException("There should at least be two Cooperating populations in a Cooperative Algorithm");
+        Preconditions.checkArgument(populations.size() >= 2,
+                "There should at least be two Cooperating populations in a Cooperative Algorithm");
 
         int dimension = problem.getDomain().getDimension() / populations.size();
         int oddDimensions = problem.getDomain().getDimension() % populations.size();
@@ -66,8 +66,9 @@ public class RandomAlgorithmImperfectSplitDistribution implements
         RandomAlgorithmIterator<PopulationBasedAlgorithm> iterator = new RandomAlgorithmIterator<PopulationBasedAlgorithm>(populations);
         while (iterator.hasNext()) {
             int actualDimension = dimension;
-            if(i < oddDimensions)
+            if (i < oddDimensions) {
                 actualDimension++;
+            }
 
             DimensionAllocation problemAllocation = new SequencialDimensionAllocation(offset, actualDimension);
             iterator.next().setOptimisationProblem(new CooperativeCoevolutionProblemAdapter(problem, problemAllocation, context));
@@ -76,5 +77,4 @@ public class RandomAlgorithmImperfectSplitDistribution implements
             ++i;
         }
     }
-
 }

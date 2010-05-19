@@ -21,15 +21,16 @@
  */
 package net.sourceforge.cilib.algorithm.initialisation;
 
+import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
 /**
- * Initialise a specialised collection of {@linkplain net.sourceforge.cilib.entity.Entity entity} objects.
+ * Initialize a specialized collection of
+ * {@linkplain net.sourceforge.cilib.entity.Entity entity} objects.
  */
 public class SpecializedPopluationInitialisationStrategy implements PopulationInitialisationStrategy<Entity> {
     private static final long serialVersionUID = -9146471282965793922L;
@@ -75,11 +76,8 @@ public class SpecializedPopluationInitialisationStrategy implements PopulationIn
      */
     @Override
     public Iterable<Entity> initialise(OptimisationProblem problem) {
-        if (problem == null)
-            throw new InitialisationException("No problem has been specified");
-
-        if (this.entityList.size() == 0)
-            throw new InitialisationException("No prototype Entity object has been defined for the clone operation in the entity constrution process.");
+        Preconditions.checkNotNull(problem, "No problem has been specified");
+        Preconditions.checkState(!entityList.isEmpty(), "No entities have been defined!");
 
         List<Entity> entities = new ArrayList<Entity>();
         for (Entity entity : entityList) {

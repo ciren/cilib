@@ -21,9 +21,9 @@
  */
 package net.sourceforge.cilib.algorithm.initialisation;
 
+import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.List;
-import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
@@ -35,6 +35,7 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * @author Gary Pampara
  */
 public class ClonedPopulationInitialisationStrategy<E extends Entity> implements PopulationInitialisationStrategy<E> {
+
     private static final long serialVersionUID = -7354579791235878648L;
     private Entity prototypeEntity;
     private int entityNumber;
@@ -65,19 +66,16 @@ public class ClonedPopulationInitialisationStrategy<E extends Entity> implements
     }
 
     /**
-     * Perform the required initialisation, using the provided <tt>Topology</tt> and
+     * Perform the required initialization, using the provided <tt>Topology</tt> and
      * <tt>Problem</tt>.
-     * @param problem The <tt>Problem</tt> to use in the initialisation of the topology.
+     * @param problem The <tt>Problem</tt> to use in the initialization of the topology.
      * @return An {@code Iterable<E>} of cloned instances.
-     * @throws InitialisationException if the initialisation cannot take place.
+     * @throws InitialisationException if the initialization cannot take place.
      */
     @Override
     public Iterable<E> initialise(OptimisationProblem problem) {
-        if (problem == null)
-            throw new InitialisationException("No problem has been specified");
-
-        if (prototypeEntity == null)
-            throw new InitialisationException("No prototype Entity object has been defined for the clone operation in the entity constrution process.");
+        Preconditions.checkNotNull(problem, "No problem has been specified");
+        Preconditions.checkNotNull(prototypeEntity, "No prototype Entity object has been defined for the clone operation in the entity constrution process.");
 
         List<E> clones = new ArrayList<E>();
 
@@ -128,5 +126,4 @@ public class ClonedPopulationInitialisationStrategy<E extends Entity> implements
     public void setEntityNumber(int entityNumber) {
         this.entityNumber = entityNumber;
     }
-
 }

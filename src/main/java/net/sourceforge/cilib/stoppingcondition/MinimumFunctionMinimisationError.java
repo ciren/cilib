@@ -28,8 +28,8 @@ import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
  * @author Edwin Peer
  */
 public class MinimumFunctionMinimisationError implements StoppingCondition<Algorithm> {
-    private static final long serialVersionUID = -7375489325180419208L;
 
+    private static final long serialVersionUID = -7375489325180419208L;
     private double minimumError;
 
     /** Creates a new instance of MinimumErrorIndicator. */
@@ -64,5 +64,4 @@ public class MinimumFunctionMinimisationError implements StoppingCondition<Algor
         FunctionMinimisationProblem problem = (FunctionMinimisationProblem) input.getOptimisationProblem();
         return problem.getError(input.getBestSolution().getPosition()) <= minimumError;
     }
-
 }
