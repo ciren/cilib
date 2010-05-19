@@ -21,10 +21,10 @@
  */
 package net.sourceforge.cilib.boa;
 
+import com.google.common.base.Preconditions;
 import java.util.Arrays;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.boa.bee.ExplorerBee;
@@ -183,10 +183,7 @@ public class ABC extends SinglePopulationBasedAlgorithm {
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        if (this.bestBee == null) {
-            throw new InitialisationException("Best solution cannot be determined before algorithm is run");
-        }
-
+        Preconditions.checkNotNull(bestBee, "Best solution cannot be determined before algorithm is run");
         return new OptimisationSolution(bestBee.getPosition(), bestBee.getFitness());
     }
 
@@ -287,7 +284,7 @@ public class ABC extends SinglePopulationBasedAlgorithm {
         this.forageLimit = forageThreshold;
     }
 
-     /**
+    /**
      * Gets the {@code ControlParameter} specifying the limit to how many times the explorer bee can update positions.
      * @return the  {@code ControlParameter} specifying the limit to how many times the explorer bee can update positions.
      */

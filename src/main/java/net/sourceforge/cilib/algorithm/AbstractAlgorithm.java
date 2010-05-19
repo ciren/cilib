@@ -21,7 +21,10 @@
  */
 package net.sourceforge.cilib.algorithm;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,15 +44,15 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
  * @author Edwin Peer
  */
 public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
+
     private static final long serialVersionUID = 7197544770653732632L;
-    private List<StoppingCondition<? extends Algorithm>> stoppingConditions;
-    private List<AlgorithmListener> algorithmListeners;
+    private final List<StoppingCondition<Algorithm>> stoppingConditions;
+    private final List<AlgorithmListener> algorithmListeners;
+    private Predicate<Algorithm> stoppingCondition = Predicates.alwaysFalse();
     private int iteration;
     private volatile boolean running;
     private boolean initialised;
-
     protected OptimisationProblem optimisationProblem;
-
     /**
      * This {@linkplain ThreadLocal} variable maintains the stack of the currently
      * executing algorithm. It is defined as a static member and as a result is not
@@ -59,6 +62,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
      * @TODO: This static variable needs to be removed.
      */
     private static ThreadLocal<AlgorithmStack> currentAlgorithmStack = new ThreadLocal<AlgorithmStack>() {
+
         @Override
         protected AlgorithmStack initialValue() {
             return new AlgorithmStack();
@@ -67,11 +71,11 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
 
     /**
      * Default constructor for {@linkplain Algorithm} classes. Sets up the correct state
-     * for the instance and initialises the needed containers needed for the different
+     * for the instance and initializes the needed containers needed for the different
      * {@linkplain AlgorithmEvent}s that are generated.
      */
     protected AbstractAlgorithm() {
-        stoppingConditions = new ArrayList<StoppingCondition<? extends Algorithm>>();
+        stoppingConditions = new ArrayList<StoppingCondition<Algorithm>>();
         algorithmListeners = new ArrayList<AlgorithmListener>();
 
         running = false;
@@ -83,32 +87,28 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
      * @param copy The instance to copy.
      */
     protected AbstractAlgorithm(AbstractAlgorithm copy) {
-        stoppingConditions = new ArrayList<StoppingCondition<? extends Algorithm>>(copy.stoppingConditions);
-
-        algorithmListeners = new ArrayList<AlgorithmListener>();
+        stoppingConditions = Lists.newArrayList(copy.stoppingConditions);
+        algorithmListeners = Lists.newArrayList();
         for (AlgorithmListener listen : copy.algorithmListeners) {
             algorithmListeners.add(listen.getClone());
         }
 
-        running = false;
-        initialised = false;
-
         if (copy.optimisationProblem != null) {
             optimisationProblem = copy.optimisationProblem.getClone();
         }
+
+        running = false;
+        initialised = false;
     }
 
     /**
-     * Initialises the algorithm. Must be called before {@link #run()} is called.
+     * Initializes the algorithm. Must be called before {@link #run()} is called.
      */
     public final void initialise() {
+        Preconditions.checkState(!stoppingConditions.isEmpty(), "No stopping conditions specified");
         iteration = 0;
         running = true;
         initialised = true;
-
-        if (stoppingConditions.isEmpty()) {
-            throw new InitialisationException("No stopping conditions specified");
-        }
 
         currentAlgorithmStack.get().push(this);
         performInitialisation();
@@ -150,13 +150,11 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
 
     /**
      * Executes the algorithm.
-     * @exception InitialisationException algorithm was not properly initialised.
+     * @exception InitialisationException algorithm was not properly initialized.
      */
     @Override
     public void run() {
-        if (!initialised) {
-            throw new InitialisationException("Algorithm not initialised");
-        }
+        Preconditions.checkState(initialised, "Algorithm not initialised");
 
         fireAlgorithmStarted();
 
@@ -169,8 +167,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
 
         if (running) {
             fireAlgorithmFinished();
-        }
-        else {
+        } else {
             fireAlgorithmTerminated();
         }
 
@@ -187,6 +184,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     @Override
     public final void addStoppingCondition(StoppingCondition<Algorithm> stoppingCondition) {
         stoppingConditions.add(stoppingCondition);
+        this.stoppingCondition = Predicates.or(this.stoppingCondition, stoppingCondition);
     }
 
     /**
@@ -197,6 +195,11 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     @Override
     public final void removeStoppingCondition(StoppingCondition<Algorithm> stoppingCondition) {
         stoppingConditions.remove(stoppingCondition);
+
+        this.stoppingCondition = Predicates.alwaysFalse();
+        for (StoppingCondition<Algorithm> condition : stoppingConditions) {
+            this.stoppingCondition = Predicates.or(this.stoppingCondition, condition);
+        }
     }
 
     /**
@@ -246,7 +249,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
      */
     @Override
     public final boolean isFinished() {
-        return Predicates.or(stoppingConditions).apply(this);
+        return stoppingCondition.apply(this);
     }
 
     /**
@@ -279,7 +282,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
      * @return The list of {@linkplain StoppingCondition} instances associated with
      *         the current {@linkplain Algorithm}.
      */
-    public List<StoppingCondition<? extends Algorithm>> getStoppingConditions() {
+    public List<StoppingCondition<Algorithm>> getStoppingConditions() {
         return this.stoppingConditions;
     }
 
@@ -350,5 +353,4 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
      */
     @Override
     public abstract Iterable<OptimisationSolution> getSolutions();
-
 }

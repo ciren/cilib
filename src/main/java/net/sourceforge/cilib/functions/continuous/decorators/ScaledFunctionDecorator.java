@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
-import net.sourceforge.cilib.algorithm.InitialisationException;
+import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -116,9 +116,7 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
      * @param horizontalScale The value of the horizontal scale.
      */
     public void setHorizontalScale(double horizontalScale) {
-        if (horizontalScale <= 0)
-            throw new InitialisationException("Horizontal scale factor must be greater than zero!");
-
+        Preconditions.checkArgument(horizontalScale > 0, "Horizontal scale factor must be greater than zero!");
         this.horizontalScale = horizontalScale;
     }
 
@@ -135,9 +133,7 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
      * @param verticalScale The vertical scale to use.
      */
     public void setVerticalScale(double verticalScale) {
-        if (verticalScale <= 0)
-            throw new InitialisationException("Vertical scale factor must be greater than zero!");
-
+        Preconditions.checkArgument(verticalScale > 0, "Vertical scale factor must be greater than zero!");
         this.verticalScale = verticalScale;
     }
 

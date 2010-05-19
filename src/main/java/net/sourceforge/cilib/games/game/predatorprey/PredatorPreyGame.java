@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.games.game.predatorprey;
 
-import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.games.agent.Agent;
 import net.sourceforge.cilib.games.game.Game;
 import net.sourceforge.cilib.games.game.predatorprey.init.PredPreyPositionInitializationStrategy;
@@ -86,20 +85,16 @@ public class PredatorPreyGame extends Game<ListGameState> {
     }
 
     /**
-     * This function determins whether or not the predator has caught the prey
+     * This function determines whether or not the predator has caught the prey
      * @return true if the predator has caught the prey, otherwise false.
      */
     private boolean predatorCaughtPrey() {
-        try {
-            //if predator and prey players are next to or on the same cell then game over
-            if (getCurrentState().getItem(0).getLocation().getDistance(new EuclideanDistanceMeasure(), getCurrentState().getItem(1).getLocation()) < 2.0) {
-                return true;
-            }
-
-            return false;
-        } catch (Exception e) {
-            throw new InitialisationException("Game not initialized, predator and prey items do not exist");
+        //if predator and prey players are next to or on the same cell then game over
+        if (getCurrentState().getItem(0).getLocation().getDistance(new EuclideanDistanceMeasure(), getCurrentState().getItem(1).getLocation()) < 2.0) {
+            return true;
         }
+
+        return false;
     }
 
     /**
@@ -109,19 +104,20 @@ public class PredatorPreyGame extends Game<ListGameState> {
      * @param y the amount to move on the Y axes
      */
     public void movePlayer(int playerID, int x, int y) {
-        try {
-            Vector moveVector = new Vector();
-            moveVector.add(Int.valueOf(x));
-            moveVector.add(Int.valueOf(y));
-            for (int i = 0; i < getCurrentState().getSize(); ++i) {
-                if (((PlayerItem) getCurrentState().getItem(i)).getPlayerID() == playerID) {
-                    //move the item by the specified coords
-                    getCurrentState().getItem(i).getLocation().moveItem(moveVector);
-                }
+//        try{
+        Vector moveVector = new Vector(2);
+        moveVector.add(Int.valueOf(x));
+        moveVector.add(Int.valueOf(y));
+        for (int i = 0; i < getCurrentState().getSize(); ++i) {
+            if (((PlayerItem) getCurrentState().getItem(i)).getPlayerID() == playerID) {
+                //move the item by the specified coords
+                getCurrentState().getItem(i).getLocation().moveItem(moveVector);
             }
-        } catch (Exception e) {
-            throw new InitialisationException("Game not initialized, predator and prey items not found");
         }
+//        }
+//        catch(Exception e){
+//            throw new InitialisationException("Game not initialized, predator and prey items not found");
+//        }
     }
 
     /**

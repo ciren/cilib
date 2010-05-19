@@ -10,8 +10,8 @@
     <url>http://www.cilib.net</url>
     <licenses>
         <license>
-            <name>GPL</name>
-            <url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
+            <name>LGPL</name>
+            <url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
             <distribution>manual</distribution>
         </license>
     </licenses>
@@ -24,6 +24,9 @@
         <developerConnection>scm:git:git://github.com/gpampara/cilib.git</developerConnection>
         <url>http://github.com/gpampara/cilib</url>
     </scm>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     <mailingLists>
         <mailingList>
             <name>CILib User List</name>
