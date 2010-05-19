@@ -28,8 +28,8 @@ import net.sourceforge.cilib.pso.PSO;
  * @author Edwin Peer
  */
 public class MinimumSwarmDiameter implements StoppingCondition<PSO> {
-    private static final long serialVersionUID = -1570485054918077401L;
 
+    private static final long serialVersionUID = -1570485054918077401L;
     private double minimumSwarmDiameter;
 
     /** Creates a new instance of MinimumSwarmDiameterIndicator. */
@@ -67,5 +67,4 @@ public class MinimumSwarmDiameter implements StoppingCondition<PSO> {
         input.accept(diameterVisitor);
         return (diameterVisitor.getResult() <= minimumSwarmDiameter);
     }
-
 }
