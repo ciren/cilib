@@ -21,7 +21,7 @@
                         </globalGuideSelectionStrategy>
                         <globalGuideUpdateStrategy class="pso.moo.guideupdatestrategies.StandardGuideUpdateStrategy"/>
                     </velocityUpdateStrategy>
-                    <personalBestUpdateStrategy class="pso.positionupdatestrategies.BoundedPersonalBestUpdateStrategy"/>
+                    <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy"/>
                 </entityType>
             </initialisationStrategy>
             <iterationStrategy class="moo.iterationstrategies.ArchivingIterationStrategy">

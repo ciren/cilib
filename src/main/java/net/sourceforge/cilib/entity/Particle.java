@@ -23,7 +23,7 @@ package net.sourceforge.cilib.entity;
 
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
-import net.sourceforge.cilib.pso.positionupdatestrategies.PersonalBestUpdateStrategy;
+import net.sourceforge.cilib.pso.pbestupdate.PersonalBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
 import net.sourceforge.cilib.type.types.Type;
