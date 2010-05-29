@@ -24,10 +24,15 @@ package net.sourceforge.cilib.clustering.kmeans;
 import java.io.Serializable;
 
 import java.util.ArrayList;
-import net.sourceforge.cilib.problem.ClusteringProblem;
+import java.util.Set;
+
+import net.sourceforge.cilib.problem.clustering.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
+import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
+import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
  * This strategy allows for different ways of initializing the centroids of a clustering. It also allows for a specific
@@ -52,17 +57,24 @@ public interface CentroidsInitialisationStrategy extends Serializable, Cloneable
      * that are currently being clustered can be used to get information about the clustering, such as the dimension of
      * the search space and centroids.
      *
+     * TODO: When we start using Guice, then only the required parameters have to be injected when the class is
+     * instantiated and this method will not need all these parameters.
+     *
      * @param problem the {@link ClusteringProblem} currently being optimized
      * @param dataset the {@link StaticDataSetBuilder} currently being clustered
      * @return an {@link ArrayList} of {@link Vector}s that represent all the centroids
      */
-    public ArrayList<Vector> initialise(ClusteringProblem problem, StaticDataSetBuilder dataset);
+    public abstract ArrayList<Vector> initialise(Set<Pattern<Vector>> patterns, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids);
 
     /**
      * Reinitialise the specified centroid (residing in the given list of centroids) and return it.
+     *
+     * TODO: When we start using Guice, then only the required parameters have to be injected when the class is
+     * instantiated and this method will not need all these parameters.
+     *
      * @param centroids The list of centroid vectors containing the centroid that needs to be reinitialised.
      * @param which The index of the centroid that should be reinitialised.
      * @return the reinitialised centroid for convenience
      */
-    public Vector reinitialise(ArrayList<Vector> centroids, int which);
+    public abstract Vector reinitialise(ArrayList<Vector> centroids, Set<Pattern<Vector>> patterns, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which);
 }

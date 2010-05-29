@@ -19,27 +19,36 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.functions.clustering;
+package net.sourceforge.cilib.problem.clustering;
+
+import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
+import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.fitnessfactory.FitnessFactory;
+import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
- * This <i>clustering fitness function</i> will probably never be used to train on directly. The
- * main reason why it has been implemented is to be able to take measurements of the
- * <i>inter-cluster distance</i> via the {@linkplain GenericFunctionMeasurement} class.
- * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
  * @author Theuns Cloete
  */
-public class InterClusterDistance extends ClusteringFitnessFunction {
-    private static final long serialVersionUID = 6533014298881438534L;
+public interface ClusteringProblem extends OptimisationProblem {
 
-    @Override
-    public double calculateFitness() {
-        return calculateMinimumInterClusterDistance();
-    }
+    void setClusteringFunction(ClusteringFunction clusteringFunction);
 
-    @Override
-    public InterClusterDistance getClone() {
-        return new InterClusterDistance();
-    }
+    ClusteringFunction getClusteringFunction();
 
+    DomainRegistry getDomainRegistry();
 
+    void setDomainRegistry(DomainRegistry domainRegistry);
+
+    void setDistanceMeasure(DistanceMeasure distanceMeasure);
+
+    DistanceMeasure getDistanceMeasure();
+
+    void setFitnessFactory(FitnessFactory fitnessFactory);
+
+    void setNumberOfClusters(int numberOfClusters);
+
+    int getNumberOfClusters();
+
+    double getZMax();
 }

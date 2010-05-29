@@ -21,26 +21,30 @@
  */
 package net.sourceforge.cilib.functions.clustering;
 
+import java.util.ArrayList;
+import java.util.Set;
+
+import net.sourceforge.cilib.type.types.container.Cluster;
+import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
+
+import org.junit.Test;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.number.IsCloseTo.closeTo;
+
 /**
- * This <i>clustering fitness function</i> will probably never be used to train on directly. The
- * main reason why it has been implemented is to be able to take measurements of the
- * <i>intra-cluster distance</i> via the {@linkplain GenericFunctionMeasurement} class.
- * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
  * @author Theuns Cloete
  */
-public class IntraClusterDistance extends ClusteringFitnessFunction {
-    private static final long serialVersionUID = -4185205766188040942L;
+public class MinimumSeparationFunctionTest {
 
-    @Override
-    public double calculateFitness() {
-        return calculateAverageIntraClusterDistance();
-    }
+    @Test
+    public void testApply() {
+        ClusteringFunction function = new MinimumSeparationFunction();
+        DistanceMeasure distanceMeasure = ClusteringFunctionTests.getDistanceMeasure();
+        Set<Pattern<Vector>> patterns = ClusteringFunctionTests.getPatterns();
+        ArrayList<Cluster<Vector>> clusters = ClusteringFunctionTests.getClusters();
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public IntraClusterDistance getClone() {
-        return new IntraClusterDistance();
+        assertThat(function.apply(clusters, patterns, distanceMeasure, null, 0.0, 0.0), closeTo(10.0, ClusteringFunctionTests.EPSILON));
     }
 }

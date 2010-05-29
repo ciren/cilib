@@ -106,7 +106,7 @@ public class StaticDataSetBuilder extends DataSetBuilder {
             }
 
             this.patterns.addAll(data);
-            System.out.printf("#%d patterns added", data.size());
+            System.out.printf("#%d patterns added", data.size()).println();
         }
 
         this.cacheMeanAndVariance();

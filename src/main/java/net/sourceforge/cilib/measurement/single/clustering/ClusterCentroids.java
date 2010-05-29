@@ -21,15 +21,10 @@
  */
 package net.sourceforge.cilib.measurement.single.clustering;
 
-import java.util.ArrayList;
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
+import net.sourceforge.cilib.problem.clustering.PartitionalClusteringProblem;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -48,16 +43,15 @@ public class ClusterCentroids implements Measurement {
         return "(R^?)^?";
     }
 
+    /**
+     * The {@link PartitionalClusteringProblem} only permits the correct number of clusters and therefore we do not have
+     * to cluster the data set in order to get the centroids. The {@link Algorithm algorithm&apos;s} solution is the
+     * centroids.
+     * @param algorithm the {@link Algorithm} used to cluster
+     * @return the centroids
+     */
     @Override
     public Type getValue(Algorithm algorithm) {
-        //TODO: When we start using Guice, this statement should be updated
-        ClusteringProblem problem = (ClusteringProblem) AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
-        ArrayList<Cluster<Vector>> clusters = ClusteringFunctions.arrangeClustersAndCentroids((Vector) algorithm.getBestSolution().getPosition(), problem, (StaticDataSetBuilder) problem.getDataSetBuilder());
-        Vector.Builder combined = Vector.newBuilder();
-
-        for (Cluster<Vector> cluster : clusters) {
-            combined.copyOf(cluster.getCentroid());
-        }
-        return combined.build();
+        return (Vector) algorithm.getBestSolution().getPosition();
     }
 }

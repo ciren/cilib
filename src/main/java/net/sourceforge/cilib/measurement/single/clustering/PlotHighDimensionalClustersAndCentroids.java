@@ -22,11 +22,12 @@
 package net.sourceforge.cilib.measurement.single.clustering;
 
 import java.util.ArrayList;
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+import java.util.Set;
+
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.ClusteringProblem;
+import net.sourceforge.cilib.problem.clustering.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Int;
@@ -34,6 +35,7 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
  * This measurement is handy when debugging a clustering in R^n space using GNUplot. Logging should be disabled and no
@@ -56,22 +58,28 @@ public class PlotHighDimensionalClustersAndCentroids implements Measurement {
         return "Z";
     }
 
+    /**
+     * TODO: When we start using Guice, this method should be refactored
+     */
     @Override
     public Type getValue(Algorithm algorithm) {
-        //TODO: When we start using Guice, this statement should be updated
-        ClusteringProblem problem = (ClusteringProblem) AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
-        Vector centroids = (Vector) algorithm.getBestSolution().getPosition();
+        ClusteringProblem problem = (ClusteringProblem) algorithm.getOptimisationProblem();
+        int numberOfClusters = problem.getNumberOfClusters();
+        ArrayList<Vector> centroids = ClusteringFunctions.disassembleCentroids((Vector) algorithm.getBestSolution().getPosition(), numberOfClusters);
+        StaticDataSetBuilder dataSetBuilder = (StaticDataSetBuilder) problem.getDataSetBuilder();
+        Set<Pattern<Vector>> patterns = dataSetBuilder.getPatterns();
+        DistanceMeasure distanceMeasure = problem.getDistanceMeasure();
+        ArrayList<Cluster<Vector>> clusters = ClusteringFunctions.cluster(centroids, patterns, distanceMeasure, numberOfClusters);
 
         System.out.println("reset");
         System.out.println("set term jpeg medium");
         System.out.println("set style data lines");
         System.out.println("set key off");
 
-        ArrayList<Cluster<Vector>> arrangedClusters = ClusteringFunctions.arrangeClustersAndCentroids(centroids, problem, (StaticDataSetBuilder) problem.getDataSetBuilder());
-        int iteration = AbstractAlgorithm.get().getIterations();
+        int iteration = algorithm.getIterations();
 
-        this.plotCentroids(iteration, arrangedClusters);
-        this.plotClustersWithCentroids(iteration, arrangedClusters);
+        this.plotCentroids(iteration, clusters);
+        this.plotClustersWithCentroids(iteration,clusters);
 
         return Int.valueOf(0, new Bounds(0, 0));
     }

@@ -29,6 +29,7 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * TODO: Does not work with ClusteringFunctions anymore.
  * @param <F> The "from" type.
  * @param <T> The "to" type.
  * @author Theuns Cloete

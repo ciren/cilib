@@ -22,12 +22,9 @@
 package net.sourceforge.cilib.measurement.single.clustering;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.ClusteringProblem;
+import net.sourceforge.cilib.problem.clustering.ClusteringProblem;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 
 /**
  * The search space diameter is equal to the distance between the two furthest possible points in the search space.
@@ -35,7 +32,6 @@ import net.sourceforge.cilib.util.Vectors;
  * @author Theuns Cloete
  */
 public class SearchSpaceDiameter implements Measurement<Real> {
-    private Real zMax = null;
 
     @Override
     public Measurement getClone() {
@@ -49,14 +45,8 @@ public class SearchSpaceDiameter implements Measurement<Real> {
 
     @Override
     public Real getValue(Algorithm algorithm) {
-        // we only have to calculate it once as long as the search space remains static/unchanged
-        if (zMax == null) {
-            ClusteringProblem problem = (ClusteringProblem) algorithm.getOptimisationProblem();
-            Vector functionDomain = (Vector) problem.getDomain().getBuiltRepresenation();
-            Vector domain = ClusteringFunctions.disassembleCentroids(functionDomain, problem.getNumberOfClusters()).get(0);
+        ClusteringProblem problem = (ClusteringProblem) algorithm.getOptimisationProblem();
 
-            this.zMax = Real.valueOf(Vectors.zMax(problem.getDistanceMeasure(), domain));
-        }
-        return this.zMax;
+        return Real.valueOf(problem.getZMax());
     }
 }

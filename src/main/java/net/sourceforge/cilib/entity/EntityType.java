@@ -27,7 +27,8 @@ package net.sourceforge.cilib.entity;
 public enum EntityType {
     CANDIDATE_SOLUTION,
     FITNESS,
-    STRATEGY_PARAMETERS;
+    STRATEGY_PARAMETERS,
+    CLUSTERING;
 
     /**
      * {@linkplain Particle} specific constants.

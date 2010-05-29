@@ -21,19 +21,20 @@
  */
 package net.sourceforge.cilib.functions.clustering;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.problem.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
+import net.sourceforge.cilib.type.types.Bounds;
+import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
  * A class that simplifies clustering when making use of a {@link ClusteringProblem}, a
@@ -46,14 +47,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public final class ClusteringFunctions {
 
     private ClusteringFunctions() {
-    }
-
-    /**
-     * TODO: When we start using Guice to inject the ClusteringProblem into the ClusteringFunction, then this method
-     * will probably be deprecated and removed. For now we want the main algorithm, i.e. the outer most algorithm.
-     */
-    public static ClusteringProblem getClusteringProblem() {
-        return (ClusteringProblem) AbstractAlgorithm.get().getOptimisationProblem();
     }
 
     /**
@@ -70,6 +63,7 @@ public final class ClusteringFunctions {
      * @param dataSetBuilder the {@link DataSetBuilder} that contains the patterns
      * @return an {@link ArrayList} of {@link Cluster clusters}
      */
+/*
     public static ArrayList<Cluster<Vector>> arrangeClustersAndCentroids(Vector combinedCentroids, ClusteringProblem problem, StaticDataSetBuilder dataSetBuilder) {
         ArrayList<Vector> separateCentroids = disassembleCentroids(combinedCentroids, problem.getNumberOfClusters());
 
@@ -80,6 +74,46 @@ public final class ClusteringFunctions {
         ArrayList<Cluster<Vector>> clusters = formClusters(separateCentroids, problem, dataSetBuilder.getPatterns());
 
         return significantClusters(clusters);
+    }
+*/
+
+    /**
+     * Cluster the given patterns using the given centroids (as cluster centers) and the given {@link DistanceMeasure}
+     * into the specified number of clusters.
+     * @param centroids the list of {@link Vector centroids} that should be used as cluster centers
+     * @param patterns the {@link Set} of {@link Pattern patterns} contained in the data set
+     * @param distanceMeasure the {@link DistanceMeasure} that should be used to determine similarity between the
+     * patterns and centroids
+     * @param numberOfClusters the number of clusters that are desired
+     * @return a list of {@link Cluster clusters}
+     */
+    public static ArrayList<Cluster<Vector>> cluster(ArrayList<Vector> centroids, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, int numberOfClusters) {
+        ArrayList<Cluster<Vector>> clusters = new ArrayList<Cluster<Vector>>(numberOfClusters);
+
+        for (Vector centroid : centroids) {
+            clusters.add(new Cluster<Vector>(centroid));
+        }
+
+        for (Pattern<Vector> pattern : patterns) {
+            double minimum = Double.MAX_VALUE;
+
+            for (Cluster<Vector> cluster : clusters) {
+                double distance = distanceMeasure.distance(pattern.getData(), cluster.getCentroid());
+
+                if (distance < minimum) {
+                    minimum = distance;
+
+                    for (Cluster<Vector> other : clusters) {
+                        // a cluster is a set and can therefore contain the pattern only once
+                        if (other.remove(pattern)) {
+                            break;  // only one cluster can contain the pattern
+                        }
+                    }
+                    cluster.add(pattern);
+                }
+            }
+        }
+        return clusters;
     }
 
     /**
@@ -122,6 +156,7 @@ public final class ClusteringFunctions {
      * @return an {@link ArrayList} of {@link Cluster clusters} where each {@link Pattern} have been assigned to its
      *         closest centroid
      */
+/*
     public static ArrayList<Cluster<Vector>> formClusters(ArrayList<Vector> centroids, ClusteringProblem problem, Set<Pattern<Vector>> patterns) {
         ArrayList<Cluster<Vector>> clusters = Lists.newArrayList();
 
@@ -150,7 +185,7 @@ public final class ClusteringFunctions {
         }
         return clusters;
     }
-
+*/
     /**
      * Retrieve the significant clusters. Empty clusters are a result of centroids that are not associated with any
      * of the patterns in the dataset. These empty clusters are insignificant and should not be included in the
@@ -169,5 +204,122 @@ public final class ClusteringFunctions {
             }
         }
         return significantClusters;
+    }
+
+    public static boolean isValidClustering(ArrayList<Cluster<Vector>> clusters) {
+        for (Cluster<Vector> cluster : clusters) {
+            if (cluster.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Calculate the diameter of the given cluster, i.e. the distance between the two patterns (in the cluster) that are
+     * furthest apart. There exists numerous references for this calculation.
+     *
+     * @param distanceMeasure the {@link DistanceMeasure} that should be used to determine similarity
+     * @param cluster the {@link Cluster} for which the diameter should be calculated
+     * @return the diameter of the given cluster.
+     */
+    public static double clusterDiameter(DistanceMeasure distanceMeasure, Cluster<Vector> cluster) {
+        double diameter = 0.0;
+
+        // these loops result in Big-O n (n - 1) but it can be Big-O (n (n - 1)) / 2
+        for (Pattern<Vector> leftPattern : cluster) {
+            for (Pattern<Vector> rightPattern : cluster) {
+                if (leftPattern != rightPattern) {
+                    diameter = Math.max(diameter, distanceMeasure.distance(leftPattern.getData(), rightPattern.getData()));
+                }
+            }
+        }
+        return diameter;
+    }
+
+    /**
+     * Calculate the average distance between two clusters. Illustrated in Equation 22 of:<br/>
+     *
+     * @Article{ 678624, title = "Some New Indexes of Cluster Validity", author = "James C.
+     *           Bezdek and Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and
+     *           Cybernetics, Part B: Cybernetics", pages = "301--315", volume = "28", number =
+     *           "3", month = jun, year = "1998", issn = "1083-4419" }
+     * @param distanceMeasure the {@link DistanceMeasure} that should be used to determine similarity
+     * @param lhs the LHS cluster
+     * @param rhs the RHS cluster
+     * @return the average distance between the patterns of the two clusters
+     */
+    public static double averageClusterDistance(DistanceMeasure distanceMeasure, Cluster<Vector> lhs, Cluster<Vector> rhs) {
+        double distance = 0.0;
+
+        for (Pattern<Vector> leftPattern : lhs) {
+            for (Pattern<Vector> rightPattern : rhs) {
+                distance += distanceMeasure.distance(leftPattern.getData(), rightPattern.getData());
+            }
+        }
+        return distance / (lhs.size() * rhs.size());
+    }
+
+    /**
+     * Calculate the maximum distance between two clusters. Illustrated in Equation 21 of:<br/>
+     *
+     * @Article{ 678624, title = "Some New Indexes of Cluster Validity", author = "James C.
+     *           Bezdek and Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and
+     *           Cybernetics, Part B: Cybernetics", pages = "301--315", volume = "28", number =
+     *           "3", month = jun, year = "1998", issn = "1083-4419" }
+     * @param distanceMeasure the {@link DistanceMeasure} that should be used to determine similarity
+     * @param lhs the LHS cluster
+     * @param rhs the RHS cluster
+     * @return the longest distance between the patterns of the two clusters
+     */
+    public static double maximumClusterDistance(DistanceMeasure distanceMeasure, Cluster<Vector> lhs, Cluster<Vector> rhs) {
+        double distance = -Double.MAX_VALUE;
+
+        for (Pattern<Vector> leftPattern : lhs) {
+            for (Pattern<Vector> rightPattern : rhs) {
+                distance = Math.max(distance, distanceMeasure.distance(leftPattern.getData(), rightPattern.getData()));
+            }
+        }
+        return distance;
+    }
+
+    /**
+     * Calculate the minimum distance between two clusters. This is illustrated in Equation 20 of:<br/>
+     *
+     * @Article{ 678624, title = "Some New Indexes of Cluster Validity", author = "James C.
+     *           Bezdek and Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and
+     *           Cybernetics, Part B: Cybernetics", pages = "301--315", volume = "28", number =
+     *           "3", month = jun, year = "1998", issn = "1083-4419" }
+     * @param distanceMeasure the {@link DistanceMeasure} that should be used to determine similarity
+     * @param lhs the LHS cluster
+     * @param rhs the RHS cluster
+     * @return the shortest distance between the patterns of the two clusters
+     */
+    public static double minimumClusterDistance(DistanceMeasure distanceMeasure, Cluster<Vector> lhs, Cluster<Vector> rhs) {
+        double distance = Double.MAX_VALUE;
+
+        for (Pattern<Vector> leftPattern : lhs) {
+            for (Pattern<Vector> rightPattern : rhs) {
+                distance = Math.min(distance, distanceMeasure.distance(leftPattern.getData(), rightPattern.getData()));
+            }
+        }
+        return distance;
+    }
+
+    /**
+     * Calculate the maximum value in the data set. In other words, calculate the maximum value possible for the given
+     * prototype based on its upper and lower bounds.
+     * @return the maximum value possible for the given prototype
+     */
+    public static double zMax(Vector prototype) {
+        Preconditions.checkState(prototype != null && !prototype.isEmpty(), "Cannot calculate the zMax for a null or empty prototype");
+        double zMax = 1.0;
+
+        for (Numeric feature : prototype) {
+            Bounds bounds = feature.getBounds();
+
+            zMax *= (bounds.getUpperBound() - bounds.getLowerBound());
+        }
+        return zMax;
     }
 }

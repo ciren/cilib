@@ -22,17 +22,19 @@
 package net.sourceforge.cilib.measurement.single.clustering;
 
 import java.util.ArrayList;
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+import java.util.Set;
+
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.ClusteringProblem;
+import net.sourceforge.cilib.problem.clustering.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.Vectors;
 
 /**
@@ -56,25 +58,31 @@ public class PlotClustersAndCentroids implements Measurement<Int> {
         return "Z";
     }
 
+    /**
+     * TODO: When we start using Guice, this method should be refactored
+     */
     @Override
     public Int getValue(Algorithm algorithm) {
-        //TODO: When we start using Guice, this statement should be updated
-        ClusteringProblem problem = (ClusteringProblem) AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
-        Vector centroids = (Vector) algorithm.getBestSolution().getPosition();
+        ClusteringProblem problem = (ClusteringProblem) algorithm.getOptimisationProblem();
+        int numberOfClusters = problem.getNumberOfClusters();
+        ArrayList<Vector> centroids = ClusteringFunctions.disassembleCentroids((Vector) algorithm.getBestSolution().getPosition(), numberOfClusters);
+        StaticDataSetBuilder dataSetBuilder = (StaticDataSetBuilder) problem.getDataSetBuilder();
+        Set<Pattern<Vector>> patterns = dataSetBuilder.getPatterns();
+        DistanceMeasure distanceMeasure = problem.getDistanceMeasure();
+        ArrayList<Cluster<Vector>> clusters = ClusteringFunctions.cluster(centroids, patterns, distanceMeasure, numberOfClusters);
 
 //        System.out.println("reset");
 //        System.out.println("set term jpeg medium");
 //        System.out.println("set output \"iteration." + String.format("%04d", Algorithm.get().getIterations()) + ".jpg\"");
 //        System.out.print("plot [-0.5:10][-5:5] sin(x) - 0.5, 0.5 - sin(x), ");
+        System.out.println("set title '" + problem.getClusteringFunction().getClass().getSimpleName() + ": " + algorithm.getIterations() + " iterations'");
         System.out.print("plot ");
 
-        ArrayList<Cluster<Vector>> arrangedClusters = ClusteringFunctions.arrangeClustersAndCentroids(centroids, problem, (StaticDataSetBuilder) problem.getDataSetBuilder());
-
-        for (int i = 0, n = arrangedClusters.size(); i < n; ++i) {
+        for (int i = 0, n = clusters.size(); i < n; ++i) {
             System.out.print("'-' title 'cluster" + i + "', ");
         }
 
-        for (int i = 0, n = arrangedClusters.size(); i < n; ++i) {
+        for (int i = 0, n = clusters.size(); i < n; ++i) {
             System.out.print("'-' title 'centroid" + i + "'");
             if (i < n - 1) {
                 System.out.print(", ");
@@ -82,14 +90,14 @@ public class PlotClustersAndCentroids implements Measurement<Int> {
         }
         System.out.println();
 
-        for (Cluster<Vector> cluster : arrangedClusters) {
+        for (Cluster<Vector> cluster : clusters) {
             for (Pattern<Vector> pattern : cluster) {
                 System.out.println(pattern);
             }
             System.out.println("e");
         }
 
-        for (Cluster<Vector> cluster : arrangedClusters) {
+        for (Cluster<Vector> cluster : clusters) {
             System.out.println(Vectors.toString(cluster.getCentroid(), "", "", "\t"));
             System.out.println("e");
         }

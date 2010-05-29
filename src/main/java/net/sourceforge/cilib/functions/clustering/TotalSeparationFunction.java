@@ -22,69 +22,41 @@
 package net.sourceforge.cilib.functions.clustering;
 
 import java.util.ArrayList;
+import java.util.Set;
 
-import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCentroidStrategy;
-import net.sourceforge.cilib.problem.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
-import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Cluster;
+import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
+ * Calculate the total separation between all the given clusters. In other words, the sum of all the distances
+ * between the centers of all the clusters.
+ *
  * @author Theuns Cloete
  */
-public class TotalSeparationFunction extends ContinuousFunction implements ClusteringFunction {
+public class TotalSeparationFunction extends ClusteringErrorFunction {
     private static final long serialVersionUID = 8755897695568016001L;
 
-    // TODO: Should be injected and then made final
-    private ClusterCenterStrategy clusterCenterStrategy;
-
-    public TotalSeparationFunction() {
-        this.clusterCenterStrategy = new ClusterCentroidStrategy();
-    }
-
-    @Override
-    public TotalSeparationFunction getClone() {
-        return this;
-    }
-
     /**
-     * It would be awesome if the ClusteringProblem and StaticDataSetBuilder could be injected.
+     * Calculate the total separation between all the given clusters. In other words, the sum of all the distances
+     * between the centers of all the clusters.
+     *
+     * @return the total separation of the given clusters
      */
     @Override
-    public Double apply(Vector input) {
-        ClusteringProblem clusteringProblem = ClusteringFunctions.getClusteringProblem();
-        DataSetBuilder dataSetBuilder = clusteringProblem.getDataSetBuilder();
-        ArrayList<Cluster<Vector>> significantClusters = ClusteringFunctions.arrangeClustersAndCentroids(input, clusteringProblem, (StaticDataSetBuilder) dataSetBuilder);
-        int clustersFormed = significantClusters.size();
-
-        return this.apply(clusteringProblem, significantClusters, clustersFormed);
-    }
-
-    @Override
-    public Double apply(ClusteringProblem clusteringProblem, ArrayList<Cluster<Vector>> significantClusters, int clustersFormed) {
+    public Double apply(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+        int clustersFormed = clusters.size();
         double separation = 0.0;
 
         for (int i = 0; i < clustersFormed - 1; ++i) {
-            Vector leftCenter = this.clusterCenterStrategy.getCenter(significantClusters.get(i));
+            Vector leftCenter = this.clusterCenterStrategy.getCenter(clusters.get(i));
 
             for (int j = i + 1; j < clustersFormed; ++j) {
-                Vector rightCenter = this.clusterCenterStrategy.getCenter(significantClusters.get(j));
-                separation += clusteringProblem.calculateDistance(leftCenter, rightCenter);
+                Vector rightCenter = this.clusterCenterStrategy.getCenter(clusters.get(j));
+                separation += distanceMeasure.distance(leftCenter, rightCenter);
             }
         }
         return separation;
-    }
-
-    @Override
-    public void setClusterCenterStrategy(ClusterCenterStrategy clusterCenterStrategy) {
-        this.clusterCenterStrategy = clusterCenterStrategy;
-    }
-
-    @Override
-    public ClusterCenterStrategy getClusterCenterStrategy() {
-        return this.clusterCenterStrategy;
     }
 }

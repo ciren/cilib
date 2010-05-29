@@ -28,8 +28,7 @@ import java.util.Set;
 
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import net.sourceforge.cilib.problem.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
+import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
@@ -50,12 +49,12 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 public class ContributingPotentialCentroidsInitialisationStrategy implements CentroidsInitialisationStrategy {
     private static final long serialVersionUID = -3956593150571608857L;
 
-    private Set<Pattern<Vector>> patterns;
-    private DistanceMeasure distanceMeasure;
+    private RandomProvider randomPattern;
+    private RandomProvider randomProbability;
 
     public ContributingPotentialCentroidsInitialisationStrategy() {
-        patterns = null;
-        distanceMeasure = null;
+        this.randomPattern = new MersenneTwister();
+        this.randomProbability = new MersenneTwister();
     }
 
     /**
@@ -71,20 +70,14 @@ public class ContributingPotentialCentroidsInitialisationStrategy implements Cen
      * {@inheritDoc}
      */
     @Override
-    public ArrayList<Vector> initialise(ClusteringProblem problem, StaticDataSetBuilder dataset) {
-        RandomProvider randomPattern = new MersenneTwister();
-        RandomProvider randomProbability = new MersenneTwister();
-        int numberOfClusters = problem.getNumberOfClusters();
-
-        this.patterns = dataset.getPatterns();
-        this.distanceMeasure = problem.getDistanceMeasure();
+    public ArrayList<Vector> initialise(Set<Pattern<Vector>> patterns, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids) {
         ArrayList<Vector> chosenCentroids = new ArrayList<Vector>();
 
-        for (int i = 0; i < numberOfClusters; ++i) {
+        for (int i = 0; i < numberOfCentroids; ++i) {
             Vector candidateCentroid = Vector.copyOf(Iterables.get(patterns, randomPattern.nextInt(patterns.size())).getData());
 
             if (i > 0) {
-                while (randomProbability.nextDouble() >= this.calculateProbability(chosenCentroids, candidateCentroid)) {
+                while (this.randomProbability.nextDouble() >= this.calculateProbability(patterns, distanceMeasure, chosenCentroids, candidateCentroid)) {
                     candidateCentroid = Vector.copyOf(Iterables.get(patterns, randomPattern.nextInt(patterns.size())).getData());
                 }
             }
@@ -99,33 +92,31 @@ public class ContributingPotentialCentroidsInitialisationStrategy implements Cen
      * {@inheritDoc}
      */
     @Override
-    public Vector reinitialise(ArrayList<Vector> centroids, int which) {
+    public Vector reinitialise(ArrayList<Vector> centroids, Set<Pattern<Vector>> patterns, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which) {
         Vector candidateCentroid = null;
-        RandomProvider randomPattern = new MersenneTwister();
-        RandomProvider randomProbability = new MersenneTwister();
 
         do {
             candidateCentroid = Vector.copyOf(Iterables.get(patterns, randomPattern.nextInt(patterns.size())).getData());
         }
-        while (randomProbability.nextDouble() >= this.calculateProbability(centroids, candidateCentroid));
+        while (this.randomProbability.nextDouble() >= this.calculateProbability(patterns, distanceMeasure, centroids, candidateCentroid));
 
         centroids.set(which, candidateCentroid);
         return candidateCentroid;
     }
 
-    private double calculateProbability(ArrayList<Vector> chosenCentroids, Vector candidateCentroid) {
+    private double calculateProbability(Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, ArrayList<Vector> chosenCentroids, Vector candidateCentroid) {
         double probability = 0.0;
         double numerator = Double.MAX_VALUE;
 
         for (Vector chosenCentroid : chosenCentroids) {
-            numerator = Math.min(numerator, this.distanceMeasure.distance(candidateCentroid, chosenCentroid));
+            numerator = Math.min(numerator, distanceMeasure.distance(candidateCentroid, chosenCentroid));
         }
 
-        for (Pattern pattern : this.patterns) {
+        for (Pattern pattern : patterns) {
             double denominator = Double.MAX_VALUE;
 
             for (Vector chosenCentroid : chosenCentroids) {
-                denominator = Math.min(denominator, this.distanceMeasure.distance(chosenCentroid, pattern.getData()));
+                denominator = Math.min(denominator, distanceMeasure.distance(chosenCentroid, pattern.getData()));
             }
             probability += denominator;
         }

@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.problem.dataset;
 
 import static org.junit.Assert.assertEquals;
-import net.sourceforge.cilib.problem.ClusteringProblem;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -36,8 +35,6 @@ public class StaticDataSetBuilderTest {
         dataSetBuilder = new StaticDataSetBuilder();
         dataSetBuilder.setIdentifier("mock-data-set-builder");
         dataSetBuilder.addDataSet(new MockClusteringStringDataSet());
-        ClusteringProblem problem = new ClusteringProblem();
-        problem.setDataSetBuilder(dataSetBuilder);
         dataSetBuilder.initialise();
     }
 

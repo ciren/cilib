@@ -21,40 +21,38 @@
  */
 package net.sourceforge.cilib.functions.clustering;
 
-import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
+import java.util.ArrayList;
+import java.util.Set;
+
+import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCentroidStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
  * This is the k-harmonic means clustering fitness function.
- * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
+ * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCentroidStrategy}.
+ * @author Theuns Cloete
  */
-public class KHarmonicMeansFunction extends ClusteringFitnessFunction {
+public class KHarmonicMeansFunction extends ClusteringErrorFunction {
     private static final long serialVersionUID = 2680037315045146954L;
 
-    public KHarmonicMeansFunction() {
-    }
-
     @Override
-    public double calculateFitness() {
+    public Double apply(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+        int clustersFormed = clusters.size();
         double harmonicMean = 0.0;
 
-        for (Pattern<Vector> pattern : ((StaticDataSetBuilder) this.problem.getDataSetBuilder()).getPatterns()) {
+        for (Pattern<Vector> pattern : patterns) {
             double sumOfReciprocals = 0.0;
 
-            for (Cluster<Vector> cluster : this.significantClusters) {
+            for (Cluster<Vector> cluster : clusters) {
                 Vector center = this.clusterCenterStrategy.getCenter(cluster);
 
-                sumOfReciprocals += 1.0 / Math.max(this.problem.calculateDistance(pattern.getData(), center), Double.MIN_VALUE);        // if the distance == 0.0, use a very small value
+                sumOfReciprocals += 1.0 / Math.max(distanceMeasure.distance(pattern.getData(), center), Double.MIN_VALUE);        // if the distance == 0.0, use a very small value
             }
             harmonicMean += clustersFormed / sumOfReciprocals;
         }
         return harmonicMean;
-    }
-
-    @Override
-    public KHarmonicMeansFunction getClone() {
-        return new KHarmonicMeansFunction();
     }
 }

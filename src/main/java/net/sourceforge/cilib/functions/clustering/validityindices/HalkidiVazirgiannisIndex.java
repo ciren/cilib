@@ -21,39 +21,41 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
-import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
-import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
+import java.util.ArrayList;
+import java.util.Set;
+
+import net.sourceforge.cilib.functions.clustering.ClusteringErrorFunction;
+import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
- * This is the Halkidi-Vazirgiannis Validity Index.
- *
- * The index is described in:
+ * This is the Halkidi-Vazirgiannis Validity Index as described in:
  * @InProceedings{ 657864, author = "Maria Halkidi and Michalis Vazirgiannis", title = "Clustering
  *                 Validity Assessment: Finding the Optimal Partitioning of a Data Set", booktitle =
  *                 "Proceedings of the IEEE International Conference on Data Mining", year = "2001",
  *                 isbn = "0-7695-1119-8", pages = "187--194", publisher = "IEEE Computer Society",
  *                 address = "Washington, DC, USA", }
  * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
+ * @author Theuns Cloete
  */
-public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
+public class HalkidiVazirgiannisIndex extends ClusteringErrorFunction {
     private static final long serialVersionUID = 1164537525165848345L;
-    private double stdev = 0.0;
+
+    private double stdev;
 
     /**
      * Create a new instance of {@linkplain HalkidiVazirgiannisIndex}.
      */
     public HalkidiVazirgiannisIndex() {
+        this.stdev = 0.0;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public double calculateFitness() {
-        return this.calculateWithinClusterScatter() + this.calculateBetweenClusterSeperation();
+    public Double apply(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+        return this.calculateWithinClusterScatter(clusters, dataSetVariance) + this.calculateBetweenClusterSeperation(clusters, distanceMeasure);
     }
 
     /**
@@ -61,20 +63,21 @@ public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
      * is calculated using the specific cluster's center as determined by the {@link ClusterCenterStrategy}.
      * @return the within-cluster-scatter for the specific clustering
      */
-    protected double calculateWithinClusterScatter() {
+    private double calculateWithinClusterScatter(ArrayList<Cluster<Vector>> clusters, double dataSetVariance) {
         double scattering = 0.0;
-        double datasetVariance = ((StaticDataSetBuilder) this.problem.getDataSetBuilder()).getVariance();
-        double clusterVariance = 0.0;
+        int clustersFormed = clusters.size();
 
         this.stdev = 0.0;
-        for (Cluster<Vector> cluster : this.significantClusters) {
-            clusterVariance = cluster.getVariance(this.clusterCenterStrategy.getCenter(cluster));
+
+        for (Cluster<Vector> cluster : clusters) {
+            double clusterVariance = cluster.getVariance(this.clusterCenterStrategy.getCenter(cluster));
+
             scattering += clusterVariance;
             this.stdev += clusterVariance;
         }
-        this.stdev = Math.sqrt(this.stdev);
-        this.stdev /= clustersFormed;
-        scattering /= datasetVariance;
+
+        this.stdev = Math.sqrt(this.stdev) / clustersFormed;
+        scattering /= dataSetVariance;
         return scattering / clustersFormed;
     }
 
@@ -82,35 +85,40 @@ public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
      * Calculate the distances between cluster separation.
      * @return The distance between cluster separation.
      */
-    protected double calculateBetweenClusterSeperation() {
-        Vector midPoint = null, leftCenter = null, rightCenter = null;
+    private double calculateBetweenClusterSeperation(ArrayList<Cluster<Vector>> clusters, DistanceMeasure distanceMeasure) {
+        int clustersFormed = clusters.size();
         double density = 0.0;
-        int midDensity = 0, leftDensity = 0, rightDensity = 0;
 
-        for (Cluster<Vector> leftCluster : this.significantClusters) {
-            leftCenter = this.clusterCenterStrategy.getCenter(leftCluster);
-            for (Cluster<Vector> rightCluster : this.significantClusters) {
+        for (Cluster<Vector> leftCluster : clusters) {
+            Vector leftCenter = this.clusterCenterStrategy.getCenter(leftCluster);
+
+            for (Cluster<Vector> rightCluster : clusters) {
                 if (leftCluster != rightCluster) {
-                    rightCenter = this.clusterCenterStrategy.getCenter(rightCluster);
-                    midPoint = leftCenter.plus(rightCenter);
-                    midPoint = midPoint.divide(2.0);
-                    midDensity = leftDensity = rightDensity = 0;
+                    int midDensity = 0, leftDensity = 0, rightDensity = 0;
+                    Vector rightCenter = this.clusterCenterStrategy.getCenter(rightCluster);
+                    Vector midPoint = leftCenter.plus(rightCenter).divide(2.0);
 
                     for (Pattern<Vector> pattern : leftCluster) {
-                        if (this.problem.calculateDistance(pattern.getData(), midPoint) <= stdev)
+                        if (distanceMeasure.distance(pattern.getData(), midPoint) <= stdev) {
                             ++midDensity;
-                        if (this.problem.calculateDistance(pattern.getData(), leftCenter) <= stdev)
+                        }
+
+                        if (distanceMeasure.distance(pattern.getData(), leftCenter) <= stdev) {
                             ++leftDensity;
+                        }
                     }
 
                     for (Pattern<Vector> pattern : rightCluster) {
-                        if (this.problem.calculateDistance(pattern.getData(), midPoint) <= stdev)
+                        if (distanceMeasure.distance(pattern.getData(), midPoint) <= stdev) {
                             ++midDensity;
-                        if (this.problem.calculateDistance(pattern.getData(), rightCenter) <= stdev)
+                        }
+
+                        if (distanceMeasure.distance(pattern.getData(), rightCenter) <= stdev) {
                             ++rightDensity;
+                        }
                     }
 
-                    // prevent devision by zero (ArithmeticExceptions)
+                    // prevent division by zero (ArithmeticExceptions)
                     // leftDensity + rightDensity == 0 can mean one of two things:
                     // 1. both clusters didn't have any patterns in it or
                     // 2. the distance between the pattern and midPoint was not > stdev (for both
@@ -122,13 +130,5 @@ public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
             }
         }
         return density / (clustersFormed * (clustersFormed - 1));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public HalkidiVazirgiannisIndex getClone() {
-        return new HalkidiVazirgiannisIndex();
     }
 }

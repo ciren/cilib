@@ -45,59 +45,6 @@ public final class Vectors {
     }
 
     /**
-     * Creates and returns a {@link net.sourceforge.cilib.type.types.container.Vector} with
-     * each component's value set to the upper bound of that component in the given vector.
-     *
-     * @param vector The {@linkplain net.sourceforge.cilib.type.types.container.Vector} from
-     *        which to create the upper bound vector.
-     * @return a {@link net.sourceforge.cilib.type.types.container.Vector} with all the
-     *         elements set to their respective upper bounds
-     */
-    public static Vector upperBoundVector(Vector vector) {
-        return Vectors.transform(vector, new Function<Numeric, Double>() {
-            @Override
-            public Double apply(Numeric from) {
-                return from.getBounds().getUpperBound();
-            }
-        });
-    }
-
-    /**
-     * Creates and returns a {@link net.sourceforge.cilib.type.types.container.Vector} with
-     * each component's value set to the lower bound of that component in the given vector.
-     *
-     * @param vector The {@linkplain net.sourceforge.cilib.type.types.container.Vector} from
-     *        which to create the lower bound vector.
-     * @return a {@link net.sourceforge.cilib.type.types.container.Vector} with all the
-     *         elements set to their respective lower bounds
-     */
-    public static Vector lowerBoundVector(Vector vector) {
-        return Vectors.transform(vector, new Function<Numeric, Double>() {
-            @Override
-            public Double apply(Numeric from) {
-                return from.getBounds().getLowerBound();
-            }
-        });
-    }
-
-    /**
-     * Calculate the furthest distance possible between two points within the given domain,
-     * also known as the <code>zMax</code>.
-     *
-     * @param distanceMeasure the {@link net.sourceforge.cilib.util.DistanceMeasure} that
-     *        should be used to calculate the <code>zMax</code>
-     * @param domain the {@link net.sourceforge.cilib.type.types.container.Vector} whose upper and lower bounds represent
-     *			 the domain
-     * @return the <code>zMax</code> for the given domain
-     */
-    public static double zMax(DistanceMeasure distanceMeasure, Vector domain) {
-        Vector upperBoundVector = Vectors.upperBoundVector(domain);
-        Vector lowerBoundVector = Vectors.lowerBoundVector(domain);
-
-        return distanceMeasure.distance(upperBoundVector, lowerBoundVector);
-    }
-
-    /**
      * Determine the sum of a list of {@code Vector} instances.
      * @param vectors The {@code Vector} instances to sum.
      * @return The resultant {@code Vector}.

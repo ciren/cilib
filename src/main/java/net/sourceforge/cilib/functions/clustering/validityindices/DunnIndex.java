@@ -21,46 +21,60 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
+import java.util.ArrayList;
+import java.util.Set;
+
+import net.sourceforge.cilib.functions.clustering.ClusteringErrorFunction;
+import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
+import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterMeanStrategy;
+import net.sourceforge.cilib.type.types.container.Cluster;
+import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
- * This is the Dunn Validity Index.
- *
- * This implementation is as given in:<br/>
+ * This is the Dunn Validity Index as described in:<br/>
  * @Article{ dunn1974vi, title = "Well Separated Clusters and Optimal Fuzzy Partitions", author =
  *           "J. C. Dunn", journal = "Journal of Cybernetics", pages = "95--104", volume = "4", year =
  *           "1974" }
  * @author Theuns Cloete
  */
-public class DunnIndex extends GeneralisedDunnIndex {
+public class DunnIndex extends ClusteringErrorFunction {
     private static final long serialVersionUID = -7440453719679272149L;
 
-    /**
-     * Create an instance of this index.
-     */
     public DunnIndex() {
+        this.clusterCenterStrategy = new ClusterMeanStrategy();
     }
 
     /**
-     * {@inheritDoc}
+     * Sub-classes should override this method if the cluster scatter should be calculated differently.
      */
-    @Override
-    protected double calculateWithinClusterScatter(int k) {
-        return calculateClusterDiameter(k);
+    protected double calculateClusterScatter(DistanceMeasure distanceMeasure, Cluster<Vector> cluster) {
+        return ClusteringFunctions.clusterDiameter(distanceMeasure, cluster);
     }
 
     /**
-     * {@inheritDoc}
+     * Sub-classes should override this method if the cluster separation should be calculated differently.
      */
-    @Override
-    protected double calculateBetweenClusterSeperation(int i, int j) {
-        return calculateMinimumSetDistance(i, j);
+    protected double calculateClusterSeperation(DistanceMeasure distanceMeasure, Cluster<Vector> lhs, Cluster<Vector> rhs) {
+        return ClusteringFunctions.minimumClusterDistance(distanceMeasure, lhs, rhs);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public DunnIndex getClone() {
-        return new DunnIndex();
+    public Double apply(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+        double withinScatter = -Double.MAX_VALUE, betweenSeperation = Double.MAX_VALUE;
+        int clustersFormed = clusters.size();
+
+        for (Cluster<Vector> cluster : clusters) {
+            withinScatter = Math.max(withinScatter, this.calculateClusterScatter(distanceMeasure, cluster));
+        }
+
+        for (int i = 0; i < clustersFormed - 1; ++i) {
+            for (int j = i + 1; j < clustersFormed; ++j) {
+                betweenSeperation = Math.min(betweenSeperation, this.calculateClusterSeperation(distanceMeasure, clusters.get(i), clusters.get(j)));
+            }
+        }
+
+        return betweenSeperation / withinScatter;
     }
 }

@@ -21,30 +21,47 @@
  */
 package net.sourceforge.cilib.functions.clustering;
 
+import java.util.ArrayList;
+import java.util.Set;
+
+import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCentroidStrategy;
+import net.sourceforge.cilib.type.types.container.Cluster;
+import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
+
 /**
- * This class makes use of the helper/member functions defined and implemented in
- * {@linkplain ClusteringFitnessFunction} to calculate the Quantisation Error of a particular
- * clustering in the <tt>calculateFitness</tt> method. See: <br/>
- * @PhDThesis{ omran2004thesis, title = "Particle Swarm Optimization Methods for Pattern Recognition
- *             and Image Processing", author = "Mahamed G.H. Omran", institution = "University Of
- *             Pretoria", school = "Computer Science", year = "2004", month = nov, address =
- *             "Pretoria, South Africa", note = "Supervisor: A. P. Engelbrecht", }
- * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
+ * Calculate the Quantisation Error as illustrated in Section 4.1.1 on pages 104 & 105 of:<br/>
+ *
+ * @PhDThesis{ omran2004thesis, title = "Particle Swarm Optimization Methods for Pattern
+ *             Recognition and Image Processing", author = "Mahamed G.H. Omran",
+ *             institution = "University Of Pretoria", school = "Computer Science", year =
+ *             "2004", month = nov, address = "Pretoria, South Africa", note =
+ *             "Supervisor: A. P. Engelbrecht", }
+ * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCentroidStrategy}.
  * @author Theuns Cloete
  */
-public class QuantisationErrorFunction extends ClusteringFitnessFunction {
+public class QuantisationErrorFunction extends ClusteringErrorFunction {
     private static final long serialVersionUID = -7008338250315442786L;
 
-    public QuantisationErrorFunction() {
-    }
-
+    /**
+     * Calculate the Quantisation error of the given clusters.
+     * @return the Quantisation error of the given clusters.
+     */
     @Override
-    public double calculateFitness() {
-        return calculateQuantisationError();
-    }
+    public Double apply(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+        double quantisationError = 0.0;
 
-    @Override
-    public QuantisationErrorFunction getClone() {
-        return new QuantisationErrorFunction();
+        for (Cluster<Vector> cluster : clusters) {
+            double averageCompactness = 0.0;
+            Vector center = this.clusterCenterStrategy.getCenter(cluster);
+
+            for (Pattern<Vector> pattern : cluster) {
+                averageCompactness += distanceMeasure.distance(pattern.getData(), center);
+            }
+            averageCompactness /= cluster.size();
+            quantisationError += averageCompactness;
+        }
+        return quantisationError / clusters.size();
     }
 }

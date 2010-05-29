@@ -21,71 +21,73 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
+import net.sourceforge.cilib.functions.clustering.ClusteringErrorFunction;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterMeanStrategy;
-import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
- * This is the Veenman-Reinders-Backer Validity Index.
- *
- * The description is given in Section 1 of<br/>
+ * This is the Veenman-Reinders-Backer Validity Index. as given in Section 1 of:<br/>
  * @Article{ 628823, author = "Cor J. Veenman and Marcel J. T. Reinders and Eric Backer", title = "A
  *           Maximum Variance Cluster Algorithm", journal = "IEEE Transactions on Pattern Analysis
  *           and Machine Intelligence", volume = "24", number = "9", year = "2002", issn =
  *           "0162-8828", pages = "1273--1280", doi =
  *           "http://dx.doi.org/10.1109/TPAMI.2002.1033218", publisher = "IEEE Computer Society",
  *           address = "Washington, DC, USA", }
- * NOTE: By default, the cluster center refers to the cluster mean. See {@link ClusterCenterStrategy}.
+ * NOTE: By default, the cluster center refers to the cluster mean. See {@link ClusterMeanStrategy}.
  * @author Theuns Cloete
  */
-public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
+public class VeenmanReindersBackerIndex extends ClusteringErrorFunction {
     private static final long serialVersionUID = 5683593481233814465L;
+    private static final double DEF_VARIANCE_LIMIT = 1.0;
 
     /** The best value for the varianceLimit should be determined empirically */
     private ControlParameter maximumVariance = null;
 
     public VeenmanReindersBackerIndex() {
         this.clusterCenterStrategy = new ClusterMeanStrategy();
-        this.maximumVariance = new ConstantControlParameter(1.0);    // default variance limit is 1.0
+        this.maximumVariance = new ConstantControlParameter(DEF_VARIANCE_LIMIT);    // default variance limit is 1.0
     }
 
     @Override
-    public VeenmanReindersBackerIndex getClone() {
-        return new VeenmanReindersBackerIndex();
-    }
-
-    @Override
-    public double calculateFitness() {
-        if (!this.holdsConstraint())
-            return this.worstFitness();
+    public Double apply(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+        if (!this.holdsConstraint(dataSetMean, clusters)) {
+            return Double.MAX_VALUE;
+        }
 
         double sumOfSquaredError = 0.0;
 
-        for (Cluster<Vector> cluster : this.significantClusters) {
+        for (Cluster<Vector> cluster : clusters) {
             Vector center = this.clusterCenterStrategy.getCenter(cluster);
 
             // H(Y) in the paper refers to the homogeneity of Y (not variance, because we do not divide by |Y|)
             for (Pattern<Vector> pattern : cluster) {
-                sumOfSquaredError += Math.pow(this.problem.calculateDistance(pattern.getData(), center), 2);
+                double error = distanceMeasure.distance(pattern.getData(), center);
+
+                sumOfSquaredError += error * error;
             }
         }
-        return sumOfSquaredError / ((StaticDataSetBuilder) this.problem.getDataSetBuilder()).getNumberOfPatterns();
+        return sumOfSquaredError / patterns.size();
     }
 
-    private boolean holdsConstraint() {
-        for (int i = 0; i < clustersFormed - 1; i++) {
-            for (int j = i + 1; j < clustersFormed; j++) {
+    private boolean holdsConstraint(Vector dataSetMean, ArrayList<Cluster<Vector>> clusters) {
+        int clustersFormed = clusters.size();
+
+        for (int i = 0; i < clustersFormed - 1; ++i) {
+            for (int j = i + 1; j < clustersFormed; ++j) {
                 Cluster<Vector> union = new Cluster<Vector>();
 
-                union.addAll(this.significantClusters.get(i));
-                union.addAll(this.significantClusters.get(j));
+                union.addAll(clusters.get(i));
+                union.addAll(clusters.get(j));
 
-                if (union.getVariance(((StaticDataSetBuilder) this.problem.getDataSetBuilder()).getMean()) < this.getMaximumVariance()) {
+                if (union.getVariance(dataSetMean) < this.getMaximumVariance()) {
                     return false;
                 }
             }
@@ -93,15 +95,15 @@ public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
         return true;
     }
 
-    public void setMaximumVariance(ControlParameter cpus) {
-        maximumVariance = cpus;
+    public void setMaximumVariance(ControlParameter maximumVariance) {
+        this.maximumVariance = maximumVariance;
     }
 
     private double getMaximumVariance() {
-        return maximumVariance.getParameter();
+        return this.maximumVariance.getParameter();
     }
 
     public void updateControlParameters() {
-        maximumVariance.updateParameter();
+        this.maximumVariance.updateParameter();
     }
 }

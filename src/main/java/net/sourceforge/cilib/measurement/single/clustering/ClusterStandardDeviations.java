@@ -22,15 +22,18 @@
 package net.sourceforge.cilib.measurement.single.clustering;
 
 import java.util.ArrayList;
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+import java.util.Set;
+
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.ClusteringProblem;
+import net.sourceforge.cilib.problem.clustering.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Cluster;
+import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
  * Combines and measures the standard deviation vectors of the clusters optimised by the given algorithm.
@@ -48,11 +51,18 @@ public class ClusterStandardDeviations implements Measurement {
         return "(R^?)^?";
     }
 
+    /**
+     * TODO: When we start using Guice, this method should be refactored
+     */
     @Override
     public Type getValue(Algorithm algorithm) {
-        //TODO: When we start using Guice, this statement should be updated
-        ClusteringProblem problem = (ClusteringProblem) AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
-        ArrayList<Cluster<Vector>> clusters = ClusteringFunctions.arrangeClustersAndCentroids((Vector) algorithm.getBestSolution().getPosition(), problem, (StaticDataSetBuilder) problem.getDataSetBuilder());
+        ClusteringProblem problem = (ClusteringProblem) algorithm.getOptimisationProblem();
+        int numberOfClusters = problem.getNumberOfClusters();
+        ArrayList<Vector> centroids = ClusteringFunctions.disassembleCentroids((Vector) algorithm.getBestSolution().getPosition(), numberOfClusters);
+        StaticDataSetBuilder dataSetBuilder = (StaticDataSetBuilder) problem.getDataSetBuilder();
+        Set<Pattern<Vector>> patterns = dataSetBuilder.getPatterns();
+        DistanceMeasure distanceMeasure = problem.getDistanceMeasure();
+        ArrayList<Cluster<Vector>> clusters = ClusteringFunctions.cluster(centroids, patterns, distanceMeasure, numberOfClusters);
         Vector.Builder combined = Vector.newBuilder();
 
         for (Cluster<Vector> cluster : clusters) {

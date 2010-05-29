@@ -21,57 +21,59 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
+import java.util.ArrayList;
+import java.util.Set;
+
+import net.sourceforge.cilib.functions.clustering.ClusteringErrorFunction;
+import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCentroidStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
- * This is the Davies-Bouldin Validity Index.
+ * This is the Davies-Bouldin Validity Index as described in:<br/>
  *
- * Index is given in
  * @Article{ daviesbouldin1979vi, title = "A Cluster Seperation Measure", author = "David L. Davies
  *           and Donald W. Bouldin", journal = "IEEE Transactions on Pattern Analysis and Machine
  *           Intelligence", volume = "1", number = "2", year = "1979", pages = "224--227", month =
  *           apr, issn = "0162-8828" }
- * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
+ * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCentroidStrategy}.
  * @author Theuns Cloete
  */
-public class DaviesBouldinIndex extends ScatterSeperationRatio {
+public class DaviesBouldinIndex extends ClusteringErrorFunction {
     private static final long serialVersionUID = -5167494843653998358L;
 
     public DaviesBouldinIndex() {
     }
 
     @Override
-    public double calculateFitness() {
+    public Double apply(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
         double db = 0.0, max = -Double.MAX_VALUE;
 
-        cacheWithinClusterScatter();
-        cacheBetweenClusterSeperation();
+        for (Cluster<Vector> lhs : clusters) {
+            double withinScatterLeft = this.calculateWithinClusterScatter(distanceMeasure, lhs);
 
-        for (int i = 0; i < clustersFormed; i++) {
-            double withinScatterLeft = getWithinClusterScatter(i);
-            for (int j = 0; j < clustersFormed; j++) {
-                if (i != j) {
-                    double withinScatterRight = getWithinClusterScatter(j);
-                    double betweenSeperation = getBetweenClusterSeperation(i, j);
+            for (Cluster<Vector> rhs : clusters) {
+                if (lhs != rhs) {
+                    double withinScatterRight = this.calculateWithinClusterScatter(distanceMeasure, rhs);
+                    double betweenSeperation = this.calculateBetweenClusterSeperation(distanceMeasure, lhs, rhs);
+
                     max = Math.max(max, (withinScatterLeft + withinScatterRight) / betweenSeperation);
                 }
             }
             db += max;
             max = -Double.MAX_VALUE;
         }
-        return db / clustersFormed;
+        return db / clusters.size();
     }
 
-    @Override
-    protected double calculateWithinClusterScatter(int k) {
+    private double calculateWithinClusterScatter(DistanceMeasure distanceMeasure, Cluster<Vector> cluster) {
         double withinClusterScatter = 0.0;
-        Cluster<Vector> cluster = this.significantClusters.get(k);
         Vector center = this.clusterCenterStrategy.getCenter(cluster);
 
         for (Pattern<Vector> pattern : cluster) {
-            withinClusterScatter += this.problem.calculateDistance(pattern.getData(), center);
+            withinClusterScatter += distanceMeasure.distance(pattern.getData(), center);
         }
         return withinClusterScatter / cluster.size();
     }
@@ -80,13 +82,7 @@ public class DaviesBouldinIndex extends ScatterSeperationRatio {
      * The <i>alpha</i> value of the distance measure should correspond to the <i>p</i> value of the
      * Davies-Bouldin Validity Index.
      */
-    @Override
-    protected double calculateBetweenClusterSeperation(int i, int j) {
-        return this.problem.calculateDistance(this.clusterCenterStrategy.getCenter(this.significantClusters.get(i)), this.clusterCenterStrategy.getCenter(this.significantClusters.get(j)));
-    }
-
-    @Override
-    public DaviesBouldinIndex getClone() {
-        return new DaviesBouldinIndex();
+    private double calculateBetweenClusterSeperation(DistanceMeasure distanceMeasure, Cluster<Vector> lhs, Cluster<Vector> rhs) {
+        return distanceMeasure.distance(this.clusterCenterStrategy.getCenter(lhs), this.clusterCenterStrategy.getCenter(rhs));
     }
 }

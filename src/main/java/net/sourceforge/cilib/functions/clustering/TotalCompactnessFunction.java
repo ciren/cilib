@@ -22,71 +22,43 @@
 package net.sourceforge.cilib.functions.clustering;
 
 import java.util.ArrayList;
+import java.util.Set;
 
-import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCentroidStrategy;
-import net.sourceforge.cilib.problem.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
-import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
- * Sometimes referred to as the <i>intra-cluster distance</i>.
+ * Calculate the total compactness; sometimes referred to as the <i>intra-cluster distance</i>. In other words, the sum
+ * of the distances between all patterns of all clusters and their associated centroids. The calculation is specified by
+ * Equation 13 in Section IV on page 124 of:<br/>
  *
+ * @Article{ 923275, title = "Nonparametric Genetic Clustering: Comparison of Validity
+ *           Indices", author = "Ujjwal Maulik and Sanghamitra Bandyopadhyay", journal =
+ *           "IEEE Transactions on Systems, Man, and Cybernetics, Part C: Applications
+ *           and Reviews", pages = "120--125", volume = "31", number = "1", month = feb,
+ *           year = "2001", issn = "1094-6977" }
  * @author Theuns Cloete
  */
-public class TotalCompactnessFunction extends ContinuousFunction implements ClusteringFunction {
+public class TotalCompactnessFunction extends ClusteringErrorFunction {
     private static final long serialVersionUID = -8511228982780183714L;
 
-    // TODO: Should be injected and then made final
-    private ClusterCenterStrategy clusterCenterStrategy;
-
-    public TotalCompactnessFunction() {
-        this.clusterCenterStrategy = new ClusterCentroidStrategy();
-    }
-
-    @Override
-    public ContinuousFunction getClone() {
-        return this;
-    }
-
     /**
-     * It would be awesome if the ClusteringProblem and StaticDataSetBuilder could be injected.
+     * Calculate the total compactness (<i>intra-cluster distance</i>) of the given clusters.
+     * @return the total compactness of the given clusters
      */
     @Override
-    public Double apply(Vector input) {
-        ClusteringProblem clusteringProblem = ClusteringFunctions.getClusteringProblem();
-        DataSetBuilder dataSetBuilder = clusteringProblem.getDataSetBuilder();
-        ArrayList<Cluster<Vector>> significantClusters = ClusteringFunctions.arrangeClustersAndCentroids(input, clusteringProblem, (StaticDataSetBuilder) dataSetBuilder);
-        int clustersFormed = significantClusters.size();
-
-        return this.apply(clusteringProblem, significantClusters, clustersFormed);
-    }
-
-    @Override
-    public Double apply(ClusteringProblem clusteringProblem, ArrayList<Cluster<Vector>> significantClusters, int clustersFormed) {
+    public Double apply(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
         double compactness = 0.0;
 
-        for (Cluster<Vector> cluster : significantClusters) {
+        for (Cluster<Vector> cluster : clusters) {
             Vector center = this.clusterCenterStrategy.getCenter(cluster);
 
             for (Pattern<Vector> pattern : cluster) {
-                compactness += clusteringProblem.calculateDistance(pattern.getData(), center);
+                compactness += distanceMeasure.distance(pattern.getData(), center);
             }
         }
         return compactness;
-    }
-
-    @Override
-    public void setClusterCenterStrategy(ClusterCenterStrategy clusterCenterStrategy) {
-        this.clusterCenterStrategy = clusterCenterStrategy;
-    }
-
-    @Override
-    public ClusterCenterStrategy getClusterCenterStrategy() {
-        return this.clusterCenterStrategy;
     }
 }

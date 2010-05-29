@@ -38,6 +38,8 @@ public class Cluster<C extends Vector> extends ForwardingSet<Pattern<C>> impleme
     private Set<Pattern<C>> patterns;
     private C centroid;
 
+    // TODO: Give the cluster a blackboard where it can keep track of all its own stats like compactness, scatter, mean, etc
+
     public Cluster() {
         this.patterns = Sets.newHashSet();
     }

@@ -21,22 +21,31 @@
  */
 package net.sourceforge.cilib.clustering.kmeans;
 
+import com.google.common.collect.Lists;
+
 import java.util.ArrayList;
+import java.util.Set;
 
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
-import net.sourceforge.cilib.problem.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
- * This strategy initializes the centroids of a clustering to random positions in the search
- * space.
+ * This strategy initializes the centroids of a clustering to random positions in the search space.
  *
  * @author Theuns Cloete
  */
 public class RandomCentroidsInitialisationStrategy implements CentroidsInitialisationStrategy {
     private static final long serialVersionUID = -7509467292180867974L;
+
+    private RandomProvider randomProvider;
+
+    public RandomCentroidsInitialisationStrategy() {
+        this.randomProvider = new MersenneTwister();
+    }
 
     /**
      * {@inheritDoc}
@@ -47,31 +56,45 @@ public class RandomCentroidsInitialisationStrategy implements CentroidsInitialis
     }
 
     /**
-     * Initialize the centroid vectors for a clustering to random positions in the search
-     * space. The built-representation of the behavioural domain of the given {@link ClusteringProblem} is used to build a
-     * {@link Vector} that will house the centroids.
-     *
      * {@inheritDoc}
      */
     @Override
-    public ArrayList<Vector> initialise(ClusteringProblem problem, StaticDataSetBuilder dataset) {
-        int numberOfCentroids = problem.getNumberOfClusters();
-        Vector centroids = (Vector) problem.getDomain().getBuiltRepresenation().getClone();
+    public ArrayList<Vector> initialise(Set<Pattern<Vector>> patterns, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids) {
+        ArrayList<Vector> centroids = Lists.newArrayList();
 
-        centroids.randomize(new MersenneTwister());
-        return ClusteringFunctions.disassembleCentroids(centroids, numberOfCentroids);
+        for (int i = 0; i < numberOfCentroids; ++i) {
+            Vector centroid = (Vector) domainRegistry.getBuiltRepresenation().getClone();
+
+            centroid.randomize(this.randomProvider);
+            centroids.add(centroid);
+        }
+        return centroids;
     }
 
     /**
-     * Just randomize the centroid vector.
      * {@inheritDoc}
      */
     @Override
-    public Vector reinitialise(ArrayList<Vector> centroids, int which) {
+    public Vector reinitialise(ArrayList<Vector> centroids, Set<Pattern<Vector>> patterns, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which) {
         Vector reinitialised = centroids.get(which);
 
-        reinitialised.randomize(new MersenneTwister());
-
+        reinitialised.randomize(this.randomProvider);
         return reinitialised;
+    }
+
+    /**
+     * Specify the {@link RandomProvider} that should be used to randomize the centroids&apos; features.
+     * @param randomProvider the {@link RandomProvider} to use
+     */
+    public void setRandomProvider(RandomProvider randomProvider) {
+        this.randomProvider = randomProvider;
+    }
+
+    /**
+     * Retrieve the {@link RandomProvider} that will be used to randomize the centroids&apos; features.
+     * @return the {@link RandomProvider} that will be used
+     */
+    public RandomProvider getRandomProvider() {
+        return this.randomProvider;
     }
 }

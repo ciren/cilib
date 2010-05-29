@@ -21,38 +21,55 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
-import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
+import java.util.ArrayList;
+import java.util.Set;
+
+import net.sourceforge.cilib.functions.clustering.AverageCompactnessFunction;
+import net.sourceforge.cilib.functions.clustering.ClusteringErrorFunction;
+import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
+import net.sourceforge.cilib.functions.clustering.MinimumSeparationFunction;
+import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
+import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCentroidStrategy;
+import net.sourceforge.cilib.type.types.container.Cluster;
+import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
- * This is the Turi Validity Index as given in
- * Section 3.1.4 on page 66 of Mahamed G. H. Omran's PhD thesis, titled
+ * This is the Turi Validity Index as given in Section 3.1.4 on page 66 of Mahamed G. H. Omran's PhD thesis, titled
  * <tt>Particle Swarm Optimization Methods for Pattern Recognition and Image Processing</tt>,
  * November 2004
- * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
+ * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCentroidStrategy}.
  * @author Theuns Cloete
  */
-public class TuriIndex extends ClusteringFitnessFunction {
+public class TuriIndex extends ClusteringErrorFunction {
     private static final long serialVersionUID = 2457356424874462741L;
 
 //    private double c = 0.0;
 //    private RandomNumber random = null;
 //    private double gaussian = 0.0;
+    private final ClusteringFunction averageCompactness;
+    private final ClusteringFunction minimumSeparation;
 
     public TuriIndex() {
 //        random = new RandomNumber();
 //        gaussian = random.getGaussian(2, 1);
+        this.averageCompactness = new AverageCompactnessFunction();
+        this.minimumSeparation = new MinimumSeparationFunction();
     }
 
     @Override
-    public TuriIndex getClone() {
-        return new TuriIndex();
-    }
-
-    @Override
-    public double calculateFitness() {
+    public Double apply(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
 //        gaussian = random.getGaussian(2, 1);
 
-        return /*(c * gaussian + 1) * */(this.calculateAverageIntraClusterDistance() / this.calculateMinimumInterClusterDistance());
+        return /*(c * gaussian + 1) * */this.averageCompactness.apply(clusters, patterns, distanceMeasure, dataSetMean, dataSetVariance, zMax) / this.minimumSeparation.apply(clusters, patterns, distanceMeasure, dataSetMean, dataSetVariance, zMax);
+    }
+
+    @Override
+    public void setClusterCenterStrategy(ClusterCenterStrategy clusterCenterStrategy) {
+        this.clusterCenterStrategy = clusterCenterStrategy;
+        this.averageCompactness.setClusterCenterStrategy(this.clusterCenterStrategy);
+        this.minimumSeparation.setClusterCenterStrategy(this.clusterCenterStrategy);
     }
 
 //    public void setC(double c) {

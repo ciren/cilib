@@ -9,7 +9,7 @@
 <simulator>
     <algorithms>
         <algorithm id="pso" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000" />
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="100" />
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="50">
                 <entityType class="pso.particle.StandardParticle" />
             </initialisationStrategy>
@@ -20,30 +20,34 @@
     </algorithms>
 
     <problems>
-        <problem id="revenue.total" class="problem.ClusteringProblem" domain="R(0.0,1.0)^11">
-            <innerProblem class="problem.FunctionMinimisationProblem">
-                <function class="functions.clustering.TotalErrorFunction" />
-            </innerProblem>
+        <problem id="revenue.total" class="problem.clustering.PartitionalClusteringProblem" domain="R(0.0,1.0)^11">
+            <clusteringFunction class="functions.clustering.aggregated.TotalErrorFunction" />
             <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="revenue">
                 <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/revenue/revenue.csv" delimiter="," beginIndex="3" endIndex="13" />
             </dataSetBuilder>
         </problem>
 
-        <problem id="revenue.harmonic" class="problem.ClusteringProblem" domain="R(0.0,1.0)^11">
-            <innerProblem class="problem.FunctionMinimisationProblem">
-                <function class="functions.clustering.KHarmonicMeansFunction" />
-            </innerProblem>
+        <problem id="revenue.harmonic" class="problem.clustering.PartitionalClusteringProblem" domain="R(0.0,1.0)^11">
+            <clusteringFunction class="functions.clustering.KHarmonicMeansFunction" />
             <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="revenue">
                 <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/revenue/revenue.csv" delimiter="," beginIndex="3" endIndex="13" />
             </dataSetBuilder>
         </problem>
+
+        <problem id="artificial.inverse" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
+	    <clusteringFunction class="functions.clustering.InverseErrorFunction" />
+	    <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
+            <dataSetBuilder id="artificial" class="problem.dataset.StaticDataSetBuilder" identifier="artificial">
+                <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/generated/artificial2/artificial.txt" delimiter="\s+" beginIndex="0" endIndex="1" classIndex="2" />
+            </dataSetBuilder>
+	</problem>
     </problems>
 
-    <measurements id="measurements" class="simulator.MeasurementSuite" resolution="100">
+    <measurements id="measurements" class="simulator.MeasurementSuite" resolution="1">
         <addMeasurement class="measurement.single.Fitness" />
-        <addMeasurement class="measurement.single.clustering.PlotHighDimensionalClustersAndCentroids" />
+        <addMeasurement class="measurement.single.clustering.PlotClustersAndCentroids" />
 <!--
-        <addMeasurement class="measurement.single.clustering.NumberOfClustersFormed" />
+        <addMeasurement class="measurement.single.clustering.PlotHighDimensionalClustersAndCentroids" />
         <addMeasurement class="measurement.single.GenericFunctionMeasurement">
             <function class="functions.clustering.TotalCompactnessFunction" />
         </addMeasurement>
@@ -59,7 +63,9 @@
         <addMeasurement class="measurement.single.clustering.ClusterCentroids" />
 -->
     </measurements>
+
     <simulations>
+<!--
         <simulation samples="1">
             <algorithm idref="pso"/>
             <problem idref="revenue.total" numberOfClusters="10" />
@@ -72,6 +78,13 @@
             <problem idref="revenue.harmonic" numberOfClusters="10" />
             <measurements idref="measurements" />
             <output format="TXT" file="measurements/pso.revenue.harmonic.10.txt" />
+        </simulation>
+-->
+        <simulation samples="1">
+            <algorithm idref="pso"/>
+            <problem idref="artificial.inverse" numberOfClusters="4" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.artificial.inverse.4.txt" />
         </simulation>
     </simulations>
 </simulator>

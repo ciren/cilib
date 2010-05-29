@@ -21,19 +21,19 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
+import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterMeanStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
- * DunnIndex53.
- *
- * This is the Dunn Index 53 due to Equations 24 and 28 in<br/>
+ * This is the Dunn Index 53 due to Equations 24 and 28 in:<br/>
  * @Article{ 678624, title = "Some New Indexes of Cluster Validity", author = "James C. Bezdek and
  *           Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and Cybernetics, Part B:
  *           Cybernetics", pages = "301--315", volume = "28", number = "3", month = jun, year =
  *           "1998", issn = "1083-4419" }
- * NOTE: By default, the cluster center refers to the cluster mean. See {@link ClusterCenterStrategy}.
+ * NOTE: By default, the cluster center refers to the cluster mean. See {@link ClusterMeanStrategy}.
  * @author Theuns Cloete
  */
 public class DunnIndex53 extends DunnIndex33 {
@@ -46,21 +46,19 @@ public class DunnIndex53 extends DunnIndex33 {
      * This method implements Equation 24 in the above-mentioned article.
      */
     @Override
-    protected double calculateBetweenClusterSeperation(int i, int j) {
-        double lhsAverage = 0.0, rhsAverage = 0.0;
-        Cluster<Vector> leftCluster = this.significantClusters.get(i);
-        Cluster<Vector> rightCluster = this.significantClusters.get(j);
-        Vector leftCenter = this.clusterCenterStrategy.getCenter(leftCluster);
-        Vector rightCenter = this.clusterCenterStrategy.getCenter(rightCluster);
+    protected double calculateClusterSeperation(DistanceMeasure distanceMeasure, Cluster<Vector> lhs, Cluster<Vector> rhs) {
+        double lhsSum = 0.0, rhsSum = 0.0;
+        Vector lhsCenter = this.clusterCenterStrategy.getCenter(lhs);
+        Vector rhsCenter = this.clusterCenterStrategy.getCenter(rhs);
 
-        for (Pattern<Vector> pattern : leftCluster) {
-            lhsAverage += this.problem.calculateDistance(pattern.getData(), rightCenter);
+        for (Pattern<Vector> pattern : lhs) {
+            lhsSum += distanceMeasure.distance(pattern.getData(), rhsCenter);
         }
 
-        for (Pattern<Vector> pattern : rightCluster) {
-            rhsAverage += this.problem.calculateDistance(pattern.getData(), leftCenter);
+        for (Pattern<Vector> pattern : rhs) {
+            rhsSum += distanceMeasure.distance(pattern.getData(), lhsCenter);
         }
 
-        return (lhsAverage + rhsAverage) / (leftCluster.size() + rightCluster.size());
+        return (lhsSum + rhsSum) / (lhs.size() + rhs.size());
     }
 }

@@ -23,95 +23,42 @@ package net.sourceforge.cilib.functions.clustering;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.problem.ClusteringProblem;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
-import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
-import net.sourceforge.cilib.problem.dataset.MockClusteringStringDataSet;
-import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.type.types.Bounds;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
+import net.sourceforge.cilib.util.DistanceMeasure;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsSame.sameInstance;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.number.IsCloseTo.closeTo;
 
 /**
  * @author Theuns Cloete
  */
 public class ClusteringFunctionsTest {
-    private static Vector centroids;
-    private static StaticDataSetBuilder dataSetBuilder;
-    private static ClusteringProblem problem;
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        dataSetBuilder = new StaticDataSetBuilder();
-        dataSetBuilder.addDataSet(new MockClusteringStringDataSet());
-        dataSetBuilder.setIdentifier("mock-data-set-builder");
-        problem = new ClusteringProblem();
-        ContinuousFunction function = new QuantisationErrorFunction();
-        FunctionOptimisationProblem innerProblem = new FunctionMinimisationProblem();
-        innerProblem.setFunction(function);
-        problem.setInnerProblem(innerProblem);
-        problem.setDomain("Z(-5, 5),Z(-5, 5)");
-        problem.setNumberOfClusters(4);
-        problem.setDataSetBuilder(dataSetBuilder);
-
-        Algorithm algorithm = new PSO();
-        algorithm.setOptimisationProblem(problem);
-        algorithm.performInitialisation();
-
-        centroids = Vector.of(2, 2, -2, 2, -2, -2, 2, -2);
-    }
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-        centroids = null;
-        dataSetBuilder = null;
-        problem = null;
-    }
 
     @Test
-    public void testMiscStuff() {
-        assertThat(problem.getNumberOfClusters(), equalTo(4));
-        assertThat(dataSetBuilder.getNumberOfPatterns(), equalTo(6));
-        assertThat(centroids.size(), equalTo(8));
-    }
+    public void testCluster() {
+        ArrayList<Vector> centroids = ClusteringFunctionTests.getSeparateCentroids();
+        Set<Pattern<Vector>> patterns = ClusteringFunctionTests.getPatterns();
+        DistanceMeasure distanceMeasure = ClusteringFunctionTests.getDistanceMeasure();
+        ArrayList<Cluster<Vector>> clusters = ClusteringFunctions.cluster(centroids, patterns, distanceMeasure, centroids.size());
 
-    private void testArrangeClustersAndCentroids(ArrayList<Cluster<Vector>> arrangedClusters) {
-        assertThat(arrangedClusters.size(), is(3));
-
-        assertThat(arrangedClusters.get(0).size(), is(1));
-        assertThat(arrangedClusters.get(0).getCentroid(), equalTo(Vector.of(-2, 2)));
-        assertThat(arrangedClusters.get(0).getMean(), equalTo(Vector.of(-1, 2)));
-
-        assertThat(arrangedClusters.get(1).size(), is(2));
-        assertThat(arrangedClusters.get(1).getCentroid(), equalTo(Vector.of(-2, -2)));
-        assertThat(arrangedClusters.get(1).getMean(), equalTo(Vector.of(-1.5, -1)));
-
-        assertThat(arrangedClusters.get(2).size(), is(3));
-        assertThat(arrangedClusters.get(2).getCentroid(), equalTo(Vector.of(2, -2)));
-        assertThat(arrangedClusters.get(2).getMean(), equalTo(Vector.of(1.3333333333333333, -1.3333333333333333)));
-    }
-
-    @Test
-    public void testArrangeClustersAndCentroidsCombined() {
-        testArrangeClustersAndCentroids(ClusteringFunctions.arrangeClustersAndCentroids(centroids, problem, dataSetBuilder));
-    }
-
-    @Test
-    public void testArrangeClustersAndCentroidsSeparate() {
-        testArrangeClustersAndCentroids(ClusteringFunctions.arrangeClustersAndCentroids(ClusteringFunctions.disassembleCentroids(centroids, 4), problem, dataSetBuilder));
+        assertThat(clusters.size(), is(centroids.size()));
+        assertThat(clusters.get(0).size(), is(1));
+        assertThat(clusters.get(1).size(), is(2));
+        assertThat(clusters.get(2).size(), is(3));
+        assertThat(clusters.get(3).size(), is(4));
+        assertThat(clusters.get(0).getCentroid(), is(centroids.get(0)));
+        assertThat(clusters.get(1).getCentroid(), is(centroids.get(1)));
+        assertThat(clusters.get(2).getCentroid(), is(centroids.get(2)));
+        assertThat(clusters.get(3).getCentroid(), is(centroids.get(3)));
     }
 
     @Test
@@ -157,29 +104,6 @@ public class ClusteringFunctionsTest {
     }
 
     @Test
-    public void testFormClusters() {
-        ArrayList<Vector> separate = ClusteringFunctions.disassembleCentroids(centroids, 4);
-        ArrayList<Cluster<Vector>> clusters = ClusteringFunctions.formClusters(separate, problem, dataSetBuilder.getPatterns());
-
-        assertThat(clusters.size(), is(4));
-
-        assertThat(clusters.get(0).size(), is(0));
-        assertThat(clusters.get(0).getCentroid(), sameInstance(separate.get(0)));
-
-        assertThat(clusters.get(1).size(), is(1));
-        assertThat(clusters.get(1).getCentroid(), sameInstance(separate.get(1)));
-        assertThat(clusters.get(1).getMean(), equalTo(Vector.of(-1, 2)));
-
-        assertThat(clusters.get(2).size(), is(2));
-        assertThat(clusters.get(2).getCentroid(), sameInstance(separate.get(2)));
-        assertThat(clusters.get(2).getMean(), equalTo(Vector.of(-1.5, -1)));
-
-        assertThat(clusters.get(3).size(), is(3));
-        assertThat(clusters.get(3).getCentroid(), sameInstance(separate.get(3)));
-        assertThat(clusters.get(3).getMean(), equalTo(Vector.of(1.3333333333333333, -1.3333333333333333)));
-    }
-
-    @Test
     public void testSignificantClusters() {
         ArrayList<Cluster<Vector>> clusters = new ArrayList<Cluster<Vector>>();
         Cluster<Vector> cluster = new Cluster<Vector>(Vector.of(0.0, 1.0, 2.0));
@@ -203,5 +127,25 @@ public class ClusteringFunctionsTest {
         assertThat(significant.get(1).size(), is(1));
         assertThat(significant.get(0), sameInstance(clusters.get(0)));
         assertThat(significant.get(1), sameInstance(clusters.get(1)));
+    }
+
+    @Test
+    public void testZMax() {
+        Vector.Builder prototype = Vector.newBuilder();
+
+        prototype.add(Real.valueOf(0.0, new Bounds(0.0, 3.0)));
+        assertThat(ClusteringFunctions.zMax(prototype.build()), closeTo(3.0, ClusteringFunctionTests.EPSILON));
+
+        prototype.add(Real.valueOf(0.0, new Bounds(0.0, 4.0)));
+        assertThat(ClusteringFunctions.zMax(prototype.build()), closeTo(12.0, ClusteringFunctionTests.EPSILON));
+
+        prototype.add(Real.valueOf(0.0, new Bounds(0.0, 5.0)));
+        assertThat(ClusteringFunctions.zMax(prototype.build()), closeTo(60.0, ClusteringFunctionTests.EPSILON));
+
+        prototype.add(Real.valueOf(0.0, new Bounds(1.0, 5.0)));
+        assertThat(ClusteringFunctions.zMax(prototype.build()), closeTo(240.0, ClusteringFunctionTests.EPSILON));
+
+        prototype.add(Real.valueOf(0.0, new Bounds(2.0, 5.0)));
+        assertThat(ClusteringFunctions.zMax(prototype.build()), closeTo(720.0, ClusteringFunctionTests.EPSILON));
     }
 }

@@ -24,10 +24,8 @@
     </algorithms>
 
     <problems>
-        <problem id="artificial" class="problem.ClusteringProblem" domain="R(-1.0,1.0),R(-1.0,1.0)">
-            <innerProblem class="problem.FunctionMinimisationProblem">
-                <function class="functions.clustering.QuantisationErrorFunction" />
-            </innerProblem>
+        <problem id="artificial" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0),R(-1.0,1.0)">
+            <clusteringFunction class="functions.clustering.QuantisationErrorFunction" />
             <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="artificial">
                 <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/generated/artificial2/artificial.txt" delimiter="\s+" beginIndex="0" endIndex="1" classIndex="2" />
             </dataSetBuilder>
@@ -44,7 +42,6 @@
             <function class="functions.clustering.IntraClusterDistance" />
         </addMeasurement>
 -->
-        <addMeasurement class="measurement.single.clustering.NumberOfClustersFormed" />
         <addMeasurement class="measurement.single.clustering.PlotClustersAndCentroids" />
     </measurements>
 
