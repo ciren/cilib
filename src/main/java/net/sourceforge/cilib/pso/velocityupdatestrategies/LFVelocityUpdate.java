@@ -57,194 +57,194 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
         return standard;
     }
 
-    public void updateVelocity(Particle particle) {
-        LFDecorator lfParticle = LFDecorator.extract(particle);
-        if (particle.getNeighbourhoodBest().getId() == particle.getId()) {
-            double p = lfParticle.getP();
-            double delta = lfParticle.getDelta();
-            double delta1 = lfParticle.getDelta1();
-            double deltaT = lfParticle.getDeltaT();
-            double epsilon = lfParticle.getEpsilon();
-            int s = lfParticle.getS();
-            int m = lfParticle.getM();
-            int i = lfParticle.getI();
-            int j = lfParticle.getJ();
-
-            //double[] velocity = particle.getVelocity();
-            //double[] position = particle.getPosition();
-            //double[] previousPosition = lfParticle.getPreviousPosition();
-            //double[] previousVelocity = lfParticle.getPreviousVelocity();
-            Vector velocity = (Vector) particle.getVelocity();
-            Vector position = (Vector) particle.getPosition();
-            Vector previousPosition = lfParticle.getPreviousPosition();
-            Vector previousVelocity = lfParticle.getPreviousVelocity();
-
-            double[] nextGradient = lfParticle.getNextGradient();
-
-            double[] gradient = lfParticle.getGradient();
-
-            // If the particle was not the neighbourhood best in the previous
-            // epoch, reinitialise the leapfrog variables.
-            if (!lfParticle.getWasNeighbourhoodBest()) {
-                deltaT = lfParticle.getDefaultDeltaT();
-
-                // Reset state variables
-                i = 0;
-                j = 2;
-                s = 0;
-                p = 1;
-
-                // LeapFrog Algorithm Step 2
-                // Calculate initial gradient
-                //double [] functionGradient = getGradient(position);
-                Vector functionGradient = getGradient(position);
-                for (int l = 0; l < particle.getDimension(); ++l) {
-                    //gradient[l] = -functionGradient[l];
-                    gradient[l] = -functionGradient.doubleValueOf(l);
-                }
-
-                // Calculate initial velocity
-                for (int l = 0; l < particle.getDimension(); ++l) {
-
-                    //velocity[l] = 0.5 * gradient[l] * deltaT;
-                    velocity.setReal(l, 0.5 * gradient[l] * deltaT);
-                }
-
-                lfParticle.setWasNeighbourhoodBest(true);
-            }
-
-            // LeapFrog Algorithm Step 3
-            double lenDeltaX = calculateEuclidianLength(velocity) * deltaT;
-
-            // LeapFrog Algorithm Step 4
-            if (lenDeltaX < delta) {
-                // LeapFrog Algorithm Step 5a: Update p and deltaT
-                p = p + delta1;
-                deltaT = deltaT * p;
-            } else {
-                for (int l = 0; l < particle.getDimension(); ++l) {
-                    //velocity[l] = delta * velocity[l] / (lenDeltaX);
-                    velocity.setReal(l, delta * velocity.doubleValueOf(l) / (lenDeltaX));
-                }
-
-                // LeapFrog Algorithm Step 5b
-                if (s < m) {
-                    deltaT = deltaT / 2.0;
-                    double tmp;
-                    for (int l = 0; l < particle.getDimension(); ++l) {
-                        /*tmp = position[l] + previousPosition[l];
-                        previousPosition[l] = position[l];
-                        position[l] = tmp / 2.0;
-
-                        tmp = velocity[l] + previousVelocity[l];
-                        previousVelocity[l] = velocity[l];
-                        velocity[l] = tmp / 2.0;
-                        s = 0;*/
-
-                        tmp = position.doubleValueOf(l) + previousPosition.doubleValueOf(l);
-                        previousPosition.setReal(l, position.doubleValueOf(l));
-                        position.setReal(l, tmp / 2.0);
-
-                        tmp = velocity.doubleValueOf(l) + previousVelocity.doubleValueOf(l);
-                        previousVelocity.setReal(l, velocity.doubleValueOf(l));
-                        velocity.setReal(l, tmp / 2.0);
-                        s = 0;
-                    }
-                }
-            }
-
-            // Step 5: Update position;
-            for (int l = 0; l < particle.getDimension(); ++l) {
-                //previousPosition[l] = position[l];
-                //position[l] += velocity[l] * deltaT;
-                previousPosition.setReal(l, position.doubleValueOf(l));
-                position.setReal(l, position.doubleValueOf(l) + velocity.doubleValueOf(l) * deltaT);
-            }
-
-            boolean repeatEndLoop = true;
-
-            while (repeatEndLoop) {
-                // LeapFrog Algorithm Step 6
-                //double [] functionGradient = getGradient(position);
-                Vector functionGradient = getGradient(position);
-                for (int l = 0; l < particle.getDimension(); ++l) {
-                    //nextGradient[l] = -functionGradient[l];
-                    nextGradient[l] = -functionGradient.doubleValueOf(l);
-                }
-
-                for (int l = 0; l < particle.getDimension(); ++l) {
-                    //previousVelocity[l] = velocity[l];
-                    //velocity[l] += nextGradient[l] * deltaT;
-                    previousVelocity.setReal(l, velocity.doubleValueOf(l));
-                    velocity.setReal(l, velocity.doubleValueOf(i) + nextGradient[l] * deltaT);
-                }
-
-                // LeapFrog Algorithm Step 7a
-                if (calculateDotProduct(nextGradient, gradient) > 0) {
-                    s = 0;
-                } else {
-                    ++s;
-                    p = 1;
-                }
-
-                for (int l = 0; l < particle.getDimension(); ++l) {
-                    gradient[l] = nextGradient[l];
-                }
-
-                // LeapFrog Algorithm Step 7
-                if (calculateEuclidianLength(nextGradient) > epsilon) {
-                    // LeapFrog Algorithm Step 8
-                    if (calculateEuclidianLength(velocity) > calculateEuclidianLength(previousVelocity)) {
-                        i = 0;
-                        repeatEndLoop = false;
-                    } else {
-                        double tmp;
-                        for (int l = 0; l < particle.getDimension(); ++l) {
-                            /*tmp = position[l] + previousPosition[l];
-                            previousPosition[l] = position[l];
-                            position[l] = tmp / 2.0;*/
-                            tmp = position.doubleValueOf(l) + previousPosition.doubleValueOf(l);
-                            previousPosition.setReal(l, position.doubleValueOf(l));
-                            position.setReal(l, tmp / 2.0);
-                        }
-                        ++i;
-
-                        // LeapFrog Algorithm  Step 9
-                        if (i <= j) {
-                            for (int l = 0; l < particle.getDimension(); ++l) {
-                                //tmp = velocity[l] + previousVelocity[l];
-                                //previousVelocity[l] = velocity[l];
-                                //velocity[l] = tmp / 4.0;
-                                tmp = velocity.doubleValueOf(l) + previousVelocity.doubleValueOf(l);
-                                previousVelocity.setReal(l, velocity.doubleValueOf(l));
-                                velocity.setReal(l, tmp / 4.0);
-                            }
-                        } else {
-                            for (int l = 0; l < particle.getDimension(); ++l) {
-                                // previousVelocity[l] = velocity[l];
-                                // velocity[l] = 0;
-                                previousVelocity.setReal(l, velocity.doubleValueOf(l));
-                                velocity.setReal(l, 0.0);
-                                j = 1;
-                            }
-                        }
-                    }
-                } else {
-                    repeatEndLoop = false;
-                }
-            }
-
-            // Set the state values in the particle
-            lfParticle.setP(p);
-            lfParticle.setDeltaT(deltaT);
-            lfParticle.setS(s);
-            lfParticle.setI(i);
-            lfParticle.setJ(j);
-        } else {
-            lfParticle.setWasNeighbourhoodBest(false);
-            standard.updateVelocity(particle);
-        }
-    }
+//    public void updateVelocity(Particle particle) {
+//        LFDecorator lfParticle = LFDecorator.extract(particle);
+//        if (particle.getNeighbourhoodBest().getId() == particle.getId()) {
+//            double p = lfParticle.getP();
+//            double delta = lfParticle.getDelta();
+//            double delta1 = lfParticle.getDelta1();
+//            double deltaT = lfParticle.getDeltaT();
+//            double epsilon = lfParticle.getEpsilon();
+//            int s = lfParticle.getS();
+//            int m = lfParticle.getM();
+//            int i = lfParticle.getI();
+//            int j = lfParticle.getJ();
+//
+//            //double[] velocity = particle.getVelocity();
+//            //double[] position = particle.getPosition();
+//            //double[] previousPosition = lfParticle.getPreviousPosition();
+//            //double[] previousVelocity = lfParticle.getPreviousVelocity();
+//            Vector velocity = (Vector) particle.getVelocity();
+//            Vector position = (Vector) particle.getPosition();
+//            Vector previousPosition = lfParticle.getPreviousPosition();
+//            Vector previousVelocity = lfParticle.getPreviousVelocity();
+//
+//            double[] nextGradient = lfParticle.getNextGradient();
+//
+//            double[] gradient = lfParticle.getGradient();
+//
+//            // If the particle was not the neighbourhood best in the previous
+//            // epoch, reinitialise the leapfrog variables.
+//            if (!lfParticle.getWasNeighbourhoodBest()) {
+//                deltaT = lfParticle.getDefaultDeltaT();
+//
+//                // Reset state variables
+//                i = 0;
+//                j = 2;
+//                s = 0;
+//                p = 1;
+//
+//                // LeapFrog Algorithm Step 2
+//                // Calculate initial gradient
+//                //double [] functionGradient = getGradient(position);
+//                Vector functionGradient = getGradient(position);
+//                for (int l = 0; l < particle.getDimension(); ++l) {
+//                    //gradient[l] = -functionGradient[l];
+//                    gradient[l] = -functionGradient.doubleValueOf(l);
+//                }
+//
+//                // Calculate initial velocity
+//                for (int l = 0; l < particle.getDimension(); ++l) {
+//
+//                    //velocity[l] = 0.5 * gradient[l] * deltaT;
+//                    velocity.setReal(l, 0.5 * gradient[l] * deltaT);
+//                }
+//
+//                lfParticle.setWasNeighbourhoodBest(true);
+//            }
+//
+//            // LeapFrog Algorithm Step 3
+//            double lenDeltaX = calculateEuclidianLength(velocity) * deltaT;
+//
+//            // LeapFrog Algorithm Step 4
+//            if (lenDeltaX < delta) {
+//                // LeapFrog Algorithm Step 5a: Update p and deltaT
+//                p = p + delta1;
+//                deltaT = deltaT * p;
+//            } else {
+//                for (int l = 0; l < particle.getDimension(); ++l) {
+//                    //velocity[l] = delta * velocity[l] / (lenDeltaX);
+//                    velocity.setReal(l, delta * velocity.doubleValueOf(l) / (lenDeltaX));
+//                }
+//
+//                // LeapFrog Algorithm Step 5b
+//                if (s < m) {
+//                    deltaT = deltaT / 2.0;
+//                    double tmp;
+//                    for (int l = 0; l < particle.getDimension(); ++l) {
+//                        /*tmp = position[l] + previousPosition[l];
+//                        previousPosition[l] = position[l];
+//                        position[l] = tmp / 2.0;
+//
+//                        tmp = velocity[l] + previousVelocity[l];
+//                        previousVelocity[l] = velocity[l];
+//                        velocity[l] = tmp / 2.0;
+//                        s = 0;*/
+//
+//                        tmp = position.doubleValueOf(l) + previousPosition.doubleValueOf(l);
+//                        previousPosition.setReal(l, position.doubleValueOf(l));
+//                        position.setReal(l, tmp / 2.0);
+//
+//                        tmp = velocity.doubleValueOf(l) + previousVelocity.doubleValueOf(l);
+//                        previousVelocity.setReal(l, velocity.doubleValueOf(l));
+//                        velocity.setReal(l, tmp / 2.0);
+//                        s = 0;
+//                    }
+//                }
+//            }
+//
+//            // Step 5: Update position;
+//            for (int l = 0; l < particle.getDimension(); ++l) {
+//                //previousPosition[l] = position[l];
+//                //position[l] += velocity[l] * deltaT;
+//                previousPosition.setReal(l, position.doubleValueOf(l));
+//                position.setReal(l, position.doubleValueOf(l) + velocity.doubleValueOf(l) * deltaT);
+//            }
+//
+//            boolean repeatEndLoop = true;
+//
+//            while (repeatEndLoop) {
+//                // LeapFrog Algorithm Step 6
+//                //double [] functionGradient = getGradient(position);
+//                Vector functionGradient = getGradient(position);
+//                for (int l = 0; l < particle.getDimension(); ++l) {
+//                    //nextGradient[l] = -functionGradient[l];
+//                    nextGradient[l] = -functionGradient.doubleValueOf(l);
+//                }
+//
+//                for (int l = 0; l < particle.getDimension(); ++l) {
+//                    //previousVelocity[l] = velocity[l];
+//                    //velocity[l] += nextGradient[l] * deltaT;
+//                    previousVelocity.setReal(l, velocity.doubleValueOf(l));
+//                    velocity.setReal(l, velocity.doubleValueOf(i) + nextGradient[l] * deltaT);
+//                }
+//
+//                // LeapFrog Algorithm Step 7a
+//                if (calculateDotProduct(nextGradient, gradient) > 0) {
+//                    s = 0;
+//                } else {
+//                    ++s;
+//                    p = 1;
+//                }
+//
+//                for (int l = 0; l < particle.getDimension(); ++l) {
+//                    gradient[l] = nextGradient[l];
+//                }
+//
+//                // LeapFrog Algorithm Step 7
+//                if (calculateEuclidianLength(nextGradient) > epsilon) {
+//                    // LeapFrog Algorithm Step 8
+//                    if (calculateEuclidianLength(velocity) > calculateEuclidianLength(previousVelocity)) {
+//                        i = 0;
+//                        repeatEndLoop = false;
+//                    } else {
+//                        double tmp;
+//                        for (int l = 0; l < particle.getDimension(); ++l) {
+//                            /*tmp = position[l] + previousPosition[l];
+//                            previousPosition[l] = position[l];
+//                            position[l] = tmp / 2.0;*/
+//                            tmp = position.doubleValueOf(l) + previousPosition.doubleValueOf(l);
+//                            previousPosition.setReal(l, position.doubleValueOf(l));
+//                            position.setReal(l, tmp / 2.0);
+//                        }
+//                        ++i;
+//
+//                        // LeapFrog Algorithm  Step 9
+//                        if (i <= j) {
+//                            for (int l = 0; l < particle.getDimension(); ++l) {
+//                                //tmp = velocity[l] + previousVelocity[l];
+//                                //previousVelocity[l] = velocity[l];
+//                                //velocity[l] = tmp / 4.0;
+//                                tmp = velocity.doubleValueOf(l) + previousVelocity.doubleValueOf(l);
+//                                previousVelocity.setReal(l, velocity.doubleValueOf(l));
+//                                velocity.setReal(l, tmp / 4.0);
+//                            }
+//                        } else {
+//                            for (int l = 0; l < particle.getDimension(); ++l) {
+//                                // previousVelocity[l] = velocity[l];
+//                                // velocity[l] = 0;
+//                                previousVelocity.setReal(l, velocity.doubleValueOf(l));
+//                                velocity.setReal(l, 0.0);
+//                                j = 1;
+//                            }
+//                        }
+//                    }
+//                } else {
+//                    repeatEndLoop = false;
+//                }
+//            }
+//
+//            // Set the state values in the particle
+//            lfParticle.setP(p);
+//            lfParticle.setDeltaT(deltaT);
+//            lfParticle.setS(s);
+//            lfParticle.setI(i);
+//            lfParticle.setJ(j);
+//        } else {
+//            lfParticle.setWasNeighbourhoodBest(false);
+//            standard.updateVelocity(particle);
+//        }
+//    }
 
     /**
      *  Returns the euclidian length of a vector x
@@ -296,5 +296,10 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
 
     public void updateControlParameters(Particle particle) {
         // TODO Auto-generated method stub
+    }
+
+    @Override
+    public Vector get(Particle particle) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

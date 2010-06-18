@@ -64,7 +64,7 @@ public class LFDecorator extends ParticleDecorator implements Cloneable {
     }
 
     public void updateVelocity(VelocityUpdateStrategy vu) {
-        this.getVelocityUpdateStrategy().updateVelocity(this);
+//        this.getVelocityUpdateStrategy().updateVelocity(this);
     }
 
     /**

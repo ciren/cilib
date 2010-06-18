@@ -24,11 +24,14 @@ package net.sourceforge.cilib.pso.dynamic;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
+import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Sequence;
+import net.sourceforge.cilib.util.Vectors;
 
 /**
  * Velocity update strategy that the so called Charged PSO makes use of.
@@ -39,40 +42,34 @@ import net.sourceforge.cilib.util.Sequence;
  * @author Anna Rakitianskaia
  *
  */
-public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
+public class ChargedVelocityUpdateStrategy implements VelocityUpdateStrategy {
 
     private static final long serialVersionUID = 365924556746583124L;
-    private double pCore; // lower limit
-    private double p; // upper limit
+    private VelocityUpdateStrategy delegate;
+    private ControlParameter pCore; // lower limit
+    private ControlParameter p; // upper limit
 
     public ChargedVelocityUpdateStrategy() {
-        super();
-        pCore = 1;
-        p = 30;
+        this.delegate = new StandardVelocityUpdate();
+        this.pCore = new ConstantControlParameter(1);
+        this.p = new ConstantControlParameter(30);
     }
 
     public ChargedVelocityUpdateStrategy(ChargedVelocityUpdateStrategy copy) {
-        this.inertiaWeight = copy.inertiaWeight.getClone();
-        this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
-        this.socialAcceleration = copy.socialAcceleration.getClone();
-        this.vMax = copy.vMax.getClone();
-
-        this.p = copy.p;
-        this.pCore = copy.pCore;
+        this.delegate = copy.delegate.getClone();
+        this.pCore = copy.pCore.getClone();
+        this.p = copy.p.getClone();
     }
 
+    @Override
     public ChargedVelocityUpdateStrategy getClone() {
         return new ChargedVelocityUpdateStrategy(this);
     }
 
     @Override
-    public void updateVelocity(Particle particle) {
-        Vector velocity = (Vector) particle.getVelocity();
+    public Vector get(Particle particle) {
         Vector position = (Vector) particle.getPosition();
-        Vector bestPosition = (Vector) particle.getBestPosition();
-        Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
-        Vector acceleration = Vector.copyOf(Sequence.repeat(0.0, velocity.size()));
         PSO pso = (PSO) AbstractAlgorithm.get();
         Iterator<Particle> iter = null;
         // make iter point to the current particle
@@ -82,7 +79,9 @@ public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
                 break;
             }
         }
+
         // Calculate acceleration of the current particle
+        Vector.Builder builder = new Vector.Builder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             double accSum = 0;
             for (Iterator<Particle> j = pso.getTopology().neighbourhood(iter); j.hasNext();) {
@@ -94,49 +93,60 @@ public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
                 double qj = other.getCharge();
                 Vector rij = position.subtract(other.getPosition());
                 double magnitude = rij.norm();
-                if (pCore <= magnitude && magnitude <= p) {
+                if (this.pCore.getParameter() <= magnitude && magnitude <= this.p.getParameter()) {
                     accSum += (qi * qj / Math.pow(magnitude, 3)) * rij.doubleValueOf(i);
                 }
             }
-            acceleration.setReal(i, accSum);
+            builder.add(accSum);
         }
 
-        for (int i = 0; i < particle.getDimension(); ++i) {
-            double value = inertiaWeight.getParameter() * velocity.doubleValueOf(i)
-                    + (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * cognitiveAcceleration.getParameter()
-                    + (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * socialAcceleration.getParameter()
-                    + acceleration.doubleValueOf(i);
-            velocity.setReal(i, value);
+        Vector acceleration = builder.build();
 
-            clamp(velocity, i);
-        }
+        Vector velocity = this.delegate.get(particle);
+
+        return Vectors.sumOf(velocity, acceleration);
     }
 
-    /**
-     * @return the p
-     */
-    public double getP() {
-        return p;
+    public void setDelegate(VelocityUpdateStrategy delegate) {
+        this.delegate = delegate;
     }
 
-    /**
-     * @param p the p to set
-     */
-    public void setP(double p) {
-        this.p = p;
+    public VelocityUpdateStrategy getDelegate() {
+        return this.delegate;
     }
 
     /**
      * @return the pCore
      */
-    public double getPCore() {
-        return pCore;
+    public ControlParameter getPCore() {
+        return this.pCore;
     }
 
     /**
      * @param core the pCore to set
      */
-    public void setPCore(double core) {
-        pCore = core;
+    public void setPCore(ControlParameter core) {
+        this.pCore = core;
+    }
+
+    /**
+     * @return the p
+     */
+    public ControlParameter getP() {
+        return this.p;
+    }
+
+    /**
+     * @param p the p to set
+     */
+    public void setP(ControlParameter p) {
+        this.p = p;
+    }
+
+    @Override
+    public void updateControlParameters(Particle particle) {
+        this.delegate.updateControlParameters(particle);
+        this.pCore.updateParameter();
+        this.p.updateParameter();
     }
 }

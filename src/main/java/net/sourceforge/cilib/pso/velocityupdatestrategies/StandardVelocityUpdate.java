@@ -39,23 +39,16 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     protected ControlParameter inertiaWeight;
     protected ControlParameter socialAcceleration;
     protected ControlParameter cognitiveAcceleration;
-    protected ControlParameter vMax;
     protected RandomProvider r1;
     protected RandomProvider r2;
 
     /** Creates a new instance of StandardVelocityUpdate. */
     public StandardVelocityUpdate() {
-        inertiaWeight = new ConstantControlParameter();
-        cognitiveAcceleration = new ConstantControlParameter();
-        socialAcceleration = new ConstantControlParameter();
-        vMax = new ConstantControlParameter();
-        r1 = new MersenneTwister();
-        r2 = new MersenneTwister();
-
-        inertiaWeight.setParameter(0.729844);
-        cognitiveAcceleration.setParameter(1.496180);
-        socialAcceleration.setParameter(1.496180);
-        vMax.setParameter(Double.MAX_VALUE);
+        this.inertiaWeight = new ConstantControlParameter(0.729844);
+        this.socialAcceleration = new ConstantControlParameter(1.496180);
+        this.cognitiveAcceleration = new ConstantControlParameter(1.496180);
+        this.r1 = new MersenneTwister();
+        this.r2 = new MersenneTwister();
     }
 
     /**
@@ -63,12 +56,11 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
      * @param copy The object to copy.
      */
     public StandardVelocityUpdate(StandardVelocityUpdate copy) {
-        this.r1 = copy.r1;
-        this.r2 = copy.r2;
         this.inertiaWeight = copy.inertiaWeight.getClone();
         this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
         this.socialAcceleration = copy.socialAcceleration.getClone();
-        this.vMax = copy.vMax.getClone();
+        this.r1 = new MersenneTwister();
+        this.r2 = new MersenneTwister();
     }
 
     /**
@@ -84,20 +76,21 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
      * @param particle The Particle velocity that should be updated.
      */
     @Override
-    public void updateVelocity(Particle particle) {
+    public Vector get(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getPosition();
         Vector bestPosition = (Vector) particle.getBestPosition();
         Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
+        Vector.Builder builder = new Vector.Builder();
         for (int i = 0; i < particle.getDimension(); ++i) {
-            double value = inertiaWeight.getParameter() * velocity.doubleValueOf(i)
-                    + (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * cognitiveAcceleration.getParameter() * r1.nextDouble()
-                    + (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * socialAcceleration.getParameter() * r2.nextDouble();
-            velocity.setReal(i, value);
-
-            clamp(velocity, i);
+            double value = this.inertiaWeight.getParameter() * velocity.doubleValueOf(i)
+                    + (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * this.cognitiveAcceleration.getParameter() * this.r1.nextDouble()
+                    + (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * this.socialAcceleration.getParameter() * this.r2.nextDouble();
+            builder.add(value);
         }
+
+        return builder.build();
     }
 
     /**
@@ -109,20 +102,6 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
         this.inertiaWeight.updateParameter();
         this.cognitiveAcceleration.updateParameter();
         this.socialAcceleration.updateParameter();
-        this.vMax.updateParameter();
-    }
-
-    /**
-     * TODO: Need to have a VMax strategy.
-     * @param velocity The {@link Vector} to be clamped.
-     * @param i The dimension index to be clamped
-     */
-    protected void clamp(Vector velocity, int i) {
-        if (velocity.doubleValueOf(i) < -vMax.getParameter()) {
-            velocity.setReal(i, -vMax.getParameter());
-        } else if (velocity.doubleValueOf(i) > vMax.getParameter()) {
-            velocity.setReal(i, vMax.getParameter());
-        }
     }
 
     /**
@@ -172,22 +151,6 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
      */
     public void setSocialAcceleration(ControlParameter socialComponent) {
         this.socialAcceleration = socialComponent;
-    }
-
-    /**
-     * Get the <code>ControlParameter</code> representing the <tt>vMax</tt> component.
-     * @return The <code>ControlParameter</code> for the vMax.
-     */
-    public ControlParameter getVMax() {
-        return vMax;
-    }
-
-    /**
-     * Set the <tt>ControlParameter</tt> for the vMax parameter.
-     * @param max The <tt>ControlParameter</tt> to set.
-     */
-    public void setVMax(ControlParameter max) {
-        vMax = max;
     }
 
     public RandomProvider getR1() {

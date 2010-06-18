@@ -24,6 +24,8 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -91,9 +93,15 @@ ISSN={1089-778X}, }
  *
  * @author andrich
  */
-public class ConstrictionVelocityUpdate extends StandardVelocityUpdate {
+public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
 
     private static final long serialVersionUID = -4470110903487138758L;
+
+    private ControlParameter socialAcceleration;
+    private ControlParameter cognitiveAcceleration;
+    protected RandomProvider r1;
+    protected RandomProvider r2;
+
     private ControlParameter kappa;
     private ControlParameter constrictionCoefficient;
 
@@ -103,13 +111,13 @@ public class ConstrictionVelocityUpdate extends StandardVelocityUpdate {
      * necessarily represent good values.
      */
     public ConstrictionVelocityUpdate() {
-        super();
-        kappa = new ConstantControlParameter();
-        constrictionCoefficient = null;
+        this.socialAcceleration = new ConstantControlParameter(2.05);
+        this.cognitiveAcceleration = new ConstantControlParameter(2.05);
+        this.r1 = new MersenneTwister();
+        this.r2 = new MersenneTwister();
 
-        socialAcceleration.setParameter(2.05);
-        cognitiveAcceleration.setParameter(2.05);
-        kappa.setParameter(1.0);
+        this.kappa = new ConstantControlParameter(1.0);
+        this.constrictionCoefficient = null;
     }
 
     /**
@@ -117,7 +125,10 @@ public class ConstrictionVelocityUpdate extends StandardVelocityUpdate {
      * @param copy the ConstrictionVelocityUpdate to copy.
      */
     public ConstrictionVelocityUpdate(ConstrictionVelocityUpdate copy) {
-        super(copy);
+        this.socialAcceleration = copy.socialAcceleration.getClone();
+        this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
+        this.r1 = new MersenneTwister();
+        this.r2 = new MersenneTwister();
         this.kappa = copy.kappa.getClone();
     }
 
@@ -133,42 +144,26 @@ public class ConstrictionVelocityUpdate extends StandardVelocityUpdate {
      * {@inheritDoc }
      */
     @Override
-    public void updateVelocity(Particle particle) {
+    public Vector get(Particle particle) {
+
         // lazy construction (necessary to do this after user has set c1 and c2, and to only do it once per particle).
-        if (constrictionCoefficient == null) {
+        if (this.constrictionCoefficient == null) {
             calculateConstrictionCoefficient();
         }
+
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getPosition();
         Vector bestPosition = (Vector) particle.getBestPosition();
         Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
-
+        Vector.Builder builder = new Vector.Builder();
         for (int i = 0; i < particle.getDimension(); ++i) {
-            double value = constrictionCoefficient.getParameter() * (velocity.doubleValueOf(i) +
-                    (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * cognitiveAcceleration.getParameter() * r1.nextDouble() +
-                    (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * socialAcceleration.getParameter() * r2.nextDouble());
-            velocity.setReal(i, value);
-            clamp(velocity, i);
+            double value = this.constrictionCoefficient.getParameter() * (velocity.doubleValueOf(i)
+                + (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * this.cognitiveAcceleration.getParameter() * this.r1.nextDouble()
+                + (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * this.socialAcceleration.getParameter() * this.r2.nextDouble());
+            builder.add(value);
         }
-    }
-
-    /**
-     * Clamp to maximum velocity.
-     * @param velocity The {@link Vector} to be clamped.
-     * @param i The dimension index to be clamped
-     */
-    @Override
-    protected void clamp(Vector velocity, int i) {
-        // if vMax is not set (or set as max), it is unnecessary to clamp
-        if (Double.compare(vMax.getParameter(), Double.MAX_VALUE) == 0) {
-            return;
-        }
-        if (velocity.doubleValueOf(i) < -vMax.getParameter()) {
-            velocity.setReal(i, -vMax.getParameter());
-        } else if (velocity.doubleValueOf(i) > vMax.getParameter()) {
-            velocity.setReal(i, vMax.getParameter());
-        }
+        return builder.build();
     }
 
     /**
@@ -179,7 +174,6 @@ public class ConstrictionVelocityUpdate extends StandardVelocityUpdate {
         this.kappa.updateParameter();
         this.cognitiveAcceleration.updateParameter();
         this.socialAcceleration.updateParameter();
-        this.vMax.updateParameter();
     }
 
     /**
@@ -187,21 +181,20 @@ public class ConstrictionVelocityUpdate extends StandardVelocityUpdate {
      * maximum acceleration.
      */
     private void calculateConstrictionCoefficient() {
-        double c1 = cognitiveAcceleration.getParameter();
-        double c2 = socialAcceleration.getParameter();
-        
+        double c1 = this.cognitiveAcceleration.getParameter();
+        double c2 = this.socialAcceleration.getParameter();
+
         double phi = c1 + c2;
         if (phi < 4.0) {
-            throw new UnsupportedOperationException("Parameter constraint violation: " +
-                    "The sum of the Cognitive (" + c1 + ") and Social (" + c2 + ") acceleration parameters " +
-                    "has to be greater than or equal to 4.");
+            throw new UnsupportedOperationException("Parameter constraint violation: "
+                + "The sum of the Cognitive (" + c1 + ") and Social (" + c2 + ") acceleration parameters "
+                + "has to be greater than or equal to 4.");
         }
         double chi;
-        chi = (2 * kappa.getParameter()) /
-                Math.abs(2 - phi - Math.sqrt(phi * (phi - 4.0)));
-        
-        constrictionCoefficient = new ConstantControlParameter();
-        constrictionCoefficient.setParameter(chi);
+        chi = (2 * this.kappa.getParameter()) / Math.abs(2 - phi - Math.sqrt(phi * (phi - 4.0)));
+
+        this.constrictionCoefficient = new ConstantControlParameter();
+        this.constrictionCoefficient.setParameter(chi);
     }
 
     /**
@@ -209,7 +202,7 @@ public class ConstrictionVelocityUpdate extends StandardVelocityUpdate {
      * @return the kappa {@link ControlParameter control parameter }.
      */
     public ControlParameter getKappa() {
-        return kappa;
+        return this.kappa;
     }
 
     /**
@@ -221,11 +214,43 @@ public class ConstrictionVelocityUpdate extends StandardVelocityUpdate {
     }
 
     /**
+     * Get the cognitive acceleration parameter.
+     * @return the cognitive acceleration {@link ControlParameter control parameter }.
+     */
+    public ControlParameter getCognitiveAcceleration() {
+        return this.cognitiveAcceleration;
+    }
+
+    /**
+     * Set the cognitive acceleration parameter.
+     * @param cognitiveAcceleration the new cognitive accerelation {@link ControlParameter control parameter }.
+     */
+    public void setCognitiveAcceleration(ControlParameter cognitiveAcceleration) {
+        this.cognitiveAcceleration = cognitiveAcceleration;
+    }
+
+    /**
+     * Get the social acceleration parameter.
+     * @return the social acceleration {@link ControlParameter control parameter }.
+     */
+    public ControlParameter getSocialAcceleration() {
+        return this.socialAcceleration;
+    }
+
+    /**
+     * Set the social acceleration parameter.
+     * @param socialAcceleration the new social accerelation {@link ControlParameter control parameter }.
+     */
+    public void setSocialAcceleration(ControlParameter socialAcceleration) {
+        this.socialAcceleration = socialAcceleration;
+    }
+
+    /**
      * Gets the constriction coefficient.
      * @return the constriction coefficient  {@link ControlParameter control parameter }.
      */
     public ControlParameter getConstrictionCoefficient() {
-        return constrictionCoefficient;
+        return this.constrictionCoefficient;
     }
 
     /**

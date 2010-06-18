@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
@@ -35,22 +37,18 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *  @author Gary Pampara
  *  @author Andries Engelbrecht
  */
-public class BareBonesVelocityUpdateStrategy extends StandardVelocityUpdate {
+public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
 
     private static final long serialVersionUID = -823686042197742768L;
+
     protected ProbabilityDistributionFuction randomDistribution;
 
     public BareBonesVelocityUpdateStrategy() {
-        super();
-        randomDistribution = new GaussianDistribution();
-
-        cognitiveAcceleration.setParameter(1.496180);
-        socialAcceleration.setParameter(1.496180);
+        this.randomDistribution = new GaussianDistribution();
     }
 
     public BareBonesVelocityUpdateStrategy(BareBonesVelocityUpdateStrategy copy) {
-        super(copy);
-        randomDistribution = copy.getRandomDistribution();
+        this.randomDistribution = copy.randomDistribution;
     }
 
     @Override
@@ -59,32 +57,34 @@ public class BareBonesVelocityUpdateStrategy extends StandardVelocityUpdate {
     }
 
     @Override
-    public void updateVelocity(Particle particle) {
-        Vector velocity = (Vector) particle.getVelocity();
+    public Vector get(Particle particle) {
         Vector personalBestPosition = (Vector) particle.getBestPosition();
         Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
+        Vector.Builder builder = new Vector.Builder();
         for (int i = 0; i < particle.getDimension(); ++i) {
-            velocity.setReal(i, bareBonesUpdate(i, personalBestPosition, nBestPosition));
+            //double tmp1 = cognitive.getParameter();
+            //double tmp2 = social.getParameter();
+
+            double sigma = Math.abs(personalBestPosition.doubleValueOf(i) - nBestPosition.doubleValueOf(i));
+            //according to Kennedy
+            double mean = (personalBestPosition.doubleValueOf(i) + nBestPosition.doubleValueOf(i)) / 2;
+            //andries proposal: double mean = (tmp1*personalBestPosition.getReal(i) + tmp2*nBestPosition.getReal(i)) / (tmp1+tmp2);
+
+            builder.add(this.randomDistribution.getRandomNumber(mean, sigma));
         }
+        return builder.build();
     }
 
-    protected double bareBonesUpdate(int i, Vector personalBestPosition, Vector nBestPosition) {
-        //double tmp1 = cognitiveAcceleration.getParameter() * r1.nextDouble();
-        //double tmp2 = socialAcceleration.getParameter() * r2.nextDouble();
-
-        double sigma = Math.abs(personalBestPosition.doubleValueOf(i) - nBestPosition.doubleValueOf(i));
-        //according to Kennedy
-        double mean = (personalBestPosition.doubleValueOf(i) + nBestPosition.doubleValueOf(i)) / 2;
-        //andries proposal: double mean = (tmp1*personalBestPosition.getReal(i) + tmp2*nBestPosition.getReal(i)) / (tmp1+tmp2);
-        return randomDistribution.getRandomNumber(mean, sigma);
+    @Override
+    public void updateControlParameters(Particle particle) {
     }
 
     public ProbabilityDistributionFuction getRandomDistribution() {
-        return randomDistribution;
+        return this.randomDistribution;
     }
 
     public void setRandomDistribution(ProbabilityDistributionFuction pdf) {
-        randomDistribution = pdf;
+        this.randomDistribution = pdf;
     }
 }

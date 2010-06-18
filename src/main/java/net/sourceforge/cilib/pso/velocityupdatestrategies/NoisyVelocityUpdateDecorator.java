@@ -34,11 +34,13 @@ import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
  */
 public class NoisyVelocityUpdateDecorator implements VelocityUpdateStrategy {
 
+    private static final long serialVersionUID = -4398497101382747367L;
     private ProbabilityDistributionFuction distribution;
     private VelocityUpdateStrategy delegate;
 
     public NoisyVelocityUpdateDecorator() {
-        distribution = new GaussianDistribution();
+        this.distribution = new GaussianDistribution();
+        this.delegate = new StandardVelocityUpdate();
     }
 
     public NoisyVelocityUpdateDecorator(NoisyVelocityUpdateDecorator rhs) {
@@ -47,16 +49,13 @@ public class NoisyVelocityUpdateDecorator implements VelocityUpdateStrategy {
     }
 
     @Override
-    public void updateVelocity(Particle particle) {
-        //add random noise to particle's velocity
-        Vector velocity = (Vector) particle.getVelocity();
-
-        for (int i = 0; i < velocity.getDimension(); i++) {
-            double value = velocity.getReal(i);
-            velocity.setReal(i, value + distribution.getRandomNumber());
+    public Vector get(Particle particle) {
+        Vector velocity = this.delegate.get(particle);
+        Vector.Builder builder = new Vector.Builder();
+        for (int i = 0; i < velocity.size(); i++) {
+            builder.add(velocity.get(i).doubleValue() + this.distribution.getRandomNumber());
         }
-
-        delegate.updateVelocity(particle);
+        return builder.build();
     }
 
     @Override

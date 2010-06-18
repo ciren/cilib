@@ -23,6 +23,7 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.KnuthSubtractive;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
@@ -34,9 +35,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author engel
  */
-public class LinearVelocityUpdate extends StandardVelocityUpdate {
+public class LinearVelocityUpdate implements VelocityUpdateStrategy {
 
     private static final long serialVersionUID = -1624326615681760823L;
+
+    protected ControlParameter inertiaWeight;
+    protected ControlParameter socialAcceleration;
+    protected ControlParameter cognitiveAcceleration;
 
     private RandomProvider socialRandomGenerator;
     private RandomProvider cognitiveRandomGenerator;
@@ -45,52 +50,60 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
      * Create an instance of {@linkplain LinearVelocityUpdate}.
      */
     public LinearVelocityUpdate() {
-        super();
-
         // Resetting the social and cognitive components is required to ensure
         // that during the velocity update process, only 1 random number is used.
-        this.cognitiveAcceleration = new ConstantControlParameter();
-        this.socialAcceleration = new ConstantControlParameter();
+        this.inertiaWeight = new ConstantControlParameter(0.729844);
+        this.socialAcceleration = new ConstantControlParameter(1.496180);
+        this.cognitiveAcceleration = new ConstantControlParameter(1.496180);
 
-        this.cognitiveAcceleration.setParameter(1.496180);
-        this.socialAcceleration.setParameter(1.496180);
-
-        socialRandomGenerator = new KnuthSubtractive();
-        cognitiveRandomGenerator = new KnuthSubtractive();
+        this.socialRandomGenerator = new KnuthSubtractive();
+        this.cognitiveRandomGenerator = new KnuthSubtractive();
     }
 
+    public LinearVelocityUpdate(LinearVelocityUpdate copy) {
+        this.inertiaWeight = copy.inertiaWeight.getClone();
+        this.socialAcceleration = copy.socialAcceleration.getClone();
+        this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
+
+        this.socialRandomGenerator = new KnuthSubtractive();
+        this.cognitiveRandomGenerator = new KnuthSubtractive();
+    }
+
+    @Override
+    public VelocityUpdateStrategy getClone() {
+        return new LinearVelocityUpdate(this);
+    }
 
     /**
      * {@inheritDoc}
      */
-    public void updateVelocity(Particle particle) {
+    @Override
+    public Vector get(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getPosition();
         Vector bestPosition = (Vector) particle.getBestPosition();
         Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
-        float social = socialRandomGenerator.nextFloat();
-        float cognitive = cognitiveRandomGenerator.nextFloat();
+        float social = this.socialRandomGenerator.nextFloat();
+        float cognitive = this.cognitiveRandomGenerator.nextFloat();
 
+        Vector.Builder builder = new Vector.Builder();
         for (int i = 0; i < particle.getDimension(); ++i) {
-            double tmp = inertiaWeight.getParameter()*velocity.doubleValueOf(i) +
-                cognitive  * cognitiveAcceleration.getParameter() * (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) +
-                social * socialAcceleration.getParameter() * (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i));
-            velocity.setReal(i, tmp);
-
-            clamp(velocity, i);
+            double value = this.inertiaWeight.getParameter()*velocity.doubleValueOf(i) +
+                cognitive  * this.cognitiveAcceleration.getParameter() * (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) +
+                social * this.socialAcceleration.getParameter() * (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i));
+            builder.add(value);
         }
+        return builder.build();
     }
-
 
     /**
      * Return the random number generator for the cognitive component.
      * @return Returns the random number generator for the cognitive component.
      */
     public RandomProvider getCongnitiveRandomGenerator() {
-        return cognitiveRandomGenerator;
+        return this.cognitiveRandomGenerator;
     }
-
 
     /**
      * @param congnitiveRandomGenerator The congnitiveRandomGenerator to set.
@@ -99,19 +112,24 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
         this.cognitiveRandomGenerator = congnitiveRandomGenerator;
     }
 
-
     /**
      * @return Returns the socialRandomGenerator.
      */
     public RandomProvider getSocialRandomGenerator() {
-        return socialRandomGenerator;
+        return this.socialRandomGenerator;
     }
-
 
     /**
      * @param socialRandomGenerator The socialRandomGenerator to set.
      */
     public void setSocialRandomGenerator(RandomProvider socialRandomGenerator) {
         this.socialRandomGenerator = socialRandomGenerator;
+    }
+
+    @Override
+    public void updateControlParameters(Particle particle) {
+        this.inertiaWeight.updateParameter();
+        this.socialAcceleration.updateParameter();
+        this.cognitiveAcceleration.updateParameter();
     }
 }

@@ -29,7 +29,6 @@ import net.sourceforge.cilib.math.random.generator.SeedSelectionStrategy;
 import net.sourceforge.cilib.math.random.generator.Seeder;
 import net.sourceforge.cilib.math.random.generator.ZeroSeederStrategy;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -57,19 +56,19 @@ public class ConstrictionVelocityUpdateTest {
         ConstrictionVelocityUpdate copy = original.getClone();
 
         Assert.assertEquals(original.getKappa().getParameter(), copy.getKappa().getParameter(), Maths.EPSILON);
-        Assert.assertEquals(original.getVMax().getParameter(), copy.getVMax().getParameter(), Maths.EPSILON);
-        Assert.assertEquals(original.getCognitiveAcceleration().getParameter(),copy.getCognitiveAcceleration().getParameter(), Maths.EPSILON);
+        //Assert.assertEquals(original.getVMax().getParameter(), copy.getVMax().getParameter(), Maths.EPSILON);
+        Assert.assertEquals(original.getCognitiveAcceleration().getParameter(), copy.getCognitiveAcceleration().getParameter(), Maths.EPSILON);
         Assert.assertEquals(original.getSocialAcceleration().getParameter(), copy.getSocialAcceleration().getParameter(), Maths.EPSILON);
 
         copy.setKappa(new ConstantControlParameter(0.7));
-        copy.setVMax(new ConstantControlParameter(0.7));
+        //copy.setVMax(new ConstantControlParameter(0.7));
         ConstantControlParameter controlParameter = new ConstantControlParameter();
         controlParameter.setParameter(4.0);
         copy.setSocialAcceleration(controlParameter.getClone());
         copy.setCognitiveAcceleration(controlParameter.getClone());
 
         Assert.assertFalse(Double.compare(original.getKappa().getParameter(), copy.getKappa().getParameter()) == 0);
-        Assert.assertFalse(Double.compare(original.getVMax().getParameter(), copy.getVMax().getParameter()) == 0);
+        //Assert.assertFalse(Double.compare(original.getVMax().getParameter(), copy.getVMax().getParameter()) == 0);
         Assert.assertFalse(Double.compare(original.getCognitiveAcceleration().getParameter(),
                 (copy.getCognitiveAcceleration()).getParameter()) == 0);
         Assert.assertFalse(Double.compare(original.getSocialAcceleration().getParameter(),
@@ -93,9 +92,8 @@ public class ConstrictionVelocityUpdateTest {
             nBest.setNeighbourhoodBest(nBest);
 
             ConstrictionVelocityUpdate velocityUpdate = new ConstrictionVelocityUpdate();
-            velocityUpdate.updateVelocity(particle);
+            Vector velocity = velocityUpdate.get(particle);
 
-            Vector velocity = (Vector) particle.getVelocity();
             Assert.assertEquals(1.2189730956981684, velocity.doubleValueOf(0), Maths.EPSILON);
         } finally {
             Seeder.setSeederStrategy(strategy);
@@ -116,8 +114,8 @@ public class ConstrictionVelocityUpdateTest {
             nBest.setNeighbourhoodBest(nBest);
             Particle clone = particle.getClone();
 
-            particle.getVelocityUpdateStrategy().updateVelocity(particle);
-            clone.getVelocityUpdateStrategy().updateVelocity(particle);
+            particle.getVelocityUpdateStrategy().get(particle);
+            clone.getVelocityUpdateStrategy().get(particle);
 
             double kappa = 1.0;
             double c1 = 2.05;
@@ -156,32 +154,12 @@ public class ConstrictionVelocityUpdateTest {
         velocityUpdate.setCognitiveAcceleration(controlParameter);
         velocityUpdate.setSocialAcceleration(controlParameter);
 
-        mockery.checking(new Expectations() {{
-            ignoring(particle);
-        }});
+        mockery.checking(new Expectations() {
+            {
+                ignoring(particle);
+            }
+        });
 
-        velocityUpdate.updateVelocity(particle);
-    }
-
-    /**
-     * Test velocity clamping.
-     */
-    @Test
-    public void testClamping() {
-        Particle particle = createParticle(Vector.of(0.0));
-        Particle nBest = createParticle(Vector.of(1.0));
-        particle.setNeighbourhoodBest(nBest);
-        nBest.setNeighbourhoodBest(nBest);
-
-        ConstrictionVelocityUpdate constrictionVelocityUpdate = new ConstrictionVelocityUpdate();
-        constrictionVelocityUpdate.setVMax(new ConstantControlParameter(0.5));
-        constrictionVelocityUpdate.updateVelocity(particle);
-        Vector velocity = (Vector) particle.getVelocity();
-
-        for (Numeric number : velocity) {
-            Assert.assertTrue(Double.compare(number.doubleValue(), 0.5) <= 0);
-            Assert.assertTrue(Double.compare(number.doubleValue(), -0.5) >= 0);
-        }
-
+        velocityUpdate.get(particle);
     }
 }

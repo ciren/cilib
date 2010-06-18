@@ -29,6 +29,8 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.LinearDecreasingControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -57,22 +59,29 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Olusegun Olorunda
  */
-public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
+public class FDRVelocityUpdateStrategy implements VelocityUpdateStrategy {
+
     private static final long serialVersionUID = -7117135203986406944L;
-    protected ControlParameter fdrMaximizerAcceleration;
+
+    private ControlParameter fdrMaximizerAcceleration;
+    private RandomProvider randomProvider;
+
+    private StandardVelocityUpdate delegate;
 
     public FDRVelocityUpdateStrategy() {
-        inertiaWeight = new LinearDecreasingControlParameter();
-        fdrMaximizerAcceleration = new ConstantControlParameter();
+        this.fdrMaximizerAcceleration = new ConstantControlParameter(2);
+        this.randomProvider = new MersenneTwister();
 
-        cognitiveAcceleration.setParameter(1);
-        socialAcceleration.setParameter(1);
-        fdrMaximizerAcceleration.setParameter(2);
+        this.delegate = new StandardVelocityUpdate();
+        this.delegate.setInertiaWeight(new LinearDecreasingControlParameter());
+        this.delegate.setCognitiveAcceleration(new ConstantControlParameter(1));
+        this.delegate.setSocialAcceleration(new ConstantControlParameter(2));
     }
 
     public FDRVelocityUpdateStrategy(FDRVelocityUpdateStrategy copy) {
-        super(copy);
         this.fdrMaximizerAcceleration = copy.fdrMaximizerAcceleration.getClone();
+        this.randomProvider = new MersenneTwister();
+        this.delegate = copy.delegate.getClone();
     }
 
     /**
@@ -87,12 +96,12 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
      * {@inheritDoc}
      */
     @Override
-    public void updateVelocity(Particle particle) {
-        Vector velocity = (Vector) particle.getVelocity();
+    public Vector get(Particle particle) {
         Vector position = (Vector) particle.getPosition();
-        Vector bestPosition = (Vector) particle.getBestPosition();
-        Vector neighbourhoodBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
+        Vector standardVelocity = this.delegate.get(particle);
+
+        Vector.Builder builder = new Vector.Builder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             Topology<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
             Iterator<Particle> swarmIterator = topology.iterator();
@@ -117,30 +126,26 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
             }
 
             Vector fdrMaximizerPosition = (Vector) fdrMaximizer.getBestPosition();
-
-            double value = (inertiaWeight.getParameter() * velocity.doubleValueOf(i)) +
-                        cognitiveAcceleration.getParameter() * (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) +
-                        socialAcceleration.getParameter() * (neighbourhoodBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) +
-                        fdrMaximizerAcceleration.getParameter() * r1.nextDouble() * (fdrMaximizerPosition.doubleValueOf(i) - position.doubleValueOf(i));
-
-            velocity.setReal(i, value);
-            clamp(velocity, i);
+            builder.add(standardVelocity.doubleValueOf(i) + this.fdrMaximizerAcceleration.getParameter() * this.randomProvider.nextDouble()
+                    * (fdrMaximizerPosition.doubleValueOf(i) - position.doubleValueOf(i)));
         }
+        return builder.build();
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void updateControlParameters(Particle particle) {
-        super.updateControlParameters(particle);
-        fdrMaximizerAcceleration.updateParameter();
+        this.delegate.updateControlParameters(particle);
+        this.fdrMaximizerAcceleration.updateParameter();
     }
 
     /**
      * @return the fdrMaximizerAcceleration
      */
     public ControlParameter getFdrMaximizerAcceleration() {
-        return fdrMaximizerAcceleration;
+        return this.fdrMaximizerAcceleration;
     }
 
     /**
@@ -150,5 +155,4 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
     public void setFdrMaximizerAcceleration(ControlParameter fdrMaximizerAcceleration) {
         this.fdrMaximizerAcceleration = fdrMaximizerAcceleration;
     }
-
 }

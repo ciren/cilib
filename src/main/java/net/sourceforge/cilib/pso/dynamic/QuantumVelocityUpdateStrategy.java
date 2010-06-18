@@ -23,6 +23,8 @@ package net.sourceforge.cilib.pso.dynamic;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
+import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Velocity update strategy for QSO (Quantum PSO). Implemented according
@@ -32,23 +34,31 @@ import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate
  * @author Anna Rakitianskaia
  *
  */
-public class QuantumVelocityUpdateStrategy extends StandardVelocityUpdate {
+public class QuantumVelocityUpdateStrategy implements VelocityUpdateStrategy {
 
     private static final long serialVersionUID = -940568473388702506L;
     private static final double EPSILON = 0.000000001;
+    
+    private VelocityUpdateStrategy delegate;
 
     /**
      * Create a new instance of {@linkplain QuantumPositionUpdateStrategy}.
      */
     public QuantumVelocityUpdateStrategy() {
+        this.delegate = new StandardVelocityUpdate();
     }
 
     /**
      * Create an copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public QuantumVelocityUpdateStrategy(StandardVelocityUpdate copy) {
-        super(copy);
+    public QuantumVelocityUpdateStrategy(QuantumVelocityUpdateStrategy copy) {
+        this.delegate = copy.delegate.getClone();
+    }
+
+    @Override
+    public QuantumVelocityUpdateStrategy getClone() {
+        return new QuantumVelocityUpdateStrategy(this);
     }
 
     /**
@@ -57,10 +67,17 @@ public class QuantumVelocityUpdateStrategy extends StandardVelocityUpdate {
      * not use the velocity to update their positions.
      * @param particle the particle to update position of
      */
-    public void updateVelocity(Particle particle) {
+    @Override
+    public Vector get(Particle particle) {
         ChargedParticle checkChargeParticle = (ChargedParticle) particle;
-        if(checkChargeParticle.getCharge() < EPSILON) {    // the particle is neutral
-            super.updateVelocity(particle);
+        if (checkChargeParticle.getCharge() < EPSILON) {    // the particle is neutral
+            return this.delegate.get(particle);
         }
+        return (Vector) particle.getVelocity().getClone();
+    }
+
+    @Override
+    public void updateControlParameters(Particle particle) {
+        this.delegate.updateControlParameters(particle);
     }
 }

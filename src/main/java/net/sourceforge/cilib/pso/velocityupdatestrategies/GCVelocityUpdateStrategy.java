@@ -26,6 +26,8 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.pso.PSO;
@@ -57,15 +59,23 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * on the specified problem domain. For example, a <code>rho</code> value of 1.0 is not a good
  * value within problems which have a domain that spans <code>[0,1]</code>
  */
-public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
+public class GCVelocityUpdateStrategy implements VelocityUpdateStrategy {
 
     private static final long serialVersionUID = 5985694749940610522L;
+
+    private VelocityUpdateStrategy delegate;
+
+    private ControlParameter inertiaWeight;
+    private RandomProvider randomProvider;
+    
     private ControlParameter rhoLowerBound;
     private ControlParameter rho;
+
     private int successCount;
     private int failureCount;
     private int successCountThreshold;
     private int failureCountThreshold;
+
     private Fitness oldFitness;
     private ControlParameter rhoExpandCoefficient;
     private ControlParameter rhoContractCoefficient;
@@ -74,19 +84,22 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
      * Create an instance of the GC Velocity Update strategy.
      */
     public GCVelocityUpdateStrategy() {
-        super();
-        oldFitness = InferiorFitness.instance();
+        this.delegate = new StandardVelocityUpdate();
 
-        rho = new ConstantControlParameter(1.0);
-        rhoLowerBound = new ConstantControlParameter(1.0e-323);
-        successCount = 0;
-        failureCount = 0;
-        successCountThreshold = 15;
-        failureCountThreshold = 5;
-        rhoExpandCoefficient = new ConstantControlParameter(1.2);
-        rhoContractCoefficient = new ConstantControlParameter(0.5);
+        this.inertiaWeight = new ConstantControlParameter(0.729844);
+        this.randomProvider = new MersenneTwister();
+        
+        this.rho = new ConstantControlParameter(1.0);
+        this.rhoLowerBound = new ConstantControlParameter(1.0e-323);
 
-        vMax = new ConstantControlParameter(0.5); // This needs to be set dynamically - this is not valid for all problems
+        this.successCount = 0;
+        this.failureCount = 0;
+        this.successCountThreshold = 15;
+        this.failureCountThreshold = 5;
+
+        this.oldFitness = InferiorFitness.instance();
+        this.rhoExpandCoefficient = new ConstantControlParameter(1.2);
+        this.rhoContractCoefficient = new ConstantControlParameter(0.5);
     }
 
     /**
@@ -94,19 +107,20 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
      * @param copy The instance to copy.
      */
     public GCVelocityUpdateStrategy(GCVelocityUpdateStrategy copy) {
-        super(copy);
-        this.oldFitness = copy.oldFitness.getClone();
-
+        this.delegate = copy.delegate.getClone();
+        this.randomProvider = new MersenneTwister();
+        
         this.rho = copy.rho.getClone();
         this.rhoLowerBound = copy.rhoLowerBound.getClone();
+        
         this.successCount = copy.successCount;
         this.failureCount = copy.failureCount;
         this.successCountThreshold = copy.successCountThreshold;
         this.failureCountThreshold = copy.failureCountThreshold;
+
+        this.oldFitness = copy.oldFitness.getClone();
         this.rhoExpandCoefficient = copy.rhoExpandCoefficient.getClone();
         this.rhoContractCoefficient = copy.rhoContractCoefficient.getClone();
-
-        this.vMax = copy.vMax.getClone();
     }
 
     /**
@@ -121,7 +135,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
      * {@inheritDoc}
      */
     @Override
-    public void updateVelocity(Particle particle) {
+    public Vector get(Particle particle) {
         PSO pso = (PSO) AbstractAlgorithm.get();
         final Particle globalBest = pso.getTopology().getBestEntity(new SocialBestFitnessComparator<Particle>());
 
@@ -130,20 +144,21 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
             final Vector position = (Vector) particle.getPosition();
             final Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getPosition();
 
+            Vector.Builder builder = new Vector.Builder();
             for (int i = 0; i < velocity.size(); ++i) {
                 double component = -position.doubleValueOf(i) + nBestPosition.doubleValueOf(i)
                         + this.inertiaWeight.getParameter() * velocity.doubleValueOf(i)
-                        + rho.getParameter() * (1 - 2 * r2.nextDouble());
-
-                velocity.setReal(i, component);
-                clamp(velocity, i);
+                        + this.rho.getParameter() * (1 - 2 * this.randomProvider.nextDouble());
+                builder.add(component);
             }
 
-            oldFitness = particle.getFitness().getClone(); // Keep a copy of the old Fitness object - particle.calculateFitness() within the IterationStrategy resets the fitness value
-            return;
+            this.oldFitness = particle.getFitness().getClone(); // Keep a copy of the old Fitness object - particle.calculateFitness() within the IterationStrategy resets the fitness value
+            
+            return builder.build();
         }
-
-        super.updateVelocity(particle);
+        else {
+            return this.delegate.get(particle);
+        }
     }
 
     /**
@@ -169,9 +184,10 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
             return;
         }
 
-        failureCount = 0;
-        successCount = 0;
-        super.updateControlParameters(particle);
+        this.failureCount = 0;
+        this.successCount = 0;
+
+        this.delegate.updateControlParameters(particle);
     }
 
     /**
@@ -182,23 +198,31 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
         double tmp = 0.0;
 
         Bounds component = position.boundsOf(0);
-        double average = (component.getUpperBound() - component.getLowerBound()) / rhoExpandCoefficient.getParameter();
+        double average = (component.getUpperBound() - component.getLowerBound()) / this.rhoExpandCoefficient.getParameter();
 
-        if (successCount >= successCountThreshold) {
-            tmp = rhoExpandCoefficient.getParameter() * rho.getParameter();
+        if (this.successCount >= this.successCountThreshold) {
+            tmp = this.rhoExpandCoefficient.getParameter() * this.rho.getParameter();
         }
-        if (failureCount >= failureCountThreshold) {
-            tmp = rhoContractCoefficient.getParameter() * rho.getParameter();
+        if (this.failureCount >= this.failureCountThreshold) {
+            tmp = this.rhoContractCoefficient.getParameter() * this.rho.getParameter();
         }
 
-        if (tmp <= rhoLowerBound.getParameter()) {
-            tmp = rhoLowerBound.getParameter();
+        if (tmp <= this.rhoLowerBound.getParameter()) {
+            tmp = this.rhoLowerBound.getParameter();
         }
         if (tmp >= average) {
             tmp = average;
         }
 
-        rho.setParameter(tmp);
+        this.rho.setParameter(tmp);
+    }
+
+    public VelocityUpdateStrategy getDelegate() {
+        return this.delegate;
+    }
+
+    public void setDelegate(VelocityUpdateStrategy delegate) {
+        this.delegate = delegate;
     }
 
     /**
@@ -206,7 +230,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
      * @return The lower-bound value for <code>rho</code>.
      */
     public ControlParameter getRhoLowerBound() {
-        return rhoLowerBound;
+        return this.rhoLowerBound;
     }
 
     /**
@@ -222,7 +246,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
      * @return The current value for <code>rho</code>.
      */
     public ControlParameter getRho() {
-        return rho;
+        return this.rho;
     }
 
     /**
@@ -238,7 +262,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
      * @return The success threshold.
      */
     public int getSuccessCountThreshold() {
-        return successCountThreshold;
+        return this.successCountThreshold;
     }
 
     /**
@@ -254,7 +278,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
      * @return The failure threshold.
      */
     public int getFailureCountThreshold() {
-        return failureCountThreshold;
+        return this.failureCountThreshold;
     }
 
     /**
@@ -270,7 +294,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
      * @return The expansion coefficient value.
      */
     public ControlParameter getRhoExpandCoefficient() {
-        return rhoExpandCoefficient;
+        return this.rhoExpandCoefficient;
     }
 
     /**
@@ -286,7 +310,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
      * @return The contraction coefficient value.
      */
     public ControlParameter getRhoContractCoefficient() {
-        return rhoContractCoefficient;
+        return this.rhoContractCoefficient;
     }
 
     /**

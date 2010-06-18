@@ -25,25 +25,38 @@ import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author Olusegun Olorunda
  */
-public class FIPSVelocityUpdate extends StandardVelocityUpdate {
+public class FIPSVelocityUpdate implements VelocityUpdateStrategy {
+
     private static final long serialVersionUID = 6391914534943249737L;
 
+    private ControlParameter inertiaWeight;
+    private ControlParameter socialAcceleration;
+    private ControlParameter cognitiveAcceleration;
+    private RandomProvider randomProvider;
+
     public FIPSVelocityUpdate() {
-        super();
-        cognitiveAcceleration = new ConstantControlParameter(1.496180);
-        socialAcceleration = new ConstantControlParameter(1.496180);
+        this.inertiaWeight = new ConstantControlParameter(0.729844);
+        this.socialAcceleration = new ConstantControlParameter(1.496180);
+        this.cognitiveAcceleration = new ConstantControlParameter(1.496180);
+        this.randomProvider = new MersenneTwister();
     }
 
     public FIPSVelocityUpdate(FIPSVelocityUpdate copy) {
-        super(copy);
+        this.inertiaWeight = copy.inertiaWeight.getClone();
+        this.socialAcceleration = copy.socialAcceleration.getClone();
+        this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
+        this.randomProvider = new MersenneTwister();
     }
 
     @Override
@@ -52,7 +65,7 @@ public class FIPSVelocityUpdate extends StandardVelocityUpdate {
     }
 
     @Override
-    public void updateVelocity(Particle particle) {
+    public Vector get(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getPosition();
 
@@ -66,6 +79,7 @@ public class FIPSVelocityUpdate extends StandardVelocityUpdate {
             }
         }
 
+        Vector.Builder builder = new Vector.Builder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             double informationSum = 0.0;
             int numberOfNeighbours = 0;
@@ -76,17 +90,25 @@ public class FIPSVelocityUpdate extends StandardVelocityUpdate {
                 Particle currentTarget = neighborhoodIterator.next();
                 Vector currentTargetPosition = (Vector) currentTarget.getBestPosition();
 
-                double randomComponent = (cognitiveAcceleration.getParameter() + socialAcceleration.getParameter())*r1.nextDouble();
+                double randomComponent = (this.cognitiveAcceleration.getParameter() + this.socialAcceleration.getParameter()) * this.randomProvider.nextDouble();
 
                 informationSum += randomComponent * (currentTargetPosition.doubleValueOf(i) - position.doubleValueOf(i));
 
                 numberOfNeighbours++;
             }
 
-            double value = inertiaWeight.getParameter() * (velocity.doubleValueOf(i) + (informationSum / numberOfNeighbours));
+            double value = this.inertiaWeight.getParameter() * (velocity.doubleValueOf(i) + (informationSum / numberOfNeighbours));
 
-            velocity.setReal(i, value);
-            clamp(velocity, i);
+            builder.add(value);
         }
+
+        return builder.build();
+    }
+
+    @Override
+    public void updateControlParameters(Particle particle) {
+        this.inertiaWeight.updateParameter();
+        this.socialAcceleration.updateParameter();
+        this.cognitiveAcceleration.updateParameter();
     }
 }

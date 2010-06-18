@@ -61,17 +61,14 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      * Create a new instance of the {@linkplain BareBonesDEVelocityUpdate}.
      */
     public BareBonesDEVelocityUpdate() {
-        rand1 = new UniformDistribution();
-        rand2 = new UniformDistribution();
-        rand3 = new UniformDistribution();
-        r1 = new MersenneTwister();
-        r2 = new MersenneTwister();
-        cognitive = new ConstantControlParameter();
-        social = new ConstantControlParameter();
-        crossoverProbability = new ConstantControlParameter(0.5);
-
-        cognitive.setParameter(1);
-        social.setParameter(1);
+        this.rand1 = new UniformDistribution();
+        this.rand2 = new UniformDistribution();
+        this.rand3 = new UniformDistribution();
+        this.r1 = new MersenneTwister();
+        this.r2 = new MersenneTwister();
+        this.cognitive = new ConstantControlParameter(1);
+        this.social = new ConstantControlParameter(1);
+        this.crossoverProbability = new ConstantControlParameter(0.5);
     }
 
     /**
@@ -80,10 +77,9 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      */
     public BareBonesDEVelocityUpdate(BareBonesDEVelocityUpdate copy) {
         this();
-
-        cognitive.setParameter(copy.cognitive.getParameter());
-        social.setParameter(copy.social.getParameter());
-        crossoverProbability.setParameter(copy.crossoverProbability.getParameter());
+        this.cognitive.setParameter(copy.cognitive.getParameter());
+        this.social.setParameter(copy.social.getParameter());
+        this.crossoverProbability.setParameter(copy.crossoverProbability.getParameter());
     }
 
     /**
@@ -98,10 +94,9 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      * {@inheritDoc}
      */
     @Override
-    public void updateVelocity(Particle particle) {
+    public Vector get(Particle particle) {
         Vector personalBestPosition = (Vector) particle.getBestPosition();
         Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
-        Vector velocity = (Vector) particle.getVelocity();
 
         PSO pso = (PSO) AbstractAlgorithm.get();
         List<Entity> positions = getRandomParentEntities(pso.getTopology());
@@ -112,17 +107,20 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
         Vector position1 = (Vector) positions.get(0).getCandidateSolution();
         Vector position2 = (Vector) positions.get(1).getCandidateSolution();
 //        Vector position3 = (Vector) positions.get(2).getContents();
+
+        Vector.Builder builder = new Vector.Builder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             double r = pdf.getRandomNumber(0, 1);
             double attractor = r * personalBestPosition.doubleValueOf(i) + (1 - r) * nBestPosition.doubleValueOf(i);
-            double stepSize = rand3.getRandomNumber(0, 1) * (position1.doubleValueOf(i) - position2.doubleValueOf(i));
+            double stepSize = this.rand3.getRandomNumber(0, 1) * (position1.doubleValueOf(i) - position2.doubleValueOf(i));
 
-            if (rand2.getRandomNumber(0, 1) > crossoverProbability.getParameter()) {
-                velocity.setReal(i, attractor + stepSize);
+            if (this.rand2.getRandomNumber(0, 1) > this.crossoverProbability.getParameter()) {
+                builder.add(attractor + stepSize);
             } else {
-                velocity.setReal(i, ((Vector) particle.getPosition()).doubleValueOf(i)); //position3.getReal(i));
+                builder.add(((Vector) particle.getPosition()).doubleValueOf(i)); //position3.getReal(i));
             }
         }
+        return builder.build();
     }
 
     /**
@@ -155,7 +153,6 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      */
     @Override
     public void updateControlParameters(Particle particle) {
-        // TODO Auto-generated method stub
     }
 
     /**
@@ -163,7 +160,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      * @return The first {@linkplain RandomNumber}.
      */
     public ProbabilityDistributionFuction getRand1() {
-        return rand1;
+        return this.rand1;
     }
 
     /**
@@ -179,7 +176,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      * @return The second {@linkplain RandomNumber}.
      */
     public ProbabilityDistributionFuction getRand2() {
-        return rand2;
+        return this.rand2;
     }
 
     /**
@@ -195,7 +192,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      * @return The third {@linkplain RandomNumber}.
      */
     public ProbabilityDistributionFuction getRand3() {
-        return rand3;
+        return this.rand3;
     }
 
     /**
@@ -211,7 +208,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      * @return The cognitive component.
      */
     public ControlParameter getCognitive() {
-        return cognitive;
+        return this.cognitive;
     }
 
     /**
@@ -227,7 +224,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      * @return The social component.
      */
     public ControlParameter getSocial() {
-        return social;
+        return this.social;
     }
 
     /**
@@ -243,7 +240,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      * @return The cross over probability {@linkplain ControlParameter}.
      */
     public ControlParameter getCrossoverProbability() {
-        return crossoverProbability;
+        return this.crossoverProbability;
     }
 
     /**
