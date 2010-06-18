@@ -87,7 +87,7 @@
     </problems>
 
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">
-        <addMeasurement class="measurement.multiple.ParetoOptimalFront"/>
+        <addMeasurement class="measurement.multiple.moo.ParetoOptimalFront"/>
     </measurements>
 
     <simulations>

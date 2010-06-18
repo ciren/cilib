@@ -47,6 +47,16 @@ public final class OptimisationSolution implements Solution, Comparable<Optimisa
         this.fitness = fitness.getClone();
     }
 
+    public OptimisationSolution(OptimisationSolution copy) {
+        this.position = copy.position.getClone();
+        this.fitness = copy.fitness.getClone();
+    }
+
+    @Override
+    public OptimisationSolution getClone() {
+        return new OptimisationSolution(this);
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) {

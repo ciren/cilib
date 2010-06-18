@@ -24,8 +24,6 @@ package net.sourceforge.cilib.moo.archive.unconstrained;
 import java.util.Collection;
 import java.util.Iterator;
 
-import java.util.List;
-import java.util.ListIterator;
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 
@@ -44,20 +42,26 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * </ul>
  * </p>
  */
-public class QuadTree extends Archive {
+public class QuadTree implements Archive {
 
     @Override
-    public Collection<OptimisationSolution> dominates(
-            OptimisationSolution candidateSolution) {
-        // TODO Auto-generated method stub
-        return null;
+    public boolean dominates(OptimisationSolution candidateSolution) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Collection<OptimisationSolution> isDominatedBy(
-            OptimisationSolution candidateSolution) {
-        // TODO Auto-generated method stub
-        return null;
+    public boolean isDominatedBy(OptimisationSolution candidateSolution) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Collection<OptimisationSolution> getDominant(OptimisationSolution candidateSolution) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Collection<OptimisationSolution> getDominated(OptimisationSolution candidateSolution) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -135,55 +139,5 @@ public class QuadTree extends Archive {
     public <T> T[] toArray(T[] a) {
         // TODO Auto-generated method stub
         return null;
-    }
-
-    @Override
-    public boolean addAll(int index, Collection<? extends OptimisationSolution> c) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public OptimisationSolution get(int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public OptimisationSolution set(int index, OptimisationSolution element) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void add(int index, OptimisationSolution element) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public OptimisationSolution remove(int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int indexOf(Object o) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int lastIndexOf(Object o) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ListIterator<OptimisationSolution> listIterator() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ListIterator<OptimisationSolution> listIterator(int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<OptimisationSolution> subList(int fromIndex, int toIndex) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -19,24 +19,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.particle;
+package net.sourceforge.cilib.functions.continuous.moo;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * TODO: Complete this javadoc.
+ *
+ * @author Wiehann Matthysen
  */
-public class MultiObjectiveParticle extends StandardParticle {
-    private static final long serialVersionUID = 2449622504036301616L;
+final class T_f1 implements ContinuousFunction {
 
-    public void setBestPosition(Type bestPosition) {
-        Fitness bestPositionFitness = AbstractAlgorithm.get().getOptimisationProblem().getFitness(bestPosition);
+    private static final long serialVersionUID = 921516091265963637L;
 
-        this.getProperties().put(EntityType.Particle.BEST_POSITION, bestPosition.getClone());
-        this.getProperties().put(EntityType.Particle.BEST_FITNESS, bestPositionFitness);
+    T_f1() { }
+
+    @Override
+    public Double apply(Vector input) {
+        return input.doubleValueOf(0);
     }
-
 }

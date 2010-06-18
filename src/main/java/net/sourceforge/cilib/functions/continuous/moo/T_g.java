@@ -19,27 +19,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.problem;
+package net.sourceforge.cilib.functions.continuous.moo;
 
-import net.sourceforge.cilib.util.Cloneable;
+import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * This is a common abstraction for all problem classes. All problems should extend this interface.
- * All {@linkplain net.sourceforge.cilib.problem.Problem problems} are effectively dynamic problems
- * where non-dynamic problems are essentially problems that are "frozen" at an arbitrary time step.
  *
- * @author  Edwin Peer
+ * @author Wiehann Matthysen
  */
-public interface Problem extends Cloneable {
+final class T_g implements ContinuousFunction {
 
-    /**
-     * {@inheritDoc}
-     */
+    private static final long serialVersionUID = -1677096322807541565L;
+
+    T_g() { }
+
+
     @Override
-    Problem getClone();
-
-    /**
-     * Change the environment. TODO: this might need to be refactored.
-     */
-    void changeEnvironment();
+    public Double apply(Vector input) {
+        double sum = 0.0;
+        for (int i = 1; i < input.size(); ++i) {
+            sum += input.doubleValueOf(i);
+        }
+        return 1.0 + 9.0 * sum / (input.size() - 1.0);
+    }
 }

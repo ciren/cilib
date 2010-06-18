@@ -36,6 +36,7 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * @author gpampara
  */
 public class ArchiveReevaluationResponseStrategy extends EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm> {
+
     private static final long serialVersionUID = 4757162276962451681L;
 
     @Override
@@ -55,13 +56,12 @@ public class ArchiveReevaluationResponseStrategy extends EnvironmentChangeRespon
         OptimisationProblem problem = populationBasedAlgorithm.getOptimisationProblem();
 
         List<OptimisationSolution> newList = new LinkedList<OptimisationSolution>();
-        for (OptimisationSolution solution : Archive.get()) {
+        for (OptimisationSolution solution : Archive.Provider.get()) {
             OptimisationSolution os = new OptimisationSolution(solution.getPosition(), problem.getFitness(solution.getPosition()));
             newList.add(os);
         }
 
-        Archive.get().clear();
-        Archive.get().addAll(newList);
+        Archive.Provider.get().clear();
+        Archive.Provider.get().addAll(newList);
     }
-
 }

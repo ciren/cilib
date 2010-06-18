@@ -27,7 +27,7 @@ import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.util.selection.recipes.RankBasedSelector;
+import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
 import net.sourceforge.cilib.util.selection.recipes.RingBasedPopulationSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
@@ -45,12 +45,13 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
 public class SelectiveKnowledgeTransferStrategy implements KnowledgeTransferStrategy {
 
     private static final long serialVersionUID = 402688951924934682L;
+
     private Selector<PopulationBasedAlgorithm> populationSelection;
     private Selector<Entity> entitySelection;
 
     public SelectiveKnowledgeTransferStrategy() {
         this.populationSelection = new RingBasedPopulationSelector();
-        this.entitySelection = new RankBasedSelector<Entity>();
+        this.entitySelection = new ElitistSelector<Entity>();
     }
 
     public SelectiveKnowledgeTransferStrategy(SelectiveKnowledgeTransferStrategy copy) {

@@ -21,6 +21,9 @@
  */
 package net.sourceforge.cilib.moo.archive.constrained;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.collect.ForwardingCollection;
 import java.util.Collection;
 
 import net.sourceforge.cilib.moo.archive.Archive;
@@ -33,12 +36,27 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  *
  * @author Wiehann Matthysen
  */
-public abstract class ConstrainedArchive extends Archive {
+public abstract class ConstrainedArchive extends ForwardingCollection<OptimisationSolution> implements Archive {
 
+    private Predicate<OptimisationSolution> predicate;
     private int capacity;
 
     public ConstrainedArchive() {
-        this.capacity = 1000;
+        this.predicate = Predicates.alwaysTrue();
+        this.capacity = 100000;
+    }
+
+    public ConstrainedArchive(ConstrainedArchive copy) {
+        this.predicate = copy.predicate;
+        this.capacity = copy.capacity;
+    }
+
+    public void setPredicate(Predicate<OptimisationSolution> predicate) {
+        this.predicate = predicate;
+    }
+
+    public Predicate<OptimisationSolution> getPredicate() {
+        return this.predicate;
     }
 
     public void setCapacity(int capacity) {
@@ -92,10 +110,10 @@ public abstract class ConstrainedArchive extends Archive {
 
     protected final boolean addNonDominatedSolution(OptimisationSolution candidateSolution) {
         // If no solution in the archive dominates the candidate solution then proceed...
-        if (this.dominates(candidateSolution).size() == 0) {
+        if (this.predicate.apply(candidateSolution) && !this.dominates(candidateSolution)) {
 
             // Remove all the solutions in the archive that is dominated by the candidate solution.
-            removeAll(this.isDominatedBy(candidateSolution));
+            removeAll(getDominated(candidateSolution));
 
             // Add the candidate solution to the archive.
             return addToStructure(candidateSolution);

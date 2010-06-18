@@ -46,14 +46,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class MOVelocityUpdateStrategy extends StandardVelocityUpdate {
 
     private static final long serialVersionUID = -2341493848729967941L;
-
     private GuideSelectionStrategy localGuideSelectionStrategy;
     private GuideSelectionStrategy globalGuideSelectionStrategy;
     private GuideUpdateStrategy localGuideUpdateStrategy;
     private GuideUpdateStrategy globalGuideUpdateStrategy;
 
     public MOVelocityUpdateStrategy() {
-        super();
         this.localGuideSelectionStrategy = new PBestGuideSelectionStrategy();
         this.globalGuideSelectionStrategy = new NBestGuideSelectionStrategy();
         this.localGuideUpdateStrategy = new StandardGuideUpdateStrategy();

@@ -35,6 +35,16 @@ public class DataBasedProblem implements Problem {
         dataProvider = null;
     }
 
+    public DataBasedProblem(DataBasedProblem copy) {
+        this.problem = copy.problem.getClone();
+        this.dataProvider = copy.dataProvider;
+    }
+
+    @Override
+    public DataBasedProblem getClone() {
+        return new DataBasedProblem(this);
+    }
+
     @Override
     public void changeEnvironment() {
         throw new UnsupportedOperationException("Not supported yet.");

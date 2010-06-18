@@ -19,32 +19,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.measurement.multiple;
+package net.sourceforge.cilib.measurement.multiple.moo;
 
 import java.util.Collection;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.moo.archive.Archive;
-import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.problem.MOFitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.TypeList;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * <p>
- * Measures the set of non-dominated objective vectors withing an archive.
- * Requires the set of non-dominated decision vectors to be evaluated.
+ * Measures the set of non-dominated decision vectors within an archive.
  * </p>
  *
  * @author Wiehann Matthysen
  */
-public class ParetoOptimalFront implements Measurement<TypeList> {
+public class ParetoOptimalSet implements Measurement<TypeList> {
 
-    private static final long serialVersionUID = 6695894359780745776L;
+    private static final long serialVersionUID = 8157352173131734782L;
 
     @Override
-    public ParetoOptimalFront getClone() {
+    public ParetoOptimalSet getClone() {
         return this;
     }
 
@@ -55,17 +53,12 @@ public class ParetoOptimalFront implements Measurement<TypeList> {
 
     @Override
     public TypeList getValue(Algorithm algorithm) {
-        TypeList allFitnessValues = new TypeList();
-        Collection<OptimisationSolution> solutions = Archive.get();
+        TypeList allPositions = new TypeList();
+        Collection<OptimisationSolution> solutions = Archive.Provider.get();
         for (OptimisationSolution solution : solutions) {
-            MOFitness fitnesses = (MOFitness) solution.getFitness();
-            TypeList fitnessValues = new TypeList();
-            for (int i = 0; i < fitnesses.getDimension(); ++i) {
-                Fitness fitness = fitnesses.getFitness(i);
-                fitnessValues.add(fitness);
-            }
-            allFitnessValues.add(fitnessValues);
+            Vector position = (Vector) solution.getPosition();
+            allPositions.add(position);
         }
-        return allFitnessValues;
+        return allPositions;
     }
 }
