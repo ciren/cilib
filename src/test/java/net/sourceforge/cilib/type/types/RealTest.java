@@ -118,4 +118,11 @@ public class RealTest {
         Real r = Real.valueOf(-4.6);
         Assert.assertEquals(-5, r.intValue());
     }
+
+    @Test
+    public void defaultDomain() {
+        Bounds expected = new Bounds(-Double.MAX_VALUE, Double.MAX_VALUE);
+        Real real = new Real(0.0);
+        Assert.assertThat(real.getBounds(), equalTo(expected));
+    }
 }
