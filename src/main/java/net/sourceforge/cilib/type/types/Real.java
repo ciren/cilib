@@ -33,7 +33,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  */
 public class Real implements Numeric {
     private static final long serialVersionUID = 5290504438178510485L;
-    private static final Bounds DEFAULT_BOUND = new Bounds(Double.MIN_VALUE, Double.MAX_VALUE);
+    private static final Bounds DEFAULT_BOUND = new Bounds(-Double.MAX_VALUE, Double.MAX_VALUE);
     private double value;
     private final Bounds bounds;
 

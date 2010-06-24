@@ -107,4 +107,10 @@ public class RealTest {
         Assert.assertThat(r.getReal(), not(equalTo(Double.NaN)));
     }
 
+    @Test
+    public void defaultDomain() {
+        Bounds expected = new Bounds(-Double.MAX_VALUE, Double.MAX_VALUE);
+        Real real = new Real(0.0);
+        Assert.assertThat(real.getBounds(), equalTo(expected));
+    }
 }
