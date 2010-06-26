@@ -56,13 +56,12 @@
                 <DetectionStrategy class = "pso.dynamic.detectionstrategies.PeriodicDetectionStrategy" IterationsModulus="50"/>
                 <ResponseStrategy class = "pso.dynamic.responsestrategies.CompetitiveCoevolutionParticleReevaluationResponseStrategy"/>
             </iterationStrategy>
-            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="40">
+            <initialisationStrategy class="algorithm.initialisation.ChargedPopulationInitialisationStrategy" entityNumber="40" chargeMagnitude="1.0">
                 <entityType class="pso.dynamic.ChargedParticle">
                     <neighbourhoodBestUpdateStrategy class = "pso.positionupdatestrategies.IterationNeighbourhoodBestUpdateStrategy"/>
                     <velocityUpdateStrategy class="pso.dynamic.ChargedVelocityUpdateStrategy" pCore = "10" p = "1000">
                         <vMax class="controlparameter.ConstantControlParameter" parameter="3.0"/>
                     </velocityUpdateStrategy>
-                    <chargedParticleInitialisationStrategy class="pso.dynamic.StandardChargedParticleInitialisationStrategy" ChargeMagnitude = "1.0"/>
                 </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.LBestTopology">

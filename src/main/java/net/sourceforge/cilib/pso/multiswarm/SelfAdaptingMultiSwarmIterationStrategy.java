@@ -169,6 +169,7 @@ public class SelfAdaptingMultiSwarmIterationStrategy extends AbstractIterationSt
     }
 
     public void reInitialise(PSO algorithm) {
+        algorithm.getTopology().clear();
         algorithm.performInitialisation();
     }
 }
