@@ -21,8 +21,6 @@
  */
 package net.sourceforge.cilib.pso.multiswarm;
 
-import java.util.ListIterator;
-
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
@@ -34,16 +32,20 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
- * Implementation of the multi-swarm algorithm as described in
- * @article{blackwell51pso,
+ * Implementation of the multi-swarm algorithm as described in:
+ * <pre>
+ * {@literal @}article{blackwell51pso,
  *  title={{Particle swarm optimization in dynamic environments}},
  *  author={Blackwell, T.},
  *  journal={Evolutionary Computatation in Dynamic and Uncertain Environments},
  *  volume={51},
  *  pages={29--49}
  * }
+ * </pre>
  *
- * Example of xml specification:
+ * Example of XML specification:
+ * <pre>
+ * {@literal
  *     <algorithm id="multiswarms_5" class="pso.multiswarms.MultiSwarm">
  *        <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
  *        <multiSwarmsIterationStrategy class="pso.multiswarms.MultiSwarmIterationStrategy" exclusionRadius="5.0">
@@ -53,24 +55,22 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  *        <algorithm idref="multi_quantum_20"/>
  *        <algorithm idref="multi_quantum_20"/>
  *        <algorithm idref="multi_quantum_20"/>
- *    </algorithm>
+ *    </algorithm>}
+ * </pre>
  *
  * @author Julien Duhain
  *
  */
 public class MultiSwarmIterationStrategy extends AbstractIterationStrategy<MultiSwarm> {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1416926223484924869L;
 
+    private static final long serialVersionUID = 1416926223484924869L;
     private double exclusionRadius = 2.0;
 
-    public MultiSwarmIterationStrategy(){
+    public MultiSwarmIterationStrategy() {
         super();
     }
 
-    public MultiSwarmIterationStrategy(MultiSwarmIterationStrategy copy){
+    public MultiSwarmIterationStrategy(MultiSwarmIterationStrategy copy) {
         super();
         this.exclusionRadius = copy.exclusionRadius;
     }
@@ -90,10 +90,8 @@ public class MultiSwarmIterationStrategy extends AbstractIterationStrategy<Multi
 
     double calculateRadius() {
         double d = AbstractAlgorithm.get().getOptimisationProblem().getDomain().getDimension();
-    //    double X = ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).getNumeric(0).getBounds().getUpperBound()
-    //            - ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).getNumeric(0).getBounds().getLowerBound();
         double X = ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getUpperBound()
-                    - ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getLowerBound();
+                - ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getLowerBound();
         double M = ((MultiSwarm) (AbstractAlgorithm.get())).getPopulations().size();
         return X / (2 * Math.pow(M, 1 / d));
     }
@@ -102,63 +100,56 @@ public class MultiSwarmIterationStrategy extends AbstractIterationStrategy<Multi
         double r = calculateRadius();
 
         DiameterVisitor visitor = new DiameterVisitor();
-        double radius = (Double)((PSO) algorithm).accept(visitor);
+        double radius = (Double) ((PSO) algorithm).accept(visitor);
         return radius <= r;
     }
 
     @Override
     public void performIteration(MultiSwarm ca) {
         int converged = 0;
-        for(ListIterator it=ca.getPopulations().listIterator(); it.hasNext();){
-            PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm)it.next();
-            if (isConverged(currentAlgorithm)){
+        for (PopulationBasedAlgorithm current : ca.getPopulations()) {
+            if (isConverged(current)) {
                 converged++;
-            }//if
+            }
         }
 
-         //all swarms have converged-> must re-initialise worst swarm
+        //all swarms have converged-> must re-initialise worst swarm
         if (converged == ca.getPopulations().size()) {
             PopulationBasedAlgorithm weakest = null;
-            for (ListIterator it = ca.getPopulations().listIterator(); it.hasNext();) {
-                PopulationBasedAlgorithm current = (PopulationBasedAlgorithm) it.next();
-                if (weakest == null    || weakest.getBestSolution().compareTo(current.getBestSolution()) > 0){
+            for (PopulationBasedAlgorithm current : ca.getPopulations()) {
+                if (weakest == null || weakest.getBestSolution().compareTo(current.getBestSolution()) > 0) {
                     weakest = current;
-                }//if
-            }//for
+                }
+            }
             reInitialise((PSO) weakest);
-        }// if
+        }
 
-         for(ListIterator it=ca.getPopulations().listIterator(); it.hasNext();){
-             PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm)it.next();
-             currentAlgorithm.performIteration();
-         }
+        for (PopulationBasedAlgorithm current : ca.getPopulations()) {
+            current.performIteration();
+        }
 
-        for(ListIterator it=ca.getPopulations().listIterator(); it.hasNext();){
-             PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm)it.next();
-             for(ListIterator other=ca.getPopulations().listIterator(); other.hasNext();){
-                PopulationBasedAlgorithm otherAlgorithm = (PopulationBasedAlgorithm)other.next();
+        for (PopulationBasedAlgorithm current : ca.getPopulations()) {
+            for (PopulationBasedAlgorithm other : ca.getPopulations()) {
                 Vector currentPosition, otherPosition;
-                if(!currentAlgorithm.equals(otherAlgorithm)){
-                    currentPosition = (Vector)((PSO)currentAlgorithm).getBestSolution().getPosition(); //getBestParticle().getPosition();
-                    otherPosition = (Vector)((PSO)otherAlgorithm).getBestSolution().getPosition();
+                if (!current.equals(other)) {
+                    currentPosition = (Vector) ((PSO) current).getBestSolution().getPosition(); //getBestParticle().getPosition();
+                    otherPosition = (Vector) ((PSO) other).getBestSolution().getPosition();
                     DistanceMeasure dm = new EuclideanDistanceMeasure();
                     double distance = dm.distance(currentPosition, otherPosition);
-                    if(distance < exclusionRadius){
-                        if(((PSO)currentAlgorithm).getBestSolution().getFitness().compareTo(((PSO)otherAlgorithm).getBestSolution().getFitness())>0){
-                            reInitialise((PSO) currentAlgorithm);
+                    if (distance < exclusionRadius) {
+                        if (((PSO) current).getBestSolution().getFitness().compareTo(((PSO) other).getBestSolution().getFitness()) > 0) {
+                            reInitialise((PSO) current);
+                        } else {
+                            reInitialise((PSO) other);
                         }
-                        else{
-                            reInitialise((PSO)otherAlgorithm);
-                        }//else
-                    }//if
-                 }//if
-            }//for
-
-        }//for
+                    }
+                }
+            }
+        }
     }
 
-    public void reInitialise(PSO algorithm){
+    public void reInitialise(PSO algorithm) {
+        algorithm.getTopology().clear();
         algorithm.performInitialisation();
     }
-
 }

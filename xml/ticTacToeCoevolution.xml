@@ -54,10 +54,9 @@
                 <DetectionStrategy class = "pso.dynamic.detectionstrategies.PeriodicDetectionStrategy" IterationsModulus="50"/>
                 <ResponseStrategy class = "pso.dynamic.responsestrategies.CompetitiveCoevolutionParticleReevaluationResponseStrategy"/>
             </iterationStrategy>
-            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="30">
+            <initialisationStrategy class="algorithm.initialisation.ChargedPopulationInitialisationStrategy" entityNumber="30">
                 <entityType class="pso.dynamic.ChargedParticle">
                     <neighbourhoodBestUpdateStrategy class = "pso.positionupdatestrategies.IterationNeighbourhoodBestUpdateStrategy"/>
-                    <chargedParticleInitialisationStrategy class="pso.dynamic.StandardChargedParticleInitialisationStrategy"/>
                 </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.LBestTopology">
