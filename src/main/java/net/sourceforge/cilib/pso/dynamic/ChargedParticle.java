@@ -28,45 +28,45 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 /**
  * Charged Particle used by charged PSO (ChargedVelocityUpdate). The only difference
  * from DynamicParticle is that a charged particle stores the charge magnitude and
- * the inialisation strategy for charge.
+ * the initialization strategy for charge.
  *
  * @author Anna Rakitianskaia
  *
  */
-public class ChargedParticle extends DynamicParticle/*StandardParticle implements ReevaluatingParticle*/{
+public class ChargedParticle extends DynamicParticle {
+
     private static final long serialVersionUID = 7872499872488908368L;
     private double charge;
-    private ChargedParticleInitialisationStrategy chargedParticleInitialisationStrategy;
 
     public ChargedParticle() {
         super();
         velocityUpdateStrategy = new ChargedVelocityUpdateStrategy();
-        chargedParticleInitialisationStrategy = new StandardChargedParticleInitialisationStrategy();
     }
 
     public ChargedParticle(ChargedParticle copy) {
         super(copy);
 
         this.charge = copy.charge;
-        this.chargedParticleInitialisationStrategy = copy.chargedParticleInitialisationStrategy.getClone();
     }
 
+    @Override
     public ChargedParticle getClone() {
         return new ChargedParticle(this);
     }
 
-
     @Override
     public boolean equals(Object object) {
-        if (this == object)
+        if (this == object) {
             return true;
+        }
 
-        if ((object == null) || (this.getClass() != object.getClass()))
+        if ((object == null) || (this.getClass() != object.getClass())) {
             return false;
+        }
 
         ChargedParticle other = (ChargedParticle) object;
-        return super.equals(object) &&
-            (Double.valueOf(this.charge).equals(Double.valueOf(other.charge)));
+        return super.equals(object)
+                && (Double.valueOf(this.charge).equals(Double.valueOf(other.charge)));
     }
 
     @Override
@@ -83,24 +83,12 @@ public class ChargedParticle extends DynamicParticle/*StandardParticle implement
     public double getCharge() {
         return charge;
     }
+
     /**
      * @param charge the charge to set
      */
     public void setCharge(double charge) {
         this.charge = charge;
-    }
-    /**
-     * @return the chargedParticleInitialisationStrategy
-     */
-    public ChargedParticleInitialisationStrategy getChargedParticleInitialisationStrategy() {
-        return chargedParticleInitialisationStrategy;
-    }
-    /**
-     * @param chargedParticleInitialisationStrategy the chargedParticleInitialisationStrategy to set
-     */
-    public void setChargedParticleInitialisationStrategy(
-            ChargedParticleInitialisationStrategy chargedParticleInitialisationStrategy) {
-        this.chargedParticleInitialisationStrategy = chargedParticleInitialisationStrategy;
     }
 
     @Override
@@ -114,9 +102,6 @@ public class ChargedParticle extends DynamicParticle/*StandardParticle implement
         // within the velocity to 0
         this.getProperties().put(EntityType.Particle.VELOCITY, getPosition().getClone());
         this.velocityInitializationStrategy.initialize(EntityType.Particle.VELOCITY, this);
-
-        // Initialise particle charge
-        chargedParticleInitialisationStrategy.initialise(this);
 
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
         this.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
