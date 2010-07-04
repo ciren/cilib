@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.util.selection.recipes;
 
+import net.sourceforge.cilib.util.selection.Samples;
 import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.ec.Individual;
@@ -40,20 +41,20 @@ import static org.hamcrest.Matchers.hasItem;
  *
  * @author gpampara
  */
-public class ElitistSelectionTest {
+public class ElitistSelectorTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void selectEmpty() {
         List<Integer> elements = Lists.newArrayList();
-        ElitistSelection<Integer> selection = new ElitistSelection<Integer>();
-        selection.select(elements);
+        ElitistSelector<Integer> selection = new ElitistSelector<Integer>();
+        selection.on(elements).select(Samples.first()).perform();
     }
 
     @Test
     public void selectSingle() {
         List<Integer> elements = Lists.newArrayList(1);
-        ElitistSelection<Integer> selection = new ElitistSelection<Integer>();
-        int selected = selection.select(elements);
+        ElitistSelector<Integer> selection = new ElitistSelector<Integer>();
+        int selected = selection.on(elements).select(Samples.first()).performSingle();
         Assert.assertThat(selected, is(1));
     }
 
@@ -75,8 +76,8 @@ public class ElitistSelectionTest {
         topology.get(1).getProperties().put(EntityType.FITNESS, new MinimisationFitness(8.0));
         topology.get(2).getProperties().put(EntityType.FITNESS, new MinimisationFitness(9.0));
 
-        ElitistSelection<Individual> selection = new ElitistSelection<Individual>();
-        Individual selected = selection.select(topology);
+        ElitistSelector<Individual> selection = new ElitistSelector<Individual>();
+        Individual selected = selection.on(topology).select(Samples.first()).performSingle();
 
         Assert.assertThat(selected, is(notNullValue()));
         Assert.assertThat(topology, hasItem(selected));
@@ -90,8 +91,8 @@ public class ElitistSelectionTest {
         topology.get(1).getProperties().put(EntityType.FITNESS, new MaximisationFitness(8.0));
         topology.get(2).getProperties().put(EntityType.FITNESS, new MaximisationFitness(9.0));
 
-        ElitistSelection<Individual> selection = new ElitistSelection<Individual>();
-        Individual selected = selection.select(topology);
+        ElitistSelector<Individual> selection = new ElitistSelector<Individual>();
+        Individual selected = selection.on(topology).select(Samples.first()).performSingle();
 
         Assert.assertThat(selected, is(notNullValue()));
         Assert.assertThat(topology, hasItem(selected));
@@ -101,8 +102,8 @@ public class ElitistSelectionTest {
     @Test
     public void elitistSelection() {
         List<Integer> elements = Lists.newArrayList(9, 8, 7, 6, 5, 4, 3, 2, 1);
-        ElitistSelection<Integer> selection = new ElitistSelection<Integer>();
-        int selected = selection.select(elements);
+        ElitistSelector<Integer> selection = new ElitistSelector<Integer>();
+        int selected = selection.on(elements).select(Samples.first()).performSingle();
         Assert.assertThat(selected, is(9));
     }
 }

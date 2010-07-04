@@ -21,14 +21,15 @@
  */
 package net.sourceforge.cilib.util.selection.recipes;
 
+import com.google.common.collect.Iterables;
 import java.util.Comparator;
-import java.util.List;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.SelectionBuilder;
 import net.sourceforge.cilib.util.selection.ordering.DefaultComparator;
 import net.sourceforge.cilib.util.selection.ordering.RandomOrdering;
 import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
@@ -41,14 +42,14 @@ import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
  *   <li>Randomly ordering a list of elements.</li>
  *   <li>Selecting a sublist of {@code tournamentSize}.</li>
  *   <li>Sorting the created sublist.</li>
- *   <li>Selecting the best perfroming element.</li>
+ *   <li>Selecting the best performing element.</li>
  *   <li>Return the result.</li>
  * </ol>
  *
  * @param <E> The selection type.
  * @author Wiehann Matthysen
  */
-public class TournamentSelection<E extends Comparable<? super E>> implements SelectionRecipe<E> {
+public class TournamentSelector<E extends Comparable<? super E>> implements Selector<E> {
     private static final long serialVersionUID = -6689673224380247931L;
 
     private ControlParameter tournamentProportion;
@@ -58,7 +59,7 @@ public class TournamentSelection<E extends Comparable<? super E>> implements Sel
     /**
      * Create a new instance.
      */
-    public TournamentSelection() {
+    public TournamentSelector() {
         this.tournamentProportion = new ProportionalControlParameter();
         this.comparator = new DefaultComparator<E>();
         this.random = new MersenneTwister();
@@ -68,23 +69,15 @@ public class TournamentSelection<E extends Comparable<? super E>> implements Sel
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public TournamentSelection(TournamentSelection<E> copy) {
+    public TournamentSelector(TournamentSelector<E> copy) {
         this.tournamentProportion = copy.tournamentProportion.getClone();
         this.comparator = copy.comparator;
         this.random = copy.random;
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public TournamentSelection<E> getClone() {
-        return new TournamentSelection<E>(this);
-    }
-
-    /**
      * Get the size of the tournament.
-     * @return The sizeof the tournament.
+     * @return The size of the tournament.
      */
     public ControlParameter getTournamentSize() {
         return this.tournamentProportion;
@@ -133,10 +126,18 @@ public class TournamentSelection<E extends Comparable<? super E>> implements Sel
     /**
      * {@inheritDoc}
      */
+//    @Override
+//    public E select(List<? extends E> elements) {
+//        int tournamentSize = Double.valueOf(this.tournamentProportion.getParameter() * elements.size()).intValue();
+//        return Selection.from(elements).orderBy(new RandomOrdering<E>(this.random)).select(Samples.last(tournamentSize))
+//                .and().orderBy(new SortedOrdering<E>(this.comparator)).select(Samples.last()).performSingle();
+//    }
+
     @Override
-    public E select(List<? extends E> elements) {
-        int tournamentSize = Double.valueOf(this.tournamentProportion.getParameter() * elements.size()).intValue();
-        return Selection.from(elements).orderBy(new RandomOrdering<E>(this.random)).select(Samples.last(tournamentSize))
-                .and().orderBy(new SortedOrdering<E>(this.comparator)).select(Samples.last()).performSingle();
+    public SelectionBuilder<E> on(Iterable<? extends E> iterable) {
+        int size = Iterables.size(iterable);
+        int tournamentSize = Double.valueOf(this.tournamentProportion.getParameter() * size).intValue();
+        return Selection.from(iterable).orderBy(new RandomOrdering<E>(this.random)).select(Samples.last(tournamentSize))
+                .and().orderBy(new SortedOrdering<E>(this.comparator)).and().reverse();//.select(Samples.last()).performSingle();
     }
 }

@@ -23,7 +23,6 @@ package net.sourceforge.cilib.util.selection.ordering;
 
 import java.util.Comparator;
 import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.SelectionBuilder;
 
 /**
  * A Comparator that orders objects in a natural ordering.

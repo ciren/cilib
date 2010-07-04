@@ -28,6 +28,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.selection.Samples;
 
 /**
  *
@@ -67,8 +68,7 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
         // Select two parents, based on the selection strategy - this
         // is not 100% solid, needs to be looked at.
         List<Entity> selectedParents = Lists.newArrayList();
-        selectedParents.add(getSelectionStrategy().select(parentTopology));
-        selectedParents.add(getSelectionStrategy().select(parentTopology));
+        selectedParents.addAll(getSelectionStrategy().on(parentTopology).select(Samples.first(2)).perform());
 
         //How do we handle variable sizes? Resizing the entities?
         Entity parent1 = selectedParents.get(0);

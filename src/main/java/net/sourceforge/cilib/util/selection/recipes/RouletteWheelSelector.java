@@ -21,11 +21,10 @@
  */
 package net.sourceforge.cilib.util.selection.recipes;
 
-import java.util.List;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.SelectionBuilder;
 import net.sourceforge.cilib.util.selection.ordering.ProportionalOrdering;
 import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
 import net.sourceforge.cilib.util.selection.weighing.LinearWeighing;
@@ -43,7 +42,7 @@ import net.sourceforge.cilib.util.selection.weighing.Weighing;
  * @param <E> The selection type.
  * @author Wiehann Matthysen
  */
-public class RouletteWheelSelection<E extends Comparable<? super E>> implements SelectionRecipe<E> {
+public class RouletteWheelSelector<E extends Comparable<? super E>> implements Selector<E> {
 
     private static final long serialVersionUID = 4194450350205390514L;
     private Weighing<E> weighing;
@@ -52,7 +51,7 @@ public class RouletteWheelSelection<E extends Comparable<? super E>> implements 
     /**
      * Create a new instance.
      */
-    public RouletteWheelSelection() {
+    public RouletteWheelSelector() {
         this.weighing = new LinearWeighing<E>();
         this.random = new MersenneTwister();
     }
@@ -61,7 +60,7 @@ public class RouletteWheelSelection<E extends Comparable<? super E>> implements 
      * Create a new instance with the provided weighing strategy.
      * @param weighing The weighing strategy to set.
      */
-    public RouletteWheelSelection(Weighing<E> weighing) {
+    public RouletteWheelSelector(Weighing<E> weighing) {
         this.weighing = weighing;
         this.random = new MersenneTwister();
     }
@@ -70,17 +69,9 @@ public class RouletteWheelSelection<E extends Comparable<? super E>> implements 
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public RouletteWheelSelection(RouletteWheelSelection<E> copy) {
+    public RouletteWheelSelector(RouletteWheelSelector<E> copy) {
         this.weighing = copy.weighing.getClone();
         this.random = copy.random;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public RouletteWheelSelection<E> getClone() {
-        return new RouletteWheelSelection<E>(this);
     }
 
     /**
@@ -119,12 +110,10 @@ public class RouletteWheelSelection<E extends Comparable<? super E>> implements 
      * {@inheritDoc}
      */
     @Override
-    public E select(List<? extends E> elements) {
-        // First, weigh and order from smallest to largest (natural ordering).
-        // Boil largest elements to the front using proportional ordering
-        // (as final step, elements get reversed such that largest elements are at the back).
-        // Select the largest from the end and return.
-        return Selection.from(elements).weigh(this.weighing).and().orderBy(new SortedOrdering<E>()).and()
-                .orderBy(new ProportionalOrdering<E>(this.random)).select(Samples.last()).performSingle();
+    public SelectionBuilder<E> on(Iterable<? extends E> iterable) {
+        return Selection.from(iterable).weigh(this.weighing).and()
+                .orderBy(new SortedOrdering<E>()).and()
+                .orderBy(new ProportionalOrdering<E>(this.random))
+                .and().reverse();
     }
 }

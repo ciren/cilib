@@ -31,9 +31,10 @@ import java.util.Set;
 
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.recipes.RandomSelection;
-import net.sourceforge.cilib.util.selection.recipes.SelectionRecipe;
+import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
+import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
  * <p>
@@ -47,18 +48,18 @@ import net.sourceforge.cilib.util.selection.recipes.SelectionRecipe;
 public class SetBasedConstrainedArchive extends ConstrainedArchive {
 
     private Set<OptimisationSolution> solutions;
-    private SelectionRecipe<OptimisationSolution> pruningSelection;
+    private Selector<OptimisationSolution> pruningSelection;
 
     public SetBasedConstrainedArchive() {
         this.solutions = new LinkedHashSet<OptimisationSolution>();
-        this.pruningSelection = new RandomSelection<OptimisationSolution>();
+        this.pruningSelection = new RandomSelector<OptimisationSolution>();
     }
 
-    public void setPruningSelection(SelectionRecipe<OptimisationSolution> pruningSelection) {
+    public void setPruningSelection(Selector<OptimisationSolution> pruningSelection) {
         this.pruningSelection = pruningSelection;
     }
 
-    public SelectionRecipe<OptimisationSolution> getPruningSelection() {
+    public Selector<OptimisationSolution> getPruningSelection() {
         return this.pruningSelection;
     }
 
@@ -89,7 +90,8 @@ public class SetBasedConstrainedArchive extends ConstrainedArchive {
         // If the archive size is greater than the capacity, select a group of solutions and remove them from the archive.
         int numSolutionsToRemove = size() - getCapacity();
         for (int i = 0; i < numSolutionsToRemove; ++i) {
-            OptimisationSolution solutionToRemove = this.pruningSelection.select(this);
+            OptimisationSolution solutionToRemove = this.pruningSelection.on(this)
+                    .select(Samples.first()).performSingle();
             remove(solutionToRemove);
         }
     }

@@ -27,6 +27,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
@@ -72,7 +73,7 @@ public final class Selection<T> implements LinkedSelectionBuilder<T>,
     private final RandomSelection<Selection.Entry<T>> randomSelection;
 
     /**
-     * Assign the Selection to take palce on the porvided collection. The
+     * Assign the Selection to take place on the provided collection. The
      * collection is copied to ensure that the original collection reference is
      * not altered.
      * @param elements The elements on which the selection should take place.
@@ -89,9 +90,10 @@ public final class Selection<T> implements LinkedSelectionBuilder<T>,
      * @return A selection based on the provided collection.
      * @throws IllegalArgumentException if the provided list is empty.
      */
-    public static <T> LinkedUniqueSelectionBuilder<T> from(List<? extends T> elements) {
-        Preconditions.checkArgument(elements.size() > 0, "Cannot perform a selection on a zero length collection.");
-        List<Selection.Entry<T>> list = Lists.newArrayListWithCapacity(elements.size());
+    public static <T> LinkedUniqueSelectionBuilder<T> from(Iterable<? extends T> elements) {
+        int size = Iterables.size(elements);
+        Preconditions.checkArgument(size > 0, "Cannot perform a selection on a zero length collection.");
+        List<Selection.Entry<T>> list = Lists.newArrayListWithCapacity(size);
 
         for (T element : elements) {
             list.add(new Selection.Entry<T>(element));
@@ -274,6 +276,12 @@ public final class Selection<T> implements LinkedSelectionBuilder<T>,
         return elements.get(0).getElement();
     }
 
+    @Override
+    public SelectionBuilder<T> reverse() {
+        Collections.reverse(elements);
+        return this;
+    }
+
     /**
      * This class provides the notion of an entry within a list
      * for the selection process.
@@ -288,7 +296,7 @@ public final class Selection<T> implements LinkedSelectionBuilder<T>,
         private double weight;
 
         /**
-         * Create a new {@code Entry}. This constructor is private intentionall
+         * Create a new {@code Entry}. This constructor is private intentionally
          * @param element The element to decorate.
          */
         Entry(E element) {
@@ -348,7 +356,7 @@ public final class Selection<T> implements LinkedSelectionBuilder<T>,
 
         /**
          * Obtain the hash of the decorated {@code element}.
-         * @return The decorated instance's hash value.
+         * @return The decorated instance hash value.
          */
         @Override
         public int hashCode() {

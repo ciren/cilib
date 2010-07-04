@@ -32,7 +32,7 @@ import net.sourceforge.cilib.util.selection.weighing.Weighing;
  */
 public interface LinkedSelectionBuilder<T> {
 
-     /**
+    /**
      * Apply the provided ordering on the current selection. The result of the
      * operation will result in a modified selection.
      * @param ordering The ordering to orderBy.
@@ -91,4 +91,9 @@ public interface LinkedSelectionBuilder<T> {
      */
     List<Selection.Entry<T>> entries();
 
+    /**
+     * Reverse the current ordering.
+     * @return The current {@code SelectionBuilder} for chaining purposes.
+     */
+    SelectionBuilder<T> reverse();
 }

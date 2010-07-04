@@ -27,10 +27,10 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.Operator;
-import net.sourceforge.cilib.entity.operators.selection.RandomSelectionStrategy;
-import net.sourceforge.cilib.entity.operators.selection.SelectionStrategy;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
+import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
  * @author Andries Engelbrecht
@@ -40,12 +40,12 @@ public abstract class CrossoverStrategy implements Operator {
     private static final long serialVersionUID = -5058325193277909244L;
     private ControlParameter crossoverProbability;
     private ProbabilityDistributionFuction randomDistribution;
-    private SelectionStrategy selectionStrategy;
+    private Selector selectionStrategy;
 
     public CrossoverStrategy() {
         crossoverProbability = new ConstantControlParameter(0.5);
         randomDistribution = new UniformDistribution();
-        selectionStrategy = new RandomSelectionStrategy();
+        selectionStrategy = new RandomSelector();
     }
 
     public CrossoverStrategy(CrossoverStrategy copy) {
@@ -84,11 +84,11 @@ public abstract class CrossoverStrategy implements Operator {
         this.randomDistribution = randomNumber;
     }
 
-    public SelectionStrategy getSelectionStrategy() {
+    public Selector getSelectionStrategy() {
         return selectionStrategy;
     }
 
-    public void setSelectionStrategy(SelectionStrategy selectionStrategy) {
+    public void setSelectionStrategy(Selector selectionStrategy) {
         this.selectionStrategy = selectionStrategy;
     }
 }

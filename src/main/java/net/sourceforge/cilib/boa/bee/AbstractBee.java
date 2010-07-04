@@ -26,11 +26,11 @@ import net.sourceforge.cilib.boa.positionupdatestrategies.VisualPositionUpdateSt
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.operators.selection.RandomSelectionStrategy;
-import net.sourceforge.cilib.entity.operators.selection.SelectionStrategy;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
+import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
  * The entity class for the ABC algorithm that represents the bees.
@@ -41,7 +41,7 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
 
     private static final long serialVersionUID = 7005546673802814268L;
     protected BeePositionUpdateStrategy positionUpdateStrategy;
-    protected SelectionStrategy targetSelectionStrategy;
+    protected Selector<HoneyBee> targetSelectionStrategy;
     protected int dimension;
 
     /**
@@ -49,7 +49,7 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
      */
     public AbstractBee() {
         this.positionUpdateStrategy = new VisualPositionUpdateStategy();
-        this.targetSelectionStrategy = new RandomSelectionStrategy();
+        this.targetSelectionStrategy = new RandomSelector();
     }
 
     /**
@@ -160,7 +160,7 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
      * Gets the target selection strategy, for selecting bees to follow in position updates.
      * @return the target selection strategy.
      */
-    public SelectionStrategy getTargetSelectionStrategy() {
+    public Selector getTargetSelectionStrategy() {
         return targetSelectionStrategy;
     }
 
@@ -168,7 +168,7 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
      * Sets the target selection strategy, for selecting bees to follow in position updates.
      * @param targetSelectionStrategy  the new target selection strategy.
      */
-    public void setTargetSelectionStrategy(SelectionStrategy targetSelectionStrategy) {
+    public void setTargetSelectionStrategy(Selector targetSelectionStrategy) {
         this.targetSelectionStrategy = targetSelectionStrategy;
     }
 }

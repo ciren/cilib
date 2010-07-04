@@ -22,9 +22,8 @@
 package net.sourceforge.cilib.util.selection.recipes;
 
 import java.util.Comparator;
-import java.util.List;
-import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.SelectionBuilder;
 import net.sourceforge.cilib.util.selection.ordering.DefaultComparator;
 import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
 
@@ -40,7 +39,7 @@ import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
  * @param <E> The selection type.
  * @author Wiehann Matthysen
  */
-public class ElitistSelection<E extends Comparable<? super E>> implements SelectionRecipe<E> {
+public class ElitistSelector<E extends Comparable<? super E>> implements Selector<E> {
     private static final long serialVersionUID = -5432603299031620114L;
 
     private Comparator<Selection.Entry<E>> comparator;
@@ -48,7 +47,7 @@ public class ElitistSelection<E extends Comparable<? super E>> implements Select
     /**
      * Create a new instance with a defined comparator being {@link DefaultComparator}.
      */
-    public ElitistSelection() {
+    public ElitistSelector() {
         this.comparator = new DefaultComparator<E>();
     }
 
@@ -56,7 +55,7 @@ public class ElitistSelection<E extends Comparable<? super E>> implements Select
      * Create a new instance with the provided {@link Comparator}.
      * @param comparator The comparator to set.
      */
-    public ElitistSelection(Comparator<Selection.Entry<E>> comparator) {
+    public ElitistSelector(Comparator<Selection.Entry<E>> comparator) {
         this.comparator = comparator;
     }
 
@@ -64,16 +63,8 @@ public class ElitistSelection<E extends Comparable<? super E>> implements Select
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public ElitistSelection(ElitistSelection<E> copy) {
+    public ElitistSelector(ElitistSelector<E> copy) {
         this.comparator = copy.comparator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ElitistSelection<E> getClone() {
-        return new ElitistSelection<E>(this);
     }
 
     /**
@@ -92,11 +83,8 @@ public class ElitistSelection<E extends Comparable<? super E>> implements Select
         return this.comparator;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public E select(List<? extends E> elements) {
-        return Selection.from(elements).orderBy(new SortedOrdering<E>(this.comparator)).select(Samples.last()).performSingle();
+    public SelectionBuilder<E> on(Iterable<? extends E> iterable) {
+        return Selection.from(iterable).orderBy(new SortedOrdering<E>(this.comparator)).and().reverse();
     }
 }

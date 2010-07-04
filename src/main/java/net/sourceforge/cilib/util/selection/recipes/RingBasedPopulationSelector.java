@@ -21,34 +21,26 @@
  */
 package net.sourceforge.cilib.util.selection.recipes;
 
-import java.util.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.SelectionBuilder;
 import net.sourceforge.cilib.util.selection.ordering.Ordering;
 import net.sourceforge.cilib.util.selection.ordering.RingBasedOrdering;
 
 /**
  * @author Wiehann Matthysen
  */
-public class RingBasedPopulationSelection implements SelectionRecipe<PopulationBasedAlgorithm> {
+public class RingBasedPopulationSelector implements Selector<PopulationBasedAlgorithm> {
+
     private static final long serialVersionUID = 8899308548978334236L;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public RingBasedPopulationSelection getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public PopulationBasedAlgorithm select(List<? extends PopulationBasedAlgorithm> elements) {
+    public SelectionBuilder<PopulationBasedAlgorithm> on(Iterable<? extends PopulationBasedAlgorithm> iterable) {
         Ordering<PopulationBasedAlgorithm> ordering = new RingBasedOrdering<PopulationBasedAlgorithm>((PopulationBasedAlgorithm) AbstractAlgorithm.get());
-        return Selection.from(elements).orderBy(ordering).select(Samples.first()).performSingle();
+        return Selection.from(iterable).orderBy(ordering);
     }
 }

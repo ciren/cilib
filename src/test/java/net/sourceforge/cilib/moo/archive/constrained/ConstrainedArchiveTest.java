@@ -38,7 +38,7 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import net.sourceforge.cilib.util.selection.recipes.RandomSelection;
+import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import org.junit.Test;
 
 /**
@@ -162,7 +162,7 @@ public class ConstrainedArchiveTest {
     @Test
     public void testSetBasedConstrainedArchive() {
         SetBasedConstrainedArchive archive = new SetBasedConstrainedArchive();
-        archive.setPruningSelection(new RandomSelection<OptimisationSolution>());
+        archive.setPruningSelection(new RandomSelector<OptimisationSolution>());
         archive.setCapacity(100);
         DummyOptimisationProblem1 problem = new DummyOptimisationProblem1();
         for (int i = 1; i <= 500; ++i) {

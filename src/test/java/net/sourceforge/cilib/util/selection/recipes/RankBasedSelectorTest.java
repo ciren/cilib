@@ -25,6 +25,7 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.util.selection.Samples;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -34,29 +35,29 @@ import static org.hamcrest.core.Is.is;
  *
  * @author gpampara
  */
-public class RankBasedSelectionTest {
+public class RankBasedSelectorTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void selectEmpty() {
         List<Integer> elements = Lists.newArrayList();
-        RankBasedSelection<Integer> selection = new RankBasedSelection<Integer>();
-        selection.select(elements);
+        RankBasedSelector<Integer> selection = new RankBasedSelector<Integer>();
+        selection.on(elements).select(Samples.first()).performSingle();
     }
 
     @Test
     public void selectSingle() {
         List<Integer> elements = Lists.newArrayList(1);
-        RankBasedSelection<Integer> selection = new RankBasedSelection<Integer>();
-        int selected = selection.select(elements);
+        RankBasedSelector<Integer> selection = new RankBasedSelector<Integer>();
+        int selected = selection.on(elements).select(Samples.first()).performSingle();
         Assert.assertThat(selected, is(1));
     }
 
     @Test
     public void selectMultiple() {
         List<Integer> elements = Lists.newArrayList(9, 8, 7, 6, 5, 4, 3, 2, 1);
-        RankBasedSelection<Integer> selection = new RankBasedSelection<Integer>();
+        RankBasedSelector<Integer> selection = new RankBasedSelector<Integer>();
         selection.setRandom(new ConstantRandomNumber());
-        int selected = selection.select(elements);
+        int selected = selection.on(elements).select(Samples.first()).performSingle();
         Assert.assertThat(selected, is(8));
     }
 

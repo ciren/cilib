@@ -21,11 +21,11 @@
  */
 package net.sourceforge.cilib.util.selection.recipes;
 
-import java.util.List;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.SelectionBuilder;
+import net.sourceforge.cilib.util.selection.ordering.RandomOrdering;
 
 /**
  * Perform a random selection from the provided list of elements.
@@ -38,7 +38,7 @@ import net.sourceforge.cilib.util.selection.Selection;
  * @author Wiehann Matthysen
  * @param <E>
  */
-public class RandomSelection<E> implements SelectionRecipe<E> {
+public class RandomSelector<E> implements Selector<E> {
     private static final long serialVersionUID = -5099663528040315048L;
 
     private RandomProvider random;
@@ -46,7 +46,7 @@ public class RandomSelection<E> implements SelectionRecipe<E> {
     /**
      * Create a new instance.
      */
-    public RandomSelection() {
+    public RandomSelector() {
         this.random = new MersenneTwister();
     }
 
@@ -54,7 +54,7 @@ public class RandomSelection<E> implements SelectionRecipe<E> {
      * Create a new instance with the provided {@code Random}.
      * @param random The {@code random} to use.
      */
-    public RandomSelection(RandomProvider random) {
+    public RandomSelector(RandomProvider random) {
         this.random = random;
     }
 
@@ -62,23 +62,13 @@ public class RandomSelection<E> implements SelectionRecipe<E> {
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public RandomSelection(RandomSelection copy) {
+    public RandomSelector(RandomSelector copy) {
         this.random = new MersenneTwister();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public RandomSelection<E> getClone() {
-        return new RandomSelection<E>(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public E select(List<? extends E> elements) {
-        return Selection.from(elements).random(random).select(Samples.first()).performSingle();
+    public SelectionBuilder<E> on(Iterable<? extends E> iterable) {
+        return Selection.from(iterable).orderBy(new RandomOrdering<E>(random))
+                .and().reverse();
     }
 }

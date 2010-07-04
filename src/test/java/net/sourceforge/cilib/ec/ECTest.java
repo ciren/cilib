@@ -29,7 +29,6 @@ import net.sourceforge.cilib.math.random.generator.ZeroSeederStrategy;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -55,7 +54,7 @@ public class ECTest {
             ec.initialise();
             ec.run();
 
-            Assert.assertThat(ec.getBestSolution().getFitness().getValue(), is(263.49409097186634));
+            Assert.assertThat(ec.getBestSolution().getFitness().getValue(), is(285.82398378932));
         } finally {
             Seeder.setSeederStrategy(seedStrategy);
         }

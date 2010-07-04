@@ -23,6 +23,7 @@ package net.sourceforge.cilib.boa.bee;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.boa.ABC;
+import net.sourceforge.cilib.util.selection.Samples;
 
 
 /**
@@ -69,11 +70,12 @@ public class OnlookerBee extends AbstractBee {
     @Override
     public void updatePosition() {
         ABC algorithm = (ABC) AbstractAlgorithm.get();
-        HoneyBee target = targetSelectionStrategy.select(algorithm.getWorkerBees());
+        HoneyBee target = targetSelectionStrategy.on(algorithm.getWorkerBees())
+                .and().exclude(this).select(Samples.first()).performSingle();
 
-        while (target == this) {
-            target = targetSelectionStrategy.select(algorithm.getWorkerBees());
-        }
+//        while (target == this) {
+//            target = targetSelectionStrategy.on(algorithm.getWorkerBees()).select(Samples.first()).performSingle();
+//        }
 
         this.positionUpdateStrategy.updatePosition(this, target);
     }

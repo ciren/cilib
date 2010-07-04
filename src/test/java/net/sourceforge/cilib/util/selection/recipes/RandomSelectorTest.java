@@ -38,28 +38,28 @@ import static org.hamcrest.core.IsEqual.equalTo;
  *
  * @author gpampara
  */
-public class RandomSelectionTest {
+public class RandomSelectorTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void selectEmpty() {
         List<Integer> elements = Lists.newArrayList();
-        RandomSelection<Integer> selection = new RandomSelection<Integer>();
-        selection.select(elements);
+        RandomSelector<Integer> selection = new RandomSelector<Integer>();
+        selection.on(elements).select(Samples.first()).performSingle();
     }
 
     @Test
     public void selectSingle() {
         List<Integer> elements = Lists.newArrayList(1);
-        RandomSelection<Integer> selection = new RandomSelection<Integer>();
-        int selected = selection.select(elements);
+        RandomSelector<Integer> selection = new RandomSelector<Integer>();
+        int selected = selection.on(elements).select(Samples.first()).performSingle();
         Assert.assertThat(selected, is(1));
     }
 
     @Test
     public void selectMultiple() {
         List<Integer> elements = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        RandomSelection<Integer> selection = new RandomSelection<Integer>(new ConstantRandomNumber());
-        int selected = selection.select(elements);
+        RandomSelector<Integer> selection = new RandomSelector<Integer>(new ConstantRandomNumber());
+        int selected = selection.on(elements).select(Samples.first()).performSingle();
 
         List<Integer> otherElements = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
         Collections.shuffle(otherElements, new RandomAdaptor(new ConstantRandomNumber()));

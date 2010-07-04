@@ -21,8 +21,7 @@
  */
 package net.sourceforge.cilib.util.selection.recipes;
 
-import java.util.List;
-import net.sourceforge.cilib.util.Cloneable;
+import net.sourceforge.cilib.util.selection.SelectionBuilder;
 
 /**
  * A recipe is a series of steps that need to be followed to achieve a
@@ -30,19 +29,12 @@ import net.sourceforge.cilib.util.Cloneable;
  * @param <E> The selection type.
  * @author Wiehann Matthysen
  */
-public interface SelectionRecipe<E> extends Cloneable {
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    SelectionRecipe<E> getClone();
+public interface Selector<E> {
 
     /**
      * Perform the selection process.
-     * @param elements The elements to perfrom the selection on.
+     * @param elements The elements to perform the selection on.
      * @return The selected element.
      */
-    E select(List<? extends E> elements);
-
+    SelectionBuilder<E> on(Iterable<? extends E> iterable);
 }

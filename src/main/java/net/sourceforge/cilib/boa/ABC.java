@@ -35,10 +35,11 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.operators.selection.RouletteWheelSelectionStrategy;
-import net.sourceforge.cilib.entity.operators.selection.SelectionStrategy;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.util.selection.Samples;
+import net.sourceforge.cilib.util.selection.recipes.RouletteWheelSelector;
+import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
  * <p>
@@ -65,13 +66,13 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 public class ABC extends SinglePopulationBasedAlgorithm {
 
     private static final long serialVersionUID = 7918711449442012960L;
-    private Topology<HoneyBee> workerBees;                //keeps references to the worker bees
+    private Topology<HoneyBee> workerBees;              //keeps references to the worker bees
     private Topology<HoneyBee> onlookerBees;            //keeps references to the onlooker bees
     private Topology<HoneyBee> hive;                    //keeps references to all the bees (workers and onlookers)
     private ExplorerBee explorerBee;                    //explorer bee
-    private SelectionStrategy dancingSelectionStrategy; //bee dancing selection strategy
-    private ControlParameter workerBeePercentage;        //control parameter for number of worker bees
-    private ControlParameter forageLimit;                //control parameter for the forage limit
+    private Selector<HoneyBee> dancingSelectionStrategy;//bee dancing selection strategy
+    private ControlParameter workerBeePercentage;       //control parameter for number of worker bees
+    private ControlParameter forageLimit;               //control parameter for the forage limit
     private ControlParameter explorerBeeUpdateLimit;    //control parameter to limit the explorer bee position updates per iteration
     private HoneyBee bestBee;                            //reference to best solution found so far
 
@@ -88,7 +89,7 @@ public class ABC extends SinglePopulationBasedAlgorithm {
         hive = new GBestTopology<HoneyBee>();
 
         explorerBee = new ExplorerBee();
-        dancingSelectionStrategy = new RouletteWheelSelectionStrategy();
+        dancingSelectionStrategy = new RouletteWheelSelector();
 
         forageLimit = new ConstantControlParameter(500);
         workerBeePercentage = new ConstantControlParameter(0.5);
@@ -108,7 +109,7 @@ public class ABC extends SinglePopulationBasedAlgorithm {
         hive.addAll(onlookerBees);
 
         explorerBee = copy.explorerBee.getClone();
-        dancingSelectionStrategy = new RouletteWheelSelectionStrategy();
+        dancingSelectionStrategy = new RouletteWheelSelector();
 
         forageLimit = copy.forageLimit.getClone();
         workerBeePercentage = copy.workerBeePercentage.getClone();
@@ -167,7 +168,8 @@ public class ABC extends SinglePopulationBasedAlgorithm {
         }
 
         for (HoneyBee bee : onlookerBees) {
-            HoneyBee selectedBee = dancingSelectionStrategy.select(workerBees);
+            HoneyBee selectedBee = dancingSelectionStrategy.on(workerBees)
+                    .select(Samples.first()).performSingle();
             bee.setPosition(selectedBee.getPosition().getClone());
             bee.updatePosition();
             if (bestBee == null) {
@@ -215,16 +217,15 @@ public class ABC extends SinglePopulationBasedAlgorithm {
      * Gets the bee dancing selection strategy.
      * @return the bee dancing selection strategy.
      */
-    public SelectionStrategy getDancingSelectionStrategy() {
+    public Selector getDancingSelectionStrategy() {
         return dancingSelectionStrategy;
     }
 
     /**
-     * Sets the bee dancinc selection strategy.
+     * Sets the bee dancing selection strategy.
      * @param dancingSelectionStrategy the new bee dancing selection strategy.
      */
-    public void setDancingSelectionStrategy(
-            SelectionStrategy dancingSelectionStrategy) {
+    public void setDancingSelectionStrategy(Selector dancingSelectionStrategy) {
         this.dancingSelectionStrategy = dancingSelectionStrategy;
     }
 
