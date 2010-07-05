@@ -40,12 +40,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
 
     private static final long serialVersionUID = -823686042197742768L;
-    private ProbabilityDistributionFuction randomNumber;
+    private ProbabilityDistributionFuction randomDistribution;
     private ControlParameter cognitiveAcceleration;
     private ControlParameter socialAcceleration;
 
     public BareBonesVelocityUpdateStrategy() {
-        randomNumber = new GaussianDistribution();
+        randomDistribution = new GaussianDistribution();
 
         cognitiveAcceleration = new RandomizingControlParameter();
         socialAcceleration = new RandomizingControlParameter();
@@ -79,7 +79,7 @@ public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
             double mean = (personalBestPosition.getReal(i) + nBestPosition.getReal(i)) / 2;
             //andries proposal: double mean = (tmp1*personalBestPosition.getReal(i) + tmp2*nBestPosition.getReal(i)) / (tmp1+tmp2);
 
-            velocity.setReal(i, randomNumber.getRandomNumber(mean, sigma));
+            velocity.setReal(i, randomDistribution.getRandomNumber(mean, sigma));
         }
     }
 
@@ -101,5 +101,13 @@ public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
 
     public void setSocialAcceleration(ControlParameter socialAcceleration) {
         this.socialAcceleration = socialAcceleration;
+    }
+
+    public ProbabilityDistributionFuction getRandomDistribution() {
+        return randomDistribution;
+    }
+    
+    public void setRandomDistribution(ProbabilityDistributionFuction pdf) {
+        randomDistribution = pdf;
     }
 }
