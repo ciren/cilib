@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.util.selection.recipes;
 
-import net.sourceforge.cilib.util.selection.Samples;
 import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.ec.Individual;
@@ -47,14 +46,14 @@ public class ElitistSelectorTest {
     public void selectEmpty() {
         List<Integer> elements = Lists.newArrayList();
         ElitistSelector<Integer> selection = new ElitistSelector<Integer>();
-        selection.on(elements).select(Samples.first()).perform();
+        selection.on(elements).select();
     }
 
     @Test
     public void selectSingle() {
         List<Integer> elements = Lists.newArrayList(1);
         ElitistSelector<Integer> selection = new ElitistSelector<Integer>();
-        int selected = selection.on(elements).select(Samples.first()).performSingle();
+        int selected = selection.on(elements).select();
         Assert.assertThat(selected, is(1));
     }
 
@@ -77,7 +76,7 @@ public class ElitistSelectorTest {
         topology.get(2).getProperties().put(EntityType.FITNESS, new MinimisationFitness(9.0));
 
         ElitistSelector<Individual> selection = new ElitistSelector<Individual>();
-        Individual selected = selection.on(topology).select(Samples.first()).performSingle();
+        Individual selected = selection.on(topology).select();
 
         Assert.assertThat(selected, is(notNullValue()));
         Assert.assertThat(topology, hasItem(selected));
@@ -92,7 +91,7 @@ public class ElitistSelectorTest {
         topology.get(2).getProperties().put(EntityType.FITNESS, new MaximisationFitness(9.0));
 
         ElitistSelector<Individual> selection = new ElitistSelector<Individual>();
-        Individual selected = selection.on(topology).select(Samples.first()).performSingle();
+        Individual selected = selection.on(topology).select();
 
         Assert.assertThat(selected, is(notNullValue()));
         Assert.assertThat(topology, hasItem(selected));
@@ -103,7 +102,7 @@ public class ElitistSelectorTest {
     public void elitistSelection() {
         List<Integer> elements = Lists.newArrayList(9, 8, 7, 6, 5, 4, 3, 2, 1);
         ElitistSelector<Integer> selection = new ElitistSelector<Integer>();
-        int selected = selection.on(elements).select(Samples.first()).performSingle();
+        int selected = selection.on(elements).select();
         Assert.assertThat(selected, is(9));
     }
 }

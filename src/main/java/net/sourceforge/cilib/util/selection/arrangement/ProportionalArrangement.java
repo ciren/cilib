@@ -19,84 +19,65 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.selection.ordering;
+package net.sourceforge.cilib.util.selection.arrangement;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.SelectionBuilder;
+import net.sourceforge.cilib.util.selection.WeightedObject;
 
 /**
- * Apply a proportionate ordering. Proportionate ordering is done by determining
- * the total maximum weight and then determining the percentage share for each
- * entry.
- * <p>
- * <a href=http://en.wikipedia.org/wiki/Fitness_proportionate_selection>Some more information</a>
- * @param <E> The selection type.
- * @author Wiehann Matthysen
+ *
+ * @author gpampara
  */
-public class ProportionalOrdering<E> implements Ordering<E> {
+public class ProportionalArrangement implements Arrangement {
 
     private RandomProvider generator;
 
-    /**
-     * Create a new instance with an internal {@link MersenneTwister}.
-     */
-    public ProportionalOrdering() {
+    public ProportionalArrangement() {
         this.generator = new MersenneTwister();
     }
 
-    /**
-     * Create a new instance with the provided {@link Random}.
-     * @param generator The generator to use.
-     */
-    public ProportionalOrdering(RandomProvider generator) {
+    public ProportionalArrangement(RandomProvider generator) {
         this.generator = generator;
     }
 
-    /**
-     * {@inheritDoc}
-     * <p>
-     * This method will apply the proportionate ordering on the provided
-     * list of elements.
-     */
     @Override
-    public boolean order(List<Selection.Entry<E>> elements) {
-
+    public <T extends Comparable> Iterable<T> arrange(Iterable<T> elements) {
+        Preconditions.checkArgument(elements.iterator().next() instanceof WeightedObject);
+        List<WeightedObject> weightedObjects = (List<WeightedObject>) Lists.newArrayList(elements);
+        
         double total = 0.0;
-        for (Selection.Entry<E> weighedObject : elements) {
+        for (WeightedObject weighedObject : weightedObjects) {
             total += weighedObject.getWeight();
         }
 
         if (Double.compare(total, 0.0) == 0) {
-            return false;
+            return Lists.newArrayList();
         }
 
-        List<Selection.Entry<E>> temp = Lists.newArrayList();
-        while (elements.size() > 0) {
+        List<WeightedObject> temp = Lists.newArrayList();
+        while (weightedObjects.size() > 0) {
             double randomValue = this.generator.nextDouble() * total;
             double marker = 0.0;
             int i = 0;
             do {
-                marker += elements.get(i++).getWeight();
-            } while (i < elements.size() && marker < randomValue);
+                marker += weightedObjects.get(i++).getWeight();
+            } while (i < weightedObjects.size() && marker < randomValue);
 
-            Selection.Entry<E> selected = elements.get(i - 1);
+            WeightedObject selected = weightedObjects.get(i - 1);
             temp.add(selected);
-            elements.remove(i - 1);
+            weightedObjects.remove(i - 1);
             total -= selected.getWeight();
         }
 
         // The reverse is needed as largest
         // elements were added to the front.
         Collections.reverse(temp);
-
-        elements.addAll(temp);
-
-        return true;
+        weightedObjects.addAll(temp);
+        return (Iterable<T>) weightedObjects;
     }
 }

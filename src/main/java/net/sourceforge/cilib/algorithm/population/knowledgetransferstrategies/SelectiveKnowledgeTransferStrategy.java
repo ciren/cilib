@@ -27,8 +27,6 @@ import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.util.selection.Samples;
-import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.recipes.RankBasedSelector;
 import net.sourceforge.cilib.util.selection.recipes.RingBasedPopulationSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
@@ -47,7 +45,6 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
 public class SelectiveKnowledgeTransferStrategy implements KnowledgeTransferStrategy {
 
     private static final long serialVersionUID = 402688951924934682L;
-
     private Selector<PopulationBasedAlgorithm> populationSelection;
     private Selector<Entity> entitySelection;
 
@@ -84,9 +81,8 @@ public class SelectiveKnowledgeTransferStrategy implements KnowledgeTransferStra
 
     @Override
     public Type transferKnowledge(List<PopulationBasedAlgorithm> allPopulations) {
-        PopulationBasedAlgorithm population = this.populationSelection.on(allPopulations)
-                .select(Samples.first()).performSingle();
-        Entity entity = this.entitySelection.on(population.getTopology()).select(Samples.first()).performSingle();
+        PopulationBasedAlgorithm population = this.populationSelection.on(allPopulations).select();
+        Entity entity = this.entitySelection.on((Iterable<Entity>) population.getTopology()).select();
         return entity.getProperties();
     }
 }

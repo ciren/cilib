@@ -19,25 +19,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.selection.ordering;
+package net.sourceforge.cilib.util.selection.weighting;
 
-import java.util.Collections;
-import java.util.List;
-import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.problem.Fitness;
 
 /**
- * Reverse the ordering of the provided list of entries.
- * @param <E> The selection type.
+ * Obtain the current fitness of an entity.
+ * @param <E> The entity type.
  * @author Wiehann Matthysen
  */
-public class ReverseOrdering<E> implements Ordering<E> {
+public class CurrentFitness<E extends Entity> implements EntityFitness<E> {
 
     /**
-     * {@inheritDoc} The resulting list will be the reverse order of {@code elements}.
+     * {@inheritDoc}
+     * Get the current fitness of the Entity.
      */
     @Override
-    public boolean order(List<Selection.Entry<E>> elements) {
-        Collections.reverse(elements);
-        return true;
+    public Fitness getFitness(E entity) {
+        return entity.getFitness();
     }
 }

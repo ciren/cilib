@@ -19,26 +19,34 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.selection.weighing;
+package net.sourceforge.cilib.util.selection.arrangement;
 
-import java.util.Arrays;
+import com.google.common.collect.Lists;
 import java.util.List;
-import net.sourceforge.cilib.util.selection.Selection;
 import org.junit.Assert;
 import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
 
 /**
  *
  * @author gpampara
  */
-public class FixedWeighingTest {
+public class RingBasedArrangementTest {
 
     @Test
-    public void fixedWeighing() {
-        List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        List<Selection.Entry<Integer>> weighedElements = Selection.from(elements).weigh(new FixedWeighing<Integer>(1.0)).and().entries();
-        for (int i = 0; i < weighedElements.size(); ++i) {
-            Assert.assertEquals(1.0, weighedElements.get(i).getWeight(), 0.0001);
-        }
+    public void arrange() {
+        List<Integer> elements = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        List<Integer> ordered = Lists.newArrayList(new RingBasedArrangement(5).arrange(elements));
+        Assert.assertTrue(!ordered.isEmpty());
+
+        Assert.assertThat(ordered.get(0), is(6));
+        Assert.assertThat(ordered.get(1), is(7));
+        Assert.assertThat(ordered.get(2), is(8));
+        Assert.assertThat(ordered.get(3), is(9));
+        Assert.assertThat(ordered.get(4), is(1));
+        Assert.assertThat(ordered.get(5), is(2));
+        Assert.assertThat(ordered.get(6), is(3));
+        Assert.assertThat(ordered.get(7), is(4));
+        Assert.assertThat(ordered.get(8), is(5));
     }
 }

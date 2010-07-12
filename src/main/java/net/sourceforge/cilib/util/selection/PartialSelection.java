@@ -19,23 +19,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.selection.recipes;
-
-import net.sourceforge.cilib.util.selection.PartialSelection;
-
+package net.sourceforge.cilib.util.selection;
 
 /**
- * A recipe is a series of steps that need to be followed to achieve a
- * selection.
- * @param <E> The selection type.
- * @author Wiehann Matthysen
+ *
+ * @author gpampara
  */
-public interface Selector<E> {
-
-    /**
-     * Perform the selection process.
-     * @param elements The elements to perform the selection on.
-     * @return The selected element.
-     */
-    PartialSelection<E> on(Iterable<E> iterable);
+public interface PartialSelection<T> extends FunctionalSelection<T>,
+        OrderableSelection<T>, Selectable<T> {
 }

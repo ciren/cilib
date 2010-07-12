@@ -19,23 +19,32 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.selection.recipes;
-
-import net.sourceforge.cilib.util.selection.PartialSelection;
-
+package net.sourceforge.cilib.util.selection;
 
 /**
- * A recipe is a series of steps that need to be followed to achieve a
- * selection.
- * @param <E> The selection type.
- * @author Wiehann Matthysen
+ *
+ * @author gpampara
  */
-public interface Selector<E> {
+public class WeightedObject implements Comparable<WeightedObject> {
 
-    /**
-     * Perform the selection process.
-     * @param elements The elements to perform the selection on.
-     * @return The selected element.
-     */
-    PartialSelection<E> on(Iterable<E> iterable);
+    private final Object object;
+    private final double weight;
+
+    public WeightedObject(Object object, double weight) {
+        this.object = object;
+        this.weight = weight;
+    }
+
+    public Object getObject() {
+        return object;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    @Override
+    public int compareTo(WeightedObject o) {
+        return Double.compare(weight, o.weight);
+    }
 }

@@ -22,16 +22,16 @@
 package net.sourceforge.cilib.util.selection.recipes;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Ordering;
 import java.util.Comparator;
 import java.util.List;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.util.selection.Samples;
+import net.sourceforge.cilib.util.selection.PartialSelection;
 import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.SelectionBuilder;
-import net.sourceforge.cilib.util.selection.ordering.DefaultComparator;
-import net.sourceforge.cilib.util.selection.ordering.RandomOrdering;
-import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
+import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
+import net.sourceforge.cilib.util.selection.arrangement.SortedArrangement;
 
 /**
  * A recipe for Rank based selection.
@@ -49,7 +49,7 @@ import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
 public class RankBasedSelector<E extends Comparable<? super E>> implements Selector<E> {
 
     private static final long serialVersionUID = -2387196820773731607L;
-    private Comparator<Selection.Entry<E>> comparator;
+    private Comparator<E> comparator;
     private RandomProvider random;
 
     /**
@@ -57,14 +57,14 @@ public class RankBasedSelector<E extends Comparable<? super E>> implements Selec
      */
     public RankBasedSelector() {
         this.random = new MersenneTwister();
-        this.comparator = new DefaultComparator<E>();
+        this.comparator = Ordering.natural();
     }
 
     /**
      * Create a new instance with the provided {@link Comparator}.
      * @param comparator The comparator to use.
      */
-    public RankBasedSelector(Comparator<Selection.Entry<E>> comparator) {
+    public RankBasedSelector(Comparator<E> comparator) {
         this.comparator = comparator;
         this.random = new MersenneTwister();
     }
@@ -82,7 +82,7 @@ public class RankBasedSelector<E extends Comparable<? super E>> implements Selec
      * Set the comparator to use.
      * @param comparator The value to set.
      */
-    public void setComparator(Comparator<Selection.Entry<E>> comparator) {
+    public void setComparator(Comparator<E> comparator) {
         this.comparator = comparator;
     }
 
@@ -90,7 +90,7 @@ public class RankBasedSelector<E extends Comparable<? super E>> implements Selec
      * Get the comparator.
      * @return The current comparator.
      */
-    public Comparator<Selection.Entry<E>> getComparator() {
+    public Comparator<E> getComparator() {
         return this.comparator;
     }
 
@@ -114,10 +114,9 @@ public class RankBasedSelector<E extends Comparable<? super E>> implements Selec
      * {@inheritDoc}
      */
     @Override
-    public SelectionBuilder<E> on(Iterable<? extends E> iterable) {
+    public PartialSelection<E> on(Iterable<E> iterable) {
         int size = Iterables.size(iterable);
-        List<E> list = Selection.from(iterable).orderBy(new SortedOrdering<E>(this.comparator))
-                .select(Samples.last(this.random.nextInt(size) + 1)).perform();
-        return Selection.from(list).orderBy(new RandomOrdering<E>(random)).and().reverse();
+        List<E> list = Selection.copyOf(iterable).orderBy(new SortedArrangement()).select(Samples.last(random.nextInt(size)+1));
+        return Selection.copyOf(list).orderBy(new RandomArrangement(random));
     }
 }

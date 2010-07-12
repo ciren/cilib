@@ -19,68 +19,68 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.selection.ordering;
+package net.sourceforge.cilib.util.selection.arrangement;
 
+import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import net.sourceforge.cilib.util.selection.Selection;
 
 /**
- * Apply a random ordering to the provided list. This class defines that the
- * list instance will have it's internal order randomly shuffled.
- * @param <E> The comparable type.
+ *
  * @author gpampara
  */
-public class RandomOrdering<E> implements Ordering<E> {
+public class RandomArrangement implements Arrangement {
 
-    private RandomProvider generator;
+    private final RandomProvider random;
 
-    /**
-     * Create a new instance. A {@link MersenneTwister} will be set as the
-     * predefined generator instance.
-     */
-    public RandomOrdering() {
-        this.generator = new MersenneTwister();
+    public RandomArrangement(RandomProvider random) {
+        this.random = random;
     }
 
-    /**
-     * Create an instance with the provided {@link Random} as the generator
-     * class to use.
-     * @param generator The random to use.
-     */
-    public RandomOrdering(RandomProvider generator) {
-        this.generator = generator;
-    }
-
-    /**
-     * {@inheritDoc} This ordering will be a random shuffle.
-     */
     @Override
-    public boolean order(List<Selection.Entry<E>> elements) {
-        shuffle(elements);
-        return true;
+    public <T extends Comparable> Iterable<T> arrange(final Iterable<T> elements) {
+        final List<T> list = Lists.newArrayList(elements);
+        shuffle(list);
+        return list;
+//        return new Iterable<T>() {
+//            final List<T> list = Lists.newArrayList(elements);
+//            @Override
+//            public Iterator<T> iterator() {
+//                return new UnmodifiableIterator() {
+//                    @Override
+//                    public boolean hasNext() {
+//                        return list.size() > 0;
+//                    }
+//
+//                    @Override
+//                    public T next() {
+//                        int k = random.nextInt(list.size());
+//                        T item = list.get(k);
+//                        list.remove(k);
+//                        return item;
+//                    }
+//                };
+//            }
+//        };
     }
 
     /**
      * Implementation of the Fisher-Yates shuffle algorithm. This algorithm runs in O(n).
      * <p>
-     * This method has been added to the implemenation due to the fact that Collections.shuffle()
+     * This method has been added to the implementation due to the fact that Collections.shuffle()
      * does not perform the same operation efficiently. Collections.shuffle() <b>does not</b>
-     * use the current size of the permutable sublist.
+     * use the current size of the permutation sublist.
      *
      * @param elements The elements to shuffle.
      */
-    private void shuffle(List<Selection.Entry<E>> elements) {
+    private <E> void shuffle(List<E> elements) {
         int n = elements.size();
 
         while (n > 1) {
-            int k = generator.nextInt(n); // 0 <= k < n
+            int k = random.nextInt(n); // 0 <= k < n
             n--;
             Collections.swap(elements, n, k);
         }
     }
-
 }

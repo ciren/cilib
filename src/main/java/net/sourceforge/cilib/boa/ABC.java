@@ -37,7 +37,6 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.RouletteWheelSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
@@ -168,8 +167,7 @@ public class ABC extends SinglePopulationBasedAlgorithm {
         }
 
         for (HoneyBee bee : onlookerBees) {
-            HoneyBee selectedBee = dancingSelectionStrategy.on(workerBees)
-                    .select(Samples.first()).performSingle();
+            HoneyBee selectedBee = dancingSelectionStrategy.on(workerBees).select();
             bee.setPosition(selectedBee.getPosition().getClone());
             bee.updatePosition();
             if (bestBee == null) {

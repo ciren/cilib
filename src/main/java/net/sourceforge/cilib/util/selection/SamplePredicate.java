@@ -21,8 +21,6 @@
  */
 package net.sourceforge.cilib.util.selection;
 
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
-
 /**
  *
  * @author gpampara
@@ -40,5 +38,4 @@ public interface SamplePredicate<T> {
     boolean apply(T input, int capacity);
 
     boolean isDone();
-
 }

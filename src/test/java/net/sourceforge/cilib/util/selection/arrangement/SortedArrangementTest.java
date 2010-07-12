@@ -19,32 +19,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.selection.ordering;
+package net.sourceforge.cilib.util.selection.arrangement;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import java.util.Arrays;
 import java.util.List;
-import net.sourceforge.cilib.util.selection.Selection;
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  *
  * @author gpampara
  */
-public class ReverseOrderingTest {
+public class SortedArrangementTest {
 
     @Test
-    public void reverseOrdering() {
-        List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        List<Selection.Entry<Integer>> entries = Selection.from(elements).entries();
-        boolean ordered = new ReverseOrdering<Integer>().order(entries);
-        Assert.assertThat(ordered, is(true));
+    public void arrange() {
+        List<Integer> elements = Arrays.asList(9, 8, 7, 6, 5, 4, 3, 2, 1);
+        Iterable<Integer> ordered = new SortedArrangement().arrange(elements);
 
-        for (int i = 0; i < 9; ++i) {
-            Assert.assertThat(entries.get(i).getElement(), is(equalTo(elements.size() - i)));
-        }
+        Assert.assertTrue(Iterables.elementsEqual(Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9), ordered));
     }
 }

@@ -19,24 +19,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.selection.ordering;
+package net.sourceforge.cilib.util.selection;
 
-import java.util.List;
-import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.arrangement.Arrangement;
 
 /**
- * An ordering is a construct to define how a list of elements should be ordered.
- * The ordering is a simple function that does a single action.
- * @param <E> The type to apply the ordering to.
+ *
  * @author gpampara
  */
-public interface Ordering<E> {
+public interface OrderableSelection<T> {
 
-    /**
-     * Apply the ordering on the provided list.
-     * @param elements The list to be ordered.
-     * @return {@code true} if successful, {@code false} otherwise.
-     */
-    boolean order(List<Selection.Entry<E>> elements);
-
+    OrderableSelection<T> orderBy(Arrangement arangement);
 }

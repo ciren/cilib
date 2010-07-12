@@ -25,7 +25,6 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.boa.ABC;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.util.selection.Samples;
 
 /**
  * A worker bee that forages for food and updates the hive information by dancing.
@@ -69,8 +68,7 @@ public class WorkerBee extends AbstractBee {
     @Override
     public void updatePosition() {
         ABC algorithm = (ABC) AbstractAlgorithm.get();
-        HoneyBee target = targetSelectionStrategy.on(algorithm.getWorkerBees())
-                .and().exclude(this).select(Samples.first()).performSingle();
+        HoneyBee target = targetSelectionStrategy.on(algorithm.getWorkerBees()).select();
 
 //        while (target == this) {
 //            target = targetSelectionStrategy.select(algorithm.getWorkerBees());

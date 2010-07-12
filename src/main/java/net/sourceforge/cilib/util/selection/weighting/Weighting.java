@@ -19,27 +19,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.selection.weighing.entity;
+package net.sourceforge.cilib.util.selection.weighting;
 
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.SocialEntity;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.util.selection.WeightedObject;
 
 /**
- * Obtain the social best fitness value from a {@link SocialEntity}.
- * @param <E> The type that is both an {@code Entity} and a {@code SocialEntity}.
- *            An example of such an entity is the {@link net.sourceforge.cilib.entity.Particle}.
- * @author Wiehann Matthysen
+ *
+ * @author gpampara
  */
-public class SocialBestFitness<E extends Entity & SocialEntity> implements EntityFitness<E> {
+public interface Weighting {
 
-    /**
-     * {@inheritDoc}
-     * Obtains the social based fitness from the {@link SocialEntity}.
-     */
-    @Override
-    public Fitness getFitness(E entity) {
-        return entity.getSocialFitness();
-    }
-
+    <T> Iterable<WeightedObject> weigh(Iterable<T> iterable);
 }

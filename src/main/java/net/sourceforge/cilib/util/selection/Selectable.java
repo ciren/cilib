@@ -19,32 +19,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.selection.ordering;
+package net.sourceforge.cilib.util.selection;
 
-import java.util.Arrays;
 import java.util.List;
-import net.sourceforge.cilib.util.selection.Selection;
-import org.junit.Assert;
-import org.junit.Test;
-
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
+import net.sourceforge.cilib.util.selection.Samples;
 
 /**
  *
  * @author gpampara
  */
-public class SortedOrderingTest {
+public interface Selectable<T> {
 
-    @Test
-    public void sortedOrdering() {
-        List<Integer> elements = Arrays.asList(9, 8, 7, 6, 5, 4, 3, 2, 1);
-        List<Selection.Entry<Integer>> entries = Selection.from(elements).entries();
-        boolean ordered = new SortedOrdering<Integer>().order(entries);
-        Assert.assertTrue(ordered);
+    /**
+     * Return the first element within the result of matching elements.
+     * @return
+     */
+    T select();
 
-        for (int i = 0; i < 9; ++i) {
-            Assert.assertThat(entries.get(i).getElement(), is(equalTo(i + 1)));
-        }
-    }
+    /**
+     * Return the list of matching elements.
+     * @param predicate
+     * @return
+     */
+    List<T> select(Samples predicate);
 }

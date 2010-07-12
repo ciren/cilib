@@ -68,7 +68,7 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
         // Select two parents, based on the selection strategy - this
         // is not 100% solid, needs to be looked at.
         List<Entity> selectedParents = Lists.newArrayList();
-        selectedParents.addAll(getSelectionStrategy().on(parentTopology).select(Samples.first(2)).perform());
+        selectedParents.addAll(getSelectionStrategy().on(parentTopology).select(Samples.first(2)));
 
         //How do we handle variable sizes? Resizing the entities?
         Entity parent1 = selectedParents.get(0);

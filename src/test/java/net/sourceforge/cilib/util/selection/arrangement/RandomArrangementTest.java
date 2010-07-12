@@ -19,24 +19,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.selection.weighing.entity;
+package net.sourceforge.cilib.util.selection.arrangement;
 
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.problem.Fitness;
+import com.google.common.collect.Lists;
+import java.util.List;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import org.junit.Test;
 
 /**
- * Obtain the current fitness of an entity.
- * @param <E> The entity type.
- * @author Wiehann Matthysen
+ *
+ * @author gpampara
  */
-public class CurrentFitness<E extends Entity> implements EntityFitness<E> {
+public class RandomArrangementTest {
 
-    /**
-     * {@inheritDoc}
-     * Get the current fitness of the Entity.
-     */
-    @Override
-    public Fitness getFitness(E entity) {
-        return entity.getFitness();
+    // This test needs to be completed.
+    @Test
+    public void iteration() {
+        List<Integer> ints = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        RandomArrangement arrangement = new RandomArrangement(new MersenneTwister());
+        
+        Iterable<Integer> iterable = arrangement.arrange(ints);
+        for (Integer i : iterable) {
+            System.out.println(i);
+        }
     }
 }

@@ -32,7 +32,6 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.DifferentialEvolutionBinomialCrossover;
-import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
@@ -42,8 +41,8 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
  * @author Gary Pampara
  */
 public class DifferentialEvolutionIterationStrategy extends AbstractIterationStrategy<EC> {
-    private static final long serialVersionUID = 8019668923312811974L;
 
+    private static final long serialVersionUID = 8019668923312811974L;
     private Selector targetVectorSelectionStrategy; // x
     private CreationStrategy trialVectorCreationStrategy; // y
     private CrossoverStrategy crossoverStrategy; // z
@@ -90,10 +89,7 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
             current.calculateFitness();
 
             // Create the trial vector by applying mutation
-//            topology.remove(current);
-            Entity targetEntity = (Entity) targetVectorSelectionStrategy.on(topology)
-                    .and().exclude(current).select(Samples.first()).performSingle();
-//            topology.add(current);
+            Entity targetEntity = (Entity) targetVectorSelectionStrategy.on(topology).exclude(current).select();
 
             // Create the trial vector / entity
             Entity trialEntity = trialVectorCreationStrategy.create(targetEntity, current, topology);
@@ -160,5 +156,4 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
     public void setTrialVectorCreationStrategy(CreationStrategy trialVectorCreationStrategy) {
         this.trialVectorCreationStrategy = trialVectorCreationStrategy;
     }
-
 }

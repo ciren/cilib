@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.util.selection.recipes;
 
-import net.sourceforge.cilib.util.selection.Samples;
 import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.ec.Individual;
@@ -33,7 +32,7 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
-import net.sourceforge.cilib.util.selection.weighing.entity.EntityWeighing;
+import net.sourceforge.cilib.util.selection.weighting.EntityWeighting;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -53,14 +52,14 @@ public class RouletteWheelSelectorTest {
     public void selectEmpty() {
         List<Integer> elements = Lists.newArrayList();
         RouletteWheelSelector<Integer> selection = new RouletteWheelSelector<Integer>();
-        selection.on(elements).select(Samples.first()).performSingle();
+        selection.on(elements).select();
     }
 
     @Test
     public void selectSingle() {
         List<Integer> elements = Lists.newArrayList(1);
         RouletteWheelSelector<Integer> selection = new RouletteWheelSelector<Integer>();
-        int selected = selection.on(elements).select(Samples.first()).performSingle();
+        int selected = selection.on(elements).select();
         Assert.assertThat(selected, is(1));
     }
 
@@ -77,8 +76,8 @@ public class RouletteWheelSelectorTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void selectionWithInferiorFitness() {
-        RouletteWheelSelector<Entity> rouletteWheelSelection = new RouletteWheelSelector<Entity>(new EntityWeighing<Entity>());
-        rouletteWheelSelection.on(new GBestTopology<Individual>()).select(Samples.first()).performSingle();
+        RouletteWheelSelector<Entity> rouletteWheelSelection = new RouletteWheelSelector<Entity>(new EntityWeighting());
+        rouletteWheelSelection.on(new GBestTopology<Entity>()).select();
     }
 
     @Test
@@ -88,12 +87,13 @@ public class RouletteWheelSelectorTest {
         topology.get(1).getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
         topology.get(2).getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.00001)); // Should be the best entity
 
-        RouletteWheelSelector<Individual> selection = new RouletteWheelSelector<Individual>(new EntityWeighing<Individual>());
+        RouletteWheelSelector<Individual> selection = new RouletteWheelSelector<Individual>(new EntityWeighting());
         selection.setRandom(new ConstantRandomNumber());
-        Individual selected = selection.on(topology).select(Samples.first()).performSingle();
+        Individual selected = selection.on(topology).select();
 
         Assert.assertThat(selected, is(notNullValue()));
         Assert.assertThat(topology, hasItem(selected));
+
         Assert.assertThat(selected, is(topology.get(2)));
     }
 
@@ -104,9 +104,9 @@ public class RouletteWheelSelectorTest {
         topology.get(1).getProperties().put(EntityType.FITNESS, new MaximisationFitness(90000.0)); // Should be the best entity
         topology.get(2).getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
 
-        RouletteWheelSelector<Individual> selection = new RouletteWheelSelector<Individual>(new EntityWeighing<Individual>());
+        RouletteWheelSelector<Individual> selection = new RouletteWheelSelector<Individual>(new EntityWeighting());
         selection.setRandom(new ConstantRandomNumber());
-        Individual selected = selection.on(topology).select(Samples.first()).performSingle();
+        Individual selected = selection.on(topology).select();
 
         Assert.assertThat(selected, is(notNullValue()));
         Assert.assertThat(topology, hasItem(selected));

@@ -19,23 +19,22 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.selection.recipes;
+package net.sourceforge.cilib.util.selection.weighting;
 
-import net.sourceforge.cilib.util.selection.PartialSelection;
-
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.problem.Fitness;
 
 /**
- * A recipe is a series of steps that need to be followed to achieve a
- * selection.
- * @param <E> The selection type.
+ * Obtain the fitness of an entity.
+ * @param <E> The entity type.
  * @author Wiehann Matthysen
  */
-public interface Selector<E> {
+public interface EntityFitness<E extends Entity> {
 
     /**
-     * Perform the selection process.
-     * @param elements The elements to perform the selection on.
-     * @return The selected element.
+     * Obtain the {@code Fitness} of the provided entity.
+     * @param entity The entity to query.
+     * @return The obtained {@link Fitness} value.
      */
-    PartialSelection<E> on(Iterable<E> iterable);
+    Fitness getFitness(E entity);
 }

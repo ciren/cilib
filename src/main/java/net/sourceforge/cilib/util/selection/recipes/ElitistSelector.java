@@ -21,11 +21,12 @@
  */
 package net.sourceforge.cilib.util.selection.recipes;
 
+import com.google.common.collect.Ordering;
 import java.util.Comparator;
+import net.sourceforge.cilib.util.selection.PartialSelection;
 import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.SelectionBuilder;
-import net.sourceforge.cilib.util.selection.ordering.DefaultComparator;
-import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
+import net.sourceforge.cilib.util.selection.arrangement.ReverseArrangement;
+import net.sourceforge.cilib.util.selection.arrangement.SortedArrangement;
 
 /**
  * A recipe for Elitist selection.
@@ -40,22 +41,22 @@ import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
  * @author Wiehann Matthysen
  */
 public class ElitistSelector<E extends Comparable<? super E>> implements Selector<E> {
-    private static final long serialVersionUID = -5432603299031620114L;
 
-    private Comparator<Selection.Entry<E>> comparator;
+    private static final long serialVersionUID = -5432603299031620114L;
+    private Comparator<E> comparator;
 
     /**
      * Create a new instance with a defined comparator being {@link DefaultComparator}.
      */
     public ElitistSelector() {
-        this.comparator = new DefaultComparator<E>();
+        this.comparator = Ordering.natural();
     }
 
     /**
      * Create a new instance with the provided {@link Comparator}.
      * @param comparator The comparator to set.
      */
-    public ElitistSelector(Comparator<Selection.Entry<E>> comparator) {
+    public ElitistSelector(Comparator<E> comparator) {
         this.comparator = comparator;
     }
 
@@ -71,7 +72,7 @@ public class ElitistSelector<E extends Comparable<? super E>> implements Selecto
      * Set the comparator to be used.
      * @param comparator The value to set.
      */
-    public void setComparator(Comparator<Selection.Entry<E>> comparator) {
+    public void setComparator(Comparator<E> comparator) {
         this.comparator = comparator;
     }
 
@@ -79,12 +80,13 @@ public class ElitistSelector<E extends Comparable<? super E>> implements Selecto
      * Get the current comparator.
      * @return The current comparator instance.
      */
-    public Comparator<Selection.Entry<E>> getComparator() {
+    public Comparator<E> getComparator() {
         return this.comparator;
     }
 
     @Override
-    public SelectionBuilder<E> on(Iterable<? extends E> iterable) {
-        return Selection.from(iterable).orderBy(new SortedOrdering<E>(this.comparator)).and().reverse();
+    public PartialSelection<E> on(Iterable<E> iterable) {
+        return Selection.copyOf(iterable).orderBy(new SortedArrangement())
+                .orderBy(new ReverseArrangement());
     }
 }

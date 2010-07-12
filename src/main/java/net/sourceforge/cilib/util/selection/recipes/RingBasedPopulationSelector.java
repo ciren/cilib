@@ -21,12 +21,8 @@
  */
 package net.sourceforge.cilib.util.selection.recipes;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.SelectionBuilder;
-import net.sourceforge.cilib.util.selection.ordering.Ordering;
-import net.sourceforge.cilib.util.selection.ordering.RingBasedOrdering;
+import net.sourceforge.cilib.util.selection.PartialSelection;
 
 /**
  * @author Wiehann Matthysen
@@ -38,9 +34,14 @@ public class RingBasedPopulationSelector implements Selector<PopulationBasedAlgo
     /**
      * {@inheritDoc}
      */
+//    @Override
+//    public SelectionBuilder<PopulationBasedAlgorithm> on(Iterable<? extends PopulationBasedAlgorithm> iterable) {
+//        Ordering<PopulationBasedAlgorithm> ordering = new RingBasedOrdering<PopulationBasedAlgorithm>((PopulationBasedAlgorithm) AbstractAlgorithm.get());
+//        return Selection.from(iterable).orderBy(ordering);
+//    }
+
     @Override
-    public SelectionBuilder<PopulationBasedAlgorithm> on(Iterable<? extends PopulationBasedAlgorithm> iterable) {
-        Ordering<PopulationBasedAlgorithm> ordering = new RingBasedOrdering<PopulationBasedAlgorithm>((PopulationBasedAlgorithm) AbstractAlgorithm.get());
-        return Selection.from(iterable).orderBy(ordering);
+    public PartialSelection<PopulationBasedAlgorithm> on(Iterable<PopulationBasedAlgorithm> iterable) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

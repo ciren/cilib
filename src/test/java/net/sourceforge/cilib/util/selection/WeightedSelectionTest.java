@@ -22,14 +22,12 @@
 package net.sourceforge.cilib.util.selection;
 
 import net.sourceforge.cilib.util.selection.WeightedSelection;
-import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.arrangement.Arrangement;
-import java.util.Collections;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
+import java.util.Collections;
 import java.util.List;
 import net.sourceforge.cilib.util.selection.Samples;
-import net.sourceforge.cilib.util.selection.weighting.FixedWeighting;
+import net.sourceforge.cilib.util.selection.arrangement.Arrangement;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
@@ -38,31 +36,29 @@ import static org.hamcrest.CoreMatchers.*;
  *
  * @author gpampara
  */
-public class SelectionTest {
+public class WeightedSelectionTest {
 
     @Test(expected = NullPointerException.class)
     public void nullInput() {
-        Selection.copyOf(null);
+        WeightedSelection.copyOf(null);
     }
 
     @Test
     public void creation() {
         List<Integer> ints = Lists.newArrayList(1, 2, 3);
-        Selection<Integer> selection = Selection.copyOf(ints);
+        WeightedSelection<Integer> selection = WeightedSelection.copyOf(ints);
     }
 
     @Test
     public void select() {
         List<Integer> ints = Lists.newArrayList(1, 2, 3);
-        Integer selection = Selection.copyOf(ints).select();
-
-        Assert.assertEquals(1, selection.intValue());
+        Integer selection = WeightedSelection.copyOf(ints).select();
     }
 
     @Test
     public void exclude() {
         List<Integer> ints = Lists.newArrayList(1, 2, 3);
-        List<Integer> result = Selection.copyOf(ints).exclude(1, 3).select(Samples.first());
+        List<Integer> result = WeightedSelection.copyOf(ints).exclude(1, 3).select(Samples.first());
 
         Assert.assertThat(result.get(0), is(2));
     }
@@ -70,7 +66,8 @@ public class SelectionTest {
     @Test
     public void filter() {
         List<Integer> ints = Lists.newArrayList(1, 2, 3);
-        List<Integer> items = Selection.copyOf(ints).filter(new Predicate<Integer>() {
+        List<Integer> items = WeightedSelection.copyOf(ints).filter(new Predicate<Integer>() {
+
             @Override
             public boolean apply(Integer input) {
                 return (input.intValue() % 2 == 0) ? true : false;
@@ -83,7 +80,7 @@ public class SelectionTest {
     @Test
     public void arrange() {
         List<Integer> ints = Lists.newArrayList(1, 2, 3);
-        List<Integer> outcome = Selection.copyOf(ints).orderBy(new Arrangement() {
+        List<Integer> outcome = WeightedSelection.copyOf(ints).orderBy(new Arrangement() {
             @Override
             public <T extends Comparable> Iterable<T> arrange(Iterable<T> elements) {
                 List<T> list = Lists.newArrayList(elements);
@@ -93,13 +90,5 @@ public class SelectionTest {
         }).select(Samples.all());
 
         Assert.assertArrayEquals(new Integer[]{3, 2, 1}, outcome.toArray());
-    }
-
-    @Test
-    public void weighTranslation() {
-        List<Integer> ints = Lists.newArrayList(1, 2, 3);
-        Object o = Selection.copyOf(ints).weigh(new FixedWeighting(1.0));
-
-        Assert.assertThat(o, instanceOf(WeightedSelection.class));
     }
 }

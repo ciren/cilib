@@ -19,23 +19,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.selection.recipes;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
-import net.sourceforge.cilib.util.selection.PartialSelection;
+package net.sourceforge.cilib.util.selection;
 
+import com.google.common.base.Predicate;
 
 /**
- * A recipe is a series of steps that need to be followed to achieve a
- * selection.
- * @param <E> The selection type.
- * @author Wiehann Matthysen
+ *
+ * @author gpampara
  */
-public interface Selector<E> {
+public interface FunctionalSelection<T> {
 
-    /**
-     * Perform the selection process.
-     * @param elements The elements to perform the selection on.
-     * @return The selected element.
-     */
-    PartialSelection<E> on(Iterable<E> iterable);
+    PartialSelection<T> exclude(T... items);
+
+    PartialSelection<T> exclude(Iterable<T> items);
+
+    PartialSelection<T> filter(Predicate<? super T> predicate);
 }

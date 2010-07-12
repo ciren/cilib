@@ -19,13 +19,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.selection;
+package net.sourceforge.cilib.util.selection.arrangement;
 
 /**
  *
+ * @author gpampara
  */
-public interface LinkedUniqueSelectionBuilder<T> extends LinkedSelectionBuilder<T> {
+public interface Arrangement {
 
-    LinkedSelectionBuilder<T> unique();
-
+    <T extends Comparable> Iterable<T> arrange(Iterable<T> elements);
 }

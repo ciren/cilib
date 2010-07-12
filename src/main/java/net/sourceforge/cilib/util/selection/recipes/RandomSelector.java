@@ -23,9 +23,9 @@ package net.sourceforge.cilib.util.selection.recipes;
 
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.util.selection.PartialSelection;
 import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.SelectionBuilder;
-import net.sourceforge.cilib.util.selection.ordering.RandomOrdering;
+import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
 
 /**
  * Perform a random selection from the provided list of elements.
@@ -67,8 +67,7 @@ public class RandomSelector<E> implements Selector<E> {
     }
 
     @Override
-    public SelectionBuilder<E> on(Iterable<? extends E> iterable) {
-        return Selection.from(iterable).orderBy(new RandomOrdering<E>(random))
-                .and().reverse();
+    public PartialSelection<E> on(Iterable<E> iterable) {
+        return (Selection<E>) Selection.copyOf(iterable).orderBy(new RandomArrangement(random));
     }
 }

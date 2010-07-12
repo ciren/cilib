@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.util.selection.recipes;
 
-import net.sourceforge.cilib.util.selection.Samples;
 import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
@@ -46,7 +45,7 @@ public class TournamentSelectorTest {
     public void selectEmpty() {
         List<Integer> elements = Lists.newArrayList();
         TournamentSelector<Integer> selection = new TournamentSelector<Integer>();
-        selection.on(elements).select(Samples.first()).performSingle();
+        selection.on(elements).select();
     }
 
     @Test
@@ -54,7 +53,7 @@ public class TournamentSelectorTest {
         List<Integer> elements = Lists.newArrayList(1);
         TournamentSelector<Integer> selection = new TournamentSelector<Integer>();
         selection.setTournamentSize(new ProportionalControlParameter(1.0));
-        int selected = selection.on(elements).select(Samples.first()).performSingle();
+        int selected = selection.on(elements).select();
         Assert.assertThat(selected, is(1));
     }
 
@@ -68,7 +67,7 @@ public class TournamentSelectorTest {
         List<Integer> list = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
         TournamentSelector<Integer> selection = new TournamentSelector<Integer>();
         selection.setTournamentSize(new ProportionalControlParameter(1.0));
-        int selected = selection.on(list).select(Samples.first()).performSingle();
+        int selected = selection.on(list).select();
         Assert.assertThat(selected, is(9));
     }
 
@@ -78,7 +77,7 @@ public class TournamentSelectorTest {
         TournamentSelector<Integer> selection = new TournamentSelector<Integer>();
         selection.getTournamentSize().setParameter(0.5);
         selection.setRandom(new ConstantRandomNumber());
-        int selected = selection.on(list).select(Samples.first()).performSingle();
+        int selected = selection.on(list).select();
 
         List<Integer> otherList = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
@@ -134,6 +133,5 @@ public class TournamentSelectorTest {
         public void nextBytes(byte[] bytes) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
-
     }
 }

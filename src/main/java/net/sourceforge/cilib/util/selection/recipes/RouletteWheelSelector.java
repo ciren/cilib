@@ -21,14 +21,15 @@
  */
 package net.sourceforge.cilib.util.selection.recipes;
 
+import net.sourceforge.cilib.util.selection.PartialSelection;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.SelectionBuilder;
-import net.sourceforge.cilib.util.selection.ordering.ProportionalOrdering;
-import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
-import net.sourceforge.cilib.util.selection.weighing.LinearWeighing;
-import net.sourceforge.cilib.util.selection.weighing.Weighing;
+import net.sourceforge.cilib.util.selection.arrangement.ProportionalArrangement;
+import net.sourceforge.cilib.util.selection.arrangement.ReverseArrangement;
+import net.sourceforge.cilib.util.selection.arrangement.SortedArrangement;
+import net.sourceforge.cilib.util.selection.weighting.LinearWeighting;
+import net.sourceforge.cilib.util.selection.weighting.Weighting;
 
 /**
  * A recipe for Roulette wheel selection.
@@ -45,14 +46,14 @@ import net.sourceforge.cilib.util.selection.weighing.Weighing;
 public class RouletteWheelSelector<E extends Comparable<? super E>> implements Selector<E> {
 
     private static final long serialVersionUID = 4194450350205390514L;
-    private Weighing<E> weighing;
+    private Weighting weighting;
     private RandomProvider random;
 
     /**
      * Create a new instance.
      */
     public RouletteWheelSelector() {
-        this.weighing = new LinearWeighing<E>();
+        this.weighting = new LinearWeighting();
         this.random = new MersenneTwister();
     }
 
@@ -60,8 +61,8 @@ public class RouletteWheelSelector<E extends Comparable<? super E>> implements S
      * Create a new instance with the provided weighing strategy.
      * @param weighing The weighing strategy to set.
      */
-    public RouletteWheelSelector(Weighing<E> weighing) {
-        this.weighing = weighing;
+    public RouletteWheelSelector(Weighting weighing) {
+        this.weighting = weighing;
         this.random = new MersenneTwister();
     }
 
@@ -70,7 +71,7 @@ public class RouletteWheelSelector<E extends Comparable<? super E>> implements S
      * @param copy The instance to copy.
      */
     public RouletteWheelSelector(RouletteWheelSelector<E> copy) {
-        this.weighing = copy.weighing.getClone();
+        this.weighting = copy.weighting;
         this.random = copy.random;
     }
 
@@ -78,16 +79,16 @@ public class RouletteWheelSelector<E extends Comparable<? super E>> implements S
      * Set the weighing strategy
      * @param weighing The strategy to set.
      */
-    public void setWeighing(Weighing<E> weighing) {
-        this.weighing = weighing;
+    public void setWeighing(Weighting weighing) {
+        this.weighting = weighing;
     }
 
     /**
      * Get the current weighing strategy.
      * @return The current weighing strategy.
      */
-    public Weighing<E> getWeighing() {
-        return this.weighing;
+    public Weighting getWeighing() {
+        return this.weighting;
     }
 
     /**
@@ -110,10 +111,10 @@ public class RouletteWheelSelector<E extends Comparable<? super E>> implements S
      * {@inheritDoc}
      */
     @Override
-    public SelectionBuilder<E> on(Iterable<? extends E> iterable) {
-        return Selection.from(iterable).weigh(this.weighing).and()
-                .orderBy(new SortedOrdering<E>()).and()
-                .orderBy(new ProportionalOrdering<E>(this.random))
-                .and().reverse();
+    public PartialSelection<E> on(Iterable<E> iterable) {
+        return Selection.copyOf(iterable).weigh(weighting)
+                .orderBy(new SortedArrangement())
+                .orderBy(new ProportionalArrangement())
+                .orderBy(new ReverseArrangement());
     }
 }

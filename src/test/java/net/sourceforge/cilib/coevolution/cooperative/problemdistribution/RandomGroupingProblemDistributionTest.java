@@ -44,8 +44,9 @@ import org.jmock.Mockery;
 import org.junit.Test;
 
 public class RandomGroupingProblemDistributionTest {
+
     @Test
-    public void RandomGroupingTest(){
+    public void RandomGroupingTest() {
         SeedSelectionStrategy seedStrategy = Seeder.getSeederStrategy();
         Seeder.setSeederStrategy(new ZeroSeederStrategy());
         try {
@@ -59,32 +60,30 @@ public class RandomGroupingProblemDistributionTest {
             data.add(Real.valueOf(0.0, bounds));
             data.add(Real.valueOf(0.0, bounds));
 
-            List<PopulationBasedAlgorithm> populations = Arrays.asList((PopulationBasedAlgorithm)new PSO(), (PopulationBasedAlgorithm)new PSO());
+            List<PopulationBasedAlgorithm> populations = Arrays.asList((PopulationBasedAlgorithm) new PSO(), (PopulationBasedAlgorithm) new PSO());
 
             Mockery context = new Mockery();
             final OptimisationProblem problem = context.mock(OptimisationProblem.class);
             context.checking(new Expectations() {{
-                allowing (problem).getDomain();
-                will(returnValue(problemDomain));
+                allowing(problem).getDomain(); will(returnValue(problemDomain));
             }});
 
             RandomGroupingDistributionStrategy test = new RandomGroupingDistributionStrategy();
             test.performDistribution(populations, problem, data);
 
-            CooperativeCoevolutionProblemAdapter p1 = (CooperativeCoevolutionProblemAdapter)populations.get(0).getOptimisationProblem();
-            CooperativeCoevolutionProblemAdapter p2 = (CooperativeCoevolutionProblemAdapter)populations.get(1).getOptimisationProblem();
+            CooperativeCoevolutionProblemAdapter p1 = (CooperativeCoevolutionProblemAdapter) populations.get(0).getOptimisationProblem();
+            CooperativeCoevolutionProblemAdapter p2 = (CooperativeCoevolutionProblemAdapter) populations.get(1).getOptimisationProblem();
 
             assertEquals(3, p1.getDomain().getDimension(), 0.0);
             assertEquals(2, p2.getDomain().getDimension(), 0.0);
 
-            assertEquals(1, p1.getProblemAllocation().getProblemIndex(0), 0.0);
-            assertEquals(0, p1.getProblemAllocation().getProblemIndex(1), 0.0);
-            assertEquals(3, p1.getProblemAllocation().getProblemIndex(2), 0.0);
+            assertEquals(3, p1.getProblemAllocation().getProblemIndex(0), 0.0);
+            assertEquals(2, p1.getProblemAllocation().getProblemIndex(1), 0.0);
+            assertEquals(4, p1.getProblemAllocation().getProblemIndex(2), 0.0);
 
-            assertEquals(4, p2.getProblemAllocation().getProblemIndex(0), 0.0);
-            assertEquals(2, p2.getProblemAllocation().getProblemIndex(1), 0.0);
-        }
-        finally {
+            assertEquals(1, p2.getProblemAllocation().getProblemIndex(0), 0.0);
+            assertEquals(0, p2.getProblemAllocation().getProblemIndex(1), 0.0);
+        } finally {
             Seeder.setSeederStrategy(seedStrategy);
         }
     }

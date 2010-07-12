@@ -19,20 +19,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.selection;
+package net.sourceforge.cilib.util.selection.arrangement;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import java.util.Collections;
 import java.util.List;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  *
  * @author gpampara
  */
-public interface SampleSelectionBuilder<T> {
+public class ReverseArrangementTest {
 
-    List<T> perform();
+    @Test
+    public void arrangement() {
+        List<Integer> elements = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        
+        List<Integer> expected = Lists.newArrayList(elements);
+        Collections.reverse(expected);
 
-    T performSingle();
+        Iterable<Integer> ordered = new ReverseArrangement().arrange(elements);
 
-    LinkedSelectionBuilder<T> and();
-
+        Assert.assertTrue(Iterables.elementsEqual(expected, ordered));
+    }
 }

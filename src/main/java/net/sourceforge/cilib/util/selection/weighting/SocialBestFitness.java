@@ -19,30 +19,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.selection.weighing;
+package net.sourceforge.cilib.util.selection.weighting;
 
-import java.util.List;
-import net.sourceforge.cilib.util.Cloneable;
-import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.SocialEntity;
+import net.sourceforge.cilib.problem.Fitness;
 
 /**
- * Interface defining how weighing for selections are to operate.
- * @param <E> The selection type.
+ * Obtain the social best fitness value from a {@link SocialEntity}.
+ * @param <E> The type that is both an {@code Entity} and a {@code SocialEntity}.
+ *            An example of such an entity is the {@link net.sourceforge.cilib.entity.Particle}.
  * @author Wiehann Matthysen
  */
-public interface Weighing<E> extends Cloneable {
+public class SocialBestFitness<E extends Entity & SocialEntity> implements EntityFitness<E> {
 
     /**
      * {@inheritDoc}
+     * Obtains the social based fitness from the {@link SocialEntity}.
      */
     @Override
-    Weighing<E> getClone();
-
-    /**
-     * Perform a weighing on the provided list of entries.
-     * @param elements The entries to weigh.
-     * @return {@code true} if successful, {@code false} otherwise.
-     */
-    boolean weigh(List<Selection.Entry<E>> elements);
+    public Fitness getFitness(E entity) {
+        return entity.getSocialFitness();
+    }
 
 }
