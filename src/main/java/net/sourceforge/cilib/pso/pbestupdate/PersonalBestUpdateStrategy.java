@@ -19,14 +19,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.positionupdatestrategies;
+package net.sourceforge.cilib.pso.pbestupdate;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Update the personal best of the particle. Updates are done in a variety
- * of manners, refer to implmentations for details.
+ * of manners, refer to implementations for details.
  *
  * @author gpampara
  */
@@ -42,5 +42,4 @@ public interface PersonalBestUpdateStrategy extends Cloneable {
      * @param particle The particle to update.
      */
     void updatePersonalBest(Particle particle);
-
 }
