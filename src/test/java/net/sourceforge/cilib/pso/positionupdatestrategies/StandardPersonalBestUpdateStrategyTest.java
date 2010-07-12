@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.pso.positionupdatestrategies;
 
+import net.sourceforge.cilib.pso.pbestupdate.StandardPersonalBestUpdateStrategy;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.MinimisationFitness;

@@ -19,19 +19,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.positionupdatestrategies;
+package net.sourceforge.cilib.pso.pbestupdate;
 
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.problem.InferiorFitness;
+import net.sourceforge.cilib.type.types.Types;
 
 /**
- * Update the personal best of the particle, based on the standard PSO definition
- * of the process.
+ * Update the personal best of the particle, if it is a valid update. Valid updates are
+ * defined to be only within the problem search space. Any particle drifting into an
+ * infeasible part of the search space will be allowed to do so, however, any solutions
+ * found will not allowed to become personal best positions.
  *
  * @author gpampara
  */
-public class StandardPersonalBestUpdateStrategy implements PersonalBestUpdateStrategy {
-    private static final long serialVersionUID = 266386833476786081L;
+public class BoundedPersonalBestUpdateStrategy extends StandardPersonalBestUpdateStrategy {
+
+    private static final long serialVersionUID = -3574938411781908840L;
 
     /**
      * {@inheritDoc}
@@ -42,16 +47,17 @@ public class StandardPersonalBestUpdateStrategy implements PersonalBestUpdateStr
     }
 
     /**
-     * If the current fitness is better than the current best fitness, update
-     * the best fitness of the particle to equal the current fitness and make
-     * the personal best position a clone of the current particle position.
+     * Update personal best if and only if the particle is within the bounds of the
+     * search space / problem.
      * @param particle The particle to update.
      */
     @Override
     public void updatePersonalBest(Particle particle) {
-        if (particle.getFitness().compareTo(particle.getBestFitness()) > 0) {
-            particle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getFitness());
-            particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition().getClone());
+        if (!Types.isInsideBounds(particle.getPosition())) {
+            particle.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+            return;
         }
+
+        super.updatePersonalBest(particle);
     }
 }
