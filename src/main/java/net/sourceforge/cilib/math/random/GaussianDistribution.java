@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.math.random;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
@@ -77,10 +78,7 @@ public class GaussianDistribution implements ProbabilityDistributionFuction {
      */
     @Override
     public double getRandomNumber(double... locationScale) {
-        if(locationScale.length != 2) {
-            throw new IllegalArgumentException("The Gaussian distribution requires two parameters. The first specifies the mean, the second specifies the deviation.");
-        }
-        
+        checkArgument(locationScale.length == 2, "The Gaussian distribution requires two parameters. The first specifies the mean, the second specifies the deviation.");
         double q, u, v, x, y;
 
         /*

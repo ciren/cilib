@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.math.random;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
@@ -57,7 +58,7 @@ public class CauchyDistribution implements ProbabilityDistributionFuction {
     /**
      * Return a random number sampled from the Cauchy distribution.
      * Two parameters are required. The first specifies the location,
-     * the second sepcifies the scale.
+     * the second specifies the scale.
      * @param location The location of the mean of the distribution.
      * @param scale The allowed variation that can be observed.
      * @return A Cauchy random number with location <tt>location</tt> and
@@ -65,10 +66,9 @@ public class CauchyDistribution implements ProbabilityDistributionFuction {
      */
     @Override
     public double getRandomNumber(double... locationScale) {
-        if(locationScale.length != 2 || locationScale[1] <= 0) {
-            throw new IllegalArgumentException("The Cauchy distribution requires two parameters. The first specifies the location, the second specifies the scale. The scale must be greater than zero.");
-        }
-        
+        checkArgument(locationScale.length == 2, "The Cauchy distribution requires two parameters.");
+        checkArgument(locationScale[1] > 0, "The scale must be greater than zero.");
+
         double x = provider.nextDouble(); // Uniform number between 0.0 and 1.0
 
         return locationScale[0] + locationScale[1] * Math.tan(Math.PI * (x - 0.5));

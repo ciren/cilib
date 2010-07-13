@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.math.random;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
@@ -29,6 +30,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  * @author Bennie Leonard
  */
 public class ExponentialDistribution implements ProbabilityDistributionFuction {
+
     private RandomProvider provider;
 
     public ExponentialDistribution() {
@@ -48,7 +50,6 @@ public class ExponentialDistribution implements ProbabilityDistributionFuction {
         return getRandomNumber(1);
     }
 
-
     /**
      * Get an Exponentially-distributed random number. The rate of the distribution
      * is given by <code>rate</code>.
@@ -58,12 +59,10 @@ public class ExponentialDistribution implements ProbabilityDistributionFuction {
      */
     @Override
     public double getRandomNumber(double... rate) {
-        if(rate.length != 1 || rate[0] <= 0) {
-            throw new IllegalArgumentException("The Exponential distribution requires a single parameter that specifies the rate. The rate parameter must be greater than zero.");
-        }
+        checkArgument(rate.length == 1, "The Exponential distribution requires a single parameter that specifies the rate.");
+        checkArgument(rate[0] > 0, "The rate for the Exponential distribution parameter must be greater than zero.");
 
         double r = provider.nextDouble(); //uniform number in the range (0.0, 1.0]:
-
         return -Math.log(1 - r) / rate[0];
     }
 
@@ -74,5 +73,4 @@ public class ExponentialDistribution implements ProbabilityDistributionFuction {
     public RandomProvider getRandomProvider() {
         return provider;
     }
-
 }

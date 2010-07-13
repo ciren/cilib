@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.math.random;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
@@ -29,6 +30,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  * @author Bennie Leonard
  */
 public class GammaDistribution implements ProbabilityDistributionFuction {
+
     private RandomProvider provider;
 
     public GammaDistribution() {
@@ -48,7 +50,6 @@ public class GammaDistribution implements ProbabilityDistributionFuction {
         return getRandomNumber(2, 2.0);
     }
 
-
     /**
      * Get a Gamma-distributed random number. Two parameters are required.
      * The first specifies the shape, the second specifies the scale.
@@ -56,7 +57,7 @@ public class GammaDistribution implements ProbabilityDistributionFuction {
      * This method takes advantage of the following relationship between
      * the Gamma and Exponential distributions:
      *
-     * if X1...Xn ~ Exponetial(lambda) are exponentially distributed
+     * if X1...Xn ~ Exponential(lambda) are exponentially distributed
      * and Y = X1 + X2 + ... + Xn, then Y ~ Gamma(n, 1/lambda).
      *
      * @param shape The shape of the Gamma distribution.
@@ -66,15 +67,15 @@ public class GammaDistribution implements ProbabilityDistributionFuction {
      */
     @Override
     public double getRandomNumber(double... shapeScale) {
-        if(shapeScale.length != 2 || shapeScale[0] <= 0 || shapeScale[1] <= 0) {
-            throw new IllegalArgumentException("The Gamma distribution requires two parameters. The first specifies the shape, the second specifies the scale. Both parameters must be greater than zero, and shape is assumed to be an integer.");
-        }
+        checkArgument(shapeScale.length == 2, "The Gamma distribution requires two parameters. ");
+        checkArgument(shapeScale[0] > 0, "The first provided parameter (shape parameter) must be an integer greater than zero.");
+        checkArgument(shapeScale[1] > 0, "The second provided parameter (scale parameter) must be greater than zero.");
 
-        double sum = 0;
         ProbabilityDistributionFuction expPdf = new ExponentialDistribution();
-        
-        for(int i = 0; i < shapeScale[0]; i++) {
-            sum+= expPdf.getRandomNumber(1/shapeScale[1]);
+        double sum = 0;
+
+        for (int i = 0; i < shapeScale[0]; i++) {
+            sum += expPdf.getRandomNumber(1 / shapeScale[1]);
         }
 
         return sum;
@@ -87,5 +88,4 @@ public class GammaDistribution implements ProbabilityDistributionFuction {
     public RandomProvider getRandomProvider() {
         return provider;
     }
-
 }

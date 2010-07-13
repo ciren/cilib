@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.math.random;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
@@ -29,6 +30,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  * @author Bennie Leonard
  */
 public class LaplaceDistribution implements ProbabilityDistributionFuction {
+
     private RandomProvider provider;
 
     public LaplaceDistribution() {
@@ -48,7 +50,6 @@ public class LaplaceDistribution implements ProbabilityDistributionFuction {
         return getRandomNumber(0, 1);
     }
 
-
     /**
      * Get a Laplace-distributed random number. Two parameters are required.
      * The first specifies the location, the second specifies the scale.
@@ -59,13 +60,12 @@ public class LaplaceDistribution implements ProbabilityDistributionFuction {
      */
     @Override
     public double getRandomNumber(double... parameters) {
-        if(parameters.length != 2 || parameters[1] <= 0) {
-            throw new IllegalArgumentException("The Laplace distribution requires two parameters. The first specifies the location, the second specifies the scale. The scale must be greater than zero.");
-        }
+        checkArgument(parameters.length == 2, "The Laplace distribution requires two parameters.");
+        checkArgument(parameters[1] > 0, "The scale parameter must be greater than zero.");
 
         double r = provider.nextDouble() - 0.5; //uniform number in the range (-0.5, 0.5]:
 
-        return parameters[0] - parameters[1] * (Math.log(1 - 2*Math.abs(r))) * Math.signum(r);
+        return parameters[0] - parameters[1] * (Math.log(1 - 2 * Math.abs(r))) * Math.signum(r);
     }
 
     /**
@@ -75,5 +75,4 @@ public class LaplaceDistribution implements ProbabilityDistributionFuction {
     public RandomProvider getRandomProvider() {
         return provider;
     }
-
 }

@@ -30,15 +30,17 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * a Sphere function to an Elliptic function.
  *
  * Reference:
- *
- * @article{tang2010benchmark,
+ *<pre>
+ * {@literal @}article{tang2010benchmark,
  * title={{Benchmark Functions for the CEC’2010 Special Session and Competition on Large-Scale Global Optimization}},
  * author={Tang, K. and Li, X. and Suganthan, PN and Yang, Z. and Weise, T.},
  * year={2010}}
- * 
+ * </pre>
+ *
  * @author Bennie Leonard
  */
 public class Elliptic extends ContinuousFunction {
+
     //the condition number 10^6 is used to transform a sphere to an elliptic function
     static final double CONDITION_NUMBER = 1000000;
 
@@ -48,17 +50,17 @@ public class Elliptic extends ContinuousFunction {
 
     @Override
     public ContinuousFunction getClone() {
-        return new Elliptic();
+        return this;
     }
 
     @Override
     public Double apply(Vector input) {
         double sum = 0;
 
-        for(int i = 0; i < getDimension(); i++) {
-            sum += Math.pow(CONDITION_NUMBER, i/(getDimension()-1)) * input.getReal(i) * input.getReal(i);
+        for (int i = 0; i < input.size(); i++) {
+            sum += Math.pow(CONDITION_NUMBER, i / (input.size() - 1)) * input.doubleValueOf(i) * input.doubleValueOf(i);
         }
 
-        return new Double(sum);
+        return sum;
     }
 }
