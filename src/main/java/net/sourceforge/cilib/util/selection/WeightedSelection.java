@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.util.selection;
 
-import net.sourceforge.cilib.util.selection.Samples;
 import java.util.List;
 import net.sourceforge.cilib.util.selection.arrangement.Arrangement;
 import com.google.common.base.Predicate;

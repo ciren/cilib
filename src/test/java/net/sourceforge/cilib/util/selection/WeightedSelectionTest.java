@@ -21,12 +21,10 @@
  */
 package net.sourceforge.cilib.util.selection;
 
-import net.sourceforge.cilib.util.selection.WeightedSelection;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
-import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.arrangement.Arrangement;
 import org.junit.Assert;
 import org.junit.Test;
