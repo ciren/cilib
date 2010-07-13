@@ -31,7 +31,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test the validity of the implmentation of the {@link Elliptic} function.
+ * Test the validity of the implementation of the {@link Elliptic} function.
  * @author Bennie Leonard
  */
 public class EllipticTest {
@@ -41,23 +41,18 @@ public class EllipticTest {
     @Before
     public void instantiate() {
         this.function = new Elliptic();
+        function.setDomain("R(-2, 2)^2");
     }
 
-    /**
-     * Test of evaluate method.
-     */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-2, 2)^2");
-
-        Vector x = new Vector();
-
-        x.append(new Real(0.0));
-        x.append(new Real(0.0));
+        Vector x = Vector.of(Real.valueOf(0.0), Real.valueOf(0.0));
         Assert.assertEquals(0.0, function.apply(x), Maths.EPSILON);
+    }
 
-        x.setReal(0, 1.0);
-        x.setReal(1, 2.0);
+    @Test
+    public void additionEvaluation() {
+        Vector x = Vector.of(Real.valueOf(1.0), Real.valueOf(2.0));
         Assert.assertEquals(4000001, function.apply(x), Maths.EPSILON);
     }
 }
