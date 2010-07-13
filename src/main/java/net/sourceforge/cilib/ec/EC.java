@@ -79,6 +79,7 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
         this.initialisationStrategy = copy.initialisationStrategy.getClone();
         this.iterationStrategy = copy.iterationStrategy.getClone();
         this.topology = copy.topology.getClone();
+        this.strategyParameterInitialization = copy.strategyParameterInitialization.getClone();
         this.contributionSelection = copy.contributionSelection.getClone();
     }
 
