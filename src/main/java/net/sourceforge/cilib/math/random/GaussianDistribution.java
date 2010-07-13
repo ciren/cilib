@@ -56,6 +56,9 @@ public class GaussianDistribution implements ProbabilityDistributionFuction {
      * Return a random number with the mean of <code>mean</code> and a deviation of
      * <code>deviation</code>. Based on the formula:<br><code>s*U(0, 1) + m == U(m, s)</code>
      *
+     * Two parameters are required. The first specifies the location, the second
+     * specifies the scale.
+     *
      * <p>
      * ALGORITHM 712, COLLECTED ALGORITHMS FROM ACM.<br>
      * THIS WORK PUBLISHED IN TRANSACTIONS ON MATHEMATICAL SOFTWARE,<br>
@@ -73,7 +76,11 @@ public class GaussianDistribution implements ProbabilityDistributionFuction {
      * @return A Gaussian number with mean <code>location</code> and deviation <code>scale</code>
      */
     @Override
-    public double getRandomNumber(double location, double scale) {
+    public double getRandomNumber(double... locationScale) {
+        if(locationScale.length != 2) {
+            throw new IllegalArgumentException("The Gaussian distribution requires two parameters. The first specifies the mean, the second specifies the deviation.");
+        }
+        
         double q, u, v, x, y;
 
         /*
@@ -105,7 +112,7 @@ public class GaussianDistribution implements ProbabilityDistributionFuction {
         } while ((q > 0.27846) || (v * v > -4.0 * Math.log(u) * u * u));
 
         /*  Return ratio of P's coordinates as the normal deviate */
-        return (location + scale * v / u);
+        return (locationScale[0] + locationScale[1] * v / u);
     }
 
     public RandomProvider getProvider() {
