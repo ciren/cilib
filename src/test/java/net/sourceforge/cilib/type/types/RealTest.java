@@ -122,7 +122,7 @@ public class RealTest {
     @Test
     public void defaultDomain() {
         Bounds expected = new Bounds(-Double.MAX_VALUE, Double.MAX_VALUE);
-        Real real = new Real(0.0);
+        Real real = Real.valueOf(0.0);
         Assert.assertThat(real.getBounds(), equalTo(expected));
     }
 }
