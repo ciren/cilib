@@ -56,16 +56,22 @@ public class CauchyDistribution implements ProbabilityDistributionFuction {
 
     /**
      * Return a random number sampled from the Cauchy distribution.
+     * Two parameters are required. The first specifies the location,
+     * the second sepcifies the scale.
      * @param location The location of the mean of the distribution.
      * @param scale The allowed variation that can be observed.
      * @return A Cauchy random number with location <tt>location</tt> and
      *         scale parameter <tt>scale</tt>
      */
     @Override
-    public double getRandomNumber(double location, double scale) {
+    public double getRandomNumber(double... locationScale) {
+        if(locationScale.length != 2 || locationScale[1] <= 0) {
+            throw new IllegalArgumentException("The Cauchy distribution requires two parameters. The first specifies the location, the second specifies the scale. The scale must be greater than zero.");
+        }
+        
         double x = provider.nextDouble(); // Uniform number between 0.0 and 1.0
 
-        return location + scale * Math.tan(Math.PI * (x - 0.5));
+        return locationScale[0] + locationScale[1] * Math.tan(Math.PI * (x - 0.5));
     }
 
     public RandomProvider getProvider() {

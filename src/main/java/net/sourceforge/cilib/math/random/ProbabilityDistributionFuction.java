@@ -39,17 +39,16 @@ public interface ProbabilityDistributionFuction {
     double getRandomNumber();
 
     /**
-     * Sample a random number from the distribution, given two control
+     * Sample a random number from the distribution, given a number of control
      * parameters.
      * The control parameters can be any parameters needed by the specific
      * concrete distribution.
      * eg. mean and variance, or upper and lower bounds etc.
      *
-     * @param p1 The first control parameter
-     * @param p2 The second control parameter
+     * @param parameters The control parameter for the distribution function.
      * @return
      */
-    double getRandomNumber(double p1, double p2);
+    double getRandomNumber(double... parameters);
 
     /**
      * Obtain the internal Pseudo-random number generator.
