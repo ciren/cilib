@@ -32,8 +32,8 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.DifferentialEvolutionBinomialCrossover;
-import net.sourceforge.cilib.entity.operators.selection.RandomSelectionStrategy;
-import net.sourceforge.cilib.entity.operators.selection.SelectionStrategy;
+import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
+import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
  * Evolutionary Strategy to implement the Differential Evolutionary Algorithm.
@@ -41,9 +41,9 @@ import net.sourceforge.cilib.entity.operators.selection.SelectionStrategy;
  * @author Gary Pampara
  */
 public class DifferentialEvolutionIterationStrategy extends AbstractIterationStrategy<EC> {
-    private static final long serialVersionUID = 8019668923312811974L;
 
-    private SelectionStrategy targetVectorSelectionStrategy; // x
+    private static final long serialVersionUID = 8019668923312811974L;
+    private Selector targetVectorSelectionStrategy; // x
     private CreationStrategy trialVectorCreationStrategy; // y
     private CrossoverStrategy crossoverStrategy; // z
 
@@ -51,7 +51,7 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
      * Create an instance of the {@linkplain DifferentialEvolutionIterationStrategy}.
      */
     public DifferentialEvolutionIterationStrategy() {
-        this.targetVectorSelectionStrategy = new RandomSelectionStrategy();
+        this.targetVectorSelectionStrategy = new RandomSelector();
         this.trialVectorCreationStrategy = new RandCreationStrategy();
         this.crossoverStrategy = new DifferentialEvolutionBinomialCrossover();
     }
@@ -61,7 +61,7 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
      * @param copy The instance to copy.
      */
     public DifferentialEvolutionIterationStrategy(DifferentialEvolutionIterationStrategy copy) {
-        this.targetVectorSelectionStrategy = copy.targetVectorSelectionStrategy.getClone();
+        this.targetVectorSelectionStrategy = copy.targetVectorSelectionStrategy;
         this.trialVectorCreationStrategy = copy.trialVectorCreationStrategy.getClone();
         this.crossoverStrategy = copy.crossoverStrategy.getClone();
     }
@@ -89,9 +89,7 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
             current.calculateFitness();
 
             // Create the trial vector by applying mutation
-            topology.remove(current);
-            Entity targetEntity = targetVectorSelectionStrategy.select(topology);
-            topology.add(current);
+            Entity targetEntity = (Entity) targetVectorSelectionStrategy.on(topology).exclude(current).select();
 
             // Create the trial vector / entity
             Entity trialEntity = trialVectorCreationStrategy.create(targetEntity, current, topology);
@@ -114,7 +112,7 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
      * Obtain the {@linkplain SelectionStrategy} used to select the target vector.
      * @return The {@linkplain SelectionStrategy} of the target vector.
      */
-    public SelectionStrategy getTargetVectorSelectionStrategy() {
+    public Selector getTargetVectorSelectionStrategy() {
         return targetVectorSelectionStrategy;
     }
 
@@ -123,7 +121,7 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
      * @param targetVectorSelectionStrategy The {@linkplain SelectionStrategy} to use for the
      *        selection of the target vector.
      */
-    public void setTargetVectorSelectionStrategy(SelectionStrategy targetVectorSelectionStrategy) {
+    public void setTargetVectorSelectionStrategy(Selector targetVectorSelectionStrategy) {
         this.targetVectorSelectionStrategy = targetVectorSelectionStrategy;
     }
 
@@ -158,5 +156,4 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
     public void setTrialVectorCreationStrategy(CreationStrategy trialVectorCreationStrategy) {
         this.trialVectorCreationStrategy = trialVectorCreationStrategy;
     }
-
 }

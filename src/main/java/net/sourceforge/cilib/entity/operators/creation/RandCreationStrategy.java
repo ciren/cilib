@@ -34,6 +34,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Sequence;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
 
 public class RandCreationStrategy implements CreationStrategy {
 
@@ -73,7 +74,11 @@ public class RandCreationStrategy implements CreationStrategy {
     @Override
     public Entity create(Entity targetEntity, Entity current, Topology<? extends Entity> topology) {
         RandomProvider random = new MersenneTwister();
-        List<Entity> participants = Selection.from(topology.asList()).unique().exclude(targetEntity, current).and().random(random, (int) numberOfDifferenceVectors.getParameter()).select(Samples.all()).perform();
+        int number = Double.valueOf(this.numberOfDifferenceVectors.getParameter()).intValue();
+        List<Entity> participants = (List<Entity>) Selection.copyOf(topology.asList())
+                .exclude(targetEntity, current)
+                .orderBy(new RandomArrangement(random))
+                .select(Samples.first(number).unique());
         Vector differenceVector = determineDistanceVector(participants);
 
         Vector targetVector = (Vector) targetEntity.getCandidateSolution();

@@ -21,14 +21,15 @@
  */
 package net.sourceforge.cilib.util.selection;
 
+import net.sourceforge.cilib.util.selection.arrangement.Arrangement;
+import java.util.Collections;
 import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import java.util.Arrays;
+import com.google.common.collect.Lists;
 import java.util.List;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.util.selection.weighting.FixedWeighting;
 import org.junit.Assert;
 import org.junit.Test;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 
 /**
  *
@@ -36,126 +37,66 @@ import static org.hamcrest.CoreMatchers.is;
  */
 public class SelectionTest {
 
-    @Test
-    public void exclusionSelection() {
-        List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
-        List<Integer> exlusionElements = Arrays.asList(1, 2, 4, 6);
-        List<Integer> selection = Selection.from(elements).exclude(exlusionElements).select(Samples.first(3)).perform();
-        Assert.assertEquals(3, selection.size());
-        Assert.assertEquals(3, selection.get(0).intValue());
-        Assert.assertEquals(5, selection.get(1).intValue());
-        Assert.assertEquals(7, selection.get(2).intValue());
+    @Test(expected = NullPointerException.class)
+    public void nullInput() {
+        Selection.copyOf(null);
     }
 
     @Test
-    public void predicateSelection() {
-        List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
-        Predicate<Integer> evenNumbers = new Predicate<Integer>() {
-            @Override
-            public boolean apply(Integer element) {
-                return element % 2 == 0;
-            }
-        };
-
-        Predicate<Integer> numberSeven = new Predicate<Integer>() {
-            @Override
-            public boolean apply(Integer element) {
-                return element == 7;
-            }
-        };
-
-        List<Integer> selection = Selection.from(elements).filter(Predicates.<Integer>or(evenNumbers, numberSeven)).select(Samples.all()).perform();
-        Assert.assertThat(selection.size(), is(4));
-        Assert.assertThat(selection.get(0), is(2));
-        Assert.assertThat(selection.get(1), is(4));
-        Assert.assertThat(selection.get(2), is(6));
-        Assert.assertThat(selection.get(3), is(7));
+    public void creation() {
+        List<Integer> ints = Lists.newArrayList(1, 2, 3);
+        Selection<Integer> selection = Selection.copyOf(ints);
     }
 
     @Test
-    public void randomFrom() {
-        List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        Integer selection = Selection.from(elements).random(new MockRandom()).select(Samples.first()).performSingle();
+    public void select() {
+        List<Integer> ints = Lists.newArrayList(1, 2, 3);
+        Integer selection = Selection.copyOf(ints).select();
+
         Assert.assertEquals(1, selection.intValue());
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void emptyRandomFrom() {
-        List<Integer> elements = Arrays.<Integer>asList();
-        Selection.from(elements).random(new MockRandom());
+    @Test
+    public void exclude() {
+        List<Integer> ints = Lists.newArrayList(1, 2, 3);
+        List<Integer> result = Selection.copyOf(ints).exclude(1, 3).select(Samples.first());
+
+        Assert.assertThat(result.get(0), is(2));
     }
 
     @Test
-    public void multipleRandomFrom() {
-        List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        List<Integer> selection = Selection.from(elements).random(new MockRandom(), 2).select(Samples.all()).perform();
+    public void filter() {
+        List<Integer> ints = Lists.newArrayList(1, 2, 3);
+        List<Integer> items = Selection.copyOf(ints).filter(new Predicate<Integer>() {
+            @Override
+            public boolean apply(Integer input) {
+                return (input.intValue() % 2 == 0) ? true : false;
+            }
+        }).select(Samples.all());
 
-        Assert.assertEquals(2, selection.size());
-        Assert.assertThat(selection.get(0), is(1));
-        Assert.assertThat(selection.get(1), is(1));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void emptyMultipleRandomFrom() {
-        List<Integer> elements = Arrays.<Integer>asList();
-        Selection.from(elements).random(new MockRandom(), 2);
+        Assert.assertEquals(2, items.size());
     }
 
     @Test
-    public void uniqueSelection() {
-        List<Integer> elements = Arrays.asList(1, 1, 1, 2, 2);
-        List<Integer> randoms = Selection.from(elements).unique().random(new MockRandom(), 2).select(Samples.all()).perform();
+    public void arrange() {
+        List<Integer> ints = Lists.newArrayList(1, 2, 3);
+        List<Integer> outcome = Selection.copyOf(ints).orderBy(new Arrangement() {
+            @Override
+            public <T extends Comparable> Iterable<T> arrange(Iterable<T> elements) {
+                List<T> list = Lists.newArrayList(elements);
+                Collections.reverse(list);
+                return list;
+            }
+        }).select(Samples.all());
 
-        Assert.assertThat(randoms.size(), is(2));
-        Assert.assertTrue(randoms.contains(1));
-        Assert.assertTrue(randoms.contains(2));
+        Assert.assertArrayEquals(new Integer[]{3, 2, 1}, outcome.toArray());
     }
 
-    @Test(expected=IllegalStateException.class)
-    public void notEnoughUniqueElements() {
-        List<Integer> elements = Arrays.asList(1, 1, 1, 2, 2);
-        Selection.from(elements).unique().random(new MockRandom(), 3).select(Samples.all()).perform();
-    }
+    @Test
+    public void weighTranslation() {
+        List<Integer> ints = Lists.newArrayList(1, 2, 3);
+        Object o = Selection.copyOf(ints).weigh(new FixedWeighting(1.0));
 
-    private class MockRandom implements RandomProvider {
-        private static final long serialVersionUID = 6512653155066129236L;
-
-        public MockRandom() {
-        }
-
-        @Override
-        public int nextInt(int n) {
-            return 0;
-        }
-
-        @Override
-        public boolean nextBoolean() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public int nextInt() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public long nextLong() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public float nextFloat() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public double nextDouble() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public void nextBytes(byte[] bytes) {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
+        Assert.assertThat(o, instanceOf(WeightedSelection.class));
     }
 }

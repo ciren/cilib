@@ -22,11 +22,8 @@
 package net.sourceforge.cilib.moo.archive.solutionweighing;
 
 
-import java.util.List;
-import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.util.selection.weighing.Weighing;
 import net.sourceforge.cilib.util.Cloneable;
-import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.weighting.Weighting;
 
 /**
  * <p>
@@ -36,11 +33,11 @@ import net.sourceforge.cilib.util.selection.Selection;
  *
  * @author Wiehann Matthysen
  */
-public interface SolutionWeighing extends Weighing<OptimisationSolution>, Cloneable {
+public interface SolutionWeighing extends Weighting, Cloneable {
 
     @Override
     abstract SolutionWeighing getClone();
 
-    @Override
-    boolean weigh(List<Selection.Entry<OptimisationSolution>> elements);
+//    @Override
+//    boolean weigh(List<Selection.Entry<OptimisationSolution>> elements);
 }

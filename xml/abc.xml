@@ -12,7 +12,7 @@
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000">
             </addStoppingCondition>
-            <dancingSelectionStrategy class="entity.operators.selection.RouletteWheelSelectionStrategy"/>
+            <dancingSelectionStrategy class="util.selection.recipes.RouletteWheelSelector"/>
             <workerBeePercentage class="controlparameter.ConstantControlParameter" parameter="0.5"/>
             <forageLimit class="controlparameter.ConstantControlParameter" parameter="500"/>
             <explorerBeeUpdateLimit class="controlparameter.ConstantControlParameter" parameter="1"/>

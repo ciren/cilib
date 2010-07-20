@@ -21,117 +21,118 @@
  */
 package net.sourceforge.cilib.util.selection;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkArgument;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
 /**
  *
  * @author gpampara
  */
-public final class Samples {
+public class Samples {
 
-    private Samples() {}
-
-    public static <T> SamplePredicate<T> all() {
-        return (SamplePredicate<T>) All.INSTANCE;
-    }
-
-    /*
-     * A new instance is returned each time because some state needs to be
-     * managed within the instance.
-     */
-    public static <T> SamplePredicate<T> first(final int number) {
-        return new SamplePredicate<T>() {
-            private int counter = 0;
-
-            @Override
-            public boolean apply(final T input, int capacity) {
-                if (counter <= number) {
-                    counter++;
-                    return true;
-                }
-
-                return false;
-            }
-
-            @Override
-            public boolean isDone() {
-                return counter > number;
-            }
-        };
-    }
-
-    public static <T> SamplePredicate<T> first() {
-        return new SamplePredicate<T>() {
-            private boolean returned = false;
-            @Override
-            public boolean apply(T input, int capacity) {
-                if (!returned) {
-                    returned = true;
-                }
-                return returned;
-            }
-
-            @Override
-            public boolean isDone() {
-                return returned;
-            }
-        };
-    }
-
-    public static <T> SamplePredicate<T> last() {
-        return new SamplePredicate<T>() {
-            private int counter = 0;
-            private boolean done = false;
-            @Override
-            public boolean apply(T input, int capacity) {
-                if (counter == capacity-1) {
-                    done = true;
-                    return true;
-                }
-
-                counter++;
-                return false;
-            }
-
-            @Override
-            public boolean isDone() {
-                return done;
-            }
-        };
-    }
-
-    public static <T> SamplePredicate<T> last(final int number) {
-        return new SamplePredicate<T>() {
-            private int counter = 0;
-            private boolean done = false;
-            @Override
-            public boolean apply(T input, int capacity) {
-                if (counter == capacity)
-                    done = true;
-
-                if (counter >= capacity-number)
-                    return true;
-
-                counter++;
-                return false;
-            }
-
-            @Override
-            public boolean isDone() {
-                return done;
-            }
-        };
-    }
-
-    enum All implements SamplePredicate<Object> {
-        INSTANCE;
-
+    private final Strategy strategy;
+    private static final Samples ALL = new Samples(new Strategy() {
         @Override
-        public boolean apply(Object input, int capacity) {
-            return true;
+        public <T> List<T> sample(List<T> list) {
+            return list;
+        }
+    });
+
+    private Samples(Strategy strategy) {
+        this.strategy = strategy;
+    }
+
+    private Samples(Samples prototype) {
+        this.strategy = prototype.strategy;
+    }
+
+    public static Samples first() {
+        return new Samples(new DefaultStrategy(1));
+    }
+
+    public static Samples first(int number) {
+        return new Samples(new DefaultStrategy(number));
+    }
+
+    public Samples unique() {
+        return new Samples(new UniqueStrategy(strategy));
+    }
+
+    public final <T> List<T> sample(List<T> list) {
+        return this.strategy.sample(list);
+    }
+
+    public static Samples all() {
+        return ALL;
+    }
+
+    public static Samples last() {
+        return new Samples(new DefaultStrategy(1) {
+            @Override
+            public <T> List<T> sample(List<T> list) {
+                List<T> current = Lists.newArrayList(list);
+                Collections.reverse(current);
+                return super.sample(current);
+            }
+        });
+    }
+
+    public static Samples last(final int number) {
+        return new Samples(new DefaultStrategy(number) {
+            @Override
+            public <T> List<T> sample(List<T> list) {
+                List<T> current = Lists.newArrayList(list);
+                Collections.reverse(current);
+                return super.sample(current);
+            }
+        });
+    }
+
+    private interface Strategy {
+
+        public <T> List<T> sample(List<T> list);
+    }
+
+    private final static class UniqueStrategy implements Strategy {
+
+        private final Strategy strategy;
+
+        private UniqueStrategy(Strategy strategy) {
+            this.strategy = checkNotNull(strategy);
         }
 
         @Override
-        public boolean isDone() {
-            return false;
+        public <T> List<T> sample(List<T> list) {
+            Set<T> set = Sets.newHashSet(list);
+            return strategy.sample(Lists.newArrayList(set));
+        }
+    }
+
+    private static class DefaultStrategy implements Strategy {
+
+        private final int number;
+
+        DefaultStrategy(int number) {
+            this.number = number;
+        }
+
+        @Override
+        public <T> List<T> sample(List<T> list) {
+            checkArgument(list.size() >= number);
+            List<T> result = Lists.newArrayListWithExpectedSize(number);
+            int count = 0;
+            for (T t : list) {
+                if (count < number) {
+                    result.add(t);
+                    count++;
+                }
+            }
+            return result;
         }
     }
 }

@@ -35,6 +35,7 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
 
 /**
  * This {@linkplain ProblemDistributionStrategy} performs a split by assigning
@@ -57,13 +58,14 @@ public class RandomGroupingDistributionStrategy implements
      * @param problem The problem that needs to be re-distributed.
      * @param context The context vector maintained by the {@linkplain CooperativeCoevolutionAlgorithm}.
      */
+    @Override
     public void performDistribution(List<PopulationBasedAlgorithm> populations,
             OptimisationProblem problem, Vector context) {
         //need to do a completely random split depending on the number of sub populations
-        MersenneTwister random = new MersenneTwister();
         Preconditions.checkArgument(populations.size() >= 2,
                 "There should at least be two Cooperating populations in a Cooperative Algorithm");
 
+        MersenneTwister random = new MersenneTwister();
         List<Integer> dimensions = new ArrayList<Integer>();
         for (int i = 0; i < problem.getDomain().getDimension(); ++i) {
             dimensions.add(i);
@@ -77,7 +79,9 @@ public class RandomGroupingDistributionStrategy implements
             if (p < oddDimensions) {
                 actualDimension++;
             }
-            List<Integer> selectedDimensions = Selection.from(dimensions).unique().random(random, actualDimension).select(Samples.all()).perform();
+            List<Integer> selectedDimensions = Selection.copyOf(dimensions)
+                    .orderBy(new RandomArrangement(random))
+                    .select(Samples.first(actualDimension));
             for (Integer d : selectedDimensions) {
                 indexList.add(d);
                 dimensions.remove(d);

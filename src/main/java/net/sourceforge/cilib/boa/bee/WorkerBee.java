@@ -68,11 +68,11 @@ public class WorkerBee extends AbstractBee {
     @Override
     public void updatePosition() {
         ABC algorithm = (ABC) AbstractAlgorithm.get();
-        HoneyBee target = targetSelectionStrategy.select(algorithm.getWorkerBees());
+        HoneyBee target = targetSelectionStrategy.on(algorithm.getWorkerBees()).select();
 
-        while (target == this) {
-            target = targetSelectionStrategy.select(algorithm.getWorkerBees());
-        }
+//        while (target == this) {
+//            target = targetSelectionStrategy.select(algorithm.getWorkerBees());
+//        }
 
         boolean success = this.positionUpdateStrategy.updatePosition(this, target);
         if (!success) {

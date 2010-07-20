@@ -36,6 +36,7 @@ import net.sourceforge.cilib.type.types.container.TypeList;
  * {@link net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm}.
  */
 public class CompositeMeasurement implements Measurement<TypeList> {
+
     private static final long serialVersionUID = -7109719897119621328L;
     private List<Measurement<? extends Type>> measurements;
 
@@ -89,5 +90,4 @@ public class CompositeMeasurement implements Measurement<TypeList> {
     public void addMeasurement(Measurement<? extends Type> measurement) {
         this.measurements.add(measurement);
     }
-
 }

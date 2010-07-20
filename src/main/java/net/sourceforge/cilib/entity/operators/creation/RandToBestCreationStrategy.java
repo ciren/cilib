@@ -35,6 +35,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
 
 /**
  * @author leo
@@ -71,7 +72,10 @@ public class RandToBestCreationStrategy extends RandCreationStrategy {
             Topology<? extends Entity> topology) {
         Entity bestEntity = topology.getBestEntity();
         RandomProvider random = new MersenneTwister();
-        List<Entity> participants = Selection.from(topology.asList()).unique().exclude(targetEntity, bestEntity, current).and().random(random, (int) numberOfDifferenceVectors.getParameter()).select(Samples.all()).perform();
+        List<Entity> participants = (List<Entity>) Selection.copyOf(topology.asList())
+                .exclude(targetEntity, bestEntity, current)
+                .orderBy(new RandomArrangement(random))
+                .select(Samples.first((int) numberOfDifferenceVectors.getParameter()).unique());
         Vector differenceVector = determineDistanceVector(participants);
 
         Vector targetVector = ((Vector) targetEntity.getCandidateSolution()).multiply(1 - greedynessParameter.getParameter());
