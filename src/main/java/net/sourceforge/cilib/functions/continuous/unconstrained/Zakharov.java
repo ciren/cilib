@@ -43,30 +43,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
+ * R(-5, 10)^30
+ *
  * @author leo
  */
-public class Zakharov extends ContinuousFunction {
+public class Zakharov implements ContinuousFunction {
+
     private static final long serialVersionUID = -635648546100966058L;
-
-    public Zakharov() {
-        setDomain("R(-5, 10)^30");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Zakharov getClone() {
-        return new Zakharov();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double getMinimum() {
-        return 0.0;
-    }
 
     /**
      * {@inheritDoc}

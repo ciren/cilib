@@ -43,32 +43,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
+ * R(-100, 100)^30
+ *
  * @author Olusegun Olorunda
  */
-public class AbsoluteValue extends ContinuousFunction {
+public class AbsoluteValue implements ContinuousFunction {
+
     private static final long serialVersionUID = 1662988096338786773L;
-
-    /**
-     * Create an instance of {@linkplain AbsoluteValue}. Domain is defaulted to R(-100, 100)^30.
-     */
-    public AbsoluteValue() {
-        setDomain("R(-100, 100)^30");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public AbsoluteValue getClone() {
-        return new AbsoluteValue();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Double getMinimum() {
-        return 0.0;
-     }
 
     /**
      * {@inheritDoc}
@@ -76,10 +57,9 @@ public class AbsoluteValue extends ContinuousFunction {
     @Override
     public Double apply(Vector input) {
         double tmp = 0.0;
-        for (int i = 0; i < getDimension(); ++i) {
+        for (int i = 0; i < input.size(); ++i) {
             tmp += Math.abs(input.doubleValueOf(i));
         }
         return tmp;
     }
-
 }

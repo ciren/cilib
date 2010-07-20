@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class AlpineTest {
+
     private ContinuousFunction function;
 
     @Before
@@ -40,8 +41,6 @@ public class AlpineTest {
     /** Test of evaluate method, of class cilib.functions.unconstrained.Alpine. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-10, 10)^2");
-
         Vector x = new Vector();
         x.add(Real.valueOf(0.0));
         x.add(Real.valueOf(0.0));
@@ -52,10 +51,5 @@ public class AlpineTest {
         x.setReal(1, 2.0);
 
         assertEquals(2.96006583845926, function.apply(x), 0.0000000001);
-    }
-
-    @Test
-    public void minimum() {
-        assertEquals(0.0, function.getMinimum().doubleValue(), 0.0);
     }
 }

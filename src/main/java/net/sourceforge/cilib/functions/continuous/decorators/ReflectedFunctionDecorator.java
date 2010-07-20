@@ -38,32 +38,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Setting values in xml works the same as setting string values
  *
  * @author Olusegun Olorunda
- *
  */
-public class ReflectedFunctionDecorator extends ContinuousFunction {
-
+public class ReflectedFunctionDecorator implements ContinuousFunction {
     private static final long serialVersionUID = -5042848697343918398L;
     private ContinuousFunction function;
     private boolean horizontalReflection;
     private boolean verticalReflection;
 
     public ReflectedFunctionDecorator() {
-        setDomain("R");
         horizontalReflection = false;
         verticalReflection = false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ReflectedFunctionDecorator getClone() {
-        return new ReflectedFunctionDecorator();
-    }
-
-    public Double getMinimum() {
-        // adds the value of the verticalShift to the original function minimum
-        return function.getMinimum();
     }
 
     /**
@@ -100,7 +84,6 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
      */
     public void setFunction(ContinuousFunction function) {
         this.function = function;
-        this.setDomain(function.getDomainRegistry().getDomainString());
     }
 
     /**

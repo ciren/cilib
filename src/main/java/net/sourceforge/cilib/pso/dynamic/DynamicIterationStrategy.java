@@ -47,8 +47,8 @@ import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrateg
  * @author Anna Rakitianskaia
  */
 public class DynamicIterationStrategy implements IterationStrategy<PSO> {
-    private static final long serialVersionUID = -4441422301948289718L;
 
+    private static final long serialVersionUID = -4441422301948289718L;
     private IterationStrategy<PSO> iterationStrategy;
     //TODO: private DetectionStrategy<PSO> detection
     //TODO: private ReactionStrategy<PSO> reaction
@@ -104,8 +104,9 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
     public void performIteration(PSO algorithm) {
         boolean hasChanged = detectionStrategy.detect(algorithm);
 
-        if (hasChanged)
+        if (hasChanged) {
             responseStrategy.respond(algorithm);
+        }
 
         iterationStrategy.performIteration(algorithm);
     }

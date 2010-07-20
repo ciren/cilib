@@ -24,47 +24,9 @@ package net.sourceforge.cilib.functions;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * Marker interface to differentiate continuous-valued functions.
  * @author Edwin Peer
  * @author Olusegun Olorunda
  */
-public abstract class ContinuousFunction extends AbstractFunction<Vector, Double> {
-    private static final long serialVersionUID = -2483529496289508896L;
-
-    /**
-     * Create an instance of {@code ContinuousFunction}.
-     */
-    public ContinuousFunction() {
-        // constraint.add(new ContentValidator(new TypeValidator(Real.class)));
-    }
-
-    /**
-     * Copy constructor. Create a copy of the provided instance.
-     * @param copy The instance to copy.
-     */
-    public ContinuousFunction(ContinuousFunction copy) {
-
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract ContinuousFunction getClone();
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double getMinimum() {
-        return -Double.MAX_VALUE;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double getMaximum() {
-        return Double.MAX_VALUE;
-    }
-
+public interface ContinuousFunction extends Function<Vector, Double> {
 }

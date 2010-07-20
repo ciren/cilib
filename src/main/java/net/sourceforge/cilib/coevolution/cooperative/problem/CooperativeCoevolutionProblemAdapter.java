@@ -37,14 +37,17 @@ import net.sourceforge.cilib.type.types.Types;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * This {@linkplain OptimisationProblem} is used by the participants of a {@linkplain CooperativeCoevolutionAlgorithm}. It stores the {@linkplain DimensionAllocation} of the participat, and provides the means to calculate
- * the fitness of {@linkplain Entitie}s of the participating {@linkplain Algorithm}s.
+ * This {@linkplain OptimisationProblem} is used by the participants of a
+ * {@linkplain CooperativeCoevolutionAlgorithm}. It stores the
+ * {@linkplain DimensionAllocation} of the participat, and provides the
+ * means to calculate the fitness of {@linkplain Entitie}s
+ * of the participating {@linkplain Algorithm}s.
  *
  * @author leo
  * @author Theuns Cloete
  */
-public class CooperativeCoevolutionProblemAdapter extends
-        OptimisationProblemAdapter {
+public class CooperativeCoevolutionProblemAdapter extends OptimisationProblemAdapter {
+
     private static final long serialVersionUID = 3764040830993620887L;
     private OptimisationProblem problem;
     private DomainRegistry problemDomain;
@@ -72,7 +75,6 @@ public class CooperativeCoevolutionProblemAdapter extends
                 builder.append(",");
             }
         }
-
         problemDomain.setDomainString(builder.toString());
     }
 

@@ -36,12 +36,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * This is the Veenman-Reinders-Backer Validity Index.
  *
  * The description is given in Section 1 of<br/>
- * @Article{ 628823, author = "Cor J. Veenman and Marcel J. T. Reinders and Eric Backer", title = "A
+ * <pre>
+ * {@literal @}Article{ 628823, author = "Cor J. Veenman and Marcel J. T. Reinders and Eric Backer", title = "A
  *           Maximum Variance Cluster Algorithm", journal = "IEEE Transactions on Pattern Analysis
  *           and Machine Intelligence", volume = "24", number = "9", year = "2002", issn =
  *           "0162-8828", pages = "1273--1280", doi =
  *           "http://dx.doi.org/10.1109/TPAMI.2002.1033218", publisher = "IEEE Computer Society",
  *           address = "Washington, DC, USA", }
+ * </pre>
  * NOTE: By default, the cluster center refers to the cluster mean. See {@link ClusterCenterStrategy}.
  * @author Theuns Cloete
  */
@@ -100,10 +102,5 @@ public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
 
     public void updateControlParameters() {
         maximumVariance.updateParameter();
-    }
-
-    @Override
-    public VeenmanReindersBackerIndex getClone() {
-        return new VeenmanReindersBackerIndex();
     }
 }

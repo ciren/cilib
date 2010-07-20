@@ -24,11 +24,13 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
 /**
  * This is the Generalised Dunn Index.
  *
- *  Illustrated in:<br/>
- * @Article{ 5928407, title = "Some New Indexes of Cluster Validity", author = "James C. Bezdek and
+ * Illustrated in:<br/>
+ * <pre>
+ * {@literal @}Article{ 5928407, title = "Some New Indexes of Cluster Validity", author = "James C. Bezdek and
  *           Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and Cybernetics, Part B:
  *           Cybernetics", pages = "301--315", volume = "28", number = "3", month = jun, year =
  *           "1998", issn = "1083-4419"}.
+ * </pre>
  * Sub-classes should implement the <tt>calculateWithinClusterScatter</tt> and
  * <tt>calculateBetweenClusterSeperation</tt> methods defined in {@linkplain ScatterSeperationRatio}.
  * @author Theuns Cloete
@@ -67,6 +69,6 @@ public abstract class GeneralisedDunnIndex extends ScatterSeperationRatio {
 
     @Override
     protected Double worstFitness() {
-        return getMinimum();
+        return 0.0;
     }
 }

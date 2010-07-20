@@ -25,35 +25,12 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
+ * R(0, 1)^1
  * @author gpampara
- *
  */
-public class MultimodalFunction2 extends ContinuousFunction {
+public class MultimodalFunction2 implements ContinuousFunction {
+
     private static final long serialVersionUID = -5046586719830749372L;
-
-    /**
-     * Create a new instance of {@linkplain MultimodalFunction2}.
-     */
-    public MultimodalFunction2() {
-        setDomain("R(0, 1)^1");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public MultimodalFunction2 getClone() {
-        return new MultimodalFunction2();
-    }
-
-    /**
-     * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
-     * @return The function minimum value.
-     */
-    public Double getMinimum() {
-        return 0.0;
-    }
 
     /**
      * {@inheritDoc}
@@ -61,7 +38,7 @@ public class MultimodalFunction2 extends ContinuousFunction {
     @Override
     public Double apply(Vector input) {
         double dResult = 0.0;
-        for (int i = 0; i < getDimension(); i++) {
+        for (int i = 0; i < input.size(); i++) {
             double x = Math.pow(Math.sin(5.0 * Math.PI * input.doubleValueOf(i)), 6.0);
             double exp1 = -2.0 * Math.log(2);
             double exp2 = Math.pow((input.doubleValueOf(i) - 0.1) / 0.8, 2.0);

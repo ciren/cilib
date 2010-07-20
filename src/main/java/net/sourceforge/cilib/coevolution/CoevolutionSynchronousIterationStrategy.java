@@ -27,6 +27,8 @@ import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.iterationstrategies.ASynchronousIterationStrategy;
+import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 
 /**
  * FIXME: Remove this class. How is it different to the normal {@linkplain SynchronousIterationStrategy}, or
@@ -34,6 +36,7 @@ import net.sourceforge.cilib.pso.PSO;
  * @author Julien Duhain
  */
 public class CoevolutionSynchronousIterationStrategy extends AbstractIterationStrategy<PSO> {
+
     private static final long serialVersionUID = 6617737228912852220L;
 
     /**
@@ -53,7 +56,7 @@ public class CoevolutionSynchronousIterationStrategy extends AbstractIterationSt
 
         for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
             Particle current = i.next();
-         //   current.calculateFitness(); add this line to get the standard SynchronousIterationStrategy
+            //   current.calculateFitness(); add this line to get the standard SynchronousIterationStrategy
             for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
                 Particle other = j.next();
                 if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
@@ -63,12 +66,11 @@ public class CoevolutionSynchronousIterationStrategy extends AbstractIterationSt
         }
 
         for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
-           Particle current = i.next();
-           current.updateVelocity();
-           current.updatePosition();                // TODO: replace with visitor (will simplify particle interface)
+            Particle current = i.next();
+            current.updateVelocity();
+            current.updatePosition();                // TODO: replace with visitor (will simplify particle interface)
 
-           boundaryConstraint.enforce(current);
+            boundaryConstraint.enforce(current);
         }
     }
-
 }

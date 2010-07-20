@@ -6,7 +6,7 @@
             <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="10000"/>
         </algorithm>
 
-        <problem class="problem.FunctionMinimisationProblem">
+        <problem class="problem.FunctionMinimisationProblem" domain="R(-5.12, 5.12)^30">
             <function class="functions.continuous.unconstrained.Spherical" />
         </problem>
 

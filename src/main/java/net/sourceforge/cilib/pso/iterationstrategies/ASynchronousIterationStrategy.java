@@ -34,6 +34,7 @@ import net.sourceforge.cilib.pso.PSO;
  * @author Gary Pampara
  */
 public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO> {
+
     private static final long serialVersionUID = -3511991873784185698L;
 
     /**
@@ -81,5 +82,4 @@ public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO
             }
         }
     }
-
 }

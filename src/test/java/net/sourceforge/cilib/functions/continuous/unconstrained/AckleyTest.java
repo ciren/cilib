@@ -26,10 +26,8 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 
 /**
  *
@@ -48,8 +46,6 @@ public class AckleyTest {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Ackley. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-32.768, 32.768)^3");
-
         Vector x = new Vector();
         x.add(Real.valueOf(1.0));
         x.add(Real.valueOf(2.0));
@@ -61,10 +57,4 @@ public class AckleyTest {
         x.setReal(2, 0.0);
         assertEquals(0.0, function.apply(x), 0.000000009);
     }
-
-    @Test
-    public void minimum() {
-        Assert.assertEquals(0.0, function.getMinimum().doubleValue(), 0.0001);
-    }
-
 }

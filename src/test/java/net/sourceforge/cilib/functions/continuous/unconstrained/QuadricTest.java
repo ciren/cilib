@@ -35,6 +35,7 @@ import org.junit.Assert;
  * @author Bennie Leonard
  */
 public class QuadricTest {
+
     private static final double EPSILON = 1.0E-6;
     private ContinuousFunction function;
 
@@ -46,8 +47,6 @@ public class QuadricTest {
     /** Test of the evaluate method of  the {@link Quadric} class */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-100, 100)^3");
-
         Vector x = new Vector();
 
         //test global minimum
@@ -60,11 +59,5 @@ public class QuadricTest {
         x.setReal(1, 2.0);
         x.setReal(2, 3.0);
         Assert.assertEquals(46.0, function.apply(x), EPSILON);
-    }
-
-    /** Test of the getMinimum method of  the {@link Quadric} class */
-    @Test
-    public void minimum() {
-        Assert.assertEquals(0.0, function.getMinimum(), EPSILON);
     }
 }

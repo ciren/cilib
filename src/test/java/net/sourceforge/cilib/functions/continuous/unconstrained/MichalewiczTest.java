@@ -44,7 +44,7 @@ public class MichalewiczTest {
     /** Test of evaluate method, of class cilib.functions.unconstrained.Michalewicz. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(0, 3.141592653589793)^2");
+//        function.setDomain("R(0, 3.141592653589793)^2");
 
         Vector x = new Vector();
 

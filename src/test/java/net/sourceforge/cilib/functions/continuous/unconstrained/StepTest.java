@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class StepTest {
+
     private ContinuousFunction function;
 
     @Before
@@ -40,8 +41,6 @@ public class StepTest {
     /** Test of evaluate method, of class cilib.functions.unconstrained.Step. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-100, 100)^2");
-
         Vector x = new Vector();
         x.add(Real.valueOf(-0.5));
         x.add(Real.valueOf(-0.5));
@@ -52,10 +51,5 @@ public class StepTest {
         x.setReal(1, 2.0);
 
         assertEquals(5, function.apply(x), 0.0000000001);
-    }
-
-    @Test
-    public void minimum() {
-        assertEquals(0.0, function.getMinimum().doubleValue(), 0.0);
     }
 }

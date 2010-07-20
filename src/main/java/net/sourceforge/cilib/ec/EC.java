@@ -23,7 +23,6 @@ package net.sourceforge.cilib.ec;
 
 import com.google.common.collect.Lists;
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
@@ -47,8 +46,8 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * @author Gary Pampara
  */
 public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingAlgorithm {
-    private static final long serialVersionUID = -4324446523858690744L;
 
+    private static final long serialVersionUID = -4324446523858690744L;
     private OptimisationProblem problem;
     private IterationStrategy<EC> iterationStrategy;
     private Topology<Individual> topology;
@@ -61,12 +60,9 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
     public EC() {
         this.initialisationStrategy = new ClonedPopulationInitialisationStrategy();
         this.initialisationStrategy.setEntityType(new Individual());
-
         this.iterationStrategy = new GeneticAlgorithmIterationStrategy();
         this.topology = new GBestTopology<Individual>();
-
         this.strategyParameterInitialization = new NullInitializationStrategy<Entity>();
-
         this.contributionSelection = new ZeroContributionSelectionStrategy();
     }
 
@@ -98,12 +94,16 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
     public void performInitialisation() {
         Iterable<? extends Entity> individuals = this.initialisationStrategy.initialise(this.problem);
         //Iterables.addAll(getTopology(), particles); // Use this instead?
-        for (Entity individual : individuals)
+        for (Entity individual : individuals) {
             topology.add((Individual) individual);
-//        Iterables.addAll(topology, individuals);
+        }
 
         for (Entity entity : topology) {
             this.strategyParameterInitialization.initialize(EntityType.STRATEGY_PARAMETERS, entity);
+        }
+
+        for (Entity e : getTopology()) {
+            e.calculateFitness();
         }
     }
 
@@ -112,10 +112,6 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
      */
     @Override
     public void algorithmIteration() {
-        for (Entity entity : this.getTopology()) {
-            entity.calculateFitness();
-        }
-
         iterationStrategy.performIteration(this);
     }
 
@@ -182,6 +178,7 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<OptimisationSolution> getSolutions() {
         return Lists.newArrayList(getBestSolution());
     }
@@ -209,5 +206,4 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
     public void setStrategyParameterInitialization(InitializationStrategy<Entity> strategyParameterInitialization) {
         this.strategyParameterInitialization = strategyParameterInitialization;
     }
-
 }

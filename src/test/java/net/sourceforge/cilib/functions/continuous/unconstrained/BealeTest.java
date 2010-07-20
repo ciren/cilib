@@ -26,7 +26,6 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,8 +33,6 @@ import org.junit.Test;
  *
  * @author Andries Engelbrecht
  */
-
-
 public class BealeTest {
 
     private ContinuousFunction function;
@@ -49,7 +46,6 @@ public class BealeTest {
     @Test
     public void testEvaluate() {
         function = new Beale();
-        function.setDomain("R(-4.5, 4.5)^2");
 
         Vector x = new Vector();
         x.add(Real.valueOf(1.0));
@@ -59,10 +55,5 @@ public class BealeTest {
         x.setReal(0, 3.0);
         x.setReal(1, 0.5);
         assertEquals(0.0, function.apply(x), 0.0);
-    }
-
-    @Test
-    public void minimum() {
-        Assert.assertEquals(0.0, function.getMinimum().doubleValue(), 0.0001);
     }
 }

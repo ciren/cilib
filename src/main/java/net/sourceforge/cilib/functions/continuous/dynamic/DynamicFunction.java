@@ -23,7 +23,7 @@ package net.sourceforge.cilib.functions.continuous.dynamic;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 
-public abstract class DynamicFunction extends ContinuousFunction{
+public abstract class DynamicFunction implements ContinuousFunction {
 
     protected double dynamicFactor_w1; //how fast the minimum's position moves
     protected double dynamicFactor_w2; //how fast the minimum grows/reduces
@@ -36,18 +36,21 @@ public abstract class DynamicFunction extends ContinuousFunction{
     public double getDynamicFactor_w1() {
         return dynamicFactor_w1;
     }
+
     /**
      * @param dynamicFactor the dynamicFactor to set
      */
     public void setDynamicFactor_w1(double dynamicFactor) {
         this.dynamicFactor_w1 = dynamicFactor;
     }
+
     /**
      * @return the dynamicFactor
      */
     public double getDynamicFactor_w2() {
         return dynamicFactor_w2;
     }
+
     /**
      * @param dynamicFactor the dynamicFactor to set
      */
@@ -62,6 +65,7 @@ public abstract class DynamicFunction extends ContinuousFunction{
     public void setInitialPosition(double initial_position) {
         this.initialPosition = initial_position;
     }
+
     public double getInitialHeight() {
         return initialHeight;
     }
@@ -69,6 +73,4 @@ public abstract class DynamicFunction extends ContinuousFunction{
     public void setInitialHeight(double initial_height) {
         this.initialHeight = initial_height;
     }
-
-
 }

@@ -45,41 +45,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
+ * R(-1.28, 1.28)^30
+ *
  * @author Gary Pampara
  */
-public class Quartic extends ContinuousFunction {
+public class Quartic implements ContinuousFunction {
+
     private static final long serialVersionUID = 1830591489569513511L;
-
-    /**
-     * Create a new instance of {@linkplain Quadric}. Domain defaults to R(-1.28, 1.28)^30.
-     */
-    public Quartic() {
-        setDomain("R(-1.28, 1.28)^30");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Quartic getClone() {
-        return new Quartic();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * This is extra stuff i hope is added.
-     */
-    public Double getMinimum() {
-        return 0.0;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Double getMaximum() {
-        return 1248.2;
-    }
 
     /**
      * {@inheritDoc}

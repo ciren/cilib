@@ -26,10 +26,8 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 
 /**
  *
@@ -47,9 +45,6 @@ public class SphericalTest {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Spherical. */
     @Test
     public void testEvaluate() {
-
-        function.setDomain("R(-100, 100)^3");
-
         Vector x = new Vector();
         x.add(Real.valueOf(1.0));
         x.add(Real.valueOf(2.0));
@@ -58,13 +53,7 @@ public class SphericalTest {
         assertEquals(14.0, function.apply(x), 0.0);
     }
 
-    @Test
-    public void minimum() {
-        Assert.assertEquals(0.0, function.getMinimum().doubleValue(), 0.0001);
-    }
-
     public void testGradient() {
-        // add gradient test
+        throw new UnsupportedOperationException("gradient test is expected");
     }
-
 }

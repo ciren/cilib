@@ -21,10 +21,13 @@
  */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
-import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.Function;
+import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
+import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -40,22 +43,26 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Gary Pampara
  */
-public class AngleModulation extends ContinuousFunction {
+public class AngleModulation extends OptimisationProblemAdapter {
+
     private static final long serialVersionUID = -3492262439415251355L;
     private int precision;
     private int bitsPerDimension;
     private double lowerBound;
     private double upperBound;
-    private Function<Vector, ? extends Number> function;
+    private FunctionOptimisationProblem delegate;
+    private DomainRegistry domainRegistry;
 
     public AngleModulation() {
-        setDomain("R(-1.0,1.0)^4");
         precision = 3;
         bitsPerDimension = 0;
+        domainRegistry = new StringBasedDomainRegistry();
+
+        domainRegistry.setDomainString("R(-1.0, 1.0)^4");
     }
 
     public AngleModulation(AngleModulation copy) {
-        setDomain(copy.getDomain());
+//        setDomain(copy.getDomain());
         this.precision = copy.precision;
         this.bitsPerDimension = copy.bitsPerDimension;
     }
@@ -68,33 +75,15 @@ public class AngleModulation extends ContinuousFunction {
         return new AngleModulation(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double getMinimum() {
-        Number n = function.getMinimum();
-        return n.doubleValue();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double getMaximum() {
-        Number n = function.getMaximum();
-        return n.doubleValue();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double apply(Vector input) {
-        String solution = generateBitString(input, bitsPerDimension);
-        Vector expandedVector = decodeBitString(solution, bitsPerDimension);
-        return function.apply(expandedVector).doubleValue();
-    }
+//    /**
+//     * {@inheritDoc}
+//     */
+//    @Override
+//    public Double evaluate(Vector input) {
+//        String solution = generateBitString(input, bitsPerDimension);
+//        Vector expandedVector = decodeBitString(solution, bitsPerDimension);
+//        return function.evaluate(expandedVector).doubleValue();
+//    }
 
     /**
      *
@@ -109,8 +98,9 @@ public class AngleModulation extends ContinuousFunction {
      * @param precision
      */
     public void setPrecision(int precision) {
-        if (precision < 0)
+        if (precision < 0) {
             throw new ArithmeticException("Presicion values must be >= 0");
+        }
 
         this.precision = precision;
     }
@@ -119,17 +109,26 @@ public class AngleModulation extends ContinuousFunction {
      *
      * @return
      */
-    public Function getFunction() {
-        return this.function;
-    }
+//    public Function getFunction() {
+//        return this.function;
+//    }
 
     /**
      *
      * @param decoratedFunciton
      */
-    public void setFunction(Function<Vector, ? extends Number> decoratedFunciton) {
-        this.function = decoratedFunciton;
-        bitsPerDimension = getRequiredNumberOfBits(function.getDomainRegistry());
+//    public void setFunction(Function<Vector, ? extends Number> decoratedFunciton) {
+//        this.function = decoratedFunciton;
+//        bitsPerDimension = getRequiredNumberOfBits(function.getDomainRegistry());
+//    }
+
+    public void setProblem(FunctionOptimisationProblem problem) {
+        this.delegate = problem;
+        bitsPerDimension = getRequiredNumberOfBits(delegate.getDomain());
+    }
+
+    public FunctionOptimisationProblem getProblem() {
+        return delegate;
     }
 
     /**
@@ -140,15 +139,14 @@ public class AngleModulation extends ContinuousFunction {
     public int getRequiredNumberOfBits(DomainRegistry domain) {
         if (domain.getDomainString().contains("B")) {
             return 1;
-        }
-        else {
+        } else {
             String range = domain.getDomainString();
 
             // now remove all the irrelevant details from the domain provided
-            range = range.substring(range.indexOf('(')+1);
+            range = range.substring(range.indexOf('(') + 1);
             range = range.substring(0, range.indexOf(')'));
 
-            String [] bounds = range.split(",");
+            String[] bounds = range.split(",");
             lowerBound = Double.valueOf(bounds[0]).doubleValue();
             upperBound = Double.valueOf(bounds[1]).doubleValue();
 
@@ -176,13 +174,14 @@ public class AngleModulation extends ContinuousFunction {
 
         StringBuilder str = new StringBuilder();
 
-        for (int i = 0; i < dimensionBitNumber*function.getDimension(); i++) {
-            double result =  Math.sin(2*Math.PI*(i-a) * b * Math.cos(2*Math.PI*c*(i-a))) + d;
+        for (int i = 0; i < dimensionBitNumber * delegate.getDomain().getDimension(); i++) {
+            double result = Math.sin(2 * Math.PI * (i - a) * b * Math.cos(2 * Math.PI * c * (i - a))) + d;
 
-            if (result > 0.0)
+            if (result > 0.0) {
                 str.append('1');
-            else
+            } else {
                 str.append('0');
+            }
         }
 
         return str.toString();
@@ -198,7 +197,7 @@ public class AngleModulation extends ContinuousFunction {
         Vector vector = new Vector();
 
         for (int i = 0; i < bits.length();) {
-            double tmp = valueOf(bits, i, i+dimensionBits);
+            double tmp = valueOf(bits, i, i + dimensionBits);
             tmp = transform(tmp);
 
             vector.add(Real.valueOf(tmp));
@@ -245,11 +244,22 @@ public class AngleModulation extends ContinuousFunction {
         double result = number;
 
         int tmp = 1;
-        tmp <<= this.bitsPerDimension-1;
+        tmp <<= this.bitsPerDimension - 1;
         result -= tmp;
         result /= Math.pow(10, getPrecision());
 
         return result;
     }
 
+    @Override
+    public DomainRegistry getDomain() {
+        return domainRegistry;
+    }
+
+    @Override
+    protected Fitness calculateFitness(Type solution) {
+        String bitString = generateBitString((Vector) solution,bitsPerDimension);
+        Vector expandedVector = decodeBitString(bitString, bitsPerDimension);
+        return delegate.getFitness(expandedVector);
+    }
 }

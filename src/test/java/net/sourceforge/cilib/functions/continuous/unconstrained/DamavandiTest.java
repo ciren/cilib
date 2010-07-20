@@ -26,14 +26,14 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
-* @author Andries Engelbrecht
-*/
+ * @author Andries Engelbrecht
+ */
 public class DamavandiTest {
+
     private ContinuousFunction function;
 
     @Before
@@ -44,8 +44,6 @@ public class DamavandiTest {
     /** Test of evaluate method, of class cilib.functions.unconstrained.Damavandi. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(0, 12)^2");
-
         Vector x = new Vector();
         x.add(Real.valueOf(2.0000001));
         x.add(Real.valueOf(2.0000001));
@@ -54,10 +52,5 @@ public class DamavandiTest {
         x.setReal(0, 7.0);
         x.setReal(1, 7.0);
         assertEquals(2.0, function.apply(x), 0.0);
-    }
-
-    @Test
-    public void minimum() {
-        Assert.assertEquals(0.0, function.getMinimum().doubleValue(), 0.0001);
     }
 }

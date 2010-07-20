@@ -30,13 +30,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * M.Farina, K.Deb, P.Amato. Dynamic multiobjective optimization problems: test cases, approximations
  * and applications, IEEE Transactions on Evolutionary Computation, 8(5): 425-442, 2003
  *
+ * R(-1, 1)^19
+ *
  * @author Marde Greeff
  */
-
-public class FDA1_g extends ContinuousFunction {
+public class FDA1_g implements ContinuousFunction {
 
     private static final long serialVersionUID = 1721209032942724811L;
-
     //members
     //number of generations for which t remains fixed
     private int tau_t;
@@ -50,9 +50,8 @@ public class FDA1_g extends ContinuousFunction {
      */
     public FDA1_g() {
         super();
-        setDomain("R(-1, 1)^19");
         //initialize the members
-        this.tau_t =  5;
+        this.tau_t = 5;
         this.tau = 1;
         this.n_t = 10;
     }
@@ -61,19 +60,10 @@ public class FDA1_g extends ContinuousFunction {
      * Copy constructor
      * @param copy
      */
-    public FDA1_g(FDA1_g copy){
-        super(copy);
-        this.setDomain(copy.getDomain());
+    public FDA1_g(FDA1_g copy) {
         this.tau_t = copy.tau_t;
         this.tau = copy.tau;
         this.n_t = copy.n_t;
-    }
-
-    /**
-     * return a clone
-     */
-    public FDA1_g getClone() {
-        return new FDA1_g(this);
     }
 
     /**
@@ -132,8 +122,8 @@ public class FDA1_g extends ContinuousFunction {
     public Double apply(Vector input) {
         this.tau = AbstractAlgorithm.get().getIterations();
 
-        double t = (1.0/(double)n_t)*Math.floor((double)this.tau/(double)this.tau_t);
-        double G = Math.sin(0.5*Math.PI*t);
+        double t = (1.0 / (double) n_t) * Math.floor((double) this.tau / (double) this.tau_t);
+        double G = Math.sin(0.5 * Math.PI * t);
 
         double sum = 1.0;
         for (int k=0; k < input.size(); k++) {

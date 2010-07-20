@@ -40,7 +40,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Olusegun Olorunda
  */
-public class ScaledFunctionDecorator extends ContinuousFunction {
+public class ScaledFunctionDecorator implements ContinuousFunction {
+
     private static final long serialVersionUID = -5316734133098401441L;
     private ContinuousFunction function;
     private double verticalScale;
@@ -50,7 +51,6 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
      * Create an instance of the decorator. Domain is set to "R" by default.
      */
     public ScaledFunctionDecorator() {
-        setDomain("R");
         verticalScale = 1.0;
         horizontalScale = 1.0;
     }
@@ -58,20 +58,11 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public ScaledFunctionDecorator getClone() {
-        return new ScaledFunctionDecorator();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double getMinimum() {
-        // adds the value of the verticalShift to the original function minimum
-        return Double.valueOf(function.getMinimum().doubleValue() * verticalScale);
-    }
-
+//    @Override
+//    public Double getMinimum() {
+//        // adds the value of the verticalShift to the original function minimum
+//        return Double.valueOf(function.getMinimum().doubleValue() * verticalScale);
+//    }
     /**
      * {@inheritDoc}
      */
@@ -100,7 +91,6 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
      */
     public void setFunction(ContinuousFunction function) {
         this.function = function;
-        this.setDomain(function.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -136,5 +126,4 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
         Preconditions.checkArgument(verticalScale > 0, "Vertical scale factor must be greater than zero!");
         this.verticalScale = verticalScale;
     }
-
 }

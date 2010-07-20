@@ -25,33 +25,13 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
+ * f(x) = 0.0 (Minimum)
+ * R(-100, 100)^2
  * @author  engel
  */
-public class Schaffer2 extends ContinuousFunction {
+public class Schaffer2 implements ContinuousFunction {
 
     private static final long serialVersionUID = 7289010453718555694L;
-
-    /** Creates a new instance of Schaffer. Domain defaults to R(-100, 100)^2 */
-    public Schaffer2() {
-        //constraint.add(new DimensionValidator(2));
-        setDomain("R(-100, 100)^2");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Schaffer2 getClone() {
-        return new Schaffer2();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Double getMinimum() {
-        return 0.0;
-    }
 
     /**
      * {@inheritDoc}

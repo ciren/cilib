@@ -72,6 +72,7 @@ public class FunctionMinimisationProblem extends FunctionOptimisationProblem {
      */
     @Override
     public double getError(Type solution) {
-        return function.apply((Vector) solution).doubleValue() - function.getMinimum().doubleValue();
+//        return function.evaluate((Vector) solution).doubleValue() - function.getMinimum().doubleValue();
+        throw new UnsupportedOperationException("No implementation yet.");
     }
 }

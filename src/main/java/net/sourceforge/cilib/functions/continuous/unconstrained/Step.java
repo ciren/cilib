@@ -26,33 +26,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * TODO: Complete this javadoc.
+ *
+ * R(-100.0, 100.0)^6
  */
-public class Step extends ContinuousFunction {
+public class Step implements ContinuousFunction {
 
     private static final long serialVersionUID = -3888436745417400797L;
-
-    /**
-     * Create an instance of the {@code Step} function.
-     */
-    public Step() {
-        setDomain("R(-100.0, 100.0)^6");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Step getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double getMinimum() {
-        return 0.0;
-    }
 
     /**
      * {@inheritDoc}

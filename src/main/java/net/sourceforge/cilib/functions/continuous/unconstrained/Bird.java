@@ -48,24 +48,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
- * @author Andries Engelbrecht
+ * R(-6.285714286,6.285714286)^2
  *
+ * @author Andries Engelbrecht
  */
-public class Bird extends ContinuousFunction {
+public class Bird implements ContinuousFunction {
+
     private static final long serialVersionUID = -7803711986955989075L;
-
-    public Bird() {
-        setDomain("R(-6.285714286,6.285714286)^2");
-    }
-
-    @Override
-    public Bird getClone() {
-        return new Bird();
-    }
-
-    public Double getMinimum() {
-        return -106.764537;
-    }
 
     /* (non-Javadoc)
      * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
@@ -75,8 +64,6 @@ public class Bird extends ContinuousFunction {
         double x1 = input.doubleValueOf(0);
         double x2 = input.doubleValueOf(1);
 
-        return Math.sin(x1)*Math.exp((1-Math.cos(x2))*(1-Math.cos(x2)))+Math.cos(x2)*Math.exp((1-Math.sin(x1))*(1-Math.sin(x1)))+(x1-x2)*(x1-x2);
+        return Math.sin(x1) * Math.exp((1 - Math.cos(x2)) * (1 - Math.cos(x2))) + Math.cos(x2) * Math.exp((1 - Math.sin(x1)) * (1 - Math.sin(x1))) + (x1 - x2) * (x1 - x2);
     }
 }
-
-

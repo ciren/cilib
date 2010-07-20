@@ -31,7 +31,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * The problem....
  *
  */
-public class KnightsCoverage extends DiscreteFunction {
+public class KnightsCoverage implements DiscreteFunction {
 
     private static final long serialVersionUID = -8039165934381145252L;
     private final int[] movesX = {1, 2, 2, 1, -1, -2, -2, -1};
@@ -40,15 +40,7 @@ public class KnightsCoverage extends DiscreteFunction {
 
     public KnightsCoverage() {
         this.boardSize = 8;
-        setDomain("B^" + boardSize * boardSize);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public KnightsCoverage getClone() {
-        return this;
+//        setDomain("B^" + boardSize * boardSize);
     }
 
     /**
@@ -114,6 +106,9 @@ public class KnightsCoverage extends DiscreteFunction {
 
     public void setBoardSize(int boardSize) {
         this.boardSize = boardSize;
-        setDomain("B^" + boardSize * boardSize);
     }
+//    @Override
+//    public String getDomain() {
+//        return "B^" + boardSize * boardSize;
+//    }
 }

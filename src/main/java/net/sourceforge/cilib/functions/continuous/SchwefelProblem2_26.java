@@ -24,7 +24,6 @@ package net.sourceforge.cilib.functions.continuous;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
  * SchwefelProblem 2_26.
  *
@@ -34,28 +33,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * x e [-500,500]
  *
+ * R(-500, 500)^30
+ *
  * @author  Andries Engelbrecht
  */
 // TODO: Check discontinuous / continuous
+public class SchwefelProblem2_26 implements ContinuousFunction {
 
-public class SchwefelProblem2_26 extends ContinuousFunction {
     private static final long serialVersionUID = -4483598483574144341L;
-
-    public SchwefelProblem2_26() {
-        setDomain("R(-500, 500)^30");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public SchwefelProblem2_26 getClone() {
-        return new SchwefelProblem2_26();
-    }
-
-    public Double getMinimum() {
-        return -12569.5;
-    }
 
     /**
      * {@inheritDoc}
@@ -64,7 +49,7 @@ public class SchwefelProblem2_26 extends ContinuousFunction {
     public Double apply(Vector input) {
         double sum = 0.0;
 
-        for (int i = 0; i < getDimension(); i++) {
+        for (int i = 0; i < input.size(); i++) {
             sum += input.doubleValueOf(i)*Math.sin(Math.sqrt(Math.abs(input.doubleValueOf(i))));
         }
         return -sum;

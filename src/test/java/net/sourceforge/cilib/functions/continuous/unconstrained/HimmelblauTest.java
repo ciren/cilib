@@ -34,6 +34,7 @@ import org.junit.Test;
  * @author Bennie Leonard
  */
 public class HimmelblauTest {
+
     private static final double EPSILON = 1.0E-6;
     private ContinuousFunction function;
 
@@ -47,7 +48,7 @@ public class HimmelblauTest {
      */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-6, 6)^2");
+//        function.setDomain("R(-6, 6)^2");
 
         Vector x = new Vector();
 
@@ -72,16 +73,5 @@ public class HimmelblauTest {
         x.setReal(0, 2.0);
         x.setReal(1, 2.0);
         Assert.assertEquals(26.0, function.apply(x), EPSILON);
-    }
-
-    /**
-     * These the minimum of the function. It should be noted that
-     * this test is based on the assumption that the domain of the
-     * function is {@code R(-6, 6)^2}, therefore the minimum value
-     * expected is {@code 0.0}.
-     */
-    @Test
-    public void minimum() {
-        Assert.assertEquals(0.0, function.getMinimum(), EPSILON);
     }
 }

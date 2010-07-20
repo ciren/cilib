@@ -19,15 +19,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-/**
- *
- */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
-
 
 /**
  * <p><b>The Alpine Function.</b></p>
@@ -48,31 +44,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
+ * R(-10, 10)^30
+ * 
  * @author leo
- *
  */
-public class Alpine extends ContinuousFunction {
+public class Alpine implements ContinuousFunction {
+
     private static final long serialVersionUID = -1365268075451075465L;
-
-    public Alpine() {
-        setDomain("R(-10, 10)^30");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Alpine getClone() {
-        return new Alpine();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double getMinimum() {
-        return 0.0;
-    }
 
     /**
      * {@inheritDoc}
@@ -85,5 +63,4 @@ public class Alpine extends ContinuousFunction {
         }
         return sum;
     }
-
 }

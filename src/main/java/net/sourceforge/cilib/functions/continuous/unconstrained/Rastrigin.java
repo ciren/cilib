@@ -25,7 +25,6 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.Differentiable;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
  * <p><b>The rastrigin function.</b></p>
  *
@@ -43,33 +42,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * x e [-5.12, 5.12];
  *
+ * R(-5.12, 5.12)^30
+ *
  * @author  Edwin Peer
  */
-public class Rastrigin extends ContinuousFunction implements Differentiable {
+public class Rastrigin implements ContinuousFunction, Differentiable {
+
     private static final long serialVersionUID = 447701182683968035L;
-
-    /**
-     * Create an instance of the Rastrigin function. The default domain is defined to be
-     * R(-5.12, 5.12)^30
-     */
-    public Rastrigin() {
-        setDomain("R(-5.12, 5.12)^30");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Rastrigin getClone() {
-        return new Rastrigin();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Double getMinimum() {
-        return 0.0;
-    }
 
     /**
      * {@inheritDoc}
@@ -77,24 +56,23 @@ public class Rastrigin extends ContinuousFunction implements Differentiable {
     @Override
     public Double apply(Vector input) {
         double tmp = 0;
-        for (int i = 0; i < getDimension(); ++i) {
+        for (int i = 0; i < input.size(); ++i) {
             tmp += input.doubleValueOf(i) * input.doubleValueOf(i) - 10.0 * Math.cos(2 * Math.PI * input.doubleValueOf(i));
         }
-        return 10*getDimension() + tmp;
+        return 10 * input.size() + tmp;
     }
-
 
     /**
      * {@inheritDoc}
      */
-    public Vector getGradient(Vector x) {
+    @Override
+    public Vector getGradient(Vector input) {
         Vector tmp = new Vector();
 
-        for (int i = 0; i < getDimension(); ++i) {
-            tmp.setReal(i, (2.0 * x.doubleValueOf(i)) + (20 * Math.PI * Math.sin(2.0 * Math.PI * x.doubleValueOf(i))));
+        for (int i = 0; i < input.size(); ++i) {
+            tmp.setReal(i, (2.0 * input.doubleValueOf(i)) + (20 * Math.PI * Math.sin(2.0 * Math.PI * input.doubleValueOf(i))));
         }
 
         return tmp;
     }
 }
-

@@ -30,9 +30,9 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
- * TODO: Complete this javadoc.
+ * B^10
  */
-public class FunctionDimensionMapping extends ContinuousFunction {
+public class FunctionDimensionMapping implements ContinuousFunction {
 
     private static final long serialVersionUID = 3785385852226926590L;
     private double[] generatedPoints;
@@ -48,18 +48,7 @@ public class FunctionDimensionMapping extends ContinuousFunction {
     public FunctionDimensionMapping() {
         dataDimension = 2;
         number = 200;
-
         measure = new EuclideanDistanceMeasure();
-
-        setDomain("B^10");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public FunctionDimensionMapping getClone() {
-        return new FunctionDimensionMapping();
     }
 
     /**

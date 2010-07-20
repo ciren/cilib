@@ -30,28 +30,22 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * a Sphere function to an Elliptic function.
  *
  * Reference:
- *<pre>
+ * <pre>
  * {@literal @}article{tang2010benchmark,
- * title={{Benchmark Functions for the CEC’2010 Special Session and Competition on Large-Scale Global Optimization}},
+ * title={{Benchmark Functions for the CEC2010 Special Session and Competition on Large-Scale Global Optimization}},
  * author={Tang, K. and Li, X. and Suganthan, PN and Yang, Z. and Weise, T.},
  * year={2010}}
  * </pre>
  *
  * @author Bennie Leonard
  */
-public class Elliptic extends ContinuousFunction {
+public class Elliptic implements ContinuousFunction {
 
-    //the condition number 10^6 is used to transform a sphere to an elliptic function
-    static final double CONDITION_NUMBER = 1000000;
-
-    public Elliptic() {
-        setDomain("R(-100,100)^30");
-    }
-
-    @Override
-    public ContinuousFunction getClone() {
-        return this;
-    }
+    /*
+     * The condition number 10^6 is used to transform a sphere
+     * to an elliptic function
+     */
+    private static final double CONDITION_NUMBER = 1000000;
 
     @Override
     public Double apply(Vector input) {

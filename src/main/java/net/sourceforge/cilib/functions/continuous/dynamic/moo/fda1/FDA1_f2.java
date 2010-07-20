@@ -31,9 +31,11 @@ import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
  * M.Farina, K.Deb, P.Amato. Dynamic multiobjective optimization problems: test cases, approximations
  * and applications, IEEE Transactions on Evolutionary Computation, 8(5): 425-442, 2003
  *
+ * R(-1, 1)^20
+ *
  * @author Marde Greeff
  */
-public class FDA1_f2 extends ContinuousFunction {
+public class FDA1_f2 implements ContinuousFunction {
 
     private static final long serialVersionUID = 6369118486095689078L;
     //member
@@ -47,7 +49,6 @@ public class FDA1_f2 extends ContinuousFunction {
      */
     public FDA1_f2() {
         super();
-        setDomain("R(-1, 1)^20");
     }
 
     /**
@@ -56,20 +57,11 @@ public class FDA1_f2 extends ContinuousFunction {
      */
     @SuppressWarnings("unchecked")
     public FDA1_f2(FDA1_f2 copy) {
-        super(copy);
-        this.setDomain(copy.getDomain());
+//        this.setDomain(copy.getDomain());
         this.setFDA1_g(copy.getFDA1_g());
         this.setFDA1_g(copy.getFDA1_g_problem());
         this.setFDA1_h(copy.getFDA1_h());
         this.setFDA1_h(copy.getFDA1_h_problem());
-    }
-
-    /**
-     * Returns a clone
-     */
-    @Override
-    public FDA1_f2 getClone() {
-        return new FDA1_f2(this);
     }
 
     /**
@@ -79,7 +71,7 @@ public class FDA1_f2 extends ContinuousFunction {
     public void setFDA1_g(FunctionMinimisationProblem problem) {
         this.fda1_g_problem = problem;
         this.fda1_g = problem.getFunction();
-        this.fda1_g.setDomain(fda1_g.getDomainRegistry().getDomainString());
+//        this.fda1_g.setDomain(fda1_g.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -96,7 +88,7 @@ public class FDA1_f2 extends ContinuousFunction {
      */
     public void setFDA1_g(Function<Vector, ? extends Number> fda1_g) {
         this.fda1_g = fda1_g;
-        this.setDomain(fda1_g.getDomainRegistry().getDomainString());
+//        this.setDomain(fda1_g.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -114,7 +106,7 @@ public class FDA1_f2 extends ContinuousFunction {
     public void setFDA1_h(FunctionMinimisationProblem problem) {
         this.fda1_h_problem = problem;
         this.fda1_h = problem.getFunction();
-        this.fda1_h.setDomain(fda1_h.getDomainRegistry().getDomainString());
+//        this.fda1_h.setDomain(fda1_h.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -131,7 +123,7 @@ public class FDA1_f2 extends ContinuousFunction {
      */
     public void setFDA1_h(Function<Vector, ? extends Number> fda1_h) {
         this.fda1_h = fda1_h;
-        this.setDomain(fda1_h.getDomainRegistry().getDomainString());
+//        this.setDomain(fda1_h.getDomainRegistry().getDomainString());
     }
 
     /**

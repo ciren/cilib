@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.functions.clustering;
 
+import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -29,6 +30,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
  */
 public class KHarmonicMeansFunction extends ClusteringFitnessFunction {
+
     private static final long serialVersionUID = 2680037315045146954L;
 
     public KHarmonicMeansFunction() {
@@ -49,10 +51,5 @@ public class KHarmonicMeansFunction extends ClusteringFitnessFunction {
             harmonicMean += clustersFormed / sumOfReciprocals;
         }
         return harmonicMean;
-    }
-
-    @Override
-    public KHarmonicMeansFunction getClone() {
-        return new KHarmonicMeansFunction();
     }
 }

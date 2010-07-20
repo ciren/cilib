@@ -42,7 +42,7 @@
         <addMeasurement class="measurement.single.Solution"/>
     </measurements>
     <simulations>
-        <simulation samples="1">
+        <!--<simulation samples="1">
             <algorithm idref="ga"/>
             <problem idref="spherical"/>
             <measurements idref="measurements" />
@@ -71,6 +71,6 @@
             <problem idref="rastrigin"/>
             <measurements idref="measurements" />
             <output format="TXT" file="data/amga-rastrigin.txt"/>
-        </simulation>
+        </simulation>-->
     </simulations>
 </simulator>

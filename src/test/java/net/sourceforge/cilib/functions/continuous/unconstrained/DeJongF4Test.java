@@ -32,10 +32,9 @@ import org.junit.Test;
 /**
  *
  * @author leo
- *
  */
-
 public class DeJongF4Test {
+
     private ContinuousFunction function;
 
     @Before
@@ -46,8 +45,6 @@ public class DeJongF4Test {
     /** Test of evaluate method, of class cilib.functions.unconstrained.DeJongF4. */
     @Test
     public void testEvaluate() {
-        function.setDomain("R(-1.28, 1.28)^2");
-
         Vector x = new Vector();
         x.add(Real.valueOf(0));
         x.add(Real.valueOf(0));
@@ -58,10 +55,5 @@ public class DeJongF4Test {
         x.setReal(1, 2.0);
 
         assertEquals(33, function.apply(x), 0.0000000001);
-    }
-
-    @Test
-    public void minimum() {
-        assertEquals(0.0, function.getMinimum().doubleValue(), 0.0);
     }
 }

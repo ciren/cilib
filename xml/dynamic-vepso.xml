@@ -51,8 +51,8 @@
     </algorithms>
 
     <problems>
-        <problem id="FDA1_f1" class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.dynamic.moo.fda1.FDA1_f1" domain="R(0, 1)"/>
+        <problem id="FDA1_f1" class="problem.FunctionMinimisationProblem"  domain="R(0, 1)">
+            <function class="functions.continuous.dynamic.moo.fda1.FDA1_f1"/>
         </problem>
         <problem id="FDA1_g" class="problem.FunctionMinimisationProblem">
             <function class="functions.continuous.dynamic.moo.fda1.FDA1_g">
@@ -91,11 +91,11 @@
     </measurements>
 
     <simulations>
-        <simulation samples="1">
+        <!--<simulation samples="1">
             <algorithm idref="vepso"/>
             <problem idref="moo_problem"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/dynamic-vepso.txt"/>
-        </simulation>
+        </simulation>-->
     </simulations>
 </simulator>

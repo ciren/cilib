@@ -27,24 +27,18 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  *
  */
-public class KnightsTour extends DiscreteFunction {
+public class KnightsTour implements DiscreteFunction {
+
     private static final long serialVersionUID = -4448832121042323303L;
-
-    private static final int[] MOVE_X = {-2, -1,  1,  2, 2, 1, -1, -2};
+    private static final int[] MOVE_X = {-2, -1, 1, 2, 2, 1, -1, -2};
     private static final int[] MOVE_Y = {-1, -2, -2, -1, 1, 2, -2, -1};
-
     private int boardSize;
     private int startRow = 0;
     private int startCol = 0;
 
     public KnightsTour() {
         this.boardSize = 8;
-        setDomain("B^" + 3*boardSize*boardSize);
-    }
-
-    @Override
-    public KnightsTour getClone() {
-        return new KnightsTour();
+//        setDomain("B^" + 3*boardSize*boardSize);
     }
 
     /**
@@ -56,7 +50,7 @@ public class KnightsTour extends DiscreteFunction {
     public Integer apply(Vector input) {
         // First, decode the input vector into moves for the knight to make
         int count = 0;
-        int [] moves = new int[boardSize*boardSize];
+        int[] moves = new int[boardSize * boardSize];
         for (int i = 0; i < input.size(); i += 3) {
             moves[count++] = decode(input.booleanValueOf(i), input.booleanValueOf(i+1), input.booleanValueOf(i+2));
         }
@@ -72,13 +66,12 @@ public class KnightsTour extends DiscreteFunction {
             currentX += MOVE_X[moves[i]];
             currentY += MOVE_Y[moves[i]];
 
-            if ((currentX >= 0 && currentX < boardSize) &&
-                (currentY >= 0 && currentY < boardSize) &&
-                !visited[currentX][currentY]) {
+            if ((currentX >= 0 && currentX < boardSize)
+                    && (currentY >= 0 && currentY < boardSize)
+                    && !visited[currentX][currentY]) {
                 fitness++;
                 visited[currentX][currentY] = true;
-            }
-            else {
+            } else {
                 break;
             }
         }
@@ -92,7 +85,7 @@ public class KnightsTour extends DiscreteFunction {
 
     public void setBoardSize(int boardSize) {
         this.boardSize = boardSize;
-        setDomain("B^" + 3*boardSize*boardSize);
+//        setDomain("B^" + 3*boardSize*boardSize);
     }
 
     // Returns the octal value, values 0 - 7
@@ -100,7 +93,10 @@ public class KnightsTour extends DiscreteFunction {
         int i0 = bit ? 1 : 0;
         int i1 = bit0 ? 1 : 0;
         int i2 = bit1 ? 1 : 0;
-        return 4*i0 + 2*i1 + i2;
+        return 4 * i0 + 2 * i1 + i2;
     }
-
+//    @Override
+//    public String getDomain() {
+//        return "B^" + 3*boardSize*boardSize;
+//    }
 }

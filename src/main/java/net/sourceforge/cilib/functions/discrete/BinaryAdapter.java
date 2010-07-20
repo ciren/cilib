@@ -32,9 +32,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * This still needs some experimental work though, to verify that it is working
  *
+ * @TODO: This doesn't actually make sense...... should rather be a problem that
+ * does the needed mapping between spaces.
+ *
  * @author Gary Pampara
  */
-public class BinaryAdapter extends ContinuousFunction {
+public class BinaryAdapter implements ContinuousFunction {
     private static final long serialVersionUID = -329657439970469569L;
 
     private Function<Vector, Number> function;
@@ -48,12 +51,6 @@ public class BinaryAdapter extends ContinuousFunction {
         bitsPerDimension = 1;
         precision = 0;
     }
-
-    @Override
-    public BinaryAdapter getClone() {
-        return new BinaryAdapter();
-    }
-
 
     /**
      * Evaluate the {@see net.sourceforge.cilib.type.types.Vector} by
@@ -71,21 +68,21 @@ public class BinaryAdapter extends ContinuousFunction {
         return function.apply(decodedVector).doubleValue();
     }
 
-    /**
-     *
-     */
-    @Override
-    public Double getMinimum() {
-        return function.getMinimum().doubleValue();
-    }
-
-    /**
-     *
-     */
-    @Override
-    public Double getMaximum() {
-        return function.getMaximum().doubleValue();
-    }
+//    /**
+//     *
+//     */
+//    @Override
+//    public Double getMinimum() {
+//        return function.getMinimum().doubleValue();
+//    }
+//
+//    /**
+//     *
+//     */
+//    @Override
+//    public Double getMaximum() {
+//        return function.getMaximum().doubleValue();
+//    }
 
     /**
      * @return Returns the bitsPerDimension.
@@ -191,13 +188,11 @@ public class BinaryAdapter extends ContinuousFunction {
         return result;
     }
 
-
-    @Override
-    public void setDomain(String representation) {
-        if (!representation.matches("^B\\^.*"))
-            throw new RuntimeException("BinaryAdapter can only accept domain strings in the form: B^?\nWhere ? is the size of the dimension");
-
-        super.setDomain(representation);
-    }
-
+//    @Override
+//    public void setDomain(String representation) {
+//        if (!representation.matches("^B\\^.*"))
+//            throw new RuntimeException("BinaryAdapter can only accept domain strings in the form: B^?\nWhere ? is the size of the dimension");
+//
+//        super.setDomain(representation);
+//    }
 }

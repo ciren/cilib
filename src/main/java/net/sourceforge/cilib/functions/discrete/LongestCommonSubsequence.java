@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.functions.discrete;
 
-
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.functions.DiscreteFunction;
@@ -35,18 +34,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author gpampara
  */
-public class LongestCommonSubsequence extends DiscreteFunction {
+public class LongestCommonSubsequence implements DiscreteFunction {
 
     private static final long serialVersionUID = -3586259608521073084L;
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public LongestCommonSubsequence getClone() {
-        return new LongestCommonSubsequence();
-    }
-
 
     @Override
     public Integer apply(Vector input) {
@@ -55,19 +45,20 @@ public class LongestCommonSubsequence extends DiscreteFunction {
         int m = matches(input);
         int k = this.getDataSetSize();
 
-        v = l + (30*m);
+        v = l + (30 * m);
 
-        if (l == getShortestString().length())
+        if (l == getShortestString().length()) {
             v += 50;
+        }
 
-        if (m == k)
+        if (m == k) {
             v *= 3000;
-        else
-            v *= -1000*(k-m);
+        } else {
+            v *= -1000 * (k - m);
+        }
 
         return v;
     }
-
 
     /**
      * Returns the lengh of the shortest string or the length of the first
@@ -91,7 +82,6 @@ public class LongestCommonSubsequence extends DiscreteFunction {
         return dataSetBuilder.size();
     }
 
-
     /**
      *
      * @param x
@@ -101,13 +91,13 @@ public class LongestCommonSubsequence extends DiscreteFunction {
         int count = 0;
 
         for (Numeric n : x) {
-            if (n.booleanValue())
+            if (n.booleanValue()) {
                 count++;
+            }
         }
 
         return count;
     }
-
 
     private int matches(Vector x) {
         PopulationBasedAlgorithm popAlgorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get();
@@ -121,25 +111,24 @@ public class LongestCommonSubsequence extends DiscreteFunction {
         for (int i = 0; i < dataSetBuilder.size(); i++) {
             String tmp = this.getSubSequence(x, dataSetBuilder.get(i));
 
-            if (tmp.equals(targetSubSequence))
+            if (tmp.equals(targetSubSequence)) {
                 count++;
+            }
         }
 
         return count;
     }
-
 
     private String getSubSequence(Vector x, String target) {
         StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < x.size(); i++) {
             Numeric n = x.get(i);
-            if (n.booleanValue())
+            if (n.booleanValue()) {
                 builder.append(target.charAt(i));
+            }
         }
 
         return builder.toString();
     }
-
-
 }

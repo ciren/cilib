@@ -31,19 +31,18 @@ import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
  * M.Farina, K.Deb, P.Amato. Dynamic multiobjective optimization problems: test cases, approximations
  * and applications, IEEE Transactions on Evolutionary Computation, 8(5): 425-442, 2003
  *
+ * R(-1, 1)^31
+ *
  * @author Marde Greeff
  */
-
-public class FDA2_h extends ContinuousFunction {
+public class FDA2_h implements ContinuousFunction {
 
     private static final long serialVersionUID = -637862405309737323L;
-
     //members
     ContinuousFunction fda2_f;
     ContinuousFunction fda2_g;
     FunctionMinimisationProblem fda2_f_problem;
     FunctionMinimisationProblem fda2_g_problem;
-
     //number of generations for which t remains fixed
     private int tau_t;
     //generation counter
@@ -56,7 +55,7 @@ public class FDA2_h extends ContinuousFunction {
      */
     public FDA2_h() {
         super();
-        setDomain("R(-1, 1)^31"); //verander hier
+//        setDomain("R(-1, 1)^31"); //verander hier
         //initialize the members
         this.tau_t = 5;
         this.tau = 1;
@@ -68,7 +67,6 @@ public class FDA2_h extends ContinuousFunction {
      * @param copy
      */
     public FDA2_h(FDA2_h copy) {
-        super(copy);
         this.tau = copy.tau;
         this.tau_t = copy.tau_t;
         this.n_t = copy.n_t;
@@ -79,20 +77,13 @@ public class FDA2_h extends ContinuousFunction {
     }
 
     /**
-     * return a clone
-     */
-    public FDA2_h getClone() {
-        return new FDA2_h(this);
-    }
-
-    /**
      * Sets the f function used with FDA2 problem
      * @param problem
      */
     public void setFDA2_f(FunctionMinimisationProblem problem) {
         this.fda2_f_problem = problem;
-        this.fda2_f = (ContinuousFunction)problem.getFunction();
-        this.setDomain(fda2_f.getDomainRegistry().getDomainString());
+        this.fda2_f = (ContinuousFunction) problem.getFunction();
+//        this.setDomain(fda2_f.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -109,7 +100,7 @@ public class FDA2_h extends ContinuousFunction {
      */
     public void setFDA2_f(ContinuousFunction fda2_f) {
         this.fda2_f = fda2_f;
-        this.setDomain(fda2_f.getDomainRegistry().getDomainString());
+//        this.setDomain(fda2_f.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -126,8 +117,8 @@ public class FDA2_h extends ContinuousFunction {
      */
     public void setFDA2_g(FunctionMinimisationProblem problem) {
         this.fda2_g_problem = problem;
-        this.fda2_g = (ContinuousFunction)problem.getFunction();
-        this.setDomain(fda2_g.getDomainRegistry().getDomainString());
+        this.fda2_g = (ContinuousFunction) problem.getFunction();
+//        this.setDomain(fda2_g.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -144,7 +135,7 @@ public class FDA2_h extends ContinuousFunction {
      */
     public void setFDA2_g(ContinuousFunction fda2_g) {
         this.fda2_g = fda2_g;
-        this.setDomain(fda2_g.getDomainRegistry().getDomainString());
+//        this.setDomain(fda2_g.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -211,8 +202,8 @@ public class FDA2_h extends ContinuousFunction {
     public Double apply(Vector input) {
         this.tau = AbstractAlgorithm.get().getIterations();
 
-        double t = (1.0/(double)n_t)*Math.floor((double)this.tau/(double)this.tau_t);
-        double H = 0.75 + 0.7*(Math.sin(0.5*Math.PI*t));
+        double t = (1.0 / (double) n_t) * Math.floor((double) this.tau / (double) this.tau_t);
+        double H = 0.75 + 0.7 * (Math.sin(0.5 * Math.PI * t));
 
         Vector xI = input;
         Vector xII = input;

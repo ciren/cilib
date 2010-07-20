@@ -31,35 +31,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * -2 &lt;= x &lt;= 2<br><br>
  *
+ * R(-2, 2)^2
+ *
  * @author Gary Pampara
  *
  */
-public class GoldsteinPrice extends ContinuousFunction {
+public class GoldsteinPrice implements ContinuousFunction {
 
     private static final long serialVersionUID = 5635493177950325746L;
-
-    /**
-     * Create a new instance of {@linkplain GoldsteinPrice}. Domain defaults to R(-2, 2)^2
-     */
-    public GoldsteinPrice() {
-        setDomain("R(-2, 2)^2");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public GoldsteinPrice getClone() {
-        return new GoldsteinPrice();
-    }
-
-    /**
-     * Get the minimum of the function. The value of the minimum of 3.0.
-     */
-    @Override
-    public Double getMinimum() {
-        return 3.0;
-    }
 
     /**
      * {@inheritDoc}

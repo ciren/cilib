@@ -28,5 +28,4 @@ package net.sourceforge.cilib.functions;
 public interface DynamicFunction {
 
     double getExclusionThreshold();
-
 }

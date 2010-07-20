@@ -24,8 +24,6 @@ package net.sourceforge.cilib.functions.continuous.decorators;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.problem.changestrategy.ChangeStrategy;
 import net.sourceforge.cilib.problem.changestrategy.IterationBasedSingleChangeStrategy;
-import net.sourceforge.cilib.type.parser.DomainParser;
-import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.container.Matrix;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Sequence;
@@ -54,9 +52,8 @@ import net.sourceforge.cilib.util.Sequence;
  * at its original position.
  * @param rotatingFrequency specifies how many iterations take place between 2 rotations
  * of the function.
- *
  */
-public class RotatingFunctionDecorator extends ContinuousFunction {
+public class RotatingFunctionDecorator implements ContinuousFunction {
 
     private static final long serialVersionUID = 3107473364744861153L;
     private ContinuousFunction function;
@@ -134,15 +131,6 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
     }
 
     public RotatingFunctionDecorator() {
-        setDomain("R");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public RotatedFunctionDecorator getClone() {
-        return new RotatedFunctionDecorator();
     }
 
     @Override
@@ -173,26 +161,16 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
      * @param function the function to set
      */
     public void setFunction(ContinuousFunction function) {
-        this.function = function;
-        this.setDomain(function.getDomainRegistry().getDomainString());
-
-        Vector structure = (Vector) DomainParser.parse(function.getDomainRegistry().getDomainString());
-        Bounds bounds = structure.boundsOf(0);
-        double lowerLimit = bounds.getLowerBound();
-        double upperLimit = bounds.getUpperBound();
-
-        center = (upperLimit - lowerLimit) / 2 + lowerLimit;
-        this.N = function.getDimension();
-        this.matrix = initMatrices();
-    }
-
-    @Override
-    public Double getMaximum() {
-        return function.getMaximum();
-    }
-
-    @Override
-    public Double getMinimum() {
-        return function.getMinimum();
+//        this.function = function;
+//
+//        Vector structure = (Vector) DomainParser.parse(function.getDomain());
+//        Bounds bounds = structure.get(0).getBounds();
+//        double lowerLimit = bounds.getLowerBound();
+//        double upperLimit = bounds.getUpperBound();
+//
+//        center = (upperLimit - lowerLimit) / 2 + lowerLimit;
+//        this.N = structure.size();
+//        this.matrix = initMatrices();
+        throw new UnsupportedOperationException();
     }
 }

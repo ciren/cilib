@@ -25,6 +25,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.competitors.CoevolutionCompetitorList;
 import net.sourceforge.cilib.coevolution.selection.OpponentSelectionStrategy;
 import net.sourceforge.cilib.coevolution.selection.SelectAllOpponentSelectionStrategy;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 
 /**

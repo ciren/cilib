@@ -6,18 +6,20 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="40"/>
                 <entityType class="pso.particle.StandardParticle">
-                    <!--  <velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
+                      <velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
                         <inertiaWeight class="controlparameter.LinearDecreasingControlParameter" />
-                    </velocityUpdateStrategy>-->
+                    </velocityUpdateStrategy>
                 </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.VonNeumannTopology"/>
         </algorithm>
-        <problem class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.decorators.AngleModulation" precision="2">
-            <function class="functions.continuous.unconstrained.Rastrigin" domain="R(-5.12,5.12)^30"/>
-            </function>
-        </problem>
+	<problem class="functions.continuous.decorators.AngleModulation"  precision="2">
+          <problem class="problem.FunctionMinimisationProblem" domain="R(-5.12,5.12)^30">
+            <!--<function class="functions.continuous.decorators.AngleModulation" precision="2">-->
+            <function class="functions.continuous.unconstrained.Rastrigin"/>
+            <!--</function>-->
+          </problem>
+	</problem>
         <measurements class="simulator.MeasurementSuite" resolution="1">
             <addMeasurement class="measurement.single.Fitness"/>
             <addMeasurement class="measurement.single.Solution"/>

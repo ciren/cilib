@@ -33,7 +33,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  *
  */
-public class NoisyFunctionDecorator extends ContinuousFunction {
+public class NoisyFunctionDecorator implements ContinuousFunction {
 
     private static final long serialVersionUID = -3918271655104447420L;
     private ContinuousFunction function;
@@ -44,17 +44,9 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
      * Create an instance of the decorator and set the domain to "R" by default.
      */
     public NoisyFunctionDecorator() {
-        setDomain("R");
+//        setDomain("R");
         randomNumber = new GaussianDistribution();
         this.variance = new ConstantControlParameter(1.0);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public NoisyFunctionDecorator getClone() {
-        return new NoisyFunctionDecorator();
     }
 
     /**
@@ -79,7 +71,6 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
      */
     public void setFunction(ContinuousFunction function) {
         this.function = function;
-        this.setDomain(function.getDomainRegistry().getDomainString());
     }
 
     public ControlParameter getVariance() {

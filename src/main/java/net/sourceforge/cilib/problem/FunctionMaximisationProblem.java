@@ -70,6 +70,7 @@ public class FunctionMaximisationProblem extends FunctionOptimisationProblem {
      */
     @Override
     public double getError(Type solution) {
-        return function.getMaximum().doubleValue() - function.apply((Vector) solution).doubleValue();
+//        return function.getMaximum().doubleValue() - function.evaluate((Vector) solution).doubleValue();
+        throw new UnsupportedOperationException("No implementation yet.");
     }
 }

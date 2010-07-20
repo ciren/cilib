@@ -22,32 +22,21 @@
 package net.sourceforge.cilib.functions.activation;
 
 import net.sourceforge.cilib.functions.Differentiable;
-import net.sourceforge.cilib.functions.AbstractFunction;
+import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.types.Real;
 
 /**
  * Activation functions are functions that are typically used within Neurons. This class provides
  * an abstraction for all functions that can be used in this manner.
  */
-public abstract class ActivationFunction extends AbstractFunction<Real, Real> implements Differentiable {
-    private static final long serialVersionUID = 4692200308338537909L;
-
-    /**
-     * Determine the gradient of the {@link ActivationFunction} at the given point.
-     * @param number The <code>point</code> at which the gradient is to be determined.
-     * Delegates to {@link #getGradient(double) }
-     * @return The value of the gradient and the provided input.
-     */
-    public Real getGradient(Real number) {
-        return Real.valueOf(this.getGradient(number.doubleValue()));
-    }
+public interface ActivationFunction extends Function<Real, Real>, Differentiable {
 
     /**
      * Determine the gradient of the {@link ActivationFunction} at the given point.
      * @param number The <code>point</code> at which the gradient is to be determined.
      * @return The value of the gradient and the provided input.
      */
-    public abstract double getGradient(double number);
+    double getGradient(double number);
 
     /**
      * Evaluates the point given a double (as opposed to Real). And also returns
@@ -55,18 +44,17 @@ public abstract class ActivationFunction extends AbstractFunction<Real, Real> im
      * @param input the point to evaluate.
      * @return the evaluation result.
      */
-    public abstract double apply(double input);
+    double apply(double input);
 
     /**
      *  Return the lowerbound for the active range of this NeuronFunction
      * @return the lowerbound
      */
-    public abstract double getLowerActiveRange();
+    double getLowerActiveRange();
 
     /**
      * Return the upperbound for the active range of this NeuronFunction
      * @return the upperbound
      */
-    public abstract double getUpperActiveRange();
-
+    double getUpperActiveRange();
 }

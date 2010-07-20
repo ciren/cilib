@@ -39,8 +39,8 @@ public class WorkerBeeTest {
     @Test
     public void testSetForageLimit() {
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
+        problem.setDomain("R(-10.048, 10.048)^100");
         ContinuousFunction func = new Rastrigin();
-        func.setDomain("R(-10.048, 10.048)^100");
         problem.setFunction(func);
 
         ClonedPopulationInitialisationStrategy initStrategy = new ClonedPopulationInitialisationStrategy();

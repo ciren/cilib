@@ -41,7 +41,6 @@ public class EllipticTest {
     @Before
     public void instantiate() {
         this.function = new Elliptic();
-        function.setDomain("R(-2, 2)^2");
     }
 
     @Test

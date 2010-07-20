@@ -33,35 +33,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * x e [-10,10]
  *
+ * R(-10, 10)^30
+ *
  * @author  Andries Engelbrecht
  */
 // TODO: Check discontinuous / continuous
-public class SchwefelProblem2_22 extends ContinuousFunction {
+public class SchwefelProblem2_22 implements ContinuousFunction {
 
     private static final long serialVersionUID = -5004170862929300400L;
-
-    /**
-     * Creates an new instance. Domain is set to R(-10,10)^30 by default.
-     */
-    public SchwefelProblem2_22() {
-        setDomain("R(-10, 10)^30");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public SchwefelProblem2_22 getClone() {
-        return new SchwefelProblem2_22();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double getMinimum() {
-        return 0.0;
-    }
 
     /**
      * {@inheritDoc}
@@ -70,7 +49,7 @@ public class SchwefelProblem2_22 extends ContinuousFunction {
     public Double apply(Vector input) {
         double sum = 0;
         double product = 0;
-        for (int i = 0; i < getDimension(); ++i) {
+        for (int i = 0; i < input.size(); ++i) {
             sum += Math.abs(input.doubleValueOf(i));
             if (i == 0) {
                 product = Math.abs(input.doubleValueOf(i));

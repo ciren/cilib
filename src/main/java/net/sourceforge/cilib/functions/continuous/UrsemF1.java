@@ -31,29 +31,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
  * <p>Company: </p>
+ *
+ * R(-2.5, 3)^2
+ * Minimum: 4.81681
+ * 
  * @author Clive Naicker
  * @version 1.0
  */
-public class UrsemF1 extends ContinuousFunction {
+public class UrsemF1 implements ContinuousFunction {
 
     private static final long serialVersionUID = -2595919942608678319L;
-
-    public UrsemF1() {
-        //constraint.add(new DimensionValidator(2));
-        setDomain("R(-2.5, 3)^2");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public UrsemF1 getClone() {
-        return new UrsemF1();
-    }
-
-    public Double getMinimum() {
-        return 4.81681;
-    }
 
     /**
      * {@inheritDoc}

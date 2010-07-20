@@ -50,7 +50,6 @@ import net.sourceforge.cilib.type.types.Type;
 public class ArchivingIterationStrategy<E extends PopulationBasedAlgorithm> implements IterationStrategy<E> {
 
     private static final long serialVersionUID = 4029628616324259998L;
-
     private IterationStrategy<PopulationBasedAlgorithm> iterationStrategy;
 
     public ArchivingIterationStrategy() {

@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -49,34 +48,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
- * @author Andries Engelbrecht
+ * R(-15,-5),R(-3,3)
  *
+ * @author Andries Engelbrecht
  */
-public class Bukin6 extends ContinuousFunction {
+public class Bukin6 implements ContinuousFunction {
+
     private static final long serialVersionUID = -5557883529972004157L;
-
-    /**
-     * Create an instance of the function. Default domain is set to be R(-15,-5),R(-3,3).
-     */
-    public Bukin6() {
-        setDomain("R(-15,-5),R(-3,3)");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Bukin6 getClone() {
-        return new Bukin6();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double getMinimum() {
-        return 0.0;
-    }
 
     /**
      * {@inheritDoc}
@@ -86,6 +64,6 @@ public class Bukin6 extends ContinuousFunction {
         double x1 = input.doubleValueOf(0);
         double x2 = input.doubleValueOf(1);
 
-        return 100*Math.sqrt(Math.abs(x2-0.01*x1*x1)) + 0.01*Math.abs(x1+10);
+        return 100 * Math.sqrt(Math.abs(x2 - 0.01 * x1 * x1)) + 0.01 * Math.abs(x1 + 10);
     }
 }

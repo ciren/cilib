@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -49,53 +48,31 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
+ * R(-5,10),R(0,15)
+ *
  * @author Clive Naicker
  *
  */
-public class Branin extends ContinuousFunction {
-    private static final long serialVersionUID = -2254223453957430344L;
+public class Branin implements ContinuousFunction {
 
+    private static final long serialVersionUID = -2254223453957430344L;
     private double a = 1.0;
-    private double b = 5.1/(4*Math.PI*Math.PI);
-    private double c = 5.0/Math.PI;
+    private double b = 5.1 / (4 * Math.PI * Math.PI);
+    private double c = 5.0 / Math.PI;
     private double d = 6.0;
     private double e = 10.0;
-    private double f = 1.0/(8.0*Math.PI);
+    private double f = 1.0 / (8.0 * Math.PI);
 
     /**
      * Create a new instance of {@linkplain Branin}. Domain defaults to: <code>R(-5,10),R(0,15)</code>
      */
     public Branin() {
         a = 1.0;
-        b = 5.1/(4*Math.PI*Math.PI);
-        c = 5.0/Math.PI;
+        b = 5.1 / (4 * Math.PI * Math.PI);
+        c = 5.0 / Math.PI;
         d = 6.0;
         e = 10.0;
-        f = 1.0/(8.0*Math.PI);
-
-        //constraint.add(new DimensionValidator(2));
-        //constraint.add(new ContentValidator(0, new QuantitativeBoundValidator(new Double(-5), new Double(15))));
-        //constraint.add(new ContentValidator(1, new QuantitativeBoundValidator(new Double(0), new Double(15))));
-
-        setDomain("R(-5,10),R(0,15)");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Branin getClone() {
-        return new Branin();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * The minimum is located at <code>0.397887</code>.
-     */
-    @Override
-    public Double getMinimum() {
-        return 0.397887;
+        f = 1.0 / (8.0 * Math.PI);
     }
 
     /**
@@ -106,7 +83,6 @@ public class Branin extends ContinuousFunction {
         double x1 = input.doubleValueOf(0);
         double x2 = input.doubleValueOf(1);
 
-        return a*Math.pow((x2 - b*x1*x1 + c*x1 - d), 2) + e*(1 - f)*Math.cos(x1) + e;
+        return a * Math.pow((x2 - b * x1 * x1 + c * x1 - d), 2) + e * (1 - f) * Math.cos(x1) + e;
     }
-
 }

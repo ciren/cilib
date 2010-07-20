@@ -43,38 +43,18 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <ul>
  * <li>Only defined for 2 dimensions</li>
  * <li>Unimodal</li>
- * <li>Seperable</li>
+ * <li>Separable</li>
  * <li>Regular</li>
  * </ul>
  * </p>
  *
- * @author Andries Engelbrecht
+ * R(-4.5,4.5)^2
  *
+ * @author Andries Engelbrecht
  */
-public class Beale extends ContinuousFunction {
+public class Beale implements ContinuousFunction {
 
     private static final long serialVersionUID = -7803711986955989075L;
-
-    /**
-     * Create an instance of {@linkplain Beale}. The default domain is set to R(-4.5, 4.5)^2.
-     */
-    public Beale() {
-        setDomain("R(-4.5,4.5)^2");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Beale getClone() {
-        return new Beale();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Double getMinimum() {
-        return 0.0;
-    }
 
     /**
      * {@inheritDoc}

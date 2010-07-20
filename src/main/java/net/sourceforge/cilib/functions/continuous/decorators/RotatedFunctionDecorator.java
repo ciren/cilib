@@ -35,9 +35,8 @@ import net.sourceforge.cilib.util.Sequence;
  *
  * Rotates a n-dimensional continuous function by multiplying it with
  * an orthonormal basis for R^n.
- *
  */
-public class RotatedFunctionDecorator extends ContinuousFunction {
+public class RotatedFunctionDecorator implements ContinuousFunction {
 
     private static final long serialVersionUID = 3107473364744861153L;
     private ContinuousFunction function;
@@ -51,17 +50,8 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
     private ControlParameter rotationProbability;
 
     public RotatedFunctionDecorator() {
-        setDomain("R");
         rotationMatrix = null;
         rotationProbability = new ConstantControlParameter(0.5);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public RotatedFunctionDecorator getClone() {
-        return new RotatedFunctionDecorator();
     }
 
     /**
@@ -109,7 +99,8 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
         /*
          * set up a spanning set of gaussian random numbers
          */
-        int dimension = function.getDimension();
+//        throw new UnsupportedOperationException();
+        int dimension = 0; //function.getDimension();
         rotationMatrix = new double[dimension][dimension];
         ProbabilityDistributionFuction initializer = new GaussianDistribution();
 
@@ -204,7 +195,6 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
      */
     public void setFunction(ContinuousFunction function) {
         this.function = function;
-        this.setDomain(function.getDomainRegistry().getDomainString());
     }
 
     /**

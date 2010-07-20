@@ -24,6 +24,7 @@ package net.sourceforge.cilib.problem;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * <p>
@@ -38,7 +39,7 @@ import net.sourceforge.cilib.type.types.Type;
  *
  * @author  Edwin Peer
  */
-public interface OptimisationProblem extends Problem {
+public interface OptimisationProblem extends Problem, Cloneable {
 
     /**
      * {@inheritDoc}
@@ -91,5 +92,4 @@ public interface OptimisationProblem extends Problem {
      * @param visitor The visitor which has operations to perform.
      */
     void accept(ProblemVisitor visitor);
-
 }

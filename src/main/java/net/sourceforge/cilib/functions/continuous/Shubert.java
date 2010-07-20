@@ -24,7 +24,6 @@ package net.sourceforge.cilib.functions.continuous;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
  * Shubert function.
  *
@@ -32,33 +31,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
  * <p>Company: </p>
+ *
+ * Minimum: -186.7309088
+ * R(-10, 10)^2
+ * 
  * @author Clive Naicker
  * @version 1.0
  */
-public class Shubert extends ContinuousFunction {
+public class Shubert implements ContinuousFunction {
+
     private static final long serialVersionUID = 3213789483391643466L;
-
-    /**
-     * Create an instance of {@linkplain Shubert}. Domain is set to R(-10,10)^2 by default.
-     */
-    public Shubert() {
-        setDomain("R(-10, 10)^2");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Shubert getClone() {
-        return new Shubert();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Double getMinimum() {
-        return -186.7309088;
-    }
 
     /**
      * {@inheritDoc}
@@ -66,9 +48,9 @@ public class Shubert extends ContinuousFunction {
     @Override
     public Double apply(Vector input) {
         double result = 1.0;
-        for (int i=0; i < getDimension(); ++i) {
+        for (int i = 0; i < input.size(); ++i) {
             double result2 = 0.0;
-            for (int j=1; j<=5; j++) {
+            for (int j = 1; j <= 5; j++) {
                 result2 += j*Math.cos((j+1)*input.doubleValueOf(i) + j);
             }
             result *= result2;

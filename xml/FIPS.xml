@@ -25,7 +25,7 @@
     </algorithms>
 
     <problems>
-        <problem id="spherical" class="problem.FunctionMinimisationProblem">
+        <problem id="spherical" class="problem.FunctionMinimisationProblem" domain="R(-5.12, 5.12)^30">
             <function class="functions.continuous.unconstrained.Spherical"/>
         </problem>
     </problems>

@@ -25,7 +25,6 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.Differentiable;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
  * <p>Spherical function.</p>
  *
@@ -46,33 +45,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * f(x) = 0; x = (0,0,...,0)
  * x e [-5.12, 5.12]
  *
+ * R(-5.12, 5.12)^30
+ *
  * @author  Edwin Peer
  */
-public class Spherical extends ContinuousFunction implements Differentiable {
+public class Spherical implements ContinuousFunction, Differentiable {
+
     private static final long serialVersionUID = 5811377575647995206L;
-
-    /**
-     * Create a new instance of {@code Spherical}.
-     */
-    public Spherical() {
-        setDomain("R(-5.12, 5.12)^30");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Spherical getClone() {
-        return new Spherical();
-    }
-
-    /**
-     * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
-     * @return The function minimum value.
-     */
-    public Double getMinimum() {
-        return 0.0;
-    }
 
     /**
      * {@inheritDoc}
@@ -90,6 +69,7 @@ public class Spherical extends ContinuousFunction implements Differentiable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Vector getGradient(Vector x) {
         Vector tmp = new Vector();
 
@@ -99,5 +79,4 @@ public class Spherical extends ContinuousFunction implements Differentiable {
 
         return tmp;
     }
-
 }

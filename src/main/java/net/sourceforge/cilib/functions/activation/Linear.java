@@ -27,10 +27,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * The linear activation function, f(x) = x; f '(x) = 1; Since it
  * is unbounded, the linear function has no active range, and
- * these values are set to postive and negative max double.
+ * these values are set to positive and negative max double.
  * @author andrich
  */
-public class Linear extends ActivationFunction {
+public class Linear implements ActivationFunction {
 
     private static final long serialVersionUID = -6826800182176063079L;
 
@@ -38,16 +38,8 @@ public class Linear extends ActivationFunction {
      * {@inheritDoc}
      */
     @Override
-    public Linear getClone() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Real apply(Real input) {
-        return Real.valueOf(apply(input.doubleValue()));
+        return input;
     }
 
     /**
@@ -62,24 +54,8 @@ public class Linear extends ActivationFunction {
      * {@inheritDoc}
      */
     @Override
-    public Real getMaximum() {
-        return Real.valueOf(Double.MAX_VALUE);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Real getMinimum() {
-        return Real.valueOf(-Double.MAX_VALUE);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Vector getGradient(Vector x) {
-        return Vector.of(this.getGradient(x.doubleValueOf(0)));
+        return Vector.of(1.0);
     }
 
     /**

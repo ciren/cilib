@@ -43,12 +43,14 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Julien Duhain
  */
 public class AverageBestErrorBeforeChange extends DynamicMeasurement {
-    private static final long serialVersionUID = -2848258016113713942L;
 
+    private static final long serialVersionUID = -2848258016113713942L;
     private int cycleSize = 50; //period between 2 changes in the environment
     private int cycleNr;
 
-    public AverageBestErrorBeforeChange(){super();}
+    public AverageBestErrorBeforeChange() {
+        super();
+    }
 
     public AverageBestErrorBeforeChange(AverageBestErrorBeforeChange copy) {
         this.setStateAware(copy.isStateAware());
@@ -64,7 +66,7 @@ public class AverageBestErrorBeforeChange extends DynamicMeasurement {
 
     @Override
     public synchronized Type getValue(Algorithm algorithm) {
-        if((algorithm.getIterations()+1)%cycleSize == 0){
+        if ((algorithm.getIterations() + 1) % cycleSize == 0) {
             FunctionOptimisationProblem function = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
             double error = function.getError(algorithm.getBestSolution().getPosition());
             this.avg = (this.avg * this.cycleNr + error) / (this.cycleNr + 1);
@@ -92,5 +94,4 @@ public class AverageBestErrorBeforeChange extends DynamicMeasurement {
         out.writeDouble(avg);
         out.writeInt(cycleNr);
     }
-
 }

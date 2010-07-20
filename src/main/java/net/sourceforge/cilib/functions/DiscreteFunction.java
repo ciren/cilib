@@ -24,29 +24,8 @@ package net.sourceforge.cilib.functions;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * Marker interface for discrete-valued functions.
  * @author Gary Pampara
  */
-public abstract class DiscreteFunction extends AbstractFunction<Vector, Integer> {
-    private static final long serialVersionUID = -1966158048234228064L;
-
-    /**
-     * Create an instance of {@linkplain DiscreteFunction}.
-     */
-    protected DiscreteFunction() {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Integer getMinimum() {
-        return -Integer.MAX_VALUE;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Integer getMaximum() {
-        return Integer.MAX_VALUE;
-    }
-
+public interface DiscreteFunction extends Function<Vector, Integer> {
 }

@@ -29,36 +29,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * The minimum of the function is located at <tt>f(-32, -32) ~= 1.0</tt>
  *
+ * Default domain: R(-65.536,65.536)^2
+ *
  * @author Gary Pampara
  */
-public class Foxholes extends ContinuousFunction {
+public class Foxholes implements ContinuousFunction {
+
     private static final long serialVersionUID = 6407823129058106208L;
-
-    private double [][] a = {
-            {-32.0, -16.0, 0.0, 16.0, 32.0},
-            {-32.0, -16.0, 0.0, 16.0, 32.0},
-    };
-
-    /**
-     * Create an instance of {@linkplain Foxholes}. The default domain is set to R(-65.536,65.536)^2.
-     */
-    public Foxholes() {
-        setDomain("R(-65.536,65.536)^2");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Foxholes getClone() {
-        return new Foxholes();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Double getMinimum() {
-        return 1.0;
-    }
+    private double[][] a = {
+        {-32.0, -16.0, 0.0, 16.0, 32.0},
+        {-32.0, -16.0, 0.0, 16.0, 32.0},};
 
     /**
      * {@inheritDoc}
@@ -74,10 +54,11 @@ public class Foxholes extends ContinuousFunction {
             double tmp_a = 0.0;
 
             for (int i = 0; i <= 1; i++) {
-                if (i == 0)
-                    tmp_a = a[0][j%5];
-                else
-                    tmp_a = a[1][j/5];
+                if (i == 0) {
+                    tmp_a = a[0][j % 5];
+                } else {
+                    tmp_a = a[1][j / 5];
+                }
 
                 tmp += Math.pow((input.doubleValueOf(i) - tmp_a), 6);
             }
@@ -87,5 +68,4 @@ public class Foxholes extends ContinuousFunction {
 
         return 1.0 / (result + sum);
     }
-
 }

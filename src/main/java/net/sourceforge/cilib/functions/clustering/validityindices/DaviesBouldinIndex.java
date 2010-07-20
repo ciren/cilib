@@ -86,9 +86,4 @@ public class DaviesBouldinIndex extends ScatterSeperationRatio {
     protected double calculateBetweenClusterSeperation(int i, int j) {
         return helper.calculateDistance(clusterCenterStrategy.getCenter(i), clusterCenterStrategy.getCenter(j));
     }
-
-    @Override
-    public DaviesBouldinIndex getClone() {
-        return new DaviesBouldinIndex();
-    }
 }

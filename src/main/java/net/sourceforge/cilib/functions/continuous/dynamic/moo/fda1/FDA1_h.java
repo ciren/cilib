@@ -32,7 +32,7 @@ import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
  *
  * @author Marde Greeff
  */
-public class FDA1_h extends ContinuousFunction {
+public class FDA1_h implements ContinuousFunction {
 
     private static final long serialVersionUID = -539665464941830813L;
     //members
@@ -46,26 +46,17 @@ public class FDA1_h extends ContinuousFunction {
      */
     public FDA1_h() {
         super();
-        setDomain("R(-1, 1)^20");
     }
 
     /**
      * Copy constructor
      */
     public FDA1_h(FDA1_h copy) {
-        super(copy);
-        this.setDomain(copy.getDomain());
+//        this.setDomain(copy.getDomain());
         this.setFDA1_g(copy.getFDA1_g_problem());
         this.setFDA1_g(copy.getFDA1_g());
         this.setFDA1_f(copy.getFDA1_f_problem());
         this.setFDA1_f(copy.getFDA1_f());
-    }
-
-    /**
-     * Return a clone
-     */
-    public FDA1_h getClone() {
-        return new FDA1_h(this);
     }
 
     /**
@@ -75,7 +66,7 @@ public class FDA1_h extends ContinuousFunction {
     public void setFDA1_g(FunctionMinimisationProblem problem) {
         this.fda1_g_problem = problem;
         this.fda1_g = (ContinuousFunction) problem.getFunction();
-        this.setDomain(fda1_g.getDomainRegistry().getDomainString());
+//        this.setDomain(fda1_g.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -92,7 +83,7 @@ public class FDA1_h extends ContinuousFunction {
      */
     public void setFDA1_g(ContinuousFunction fda1_g) {
         this.fda1_g = fda1_g;
-        this.setDomain(fda1_g.getDomainRegistry().getDomainString());
+//        this.setDomain(fda1_g.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -110,7 +101,7 @@ public class FDA1_h extends ContinuousFunction {
     public void setFDA1_f(FunctionMinimisationProblem problem) {
         this.fda1_f1_problem = problem;
         this.fda1_f1 = (ContinuousFunction) problem.getFunction();
-        this.setDomain(fda1_f1.getDomainRegistry().getDomainString());
+//        this.setDomain(fda1_f1.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -127,7 +118,7 @@ public class FDA1_h extends ContinuousFunction {
      */
     public void setFDA1_f(ContinuousFunction fda1_f1) {
         this.fda1_f1 = fda1_f1;
-        this.setDomain(fda1_f1.getDomainRegistry().getDomainString());
+//        this.setDomain(fda1_f1.getDomainRegistry().getDomainString());
     }
 
     /**

@@ -26,49 +26,34 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
+ * R(-900, 900)^30
+ * 
  * @author  engel
  */
-public class Neumaier3 extends ContinuousFunction {
+public class Neumaier3 implements ContinuousFunction {
+
     private static final long serialVersionUID = 192809046725649930L;
 
-    /**
-     * Creates a new instance of Neumaier. Domain defaults to R(-900, 900)^30
-     */
-    public Neumaier3() {
-        // TODO: Fix this constraint
-        // constraint.add(new ContentValidator(new NeumaierValidator()));
-        setDomain("R(-900, 900)^30");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Neumaier3 getClone() {
-        return new Neumaier3();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Double getMinimum() {
-        double dimension = getDimension();
-        return (dimension * (dimension + 4.0) * (dimension - 1.0)) / 6.0;
-    }
-
+//    /**
+//     * {@inheritDoc}
+//     */
+//    public Double getMinimum() {
+////        double dimension = getDimension();
+////        return (dimension * (dimension + 4.0) * (dimension - 1.0)) / 6.0;
+//        throw new UnsupportedOperationException();
+//    }
     /**
      * {@inheritDoc}
      */
     public Double apply(Vector input) {
         double tmp1 = 0;
         double tmp2 = 0;
-        for (int i = 0; i < getDimension(); ++i) {
+        for (int i = 0; i < input.size(); ++i) {
             tmp1 += (input.doubleValueOf(i) - 1) * (input.doubleValueOf(i) - 1);
         }
-        for (int i = 1; i < getDimension(); ++i) {
+        for (int i = 1; i < input.size(); ++i) {
             tmp2 += input.doubleValueOf(i) * input.doubleValueOf(i - 1);
         }
         return tmp1 - tmp2;
     }
-
 }

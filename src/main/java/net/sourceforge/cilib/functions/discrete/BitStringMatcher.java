@@ -21,11 +21,7 @@
  */
 package net.sourceforge.cilib.functions.discrete;
 
-import java.math.BigInteger;
-
 import net.sourceforge.cilib.functions.DiscreteFunction;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomAdaptor;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -33,7 +29,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Gary Pampara
  */
-public class BitStringMatcher extends DiscreteFunction {
+public class BitStringMatcher implements DiscreteFunction {
 
     private static final long serialVersionUID = 7535776840908399415L;
     private String targetRandomString;
@@ -45,10 +41,6 @@ public class BitStringMatcher extends DiscreteFunction {
     public BitStringMatcher() {
     }
 
-    public BitStringMatcher getClone() {
-        return new BitStringMatcher();
-    }
-
     /**
      * Set the domain of the function and generate a random bit string. The generated
      * random bit string is generated to ensure that there is a target bit string to
@@ -58,24 +50,25 @@ public class BitStringMatcher extends DiscreteFunction {
      *  @param newDomain The string representation of the doamin to set.
      */
     public void setDomain(String newDomain) {
-        super.setDomain(newDomain);
-        this.numberOfBits = getDimension();
-
-        BigInteger bi = new BigInteger(this.numberOfBits, new RandomAdaptor(new MersenneTwister()));
-        this.targetRandomString = bi.toString(2);
-
-        // We need to prepend leading '0's cause the BigInteger removes leading 0's
-        // cause it does not change the value of the number that is represented
-        if (this.targetRandomString.length() != this.numberOfBits) {
-            StringBuilder buf = new StringBuilder(this.targetRandomString);
-            int difference = this.numberOfBits - this.targetRandomString.length();
-
-            for (int i = 0; i < difference; i++) {
-                buf.insert(0, '0');
-            }
-
-            this.targetRandomString = buf.toString();
-        }
+//        super.setDomain(newDomain);
+//        this.numberOfBits = this.getDimension();
+//
+//        BigInteger bi = new BigInteger(this.numberOfBits, new RandomAdaptor(new MersenneTwister()));
+//        this.targetRandomString = bi.toString(2);
+//
+//        // We need to prepend leading '0's cause the BigInteger removes leading 0's
+//        // cause it does not change the value of the number that is represented
+//        if (this.targetRandomString.length() != this.numberOfBits) {
+//            StringBuilder buf = new StringBuilder(this.targetRandomString);
+//            int difference = this.numberOfBits - this.targetRandomString.length();
+//
+//            for (int i = 0; i < difference; i++) {
+//                buf.insert(0, '0');
+//            }
+//
+//            this.targetRandomString = buf.toString();
+//        }
+        throw new UnsupportedOperationException("This needs an implementation");
     }
 
     /**

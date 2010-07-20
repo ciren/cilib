@@ -29,24 +29,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author leo
  */
+public class TanH implements ActivationFunction {
 
-public class TanH extends ActivationFunction {
     private static final long serialVersionUID = -5843046986587459333L;
-
-    /**
-     * Create a new instance of {@code TanH}.
-     */
-    public TanH() {
-        setDomain("R(-1.0, 1.0)");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public TanH getClone() {
-        return this;
-    }
 
     /**
      * {@inheritDoc}
@@ -63,23 +48,7 @@ public class TanH extends ActivationFunction {
     public double apply(double input) {
         double a = Math.exp(input);
         double b = Math.exp(-input);
-        return ((a-b)/(a+b));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Real getMaximum() {
-        return Real.valueOf(1.0);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Real getMinimum() {
-        return Real.valueOf(0.0);
+        return ((a - b) / (a + b));
     }
 
     @Override
@@ -111,5 +80,4 @@ public class TanH extends ActivationFunction {
     public double getUpperActiveRange() {
         return 1.732050808;
     }
-
 }

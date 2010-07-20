@@ -31,33 +31,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
  * <p>Company: </p>
+ *
+ * Minimum: 2.5
+ * R(-2, 2)^2
+ * 
  * @author Clive Naicker
  * @version 1.0
  */
-public class UrsemF3 extends ContinuousFunction {
+public class UrsemF3 implements ContinuousFunction {
 
     private static final long serialVersionUID = -4477290008482842765L;
-
-    public UrsemF3() {
-        //constraint.add(new DimensionValidator(2));
-        setDomain("R(-2, 2)^2");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public UrsemF3 getClone() {
-        return new UrsemF3();
-    }
-
-    /**
-     * Get the minimum of the function. It is defined to be a value of <code>2.5</code>.
-     * @return The function minimum value.
-     */
-    public Double getMinimum() {
-        return 2.5;
-    }
 
     /**
      * {@inheritDoc}
