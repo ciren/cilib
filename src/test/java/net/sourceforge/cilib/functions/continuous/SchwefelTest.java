@@ -28,7 +28,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.Test;
 
-
 /**
  *
  * @author Edwin Peer
@@ -36,9 +35,7 @@ import org.junit.Test;
 public class SchwefelTest {
 
     public SchwefelTest() {
-
     }
-
 
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Schwefel. */
     @Test
@@ -58,6 +55,4 @@ public class SchwefelTest {
         assertEquals(1262.726744, function.apply(x), 0.0000009);
         assertEquals(1251.170579, function.apply(y), 0.0000009);
     }
-
-
 }

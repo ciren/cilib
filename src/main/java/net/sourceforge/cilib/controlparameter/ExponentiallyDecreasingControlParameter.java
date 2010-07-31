@@ -23,7 +23,10 @@ package net.sourceforge.cilib.controlparameter;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.type.parser.DomainParser;
+import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}
@@ -31,15 +34,16 @@ import net.sourceforge.cilib.type.types.Real;
  * within the parameter is based on the percentage complete of the running
  * {@linkplain net.sourceforge.cilib.algorithm.Algorithm algorithm}.
  */
-public class ExponentiallyDecreasingControlParameter extends BoundedControlParameter {
+public class ExponentiallyDecreasingControlParameter implements BoundedControlParameter {
 
     private static final long serialVersionUID = 2703195595193249266L;
+    private Real parameter;
 
     /**
      * Create a new instance of {@code ExponentiallyDecreasingControlParameter}.
      */
     public ExponentiallyDecreasingControlParameter() {
-        super();
+        parameter = Real.valueOf(0.0);
     }
 
     /**
@@ -47,7 +51,7 @@ public class ExponentiallyDecreasingControlParameter extends BoundedControlParam
      * @param copy The instance to copy.
      */
     public ExponentiallyDecreasingControlParameter(ExponentiallyDecreasingControlParameter copy) {
-        super(copy);
+        this.parameter = copy.parameter.getClone();
     }
 
     /**
@@ -62,9 +66,15 @@ public class ExponentiallyDecreasingControlParameter extends BoundedControlParam
      * {@inheritDoc}
      */
     @Override
-    public void update() {
+    public void updateParameter() {
         double result = Math.exp((-1) * AbstractAlgorithm.get().getPercentageComplete());
-        this.parameter = Real.valueOf(result);
+        this.parameter = Real.valueOf(result, parameter.getBounds());
+
+        if (this.parameter.doubleValue() < this.parameter.getBounds().getLowerBound()) {
+            this.parameter = Real.valueOf(this.parameter.getBounds().getLowerBound(), parameter.getBounds());
+        } else if (this.parameter.doubleValue() > this.parameter.getBounds().getUpperBound()) {
+            this.parameter = Real.valueOf(this.parameter.getBounds().getUpperBound(), parameter.getBounds());
+        }
     }
 
     /**
@@ -72,7 +82,47 @@ public class ExponentiallyDecreasingControlParameter extends BoundedControlParam
      */
     @Override
     public void setUpperBound(double value) {
-        super.setUpperBound(value);
-        this.parameter = Real.valueOf(value);
+        this.parameter = Real.valueOf(value, new Bounds(parameter.getBounds().getLowerBound(), value));
+    }
+
+    @Override
+    public double getParameter() {
+        return parameter.doubleValue();
+    }
+
+    @Override
+    public double getParameter(double min, double max) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setParameter(double value) {
+        this.parameter = Real.valueOf(value, parameter.getBounds());
+    }
+
+    @Override
+    public double getLowerBound() {
+        return parameter.getBounds().getLowerBound();
+    }
+
+    @Override
+    public void setLowerBound(double lower) {
+        this.parameter = Real.valueOf(lower, new Bounds(lower, parameter.getBounds().getUpperBound()));
+    }
+
+    @Override
+    public double getUpperBound() {
+        return parameter.getBounds().getUpperBound();
+    }
+
+    @Override
+    public void setRange(String range) {
+        Vector v = (Vector) DomainParser.parse(range);
+
+        if (v.size() != 1) {
+            throw new RuntimeException("Range incorrect in BoundedUpdateStrategy! Please correct");
+        } else {
+            this.parameter = (Real) v.get(0);
+        }
     }
 }
