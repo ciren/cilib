@@ -634,7 +634,7 @@ public class Vector implements StructuredType<Numeric>,
      * @param value The value to be set.
      */
     public void setReal(int index, double value) {
-        this.components[index] = Real.valueOf(value);
+        this.components[index] = Real.valueOf(value, components[index].getBounds());
     }
 
     /**
@@ -654,7 +654,7 @@ public class Vector implements StructuredType<Numeric>,
      * @param value The value to be set.
      */
     public void setInt(int index, int value) {
-        this.components[index] = Int.valueOf(value);
+        this.components[index] = Int.valueOf(value, components[index].getBounds());
     }
 
     /**
