@@ -19,41 +19,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.entity;
+package net.sourceforge.cilib.pso.hpso.detectionstrategies;
+
+import net.sourceforge.cilib.entity.Entity;
 
 /**
- * The defined types for all properties within {@linkplain Entity} objects.
+ * An interface to detect when an {@link Entity} should change its behavior.
+ * 
+ * @author Bennie Leonard
  */
-public enum EntityType {
-    CANDIDATE_SOLUTION,
-    FITNESS,
-    STRATEGY_PARAMETERS;
+public interface BehaviorChangeTriggerDetectionStrategy<E extends Entity> {
+    /**
+     * Detect whether some condition holds that should prompt an entity to
+     * change its behavior.
+     *
+     * @param entity The entity to inspect.
+     * @return True if the entity should change its behavior. False otherwise.
+     */
+    boolean detect(E entity);
 
     /**
-     * {@linkplain Particle} specific constants.
+     * Clone the current {@link BehaviorChangeTriggerDetectionStrategy}.
+     *
+     * @return A clone of this {@link BehaviorChangeTriggerDetectionStrategy}.
      */
-    public enum Particle {
-        BEST_POSITION,
-        BEST_FITNESS,
-        VELOCITY;
-
-        public enum Guide {
-            LOCAL_GUIDE,
-            GLOBAL_GUIDE
-        }
-
-        public enum Count {
-            PBEST_STAGNATION_COUNTER;
-        }
-    }
-
-    /**
-     * Coevolution constants... This is probably going to be refactored to another location.
-     * TODO: Check this
-     */
-    public enum Coevolution { // Not sure about this... has a funky smell to it.
-        DISTANCE,
-        BOARD,
-        POPULATION_ID;
-    }
+    BehaviorChangeTriggerDetectionStrategy<E> getClone();
 }

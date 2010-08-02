@@ -33,8 +33,6 @@ import net.sourceforge.cilib.pso.positionupdatestrategies.MemoryNeighbourhoodBes
 import net.sourceforge.cilib.pso.pbestupdate.PersonalBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
-import net.sourceforge.cilib.pso.positionupdatestrategies.StandardPositionUpdateStrategy;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
@@ -48,8 +46,9 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 public abstract class AbstractParticle extends AbstractEntity implements Particle {
     private static final long serialVersionUID = 7511192728112990230L;
 
-    protected PositionUpdateStrategy positionUpdateStrategy;
-    protected VelocityUpdateStrategy velocityUpdateStrategy;
+    //protected PositionUpdateStrategy positionUpdateStrategy;
+    //protected VelocityUpdateStrategy velocityUpdateStrategy;
+    protected ParticleBehavior behavior;
     protected InitializationStrategy<Particle> velocityInitializationStrategy;
     protected InitializationStrategy<Particle> positionInitialisationStrategy;
     protected InitializationStrategy<Particle> personalBestInitialisationStrategy;
@@ -63,8 +62,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
         super();
 
         neighbourhoodBestUpdateStrategy = new MemoryNeighbourhoodBestUpdateStrategy();
-        positionUpdateStrategy = new StandardPositionUpdateStrategy();
-        velocityUpdateStrategy = new StandardVelocityUpdate();
+        behavior = new ParticleBehavior();
 
         velocityInitializationStrategy = new ConstantInitializationStrategy<Particle>(0.0);
         positionInitialisationStrategy = new RandomInitializationStrategy<Particle>();
@@ -79,8 +77,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public AbstractParticle(AbstractParticle copy) {
         super(copy);
         this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy.getClone();
-        this.positionUpdateStrategy = copy.getPositionUpdateStrategy().getClone();
-        this.velocityUpdateStrategy = copy.velocityUpdateStrategy.getClone();
+        this.behavior = copy.behavior.getClone();
         this.positionInitialisationStrategy = copy.positionInitialisationStrategy.getClone();
         this.velocityInitializationStrategy = copy.velocityInitializationStrategy.getClone();
         this.personalBestUpdateStrategy = copy.personalBestUpdateStrategy.getClone();
@@ -197,7 +194,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      */
     @Override
     public PositionUpdateStrategy getPositionUpdateStrategy() {
-        return positionUpdateStrategy;
+        return behavior.getPositionUpdateStrategy();
     }
 
     /**
@@ -206,7 +203,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      */
     @Override
     public void setPositionUpdateStrategy(PositionUpdateStrategy positionUpdateStrategy) {
-        this.positionUpdateStrategy = positionUpdateStrategy;
+        behavior.setPositionUpdateStrategy(positionUpdateStrategy);
     }
 
     /**
@@ -217,7 +214,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      */
     @Override
     public VelocityUpdateStrategy getVelocityUpdateStrategy() {
-        return velocityUpdateStrategy;
+        return behavior.getVelocityUpdateStrategy();
     }
 
     /**
@@ -226,8 +223,10 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      */
     @Override
     public void setVelocityUpdateStrategy(VelocityUpdateStrategy velocityUpdateStrategy) {
-        this.velocityUpdateStrategy = velocityUpdateStrategy;
+        this.behavior.setVelocityUpdateStrategy(velocityUpdateStrategy);
     }
+
+
 
     /**
      * Get the {@link net.sourceforge.cilib.entity.initialization.InitializationStrategy}.
@@ -313,4 +312,13 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
         this.personalBestUpdateStrategy = personalBestUpdateStrategy;
     }
 
+    @Override
+    public ParticleBehavior getParticleBehavior() {
+        return behavior;
+    }
+
+    @Override
+    public void setParticleBehavior(ParticleBehavior particleBehavior) {
+        behavior = particleBehavior;
+    }
 }

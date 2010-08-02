@@ -26,6 +26,7 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -147,6 +148,8 @@ public class StandardParticle extends AbstractParticle {
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
         this.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
         this.neighbourhoodBest = this;
+
+        this.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
     }
 
     /**
@@ -154,9 +157,8 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void updatePosition() {
-        this.positionUpdateStrategy.updatePosition(this);
+        behavior.getPositionUpdateStrategy().updatePosition(this);
     }
-
 
     /**
      * {@inheritDoc}
@@ -182,7 +184,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void updateVelocity() {
-        this.velocityUpdateStrategy.updateVelocity(this);
+        behavior.getVelocityUpdateStrategy().updateVelocity(this);
     }
 
     /**
@@ -190,7 +192,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void updateControlParameters() {
-        this.velocityUpdateStrategy.updateControlParameters(this);
+        behavior.getVelocityUpdateStrategy().updateControlParameters(this);
     }
 
     /**

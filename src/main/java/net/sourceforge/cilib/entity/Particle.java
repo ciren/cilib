@@ -23,6 +23,7 @@ package net.sourceforge.cilib.entity;
 
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
+import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.pbestupdate.PersonalBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
@@ -127,5 +128,17 @@ public interface Particle extends Entity, SocialEntity, MemoryBasedEntity {
      * @param personalBestUpdateStrategy The instance to set.
      */
     void setPersonalBestUpdateStrategy(PersonalBestUpdateStrategy personalBestUpdateStrategy);
+
+    /**
+     * Get the behavior associated with the current Particle.
+     * @return The {@link ParticleBehavior} associated with the current Particle.
+     */
+    ParticleBehavior getParticleBehavior();
+
+    /**
+     * Set the behavior that the current particle should follow.
+     * @param behavior The {@link ParticleBehavior} to use.
+     */
+    void setParticleBehavior(ParticleBehavior particleBehavior);
 
 }

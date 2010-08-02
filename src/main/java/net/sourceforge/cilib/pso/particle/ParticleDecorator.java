@@ -40,8 +40,8 @@ public abstract class ParticleDecorator extends AbstractParticle {
 
     public ParticleDecorator() {
         this.neighbourhoodBestUpdateStrategy = null;
-        this.positionUpdateStrategy = null;
-        this.velocityUpdateStrategy = null;
+        this.behavior.setPositionUpdateStrategy(null);
+        this.behavior.setVelocityUpdateStrategy(null);
 
         target = null;
     }
@@ -139,7 +139,7 @@ public abstract class ParticleDecorator extends AbstractParticle {
     }
 
     public VelocityUpdateStrategy getVelocityUpdateStrategy() {
-        return target.velocityUpdateStrategy;
+        return target.behavior.getVelocityUpdateStrategy();
     }
 
     public void setVelocityUpdateStrategy(VelocityUpdateStrategy velocityUpdateStrategy) {

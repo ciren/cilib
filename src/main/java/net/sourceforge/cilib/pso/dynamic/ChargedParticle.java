@@ -24,6 +24,7 @@ package net.sourceforge.cilib.pso.dynamic;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.type.types.Int;
 
 /**
  * Charged Particle used by charged PSO (ChargedVelocityUpdate). The only difference
@@ -40,7 +41,7 @@ public class ChargedParticle extends DynamicParticle {
 
     public ChargedParticle() {
         super();
-        velocityUpdateStrategy = new ChargedVelocityUpdateStrategy();
+        behavior.setVelocityUpdateStrategy(new ChargedVelocityUpdateStrategy());
     }
 
     public ChargedParticle(ChargedParticle copy) {
@@ -106,5 +107,7 @@ public class ChargedParticle extends DynamicParticle {
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
         this.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
         neighbourhoodBest = this;
+
+        this.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
     }
 }

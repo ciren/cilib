@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>
+        <algorithm id="dynHpso" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <initialisationStrategy class="algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy">
+                <entityNumber value="20"/>
+                <entityType class="pso.particle.StandardParticle"/>
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
+                        <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
+                            <upperBound value="2.5"/>
+                            <lowerBound value="0.5"/>
+                            <parameter value="2.5"/>
+                        </cognitiveAcceleration>
+                        <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
+                            <lowerBound value="0.5"/>
+                            <upperBound value="2.5"/>
+                            <parameter value="0.5"/>
+                        </socialAcceleration>
+                    </velocityUpdateStrategy>
+                    <positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
+                </addBehavior>
+            </initialisationStrategy>
+            <iterationStrategy class="pso.hpso.DynamicHeterogeneousIterationStrategy">
+                <stagnationDetectionStrategy class="pso.hpso.detectionstrategies.PersonalBestStagnationDetectionStrategy">
+                    <windowSize value="15"/>
+                </stagnationDetectionStrategy>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
+                        <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
+                            <upperBound value="2.5"/>
+                            <lowerBound value="0.5"/>
+                            <parameter value="2.5"/>
+                        </cognitiveAcceleration>
+                        <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
+                            <lowerBound value="0.5"/>
+                            <upperBound value="2.5"/>
+                            <parameter value="0.5"/>
+                        </socialAcceleration>
+                    </velocityUpdateStrategy>
+                    <positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
+                            <parameter value="0.0"/>
+                        </cognitiveAcceleration>
+                        <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
+                            <lowerBound value="0.5"/>
+                            <upperBound value="2.5"/>
+                            <parameter value="0.5"/>
+                        </socialAcceleration>
+                    </velocityUpdateStrategy>
+                    <positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
+                        <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
+                            <upperBound value="2.5"/>
+                            <lowerBound value="0.5"/>
+                            <parameter value="2.5"/>
+                        </cognitiveAcceleration>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter">
+                            <parameter value="0.0"/>
+                        </socialAcceleration>
+                    </velocityUpdateStrategy>
+                    <positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.BareBonesVelocityUpdateStrategy"/>
+                    <positionUpdateStrategy class="pso.positionupdatestrategies.LinearPositionUpdateStrategy"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.BareBonesExploitVelocityUpdateStrategy"/>
+                    <positionUpdateStrategy class="pso.positionupdatestrategies.LinearPositionUpdateStrategy"/>
+                </addBehavior>
+            </iterationStrategy>
+        </algorithm>
+    </algorithms>
+    <problems>
+        <problem id="rastrigin10" class="problem.FunctionMinimisationProblem" domain="R(-5.12, 5.12)^10">
+            <function class="functions.continuous.unconstrained.Rastrigin" />
+        </problem>
+        <problem id="rastrigin50" class="problem.FunctionMinimisationProblem" domain="R(-5.12, 5.12)^50">
+            <function class="functions.continuous.unconstrained.Rastrigin"/>
+        </problem>
+    </problems>
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">
+        <addMeasurement class="measurement.single.Fitness"/>
+    </measurements>
+    <simulations>
+        <simulation samples="30">
+            <algorithm idref="dynHpso"/>
+            <problem idref="rastrigin10"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/rastrigin10.hpso.txt" />
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="dynHpso"/>
+            <problem idref="rastrigin50"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/rastrigin50.hpso.txt" />
+        </simulation>
+    </simulations>
+</simulator>

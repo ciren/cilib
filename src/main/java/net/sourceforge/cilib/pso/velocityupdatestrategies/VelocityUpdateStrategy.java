@@ -24,6 +24,7 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 import java.io.Serializable;
 
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
