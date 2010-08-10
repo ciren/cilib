@@ -24,9 +24,9 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.LinearDecreasingControlParameter;
-import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.Fitness;
@@ -63,7 +63,7 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
 
     public FDRVelocityUpdateStrategy() {
         inertiaWeight = new LinearDecreasingControlParameter();
-        fdrMaximizerAcceleration = new RandomizingControlParameter();
+        fdrMaximizerAcceleration = new ConstantControlParameter();
 
         cognitiveAcceleration.setParameter(1);
         socialAcceleration.setParameter(1);
@@ -71,16 +71,14 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
     }
 
     public FDRVelocityUpdateStrategy(FDRVelocityUpdateStrategy copy) {
-        this.inertiaWeight = copy.inertiaWeight.getClone();
-        this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
-        this.socialAcceleration = copy.socialAcceleration.getClone();
+        super(copy);
         this.fdrMaximizerAcceleration = copy.fdrMaximizerAcceleration.getClone();
-        this.vMax = copy.vMax.getClone();
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public FDRVelocityUpdateStrategy getClone() {
         return new FDRVelocityUpdateStrategy(this);
     }
@@ -88,6 +86,7 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void updateVelocity(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getPosition();
@@ -122,7 +121,7 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
             double value = (inertiaWeight.getParameter() * velocity.doubleValueOf(i)) +
                         cognitiveAcceleration.getParameter() * (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) +
                         socialAcceleration.getParameter() * (neighbourhoodBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) +
-                        fdrMaximizerAcceleration.getParameter() * (fdrMaximizerPosition.doubleValueOf(i) - position.doubleValueOf(i));
+                        fdrMaximizerAcceleration.getParameter() * r1.nextDouble() * (fdrMaximizerPosition.doubleValueOf(i) - position.doubleValueOf(i));
 
             velocity.setReal(i, value);
             clamp(velocity, i);
@@ -133,11 +132,8 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
      * {@inheritDoc}
      */
     public void updateControlParameters(Particle particle) {
-        inertiaWeight.updateParameter();
-        cognitiveAcceleration.updateParameter();
-        socialAcceleration.updateParameter();
+        super.updateControlParameters(particle);
         fdrMaximizerAcceleration.updateParameter();
-        vMax.updateParameter();
     }
 
     /**

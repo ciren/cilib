@@ -14,14 +14,10 @@
                 <entityType class="pso.particle.StandardParticle">
                     <velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
                         <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.729844"/>
-                        <socialAcceleration class="controlparameter.RandomizingControlParameter">
-                            <parameter value="1.49180"/>
-                            <randomiser class="math.random.generator.KnuthSubtractive"/>
-                        </socialAcceleration>
-                        <cognitiveAcceleration class="controlparameter.RandomizingControlParameter">
-                            <parameter value="1.49180"/>
-                            <randomiser class="math.random.generator.KnuthSubtractive"/>
-                        </cognitiveAcceleration>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="1.49180"/>
+                        <R1 class="math.random.generator.KnuthSubtractive"/>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.49180"/>
+                        <R2 class="math.random.generator.KnuthSubtractive"/>
                     </velocityUpdateStrategy>
                 </entityType>
             </initialisationStrategy>

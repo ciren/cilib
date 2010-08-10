@@ -27,12 +27,13 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -50,6 +51,8 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
     private ProbabilityDistributionFuction rand1;
     private ProbabilityDistributionFuction rand2;
     private ProbabilityDistributionFuction rand3;
+    private RandomProvider r1;
+    private RandomProvider r2;
     private ControlParameter cognitive;
     private ControlParameter social;
     private ControlParameter crossoverProbability;
@@ -61,8 +64,10 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
         rand1 = new UniformDistribution();
         rand2 = new UniformDistribution();
         rand3 = new UniformDistribution();
-        cognitive = new RandomizingControlParameter();
-        social = new RandomizingControlParameter();
+        r1 = new MersenneTwister();
+        r2 = new MersenneTwister();
+        cognitive = new ConstantControlParameter();
+        social = new ConstantControlParameter();
         crossoverProbability = new ConstantControlParameter(0.5);
 
         cognitive.setParameter(1);
@@ -84,6 +89,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
     /**
      * {@inheritDoc}
      */
+    @Override
     public BareBonesDEVelocityUpdate getClone() {
         return new BareBonesDEVelocityUpdate(this);
     }
@@ -91,6 +97,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void updateVelocity(Particle particle) {
         Vector personalBestPosition = (Vector) particle.getBestPosition();
         Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
@@ -100,13 +107,13 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
         List<Entity> positions = getRandomParentEntities(pso.getTopology());
 
         //select three random individuals, all different and different from particle
-        ProbabilityDistributionFuction r1 = new UniformDistribution();
+        ProbabilityDistributionFuction pdf = new UniformDistribution();
 
         Vector position1 = (Vector) positions.get(0).getCandidateSolution();
         Vector position2 = (Vector) positions.get(1).getCandidateSolution();
 //        Vector position3 = (Vector) positions.get(2).getContents();
         for (int i = 0; i < particle.getDimension(); ++i) {
-            double r = r1.getRandomNumber(0, 1);
+            double r = pdf.getRandomNumber(0, 1);
             double attractor = r * personalBestPosition.doubleValueOf(i) + (1 - r) * nBestPosition.doubleValueOf(i);
             double stepSize = rand3.getRandomNumber(0, 1) * (position1.doubleValueOf(i) - position2.doubleValueOf(i));
 
@@ -146,6 +153,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void updateControlParameters(Particle particle) {
         // TODO Auto-generated method stub
     }
@@ -244,5 +252,21 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      */
     public void setCrossoverProbability(ControlParameter crossoverProbability) {
         this.crossoverProbability = crossoverProbability;
+    }
+
+    public RandomProvider getR1() {
+        return r1;
+    }
+
+    public void setR1(RandomProvider r1) {
+        this.r1 = r1;
+    }
+
+    public RandomProvider getR2() {
+        return r2;
+    }
+
+    public void setR2(RandomProvider r2) {
+        this.r2 = r2;
     }
 }

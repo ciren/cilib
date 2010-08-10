@@ -23,7 +23,6 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -92,12 +91,9 @@ ISSN={1089-778X}, }
  *
  * @author andrich
  */
-public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
+public class ConstrictionVelocityUpdate extends StandardVelocityUpdate {
 
     private static final long serialVersionUID = -4470110903487138758L;
-    private ControlParameter socialAcceleration;
-    private ControlParameter cognitiveAcceleration;
-    private ControlParameter vMax;
     private ControlParameter kappa;
     private ControlParameter constrictionCoefficient;
 
@@ -107,16 +103,13 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
      * necessarily represent good values.
      */
     public ConstrictionVelocityUpdate() {
-        socialAcceleration = new RandomizingControlParameter();
-        cognitiveAcceleration = new RandomizingControlParameter();
-        vMax = new ConstantControlParameter();
+        super();
         kappa = new ConstantControlParameter();
         constrictionCoefficient = null;
 
         socialAcceleration.setParameter(2.05);
         cognitiveAcceleration.setParameter(2.05);
         kappa.setParameter(1.0);
-        vMax.setParameter(Double.MAX_VALUE);
     }
 
     /**
@@ -124,9 +117,7 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
      * @param copy the ConstrictionVelocityUpdate to copy.
      */
     public ConstrictionVelocityUpdate(ConstrictionVelocityUpdate copy) {
-        this.socialAcceleration = copy.socialAcceleration.getClone();
-        this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
-        this.vMax = copy.vMax.getClone();
+        super(copy);
         this.kappa = copy.kappa.getClone();
     }
 
@@ -155,10 +146,9 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
 
         for (int i = 0; i < particle.getDimension(); ++i) {
             double value = constrictionCoefficient.getParameter() * (velocity.doubleValueOf(i) +
-                    (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * cognitiveAcceleration.getParameter() +
-                    (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * socialAcceleration.getParameter());
+                    (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * cognitiveAcceleration.getParameter() * r1.nextDouble() +
+                    (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * socialAcceleration.getParameter() * r2.nextDouble());
             velocity.setReal(i, value);
-
             clamp(velocity, i);
         }
     }
@@ -168,6 +158,7 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
      * @param velocity The {@link Vector} to be clamped.
      * @param i The dimension index to be clamped
      */
+    @Override
     protected void clamp(Vector velocity, int i) {
         // if vMax is not set (or set as max), it is unnecessary to clamp
         if (Double.compare(vMax.getParameter(), Double.MAX_VALUE) == 0) {
@@ -196,8 +187,8 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
      * maximum acceleration.
      */
     private void calculateConstrictionCoefficient() {
-        double c1 = ((RandomizingControlParameter) cognitiveAcceleration).getControlParameter().getParameter();
-        double c2 = ((RandomizingControlParameter) socialAcceleration).getControlParameter().getParameter();
+        double c1 = cognitiveAcceleration.getParameter();
+        double c2 = socialAcceleration.getParameter();
         
         double phi = c1 + c2;
         if (phi < 4.0) {
@@ -214,22 +205,6 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
     }
 
     /**
-     * Get the coginitive acceleration parameter.
-     * @return the cognitive acceleration {@link ControlParameter control parameter }.
-     */
-    public ControlParameter getCognitiveAcceleration() {
-        return cognitiveAcceleration;
-    }
-
-    /**
-     * Set the coginitive acceleration parameter.
-     * @param cognitiveAcceleration the new cognitive acceleration {@link ControlParameter control parameter }.
-     */
-    public void setCognitiveAcceleration(ControlParameter cognitiveAcceleration) {
-        this.cognitiveAcceleration = cognitiveAcceleration;
-    }
-
-    /**
      * Get the Kappa control parameter.
      * @return the kappa {@link ControlParameter control parameter }.
      */
@@ -243,38 +218,6 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
      */
     public void setKappa(ControlParameter kappa) {
         this.kappa = kappa;
-    }
-
-    /**
-     * Get the social acceleration parameter.
-     * @return the social acceleration {@link ControlParameter control parameter }.
-     */
-    public ControlParameter getSocialAcceleration() {
-        return socialAcceleration;
-    }
-
-    /**
-     * Set the social acceleration parameter.
-     * @param socialAcceleration the new social accerelation {@link ControlParameter control parameter }.
-     */
-    public void setSocialAcceleration(ControlParameter socialAcceleration) {
-        this.socialAcceleration = socialAcceleration;
-    }
-
-    /**
-     * Get the maximum velocity parameter.
-     * @return the maximum velocity {@link ControlParameter control parameter }.
-     */
-    public ControlParameter getvMax() {
-        return vMax;
-    }
-
-    /**
-     * Set the maximum velocity parameter.
-     * @param vMax the new maximum velocity {@link ControlParameter control parameter }.
-     */
-    public void setvMax(ControlParameter vMax) {
-        this.vMax = vMax;
     }
 
     /**
