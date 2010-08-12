@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.Maths;
@@ -58,25 +57,23 @@ public class ConstrictionVelocityUpdateTest {
         ConstrictionVelocityUpdate copy = original.getClone();
 
         Assert.assertEquals(original.getKappa().getParameter(), copy.getKappa().getParameter(), Maths.EPSILON);
-        Assert.assertEquals(original.getvMax().getParameter(), copy.getvMax().getParameter(), Maths.EPSILON);
-        Assert.assertEquals(((RandomizingControlParameter) original.getCognitiveAcceleration()).getControlParameter().getParameter(),
-                ((RandomizingControlParameter) copy.getCognitiveAcceleration()).getControlParameter().getParameter(), Maths.EPSILON);
-        Assert.assertEquals(((RandomizingControlParameter) original.getSocialAcceleration()).getControlParameter().getParameter(),
-                ((RandomizingControlParameter) copy.getSocialAcceleration()).getControlParameter().getParameter(), Maths.EPSILON);
+        Assert.assertEquals(original.getVMax().getParameter(), copy.getVMax().getParameter(), Maths.EPSILON);
+        Assert.assertEquals(original.getCognitiveAcceleration().getParameter(),copy.getCognitiveAcceleration().getParameter(), Maths.EPSILON);
+        Assert.assertEquals(original.getSocialAcceleration().getParameter(), copy.getSocialAcceleration().getParameter(), Maths.EPSILON);
 
         copy.setKappa(new ConstantControlParameter(0.7));
-        copy.setvMax(new ConstantControlParameter(0.7));
-        RandomizingControlParameter randomizingControlParameter = new RandomizingControlParameter();
-        randomizingControlParameter.setParameter(4.0);
-        copy.setSocialAcceleration(randomizingControlParameter.getClone());
-        copy.setCognitiveAcceleration(randomizingControlParameter.getClone());
+        copy.setVMax(new ConstantControlParameter(0.7));
+        ConstantControlParameter controlParameter = new ConstantControlParameter();
+        controlParameter.setParameter(4.0);
+        copy.setSocialAcceleration(controlParameter.getClone());
+        copy.setCognitiveAcceleration(controlParameter.getClone());
 
         Assert.assertFalse(Double.compare(original.getKappa().getParameter(), copy.getKappa().getParameter()) == 0);
-        Assert.assertFalse(Double.compare(original.getvMax().getParameter(), copy.getvMax().getParameter()) == 0);
-        Assert.assertFalse(Double.compare(((RandomizingControlParameter) original.getCognitiveAcceleration()).getControlParameter().getParameter(),
-                ((RandomizingControlParameter) copy.getCognitiveAcceleration()).getControlParameter().getParameter()) == 0);
-        Assert.assertFalse(Double.compare(((RandomizingControlParameter) original.getSocialAcceleration()).getControlParameter().getParameter(),
-                ((RandomizingControlParameter) copy.getSocialAcceleration()).getControlParameter().getParameter()) == 0);
+        Assert.assertFalse(Double.compare(original.getVMax().getParameter(), copy.getVMax().getParameter()) == 0);
+        Assert.assertFalse(Double.compare(original.getCognitiveAcceleration().getParameter(),
+                (copy.getCognitiveAcceleration()).getParameter()) == 0);
+        Assert.assertFalse(Double.compare(original.getSocialAcceleration().getParameter(),
+                (copy.getSocialAcceleration()).getParameter()) == 0);
     }
 
     /**
@@ -154,10 +151,10 @@ public class ConstrictionVelocityUpdateTest {
     public void illegalVelocityUpdate() {
         final Particle particle = mockery.mock(Particle.class);
 
-        RandomizingControlParameter randomizingControlParameter = new RandomizingControlParameter();
+        ConstantControlParameter controlParameter = new ConstantControlParameter();
         ConstrictionVelocityUpdate velocityUpdate = new ConstrictionVelocityUpdate();
-        velocityUpdate.setCognitiveAcceleration(randomizingControlParameter);
-        velocityUpdate.setSocialAcceleration(randomizingControlParameter);
+        velocityUpdate.setCognitiveAcceleration(controlParameter);
+        velocityUpdate.setSocialAcceleration(controlParameter);
 
         mockery.checking(new Expectations() {{
             ignoring(particle);
@@ -177,7 +174,7 @@ public class ConstrictionVelocityUpdateTest {
         nBest.setNeighbourhoodBest(nBest);
 
         ConstrictionVelocityUpdate constrictionVelocityUpdate = new ConstrictionVelocityUpdate();
-        constrictionVelocityUpdate.setvMax(new ConstantControlParameter(0.5));
+        constrictionVelocityUpdate.setVMax(new ConstantControlParameter(0.5));
         constrictionVelocityUpdate.updateVelocity(particle);
         Vector velocity = (Vector) particle.getVelocity();
 

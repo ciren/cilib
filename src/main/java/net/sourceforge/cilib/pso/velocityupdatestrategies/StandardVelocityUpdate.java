@@ -23,8 +23,9 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -39,13 +40,17 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     protected ControlParameter socialAcceleration;
     protected ControlParameter cognitiveAcceleration;
     protected ControlParameter vMax;
+    protected RandomProvider r1;
+    protected RandomProvider r2;
 
     /** Creates a new instance of StandardVelocityUpdate. */
     public StandardVelocityUpdate() {
         inertiaWeight = new ConstantControlParameter();
-        cognitiveAcceleration = new RandomizingControlParameter();
-        socialAcceleration = new RandomizingControlParameter();
+        cognitiveAcceleration = new ConstantControlParameter();
+        socialAcceleration = new ConstantControlParameter();
         vMax = new ConstantControlParameter();
+        r1 = new MersenneTwister();
+        r2 = new MersenneTwister();
 
         inertiaWeight.setParameter(0.729844);
         cognitiveAcceleration.setParameter(1.496180);
@@ -58,6 +63,8 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
      * @param copy The object to copy.
      */
     public StandardVelocityUpdate(StandardVelocityUpdate copy) {
+        this.r1 = copy.r1;
+        this.r2 = copy.r2;
         this.inertiaWeight = copy.inertiaWeight.getClone();
         this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
         this.socialAcceleration = copy.socialAcceleration.getClone();
@@ -67,6 +74,7 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     /**
      * {@inheritDoc}
      */
+    @Override
     public StandardVelocityUpdate getClone() {
         return new StandardVelocityUpdate(this);
     }
@@ -75,6 +83,7 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
      * Perform the velocity update for the given <tt>Particle</tt>.
      * @param particle The Particle velocity that should be updated.
      */
+    @Override
     public void updateVelocity(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getPosition();
@@ -83,8 +92,8 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
 
         for (int i = 0; i < particle.getDimension(); ++i) {
             double value = inertiaWeight.getParameter() * velocity.doubleValueOf(i)
-                    + (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * cognitiveAcceleration.getParameter()
-                    + (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * socialAcceleration.getParameter();
+                    + (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * cognitiveAcceleration.getParameter() * r1.nextDouble()
+                    + (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * socialAcceleration.getParameter() * r2.nextDouble();
             velocity.setReal(i, value);
 
             clamp(velocity, i);
@@ -95,6 +104,7 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
      * Update the associated <tt>ControlParameter</tt>s for the <tt>VelocityUpdateStrategy</tt>.
      * {@inheritDoc}
      */
+    @Override
     public void updateControlParameters(Particle particle) {
         this.inertiaWeight.updateParameter();
         this.cognitiveAcceleration.updateParameter();
@@ -178,5 +188,21 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
      */
     public void setVMax(ControlParameter max) {
         vMax = max;
+    }
+
+    public RandomProvider getR1() {
+        return r1;
+    }
+
+    public void setR1(RandomProvider r1) {
+        this.r1 = r1;
+    }
+
+    public RandomProvider getR2() {
+        return r2;
+    }
+
+    public void setR2(RandomProvider r2) {
+        this.r2 = r2;
     }
 }

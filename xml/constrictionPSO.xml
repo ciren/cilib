@@ -11,8 +11,8 @@
                 <entityType class="pso.particle.StandardParticle">
                     <velocityUpdateStrategy class="pso.velocityupdatestrategies.ConstrictionVelocityUpdate">
                         <kappa class="controlparameter.ConstantControlParameter" parameter="1.0"/>
-                        <socialAcceleration class="controlparameter.RandomizingControlParameter" parameter="2.05"/>
-                        <cognitiveAcceleration class="controlparameter.RandomizingControlParameter" parameter="2.05"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.05"/>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.05"/>
                         <!--vMax class="controlparameter.ConstantControlParameter" parameter="0.1" /-->
                     </velocityUpdateStrategy>
                 </entityType>

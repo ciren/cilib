@@ -26,8 +26,6 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.pso.PSO;
@@ -62,7 +60,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 
     private static final long serialVersionUID = 5985694749940610522L;
-    private RandomProvider randomNumberGenerator;
     private ControlParameter rhoLowerBound;
     private ControlParameter rho;
     private int successCount;
@@ -78,7 +75,6 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
      */
     public GCVelocityUpdateStrategy() {
         super();
-        randomNumberGenerator = new MersenneTwister();
         oldFitness = InferiorFitness.instance();
 
         rho = new ConstantControlParameter(1.0);
@@ -99,7 +95,6 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
      */
     public GCVelocityUpdateStrategy(GCVelocityUpdateStrategy copy) {
         super(copy);
-        this.randomNumberGenerator = new MersenneTwister();
         this.oldFitness = copy.oldFitness.getClone();
 
         this.rho = copy.rho.getClone();
@@ -125,6 +120,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void updateVelocity(Particle particle) {
         PSO pso = (PSO) AbstractAlgorithm.get();
         final Particle globalBest = pso.getTopology().getBestEntity(new SocialBestFitnessComparator<Particle>());
@@ -137,7 +133,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
             for (int i = 0; i < velocity.size(); ++i) {
                 double component = -position.doubleValueOf(i) + nBestPosition.doubleValueOf(i)
                         + this.inertiaWeight.getParameter() * velocity.doubleValueOf(i)
-                        + rho.getParameter() * (1 - 2 * randomNumberGenerator.nextDouble());
+                        + rho.getParameter() * (1 - 2 * r2.nextDouble());
 
                 velocity.setReal(i, component);
                 clamp(velocity, i);
@@ -153,6 +149,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void updateControlParameters(Particle particle) {
         // Remember NOT to reset the rho value to 1.0
         PSO pso = (PSO) AbstractAlgorithm.get();
