@@ -29,7 +29,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Theuns Cloete
  */
-public class ClusterMeanStrategy<C extends Vector> implements ClusterCenterStrategy<C> {
+public class ClusterMeanStrategy implements ClusterCenterStrategy {
     private static final long serialVersionUID = 9080168372118441393L;
 
     public ClusterMeanStrategy() {
@@ -41,7 +41,7 @@ public class ClusterMeanStrategy<C extends Vector> implements ClusterCenterStrat
      * @return the mean of the provided {@link Cluster}
      */
     @Override
-    public C getCenter(Cluster<C> cluster) {
+    public Vector getCenter(Cluster cluster) {
         return cluster.getMean();
     }
 }

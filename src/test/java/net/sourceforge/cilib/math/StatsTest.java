@@ -22,8 +22,11 @@
 package net.sourceforge.cilib.math;
 
 import com.google.common.collect.Sets;
+
 import java.util.Set;
-import net.sourceforge.cilib.type.types.container.Pattern;
+
+import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.AfterClass;
@@ -37,17 +40,18 @@ import static org.junit.Assert.assertThat;
  * @author Theuns Cloete
  */
 public class StatsTest {
-    private static Set<Pattern<Vector>> set;
-    private static Vector mean = null;
+    private static Set<StandardPattern> set;
+    private static Vector mean;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         set = Sets.newHashSet();
-        set.add(new Pattern(Vector.of(1.0, 2.0, 3.0), "class0"));
-        set.add(new Pattern(Vector.of(3.0, 2.0, 1.0), "class1"));
-        set.add(new Pattern(Vector.of(1.0, 1.0, 1.0), "class2"));
-        set.add(new Pattern(Vector.of(2.0, 2.0, 2.0), "class1"));
-        set.add(new Pattern(Vector.of(3.0, 3.0, 3.0), "class0"));
+        set.add(new StandardPattern(Vector.of(1.0, 2.0, 3.0), new StringType("class0")));
+        set.add(new StandardPattern(Vector.of(3.0, 2.0, 1.0), new StringType("class1")));
+        set.add(new StandardPattern(Vector.of(1.0, 1.0, 1.0), new StringType("class2")));
+        set.add(new StandardPattern(Vector.of(2.0, 2.0, 2.0), new StringType("class1")));
+        set.add(new StandardPattern(Vector.of(3.0, 3.0, 3.0), new StringType("class0")));
+        mean = Vector.of(2.0, 2.0, 2.0);
     }
 
     @AfterClass
@@ -58,25 +62,24 @@ public class StatsTest {
 
     @Test(expected = IllegalStateException.class)
     public void testEmptySetForMeanVector() {
-        Stats.meanVector(Sets.<Pattern<Vector>>newHashSet());
+        Stats.meanVector(Sets.<StandardPattern>newHashSet());
     }
 
     @Test(expected = IllegalStateException.class)
     public void testEmptySetForVarianceScalar() {
-        Stats.variance(Sets.<Pattern<Vector>>newHashSet(), mean);
+        Stats.variance(Sets.<StandardPattern>newHashSet(), mean);
     }
 
     @Test
     public void testMeanVector() {
-        Vector calculated = Vector.of(2.0, 2.0, 2.0);
+        Vector calculated = Stats.meanVector(set);
 
-        mean = Stats.meanVector(set);
-        assertThat(mean, equalTo(calculated));
+        assertThat(calculated, equalTo(mean));
     }
 
     @Test
     public void testVarianceScalar() {
-        assertThat(Stats.variance(set, mean), closeTo(1.2, Maths.EPSILON)); // more accurate than Stats.varianceVector()
+        assertThat(Stats.variance(set, mean), closeTo(1.2, Maths.EPSILON));
     }
 
     @Test

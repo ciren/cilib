@@ -22,14 +22,15 @@
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.clustering.ClusteringErrorFunction;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterMeanStrategy;
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -57,32 +58,32 @@ public class VeenmanReindersBackerIndex extends ClusteringErrorFunction {
     }
 
     @Override
-    public Double apply(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
         if (!this.holdsConstraint(dataSetMean, clusters)) {
             return Double.MAX_VALUE;
         }
 
         double sumOfSquaredError = 0.0;
 
-        for (Cluster<Vector> cluster : clusters) {
+        for (Cluster cluster : clusters) {
             Vector center = this.clusterCenterStrategy.getCenter(cluster);
 
             // H(Y) in the paper refers to the homogeneity of Y (not variance, because we do not divide by |Y|)
-            for (Pattern<Vector> pattern : cluster) {
-                double error = distanceMeasure.distance(pattern.getData(), center);
+            for (StandardPattern pattern : cluster) {
+                double error = distanceMeasure.distance(pattern.getVector(), center);
 
                 sumOfSquaredError += error * error;
             }
         }
-        return sumOfSquaredError / patterns.size();
+        return sumOfSquaredError / dataTable.size();
     }
 
-    private boolean holdsConstraint(Vector dataSetMean, ArrayList<Cluster<Vector>> clusters) {
+    private boolean holdsConstraint(Vector dataSetMean, ArrayList<Cluster> clusters) {
         int clustersFormed = clusters.size();
 
         for (int i = 0; i < clustersFormed - 1; ++i) {
             for (int j = i + 1; j < clustersFormed; ++j) {
-                Cluster<Vector> union = new Cluster<Vector>();
+                Cluster union = new Cluster();
 
                 union.addAll(clusters.get(i));
                 union.addAll(clusters.get(j));

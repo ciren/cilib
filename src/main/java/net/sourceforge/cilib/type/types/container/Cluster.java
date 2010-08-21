@@ -23,50 +23,51 @@ package net.sourceforge.cilib.type.types.container;
 
 import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.Sets;
+
 import java.util.Set;
+
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  * @author Theuns Cloete
  */
+public class Cluster extends ForwardingSet<StandardPattern> implements StructuredType<StandardPattern> {
+    private static final long serialVersionUID = 9136220224825090793L;
 
-public class Cluster<C extends Vector> extends ForwardingSet<Pattern<C>> implements StructuredType<Pattern<C>> {
-    private static final long serialVersionUID = -926009844892011479L;
-
-    private Set<Pattern<C>> patterns;
-    private C centroid;
-
-    // TODO: Give the cluster a blackboard where it can keep track of all its own stats like compactness, scatter, mean, etc
+    // IDEA: Give the cluster a blackboard where it can keep track of all its own stats like compactness, scatter, mean, etc
+    private Set<StandardPattern> patterns;
+    private Vector centroid;
 
     public Cluster() {
         this.patterns = Sets.newHashSet();
     }
 
-    public Cluster(C centroid) {
+    public Cluster(Vector centroid) {
         this.patterns = Sets.newHashSet();
         this.centroid = centroid;
     }
 
-    public Cluster(Cluster<C> rhs) {
+    public Cluster(Cluster rhs) {
         this.patterns = Sets.newHashSet(rhs.patterns);
-        this.centroid = (C) Vector.copyOf(rhs.centroid);
+        this.centroid = Vector.copyOf(rhs.centroid);
     }
 
     @Override
-    public Set<Pattern<C>> delegate() {
+    public Set<StandardPattern> delegate() {
         return this.patterns;
     }
 
     @Override
-    public Cluster<C> getClone() {
-        return new Cluster<C>(this);
+    public Cluster getClone() {
+        return new Cluster(this);
     }
 
     @Override
-    public void accept(Visitor<Pattern<C>> visitor) {
-        for (Pattern<C> pattern : patterns) {
+    public void accept(Visitor<StandardPattern> visitor) {
+        for (StandardPattern pattern : patterns) {
             visitor.visit(pattern);
         }
     }
@@ -76,23 +77,23 @@ public class Cluster<C extends Vector> extends ForwardingSet<Pattern<C>> impleme
         throw new UnsupportedOperationException("No use in randomizing a set that does not contain order information");
     }
 
-    public void setCentroid(C centroid) {
+    public void setCentroid(Vector centroid) {
         this.centroid = centroid;
     }
 
-    public C getCentroid() {
+    public Vector getCentroid() {
         return this.centroid;
     }
 
-    public C getMean() {
+    public Vector getMean() {
         return Stats.meanVector(this);
     }
 
-    public C getVarianceVector() {
+    public Vector getVarianceVector() {
         return Stats.varianceVector(this, this.centroid);
     }
 
-    public C getVarianceVector(C center) {
+    public Vector getVarianceVector(Vector center) {
         return Stats.varianceVector(this, center);
     }
 
@@ -100,15 +101,15 @@ public class Cluster<C extends Vector> extends ForwardingSet<Pattern<C>> impleme
         return Stats.variance(this, this.centroid);
     }
 
-    public double getVariance(C center) {
+    public double getVariance(Vector center) {
         return Stats.variance(this, center);
     }
 
-    public C getStdDeviationVector() {
+    public Vector getStdDeviationVector() {
         return Stats.stdDeviationVector(this, this.centroid);
     }
 
-    public C getStdDeviationVector(C center) {
+    public Vector getStdDeviationVector(Vector center) {
         return Stats.stdDeviationVector(this, center);
     }
 
@@ -116,7 +117,7 @@ public class Cluster<C extends Vector> extends ForwardingSet<Pattern<C>> impleme
         return Stats.stdDeviation(this, this.centroid);
     }
 
-    public double getStdDeviation(C center) {
+    public double getStdDeviation(Vector center) {
         return Stats.stdDeviation(this, center);
     }
 }

@@ -13,34 +13,31 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="50">
                 <entityType class="pso.particle.StandardParticle" />
             </initialisationStrategy>
-	    <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
+            <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
                 <boundaryConstraint class="problem.boundaryconstraint.BouncingBoundaryConstraint"/>
             </iterationStrategy>
         </algorithm>
     </algorithms>
 
     <problems>
-        <problem id="revenue.total" class="problem.clustering.PartitionalClusteringProblem" domain="R(0.0,1.0)^11">
-            <clusteringFunction class="functions.clustering.aggregated.TotalErrorFunction" />
-            <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="revenue">
-                <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/revenue/revenue.csv" delimiter="," beginIndex="3" endIndex="13" />
-            </dataSetBuilder>
-        </problem>
-
-        <problem id="revenue.harmonic" class="problem.clustering.PartitionalClusteringProblem" domain="R(0.0,1.0)^11">
+        <problem id="artificial.harmonic" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.KHarmonicMeansFunction" />
-            <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="revenue">
-                <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/revenue/revenue.csv" delimiter="," beginIndex="3" endIndex="13" />
-            </dataSetBuilder>
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/generated/artificial2/artificial.txt" delimiter="\s+" />
+                <addDataOperator class="io.transform.TypeConversionOperator" />
+                <addDataOperator class="io.transform.PatternConversionOperator" classIndex="2" classLength="1"/>
+            </dataTableBuilder>
         </problem>
 
         <problem id="artificial.inverse" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
-	    <clusteringFunction class="functions.clustering.InverseErrorFunction" />
-	    <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder id="artificial" class="problem.dataset.StaticDataSetBuilder" identifier="artificial">
-                <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/generated/artificial2/artificial.txt" delimiter="\s+" beginIndex="0" endIndex="1" classIndex="2" />
-            </dataSetBuilder>
-	</problem>
+            <clusteringFunction class="functions.clustering.InverseErrorFunction" />
+            <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/generated/artificial2/artificial.txt" delimiter="\s+" />
+                <addDataOperator class="io.transform.TypeConversionOperator" />
+                <addDataOperator class="io.transform.PatternConversionOperator" classIndex="2" classLength="1"/>
+            </dataTableBuilder>
+        </problem>
     </problems>
 
     <measurements id="measurements" class="simulator.MeasurementSuite" resolution="1">
@@ -48,13 +45,6 @@
         <addMeasurement class="measurement.single.clustering.PlotClustersAndCentroids" />
 <!--
         <addMeasurement class="measurement.single.clustering.PlotHighDimensionalClustersAndCentroids" />
-        <addMeasurement class="measurement.single.GenericFunctionMeasurement">
-            <function class="functions.clustering.TotalCompactnessFunction" />
-        </addMeasurement>
-        <addMeasurement class="measurement.single.GenericFunctionMeasurement">
-            <function class="functions.clustering.TotalSeparationFunction" />
-        </addMeasurement>
-
         <addMeasurement class="measurement.single.clustering.DataSetDiameter" />
         <addMeasurement class="measurement.single.clustering.SearchSpaceDiameter" />
         <addMeasurement class="measurement.single.clustering.ClusterVariances" />
@@ -65,21 +55,13 @@
     </measurements>
 
     <simulations>
-<!--
         <simulation samples="1">
             <algorithm idref="pso"/>
-            <problem idref="revenue.total" numberOfClusters="10" />
+            <problem idref="artificial.harmonic" numberOfClusters="4" />
             <measurements idref="measurements" />
-            <output format="TXT" file="measurements/pso.revenue.total.10.txt" />
+            <output format="TXT" file="measurements/pso.artificial.harmonic.4.txt" />
         </simulation>
 
-        <simulation samples="1">
-            <algorithm idref="pso"/>
-            <problem idref="revenue.harmonic" numberOfClusters="10" />
-            <measurements idref="measurements" />
-            <output format="TXT" file="measurements/pso.revenue.harmonic.10.txt" />
-        </simulation>
--->
         <simulation samples="1">
             <algorithm idref="pso"/>
             <problem idref="artificial.inverse" numberOfClusters="4" />

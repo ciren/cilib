@@ -21,18 +21,17 @@
  */
 package net.sourceforge.cilib.clustering.kmeans;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
-import java.util.Set;
 
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.problem.clustering.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -64,15 +63,15 @@ public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsIni
      * given dataset.
      *
      * @param problem the {@link ClusteringProblem} currently being optimized
-     * @param dataset the {@link StaticDataSetBuilder} currently being clustered
+     * @param dataTable the {@link DataTable} currently being clustered
      * @return an {@link ArrayList} of {@link Vector}s that represents all the centroids
      */
     @Override
-    public ArrayList<Vector> initialise(Set<Pattern<Vector>> patterns, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids) {
+    public ArrayList<Vector> initialise(DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids) {
         ArrayList<Vector> centroids = Lists.newArrayList();
 
         for (int i = 0; i < numberOfCentroids; ++i) {
-            Vector centroid = Vector.copyOf(Iterables.get(patterns, this.randomProvider.nextInt(patterns.size())).getData());
+            Vector centroid = Vector.copyOf(dataTable.getRow(this.randomProvider.nextInt(dataTable.size())).getVector());
 
             centroids.add(centroid);
         }
@@ -84,8 +83,8 @@ public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsIni
      * {@inheritDoc}
      */
     @Override
-    public Vector reinitialise(ArrayList<Vector> centroids, Set<Pattern<Vector>> patterns, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which) {
-        Vector reinitialised = Vector.copyOf(Iterables.get(patterns, this.randomProvider.nextInt(patterns.size())).getData());
+    public Vector reinitialise(ArrayList<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which) {
+        Vector reinitialised = Vector.copyOf(dataTable.getRow(this.randomProvider.nextInt(dataTable.size())).getVector());
 
         centroids.set(which, reinitialised);
         return reinitialised;

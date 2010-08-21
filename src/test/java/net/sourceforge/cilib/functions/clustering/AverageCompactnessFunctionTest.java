@@ -22,11 +22,11 @@
 package net.sourceforge.cilib.functions.clustering;
 
 import java.util.ArrayList;
-import java.util.Set;
 
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
 import org.junit.Test;
@@ -42,9 +42,9 @@ public class AverageCompactnessFunctionTest {
     public void testApply() {
         ClusteringFunction function = new AverageCompactnessFunction();
         DistanceMeasure distanceMeasure = ClusteringFunctionTests.getDistanceMeasure();
-        Set<Pattern<Vector>> patterns = ClusteringFunctionTests.getPatterns();
-        ArrayList<Cluster<Vector>> clusters = ClusteringFunctionTests.getClusters();
+        DataTable<StandardPattern, TypeList> dataTable = ClusteringFunctionTests.getDataTable();
+        ArrayList<Cluster> clusters = ClusteringFunctionTests.getClusters();
 
-        assertThat(function.apply(clusters, patterns, distanceMeasure, null, 0.0, 0.0), closeTo(1.30710678118655, ClusteringFunctionTests.EPSILON));
+        assertThat(function.apply(clusters, dataTable, distanceMeasure, null, 0.0, 0.0), closeTo(1.30710678118655, ClusteringFunctionTests.EPSILON));
     }
 }

@@ -22,12 +22,13 @@
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunctionTests;
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -44,10 +45,10 @@ public class MaulikBandyopadhyayIndexTest {
     public void testApply() {
         ClusteringFunction function = new MaulikBandyopadhyayIndex();
         DistanceMeasure distanceMeasure = ClusteringFunctionTests.getDistanceMeasure();
-        Set<Pattern<Vector>> patterns = ClusteringFunctionTests.getPatterns();
-        ArrayList<Cluster<Vector>> clusters = ClusteringFunctionTests.getClusters();
+        DataTable<StandardPattern, TypeList> dataTable = ClusteringFunctionTests.getDataTable();
+        ArrayList<Cluster> clusters = ClusteringFunctionTests.getClusters();
         Vector dataSetMean = ClusteringFunctionTests.getDataSetMean();
 
-        assertThat(function.apply(clusters, patterns, distanceMeasure, dataSetMean, 0.0, 0.0), closeTo(15.2587527741946, ClusteringFunctionTests.EPSILON));
+        assertThat(function.apply(clusters, dataTable, distanceMeasure, dataSetMean, 0.0, 0.0), closeTo(15.2587527741946, ClusteringFunctionTests.EPSILON));
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE simulator [
 <!ATTLIST algorithm id ID #IMPLIED>
-<!ATTLIST dataSetBuilder id ID #IMPLIED>
+<!ATTLIST dataTableBuilder id ID #IMPLIED>
 <!ATTLIST problem id ID #IMPLIED>
 <!ATTLIST measurements id ID #IMPLIED>
 ]>
@@ -9,130 +9,142 @@
 <simulator>
     <algorithms>
         <algorithm id="pso" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000" />
-
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="200" />
             <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
                 <boundaryConstraint class="problem.boundaryconstraint.RandomBoundaryConstraint" />
             </iterationStrategy>
         </algorithm>
     </algorithms>
 
-    <dataSetBuilder id="artificial" class="problem.dataset.StaticDataSetBuilder" identifier="artificial">
-        <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/generated/artificial2/artificial.txt" delimiter="\s+" beginIndex="0" endIndex="1" classIndex="2" />
-    </dataSetBuilder>
+    <dataTableBuilder id="artificial" class="io.DataTableBuilder">
+        <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/generated/artificial2/artificial.txt" delimiter="\s+" /> <!--beginIndex="0" endIndex="1" />-->
+        <addDataOperator class="io.transform.TypeConversionOperator" />
+        <addDataOperator class="io.transform.PatternConversionOperator" classIndex="2" classLength="1"/>
+    </dataTableBuilder>
 
-    <dataSetBuilder id="iris.unscaled" class="problem.dataset.StaticDataSetBuilder" identifier="iris.unscaled">
-        <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/iris/iris.data" delimiter="," beginIndex="0" endIndex="3" classIndex="4" />
-    </dataSetBuilder>
+    <dataTableBuilder id="iris.unscaled" class="io.DataTableBuilder">
+        <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/uci/iris/iris.data" delimiter="," /> <!--beginIndex="0" endIndex="3" />-->
+        <addDataOperator class="io.transform.TypeConversionOperator" />
+        <addDataOperator class="io.transform.PatternConversionOperator" classIndex="4" classLength="1"/>
+    </dataTableBuilder>
 
-    <dataSetBuilder id="iris.scaled" class="problem.dataset.StaticDataSetBuilder" identifier="iris.scaled">
-        <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/iris/iris.scaled.csv" delimiter="," beginIndex="0" endIndex="3" classIndex="4" />
-    </dataSetBuilder>
+    <dataTableBuilder id="iris.scaled" class="io.DataTableBuilder">
+        <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/uci/iris/iris.scaled.csv" delimiter="," /> <!--beginIndex="0" endIndex="3" />-->
+        <addDataOperator class="io.transform.TypeConversionOperator" />
+        <addDataOperator class="io.transform.PatternConversionOperator" classIndex="4" classLength="1"/>
+    </dataTableBuilder>
 
-    <dataSetBuilder id="glass.unscaled" class="problem.dataset.StaticDataSetBuilder" identifier="glass.unscaled">
-        <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/glass/glass.data" delimiter="," beginIndex="1" endIndex="9" classIndex="10" />
-    </dataSetBuilder>
+    <dataTableBuilder id="glass.unscaled" class="io.DataTableBuilder">
+        <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/uci/glass/glass.data" delimiter="," /> <!--beginIndex="1" endIndex="9" />-->
+        <addDataOperator class="io.transform.TypeConversionOperator" />
+        <addDataOperator class="io.transform.PatternConversionOperator" classIndex="10" classLength="1" />
+    </dataTableBuilder>
 
-    <dataSetBuilder id="glass.scaled" class="problem.dataset.StaticDataSetBuilder" identifier="glass.scaled">
-        <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/glass/glass.scaled.csv" delimiter="," beginIndex="1" endIndex="9" classIndex="10" />
-    </dataSetBuilder>
+    <dataTableBuilder id="glass.scaled" class="io.DataTableBuilder">
+        <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/uci/glass/glass.scaled.csv" delimiter="," /> <!--beginIndex="1" endIndex="9" />-->
+        <addDataOperator class="io.transform.TypeConversionOperator" />
+        <addDataOperator class="io.transform.PatternConversionOperator" classIndex="10" classLength="1" />
+    </dataTableBuilder>
 
     <problems>
         <problem id="artificial.kharmonic.means" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.KHarmonicMeansFunction" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.non.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.aggregated.NonParametricClusteringFunction" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.aggregated.ParametricClusteringFunction" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.parametric.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.aggregated.ParametricWithQuantisationErrorFunction" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.QuantisationErrorFunction" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.davies.bouldin.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.DaviesBouldinIndex" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
-            <dataSetBuilder idref="artificial" />
+            <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
-            <dataSetBuilder idref="artificial" />
+            <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
-            <dataSetBuilder idref="artificial" />
+            <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.halkidi.vazirgiannis.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.maulik.bandyopadhyay.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.turi.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.TuriIndex" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.total" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.aggregated.TotalErrorFunction" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
 
         <problem id="iris.unscaled.total" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.aggregated.TotalErrorFunction" />
-            <dataSetBuilder idref="iris.unscaled" />
+            <dataTableBuilder idref="iris.unscaled" />
         </problem>
 
         <problem id="iris.scaled.total" class="problem.clustering.PartitionalClusteringProblem" domain="R(0.0,1.0)^4">
             <clusteringFunction class="functions.clustering.aggregated.TotalErrorFunction" />
-            <dataSetBuilder idref="iris.scaled" />
+            <dataTableBuilder idref="iris.scaled" />
         </problem>
 
         <problem id="iris.unscaled.kharmonic.means" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.KHarmonicMeansFunction" />
-            <dataSetBuilder idref="iris.unscaled" />
+            <dataTableBuilder idref="iris.unscaled" />
         </problem>
 
         <problem id="iris.scaled.kharmonic.means" class="problem.clustering.PartitionalClusteringProblem" domain="R(0.0,1.0)^4">
             <clusteringFunction class="functions.clustering.KHarmonicMeansFunction" />
-            <dataSetBuilder idref="iris.scaled" />
+            <dataTableBuilder idref="iris.scaled" />
         </problem>
 
         <problem id="glass.unscaled.total" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.aggregated.TotalErrorFunction" />
-            <dataSetBuilder idref="glass.unscaled" />
+            <dataTableBuilder idref="glass.unscaled" />
         </problem>
 
         <problem id="glass.scaled.total" class="problem.clustering.PartitionalClusteringProblem" domain="R(0.0,1.0)^9">
             <clusteringFunction class="functions.clustering.aggregated.TotalErrorFunction" />
-            <dataSetBuilder idref="glass.scaled" />
+            <dataTableBuilder idref="glass.scaled" />
         </problem>
 
         <problem id="glass.unscaled.kharmonic.means" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.KHarmonicMeansFunction" />
-            <dataSetBuilder idref="glass.unscaled" />
+            <dataTableBuilder idref="glass.unscaled" />
         </problem>
 
         <problem id="glass.scaled.kharmonic.means" class="problem.clustering.PartitionalClusteringProblem" domain="R(0.0,1.0)^9">
             <clusteringFunction class="functions.clustering.KHarmonicMeansFunction" />
-            <dataSetBuilder idref="glass.scaled" />
+            <dataTableBuilder idref="glass.scaled" />
         </problem>
     </problems>
 
@@ -145,6 +157,7 @@
     </measurements>
 
     <simulations>
+<!--
         <simulation samples="1">
             <algorithm idref="pso" />
             <problem idref="artificial.kharmonic.means" numberOfClusters="4" />
@@ -270,7 +283,7 @@
             <measurements idref="measurements" />
             <output format="TXT" file="measurements/pso.khamromic.iris.scaled.3.txt" />
         </simulation>
-
+-->
         <simulation samples="1">
             <algorithm idref="pso" />
             <problem idref="glass.unscaled.total" numberOfClusters="7" />

@@ -21,15 +21,14 @@
  */
 package net.sourceforge.cilib.clustering.kmeans;
 
-import com.google.common.collect.Iterables;
-
 import java.util.ArrayList;
-import java.util.Set;
 
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -70,15 +69,15 @@ public class ContributingPotentialCentroidsInitialisationStrategy implements Cen
      * {@inheritDoc}
      */
     @Override
-    public ArrayList<Vector> initialise(Set<Pattern<Vector>> patterns, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids) {
+    public ArrayList<Vector> initialise(DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids) {
         ArrayList<Vector> chosenCentroids = new ArrayList<Vector>();
 
         for (int i = 0; i < numberOfCentroids; ++i) {
-            Vector candidateCentroid = Vector.copyOf(Iterables.get(patterns, randomPattern.nextInt(patterns.size())).getData());
+            Vector candidateCentroid = Vector.copyOf(dataTable.getRow(randomPattern.nextInt(dataTable.size())).getVector());
 
             if (i > 0) {
-                while (this.randomProbability.nextDouble() >= this.calculateProbability(patterns, distanceMeasure, chosenCentroids, candidateCentroid)) {
-                    candidateCentroid = Vector.copyOf(Iterables.get(patterns, randomPattern.nextInt(patterns.size())).getData());
+                while (this.randomProbability.nextDouble() >= this.calculateProbability(dataTable, distanceMeasure, chosenCentroids, candidateCentroid)) {
+                    candidateCentroid = Vector.copyOf(dataTable.getRow(randomPattern.nextInt(dataTable.size())).getVector());
                 }
             }
             chosenCentroids.add(candidateCentroid);
@@ -92,19 +91,19 @@ public class ContributingPotentialCentroidsInitialisationStrategy implements Cen
      * {@inheritDoc}
      */
     @Override
-    public Vector reinitialise(ArrayList<Vector> centroids, Set<Pattern<Vector>> patterns, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which) {
+    public Vector reinitialise(ArrayList<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which) {
         Vector candidateCentroid = null;
 
         do {
-            candidateCentroid = Vector.copyOf(Iterables.get(patterns, randomPattern.nextInt(patterns.size())).getData());
+            candidateCentroid = Vector.copyOf(dataTable.getRow(randomPattern.nextInt(dataTable.size())).getVector());
         }
-        while (this.randomProbability.nextDouble() >= this.calculateProbability(patterns, distanceMeasure, centroids, candidateCentroid));
+        while (this.randomProbability.nextDouble() >= this.calculateProbability(dataTable, distanceMeasure, centroids, candidateCentroid));
 
         centroids.set(which, candidateCentroid);
         return candidateCentroid;
     }
 
-    private double calculateProbability(Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, ArrayList<Vector> chosenCentroids, Vector candidateCentroid) {
+    private double calculateProbability(DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, ArrayList<Vector> chosenCentroids, Vector candidateCentroid) {
         double probability = 0.0;
         double numerator = Double.MAX_VALUE;
 
@@ -112,11 +111,11 @@ public class ContributingPotentialCentroidsInitialisationStrategy implements Cen
             numerator = Math.min(numerator, distanceMeasure.distance(candidateCentroid, chosenCentroid));
         }
 
-        for (Pattern pattern : patterns) {
+        for (StandardPattern pattern : dataTable) {
             double denominator = Double.MAX_VALUE;
 
             for (Vector chosenCentroid : chosenCentroids) {
-                denominator = Math.min(denominator, distanceMeasure.distance(chosenCentroid, pattern.getData()));
+                denominator = Math.min(denominator, distanceMeasure.distance(chosenCentroid, pattern.getVector()));
             }
             probability += denominator;
         }

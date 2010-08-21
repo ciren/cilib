@@ -55,7 +55,7 @@ public class StandardCentroidsDiversificationStrategy implements CentroidsDivers
         this.previousCentroids = new ArrayList<Vector>();
 
         for (Vector previousCentroid : rhs.previousCentroids) {
-            this.previousCentroids.add(previousCentroid.getClone());
+            this.previousCentroids.add(Vector.copyOf(previousCentroid));
         }
 
         this.unchangedIterations = new ArrayList<Integer>();
@@ -80,7 +80,7 @@ public class StandardCentroidsDiversificationStrategy implements CentroidsDivers
         this.previousCentroids = new ArrayList<Vector>(centroids.size());
 
         for (Vector centroid : centroids) {
-            this.previousCentroids.add(centroid.getClone());
+            this.previousCentroids.add(Vector.copyOf(centroid));
         }
 
         this.unchangedIterations = new ArrayList<Integer>(centroids.size());
@@ -100,14 +100,14 @@ public class StandardCentroidsDiversificationStrategy implements CentroidsDivers
             this.unchangedIterations.set(which, ++unchanged);
         }
         else {
-            this.previousCentroids.set(which, currentCentroid.getClone());
+            this.previousCentroids.set(which, Vector.copyOf(currentCentroid));
             this.unchangedIterations.set(which, 0);
         }
 
         if (unchanged >= this.interval) {
             currentCentroid = Vectors.jitter(currentCentroid, this.diversifyRatio);
             currentCentroids.set(which, currentCentroid);
-            this.previousCentroids.set(which, currentCentroid.getClone());
+            this.previousCentroids.set(which, Vector.copyOf(currentCentroid));
             this.unchangedIterations.set(which, 0);
         }
     }

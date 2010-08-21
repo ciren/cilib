@@ -22,11 +22,12 @@
 package net.sourceforge.cilib.functions.clustering;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCentroidStrategy;
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -39,14 +40,14 @@ public class InverseErrorFunction extends ClusteringErrorFunction {
     private static final long serialVersionUID = 2680037315045146954L;
 
     @Override
-    public Double apply(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
         double inverseError = 0.0;
 
-        for (Cluster<Vector> cluster : clusters) {
+        for (Cluster cluster : clusters) {
             Vector center = this.clusterCenterStrategy.getCenter(cluster);
 
-            for (Pattern<Vector> pattern : cluster) {
-                inverseError += 1.0 / (distanceMeasure.distance(pattern.getData(), center) + 1.0);
+            for (StandardPattern pattern : cluster) {
+                inverseError += 1.0 / (distanceMeasure.distance(pattern.getVector(), center) + 1.0);
             }
         }
         return inverseError;

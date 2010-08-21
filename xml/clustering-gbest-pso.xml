@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE simulator [
 <!ATTLIST algorithm id ID #IMPLIED>
-<!ATTLIST dataSetBuilder id ID #IMPLIED>
+<!ATTLIST dataTableBuilder id ID #IMPLIED>
 <!ATTLIST problem id ID #IMPLIED>
 <!ATTLIST measurements id ID #IMPLIED>
 ]>
@@ -9,11 +9,8 @@
 <simulator>
     <algorithms>
         <algorithm id="pso" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations">
-                <maximumIterations>20</maximumIterations>
-            </addStoppingCondition>
-            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
-                <entityNumber>20</entityNumber>
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="20" />
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="20">
                 <entityType class="pso.particle.StandardParticle" />
             </initialisationStrategy>
             <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
@@ -22,543 +19,574 @@
         </algorithm>
     </algorithms>
 
-    <dataSetBuilders>
+    <dataTableBuilders>
         <!-- wdbc MINIMUMS and MAXIMUMS: R(6.9, 28.2), R(9.7, 39.3), R(43.7, 188.6), R(143.4, 2501.1), R(0.0, 0.2), R(0.0, 0.4), R(0.0, 0.5), R(0.0, 0.3), R(0.1, 0.4), R(0.0, 0.2), R(0.1, 2.9), R(0.3, 4.9), R(0.7, 22.0), R(6.7, 542.3), R(0.0, 0.1), R(0.0, 0.2), R(0.0, 0.5), R(0.0, 0.1), R(0.0, 0.1), R(0.0, 0.1), R(7.9, 36.1), R(12.0, 49.6), R(50.4, 251.3), R(185.1, 4254.1), R(0.0, 0.3), R(0.0, 1.1), R(0.0, 1.3), R(0.0, 0.3), R(0.1, 0.7), R(0.0, 0.3) -->
-        <dataSetBuilder id="wdbc" class="problem.dataset.StaticDataSetBuilder" identifier="wdbc">
-            <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/breast-cancer-wisconsin/wdbc.data" delimiter="," beginIndex="2" endIndex="31" classIndex="1" />
-        </dataSetBuilder>
+        <dataTableBuilder id="wdbc" class="io.DataTableBuilder">
+            <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/uci/breast-cancer-wisconsin/wdbc.data" delimiter="," /> <!--beginIndex="2" endIndex="31" />-->
+            <addDataOperator class="io.transform.TypeConversionOperator" />
+            <addDataOperator class="io.transform.PatternConversionOperator" classIndex="1" classLength="1"/>
+        </dataTableBuilder>
 
         <!-- glass MINIMUMS and MAXIMUMS: R(1.5, 1.6), R(10.7, 17.4), R(0.0, 4.5), R(0.2, 3.6), R(69.8, 75.5), R(0.0, 6.3), R(5.4, 16.2), R(0.0, 3.2), R(0.0, 0.6) -->
-        <dataSetBuilder id="glass" class="problem.dataset.StaticDataSetBuilder" identifier="glass">
-            <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/glass/glass.data" delimiter="," beginIndex="1" endIndex="9" classIndex="10" />
-        </dataSetBuilder>
+        <dataTableBuilder id="glass" class="io.DataTableBuilder">
+            <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/uci/glass/glass.data" delimiter="," /> <!--beginIndex="1" endIndex="9" />-->
+            <addDataOperator class="io.transform.TypeConversionOperator" />
+            <addDataOperator class="io.transform.PatternConversionOperator" classIndex="10" classLength="1"/>
+        </dataTableBuilder>
 
         <!-- ionosphere MINIMUMS and MAXIMUMS: Z(0, 1), Z(0, 0), R(-1.0, 1.0)^32 -->
-        <dataSetBuilder id="ionosphere" class="problem.dataset.StaticDataSetBuilder" identifier="ionosphere">
-            <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/ionosphere/ionosphere.data" delimiter="," beginIndex="0" endIndex="33" classIndex="34" />
-        </dataSetBuilder>
+        <dataTableBuilder id="ionosphere" class="io.DataTableBuilder">
+            <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/uci/ionosphere/ionosphere.data" delimiter="," /> <!--beginIndex="0" endIndex="33" />-->
+            <addDataOperator class="io.transform.TypeConversionOperator" />
+            <addDataOperator class="io.transform.PatternConversionOperator" classIndex="34" classLength="1"/>
+        </dataTableBuilder>
 
         <!-- iris MINIMUMS and MAXIMUMS: R(4.2, 8.0), R(1.9, 4.5), R(0.9, 6.9), R(0.0, 2.6) -->
-        <dataSetBuilder id="iris" class="problem.dataset.StaticDataSetBuilder" identifier="iris">
-            <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/iris/iris.data" delimiter="," beginIndex="0" endIndex="3" classIndex="4" />
-        </dataSetBuilder>
+        <dataTableBuilder id="iris" class="io.DataTableBuilder">
+            <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/uci/iris/iris.data" delimiter="," /> <!--beginIndex="0" endIndex="3" />-->
+            <addDataOperator class="io.transform.TypeConversionOperator" />
+            <addDataOperator class="io.transform.PatternConversionOperator" classIndex="4" classLength="1"/>
+        </dataTableBuilder>
 
         <!-- bupa MINIMUMS and MAXIMUMS: Z(65, 103), Z(23, 138), Z(4, 155), Z(5, 82), Z(5, 297), R(0.0, 20.0) -->
-        <dataSetBuilder id="bupa" class="problem.dataset.StaticDataSetBuilder" identifier="bupa">
-            <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/liver-disorders/bupa.data" delimiter="," beginIndex="0" endIndex="5" classIndex="6" />
-        </dataSetBuilder>
+        <dataTableBuilder id="bupa" class="io.DataTableBuilder">
+            <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/uci/liver-disorders/bupa.data" delimiter="," /> <!--beginIndex="0" endIndex="5" />-->
+            <addDataOperator class="io.transform.TypeConversionOperator" />
+            <addDataOperator class="io.transform.PatternConversionOperator" classIndex="6" classLength="1"/>
+        </dataTableBuilder>
 
         <!-- pima indians diabetes MINIMUMS and MAXIMUMS: Z(0, 17), Z(0, 199), Z(0, 122), Z(0, 99), Z(0, 846), R(0, 67.1), R(0.08, 2.42), Z(21, 81) -->
-        <dataSetBuilder id="diabetes" class="problem.dataset.StaticDataSetBuilder" identifier="diabetes">
-            <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/pima-indians-diabetes/pima-indians-diabetes.data" delimiter="," beginIndex="0" endIndex="7" classIndex="8" />
-        </dataSetBuilder>
+        <dataTableBuilder id="diabetes" class="io.DataTableBuilder">
+            <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/uci/pima-indians-diabetes/pima-indians-diabetes.data" delimiter="," /> <!--beginIndex="0" endIndex="7" />-->
+            <addDataOperator class="io.transform.TypeConversionOperator" />
+            <addDataOperator class="io.transform.PatternConversionOperator" classIndex="8" classLength="1"/>
+        </dataTableBuilder>
 
         <!-- new thyroid MINIMUMS and MAXIMUMS: Z(65, 144), R(0.5, 25.3), R(0.2, 10.0), R(0.1, 56.4), R(-0.7, 56.3) -->
-        <dataSetBuilder id="thyroid" class="problem.dataset.StaticDataSetBuilder" identifier="thyroid">
-            <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/thyroid-disease/new-thyroid.data" delimiter="," beginIndex="1" endIndex="5" classIndex="0" />
-        </dataSetBuilder>
+        <dataTableBuilder id="thyroid" class="io.DataTableBuilder">
+            <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/uci/thyroid-disease/new-thyroid.data" delimiter="," /> <!--beginIndex="1" endIndex="5" />-->
+            <addDataOperator class="io.transform.TypeConversionOperator" />
+            <addDataOperator class="io.transform.PatternConversionOperator" classIndex="0" classLength="1"/>
+        </dataTableBuilder>
 
         <!-- wine MINIMUMS and MAXIMUMS: R(11.03, 14.83), R(0.74, 5.8), R(1.36, 3.23), R(10.6, 30.0), Z(70, 162), R(0.98, 3.88), R(0.34, 5.08), R(0.13, 0.66), R(0.41, 3.58), R(1.28, 13.0), R(0.48, 1.71), R(1.27, 4.0), Z(278, 1680) -->
-        <dataSetBuilder id="wine" class="problem.dataset.StaticDataSetBuilder" identifier="wine">
-            <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/wine/wine.data" delimiter="," beginIndex="1" endIndex="13" classIndex="0" />
-        </dataSetBuilder>
+        <dataTableBuilder id="wine" class="io.DataTableBuilder">
+            <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/uci/wine/wine.data" delimiter="," /> <!--beginIndex="1" endIndex="13" />-->
+            <addDataOperator class="io.transform.TypeConversionOperator" />
+            <addDataOperator class="io.transform.PatternConversionOperator" classIndex="0" classLength="1"/>
+        </dataTableBuilder>
 
         <!-- artificial MINIMUMS and MAXIMUMS: R(-1.0, 1.0), R(-1.0, 1.0) -->
-        <dataSetBuilder id="artificial" class="problem.dataset.StaticDataSetBuilder" identifier="artificial">
-            <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/generated/artificial2/artificial.txt" delimiter="\s+" beginIndex="0" endIndex="1" classIndex="2" />
-        </dataSetBuilder>
-    </dataSetBuilders>
+        <dataTableBuilder id="artificial" class="io.DataTableBuilder">
+            <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/generated/artificial2/artificial.txt" delimiter="\s+" /> <!--beginIndex="0" endIndex="1" />-->
+            <addDataOperator class="io.transform.TypeConversionOperator" />
+            <addDataOperator class="io.transform.PatternConversionOperator" classIndex="2" classLength="1"/>
+        </dataTableBuilder>
+    </dataTableBuilders>
 
     <problems>
         <problem id="wdbc.kharmonic.means" class="problem.clustering.PartitionalClusteringProblem" domain="R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)">
             <clusteringFunction class="functions.clustering.KHarmonicMeansFunction" />
-            <dataSetBuilder idref="wdbc" />
+            <dataTableBuilder idref="wdbc" />
         </problem>
         <problem id="wdbc.non.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)">
             <clusteringFunction class="functions.clustering.aggregated.NonParametricClusteringFunction" />
-            <dataSetBuilder idref="wdbc" />
+            <dataTableBuilder idref="wdbc" />
         </problem>
         <problem id="wdbc.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)">
             <clusteringFunction class="functions.clustering.aggregated.ParametricClusteringFunction" />
-            <dataSetBuilder idref="wdbc" />
+            <dataTableBuilder idref="wdbc" />
         </problem>
         <problem id="wdbc.parametric.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)">
             <clusteringFunction class="functions.clustering.aggregated.ParametricWithQuantisationErrorFunction" />
-            <dataSetBuilder idref="wdbc" />
+            <dataTableBuilder idref="wdbc" />
         </problem>
         <problem id="wdbc.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)">
             <clusteringFunction class="functions.clustering.QuantisationErrorFunction" />
-            <dataSetBuilder idref="wdbc" />
+            <dataTableBuilder idref="wdbc" />
         </problem>
         <problem id="wdbc.davies.bouldin.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)">
             <clusteringFunction class="functions.clustering.validityindices.DaviesBouldinIndex" />
-            <dataSetBuilder idref="wdbc" />
+            <dataTableBuilder idref="wdbc" />
         </problem>
         <problem id="wdbc.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="wdbc" />
+            <dataTableBuilder idref="wdbc" />
         </problem>
         <problem id="wdbc.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="wdbc" />
+            <dataTableBuilder idref="wdbc" />
         </problem>
         <problem id="wdbc.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="wdbc" />
+            <dataTableBuilder idref="wdbc" />
         </problem>
         <problem id="wdbc.halkidi.vazirgiannis.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)">
             <clusteringFunction class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
-            <dataSetBuilder idref="wdbc" />
+            <dataTableBuilder idref="wdbc" />
         </problem>
         <problem id="wdbc.maulik.bandyopadhyay.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)">
             <clusteringFunction class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
-            <dataSetBuilder idref="wdbc" />
+            <dataTableBuilder idref="wdbc" />
         </problem>
         <problem id="wdbc.turi.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)">
             <clusteringFunction class="functions.clustering.validityindices.TuriIndex" />
-            <dataSetBuilder idref="wdbc" />
+            <dataTableBuilder idref="wdbc" />
         </problem>
         <problem id="wdbc.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
-            <dataSetBuilder idref="wdbc" />
+            <dataTableBuilder idref="wdbc" />
         </problem>
 
         <problem id="glass.kharmonic.means" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.KHarmonicMeansFunction" />
-            <dataSetBuilder idref="glass" />
+            <dataTableBuilder idref="glass" />
         </problem>
         <problem id="glass.non.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.aggregated.NonParametricClusteringFunction" />
-            <dataSetBuilder idref="glass" />
+            <dataTableBuilder idref="glass" />
         </problem>
         <problem id="glass.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.aggregated.ParametricClusteringFunction" />
-            <dataSetBuilder idref="glass" />
+            <dataTableBuilder idref="glass" />
         </problem>
         <problem id="glass.parametric.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.aggregated.ParametricWithQuantisationErrorFunction" />
-            <dataSetBuilder idref="glass" />
+            <dataTableBuilder idref="glass" />
         </problem>
         <problem id="glass.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.QuantisationErrorFunction" />
-            <dataSetBuilder idref="glass" />
+            <dataTableBuilder idref="glass" />
         </problem>
         <problem id="glass.davies.bouldin.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.validityindices.DaviesBouldinIndex" />
-            <dataSetBuilder idref="glass" />
+            <dataTableBuilder idref="glass" />
         </problem>
         <problem id="glass.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="glass" />
+            <dataTableBuilder idref="glass" />
         </problem>
         <problem id="glass.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="glass" />
+            <dataTableBuilder idref="glass" />
         </problem>
         <problem id="glass.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="glass" />
+            <dataTableBuilder idref="glass" />
         </problem>
         <problem id="glass.halkidi.vazirgiannis.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
-            <dataSetBuilder idref="glass" />
+            <dataTableBuilder idref="glass" />
         </problem>
         <problem id="glass.maulik.bandyopadhyay.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
-            <dataSetBuilder idref="glass" />
+            <dataTableBuilder idref="glass" />
         </problem>
         <problem id="glass.turi.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.validityindices.TuriIndex" />
-            <dataSetBuilder idref="glass" />
+            <dataTableBuilder idref="glass" />
         </problem>
         <problem id="glass.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
-            <dataSetBuilder idref="glass" />
+            <dataTableBuilder idref="glass" />
         </problem>
 
         <problem id="ionosphere.kharmonic.means" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32">
             <clusteringFunction class="functions.clustering.KHarmonicMeansFunction" />
-            <dataSetBuilder idref="ionosphere" />
+            <dataTableBuilder idref="ionosphere" />
         </problem>
         <problem id="ionosphere.non.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32">
             <clusteringFunction class="functions.clustering.aggregated.NonParametricClusteringFunction" />
-            <dataSetBuilder idref="ionosphere" />
+            <dataTableBuilder idref="ionosphere" />
         </problem>
         <problem id="ionosphere.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32">
             <clusteringFunction class="functions.clustering.aggregated.ParametricClusteringFunction" />
-            <dataSetBuilder idref="ionosphere" />
+            <dataTableBuilder idref="ionosphere" />
         </problem>
         <problem id="ionosphere.parametric.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32">
             <clusteringFunction class="functions.clustering.aggregated.ParametricWithQuantisationErrorFunction" />
-            <dataSetBuilder idref="ionosphere" />
+            <dataTableBuilder idref="ionosphere" />
         </problem>
         <problem id="ionosphere.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32">
             <clusteringFunction class="functions.clustering.QuantisationErrorFunction" />
-            <dataSetBuilder idref="ionosphere" />
+            <dataTableBuilder idref="ionosphere" />
         </problem>
         <problem id="ionosphere.davies.bouldin.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32">
             <clusteringFunction class="functions.clustering.validityindices.DaviesBouldinIndex" />
-            <dataSetBuilder idref="ionosphere" />
+            <dataTableBuilder idref="ionosphere" />
         </problem>
         <problem id="ionosphere.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="ionosphere" />
+            <dataTableBuilder idref="ionosphere" />
         </problem>
         <problem id="ionosphere.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="ionosphere" />
+            <dataTableBuilder idref="ionosphere" />
         </problem>
         <problem id="ionosphere.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="ionosphere" />
+            <dataTableBuilder idref="ionosphere" />
         </problem>
         <problem id="ionosphere.halkidi.vazirgiannis.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32">
             <clusteringFunction class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
-            <dataSetBuilder idref="ionosphere" />
+            <dataTableBuilder idref="ionosphere" />
         </problem>
         <problem id="ionosphere.maulik.bandyopadhyay.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32">
             <clusteringFunction class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
-            <dataSetBuilder idref="ionosphere" />
+            <dataTableBuilder idref="ionosphere" />
         </problem>
         <problem id="ionosphere.turi.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32">
             <clusteringFunction class="functions.clustering.validityindices.TuriIndex" />
-            <dataSetBuilder idref="ionosphere" />
+            <dataTableBuilder idref="ionosphere" />
         </problem>
         <problem id="ionosphere.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
-            <dataSetBuilder idref="ionosphere" />
+            <dataTableBuilder idref="ionosphere" />
         </problem>
 
         <problem id="iris.kharmonic.means" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.KHarmonicMeansFunction" />
-            <dataSetBuilder idref="iris" />
+            <dataTableBuilder idref="iris" />
         </problem>
         <problem id="iris.non.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.aggregated.NonParametricClusteringFunction" />
-            <dataSetBuilder idref="iris" />
+            <dataTableBuilder idref="iris" />
         </problem>
         <problem id="iris.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.aggregated.ParametricClusteringFunction" />
-            <dataSetBuilder idref="iris" />
+            <dataTableBuilder idref="iris" />
         </problem>
         <problem id="iris.parametric.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.aggregated.ParametricWithQuantisationErrorFunction" />
-            <dataSetBuilder idref="iris" />
+            <dataTableBuilder idref="iris" />
         </problem>
         <problem id="iris.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.QuantisationErrorFunction" />
-            <dataSetBuilder idref="iris" />
+            <dataTableBuilder idref="iris" />
         </problem>
         <problem id="iris.davies.bouldin.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.validityindices.DaviesBouldinIndex" />
-            <dataSetBuilder idref="iris" />
+            <dataTableBuilder idref="iris" />
         </problem>
         <problem id="iris.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="iris" />
+            <dataTableBuilder idref="iris" />
         </problem>
         <problem id="iris.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="iris" />
+            <dataTableBuilder idref="iris" />
         </problem>
         <problem id="iris.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="iris" />
+            <dataTableBuilder idref="iris" />
         </problem>
         <problem id="iris.halkidi.vazirgiannis.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
-            <dataSetBuilder idref="iris" />
+            <dataTableBuilder idref="iris" />
         </problem>
         <problem id="iris.maulik.bandyopadhyay.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
-            <dataSetBuilder idref="iris" />
+            <dataTableBuilder idref="iris" />
         </problem>
         <problem id="iris.turi.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.validityindices.TuriIndex" />
-            <dataSetBuilder idref="iris" />
+            <dataTableBuilder idref="iris" />
         </problem>
         <problem id="iris.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
-            <dataSetBuilder idref="iris" />
+            <dataTableBuilder idref="iris" />
         </problem>
 
         <problem id="bupa.kharmonic.means" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)">
-            <clusteringFunction class="functions.clustering.KHarmonicMeansFunction" /><dataSetBuilder idref="bupa" />
+            <clusteringFunction class="functions.clustering.KHarmonicMeansFunction" />
+            <dataTableBuilder idref="bupa" />
         </problem>
         <problem id="bupa.non.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)">
-            <clusteringFunction class="functions.clustering.aggregated.NonParametricClusteringFunction" /><dataSetBuilder idref="bupa" />
+            <clusteringFunction class="functions.clustering.aggregated.NonParametricClusteringFunction" />
+            <dataTableBuilder idref="bupa" />
         </problem>
         <problem id="bupa.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)">
-            <clusteringFunction class="functions.clustering.aggregated.ParametricClusteringFunction" /><dataSetBuilder idref="bupa" />
+            <clusteringFunction class="functions.clustering.aggregated.ParametricClusteringFunction" />
+            <dataTableBuilder idref="bupa" />
         </problem>
         <problem id="bupa.parametric.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)">
-            <clusteringFunction class="functions.clustering.aggregated.ParametricWithQuantisationErrorFunction" /><dataSetBuilder idref="bupa" />
+            <clusteringFunction class="functions.clustering.aggregated.ParametricWithQuantisationErrorFunction" />
+            <dataTableBuilder idref="bupa" />
         </problem>
         <problem id="bupa.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)">
-            <clusteringFunction class="functions.clustering.QuantisationErrorFunction" /><dataSetBuilder idref="bupa" />
+            <clusteringFunction class="functions.clustering.QuantisationErrorFunction" />
+            <dataTableBuilder idref="bupa" />
         </problem>
         <problem id="bupa.davies.bouldin.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)">
-            <clusteringFunction class="functions.clustering.validityindices.DaviesBouldinIndex" /><dataSetBuilder idref="bupa" />
+            <clusteringFunction class="functions.clustering.validityindices.DaviesBouldinIndex" />
+            <dataTableBuilder idref="bupa" />
         </problem>
         <problem id="bupa.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
-            <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" /><dataSetBuilder idref="bupa" />
+            <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
+            <dataTableBuilder idref="bupa" />
         </problem>
         <problem id="bupa.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
-            <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" /><dataSetBuilder idref="bupa" />
+            <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
+            <dataTableBuilder idref="bupa" />
         </problem>
         <problem id="bupa.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
-            <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" /><dataSetBuilder idref="bupa" />
+            <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
+            <dataTableBuilder idref="bupa" />
         </problem>
         <problem id="bupa.halkidi.vazirgiannis.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)">
-            <clusteringFunction class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" /><dataSetBuilder idref="bupa" />
+            <clusteringFunction class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
+            <dataTableBuilder idref="bupa" />
         </problem>
         <problem id="bupa.maulik.bandyopadhyay.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)">
-            <clusteringFunction class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" /><dataSetBuilder idref="bupa" />
+            <clusteringFunction class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
+            <dataTableBuilder idref="bupa" />
         </problem>
         <problem id="bupa.turi.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)">
-            <clusteringFunction class="functions.clustering.validityindices.TuriIndex" /><dataSetBuilder idref="bupa" />
+            <clusteringFunction class="functions.clustering.validityindices.TuriIndex" />
+            <dataTableBuilder idref="bupa" />
         </problem>
         <problem id="bupa.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)">
-            <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" /><dataSetBuilder idref="bupa" />
+            <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+            <dataTableBuilder idref="bupa" />
         </problem>
 
         <problem id="diabetes.kharmonic.means" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)">
             <clusteringFunction class="functions.clustering.KHarmonicMeansFunction" />
-            <dataSetBuilder idref="diabetes" />
+            <dataTableBuilder idref="diabetes" />
         </problem>
         <problem id="diabetes.non.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)">
             <clusteringFunction class="functions.clustering.aggregated.NonParametricClusteringFunction" />
-            <dataSetBuilder idref="diabetes" />
+            <dataTableBuilder idref="diabetes" />
         </problem>
         <problem id="diabetes.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)">
             <clusteringFunction class="functions.clustering.aggregated.ParametricClusteringFunction" />
-            <dataSetBuilder idref="diabetes" />
+            <dataTableBuilder idref="diabetes" />
         </problem>
         <problem id="diabetes.parametric.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)">
             <clusteringFunction class="functions.clustering.aggregated.ParametricWithQuantisationErrorFunction" />
-            <dataSetBuilder idref="diabetes" />
+            <dataTableBuilder idref="diabetes" />
         </problem>
         <problem id="diabetes.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)">
             <clusteringFunction class="functions.clustering.QuantisationErrorFunction" />
-            <dataSetBuilder idref="diabetes" />
+            <dataTableBuilder idref="diabetes" />
         </problem>
         <problem id="diabetes.davies.bouldin.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)">
             <clusteringFunction class="functions.clustering.validityindices.DaviesBouldinIndex" />
-            <dataSetBuilder idref="diabetes" />
+            <dataTableBuilder idref="diabetes" />
         </problem>
         <problem id="diabetes.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="diabetes" />
+            <dataTableBuilder idref="diabetes" />
         </problem>
         <problem id="diabetes.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="diabetes" />
+            <dataTableBuilder idref="diabetes" />
         </problem>
         <problem id="diabetes.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="diabetes" />
+            <dataTableBuilder idref="diabetes" />
         </problem>
         <problem id="diabetes.halkidi.vazirgiannis.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)">
             <clusteringFunction class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
-            <dataSetBuilder idref="diabetes" />
+            <dataTableBuilder idref="diabetes" />
         </problem>
         <problem id="diabetes.maulik.bandyopadhyay.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)">
             <clusteringFunction class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
-            <dataSetBuilder idref="diabetes" />
+            <dataTableBuilder idref="diabetes" />
         </problem>
         <problem id="diabetes.turi.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)">
             <clusteringFunction class="functions.clustering.validityindices.TuriIndex" />
-            <dataSetBuilder idref="diabetes" />
+            <dataTableBuilder idref="diabetes" />
         </problem>
         <problem id="diabetes.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
-            <dataSetBuilder idref="diabetes" />
+            <dataTableBuilder idref="diabetes" />
         </problem>
 
         <problem id="thyroid.kharmonic.means" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)">
             <clusteringFunction class="functions.clustering.KHarmonicMeansFunction" />
-            <dataSetBuilder idref="thyroid" />
+            <dataTableBuilder idref="thyroid" />
         </problem>
         <problem id="thyroid.non.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)">
             <clusteringFunction class="functions.clustering.aggregated.NonParametricClusteringFunction" />
-            <dataSetBuilder idref="thyroid" />
+            <dataTableBuilder idref="thyroid" />
         </problem>
         <problem id="thyroid.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)">
             <clusteringFunction class="functions.clustering.aggregated.ParametricClusteringFunction" />
-            <dataSetBuilder idref="thyroid" />
+            <dataTableBuilder idref="thyroid" />
         </problem>
         <problem id="thyroid.parametric.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)">
             <clusteringFunction class="functions.clustering.aggregated.ParametricWithQuantisationErrorFunction" />
-            <dataSetBuilder idref="thyroid" />
+            <dataTableBuilder idref="thyroid" />
         </problem>
         <problem id="thyroid.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)">
             <clusteringFunction class="functions.clustering.QuantisationErrorFunction" />
-            <dataSetBuilder idref="thyroid" />
+            <dataTableBuilder idref="thyroid" />
         </problem>
         <problem id="thyroid.davies.bouldin.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)">
             <clusteringFunction class="functions.clustering.validityindices.DaviesBouldinIndex" />
-            <dataSetBuilder idref="thyroid" />
+            <dataTableBuilder idref="thyroid" />
         </problem>
         <problem id="thyroid.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="thyroid" />
+            <dataTableBuilder idref="thyroid" />
         </problem>
         <problem id="thyroid.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="thyroid" />
+            <dataTableBuilder idref="thyroid" />
         </problem>
         <problem id="thyroid.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="thyroid" />
+            <dataTableBuilder idref="thyroid" />
         </problem>
         <problem id="thyroid.halkidi.vazirgiannis.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)">
             <clusteringFunction class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
-            <dataSetBuilder idref="thyroid" />
+            <dataTableBuilder idref="thyroid" />
         </problem>
         <problem id="thyroid.maulik.bandyopadhyay.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)">
             <clusteringFunction class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
-            <dataSetBuilder idref="thyroid" />
+            <dataTableBuilder idref="thyroid" />
         </problem>
         <problem id="thyroid.turi.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)">
             <clusteringFunction class="functions.clustering.validityindices.TuriIndex" />
-            <dataSetBuilder idref="thyroid" />
+            <dataTableBuilder idref="thyroid" />
         </problem>
         <problem id="thyroid.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
-            <dataSetBuilder idref="thyroid" />
+            <dataTableBuilder idref="thyroid" />
         </problem>
 
         <problem id="wine.kharmonic.means" class="problem.clustering.PartitionalClusteringProblem" domain="R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)">
             <clusteringFunction class="functions.clustering.KHarmonicMeansFunction" />
-            <dataSetBuilder idref="wine" />
+            <dataTableBuilder idref="wine" />
         </problem>
         <problem id="wine.non.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)">
             <clusteringFunction class="functions.clustering.aggregated.NonParametricClusteringFunction" />
-            <dataSetBuilder idref="wine" />
+            <dataTableBuilder idref="wine" />
         </problem>
         <problem id="wine.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)">
             <clusteringFunction class="functions.clustering.aggregated.ParametricClusteringFunction" />
-            <dataSetBuilder idref="wine" />
+            <dataTableBuilder idref="wine" />
         </problem>
         <problem id="wine.parametric.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)">
             <clusteringFunction class="functions.clustering.aggregated.ParametricWithQuantisationErrorFunction" />
-            <dataSetBuilder idref="wine" />
+            <dataTableBuilder idref="wine" />
         </problem>
         <problem id="wine.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)">
             <clusteringFunction class="functions.clustering.QuantisationErrorFunction" />
-            <dataSetBuilder idref="wine" />
+            <dataTableBuilder idref="wine" />
         </problem>
         <problem id="wine.davies.bouldin.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)">
             <clusteringFunction class="functions.clustering.validityindices.DaviesBouldinIndex" />
-            <dataSetBuilder idref="wine" />
+            <dataTableBuilder idref="wine" />
         </problem>
         <problem id="wine.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="wine" />
+            <dataTableBuilder idref="wine" />
         </problem>
         <problem id="wine.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="wine" />
+            <dataTableBuilder idref="wine" />
         </problem>
         <problem id="wine.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="wine" />
+            <dataTableBuilder idref="wine" />
         </problem>
         <problem id="wine.halkidi.vazirgiannis.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)">
             <clusteringFunction class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
-            <dataSetBuilder idref="wine" />
+            <dataTableBuilder idref="wine" />
         </problem>
         <problem id="wine.maulik.bandyopadhyay.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)">
             <clusteringFunction class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
-            <dataSetBuilder idref="wine" />
+            <dataTableBuilder idref="wine" />
         </problem>
         <problem id="wine.turi.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)">
             <clusteringFunction class="functions.clustering.validityindices.TuriIndex" />
-            <dataSetBuilder idref="wine" />
+            <dataTableBuilder idref="wine" />
         </problem>
         <problem id="wine.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
-            <dataSetBuilder idref="wine" />
+            <dataTableBuilder idref="wine" />
         </problem>
 
         <problem id="artificial.kharmonic.means" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.KHarmonicMeansFunction" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.non.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.aggregated.NonParametricClusteringFunction" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.parametric" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.aggregated.ParametricClusteringFunction" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.parametric.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.aggregated.ParametricWithQuantisationErrorFunction" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.quantisation.error" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.QuantisationErrorFunction" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.davies.bouldin.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.DaviesBouldinIndex" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.halkidi.vazirgiannis.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.maulik.bandyopadhyay.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.turi.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.TuriIndex" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
-            <dataSetBuilder idref="artificial" />
+            <dataTableBuilder idref="artificial" />
         </problem>
     </problems>
 

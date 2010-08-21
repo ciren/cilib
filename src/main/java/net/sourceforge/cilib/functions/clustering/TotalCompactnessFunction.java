@@ -22,10 +22,11 @@
 package net.sourceforge.cilib.functions.clustering;
 
 import java.util.ArrayList;
-import java.util.Set;
 
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -49,14 +50,14 @@ public class TotalCompactnessFunction extends ClusteringErrorFunction {
      * @return the total compactness of the given clusters
      */
     @Override
-    public Double apply(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
         double compactness = 0.0;
 
-        for (Cluster<Vector> cluster : clusters) {
+        for (Cluster cluster : clusters) {
             Vector center = this.clusterCenterStrategy.getCenter(cluster);
 
-            for (Pattern<Vector> pattern : cluster) {
-                compactness += distanceMeasure.distance(pattern.getData(), center);
+            for (StandardPattern pattern : cluster) {
+                compactness += distanceMeasure.distance(pattern.getVector(), center);
             }
         }
         return compactness;

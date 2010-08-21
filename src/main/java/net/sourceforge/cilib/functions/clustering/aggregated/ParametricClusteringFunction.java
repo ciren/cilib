@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.functions.clustering.aggregated;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -32,8 +31,10 @@ import net.sourceforge.cilib.functions.clustering.MaximumAverageDistanceFunction
 import net.sourceforge.cilib.functions.clustering.MinimumSeparationFunction;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCentroidStrategy;
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -68,10 +69,10 @@ public class ParametricClusteringFunction extends ClusteringErrorFunction {
     }
 
     @Override
-    public Double apply(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
 //        Preconditions.checkState(this.getW1() + this.getW2() == 1.0, "The sum of w1 and w2 must equal 1.0");
 
-        return (this.getW1() * this.maximumAverageDistance.apply(clusters, patterns, distanceMeasure, dataSetMean, dataSetVariance, zMax)) + (getW2() * (zMax - this.minimumSeparation.apply(clusters, patterns, distanceMeasure, dataSetMean, dataSetVariance, zMax)));
+        return (this.getW1() * this.maximumAverageDistance.apply(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax)) + (getW2() * (zMax - this.minimumSeparation.apply(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax)));
     }
 
     /**

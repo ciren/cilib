@@ -21,9 +21,10 @@
  */
 package net.sourceforge.cilib.functions.clustering.clustercenterstrategies;
 
-import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.StringType;
+import net.sourceforge.cilib.type.types.container.Cluster;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -36,13 +37,13 @@ import static org.hamcrest.Matchers.equalTo;
  */
 public class ClusterCentroidStrategyTest {
 
-    private static ClusterCenterStrategy<Vector> centerStrategy;
-    private static Cluster<Vector> cluster;
+    private static ClusterCenterStrategy centerStrategy;
+    private static Cluster cluster;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        centerStrategy = new ClusterCentroidStrategy<Vector>();
-        cluster = new Cluster<Vector>(Vector.of(1.0, 2.0, 3.0));
+        centerStrategy = new ClusterCentroidStrategy();
+        cluster = new Cluster(Vector.of(1.0, 2.0, 3.0));
     }
 
     @AfterClass
@@ -53,11 +54,11 @@ public class ClusterCentroidStrategyTest {
     @Test
     public void testGetCenter() {
         assertThat(centerStrategy.getCenter(cluster), equalTo(Vector.of(1.0, 2.0, 3.0)));
-        cluster.add(new Pattern<Vector>(Vector.of(1.0, 2.0, 3.0), "one"));
+        cluster.add(new StandardPattern(Vector.of(1.0, 2.0, 3.0), new StringType("one")));
         assertThat(centerStrategy.getCenter(cluster), equalTo(Vector.of(1.0, 2.0, 3.0)));
-        cluster.add(new Pattern<Vector>(Vector.of(2.0, 3.0, 4.0), "two"));
+        cluster.add(new StandardPattern(Vector.of(2.0, 3.0, 4.0), new StringType("two")));
         assertThat(centerStrategy.getCenter(cluster), equalTo(Vector.of(1.0, 2.0, 3.0)));
-        cluster.add(new Pattern<Vector>(Vector.of(3.0, 4.0, 5.0), "three"));
+        cluster.add(new StandardPattern(Vector.of(3.0, 4.0, 5.0), new StringType("three")));
         assertThat(centerStrategy.getCenter(cluster), equalTo(Vector.of(1.0, 2.0, 3.0)));
     }
 }

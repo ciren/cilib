@@ -22,16 +22,16 @@
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunctionTests;
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
-import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
-import org.junit.Test;
 
+import org.junit.Test;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.number.IsCloseTo.closeTo;
 
@@ -44,9 +44,9 @@ public class DaviesBouldinIndexTest {
     public void testApply() {
         ClusteringFunction function = new DaviesBouldinIndex();
         DistanceMeasure distanceMeasure = ClusteringFunctionTests.getDistanceMeasure();
-        Set<Pattern<Vector>> patterns = ClusteringFunctionTests.getPatterns();
-        ArrayList<Cluster<Vector>> clusters = ClusteringFunctionTests.getClusters();
+        DataTable<StandardPattern, TypeList> dataTable = ClusteringFunctionTests.getDataTable();
+        ArrayList<Cluster> clusters = ClusteringFunctionTests.getClusters();
 
-        assertThat(function.apply(clusters, patterns, distanceMeasure, null, 0.0, 0.0), closeTo(0.276567309747911, ClusteringFunctionTests.EPSILON));
+        assertThat(function.apply(clusters, dataTable, distanceMeasure, null, 0.0, 0.0), closeTo(0.276567309747911, ClusteringFunctionTests.EPSILON));
     }
 }

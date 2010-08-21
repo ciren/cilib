@@ -29,7 +29,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Theuns Cloete
  */
-public class ClusterCentroidStrategy<C extends Vector> implements ClusterCenterStrategy<C> {
+public class ClusterCentroidStrategy implements ClusterCenterStrategy {
     private static final long serialVersionUID = -7831635507079248268L;
 
     public ClusterCentroidStrategy() {
@@ -41,7 +41,7 @@ public class ClusterCentroidStrategy<C extends Vector> implements ClusterCenterS
      * @return the centroid of the provided {@link Cluster}
      */
     @Override
-    public C getCenter(Cluster<C> cluster) {
+    public Vector getCenter(Cluster cluster) {
         return cluster.getCentroid();
     }
 }

@@ -24,7 +24,6 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
 import com.google.common.base.Preconditions;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import net.sourceforge.cilib.functions.clustering.ClusteringErrorFunction;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
@@ -32,8 +31,10 @@ import net.sourceforge.cilib.functions.clustering.MaximumSeparationFunction;
 import net.sourceforge.cilib.functions.clustering.TotalCompactnessFunction;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCentroidStrategy;
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -62,8 +63,8 @@ public class MaulikBandyopadhyayIndex extends ClusteringErrorFunction {
     }
 
     @Override
-    public Double apply(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
-        return Math.pow(this.termOne(clusters.size()) * this.termTwo(clusters, patterns, distanceMeasure, dataSetMean, dataSetVariance, zMax) * this.termThree(clusters, patterns, distanceMeasure, dataSetMean, dataSetVariance, zMax), this.p);
+    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+        return Math.pow(this.termOne(clusters.size()) * this.termTwo(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax) * this.termThree(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax), this.p);
     }
 
     private double termOne(int clustersFormed) {
@@ -74,20 +75,20 @@ public class MaulikBandyopadhyayIndex extends ClusteringErrorFunction {
      * E_1 refers to the intra-cluster distance when the dataset is clustered using only one cluster. In this case, the
      * data set mean can be thought of as the data set's centroid.
      */
-    private double termTwo(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+    private double termTwo(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
         // This is the normalizing factor, E_1 which they talk about in the article.
         double intraDatasetDistance = 0.0;
 
 
-        for (Pattern<Vector> pattern : patterns) {
-            intraDatasetDistance += distanceMeasure.distance(pattern.getData(), dataSetMean);
+        for (StandardPattern pattern : dataTable) {
+            intraDatasetDistance += distanceMeasure.distance(pattern.getVector(), dataSetMean);
         }
 
-        return intraDatasetDistance / this.totalCompactness.apply(clusters, patterns, distanceMeasure, dataSetMean, dataSetVariance, zMax);
+        return intraDatasetDistance / this.totalCompactness.apply(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax);
     }
 
-    private double termThree(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
-        return this.maximumSeparation.apply(clusters, patterns, distanceMeasure, dataSetMean, dataSetVariance, zMax);
+    private double termThree(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+        return this.maximumSeparation.apply(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax);
     }
 
     public void setP(int p) {

@@ -22,12 +22,13 @@
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import net.sourceforge.cilib.functions.clustering.ClusteringErrorFunction;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -54,7 +55,7 @@ public class HalkidiVazirgiannisIndex extends ClusteringErrorFunction {
     }
 
     @Override
-    public Double apply(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
         return this.calculateWithinClusterScatter(clusters, dataSetVariance) + this.calculateBetweenClusterSeperation(clusters, distanceMeasure);
     }
 
@@ -63,13 +64,13 @@ public class HalkidiVazirgiannisIndex extends ClusteringErrorFunction {
      * is calculated using the specific cluster's center as determined by the {@link ClusterCenterStrategy}.
      * @return the within-cluster-scatter for the specific clustering
      */
-    private double calculateWithinClusterScatter(ArrayList<Cluster<Vector>> clusters, double dataSetVariance) {
+    private double calculateWithinClusterScatter(ArrayList<Cluster> clusters, double dataSetVariance) {
         double scattering = 0.0;
         int clustersFormed = clusters.size();
 
         this.stdev = 0.0;
 
-        for (Cluster<Vector> cluster : clusters) {
+        for (Cluster cluster : clusters) {
             double clusterVariance = cluster.getVariance(this.clusterCenterStrategy.getCenter(cluster));
 
             scattering += clusterVariance;
@@ -85,35 +86,35 @@ public class HalkidiVazirgiannisIndex extends ClusteringErrorFunction {
      * Calculate the distances between cluster separation.
      * @return The distance between cluster separation.
      */
-    private double calculateBetweenClusterSeperation(ArrayList<Cluster<Vector>> clusters, DistanceMeasure distanceMeasure) {
+    private double calculateBetweenClusterSeperation(ArrayList<Cluster> clusters, DistanceMeasure distanceMeasure) {
         int clustersFormed = clusters.size();
         double density = 0.0;
 
-        for (Cluster<Vector> leftCluster : clusters) {
+        for (Cluster leftCluster : clusters) {
             Vector leftCenter = this.clusterCenterStrategy.getCenter(leftCluster);
 
-            for (Cluster<Vector> rightCluster : clusters) {
+            for (Cluster rightCluster : clusters) {
                 if (leftCluster != rightCluster) {
                     int midDensity = 0, leftDensity = 0, rightDensity = 0;
                     Vector rightCenter = this.clusterCenterStrategy.getCenter(rightCluster);
                     Vector midPoint = leftCenter.plus(rightCenter).divide(2.0);
 
-                    for (Pattern<Vector> pattern : leftCluster) {
-                        if (distanceMeasure.distance(pattern.getData(), midPoint) <= stdev) {
+                    for (StandardPattern pattern : leftCluster) {
+                        if (distanceMeasure.distance(pattern.getVector(), midPoint) <= stdev) {
                             ++midDensity;
                         }
 
-                        if (distanceMeasure.distance(pattern.getData(), leftCenter) <= stdev) {
+                        if (distanceMeasure.distance(pattern.getVector(), leftCenter) <= stdev) {
                             ++leftDensity;
                         }
                     }
 
-                    for (Pattern<Vector> pattern : rightCluster) {
-                        if (distanceMeasure.distance(pattern.getData(), midPoint) <= stdev) {
+                    for (StandardPattern pattern : rightCluster) {
+                        if (distanceMeasure.distance(pattern.getVector(), midPoint) <= stdev) {
                             ++midDensity;
                         }
 
-                        if (distanceMeasure.distance(pattern.getData(), rightCenter) <= stdev) {
+                        if (distanceMeasure.distance(pattern.getVector(), rightCenter) <= stdev) {
                             ++rightDensity;
                         }
                     }

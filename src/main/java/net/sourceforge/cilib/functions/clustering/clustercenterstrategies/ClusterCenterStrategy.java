@@ -32,11 +32,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * refers to a cluster's {@link ClusterMeanStrategy mean}.
  * @author Theuns Cloete
  */
-public interface ClusterCenterStrategy<C extends Vector> extends Serializable {
+public interface ClusterCenterStrategy extends Serializable {
     /**
      * Sub-classes should implement this method to return the desired center of the given cluster.
      * @param cluster the cluster whose center should be returned
      * @return a {@link Vector} representing the center of the given {@link Cluster}
      */
-    C getCenter(Cluster<C> cluster);
+    Vector getCenter(Cluster cluster);
 }

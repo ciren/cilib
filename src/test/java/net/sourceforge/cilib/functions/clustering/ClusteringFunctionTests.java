@@ -22,13 +22,15 @@
 package net.sourceforge.cilib.functions.clustering;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
-import java.util.Set;
 
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.StandardPatternDataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -57,41 +59,43 @@ public final class ClusteringFunctionTests {
         return centroids;
     }
 
-    public static ArrayList<Cluster<Vector>> getClusters() {
-        ArrayList<Cluster<Vector>> clusters = Lists.newArrayList();
-        Cluster<Vector> cluster = new Cluster<Vector>(Vector.of(0, 0));
+    public static ArrayList<Cluster> getClusters() {
+        ArrayList<Cluster> clusters = Lists.newArrayList();
+        Cluster cluster = new Cluster(Vector.of(0, 0));
 
-        cluster.add(new Pattern<Vector>(Vector.of(1, 1), "1"));
+        cluster.add(new StandardPattern(Vector.of(1, 1), new StringType("1")));
         clusters.add(cluster);
 
-        cluster = new Cluster<Vector>(Vector.of(10, 0));
-        cluster.add(new Pattern<Vector>(Vector.of(9, 0), "2"));
-        cluster.add(new Pattern<Vector>(Vector.of(10, 1), "2"));
+        cluster = new Cluster(Vector.of(10, 0));
+        cluster.add(new StandardPattern(Vector.of(9, 0), new StringType("2")));
+        cluster.add(new StandardPattern(Vector.of(10, 1), new StringType("2")));
         clusters.add(cluster);
 
-        cluster = new Cluster<Vector>(Vector.of(10, 10));
-        cluster.add(new Pattern<Vector>(Vector.of(9, 9), "3"));
-        cluster.add(new Pattern<Vector>(Vector.of(10, 9), "3"));
-        cluster.add(new Pattern<Vector>(Vector.of(9, 10), "3"));
+        cluster = new Cluster(Vector.of(10, 10));
+        cluster.add(new StandardPattern(Vector.of(9, 9), new StringType("3")));
+        cluster.add(new StandardPattern(Vector.of(10, 9), new StringType("3")));
+        cluster.add(new StandardPattern(Vector.of(9, 10), new StringType("3")));
         clusters.add(cluster);
 
-        cluster = new Cluster<Vector>(Vector.of(0, 10));
-        cluster.add(new Pattern<Vector>(Vector.of(2, 8), "4"));
-        cluster.add(new Pattern<Vector>(Vector.of(0, 9), "4"));
-        cluster.add(new Pattern<Vector>(Vector.of(1, 9), "4"));
-        cluster.add(new Pattern<Vector>(Vector.of(1, 10), "4"));
+        cluster = new Cluster(Vector.of(0, 10));
+        cluster.add(new StandardPattern(Vector.of(2, 8), new StringType("4")));
+        cluster.add(new StandardPattern(Vector.of(0, 9), new StringType("4")));
+        cluster.add(new StandardPattern(Vector.of(1, 9), new StringType("4")));
+        cluster.add(new StandardPattern(Vector.of(1, 10), new StringType("4")));
         clusters.add(cluster);
 
         return clusters;
     }
 
-    public static Set<Pattern<Vector>> getPatterns() {
-        Set<Pattern<Vector>> patterns = Sets.newHashSet();
+    public static DataTable<StandardPattern, TypeList> getDataTable() {
+        DataTable<StandardPattern, TypeList> dataTable = new StandardPatternDataTable();
 
-        for (Cluster<Vector> cluster : ClusteringFunctionTests.getClusters()) {
-            patterns.addAll(cluster);
+        for (Cluster cluster : ClusteringFunctionTests.getClusters()) {
+            for (StandardPattern pattern : cluster) {
+                dataTable.addRow(pattern);
+            }
         }
-        return patterns;
+        return dataTable;
     }
 
     public static DistanceMeasure getDistanceMeasure() {
@@ -103,9 +107,6 @@ public final class ClusteringFunctionTests {
     }
 
     public static double getDataSetVariance() {
-//        System.out.println(Stats.variance(getPatterns(), getDataSetMean()));
-//        System.out.println(23.6784269747802);
-
         return 23.6784269747802;
     }
 }

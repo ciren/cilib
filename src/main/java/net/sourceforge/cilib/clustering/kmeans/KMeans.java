@@ -24,17 +24,17 @@ package net.sourceforge.cilib.clustering.kmeans;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.SingularAlgorithm;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.clustering.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.calculator.FitnessCalculator;
@@ -109,13 +109,12 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
     @Override
     public void performInitialisation() {
         ClusteringProblem problem = (ClusteringProblem) this.getOptimisationProblem();
-        StaticDataSetBuilder dataSetBuilder = (StaticDataSetBuilder) problem.getDataSetBuilder();
-        Set<Pattern<Vector>> patterns = dataSetBuilder.getPatterns();
+        DataTable<StandardPattern, TypeList> dataTable = problem.getDataTable();
         DomainRegistry standardDomain = problem.getDomainRegistry();
         DistanceMeasure distanceMeasure = problem.getDistanceMeasure();
         int numberOfClusters = problem.getNumberOfClusters();
 
-        this.centroids = this.centroidsInitialisationStrategy.initialise(patterns, standardDomain, distanceMeasure, numberOfClusters);
+        this.centroids = this.centroidsInitialisationStrategy.initialise(dataTable, standardDomain, distanceMeasure, numberOfClusters);
         this.centroidsDiversificationStrategy.initialise(this.centroids);
     }
 
@@ -128,21 +127,20 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
         calculator.getFitness(ClusteringFunctions.assembleCentroids(this.centroids));
 
         ClusteringProblem problem = (ClusteringProblem) this.getOptimisationProblem();
-        StaticDataSetBuilder dataSetBuilder = (StaticDataSetBuilder) problem.getDataSetBuilder();
-        Set<Pattern<Vector>> patterns = dataSetBuilder.getPatterns();
+        DataTable<StandardPattern, TypeList> dataTable = problem.getDataTable();
         DomainRegistry standardDomain = problem.getDomainRegistry();
         DistanceMeasure distanceMeasure = problem.getDistanceMeasure();
         int numberOfClusters = problem.getNumberOfClusters();
-        ArrayList<Cluster<Vector>> clusters = ClusteringFunctions.cluster(centroids, patterns, distanceMeasure, numberOfClusters);
+        ArrayList<Cluster> clusters = ClusteringFunctions.cluster(centroids, dataTable, distanceMeasure, numberOfClusters);
 
         for (int i = 0; i < clusters.size(); ++i) {
-            Cluster<Vector> cluster = clusters.get(i);
+            Cluster cluster = clusters.get(i);
             Vector centroid = null;
 
             // TODO: I don't know if this if-else is part of the original KMeans algorithm
             if (cluster.isEmpty()) {
                 // reinitialise the centroid if no patterns "belong" to it
-                centroid = this.centroidsInitialisationStrategy.reinitialise(centroids, patterns, standardDomain, distanceMeasure, i); // might return unbounded Vector
+                centroid = this.centroidsInitialisationStrategy.reinitialise(centroids, dataTable, standardDomain, distanceMeasure, i); // might return unbounded Vector
             }
             else {
                 // the centroid becomes the mean of the cluster

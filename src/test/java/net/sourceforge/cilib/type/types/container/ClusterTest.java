@@ -21,6 +21,10 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
+import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.type.types.StringType;
+import net.sourceforge.cilib.util.Vectors;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -36,14 +40,15 @@ import static org.hamcrest.Matchers.hasItems;
  */
 public class ClusterTest {
 
-    private static Cluster<Vector> cluster;
+    private static Cluster cluster;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        cluster = new Cluster<Vector>(Vector.of(2, 3, 4));
-        cluster.add(new Pattern<Vector>(Vector.of(1, 2, 3), "Class1"));
-        cluster.add(new Pattern<Vector>(Vector.of(2, 3, 4), "Class2"));
-        cluster.add(new Pattern<Vector>(Vector.of(3, 4, 5), "Class3"));
+        cluster = new Cluster();
+        cluster.setCentroid(Vector.of(2, 3, 4));
+        cluster.add(new StandardPattern(Vector.of(1, 2, 3), new StringType("Class1")));
+        cluster.add(new StandardPattern(Vector.of(2, 3, 4), new StringType("Class2")));
+        cluster.add(new StandardPattern(Vector.of(3, 4, 5), new StringType("Class3")));
     }
 
     @AfterClass
@@ -53,13 +58,13 @@ public class ClusterTest {
 
     @Test
     public void testGetClone() {
-        Cluster<Vector> clone = cluster.getClone();
+        Cluster clone = cluster.getClone();
 
         assertThat(cluster, not(sameInstance(clone)));
         assertThat(cluster.getCentroid(), equalTo(clone.getCentroid()));
         assertThat(cluster.getCentroid(), not(sameInstance(clone.getCentroid())));
 
-        assertThat(clone, hasItems((Pattern<Vector> []) cluster.toArray(new Pattern [] {})));
+        assertThat(clone, hasItems((StandardPattern []) cluster.toArray(new StandardPattern [] {})));
     }
 
     @Test

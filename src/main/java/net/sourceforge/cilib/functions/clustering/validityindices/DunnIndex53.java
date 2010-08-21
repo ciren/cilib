@@ -22,8 +22,8 @@
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterMeanStrategy;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -46,17 +46,17 @@ public class DunnIndex53 extends DunnIndex33 {
      * This method implements Equation 24 in the above-mentioned article.
      */
     @Override
-    protected double calculateClusterSeperation(DistanceMeasure distanceMeasure, Cluster<Vector> lhs, Cluster<Vector> rhs) {
+    protected double calculateClusterSeperation(DistanceMeasure distanceMeasure, Cluster lhs, Cluster rhs) {
         double lhsSum = 0.0, rhsSum = 0.0;
         Vector lhsCenter = this.clusterCenterStrategy.getCenter(lhs);
         Vector rhsCenter = this.clusterCenterStrategy.getCenter(rhs);
 
-        for (Pattern<Vector> pattern : lhs) {
-            lhsSum += distanceMeasure.distance(pattern.getData(), rhsCenter);
+        for (StandardPattern pattern : lhs) {
+            lhsSum += distanceMeasure.distance(pattern.getVector(), rhsCenter);
         }
 
-        for (Pattern<Vector> pattern : rhs) {
-            rhsSum += distanceMeasure.distance(pattern.getData(), lhsCenter);
+        for (StandardPattern pattern : rhs) {
+            rhsSum += distanceMeasure.distance(pattern.getVector(), lhsCenter);
         }
 
         return (lhsSum + rhsSum) / (lhs.size() + rhs.size());

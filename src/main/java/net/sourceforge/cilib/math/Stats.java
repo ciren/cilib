@@ -28,8 +28,11 @@ import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.Set;
 
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
@@ -74,15 +77,24 @@ public final class Stats {
      * @param set a set ({@link ArrayList}) of {@link Pattern}s
      * @return a {@link Vector} that represents the mean/center of the given set
      */
-    public static <C extends Vector> C meanVector(Set<Pattern<C>> set) {
+    public static Vector meanVector(Set<StandardPattern> set) {
         Preconditions.checkState(!set.isEmpty(), "Cannot calculate the mean for an empty set");
+        Vector mean = Vectors.zeroVector(Iterables.get(set, 0).getVector());
 
-        C mean = (C) Vectors.zeroVector(Iterables.get(set, 0).getData());
-
-        for (Pattern<C> pattern : set) {
-            mean = (C) mean.plus(pattern.getData());
+        for (StandardPattern pattern : set) {
+            mean = mean.plus(pattern.getVector());
         }
-        return (C) mean.divide(set.size());
+        return mean.divide(set.size());
+    }
+
+    public static Vector meanVector(DataTable<StandardPattern, TypeList> dataTable) {
+        Preconditions.checkState(dataTable.size() != 0, "Cannot calculate the mean for an empty data table");
+        Vector mean = Vectors.zeroVector(dataTable.getRow(0).getVector());
+
+        for (StandardPattern pattern : dataTable) {
+            mean = mean.plus(pattern.getVector());
+        }
+        return mean.divide(dataTable.size());
     }
 
     /**
@@ -114,8 +126,12 @@ public final class Stats {
      * @param center a {@link Vector} that represents the mean/center of the accompanied set
      * @return a double representing the variance of the given set with the given center
      */
-    public static <C extends Vector> double variance(Set<Pattern<C>> set, C center) {
+    public static double variance(Set<StandardPattern> set, Vector center) {
         return varianceVector(set, center).norm();
+    }
+
+    public static double variance(DataTable<StandardPattern, TypeList> dataTable, Vector center) {
+        return varianceVector(dataTable, center).norm();
     }
 
     /**
@@ -126,22 +142,38 @@ public final class Stats {
      * @return a {@link Vector} representing the variance vector of the given set with the given center. When the norm
      *         of this vector is taken, you will get the actual variance scalar of the given set with given center.
      */
-    public static <C extends Vector> C varianceVector(Set<Pattern<C>> set, C center) {
+    public static Vector varianceVector(Set<StandardPattern> set, Vector center) {
         Preconditions.checkState(!set.isEmpty(), "Cannot calculate the variance for an empty set");
+        Vector variance = Vectors.zeroVector(center);
 
-        C variance = (C) Vectors.zeroVector(center);
-
-        for (Pattern<C> pattern : set) {
-            C diffSquare = (C) Vectors.transform(pattern.getData().subtract(center), new Function<Numeric, Double>() {
+        for (StandardPattern pattern : set) {
+            Vector diffSquare = Vectors.transform(pattern.getVector().subtract(center), new Function<Numeric, Double>() {
                 @Override
                 public Double apply(Numeric from) {
                     return from.doubleValue() * from.doubleValue();
                 }
             });
 
-            variance = (C) variance.plus(diffSquare);
+            variance = variance.plus(diffSquare);
         }
-        return (C) variance.divide(set.size());
+        return variance.divide(set.size());
+    }
+
+    public static Vector varianceVector(DataTable<StandardPattern, TypeList> dataTable, Vector center) {
+        Preconditions.checkState(dataTable.size() != 0, "Cannot calculate the variance for an empty data table");
+        Vector variance = Vectors.zeroVector(center);
+
+        for (StandardPattern pattern : dataTable) {
+            Vector diffSquare = Vectors.transform(pattern.getVector().subtract(center), new Function<Numeric, Double>() {
+                @Override
+                public Double apply(Numeric from) {
+                    return from.doubleValue() * from.doubleValue();
+                }
+            });
+
+            variance = variance.plus(diffSquare);
+        }
+        return variance.divide(dataTable.size());
     }
 
     /**
@@ -158,14 +190,14 @@ public final class Stats {
         return Math.sqrt(variance(Vector.of(values)));
     }
 
-    public static <C extends Vector> double stdDeviation(Set<Pattern<C>> set, C center) {
+    public static double stdDeviation(Set<StandardPattern> set, Vector center) {
         return Math.sqrt(variance(set, center));
     }
 
-    public static <C extends Vector> C stdDeviationVector(Set<Pattern<C>> set, C center) {
-        C variance = varianceVector(set, center);
+    public static Vector stdDeviationVector(Set<StandardPattern> set, Vector center) {
+        Vector variance = varianceVector(set, center);
 
-        return (C) Vectors.transform(variance, new Function<Numeric, Double>() {
+        return Vectors.transform(variance, new Function<Numeric, Double>() {
             @Override
             public Double apply(Numeric from) {
                 return Math.sqrt(from.doubleValue());

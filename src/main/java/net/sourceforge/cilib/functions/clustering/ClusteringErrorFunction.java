@@ -67,7 +67,7 @@ public abstract class ClusteringErrorFunction implements ClusteringFunction {
      * @return the clustering error that has been calculated
      */
     @Override
-    public Double apply(ArrayList<Cluster<Vector>> centroids) {
+    public Double apply(ArrayList<Cluster> centroids) {
 /*
         ClusteringProblem clusteringProblem = ClusteringFunctions.getClusteringProblem();
         StaticDataSetBuilder dataSetBuilder = (StaticDataSetBuilder) clusteringProblem.getDataSetBuilder();

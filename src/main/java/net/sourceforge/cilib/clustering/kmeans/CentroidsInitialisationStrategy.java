@@ -24,12 +24,12 @@ package net.sourceforge.cilib.clustering.kmeans;
 import java.io.Serializable;
 
 import java.util.ArrayList;
-import java.util.Set;
 
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.problem.clustering.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 import net.sourceforge.cilib.util.DistanceMeasure;
@@ -64,7 +64,7 @@ public interface CentroidsInitialisationStrategy extends Serializable, Cloneable
      * @param dataset the {@link StaticDataSetBuilder} currently being clustered
      * @return an {@link ArrayList} of {@link Vector}s that represent all the centroids
      */
-    public abstract ArrayList<Vector> initialise(Set<Pattern<Vector>> patterns, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids);
+    public abstract ArrayList<Vector> initialise(DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids);
 
     /**
      * Reinitialise the specified centroid (residing in the given list of centroids) and return it.
@@ -76,5 +76,5 @@ public interface CentroidsInitialisationStrategy extends Serializable, Cloneable
      * @param which The index of the centroid that should be reinitialised.
      * @return the reinitialised centroid for convenience
      */
-    public abstract Vector reinitialise(ArrayList<Vector> centroids, Set<Pattern<Vector>> patterns, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which);
+    public abstract Vector reinitialise(ArrayList<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which);
 }

@@ -28,11 +28,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.problem.clustering.ClusteringProblem;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -87,23 +90,23 @@ public final class ClusteringFunctions {
      * @param numberOfClusters the number of clusters that are desired
      * @return a list of {@link Cluster clusters}
      */
-    public static ArrayList<Cluster<Vector>> cluster(ArrayList<Vector> centroids, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, int numberOfClusters) {
-        ArrayList<Cluster<Vector>> clusters = new ArrayList<Cluster<Vector>>(numberOfClusters);
+    public static ArrayList<Cluster> cluster(ArrayList<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, int numberOfClusters) {
+        ArrayList<Cluster> clusters = new ArrayList<Cluster>(numberOfClusters);
 
         for (Vector centroid : centroids) {
-            clusters.add(new Cluster<Vector>(centroid));
+            clusters.add(new Cluster(centroid));
         }
 
-        for (Pattern<Vector> pattern : patterns) {
+        for (StandardPattern pattern : dataTable) {
             double minimum = Double.MAX_VALUE;
 
-            for (Cluster<Vector> cluster : clusters) {
-                double distance = distanceMeasure.distance(pattern.getData(), cluster.getCentroid());
+            for (Cluster cluster : clusters) {
+                double distance = distanceMeasure.distance(pattern.getVector(), cluster.getCentroid());
 
                 if (distance < minimum) {
                     minimum = distance;
 
-                    for (Cluster<Vector> other : clusters) {
+                    for (Cluster other : clusters) {
                         // a cluster is a set and can therefore contain the pattern only once
                         if (other.remove(pattern)) {
                             break;  // only one cluster can contain the pattern
@@ -195,10 +198,10 @@ public final class ClusteringFunctions {
      * @param clusters a list containing clusters, whether significant or not
      * @return an {@link ArrayList} of significant (non-empty) {@link Cluster clusters}.
      */
-    public static ArrayList<Cluster<Vector>> significantClusters(ArrayList<Cluster<Vector>> clusters) {
-        ArrayList<Cluster<Vector>> significantClusters = Lists.newArrayList();
+    public static ArrayList<Cluster> significantClusters(ArrayList<Cluster> clusters) {
+        ArrayList<Cluster> significantClusters = Lists.newArrayList();
 
-        for (Cluster<Vector> cluster : clusters) {
+        for (Cluster cluster : clusters) {
             if (!cluster.isEmpty()) {
                 significantClusters.add(cluster);
             }
@@ -206,8 +209,8 @@ public final class ClusteringFunctions {
         return significantClusters;
     }
 
-    public static boolean isValidClustering(ArrayList<Cluster<Vector>> clusters) {
-        for (Cluster<Vector> cluster : clusters) {
+    public static boolean isValidClustering(ArrayList<Cluster> clusters) {
+        for (Cluster cluster : clusters) {
             if (cluster.isEmpty()) {
                 return false;
             }
@@ -223,14 +226,14 @@ public final class ClusteringFunctions {
      * @param cluster the {@link Cluster} for which the diameter should be calculated
      * @return the diameter of the given cluster.
      */
-    public static double clusterDiameter(DistanceMeasure distanceMeasure, Cluster<Vector> cluster) {
+    public static double clusterDiameter(DistanceMeasure distanceMeasure, Cluster cluster) {
         double diameter = 0.0;
 
         // these loops result in Big-O n (n - 1) but it can be Big-O (n (n - 1)) / 2
-        for (Pattern<Vector> leftPattern : cluster) {
-            for (Pattern<Vector> rightPattern : cluster) {
+        for (StandardPattern leftPattern : cluster) {
+            for (StandardPattern rightPattern : cluster) {
                 if (leftPattern != rightPattern) {
-                    diameter = Math.max(diameter, distanceMeasure.distance(leftPattern.getData(), rightPattern.getData()));
+                    diameter = Math.max(diameter, distanceMeasure.distance(leftPattern.getVector(), rightPattern.getVector()));
                 }
             }
         }
@@ -249,12 +252,12 @@ public final class ClusteringFunctions {
      * @param rhs the RHS cluster
      * @return the average distance between the patterns of the two clusters
      */
-    public static double averageClusterDistance(DistanceMeasure distanceMeasure, Cluster<Vector> lhs, Cluster<Vector> rhs) {
+    public static double averageClusterDistance(DistanceMeasure distanceMeasure, Cluster lhs, Cluster rhs) {
         double distance = 0.0;
 
-        for (Pattern<Vector> leftPattern : lhs) {
-            for (Pattern<Vector> rightPattern : rhs) {
-                distance += distanceMeasure.distance(leftPattern.getData(), rightPattern.getData());
+        for (StandardPattern leftPattern : lhs) {
+            for (StandardPattern rightPattern : rhs) {
+                distance += distanceMeasure.distance(leftPattern.getVector(), rightPattern.getVector());
             }
         }
         return distance / (lhs.size() * rhs.size());
@@ -272,12 +275,12 @@ public final class ClusteringFunctions {
      * @param rhs the RHS cluster
      * @return the longest distance between the patterns of the two clusters
      */
-    public static double maximumClusterDistance(DistanceMeasure distanceMeasure, Cluster<Vector> lhs, Cluster<Vector> rhs) {
+    public static double maximumClusterDistance(DistanceMeasure distanceMeasure, Cluster lhs, Cluster rhs) {
         double distance = -Double.MAX_VALUE;
 
-        for (Pattern<Vector> leftPattern : lhs) {
-            for (Pattern<Vector> rightPattern : rhs) {
-                distance = Math.max(distance, distanceMeasure.distance(leftPattern.getData(), rightPattern.getData()));
+        for (StandardPattern leftPattern : lhs) {
+            for (StandardPattern rightPattern : rhs) {
+                distance = Math.max(distance, distanceMeasure.distance(leftPattern.getVector(), rightPattern.getVector()));
             }
         }
         return distance;
@@ -295,12 +298,12 @@ public final class ClusteringFunctions {
      * @param rhs the RHS cluster
      * @return the shortest distance between the patterns of the two clusters
      */
-    public static double minimumClusterDistance(DistanceMeasure distanceMeasure, Cluster<Vector> lhs, Cluster<Vector> rhs) {
+    public static double minimumClusterDistance(DistanceMeasure distanceMeasure, Cluster lhs, Cluster rhs) {
         double distance = Double.MAX_VALUE;
 
-        for (Pattern<Vector> leftPattern : lhs) {
-            for (Pattern<Vector> rightPattern : rhs) {
-                distance = Math.min(distance, distanceMeasure.distance(leftPattern.getData(), rightPattern.getData()));
+        for (StandardPattern leftPattern : lhs) {
+            for (StandardPattern rightPattern : rhs) {
+                distance = Math.min(distance, distanceMeasure.distance(leftPattern.getVector(), rightPattern.getVector()));
             }
         }
         return distance;

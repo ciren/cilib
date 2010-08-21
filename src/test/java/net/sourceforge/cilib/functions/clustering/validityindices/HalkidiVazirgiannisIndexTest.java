@@ -22,13 +22,13 @@
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunctionTests;
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
-import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
 import org.junit.Test;
@@ -44,13 +44,13 @@ public class HalkidiVazirgiannisIndexTest {
     public void testApply() {
         ClusteringFunction function = new HalkidiVazirgiannisIndex();
         DistanceMeasure distanceMeasure = ClusteringFunctionTests.getDistanceMeasure();
-        Set<Pattern<Vector>> patterns = ClusteringFunctionTests.getPatterns();
-        ArrayList<Cluster<Vector>> clusters = ClusteringFunctionTests.getClusters();
+        DataTable<StandardPattern, TypeList> dataTable = ClusteringFunctionTests.getDataTable();
+        ArrayList<Cluster> clusters = ClusteringFunctionTests.getClusters();
         double dataSetVariance = ClusteringFunctionTests.getDataSetVariance();
 
         // stddev = 0.569289564320157
         // withinClusterScatter = 0.0547486720108598
         // betweenClusterSeparation = 0.0 (makes sense, because the clusters are not very dense)
-        assertThat(function.apply(clusters, patterns, distanceMeasure, null, dataSetVariance, 0.0), closeTo(0.0547486720108598, ClusteringFunctionTests.EPSILON));
+        assertThat(function.apply(clusters, dataTable, distanceMeasure, null, dataSetVariance, 0.0), closeTo(0.0547486720108598, ClusteringFunctionTests.EPSILON));
     }
 }

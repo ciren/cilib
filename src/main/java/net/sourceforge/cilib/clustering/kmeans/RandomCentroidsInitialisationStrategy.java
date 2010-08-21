@@ -24,12 +24,13 @@ package net.sourceforge.cilib.clustering.kmeans;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
-import java.util.Set;
 
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -59,14 +60,13 @@ public class RandomCentroidsInitialisationStrategy implements CentroidsInitialis
      * {@inheritDoc}
      */
     @Override
-    public ArrayList<Vector> initialise(Set<Pattern<Vector>> patterns, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids) {
+    public ArrayList<Vector> initialise(DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids) {
         ArrayList<Vector> centroids = Lists.newArrayList();
+        Vector.Builder centroid = Vector.newBuilder().copyOf(domainRegistry.getBuiltRepresenation());
 
         for (int i = 0; i < numberOfCentroids; ++i) {
-            Vector centroid = (Vector) domainRegistry.getBuiltRepresenation().getClone();
-
-            centroid.randomize(this.randomProvider);
-            centroids.add(centroid);
+            // TODO: pass in RandomProvider
+            centroids.add(centroid.buildRandom());
         }
         return centroids;
     }
@@ -75,11 +75,9 @@ public class RandomCentroidsInitialisationStrategy implements CentroidsInitialis
      * {@inheritDoc}
      */
     @Override
-    public Vector reinitialise(ArrayList<Vector> centroids, Set<Pattern<Vector>> patterns, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which) {
-        Vector reinitialised = centroids.get(which);
-
-        reinitialised.randomize(this.randomProvider);
-        return reinitialised;
+    public Vector reinitialise(ArrayList<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which) {
+        // TODO: pass in RandomProvider
+        return Vector.newBuilder().copyOf(centroids.get(which)).buildRandom();
     }
 
     /**

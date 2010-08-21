@@ -23,15 +23,15 @@ package net.sourceforge.cilib.measurement.single.clustering;
 
 import java.util.ArrayList;
 
-import java.util.Set;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.clustering.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -59,13 +59,12 @@ public class ClusterVariances implements Measurement {
         ClusteringProblem problem = (ClusteringProblem) algorithm.getOptimisationProblem();
         int numberOfClusters = problem.getNumberOfClusters();
         ArrayList<Vector> centroids = ClusteringFunctions.disassembleCentroids((Vector) algorithm.getBestSolution().getPosition(), numberOfClusters);
-        StaticDataSetBuilder dataSetBuilder = (StaticDataSetBuilder) problem.getDataSetBuilder();
-        Set<Pattern<Vector>> patterns = dataSetBuilder.getPatterns();
+        DataTable<StandardPattern, TypeList> dataTable = problem.getDataTable();
         DistanceMeasure distanceMeasure = problem.getDistanceMeasure();
-        ArrayList<Cluster<Vector>> clusters = ClusteringFunctions.cluster(centroids, patterns, distanceMeasure, numberOfClusters);
+        ArrayList<Cluster> clusters = ClusteringFunctions.cluster(centroids, dataTable, distanceMeasure, numberOfClusters);
         Vector.Builder combined = Vector.newBuilder();
 
-        for (Cluster<Vector> cluster : clusters) {
+        for (Cluster cluster : clusters) {
             combined.copyOf(cluster.getVarianceVector(cluster.getCentroid()));
         }
         return combined.build();

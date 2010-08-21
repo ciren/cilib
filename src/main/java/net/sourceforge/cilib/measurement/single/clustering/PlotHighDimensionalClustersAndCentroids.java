@@ -22,18 +22,18 @@
 package net.sourceforge.cilib.measurement.single.clustering;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.clustering.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -66,10 +66,10 @@ public class PlotHighDimensionalClustersAndCentroids implements Measurement {
         ClusteringProblem problem = (ClusteringProblem) algorithm.getOptimisationProblem();
         int numberOfClusters = problem.getNumberOfClusters();
         ArrayList<Vector> centroids = ClusteringFunctions.disassembleCentroids((Vector) algorithm.getBestSolution().getPosition(), numberOfClusters);
-        StaticDataSetBuilder dataSetBuilder = (StaticDataSetBuilder) problem.getDataSetBuilder();
-        Set<Pattern<Vector>> patterns = dataSetBuilder.getPatterns();
+        DataTable<StandardPattern, TypeList> dataTable = problem.getDataTable();
         DistanceMeasure distanceMeasure = problem.getDistanceMeasure();
-        ArrayList<Cluster<Vector>> clusters = ClusteringFunctions.cluster(centroids, patterns, distanceMeasure, numberOfClusters);
+        ArrayList<Cluster> clusters = ClusteringFunctions.cluster(centroids, dataTable, distanceMeasure, numberOfClusters);
+        String clusteringFunction = problem.getClusteringFunction().getClass().getSimpleName();
 
         System.out.println("reset");
         System.out.println("set term jpeg medium");
@@ -78,26 +78,31 @@ public class PlotHighDimensionalClustersAndCentroids implements Measurement {
 
         int iteration = algorithm.getIterations();
 
-        this.plotCentroids(iteration, clusters);
-        this.plotClustersWithCentroids(iteration,clusters);
+        this.plotCentroids(clusteringFunction, iteration, clusters);
+        this.plotClustersWithCentroids(clusteringFunction, iteration,clusters);
 
         return Int.valueOf(0, new Bounds(0, 0));
     }
 
-    private void plotCentroids(int iteration, ArrayList<Cluster<Vector>> clusters) {
+    private void plotCentroids(String clusteringFunction, int iteration, ArrayList<Cluster> clusters) {
         System.out.println("set output \"centroids.all.iteration." + String.format("%04d", iteration) + ".jpg\"");
-        System.out.println("set title 'Iteration " + iteration + ": Centroids (" + clusters.size() + ")'");
+        System.out.println("set title '" + clusteringFunction + ": " + iteration + " iterations'");
         System.out.print("plot ");
 
         for (int i = 0, n = clusters.size(); i < n; ++i) {
-            System.out.print("'-' title 'centroid " + i + "'");
+            System.out.print("'-' title 'centroid " + i + "' linewidth 5");
+
+            if (clusters.get(i).isEmpty()) {
+                System.out.print(" linetype 0");
+            }
+
             if (i < n - 1) {
                 System.out.print(", ");
             }
         }
         System.out.println();
 
-        for (Cluster<Vector> cluster : clusters) {
+        for (Cluster cluster : clusters) {
             Vector centroid = cluster.getCentroid();
 
             for (int i = 0, n = centroid.size(); i < n; ++i) {
@@ -107,26 +112,30 @@ public class PlotHighDimensionalClustersAndCentroids implements Measurement {
         }
     }
 
-    private void plotClustersWithCentroids(int iteration, ArrayList<Cluster<Vector>> clusters) {
+    private void plotClustersWithCentroids(String clusteringFunction, int iteration, ArrayList<Cluster> clusters) {
         for (int i = 0, n = clusters.size(); i < n; ++i) {
-            System.out.println("set output \"cluster." + String.format("%02d", i) + ".iteration."+ String.format("%04d", iteration) + ".jpg\"");
+            Cluster cluster = clusters.get(i);
 
-            plotClusterWithCentroid(iteration, i, clusters.get(i), clusters.get(i).getCentroid());
+            if (!cluster.isEmpty()) {
+                System.out.println("set output \"cluster." + String.format("%02d", i) + ".iteration."+ String.format("%04d", iteration) + ".jpg\"");
+
+                plotClusterWithCentroid(clusteringFunction, iteration, i, cluster, cluster.getCentroid());
+            }
         }
     }
 
-    private void plotClusterWithCentroid(int iteration, int id, Cluster<Vector> cluster, Vector centroid) {
-        System.out.println("set title 'Iteration " + iteration + ": Cluster " + id + " (" + cluster.size() + " patterns)'");
+    private void plotClusterWithCentroid(String clusteringFunction, int iteration, int id, Cluster cluster, Vector centroid) {
+        System.out.println("set title '" + clusteringFunction + ": Cluster " + id + "(" + iteration + " iterations, " + cluster.size() + " patterns)'");
         System.out.print("plot ");
 
-        for (Pattern<Vector> pattern : cluster) {
-            System.out.print("'-' title '" + pattern.getClassification() + "', ");
+        for (StandardPattern pattern : cluster) {
+            System.out.print("'-' title '" + pattern.getTarget() + "', ");
         }
 
         System.out.println("'-' title 'centroid' linetype 1 linewidth 5");
 
-        for (Pattern<Vector> pattern : cluster) {
-            Vector data = pattern.getData();
+        for (StandardPattern pattern : cluster) {
+            Vector data = pattern.getVector();
 
             for (int i = 0, n = data.size(); i < n; ++i) {
                 System.out.println(String.format("%d\t%f", i, data.doubleValueOf(i)));

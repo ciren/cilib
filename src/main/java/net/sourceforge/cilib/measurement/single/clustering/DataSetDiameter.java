@@ -21,16 +21,14 @@
  */
 package net.sourceforge.cilib.measurement.single.clustering;
 
-import java.util.Set;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.clustering.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Pattern;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
@@ -61,16 +59,14 @@ public class DataSetDiameter implements Measurement {
         // we only have to calculate it once as long as the data set remains static/unchanged
         if (diameter == null) {
             ClusteringProblem problem = (ClusteringProblem) algorithm.getOptimisationProblem();
-            StaticDataSetBuilder dataSetBuilder = (StaticDataSetBuilder) problem.getDataSetBuilder();
-            Set<Pattern<Vector>> patterns = dataSetBuilder.getPatterns();
-            Pattern<Vector>[] array = patterns.toArray(new Pattern[] {});
+            DataTable<StandardPattern, TypeList> dataTable = problem.getDataTable();
             DistanceMeasure distanceMeasure = problem.getDistanceMeasure();
-            int numPatterns = patterns.size();
+            int numPatterns = dataTable.size();
             double maxDistance = 0.0;
 
             for (int y = 0; y < numPatterns - 1; ++y) {
                 for (int x = y + 1; x < numPatterns; ++x) {
-                    maxDistance = Math.max(maxDistance, distanceMeasure.distance(array[x].getData(), array[y].getData()));
+                    maxDistance = Math.max(maxDistance, distanceMeasure.distance(dataTable.getRow(x).getVector(), dataTable.getRow(y).getVector()));
                 }
             }
             this.diameter = Real.valueOf(maxDistance);

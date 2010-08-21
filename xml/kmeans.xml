@@ -26,23 +26,20 @@
     <problems>
         <problem id="artificial" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0),R(-1.0,1.0)">
             <clusteringFunction class="functions.clustering.QuantisationErrorFunction" />
-            <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="artificial">
-                <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/generated/artificial2/artificial.txt" delimiter="\s+" beginIndex="0" endIndex="1" classIndex="2" />
-            </dataSetBuilder>
+            <dataTableBuilder class="io.DataTableBuilder">
+	        <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/generated/artificial2/artificial.txt" delimiter="\s+" />
+		<addDataOperator class="io.transform.TypeConversionOperator" />
+		<addDataOperator class="io.transform.PatternConversionOperator" classIndex="2" classLength="1" />
+            </dataTableBuilder>
         </problem>
     </problems>
 
     <measurements id="measurements" class="simulator.MeasurementSuite" resolution="1">
         <addMeasurement class="measurement.single.Fitness" />
-<!--
-        <addMeasurement class="measurement.single.GenericFunctionMeasurement">
-            <function class="functions.clustering.InterClusterDistance" />
-        </addMeasurement>
-        <addMeasurement class="measurement.single.GenericFunctionMeasurement">
-            <function class="functions.clustering.IntraClusterDistance" />
-        </addMeasurement>
--->
         <addMeasurement class="measurement.single.clustering.PlotClustersAndCentroids" />
+<!--
+        <addMeasurement class="measurement.single.clustering.PlotHighDimensionalClustersAndCentroids" />
+-->
     </measurements>
 
     <simulations>
@@ -64,7 +61,7 @@
             <algorithm idref="kmeans.potential"/>
             <problem idref="artificial" numberOfClusters="4" />
             <measurements idref="measurements" />
-            <output format="TXT" file="measurements/kmeans.plusplus.artificial.4.txt" />
+            <output format="TXT" file="measurements/kmeans.potential.artificial.4.txt" />
         </simulation>
     </simulations>
 </simulator>

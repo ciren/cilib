@@ -22,13 +22,14 @@
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import net.sourceforge.cilib.functions.clustering.ClusteringErrorFunction;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterMeanStrategy;
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -49,23 +50,23 @@ public class DunnIndex extends ClusteringErrorFunction {
     /**
      * Sub-classes should override this method if the cluster scatter should be calculated differently.
      */
-    protected double calculateClusterScatter(DistanceMeasure distanceMeasure, Cluster<Vector> cluster) {
+    protected double calculateClusterScatter(DistanceMeasure distanceMeasure, Cluster cluster) {
         return ClusteringFunctions.clusterDiameter(distanceMeasure, cluster);
     }
 
     /**
      * Sub-classes should override this method if the cluster separation should be calculated differently.
      */
-    protected double calculateClusterSeperation(DistanceMeasure distanceMeasure, Cluster<Vector> lhs, Cluster<Vector> rhs) {
+    protected double calculateClusterSeperation(DistanceMeasure distanceMeasure, Cluster lhs, Cluster rhs) {
         return ClusteringFunctions.minimumClusterDistance(distanceMeasure, lhs, rhs);
     }
 
     @Override
-    public Double apply(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
         double withinScatter = -Double.MAX_VALUE, betweenSeperation = Double.MAX_VALUE;
         int clustersFormed = clusters.size();
 
-        for (Cluster<Vector> cluster : clusters) {
+        for (Cluster cluster : clusters) {
             withinScatter = Math.max(withinScatter, this.calculateClusterScatter(distanceMeasure, cluster));
         }
 

@@ -21,8 +21,9 @@
  */
 package net.sourceforge.cilib.functions.clustering.clustercenterstrategies;
 
+import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.After;
@@ -38,13 +39,13 @@ import static org.hamcrest.Matchers.nullValue;
  */
 public class ClusterMeanStrategyTest {
 
-    private static ClusterCenterStrategy<Vector> centerStrategy;
-    private static Cluster<Vector> cluster;
+    private static ClusterCenterStrategy centerStrategy;
+    private static Cluster cluster;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        centerStrategy = new ClusterMeanStrategy<Vector>();
-        cluster = new Cluster<Vector>(Vector.of(1.0, 2.0, 3.0));
+        centerStrategy = new ClusterMeanStrategy();
+        cluster = new Cluster(Vector.of(1.0, 2.0, 3.0));
     }
 
     @AfterClass
@@ -59,11 +60,11 @@ public class ClusterMeanStrategyTest {
 
     @Test
     public void testGetCenter() {
-        cluster.add(new Pattern<Vector>(Vector.of(1.0, 2.0, 3.0), "one"));
+        cluster.add(new StandardPattern(Vector.of(1.0, 2.0, 3.0), new StringType("one")));
         assertThat(centerStrategy.getCenter(cluster), equalTo(Vector.of(1.0, 2.0, 3.0)));
-        cluster.add(new Pattern<Vector>(Vector.of(2.0, 3.0, 4.0), "two"));
+        cluster.add(new StandardPattern(Vector.of(2.0, 3.0, 4.0), new StringType("two")));
         assertThat(centerStrategy.getCenter(cluster), equalTo(Vector.of(1.5, 2.5, 3.5)));
-        cluster.add(new Pattern<Vector>(Vector.of(3.0, 4.0, 5.0), "three"));
+        cluster.add(new StandardPattern(Vector.of(3.0, 4.0, 5.0), new StringType("three")));
         assertThat(centerStrategy.getCenter(cluster), equalTo(Vector.of(2.0, 3.0, 4.0)));
     }
 

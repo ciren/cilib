@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import net.sourceforge.cilib.functions.clustering.AverageCompactnessFunction;
 import net.sourceforge.cilib.functions.clustering.ClusteringErrorFunction;
@@ -30,8 +29,10 @@ import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
 import net.sourceforge.cilib.functions.clustering.MinimumSeparationFunction;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCentroidStrategy;
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -59,10 +60,10 @@ public class TuriIndex extends ClusteringErrorFunction {
     }
 
     @Override
-    public Double apply(ArrayList<Cluster<Vector>> clusters, Set<Pattern<Vector>> patterns, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
 //        gaussian = random.getGaussian(2, 1);
 
-        return /*(c * gaussian + 1) * */this.averageCompactness.apply(clusters, patterns, distanceMeasure, dataSetMean, dataSetVariance, zMax) / this.minimumSeparation.apply(clusters, patterns, distanceMeasure, dataSetMean, dataSetVariance, zMax);
+        return /*(c * gaussian + 1) * */this.averageCompactness.apply(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax) / this.minimumSeparation.apply(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax);
     }
 
     @Override

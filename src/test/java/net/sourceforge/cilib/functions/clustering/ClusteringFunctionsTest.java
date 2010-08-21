@@ -23,12 +23,14 @@ package net.sourceforge.cilib.functions.clustering;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -46,9 +48,9 @@ public class ClusteringFunctionsTest {
     @Test
     public void testCluster() {
         ArrayList<Vector> centroids = ClusteringFunctionTests.getSeparateCentroids();
-        Set<Pattern<Vector>> patterns = ClusteringFunctionTests.getPatterns();
+        DataTable<StandardPattern, TypeList> dataTable = ClusteringFunctionTests.getDataTable();
         DistanceMeasure distanceMeasure = ClusteringFunctionTests.getDistanceMeasure();
-        ArrayList<Cluster<Vector>> clusters = ClusteringFunctions.cluster(centroids, patterns, distanceMeasure, centroids.size());
+        ArrayList<Cluster> clusters = ClusteringFunctions.cluster(centroids, dataTable, distanceMeasure, centroids.size());
 
         assertThat(clusters.size(), is(centroids.size()));
         assertThat(clusters.get(0).size(), is(1));
@@ -105,22 +107,22 @@ public class ClusteringFunctionsTest {
 
     @Test
     public void testSignificantClusters() {
-        ArrayList<Cluster<Vector>> clusters = new ArrayList<Cluster<Vector>>();
-        Cluster<Vector> cluster = new Cluster<Vector>(Vector.of(0.0, 1.0, 2.0));
+        ArrayList<Cluster> clusters = new ArrayList<Cluster>();
+        Cluster cluster = new Cluster(Vector.of(0.0, 1.0, 2.0));
 
-        cluster.add(new Pattern<Vector>(Vector.of(0.1, 1.1, 2.1), "1"));
-        cluster.add(new Pattern<Vector>(Vector.of(0.2, 1.2, 2.2), "1"));
-        cluster.add(new Pattern<Vector>(Vector.of(0.3, 1.3, 2.3), "1"));
+        cluster.add(new StandardPattern(Vector.of(0.1, 1.1, 2.1), new StringType("1")));
+        cluster.add(new StandardPattern(Vector.of(0.2, 1.2, 2.2), new StringType("1")));
+        cluster.add(new StandardPattern(Vector.of(0.3, 1.3, 2.3), new StringType("1")));
         clusters.add(cluster);
 
-        cluster = new Cluster<Vector>(Vector.of(3.0, 4.0, 5.0));
-        cluster.add(new Pattern<Vector>(Vector.of(3.1, 4.1, 5.1), "2"));
+        cluster = new Cluster(Vector.of(3.0, 4.0, 5.0));
+        cluster.add(new StandardPattern(Vector.of(3.1, 4.1, 5.1), new StringType("2")));
         clusters.add(cluster);
 
-        cluster = new Cluster<Vector>(Vector.of(6.0, 7.0, 8.0));
+        cluster = new Cluster(Vector.of(6.0, 7.0, 8.0));
         clusters.add(cluster);
 
-        ArrayList<Cluster<Vector>> significant = ClusteringFunctions.significantClusters(clusters);
+        ArrayList<Cluster> significant = ClusteringFunctions.significantClusters(clusters);
 
         assertThat(significant.size(), is(2));
         assertThat(significant.get(0).size(), is(3));

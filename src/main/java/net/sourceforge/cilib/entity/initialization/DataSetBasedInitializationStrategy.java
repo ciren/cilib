@@ -21,19 +21,18 @@
  */
 package net.sourceforge.cilib.entity.initialization;
 
-import java.util.Set;
-
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.clustering.kmeans.CentroidsInitialisationStrategy;
 import net.sourceforge.cilib.clustering.kmeans.DataSetBasedCentroidsInitialisationStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.clustering.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -75,12 +74,11 @@ public class DataSetBasedInitializationStrategy<E extends Entity> implements Ini
     @Override
     public void initialize(Enum<?> key, E particle) {
         ClusteringProblem clusteringProblem = (ClusteringProblem) AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
-        StaticDataSetBuilder dataSetBuilder = (StaticDataSetBuilder) clusteringProblem.getDataSetBuilder();
-        Set<Pattern<Vector>> patterns = dataSetBuilder.getPatterns();
+        DataTable<StandardPattern, TypeList> dataTable = clusteringProblem.getDataTable();
         DomainRegistry standardDomain = clusteringProblem.getDomainRegistry();
         DistanceMeasure distanceMeasure = clusteringProblem.getDistanceMeasure();
         int numberOfClusters = clusteringProblem.getNumberOfClusters();
-        Vector centroids = ClusteringFunctions.assembleCentroids(this.centroidsInitialisationStrategy.initialise(patterns, standardDomain, distanceMeasure, numberOfClusters));
+        Vector centroids = ClusteringFunctions.assembleCentroids(this.centroidsInitialisationStrategy.initialise(dataTable, standardDomain, distanceMeasure, numberOfClusters));
 
         particle.setCandidateSolution(centroids);
     }
