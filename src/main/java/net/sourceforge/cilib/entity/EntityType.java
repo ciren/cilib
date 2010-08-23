@@ -37,11 +37,6 @@ public enum EntityType {
         BEST_FITNESS,
         VELOCITY;
 
-        public enum Guide {
-            LOCAL_GUIDE,
-            GLOBAL_GUIDE
-        }
-
         public enum Count {
             PBEST_STAGNATION_COUNTER;
         }

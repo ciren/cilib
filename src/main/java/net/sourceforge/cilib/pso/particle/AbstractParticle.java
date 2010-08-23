@@ -28,7 +28,11 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.initialization.ConstantInitializationStrategy;
 import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
 import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
+import net.sourceforge.cilib.entity.initialization.StandardPBestPositionInitializationStrategy;
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.PBestGuideProvider;
 import net.sourceforge.cilib.pso.positionupdatestrategies.MemoryNeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.pbestupdate.PersonalBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
@@ -47,9 +51,11 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     private static final long serialVersionUID = 7511192728112990230L;
 
     protected ParticleBehavior behavior;
+
     protected InitializationStrategy<Particle> velocityInitializationStrategy;
     protected InitializationStrategy<Particle> positionInitialisationStrategy;
     protected InitializationStrategy<Particle> personalBestInitialisationStrategy;
+    
     protected PersonalBestUpdateStrategy personalBestUpdateStrategy;
     protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;
 
@@ -57,15 +63,14 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * Default constructor for all Particles.
      */
     public AbstractParticle() {
-        super();
+        this.behavior = new ParticleBehavior();
 
-        neighbourhoodBestUpdateStrategy = new MemoryNeighbourhoodBestUpdateStrategy();
-        behavior = new ParticleBehavior();
+        this.velocityInitializationStrategy = new ConstantInitializationStrategy<Particle>(0.0);
+        this.positionInitialisationStrategy = new RandomInitializationStrategy<Particle>();
+        this.personalBestInitialisationStrategy = new StandardPBestPositionInitializationStrategy();
 
-        velocityInitializationStrategy = new ConstantInitializationStrategy<Particle>(0.0);
-        positionInitialisationStrategy = new RandomInitializationStrategy<Particle>();
-
-        personalBestUpdateStrategy = new StandardPersonalBestUpdateStrategy();
+        this.personalBestUpdateStrategy = new StandardPersonalBestUpdateStrategy();
+        this.neighbourhoodBestUpdateStrategy = new MemoryNeighbourhoodBestUpdateStrategy();
     }
 
     /**
@@ -74,12 +79,14 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      */
     public AbstractParticle(AbstractParticle copy) {
         super(copy);
-        this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy.getClone();
         this.behavior = copy.behavior.getClone();
-        this.positionInitialisationStrategy = copy.positionInitialisationStrategy.getClone();
+        
         this.velocityInitializationStrategy = copy.velocityInitializationStrategy.getClone();
+        this.positionInitialisationStrategy = copy.positionInitialisationStrategy.getClone();
+        this.personalBestInitialisationStrategy = copy.personalBestInitialisationStrategy.getClone();
+
         this.personalBestUpdateStrategy = copy.personalBestUpdateStrategy.getClone();
-        this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy;
+        this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy.getClone();
     }
 
     /**
@@ -153,7 +160,25 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public abstract StructuredType getVelocity();
 
     /**
-     * Set the neighborhood best particle for the current Particle based on the
+     * Get the global guide of the <tt>Particle</tt>.
+     * @return A <tt>Type</tt> representng the <tt>Particle</tt>'s global guide.
+     */
+    @Override
+    public StructuredType getGlobalGuide() {
+        return this.behavior.getGlobalGuideProvider().get(this);
+    }
+
+    /**
+     * Get the local guide of the <tt>Particle</tt>.
+     * @return A <tt>Type</tt> representng the <tt>Particle</tt>'s local guide.
+     */
+    @Override
+    public StructuredType getLocalGuide() {
+        return this.behavior.getLocalGuideProvider().get(this);
+    }
+
+    /**
+     * Set the neighbourhood best particle for the current Particle based on the
      * topology of the current particle.
      *
      * @param particle The particle to use as the current particle's neighborhood best particle
@@ -224,7 +249,37 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
         this.behavior.setVelocityUpdateStrategy(velocityUpdateStrategy);
     }
 
+    /**
+     * Get the current global <tt>GuideProvider</tt> associated with this <tt>Particle</tt>.
+     * @return The currently associated global <tt>GuideProvider</tt>.
+     */
+    public GuideProvider getGlobalGuideProvider() {
+        return this.behavior.getGlobalGuideProvider();
+    }
 
+    /**
+     * Set the <tt>GuideProvider</tt> for the <tt>Particle</tt>.
+     * @param globalGuideProvider The global <tt>GuideProvider</tt> to use.
+     */
+    public void setGlobalGuideProvider(GuideProvider globalGuideProvider) {
+        this.behavior.setGlobalGuideProvider(globalGuideProvider);
+    }
+
+    /**
+     * Get the current local <tt>GuideProvider</tt> associated with this <tt>Particle</tt>.
+     * @return The currently associated local <tt>GuideProvider</tt>.
+     */
+    public GuideProvider getLocalGuideProvider() {
+        return this.behavior.getLocalGuideProvider();
+    }
+
+    /**
+     * Set the <tt>GuideProvider</tt> for the <tt>Particle</tt>.
+     * @param localGuideProvider The local <tt>GuideProvider</tt> to use.
+     */
+    public void setLocalGuideProvider(GuideProvider localGuideProvider) {
+        this.behavior.setLocalGuideProvider(localGuideProvider);
+    }
 
     /**
      * Get the {@link net.sourceforge.cilib.entity.initialization.InitializationStrategy}.

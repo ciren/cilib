@@ -153,14 +153,14 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
 
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getPosition();
-        Vector bestPosition = (Vector) particle.getBestPosition();
-        Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
+        Vector localGuide = (Vector) particle.getLocalGuide();
+        Vector globalGuide = (Vector) particle.getGlobalGuide();
 
         Vector.Builder builder = new Vector.Builder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             double value = this.constrictionCoefficient.getParameter() * (velocity.doubleValueOf(i)
-                + (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * this.cognitiveAcceleration.getParameter() * this.r1.nextDouble()
-                + (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i)) * this.socialAcceleration.getParameter() * this.r2.nextDouble());
+                    + (localGuide.doubleValueOf(i) - position.doubleValueOf(i)) * this.cognitiveAcceleration.getParameter() * this.r1.nextDouble()
+                    + (globalGuide.doubleValueOf(i) - position.doubleValueOf(i)) * this.socialAcceleration.getParameter() * this.r2.nextDouble());
             builder.add(value);
         }
         return builder.build();

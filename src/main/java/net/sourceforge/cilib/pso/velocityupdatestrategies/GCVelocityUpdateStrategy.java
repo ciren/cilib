@@ -142,11 +142,11 @@ public class GCVelocityUpdateStrategy implements VelocityUpdateStrategy {
         if (particle == globalBest) {
             final Vector velocity = (Vector) particle.getVelocity();
             final Vector position = (Vector) particle.getPosition();
-            final Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getPosition();
+            final Vector globalGuide = (Vector) particle.getGlobalGuide();
 
             Vector.Builder builder = new Vector.Builder();
             for (int i = 0; i < velocity.size(); ++i) {
-                double component = -position.doubleValueOf(i) + nBestPosition.doubleValueOf(i)
+                double component = -position.doubleValueOf(i) + globalGuide.doubleValueOf(i)
                         + this.inertiaWeight.getParameter() * velocity.doubleValueOf(i)
                         + this.rho.getParameter() * (1 - 2 * this.randomProvider.nextDouble());
                 builder.add(component);

@@ -19,32 +19,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.moo.guideselectionstrategies;
+package net.sourceforge.cilib.pso.guideprovider;
 
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * <p>
- * With Multi-objective {@link PSO}s the pBest and lBest (or gBest) particles are replaced with the
- * concept of local and global guides respectively. Concrete instances of this class are used during
- * to select these guides and store it with a {@link Particle} for usage in its {@link VelocityUpdateStrategy}.
- * </p>
- *
  * @author Wiehann Matthysen
  */
-public interface GuideSelectionStrategy extends Cloneable {
+public interface GuideProvider extends Cloneable {
 
     @Override
-    GuideSelectionStrategy getClone();
+    GuideProvider getClone();
 
     /**
      * Selects a guide for {@code particle}.
      * @param particle The particle who's guide will be selected.
      * @return The selected guide.
      */
-    Vector selectGuide(Particle particle);
+    StructuredType get(Particle particle);
 }

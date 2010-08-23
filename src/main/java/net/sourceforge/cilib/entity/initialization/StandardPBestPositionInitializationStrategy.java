@@ -19,33 +19,32 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.moo.guideupdatestrategies;
+package net.sourceforge.cilib.entity.initialization;
 
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.pso.moo.guideselectionstrategies.GuideSelectionStrategy;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * <p>
- * This class is used in combination with {@link GuideSelectionStrategy} to
- * determine when and if a particle's guides get updated.
- * </p>
  *
  * @author Wiehann Matthysen
  */
-public interface GuideUpdateStrategy extends Cloneable {
+public class StandardPBestPositionInitializationStrategy implements InitializationStrategy<Particle> {
+
+    private static final long serialVersionUID = 6371324653389143872L;
+
+    public StandardPBestPositionInitializationStrategy() {
+    }
+
+    public StandardPBestPositionInitializationStrategy(StandardPBestPositionInitializationStrategy copy) {
+    }
 
     @Override
-    GuideUpdateStrategy getClone();
+    public StandardPBestPositionInitializationStrategy getClone() {
+        return new StandardPBestPositionInitializationStrategy(this);
+    }
 
-    /**
-     * Determines if {@code particle}'s guide (either local or global depending on {@code guideType})
-     * should be updated, and updates it with {@code newGuide}.
-     * @param particle The particle who's guide is to be updated.
-     * @param guideType If the local or global guide should be updated.
-     * @param newGuide The new guide that should replace the old guide, if it is to be updated.
-     */
-    void updateGuide(Particle particle, EntityType.Particle.Guide guideType, Vector newGuide);
+    @Override
+    public void initialize(Enum<?> key, Particle entity) {
+        entity.getProperties().put(EntityType.Particle.BEST_POSITION, entity.getPosition().getClone());
+    }
 }

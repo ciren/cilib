@@ -95,8 +95,8 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      */
     @Override
     public Vector get(Particle particle) {
-        Vector personalBestPosition = (Vector) particle.getBestPosition();
-        Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
+        Vector localGuide = (Vector) particle.getLocalGuide();
+        Vector globalGuide = (Vector) particle.getGlobalGuide();
 
         PSO pso = (PSO) AbstractAlgorithm.get();
         List<Entity> positions = getRandomParentEntities(pso.getTopology());
@@ -111,7 +111,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
         Vector.Builder builder = new Vector.Builder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             double r = pdf.getRandomNumber(0, 1);
-            double attractor = r * personalBestPosition.doubleValueOf(i) + (1 - r) * nBestPosition.doubleValueOf(i);
+            double attractor = r * localGuide.doubleValueOf(i) + (1 - r) * globalGuide.doubleValueOf(i);
             double stepSize = this.rand3.getRandomNumber(0, 1) * (position1.doubleValueOf(i) - position2.doubleValueOf(i));
 
             if (this.rand2.getRandomNumber(0, 1) > this.crossoverProbability.getParameter()) {

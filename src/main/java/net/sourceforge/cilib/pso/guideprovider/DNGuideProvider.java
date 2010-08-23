@@ -19,36 +19,37 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.moo.guideselectionstrategies;
+package net.sourceforge.cilib.pso.guideprovider;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * <p>
- * A concrete implementation of {@link GuideSelectionStrategy} where the personal
- * best position of a particle gets selected as a guide (usually local guide).
- * </p>
+ * Dynamic Neighbourhood Guide Selection Strategy
  *
- * @author Wiehann Matthysen
+ * Placeholder class for anybody interested in implementing this Multi-objective PSO.
+ * The reference where the implementation details can be found is:
+ *
+ * <p>
+ * References:
+ * </p>
+ * <p>
+ * <ul>
+ * <li> X. Hu and R. C. Eberhart, "Multiobjective Optimization using Dynamic Neighborhood Particle Swarm Optimization", in
+ * Proceedings of the IEEE Congress on Evolutionary Computation, vol 2, pp. 1677-1681, 2002.
+ * </li>
+ * </ul>
+ * </p>
  */
-public class PBestGuideSelectionStrategy implements GuideSelectionStrategy {
+public class DNGuideProvider implements GuideProvider {
 
-    private static final long serialVersionUID = -4639979213818995377L;
-
-    public PBestGuideSelectionStrategy() {
-    }
-
-    public PBestGuideSelectionStrategy(PBestGuideSelectionStrategy copy) {
+    @Override
+    public GuideProvider getClone() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public PBestGuideSelectionStrategy getClone() {
-        return new PBestGuideSelectionStrategy(this);
-    }
-
-    @Override
-    public Vector selectGuide(Particle particle) {
-        return (Vector) particle.getBestPosition();
+    public Vector get(Particle particle) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

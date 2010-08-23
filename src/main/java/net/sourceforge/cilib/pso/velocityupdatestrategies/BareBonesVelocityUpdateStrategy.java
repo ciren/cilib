@@ -58,17 +58,17 @@ public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
 
     @Override
     public Vector get(Particle particle) {
-        Vector personalBestPosition = (Vector) particle.getBestPosition();
-        Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
+        Vector localGuide = (Vector) particle.getLocalGuide();
+        Vector globalGuide = (Vector) particle.getGlobalGuide();
 
         Vector.Builder builder = new Vector.Builder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             //double tmp1 = cognitive.getParameter();
             //double tmp2 = social.getParameter();
 
-            double sigma = Math.abs(personalBestPosition.doubleValueOf(i) - nBestPosition.doubleValueOf(i));
+            double sigma = Math.abs(localGuide.doubleValueOf(i) - globalGuide.doubleValueOf(i));
             //according to Kennedy
-            double mean = (personalBestPosition.doubleValueOf(i) + nBestPosition.doubleValueOf(i)) / 2;
+            double mean = (localGuide.doubleValueOf(i) + globalGuide.doubleValueOf(i)) / 2;
             //andries proposal: double mean = (tmp1*personalBestPosition.getReal(i) + tmp2*nBestPosition.getReal(i)) / (tmp1+tmp2);
 
             builder.add(this.randomDistribution.getRandomNumber(mean, sigma));

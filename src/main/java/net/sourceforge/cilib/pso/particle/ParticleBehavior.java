@@ -21,6 +21,9 @@
  */
 package net.sourceforge.cilib.pso.particle;
 
+import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.PBestGuideProvider;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.StandardPositionUpdateStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
@@ -33,8 +36,13 @@ import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy
  * @author Bennie Leonard
  */
 public class ParticleBehavior implements Comparable<ParticleBehavior> {
+
     private PositionUpdateStrategy positionUpdateStrategy;
     private VelocityUpdateStrategy velocityUpdateStrategy;
+
+    private GuideProvider localGuideProvider;
+    private GuideProvider globalGuideProvider;
+
     private int successCounter;
     private int selectedCounter;
 
@@ -43,10 +51,14 @@ public class ParticleBehavior implements Comparable<ParticleBehavior> {
      * strategies to particles.
      */
     public ParticleBehavior() {
-        positionUpdateStrategy = new StandardPositionUpdateStrategy();
-        velocityUpdateStrategy = new StandardVelocityUpdate();
-        successCounter = 0;
-        selectedCounter = 0;
+        this.positionUpdateStrategy = new StandardPositionUpdateStrategy();
+        this.velocityUpdateStrategy = new StandardVelocityUpdate();
+
+        this.localGuideProvider = new PBestGuideProvider();
+        this.globalGuideProvider = new NBestGuideProvider();
+
+        this.successCounter = 0;
+        this.selectedCounter = 0;
     }
 
     /**
@@ -57,10 +69,10 @@ public class ParticleBehavior implements Comparable<ParticleBehavior> {
      * @param v The {@link VelocityUpdateStrategy} to use.
      */
     public ParticleBehavior(PositionUpdateStrategy p, VelocityUpdateStrategy v) {
-        positionUpdateStrategy = p;
-        velocityUpdateStrategy = v;
-        successCounter = 0;
-        selectedCounter = 0;
+        this.positionUpdateStrategy = p;
+        this.velocityUpdateStrategy = v;
+        this.successCounter = 0;
+        this.selectedCounter = 0;
     }
 
     /**
@@ -69,8 +81,10 @@ public class ParticleBehavior implements Comparable<ParticleBehavior> {
      * @param copy The {@link ParticleBehavior} object to copy.
      */
     public ParticleBehavior(ParticleBehavior copy) {
-        this.positionUpdateStrategy = copy.positionUpdateStrategy;
-        this.velocityUpdateStrategy = copy.velocityUpdateStrategy;
+        this.positionUpdateStrategy = copy.positionUpdateStrategy.getClone();
+        this.velocityUpdateStrategy = copy.velocityUpdateStrategy.getClone();
+        this.localGuideProvider = copy.localGuideProvider.getClone();
+        this.globalGuideProvider = copy.globalGuideProvider.getClone();
         this.selectedCounter = copy.selectedCounter;
         this.successCounter = copy.successCounter;
     }
@@ -116,6 +130,38 @@ public class ParticleBehavior implements Comparable<ParticleBehavior> {
      */
     public void setVelocityUpdateStrategy(VelocityUpdateStrategy strategy) {
         velocityUpdateStrategy = strategy;
+    }
+
+    /**
+     * Get the current global <tt>GuideProvider</tt>.
+     * @return The currently associated global <tt>GuideProvider</tt>.
+     */
+    public GuideProvider getGlobalGuideProvider() {
+        return this.globalGuideProvider;
+    }
+
+    /**
+     * Set the <tt>GuideProvider</tt>.
+     * @param globalGuideProvider The global <tt>GuideProvider</tt> to use.
+     */
+    public void setGlobalGuideProvider(GuideProvider globalGuideProvider) {
+        this.globalGuideProvider = globalGuideProvider;
+    }
+
+    /**
+     * Get the current local <tt>GuideProvider</tt>.
+     * @return The currently associated local <tt>GuideProvider</tt>.
+     */
+    public GuideProvider getLocalGuideProvider() {
+        return this.localGuideProvider;
+    }
+
+    /**
+     * Set the <tt>GuideProvider</tt>.
+     * @param localGuideProvider The local <tt>GuideProvider</tt> to use.
+     */
+    public void setLocalGuideProvider(GuideProvider localGuideProvider) {
+        this.localGuideProvider = localGuideProvider;
     }
 
     /**

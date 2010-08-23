@@ -81,8 +81,8 @@ public class LinearVelocityUpdate implements VelocityUpdateStrategy {
     public Vector get(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getPosition();
-        Vector bestPosition = (Vector) particle.getBestPosition();
-        Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
+        Vector localGuide = (Vector) particle.getLocalGuide();
+        Vector globalGuide = (Vector) particle.getGlobalGuide();
 
         float social = this.socialRandomGenerator.nextFloat();
         float cognitive = this.cognitiveRandomGenerator.nextFloat();
@@ -90,8 +90,8 @@ public class LinearVelocityUpdate implements VelocityUpdateStrategy {
         Vector.Builder builder = new Vector.Builder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             double value = this.inertiaWeight.getParameter()*velocity.doubleValueOf(i) +
-                cognitive  * this.cognitiveAcceleration.getParameter() * (bestPosition.doubleValueOf(i) - position.doubleValueOf(i)) +
-                social * this.socialAcceleration.getParameter() * (nBestPosition.doubleValueOf(i) - position.doubleValueOf(i));
+                cognitive  * this.cognitiveAcceleration.getParameter() * (localGuide.doubleValueOf(i) - position.doubleValueOf(i)) +
+                social * this.socialAcceleration.getParameter() * (globalGuide.doubleValueOf(i) - position.doubleValueOf(i));
             builder.add(value);
         }
         return builder.build();
