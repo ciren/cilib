@@ -40,6 +40,7 @@ public class LinearPositionUpdateStrategy implements PositionUpdateStrategy {
     public LinearPositionUpdateStrategy(LinearPositionUpdateStrategy copy) {
     }
 
+    @Override
     public LinearPositionUpdateStrategy getClone() {
         return new LinearPositionUpdateStrategy(this);
     }
@@ -47,8 +48,9 @@ public class LinearPositionUpdateStrategy implements PositionUpdateStrategy {
     /**
      * {@inheritDoc}
      */
-    public void updatePosition(Particle particle) {
+    @Override
+    public Vector get(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
-        particle.setCandidateSolution(Vector.copyOf(velocity));
+        return Vector.copyOf(velocity);
     }
 }

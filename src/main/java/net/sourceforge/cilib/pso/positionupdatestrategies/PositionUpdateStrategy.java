@@ -24,6 +24,7 @@ package net.sourceforge.cilib.pso.positionupdatestrategies;
 import java.io.Serializable;
 
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
 
@@ -47,6 +48,6 @@ public interface PositionUpdateStrategy extends Cloneable, Serializable {
      *
      * @param particle The <tt>Particle</tt> to perform the position update on.
      */
-    void updatePosition(Particle particle);
+    Vector get(Particle particle);
 
 }

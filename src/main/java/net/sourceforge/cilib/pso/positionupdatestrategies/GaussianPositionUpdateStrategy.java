@@ -22,19 +22,22 @@
 package net.sourceforge.cilib.pso.positionupdatestrategies;
 
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * TODO: Complete this javadoc.
  */
 public class GaussianPositionUpdateStrategy implements PositionUpdateStrategy {
+
     private static final long serialVersionUID = 1888395118987536803L;
 
+    @Override
     public GaussianPositionUpdateStrategy getClone() {
         throw new UnsupportedOperationException("Implementation is required.");
     }
 
-    public void updatePosition(Particle particle) {
+    @Override
+    public Vector get(Particle particle) {
         throw new UnsupportedOperationException("Implementation is required.");
     }
-
 }

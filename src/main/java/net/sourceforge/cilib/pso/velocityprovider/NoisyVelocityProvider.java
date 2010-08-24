@@ -25,6 +25,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.util.Vectors;
 
 /**
  * Decorates a {@link PositionUpdateVisitor} or a {@link VelocityProvider}
@@ -53,9 +54,9 @@ public class NoisyVelocityProvider implements VelocityProvider {
         Vector velocity = this.delegate.get(particle);
         Vector.Builder builder = new Vector.Builder();
         for (int i = 0; i < velocity.size(); i++) {
-            builder.add(velocity.get(i).doubleValue() + this.distribution.getRandomNumber());
+            builder.add(this.distribution.getRandomNumber());
         }
-        return builder.build();
+        return Vectors.sumOf(velocity, builder.build());
     }
 
     @Override
@@ -65,11 +66,11 @@ public class NoisyVelocityProvider implements VelocityProvider {
 
     @Override
     public void updateControlParameters(Particle particle) {
-        delegate.updateControlParameters(particle);
+        this.delegate.updateControlParameters(particle);
     }
 
     public VelocityProvider getDelegate() {
-        return delegate;
+        return this.delegate;
     }
 
     public void setDelegate(VelocityProvider delegate) {
@@ -77,7 +78,7 @@ public class NoisyVelocityProvider implements VelocityProvider {
     }
 
     public ProbabilityDistributionFuction getDistribution() {
-        return distribution;
+        return this.distribution;
     }
 
     public void setDistribution(ProbabilityDistributionFuction distribution) {

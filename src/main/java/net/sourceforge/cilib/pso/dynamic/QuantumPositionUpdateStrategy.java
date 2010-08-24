@@ -21,14 +21,18 @@
  */
 package net.sourceforge.cilib.pso.dynamic;
 
+import com.google.common.base.Preconditions;
 import java.util.Arrays;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Vectors;
 
 /**
  * Position update strategy for QSO (Quantum PSO). Implemented according
@@ -41,9 +45,9 @@ public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
 
     private static final long serialVersionUID = -7844226788317206737L;
     private static final double EPSILON = 0.000000001;
-    private double radius;
+    private ControlParameter radius;
     private ProbabilityDistributionFuction randomizer;
-    Vector nucleus;
+    private Vector nucleus;
 
     public Vector getNucleus() {
         return nucleus;
@@ -54,7 +58,7 @@ public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
     }
 
     public QuantumPositionUpdateStrategy() {
-        radius = 5;
+        radius = new ConstantControlParameter(5);
         randomizer = new UniformDistribution();
     }
 
@@ -63,6 +67,7 @@ public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
         this.randomizer = copy.randomizer;
     }
 
+    @Override
     public QuantumPositionUpdateStrategy getClone() {
         return new QuantumPositionUpdateStrategy(this);
     }
@@ -73,17 +78,13 @@ public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
      * position from a uniform distribution : a spherical cloud around gbest with a radius r.
      * @param particle the particle to update position of
      */
-    public void updatePosition(Particle particle) {
+    @Override
+    public Vector get(Particle particle) {
         ChargedParticle checkChargeParticle = (ChargedParticle) particle;
         if (checkChargeParticle.getCharge() < EPSILON) { // the particle is neutral
             Vector position = (Vector) particle.getPosition();
             Vector velocity = (Vector) particle.getVelocity();
-
-            for (int i = 0; i < position.size(); ++i) {
-                double value = position.doubleValueOf(i);
-                value += velocity.doubleValueOf(i);
-                position.setReal(i, value);
-            }
+            return Vectors.sumOf(position, velocity);
         } else { // the particle is charged
             //based on the Pythagorean theorem,
             //the following code breaks the square of the radius distance into smaller
@@ -93,11 +94,10 @@ public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
             //This ensures that the quantum particles are placed randomly within the
             //multidimensional sphere determined by the quantum radius.
 
-            Vector position = (Vector) particle.getPosition();
             nucleus = (Vector) AbstractAlgorithm.get().getBestSolution().getPosition();
 
-            double distance = Math.pow(this.radius, 2); //square of the radius
-            int dimensions = position.size();
+            double distance = Math.pow(this.radius.getParameter(), 2); //square of the radius
+            int dimensions = particle.getDimension();
             double[] pieces = new double[dimensions]; // break up of the distance
             pieces[dimensions - 1] = distance;
             for (int i = 0; i < dimensions - 1; i++) {
@@ -109,7 +109,8 @@ public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
                 sign = -1;
             }//if
             //deals with first dimension
-            position.setReal(0, nucleus.doubleValueOf(0) + sign * randomizer.getRandomNumber(0, Math.sqrt(pieces[0])));
+            Vector.Builder builder = new Vector.Builder();
+            builder.add(nucleus.doubleValueOf(0) + sign * randomizer.getRandomNumber(0, Math.sqrt(pieces[0])));
             //deals with the other dimensions
             for (int i = 1; i < dimensions; i++) {
                 sign = 1;
@@ -119,25 +120,24 @@ public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
                 double rad = Math.sqrt(pieces[i] - pieces[i - 1]);
                 double dis = randomizer.getRandomNumber(0, rad);
                 double newpos = nucleus.doubleValueOf(i) + sign * dis;
-                position.setReal(i, newpos);
+                builder.add(newpos);
             }//for
+            return builder.build();
         }//else
     }
 
     /**
      * @return the radius
      */
-    public double getRadius() {
-        return radius;
+    public ControlParameter getRadius() {
+        return this.radius;
     }
 
     /**
      * @param radius the radius to set
      */
-    public void setRadius(double radius) {
-        if (radius < 0) {
-            throw new IllegalArgumentException("Radius of the electron cloud can not be negative");
-        }
+    public void setRadius(ControlParameter radius) {
+        Preconditions.checkArgument(radius.getParameter() >= 0, "Radius of the electron cloud can not be negative");
         this.radius = radius;
     }
 }

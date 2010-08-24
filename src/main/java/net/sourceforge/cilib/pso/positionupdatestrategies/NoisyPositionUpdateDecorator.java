@@ -25,6 +25,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.util.Vectors;
 
 /**
  * Decorates a {@link PositionUpdateVisitor} or a {@link VelocityUpdateVisitor}
@@ -39,7 +40,8 @@ public class NoisyPositionUpdateDecorator implements PositionUpdateStrategy {
     private PositionUpdateStrategy delegate;
 
     public NoisyPositionUpdateDecorator() {
-        distribution = new GaussianDistribution();
+        this.distribution = new GaussianDistribution();
+        this.delegate = new StandardPositionUpdateStrategy();
     }
 
     public NoisyPositionUpdateDecorator(NoisyPositionUpdateDecorator rhs) {
@@ -48,16 +50,13 @@ public class NoisyPositionUpdateDecorator implements PositionUpdateStrategy {
     }
 
     @Override
-    public void updatePosition(Particle particle) {
-        //add random noise to particle's position
-        Vector position = (Vector) particle.getPosition();
-
-        for (int i = 0; i < position.getDimension(); i++) {
-            double value = position.getReal(i);
-            position.setReal(i, value + distribution.getRandomNumber());
+    public Vector get(Particle particle) {
+        Vector position = this.delegate.get(particle);
+        Vector.Builder builder = new Vector.Builder();
+        for (int i = 0; i < particle.getDimension(); i++) {
+            builder.add(this.distribution.getRandomNumber());
         }
-
-        delegate.updatePosition(particle);
+        return Vectors.sumOf(position, builder.build());
     }
 
     @Override
@@ -66,7 +65,7 @@ public class NoisyPositionUpdateDecorator implements PositionUpdateStrategy {
     }
 
     public PositionUpdateStrategy getDelegate() {
-        return delegate;
+        return this.delegate;
     }
 
     public void setDelegate(PositionUpdateStrategy delegate) {
@@ -74,7 +73,7 @@ public class NoisyPositionUpdateDecorator implements PositionUpdateStrategy {
     }
 
     public ProbabilityDistributionFuction getDistribution() {
-        return distribution;
+        return this.distribution;
     }
 
     public void setDistribution(ProbabilityDistributionFuction distribution) {

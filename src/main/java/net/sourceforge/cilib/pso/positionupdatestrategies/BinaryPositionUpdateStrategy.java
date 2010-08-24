@@ -53,6 +53,7 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
     /**
      * {@inheritDoc}
      */
+    @Override
     public BinaryPositionUpdateStrategy getClone() {
         return new BinaryPositionUpdateStrategy(this);
     }
@@ -60,20 +61,21 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
     /**
      * BinaryPSO particle position update, as defined by Kennedy and Eberhart.
      */
-    public void updatePosition(Particle particle) {
-        Vector position = (Vector) particle.getPosition();
+    @Override
+    public Vector get(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
-
-        for (int i = 0; i < position.size(); i++) {
-            double result = sigmoid.apply(velocity.doubleValueOf(i));
+        Vector.Builder builder = new Vector.Builder();
+        for (int i = 0; i < particle.getDimension(); i++) {
+            double result = this.sigmoid.apply(velocity.doubleValueOf(i));
             double rand = Math.random();
 
             if (rand < result) {
-                position.setBit(i, true);
+                builder.add(true);
             } else {
-                position.setBit(i, false);
+                builder.add(false);
             }
         }
+        return builder.build();
     }
 
     /**
@@ -81,7 +83,7 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
      * @return The {@linkplain Sigmoid} function used.
      */
     public Sigmoid getSigmoid() {
-        return sigmoid;
+        return this.sigmoid;
     }
 
     /**

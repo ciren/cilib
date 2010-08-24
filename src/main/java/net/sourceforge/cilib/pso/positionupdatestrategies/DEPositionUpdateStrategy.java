@@ -32,6 +32,7 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Vectors;
 
 /** Implementation of the DE PSO of Hendtlass.
  * TODO: can the DE strategies be incorporated somehow?
@@ -71,12 +72,12 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
     }
 
     @Override
-    public void updatePosition(Particle particle) {
+    public Vector get(Particle particle) {
         Vector position = (Vector) particle.getPosition();
         Vector velocity = (Vector) particle.getVelocity();
 
         if (rand1.getRandomNumber() < differentialEvolutionProbability.getRandomNumber(0.8, 0.1)) {
-            particle.setCandidateSolution(position.plus(velocity));
+            return Vectors.sumOf(position, velocity);
         } else {
             ArrayList<Vector> positions = new ArrayList<Vector>(3);
 
@@ -131,6 +132,7 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
             if (trialFitness.compareTo(currentFitness) > 0) {
                 particle.setCandidateSolution(dePosition);
             }
+            return dePosition;
         }
     }
 }

@@ -23,6 +23,7 @@ package net.sourceforge.cilib.pso.positionupdatestrategies;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Vectors;
 
 /**
  * This is the normal position update as described by Kennedy and Eberhart.
@@ -51,6 +52,7 @@ public class StandardPositionUpdateStrategy implements PositionUpdateStrategy {
     /**
      * {@inheritDoc}
      */
+    @Override
     public StandardPositionUpdateStrategy getClone() {
         return new StandardPositionUpdateStrategy(this);
     }
@@ -58,10 +60,10 @@ public class StandardPositionUpdateStrategy implements PositionUpdateStrategy {
     /**
      * {@inheritDoc}
      */
-    public void updatePosition(Particle particle) {
+    @Override
+    public Vector get(Particle particle) {
         Vector position = (Vector) particle.getPosition();
         Vector velocity = (Vector) particle.getVelocity();
-
-        particle.setCandidateSolution(position.plus(velocity));
+        return Vectors.sumOf(position, velocity);
     }
 }
