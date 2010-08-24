@@ -25,7 +25,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
+import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
@@ -34,15 +34,14 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * @author  Edwin Peer
  */
 public abstract class ParticleDecorator extends AbstractParticle {
-    private static final long serialVersionUID = -1604818864075431177L;
 
+    private static final long serialVersionUID = -1604818864075431177L;
     private AbstractParticle target;
 
     public ParticleDecorator() {
         this.neighbourhoodBestUpdateStrategy = null;
         this.behavior.setPositionUpdateStrategy(null);
-        this.behavior.setVelocityUpdateStrategy(null);
-
+        this.behavior.setVelocityProvider(null);
         target = null;
     }
 
@@ -50,14 +49,15 @@ public abstract class ParticleDecorator extends AbstractParticle {
         this.target = (AbstractParticle) target;
     }
 
-
     @Override
     public boolean equals(Object object) {
-        if (this == object)
+        if (this == object) {
             return true;
+        }
 
-        if ((object == null) || (this.getClass() != object.getClass()))
+        if ((object == null) || (this.getClass() != object.getClass())) {
             return false;
+        }
 
         ParticleDecorator other = (ParticleDecorator) object;
         return super.equals(other) && (this.target.equals(other.target));
@@ -111,7 +111,6 @@ public abstract class ParticleDecorator extends AbstractParticle {
         return target.getVelocity();
     }
 
-
     public void initialise(OptimisationProblem problem) {
         target.initialise(problem);
     }
@@ -129,7 +128,6 @@ public abstract class ParticleDecorator extends AbstractParticle {
         target.setNeighbourhoodBest(particle);
     }
 
-
     public void updateVelocity() {
         target.updateVelocity();
     }
@@ -138,14 +136,13 @@ public abstract class ParticleDecorator extends AbstractParticle {
         target.updateControlParameters();
     }
 
-    public VelocityUpdateStrategy getVelocityUpdateStrategy() {
-        return target.behavior.getVelocityUpdateStrategy();
+    public VelocityProvider getVelocityProvider() {
+        return target.behavior.getVelocityProvider();
     }
 
-    public void setVelocityUpdateStrategy(VelocityUpdateStrategy velocityUpdateStrategy) {
-        target.setVelocityUpdateStrategy(velocityUpdateStrategy);
+    public void setVelocityProvider(VelocityProvider velocityProvider) {
+        target.setVelocityProvider(velocityProvider);
     }
-
 
     public StructuredType getCandidateSolution() {
         return target.getCandidateSolution();
@@ -161,7 +158,6 @@ public abstract class ParticleDecorator extends AbstractParticle {
     }
 
     public void setDimension(int dim) {
-
     }
 
     public Type getBehaviouralParameters() {
@@ -169,10 +165,8 @@ public abstract class ParticleDecorator extends AbstractParticle {
     }
 
     public void setBehaviouralParameters(Type type) {
-
     }
 
     public void reinitialise() {
-
     }
 }

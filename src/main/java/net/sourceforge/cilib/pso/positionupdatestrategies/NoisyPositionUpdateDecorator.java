@@ -34,6 +34,7 @@ import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
  */
 public class NoisyPositionUpdateDecorator implements PositionUpdateStrategy {
 
+    private static final long serialVersionUID = -2665293187543545962L;
     private ProbabilityDistributionFuction distribution;
     private PositionUpdateStrategy delegate;
 

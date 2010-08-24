@@ -26,7 +26,7 @@ import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.pbestupdate.PersonalBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
+import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
@@ -87,15 +87,15 @@ public interface Particle extends Entity, SocialEntity, MemoryBasedEntity {
 
     /**
      * Get the strategy that will be used to update the velocity.
-     * @return The current {@linkplain VelocityUpdateStrategy}.
+     * @return The current {@linkplain VelocityProvider}.
      */
-    VelocityUpdateStrategy getVelocityUpdateStrategy();
+    VelocityProvider getVelocityProvider();
 
     /**
-     * Set the {@linkplain VelocityUpdateStrategy} to be used during velocity updates.
-     * @param velocityUpdateStrategy the {@linkplain VelocityUpdateStrategy} to use.
+     * Set the {@linkplain VelocityProvider} to be used during velocity updates.
+     * @param velocityProvider the {@linkplain VelocityProvider} to use.
      */
-    void setVelocityUpdateStrategy(VelocityUpdateStrategy velocityUpdateStrategy);
+    void setVelocityProvider(VelocityProvider velocityProvider);
 
     /**
      * Get the strategy for the intialisation of the velocity.

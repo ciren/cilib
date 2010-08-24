@@ -59,13 +59,13 @@
             <initialisationStrategy class="algorithm.initialisation.ChargedPopulationInitialisationStrategy" entityNumber="40" chargeMagnitude="1.0">
                 <entityType class="pso.dynamic.ChargedParticle">
                     <neighbourhoodBestUpdateStrategy class = "pso.positionupdatestrategies.IterationNeighbourhoodBestUpdateStrategy"/>
-                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.ClampingVelocityUpdateDecorator">
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
                         <vMax class="controlparameter.ConstantControlParameter" parameter="3.0"/>
-                        <delegate class="pso.dynamic.ChargedVelocityUpdateStrategy">
+                        <delegate class="pso.dynamic.ChargedVelocityProvider">
                             <pCore class="controlparameter.ConstantControlParameter" parameter="10" />
                             <p class="controlparameter.ConstantControlParameter" parameter="1000" />
                         </delegate>
-                    </velocityUpdateStrategy>
+                    </velocityProvider>
                 </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.LBestTopology">

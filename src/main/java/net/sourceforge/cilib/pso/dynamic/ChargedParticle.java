@@ -27,9 +27,9 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Int;
 
 /**
- * Charged Particle used by charged PSO (ChargedVelocityUpdate). The only difference
- * from DynamicParticle is that a charged particle stores the charge magnitude and
- * the initialization strategy for charge.
+ * Charged Particle used by charged PSO (ChargedVelocityProvider). The only
+ * difference from DynamicParticle is that a charged particle stores the charge
+ * magnitude and the initialization strategy for charge.
  *
  * @author Anna Rakitianskaia
  *
@@ -37,16 +37,15 @@ import net.sourceforge.cilib.type.types.Int;
 public class ChargedParticle extends DynamicParticle {
 
     private static final long serialVersionUID = 7872499872488908368L;
+    
     private double charge;
 
     public ChargedParticle() {
-        super();
-        behavior.setVelocityUpdateStrategy(new ChargedVelocityUpdateStrategy());
+        this.behavior.setVelocityProvider(new ChargedVelocityProvider());
     }
 
     public ChargedParticle(ChargedParticle copy) {
         super(copy);
-
         this.charge = copy.charge;
     }
 

@@ -36,7 +36,7 @@ import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
+import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 
 /**
@@ -77,10 +77,10 @@ public class Niche extends MultiPopulationBasedAlgorithm {
 
         Particle mainSwarmParticle = new StandardParticle();
         mainSwarmParticle.setVelocityInitializationStrategy(new RandomInitializationStrategy());
-        StandardVelocityUpdate velocityUpdateStrategy = new StandardVelocityUpdate();
-        velocityUpdateStrategy.setSocialAcceleration(new ConstantControlParameter(0.0));
+        StandardVelocityProvider velocityProvider = new StandardVelocityProvider();
+        velocityProvider.setSocialAcceleration(new ConstantControlParameter(0.0));
 
-        mainSwarmParticle.setVelocityUpdateStrategy(velocityUpdateStrategy);
+        mainSwarmParticle.setVelocityProvider(velocityProvider);
         PopulationInitialisationStrategy mainSwarmInitialisationStrategy = new ClonedPopulationInitialisationStrategy();
         mainSwarmInitialisationStrategy.setEntityType(mainSwarmParticle);
         mainSwarmInitialisationStrategy.setEntityNumber(40);

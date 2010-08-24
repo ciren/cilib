@@ -19,45 +19,38 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.velocityupdatestrategies;
+package net.sourceforge.cilib.pso.velocityprovider;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
-import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *  The <tt>VelocityUpdateStrategy</tt> strategy for the Bare Bones PSO as
- *  adapted by Kennedy.
+ *  The <tt>VelocityProvider</tt> for the Bare Bones PSO as defined by Kennedy.
  *
  *  TODO: get the required references
  *
+ *  @author Gary Pampara
  *  @author Andries Engelbrecht
  */
-public class BareBonesExploitVelocityUpdateStrategy implements VelocityUpdateStrategy {
+public class BareBonesVelocityProvider implements VelocityProvider {
 
-    private static final long serialVersionUID = -5028807853700576434L;
-
+    private static final long serialVersionUID = -823686042197742768L;
+    
     protected ProbabilityDistributionFuction randomDistribution;
-    private ProbabilityDistributionFuction uniform;
 
-    public BareBonesExploitVelocityUpdateStrategy() {
+    public BareBonesVelocityProvider() {
         this.randomDistribution = new GaussianDistribution();
-        this.uniform = new UniformDistribution();
     }
 
-    public BareBonesExploitVelocityUpdateStrategy(BareBonesExploitVelocityUpdateStrategy copy) {
+    public BareBonesVelocityProvider(BareBonesVelocityProvider copy) {
         this.randomDistribution = copy.randomDistribution;
-        this.uniform = copy.uniform;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public BareBonesExploitVelocityUpdateStrategy getClone() {
-        return new BareBonesExploitVelocityUpdateStrategy(this);
+    public BareBonesVelocityProvider getClone() {
+        return new BareBonesVelocityProvider(this);
     }
 
     @Override
@@ -67,19 +60,15 @@ public class BareBonesExploitVelocityUpdateStrategy implements VelocityUpdateStr
 
         Vector.Builder builder = new Vector.Builder();
         for (int i = 0; i < particle.getDimension(); ++i) {
-            if (this.uniform.getRandomNumber(0, 1) < 0.5) {
-                builder.add(localGuide.doubleValueOf(i));
-            } else {
-                //double tmp1 = cognitive.getParameter();
-                //double tmp2 = social.getParameter();
+            //double tmp1 = cognitive.getParameter();
+            //double tmp2 = social.getParameter();
 
-                double sigma = Math.abs(localGuide.doubleValueOf(i) - globalGuide.doubleValueOf(i));
-                //according to Kennedy
-                double mean = (localGuide.doubleValueOf(i) + globalGuide.doubleValueOf(i)) / 2;
-                //andries proposal: double mean = (tmp1*personalBestPosition.getReal(i) + tmp2*nBestPosition.getReal(i)) / (tmp1+tmp2);
+            double sigma = Math.abs(localGuide.doubleValueOf(i) - globalGuide.doubleValueOf(i));
+            //according to Kennedy
+            double mean = (localGuide.doubleValueOf(i) + globalGuide.doubleValueOf(i)) / 2;
+            //andries proposal: double mean = (tmp1*personalBestPosition.getReal(i) + tmp2*nBestPosition.getReal(i)) / (tmp1+tmp2);
 
-                builder.add(this.randomDistribution.getRandomNumber(mean, sigma));
-            }
+            builder.add(this.randomDistribution.getRandomNumber(mean, sigma));
         }
         return builder.build();
     }
@@ -88,19 +77,11 @@ public class BareBonesExploitVelocityUpdateStrategy implements VelocityUpdateStr
     public void updateControlParameters(Particle particle) {
     }
 
-    public ProbabilityDistributionFuction getUniformDistribution() {
-        return this.uniform;
-    }
-
-    public void setUniformDistribution(ProbabilityDistributionFuction uniform) {
-        this.uniform = uniform;
+    public ProbabilityDistributionFuction getRandomDistribution() {
+        return this.randomDistribution;
     }
 
     public void setRandomDistribution(ProbabilityDistributionFuction pdf) {
         this.randomDistribution = pdf;
-    }
-
-    public ProbabilityDistributionFuction getRandomDistribution() {
-        return this.randomDistribution;
     }
 }

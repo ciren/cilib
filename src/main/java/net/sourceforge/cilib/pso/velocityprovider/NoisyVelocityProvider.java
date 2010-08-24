@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.velocityupdatestrategies;
+package net.sourceforge.cilib.pso.velocityprovider;
 
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.entity.Particle;
@@ -27,23 +27,23 @@ import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 
 /**
- * Decorates a {@link PositionUpdateVisitor} or a {@link VelocityUpdateVisitor}
+ * Decorates a {@link PositionUpdateVisitor} or a {@link VelocityProvider}
  * with random noise from any probability distribution function.
  *
  * @author Bennie Leonard
  */
-public class NoisyVelocityUpdateDecorator implements VelocityUpdateStrategy {
+public class NoisyVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = -4398497101382747367L;
     private ProbabilityDistributionFuction distribution;
-    private VelocityUpdateStrategy delegate;
+    private VelocityProvider delegate;
 
-    public NoisyVelocityUpdateDecorator() {
+    public NoisyVelocityProvider() {
         this.distribution = new GaussianDistribution();
-        this.delegate = new StandardVelocityUpdate();
+        this.delegate = new StandardVelocityProvider();
     }
 
-    public NoisyVelocityUpdateDecorator(NoisyVelocityUpdateDecorator rhs) {
+    public NoisyVelocityProvider(NoisyVelocityProvider rhs) {
         this.distribution = rhs.distribution;
         this.delegate = rhs.delegate.getClone();
     }
@@ -59,8 +59,8 @@ public class NoisyVelocityUpdateDecorator implements VelocityUpdateStrategy {
     }
 
     @Override
-    public NoisyVelocityUpdateDecorator getClone() {
-        return new NoisyVelocityUpdateDecorator(this);
+    public NoisyVelocityProvider getClone() {
+        return new NoisyVelocityProvider(this);
     }
 
     @Override
@@ -68,11 +68,11 @@ public class NoisyVelocityUpdateDecorator implements VelocityUpdateStrategy {
         delegate.updateControlParameters(particle);
     }
 
-    public VelocityUpdateStrategy getDelegate() {
+    public VelocityProvider getDelegate() {
         return delegate;
     }
 
-    public void setDelegate(VelocityUpdateStrategy delegate) {
+    public void setDelegate(VelocityProvider delegate) {
         this.delegate = delegate;
     }
 

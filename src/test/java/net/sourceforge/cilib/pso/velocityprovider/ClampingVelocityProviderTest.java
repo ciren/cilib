@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.velocityupdatestrategies;
+package net.sourceforge.cilib.pso.velocityprovider;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
@@ -34,7 +34,7 @@ import org.junit.Test;
  *
  * @author Wiehann Matthysen
  */
-public class ClampingVelocityUpdateTest {
+public class ClampingVelocityProviderTest {
 
     private Particle createParticle(Vector vector) {
         Particle particle = new StandardParticle();
@@ -54,9 +54,9 @@ public class ClampingVelocityUpdateTest {
         particle.setNeighbourhoodBest(nBest);
         nBest.setNeighbourhoodBest(nBest);
 
-        ClampingVelocityUpdateDecorator velocityUpdate = new ClampingVelocityUpdateDecorator();
-        velocityUpdate.setVMax(new ConstantControlParameter(0.5));
-        Vector velocity = velocityUpdate.get(particle);
+        ClampingVelocityProvider velocityProvider = new ClampingVelocityProvider();
+        velocityProvider.setVMax(new ConstantControlParameter(0.5));
+        Vector velocity = velocityProvider.get(particle);
 
         for (Numeric number : velocity) {
             Assert.assertTrue(Double.compare(number.doubleValue(), 0.5) <= 0);

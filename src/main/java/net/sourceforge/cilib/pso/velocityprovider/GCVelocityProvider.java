@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.velocityupdatestrategies;
+package net.sourceforge.cilib.pso.velocityprovider;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -38,7 +38,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p>
  * An implementation of the Guaranteed Convergence PSO algorithm. The GCPSO is a simple extension
  * to the normal PSO algorithm and the modifications to the algorithm is implemented as
- * a simple {@link VelocityUpdateStrategy}
+ * a simple {@link VelocityProvider}
  * </p><p>
  * References:
  * </p><p><ul><li>
@@ -59,15 +59,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * on the specified problem domain. For example, a <code>rho</code> value of 1.0 is not a good
  * value within problems which have a domain that spans <code>[0,1]</code>
  */
-public class GCVelocityUpdateStrategy implements VelocityUpdateStrategy {
+public class GCVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = 5985694749940610522L;
 
-    private VelocityUpdateStrategy delegate;
+    private VelocityProvider delegate;
 
     private ControlParameter inertiaWeight;
     private RandomProvider randomProvider;
-    
     private ControlParameter rhoLowerBound;
     private ControlParameter rho;
 
@@ -83,8 +82,8 @@ public class GCVelocityUpdateStrategy implements VelocityUpdateStrategy {
     /**
      * Create an instance of the GC Velocity Update strategy.
      */
-    public GCVelocityUpdateStrategy() {
-        this.delegate = new StandardVelocityUpdate();
+    public GCVelocityProvider() {
+        this.delegate = new StandardVelocityProvider();
 
         this.inertiaWeight = new ConstantControlParameter(0.729844);
         this.randomProvider = new MersenneTwister();
@@ -106,7 +105,7 @@ public class GCVelocityUpdateStrategy implements VelocityUpdateStrategy {
      * Copy constructor. Copy the given instance.
      * @param copy The instance to copy.
      */
-    public GCVelocityUpdateStrategy(GCVelocityUpdateStrategy copy) {
+    public GCVelocityProvider(GCVelocityProvider copy) {
         this.delegate = copy.delegate.getClone();
         this.randomProvider = new MersenneTwister();
         
@@ -127,8 +126,8 @@ public class GCVelocityUpdateStrategy implements VelocityUpdateStrategy {
      * {@inheritDoc}
      */
     @Override
-    public GCVelocityUpdateStrategy getClone() {
-        return new GCVelocityUpdateStrategy(this);
+    public GCVelocityProvider getClone() {
+        return new GCVelocityProvider(this);
     }
 
     /**
@@ -217,11 +216,11 @@ public class GCVelocityUpdateStrategy implements VelocityUpdateStrategy {
         this.rho.setParameter(tmp);
     }
 
-    public VelocityUpdateStrategy getDelegate() {
+    public VelocityProvider getDelegate() {
         return this.delegate;
     }
 
-    public void setDelegate(VelocityUpdateStrategy delegate) {
+    public void setDelegate(VelocityProvider delegate) {
         this.delegate = delegate;
     }
 

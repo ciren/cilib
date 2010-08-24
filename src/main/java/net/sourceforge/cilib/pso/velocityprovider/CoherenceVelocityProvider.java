@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.velocityupdatestrategies;
+package net.sourceforge.cilib.pso.velocityprovider;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -36,32 +36,34 @@ import net.sourceforge.cilib.util.Vectors;
  * Velocity update for the Coherence PSO.
  * @author Daniel Lowes
  */
-public class CoherenceVelocityUpdate implements VelocityUpdateStrategy {
+public class CoherenceVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = -9051938755796130230L;
     private ControlParameter scalingFactor;
     private ProbabilityDistributionFuction randomNumber;
     private Sigmoid sigmoid;
-    private VelocityUpdateStrategy delegate;
+    private VelocityProvider delegate;
 
     /**
-     * Create an instance of {@linkplain CoherenceVelocityUpdate}.
+     * Create an instance of {@linkplain CoherenceVelocityProvider}.
      */
-    public CoherenceVelocityUpdate() {
+    public CoherenceVelocityProvider() {
         this.scalingFactor = new ConstantControlParameter(1.0);
         this.randomNumber = new CauchyDistribution();
         this.sigmoid = new Sigmoid();
-        this.delegate = new StandardVelocityUpdate();
+        this.delegate = new StandardVelocityProvider();
     }
 
     /**
      * Copy constructor. Create a copy of the given instance.
      * @param copy The instance to copy.
      */
-    public CoherenceVelocityUpdate(CoherenceVelocityUpdate copy) {
+    public CoherenceVelocityProvider(CoherenceVelocityProvider copy) {
         this.scalingFactor = copy.scalingFactor.getClone();
         this.randomNumber = copy.randomNumber;
-        //this.sigmoid = copy.sigmoid.getClone();
+        this.sigmoid = new Sigmoid();
+        this.sigmoid.setOffset(copy.sigmoid.getOffset());
+        this.sigmoid.setSteepness(copy.sigmoid.getSteepness());
         this.delegate = copy.delegate.getClone();
     }
 
@@ -69,8 +71,8 @@ public class CoherenceVelocityUpdate implements VelocityUpdateStrategy {
      * {@inheritDoc}
      */
     @Override
-    public CoherenceVelocityUpdate getClone() {
-        return new CoherenceVelocityUpdate(this);
+    public CoherenceVelocityProvider getClone() {
+        return new CoherenceVelocityProvider(this);
     }
 
     /**

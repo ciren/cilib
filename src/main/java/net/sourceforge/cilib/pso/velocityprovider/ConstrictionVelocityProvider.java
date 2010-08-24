@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.velocityupdatestrategies;
+package net.sourceforge.cilib.pso.velocityprovider;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -93,7 +93,7 @@ ISSN={1089-778X}, }
  *
  * @author andrich
  */
-public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
+public class ConstrictionVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = -4470110903487138758L;
 
@@ -110,7 +110,7 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
      * adhere to the constraints of calculating the constriction constant, but do not
      * necessarily represent good values.
      */
-    public ConstrictionVelocityUpdate() {
+    public ConstrictionVelocityProvider() {
         this.socialAcceleration = new ConstantControlParameter(2.05);
         this.cognitiveAcceleration = new ConstantControlParameter(2.05);
         this.r1 = new MersenneTwister();
@@ -122,13 +122,13 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
 
     /**
      * Copy constructor.
-     * @param copy the ConstrictionVelocityUpdate to copy.
+     * @param copy the ConstrictionVelocityProvider to copy.
      */
-    public ConstrictionVelocityUpdate(ConstrictionVelocityUpdate copy) {
+    public ConstrictionVelocityProvider(ConstrictionVelocityProvider copy) {
         this.socialAcceleration = copy.socialAcceleration.getClone();
         this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
-        this.r1 = new MersenneTwister();
-        this.r2 = new MersenneTwister();
+        this.r1 = copy.r1;
+        this.r2 = copy.r2;
         this.kappa = copy.kappa.getClone();
     }
 
@@ -136,8 +136,8 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
      * {@inheritDoc }
      */
     @Override
-    public ConstrictionVelocityUpdate getClone() {
-        return new ConstrictionVelocityUpdate(this);
+    public ConstrictionVelocityProvider getClone() {
+        return new ConstrictionVelocityProvider(this);
     }
 
     /**

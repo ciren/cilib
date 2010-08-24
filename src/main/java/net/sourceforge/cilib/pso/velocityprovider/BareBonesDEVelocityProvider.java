@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.velocityupdatestrategies;
+package net.sourceforge.cilib.pso.velocityprovider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,14 +38,14 @@ import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *  The <tt>VelocityUpdateStrategy</tt> strategy which uses a DE strategy
- *  where the trial vector is the bare bones attractor point.
+ *  The <tt>VelocityProvider</tt> which uses a DE strategy where the trial
+ * vector is the bare bones attractor point.
  *
  *  TODO: To be published by Omran and Engelbrecht
  *
  *  @author Andries Engelbrecht
  */
-public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
+public class BareBonesDEVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = -8781011210069055197L;
     private ProbabilityDistributionFuction rand1;
@@ -58,9 +58,9 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
     private ControlParameter crossoverProbability;
 
     /**
-     * Create a new instance of the {@linkplain BareBonesDEVelocityUpdate}.
+     * Create a new instance of the {@linkplain BareBonesDEVelocityProvider}.
      */
-    public BareBonesDEVelocityUpdate() {
+    public BareBonesDEVelocityProvider() {
         this.rand1 = new UniformDistribution();
         this.rand2 = new UniformDistribution();
         this.rand3 = new UniformDistribution();
@@ -75,19 +75,23 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
      * Copy constructor. Create a copy of the given instance.
      * @param copy The instance to copy.
      */
-    public BareBonesDEVelocityUpdate(BareBonesDEVelocityUpdate copy) {
-        this();
-        this.cognitive.setParameter(copy.cognitive.getParameter());
-        this.social.setParameter(copy.social.getParameter());
-        this.crossoverProbability.setParameter(copy.crossoverProbability.getParameter());
+    public BareBonesDEVelocityProvider(BareBonesDEVelocityProvider copy) {
+        this.rand1 = copy.rand1;
+        this.rand2 = copy.rand2;
+        this.rand3 = copy.rand3;
+        this.r1 = copy.r1;
+        this.r2 = copy.r2;
+        this.cognitive = copy.cognitive.getClone();
+        this.social = copy.social.getClone();
+        this.crossoverProbability = copy.crossoverProbability.getClone();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public BareBonesDEVelocityUpdate getClone() {
-        return new BareBonesDEVelocityUpdate(this);
+    public BareBonesDEVelocityProvider getClone() {
+        return new BareBonesDEVelocityProvider(this);
     }
 
     /**

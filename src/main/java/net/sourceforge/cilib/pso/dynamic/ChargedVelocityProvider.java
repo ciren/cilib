@@ -28,13 +28,13 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
+import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
+import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
 /**
- * Velocity update strategy that the so called Charged PSO makes use of.
+ * VelocityProvider that the so called Charged PSO makes use of.
  * This is an implementation of the original Charged PSO algorithm
  * developed by Blackwell and Bentley and then further improved by
  * Blackwell and Branke.
@@ -42,28 +42,29 @@ import net.sourceforge.cilib.util.Vectors;
  * @author Anna Rakitianskaia
  *
  */
-public class ChargedVelocityUpdateStrategy implements VelocityUpdateStrategy {
+public class ChargedVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = 365924556746583124L;
-    private VelocityUpdateStrategy delegate;
+    
+    private VelocityProvider delegate;
     private ControlParameter pCore; // lower limit
     private ControlParameter p; // upper limit
 
-    public ChargedVelocityUpdateStrategy() {
-        this.delegate = new StandardVelocityUpdate();
+    public ChargedVelocityProvider() {
+        this.delegate = new StandardVelocityProvider();
         this.pCore = new ConstantControlParameter(1);
         this.p = new ConstantControlParameter(30);
     }
 
-    public ChargedVelocityUpdateStrategy(ChargedVelocityUpdateStrategy copy) {
+    public ChargedVelocityProvider(ChargedVelocityProvider copy) {
         this.delegate = copy.delegate.getClone();
         this.pCore = copy.pCore.getClone();
         this.p = copy.p.getClone();
     }
 
     @Override
-    public ChargedVelocityUpdateStrategy getClone() {
-        return new ChargedVelocityUpdateStrategy(this);
+    public ChargedVelocityProvider getClone() {
+        return new ChargedVelocityProvider(this);
     }
 
     @Override
@@ -107,11 +108,11 @@ public class ChargedVelocityUpdateStrategy implements VelocityUpdateStrategy {
         return Vectors.sumOf(velocity, acceleration);
     }
 
-    public void setDelegate(VelocityUpdateStrategy delegate) {
+    public void setDelegate(VelocityProvider delegate) {
         this.delegate = delegate;
     }
 
-    public VelocityUpdateStrategy getDelegate() {
+    public VelocityProvider getDelegate() {
         return this.delegate;
     }
 

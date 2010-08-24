@@ -9,12 +9,11 @@
         <algorithm id="constrictionPSO" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.ConstrictionVelocityUpdate">
+                    <velocityProvider class="pso.velocityprovider.ConstrictionVelocityProvider">
                         <kappa class="controlparameter.ConstantControlParameter" parameter="1.0"/>
                         <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.05"/>
                         <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.05"/>
-                        <!--vMax class="controlparameter.ConstantControlParameter" parameter="0.1" /-->
-                    </velocityUpdateStrategy>
+                    </velocityProvider>
                 </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.GBestTopology"/>

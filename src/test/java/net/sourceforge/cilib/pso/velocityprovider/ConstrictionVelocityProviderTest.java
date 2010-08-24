@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.velocityupdatestrategies;
+package net.sourceforge.cilib.pso.velocityprovider;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
@@ -43,7 +43,7 @@ import org.junit.runner.RunWith;
  * @author andrich
  */
 @RunWith(JMock.class)
-public class ConstrictionVelocityUpdateTest {
+public class ConstrictionVelocityProviderTest {
 
     private Mockery mockery = new JUnit4Mockery();
 
@@ -52,8 +52,8 @@ public class ConstrictionVelocityUpdateTest {
      */
     @Test
     public void getClone() {
-        ConstrictionVelocityUpdate original = new ConstrictionVelocityUpdate();
-        ConstrictionVelocityUpdate copy = original.getClone();
+        ConstrictionVelocityProvider original = new ConstrictionVelocityProvider();
+        ConstrictionVelocityProvider copy = original.getClone();
 
         Assert.assertEquals(original.getKappa().getParameter(), copy.getKappa().getParameter(), Maths.EPSILON);
         //Assert.assertEquals(original.getVMax().getParameter(), copy.getVMax().getParameter(), Maths.EPSILON);
@@ -76,12 +76,12 @@ public class ConstrictionVelocityUpdateTest {
     }
 
     /**
-     * Test the velocity update as well as the constraint assertion. This
+     * Test the velocity provider as well as the constraint assertion. This
      * sadly needs to use an annoying try..finally to ensure that the type
      * of random numbers is expected to reproduce values always.
      */
     @Test
-    public void velocityUpdate() {
+    public void velocityProvision() {
         SeedSelectionStrategy strategy = Seeder.getSeederStrategy();
         Seeder.setSeederStrategy(new ZeroSeederStrategy());
 
@@ -91,8 +91,8 @@ public class ConstrictionVelocityUpdateTest {
             particle.setNeighbourhoodBest(nBest);
             nBest.setNeighbourhoodBest(nBest);
 
-            ConstrictionVelocityUpdate velocityUpdate = new ConstrictionVelocityUpdate();
-            Vector velocity = velocityUpdate.get(particle);
+            ConstrictionVelocityProvider velocityProvider = new ConstrictionVelocityProvider();
+            Vector velocity = velocityProvider.get(particle);
 
             Assert.assertEquals(1.2189730956981684, velocity.doubleValueOf(0), Maths.EPSILON);
         } finally {
@@ -106,16 +106,16 @@ public class ConstrictionVelocityUpdateTest {
         Seeder.setSeederStrategy(new ZeroSeederStrategy());
 
         try {
-            ConstrictionVelocityUpdate velocityUpdate = new ConstrictionVelocityUpdate();
+            ConstrictionVelocityProvider velocityProvider = new ConstrictionVelocityProvider();
             Particle particle = createParticle(Vector.of(0.0));
-            particle.setVelocityUpdateStrategy(velocityUpdate);
+            particle.setVelocityProvider(velocityProvider);
             Particle nBest = createParticle(Vector.of(1.0));
             particle.setNeighbourhoodBest(nBest);
             nBest.setNeighbourhoodBest(nBest);
             Particle clone = particle.getClone();
 
-            particle.getVelocityUpdateStrategy().get(particle);
-            clone.getVelocityUpdateStrategy().get(particle);
+            particle.getVelocityProvider().get(particle);
+            clone.getVelocityProvider().get(particle);
 
             double kappa = 1.0;
             double c1 = 2.05;
@@ -124,11 +124,11 @@ public class ConstrictionVelocityUpdateTest {
             double chi = (2 * kappa) / Math.abs(2 - phi - Math.sqrt(phi * phi - 4.0 * phi)); //this was not copied from the implementation.
 
             //verify implementation maths is correct.
-            Assert.assertEquals(chi, velocityUpdate.getConstrictionCoefficient().getParameter(), Maths.EPSILON);
+            Assert.assertEquals(chi, velocityProvider.getConstrictionCoefficient().getParameter(), Maths.EPSILON);
             //verify it is the same for two particles.
 
-            Assert.assertEquals(((ConstrictionVelocityUpdate) particle.getVelocityUpdateStrategy()).getConstrictionCoefficient().getParameter(),
-                    ((ConstrictionVelocityUpdate) clone.getVelocityUpdateStrategy()).getConstrictionCoefficient().getParameter(), Maths.EPSILON);
+            Assert.assertEquals(((ConstrictionVelocityProvider) particle.getVelocityProvider()).getConstrictionCoefficient().getParameter(),
+                    ((ConstrictionVelocityProvider) clone.getVelocityProvider()).getConstrictionCoefficient().getParameter(), Maths.EPSILON);
 
 
         } finally {
@@ -146,13 +146,13 @@ public class ConstrictionVelocityUpdateTest {
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void illegalVelocityUpdate() {
+    public void illegalVelocityProvision() {
         final Particle particle = mockery.mock(Particle.class);
 
         ConstantControlParameter controlParameter = new ConstantControlParameter();
-        ConstrictionVelocityUpdate velocityUpdate = new ConstrictionVelocityUpdate();
-        velocityUpdate.setCognitiveAcceleration(controlParameter);
-        velocityUpdate.setSocialAcceleration(controlParameter);
+        ConstrictionVelocityProvider velocityProvider = new ConstrictionVelocityProvider();
+        velocityProvider.setCognitiveAcceleration(controlParameter);
+        velocityProvider.setSocialAcceleration(controlParameter);
 
         mockery.checking(new Expectations() {
             {
@@ -160,6 +160,6 @@ public class ConstrictionVelocityUpdateTest {
             }
         });
 
-        velocityUpdate.get(particle);
+        velocityProvider.get(particle);
     }
 }

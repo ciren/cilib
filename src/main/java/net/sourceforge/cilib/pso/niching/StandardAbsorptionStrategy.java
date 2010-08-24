@@ -26,7 +26,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.GCVelocityUpdateStrategy;
+import net.sourceforge.cilib.pso.velocityprovider.GCVelocityProvider;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
@@ -66,7 +66,7 @@ public class StandardAbsorptionStrategy implements AbsorptionStrategy {
                 double distance = distanceMeasure.distance(entity.getCandidateSolution(), pba.getTopology().getBestEntity().getCandidateSolution());
                 if (distance <= radius) {
                     Particle p = (Particle) entity;
-                    p.setVelocityUpdateStrategy(new GCVelocityUpdateStrategy());
+                    p.setVelocityProvider(new GCVelocityProvider());
                     p.setNeighbourhoodBest((Particle) pba.getTopology().getBestEntity());
                     Topology<Particle> topology = (Topology<Particle>) pba.getTopology();
                     topology.add(p);

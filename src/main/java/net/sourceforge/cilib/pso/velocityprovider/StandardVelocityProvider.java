@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.velocityupdatestrategies;
+package net.sourceforge.cilib.pso.velocityprovider;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -33,7 +33,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author  Edwin Peer
  */
-public class StandardVelocityUpdate implements VelocityUpdateStrategy {
+public class StandardVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = 8204479765311251730L;
     protected ControlParameter inertiaWeight;
@@ -43,7 +43,7 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     protected RandomProvider r2;
 
     /** Creates a new instance of StandardVelocityUpdate. */
-    public StandardVelocityUpdate() {
+    public StandardVelocityProvider() {
         this.inertiaWeight = new ConstantControlParameter(0.729844);
         this.socialAcceleration = new ConstantControlParameter(1.496180);
         this.cognitiveAcceleration = new ConstantControlParameter(1.496180);
@@ -55,20 +55,20 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
      * Copy constructor.
      * @param copy The object to copy.
      */
-    public StandardVelocityUpdate(StandardVelocityUpdate copy) {
+    public StandardVelocityProvider(StandardVelocityProvider copy) {
         this.inertiaWeight = copy.inertiaWeight.getClone();
         this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
         this.socialAcceleration = copy.socialAcceleration.getClone();
-        this.r1 = new MersenneTwister();
-        this.r2 = new MersenneTwister();
+        this.r1 = copy.r1;
+        this.r2 = copy.r2;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public StandardVelocityUpdate getClone() {
-        return new StandardVelocityUpdate(this);
+    public StandardVelocityProvider getClone() {
+        return new StandardVelocityProvider(this);
     }
 
     /**
@@ -94,7 +94,7 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     }
 
     /**
-     * Update the associated <tt>ControlParameter</tt>s for the <tt>VelocityUpdateStrategy</tt>.
+     * Update the associated <tt>ControlParameter</tt>s for the <tt>VelocityProvider</tt>.
      * {@inheritDoc}
      */
     @Override
@@ -106,7 +106,7 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
 
     /**
      * Gets the <tt>ControlParameter</tt> representing the cognitive component within this
-     * <code>VelocityUpdateStrategy</code>.
+     * <code>VelocityProvider</code>.
      * @return Returns the cognitiveComponent.
      */
     public ControlParameter getCognitiveAcceleration() {
@@ -122,7 +122,8 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     }
 
     /**
-     * Get the <code>ControlParameter</code> representing the inerti weight of the VelocityUpdateStrategy.
+     * Get the <code>ControlParameter</code> representing the inertia weight of
+     * the VelocityProvider.
      * @return Returns the inertia component <tt>ControlParameter</tt>.
      */
     public ControlParameter getInertiaWeight() {
@@ -130,7 +131,8 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     }
 
     /**
-     * Set the <tt>ControlParameter</tt> for the inertia weight of the velocity update equation.
+     * Set the <tt>ControlParameter</tt> for the inertia weight of the velocity
+     * update equation.
      * @param inertiaComponent The inertiaComponent to set.
      */
     public void setInertiaWeight(ControlParameter inertiaWeight) {
@@ -138,7 +140,8 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     }
 
     /**
-     * Get the <tt>ControlParameter</tt> representing the social component of the velocity update equation.
+     * Get the <tt>ControlParameter</tt> representing the social component of
+     * the velocity update equation.
      * @return Returns the socialComponent.
      */
     public ControlParameter getSocialAcceleration() {

@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.velocityupdatestrategies;
+package net.sourceforge.cilib.pso.velocityprovider;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -31,26 +31,26 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Wiehann Matthysen
  */
-public class ClampingVelocityUpdateDecorator implements VelocityUpdateStrategy {
+public class ClampingVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = -5995116445841750100L;
 
     private ControlParameter vMax;
-    private VelocityUpdateStrategy delegate;
+    private VelocityProvider delegate;
 
-    public ClampingVelocityUpdateDecorator() {
+    public ClampingVelocityProvider() {
         this.vMax = new ConstantControlParameter(Double.MAX_VALUE);
-        this.delegate = new StandardVelocityUpdate();
+        this.delegate = new StandardVelocityProvider();
     }
 
-    public ClampingVelocityUpdateDecorator(ClampingVelocityUpdateDecorator copy) {
+    public ClampingVelocityProvider(ClampingVelocityProvider copy) {
         this.vMax = copy.vMax.getClone();
         this.delegate = copy.delegate.getClone();
     }
 
     @Override
-    public ClampingVelocityUpdateDecorator getClone() {
-        return new ClampingVelocityUpdateDecorator(this);
+    public ClampingVelocityProvider getClone() {
+        return new ClampingVelocityProvider(this);
     }
 
     @Override
@@ -77,11 +77,11 @@ public class ClampingVelocityUpdateDecorator implements VelocityUpdateStrategy {
         return this.vMax;
     }
 
-    public void setDelegate(VelocityUpdateStrategy delegate) {
+    public void setDelegate(VelocityProvider delegate) {
         this.delegate = delegate;
     }
 
-    public VelocityUpdateStrategy getDelegate() {
+    public VelocityProvider getDelegate() {
         return this.delegate;
     }
 

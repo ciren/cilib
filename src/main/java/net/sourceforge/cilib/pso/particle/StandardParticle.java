@@ -180,7 +180,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void updateVelocity() {
-        getProperties().put(EntityType.Particle.VELOCITY, this.behavior.getVelocityUpdateStrategy().get(this));
+        getProperties().put(EntityType.Particle.VELOCITY, this.behavior.getVelocityProvider().get(this));
     }
 
     /**
@@ -188,7 +188,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void updateControlParameters() {
-        behavior.getVelocityUpdateStrategy().updateControlParameters(this);
+        this.behavior.getVelocityProvider().updateControlParameters(this);
     }
 
     /**

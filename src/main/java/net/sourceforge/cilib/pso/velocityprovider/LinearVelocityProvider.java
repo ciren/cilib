@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.velocityupdatestrategies;
+package net.sourceforge.cilib.pso.velocityprovider;
 
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -35,7 +35,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author engel
  */
-public class LinearVelocityUpdate implements VelocityUpdateStrategy {
+public class LinearVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = -1624326615681760823L;
 
@@ -47,9 +47,9 @@ public class LinearVelocityUpdate implements VelocityUpdateStrategy {
     private RandomProvider cognitiveRandomGenerator;
 
     /**
-     * Create an instance of {@linkplain LinearVelocityUpdate}.
+     * Create an instance of {@linkplain LinearVelocityProvider}.
      */
-    public LinearVelocityUpdate() {
+    public LinearVelocityProvider() {
         // Resetting the social and cognitive components is required to ensure
         // that during the velocity update process, only 1 random number is used.
         this.inertiaWeight = new ConstantControlParameter(0.729844);
@@ -60,18 +60,18 @@ public class LinearVelocityUpdate implements VelocityUpdateStrategy {
         this.cognitiveRandomGenerator = new KnuthSubtractive();
     }
 
-    public LinearVelocityUpdate(LinearVelocityUpdate copy) {
+    public LinearVelocityProvider(LinearVelocityProvider copy) {
         this.inertiaWeight = copy.inertiaWeight.getClone();
         this.socialAcceleration = copy.socialAcceleration.getClone();
         this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
 
-        this.socialRandomGenerator = new KnuthSubtractive();
-        this.cognitiveRandomGenerator = new KnuthSubtractive();
+        this.socialRandomGenerator = copy.socialRandomGenerator;
+        this.cognitiveRandomGenerator = copy.cognitiveRandomGenerator;
     }
 
     @Override
-    public VelocityUpdateStrategy getClone() {
-        return new LinearVelocityUpdate(this);
+    public VelocityProvider getClone() {
+        return new LinearVelocityProvider(this);
     }
 
     /**

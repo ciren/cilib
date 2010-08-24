@@ -12,13 +12,13 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="20">
                 <entityType class="pso.particle.StandardParticle">
                     <velocityInitializationStrategy class="entity.initialization.ConstantInitializationStrategy" constant="0.0" />
-                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.GCVelocityUpdateStrategy">
-                        <delegate class="pso.velocityupdatestrategies.StandardVelocityUpdate">
+                    <velocityProvider class="pso.velocityprovider.GCVelocityProvider">
+                        <delegate class="pso.velocityprovider.StandardVelocityProvider">
                             <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.729844" />
                             <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="1.496180" />
                             <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.496180" />
                         </delegate>
-                    </velocityUpdateStrategy>
+                    </velocityProvider>
                     <neighbourhoodBestUpdateStrategy class="pso.positionupdatestrategies.MemoryNeighbourhoodBestUpdateStrategy" />
                 </entityType>
             </initialisationStrategy>

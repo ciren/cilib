@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.velocityupdatestrategies;
+package net.sourceforge.cilib.pso.velocityprovider;
 
 import java.util.Iterator;
 
@@ -59,26 +59,26 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Olusegun Olorunda
  */
-public class FDRVelocityUpdateStrategy implements VelocityUpdateStrategy {
+public class FDRVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = -7117135203986406944L;
 
     private ControlParameter fdrMaximizerAcceleration;
     private RandomProvider randomProvider;
 
-    private StandardVelocityUpdate delegate;
+    private StandardVelocityProvider delegate;
 
-    public FDRVelocityUpdateStrategy() {
+    public FDRVelocityProvider() {
         this.fdrMaximizerAcceleration = new ConstantControlParameter(2);
         this.randomProvider = new MersenneTwister();
 
-        this.delegate = new StandardVelocityUpdate();
+        this.delegate = new StandardVelocityProvider();
         this.delegate.setInertiaWeight(new LinearDecreasingControlParameter());
         this.delegate.setCognitiveAcceleration(new ConstantControlParameter(1));
         this.delegate.setSocialAcceleration(new ConstantControlParameter(2));
     }
 
-    public FDRVelocityUpdateStrategy(FDRVelocityUpdateStrategy copy) {
+    public FDRVelocityProvider(FDRVelocityProvider copy) {
         this.fdrMaximizerAcceleration = copy.fdrMaximizerAcceleration.getClone();
         this.randomProvider = new MersenneTwister();
         this.delegate = copy.delegate.getClone();
@@ -88,8 +88,8 @@ public class FDRVelocityUpdateStrategy implements VelocityUpdateStrategy {
      * {@inheritDoc}
      */
     @Override
-    public FDRVelocityUpdateStrategy getClone() {
-        return new FDRVelocityUpdateStrategy(this);
+    public FDRVelocityProvider getClone() {
+        return new FDRVelocityProvider(this);
     }
 
     /**

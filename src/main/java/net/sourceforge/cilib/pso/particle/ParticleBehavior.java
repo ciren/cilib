@@ -26,8 +26,8 @@ import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
 import net.sourceforge.cilib.pso.guideprovider.PBestGuideProvider;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.StandardPositionUpdateStrategy;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
+import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
+import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 
 /**
  * A {@link ParticleBehavior} object encapsulates the {@link PositionUpdateStrategy}
@@ -38,7 +38,7 @@ import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy
 public class ParticleBehavior implements Comparable<ParticleBehavior> {
 
     private PositionUpdateStrategy positionUpdateStrategy;
-    private VelocityUpdateStrategy velocityUpdateStrategy;
+    private VelocityProvider velocityProvider;
 
     private GuideProvider localGuideProvider;
     private GuideProvider globalGuideProvider;
@@ -47,12 +47,12 @@ public class ParticleBehavior implements Comparable<ParticleBehavior> {
     private int selectedCounter;
 
     /**
-     * Default constructor assigns standard position and velocity update
-     * strategies to particles.
+     * Default constructor assigns standard position and velocity provider
+     * to particles.
      */
     public ParticleBehavior() {
         this.positionUpdateStrategy = new StandardPositionUpdateStrategy();
-        this.velocityUpdateStrategy = new StandardVelocityUpdate();
+        this.velocityProvider = new StandardVelocityProvider();
 
         this.localGuideProvider = new PBestGuideProvider();
         this.globalGuideProvider = new NBestGuideProvider();
@@ -66,11 +66,11 @@ public class ParticleBehavior implements Comparable<ParticleBehavior> {
      * to a particle.
      *
      * @param p The {@link PositionUpdateStrategy} to use.
-     * @param v The {@link VelocityUpdateStrategy} to use.
+     * @param v The {@link VelocityProvider} to use.
      */
-    public ParticleBehavior(PositionUpdateStrategy p, VelocityUpdateStrategy v) {
+    public ParticleBehavior(PositionUpdateStrategy p, VelocityProvider v) {
         this.positionUpdateStrategy = p;
-        this.velocityUpdateStrategy = v;
+        this.velocityProvider = v;
         this.successCounter = 0;
         this.selectedCounter = 0;
     }
@@ -82,7 +82,7 @@ public class ParticleBehavior implements Comparable<ParticleBehavior> {
      */
     public ParticleBehavior(ParticleBehavior copy) {
         this.positionUpdateStrategy = copy.positionUpdateStrategy.getClone();
-        this.velocityUpdateStrategy = copy.velocityUpdateStrategy.getClone();
+        this.velocityProvider = copy.velocityProvider.getClone();
         this.localGuideProvider = copy.localGuideProvider.getClone();
         this.globalGuideProvider = copy.globalGuideProvider.getClone();
         this.selectedCounter = copy.selectedCounter;
@@ -115,21 +115,21 @@ public class ParticleBehavior implements Comparable<ParticleBehavior> {
     }
 
     /**
-     * Get the currently set {@link VelocityUpdateStrategy}.
+     * Get the currently set {@link VelocityProvider}.
      *
-     * @return The current {@link VelocityUpdateStrategy}.
+     * @return The current {@link VelocityProvider}.
      */
-    public VelocityUpdateStrategy getVelocityUpdateStrategy() {
-        return velocityUpdateStrategy;
+    public VelocityProvider getVelocityProvider() {
+        return this.velocityProvider;
     }
 
     /**
-     * Set the {@link VelocityUpdateStrategy}.
+     * Set the {@link VelocityProvider}.
      *
-     * @param strategy The {@link VelocityUpdateStrategy} to set.
+     * @param velocityProvider The {@link VelocityProvider} to set.
      */
-    public void setVelocityUpdateStrategy(VelocityUpdateStrategy strategy) {
-        velocityUpdateStrategy = strategy;
+    public void setVelocityProvider(VelocityProvider velocityProvider) {
+        this.velocityProvider = velocityProvider;
     }
 
     /**

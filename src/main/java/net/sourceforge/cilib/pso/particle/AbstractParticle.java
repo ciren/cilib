@@ -31,13 +31,11 @@ import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
 import net.sourceforge.cilib.entity.initialization.StandardPBestPositionInitializationStrategy;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
-import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
-import net.sourceforge.cilib.pso.guideprovider.PBestGuideProvider;
 import net.sourceforge.cilib.pso.positionupdatestrategies.MemoryNeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.pbestupdate.PersonalBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
+import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
@@ -230,23 +228,23 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     }
 
     /**
-     * Get the {@see net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy}
+     * Get the {@see net.sourceforge.cilib.pso.velocityprovider.VelocityProvider}
      * of the current particle.
      *
-     * @return Returns the velocityUpdateStrategy.
+     * @return Returns the VelocityProvider.
      */
     @Override
-    public VelocityUpdateStrategy getVelocityUpdateStrategy() {
-        return behavior.getVelocityUpdateStrategy();
+    public VelocityProvider getVelocityProvider() {
+        return this.behavior.getVelocityProvider();
     }
 
     /**
      * Set the velocity updating strategy for the particle.
-     * @param velocityUpdateStrategy The velocityUpdateStrategy to set.
+     * @param velocityProvider The VelocityProvider to set.
      */
     @Override
-    public void setVelocityUpdateStrategy(VelocityUpdateStrategy velocityUpdateStrategy) {
-        this.behavior.setVelocityUpdateStrategy(velocityUpdateStrategy);
+    public void setVelocityProvider(VelocityProvider velocityProvider) {
+        this.behavior.setVelocityProvider(velocityProvider);
     }
 
     /**

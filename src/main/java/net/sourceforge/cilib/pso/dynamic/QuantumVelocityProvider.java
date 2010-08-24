@@ -22,43 +22,43 @@
 package net.sourceforge.cilib.pso.dynamic;
 
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
+import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
+import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Velocity update strategy for QSO (Quantum PSO). Implemented according
- * to paper by Blackwell and Branke, "Multiswarms, Exclusion, and Anti-
- * Convergence in Dynamic Environments."
+ * VelocityProvider for QSO (Quantum PSO). Implemented according
+ * to paper by Blackwell and Branke, "Multiswarms, Exclusion, and
+ * Anti-Convergence in Dynamic Environments."
  *
  * @author Anna Rakitianskaia
  *
  */
-public class QuantumVelocityUpdateStrategy implements VelocityUpdateStrategy {
+public class QuantumVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = -940568473388702506L;
     private static final double EPSILON = 0.000000001;
     
-    private VelocityUpdateStrategy delegate;
+    private VelocityProvider delegate;
 
     /**
-     * Create a new instance of {@linkplain QuantumPositionUpdateStrategy}.
+     * Create a new instance of {@linkplain QuantumVelocityProvider}.
      */
-    public QuantumVelocityUpdateStrategy() {
-        this.delegate = new StandardVelocityUpdate();
+    public QuantumVelocityProvider() {
+        this.delegate = new StandardVelocityProvider();
     }
 
     /**
      * Create an copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public QuantumVelocityUpdateStrategy(QuantumVelocityUpdateStrategy copy) {
+    public QuantumVelocityProvider(QuantumVelocityProvider copy) {
         this.delegate = copy.delegate.getClone();
     }
 
     @Override
-    public QuantumVelocityUpdateStrategy getClone() {
-        return new QuantumVelocityUpdateStrategy(this);
+    public QuantumVelocityProvider getClone() {
+        return new QuantumVelocityProvider(this);
     }
 
     /**

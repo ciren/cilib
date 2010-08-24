@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.velocityupdatestrategies;
+package net.sourceforge.cilib.pso.velocityprovider;
 
 import java.util.Iterator;
 
@@ -36,7 +36,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * @author Olusegun Olorunda
  */
-public class FIPSVelocityUpdate implements VelocityUpdateStrategy {
+public class FIPSVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = 6391914534943249737L;
 
@@ -45,23 +45,23 @@ public class FIPSVelocityUpdate implements VelocityUpdateStrategy {
     private ControlParameter cognitiveAcceleration;
     private RandomProvider randomProvider;
 
-    public FIPSVelocityUpdate() {
+    public FIPSVelocityProvider() {
         this.inertiaWeight = new ConstantControlParameter(0.729844);
         this.socialAcceleration = new ConstantControlParameter(1.496180);
         this.cognitiveAcceleration = new ConstantControlParameter(1.496180);
         this.randomProvider = new MersenneTwister();
     }
 
-    public FIPSVelocityUpdate(FIPSVelocityUpdate copy) {
+    public FIPSVelocityProvider(FIPSVelocityProvider copy) {
         this.inertiaWeight = copy.inertiaWeight.getClone();
         this.socialAcceleration = copy.socialAcceleration.getClone();
         this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
-        this.randomProvider = new MersenneTwister();
+        this.randomProvider = copy.randomProvider;
     }
 
     @Override
-    public FIPSVelocityUpdate getClone() {
-        return new FIPSVelocityUpdate(this);
+    public FIPSVelocityProvider getClone() {
+        return new FIPSVelocityProvider(this);
     }
 
     @Override
