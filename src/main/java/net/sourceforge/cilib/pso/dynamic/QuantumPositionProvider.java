@@ -31,8 +31,8 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.pso.positionprovider.PositionProvider;
+import net.sourceforge.cilib.pso.positionprovider.StandardPositionProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 
 /**
  * Position provider for QSO (Quantum PSO). Implemented according to paper by
@@ -44,27 +44,25 @@ import net.sourceforge.cilib.util.Vectors;
 public class QuantumPositionProvider implements PositionProvider {
 
     private static final long serialVersionUID = -7844226788317206737L;
+    
     private static final double EPSILON = 0.000000001;
+
     private ControlParameter radius;
     private ProbabilityDistributionFuction randomizer;
     private Vector nucleus;
 
-    public Vector getNucleus() {
-        return nucleus;
-    }
-
-    public void setNucleus(Vector nucleus) {
-        this.nucleus = nucleus;
-    }
+    private PositionProvider delegate;
 
     public QuantumPositionProvider() {
-        radius = new ConstantControlParameter(5);
-        randomizer = new UniformDistribution();
+        this.radius = new ConstantControlParameter(5);
+        this.randomizer = new UniformDistribution();
+        this.delegate = new StandardPositionProvider();
     }
 
     public QuantumPositionProvider(QuantumPositionProvider copy) {
         this.radius = copy.radius;
         this.randomizer = copy.randomizer;
+        this.delegate = copy.delegate.getClone();
     }
 
     @Override
@@ -82,9 +80,7 @@ public class QuantumPositionProvider implements PositionProvider {
     public Vector get(Particle particle) {
         ChargedParticle checkChargeParticle = (ChargedParticle) particle;
         if (checkChargeParticle.getCharge() < EPSILON) { // the particle is neutral
-            Vector position = (Vector) particle.getPosition();
-            Vector velocity = (Vector) particle.getVelocity();
-            return Vectors.sumOf(position, velocity);
+            return this.delegate.get(particle);
         } else { // the particle is charged
             //based on the Pythagorean theorem,
             //the following code breaks the square of the radius distance into smaller
@@ -124,6 +120,22 @@ public class QuantumPositionProvider implements PositionProvider {
             }//for
             return builder.build();
         }//else
+    }
+
+    public void setDelegate(PositionProvider delegate) {
+        this.delegate = delegate;
+    }
+
+    public PositionProvider getDelegate() {
+        return this.delegate;
+    }
+    
+    public Vector getNucleus() {
+        return nucleus;
+    }
+
+    public void setNucleus(Vector nucleus) {
+        this.nucleus = nucleus;
     }
 
     /**

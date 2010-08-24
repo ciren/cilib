@@ -76,6 +76,14 @@ public class QuantumVelocityProvider implements VelocityProvider {
         return (Vector) particle.getVelocity().getClone();
     }
 
+        public void setDelegate(VelocityProvider delegate) {
+        this.delegate = delegate;
+    }
+
+    public VelocityProvider getDelegate() {
+        return this.delegate;
+    }
+
     @Override
     public void updateControlParameters(Particle particle) {
         this.delegate.updateControlParameters(particle);
