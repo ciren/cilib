@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.positionupdatestrategies;
+package net.sourceforge.cilib.pso.positionprovider;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.functions.activation.Sigmoid;
@@ -30,15 +30,15 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Gary Pampara
  */
-public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
+public class BinaryPositionProvider implements PositionProvider {
 
     private static final long serialVersionUID = -2136786203855125909L;
     private Sigmoid sigmoid;
 
     /**
-     * Create an instance of {@linkplain BinaryPositionUpdateStrategy}.
+     * Create an instance of {@linkplain BinaryPositionProvider}.
      */
-    public BinaryPositionUpdateStrategy() {
+    public BinaryPositionProvider() {
         this.sigmoid = new Sigmoid();
     }
 
@@ -46,7 +46,7 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public BinaryPositionUpdateStrategy(BinaryPositionUpdateStrategy copy) {
+    public BinaryPositionProvider(BinaryPositionProvider copy) {
         this.sigmoid = copy.sigmoid;
     }
 
@@ -54,8 +54,8 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
      * {@inheritDoc}
      */
     @Override
-    public BinaryPositionUpdateStrategy getClone() {
-        return new BinaryPositionUpdateStrategy(this);
+    public BinaryPositionProvider getClone() {
+        return new BinaryPositionProvider(this);
     }
 
     /**

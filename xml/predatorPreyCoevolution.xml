@@ -58,7 +58,7 @@
             </iterationStrategy>
             <initialisationStrategy class="algorithm.initialisation.ChargedPopulationInitialisationStrategy" entityNumber="40" chargeMagnitude="1.0">
                 <entityType class="pso.dynamic.ChargedParticle">
-                    <neighbourhoodBestUpdateStrategy class = "pso.positionupdatestrategies.IterationNeighbourhoodBestUpdateStrategy"/>
+                    <neighbourhoodBestUpdateStrategy class = "pso.positionprovider.IterationNeighbourhoodBestUpdateStrategy"/>
                     <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
                         <vMax class="controlparameter.ConstantControlParameter" parameter="3.0"/>
                         <delegate class="pso.dynamic.ChargedVelocityProvider">

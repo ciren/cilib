@@ -24,8 +24,8 @@ package net.sourceforge.cilib.pso.particle;
 import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
 import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
 import net.sourceforge.cilib.pso.guideprovider.PBestGuideProvider;
-import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
-import net.sourceforge.cilib.pso.positionupdatestrategies.StandardPositionUpdateStrategy;
+import net.sourceforge.cilib.pso.positionprovider.PositionProvider;
+import net.sourceforge.cilib.pso.positionprovider.StandardPositionProvider;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 
@@ -37,7 +37,7 @@ import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
  */
 public class ParticleBehavior implements Comparable<ParticleBehavior> {
 
-    private PositionUpdateStrategy positionUpdateStrategy;
+    private PositionProvider positionProvider;
     private VelocityProvider velocityProvider;
 
     private GuideProvider localGuideProvider;
@@ -51,7 +51,7 @@ public class ParticleBehavior implements Comparable<ParticleBehavior> {
      * to particles.
      */
     public ParticleBehavior() {
-        this.positionUpdateStrategy = new StandardPositionUpdateStrategy();
+        this.positionProvider = new StandardPositionProvider();
         this.velocityProvider = new StandardVelocityProvider();
 
         this.localGuideProvider = new PBestGuideProvider();
@@ -65,11 +65,11 @@ public class ParticleBehavior implements Comparable<ParticleBehavior> {
      * Constructor that assigns a given position and velocity update strategy
      * to a particle.
      *
-     * @param p The {@link PositionUpdateStrategy} to use.
+     * @param p The {@link PositionProvider} to use.
      * @param v The {@link VelocityProvider} to use.
      */
-    public ParticleBehavior(PositionUpdateStrategy p, VelocityProvider v) {
-        this.positionUpdateStrategy = p;
+    public ParticleBehavior(PositionProvider p, VelocityProvider v) {
+        this.positionProvider = p;
         this.velocityProvider = v;
         this.successCounter = 0;
         this.selectedCounter = 0;
@@ -81,7 +81,7 @@ public class ParticleBehavior implements Comparable<ParticleBehavior> {
      * @param copy The {@link ParticleBehavior} object to copy.
      */
     public ParticleBehavior(ParticleBehavior copy) {
-        this.positionUpdateStrategy = copy.positionUpdateStrategy.getClone();
+        this.positionProvider = copy.positionProvider.getClone();
         this.velocityProvider = copy.velocityProvider.getClone();
         this.localGuideProvider = copy.localGuideProvider.getClone();
         this.globalGuideProvider = copy.globalGuideProvider.getClone();
@@ -97,21 +97,21 @@ public class ParticleBehavior implements Comparable<ParticleBehavior> {
     }
 
     /**
-     * Get the currently set {@link PositionUpdateStrategy}.
+     * Get the currently set {@link PositionProvider}.
      *
-     * @return The current {@link PositionUpdateStrategy}.
+     * @return The current {@link PositionProvider}.
      */
-    public PositionUpdateStrategy getPositionUpdateStrategy() {
-        return positionUpdateStrategy;
+    public PositionProvider getPositionProvider() {
+        return positionProvider;
     }
 
     /**
-     * Set the {@link PositionUpdateStrategy}.
+     * Set the {@link PositionProvider}.
      *
-     * @param strategy The {@link PositionUpdateStrategy} to set.
+     * @param positionProvider The {@link PositionProvider} to set.
      */
-    public void setPositionUpdateStrategy(PositionUpdateStrategy strategy) {
-        positionUpdateStrategy = strategy;
+    public void setPositionProvider(PositionProvider positionProvider) {
+        this.positionProvider = positionProvider;
     }
 
     /**

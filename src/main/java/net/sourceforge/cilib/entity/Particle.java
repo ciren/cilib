@@ -25,7 +25,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.pbestupdate.PersonalBestUpdateStrategy;
-import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
+import net.sourceforge.cilib.pso.positionprovider.PositionProvider;
 import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -110,16 +110,16 @@ public interface Particle extends Entity, SocialEntity, MemoryBasedEntity {
     void setVelocityInitializationStrategy(InitializationStrategy velocityInitialisationStrategy);
 
     /**
-     * Get the current {@linkplain PositionUpdateStrategy} of the {@linkplain Particle}.
-     * @return The current {@linkplain PositionUpdateStrategy}.
+     * Get the current {@linkplain PositionProvider} of the {@linkplain Particle}.
+     * @return The current {@linkplain PositionProvider}.
      */
-    PositionUpdateStrategy getPositionUpdateStrategy();
+    PositionProvider getPositionProvider();
 
     /**
-     * Set the {@linkplain PositionUpdateStrategy} to use for particle position updates.
-     * @param positionUpdateStrategy The {@linkplain PositionUpdateStrategy} to set.
+     * Set the {@linkplain PositionProvider} to use for particle position updates.
+     * @param positionProvider The {@linkplain PositionProvider} to set.
      */
-    void setPositionUpdateStrategy(PositionUpdateStrategy positionUpdateStrategy);
+    void setPositionProvider(PositionProvider positionProvider);
 
     /**
      * Get the current strategy to perform personal best updates.

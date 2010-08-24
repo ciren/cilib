@@ -14,9 +14,9 @@
                     <VelocityProvider class="pso.velocityprovider.NoisyVelocityProvider">
                         <delegate class="pso.velocityprovider.StandardVelocityProvider"/>
                     </VelocityProvider>
-                    <PositionUpdateStrategy class="pso.positionupdatestrategies.NoisyPositionUpdateDecorator">
-                        <delegate class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
-                    </PositionUpdateStrategy>
+                    <PositionProvider class="pso.positionprovider.NoisyPositionProvider">
+                        <delegate class="pso.positionprovider.StandardPositionProvider"/>
+                    </PositionProvider>
                 </entityType>
             </initialisationStrategy>
         </algorithm>

@@ -11,7 +11,7 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="20"/>
                 <entityType class="pso.particle.StandardParticle">
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.LinearPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                     <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
                 </entityType>
             </initialisationStrategy>

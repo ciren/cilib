@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.positionupdatestrategies;
+package net.sourceforge.cilib.pso.positionprovider;
 
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.entity.Particle;
@@ -33,18 +33,18 @@ import net.sourceforge.cilib.util.Vectors;
  *
  * @author Bennie Leonard
  */
-public class NoisyPositionUpdateDecorator implements PositionUpdateStrategy {
+public class NoisyPositionProvider implements PositionProvider {
 
     private static final long serialVersionUID = -2665293187543545962L;
     private ProbabilityDistributionFuction distribution;
-    private PositionUpdateStrategy delegate;
+    private PositionProvider delegate;
 
-    public NoisyPositionUpdateDecorator() {
+    public NoisyPositionProvider() {
         this.distribution = new GaussianDistribution();
-        this.delegate = new StandardPositionUpdateStrategy();
+        this.delegate = new StandardPositionProvider();
     }
 
-    public NoisyPositionUpdateDecorator(NoisyPositionUpdateDecorator rhs) {
+    public NoisyPositionProvider(NoisyPositionProvider rhs) {
         this.distribution = rhs.distribution;
         this.delegate = rhs.delegate.getClone();
     }
@@ -60,15 +60,15 @@ public class NoisyPositionUpdateDecorator implements PositionUpdateStrategy {
     }
 
     @Override
-    public NoisyPositionUpdateDecorator getClone() {
-        return new NoisyPositionUpdateDecorator(this);
+    public NoisyPositionProvider getClone() {
+        return new NoisyPositionProvider(this);
     }
 
-    public PositionUpdateStrategy getDelegate() {
+    public PositionProvider getDelegate() {
         return this.delegate;
     }
 
-    public void setDelegate(PositionUpdateStrategy delegate) {
+    public void setDelegate(PositionProvider delegate) {
         this.delegate = delegate;
     }
 

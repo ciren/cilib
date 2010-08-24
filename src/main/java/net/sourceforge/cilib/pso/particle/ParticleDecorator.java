@@ -40,7 +40,7 @@ public abstract class ParticleDecorator extends AbstractParticle {
 
     public ParticleDecorator() {
         this.neighbourhoodBestUpdateStrategy = null;
-        this.behavior.setPositionUpdateStrategy(null);
+        this.behavior.setPositionProvider(null);
         this.behavior.setVelocityProvider(null);
         target = null;
     }

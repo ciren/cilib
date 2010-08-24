@@ -30,18 +30,18 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
-import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
+import net.sourceforge.cilib.pso.positionprovider.PositionProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
 /**
- * Position update strategy for QSO (Quantum PSO). Implemented according
- * to paper by Blackwell and Branke, "Multiswarms, Exclusion, and Anti-
- * Convergence in Dynamic Environments."
+ * Position provider for QSO (Quantum PSO). Implemented according to paper by
+ * Blackwell and Branke, "Multiswarms, Exclusion, and Anti-Convergence in
+ * Dynamic Environments."
  *
  * @author Anna Rakitianskaia, Julien Duhain
  */
-public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
+public class QuantumPositionProvider implements PositionProvider {
 
     private static final long serialVersionUID = -7844226788317206737L;
     private static final double EPSILON = 0.000000001;
@@ -57,19 +57,19 @@ public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
         this.nucleus = nucleus;
     }
 
-    public QuantumPositionUpdateStrategy() {
+    public QuantumPositionProvider() {
         radius = new ConstantControlParameter(5);
         randomizer = new UniformDistribution();
     }
 
-    public QuantumPositionUpdateStrategy(QuantumPositionUpdateStrategy copy) {
+    public QuantumPositionProvider(QuantumPositionProvider copy) {
         this.radius = copy.radius;
         this.randomizer = copy.randomizer;
     }
 
     @Override
-    public QuantumPositionUpdateStrategy getClone() {
-        return new QuantumPositionUpdateStrategy(this);
+    public QuantumPositionProvider getClone() {
+        return new QuantumPositionProvider(this);
     }
 
     /**

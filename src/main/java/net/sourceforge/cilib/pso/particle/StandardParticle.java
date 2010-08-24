@@ -153,7 +153,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void updatePosition() {
-        getProperties().put(EntityType.CANDIDATE_SOLUTION, this.behavior.getPositionUpdateStrategy().get(this));
+        getProperties().put(EntityType.CANDIDATE_SOLUTION, this.behavior.getPositionProvider().get(this));
     }
 
     /**

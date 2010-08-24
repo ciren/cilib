@@ -19,31 +19,25 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.positionupdatestrategies;
+package net.sourceforge.cilib.pso.positionprovider;
 
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * This class.....
- *
- * @author Gary Pampara
+ * TODO: Complete this javadoc.
  */
-public class MemoryNeighbourhoodBestUpdateStrategy implements NeighbourhoodBestUpdateStrategy {
-    private static final long serialVersionUID = -6674766322219682030L;
+public class GaussianPositionProvider implements PositionProvider {
 
-    public MemoryNeighbourhoodBestUpdateStrategy getClone() {
-        return this;
+    private static final long serialVersionUID = 1888395118987536803L;
+
+    @Override
+    public GaussianPositionProvider getClone() {
+        throw new UnsupportedOperationException("Implementation is required.");
     }
 
-    /**
-     * Get the social best fitness of the entity. This returns the fitness of the
-     * entity's personal best.
-     *
-     * @return The fitness of the <code>Entity</code>'s personal best (pbest)
-     */
-    public Fitness getSocialBestFitness(Entity entity) {
-        return entity.getBestFitness();
+    @Override
+    public Vector get(Particle particle) {
+        throw new UnsupportedOperationException("Implementation is required.");
     }
-
 }

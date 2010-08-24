@@ -31,10 +31,10 @@ import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
 import net.sourceforge.cilib.entity.initialization.StandardPBestPositionInitializationStrategy;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
-import net.sourceforge.cilib.pso.positionupdatestrategies.MemoryNeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.pbestupdate.PersonalBestUpdateStrategy;
-import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
-import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
+import net.sourceforge.cilib.pso.positionprovider.MemoryNeighbourhoodBestUpdateStrategy;
+import net.sourceforge.cilib.pso.positionprovider.NeighbourhoodBestUpdateStrategy;
+import net.sourceforge.cilib.pso.positionprovider.PositionProvider;
 import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
@@ -210,21 +210,21 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public abstract void updateControlParameters();
 
     /**
-     * Get the current <tt>PostionUpdateStrategy</tt> associated with this <tt>Particle</tt>.
-     * @return The currently associated <tt>PositionUpdateStrategy</tt>.
+     * Get the current <tt>PositionProvider</tt> associated with this <tt>Particle</tt>.
+     * @return The currently associated <tt>PositionProvider</tt>.
      */
     @Override
-    public PositionUpdateStrategy getPositionUpdateStrategy() {
-        return behavior.getPositionUpdateStrategy();
+    public PositionProvider getPositionProvider() {
+        return this.behavior.getPositionProvider();
     }
 
     /**
-     * Set the <tt>PostionUpdateStrategy</tt> for the <tt>Particle</tt>.
-     * @param positionUpdateStrategy The <tt>PositionUpdateStrategy</tt> to use.
+     * Set the <tt>PositionProvider</tt> for the <tt>Particle</tt>.
+     * @param positionProvider The <tt>PositionProvider</tt> to use.
      */
     @Override
-    public void setPositionUpdateStrategy(PositionUpdateStrategy positionUpdateStrategy) {
-        behavior.setPositionUpdateStrategy(positionUpdateStrategy);
+    public void setPositionProvider(PositionProvider positionProvider) {
+        this.behavior.setPositionProvider(positionProvider);
     }
 
     /**
@@ -285,7 +285,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      */
     @Override
     public InitializationStrategy getVelocityInitializationStrategy() {
-        return velocityInitializationStrategy;
+        return this.velocityInitializationStrategy;
     }
 
     /**
@@ -302,7 +302,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * @return The current {@linkplain PositionInitialisationStrategy}.
      */
     public InitializationStrategy<Particle> getPositionInitialisationStrategy() {
-        return positionInitialisationStrategy;
+        return this.positionInitialisationStrategy;
     }
 
     /**
@@ -319,7 +319,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      */
     @Override
     public NeighbourhoodBestUpdateStrategy getNeighbourhoodBestUpdateStrategy() {
-        return neighbourhoodBestUpdateStrategy;
+        return this.neighbourhoodBestUpdateStrategy;
     }
 
     /**
@@ -365,11 +365,11 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 
     @Override
     public ParticleBehavior getParticleBehavior() {
-        return behavior;
+        return this.behavior;
     }
 
     @Override
     public void setParticleBehavior(ParticleBehavior particleBehavior) {
-        behavior = particleBehavior;
+        this.behavior = particleBehavior;
     }
 }

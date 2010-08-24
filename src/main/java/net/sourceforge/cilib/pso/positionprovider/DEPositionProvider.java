@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.positionupdatestrategies;
+package net.sourceforge.cilib.pso.positionprovider;
 
 import java.util.ArrayList;
 
@@ -38,7 +38,7 @@ import net.sourceforge.cilib.util.Vectors;
  * TODO: can the DE strategies be incorporated somehow?
  * @author Andries Engelbrecht
  */
-public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
+public class DEPositionProvider implements PositionProvider {
 
     private static final long serialVersionUID = -4052606351661988520L;
     private ProbabilityDistributionFuction differentialEvolutionProbability; //Make a parameter to set via xml
@@ -49,7 +49,7 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
     private ProbabilityDistributionFuction rand3;
     private ProbabilityDistributionFuction rand4;
 
-    public DEPositionUpdateStrategy() {
+    public DEPositionProvider() {
         differentialEvolutionProbability = new GaussianDistribution();
         rand1 = new UniformDistribution();
         rand2 = new UniformDistribution();
@@ -59,7 +59,7 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
         scaleParameter = new GaussianDistribution();
     }
 
-    public DEPositionUpdateStrategy(DEPositionUpdateStrategy copy) {
+    public DEPositionProvider(DEPositionProvider copy) {
         this();
     }
 
@@ -67,8 +67,8 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
      * {@inheritDoc}
      */
     @Override
-    public DEPositionUpdateStrategy getClone() {
-        return new DEPositionUpdateStrategy(this);
+    public DEPositionProvider getClone() {
+        return new DEPositionProvider(this);
     }
 
     @Override

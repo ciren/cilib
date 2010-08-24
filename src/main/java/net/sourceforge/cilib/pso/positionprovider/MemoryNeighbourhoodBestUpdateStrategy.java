@@ -19,35 +19,31 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.positionupdatestrategies;
+package net.sourceforge.cilib.pso.positionprovider;
 
-import java.io.Serializable;
-
-import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Cloneable;
-
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.problem.Fitness;
 
 /**
- * TODO: Complete this javadoc.
- * @author Gary Pampara
+ * This class.....
  *
+ * @author Gary Pampara
  */
-public interface PositionUpdateStrategy extends Cloneable, Serializable {
+public class MemoryNeighbourhoodBestUpdateStrategy implements NeighbourhoodBestUpdateStrategy {
+    private static final long serialVersionUID = -6674766322219682030L;
+
+    public MemoryNeighbourhoodBestUpdateStrategy getClone() {
+        return this;
+    }
 
     /**
-     * Clone the stategy by creating a new object with the same contents and values
-     * as the current object.
+     * Get the social best fitness of the entity. This returns the fitness of the
+     * entity's personal best.
      *
-     * @return A clone of the current <tt>PositionUpdateStrategy</tt>
+     * @return The fitness of the <code>Entity</code>'s personal best (pbest)
      */
-    PositionUpdateStrategy getClone();
-
-    /**
-     * Update the position of the <tt>Particle</tt>.
-     *
-     * @param particle The <tt>Particle</tt> to perform the position update on.
-     */
-    Vector get(Particle particle);
+    public Fitness getSocialBestFitness(Entity entity) {
+        return entity.getBestFitness();
+    }
 
 }

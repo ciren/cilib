@@ -56,7 +56,7 @@
             </iterationStrategy>
             <initialisationStrategy class="algorithm.initialisation.ChargedPopulationInitialisationStrategy" entityNumber="30">
                 <entityType class="pso.dynamic.ChargedParticle">
-                    <neighbourhoodBestUpdateStrategy class = "pso.positionupdatestrategies.IterationNeighbourhoodBestUpdateStrategy"/>
+                    <neighbourhoodBestUpdateStrategy class = "pso.positionprovider.IterationNeighbourhoodBestUpdateStrategy"/>
                 </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.LBestTopology">

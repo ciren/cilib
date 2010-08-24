@@ -19,25 +19,35 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.positionupdatestrategies;
+package net.sourceforge.cilib.pso.positionprovider;
+
+import java.io.Serializable;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Cloneable;
+
 
 /**
  * TODO: Complete this javadoc.
+ * @author Gary Pampara
+ *
  */
-public class GaussianPositionUpdateStrategy implements PositionUpdateStrategy {
+public interface PositionProvider extends Cloneable, Serializable {
 
-    private static final long serialVersionUID = 1888395118987536803L;
+    /**
+     * Clone the stategy by creating a new object with the same contents and values
+     * as the current object.
+     *
+     * @return A clone of the current <tt>PositionProvider</tt>
+     */
+    PositionProvider getClone();
 
-    @Override
-    public GaussianPositionUpdateStrategy getClone() {
-        throw new UnsupportedOperationException("Implementation is required.");
-    }
+    /**
+     * Update the position of the <tt>Particle</tt>.
+     *
+     * @param particle The <tt>Particle</tt> to perform the position update on.
+     */
+    Vector get(Particle particle);
 
-    @Override
-    public Vector get(Particle particle) {
-        throw new UnsupportedOperationException("Implementation is required.");
-    }
 }

@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.positionupdatestrategies;
+package net.sourceforge.cilib.pso.positionprovider;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -32,29 +32,29 @@ import net.sourceforge.cilib.util.Vectors;
  * @author Gary Pampara
  *
  */
-public class StandardPositionUpdateStrategy implements PositionUpdateStrategy {
+public class StandardPositionProvider implements PositionProvider {
 
     private static final long serialVersionUID = 5547754413670196513L;
 
     /**
-     * Create an new instance of {@code StandardPositionUpdateStrategy}.
+     * Create an new instance of {@code StandardPositionProvider}.
      */
-    public StandardPositionUpdateStrategy() {
+    public StandardPositionProvider() {
     }
 
     /**
      * Copy constructor. Copy the provided instance.
      * @param copy The instance to copy.
      */
-    public StandardPositionUpdateStrategy(StandardPositionUpdateStrategy copy) {
+    public StandardPositionProvider(StandardPositionProvider copy) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public StandardPositionUpdateStrategy getClone() {
-        return new StandardPositionUpdateStrategy(this);
+    public StandardPositionProvider getClone() {
+        return new StandardPositionProvider(this);
     }
 
     /**

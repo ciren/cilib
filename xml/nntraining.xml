@@ -19,7 +19,7 @@
                             <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.496180" />
                         </delegate>
                     </velocityProvider>
-                    <neighbourhoodBestUpdateStrategy class="pso.positionupdatestrategies.MemoryNeighbourhoodBestUpdateStrategy" />
+                    <neighbourhoodBestUpdateStrategy class="pso.positionprovider.MemoryNeighbourhoodBestUpdateStrategy" />
                 </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.LBestTopology">
