@@ -21,9 +21,27 @@
  */
 package net.cilib.algorithm;
 
+import net.cilib.entity.EntityFinalizer;
+import com.google.inject.Inject;
+import net.cilib.entity.Entity;
+import net.cilib.entity.HasCandidateSolution;
+
 /**
- * @since 0.8
+ *
  * @author gpampara
  */
-public interface Algorithm {
+public class CrossoverProvider {
+    private final EntityFinalizer finalizer;
+
+    @Inject
+    public CrossoverProvider(EntityFinalizer finalizer) {
+        this.finalizer = finalizer;
+    }
+
+    <A extends HasCandidateSolution> A create(Iterable<A> iterable, A trailVector) {
+
+        Entity entity = null;
+        return (A) finalizer.finalize(entity);
+//        throw new UnsupportedOperationException("Not yet implemented");
+    }
 }

@@ -21,9 +21,30 @@
  */
 package net.cilib.algorithm;
 
+import com.google.common.collect.Lists;
+import net.cilib.entity.Entity;
+
 /**
- * @since 0.8
+ *
  * @author gpampara
  */
-public interface Algorithm {
+public class ReplacementSelector implements Selector {
+
+    @Override
+    public Entity select(Entity... elements) {
+        return select(Lists.newArrayList(elements));
+    }
+
+    @Override
+    public Entity select(Iterable<Entity> elements) {
+        Entity selected = null; // This should really be: Entity selected = Entity.dummy(); // or some name indicating that it's a temporary value
+        for (Entity entity : elements) {
+            if (selected == null) {
+                selected = entity;
+            } else {
+//                select the better entity based on some criteria
+            }
+        }
+        return selected;
+    }
 }

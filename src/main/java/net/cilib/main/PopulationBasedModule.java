@@ -22,29 +22,37 @@
 package net.cilib.main;
 
 import com.google.inject.AbstractModule;
-import net.cilib.annotation.Seed;
+import com.google.inject.Provider;
+import com.google.inject.Provides;
+import com.google.inject.assistedinject.FactoryProvider;
+import net.cilib.algorithm.Selector;
+import net.cilib.algorithm.MockMutationProvider;
+import net.cilib.algorithm.MutationProvider;
+import net.cilib.algorithm.ReplacementSelector;
+import net.cilib.annotation.Initialized;
+import net.cilib.collection.Topology;
+import net.cilib.collection.mutable.MutableGBestTopology;
+import net.cilib.entity.EntityFactory;
+import net.cilib.entity.Individual;
 
 /**
- * Module to define core related bindings for injection.
  *
- * <p>
- * The main list of bindings are:
- * <ul>
- *   <li>{@code RandomProvider} - the source of random numbers</li>
- * </ul>
- * @since 0.8
  * @author gpampara
  */
-public final class CIlibCoreModule extends AbstractModule {
+public class PopulationBasedModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bindConstant().annotatedWith(Seed.class).to(System.currentTimeMillis());
-        // Define the required bindings, like the PRNG
+        bind(Topology.class).to(MutableGBestTopology.class);
+        bind(Selector.class).to(ReplacementSelector.class);
+        bind(MutationProvider.class).to(MockMutationProvider.class);
+
+        bind(EntityFactory.class).toProvider(FactoryProvider.newFactory(EntityFactory.class, Individual.class));
     }
 
-//    @Provides // @SomeScope
-//    RandomProvider randomProvider(@Seed long seed, RandomProviderFactory provider) {
-//        return provider.create(seed);
-//    }
+    @Provides
+    @Initialized
+    Topology getInitializedTopology(Provider<Topology> t) {
+        return t.get();
+    }
 }

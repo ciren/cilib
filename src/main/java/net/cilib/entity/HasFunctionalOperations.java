@@ -19,11 +19,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.algorithm;
+package net.cilib.entity;
 
 /**
- * @since 0.8
+ *
  * @author gpampara
  */
-public interface Algorithm {
+interface HasFunctionalOperations<A> {
+
+//    A plus(A that);
+
+    A plus(HasCandidateSolution that);
+
+//    A subtract(A that);
+
+    A subtract(HasCandidateSolution that);
+
+    A multiply(double scalar);
+
+    A divide(double scalar);
 }

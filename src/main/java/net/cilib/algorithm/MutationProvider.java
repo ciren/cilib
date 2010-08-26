@@ -21,9 +21,16 @@
  */
 package net.cilib.algorithm;
 
+import java.util.Iterator;
+import net.cilib.entity.Entity;
+
 /**
  * @since 0.8
  * @author gpampara
  */
-public interface Algorithm {
+public interface MutationProvider {
+
+    /*Partial*/Entity create(Iterable<Entity> iterable);
+
+    /*Partial*/Entity create(Iterator<Entity> iterator);
 }

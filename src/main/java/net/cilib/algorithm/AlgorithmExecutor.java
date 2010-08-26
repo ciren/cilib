@@ -21,9 +21,34 @@
  */
 package net.cilib.algorithm;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Lists;
+import java.util.List;
+import net.cilib.entity.Entity;
+import net.cilib.collection.Topology;
+import net.cilib.measurement.Measurement;
+
 /**
- * @since 0.8
+ *
  * @author gpampara
  */
-public interface Algorithm {
+public class AlgorithmExecutor {
+    private final List<Predicate<Measurement>> stoppingConditions;
+
+    public AlgorithmExecutor() {
+        this.stoppingConditions = Lists.newArrayList();
+    }
+
+    public AlgorithmExecutor(List<Predicate<Measurement>> stoppingConditions) {
+        this.stoppingConditions = stoppingConditions;
+    }
+
+    public void execute(PopulationBasedAlgorithm algorithm, Topology<Entity> topology) {
+        Predicate<Measurement> combined = Predicates.or(this.stoppingConditions);
+
+//        while (stoppingConditions.apply(Boolean.TRUE)) {
+        algorithm.iterate(topology);
+//        }
+    }
 }

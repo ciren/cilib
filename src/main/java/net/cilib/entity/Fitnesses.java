@@ -19,11 +19,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.algorithm;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package net.cilib.entity;
 
 /**
- * @since 0.8
+ *
  * @author gpampara
  */
-public interface Algorithm {
+public class Fitnesses {
+
+    private static final Fitness INFERIOR_FITNESS = new Fitness() {
+
+        @Override
+        public int compareTo(Fitness o) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    };
+
+    private Fitnesses() {
+    }
+
+    public static Fitness inferior() {
+        return INFERIOR_FITNESS;
+    }
 }

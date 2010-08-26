@@ -19,11 +19,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.algorithm;
+package net.cilib.entity;
+
+import com.google.inject.assistedinject.Assisted;
 
 /**
- * @since 0.8
+ *
  * @author gpampara
  */
-public interface Algorithm {
+public interface EntityFactory {
+
+    public Entity create(@Assisted CandidateSolution solution, @Assisted Fitness fitness);
 }

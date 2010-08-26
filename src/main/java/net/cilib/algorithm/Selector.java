@@ -21,9 +21,15 @@
  */
 package net.cilib.algorithm;
 
+import net.cilib.entity.Entity;
+
 /**
  * @since 0.8
  * @author gpampara
  */
-public interface Algorithm {
+public interface Selector {
+
+    Entity select(Entity... elements);
+
+    Entity select(Iterable<Entity> elements);
 }
