@@ -112,7 +112,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
         Vector position2 = (Vector) positions.get(1).getCandidateSolution();
 //        Vector position3 = (Vector) positions.get(2).getContents();
 
-        Vector.Builder builder = new Vector.Builder();
+        Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             double r = pdf.getRandomNumber(0, 1);
             double attractor = r * localGuide.doubleValueOf(i) + (1 - r) * globalGuide.doubleValueOf(i);

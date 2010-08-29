@@ -79,7 +79,7 @@ public class FIPSVelocityProvider implements VelocityProvider {
             }
         }
 
-        Vector.Builder builder = new Vector.Builder();
+        Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             double informationSum = 0.0;
             int numberOfNeighbours = 0;

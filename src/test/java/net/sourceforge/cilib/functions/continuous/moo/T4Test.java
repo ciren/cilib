@@ -38,7 +38,7 @@ public class T4Test {
 
     @Test
     public void testEvaluate01() {
-        Vector.Builder builder = new Vector.Builder();
+        Vector.Builder builder = Vector.newBuilder();
         builder.add(Real.valueOf(1.0));
         for (int i = 0; i < 9; ++i) {
             builder.add(Real.valueOf(0.0));
@@ -52,7 +52,7 @@ public class T4Test {
 
     @Test
     public void testEvaluate02() {
-        Vector.Builder builder = new Vector.Builder();
+        Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < 10; ++i) {
             builder.add(Real.valueOf(0.0));
         }
@@ -65,7 +65,7 @@ public class T4Test {
 
     @Test
     public void testEvaluate03() {
-        Vector.Builder builder = new Vector.Builder();
+        Vector.Builder builder = Vector.newBuilder();
         builder.add(Real.valueOf(-1.0));
         for (int i = 0; i < 9; ++i) {
             builder.add(Real.valueOf(0.0));

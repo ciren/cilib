@@ -52,7 +52,7 @@ public class NoisyPositionProvider implements PositionProvider {
     @Override
     public Vector get(Particle particle) {
         Vector position = this.delegate.get(particle);
-        Vector.Builder builder = new Vector.Builder();
+        Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); i++) {
             builder.add(this.distribution.getRandomNumber());
         }

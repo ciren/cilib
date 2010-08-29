@@ -104,7 +104,7 @@ public class CoherenceVelocityProvider implements VelocityProvider {
 
         Vector standardVelocity = this.delegate.get(particle);
 
-        Vector.Builder builder = new Vector.Builder();
+        Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             double coherenceVelocity = this.scalingFactor.getParameter() * sigmoidValue * averageVelocity.doubleValueOf(i) * this.randomNumber.getRandomNumber();
             builder.add(coherenceVelocity);

@@ -101,7 +101,7 @@ public class FDRVelocityProvider implements VelocityProvider {
 
         Vector standardVelocity = this.delegate.get(particle);
 
-        Vector.Builder builder = new Vector.Builder();
+        Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             Topology<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
             Iterator<Particle> swarmIterator = topology.iterator();

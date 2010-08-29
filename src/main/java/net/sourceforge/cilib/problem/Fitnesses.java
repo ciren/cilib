@@ -35,7 +35,7 @@ public final class Fitnesses {
     }
 
     public static Vector vectorOf(MOFitness moFitness) {
-        Vector.Builder builder = new Vector.Builder();
+        Vector.Builder builder = Vector.newBuilder();
         for (Fitness fitness : moFitness) {
             builder.add(Real.valueOf(fitness.getValue()));
         }

@@ -143,7 +143,7 @@ public class GCVelocityProvider implements VelocityProvider {
             final Vector position = (Vector) particle.getPosition();
             final Vector globalGuide = (Vector) particle.getGlobalGuide();
 
-            Vector.Builder builder = new Vector.Builder();
+            Vector.Builder builder = Vector.newBuilder();
             for (int i = 0; i < velocity.size(); ++i) {
                 double component = -position.doubleValueOf(i) + globalGuide.doubleValueOf(i)
                         + this.inertiaWeight.getParameter() * velocity.doubleValueOf(i)

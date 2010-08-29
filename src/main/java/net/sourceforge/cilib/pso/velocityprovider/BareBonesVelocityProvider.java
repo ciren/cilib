@@ -58,7 +58,7 @@ public class BareBonesVelocityProvider implements VelocityProvider {
         Vector localGuide = (Vector) particle.getLocalGuide();
         Vector globalGuide = (Vector) particle.getGlobalGuide();
 
-        Vector.Builder builder = new Vector.Builder();
+        Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             //double tmp1 = cognitive.getParameter();
             //double tmp2 = social.getParameter();

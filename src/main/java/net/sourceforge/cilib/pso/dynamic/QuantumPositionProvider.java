@@ -90,32 +90,32 @@ public class QuantumPositionProvider implements PositionProvider {
             //This ensures that the quantum particles are placed randomly within the
             //multidimensional sphere determined by the quantum radius.
 
-            nucleus = (Vector) AbstractAlgorithm.get().getBestSolution().getPosition();
+            this.nucleus = (Vector) AbstractAlgorithm.get().getBestSolution().getPosition();
 
             double distance = Math.pow(this.radius.getParameter(), 2); //square of the radius
             int dimensions = particle.getDimension();
             double[] pieces = new double[dimensions]; // break up of the distance
             pieces[dimensions - 1] = distance;
             for (int i = 0; i < dimensions - 1; i++) {
-                pieces[i] = randomizer.getRandomNumber(0, distance);
+                pieces[i] = this.randomizer.getRandomNumber(0, distance);
             }//for
             Arrays.sort(pieces);
             int sign = 1;
-            if (randomizer.getRandomNumber() <= 0.5) {
+            if (this.randomizer.getRandomNumber() <= 0.5) {
                 sign = -1;
             }//if
             //deals with first dimension
-            Vector.Builder builder = new Vector.Builder();
-            builder.add(nucleus.doubleValueOf(0) + sign * randomizer.getRandomNumber(0, Math.sqrt(pieces[0])));
+            Vector.Builder builder = Vector.newBuilder();
+            builder.add(this.nucleus.doubleValueOf(0) + sign * this.randomizer.getRandomNumber(0, Math.sqrt(pieces[0])));
             //deals with the other dimensions
             for (int i = 1; i < dimensions; i++) {
                 sign = 1;
-                if (randomizer.getRandomNumber() <= 0.5) {
+                if (this.randomizer.getRandomNumber() <= 0.5) {
                     sign = -1;
                 }//if
                 double rad = Math.sqrt(pieces[i] - pieces[i - 1]);
-                double dis = randomizer.getRandomNumber(0, rad);
-                double newpos = nucleus.doubleValueOf(i) + sign * dis;
+                double dis = this.randomizer.getRandomNumber(0, rad);
+                double newpos = this.nucleus.doubleValueOf(i) + sign * dis;
                 builder.add(newpos);
             }//for
             return builder.build();
@@ -131,7 +131,7 @@ public class QuantumPositionProvider implements PositionProvider {
     }
     
     public Vector getNucleus() {
-        return nucleus;
+        return this.nucleus;
     }
 
     public void setNucleus(Vector nucleus) {

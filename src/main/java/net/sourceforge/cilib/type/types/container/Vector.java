@@ -462,17 +462,6 @@ public class Vector implements StructuredType<Numeric>,
     }
 
     /**
-     * Get the dimension of the {@code Vector}.
-     * @return The dimension of the {@code Vector}.
-     * @see Vector#size()
-     * @deprecated Use {@link Vector#size()} instead.
-     */
-    @Deprecated
-    public int getDimension() {
-        return this.components.length;
-    }
-
-    /**
      * Apply the {@code visitor} to all elements contained in this {@code Vector}.
      * @param visitor The {@code Visitor} to apply.
      */
@@ -689,14 +678,6 @@ public class Vector implements StructuredType<Numeric>,
     }
 
     /**
-     * Obtain a {@link Builder} to create a {@code Vector}.
-     * @return A new {@link Builder}.
-     */
-    public static Builder newBuilder() {
-        return new Builder();
-    }
-
-    /**
      * Obtain the {@code double} representation of the element at the provided index.
      * @param index position of element
      * @return {@code double} value of index within {@code Vector}.
@@ -900,8 +881,7 @@ public class Vector implements StructuredType<Numeric>,
             if (first) {
                 acc = n.doubleValue();
                 first = false;
-            }
-            else {
+            } else {
                 acc = function.apply(acc.doubleValue(), n.doubleValue());
             }
         }
@@ -914,7 +894,16 @@ public class Vector implements StructuredType<Numeric>,
     }
 
     public interface BinaryFunction<A, B, C> {
+
         C apply(A a, B b);
+    }
+
+    /**
+     * Obtain a {@link Builder} to create a {@code Vector}.
+     * @return A new {@link Builder}.
+     */
+    public static Builder newBuilder() {
+        return new Builder();
     }
 
     /**
@@ -936,7 +925,11 @@ public class Vector implements StructuredType<Numeric>,
      */
     public static class Builder {
 
-        private List<Numeric> elements = Lists.newArrayList();
+        private List<Numeric> elements;
+
+        private Builder() {
+            this.elements = Lists.newArrayList();
+        }
 
         /**
          * Add a {@code double} to the {@code Builder}. The {@code double}

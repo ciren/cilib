@@ -82,7 +82,7 @@ public class ChargedVelocityProvider implements VelocityProvider {
         }
 
         // Calculate acceleration of the current particle
-        Vector.Builder builder = new Vector.Builder();
+        Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             double accSum = 0;
             for (Iterator<Particle> j = pso.getTopology().neighbourhood(iter); j.hasNext();) {

@@ -87,7 +87,7 @@ public class LinearVelocityProvider implements VelocityProvider {
         float social = this.socialRandomGenerator.nextFloat();
         float cognitive = this.cognitiveRandomGenerator.nextFloat();
 
-        Vector.Builder builder = new Vector.Builder();
+        Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             double value = this.inertiaWeight.getParameter()*velocity.doubleValueOf(i) +
                 cognitive  * this.cognitiveAcceleration.getParameter() * (localGuide.doubleValueOf(i) - position.doubleValueOf(i)) +
