@@ -37,13 +37,17 @@
     <dataTableBuilder id="glass.unscaled" class="io.DataTableBuilder">
         <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/uci/glass/glass.data" delimiter="," /> <!--beginIndex="1" endIndex="9" />-->
         <addDataOperator class="io.transform.TypeConversionOperator" />
-        <addDataOperator class="io.transform.PatternConversionOperator" classIndex="10" classLength="1" />
+        <addDataOperator class="io.transform.PatternConversionOperator" classIndex="10" classLength="1">
+            <ignoreColumnIndex>0</ignoreColumnIndex>
+        </addDataOperator>
     </dataTableBuilder>
 
     <dataTableBuilder id="glass.scaled" class="io.DataTableBuilder">
         <dataReader class="io.DelimitedTextFileReader" sourceURL="../../datasets/uci/glass/glass.scaled.csv" delimiter="," /> <!--beginIndex="1" endIndex="9" />-->
         <addDataOperator class="io.transform.TypeConversionOperator" />
-        <addDataOperator class="io.transform.PatternConversionOperator" classIndex="10" classLength="1" />
+        <addDataOperator class="io.transform.PatternConversionOperator" classIndex="10" classLength="1">
+            <ignoreColumnIndex>0</ignoreColumnIndex>
+        </addDataOperator>
     </dataTableBuilder>
 
     <problems>
