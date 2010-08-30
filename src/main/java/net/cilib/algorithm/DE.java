@@ -52,8 +52,8 @@ public class DE implements PopulationBasedAlgorithm<Entity> {
         for (Entity parent : topology) {
             // This should be implicit. the only way to not have a valid fitness is if a PartialEntity is created.
 //            parent.evaluateFitness();
-            Entity trailVector = mutationProvider.create(topology);
-            Entity offspring = crossoverProvider.create(topology, trailVector);
+            Entity trialVector = mutationProvider.create(topology);
+            Entity offspring = crossoverProvider.create(parent, trialVector);
             next.add(selector.select(parent, offspring));
         }
         return next; // This should be immutable?

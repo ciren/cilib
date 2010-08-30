@@ -22,9 +22,18 @@
 package net.cilib.entity;
 
 import com.google.common.base.Preconditions;
+import com.google.common.primitives.Doubles;
 import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import java.util.Comparator;
+import static net.cilib.entity.EntityComparators.FITNESS_COMPARATOR;
 
 /**
+ * Basic individual class.
+ * <p>
+ * The individual is an {@link Entity} instances that maintains a single
+ * {@linkplain CandidateSolution solution} and {@linkplain Fitness fitness}.
+ *
  * @since 0.8
  * @author gpampara
  */
@@ -34,7 +43,7 @@ public final class Individual implements Entity {
     private final Fitness fitness;
 
     @Inject
-    public Individual(CandidateSolution solution, Fitness fitness) {
+    public Individual(@Assisted CandidateSolution solution, @Assisted Fitness fitness) {
         this.solution = solution;
         this.fitness = fitness;
     }
@@ -84,6 +93,45 @@ public final class Individual implements Entity {
         return fitness;
     }
 
+    @Override
+    public boolean equiv(Entity that) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Entity moreFit(Entity that) {
+        return moreFit(that, FITNESS_COMPARATOR);
+    }
+
+    @Override
+    public Entity moreFit(Entity that, Comparator<? super Entity> comparator) {
+        return (comparator.compare(this, that) >= 0) ? this : that;
+    }
+
+    @Override
+    public Entity lessFit(Entity that) {
+        return lessFit(that, FITNESS_COMPARATOR);
+    }
+
+    @Override
+    public Entity lessFit(Entity that, Comparator<? super Entity> comparator) {
+        return (comparator.compare(this, that) < 0) ? this : that;
+    }
+
+//    @Override
+//    public boolean isMoreFit(Entity than) {
+//        return moreFit(than) == than;
+//    }
+//
+//    @Override
+//    public boolean isLessFit(Entity than) {
+//        return lessFit(than) == than;
+//    }
+    @Override
+    public int compareTo(Entity o) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     private PartialEntity newPartialIndividual(Individual individual) {
         return new PartialIndividual(individual);
     }
@@ -96,9 +144,10 @@ public final class Individual implements Entity {
             this.internalSolution = individual.solution.toArray();
         }
 
+        // DI Here? Should the EntityFactory be injected?
         @Override
-        public <A extends Entity> A build() {
-            return (A) new Individual(CandidateSolution.copyOf(internalSolution), Fitnesses.inferior());
+        public final Individual build() {
+            return new Individual(CandidateSolution.copyOf(internalSolution), Fitnesses.inferior());
         }
 
         @Override
@@ -131,7 +180,7 @@ public final class Individual implements Entity {
 
         @Override
         public PartialEntity divide(double scalar) {
-            Preconditions.checkArgument(Double.compare(scalar, 0.0) != 0, "Cannot divide with a 0.0!");
+            Preconditions.checkArgument(Doubles.compare(scalar, 0.0) != 0, "Cannot divide with a 0.0!");
             for (int i = 0, n = internalSolution.length; i < n; i++) {
                 internalSolution[i] /= scalar;
             }

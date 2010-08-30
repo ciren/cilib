@@ -24,10 +24,18 @@ package net.cilib.algorithm;
 import net.cilib.collection.Topology;
 
 /**
+ * Algorithm that operates on a {@link Topology}.
+ *
  * @since 0.8
  * @author gpampara
  */
 public interface PopulationBasedAlgorithm<A> extends Algorithm {
 
+    /**
+     * Perform a loop of the population based algorithm. The iteration of the
+     * algorithm will mutate the provided {@link Topology} instance.
+     * @param topology the population for the algorithm to operate on
+     * @return the given topology, post algorithm iteration.
+     */
     Topology<A> iterate(Topology<A> topology);
 }

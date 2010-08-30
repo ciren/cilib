@@ -23,7 +23,7 @@ package net.cilib.algorithm;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.google.common.collect.Lists;
+import com.google.common.collect.ImmutableList;
 import java.util.List;
 import net.cilib.entity.Entity;
 import net.cilib.collection.Topology;
@@ -34,21 +34,24 @@ import net.cilib.measurement.Measurement;
  * @author gpampara
  */
 public class AlgorithmExecutor {
+
     private final List<Predicate<Measurement>> stoppingConditions;
 
-    public AlgorithmExecutor() {
-        this.stoppingConditions = Lists.newArrayList();
-    }
-
     public AlgorithmExecutor(List<Predicate<Measurement>> stoppingConditions) {
-        this.stoppingConditions = stoppingConditions;
+        this.stoppingConditions = ImmutableList.copyOf(stoppingConditions);
     }
 
     public void execute(PopulationBasedAlgorithm algorithm, Topology<Entity> topology) {
-        Predicate<Measurement> combined = Predicates.or(this.stoppingConditions);
+        Predicate<Measurement> combined = Predicates.or(stoppingConditions);
+
+        for (Predicate<Measurement> measurement : stoppingConditions) {
+        }
+
+        // First, evaluate the fitnesses of all the Entity instances.
+        // for (Entity e : topology) evaluateTheFitness()
 
 //        while (stoppingConditions.apply(Boolean.TRUE)) {
-        algorithm.iterate(topology);
+        Topology<Entity> nextTopology = algorithm.iterate(topology);
 //        }
     }
 }

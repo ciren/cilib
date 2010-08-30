@@ -30,7 +30,7 @@ import net.cilib.entity.Entity;
  */
 public interface MutationProvider {
 
-    /*Partial*/Entity create(Iterable<Entity> iterable);
+    Entity create(Iterable<Entity> iterable);
 
-    /*Partial*/Entity create(Iterator<Entity> iterator);
+    Entity create(Iterator<Entity> iterator);
 }

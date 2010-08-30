@@ -99,4 +99,22 @@ public class IndividualTest {
         Entity result = current.multiply(4.0).plus(other).build();
         Assert.assertArrayEquals(new double[]{5.0, 10.0}, result.solution().toArray(), 0.001);
     }
+
+    @Test
+    public void lessFit() {
+        Individual i1 = new Individual(null, Fitnesses.newMinimizationFitness(4.0));
+        Individual i2 = new Individual(null, Fitnesses.newMinimizationFitness(-3.0));
+
+        Assert.assertThat((Individual) i1.lessFit(i2), is(i1));
+        Assert.assertThat((Individual) i2.lessFit(i1), is(i1));
+    }
+
+    @Test
+    public void moreFit() {
+        Individual i1 = new Individual(null, Fitnesses.newMaximizationFitness(4.0));
+        Individual i2 = new Individual(null, Fitnesses.newMaximizationFitness(-3.0));
+
+        Assert.assertThat((Individual) i1.moreFit(i2), is(i1));
+        Assert.assertThat((Individual) i2.moreFit(i1), is(i1));
+    }
 }

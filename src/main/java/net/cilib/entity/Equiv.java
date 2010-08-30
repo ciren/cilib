@@ -22,10 +22,22 @@
 package net.cilib.entity;
 
 /**
- *
+ * Defining an equivalency between instances. This interface is
+ * different from {@link Object#equals(java.lang.Object)} by indicating
+ * a semantically different concept.
+ * <p>
+ * For example, two {@link Entity} instances may be equivalent, but they
+ * may not necessarily be equal.
  * @author gpampara
  */
-public interface HasVelocity {
+public interface Equiv<A> extends Comparable<A> {
 
-    // Velocity velocity();
+    /**
+     * Determine if the current instance and the given instance are
+     * equivalent.
+     * @param that the {@code Entity} to test equivalency against
+     * @return {@code true} if the instances are equivalent, {@code false}
+     * otherwise.
+     */
+    boolean equiv(A that);
 }

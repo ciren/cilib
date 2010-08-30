@@ -39,11 +39,7 @@ public class ReplacementSelector implements Selector {
     public Entity select(Iterable<Entity> elements) {
         Entity selected = null; // This should really be: Entity selected = Entity.dummy(); // or some name indicating that it's a temporary value
         for (Entity entity : elements) {
-            if (selected == null) {
-                selected = entity;
-            } else {
-//                select the better entity based on some criteria
-            }
+            selected = (selected == null) ? entity : selected.moreFit(entity);
         }
         return selected;
     }

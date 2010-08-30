@@ -21,11 +21,20 @@
  */
 package net.cilib.entity;
 
+import java.util.Comparator;
+
 /**
  *
  * @author gpampara
  */
-public interface HasVelocity {
+public final class EntityComparators {
 
-    // Velocity velocity();
+    public static final Comparator<Entity> FITNESS_COMPARATOR = new Comparator<Entity>() {
+        @Override
+        public int compare(Entity o1, Entity o2) {
+            return o1.fitness().compareTo(o2.fitness());
+        }
+    };
+
+    private EntityComparators() {}
 }

@@ -22,10 +22,16 @@
 package net.cilib.entity;
 
 /**
- *
+ * Any class implementing this interface defines that the instance maintains
+ * a memory of a {@link CandidateSolution}.
  * @author gpampara
  */
 public interface HasMemory {
 
+    /**
+     * Get the currently remembered {@linkplain CandidateSolution candidate
+     * solution}.
+     * @return the maintained memory.
+     */
     CandidateSolution memory();
 }

@@ -21,11 +21,23 @@
  */
 package net.cilib.entity;
 
+import java.util.Comparator;
+
 /**
  *
  * @author gpampara
  */
-public interface HasVelocity {
+public interface EntityComparable extends Equiv<Entity> {
 
-    // Velocity velocity();
+    Entity moreFit(Entity that);
+
+    Entity moreFit(Entity that, Comparator<? super Entity> comparator);
+
+    Entity lessFit(Entity that);
+
+    Entity lessFit(Entity that, Comparator<? super Entity> comparator);
+
+//    boolean isMoreFit(Entity than);
+//
+//    boolean isLessFit(Entity than);
 }

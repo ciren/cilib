@@ -22,12 +22,26 @@
 package net.cilib.entity;
 
 /**
+ * Indicate that an instance, maintaining a {@link CandidateSolution} is
+ * required.
+ * <p>
+ * All {@link Entity} instances should maintain a {@link CandidateSolution}.
+ *
  * @since 0.8
  * @author gpampara
  */
 public interface HasCandidateSolution {
 
+    /**
+     * The currently maintained solution.
+     * @return the current {@linkplain CandidateSolution candidate solution}.
+     */
     CandidateSolution solution();
 
+    /**
+     * Determines the size of the maintained
+     * {@linkplain CandidateSolution candidate solution}.
+     * @return the size.
+     */
     int size();
 }

@@ -25,13 +25,9 @@ package net.cilib.entity;
  *
  * @author gpampara
  */
-interface HasFunctionalOperations<A> {
-
-//    A plus(A that);
+public interface HasFunctionalOperations<A> {
 
     A plus(HasCandidateSolution that);
-
-//    A subtract(A that);
 
     A subtract(HasCandidateSolution that);
 

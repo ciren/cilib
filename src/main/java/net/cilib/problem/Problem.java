@@ -21,8 +21,8 @@
  */
 package net.cilib.problem;
 
+import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.Fitness;
-import net.cilib.entity.HasCandidateSolution;
 
 /**
  * @since 0.8
@@ -31,5 +31,5 @@ import net.cilib.entity.HasCandidateSolution;
 public interface Problem {
 
     // Not sure about this as an API
-    Fitness fitnessOf(HasCandidateSolution solution);
+    Fitness fitnessOf(CandidateSolution solution);
 }

@@ -21,10 +21,15 @@
  */
 package net.cilib.algorithm;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import net.cilib.entity.EntityFinalizer;
 import com.google.inject.Inject;
+import java.util.List;
+import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.Entity;
 import net.cilib.entity.HasCandidateSolution;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  *
@@ -32,16 +37,37 @@ import net.cilib.entity.HasCandidateSolution;
  */
 public class CrossoverProvider {
     private final EntityFinalizer finalizer;
+    private final RandomProvider randomProvider;
 
     @Inject
-    public CrossoverProvider(EntityFinalizer finalizer) {
-        this.finalizer = finalizer;
+    public CrossoverProvider(EntityFinalizer entityFinalizer, RandomProvider randomProvider) {
+        this.finalizer = entityFinalizer;
+        this.randomProvider = randomProvider;
     }
 
-    <A extends HasCandidateSolution> A create(Iterable<A> iterable, A trailVector) {
+    public Entity create(HasCandidateSolution target, HasCandidateSolution trialVector) {
+        Preconditions.checkArgument(target.size() == trialVector.size(), "ERROR! different sizes");
+        List<Integer> crossoverPoints = Lists.newArrayList();
 
-        Entity entity = null;
-        return (A) finalizer.finalize(entity);
-//        throw new UnsupportedOperationException("Not yet implemented");
+         // Select the crossover points
+        int random = randomProvider.nextInt(trialVector.size());
+        crossoverPoints.add(random);
+
+        for (int i = 0, n = trialVector.size(); i < n; i++) {
+            if (randomProvider.nextInt() < 0.5 && i != random) {
+                crossoverPoints.add(i);
+            }
+        }
+
+        CandidateSolution.Builder offspringBuilder = CandidateSolution.newBuilder();
+        for (int i = 0; i < trialVector.size(); i++) {
+            if (crossoverPoints.contains(Integer.valueOf(i))) {
+                offspringBuilder.add(trialVector.solution().get(i));
+            } else {
+                offspringBuilder.add(target.solution().get(i));
+            }
+        }
+
+        return finalizer.finalize(offspringBuilder.build());
     }
 }

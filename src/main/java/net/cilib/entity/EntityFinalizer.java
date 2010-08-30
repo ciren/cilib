@@ -38,8 +38,8 @@ public class EntityFinalizer {
         this.problem = problem;
     }
 
-    public Entity finalize(Entity element) {
-        Fitness fitness = problem.fitnessOf(element);
-        return factory.create(element.solution(), fitness);
+    public Entity finalize(CandidateSolution solution) {
+        Fitness fitness = problem.fitnessOf(solution);
+        return factory.create(solution, fitness);
     }
 }

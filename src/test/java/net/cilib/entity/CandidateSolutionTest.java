@@ -21,11 +21,30 @@
  */
 package net.cilib.entity;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 /**
  *
  * @author gpampara
  */
-public interface HasVelocity {
+public class CandidateSolutionTest {
 
-    // Velocity velocity();
+    @Test
+    public void builder() {
+        CandidateSolution solution  = CandidateSolution.newBuilder()
+                .add(0).add(1).add(2).add(3).add(4).build();
+
+        Assert.assertArrayEquals(new double[]{0, 1, 2, 3, 4}, solution.toArray(), 0.0001);
+    }
+
+    @Test
+    public void defensiveToArray() {
+        CandidateSolution solution = CandidateSolution.copyOf(1.0, 1.0);
+        double [] a = solution.toArray();
+        double [] b = solution.toArray();
+
+        Assert.assertNotSame(a, b);
+        Assert.assertArrayEquals(a, b, 0.001);
+    }
 }

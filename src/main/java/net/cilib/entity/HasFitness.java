@@ -22,10 +22,15 @@
 package net.cilib.entity;
 
 /**
+ * Indicate that the instance does maintain a {@link Fitness}.
  *
  * @author gpampara
  */
 public interface HasFitness {
 
+    /**
+     * Gets currently associated {@linkplain Fitness fitness} value.
+     * @return the fitness value.
+     */
     Fitness fitness();
 }

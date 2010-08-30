@@ -32,10 +32,22 @@ import gnu.trove.TDoubleArrayList;
  */
 public class CandidateSolution {
 
+    /**
+     * Returns an immutable candidate solution, which is a copy of the given
+     * argument.
+     * @param solution the candidate solution to copy.
+     * @return an immutable copy of a provided new candidate solution.
+     */
     public static CandidateSolution copyOf(CandidateSolution solution) {
         return new CandidateSolution(new TDoubleArrayList(solution.toArray()));
     }
 
+    /**
+     * Returns an immutable candidate solution containing the given elements,
+     * in order.
+     * @param solution the array of values, representing the candidate solution.
+     * @return an immutable candidate solution representing the given values.
+     */
     public static CandidateSolution copyOf(double... solution) {
         return new CandidateSolution(new TDoubleArrayList(solution));
     }
@@ -45,14 +57,31 @@ public class CandidateSolution {
         this.internal = list;
     }
 
+    /**
+     * Get the value of the candidate solution at the given {@code index}.
+     * @param index position of the value
+     * @return the value within the candidate solution at the given
+     *  {@code index}.
+     */
     public double get(int index) {
         return internal.get(index);
     }
 
+    /**
+     * Returns the size of this {@code CandidateSolution}.
+     * @return the candidate solution size.
+     */
     public int size() {
         return internal.size();
     }
 
+    /**
+     * Convert the {@code CandidateSolution} into a primitive array. The
+     * returned array is copy of the contents of the {@code CandidateSolution}.
+     *
+     * @return a copy of the internal representation for this candidate
+     * solution.
+     */
     public double[] toArray() {
         return internal.toNativeArray();
     }
@@ -62,35 +91,61 @@ public class CandidateSolution {
         return Objects.toStringHelper(this).addValue(internal).toString();
     }
 
+    /**
+     * Creates an instance of the internal {@linkplain Builder builder} for
+     * creation of candidate solutions.
+     * @return a new instance of the builder.
+     */
     public static Builder newBuilder() {
         return new Builder();
     }
 
+    /**
+     * Builder to create {@link CandidateSolution} instances. After the builder
+     * has created the {@link CandidateSolution}, the builder is reset to an
+     * empty state.
+     */
     public static class Builder {
 
-        private int pos;
+        private int current;
         private double[] contents;
 
         private Builder() {
-            pos = 0;
+            current = 0;
             contents = new double[20];
         }
 
-        public void add(double value) {
+        /**
+         * Adds a {@code value} to the {@code CandidateSolution}.
+         * @param value the value to add.
+         */
+        public Builder add(double value) {
             updateSize();
-            contents[pos++] = value;
+            contents[current] = value;
+            current += 1;
+            return this;
         }
 
+        /**
+         * Returns a newly created {@code CandidateSolution} based on the
+         * contents of the {@code Builder}.
+         * @return the newly created {@code CandidateSolution}.
+         */
         public CandidateSolution build() {
-            TDoubleArrayList result = new TDoubleArrayList(pos);
-            for (int i = 0; i < pos; i++) {
-                result.add(contents[i]);
+            try {
+                TDoubleArrayList result = new TDoubleArrayList(current);
+                for (int i = 0; i < current; i++) {
+                    result.add(contents[i]);
+                }
+                return new CandidateSolution(result);
+            } finally {
+                current = 0;
+                contents = new double[]{};
             }
-            return new CandidateSolution(result);
         }
 
         private void updateSize() {
-            if (pos + 1 >= contents.length) {
+            if (current + 1 >= contents.length) {
                 double[] tmp = new double[contents.length + 10];
                 System.arraycopy(contents, 0, tmp, 0, contents.length);
                 contents = tmp;
