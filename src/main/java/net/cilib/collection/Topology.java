@@ -22,8 +22,21 @@
 package net.cilib.collection;
 
 /**
+ * @param <A>
  * @since 0.8
  * @author gpampara
  */
 public interface Topology<A> extends Iterable<A> {
+
+    Builder<A> newBuilder();
+
+    /**
+     *
+     */
+    public interface Builder<B> {
+
+        Topology<B> build();
+
+        boolean add(B element);
+    }
 }

@@ -24,7 +24,7 @@ package net.cilib.entity;
 import java.util.Comparator;
 
 /**
- *
+ * Comparisons for {@code Entity} instances.
  * @author gpampara
  */
 public interface EntityComparable extends Equiv<Entity> {
@@ -36,7 +36,6 @@ public interface EntityComparable extends Equiv<Entity> {
     Entity lessFit(Entity that);
 
     Entity lessFit(Entity that, Comparator<? super Entity> comparator);
-
 //    boolean isMoreFit(Entity than);
 //
 //    boolean isLessFit(Entity than);

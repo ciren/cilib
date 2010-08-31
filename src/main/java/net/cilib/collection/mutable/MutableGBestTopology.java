@@ -21,37 +21,48 @@
  */
 package net.cilib.collection.mutable;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.UnmodifiableIterator;
 import java.util.Iterator;
+import java.util.List;
 import net.cilib.collection.Topology;
+import net.cilib.collection.Topology.Builder;
 
 /**
+ * @param <A> The element type.
  * @since 0.8
  * @author gpampara
  */
 public class MutableGBestTopology<A> implements Topology<A> {
+    private final List<A> internal;
+
+    public MutableGBestTopology() {
+        this.internal = Lists.newArrayList();
+    }
 
     @Override
     public Iterator<A> iterator() {
-        return new Iterator<A>() {
+        final Iterator<A> iter = internal.iterator();
+        return new UnmodifiableIterator<A>() {
 
             @Override
             public boolean hasNext() {
-                return false;
+                return iter.hasNext();
             }
 
             @Override
             public A next() {
-                return null;
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException("Not supported yet.");
+                return iter.next();
             }
         };
     }
 
     public void add(A select) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        internal.add(select);
+    }
+
+    @Override
+    public Builder<A> newBuilder() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

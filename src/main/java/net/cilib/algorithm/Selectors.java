@@ -35,7 +35,7 @@ public final class Selectors {
     private Selectors() {}
 
     public static <A> Selector newExcludingSelector(Selector selector, A... excludes) {
-        return new ExcludingSelector(excludes, selector);
+        return new ExcludingSelector<A>(excludes, selector);
     }
 
     private static class ExcludingSelector<A> implements Selector {

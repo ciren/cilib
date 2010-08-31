@@ -19,26 +19,35 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.entity;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package net.cilib.collection.immutable;
+
+import java.util.Collections;
+import java.util.Iterator;
+import net.cilib.collection.Topology;
+import net.cilib.collection.Topology.Builder;
 
 /**
- * Require an instance which maintains a {@link CandidateSolution}.
  *
- * @since 0.8
  * @author gpampara
  */
-public interface HasCandidateSolution {
+final class EmptyImmutableTopology implements Topology<Object> {
 
-    /**
-     * The currently maintained solution.
-     * @return the current {@linkplain CandidateSolution candidate solution}.
-     */
-    CandidateSolution solution();
+    static final EmptyImmutableTopology INSTANCE = new EmptyImmutableTopology();
 
-    /**
-     * Determines the size of the maintained
-     * {@linkplain CandidateSolution candidate solution}.
-     * @return the size.
-     */
-    int size();
+    private EmptyImmutableTopology() {
+    }
+
+    @Override
+    public Builder<Object> newBuilder() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Iterator<Object> iterator() {
+        return Collections.emptyList().iterator();
+    }
 }

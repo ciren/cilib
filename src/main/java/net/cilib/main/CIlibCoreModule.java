@@ -23,15 +23,32 @@ package net.cilib.main;
 
 import com.google.inject.AbstractModule;
 import net.cilib.annotation.Seed;
+import net.cilib.problem.Problem;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
- * Module to define core related bindings for injection.
- *
- * <p>
- * The main list of bindings are:
- * <ul>
- *   <li>{@code RandomProvider} - the source of random numbers</li>
- * </ul>
+ * Module to define core related bindings for injection. The list of provided
+ * bindings are:
+ * <table>
+ * <thead>
+ *   <tr><td>Data type</td><td>Annotation</td><td>Default value</td><td>Description</td></tr>
+ * </thead>
+ * <tbody>
+ *   <tr>
+ *     <td>{@code int}</td>
+ *     <td>{@link Seed}</td>
+ *     <td>{@code System.currentTimeMillis()}</td>
+ *     <td>Seed value for PRNGs</td>
+ *   </tr>
+ *   <tr>
+ *     <td>{@code RandomProvider}</td>
+ *     <td></td>
+ *     <td>{@link MersenneTwister}</td>
+ *     <td>Source for random numbers</td>
+ *   </tr>
+ * </tbody>
+ * </table>
  * @since 0.8
  * @author gpampara
  */
@@ -41,6 +58,9 @@ public final class CIlibCoreModule extends AbstractModule {
     protected void configure() {
         bindConstant().annotatedWith(Seed.class).to(System.currentTimeMillis());
         // Define the required bindings, like the PRNG
+
+        bind(RandomProvider.class).to(MersenneTwister.class);
+        bind(Problem.class).to(MockProblem.class);
     }
 
 //    @Provides // @SomeScope

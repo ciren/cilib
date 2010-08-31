@@ -25,13 +25,17 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.assistedinject.FactoryProvider;
+import net.cilib.algorithm.DE;
 import net.cilib.algorithm.Selector;
 import net.cilib.algorithm.MockMutationProvider;
 import net.cilib.algorithm.MutationProvider;
+import net.cilib.algorithm.PopulationBasedAlgorithm;
 import net.cilib.algorithm.ReplacementSelector;
 import net.cilib.annotation.Initialized;
 import net.cilib.collection.Topology;
+import net.cilib.collection.immutable.ImmutableGBestTopology;
 import net.cilib.collection.mutable.MutableGBestTopology;
+import net.cilib.entity.Entity;
 import net.cilib.entity.EntityFactory;
 import net.cilib.entity.Individual;
 
@@ -48,11 +52,18 @@ public class PopulationBasedModule extends AbstractModule {
         bind(MutationProvider.class).to(MockMutationProvider.class);
 
         bind(EntityFactory.class).toProvider(FactoryProvider.newFactory(EntityFactory.class, Individual.class));
+
+        bind(PopulationBasedAlgorithm.class).to(DE.class);
     }
 
     @Provides
     @Initialized
-    Topology getInitializedTopology(Provider<Topology> t) {
+    Topology<Entity> getInitializedTopology(Provider<Topology<Entity>> t) {
         return t.get();
+    }
+
+    @Provides
+    Topology<Entity> getTopology() {
+        return ImmutableGBestTopology.of();
     }
 }

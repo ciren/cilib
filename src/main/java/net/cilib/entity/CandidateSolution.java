@@ -118,6 +118,7 @@ public class CandidateSolution {
         /**
          * Adds a {@code value} to the {@code CandidateSolution}.
          * @param value the value to add.
+         * @return the current {@code Builder}.
          */
         public Builder add(double value) {
             updateSize();
@@ -133,11 +134,9 @@ public class CandidateSolution {
          */
         public CandidateSolution build() {
             try {
-                TDoubleArrayList result = new TDoubleArrayList(current);
-                for (int i = 0; i < current; i++) {
-                    result.add(contents[i]);
-                }
-                return new CandidateSolution(result);
+                double[] target = new double[current];
+                System.arraycopy(contents, 0, target, 0, current);
+                return CandidateSolution.copyOf(target);
             } finally {
                 current = 0;
                 contents = new double[]{};

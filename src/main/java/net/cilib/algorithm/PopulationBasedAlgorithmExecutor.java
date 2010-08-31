@@ -22,13 +22,36 @@
 package net.cilib.algorithm;
 
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.inject.Inject;
 import java.util.List;
+import net.cilib.annotation.Initialized;
+import net.cilib.entity.Entity;
+import net.cilib.collection.Topology;
 
 /**
  *
  * @author gpampara
  */
-public interface AlgorithmExecutor {
+public class PopulationBasedAlgorithmExecutor implements AlgorithmExecutor {
 
-    void execute(List<Predicate<Algorithm>> stoppingConditions);
+    private final PopulationBasedAlgorithm algorithm;
+    private final Topology<Entity> topology;
+
+    @Inject
+    public PopulationBasedAlgorithmExecutor(PopulationBasedAlgorithm algorithm,
+            @Initialized Topology<Entity> initialTopology) {
+        this.algorithm = algorithm;
+        this.topology = initialTopology;
+    }
+
+    @Override
+    public void execute(List<Predicate<Algorithm>> conditions) {
+        Predicate<Algorithm> stoppingConditions = Predicates.or(conditions);
+        Topology<Entity> current = topology; // Current topology is inital topology
+        
+        while (!stoppingConditions.apply(algorithm)) {
+            current = algorithm.iterate(current);
+        }
+    }
 }

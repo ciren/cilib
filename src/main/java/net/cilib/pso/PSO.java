@@ -29,6 +29,7 @@ import net.cilib.collection.Topology;
  * @since 0.8
  * @author gpampara
  */
+//public class PSO implements PopulationBasedAlgorithm<Particle> {
 public class PSO implements PopulationBasedAlgorithm {
 
     @Inject

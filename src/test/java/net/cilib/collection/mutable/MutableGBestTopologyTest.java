@@ -19,26 +19,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.entity;
+package net.cilib.collection.mutable;
+
+import com.google.common.collect.Iterables;
+import net.cilib.entity.Individual;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * Require an instance which maintains a {@link CandidateSolution}.
  *
- * @since 0.8
  * @author gpampara
  */
-public interface HasCandidateSolution {
+public class MutableGBestTopologyTest {
 
-    /**
-     * The currently maintained solution.
-     * @return the current {@linkplain CandidateSolution candidate solution}.
-     */
-    CandidateSolution solution();
+    @Test
+    public void addingToTopology() {
+        MutableGBestTopology<Individual> t = new MutableGBestTopology<Individual>();
+        t.add(new Individual(null, null));
 
-    /**
-     * Determines the size of the maintained
-     * {@linkplain CandidateSolution candidate solution}.
-     * @return the size.
-     */
-    int size();
+        Assert.assertEquals(1, Iterables.size(t));
+    }
 }

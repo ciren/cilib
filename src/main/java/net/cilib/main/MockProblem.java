@@ -19,26 +19,22 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.entity;
+package net.cilib.main;
+
+import net.cilib.entity.CandidateSolution;
+import net.cilib.entity.Fitness;
+import net.cilib.entity.Fitnesses;
+import net.cilib.problem.Problem;
 
 /**
- * Require an instance which maintains a {@link CandidateSolution}.
  *
- * @since 0.8
  * @author gpampara
  */
-public interface HasCandidateSolution {
+public class MockProblem implements Problem {
 
-    /**
-     * The currently maintained solution.
-     * @return the current {@linkplain CandidateSolution candidate solution}.
-     */
-    CandidateSolution solution();
+    @Override
+    public Fitness fitnessOf(CandidateSolution solution) {
+        return Fitnesses.newMinimizationFitness(1.0);
+    }
 
-    /**
-     * Determines the size of the maintained
-     * {@linkplain CandidateSolution candidate solution}.
-     * @return the size.
-     */
-    int size();
 }

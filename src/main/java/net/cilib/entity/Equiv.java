@@ -28,6 +28,7 @@ package net.cilib.entity;
  * <p>
  * For example, two {@link Entity} instances may be equivalent, but they
  * may not necessarily be equal.
+ * @param <A> The {@code Comparable} type.
  * @author gpampara
  */
 public interface Equiv<A> extends Comparable<A> {

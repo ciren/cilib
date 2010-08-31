@@ -22,6 +22,7 @@
 package net.cilib.algorithm;
 
 import net.cilib.collection.Topology;
+import net.cilib.entity.Entity;
 
 /**
  * Algorithm that operates on a {@link Topology}.
@@ -29,7 +30,8 @@ import net.cilib.collection.Topology;
  * @since 0.8
  * @author gpampara
  */
-public interface PopulationBasedAlgorithm<A> extends Algorithm {
+//public interface PopulationBasedAlgorithm<A> extends Algorithm {
+public interface PopulationBasedAlgorithm extends Algorithm {
 
     /**
      * Perform a loop of the population based algorithm. The iteration of the
@@ -37,5 +39,5 @@ public interface PopulationBasedAlgorithm<A> extends Algorithm {
      * @param topology the population for the algorithm to operate on
      * @return the given topology, post algorithm iteration.
      */
-    Topology<A> iterate(Topology<A> topology);
+    Topology<Entity> iterate(Topology<Entity> topology);
 }

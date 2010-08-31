@@ -21,17 +21,69 @@
  */
 package net.cilib.collection.immutable;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.UnmodifiableIterator;
 import java.util.Iterator;
+import java.util.List;
 import net.cilib.collection.Topology;
 
 /**
+ * @param <A>
  * @since 0.8
  * @author gpampara
  */
-public class ImmutableGBestTopology implements Topology {
+public class ImmutableGBestTopology<A> implements Topology<A> {
+
+    private static final Topology<Object> INSTANCE = new ImmutableGBestTopology<Object>(Lists.newArrayList());
+    private final ImmutableList<A> elements;
+
+    public static <B> ImmutableGBestTopology<B> of() {
+        return (ImmutableGBestTopology<B>) INSTANCE;
+    }
+
+    private ImmutableGBestTopology(List<A> elements) {
+        this.elements = ImmutableList.copyOf(elements);
+    }
 
     @Override
-    public Iterator iterator() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Iterator<A> iterator() {
+        final Iterator<A> iter = elements.iterator();
+        return new UnmodifiableIterator<A>() {
+
+            @Override
+            public boolean hasNext() {
+                return iter.hasNext();
+            }
+
+            @Override
+            public A next() {
+                return iter.next();
+            }
+        };
+    }
+
+    @Override
+    public Builder<A> newBuilder() {
+        return new ImmutableTopologyBuilder<A>();
+    }
+
+    private static class ImmutableTopologyBuilder<B> implements Topology.Builder<B> {
+
+        private final List<B> elements;
+
+        ImmutableTopologyBuilder() {
+            elements = Lists.newArrayList();
+        }
+
+        @Override
+        public Topology<B> build() {
+            return new ImmutableGBestTopology<B>(elements);
+        }
+
+        @Override
+        public boolean add(B element) {
+            return elements.add(element);
+        }
     }
 }

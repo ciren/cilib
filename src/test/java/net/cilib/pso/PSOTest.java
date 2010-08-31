@@ -22,7 +22,9 @@
 package net.cilib.pso;
 
 import net.cilib.algorithm.PopulationBasedAlgorithm;
+import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
+import net.cilib.entity.Entity;
 import org.junit.Test;
 
 /**
@@ -33,7 +35,7 @@ public class PSOTest {
 
     @Test
     public void iteration() {
-        ImmutableGBestTopology topology = new ImmutableGBestTopology();
+        Topology<Entity> topology = ImmutableGBestTopology.of();
         PopulationBasedAlgorithm instance = new PSO();
         instance.iterate(topology);
     }

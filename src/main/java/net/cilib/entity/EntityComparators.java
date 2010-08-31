@@ -29,9 +29,13 @@ import java.util.Comparator;
  */
 public final class EntityComparators {
 
-    public static final Comparator<Entity> FITNESS_COMPARATOR = new Comparator<Entity>() {
+    /**
+     * Comparator based on current {@link Fitness} instances. Any instances
+     * that implement {@link HasFitness}, may be compared.
+     */
+    public static final Comparator<HasFitness> FITNESS_COMPARATOR = new Comparator<HasFitness>() {
         @Override
-        public int compare(Entity o1, Entity o2) {
+        public int compare(HasFitness o1, HasFitness o2) {
             return o1.fitness().compareTo(o2.fitness());
         }
     };

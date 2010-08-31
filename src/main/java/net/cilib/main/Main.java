@@ -25,14 +25,10 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Key;
 import java.util.List;
+import net.cilib.algorithm.Algorithm;
 import net.cilib.algorithm.AlgorithmExecutor;
-import net.cilib.algorithm.DE;
-import net.cilib.annotation.Initialized;
-import net.cilib.entity.Entity;
-import net.cilib.collection.Topology;
-import net.cilib.measurement.Measurement;
+import net.cilib.algorithm.PopulationBasedAlgorithmExecutor;
 
 /**
  * @since 0.8
@@ -40,22 +36,20 @@ import net.cilib.measurement.Measurement;
  */
 public final class Main {
 
+    private Main() {
+    }
+
     public static void main(String[] args) {
-        Injector injector = Guice.createInjector(new CIlibCoreModule(), new PopulationBasedModule());
-
-        Main main = injector.getInstance(Main.class);
-        // Something here?
-
-        Topology<Entity> topology = injector.getInstance(Key.get(Topology.class, Initialized.class));
-        DE a = injector.getInstance(DE.class);
-        List<Predicate<Measurement>> stoppingConditions = Lists.newArrayList();
-        stoppingConditions.add(new Predicate<Measurement>() {
+        List<Predicate<Algorithm>> stoppingConditions = Lists.newArrayList();
+        stoppingConditions.add(new Predicate<Algorithm>() {
             @Override
-            public boolean apply(Measurement input) {
-                return false;
+            public boolean apply(Algorithm input) {
+                return true;
             }
         });
-        AlgorithmExecutor executor = new AlgorithmExecutor(stoppingConditions);
-        executor.execute(a, topology);
+
+        Injector injector = Guice.createInjector(new CIlibCoreModule(), new PopulationBasedModule());
+        AlgorithmExecutor executor = injector.getInstance(PopulationBasedAlgorithmExecutor.class);
+        executor.execute(stoppingConditions);
     }
 }
