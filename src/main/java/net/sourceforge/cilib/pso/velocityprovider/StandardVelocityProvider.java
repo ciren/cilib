@@ -27,15 +27,18 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.ControlParameters;
+import net.sourceforge.cilib.util.Vectors;
 
 /**
  * Implementation of the standard / default velocity update equation.
  *
  * @author  Edwin Peer
  */
-public class StandardVelocityProvider implements VelocityProvider {
+public final class StandardVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = 8204479765311251730L;
+    
     protected ControlParameter inertiaWeight;
     protected ControlParameter socialAcceleration;
     protected ControlParameter cognitiveAcceleration;
@@ -82,15 +85,10 @@ public class StandardVelocityProvider implements VelocityProvider {
         Vector localGuide = (Vector) particle.getLocalGuide();
         Vector globalGuide = (Vector) particle.getGlobalGuide();
 
-        Vector.Builder builder = Vector.newBuilder();
-        for (int i = 0; i < particle.getDimension(); ++i) {
-            double value = this.inertiaWeight.getParameter() * velocity.doubleValueOf(i)
-                + (localGuide.doubleValueOf(i) - position.doubleValueOf(i)) * this.cognitiveAcceleration.getParameter() * this.r1.nextDouble()
-                + (globalGuide.doubleValueOf(i) - position.doubleValueOf(i)) * this.socialAcceleration.getParameter() * this.r2.nextDouble();
-            builder.add(value);
-        }
-
-        return builder.build();
+        Vector dampenedVelocity = Vector.copyOf(velocity).multiply(ControlParameters.supplierOf(this.inertiaWeight));
+        Vector cognitiveComponent = Vector.copyOf(localGuide).subtract(position).multiply(ControlParameters.supplierOf(this.cognitiveAcceleration)).multiply(this.r1.nextDouble());
+        Vector socialComponent = Vector.copyOf(globalGuide).subtract(position).multiply(ControlParameters.supplierOf(this.socialAcceleration)).multiply(this.r2.nextDouble());
+        return Vectors.sumOf(dampenedVelocity, cognitiveComponent, socialComponent);
     }
 
     /**
@@ -102,23 +100,6 @@ public class StandardVelocityProvider implements VelocityProvider {
         this.inertiaWeight.updateParameter();
         this.cognitiveAcceleration.updateParameter();
         this.socialAcceleration.updateParameter();
-    }
-
-    /**
-     * Gets the <tt>ControlParameter</tt> representing the cognitive component within this
-     * <code>VelocityProvider</code>.
-     * @return Returns the cognitiveComponent.
-     */
-    public ControlParameter getCognitiveAcceleration() {
-        return cognitiveAcceleration;
-    }
-
-    /**
-     * Set the cognitive component <code>ControlParameter</code>.
-     * @param cognitiveComponent The cognitiveComponent to set.
-     */
-    public void setCognitiveAcceleration(ControlParameter cognitiveComponent) {
-        this.cognitiveAcceleration = cognitiveComponent;
     }
 
     /**
@@ -137,6 +118,23 @@ public class StandardVelocityProvider implements VelocityProvider {
      */
     public void setInertiaWeight(ControlParameter inertiaWeight) {
         this.inertiaWeight = inertiaWeight;
+    }
+
+    /**
+     * Gets the <tt>ControlParameter</tt> representing the cognitive component within this
+     * <code>VelocityProvider</code>.
+     * @return Returns the cognitiveComponent.
+     */
+    public ControlParameter getCognitiveAcceleration() {
+        return cognitiveAcceleration;
+    }
+
+    /**
+     * Set the cognitive component <code>ControlParameter</code>.
+     * @param cognitiveComponent The cognitiveComponent to set.
+     */
+    public void setCognitiveAcceleration(ControlParameter cognitiveComponent) {
+        this.cognitiveAcceleration = cognitiveComponent;
     }
 
     /**
