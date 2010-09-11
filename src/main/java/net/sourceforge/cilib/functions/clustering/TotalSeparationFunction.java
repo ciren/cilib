@@ -21,10 +21,11 @@
  */
 package net.sourceforge.cilib.functions.clustering;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -36,7 +37,7 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  *
  * @author Theuns Cloete
  */
-public class TotalSeparationFunction extends ClusteringErrorFunction {
+public class TotalSeparationFunction implements ClusteringFunction<Double> {
     private static final long serialVersionUID = 8755897695568016001L;
 
     /**
@@ -46,15 +47,15 @@ public class TotalSeparationFunction extends ClusteringErrorFunction {
      * @return the total separation of the given clusters
      */
     @Override
-    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+    public Double apply(List<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy, Vector dataSetMean, double dataSetVariance, double zMax) {
         int clustersFormed = clusters.size();
         double separation = 0.0;
 
         for (int i = 0; i < clustersFormed - 1; ++i) {
-            Vector leftCenter = this.clusterCenterStrategy.getCenter(clusters.get(i));
+            Vector leftCenter = clusterCenterStrategy.getCenter(clusters.get(i));
 
             for (int j = i + 1; j < clustersFormed; ++j) {
-                Vector rightCenter = this.clusterCenterStrategy.getCenter(clusters.get(j));
+                Vector rightCenter = clusterCenterStrategy.getCenter(clusters.get(j));
                 separation += distanceMeasure.distance(leftCenter, rightCenter);
             }
         }

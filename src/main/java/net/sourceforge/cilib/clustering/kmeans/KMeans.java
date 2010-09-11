@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.clustering.kmeans;
 
-import java.util.ArrayList;
+import com.google.common.collect.Lists;
 import java.util.Arrays;
 import java.util.List;
 
@@ -67,7 +67,7 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
     private CentroidsInitialisationStrategy centroidsInitialisationStrategy;
     private CentroidsDiversificationStrategy centroidsDiversificationStrategy;
     private FitnessCalculator<Vector> calculator;
-    private ArrayList<Vector> centroids;
+    private List<Vector> centroids;
 
     /**
      * Create an instance of {@linkplain KMeans}.
@@ -87,7 +87,7 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
         this.centroidsInitialisationStrategy = rhs.centroidsInitialisationStrategy.getClone();
         this.centroidsDiversificationStrategy = rhs.centroidsDiversificationStrategy.getClone();
         this.calculator = rhs.calculator.getClone();
-        this.centroids = new ArrayList<Vector>();
+        this.centroids = Lists.newArrayList();
 
         for (Vector centroid : rhs.centroids) {
             this.centroids.add(Vector.copyOf(centroid));
@@ -131,7 +131,7 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
         DomainRegistry standardDomain = problem.getDomainRegistry();
         DistanceMeasure distanceMeasure = problem.getDistanceMeasure();
         int numberOfClusters = problem.getNumberOfClusters();
-        ArrayList<Cluster> clusters = ClusteringFunctions.cluster(centroids, dataTable, distanceMeasure, numberOfClusters);
+        List<Cluster> clusters = ClusteringFunctions.cluster(centroids, dataTable, distanceMeasure, numberOfClusters);
 
         for (int i = 0; i < clusters.size(); ++i) {
             Cluster cluster = clusters.get(i);

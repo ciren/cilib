@@ -23,16 +23,14 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import com.google.common.base.Preconditions;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import net.sourceforge.cilib.functions.clustering.ClusteringErrorFunction;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
 import net.sourceforge.cilib.functions.clustering.MaximumSeparationFunction;
 import net.sourceforge.cilib.functions.clustering.TotalCompactnessFunction;
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCentroidStrategy;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -45,15 +43,14 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  *           Systems, Man, and Cybernetics, Part C: Applications and Reviews", pages = "120--125",
  *           volume = "31", number = "1", month = feb, year = "2001", issn = "1094-6977", }
  * NOTE: I(K) isn't really a name, so I'm calling it the Maulik-Bandyopadhyay Validity Index
- * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCentroidStrategy}.
  * @author Theuns Cloete
  */
-public class MaulikBandyopadhyayIndex extends ClusteringErrorFunction {
+public class MaulikBandyopadhyayIndex implements ClusteringFunction<Double> {
     private static final long serialVersionUID = -1094819834873604274L;
     private static final int DEF_P = 1;
 
-    private final ClusteringFunction totalCompactness;
-    private final ClusteringFunction maximumSeparation;
+    private final ClusteringFunction<Double> totalCompactness;
+    private final ClusteringFunction<Double> maximumSeparation;
     private int p;
 
     public MaulikBandyopadhyayIndex() {
@@ -63,8 +60,8 @@ public class MaulikBandyopadhyayIndex extends ClusteringErrorFunction {
     }
 
     @Override
-    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
-        return Math.pow(this.termOne(clusters.size()) * this.termTwo(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax) * this.termThree(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax), this.p);
+    public Double apply(List<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy, Vector dataSetMean, double dataSetVariance, double zMax) {
+        return Math.pow(this.termOne(clusters.size()) * this.termTwo(clusters, dataTable, distanceMeasure, clusterCenterStrategy, dataSetMean, dataSetVariance, zMax) * this.termThree(clusters, dataTable, distanceMeasure, clusterCenterStrategy, dataSetMean, dataSetVariance, zMax), this.p);
     }
 
     private double termOne(int clustersFormed) {
@@ -75,7 +72,7 @@ public class MaulikBandyopadhyayIndex extends ClusteringErrorFunction {
      * E_1 refers to the intra-cluster distance when the dataset is clustered using only one cluster. In this case, the
      * data set mean can be thought of as the data set's centroid.
      */
-    private double termTwo(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+    private double termTwo(List<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy, Vector dataSetMean, double dataSetVariance, double zMax) {
         // This is the normalizing factor, E_1 which they talk about in the article.
         double intraDatasetDistance = 0.0;
 
@@ -84,23 +81,16 @@ public class MaulikBandyopadhyayIndex extends ClusteringErrorFunction {
             intraDatasetDistance += distanceMeasure.distance(pattern.getVector(), dataSetMean);
         }
 
-        return intraDatasetDistance / this.totalCompactness.apply(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax);
+        return intraDatasetDistance / this.totalCompactness.apply(clusters, dataTable, distanceMeasure, clusterCenterStrategy, dataSetMean, dataSetVariance, zMax);
     }
 
-    private double termThree(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
-        return this.maximumSeparation.apply(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax);
+    private double termThree(List<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy, Vector dataSetMean, double dataSetVariance, double zMax) {
+        return this.maximumSeparation.apply(clusters, dataTable, distanceMeasure, clusterCenterStrategy, dataSetMean, dataSetVariance, zMax);
     }
 
     public void setP(int p) {
         Preconditions.checkArgument(p >= 1, "The p-value cannot be < 1");
 
         this.p = p;
-    }
-
-    @Override
-    public void setClusterCenterStrategy(ClusterCenterStrategy clusterCenterStrategy) {
-        this.clusterCenterStrategy = clusterCenterStrategy;
-        this.totalCompactness.setClusterCenterStrategy(this.clusterCenterStrategy);
-        this.maximumSeparation.setClusterCenterStrategy(this.clusterCenterStrategy);
     }
 }

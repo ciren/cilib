@@ -23,7 +23,7 @@ package net.sourceforge.cilib.clustering.kmeans;
 
 import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
@@ -64,11 +64,11 @@ public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsIni
      *
      * @param problem the {@link ClusteringProblem} currently being optimized
      * @param dataTable the {@link DataTable} currently being clustered
-     * @return an {@link ArrayList} of {@link Vector}s that represents all the centroids
+     * @return an {@link List} of {@link Vector}s that represents all the centroids
      */
     @Override
-    public ArrayList<Vector> initialise(DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids) {
-        ArrayList<Vector> centroids = Lists.newArrayList();
+    public List<Vector> initialise(DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids) {
+        List<Vector> centroids = Lists.newArrayList();
 
         for (int i = 0; i < numberOfCentroids; ++i) {
             Vector centroid = Vector.copyOf(dataTable.getRow(this.randomProvider.nextInt(dataTable.size())).getVector());
@@ -83,7 +83,7 @@ public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsIni
      * {@inheritDoc}
      */
     @Override
-    public Vector reinitialise(ArrayList<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which) {
+    public Vector reinitialise(List<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which) {
         Vector reinitialised = Vector.copyOf(dataTable.getRow(this.randomProvider.nextInt(dataTable.size())).getVector());
 
         centroids.set(which, reinitialised);

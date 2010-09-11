@@ -22,8 +22,7 @@
 package net.sourceforge.cilib.clustering.kmeans;
 
 import java.io.Serializable;
-
-import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
@@ -36,7 +35,7 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
  * This strategy allows for different ways of initializing the centroids of a clustering. It also allows for a specific
- * centroid to be {@link #reinitialise(java.util.ArrayList, int) reinitialised}.
+ * centroid to be {@link #reinitialise(java.util.List, int) reinitialised}.
  * The following approaches have already been implemented:
  * <ul>
  * <li>Randomly ({@link RandomCentroidsInitialisationStrategy}); or</li>
@@ -53,7 +52,7 @@ public interface CentroidsInitialisationStrategy extends Serializable, Cloneable
 
     /**
      * Initialise the centroid vectors for a clustering. Each centroid is individually initialised and then added to an
-     * {@link ArrayList} that represents all the centroids. This structure is then returned. The problem and/or dataset
+     * {@link List} that represents all the centroids. This structure is then returned. The problem and/or dataset
      * that are currently being clustered can be used to get information about the clustering, such as the dimension of
      * the search space and centroids.
      *
@@ -62,9 +61,9 @@ public interface CentroidsInitialisationStrategy extends Serializable, Cloneable
      *
      * @param problem the {@link ClusteringProblem} currently being optimized
      * @param dataset the {@link StaticDataSetBuilder} currently being clustered
-     * @return an {@link ArrayList} of {@link Vector}s that represent all the centroids
+     * @return an {@link List} of {@link Vector}s that represent all the centroids
      */
-    public abstract ArrayList<Vector> initialise(DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids);
+    public abstract List<Vector> initialise(DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids);
 
     /**
      * Reinitialise the specified centroid (residing in the given list of centroids) and return it.
@@ -76,5 +75,5 @@ public interface CentroidsInitialisationStrategy extends Serializable, Cloneable
      * @param which The index of the centroid that should be reinitialised.
      * @return the reinitialised centroid for convenience
      */
-    public abstract Vector reinitialise(ArrayList<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which);
+    public abstract Vector reinitialise(List<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which);
 }

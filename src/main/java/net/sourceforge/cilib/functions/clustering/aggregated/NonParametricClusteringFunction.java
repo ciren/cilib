@@ -21,17 +21,15 @@
  */
 package net.sourceforge.cilib.functions.clustering.aggregated;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import net.sourceforge.cilib.functions.clustering.ClusteringErrorFunction;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
 import net.sourceforge.cilib.functions.clustering.MaximumAverageDistanceFunction;
 import net.sourceforge.cilib.functions.clustering.MinimumSeparationFunction;
 import net.sourceforge.cilib.functions.clustering.QuantisationErrorFunction;
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCentroidStrategy;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -43,15 +41,14 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  *             and Image Processing", author = "Mahamed G.H. Omran", institution = "University Of
  *             Pretoria", school = "Computer Science", year = "2004", month = nov, pages = "128 &
  *             129" address = "Pretoria, South Africa", note = "Supervisor: A. P. Engelbrecht" }
- * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCentroidStrategy}.
  * @author Theuns Cloete
  */
-public class NonParametricClusteringFunction extends ClusteringErrorFunction {
+public class NonParametricClusteringFunction implements ClusteringFunction<Double> {
     private static final long serialVersionUID = 5712216719378084294L;
 
-    private final ClusteringFunction maximumAverageDistance;
-    private final ClusteringFunction quantisationError;
-    private final ClusteringFunction minimumSeparation;
+    private final ClusteringFunction<Double> maximumAverageDistance;
+    private final ClusteringFunction<Double> quantisationError;
+    private final ClusteringFunction<Double> minimumSeparation;
 
     public NonParametricClusteringFunction() {
         this.maximumAverageDistance = new MaximumAverageDistanceFunction();
@@ -60,15 +57,7 @@ public class NonParametricClusteringFunction extends ClusteringErrorFunction {
     }
 
     @Override
-    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
-        return (this.maximumAverageDistance.apply(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax) + this.quantisationError.apply(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax)) / this.minimumSeparation.apply(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax);
-    }
-
-    @Override
-    public void setClusterCenterStrategy(ClusterCenterStrategy clusterCenterStrategy) {
-        this.clusterCenterStrategy = clusterCenterStrategy;
-        this.maximumAverageDistance.setClusterCenterStrategy(this.clusterCenterStrategy);
-        this.quantisationError.setClusterCenterStrategy(this.clusterCenterStrategy);
-        this.minimumSeparation.setClusterCenterStrategy(this.clusterCenterStrategy);
+    public Double apply(List<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy, Vector dataSetMean, double dataSetVariance, double zMax) {
+        return (this.maximumAverageDistance.apply(clusters, dataTable, distanceMeasure, clusterCenterStrategy, dataSetMean, dataSetVariance, zMax) + this.quantisationError.apply(clusters, dataTable, distanceMeasure, clusterCenterStrategy, dataSetMean, dataSetVariance, zMax)) / this.minimumSeparation.apply(clusters, dataTable, distanceMeasure, clusterCenterStrategy, dataSetMean, dataSetVariance, zMax);
     }
 }

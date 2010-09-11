@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.problem.clustering;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
@@ -34,6 +34,8 @@ import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterCenterStrategy;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterCentroidStrategy;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.fitnessfactory.FitnessFactory;
 import net.sourceforge.cilib.problem.fitnessfactory.MinimisationFitnessFactory;
@@ -47,11 +49,11 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
- * This class represents a Partitional Clustering Problem that is capable of clustering the patterns in a data set, more
- * specifically, the {@link StandardPattern patterns} contained in a {@link DataTable}. Partitional clustering is the
- * process of {@link OptimisationProblemAdapter optimising} the centroids of the clustering. This optimisation process
- * is driven by an error or clustering function. This class therefore has a {@link ClusteringFunction} whose output
- * should either be minimised or maximised by making use of the appropriate {@link FitnessFactory}.
+ * This class represents a Partitional Clustering Problem that is capable of clustering the
+ * {@link StandrdPattern patterns} in a {@link DataTable data set}. Partitional clustering is the process of
+ * {@link OptimisationProblemAdapter optimising} the centroids of the clustering. This optimisation process is driven by
+ * an error or clustering function. This class therefore has a {@link ClusteringFunction} whose output should either be
+ * minimised or maximised by making use of the appropriate {@link FitnessFactory}.
  *
  * The centroids of a clustering are <em>concatenated</em> to represent a single
  * {@link net.sourceforge.cilib.entity.Entity} such as a {@link net.sourceforge.cilib.entity.Particle} or an
@@ -60,16 +62,21 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * this repeated domain. The domain of the data set and the number of clusters therefore create a dependency between
  * each other. Whenever the domain or the number of clusters are (re)configured, the repeated domain is regenerated.
  *
- * This class also provides a <em>central point</em> for specifying the {@link #distanceMeasure} that should be used
- * for calculating distances throughout the entire clustering process.
+ * This class also provides a <em>central point</em> for specifying the {@link #distanceMeasure distance measure} and
+ * the {@link #clusterCenterStrategy cluster center strategy} that should be used when calculating distances throughout
+ * the entire clustering process.
  *
  * The following lists the methods that should be called (usually from XML) to correctly configure the clustering
  * problem (in this order):
  * <ol>
- * <li>{@link #setDomain(String)}</li>
- * <li>{@link #setNumberOfClusters(numberOfClusters)}</li>
+ * <li>{@link #setDomain(String)}, e.g. <code>domain="R(0.0,1.0)^5"</code></li>
+ * <li>{@link #setNumberOfClusters(numberOfClusters)}, e.g. <code>numberOfClusters="4"</code></li>
  * <li>{@link #setClusteringFunction(net.sourceforge.cilib.functions.clustering.ClusteringFunction)}</li>
  * <li>{@link #setDataTableBuilder(net.sourceforge.cilib.io.DataTableBuilder)}</li>
+ * <li>{@link #setDistanceMeasure(net.sourceforge.cilib.util.DistanceMeasure)}; default is
+ * {@link EuclideanDistanceMeasure}</li>
+ * <li>{@link #setClusterCenterStrategy(net.sourceforge.cilib.funtions.clustering.clustercenterstrategies.ClusterCenterStrategy};
+ * default is {@link ClusterCentroidStrategy}</li>
  * </ol>
  *
  * @see #regenerateDomain()
@@ -79,13 +86,14 @@ public class PartitionalClusteringProblem extends OptimisationProblemAdapter imp
     private static final long serialVersionUID = 7027242527499147957L;
     private static final int UNINITIALISED = -1;
 
-    private ClusteringFunction clusteringFunction;
+    private ClusteringFunction<Double> clusteringFunction;
     private DataTableBuilder dataTableBuilder;
     private DataTable<StandardPattern, TypeList> dataTable;
+    private DistanceMeasure distanceMeasure;
+    private ClusterCenterStrategy clusterCenterStrategy;
     private DomainRegistry standardDomain;
     private DomainRegistry repeatedDomain;
-    private DistanceMeasure distanceMeasure;
-    private FitnessFactory fitnessFactory;
+    private FitnessFactory<Double> fitnessFactory;
     private int numberOfClusters;
     private Vector dataSetMean;
     private double dataSetVariance;
@@ -94,9 +102,10 @@ public class PartitionalClusteringProblem extends OptimisationProblemAdapter imp
     public PartitionalClusteringProblem() {
         this.clusteringFunction = null;
         this.dataTableBuilder = new DataTableBuilder(new DelimitedTextFileReader());
+        this.distanceMeasure = new EuclideanDistanceMeasure();
+        this.clusterCenterStrategy = new ClusterCentroidStrategy();
         this.standardDomain = new StringBasedDomainRegistry();
         this.repeatedDomain = new StringBasedDomainRegistry();
-        this.distanceMeasure = new EuclideanDistanceMeasure();
         this.fitnessFactory = new MinimisationFitnessFactory();
         this.numberOfClusters = UNINITIALISED;
         this.zMax = UNINITIALISED;
@@ -120,18 +129,18 @@ public class PartitionalClusteringProblem extends OptimisationProblemAdapter imp
     }
 
     /**
-     * Specify the {@link ClusteringFunction} that will be used to optimise the centroids of the clusters.
-     *
-     * @param clusteringFunction the {@link ClusteringFunction} that should be used to optimise the centroids of the
-     * clusters
+     * {@inheritDoc}
      */
     @Override
-    public void setClusteringFunction(ClusteringFunction clusteringFunction) {
+    public void setClusteringFunction(ClusteringFunction<Double> clusteringFunction) {
         this.clusteringFunction = clusteringFunction;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ClusteringFunction getClusteringFunction() {
+    public ClusteringFunction<Double> getClusteringFunction() {
         return this.clusteringFunction;
     }
 
@@ -225,10 +234,26 @@ public class PartitionalClusteringProblem extends OptimisationProblemAdapter imp
     }
 
     /**
+     * Specify the {@link ClusterCenterStrategy} that should be used to represent the center of the clusters.
+     * @param clusterCenterStrategy the strategy that should be used to determine the center of the clusters.
+     */
+    public void setClusterCenterStrategy(ClusterCenterStrategy clusterCenterStrategy) {
+        this.clusterCenterStrategy = clusterCenterStrategy;
+    }
+
+    /**
+     * Retrieve the {@link ClusterCenterStrategy} that is used to represent the center of the clusters.
+     * @return the configured {@link ClusterCenterStrategy} used to determine the center of the clusters.
+     */
+    public ClusterCenterStrategy getClusterCenterStrategy() {
+        return this.clusterCenterStrategy;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
-    public void setFitnessFactory(FitnessFactory fitnessFactory) {
+    public void setFitnessFactory(FitnessFactory<Double> fitnessFactory) {
         this.fitnessFactory = fitnessFactory;
     }
 
@@ -302,26 +327,26 @@ public class PartitionalClusteringProblem extends OptimisationProblemAdapter imp
      * <ol>
      * <li>{@link ClusteringFunctions#disassembleCentroids(dataSetMean, numberOfClusters) Disassemble} the individual
      * centroids from the given solution (a {@link Vector}).</li>
-     * <li>{@link ClusteringFunctions#cluster(java.util.ArrayList, net.sourceforge.cilib.io.DataTable, net.sourceforge.cilib.util.DistanceMeasure, int) Cluster}
+     * <li>{@link ClusteringFunctions#cluster(java.util.List, net.sourceforge.cilib.io.DataTable, net.sourceforge.cilib.util.DistanceMeasure, int) Cluster}
      * all the patterns of the {@link DataTable} into the configured number of clusters using the disassembled
      * centroids.</li>
-     * <li>{@link ClusteringFunctions#isValidClustering(java.util.ArrayList) Validate} the clustering.</li>
+     * <li>{@link ClusteringFunctions#isValidClustering(java.util.List) Validate} the clustering.</li>
      * <li>Calculate the fitness/error using the configured {@link ClusteringFunction} if the clustering is valid.</li>
      * </ol>
      *
-     * @param solution the solution that represents the clustering; expected to be {@link Vector}
-     * @return the fitness of the current clustering or the {@link InferiorFitness#instance} when the clustering is
-     * invalid
+     * @param solution the solution that represents the clustering; expected to be a {@link Vector}
+     * @return the {@link Fitness fitness} of the current clustering or the {@link InferiorFitness#instance} when the
+     * clustering is {@link ClusteringFunctions#isValidClustering(java.util.List) invalid}
      */
     @Override
     protected Fitness calculateFitness(Type solution) {
         Vector combinedCentroids = (Vector) solution;
-        ArrayList<Vector> separateCentroids = ClusteringFunctions.disassembleCentroids(combinedCentroids, this.numberOfClusters);
-        ArrayList<Cluster> clusters = ClusteringFunctions.cluster(separateCentroids, this.dataTable, this.distanceMeasure, this.numberOfClusters);
+        List<Vector> separateCentroids = ClusteringFunctions.disassembleCentroids(combinedCentroids, this.numberOfClusters);
+        List<Cluster> clusters = ClusteringFunctions.cluster(separateCentroids, this.dataTable, this.distanceMeasure, this.numberOfClusters);
 
         if (!ClusteringFunctions.isValidClustering(clusters)) { // partitional clustering does not permit empty clusters
             return InferiorFitness.instance();
         }
-        return this.fitnessFactory.newFitness(this.clusteringFunction.apply(clusters, this.dataTable, this.distanceMeasure, this.dataSetMean, this.dataSetVariance, this.zMax));
+        return this.fitnessFactory.newFitness(this.clusteringFunction.apply(clusters, this.dataTable, this.distanceMeasure, this.clusterCenterStrategy, this.dataSetMean, this.dataSetVariance, this.zMax));
     }
 }

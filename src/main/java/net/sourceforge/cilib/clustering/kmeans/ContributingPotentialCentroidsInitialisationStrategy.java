@@ -21,7 +21,9 @@
  */
 package net.sourceforge.cilib.clustering.kmeans;
 
-import java.util.ArrayList;
+import com.google.common.collect.Lists;
+
+import java.util.List;
 
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
@@ -69,8 +71,8 @@ public class ContributingPotentialCentroidsInitialisationStrategy implements Cen
      * {@inheritDoc}
      */
     @Override
-    public ArrayList<Vector> initialise(DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids) {
-        ArrayList<Vector> chosenCentroids = new ArrayList<Vector>();
+    public List<Vector> initialise(DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids) {
+        List<Vector> chosenCentroids = Lists.newArrayListWithCapacity(numberOfCentroids);
 
         for (int i = 0; i < numberOfCentroids; ++i) {
             Vector candidateCentroid = Vector.copyOf(dataTable.getRow(randomPattern.nextInt(dataTable.size())).getVector());
@@ -91,7 +93,7 @@ public class ContributingPotentialCentroidsInitialisationStrategy implements Cen
      * {@inheritDoc}
      */
     @Override
-    public Vector reinitialise(ArrayList<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which) {
+    public Vector reinitialise(List<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which) {
         Vector candidateCentroid = null;
 
         do {
@@ -103,7 +105,7 @@ public class ContributingPotentialCentroidsInitialisationStrategy implements Cen
         return candidateCentroid;
     }
 
-    private double calculateProbability(DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, ArrayList<Vector> chosenCentroids, Vector candidateCentroid) {
+    private double calculateProbability(DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, List<Vector> chosenCentroids, Vector candidateCentroid) {
         double probability = 0.0;
         double numerator = Double.MAX_VALUE;
 

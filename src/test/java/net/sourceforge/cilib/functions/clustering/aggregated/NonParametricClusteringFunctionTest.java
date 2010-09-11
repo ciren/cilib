@@ -21,12 +21,13 @@
  */
 package net.sourceforge.cilib.functions.clustering.aggregated;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunctionTests;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterCentroidStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.util.DistanceMeasure;
@@ -42,11 +43,11 @@ public class NonParametricClusteringFunctionTest {
 
     @Test
     public void testApply() {
-        ClusteringFunction function = new NonParametricClusteringFunction();
+        ClusteringFunction<Double> function = new NonParametricClusteringFunction();
         DistanceMeasure distanceMeasure = ClusteringFunctionTests.getDistanceMeasure();
         DataTable<StandardPattern, TypeList> dataTable = ClusteringFunctionTests.getDataTable();
-        ArrayList<Cluster> clusters = ClusteringFunctionTests.getClusters();
+        List<Cluster> clusters = ClusteringFunctionTests.getClusters();
 
-        assertThat(function.apply(clusters, dataTable, distanceMeasure, null, 0.0, 0.0), closeTo(0.283889640218247, ClusteringFunctionTests.EPSILON));
+        assertThat(function.apply(clusters, dataTable, distanceMeasure, new ClusterCentroidStrategy(), null, 0.0, 0.0), closeTo(0.283889640218247, ClusteringFunctionTests.EPSILON));
     }
 }

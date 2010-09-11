@@ -21,7 +21,9 @@
  */
 package net.sourceforge.cilib.functions.clustering;
 
-import java.util.ArrayList;
+import com.google.common.collect.Lists;
+
+import java.util.Collection;
 import java.util.List;
 
 import net.sourceforge.cilib.io.DataTable;
@@ -33,8 +35,14 @@ import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
+import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsSame.sameInstance;
@@ -43,14 +51,16 @@ import static org.hamcrest.number.IsCloseTo.closeTo;
 /**
  * @author Theuns Cloete
  */
+@RunWith(JMock.class)
 public class ClusteringFunctionsTest {
+    private final Mockery context = new JUnit4Mockery();
 
     @Test
     public void testCluster() {
-        ArrayList<Vector> centroids = ClusteringFunctionTests.getSeparateCentroids();
+        List<Vector> centroids = ClusteringFunctionTests.getSeparateCentroids();
         DataTable<StandardPattern, TypeList> dataTable = ClusteringFunctionTests.getDataTable();
         DistanceMeasure distanceMeasure = ClusteringFunctionTests.getDistanceMeasure();
-        ArrayList<Cluster> clusters = ClusteringFunctions.cluster(centroids, dataTable, distanceMeasure, centroids.size());
+        List<Cluster> clusters = ClusteringFunctions.cluster(centroids, dataTable, distanceMeasure, centroids.size());
 
         assertThat(clusters.size(), is(centroids.size()));
         assertThat(clusters.get(0).size(), is(1));
@@ -65,7 +75,7 @@ public class ClusteringFunctionsTest {
 
     @Test
     public void testAssembleCentroids() {
-        ArrayList<Vector> separated = new ArrayList<Vector>();
+        List<Vector> separated = Lists.newArrayListWithCapacity(3);
 
         separated.add(Vector.of(0.0, 1.0, 2.0));
         separated.add(Vector.of(3.0, 4.0, 5.0));
@@ -107,7 +117,7 @@ public class ClusteringFunctionsTest {
 
     @Test
     public void testSignificantClusters() {
-        ArrayList<Cluster> clusters = new ArrayList<Cluster>();
+        List<Cluster> clusters = Lists.newArrayListWithCapacity(3);
         Cluster cluster = new Cluster(Vector.of(0.0, 1.0, 2.0));
 
         cluster.add(new StandardPattern(Vector.of(0.1, 1.1, 2.1), new StringType("1")));
@@ -122,13 +132,124 @@ public class ClusteringFunctionsTest {
         cluster = new Cluster(Vector.of(6.0, 7.0, 8.0));
         clusters.add(cluster);
 
-        ArrayList<Cluster> significant = ClusteringFunctions.significantClusters(clusters);
+        List<Cluster> significant = ClusteringFunctions.significantClusters(clusters);
 
         assertThat(significant.size(), is(2));
         assertThat(significant.get(0).size(), is(3));
         assertThat(significant.get(1).size(), is(1));
         assertThat(significant.get(0), sameInstance(clusters.get(0)));
         assertThat(significant.get(1), sameInstance(clusters.get(1)));
+    }
+
+    @Test
+    public void testValidClustering() {
+        Collection<Cluster> clusters = Lists.newArrayListWithCapacity(3);
+        Cluster cluster = new Cluster();
+
+        clusters.add(cluster);
+        assertThat(ClusteringFunctions.isValidClustering(clusters), is(false));
+
+        cluster.add(new StandardPattern(Vector.of(1.0, 2.0), new StringType("class0")));
+        assertThat(ClusteringFunctions.isValidClustering(clusters), is(true));
+
+        cluster = new Cluster();
+        clusters.add(cluster);
+        assertThat(ClusteringFunctions.isValidClustering(clusters), is(false));
+
+        cluster.add(new StandardPattern(Vector.of(3.0, 4.0), new StringType("class0")));
+        assertThat(ClusteringFunctions.isValidClustering(clusters), is(true));
+
+        cluster = new Cluster();
+        clusters.add(cluster);
+        assertThat(ClusteringFunctions.isValidClustering(clusters), is(false));
+
+        cluster.add(new StandardPattern(Vector.of(5.0, 6.0), new StringType("class0")));
+        assertThat(ClusteringFunctions.isValidClustering(clusters), is(true));
+    }
+
+    @Test
+    public void testClusterDiameter() {
+        final DistanceMeasure distanceMeasure = this.context.mock(DistanceMeasure.class);
+        final Cluster cluster = new Cluster();
+
+        cluster.add(new StandardPattern(Vector.of(1.0, 2.0), new StringType("class0")));
+        cluster.add(new StandardPattern(Vector.of(3.0, 4.0), new StringType("class0")));
+        cluster.add(new StandardPattern(Vector.of(5.0, 6.0), new StringType("class0")));
+        cluster.add(new StandardPattern(Vector.of(7.0, 8.0), new StringType("class0")));
+        cluster.add(new StandardPattern(Vector.of(9.0, 10.0), new StringType("class0")));
+
+        context.checking(new Expectations() {{
+            exactly(10).of(distanceMeasure).distance(with(any(Vector.class)), with(any(Vector.class))); will(returnValue(10.0));
+        }});
+
+        assertThat(ClusteringFunctions.clusterDiameter(distanceMeasure, cluster), closeTo(10.0, ClusteringFunctionTests.EPSILON));
+        assertThat(ClusteringFunctions.clusterDiameter(new EuclideanDistanceMeasure(), cluster), closeTo(11.3137084989848, ClusteringFunctionTests.EPSILON));
+    }
+
+    @Test
+    public void testAverageClusterDistance() {
+        final DistanceMeasure distanceMeasure = this.context.mock(DistanceMeasure.class);
+        Cluster lhs = new Cluster();
+
+        lhs.add(new StandardPattern(Vector.of(1.0, 2.0), new StringType("class1")));
+        lhs.add(new StandardPattern(Vector.of(3.0, 4.0), new StringType("class1")));
+        lhs.add(new StandardPattern(Vector.of(5.0, 6.0), new StringType("class1")));
+
+        Cluster rhs = new Cluster();
+
+        rhs.add(new StandardPattern(Vector.of(7.0, 8.0), new StringType("class2")));
+        rhs.add(new StandardPattern(Vector.of(9.0, 10.0), new StringType("class2")));
+
+        context.checking(new Expectations() {{
+            exactly(6).of(distanceMeasure).distance(with(any(Vector.class)), with(any(Vector.class))); will(returnValue(10.0));
+        }});
+
+        assertThat(ClusteringFunctions.averageClusterDistance(distanceMeasure, lhs, rhs), closeTo(10.0, ClusteringFunctionTests.EPSILON));
+        assertThat(ClusteringFunctions.averageClusterDistance(new EuclideanDistanceMeasure(), lhs, rhs), closeTo(7.07106781186548, ClusteringFunctionTests.EPSILON));
+    }
+
+    @Test
+    public void testMaximumClusterDistance() {
+        final DistanceMeasure distanceMeasure = this.context.mock(DistanceMeasure.class);
+        Cluster lhs = new Cluster();
+
+        lhs.add(new StandardPattern(Vector.of(1.0, 2.0), new StringType("class1")));
+        lhs.add(new StandardPattern(Vector.of(3.0, 4.0), new StringType("class1")));
+        lhs.add(new StandardPattern(Vector.of(5.0, 6.0), new StringType("class1")));
+
+        Cluster rhs = new Cluster();
+
+        rhs.add(new StandardPattern(Vector.of(7.0, 8.0), new StringType("class2")));
+        rhs.add(new StandardPattern(Vector.of(9.0, 10.0), new StringType("class2")));
+
+        context.checking(new Expectations() {{
+            exactly(6).of(distanceMeasure).distance(with(any(Vector.class)), with(any(Vector.class))); will(returnValue(10.0));
+        }});
+
+        assertThat(ClusteringFunctions.maximumClusterDistance(distanceMeasure, lhs, rhs), closeTo(10.0, ClusteringFunctionTests.EPSILON));
+        assertThat(ClusteringFunctions.maximumClusterDistance(new EuclideanDistanceMeasure(), lhs, rhs), closeTo(11.3137084989848, ClusteringFunctionTests.EPSILON));
+    }
+
+    @Test
+    public void testMinimumClusterDistance() {
+        final DistanceMeasure distanceMeasure = this.context.mock(DistanceMeasure.class);
+        Cluster lhs = new Cluster();
+
+        lhs.add(new StandardPattern(Vector.of(1.0, 2.0), new StringType("class1")));
+        lhs.add(new StandardPattern(Vector.of(3.0, 4.0), new StringType("class1")));
+        lhs.add(new StandardPattern(Vector.of(5.0, 6.0), new StringType("class1")));
+
+        Cluster rhs = new Cluster();
+
+        rhs.add(new StandardPattern(Vector.of(7.0, 8.0), new StringType("class2")));
+        rhs.add(new StandardPattern(Vector.of(9.0, 10.0), new StringType("class2")));
+
+        context.checking(new Expectations() {{
+            exactly(6).of(distanceMeasure).distance(with(any(Vector.class)), with(any(Vector.class))); will(returnValue(10.0));
+        }});
+
+        assertThat(ClusteringFunctions.minimumClusterDistance(distanceMeasure, lhs, rhs), closeTo(10.0, ClusteringFunctionTests.EPSILON));
+        assertThat(ClusteringFunctions.minimumClusterDistance(new EuclideanDistanceMeasure(), lhs, rhs), closeTo(2.82842712474619, ClusteringFunctionTests.EPSILON));
     }
 
     @Test

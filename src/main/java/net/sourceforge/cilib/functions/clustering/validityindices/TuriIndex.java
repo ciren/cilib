@@ -21,16 +21,15 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.functions.clustering.AverageCompactnessFunction;
-import net.sourceforge.cilib.functions.clustering.ClusteringErrorFunction;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
 import net.sourceforge.cilib.functions.clustering.MinimumSeparationFunction;
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCentroidStrategy;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterCenterStrategy;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterCentroidStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -43,14 +42,14 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCentroidStrategy}.
  * @author Theuns Cloete
  */
-public class TuriIndex extends ClusteringErrorFunction {
+public class TuriIndex implements ClusteringFunction<Double> {
     private static final long serialVersionUID = 2457356424874462741L;
 
 //    private double c = 0.0;
 //    private RandomNumber random = null;
 //    private double gaussian = 0.0;
-    private final ClusteringFunction averageCompactness;
-    private final ClusteringFunction minimumSeparation;
+    private final ClusteringFunction<Double> averageCompactness;
+    private final ClusteringFunction<Double> minimumSeparation;
 
     public TuriIndex() {
 //        random = new RandomNumber();
@@ -60,17 +59,10 @@ public class TuriIndex extends ClusteringErrorFunction {
     }
 
     @Override
-    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+    public Double apply(List<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy, Vector dataSetMean, double dataSetVariance, double zMax) {
 //        gaussian = random.getGaussian(2, 1);
 
-        return /*(c * gaussian + 1) * */this.averageCompactness.apply(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax) / this.minimumSeparation.apply(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax);
-    }
-
-    @Override
-    public void setClusterCenterStrategy(ClusterCenterStrategy clusterCenterStrategy) {
-        this.clusterCenterStrategy = clusterCenterStrategy;
-        this.averageCompactness.setClusterCenterStrategy(this.clusterCenterStrategy);
-        this.minimumSeparation.setClusterCenterStrategy(this.clusterCenterStrategy);
+        return /*(c * gaussian + 1) * */this.averageCompactness.apply(clusters, dataTable, distanceMeasure, clusterCenterStrategy, dataSetMean, dataSetVariance, zMax) / this.minimumSeparation.apply(clusters, dataTable, distanceMeasure, clusterCenterStrategy, dataSetMean, dataSetVariance, zMax);
     }
 
 //    public void setC(double c) {

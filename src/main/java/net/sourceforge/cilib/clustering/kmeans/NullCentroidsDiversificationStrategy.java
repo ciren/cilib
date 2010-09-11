@@ -21,7 +21,8 @@
  */
 package net.sourceforge.cilib.clustering.kmeans;
 
-import java.util.ArrayList;
+import java.util.List;
+
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -43,13 +44,13 @@ public class NullCentroidsDiversificationStrategy implements CentroidsDiversific
      * No initialisation is needed, because nothing needs to be done. This is an empty method.
      */
     @Override
-    public void initialise(ArrayList<Vector> centroids) {
+    public void initialise(List<Vector> centroids) {
     }
 
     /**
      * No diversification is needed, because nothing needs to be done. This is an empty method.
      */
     @Override
-    public void diversify(ArrayList<Vector> centroids, int which) {
+    public void diversify(List<Vector> centroids, int which) {
     }
 }

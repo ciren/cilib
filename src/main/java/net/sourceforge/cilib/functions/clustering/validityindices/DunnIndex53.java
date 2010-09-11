@@ -21,8 +21,9 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterMeanStrategy;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterCenterStrategy;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterMeanStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
@@ -33,7 +34,8 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  *           Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and Cybernetics, Part B:
  *           Cybernetics", pages = "301--315", volume = "28", number = "3", month = jun, year =
  *           "1998", issn = "1083-4419" }
- * NOTE: By default, the cluster center refers to the cluster mean. See {@link ClusterMeanStrategy}.
+ * NOTE: The {@link ClusterMeanStrategy} should be used for this function to adhere to the implementation as specified
+ * in the original paper.
  * @author Theuns Cloete
  */
 public class DunnIndex53 extends DunnIndex33 {
@@ -46,10 +48,10 @@ public class DunnIndex53 extends DunnIndex33 {
      * This method implements Equation 24 in the above-mentioned article.
      */
     @Override
-    protected double calculateClusterSeperation(DistanceMeasure distanceMeasure, Cluster lhs, Cluster rhs) {
+    protected double calculateClusterSeperation(DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy, Cluster lhs, Cluster rhs) {
         double lhsSum = 0.0, rhsSum = 0.0;
-        Vector lhsCenter = this.clusterCenterStrategy.getCenter(lhs);
-        Vector rhsCenter = this.clusterCenterStrategy.getCenter(rhs);
+        Vector lhsCenter = clusterCenterStrategy.getCenter(lhs);
+        Vector rhsCenter = clusterCenterStrategy.getCenter(rhs);
 
         for (StandardPattern pattern : lhs) {
             lhsSum += distanceMeasure.distance(pattern.getVector(), rhsCenter);

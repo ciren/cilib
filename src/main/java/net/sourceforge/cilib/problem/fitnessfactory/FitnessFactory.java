@@ -24,9 +24,15 @@ package net.sourceforge.cilib.problem.fitnessfactory;
 import net.sourceforge.cilib.problem.Fitness;
 
 /**
+ * A factory for creating new {@link Fitness} objects.
  * @author Theuns Cloete
  */
-public interface FitnessFactory {
+public interface FitnessFactory<T> {
 
-    Fitness newFitness(Double value);
+    /**
+     * Create a new {@link Fitness} object that represents the given value.
+     * @param value the value that represents the fitness
+     * @return a new {@link Fitness} object representing the given value
+     */
+    Fitness newFitness(T value);
 }

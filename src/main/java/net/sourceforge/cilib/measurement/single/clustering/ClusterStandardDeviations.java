@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.measurement.single.clustering;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
@@ -41,6 +41,8 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  * @author Theuns Cloete
  */
 public class ClusterStandardDeviations implements Measurement {
+    private static final long serialVersionUID = -7678835604157274807L;
+
     @Override
     public Measurement getClone() {
         return this;
@@ -58,10 +60,10 @@ public class ClusterStandardDeviations implements Measurement {
     public Type getValue(Algorithm algorithm) {
         ClusteringProblem problem = (ClusteringProblem) algorithm.getOptimisationProblem();
         int numberOfClusters = problem.getNumberOfClusters();
-        ArrayList<Vector> centroids = ClusteringFunctions.disassembleCentroids((Vector) algorithm.getBestSolution().getPosition(), numberOfClusters);
+        List<Vector> centroids = ClusteringFunctions.disassembleCentroids((Vector) algorithm.getBestSolution().getPosition(), numberOfClusters);
         DataTable<StandardPattern, TypeList> dataTable = problem.getDataTable();
         DistanceMeasure distanceMeasure = problem.getDistanceMeasure();
-        ArrayList<Cluster> clusters = ClusteringFunctions.cluster(centroids, dataTable, distanceMeasure, numberOfClusters);
+        List<Cluster> clusters = ClusteringFunctions.cluster(centroids, dataTable, distanceMeasure, numberOfClusters);
         Vector.Builder combined = Vector.newBuilder();
 
         for (Cluster cluster : clusters) {

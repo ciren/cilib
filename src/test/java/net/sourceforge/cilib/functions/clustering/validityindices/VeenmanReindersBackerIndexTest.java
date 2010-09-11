@@ -21,12 +21,13 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunctionTests;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterMeanStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -43,12 +44,12 @@ public class VeenmanReindersBackerIndexTest {
 
     @Test
     public void testApply() {
-        ClusteringFunction function = new VeenmanReindersBackerIndex();
+        ClusteringFunction<Double> function = new VeenmanReindersBackerIndex();
         DistanceMeasure distanceMeasure = ClusteringFunctionTests.getDistanceMeasure();
         DataTable<StandardPattern, TypeList> dataTable = ClusteringFunctionTests.getDataTable();
-        ArrayList<Cluster> clusters = ClusteringFunctionTests.getClusters();
+        List<Cluster> clusters = ClusteringFunctionTests.getClusters();
         Vector dataSetMean = ClusteringFunctionTests.getDataSetMean();
 
-        assertThat(function.apply(clusters, dataTable, distanceMeasure, dataSetMean, 0.0, 0.0), closeTo(0.633333333333333, ClusteringFunctionTests.EPSILON));
+        assertThat(function.apply(clusters, dataTable, distanceMeasure, new ClusterMeanStrategy(), dataSetMean, 0.0, 0.0), closeTo(0.633333333333333, ClusteringFunctionTests.EPSILON));
     }
 }

@@ -19,29 +19,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.functions.clustering.clustercenterstrategies;
+package net.sourceforge.cilib.problem.clustering.clustercenterstrategies;
 
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * The <i>center of a cluster</i> is interpreted as the <i>mean of a cluster</i>.
+ * The <i>center of the cluster</i> is interpreted as the <i>centroid of the cluster</i>.
  *
  * @author Theuns Cloete
  */
-public class ClusterMeanStrategy implements ClusterCenterStrategy {
-    private static final long serialVersionUID = 9080168372118441393L;
+public class ClusterCentroidStrategy implements ClusterCenterStrategy {
+    private static final long serialVersionUID = -7831635507079248268L;
 
-    public ClusterMeanStrategy() {
+    public ClusterCentroidStrategy() {
     }
 
     /**
-     * In this case, we are interested in the mean of the cluster.
-     * @param cluster the cluster whose mean should be returned
-     * @return the mean of the provided {@link Cluster}
+     * In this case, we are interested in the centroid of the cluster.
+     * @param cluster the cluster whose center should be returned
+     * @return the centroid of the provided {@link Cluster}
      */
     @Override
     public Vector getCenter(Cluster cluster) {
-        return cluster.getMean();
+        return cluster.getCentroid();
     }
 }

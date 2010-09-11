@@ -21,15 +21,14 @@
  */
 package net.sourceforge.cilib.functions.clustering.aggregated;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import net.sourceforge.cilib.functions.clustering.ClusteringErrorFunction;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
 import net.sourceforge.cilib.functions.clustering.TotalCompactnessFunction;
 import net.sourceforge.cilib.functions.clustering.TotalSeparationFunction;
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -38,11 +37,11 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 /**
  * @author Theuns Cloete
  */
-public class TotalErrorFunction extends ClusteringErrorFunction {
+public class TotalErrorFunction implements ClusteringFunction<Double> {
     private static final long serialVersionUID = 3925553803564320678L;
 
-    private final ClusteringFunction compactnessFunction;
-    private final ClusteringFunction separationFunction;
+    private final ClusteringFunction<Double> compactnessFunction;
+    private final ClusteringFunction<Double> separationFunction;
 
     public TotalErrorFunction() {
         this.compactnessFunction = new TotalCompactnessFunction();
@@ -50,14 +49,7 @@ public class TotalErrorFunction extends ClusteringErrorFunction {
     }
 
     @Override
-    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
-        return this.compactnessFunction.apply(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax) - this.separationFunction.apply(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax);
-    }
-
-    @Override
-    public void setClusterCenterStrategy(ClusterCenterStrategy clusterCenterStrategy) {
-        this.clusterCenterStrategy = clusterCenterStrategy;
-        this.compactnessFunction.setClusterCenterStrategy(this.clusterCenterStrategy);
-        this.separationFunction.setClusterCenterStrategy(this.clusterCenterStrategy);
+    public Double apply(List<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy, Vector dataSetMean, double dataSetVariance, double zMax) {
+        return this.compactnessFunction.apply(clusters, dataTable, distanceMeasure, clusterCenterStrategy, dataSetMean, dataSetVariance, zMax) - this.separationFunction.apply(clusters, dataTable, distanceMeasure, clusterCenterStrategy, dataSetMean, dataSetVariance, zMax);
     }
 }

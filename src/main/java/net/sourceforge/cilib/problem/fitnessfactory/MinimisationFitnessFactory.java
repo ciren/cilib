@@ -25,10 +25,16 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 
 /**
+ * A factory for creating new {@link MinimisationFitness} objects.
  * @author Theuns Cloete
  */
-public class MinimisationFitnessFactory implements FitnessFactory {
+public class MinimisationFitnessFactory implements FitnessFactory<Double> {
 
+    /**
+     * Create a new {@link MinimisationFitness} object that represents the given value.
+     * @param value the value that represents the fitness
+     * @return a new {@link MinimisationFitness} object representing the given value
+     */
     @Override
     public Fitness newFitness(Double value) {
         return new MinimisationFitness(value);

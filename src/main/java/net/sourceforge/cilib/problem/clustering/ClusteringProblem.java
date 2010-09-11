@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.problem.clustering;
 
 import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
+import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
 import net.sourceforge.cilib.io.DataReader;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.DataTableBuilder;
@@ -39,18 +40,28 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  */
 public interface ClusteringProblem extends OptimisationProblem {
 
-    void setClusteringFunction(ClusteringFunction clusteringFunction);
-
-    ClusteringFunction getClusteringFunction();
+    /**
+     * Specify the {@link ClusteringFunction} that will be used to optimise the centroids of the clusters.
+     *
+     * @param clusteringFunction the {@link ClusteringFunction} that should be used to optimise the centroids of the
+     * clusters
+     */
+    void setClusteringFunction(ClusteringFunction<Double> clusteringFunction);
 
     /**
-     * Retrieve the domain of the problem's data set.
+     * Retrieve the {@link ClusteringFunction} that is used to optimise the centroids of the clusters.
+     * @return the {@link ClusteringFunction} that is used to optimise the centroids of the clusters
+     */
+    ClusteringFunction<Double> getClusteringFunction();
+
+    /**
+     * Retrieve the domain of the problem&apos;s data set.
      * @return the domain of this clustering problem
      */
     DomainRegistry getDomainRegistry();
 
     /**
-     * Specify the domain of the problem's data set.
+     * Specify the domain of the problem&apos;s data set.
      * @param domainRegistry the domain of this clustering problem
      */
     void setDomainRegistry(DomainRegistry domainRegistry);
@@ -74,10 +85,10 @@ public interface ClusteringProblem extends OptimisationProblem {
      * the problem is calculated.
      * @param the {@link FitnessFactory} that should be used
      */
-    void setFitnessFactory(FitnessFactory fitnessFactory);
+    void setFitnessFactory(FitnessFactory<Double> fitnessFactory);
 
     /**
-     * The <em>expert</em> uses this method to set the number of clusters that should be used to optimise this
+     * The <em>expert</em> uses this method to specify the number of clusters that should be used to optimise the
      * clustering.
      * @param numberOfClusters the user-specified <em>number of clusters</em> that should be used to optimise the
      * clustering
@@ -85,7 +96,7 @@ public interface ClusteringProblem extends OptimisationProblem {
     void setNumberOfClusters(int numberOfClusters);
 
     /**
-     * Retrieve the number of clusters used throughout this clustering problem.
+     * Retrieve the number of clusters used throughout the clustering optimisation.
      * @return the configured number of clusters
      */
     int getNumberOfClusters();
@@ -93,6 +104,7 @@ public interface ClusteringProblem extends OptimisationProblem {
     /**
      * Retrieve the maximum value possible in the configured domain. Whenever the domain is changed, the zMax is also
      * recalculated.
+     * @see {@link ClusteringFunctions#zMax(net.sourceforge.cilib.type.types.container.Vector)}
      * @return the maximum value possible in the domain
      */
     double getZMax();

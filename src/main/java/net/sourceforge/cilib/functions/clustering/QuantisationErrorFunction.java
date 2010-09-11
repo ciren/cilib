@@ -21,11 +21,11 @@
  */
 package net.sourceforge.cilib.functions.clustering;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCentroidStrategy;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -39,10 +39,9 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  *             institution = "University Of Pretoria", school = "Computer Science", year =
  *             "2004", month = nov, address = "Pretoria, South Africa", note =
  *             "Supervisor: A. P. Engelbrecht", }
- * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCentroidStrategy}.
  * @author Theuns Cloete
  */
-public class QuantisationErrorFunction extends ClusteringErrorFunction {
+public class QuantisationErrorFunction implements ClusteringFunction<Double> {
     private static final long serialVersionUID = -7008338250315442786L;
 
     /**
@@ -50,12 +49,12 @@ public class QuantisationErrorFunction extends ClusteringErrorFunction {
      * @return the Quantisation error of the given clusters.
      */
     @Override
-    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+    public Double apply(List<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy, Vector dataSetMean, double dataSetVariance, double zMax) {
         double quantisationError = 0.0;
 
         for (Cluster cluster : clusters) {
             double averageCompactness = 0.0;
-            Vector center = this.clusterCenterStrategy.getCenter(cluster);
+            Vector center = clusterCenterStrategy.getCenter(cluster);
 
             for (StandardPattern pattern : cluster) {
                 averageCompactness += distanceMeasure.distance(pattern.getVector(), center);

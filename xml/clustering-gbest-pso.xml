@@ -111,16 +111,19 @@
         </problem>
         <problem id="wdbc.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="wdbc" />
         </problem>
         <problem id="wdbc.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="wdbc" />
         </problem>
         <problem id="wdbc.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="wdbc" />
         </problem>
@@ -138,6 +141,7 @@
         </problem>
         <problem id="wdbc.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <dataTableBuilder idref="wdbc" />
         </problem>
 
@@ -167,16 +171,19 @@
         </problem>
         <problem id="glass.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="glass" />
         </problem>
         <problem id="glass.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="glass" />
         </problem>
         <problem id="glass.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="glass" />
         </problem>
@@ -194,6 +201,7 @@
         </problem>
         <problem id="glass.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <dataTableBuilder idref="glass" />
         </problem>
 
@@ -223,16 +231,19 @@
         </problem>
         <problem id="ionosphere.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="ionosphere" />
         </problem>
         <problem id="ionosphere.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="ionosphere" />
         </problem>
         <problem id="ionosphere.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="ionosphere" />
         </problem>
@@ -250,6 +261,7 @@
         </problem>
         <problem id="ionosphere.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <dataTableBuilder idref="ionosphere" />
         </problem>
 
@@ -279,16 +291,19 @@
         </problem>
         <problem id="iris.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="iris" />
         </problem>
         <problem id="iris.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="iris" />
         </problem>
         <problem id="iris.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="iris" />
         </problem>
@@ -306,6 +321,7 @@
         </problem>
         <problem id="iris.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <dataTableBuilder idref="iris" />
         </problem>
 
@@ -335,16 +351,19 @@
         </problem>
         <problem id="bupa.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="bupa" />
         </problem>
         <problem id="bupa.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="bupa" />
         </problem>
         <problem id="bupa.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="bupa" />
         </problem>
@@ -362,6 +381,7 @@
         </problem>
         <problem id="bupa.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <dataTableBuilder idref="bupa" />
         </problem>
 
@@ -391,16 +411,19 @@
         </problem>
         <problem id="diabetes.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="diabetes" />
         </problem>
         <problem id="diabetes.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="diabetes" />
         </problem>
         <problem id="diabetes.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="diabetes" />
         </problem>
@@ -418,6 +441,7 @@
         </problem>
         <problem id="diabetes.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <dataTableBuilder idref="diabetes" />
         </problem>
 
@@ -447,16 +471,19 @@
         </problem>
         <problem id="thyroid.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="thyroid" />
         </problem>
         <problem id="thyroid.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="thyroid" />
         </problem>
         <problem id="thyroid.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="thyroid" />
         </problem>
@@ -474,6 +501,7 @@
         </problem>
         <problem id="thyroid.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <dataTableBuilder idref="thyroid" />
         </problem>
 
@@ -503,16 +531,19 @@
         </problem>
         <problem id="wine.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="wine" />
         </problem>
         <problem id="wine.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="wine" />
         </problem>
         <problem id="wine.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="wine" />
         </problem>
@@ -530,6 +561,7 @@
         </problem>
         <problem id="wine.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <dataTableBuilder idref="wine" />
         </problem>
 
@@ -559,16 +591,19 @@
         </problem>
         <problem id="artificial.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="artificial" />
         </problem>
@@ -586,6 +621,7 @@
         </problem>
         <problem id="artificial.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <dataTableBuilder idref="artificial" />
         </problem>
     </problems>

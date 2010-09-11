@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.measurement.single.clustering;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
@@ -65,10 +65,10 @@ public class PlotHighDimensionalClustersAndCentroids implements Measurement {
     public Type getValue(Algorithm algorithm) {
         ClusteringProblem problem = (ClusteringProblem) algorithm.getOptimisationProblem();
         int numberOfClusters = problem.getNumberOfClusters();
-        ArrayList<Vector> centroids = ClusteringFunctions.disassembleCentroids((Vector) algorithm.getBestSolution().getPosition(), numberOfClusters);
+        List<Vector> centroids = ClusteringFunctions.disassembleCentroids((Vector) algorithm.getBestSolution().getPosition(), numberOfClusters);
         DataTable<StandardPattern, TypeList> dataTable = problem.getDataTable();
         DistanceMeasure distanceMeasure = problem.getDistanceMeasure();
-        ArrayList<Cluster> clusters = ClusteringFunctions.cluster(centroids, dataTable, distanceMeasure, numberOfClusters);
+        List<Cluster> clusters = ClusteringFunctions.cluster(centroids, dataTable, distanceMeasure, numberOfClusters);
         String clusteringFunction = problem.getClusteringFunction().getClass().getSimpleName();
 
         System.out.println("reset");
@@ -84,7 +84,7 @@ public class PlotHighDimensionalClustersAndCentroids implements Measurement {
         return Int.valueOf(0, new Bounds(0, 0));
     }
 
-    private void plotCentroids(String clusteringFunction, int iteration, ArrayList<Cluster> clusters) {
+    private void plotCentroids(String clusteringFunction, int iteration, List<Cluster> clusters) {
         System.out.println("set output \"centroids.all.iteration." + String.format("%04d", iteration) + ".jpg\"");
         System.out.println("set title '" + clusteringFunction + ": " + iteration + " iterations'");
         System.out.print("plot ");
@@ -112,7 +112,7 @@ public class PlotHighDimensionalClustersAndCentroids implements Measurement {
         }
     }
 
-    private void plotClustersWithCentroids(String clusteringFunction, int iteration, ArrayList<Cluster> clusters) {
+    private void plotClustersWithCentroids(String clusteringFunction, int iteration, List<Cluster> clusters) {
         for (int i = 0, n = clusters.size(); i < n; ++i) {
             Cluster cluster = clusters.get(i);
 

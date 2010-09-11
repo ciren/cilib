@@ -22,7 +22,8 @@
 package net.sourceforge.cilib.clustering.kmeans;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
+
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -39,18 +40,18 @@ public interface CentroidsDiversificationStrategy extends Serializable, Cloneabl
     public CentroidsDiversificationStrategy getClone();
 
     /**
-     * Initialise this centroids diversification strategy based on the given {@link ArrayList} of centroid
+     * Initialise this centroids diversification strategy based on the given {@link List} of centroid
      * {@link Vector}s.
      *
-     * @param centroids The {@link ArrayList} containing all the centroids.
+     * @param centroids The {@link List} containing all the centroids.
      */
-    public void initialise(ArrayList<Vector> centroids);
+    public void initialise(List<Vector> centroids);
 
     /**
      * Diversify the specified centroid in the given list of centroids. Note that a diversification will only happen
      * based on the rules implemented in the classes that override this method.
-     * @param centroids The {@link ArrayList} containing all the centroids.
+     * @param centroids The {@link List} containing all the centroids.
      * @param which Which centroid (of the given centroids) should be diversified?
      */
-    public void diversify(ArrayList<Vector> centroids, int which);
+    public void diversify(List<Vector> centroids, int which);
 }

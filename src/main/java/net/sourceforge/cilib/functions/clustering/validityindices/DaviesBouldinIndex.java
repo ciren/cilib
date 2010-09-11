@@ -21,12 +21,12 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import net.sourceforge.cilib.functions.clustering.ClusteringErrorFunction;
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCentroidStrategy;
+import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -39,26 +39,25 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  *           and Donald W. Bouldin", journal = "IEEE Transactions on Pattern Analysis and Machine
  *           Intelligence", volume = "1", number = "2", year = "1979", pages = "224--227", month =
  *           apr, issn = "0162-8828" }
- * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCentroidStrategy}.
  * @author Theuns Cloete
  */
-public class DaviesBouldinIndex extends ClusteringErrorFunction {
+public class DaviesBouldinIndex implements ClusteringFunction<Double> {
     private static final long serialVersionUID = -5167494843653998358L;
 
     public DaviesBouldinIndex() {
     }
 
     @Override
-    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+    public Double apply(List<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy, Vector dataSetMean, double dataSetVariance, double zMax) {
         double db = 0.0, max = -Double.MAX_VALUE;
 
         for (Cluster lhs : clusters) {
-            double withinScatterLeft = this.calculateWithinClusterScatter(distanceMeasure, lhs);
+            double withinScatterLeft = this.calculateWithinClusterScatter(distanceMeasure, clusterCenterStrategy, lhs);
 
             for (Cluster rhs : clusters) {
                 if (lhs != rhs) {
-                    double withinScatterRight = this.calculateWithinClusterScatter(distanceMeasure, rhs);
-                    double betweenSeperation = this.calculateBetweenClusterSeperation(distanceMeasure, lhs, rhs);
+                    double withinScatterRight = this.calculateWithinClusterScatter(distanceMeasure, clusterCenterStrategy, rhs);
+                    double betweenSeperation = this.calculateBetweenClusterSeperation(distanceMeasure, clusterCenterStrategy, lhs, rhs);
 
                     max = Math.max(max, (withinScatterLeft + withinScatterRight) / betweenSeperation);
                 }
@@ -69,9 +68,9 @@ public class DaviesBouldinIndex extends ClusteringErrorFunction {
         return db / clusters.size();
     }
 
-    private double calculateWithinClusterScatter(DistanceMeasure distanceMeasure, Cluster cluster) {
+    private double calculateWithinClusterScatter(DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy, Cluster cluster) {
         double withinClusterScatter = 0.0;
-        Vector center = this.clusterCenterStrategy.getCenter(cluster);
+        Vector center = clusterCenterStrategy.getCenter(cluster);
 
         for (StandardPattern pattern : cluster) {
             withinClusterScatter += distanceMeasure.distance(pattern.getVector(), center);
@@ -83,7 +82,7 @@ public class DaviesBouldinIndex extends ClusteringErrorFunction {
      * The <i>alpha</i> value of the distance measure should correspond to the <i>p</i> value of the
      * Davies-Bouldin Validity Index.
      */
-    private double calculateBetweenClusterSeperation(DistanceMeasure distanceMeasure, Cluster lhs, Cluster rhs) {
-        return distanceMeasure.distance(this.clusterCenterStrategy.getCenter(lhs), this.clusterCenterStrategy.getCenter(rhs));
+    private double calculateBetweenClusterSeperation(DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy, Cluster lhs, Cluster rhs) {
+        return distanceMeasure.distance(clusterCenterStrategy.getCenter(lhs), clusterCenterStrategy.getCenter(rhs));
     }
 }

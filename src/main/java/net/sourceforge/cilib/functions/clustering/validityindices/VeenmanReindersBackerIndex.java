@@ -21,14 +21,15 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.functions.clustering.ClusteringErrorFunction;
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterMeanStrategy;
+import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterCenterStrategy;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterMeanStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -42,10 +43,11 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  *           "0162-8828", pages = "1273--1280", doi =
  *           "http://dx.doi.org/10.1109/TPAMI.2002.1033218", publisher = "IEEE Computer Society",
  *           address = "Washington, DC, USA", }
- * NOTE: By default, the cluster center refers to the cluster mean. See {@link ClusterMeanStrategy}.
+ * NOTE: The {@link ClusterMeanStrategy} should be used for this function to adhere to the implementation as specified
+ * in the original paper.
  * @author Theuns Cloete
  */
-public class VeenmanReindersBackerIndex extends ClusteringErrorFunction {
+public class VeenmanReindersBackerIndex implements ClusteringFunction<Double> {
     private static final long serialVersionUID = 5683593481233814465L;
     private static final double DEF_VARIANCE_LIMIT = 1.0;
 
@@ -53,12 +55,11 @@ public class VeenmanReindersBackerIndex extends ClusteringErrorFunction {
     private ControlParameter maximumVariance = null;
 
     public VeenmanReindersBackerIndex() {
-        this.clusterCenterStrategy = new ClusterMeanStrategy();
         this.maximumVariance = new ConstantControlParameter(DEF_VARIANCE_LIMIT);    // default variance limit is 1.0
     }
 
     @Override
-    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+    public Double apply(List<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy, Vector dataSetMean, double dataSetVariance, double zMax) {
         if (!this.holdsConstraint(dataSetMean, clusters)) {
             return Double.MAX_VALUE;
         }
@@ -66,7 +67,7 @@ public class VeenmanReindersBackerIndex extends ClusteringErrorFunction {
         double sumOfSquaredError = 0.0;
 
         for (Cluster cluster : clusters) {
-            Vector center = this.clusterCenterStrategy.getCenter(cluster);
+            Vector center = clusterCenterStrategy.getCenter(cluster);
 
             // H(Y) in the paper refers to the homogeneity of Y (not variance, because we do not divide by |Y|)
             for (StandardPattern pattern : cluster) {
@@ -78,7 +79,7 @@ public class VeenmanReindersBackerIndex extends ClusteringErrorFunction {
         return sumOfSquaredError / dataTable.size();
     }
 
-    private boolean holdsConstraint(Vector dataSetMean, ArrayList<Cluster> clusters) {
+    private boolean holdsConstraint(Vector dataSetMean, List<Cluster> clusters) {
         int clustersFormed = clusters.size();
 
         for (int i = 0; i < clustersFormed - 1; ++i) {

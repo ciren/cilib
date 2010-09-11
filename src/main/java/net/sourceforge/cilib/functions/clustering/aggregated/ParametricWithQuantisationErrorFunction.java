@@ -21,16 +21,15 @@
  */
 package net.sourceforge.cilib.functions.clustering.aggregated;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.functions.clustering.ClusteringErrorFunction;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
 import net.sourceforge.cilib.functions.clustering.QuantisationErrorFunction;
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -44,17 +43,15 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  *             and Image Processing", author = "Mahamed G.H. Omran", institution = "University Of
  *             Pretoria", school = "Computer Science", year = "2004", month = nov, pages = "114 &
  *             115" address = "Pretoria, South Africa", note = "Supervisor: A. P. Engelbrecht" }
- * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
  * @author Theuns Cloete
  */
-public class ParametricWithQuantisationErrorFunction extends ClusteringErrorFunction {
+public class ParametricWithQuantisationErrorFunction implements ClusteringFunction<Double> {
     private static final long serialVersionUID = -2022785065235231801L;
     private static final double DEF_WEIGHT = 0.4;
     private static final double DEF_ZMAX = -1.0;
 
-    // TODO: Inject the instance fields
     private final ParametricClusteringFunction parametricFunction;
-    private final ClusteringFunction quantisationError;
+    private final ClusteringFunction<Double> quantisationError;
     private ControlParameter w3;
 
     /**
@@ -69,10 +66,10 @@ public class ParametricWithQuantisationErrorFunction extends ClusteringErrorFunc
     }
 
     @Override
-    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+    public Double apply(List<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy, Vector dataSetMean, double dataSetVariance, double zMax) {
 //        Preconditions.checkState(this.getW1() + this.getW2() + this.getW3() == 1.0, "The sum of w1, w2 and w3 must equal 1.0");
 
-        return this.parametricFunction.apply(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax) + (this.getW3() * this.quantisationError.apply(clusters, dataTable, distanceMeasure, dataSetMean, dataSetVariance, zMax));
+        return this.parametricFunction.apply(clusters, dataTable, distanceMeasure, clusterCenterStrategy, dataSetMean, dataSetVariance, zMax) + (this.getW3() * this.quantisationError.apply(clusters, dataTable, distanceMeasure, clusterCenterStrategy, dataSetMean, dataSetVariance, zMax));
     }
 
     public void setW1(ControlParameter w1) {
@@ -113,12 +110,5 @@ public class ParametricWithQuantisationErrorFunction extends ClusteringErrorFunc
     public void updateControlParameters() {
         this.parametricFunction.updateControlParameters();
         this.w3.updateParameter();
-    }
-
-    @Override
-    public void setClusterCenterStrategy(ClusterCenterStrategy clusterCenterStrategy) {
-        this.clusterCenterStrategy = clusterCenterStrategy;
-        this.parametricFunction.setClusterCenterStrategy(this.clusterCenterStrategy);
-        this.quantisationError.setClusterCenterStrategy(this.clusterCenterStrategy);
     }
 }

@@ -23,7 +23,7 @@ package net.sourceforge.cilib.clustering.kmeans;
 
 import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
@@ -60,8 +60,8 @@ public class RandomCentroidsInitialisationStrategy implements CentroidsInitialis
      * {@inheritDoc}
      */
     @Override
-    public ArrayList<Vector> initialise(DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids) {
-        ArrayList<Vector> centroids = Lists.newArrayList();
+    public List<Vector> initialise(DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids) {
+        List<Vector> centroids = Lists.newArrayList();
         Vector.Builder centroid = Vector.newBuilder().copyOf(domainRegistry.getBuiltRepresenation());
 
         for (int i = 0; i < numberOfCentroids; ++i) {
@@ -75,7 +75,7 @@ public class RandomCentroidsInitialisationStrategy implements CentroidsInitialis
      * {@inheritDoc}
      */
     @Override
-    public Vector reinitialise(ArrayList<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which) {
+    public Vector reinitialise(List<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which) {
         // TODO: pass in RandomProvider
         return Vector.newBuilder().copyOf(centroids.get(which)).buildRandom();
     }

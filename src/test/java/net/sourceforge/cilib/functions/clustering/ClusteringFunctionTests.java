@@ -23,7 +23,7 @@ package net.sourceforge.cilib.functions.clustering;
 
 import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.StandardPatternDataTable;
@@ -48,8 +48,8 @@ public final class ClusteringFunctionTests {
         return Vector.of(0, 0, 10, 0, 10, 10, 0, 10);
     }
 
-    public static ArrayList<Vector> getSeparateCentroids() {
-        ArrayList<Vector> centroids = Lists.newArrayList();
+    public static List<Vector> getSeparateCentroids() {
+        List<Vector> centroids = Lists.newArrayListWithCapacity(4);
 
         centroids.add(Vector.of(0, 0));
         centroids.add(Vector.of(10, 0));
@@ -59,8 +59,8 @@ public final class ClusteringFunctionTests {
         return centroids;
     }
 
-    public static ArrayList<Cluster> getClusters() {
-        ArrayList<Cluster> clusters = Lists.newArrayList();
+    public static List<Cluster> getClusters() {
+        List<Cluster> clusters = Lists.newArrayListWithCapacity(4);
         Cluster cluster = new Cluster(Vector.of(0, 0));
 
         cluster.add(new StandardPattern(Vector.of(1, 1), new StringType("1")));

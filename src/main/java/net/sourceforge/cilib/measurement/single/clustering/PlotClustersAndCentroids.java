@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.measurement.single.clustering;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
@@ -65,10 +65,10 @@ public class PlotClustersAndCentroids implements Measurement<Int> {
     public Int getValue(Algorithm algorithm) {
         ClusteringProblem problem = (ClusteringProblem) algorithm.getOptimisationProblem();
         int numberOfClusters = problem.getNumberOfClusters();
-        ArrayList<Vector> centroids = ClusteringFunctions.disassembleCentroids((Vector) algorithm.getBestSolution().getPosition(), numberOfClusters);
+        List<Vector> centroids = ClusteringFunctions.disassembleCentroids((Vector) algorithm.getBestSolution().getPosition(), numberOfClusters);
         DataTable<StandardPattern, TypeList> dataTable = problem.getDataTable();
         DistanceMeasure distanceMeasure = problem.getDistanceMeasure();
-        ArrayList<Cluster> clusters = ClusteringFunctions.cluster(centroids, dataTable, distanceMeasure, numberOfClusters);
+        List<Cluster> clusters = ClusteringFunctions.cluster(centroids, dataTable, distanceMeasure, numberOfClusters);
 
 //        System.out.println("reset");
 //        System.out.println("set term jpeg medium");

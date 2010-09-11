@@ -19,34 +19,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.measurement.single.clustering;
+package net.sourceforge.cilib.problem.clustering.clustercenterstrategies;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.clustering.ClusteringProblem;
-import net.sourceforge.cilib.type.types.Real;
+import java.io.Serializable;
+
+import net.sourceforge.cilib.type.types.container.Cluster;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * The search space diameter is equal to the distance between the two furthest possible points in the search space.
- *
+ * A strategy to determine what is meant by the <i>center of a cluster</i>. Sometimes,
+ * <i>cluster center</i> refers to a cluster's {@link ClusterCentroidStrategy centroid} and other times it
+ * refers to a cluster's {@link ClusterMeanStrategy mean}.
  * @author Theuns Cloete
  */
-public class SearchSpaceDiameter implements Measurement<Real> {
-
-    @Override
-    public Measurement getClone() {
-        return this;
-    }
-
-    @Override
-    public String getDomain() {
-        return "R";
-    }
-
-    @Override
-    public Real getValue(Algorithm algorithm) {
-        ClusteringProblem problem = (ClusteringProblem) algorithm.getOptimisationProblem();
-
-        return Real.valueOf(problem.getZMax());
-    }
+public interface ClusterCenterStrategy extends Serializable {
+    /**
+     * Sub-classes should implement this method to return the desired center of the given cluster.
+     * @param cluster the cluster whose center should be returned
+     * @return a {@link Vector} representing the center of the given {@link Cluster}
+     */
+    Vector getCenter(Cluster cluster);
 }

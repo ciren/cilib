@@ -21,40 +21,49 @@
  */
 package net.sourceforge.cilib.functions.clustering;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
- * Calculate the total compactness; sometimes referred to as the <i>intra-cluster distance</i>. In other words, the sum
- * of the distances between all patterns of all clusters and their associated centroids. The calculation is specified by
- * Equation 13 in Section IV on page 124 of:<br/>
+ * Calculate the total compactness; sometimes referred to as the <em>intra-cluster distance</em>. In other words, the
+ * sum of the distances between all patterns of all clusters and their associated centroids. The calculation is
+ * specified by equation 13 in Section IV on page 124 of <em>Nonparametric Genetic Clustering: Comparison of Validity
+ * Indices</em> by <b>Ujjwal Maulik and Sanghamitra Bandyopadhyay</b> in IEEE Transactions on Systems, Man, and
+ * Cybernetics, Part C: Applications and Reviews, Volume 31, Number 1, pages 120-125, February 2001.
  *
- * @Article{ 923275, title = "Nonparametric Genetic Clustering: Comparison of Validity
- *           Indices", author = "Ujjwal Maulik and Sanghamitra Bandyopadhyay", journal =
- *           "IEEE Transactions on Systems, Man, and Cybernetics, Part C: Applications
- *           and Reviews", pages = "120--125", volume = "31", number = "1", month = feb,
- *           year = "2001", issn = "1094-6977" }
  * @author Theuns Cloete
  */
-public class TotalCompactnessFunction extends ClusteringErrorFunction {
+public class TotalCompactnessFunction implements ClusteringFunction<Double> {
     private static final long serialVersionUID = -8511228982780183714L;
 
     /**
      * Calculate the total compactness (<i>intra-cluster distance</i>) of the given clusters.
+     *
+     * TODO: When we start using Guice, then only the required parameters have to be injected when the class is
+     * instantiated and this method will not need all these parameters.
+     *
+     * @param clusters the clusters containing their associated patterns and centroids
+     * @param dataTable the {@link DataTable data set} containing all the {@link StandardPattern patterns}
+     * @param distanceMeasure the {@link DistanceMeasure distance measure} that should be used
+     * @param clusterCenterStrategy the {@link ClusterCenterStrategy cluster center strategy} that should be used
+     * @param dataSetMean the {@link Vector mean vector} of the data set that should be used if necessary
+     * @param dataSetVariance the {@link Vector variance vector} of the data set that should be used if necessary
+     * @param zMax the maximum value in the domain that should be used if necessary
      * @return the total compactness of the given clusters
      */
     @Override
-    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
+    public Double apply(List<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy, Vector dataSetMean, double dataSetVariance, double zMax) {
         double compactness = 0.0;
 
         for (Cluster cluster : clusters) {
-            Vector center = this.clusterCenterStrategy.getCenter(cluster);
+            Vector center = clusterCenterStrategy.getCenter(cluster);
 
             for (StandardPattern pattern : cluster) {
                 compactness += distanceMeasure.distance(pattern.getVector(), center);

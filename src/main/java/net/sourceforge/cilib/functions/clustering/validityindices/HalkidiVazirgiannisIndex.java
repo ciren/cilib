@@ -21,12 +21,12 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import net.sourceforge.cilib.functions.clustering.ClusteringErrorFunction;
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
+import net.sourceforge.cilib.functions.clustering.ClusteringFunction;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -39,10 +39,9 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  *                 "Proceedings of the IEEE International Conference on Data Mining", year = "2001",
  *                 isbn = "0-7695-1119-8", pages = "187--194", publisher = "IEEE Computer Society",
  *                 address = "Washington, DC, USA", }
- * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
  * @author Theuns Cloete
  */
-public class HalkidiVazirgiannisIndex extends ClusteringErrorFunction {
+public class HalkidiVazirgiannisIndex implements ClusteringFunction<Double> {
     private static final long serialVersionUID = 1164537525165848345L;
 
     private double stdev;
@@ -55,8 +54,8 @@ public class HalkidiVazirgiannisIndex extends ClusteringErrorFunction {
     }
 
     @Override
-    public Double apply(ArrayList<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, Vector dataSetMean, double dataSetVariance, double zMax) {
-        return this.calculateWithinClusterScatter(clusters, dataSetVariance) + this.calculateBetweenClusterSeperation(clusters, distanceMeasure);
+    public Double apply(List<Cluster> clusters, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy, Vector dataSetMean, double dataSetVariance, double zMax) {
+        return this.calculateWithinClusterScatter(clusters, clusterCenterStrategy, dataSetVariance) + this.calculateBetweenClusterSeperation(clusters, distanceMeasure, clusterCenterStrategy);
     }
 
     /**
@@ -64,14 +63,14 @@ public class HalkidiVazirgiannisIndex extends ClusteringErrorFunction {
      * is calculated using the specific cluster's center as determined by the {@link ClusterCenterStrategy}.
      * @return the within-cluster-scatter for the specific clustering
      */
-    private double calculateWithinClusterScatter(ArrayList<Cluster> clusters, double dataSetVariance) {
+    private double calculateWithinClusterScatter(List<Cluster> clusters, ClusterCenterStrategy clusterCenterStrategy, double dataSetVariance) {
         double scattering = 0.0;
         int clustersFormed = clusters.size();
 
         this.stdev = 0.0;
 
         for (Cluster cluster : clusters) {
-            double clusterVariance = cluster.getVariance(this.clusterCenterStrategy.getCenter(cluster));
+            double clusterVariance = cluster.getVariance(clusterCenterStrategy.getCenter(cluster));
 
             scattering += clusterVariance;
             this.stdev += clusterVariance;
@@ -86,17 +85,17 @@ public class HalkidiVazirgiannisIndex extends ClusteringErrorFunction {
      * Calculate the distances between cluster separation.
      * @return The distance between cluster separation.
      */
-    private double calculateBetweenClusterSeperation(ArrayList<Cluster> clusters, DistanceMeasure distanceMeasure) {
+    private double calculateBetweenClusterSeperation(List<Cluster> clusters, DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy) {
         int clustersFormed = clusters.size();
         double density = 0.0;
 
         for (Cluster leftCluster : clusters) {
-            Vector leftCenter = this.clusterCenterStrategy.getCenter(leftCluster);
+            Vector leftCenter = clusterCenterStrategy.getCenter(leftCluster);
 
             for (Cluster rightCluster : clusters) {
                 if (leftCluster != rightCluster) {
                     int midDensity = 0, leftDensity = 0, rightDensity = 0;
-                    Vector rightCenter = this.clusterCenterStrategy.getCenter(rightCluster);
+                    Vector rightCenter = clusterCenterStrategy.getCenter(rightCluster);
                     Vector midPoint = leftCenter.plus(rightCenter).divide(2.0);
 
                     for (StandardPattern pattern : leftCluster) {

@@ -21,8 +21,11 @@
  */
 package net.sourceforge.cilib.clustering.kmeans;
 
-import java.util.ArrayList;
+import com.google.common.collect.Lists;
+
 import java.util.Collections;
+import java.util.List;
+
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
@@ -37,8 +40,8 @@ import net.sourceforge.cilib.util.Vectors;
 public class StandardCentroidsDiversificationStrategy implements CentroidsDiversificationStrategy {
     private static final long serialVersionUID = -5900302560150700540L;
 
-    private ArrayList<Vector> previousCentroids;
-    private ArrayList<Integer> unchangedIterations;
+    private List<Vector> previousCentroids;
+    private List<Integer> unchangedIterations;
     private double diversifyRatio;
     private int interval;
 
@@ -52,13 +55,13 @@ public class StandardCentroidsDiversificationStrategy implements CentroidsDivers
     }
 
     public StandardCentroidsDiversificationStrategy(StandardCentroidsDiversificationStrategy rhs) {
-        this.previousCentroids = new ArrayList<Vector>();
+        this.previousCentroids = Lists.newArrayList();
 
         for (Vector previousCentroid : rhs.previousCentroids) {
             this.previousCentroids.add(Vector.copyOf(previousCentroid));
         }
 
-        this.unchangedIterations = new ArrayList<Integer>();
+        this.unchangedIterations = Lists.newArrayList();
         this.unchangedIterations.addAll(rhs.unchangedIterations);
         this.diversifyRatio = rhs.diversifyRatio;
         this.interval = rhs.interval;
@@ -76,14 +79,14 @@ public class StandardCentroidsDiversificationStrategy implements CentroidsDivers
      * {@inheritDoc}
      */
     @Override
-    public void initialise(ArrayList<Vector> centroids) {
-        this.previousCentroids = new ArrayList<Vector>(centroids.size());
+    public void initialise(List<Vector> centroids) {
+        this.previousCentroids = Lists.newArrayListWithCapacity(centroids.size());
 
         for (Vector centroid : centroids) {
             this.previousCentroids.add(Vector.copyOf(centroid));
         }
 
-        this.unchangedIterations = new ArrayList<Integer>(centroids.size());
+        this.unchangedIterations = Lists.newArrayListWithCapacity(centroids.size());
         this.unchangedIterations.addAll(Collections.nCopies(centroids.size(), 0));
     }
 
@@ -91,7 +94,7 @@ public class StandardCentroidsDiversificationStrategy implements CentroidsDivers
      * {@inheritDoc}
      */
     @Override
-    public void diversify(ArrayList<Vector> currentCentroids, int which) {
+    public void diversify(List<Vector> currentCentroids, int which) {
         Vector currentCentroid = currentCentroids.get(which);
         Vector previousCentroid = this.previousCentroids.get(which);
         int unchanged = this.unchangedIterations.get(which);

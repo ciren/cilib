@@ -25,10 +25,16 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 
 /**
+ * A factory for creating new {@link MaximisationFitness} objects.
  * @author Theuns Cloete
  */
-public class MaximisationFitnessFactory implements FitnessFactory {
+public class MaximisationFitnessFactory implements FitnessFactory<Double> {
 
+    /**
+     * Create a new {@link MaximisationFitness} object that represents the given value.
+     * @param value the value that represents the fitness
+     * @return a new {@link MaximisationFitness} object representing the given value
+     */
     @Override
     public Fitness newFitness(Double value) {
         return new MaximisationFitness(value);

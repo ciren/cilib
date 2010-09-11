@@ -22,18 +22,19 @@
 package net.sourceforge.cilib.measurement.single.clustering;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.clustering.PartitionalClusteringProblem;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.problem.clustering.ClusteringProblem;
+import net.sourceforge.cilib.type.types.Real;
 
 /**
- * Combines and measures the centroid vectors of the clusters optimised by the given algorithm.
+ * The search space volume is equal calulated as the
+ * {@link ClusteringFunctions#zMax(net.sourceforge.cilib.type.types.container.Vector)} of the search space.
  *
  * @author Theuns Cloete
  */
-public class ClusterCentroids implements Measurement {
-    private static final long serialVersionUID = 8314013053256363122L;
+public class SearchSpaceVolume implements Measurement<Real> {
+    private static final long serialVersionUID = -1710710916667306243L;
 
     @Override
     public Measurement getClone() {
@@ -42,18 +43,13 @@ public class ClusterCentroids implements Measurement {
 
     @Override
     public String getDomain() {
-        return "(R^?)^?";
+        return "R";
     }
 
-    /**
-     * The {@link PartitionalClusteringProblem} only permits the correct number of clusters and therefore we do not have
-     * to cluster the data set in order to get the centroids. The {@link Algorithm algorithm&apos;s} solution is the
-     * centroids.
-     * @param algorithm the {@link Algorithm} used to cluster
-     * @return the centroids
-     */
     @Override
-    public Type getValue(Algorithm algorithm) {
-        return (Vector) algorithm.getBestSolution().getPosition();
+    public Real getValue(Algorithm algorithm) {
+        ClusteringProblem problem = (ClusteringProblem) algorithm.getOptimisationProblem();
+
+        return Real.valueOf(problem.getZMax());
     }
 }

@@ -22,28 +22,24 @@
 package net.sourceforge.cilib.functions.clustering;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
-import net.sourceforge.cilib.problem.clustering.ClusteringProblem;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Cluster;
-import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
- * A class that simplifies clustering when making use of a {@link ClusteringProblem}, a
- * {@link StaticDataSetBuilder} and a {@link ClusteringFitnessFunction}. <br/> This
- * class is not dependent on a {@link ClusteringFitnessFunction}, but the
- * {@link ClusteringFitnessFunction}s use this class extensively.
+ * This class defines some helper methods for working with clusters.
  *
  * @author Theuns Cloete
  */
@@ -53,45 +49,17 @@ public final class ClusteringFunctions {
     }
 
     /**
-     * The three methods called in this method must be called in that specific order, i.e.
-     * <ol>
-     * <li>Disassemble the centroids (split them up to be manageable)</li>
-     * <li>Form the clusters (assign patterns to their closest centroids) (depends on Step 1)</li>
-     * <li>Remove the empty clusters and their associated centroids from the <i>arranged
-     * lists</i>, thereby finalizing the arranging of clusters (depends on both Steps 1 & 2)</li>
-     * </ol>
-     *
-     * @param combinedCentroids the {@link Vector} that represents all the centroids
-     * @param problem the {@link ClusteringProblem}
-     * @param dataSetBuilder the {@link DataSetBuilder} that contains the patterns
-     * @return an {@link ArrayList} of {@link Cluster clusters}
-     */
-/*
-    public static ArrayList<Cluster<Vector>> arrangeClustersAndCentroids(Vector combinedCentroids, ClusteringProblem problem, StaticDataSetBuilder dataSetBuilder) {
-        ArrayList<Vector> separateCentroids = disassembleCentroids(combinedCentroids, problem.getNumberOfClusters());
-
-        return arrangeClustersAndCentroids(separateCentroids, problem, dataSetBuilder);
-    }
-
-    public static ArrayList<Cluster<Vector>> arrangeClustersAndCentroids(ArrayList<Vector> separateCentroids, ClusteringProblem problem, StaticDataSetBuilder dataSetBuilder) {
-        ArrayList<Cluster<Vector>> clusters = formClusters(separateCentroids, problem, dataSetBuilder.getPatterns());
-
-        return significantClusters(clusters);
-    }
-*/
-
-    /**
-     * Cluster the given patterns using the given centroids (as cluster centers) and the given {@link DistanceMeasure}
-     * into the specified number of clusters.
+     * Cluster the {@link StandardPattern patterns} in the given {@link DataTable} (using the given centroids as cluster
+     * centers and the given {@link DistanceMeasure}) into the specified number of clusters.
      * @param centroids the list of {@link Vector centroids} that should be used as cluster centers
-     * @param patterns the {@link Set} of {@link Pattern patterns} contained in the data set
+     * @param dataTable the {@link DataTable} of {@link StandardPattern patterns}
      * @param distanceMeasure the {@link DistanceMeasure} that should be used to determine similarity between the
      * patterns and centroids
      * @param numberOfClusters the number of clusters that are desired
-     * @return a list of {@link Cluster clusters}
+     * @return a {@link Collection} of {@link Cluster clusters}
      */
-    public static ArrayList<Cluster> cluster(ArrayList<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, int numberOfClusters) {
-        ArrayList<Cluster> clusters = new ArrayList<Cluster>(numberOfClusters);
+    public static List<Cluster> cluster(Collection<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, int numberOfClusters) {
+        List<Cluster> clusters = Lists.newArrayListWithCapacity(numberOfClusters);
 
         for (Vector centroid : centroids) {
             clusters.add(new Cluster(centroid));
@@ -120,13 +88,16 @@ public final class ClusteringFunctions {
     }
 
     /**
-     * Take the given list of centroid vectors and combine them such that a single {@link Vector} is constructed
-     * containing all of the centroids vectors, one after the other.
+     * Combine the given {@link Collection} of {@link Vector centroids} into a single {@link Vector} containing
+     * all the centroids, one after the other. For example, the following vectors: [1,2,3], [4,5,6] and [7,8,9]<br/>
+     * will be combined into: [1,2,3,4,5,6,7,8,9]
      *
-     * @param separateCentroids the list of centroid vectors that should be combined into a single vector
-     * @return a single {@link Vector} constructed by appending the given list of centroids
+     * @param separateCentroids the {@link Collection} of {@link Vector centroids} that should be combined into a
+     * single {@link Vector}
+     * @return a single {@link Vector} constructed by appending the given {@link Collection} of
+     * {@link Vector centroids}
      */
-    public static Vector assembleCentroids(ArrayList<Vector> separateCentroids) {
+    public static Vector assembleCentroids(Collection<Vector> separateCentroids) {
         Vector.Builder assembled = Vector.newBuilder();
 
         for (Vector centroid : separateCentroids) {
@@ -136,70 +107,38 @@ public final class ClusteringFunctions {
     }
 
     /**
-     * Take the given centroids {@link Vector}, split it up and construct a {@link List} of vectors such that each
-     * element in the list consist of a single centroid.
+     * Split up the given combined {@link Vector centroids} based on the given number of centroids and add the separate
+     * centroids to a {@link Collection} of {@link Vector centroids} such that each element in the collection consist of
+     * a single {@link Vector centroid}. For example, the following vector: [1,2,3,4,5,6,7,8,9]<br/>
+     * will be split up into:
+     * [1,2,3], [4,5,6] and [7,8,9]<br/>
+     * when the specified number of centroids is 3.
      *
-     * @param combinedCentroids the centroids {@link Vector} that should be split up
-     * @return a {@link List} of centroid {@link Vector vectors}
+     * @param combinedCentroids the {@link Vector centroids} that should be split up
+     * @param numberOfCentroids the desired number of {@link Vector centroids}
+     * @return a {@link Collection} containing the separate {@link Vector centroids}
      */
-    public static ArrayList<Vector> disassembleCentroids(Vector combinedCentroids, int numberOfClusters) {
-        ArrayList<Vector> disassembled = Lists.newArrayList();
-        int dimension = combinedCentroids.size() / numberOfClusters;
+    public static List<Vector> disassembleCentroids(Vector combinedCentroids, int numberOfCentroids) {
+        List<Vector> disassembled = Lists.newArrayListWithCapacity(numberOfCentroids);
+        int dimension = combinedCentroids.size() / numberOfCentroids;
 
-        for (int i = 0, n = numberOfClusters; i < n; ++i) {
+        for (int i = 0, n = numberOfCentroids; i < n; ++i) {
             disassembled.add(combinedCentroids.copyOfRange(i * dimension, (i * dimension) + dimension));
         }
         return disassembled;
     }
 
     /**
-     * Create an {@link ArrayList} of {@link Cluster clusters} where each cluster contains the {@link Pattern patterns}
-     * that are closest to its {@link Cluster#getCentroid() associated centroid}.
+     * Determine and retrieve only the significant clusters from the given clusters. Empty clusters are a result of
+     * centroids that are not associated with any of the patterns in the dataset. These empty clusters are insignificant
+     * and should not be included in the calculation of fitness functions or validity indices. This method returns a
+     * list of only the significant clusters, by ignoring the insignificant clusters in the given list of clusters.
      *
-     * @return an {@link ArrayList} of {@link Cluster clusters} where each {@link Pattern} have been assigned to its
-     *         closest centroid
+     * @param clusters a {@link Collection} of clusters, whether significant or not
+     * @return a {@link Collection} of only significant (non-empty) {@link Cluster clusters}.
      */
-/*
-    public static ArrayList<Cluster<Vector>> formClusters(ArrayList<Vector> centroids, ClusteringProblem problem, Set<Pattern<Vector>> patterns) {
-        ArrayList<Cluster<Vector>> clusters = Lists.newArrayList();
-
-        for (Vector centroid : centroids) {
-            clusters.add(new Cluster<Vector>(centroid));
-        }
-
-        for (Pattern<Vector> pattern : patterns) {
-            double minimum = Double.MAX_VALUE;
-
-            for (Cluster<Vector> cluster : clusters) {
-                double distance = problem.calculateDistance(pattern.getData(), cluster.getCentroid());
-
-                if (distance < minimum) {
-                    minimum = distance;
-
-                    for (Cluster<Vector> other : clusters) {
-                        // a cluster is a set and can therefore contain the pattern only once
-                        if (other.remove(pattern)) {
-                            break;  // only one cluster can contain the pattern
-                        }
-                    }
-                    cluster.add(pattern);
-                }
-            }
-        }
-        return clusters;
-    }
-*/
-    /**
-     * Retrieve the significant clusters. Empty clusters are a result of centroids that are not associated with any
-     * of the patterns in the dataset. These empty clusters are insignificant and should not be included in the
-     * calculation of fitness functions or validity indices. This method returns a list of only
-     * the significant clusters, by ignoring the insignificant clusters in the given list of clusters.
-     *
-     * @param clusters a list containing clusters, whether significant or not
-     * @return an {@link ArrayList} of significant (non-empty) {@link Cluster clusters}.
-     */
-    public static ArrayList<Cluster> significantClusters(ArrayList<Cluster> clusters) {
-        ArrayList<Cluster> significantClusters = Lists.newArrayList();
+    public static List<Cluster> significantClusters(Collection<Cluster> clusters) {
+        List<Cluster> significantClusters = Lists.newArrayListWithCapacity(clusters.size());
 
         for (Cluster cluster : clusters) {
             if (!cluster.isEmpty()) {
@@ -209,7 +148,13 @@ public final class ClusteringFunctions {
         return significantClusters;
     }
 
-    public static boolean isValidClustering(ArrayList<Cluster> clusters) {
+    /**
+     * Determine whether the given {@link Collection} of {@link Cluster clusters} is a valid <em>clustering</em>. If one
+     * of the clusters {@link Cluster#isEmpty() is empty} then the clustering is invalid.
+     * @param clusters the {@link Collection} of clusters that should be validated
+     * @return true when the clustering is valid, false otherwise
+     */
+    public static boolean isValidClustering(Collection<Cluster> clusters) {
         for (Cluster cluster : clusters) {
             if (cluster.isEmpty()) {
                 return false;
@@ -219,21 +164,25 @@ public final class ClusteringFunctions {
     }
 
     /**
-     * Calculate the diameter of the given cluster, i.e. the distance between the two patterns (in the cluster) that are
-     * furthest apart. There exists numerous references for this calculation.
+     * Calculate the diameter of the given {@link Cluster}, i.e. the distance between the two patterns (in the cluster)
+     * that are furthest apart. If the cluster size is <code>n</code>, then the complexity of this method is
+     * <code>O(n<sup>2</sup>)</code>, although it is optimised to minimise the number of distance calculations such that
+     * there will only be <code>(n * (n - 1)) / 2</code> distance calculations, e.g. (5 * (5 - 1)) / 2 = 10.
      *
      * @param distanceMeasure the {@link DistanceMeasure} that should be used to determine similarity
-     * @param cluster the {@link Cluster} for which the diameter should be calculated
-     * @return the diameter of the given cluster.
+     * @param cluster the {@link Cluster} whose diameter should be calculated
+     * @return the diameter of the given {@link Cluster}
      */
     public static double clusterDiameter(DistanceMeasure distanceMeasure, Cluster cluster) {
+        Multimap<StandardPattern, StandardPattern> alreadyCalculated = HashMultimap.create();
         double diameter = 0.0;
 
-        // these loops result in Big-O n (n - 1) but it can be Big-O (n (n - 1)) / 2
         for (StandardPattern leftPattern : cluster) {
             for (StandardPattern rightPattern : cluster) {
-                if (leftPattern != rightPattern) {
+                if (leftPattern != rightPattern && !alreadyCalculated.get(leftPattern).contains(rightPattern) && !alreadyCalculated.get(rightPattern).contains(leftPattern)) {
                     diameter = Math.max(diameter, distanceMeasure.distance(leftPattern.getVector(), rightPattern.getVector()));
+                    alreadyCalculated.put(leftPattern, rightPattern);
+                    alreadyCalculated.put(rightPattern, leftPattern);
                 }
             }
         }
@@ -241,12 +190,9 @@ public final class ClusteringFunctions {
     }
 
     /**
-     * Calculate the average distance between two clusters. Illustrated in Equation 22 of:<br/>
-     *
-     * @Article{ 678624, title = "Some New Indexes of Cluster Validity", author = "James C.
-     *           Bezdek and Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and
-     *           Cybernetics, Part B: Cybernetics", pages = "301--315", volume = "28", number =
-     *           "3", month = jun, year = "1998", issn = "1083-4419" }
+     * Calculate the average distance between two clusters. Illustrated in equation 22 of <em>Some New Indexes of Cluster
+     * Validity</em> by <b>James C. Bezdek and Nikhil R. Pal</b> on pages 301-315 in IEEE Transactions on Systems, Man,
+     * and Cybernetics, Part B: Cybernetics, Volume 28, Number 3, June 1998.
      * @param distanceMeasure the {@link DistanceMeasure} that should be used to determine similarity
      * @param lhs the LHS cluster
      * @param rhs the RHS cluster
@@ -264,12 +210,9 @@ public final class ClusteringFunctions {
     }
 
     /**
-     * Calculate the maximum distance between two clusters. Illustrated in Equation 21 of:<br/>
-     *
-     * @Article{ 678624, title = "Some New Indexes of Cluster Validity", author = "James C.
-     *           Bezdek and Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and
-     *           Cybernetics, Part B: Cybernetics", pages = "301--315", volume = "28", number =
-     *           "3", month = jun, year = "1998", issn = "1083-4419" }
+     * Calculate the maximum distance between two clusters. Illustrated in equation 21 of <em>Some New Indexes of Cluster
+     * Validity</em> by <b>James C. Bezdek and Nikhil R. Pal</b> on pages 301-315 in IEEE Transactions on Systems, Man,
+     * and Cybernetics, Part B: Cybernetics, Volume 28, Number 3, June 1998.
      * @param distanceMeasure the {@link DistanceMeasure} that should be used to determine similarity
      * @param lhs the LHS cluster
      * @param rhs the RHS cluster
@@ -287,12 +230,9 @@ public final class ClusteringFunctions {
     }
 
     /**
-     * Calculate the minimum distance between two clusters. This is illustrated in Equation 20 of:<br/>
-     *
-     * @Article{ 678624, title = "Some New Indexes of Cluster Validity", author = "James C.
-     *           Bezdek and Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and
-     *           Cybernetics, Part B: Cybernetics", pages = "301--315", volume = "28", number =
-     *           "3", month = jun, year = "1998", issn = "1083-4419" }
+     * Calculate the minimum distance between two clusters. This is illustrated in equation 20 of <em>Some New Indexes of
+     * Cluster Validity</em> by <b>James C. Bezdek and Nikhil R. Pal</b> on pages 301-315 in IEEE Transactions on
+     * Systems, Man, and Cybernetics, Part B: Cybernetics, Volume 28, Number 3, June 1998.<br/>
      * @param distanceMeasure the {@link DistanceMeasure} that should be used to determine similarity
      * @param lhs the LHS cluster
      * @param rhs the RHS cluster
@@ -311,7 +251,10 @@ public final class ClusteringFunctions {
 
     /**
      * Calculate the maximum value in the data set. In other words, calculate the maximum value possible for the given
-     * prototype based on its upper and lower bounds.
+     * prototype based on its upper and lower bounds. This can be seen as the <code>volume</code> of the given
+     * prototype&apos;s domain. For example, if the domain is <code>R(0.0,5.0),R(2.0,5.0),R(1.0,3.0)</code> then the
+     * <code>zMax</code> will be (5 - 0) x (5 - 2) x (3 - 1) = 5 x 3 x 2 = 30.
+     * {@link Vector}.
      * @return the maximum value possible for the given prototype
      */
     public static double zMax(Vector prototype) {

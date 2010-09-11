@@ -77,16 +77,19 @@
         </problem>
         <problem id="artificial.dunn.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.dunn.index33" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex33" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.dunn.index53" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.DunnIndex53" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <fitnessFactory class="problem.fitnessfactory.MaximisationFitnessFactory" />
             <dataTableBuilder idref="artificial" />
         </problem>
@@ -104,6 +107,7 @@
         </problem>
         <problem id="artificial.veenman.reinders.backer.index" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">
             <clusteringFunction class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+	    <clusterCenterStrategy class="problem.clustering.clustercenterstrategies.ClusterMeanStrategy" />
             <dataTableBuilder idref="artificial" />
         </problem>
         <problem id="artificial.total" class="problem.clustering.PartitionalClusteringProblem" domain="R(-1.0,1.0)^2">

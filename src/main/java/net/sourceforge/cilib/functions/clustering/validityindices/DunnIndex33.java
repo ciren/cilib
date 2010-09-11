@@ -22,8 +22,9 @@
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterMeanStrategy;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterCenterStrategy;
+import net.sourceforge.cilib.problem.clustering.clustercenterstrategies.ClusterMeanStrategy;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
@@ -34,7 +35,8 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  *           Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and Cybernetics, Part B:
  *           Cybernetics", pages = "301--315", volume = "28", number = "3", month = jun, year =
  *           "1998", issn = "1083-4419" }
- * NOTE: By default, the cluster center refers to the cluster mean. See {@link ClusterMeanStrategy}.
+ * NOTE: The {@link ClusterMeanStrategy} should be used for this function to adhere to implementation as specified in
+ * the original paper.
  * @author Theuns Cloete
  */
 public class DunnIndex33 extends DunnIndex {
@@ -47,9 +49,9 @@ public class DunnIndex33 extends DunnIndex {
      * This method implements Equation 28 in the above-mentioned article.
      */
     @Override
-    protected double calculateClusterScatter(DistanceMeasure distanceMeasure, Cluster cluster) {
+    protected double calculateClusterScatter(DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy, Cluster cluster) {
         double distanceSum = 0.0;
-        Vector center = this.clusterCenterStrategy.getCenter(cluster);
+        Vector center = clusterCenterStrategy.getCenter(cluster);
 
         for (StandardPattern pattern : cluster) {
             distanceSum += distanceMeasure.distance(pattern.getVector(), center);
@@ -61,7 +63,7 @@ public class DunnIndex33 extends DunnIndex {
      * This method implements Equation 22 in the above-mentioned article.
      */
     @Override
-    protected double calculateClusterSeperation(DistanceMeasure distanceMeasure, Cluster lhs, Cluster rhs) {
+    protected double calculateClusterSeperation(DistanceMeasure distanceMeasure, ClusterCenterStrategy clusterCenterStrategy, Cluster lhs, Cluster rhs) {
         return ClusteringFunctions.averageClusterDistance(distanceMeasure, lhs, rhs);
     }
 }

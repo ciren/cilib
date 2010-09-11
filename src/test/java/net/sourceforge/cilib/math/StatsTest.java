@@ -23,6 +23,7 @@ package net.sourceforge.cilib.math;
 
 import com.google.common.collect.Sets;
 
+import java.util.Collections;
 import java.util.Set;
 
 import net.sourceforge.cilib.io.pattern.StandardPattern;
@@ -61,13 +62,13 @@ public class StatsTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void testEmptySetForMeanVector() {
-        Stats.meanVector(Sets.<StandardPattern>newHashSet());
+    public void testEmptyIterableForMeanVector() {
+        Stats.meanVector(Collections.<StandardPattern>emptySet());
     }
 
     @Test(expected = IllegalStateException.class)
-    public void testEmptySetForVarianceScalar() {
-        Stats.variance(Sets.<StandardPattern>newHashSet(), mean);
+    public void testEmptyIterablesForVarianceScalar() {
+        Stats.variance(Collections.<StandardPattern>emptySet(), mean);
     }
 
     @Test
