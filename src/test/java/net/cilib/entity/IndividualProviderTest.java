@@ -21,12 +21,8 @@
  */
 package net.cilib.entity;
 
+import net.cilib.problem.Problem;
 import org.junit.Assert;
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Module;
-import com.google.inject.assistedinject.FactoryProvider;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
 
@@ -34,24 +30,26 @@ import static org.hamcrest.CoreMatchers.*;
  *
  * @author gpampara
  */
-public class EntityFactoryTest {
+public class IndividualProviderTest {
 
-    /**
-     * Create an instance of an entity, providing the candidate solution
-     * and fitness.
-     */
+    @Test(expected = IllegalStateException.class)
+    public void solutionReuqired() {
+        IndividualProvider provider = new IndividualProvider(null);
+        provider.get();
+    }
+
     @Test
-    public void creationOfIndividual() {
-        Module m = new AbstractModule() {
+    public void individualCreation() {
+        IndividualProvider provider = new IndividualProvider(new FitnessProvider(new Problem() {
             @Override
-            protected void configure() {
-                bind(EntityFactory.class).toProvider(FactoryProvider.newFactory(EntityFactory.class, Individual.class));
+            public Fitness fitnessOf(CandidateSolution solution) {
+                return Fitnesses.newMaximizationFitness(1.0);
             }
-        };
+        }));
 
-        Injector injector = Guice.createInjector(m);
-        EntityFactory factory = injector.getInstance(EntityFactory.class);
-        Entity e = factory.create(CandidateSolution.copyOf(1.0), Fitnesses.inferior());
-        Assert.assertThat(e, instanceOf(Individual.class));
+        Individual i = provider.solution(CandidateSolution.copyOf(new double[]{})).get();
+
+        Assert.assertNotNull(i);
+        Assert.assertThat(i.fitness(), equalTo(Fitnesses.newMaximizationFitness(1.0)));
     }
 }

@@ -24,7 +24,6 @@ package net.cilib.main;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
-import com.google.inject.assistedinject.FactoryProvider;
 import net.cilib.algorithm.DE;
 import net.cilib.algorithm.Selector;
 import net.cilib.algorithm.MockMutationProvider;
@@ -32,12 +31,11 @@ import net.cilib.algorithm.MutationProvider;
 import net.cilib.algorithm.PopulationBasedAlgorithm;
 import net.cilib.algorithm.ReplacementSelector;
 import net.cilib.annotation.Initialized;
+import net.cilib.annotation.Unique;
 import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
 import net.cilib.collection.mutable.MutableGBestTopology;
 import net.cilib.entity.Entity;
-import net.cilib.entity.EntityFactory;
-import net.cilib.entity.Individual;
 
 /**
  *
@@ -51,8 +49,6 @@ public class PopulationBasedModule extends AbstractModule {
         bind(Selector.class).to(ReplacementSelector.class);
         bind(MutationProvider.class).to(MockMutationProvider.class);
 
-        bind(EntityFactory.class).toProvider(FactoryProvider.newFactory(EntityFactory.class, Individual.class));
-
         bind(PopulationBasedAlgorithm.class).to(DE.class);
     }
 
@@ -65,5 +61,22 @@ public class PopulationBasedModule extends AbstractModule {
     @Provides
     Topology<Entity> getTopology() {
         return ImmutableGBestTopology.of();
+    }
+
+    @Provides
+    @Unique
+    Selector getSelector(Selector selector) {
+        return new Selector() {
+
+            @Override
+            public Entity select(Entity... elements) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public Entity select(Iterable<Entity> elements) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        };
     }
 }

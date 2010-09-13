@@ -22,6 +22,7 @@
 package net.cilib.algorithm;
 
 import java.util.Iterator;
+import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.Entity;
 
 /**
@@ -30,7 +31,7 @@ import net.cilib.entity.Entity;
  */
 public interface MutationProvider {
 
-    Entity create(Iterable<Entity> iterable);
+    CandidateSolution create(Iterable<Entity> iterable);
 
-    Entity create(Iterator<Entity> iterator);
+    CandidateSolution create(Iterator<Entity> iterator);
 }

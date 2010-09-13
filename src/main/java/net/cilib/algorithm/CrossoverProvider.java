@@ -23,12 +23,12 @@ package net.cilib.algorithm;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import net.cilib.entity.EntityFinalizer;
 import com.google.inject.Inject;
 import java.util.List;
 import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.Entity;
 import net.cilib.entity.HasCandidateSolution;
+import net.cilib.entity.IndividualProvider;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
@@ -36,20 +36,26 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  * @author gpampara
  */
 public class CrossoverProvider {
-    private final EntityFinalizer finalizer;
+
+    private final IndividualProvider individualProvider;
     private final RandomProvider randomProvider;
 
     @Inject
-    public CrossoverProvider(EntityFinalizer entityFinalizer, RandomProvider randomProvider) {
-        this.finalizer = entityFinalizer;
+    public CrossoverProvider(IndividualProvider individualProvider,
+        RandomProvider randomProvider) {
+        this.individualProvider = individualProvider;
         this.randomProvider = randomProvider;
     }
 
     public Entity create(HasCandidateSolution target, HasCandidateSolution trialVector) {
+        return create(target.solution(), trialVector.solution());
+    }
+
+    public Entity create(CandidateSolution target, CandidateSolution trialVector) {
         Preconditions.checkArgument(target.size() == trialVector.size(), "ERROR! different sizes");
         List<Integer> crossoverPoints = Lists.newArrayList();
 
-         // Select the crossover points
+        // Select the crossover points
         int random = randomProvider.nextInt(trialVector.size());
         crossoverPoints.add(random);
 
@@ -62,12 +68,13 @@ public class CrossoverProvider {
         CandidateSolution.Builder offspringBuilder = CandidateSolution.newBuilder();
         for (int i = 0; i < trialVector.size(); i++) {
             if (crossoverPoints.contains(Integer.valueOf(i))) {
-                offspringBuilder.add(trialVector.solution().get(i));
+                offspringBuilder.add(trialVector.get(i));
             } else {
-                offspringBuilder.add(target.solution().get(i));
+                offspringBuilder.add(target.get(i));
             }
         }
 
-        return finalizer.finalize(offspringBuilder.build());
+        CandidateSolution solution = offspringBuilder.build();
+        return individualProvider.solution(solution).get();
     }
 }

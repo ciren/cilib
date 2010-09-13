@@ -21,19 +21,15 @@
  */
 package net.cilib.entity;
 
-import com.google.inject.assistedinject.Assisted;
+import java.util.RandomAccess;
 
 /**
- * Generic factory for the creation of {@link Entity} instances.
+ *
  * @author gpampara
  */
-public interface EntityFactory {
+public interface LinearSeq extends Seq, RandomAccess {
 
-    /**
-     * Create an instance of an {@link Entity}, given the provided parameters.
-     * @param solution the solution to maintain
-     * @param fitness the fitness to maintain
-     * @return a newly created {@link Entity} instance with the given values.
-     */
-    public Entity create(@Assisted CandidateSolution solution, @Assisted Fitness fitness);
+    double get(int index);
+
+    MutableSeq toMutableSeq();
 }

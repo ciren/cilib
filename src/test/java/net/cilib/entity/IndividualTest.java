@@ -40,67 +40,6 @@ public class IndividualTest {
     }
 
     @Test
-    public void plus() {
-        CandidateSolution solution = CandidateSolution.copyOf(1.0, 3.0);
-        Individual current = new Individual(solution, null);
-        Individual other = new Individual(solution, null);
-
-        // z = x + y
-        Entity result = current.plus(other).build();
-        Assert.assertArrayEquals(new double[]{2, 6}, result.solution().toArray(), 0.001);
-    }
-
-    @Test
-    public void subtract() {
-        CandidateSolution solution = CandidateSolution.copyOf(1.0, 3.0);
-        Individual current = new Individual(solution, null);
-        Individual other = new Individual(solution, null);
-
-        // z = x - y
-        Entity result = current.subtract(other).build();
-
-        Assert.assertArrayEquals(new double[]{0.0, 0.0}, result.solution().toArray(), 0.001);
-    }
-
-    @Test
-    public void multiply() {
-        CandidateSolution solution = CandidateSolution.copyOf(1.0, 3.0);
-        Individual current = new Individual(solution, null);
-
-        // z = x * y
-        Entity result = current.multiply(2.0).build();
-        Assert.assertArrayEquals(new double[]{2.0, 6.0}, result.solution().toArray(), 0.001);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void illegalDivide() {
-        CandidateSolution.Builder builder = CandidateSolution.newBuilder();
-        Individual current = new Individual(builder.build(), null);
-
-        current.divide(0.0);
-    }
-
-    @Test
-    public void divide() {
-        CandidateSolution solution = CandidateSolution.copyOf(1.0, 3.0);
-        Individual current = new Individual(solution, null);
-
-        // z = x / y
-        Entity result = current.divide(1.0).build();
-        Assert.assertArrayEquals(new double[]{1.0, 3.0}, result.solution().toArray(), 0.001);
-    }
-
-    @Test
-    public void complexFunctionalOperation() {
-        CandidateSolution solution = CandidateSolution.copyOf(1.0, 2.0);
-        Individual current = new Individual(solution, null);
-        Individual other = new Individual(solution, null);
-
-        Entity result = current.multiply(4.0).plus(other).build();
-        Assert.assertArrayEquals(new double[]{5.0, 10.0}, result.solution().toArray(), 0.001);
-    }
-
-    @Test
     public void lessFit() {
         Individual i1 = new Individual(null, Fitnesses.newMinimizationFitness(4.0));
         Individual i2 = new Individual(null, Fitnesses.newMinimizationFitness(-3.0));

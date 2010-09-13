@@ -19,24 +19,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.algorithm;
-
-import net.cilib.collection.Topology;
+package net.cilib.entity;
 
 /**
- * Algorithm that operates on a {@link Topology}.
  *
- * @since 0.8
  * @author gpampara
  */
-//public interface PopulationBasedAlgorithm<A> extends Algorithm {
-public interface PopulationBasedAlgorithm<A> extends Algorithm {
+public interface SeqIterator {
 
-    /**
-     * Perform a loop of the population based algorithm. The iteration of the
-     * algorithm will mutate the provided {@link Topology} instance.
-     * @param topology the population for the algorithm to operate on
-     * @return the given topology, post algorithm iteration.
-     */
-    Topology<A> iterate(Topology<A> topology);
+    public boolean hasNext();
+
+    public double next();
 }

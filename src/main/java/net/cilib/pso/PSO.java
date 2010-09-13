@@ -24,20 +24,48 @@ package net.cilib.pso;
 import com.google.inject.Inject;
 import net.cilib.algorithm.PopulationBasedAlgorithm;
 import net.cilib.collection.Topology;
+import net.cilib.entity.CandidateSolution;
+import net.cilib.entity.ParticleProvider;
+import net.cilib.entity.MutableSeq;
+import net.cilib.entity.Particle;
+import net.cilib.entity.Velocity;
 
 /**
  * @since 0.8
  * @author gpampara
  */
-//public class PSO implements PopulationBasedAlgorithm<Particle> {
-public class PSO implements PopulationBasedAlgorithm {
+public class PSO implements PopulationBasedAlgorithm<Particle> {
 
+    private final VelocityProvider velocityProvider;
+    private final ParticleProvider particleProvider;
+
+    /**
+     *
+     * @param velocityProvider
+     */
     @Inject
-    public PSO() {
+    public PSO(VelocityProvider velocityProvider, ParticleProvider particleProvider) {
+        this.velocityProvider = velocityProvider;
+        this.particleProvider = particleProvider;
     }
 
     @Override
-    public Topology iterate(Topology topology) {
-        return topology;
+    public Topology<Particle> iterate(Topology<Particle> topology) {
+        Topology.Builder<Particle> topologyBuilder = topology.newBuilder();
+//        for (Entity particle : topology) {
+        // Update pbest (This should be automatic?)
+        // Update gbest (This should be done through a provider)
+//        }
+
+        for (Particle particle : topology) {
+            Velocity velocity = velocityProvider.create(particle); // New velocity
+            MutableSeq newPosition = particle.solution().toMutableSeq().plus(velocity); // Update position
+            Particle updatedParticle = particleProvider
+                .position(CandidateSolution.copyOf(newPosition.toArray()))
+                .velocity(velocity)
+                .get();
+            topologyBuilder.add(updatedParticle);
+        }
+        return topologyBuilder.build();
     }
 }

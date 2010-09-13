@@ -28,6 +28,7 @@ package net.cilib.entity;
 public class Fitnesses {
 
     private static final Fitness INFERIOR_FITNESS = new Fitness() {
+
         @Override
         public int compareTo(Fitness o) {
             return 1; // An inferior fitness is ALWAYS worse, therefore return the other one
@@ -69,7 +70,9 @@ public class Fitnesses {
         return new MinimizationFitness(value);
     }
 
+    // Not sure about implementing equals() and hasCode() - is it needed?
     private static class MaximizationFitness implements Fitness {
+
         private final double value;
 
         MaximizationFitness(double value) {
@@ -85,9 +88,32 @@ public class Fitnesses {
         public double value() {
             return value;
         }
+
+        @Override
+        public int hashCode() {
+            int hash = 7;
+            hash = 71 * hash + (int) (Double.doubleToLongBits(this.value) ^ (Double.doubleToLongBits(this.value) >>> 32));
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final MaximizationFitness other = (MaximizationFitness) obj;
+            if (Double.doubleToLongBits(this.value) != Double.doubleToLongBits(other.value)) {
+                return false;
+            }
+            return true;
+        }
     }
 
     private static class MinimizationFitness implements Fitness {
+
         private final double value;
 
         MinimizationFitness(double value) {

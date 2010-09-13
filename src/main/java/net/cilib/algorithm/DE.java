@@ -24,13 +24,14 @@ package net.cilib.algorithm;
 import com.google.inject.Inject;
 import net.cilib.entity.Entity;
 import net.cilib.collection.Topology;
+import net.cilib.entity.CandidateSolution;
 
 /**
  * DE Implementation
  * @since 0.8
  * @author gpampara
  */
-public class DE implements PopulationBasedAlgorithm {
+public class DE implements PopulationBasedAlgorithm<Entity> {
 
     private final MutationProvider mutationProvider;
     private final CrossoverProvider crossoverProvider;
@@ -51,8 +52,8 @@ public class DE implements PopulationBasedAlgorithm {
         for (Entity parent : topology) {
             // This should be implicit. the only way to not have a valid fitness is if a PartialEntity is created.
 //            parent.evaluateFitness();
-            Entity trialVector = mutationProvider.create(topology);
-            Entity offspring = crossoverProvider.create(parent, trialVector);
+            CandidateSolution trialVector = mutationProvider.create(topology);
+            Entity offspring = crossoverProvider.create(parent.solution(), trialVector);
             newTopology.add(selector.select(parent, offspring));
         }
         return newTopology.build();

@@ -25,10 +25,11 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import java.util.Iterator;
 import java.util.List;
+import net.cilib.annotation.Unique;
+import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.Entity;
-import net.cilib.entity.EntityFactory;
-import net.cilib.entity.Fitnesses;
-import net.cilib.entity.HasCandidateSolution;
+import net.cilib.entity.Seq;
+import net.cilib.entity.MutableSeq;
 
 /**
  *
@@ -37,28 +38,26 @@ import net.cilib.entity.HasCandidateSolution;
 public class MockMutationProvider implements MutationProvider {
 
     private final Selector selector;
-    private final EntityFactory factory;
     private double beta = 0.5; // This must be injected
 
     @Inject
-    public MockMutationProvider(Selector selector, EntityFactory factory) {
+    public MockMutationProvider(@Unique Selector selector) {
         this.selector = selector;
-        this.factory = factory;
     }
 
     @Override
-    public Entity create(Iterable<Entity> iterable) {
+    public CandidateSolution create(Iterable<Entity> iterable) {
         return create(iterable.iterator());
     }
 
     @Override
-    public Entity create(Iterator<Entity> iterator) {
+    public CandidateSolution create(Iterator<Entity> iterator) {
         List<Entity> list = Lists.newArrayList(iterator);
-        Entity x1 = selector.select(list);
-        Entity x2 = Selectors.newExcludingSelector(selector, x1).select(list);
-        Entity x3 = Selectors.newExcludingSelector(selector, x1, x2).select(list);
+        MutableSeq x1 = selector.select(list).solution().toMutableSeq();
+        MutableSeq x2 = selector.select(list).solution().toMutableSeq();
+        MutableSeq x3 = selector.select(list).solution().toMutableSeq();
 
-        HasCandidateSolution candidate = x1.plus(x2.subtract(x3).multiply(beta)).build();
-        return factory.create(candidate.solution(), Fitnesses.inferior());
+        Seq result = x1.plus(x2.subtract(x3).multiply(beta));
+        return CandidateSolution.copyOf(result.toArray());
     }
 }

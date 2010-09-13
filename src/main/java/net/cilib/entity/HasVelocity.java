@@ -27,5 +27,5 @@ package net.cilib.entity;
  */
 public interface HasVelocity {
 
-    // Velocity velocity();
+    Velocity velocity();
 }

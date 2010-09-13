@@ -21,7 +21,6 @@
  */
 package net.cilib.algorithm;
 
-import net.cilib.entity.Entity;
 import org.junit.Test;
 
 /**
@@ -32,19 +31,5 @@ public class MockMutationProviderTest {
 
     @Test
     public void creation() {
-        MockMutationProvider provider = new MockMutationProvider(new ConstantSelector(), null);
-    }
-
-    private static class ConstantSelector implements Selector {
-
-        @Override
-        public Entity select(Entity... elements) {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public Entity select(Iterable<Entity> elements) {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
     }
 }

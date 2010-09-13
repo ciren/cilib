@@ -21,10 +21,7 @@
  */
 package net.cilib.entity;
 
-import com.google.common.base.Preconditions;
-import com.google.common.primitives.Doubles;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import java.util.Comparator;
 import static net.cilib.entity.EntityComparators.FITNESS_COMPARATOR;
 
@@ -43,49 +40,19 @@ public final class Individual implements Entity {
     private final Fitness fitness;
 
     @Inject
-    public Individual(@Assisted CandidateSolution solution, @Assisted Fitness fitness) {
+    public Individual(CandidateSolution solution, Fitness fitness) {
         this.solution = solution;
         this.fitness = fitness;
     }
 
     @Override
-    public PartialEntity plus(HasCandidateSolution that) {
-        return newPartialIndividual(this).plus(that);
-    }
-
-    @Override
-    public PartialEntity plus(PartialEntity that) {
-        return newPartialIndividual(this).plus(that.build());
-    }
-
-    @Override
-    public PartialEntity subtract(HasCandidateSolution that) {
-        return newPartialIndividual(this).subtract(that);
-    }
-
-    @Override
-    public PartialEntity subtract(PartialEntity that) {
-        return newPartialIndividual(this).subtract(that.build());
-    }
-
-    @Override
-    public PartialEntity multiply(double scalar) {
-        return newPartialIndividual(this).multiply(scalar);
-    }
-
-    @Override
-    public PartialEntity divide(double scalar) {
-        return newPartialIndividual(this).divide(scalar);
-    }
-
-    @Override
     public CandidateSolution solution() {
-        return CandidateSolution.copyOf(solution);
+        return solution;
     }
 
     @Override
     public int size() {
-        return this.solution.size();
+        return solution.size();
     }
 
     @Override
@@ -131,60 +98,21 @@ public final class Individual implements Entity {
     public int compareTo(Entity o) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
-    private PartialEntity newPartialIndividual(Individual individual) {
-        return new PartialIndividual(individual);
-    }
-
-    private static class PartialIndividual implements Entity.PartialEntity {
-
-        private double[] internalSolution;
-
-        private PartialIndividual(Individual individual) {
-            this.internalSolution = individual.solution.toArray();
-        }
-
-        // DI Here? Should the EntityFactory be injected?
-        @Override
-        public final Individual build() {
-            return new Individual(CandidateSolution.copyOf(internalSolution), Fitnesses.inferior());
-        }
-
-        @Override
-        public PartialEntity plus(HasCandidateSolution that) {
-            final double[] thatSolution = that.solution().toArray();
-            Preconditions.checkState(internalSolution.length == thatSolution.length);
-            for (int i = 0, n = thatSolution.length; i < n; i++) {
-                internalSolution[i] += thatSolution[i];
-            }
-            return this;
-        }
-
-        @Override
-        public PartialEntity subtract(HasCandidateSolution that) {
-            final double[] thatSolution = that.solution().toArray();
-            Preconditions.checkState(internalSolution.length == thatSolution.length);
-            for (int i = 0, n = internalSolution.length; i < n; i++) {
-                internalSolution[i] -= thatSolution[i];
-            }
-            return this;
-        }
-
-        @Override
-        public PartialEntity multiply(final double scalar) {
-            for (int i = 0, n = internalSolution.length; i < n; i++) {
-                internalSolution[i] *= scalar;
-            }
-            return this;
-        }
-
-        @Override
-        public PartialEntity divide(double scalar) {
-            Preconditions.checkArgument(Doubles.compare(scalar, 0.0) != 0, "Cannot divide with a 0.0!");
-            for (int i = 0, n = internalSolution.length; i < n; i++) {
-                internalSolution[i] /= scalar;
-            }
-            return this;
-        }
-    }
+//    public PartialIndividual newPartialIndividual() {
+//        return new PartialIndividual(this);
+//    }
+//    public static class PartialIndividual {
+//
+//        private double[] internalSolution;
+//
+//        private PartialIndividual(Individual individual) {
+//            this.internalSolution = individual.solution.toArray();
+//        }
+//
+//        // DI Here? Should the EntityFactory be injected?
+////        @Override
+//        public final Individual get() {
+//            return new Individual(CandidateSolution.copyOf(internalSolution), Fitnesses.inferior());
+//        }
+//    }
 }

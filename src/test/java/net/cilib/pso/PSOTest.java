@@ -36,7 +36,9 @@ public class PSOTest {
     @Test
     public void iteration() {
         Topology<Entity> topology = ImmutableGBestTopology.of();
-        PopulationBasedAlgorithm instance = new PSO();
+        VelocityProvider velocityProvider = new StandardVelocityProvider(null, null);
+        PopulationBasedAlgorithm instance = new PSO(velocityProvider, null);
+
         instance.iterate(topology);
     }
 }

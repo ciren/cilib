@@ -21,22 +21,38 @@
  */
 package net.cilib.entity;
 
-import org.junit.Assert;
-import org.junit.Test;
+import com.google.common.base.Preconditions;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 /**
  *
  * @author gpampara
  */
-public class CandidateSolutionTest {
+public final class IndividualProvider implements Provider<Individual> {
 
-    @Test
-    public void defensiveToArray() {
-        CandidateSolution solution = CandidateSolution.copyOf(1.0, 1.0);
-        double[] a = solution.toArray();
-        double[] b = solution.toArray();
+    private final FitnessProvider fitnessProvider;
+    private CandidateSolution solution;
 
-        Assert.assertNotSame(a, b);
-        Assert.assertArrayEquals(a, b, 0.001);
+    @Inject
+    public IndividualProvider(FitnessProvider fitnessProvider) {
+        this.fitnessProvider = fitnessProvider;
+    }
+
+    public IndividualProvider solution(CandidateSolution solution) {
+        this.solution = CandidateSolution.copyOf(solution);
+        return this;
+    }
+
+    @Override
+    public Individual get() {
+        Preconditions.checkState(this.solution != null,
+            "Provide a candidate solution to create an Individual.");
+
+        try {
+            return new Individual(solution, fitnessProvider.finalize(solution));
+        } finally {
+            this.solution = null;
+        }
     }
 }

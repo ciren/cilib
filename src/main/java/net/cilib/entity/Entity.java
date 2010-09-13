@@ -21,21 +21,10 @@
  */
 package net.cilib.entity;
 
-import net.cilib.entity.Entity.PartialEntity;
-
 /**
  * @since 0.8
  * @author gpampara
  */
 public interface Entity extends HasCandidateSolution, HasFitness,
-        HasFunctionalOperations<PartialEntity>, EntityComparable {
-
-    PartialEntity plus(PartialEntity that);
-
-    PartialEntity subtract(PartialEntity that);
-
-    interface PartialEntity extends HasFunctionalOperations<PartialEntity> {
-
-        Entity build();
-    }
+    EntityComparable {
 }

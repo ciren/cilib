@@ -30,7 +30,9 @@ import gnu.trove.TDoubleArrayList;
  * @since 0.8
  * @author gpampara
  */
-public class CandidateSolution {
+public final class CandidateSolution implements LinearSeq {
+
+    private final TDoubleArrayList internal;
 
     /**
      * Returns an immutable candidate solution, which is a copy of the given
@@ -51,7 +53,6 @@ public class CandidateSolution {
     public static CandidateSolution copyOf(double... solution) {
         return new CandidateSolution(new TDoubleArrayList(solution));
     }
-    private final TDoubleArrayList internal;
 
     private CandidateSolution(TDoubleArrayList list) {
         this.internal = list;
@@ -63,6 +64,7 @@ public class CandidateSolution {
      * @return the value within the candidate solution at the given
      *  {@code index}.
      */
+    @Override
     public double get(int index) {
         return internal.get(index);
     }
@@ -71,6 +73,7 @@ public class CandidateSolution {
      * Returns the size of this {@code CandidateSolution}.
      * @return the candidate solution size.
      */
+    @Override
     public int size() {
         return internal.size();
     }
@@ -82,6 +85,7 @@ public class CandidateSolution {
      * @return a copy of the internal representation for this candidate
      * solution.
      */
+    @Override
     public double[] toArray() {
         return internal.toNativeArray();
     }
@@ -100,19 +104,28 @@ public class CandidateSolution {
         return new Builder();
     }
 
+    @Override
+    public MutableSeq toMutableSeq() {
+        return new MutableSeq(this);
+    }
+
+    public SeqIterator iterator() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     /**
      * Builder to create {@link CandidateSolution} instances. After the builder
      * has created the {@link CandidateSolution}, the builder is reset to an
      * empty state.
      */
-    public static class Builder {
+    public static class Builder implements Seq.Builder {
 
         private int current;
-        private double[] contents;
+        private double[] internal;
 
         private Builder() {
             current = 0;
-            contents = new double[20];
+            internal = new double[]{};
         }
 
         /**
@@ -120,9 +133,10 @@ public class CandidateSolution {
          * @param value the value to add.
          * @return the current {@code Builder}.
          */
+        @Override
         public Builder add(double value) {
             updateSize();
-            contents[current] = value;
+            internal[current] = value;
             current += 1;
             return this;
         }
@@ -132,23 +146,31 @@ public class CandidateSolution {
          * contents of the {@code Builder}.
          * @return the newly created {@code CandidateSolution}.
          */
+        @Override
         public CandidateSolution build() {
             try {
                 double[] target = new double[current];
-                System.arraycopy(contents, 0, target, 0, current);
+                System.arraycopy(internal, 0, target, 0, current);
                 return CandidateSolution.copyOf(target);
             } finally {
                 current = 0;
-                contents = new double[]{};
+                internal = new double[]{};
             }
         }
 
         private void updateSize() {
-            if (current + 1 >= contents.length) {
-                double[] tmp = new double[contents.length + 10];
-                System.arraycopy(contents, 0, tmp, 0, contents.length);
-                contents = tmp;
+            if (current + 1 >= internal.length) {
+                double[] tmp = new double[internal.length + 10];
+                System.arraycopy(internal, 0, tmp, 0, internal.length);
+                internal = tmp;
             }
+        }
+
+        public Builder copyOf(CandidateSolution candidateSolution) {
+            final double[] solution = candidateSolution.toArray();
+            internal = new double[solution.length];
+            System.arraycopy(solution, 0, internal, 0, solution.length);
+            return this;
         }
     }
 }

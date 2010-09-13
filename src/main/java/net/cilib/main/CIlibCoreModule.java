@@ -62,9 +62,9 @@ public final class CIlibCoreModule extends AbstractModule {
         bind(RandomProvider.class).to(MersenneTwister.class);
         bind(Problem.class).to(MockProblem.class);
     }
-
 //    @Provides // @SomeScope
 //    RandomProvider randomProvider(@Seed long seed, RandomProviderFactory provider) {
 //        return provider.create(seed);
 //    }
+    // Need a way to get the problem domain.
 }

@@ -23,13 +23,14 @@ package net.cilib.entity;
 
 /**
  *
+ * @param <A>
  * @author gpampara
  */
 public interface HasFunctionalOperations<A> {
 
-    A plus(HasCandidateSolution that);
+    A plus(LinearSeq that);
 
-    A subtract(HasCandidateSolution that);
+    A subtract(LinearSeq that);
 
     A multiply(double scalar);
 

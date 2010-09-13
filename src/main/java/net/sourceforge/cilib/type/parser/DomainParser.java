@@ -47,7 +47,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * The domain parser converts a provided domain string representation into
  * a {@code StructuredType}. If the domain string defines a simple {@code Vector}
- * based representaton of {@code Numeric} types, then a {@code Vector} is returned.
+ * based representation of {@code Numeric} types, then a {@code Vector} is returned.
  */
 public final class DomainParser {
 
@@ -110,13 +110,13 @@ public final class DomainParser {
      * @return The converted vector object.
      */
     private static <E extends StructuredType<? extends Type>> Vector toVector(E representation) {
-        Vector vector = new Vector();
+        Vector.Builder vector = new Vector.Builder();
 
         for (Type type : representation) {
             vector.add((Numeric) type);
         }
 
-        return vector;
+        return vector.build();
     }
 
     private static class Evaluator extends DepthFirstAdapter {

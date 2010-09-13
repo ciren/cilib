@@ -19,27 +19,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.entity;
+package net.cilib.pso;
 
-import com.google.inject.Inject;
-import net.cilib.problem.Problem;
+import net.cilib.entity.Particle;
+import net.cilib.entity.Velocity;
 
 /**
  *
  * @author gpampara
  */
-public class EntityFinalizer {
-    private final EntityFactory factory;
-    private final Problem problem;
+public interface VelocityProvider {
 
-    @Inject
-    public EntityFinalizer(EntityFactory factory, Problem problem) {
-        this.factory = factory;
-        this.problem = problem;
-    }
-
-    public Entity finalize(CandidateSolution solution) {
-        Fitness fitness = problem.fitnessOf(solution);
-        return factory.create(solution, fitness);
-    }
+    Velocity create(Particle particle);
 }
