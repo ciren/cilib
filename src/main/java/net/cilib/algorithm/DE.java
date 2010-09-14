@@ -25,6 +25,8 @@ import com.google.inject.Inject;
 import net.cilib.entity.Entity;
 import net.cilib.collection.Topology;
 import net.cilib.entity.CandidateSolution;
+import net.cilib.entity.Individual;
+import net.cilib.entity.IndividualProvider;
 
 /**
  * DE Implementation
@@ -36,24 +38,26 @@ public class DE implements PopulationBasedAlgorithm<Entity> {
     private final MutationProvider mutationProvider;
     private final CrossoverProvider crossoverProvider;
     private final Selector selector;
+    private final IndividualProvider individualProvider;
 
     @Inject
     public DE(MutationProvider mutationProvider,
-            CrossoverProvider crossoverProvider,
-            Selector selector) {
+        CrossoverProvider crossoverProvider,
+        Selector selector,
+        IndividualProvider individualProvider) {
         this.mutationProvider = mutationProvider;
         this.crossoverProvider = crossoverProvider;
         this.selector = selector;
+        this.individualProvider = individualProvider;
     }
 
     @Override
     public Topology<Entity> iterate(Topology<Entity> topology) {
         Topology.Builder<Entity> newTopology = topology.newBuilder();
         for (Entity parent : topology) {
-            // This should be implicit. the only way to not have a valid fitness is if a PartialEntity is created.
-//            parent.evaluateFitness();
             CandidateSolution trialVector = mutationProvider.create(topology);
-            Entity offspring = crossoverProvider.create(parent.solution(), trialVector);
+            CandidateSolution crossedOver = crossoverProvider.create(parent.solution(), trialVector);
+            Individual offspring = individualProvider.solution(crossedOver).get();
             newTopology.add(selector.select(parent, offspring));
         }
         return newTopology.build();

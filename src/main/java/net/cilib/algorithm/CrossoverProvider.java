@@ -26,9 +26,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import java.util.List;
 import net.cilib.entity.CandidateSolution;
-import net.cilib.entity.Entity;
 import net.cilib.entity.HasCandidateSolution;
-import net.cilib.entity.IndividualProvider;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
@@ -37,21 +35,18 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  */
 public class CrossoverProvider {
 
-    private final IndividualProvider individualProvider;
     private final RandomProvider randomProvider;
 
     @Inject
-    public CrossoverProvider(IndividualProvider individualProvider,
-        RandomProvider randomProvider) {
-        this.individualProvider = individualProvider;
+    public CrossoverProvider(RandomProvider randomProvider) {
         this.randomProvider = randomProvider;
     }
 
-    public Entity create(HasCandidateSolution target, HasCandidateSolution trialVector) {
+    public CandidateSolution create(HasCandidateSolution target, HasCandidateSolution trialVector) {
         return create(target.solution(), trialVector.solution());
     }
 
-    public Entity create(CandidateSolution target, CandidateSolution trialVector) {
+    public CandidateSolution create(CandidateSolution target, CandidateSolution trialVector) {
         Preconditions.checkArgument(target.size() == trialVector.size(), "ERROR! different sizes");
         List<Integer> crossoverPoints = Lists.newArrayList();
 
@@ -74,7 +69,6 @@ public class CrossoverProvider {
             }
         }
 
-        CandidateSolution solution = offspringBuilder.build();
-        return individualProvider.solution(solution).get();
+        return offspringBuilder.build();
     }
 }
