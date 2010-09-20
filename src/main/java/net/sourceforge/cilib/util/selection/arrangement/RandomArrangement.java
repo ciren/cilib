@@ -43,26 +43,6 @@ public class RandomArrangement implements Arrangement {
         final List<T> list = Lists.newArrayList(elements);
         shuffle(list);
         return list;
-//        return new Iterable<T>() {
-//            final List<T> list = Lists.newArrayList(elements);
-//            @Override
-//            public Iterator<T> iterator() {
-//                return new UnmodifiableIterator() {
-//                    @Override
-//                    public boolean hasNext() {
-//                        return list.size() > 0;
-//                    }
-//
-//                    @Override
-//                    public T next() {
-//                        int k = random.nextInt(list.size());
-//                        T item = list.get(k);
-//                        list.remove(k);
-//                        return item;
-//                    }
-//                };
-//            }
-//        };
     }
 
     /**

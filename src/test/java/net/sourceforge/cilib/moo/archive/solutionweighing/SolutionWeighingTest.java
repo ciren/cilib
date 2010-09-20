@@ -37,12 +37,10 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.ProblemVisitor;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.selection.Selection;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -50,7 +48,6 @@ import org.junit.Test;
  */
 public class SolutionWeighingTest {
 
-    private static List<OptimisationSolution> solutions;
     private static final double EPSILON = 0.00000000001;
 
     private static class DummyOptimisationProblem implements OptimisationProblem {
@@ -106,42 +103,30 @@ public class SolutionWeighingTest {
         }
     }
 
-    @BeforeClass
-    public static void setUp() {
-        solutions = new ArrayList<OptimisationSolution>();
+    @Test
+    public void testAntiClusteringWeighingStrategy() {
         MOOptimisationProblem moProblem = new MOOptimisationProblem();
         for (int i = 0; i < 2; i++) {
             moProblem.add(new DummyOptimisationProblem(i));
         }
 
-        Vector position = new Vector();
-        position.add(Real.valueOf(1));
-        position.add(Real.valueOf(1));
+        List<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
+
+        Vector position = Vector.of(1.0, 1.0);
         solutions.add(new OptimisationSolution(position, moProblem.getFitness(position)));
 
-        position = new Vector();
-        position.add(Real.valueOf(2));
-        position.add(Real.valueOf(4));
+        position = Vector.of(2.0, 4.0);
         solutions.add(new OptimisationSolution(position, moProblem.getFitness(position)));
 
-        position = new Vector();
-        position.add(Real.valueOf(3));
-        position.add(Real.valueOf(2));
+        position = Vector.of(3.0, 2.0);
         solutions.add(new OptimisationSolution(position, moProblem.getFitness(position)));
 
-        position = new Vector();
-        position.add(Real.valueOf(4));
-        position.add(Real.valueOf(6));
+        position = Vector.of(4.0, 6.0);
         solutions.add(new OptimisationSolution(position, moProblem.getFitness(position)));
 
-        position = new Vector();
-        position.add(Real.valueOf(5));
-        position.add(Real.valueOf(1));
+        position = Vector.of(5.0, 1.0);
         solutions.add(new OptimisationSolution(position, moProblem.getFitness(position)));
-    }
 
-    @Test
-    public void testAntiClusteringWeighingStrategy() {
         List<WeightedObject> weighedSolutions = Selection.copyOf(solutions).weigh(new AntiClusterWeighing()).weightedElements();
 
         Iterator<WeightedObject> weighedSolutionIterator = weighedSolutions.iterator();

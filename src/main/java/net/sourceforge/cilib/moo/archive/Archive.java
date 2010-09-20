@@ -68,6 +68,10 @@ public interface Archive extends Collection<OptimisationSolution> {
         public static void set(Archive archive) {
             currentArchive.set(archive);
         }
+
+        public static void remove() {
+            currentArchive.remove();
+        }
     }
 
     /**
