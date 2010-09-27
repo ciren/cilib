@@ -24,6 +24,8 @@ package net.cilib.algorithm;
 import com.google.inject.Inject;
 import net.cilib.entity.Entity;
 import net.cilib.collection.Topology;
+import net.cilib.collection.immutable.ImmutableGBestTopology;
+import net.cilib.collection.immutable.ImmutableGBestTopology.ImmutableTopologyBuilder;
 import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.Individual;
 import net.cilib.entity.IndividualProvider;
@@ -42,9 +44,9 @@ public class DE implements PopulationBasedAlgorithm<Entity> {
 
     @Inject
     public DE(MutationProvider mutationProvider,
-        CrossoverProvider crossoverProvider,
-        Selector selector,
-        IndividualProvider individualProvider) {
+            CrossoverProvider crossoverProvider,
+            Selector selector,
+            IndividualProvider individualProvider) {
         this.mutationProvider = mutationProvider;
         this.crossoverProvider = crossoverProvider;
         this.selector = selector;
@@ -53,7 +55,7 @@ public class DE implements PopulationBasedAlgorithm<Entity> {
 
     @Override
     public Topology<Entity> iterate(Topology<Entity> topology) {
-        Topology.Builder<Entity> newTopology = topology.newBuilder();
+        ImmutableTopologyBuilder<Entity> newTopology = ImmutableGBestTopology.newBuilder();
         for (Entity parent : topology) {
             CandidateSolution trialVector = mutationProvider.create(topology);
             CandidateSolution crossedOver = crossoverProvider.create(parent.solution(), trialVector);

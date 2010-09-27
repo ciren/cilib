@@ -19,24 +19,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.collection.mutable;
+package net.cilib.pso;
 
-import com.google.common.collect.Iterables;
-import net.cilib.entity.Individual;
-import org.junit.Assert;
-import org.junit.Test;
+import net.cilib.entity.LinearSeq;
+import net.cilib.entity.Particle;
 
 /**
  *
  * @author gpampara
  */
-public class MutableGBestTopologyTest {
+public class NeighborhoodBest implements Guide {
 
-    @Test
-    public void addingToTopology() {
-        MutableGBestTopology<Individual> t = new MutableGBestTopology<Individual>();
-        t.add(new Individual(null, null));
-
-        Assert.assertEquals(1, Iterables.size(t));
+    @Override
+    public LinearSeq of(Particle particle) {
+        return particle.solution();
     }
 }

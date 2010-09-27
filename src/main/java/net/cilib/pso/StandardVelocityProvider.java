@@ -23,6 +23,7 @@ package net.cilib.pso;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import net.cilib.entity.LinearSeq;
 import net.cilib.entity.MutableSeq;
 import net.cilib.entity.Particle;
 import net.cilib.entity.Velocity;
@@ -45,11 +46,11 @@ public final class StandardVelocityProvider implements VelocityProvider {
 
     @Override
     public Velocity create(Particle particle) {
-        Particle local = localGuide.of(particle);
-        Particle global = globalGuide.of(particle);
+        LinearSeq local = localGuide.of(particle);
+        LinearSeq global = globalGuide.of(particle);
 
-        MutableSeq cognitive = local.solution().toMutableSeq().subtract(particle.solution()).multiply(2);
-        MutableSeq social = global.solution().toMutableSeq().subtract(particle.solution()).multiply(3);
+        MutableSeq cognitive = local.toMutableSeq().subtract(particle.solution()).multiply(2);
+        MutableSeq social = global.toMutableSeq().subtract(particle.solution()).multiply(3);
 
         return Velocity.copyOf(particle.velocity().toMutableSeq().plus(cognitive).plus(social).toArray());
     }

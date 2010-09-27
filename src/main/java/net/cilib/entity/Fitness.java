@@ -28,4 +28,6 @@ package net.cilib.entity;
 public interface Fitness extends Comparable<Fitness> {
 
     double value();
+
+    boolean isMoreFitThan(Fitness previousFitness);
 }

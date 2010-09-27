@@ -98,21 +98,9 @@ public final class Individual implements Entity {
     public int compareTo(Entity o) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-//    public PartialIndividual newPartialIndividual() {
-//        return new PartialIndividual(this);
-//    }
-//    public static class PartialIndividual {
-//
-//        private double[] internalSolution;
-//
-//        private PartialIndividual(Individual individual) {
-//            this.internalSolution = individual.solution.toArray();
-//        }
-//
-//        // DI Here? Should the EntityFactory be injected?
-////        @Override
-//        public final Individual get() {
-//            return new Individual(CandidateSolution.copyOf(internalSolution), Fitnesses.inferior());
-//        }
-//    }
+
+    @Override
+    public String toString() {
+        return "Individual{" + "solution=" + solution + "fitness=" + fitness + '}';
+    }
 }

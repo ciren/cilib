@@ -28,7 +28,10 @@ import net.cilib.entity.Particle;
  *
  * @author gpampara
  */
-public interface Guide {
+public class PersonalBest implements Guide {
 
-    LinearSeq of(Particle particle);
+    @Override
+    public LinearSeq of(Particle particle) {
+        return particle.memory();
+    }
 }

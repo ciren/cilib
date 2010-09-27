@@ -107,42 +107,4 @@ public class Particle implements Entity, HasVelocity, HasMemory {
     public CandidateSolution memory() {
         return bestPosition;
     }
-//    public ParticleBuilder newBuilder() {
-//        return new ParticleBuilder(this);
-//    }
-//
-//    public static class ParticleBuilder implements ParticleProvider<Particle> {
-//
-//        private final CandidateSolution previousPosition;
-//        private final CandidateSolution previousBestPosition;
-//        private final double[] internalPosition;
-//        private final double[] internalVelocity;
-//
-//        private ParticleBuilder(Particle particle) {
-//            internalPosition = particle.position.toArray();
-//            internalVelocity = particle.velocity.toArray();
-//            previousPosition = particle.solution();
-//            previousBestPosition = particle.memory();
-//        }
-//
-//        public ParticleBuilder withVelocity(Velocity velocity) {
-//            final double[] velocityArray = velocity.toArray();
-//            System.arraycopy(velocityArray, 0, internalVelocity, 0, velocityArray.length);
-//            return this;
-//        }
-//
-//        public ParticleBuilder withPosition(MutableSeq newPosition) {
-//            final double[] pos = newPosition.toArray();
-//            System.arraycopy(pos, 0, internalPosition, 0, pos.length);
-//            return this;
-//        }
-//
-//        @Override
-//        public Particle get() {
-//            return new Particle(CandidateSolution.copyOf(internalPosition),
-//                previousBestPosition,
-//                Velocity.copyOf(internalVelocity),
-//                Fitnesses.inferior());
-//        }
-//    }
 }

@@ -34,10 +34,19 @@ public final class ParticleProvider implements Provider<Particle> {
     private final FitnessProvider fitnessProvider;
     private CandidateSolution position;
     private Velocity velocity;
+    private CandidateSolution previousBest;
+    private Fitness previousFitness;
 
     @Inject
     public ParticleProvider(FitnessProvider fitnessProvider) {
         this.fitnessProvider = fitnessProvider;
+    }
+
+    public ParticleProvider basedOn(Particle previous) {
+        Preconditions.checkNotNull(previous);
+        this.previousBest = previous.memory();
+        this.previousFitness = previous.fitness();
+        return this;
     }
 
     public ParticleProvider position(CandidateSolution position) {
@@ -54,13 +63,22 @@ public final class ParticleProvider implements Provider<Particle> {
     public Particle get() {
         Preconditions.checkNotNull(position);
         Preconditions.checkNotNull(velocity);
+        Preconditions.checkNotNull(previousBest);
+        Preconditions.checkNotNull(previousFitness);
 
+        // Should this be done with DI somehow?
         try {
-            return new Particle(position, position, velocity,
-                fitnessProvider.finalize(position));
+            Fitness newFitness = fitnessProvider.finalize(position);
+            if (newFitness.isMoreFitThan(previousFitness)) {
+                return new Particle(position, position, velocity, newFitness);
+            } else {
+                return new Particle(position, previousBest, velocity, newFitness);
+            }
         } finally {
             this.position = null;
             this.velocity = null;
+            this.previousBest = null;
+            this.previousFitness = null;
         }
     }
 }

@@ -32,9 +32,17 @@ import net.cilib.problem.Problem;
  */
 public class MockProblem implements Problem {
 
+    /**
+     * Spherical
+     * @param solution
+     * @return
+     */
     @Override
     public Fitness fitnessOf(CandidateSolution solution) {
-        return Fitnesses.newMinimizationFitness(1.0);
+        double result = 0.0;
+        for (int i = 0, n = solution.size(); i < n; i++) {
+            result += solution.get(i) * solution.get(i);
+        }
+        return Fitnesses.newMinimizationFitness(result);
     }
-
 }

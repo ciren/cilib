@@ -27,18 +27,7 @@ package net.cilib.entity;
  */
 public class Fitnesses {
 
-    private static final Fitness INFERIOR_FITNESS = new Fitness() {
-
-        @Override
-        public int compareTo(Fitness o) {
-            return 1; // An inferior fitness is ALWAYS worse, therefore return the other one
-        }
-
-        @Override
-        public double value() {
-            return Double.NaN; // Value doesn't exist
-        }
-    };
+    private static final Fitness INFERIOR_FITNESS = new InferiorFitness();
 
     private Fitnesses() {
     }
@@ -71,7 +60,7 @@ public class Fitnesses {
     }
 
     // Not sure about implementing equals() and hasCode() - is it needed?
-    private static class MaximizationFitness implements Fitness {
+    static class MaximizationFitness implements Fitness {
 
         private final double value;
 
@@ -110,9 +99,22 @@ public class Fitnesses {
             }
             return true;
         }
+
+        @Override
+        public String toString() {
+            return "MaximizationFitness{" + "value=" + value + '}';
+        }
+
+        @Override
+        public boolean isMoreFitThan(Fitness previousFitness) {
+            return compareTo(previousFitness) < 0;
+        }
     }
 
-    private static class MinimizationFitness implements Fitness {
+    /**
+     *
+     */
+    static class MinimizationFitness implements Fitness {
 
         private final double value;
 
@@ -128,6 +130,42 @@ public class Fitnesses {
         @Override
         public double value() {
             return value;
+        }
+
+        @Override
+        public String toString() {
+            return "MinimizationFitness{" + "value=" + value + '}';
+        }
+
+        @Override
+        public boolean isMoreFitThan(Fitness previousFitness) {
+            return compareTo(previousFitness) < 0;
+        }
+    }
+
+    /**
+     * A fitness value that is <b>always</b> worse than any other fitness.
+     */
+    private static class InferiorFitness implements Fitness {
+
+        @Override
+        public int compareTo(Fitness o) {
+            return 1; // An inferior fitness is ALWAYS worse, therefore return the other one
+        }
+
+        @Override
+        public double value() {
+            return Double.NaN; // Value doesn't exist
+        }
+
+        @Override
+        public String toString() {
+            return "InferiorFitness";
+        }
+
+        @Override
+        public boolean isMoreFitThan(Fitness previousFitness) {
+            return false;
         }
     }
 }

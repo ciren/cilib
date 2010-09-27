@@ -104,7 +104,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
     public int getNeighbourhoodSize() {
         int rounded = Long.valueOf(Math.round(neighbourhoodSize.getParameter())).intValue();
 
-        if (super.size() == 0) // to show a sensible default value in CiClops
+        if (super.isEmpty()) // to show a sensible default value in CiClops
             return rounded;
 
         if (rounded > super.size())

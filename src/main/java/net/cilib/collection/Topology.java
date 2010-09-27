@@ -21,6 +21,8 @@
  */
 package net.cilib.collection;
 
+import java.util.Iterator;
+
 /**
  * @param <A>
  * @since 0.8
@@ -28,15 +30,5 @@ package net.cilib.collection;
  */
 public interface Topology<A> extends Iterable<A> {
 
-    Builder<A> newBuilder();
-
-    /**
-     *
-     */
-    public interface Builder<B> {
-
-        Topology<B> build();
-
-        boolean add(B element);
-    }
+    Iterator<A> neighborhoodOf(A element);
 }

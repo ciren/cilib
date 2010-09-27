@@ -22,9 +22,12 @@
 package net.cilib.collection.immutable;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import net.cilib.collection.Topology;
@@ -34,17 +37,19 @@ import net.cilib.collection.Topology;
  * @since 0.8
  * @author gpampara
  */
-public class ImmutableGBestTopology<A> implements Topology<A> {
+public class ImmutableLBestTopology<A> implements Topology<A> {
 
-    private static final Topology<Object> INSTANCE = new ImmutableGBestTopology<Object>(Lists.newArrayList());
+    private static final Topology<Object> INSTANCE = new ImmutableLBestTopology<Object>(Lists.newArrayList());
     private final ImmutableList<A> elements;
+    private final int neighborhoodsize;
 
-    public static <B> ImmutableGBestTopology<B> of() {
-        return (ImmutableGBestTopology<B>) INSTANCE;
+    public static <B> ImmutableLBestTopology<B> of() {
+        return (ImmutableLBestTopology<B>) INSTANCE;
     }
 
-    private ImmutableGBestTopology(List<A> elements) {
+    private ImmutableLBestTopology(List<A> elements) {
         this.elements = ImmutableList.copyOf(elements);
+        this.neighborhoodsize = 3;
     }
 
     @Override
@@ -64,9 +69,33 @@ public class ImmutableGBestTopology<A> implements Topology<A> {
         };
     }
 
+    /**
+     * Return an {@code iterator} for the neighborhood of the given element.
+     * @param element queried for it's neighborhood
+     * @return an {@code iterator} to the neighborhood of {@code element}
+     */
     @Override
-    public Iterator<A> neighborhoodOf(A element) {
-        return iterator();
+    public Iterator<A> neighborhoodOf(final A element) {
+        final List<Integer> indexes = Lists.newArrayListWithCapacity(neighborhoodsize);
+        int start = elements.indexOf(element) - ((neighborhoodsize - 1) / 2);
+        start = (start < 0) ? start += elements.size() : start;
+
+        for (int i = 0; i < neighborhoodsize; i++) {
+            indexes.add((start + i) % elements.size());
+        }
+
+        Collection<A> internal = Collections2.filter(elements, new Predicate<A>() {
+
+            @Override
+            public boolean apply(A input) {
+                int index = elements.indexOf(input);
+                if (indexes.contains(index)) {
+                    return true;
+                }
+                return false;
+            }
+        });
+        return internal.iterator();
     }
 
     @Override
@@ -78,20 +107,20 @@ public class ImmutableGBestTopology<A> implements Topology<A> {
         return new ImmutableTopologyBuilder<A>();
     }
 
-    /**
-     * 
-     * @param <B>
-     */
     public static class ImmutableTopologyBuilder<B> {
 
         private final List<B> elements;
 
-        private ImmutableTopologyBuilder() {
+        ImmutableTopologyBuilder() {
             elements = Lists.newArrayList();
         }
 
-        public ImmutableGBestTopology<B> build() {
-            return new ImmutableGBestTopology<B>(elements);
+        public ImmutableLBestTopology<B> build() {
+            try {
+                return new ImmutableLBestTopology<B>(elements);
+            } finally {
+                elements.clear();
+            }
         }
 
         public ImmutableTopologyBuilder<B> add(B element) {

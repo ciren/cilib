@@ -19,15 +19,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.pso;
+package net.cilib.algorithm;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import net.cilib.algorithm.PopulationBasedAlgorithm;
 import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
+import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.Entity;
-import net.cilib.entity.Particle;
+import net.cilib.entity.Individual;
+import net.cilib.entity.IndividualProvider;
 import net.cilib.main.CIlibCoreModule;
 import net.cilib.main.PopulationBasedModule;
 import org.junit.Test;
@@ -36,22 +37,25 @@ import org.junit.Test;
  *
  * @author gpampara
  */
-public class PSOTest {
+public class DETest {
 
-    @Test
-    public void iteration() {
-        Topology<Entity> topology = ImmutableGBestTopology.of();
-        VelocityProvider velocityProvider = new StandardVelocityProvider(null, null);
-        PopulationBasedAlgorithm instance = new PSO(velocityProvider, null);
-
-        instance.iterate(topology);
-    }
-
+    /**
+     * Test of iterate method, of class DE.
+     */
     @Test
     public void integration() {
         Injector injector = Guice.createInjector(new CIlibCoreModule(), new PopulationBasedModule());
-        PSO pso = injector.getInstance(PSO.class);
+        DE de = injector.getInstance(DE.class);
 
-        Particle p1 = new Particle(null, null, null, null);
+        IndividualProvider provider = injector.getInstance(IndividualProvider.class);
+
+        Individual i1 = provider.solution(CandidateSolution.copyOf(1.0)).get();
+        Individual i2 = provider.solution(CandidateSolution.copyOf(3.0)).get();
+        Individual i3 = provider.solution(CandidateSolution.copyOf(4.0)).get();
+
+        Topology<Entity> topology = ImmutableGBestTopology.<Entity>newBuilder()
+                .add(i1).add(i2).add(i3).build();
+        Topology<Entity> topology1 = de.iterate(topology);
+        System.out.println("topology1: " + topology1);
     }
 }

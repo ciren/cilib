@@ -21,21 +21,27 @@
  */
 package net.cilib.main;
 
+import com.google.common.collect.Lists;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
-import net.cilib.algorithm.DE;
+import com.google.inject.name.Names;
+import java.util.List;
 import net.cilib.algorithm.Selector;
 import net.cilib.algorithm.MockMutationProvider;
 import net.cilib.algorithm.MutationProvider;
-import net.cilib.algorithm.PopulationBasedAlgorithm;
 import net.cilib.algorithm.ReplacementSelector;
 import net.cilib.annotation.Initialized;
 import net.cilib.annotation.Unique;
 import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
-import net.cilib.collection.mutable.MutableGBestTopology;
 import net.cilib.entity.Entity;
+import net.cilib.pso.Guide;
+import net.cilib.pso.NeighborhoodBest;
+import net.cilib.pso.PersonalBest;
+import net.cilib.pso.StandardVelocityProvider;
+import net.cilib.pso.VelocityProvider;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  *
@@ -45,11 +51,14 @@ public class PopulationBasedModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(Topology.class).to(MutableGBestTopology.class);
         bind(Selector.class).to(ReplacementSelector.class);
         bind(MutationProvider.class).to(MockMutationProvider.class);
+//        bind(PopulationBasedAlgorithm.class).to(DE.class);
 
-        bind(PopulationBasedAlgorithm.class).to(DE.class);
+        // PSO related bindings
+        bind(VelocityProvider.class).to(StandardVelocityProvider.class);
+        bind(Guide.class).annotatedWith(Names.named("global")).to(NeighborhoodBest.class);
+        bind(Guide.class).annotatedWith(Names.named("local")).to(PersonalBest.class);
     }
 
     @Provides
@@ -63,19 +72,27 @@ public class PopulationBasedModule extends AbstractModule {
         return ImmutableGBestTopology.of();
     }
 
+    /**
+     * This needs serious work... The API is in the air... No real concrete
+     * need for it is exists....
+     * @param selector
+     * @param randomProvider
+     * @return
+     */
     @Provides
     @Unique
-    Selector getSelector(Selector selector) {
+    Selector getSelector(Selector selector, final RandomProvider randomProvider) {
         return new Selector() {
 
             @Override
             public Entity select(Entity... elements) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                return select(Lists.newArrayList(elements));
             }
 
             @Override
             public Entity select(Iterable<Entity> elements) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                List<Entity> list = Lists.newArrayList(elements);
+                return list.get(randomProvider.nextInt(list.size()));
             }
         };
     }
