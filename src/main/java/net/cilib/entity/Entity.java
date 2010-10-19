@@ -22,6 +22,11 @@
 package net.cilib.entity;
 
 /**
+ * An {@code Entity} is an instance that maintains both a
+ * {@link CandidateSolution} and a {@link Fitness}. {@code Entity} instances
+ * are also {@linkplain EntityComparable comparable} to other {@code Entity}
+ * instances.
+ *
  * @since 0.8
  * @author gpampara
  */

@@ -49,11 +49,27 @@ public class IndividualTest {
     }
 
     @Test
+    public void isLessFit() {
+        Individual i1 = new Individual(null, Fitnesses.newMinimizationFitness(4.0));
+        Individual i2 = new Individual(null, Fitnesses.newMinimizationFitness(-3.0));
+
+        Assert.assertTrue(i1.isLessFit(i2));
+    }
+
+    @Test
     public void moreFit() {
         Individual i1 = new Individual(null, Fitnesses.newMaximizationFitness(4.0));
         Individual i2 = new Individual(null, Fitnesses.newMaximizationFitness(-3.0));
 
         Assert.assertThat((Individual) i1.moreFit(i2), is(i1));
         Assert.assertThat((Individual) i2.moreFit(i1), is(i1));
+    }
+
+    @Test
+    public void isMoreFit() {
+        Individual i1 = new Individual(null, Fitnesses.newMaximizationFitness(4.0));
+        Individual i2 = new Individual(null, Fitnesses.newMaximizationFitness(-3.0));
+
+        Assert.assertTrue(i1.isMoreFit(i2));
     }
 }

@@ -29,7 +29,7 @@ package net.cilib.entity;
 public interface HasFitness {
 
     /**
-     * Gets currently associated {@linkplain Fitness fitness} value.
+     * Gets the current {@linkplain Fitness fitness} value.
      * @return the fitness value.
      */
     Fitness fitness();

@@ -24,10 +24,13 @@ package net.cilib.algorithm;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.inject.Inject;
+import com.google.inject.Key;
 import java.util.List;
-import net.cilib.annotation.Initialized;
+import net.cilib.inject.annotation.Initialized;
 import net.cilib.entity.Entity;
 import net.cilib.collection.Topology;
+import net.cilib.inject.SimulationScope;
+import net.cilib.inject.annotation.Current;
 
 /**
  *
@@ -35,23 +38,35 @@ import net.cilib.collection.Topology;
  */
 public class PopulationBasedAlgorithmExecutor implements AlgorithmExecutor {
 
+    private final SimulationScope scope;
     private final PopulationBasedAlgorithm algorithm;
     private final Topology<Entity> topology;
 
     @Inject
-    public PopulationBasedAlgorithmExecutor(PopulationBasedAlgorithm algorithm,
+    public PopulationBasedAlgorithmExecutor(
+            SimulationScope scope,
+            PopulationBasedAlgorithm algorithm,
             @Initialized Topology<Entity> initialTopology) {
+        this.scope = scope;
         this.algorithm = algorithm;
         this.topology = initialTopology;
     }
 
     @Override
     public void execute(List<Predicate<Algorithm>> conditions) {
-        Predicate<Algorithm> stoppingConditions = Predicates.or(conditions);
-        Topology<Entity> current = topology; // Current topology is inital topology
-        
-        while (!stoppingConditions.apply(algorithm)) {
-            current = algorithm.iterate(current);
+        scope.enter();
+        try {
+            Predicate<Algorithm> stoppingConditions = Predicates.or(conditions);
+            Topology<Entity> current = topology; // Current topology is inital topology
+
+            while (!stoppingConditions.apply(algorithm)) {
+                current = algorithm.iterate(current);
+
+                // Reset the current scope's managed instance. It needs to be updated.
+                scope.seed(Key.get(Topology.class, Current.class), current);
+            }
+        } finally {
+            scope.exit();
         }
     }
 }

@@ -21,6 +21,8 @@
  */
 package net.cilib.main;
 
+import net.cilib.inject.PopulationBasedModule;
+import net.cilib.inject.CIlibCoreModule;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.inject.Guice;

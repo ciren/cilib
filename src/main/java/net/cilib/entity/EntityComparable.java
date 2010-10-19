@@ -29,14 +29,59 @@ import java.util.Comparator;
  */
 public interface EntityComparable extends Equiv<Entity> {
 
+    /**
+     * Obtain the {@code Entity} that is the more fit between the current
+     * and provided instances.
+     * @param that {@code Entity} to test
+     * @return the fitter entity
+     */
     Entity moreFit(Entity that);
 
+    /**
+     * Obtain the {@code Entity} that is the more fit between the current
+     * and provided instances, based on the given {@code Comparator}.
+     * @param that {@code Entity} to test
+     * @return the fitter entity
+     */
     Entity moreFit(Entity that, Comparator<? super Entity> comparator);
 
+    /**
+     * Test if the current {@code Entity} is, in fact fitter. It is advised that
+     * this method only be used when the comparison is required, otherwise
+     * {@link EntityComparable#moreFit(net.cilib.entity.Entity)} or
+     * {@link EntityComparable#moreFit(net.cilib.entity.Entity, java.util.Comparator)}
+     * should be used.
+     * @param than {@code Entity} to test
+     * @return {@code true} if the current {@code Entity} is fitter,
+     *         {@code false} otherwise.
+     */
+    boolean isMoreFit(Entity than);
+
+    /**
+     * Obtain the {@code Entity} that is the least fit between the current
+     * and provided instances.
+     * @param that {@code Entity} to test
+     * @return the least fit entity
+     */
     Entity lessFit(Entity that);
 
+    /**
+     * Obtain the {@code Entity} that is the least fit between the current
+     * and provided instances, based on the given {@code Comparator}.
+     * @param that {@code Entity} to test
+     * @return the least fit entity
+     */
     Entity lessFit(Entity that, Comparator<? super Entity> comparator);
-//    boolean isMoreFit(Entity than);
-//
-//    boolean isLessFit(Entity than);
+
+    /**
+     * Test if the current {@code Entity} is, in fact less fit. It is advised that
+     * this method only be used when the comparison is required, otherwise
+     * {@link EntityComparable#lessFit(net.cilib.entity.Entity)} or
+     * {@link EntityComparable#lessFit(net.cilib.entity.Entity, java.util.Comparator)}
+     * should be used.
+     * @param than {@code Entity} to test
+     * @return {@code true} if the current {@code Entity} is less fit,
+     *         {@code false} otherwise.
+     */
+    boolean isLessFit(Entity than);
 }

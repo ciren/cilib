@@ -24,7 +24,7 @@ package net.cilib.entity;
 import java.util.Comparator;
 
 /**
- *
+ * Predefined comparator instances for {@code Entity} objects.
  * @author gpampara
  */
 public final class EntityComparators {

@@ -22,7 +22,8 @@
 package net.cilib.pso;
 
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
+import net.cilib.inject.annotation.Global;
+import net.cilib.inject.annotation.Local;
 import net.cilib.entity.LinearSeq;
 import net.cilib.entity.MutableSeq;
 import net.cilib.entity.Particle;
@@ -38,16 +39,17 @@ public final class StandardVelocityProvider implements VelocityProvider {
     private final Guide globalGuide;
 
     @Inject
-    public StandardVelocityProvider(@Named("local") Guide localGuide,
-        @Named("global") Guide globalGuide) {
+    public StandardVelocityProvider(@Local Guide localGuide,
+            @Global Guide globalGuide) {
         this.localGuide = localGuide;
         this.globalGuide = globalGuide;
     }
 
+    // What about the stochastic parts?????????
     @Override
     public Velocity create(Particle particle) {
-        LinearSeq local = localGuide.of(particle);
-        LinearSeq global = globalGuide.of(particle);
+        LinearSeq local = localGuide.of(particle).solution();
+        LinearSeq global = globalGuide.of(particle).solution();
 
         MutableSeq cognitive = local.toMutableSeq().subtract(particle.solution()).multiply(2);
         MutableSeq social = global.toMutableSeq().subtract(particle.solution()).multiply(3);

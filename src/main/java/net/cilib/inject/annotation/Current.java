@@ -19,20 +19,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.entity;
+package net.cilib.inject.annotation;
+
+import com.google.inject.BindingAnnotation;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
+ * Indicate a binding to the "current" instance. This instance is then
+ * determined based on the current "simulation scope".
  *
- * @param <A>
+ * @since 0.8
  * @author gpampara
  */
-public interface HasFunctionalOperations<A> {
-
-    A plus(LinearSeq that);
-
-    A subtract(LinearSeq that);
-
-    A multiply(double scalar);
-
-    A divide(double scalar);
+@BindingAnnotation
+@Target(value = {ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})
+@Retention(value = RetentionPolicy.RUNTIME)
+public @interface Current {
 }

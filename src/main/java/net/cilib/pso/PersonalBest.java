@@ -21,17 +21,23 @@
  */
 package net.cilib.pso;
 
-import net.cilib.entity.LinearSeq;
-import net.cilib.entity.Particle;
+import net.cilib.entity.Entity;
+import net.cilib.entity.HasMemory;
+import net.cilib.entity.PartialEntity;
 
 /**
- *
+ * this class needs to be better... The implementation is not really all that
+ * nice.
  * @author gpampara
  */
-public class PersonalBest implements Guide {
+public final class PersonalBest implements Guide {
 
     @Override
-    public LinearSeq of(Particle particle) {
-        return particle.memory();
+    public Entity of(Entity target) {
+        if (target instanceof HasMemory) {
+            HasMemory memory = (HasMemory) target;
+            return new PartialEntity(memory.memory());
+        }
+        throw new UnsupportedOperationException();
     }
 }

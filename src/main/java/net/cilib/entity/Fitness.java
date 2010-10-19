@@ -22,12 +22,23 @@
 package net.cilib.entity;
 
 /**
- *
+ * Evaluation representation of a {@code CandidateSolution}.
  * @author gpampara
  */
 public interface Fitness extends Comparable<Fitness> {
 
+    /**
+     * Get internally maintained value.
+     * @return maintained value.
+     */
     double value();
 
-    boolean isMoreFitThan(Fitness previousFitness);
+    /**
+     * Determine if the current {@code Fitness} is more fit or better than
+     * the given {@code Fitness}.
+     * @param that {@code Fitness} to compare
+     * @return {@code true} if the current {@code Fitness} is more fit,
+     *         {@code false} otherwise.
+     */
+    boolean isMoreFitThan(Fitness that);
 }

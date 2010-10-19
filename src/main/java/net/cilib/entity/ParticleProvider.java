@@ -75,10 +75,10 @@ public final class ParticleProvider implements Provider<Particle> {
                 return new Particle(position, previousBest, velocity, newFitness);
             }
         } finally {
-            this.position = null;
-            this.velocity = null;
-            this.previousBest = null;
-            this.previousFitness = null;
+            position = null;
+            velocity = null;
+            previousBest = null;
+            previousFitness = null;
         }
     }
 }

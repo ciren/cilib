@@ -21,8 +21,12 @@
  */
 package net.cilib.pso;
 
-import net.cilib.entity.LinearSeq;
-import net.cilib.entity.Particle;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import java.util.Iterator;
+import net.cilib.collection.Topology;
+import net.cilib.entity.Entity;
+import net.cilib.inject.annotation.Current;
 
 /**
  *
@@ -30,8 +34,27 @@ import net.cilib.entity.Particle;
  */
 public class NeighborhoodBest implements Guide {
 
+    private final Provider<Topology> topologyProvider;
+
+    @Inject
+    public NeighborhoodBest(@Current Provider<Topology> topologyProvider) {
+        this.topologyProvider = topologyProvider;
+    }
+
     @Override
-    public LinearSeq of(Particle particle) {
-        return particle.solution();
+    public Entity of(Entity target) {
+        Iterator<Entity> neighborhoodOf = topologyProvider.get().neighborhoodOf(target);
+        Entity result = null;
+        while (neighborhoodOf.hasNext()) {
+            Entity current = neighborhoodOf.next();
+            if (result == null) {
+                result = current;
+                continue;
+            }
+            if (current.isMoreFit(result)) {
+                result = current;
+            }
+        }
+        return result;
     }
 }

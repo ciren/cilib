@@ -28,8 +28,8 @@ import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
 import net.cilib.entity.Entity;
 import net.cilib.entity.Particle;
-import net.cilib.main.CIlibCoreModule;
-import net.cilib.main.PopulationBasedModule;
+import net.cilib.inject.CIlibCoreModule;
+import net.cilib.inject.PopulationBasedModule;
 import org.junit.Test;
 
 /**

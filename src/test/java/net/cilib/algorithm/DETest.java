@@ -29,8 +29,8 @@ import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.Entity;
 import net.cilib.entity.Individual;
 import net.cilib.entity.IndividualProvider;
-import net.cilib.main.CIlibCoreModule;
-import net.cilib.main.PopulationBasedModule;
+import net.cilib.inject.CIlibCoreModule;
+import net.cilib.inject.PopulationBasedModule;
 import org.junit.Test;
 
 /**

@@ -21,6 +21,7 @@
  */
 package net.cilib.entity;
 
+import com.google.common.base.Objects;
 import gnu.trove.TDoubleArrayList;
 import java.util.Arrays;
 
@@ -78,56 +79,8 @@ public final class Velocity implements LinearSeq {//, HasFunctionalOperations<Se
         };
     }
 
-//    @Override
-//    public PartialVelocity plus(Seq that) {
-//        return newPartialVelocity(this).plus(that);
-//    }
-//
-//    @Override
-//    public PartialVelocity subtract(Seq that) {
-//        throw new UnsupportedOperationException("Not supported yet.");
-//    }
-//
-//    @Override
-//    public PartialVelocity multiply(double scalar) {
-//        throw new UnsupportedOperationException("Not supported yet.");
-//    }
-//
-//    @Override
-//    public PartialVelocity divide(double scalar) {
-//        throw new UnsupportedOperationException("Not supported yet.");
-//    }
-//
-//    private PartialVelocity newPartialVelocity(Velocity velocity) {
-////        return new PartialVelocity(velocity);
-//        throw new UnsupportedOperationException();
-//    }
-//
-//    public static class PartialVelocity implements Seq.Builder {
-//
-//        @Override
-//        public Velocity build() {
-//            throw new UnsupportedOperationException("Not supported yet.");
-//        }
-//
-//        @Override
-//        public PartialVelocity plus(Seq that) {
-//            throw new UnsupportedOperationException("Not supported yet.");
-//        }
-//
-//        @Override
-//        public PartialVelocity subtract(Seq that) {
-//            throw new UnsupportedOperationException("Not supported yet.");
-//        }
-//
-//        @Override
-//        public PartialVelocity multiply(double scalar) {
-//            throw new UnsupportedOperationException("Not supported yet.");
-//        }
-//
-//        @Override
-//        public PartialVelocity divide(double scalar) {
-//            throw new UnsupportedOperationException("Not supported yet.");
-//        }
-//    }
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this).addValue(internal).toString();
+    }
 }

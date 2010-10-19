@@ -22,10 +22,14 @@
 package net.cilib.entity;
 
 /**
- *
+ * Indicate that the current instance maintains a {@code Velocity}.
  * @author gpampara
  */
 public interface HasVelocity {
 
+    /**
+     * Obtain the current {@code Velocity} instance.
+     * @return current {@code Velocity}.
+     */
     Velocity velocity();
 }

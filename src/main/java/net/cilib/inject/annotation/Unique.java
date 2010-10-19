@@ -19,15 +19,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.pso;
+package net.cilib.inject.annotation;
 
-import net.cilib.entity.Entity;
+import com.google.inject.BindingAnnotation;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- *
+ * Indicate a {@code unique} behavioral state.
+ * @since 0.8
  * @author gpampara
  */
-public interface Guide {
-
-    Entity of(Entity target);
+@BindingAnnotation
+@Target(value = {ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})
+@Retention(value = RetentionPolicy.RUNTIME)
+public @interface Unique {
 }

@@ -21,121 +21,85 @@
  */
 package net.cilib.entity;
 
-import com.google.inject.Inject;
 import java.util.Comparator;
-import static net.cilib.entity.EntityComparators.FITNESS_COMPARATOR;
 
 /**
- * Basic individual class.
- * <p>
- * The individual is an {@link Entity} instances that maintains a single
- * {@linkplain CandidateSolution solution} and {@linkplain Fitness fitness}.
+ * A partial entity is an entity that has, at least, a candidate solution. No
+ * guarantees are made regarding the content of this object. This object is
+ * mainly required in cases where an adapter class is necessitated.
  *
- * @since 0.8
  * @author gpampara
  */
-public final class Individual implements Entity {
-
+public final class PartialEntity implements Entity {
     private final CandidateSolution solution;
-    private final Fitness fitness;
 
-    @Inject
-    public Individual(CandidateSolution solution, Fitness fitness) {
+    public PartialEntity(CandidateSolution solution) {
         this.solution = solution;
-        this.fitness = fitness;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public CandidateSolution solution() {
         return solution;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int size() {
         return solution.size();
     }
 
     /**
-     * {@inheritDoc}
+     * The current fitness of the {@code PartialEntity} is always
+     * {@linkplain Fitnesses#inferior() inferior}.
+     * @return An inferior fitness.
      */
     @Override
     public Fitness fitness() {
-        return fitness;
+        return Fitnesses.inferior();
+    }
+
+    @Override
+    public Entity moreFit(Entity that) {
+        return that;
+    }
+
+    @Override
+    public Entity moreFit(Entity that, Comparator<? super Entity> comparator) {
+        return that;
+    }
+
+    @Override
+    public boolean isMoreFit(Entity than) {
+        return false;
+    }
+
+    @Override
+    public Entity lessFit(Entity that) {
+        return that;
+    }
+
+    @Override
+    public Entity lessFit(Entity that, Comparator<? super Entity> comparator) {
+        return that;
+    }
+
+    @Override
+    public boolean isLessFit(Entity than) {
+        return true;
     }
 
     @Override
     public boolean equiv(Entity that) {
-        throw new UnsupportedOperationException();
+        return false;
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Entity moreFit(Entity that) {
-        return moreFit(that, FITNESS_COMPARATOR);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Entity moreFit(Entity that, Comparator<? super Entity> comparator) {
-        return (comparator.compare(this, that) >= 0) ? this : that;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isMoreFit(Entity than) {
-        return moreFit(than) == this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Entity lessFit(Entity that) {
-        return lessFit(that, FITNESS_COMPARATOR);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Entity lessFit(Entity that, Comparator<? super Entity> comparator) {
-        return (comparator.compare(this, that) < 0) ? this : that;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isLessFit(Entity than) {
-        return lessFit(than) == this;
-    }
-
-    /**
-     * {@inheritDoc}
+     * Compare a {@code PartialEntity} to the provided {@code Entity}.
+     * The provided entity is <b>always</b> better.
+     * @param o provided entity
+     * @return {@code -1} always
      */
     @Override
     public int compareTo(Entity o) {
-        return fitness.compareTo(o.fitness());
-    }
-
-    /**
-     * Get the {@code String} representation of the current {@code Individual}.
-     * @return the {@code String} representation.
-     */
-    @Override
-    public String toString() {
-        return "Individual{" + "solution=" + solution + "fitness=" + fitness + '}';
+        return -1;
     }
 }

@@ -28,7 +28,7 @@ import java.util.Comparator;
  *
  * @author gpampara
  */
-public class Particle implements Entity, HasVelocity, HasMemory {
+public final class Particle implements Entity, HasVelocity, HasMemory {
 
     private final CandidateSolution position;
     private final CandidateSolution bestPosition;
@@ -79,12 +79,22 @@ public class Particle implements Entity, HasVelocity, HasMemory {
     }
 
     @Override
+    public boolean isMoreFit(Entity than) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public Entity lessFit(Entity that) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public Entity lessFit(Entity that, Comparator<? super Entity> comparator) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean isLessFit(Entity than) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

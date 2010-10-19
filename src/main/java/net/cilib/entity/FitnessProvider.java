@@ -25,7 +25,7 @@ import com.google.inject.Inject;
 import net.cilib.problem.Problem;
 
 /**
- *
+ * Factory instance to calculate the fitness, given a {@code CandidateSolution}.
  * @author gpampara
  */
 public class FitnessProvider {
@@ -36,6 +36,11 @@ public class FitnessProvider {
         this.problem = problem;
     }
 
+    /**
+     * Calculate the fitness for the given {@code CandidateSolution}.
+     * @param solution {@code CandidateSolution} to evaluate.
+     * @return {@code Fitness} for the given {@code CandidateSolution}.
+     */
     public Fitness finalize(CandidateSolution solution) {
         return problem.fitnessOf(solution);
     }

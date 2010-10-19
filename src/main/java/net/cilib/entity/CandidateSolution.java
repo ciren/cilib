@@ -23,6 +23,7 @@ package net.cilib.entity;
 
 import com.google.common.base.Objects;
 import gnu.trove.TDoubleArrayList;
+import java.util.Arrays;
 
 /**
  * Immutable candidate solution.
@@ -90,6 +91,10 @@ public final class CandidateSolution implements LinearSeq {
         return internal.toNativeArray();
     }
 
+    /**
+     * Obtain a {@code String} representation of the {@code CandidateSolution}.
+     * @return {@code String} representation.
+     */
     @Override
     public String toString() {
         return Objects.toStringHelper(this).addValue(internal).toString();
@@ -104,13 +109,40 @@ public final class CandidateSolution implements LinearSeq {
         return new Builder();
     }
 
+    /**
+     * Translate the {@code CandidateSolution} into a mutable instance. The
+     * resulting mutable instance contains a copy of the
+     * {@code CandidateSolution} representation and will not alter the
+     * {@code CandidateSolution}.
+     * @return a {@code MutableSeq}.
+     */
     @Override
     public MutableSeq toMutableSeq() {
         return new MutableSeq(this);
     }
 
+    /**
+     * Create an iterator to traverse the contents of the
+     * {@code CandidateSolution}. For the iterator, a defensive copy of the
+     * current {@code CandidateSolution} representation is made.
+     * @return {@code SeqIterator} instance for the iteration.
+     */
     public SeqIterator iterator() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        final double[] local = Arrays.copyOf(internal.toNativeArray(), internal.size());
+        return new SeqIterator() {
+            private int count = 0;
+            @Override
+            public boolean hasNext() {
+                return count < local.length;
+            }
+
+            @Override
+            public double next() {
+                double result = local[count];
+                count++;
+                return result;
+            }
+        };
     }
 
     /**
@@ -166,6 +198,14 @@ public final class CandidateSolution implements LinearSeq {
             }
         }
 
+        /**
+         * Create a copy of the provided {@code CandidateSolution} as the data
+         * for the {@code Builder}. Note that this method is <b>destructive.</b>
+         * Any data that is currently within the {@code Builder} will be
+         * replaced by the data within the provided {@code CandidateSolution}.
+         * @param candidateSolution sequence to seed the {@code Builder} with.
+         * @return the {@code Builder} for method chaining.
+         */
         public Builder copyOf(CandidateSolution candidateSolution) {
             final double[] solution = candidateSolution.toArray();
             internal = new double[solution.length];
