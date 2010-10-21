@@ -26,6 +26,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 /**
+ * Factory class to create {@code Individual} instances, given a
+ * {@code CandidateSolution}. The returned instances will be created and the
+ * {@code Fitness} of the provided solution will also have been determined.
  *
  * @author gpampara
  */
@@ -39,11 +42,26 @@ public final class IndividualProvider implements Provider<Individual> {
         this.fitnessProvider = fitnessProvider;
     }
 
+    /**
+     * The {@code CandidateSolution} to use for the creation of an
+     * {@code Individual}. A copy of the provided {@code CandidateSolution} is
+     * then made to prevent any potential state problems.
+     * @param solution the {@code CandidateSolution}.
+     * @return the current {@code IndividualProvider}.
+     */
     public IndividualProvider solution(CandidateSolution solution) {
         this.solution = CandidateSolution.copyOf(solution);
         return this;
     }
 
+    /**
+     * Create the {@code Individual} instance which is fully populated.
+     * If a solution has not been defined, a {@link IllegalStateException}
+     * will be raised.
+     * @return a fully complete {@code Individual}.
+     * @throws IllegalStateException if the provider is in an inconsistent
+     *         state.
+     */
     @Override
     public Individual get() {
         Preconditions.checkState(this.solution != null,

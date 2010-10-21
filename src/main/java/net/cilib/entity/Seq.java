@@ -22,19 +22,39 @@
 package net.cilib.entity;
 
 /**
- *
+ * A sequence of values.
  * @author gpampara
  */
 public interface Seq {
 
+    /**
+     * Get the size of the current sequence.
+     * @return the sequence size.
+     */
     int size();
 
+    /**
+     * Get an array representation of this sequence.
+     * @return array representation of this sequence.
+     */
     double[] toArray();
 
+    /**
+     * A {@code builder} interface to build up a {@code Seq} instance.
+     */
     interface Builder {
 
+        /**
+         * Add an element to the builder.
+         * @param element to be added.
+         * @return the current modified builder instance.
+         */
         Builder add(double element);
 
+        /**
+         * Create a {@code Seq} instance from the {@code Builder} contents.
+         * @return a new {@code Seq} instance.
+         */
         Seq build();
     }
 }

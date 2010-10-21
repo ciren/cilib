@@ -85,7 +85,6 @@ public class ImmutableLBestTopology<A> implements Topology<A> {
         }
 
         Collection<A> internal = Collections2.filter(elements, new Predicate<A>() {
-
             @Override
             public boolean apply(A input) {
                 int index = elements.indexOf(input);

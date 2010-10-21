@@ -30,5 +30,11 @@ import java.util.Iterator;
  */
 public interface Topology<A> extends Iterable<A> {
 
+    /**
+     * Given the provided {@code element}, return the neighborhood of
+     * {@code element}.
+     * @param element neighborhood element to obtain neighborhood for
+     * @return an {@code Iterator} for the returned neighborhood.
+     */
     Iterator<A> neighborhoodOf(A element);
 }

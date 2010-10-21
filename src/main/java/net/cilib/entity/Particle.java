@@ -25,7 +25,10 @@ import com.google.inject.Inject;
 import java.util.Comparator;
 
 /**
- *
+ * Representation of a {@code Particle}. A {@code Particle} is an {@code Entity}
+ * that maintains a {@linkplain CandidateSolution current position},
+ * {@linkplain Velocity velocity}, {@linkplain Fitness fitness} and also has a
+ * memory to record the best observed {@linkplain CandidateSolution position}.
  * @author gpampara
  */
 public final class Particle implements Entity, HasVelocity, HasMemory {
@@ -36,68 +39,99 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
     private final Fitness fitness;
 
     /**
-     *
-     * @param position
-     * @param bestPosition
-     * @param velocity
-     * @param fitness
+     * Create a new {@code Particle}.
+     * @param position the current position.
+     * @param bestPosition the best position observed.
+     * @param velocity the current velocity.
+     * @param fitness the fitness of the current position.
      */
     @Inject
     public Particle(CandidateSolution position,
-        CandidateSolution bestPosition,
-        Velocity velocity,
-        Fitness fitness) {
+            CandidateSolution bestPosition,
+            Velocity velocity,
+            Fitness fitness) {
         this.position = position;
         this.bestPosition = bestPosition;
         this.velocity = velocity;
         this.fitness = fitness;
     }
 
+    /**
+     * Gets the current position for the {@code Particle}.
+     * {@inheritDoc}
+     */
     @Override
     public CandidateSolution solution() {
         return position;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int size() {
         return position.size();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Fitness fitness() {
         return fitness;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Entity moreFit(Entity that) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Entity moreFit(Entity that, Comparator<? super Entity> comparator) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isMoreFit(Entity than) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Entity lessFit(Entity that) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Entity lessFit(Entity that, Comparator<? super Entity> comparator) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isLessFit(Entity than) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equiv(Entity that) {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -108,11 +142,17 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Velocity velocity() {
         return velocity;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CandidateSolution memory() {
         return bestPosition;

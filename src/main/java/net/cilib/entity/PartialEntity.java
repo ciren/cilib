@@ -31,17 +31,25 @@ import java.util.Comparator;
  * @author gpampara
  */
 public final class PartialEntity implements Entity {
+
     private final CandidateSolution solution;
 
     public PartialEntity(CandidateSolution solution) {
         this.solution = solution;
     }
 
+    /**
+     * Get the current {@code CandidateSolution}.
+     * @return the {@code CandidateSolution}.
+     */
     @Override
     public CandidateSolution solution() {
         return solution;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int size() {
         return solution.size();
@@ -57,36 +65,64 @@ public final class PartialEntity implements Entity {
         return Fitnesses.inferior();
     }
 
+    /**
+     * This method always returns the provided {@code Entity}.
+     * {@inheritDoc}
+     */
     @Override
     public Entity moreFit(Entity that) {
         return that;
     }
 
+    /**
+     * This method always returns the provided {@code Entity}.
+     * {@inheritDoc}
+     */
     @Override
     public Entity moreFit(Entity that, Comparator<? super Entity> comparator) {
         return that;
     }
 
+    /**
+     * Always returns {@code false}.
+     * {@inheritDoc}
+     */
     @Override
     public boolean isMoreFit(Entity than) {
         return false;
     }
 
+    /**
+     * This method always returns the provided {@code Entity}.
+     * {@inheritDoc}
+     */
     @Override
     public Entity lessFit(Entity that) {
         return that;
     }
 
+    /**
+     * This method always returns the provided {@code Entity}.
+     * {@inheritDoc}
+     */
     @Override
     public Entity lessFit(Entity that, Comparator<? super Entity> comparator) {
         return that;
     }
 
+    /**
+     * Always returns {@code true}.
+     * {@inheritDoc}
+     */
     @Override
     public boolean isLessFit(Entity than) {
         return true;
     }
 
+    /**
+     * Always returns {@code false}.
+     * {@inheritDoc}
+     */
     @Override
     public boolean equiv(Entity that) {
         return false;

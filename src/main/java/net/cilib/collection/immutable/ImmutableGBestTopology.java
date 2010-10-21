@@ -51,7 +51,6 @@ public class ImmutableGBestTopology<A> implements Topology<A> {
     public Iterator<A> iterator() {
         final Iterator<A> iter = elements.iterator();
         return new UnmodifiableIterator<A>() {
-
             @Override
             public boolean hasNext() {
                 return iter.hasNext();
@@ -64,6 +63,9 @@ public class ImmutableGBestTopology<A> implements Topology<A> {
         };
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Iterator<A> neighborhoodOf(A element) {
         return iterator();

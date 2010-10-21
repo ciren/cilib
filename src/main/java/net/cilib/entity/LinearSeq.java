@@ -24,12 +24,24 @@ package net.cilib.entity;
 import java.util.RandomAccess;
 
 /**
- *
+ * A {@code Seq} arranged in a linear fashion, providing random access to
+ * elements.
  * @author gpampara
  */
 public interface LinearSeq extends Seq, RandomAccess {
 
+    /**
+     * Get the value at the provided {@code index}.
+     * @param index the location within the {@code LinearSeq}.
+     * @return the requested value
+     * @throws
+     */
     double get(int index);
 
+    /**
+     * Convert the instance to a mutable version. The mutable version contains
+     * a copy of the data contained within the {@code LinearSeq} instance.
+     * @return a {@code MutableSeq} instance.
+     */
     MutableSeq toMutableSeq();
 }

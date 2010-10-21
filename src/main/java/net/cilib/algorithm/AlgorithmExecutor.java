@@ -30,5 +30,11 @@ import java.util.List;
  */
 public interface AlgorithmExecutor {
 
+    /**
+     * Perform algorithm execution, using the provided list as
+     * stopping conditions.
+     * @param stoppingConditions list of {@code Predicate} instances
+     *        representing algorithm stopping conditions.
+     */
     void execute(List<Predicate<Algorithm>> stoppingConditions);
 }

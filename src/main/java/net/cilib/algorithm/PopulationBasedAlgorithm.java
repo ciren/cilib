@@ -29,7 +29,6 @@ import net.cilib.collection.Topology;
  * @since 0.8
  * @author gpampara
  */
-//public interface PopulationBasedAlgorithm<A> extends Algorithm {
 public interface PopulationBasedAlgorithm<A> extends Algorithm {
 
     /**

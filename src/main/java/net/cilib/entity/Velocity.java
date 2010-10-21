@@ -26,13 +26,19 @@ import gnu.trove.TDoubleArrayList;
 import java.util.Arrays;
 
 /**
- *
+ * Sequence to represent a {@code Velocity}.
  * @author gpampara
  */
-public final class Velocity implements LinearSeq {//, HasFunctionalOperations<Seq.Builder> {
+public final class Velocity implements LinearSeq {
 
     private final TDoubleArrayList internal;
 
+    /**
+     * Create a new {@code Velocity} instance, based on the provided
+     * {@code elements}.
+     * @param elements contents of {@code Velocity}.
+     * @return a new {@code Velocity} instance.
+     */
     public static Velocity copyOf(double... elements) {
         return new Velocity(new TDoubleArrayList(elements));
     }
@@ -41,30 +47,48 @@ public final class Velocity implements LinearSeq {//, HasFunctionalOperations<Se
         this.internal = list;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[] toArray() {
         return internal.toNativeArray();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int size() {
         return internal.size();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double get(int index) {
         return internal.get(index);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MutableSeq toMutableSeq() {
         return new MutableSeq(this);
     }
 
+    /**
+     * Create an iterator view of the current {@code Velocity}.
+     * @return a new {@code SeqIterator} instance.
+     */
     public SeqIterator iterator() {
         final double[] local = Arrays.copyOf(internal.toNativeArray(), internal.size());
         return new SeqIterator() {
+
             private int count = 0;
+
             @Override
             public boolean hasNext() {
                 return count < local.length;
@@ -79,6 +103,10 @@ public final class Velocity implements LinearSeq {//, HasFunctionalOperations<Se
         };
     }
 
+    /**
+     * Get a {@code String} representation of the current {@code Velocity}.
+     * @return the {@code String} representation.
+     */
     @Override
     public String toString() {
         return Objects.toStringHelper(this).addValue(internal).toString();

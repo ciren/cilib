@@ -26,7 +26,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 /**
- *
+ * Factory object to create {@code Particle} instances.
  * @author gpampara
  */
 public final class ParticleProvider implements Provider<Particle> {
@@ -42,6 +42,13 @@ public final class ParticleProvider implements Provider<Particle> {
         this.fitnessProvider = fitnessProvider;
     }
 
+    /**
+     * Base the builder on the provided {@code Particle}. The provided particle
+     * seeds the builder with the {@code bestPosition} and {@code fitness} of
+     * the given particle.
+     * @param previous the {@code Particle} to base the new instance on.
+     * @return the current builder instance.
+     */
     public ParticleProvider basedOn(Particle previous) {
         Preconditions.checkNotNull(previous);
         this.previousBest = previous.memory();
@@ -49,16 +56,33 @@ public final class ParticleProvider implements Provider<Particle> {
         return this;
     }
 
+    /**
+     * Define the {@linkplain CandidateSolution position} for the new
+     * {@code Particle} instance.
+     * @param position the {@code CandidateSolution} to use
+     * @return the current factory instance.
+     */
     public ParticleProvider position(CandidateSolution position) {
         this.position = CandidateSolution.copyOf(position);
         return this;
     }
 
+    /**
+     * Provide a velocity. The provided velocity will be used to create the
+     * new {@code Particle} instance.
+     * @param velocity velocity for the created {@code Particle} instance.
+     * @return the current factory instance.
+     */
     public ParticleProvider velocity(Velocity velocity) {
         this.velocity = Velocity.copyOf(velocity.toArray());
         return this;
     }
 
+    /**
+     * Create a new instance of a {@code Particle}.
+     * @return a new {@code Particle} instance.
+     * @throws NullPointerException if a required value is not set.
+     */
     @Override
     public Particle get() {
         Preconditions.checkNotNull(position);

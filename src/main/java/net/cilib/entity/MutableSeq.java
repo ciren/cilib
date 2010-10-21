@@ -26,6 +26,7 @@ import com.google.common.primitives.Doubles;
 import java.util.Arrays;
 
 /**
+ * A mutable sequence.
  *
  * @author gpampara
  */
@@ -37,6 +38,12 @@ public final class MutableSeq implements Seq {
         this.internal = seq.toArray();
     }
 
+    /**
+     * Adds a {@code Seq} to this mutable instance. The addition is applied
+     * component-wise.
+     * @param that The sequence to add
+     * @return the altered mutable sequence
+     */
     public MutableSeq plus(Seq that) {
         final double[] thatSolution = that.toArray();
         Preconditions.checkState(internal.length == thatSolution.length);
@@ -46,6 +53,12 @@ public final class MutableSeq implements Seq {
         return this;
     }
 
+    /**
+     * Subtracts a {@code Seq} from this mutable instance. The subtraction is
+     * applied component-wise.
+     * @param that The sequence to subtract
+     * @return the altered mutable sequence
+     */
     public MutableSeq subtract(Seq that) {
         final double[] thatSolution = that.toArray();
         Preconditions.checkState(internal.length == thatSolution.length);
@@ -55,6 +68,12 @@ public final class MutableSeq implements Seq {
         return this;
     }
 
+    /**
+     * Multiply each component within the mutable sequence by the provided
+     * scalar constant.
+     * @param scalar the value to apply to each component.
+     * @return the altered mutable sequence.
+     */
     public MutableSeq multiply(double scalar) {
         for (int i = 0, n = internal.length; i < n; i++) {
             internal[i] *= scalar;
@@ -62,6 +81,13 @@ public final class MutableSeq implements Seq {
         return this;
     }
 
+    /**
+     * Divide each component within the mutable sequence by the provided
+     * scalar constant. Division by {@code 0.0} is checked and an exception
+     * is then raised, if needed.
+     * @param scalar the value to apply to each component.
+     * @return the altered mutable sequence.
+     */
     public MutableSeq divide(double scalar) {
         Preconditions.checkArgument(Doubles.compare(scalar, 0.0) != 0, "Cannot divide with a 0.0!");
         for (int i = 0, n = internal.length; i < n; i++) {
@@ -70,11 +96,17 @@ public final class MutableSeq implements Seq {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int size() {
         return internal.length;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double[] toArray() {
         return Arrays.copyOf(internal, internal.length);
