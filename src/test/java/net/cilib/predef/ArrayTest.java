@@ -19,24 +19,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.algorithm;
+package net.cilib.predef;
 
-import net.cilib.collection.Topology;
+import com.google.common.base.Function;
+import org.junit.Test;
+import static net.cilib.predef.Array.*;
 
 /**
- * Algorithm that operates on a {@link Topology}.
  *
- * @since 0.8
  * @author gpampara
  */
-public interface PopulationBasedAlgorithm<A> extends Algorithm {
+public class ArrayTest {
 
-    /**
-     * Perform an iteration of the population based algorithm. The provided
-     * {@code Topology} instance is not modified and a new {@code Topology}
-     * is then returned.
-     * @param topology the population for the algorithm to operate on
-     * @return the given topology, post algorithm iteration.
-     */
-    Topology<A> iterate(Topology<A> topology);
+    @Test
+    public void map() {
+        Array<Integer> l = array(Integer.valueOf(2));
+
+        Array<Double> d = l.map(new Function<Integer, Double>() {
+            @Override
+            public Double apply(Integer from) {
+                return from.doubleValue();
+            }
+        });
+    }
 }

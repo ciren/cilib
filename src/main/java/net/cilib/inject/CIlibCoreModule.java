@@ -22,7 +22,10 @@
 package net.cilib.inject;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import net.cilib.inject.annotation.Seed;
+import net.cilib.inject.annotation.Unique;
 import net.cilib.main.MockProblem;
 import net.cilib.problem.Problem;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
@@ -61,11 +64,24 @@ public final class CIlibCoreModule extends AbstractModule {
         // Define the required bindings, like the PRNG
 
         bind(RandomProvider.class).to(MersenneTwister.class);
+        bind(RandomProvider.class).annotatedWith(Unique.class).toProvider(UniqueRandomProvider.class);
+
+//        bind(RandomProvider.class).annotatedWith(Seed.class).toProvider(SeededRandomProvider.class);
+
         bind(Problem.class).to(MockProblem.class);
     }
-//    @Provides // @SomeScope
-//    RandomProvider randomProvider(@Seed long seed, RandomProviderFactory provider) {
-//        return provider.create(seed);
-//    }
-    // Need a way to get the problem domain.
+
+    static class UniqueRandomProvider implements Provider<RandomProvider> {
+        private final Provider<RandomProvider> provider;
+
+        @Inject
+        UniqueRandomProvider(Provider<RandomProvider> provider) {
+            this.provider = provider;
+        }
+
+        @Override
+        public RandomProvider get() {
+            return provider.get();
+        }
+    }
 }

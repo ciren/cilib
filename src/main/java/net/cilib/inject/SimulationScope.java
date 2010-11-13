@@ -60,4 +60,8 @@ public class SimulationScope implements Scope {
     public <T> void seed(Key<T> key, T value) {
         scopedObjects.put(key, value);
     }
+
+    <T> T get(Key<T> key) {
+        return (T) scopedObjects.get(key);
+    }
 }

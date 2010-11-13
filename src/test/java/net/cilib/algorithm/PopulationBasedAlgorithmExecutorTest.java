@@ -19,23 +19,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.inject.annotation;
+package net.cilib.algorithm;
 
-import com.google.inject.BindingAnnotation;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
+import org.junit.Test;
 
 /**
- * Indicate a binding to the "current" instance. This instance is then
- * determined based on the current "simulation scope".
  *
- * @since 0.8
  * @author gpampara
  */
-@BindingAnnotation
-@Target(value = {ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})
-@Retention(value = RetentionPolicy.RUNTIME)
-public @interface Current {
+public class PopulationBasedAlgorithmExecutorTest {
+
+    @Test(expected = IllegalArgumentException.class)
+    public void stoppingConditionsRequired() {
+        PopulationBasedAlgorithmExecutor executor = new PopulationBasedAlgorithmExecutor(null);
+        executor.execute(null, null, Lists.<Predicate<Algorithm>>newArrayList());
+    }
 }

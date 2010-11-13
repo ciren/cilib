@@ -29,8 +29,10 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import java.util.List;
 import net.cilib.algorithm.Algorithm;
-import net.cilib.algorithm.AlgorithmExecutor;
+import net.cilib.algorithm.DE;
 import net.cilib.algorithm.PopulationBasedAlgorithmExecutor;
+import net.cilib.collection.immutable.ImmutableGBestTopology;
+import net.cilib.entity.Individual;
 
 /**
  * @since 0.8
@@ -44,14 +46,21 @@ public final class Main {
     public static void main(String[] args) {
         List<Predicate<Algorithm>> stoppingConditions = Lists.newArrayList();
         stoppingConditions.add(new Predicate<Algorithm>() {
+            int count = 5;
             @Override
             public boolean apply(Algorithm input) {
-                return true;
+                if (count > 0) {
+                    count--;
+                    return true;
+                }
+                return false;
             }
         });
 
         Injector injector = Guice.createInjector(new CIlibCoreModule(), new PopulationBasedModule());
-        AlgorithmExecutor executor = injector.getInstance(PopulationBasedAlgorithmExecutor.class);
-        executor.execute(stoppingConditions);
+        PopulationBasedAlgorithmExecutor executor = injector.getInstance(PopulationBasedAlgorithmExecutor.class);
+        DE de = injector.getInstance(DE.class);
+
+        executor.execute(de, ImmutableGBestTopology.<Individual>of(), stoppingConditions);
     }
 }

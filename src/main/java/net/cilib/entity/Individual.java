@@ -21,6 +21,7 @@
  */
 package net.cilib.entity;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.inject.Inject;
 import java.util.Comparator;
 import static net.cilib.entity.EntityComparators.FITNESS_COMPARATOR;
@@ -41,8 +42,8 @@ public final class Individual implements Entity {
 
     @Inject
     public Individual(CandidateSolution solution, Fitness fitness) {
-        this.solution = solution;
-        this.fitness = fitness;
+        this.solution = checkNotNull(solution);
+        this.fitness = checkNotNull(fitness);
     }
 
     /**

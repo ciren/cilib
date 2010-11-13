@@ -19,22 +19,22 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.algorithm;
+package net.cilib.entity;
 
-import com.google.common.base.Predicate;
-import java.util.List;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  *
  * @author gpampara
  */
-public interface AlgorithmExecutor {
+public class ParticleTest {
 
-    /**
-     * Perform algorithm execution, using the provided list as
-     * stopping conditions.
-     * @param stoppingConditions list of {@code Predicate} instances
-     *        representing algorithm stopping conditions.
-     */
-    void execute(List<Predicate<Algorithm>> stoppingConditions);
+    @Test
+    public void isMoreFit() {
+        Particle p1 = new Particle(CandidateSolution.empty(), CandidateSolution.empty(), Velocity.copyOf(), Fitnesses.newMaximizationFitness(0.0));
+        Particle p2 = new Particle(CandidateSolution.empty(), CandidateSolution.empty(), Velocity.copyOf(), Fitnesses.newMaximizationFitness(1.0));
+
+        Assert.assertTrue(p2.isMoreFit(p1));
+    }
 }

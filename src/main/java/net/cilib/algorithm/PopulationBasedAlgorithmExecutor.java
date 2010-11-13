@@ -21,53 +21,53 @@
  */
 package net.cilib.algorithm;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 import java.util.List;
-import net.cilib.inject.annotation.Initialized;
 import net.cilib.entity.Entity;
 import net.cilib.collection.Topology;
 import net.cilib.inject.SimulationScope;
-import net.cilib.inject.annotation.Current;
 
 /**
  *
  * @author gpampara
  */
-public class PopulationBasedAlgorithmExecutor implements AlgorithmExecutor {
+public class PopulationBasedAlgorithmExecutor {
 
     private final SimulationScope scope;
-    private final PopulationBasedAlgorithm algorithm;
-    private final Topology<Entity> topology;
 
     @Inject
-    public PopulationBasedAlgorithmExecutor(
-            SimulationScope scope,
-            PopulationBasedAlgorithm algorithm,
-            @Initialized Topology<Entity> initialTopology) {
+    public PopulationBasedAlgorithmExecutor(SimulationScope scope) {
         this.scope = scope;
-        this.algorithm = algorithm;
-        this.topology = initialTopology;
     }
 
     /**
-     * {@inheritDoc}
+     * Perform iterations of the provided {@code PopulationBasedAlgorithm},
+     * using the given {@code Topology} whilst adhering to the given
+     * stopping conditions.
      */
-    @Override
-    public void execute(List<Predicate<Algorithm>> conditions) {
+    public void execute(final PopulationBasedAlgorithm algorithm,
+            final Topology<? extends Entity> initial,
+            final List<Predicate<Algorithm>> stoppingConditions) {
+        Preconditions.checkArgument(stoppingConditions.size() >= 1, "At least 1 stopping condition is requried.");
         scope.enter();
-        try {
-            Predicate<Algorithm> stoppingConditions = Predicates.or(conditions);
-            Topology<Entity> current = topology; // Current topology is inital topology
+        scope.seed(Key.get(Topology.class), initial);
 
-            while (!stoppingConditions.apply(algorithm)) {
+        try {
+            Predicate<Algorithm> aggregate = Predicates.or(stoppingConditions);
+            Topology<Entity> current = (Topology<Entity>) initial; //currentTopology.get(); // Current topology is inital topology
+
+            while (aggregate.apply(algorithm)) {
                 current = algorithm.iterate(current);
 
                 // Reset the current scope's managed instance. It needs to be updated.
-                scope.seed(Key.get(Topology.class, Current.class), current);
+                scope.seed(Key.get(Topology.class), current);
             }
+
+            System.out.println("current: " + current);
         } finally {
             scope.exit();
         }

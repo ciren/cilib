@@ -29,6 +29,7 @@ import net.cilib.entity.Fitnesses;
 import net.cilib.entity.Individual;
 import org.junit.Assert;
 import net.cilib.collection.immutable.ImmutableLBestTopology;
+import net.cilib.entity.CandidateSolution;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
 
@@ -39,7 +40,7 @@ import static org.hamcrest.CoreMatchers.*;
 public class NeighborhoodBestTest {
 
     private Individual newMockIndividual(double fitness) {
-        return new Individual(null, Fitnesses.newMaximizationFitness(fitness));
+        return new Individual(CandidateSolution.empty(), Fitnesses.newMaximizationFitness(fitness));
     }
 
     @Test

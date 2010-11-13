@@ -21,23 +21,35 @@
  */
 package net.cilib.pso;
 
+import com.google.common.base.Preconditions;
+import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.Entity;
 import net.cilib.entity.HasMemory;
 import net.cilib.entity.PartialEntity;
 
 /**
  * this class needs to be better... The implementation is not really all that
- * nice.
+ * nice - the instanceof test for example.
  * @author gpampara
  */
 public final class PersonalBest implements Guide {
 
+    /**
+     * Obtain the memory of the provided {@code Entity}. If the provided
+     * {@code Entity} does not maintain a {@linkplain HasMemory memory},
+     * a zeroed {@code CandidateSolution} is then returned.
+     * @param target
+     * @return
+     */
     @Override
     public Entity of(Entity target) {
+        Preconditions.checkNotNull(target);
+
         if (target instanceof HasMemory) {
             HasMemory memory = (HasMemory) target;
             return new PartialEntity(memory.memory());
         }
-        throw new UnsupportedOperationException();
+
+        return new PartialEntity(CandidateSolution.fill(0, target.solution().size()));
     }
 }

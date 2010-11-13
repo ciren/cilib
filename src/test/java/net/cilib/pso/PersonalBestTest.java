@@ -19,37 +19,38 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.entity;
+package net.cilib.pso;
 
-import net.cilib.problem.Problem;
+import net.cilib.entity.Velocity;
+import net.cilib.entity.Fitnesses;
+import net.cilib.entity.CandidateSolution;
+import net.cilib.entity.Entity;
+import net.cilib.entity.Individual;
+import net.cilib.entity.Particle;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
 
 /**
  *
- * @author gpampara
  */
-public class IndividualProviderTest {
+public class PersonalBestTest {
 
-    @Test(expected = IllegalStateException.class)
-    public void solutionReuqired() {
-        IndividualProvider provider = new IndividualProvider(null);
-        provider.get();
+    @Test
+    public void memoryReturnedFromMemoryEntity() {
+        CandidateSolution memory = CandidateSolution.copyOf(1.0);
+        PersonalBest pbest = new PersonalBest();
+        Entity partialEntity = pbest.of(new Particle(CandidateSolution.empty(), memory, Velocity.copyOf(), Fitnesses.inferior()));
+
+        Assert.assertThat(partialEntity.solution(), is(memory));
     }
 
     @Test
-    public void individualCreation() {
-        IndividualProvider provider = new IndividualProvider(new FitnessProvider(new Problem() {
-            @Override
-            public Fitness fitnessOf(CandidateSolution solution) {
-                return Fitnesses.newMaximizationFitness(1.0);
-            }
-        }));
+    public void memoryReturnedFromNonMemoryEntity() {
+        CandidateSolution position = CandidateSolution.copyOf(1.0);
+        PersonalBest pbest = new PersonalBest();
+        Entity partialEntity = pbest.of(new Individual(position, Fitnesses.inferior()));
 
-        Individual i = provider.solution(CandidateSolution.empty()).get();
-
-        Assert.assertNotNull(i);
-        Assert.assertThat(i.fitness(), equalTo(Fitnesses.newMaximizationFitness(1.0)));
+        Assert.assertThat(partialEntity.solution(), equalTo(CandidateSolution.copyOf(0.0)));
     }
 }

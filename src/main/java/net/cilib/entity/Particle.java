@@ -21,8 +21,10 @@
  */
 package net.cilib.entity;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.inject.Inject;
 import java.util.Comparator;
+import static net.cilib.entity.EntityComparators.FITNESS_COMPARATOR;
 
 /**
  * Representation of a {@code Particle}. A {@code Particle} is an {@code Entity}
@@ -50,10 +52,10 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
             CandidateSolution bestPosition,
             Velocity velocity,
             Fitness fitness) {
-        this.position = position;
-        this.bestPosition = bestPosition;
-        this.velocity = velocity;
-        this.fitness = fitness;
+        this.position = checkNotNull(position);
+        this.bestPosition = checkNotNull(bestPosition);
+        this.velocity = checkNotNull(velocity);
+        this.fitness = checkNotNull(fitness);
     }
 
     /**
@@ -86,7 +88,7 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
      */
     @Override
     public Entity moreFit(Entity that) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return moreFit(that, FITNESS_COMPARATOR);
     }
 
     /**
@@ -94,7 +96,7 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
      */
     @Override
     public Entity moreFit(Entity that, Comparator<? super Entity> comparator) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return (comparator.compare(this, that) >= 0) ? this : that;
     }
 
     /**
@@ -102,7 +104,7 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
      */
     @Override
     public boolean isMoreFit(Entity than) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return moreFit(than) == this;
     }
 
     /**
@@ -110,7 +112,7 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
      */
     @Override
     public Entity lessFit(Entity that) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return lessFit(that, FITNESS_COMPARATOR);
     }
 
     /**
@@ -118,7 +120,7 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
      */
     @Override
     public Entity lessFit(Entity that, Comparator<? super Entity> comparator) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return (comparator.compare(this, that) < 0) ? this : that;
     }
 
     /**
@@ -126,7 +128,7 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
      */
     @Override
     public boolean isLessFit(Entity than) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return lessFit(than) == this;
     }
 
     /**
@@ -139,7 +141,7 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
 
     @Override
     public int compareTo(Entity o) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return fitness.compareTo(o.fitness());
     }
 
     /**

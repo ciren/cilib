@@ -21,22 +21,25 @@
  */
 package net.cilib.inject;
 
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.Lists;
 import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
+import com.google.inject.TypeLiteral;
+import com.google.inject.name.Names;
 import java.util.List;
 import net.cilib.algorithm.Selector;
 import net.cilib.algorithm.MockMutationProvider;
 import net.cilib.algorithm.MutationProvider;
 import net.cilib.algorithm.ReplacementSelector;
-import net.cilib.inject.annotation.Current;
 import net.cilib.inject.annotation.Global;
-import net.cilib.inject.annotation.Initialized;
 import net.cilib.inject.annotation.Local;
 import net.cilib.inject.annotation.Unique;
 import net.cilib.collection.Topology;
-import net.cilib.collection.immutable.ImmutableGBestTopology;
 import net.cilib.entity.Entity;
 import net.cilib.inject.annotation.SimulationScoped;
 import net.cilib.pso.Guide;
@@ -56,7 +59,9 @@ public class PopulationBasedModule extends AbstractModule {
     protected void configure() {
         SimulationScope scope = new SimulationScope();
         bindScope(SimulationScoped.class, scope);
+        bind(SimulationScope.class).toInstance(scope);
 
+        bindConstant().annotatedWith(Names.named("population.size")).to(40);
         bind(Selector.class).to(ReplacementSelector.class);
         bind(MutationProvider.class).to(MockMutationProvider.class);
 
@@ -64,19 +69,12 @@ public class PopulationBasedModule extends AbstractModule {
         bind(VelocityProvider.class).to(StandardVelocityProvider.class);
         bind(Guide.class).annotatedWith(Global.class).to(NeighborhoodBest.class);
         bind(Guide.class).annotatedWith(Local.class).to(PersonalBest.class);
+        bind(new TypeLiteral<Supplier<Double>>() {
+        }).annotatedWith(Unique.class).toProvider(UniqueSupplier.class);
+        bind(new TypeLiteral<Supplier<Double>>() {
+        }).annotatedWith(Names.named("acceleration")).toInstance(Suppliers.ofInstance(1.496180));
 
-        bind(Topology.class).annotatedWith(Current.class).toProvider(CurrentTopologyProvider.class).in(SimulationScoped.class);
-    }
-
-    @Provides
-    @Initialized
-    Topology<Entity> getInitializedTopology(Provider<Topology<Entity>> t) {
-        return t.get();
-    }
-
-    @Provides
-    Topology<Entity> getTopology() {
-        return ImmutableGBestTopology.of();
+        bind(Topology.class).toProvider(CurrentTopologyProvider.class).in(scope);
     }
 
     /**
@@ -110,9 +108,38 @@ public class PopulationBasedModule extends AbstractModule {
      */
     static class CurrentTopologyProvider implements Provider<Topology> {
 
+        private final SimulationScope scope;
+
+        @Inject
+        public CurrentTopologyProvider(SimulationScope scope) {
+            this.scope = scope;
+        }
+
         @Override
         public Topology get() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            return scope.get(Key.get(Topology.class));
+        }
+    }
+
+    static class UniqueSupplier implements Provider<Supplier<Double>> {
+
+        private final Provider<RandomProvider> randomProvider;
+
+        @Inject
+        public UniqueSupplier(@Unique Provider<RandomProvider> randomProvider) {
+            this.randomProvider = randomProvider;
+        }
+
+        @Override
+        public Supplier<Double> get() {
+            return new Supplier<Double>() {
+                final RandomProvider random = randomProvider.get();
+
+                @Override
+                public Double get() {
+                    return random.nextDouble();
+                }
+            };
         }
     }
 }

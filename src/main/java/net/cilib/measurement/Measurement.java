@@ -22,6 +22,8 @@
 package net.cilib.measurement;
 
 /**
+ * Based definition for a {@code measurement}. A measurement can measure
+ * the current performance of an algorithm.
  * @since 0.8
  * @author gpampara
  */

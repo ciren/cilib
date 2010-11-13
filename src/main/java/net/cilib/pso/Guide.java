@@ -24,10 +24,19 @@ package net.cilib.pso;
 import net.cilib.entity.Entity;
 
 /**
+ * A {@code guide} is an {@code Entity} instance used to provide an influence
+ * of some sort. For example, a guide is used to provide influence to the
+ * social and cognitive components of the standard velocity update as used
+ * within PSO.
  *
  * @author gpampara
  */
 public interface Guide {
 
+    /**
+     * Get the {@code guide} for the provided {@code Entity}.
+     * @param target {@code Entity} for which {@code guide} is requested.
+     * @return the guiding {@code Entity}.
+     */
     Entity of(Entity target);
 }

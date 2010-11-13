@@ -21,6 +21,8 @@
  */
 package net.cilib.pso;
 
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.Fitnesses;
 import net.cilib.entity.PartialEntity;
@@ -43,8 +45,9 @@ public class StandardVelocityProviderTest {
     public void velocityCalculation() {
         final Guide localGuide = context.mock(Guide.class, "localGuide");
         final Guide globalGuide = context.mock(Guide.class, "globalGuide");
+        Supplier<Double> constant = Suppliers.ofInstance(1.0);
         
-        StandardVelocityProvider provider = new StandardVelocityProvider(localGuide, globalGuide);
+        StandardVelocityProvider provider = new StandardVelocityProvider(localGuide, globalGuide, constant, constant, constant, constant);
         final Particle particle = new Particle(CandidateSolution.copyOf(1.0),
                 CandidateSolution.copyOf(1.0),
                 Velocity.copyOf(1.0),
@@ -57,6 +60,6 @@ public class StandardVelocityProviderTest {
         }});
 
         Velocity newVelocity = provider.create(particle);
-        Assert.assertArrayEquals(new double[]{-4.0}, newVelocity.toArray(), 0.0001);
+        Assert.assertArrayEquals(new double[]{-1.0}, newVelocity.toArray(), 0.0001);
     }
 }

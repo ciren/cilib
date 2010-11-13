@@ -29,22 +29,8 @@
     </properties>
     <mailingLists>
         <mailingList>
-            <name>CILib User List</name>
-            <subscribe>http://forums.cilib.net</subscribe>
-        </mailingList>
-        <mailingList>
             <name>CILib Developer List</name>
-            <subscribe>cilib-devel-subscribe@lists.sourceforge.net</subscribe>
-            <unsubscribe>cilib-devel-unsubscribe@lists.sourceforge.net</unsubscribe>
-            <post>cilib-devel@lists.sourceforge.net</post>
-            <archive>http://sourceforge.net/mailarchive/forum.php?forum_id=34915</archive>
-        </mailingList>
-        <mailingList>
-            <name>CILib Announce</name>
-            <subscribe>cilib-announce-subscribe@lists.sourceforge.net</subscribe>
-            <unsubscribe>cilib-announce-unsubscribe@lists.sourceforge.net</unsubscribe>
-            <post>cilib-announce@lists.sourceforge.net</post>
-            <archive>http://sourceforge.net/mailarchive/forum.php?forum=cilib-announce</archive>
+            <post>cilib-dev@groups.google.com</post>
         </mailingList>
     </mailingLists>
     <issueManagement>
@@ -197,6 +183,13 @@
                                 <requireJavaVersion>
                                     <version>[1.6.0,)</version>
                                 </requireJavaVersion>
+                                <requirePluginVersions>
+                                    <message>Best Practice is to always define plugin versions!</message>
+                                    <banLatest>true</banLatest>
+                                    <banRelease>true</banRelease>
+                                    <banSnapshots>true</banSnapshots>
+                                    <phases>clean,deploy,site</phases>
+                                </requirePluginVersions>
                                 <requireMavenVersion>
                                     <version>3.0</version>
                                 </requireMavenVersion>
@@ -220,6 +213,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2</version>
                 <configuration>
                     <descriptors>
                         <descriptor>src/main/assembly/assembly-bin.xml</descriptor>
@@ -302,10 +296,36 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.5</version>
-                <!--<configuration>
-                    <parallel>classes</parallel>
-                </configuration>-->
+                <version>2.6</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.0-beta-3</version>
+                <configuration>
+                    <reportPlugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-project-info-reports-plugin</artifactId>
+                            <version>2.1.2</version>
+                            <configuration>
+                                <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+                                <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                            </configuration>
+                            <reports><!--
+                                <report>summary</report>
+                                <report>mailing-list</report>
+                                <report>dependencies</report>
+-->                            </reports>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <version>2.5</version>
+                        </plugin>
+                    </reportPlugins>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -314,12 +334,12 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.3</version>
+                <version>2.4</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>2.2</version>
+                <version>2.5</version>
                 <configuration>
                     <linkXref>true</linkXref>
                     <sourceEncoding>utf-8</sourceEncoding>
@@ -334,7 +354,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.5</version>
+                <version>2.6</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -348,11 +368,6 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
                 <version>2.3.1</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>2.1.1</version>
             </plugin>
         </plugins>
     </reporting>

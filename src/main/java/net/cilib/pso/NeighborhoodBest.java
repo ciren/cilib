@@ -26,7 +26,6 @@ import com.google.inject.Provider;
 import java.util.Iterator;
 import net.cilib.collection.Topology;
 import net.cilib.entity.Entity;
-import net.cilib.inject.annotation.Current;
 
 /**
  *
@@ -37,10 +36,16 @@ public class NeighborhoodBest implements Guide {
     private final Provider<Topology> topologyProvider;
 
     @Inject
-    public NeighborhoodBest(@Current Provider<Topology> topologyProvider) {
+    public NeighborhoodBest(Provider<Topology> topologyProvider) {
         this.topologyProvider = topologyProvider;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * A neighborhood best {@code Entity} is the entity which is the most fit,
+     * within the neighborhood.
+     */
     @Override
     public Entity of(Entity target) {
         Iterator<Entity> neighborhoodOf = topologyProvider.get().neighborhoodOf(target);

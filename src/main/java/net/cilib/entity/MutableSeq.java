@@ -22,6 +22,7 @@
 package net.cilib.entity;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Supplier;
 import com.google.common.primitives.Doubles;
 import java.util.Arrays;
 
@@ -110,5 +111,12 @@ public final class MutableSeq implements Seq {
     @Override
     public double[] toArray() {
         return Arrays.copyOf(internal, internal.length);
+    }
+
+    public MutableSeq multiply(Supplier<Double> supplier) {
+        for (int i = 0; i < internal.length; i++) {
+            internal[i] *= supplier.get().doubleValue();
+        }
+        return this;
     }
 }

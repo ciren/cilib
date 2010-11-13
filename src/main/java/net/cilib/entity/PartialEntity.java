@@ -21,6 +21,7 @@
  */
 package net.cilib.entity;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.Comparator;
 
 /**
@@ -35,7 +36,7 @@ public final class PartialEntity implements Entity {
     private final CandidateSolution solution;
 
     public PartialEntity(CandidateSolution solution) {
-        this.solution = solution;
+        this.solution = checkNotNull(solution);
     }
 
     /**

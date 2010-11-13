@@ -22,6 +22,7 @@
 package net.cilib.entity;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import gnu.trove.TDoubleArrayList;
 import java.util.Arrays;
 
@@ -33,7 +34,17 @@ import java.util.Arrays;
  */
 public final class CandidateSolution implements LinearSeq {
 
+    private final static CandidateSolution EMPTY = new CandidateSolution(new TDoubleArrayList(new double[]{}));
     private final TDoubleArrayList internal;
+
+    /**
+     * Return an empty {@code CandidateSolution}. The same instance will be
+     * returned on repetitive calls to this method.
+     * @return the empty {@code CandidateSolution}.
+     */
+    public static CandidateSolution empty() {
+        return EMPTY;
+    }
 
     /**
      * Returns an immutable candidate solution, which is a copy of the given
@@ -41,7 +52,7 @@ public final class CandidateSolution implements LinearSeq {
      * @param solution the candidate solution to copy.
      * @return an immutable copy of a provided new candidate solution.
      */
-    public static CandidateSolution copyOf(CandidateSolution solution) {
+    public static CandidateSolution copyOf(final CandidateSolution solution) {
         return new CandidateSolution(new TDoubleArrayList(solution.toArray()));
     }
 
@@ -51,8 +62,26 @@ public final class CandidateSolution implements LinearSeq {
      * @param solution the array of values, representing the candidate solution.
      * @return an immutable candidate solution representing the given values.
      */
-    public static CandidateSolution copyOf(double... solution) {
+    public static CandidateSolution copyOf(final double... solution) {
+        Preconditions.checkArgument(solution.length > 0);
         return new CandidateSolution(new TDoubleArrayList(solution));
+    }
+
+    /**
+     * Create a {@code CandidateSolution} instance, filled up with the
+     * provided {@code item} for {@code size} dimensions.
+     * @param item used to fill the {@code CandidateSolution}
+     * @param size the number of items to include within the
+     *        {@code CandidateSolution}
+     * @return A newly created {@code CandidateSolution} of filled
+     *         {@code item}s.
+     */
+    public static CandidateSolution fill(final int item, final int size) {
+        Builder builder = newBuilder();
+        for (int i = 0; i < size; i++) {
+            builder.add(item);
+        }
+        return builder.build();
     }
 
     private CandidateSolution(TDoubleArrayList list) {
@@ -101,15 +130,6 @@ public final class CandidateSolution implements LinearSeq {
     }
 
     /**
-     * Creates an instance of the internal {@linkplain Builder builder} for
-     * creation of candidate solutions.
-     * @return a new instance of the builder.
-     */
-    public static Builder newBuilder() {
-        return new Builder();
-    }
-
-    /**
      * Translate the {@code CandidateSolution} into a mutable instance. The
      * resulting mutable instance contains a copy of the
      * {@code CandidateSolution} representation and will not alter the
@@ -130,7 +150,9 @@ public final class CandidateSolution implements LinearSeq {
     public SeqIterator iterator() {
         final double[] local = Arrays.copyOf(internal.toNativeArray(), internal.size());
         return new SeqIterator() {
+
             private int count = 0;
+
             @Override
             public boolean hasNext() {
                 return count < local.length;
@@ -138,11 +160,33 @@ public final class CandidateSolution implements LinearSeq {
 
             @Override
             public double next() {
-                double result = local[count];
-                count++;
-                return result;
+                return local[count++];
             }
         };
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof CandidateSolution)) {
+            return false;
+        }
+
+        CandidateSolution other = (CandidateSolution) obj;
+        return internal.equals(other.internal);
+    }
+
+    @Override
+    public int hashCode() {
+        return internal.hashCode();
+    }
+
+    /**
+     * Creates an instance of the internal {@linkplain Builder builder} for
+     * creation of candidate solutions.
+     * @return a new instance of the builder.
+     */
+    public static Builder newBuilder() {
+        return new Builder();
     }
 
     /**
@@ -153,7 +197,7 @@ public final class CandidateSolution implements LinearSeq {
     public static class Builder implements Seq.Builder {
 
         private int current;
-        private double[] internal;
+        private double[] internal; // Use TDoubleArrayList?
 
         private Builder() {
             current = 0;
