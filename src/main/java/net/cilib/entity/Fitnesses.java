@@ -22,6 +22,7 @@
 package net.cilib.entity;
 
 /**
+ * Helper class for the creation of {@code Fitness} instances.
  *
  * @author gpampara
  */
@@ -35,6 +36,7 @@ public class Fitnesses {
     /**
      * Get an inferior fitness. This fitness value will always be
      * "worse" than anything other fitness value.
+     *
      * @return an inferior fitness value.
      */
     public static Fitness inferior() {
@@ -43,6 +45,7 @@ public class Fitnesses {
 
     /**
      * Create a new fitness value, that should be maximized.
+     *
      * @param value the value of the fitness
      * @return the maximization fitness of the given value.
      */
@@ -52,6 +55,7 @@ public class Fitnesses {
 
     /**
      * Create a new fitness value, that should be minimized.
+     *
      * @param value the value of the fitness
      * @return the minimization fitness of the given value.
      */
@@ -59,7 +63,13 @@ public class Fitnesses {
         return new MinimizationFitness(value);
     }
 
-    // Not sure about implementing equals() and hasCode() - is it needed?
+    /**
+     * A fitness that focuses on <b>Maximization</b>. When comparing
+     * a {@code MaximizationFitness} to any other {@code Fitness} instance,
+     * the absolute fitness value will be compared. The only exception to
+     * the comparison is when comparing to an {@code InferiorFitness}, in which
+     * case the {@code MaximizationFitness} will always "be better".
+     */
     static class MaximizationFitness implements Fitness {
 
         private final double value;
@@ -78,6 +88,7 @@ public class Fitnesses {
             return value;
         }
 
+        // Not sure about implementing equals() and hasCode() - is it needed?
         @Override
         public int hashCode() {
             int hash = 7;
@@ -94,10 +105,7 @@ public class Fitnesses {
                 return false;
             }
             final MaximizationFitness other = (MaximizationFitness) obj;
-            if (Double.doubleToLongBits(this.value) != Double.doubleToLongBits(other.value)) {
-                return false;
-            }
-            return true;
+            return Double.doubleToLongBits(this.value) == Double.doubleToLongBits(other.value);
         }
 
         @Override
@@ -112,7 +120,11 @@ public class Fitnesses {
     }
 
     /**
-     *
+     * A fitness that focuses on <b>Minimization</b>. When comparing
+     * a {@code MinimizationFitness} to any other {@code Fitness} instance,
+     * the absolute fitness value will be compared. The only exception to
+     * the comparison is when comparing to an {@code InferiorFitness}, in which
+     * case the {@code MinimizationFitness} will always "be better".
      */
     static class MinimizationFitness implements Fitness {
 

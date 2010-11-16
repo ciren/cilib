@@ -22,6 +22,7 @@
 package net.cilib.collection.immutable;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
@@ -33,25 +34,40 @@ import java.util.List;
 import net.cilib.collection.Topology;
 
 /**
- * @param <A>
+ * {@code l-best} topology implementation. The {@code l-best} topology defines
+ * a neighborhood size and is per default set to a value of 3; the neighborhood
+ * size may change, when using the defined topology builder.
+ * @param <A> the parameter type.
  * @since 0.8
  * @author gpampara
  */
 public class ImmutableLBestTopology<A> implements Topology<A> {
 
-    private static final Topology<Object> INSTANCE = new ImmutableLBestTopology<Object>(Lists.newArrayList());
+    private static final Topology<Object> INSTANCE = newBuilder().build();
     private final ImmutableList<A> elements;
     private final int neighborhoodsize;
 
+    /**
+     * Obtain an empty immutable topology.
+     * @param <B> The defined type.
+     * @return An immutable empty {@code l-best} topology.
+     */
     public static <B> ImmutableLBestTopology<B> of() {
         return (ImmutableLBestTopology<B>) INSTANCE;
     }
 
-    private ImmutableLBestTopology(List<A> elements) {
+    private ImmutableLBestTopology(List<A> elements, int size) {
         this.elements = ImmutableList.copyOf(elements);
-        this.neighborhoodsize = 3;
+        this.neighborhoodsize = size;
     }
 
+    /**
+     * Returns an iterator over a set of elements of type T. The returned
+     * {@code Iterator} is not modifiable - invoking {@link Iterator#remove()}
+     * will throw a {@link UnsupportedOperationException}.
+     *
+     * @return an Iterator over the topology contents.
+     */
     @Override
     public Iterator<A> iterator() {
         final Iterator<A> iter = elements.iterator();
@@ -102,28 +118,65 @@ public class ImmutableLBestTopology<A> implements Topology<A> {
         return Objects.toStringHelper(this).add("contents", elements).toString();
     }
 
-    public static <A> ImmutableTopologyBuilder<A> newBuilder() {
-        return new ImmutableTopologyBuilder<A>();
+    /**
+     * Create a new {@code ImmutableTopologyBuilder} instance.
+     * @param <A> the parameter type
+     * @return a new builder instance.
+     */
+    public static <A> ImmutableLBestTopologyBuilder<A> newBuilder() {
+        return new ImmutableLBestTopologyBuilder<A>();
     }
 
-    public static class ImmutableTopologyBuilder<B> {
+    /**
+     * Create a topology builder to create {@code ImmutableLBestTopology}
+     * instances. The default neighborhood size is defined to be {@code 3}.
+     * @param <B> the parameter type.
+     */
+    public static class ImmutableLBestTopologyBuilder<B> {
 
         private final List<B> elements;
+        private int neighborhoodSize = 3;
 
-        ImmutableTopologyBuilder() {
+        ImmutableLBestTopologyBuilder() {
             elements = Lists.newArrayList();
         }
 
+        /**
+         * Construct an {@code ImmutableLBestTopology} from the contents of
+         * the current builder instance. When obtaining the topology instance
+         * from this builder, the builder is invalidated and all internal state
+         * is cleared.
+         * @return a new {@code ImmutableLBestTopology}.
+         */
         public ImmutableLBestTopology<B> build() {
             try {
-                return new ImmutableLBestTopology<B>(elements);
+                return new ImmutableLBestTopology<B>(elements, neighborhoodSize);
             } finally {
                 elements.clear();
+                neighborhoodSize = 3;
             }
         }
 
-        public ImmutableTopologyBuilder<B> add(B element) {
+        /**
+         * Add the provided element to the current builder, for inclusion in
+         * the constructed topology instance.
+         * @param element to add
+         * @return the current topology builder for chaining purposes.
+         */
+        public ImmutableLBestTopologyBuilder<B> add(B element) {
             elements.add(element);
+            return this;
+        }
+
+        /**
+         * Define the neighborhood size for the {@code ImmutableLBestTopology}
+         * to be built from this builder.
+         * @param size the neighborhood size.
+         * @return the current builder instance.
+         */
+        public ImmutableLBestTopologyBuilder<B> withNeighborhoodSize(int size) {
+            Preconditions.checkArgument(neighborhoodSize >= 3, "Minimum required neighborhood size is 3.");
+            this.neighborhoodSize = size;
             return this;
         }
     }

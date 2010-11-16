@@ -25,10 +25,19 @@ import net.cilib.entity.Particle;
 import net.cilib.entity.Velocity;
 
 /**
+ * Provider interface defining how to create {@link Velocity}
+ * instances.
  *
  * @author gpampara
  */
 public interface VelocityProvider {
 
+    /**
+     * Create a new {@code Velocity} instance based on the given
+     * {@code Particle}.
+     *
+     * @param particle to base the calculation of the {@link Velocity} on.
+     * @return an newly created immutable {@link Velocity}.
+     */
     Velocity create(Particle particle);
 }

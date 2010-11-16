@@ -24,49 +24,67 @@ package net.cilib.pso;
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import net.cilib.inject.annotation.Global;
-import net.cilib.inject.annotation.Local;
 import net.cilib.entity.LinearSeq;
 import net.cilib.entity.MutableSeq;
 import net.cilib.entity.Particle;
 import net.cilib.entity.Velocity;
+import net.cilib.inject.annotation.Global;
+import net.cilib.inject.annotation.Local;
 import net.cilib.inject.annotation.Unique;
 
 /**
+ * Velocity provider implementing the canonical velocity update equation
+ * as defined by Kennedy and Eberhart [1].
  *
+ * <pre>
+ * [1]
+ * </pre>
  * @author gpampara
  */
 public final class StandardVelocityProvider implements VelocityProvider {
 
     private final Guide localGuide;
     private final Guide globalGuide;
-    private final Supplier<Double> r1Supplier;
-    private final Supplier<Double> r2Supplier;
-    private final Supplier<Double> constant1;
-    private final Supplier<Double> constant2;
+    private final Supplier<Double> r1c1;
+    private final Supplier<Double> r2c2;
 
     @Inject
-    public StandardVelocityProvider(@Local Guide localGuide,
-            @Global Guide globalGuide,
-            @Unique Supplier<Double> r1Supplier,
-            @Unique Supplier<Double> r2Supplier,
-            @Named("acceleration") Supplier<Double> constant1,
-            @Named("acceleration") Supplier<Double> constant2) {
+    public StandardVelocityProvider(@Local final Guide localGuide,
+            @Global final Guide globalGuide,
+            @Unique final Supplier<Double> r1Supplier,
+            @Unique final Supplier<Double> r2Supplier,
+            @Named("acceleration") final Supplier<Double> constant1,
+            @Named("acceleration") final Supplier<Double> constant2) {
         this.localGuide = localGuide;
         this.globalGuide = globalGuide;
-        this.r1Supplier = r1Supplier;
-        this.r2Supplier = r2Supplier;
-        this.constant1 = constant1;
-        this.constant2 = constant2;
+
+        this.r1c1 = new Supplier<Double>() {
+            @Override
+            public Double get() {
+                return constant1.get() * r1Supplier.get();
+            }
+        };
+
+        this.r2c2 = new Supplier<Double>() {
+            @Override
+            public Double get() {
+                return constant2.get() * r2Supplier.get();
+            }
+        };
     }
 
+    /**
+     *
+     * @param particle to base the calculation of the {@link Velocity} on.
+     * @return
+     */
     @Override
     public Velocity create(Particle particle) {
         LinearSeq local = localGuide.of(particle).solution();
         LinearSeq global = globalGuide.of(particle).solution();
 
-        MutableSeq cognitive = local.toMutableSeq().subtract(particle.solution()).multiply(constant1).multiply(r1Supplier);
-        MutableSeq social = global.toMutableSeq().subtract(particle.solution()).multiply(constant2).multiply(r2Supplier);
+        MutableSeq cognitive = local.toMutableSeq().subtract(particle.solution()).multiply(r1c1);
+        MutableSeq social = global.toMutableSeq().subtract(particle.solution()).multiply(r2c2);
 
         return Velocity.copyOf(particle.velocity().toMutableSeq().plus(cognitive).plus(social).toArray());
     }

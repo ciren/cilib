@@ -23,6 +23,8 @@ package net.cilib.algorithm;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
+import net.cilib.collection.immutable.ImmutableGBestTopology;
+import net.cilib.entity.Entity;
 import org.junit.Test;
 
 /**
@@ -31,9 +33,29 @@ import org.junit.Test;
  */
 public class PopulationBasedAlgorithmExecutorTest {
 
+    private final DE emptyDE = new DE(null, null, null, null);
+
+    @Test(expected = NullPointerException.class)
+    public void nullAlgorithm() {
+        PopulationBasedAlgorithmExecutor executor = new PopulationBasedAlgorithmExecutor(null);
+        executor.execute(null, null, Lists.<Predicate<Algorithm>>newArrayList());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nullTopology() {
+        PopulationBasedAlgorithmExecutor executor = new PopulationBasedAlgorithmExecutor(null);
+        executor.execute(emptyDE, null, Lists.<Predicate<Algorithm>>newArrayList());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nullStoppingConditions() {
+        PopulationBasedAlgorithmExecutor executor = new PopulationBasedAlgorithmExecutor(null);
+        executor.execute(emptyDE, ImmutableGBestTopology.<Entity>of(), null);
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void stoppingConditionsRequired() {
         PopulationBasedAlgorithmExecutor executor = new PopulationBasedAlgorithmExecutor(null);
-        executor.execute(null, null, Lists.<Predicate<Algorithm>>newArrayList());
+        executor.execute(emptyDE, ImmutableGBestTopology.<Entity>of(), Lists.<Predicate<Algorithm>>newArrayList());
     }
 }

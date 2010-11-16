@@ -27,7 +27,7 @@ import com.google.common.primitives.Doubles;
 import java.util.Arrays;
 
 /**
- * A mutable sequence.
+ * A mutable sequence with mutation methods defined.
  *
  * @author gpampara
  */
@@ -113,6 +113,11 @@ public final class MutableSeq implements Seq {
         return Arrays.copyOf(internal, internal.length);
     }
 
+    /**
+     * ???????????????????
+     * @param supplier
+     * @return
+     */
     public MutableSeq multiply(Supplier<Double> supplier) {
         for (int i = 0; i < internal.length; i++) {
             internal[i] *= supplier.get().doubleValue();

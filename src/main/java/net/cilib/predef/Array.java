@@ -35,7 +35,7 @@ public final class Array<A> implements Iterable<A> {
 
     public static <A> Array<A> array(A... elements) {
         List<A> list = Lists.newArrayList(elements);
-        return new Array(list.toArray());
+        return new Array<A>(list.toArray());
     }
 
     private Array(Object[] a) {

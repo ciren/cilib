@@ -52,7 +52,11 @@ public class PopulationBasedAlgorithmExecutor {
     public void execute(final PopulationBasedAlgorithm algorithm,
             final Topology<? extends Entity> initial,
             final List<Predicate<Algorithm>> stoppingConditions) {
+        Preconditions.checkNotNull(algorithm, "Reference to algorithm is null.");
+        Preconditions.checkNotNull(initial);
+        Preconditions.checkNotNull(stoppingConditions);
         Preconditions.checkArgument(stoppingConditions.size() >= 1, "At least 1 stopping condition is requried.");
+
         scope.enter();
         scope.seed(Key.get(Topology.class), initial);
 
@@ -66,8 +70,6 @@ public class PopulationBasedAlgorithmExecutor {
                 // Reset the current scope's managed instance. It needs to be updated.
                 scope.seed(Key.get(Topology.class), current);
             }
-
-            System.out.println("current: " + current);
         } finally {
             scope.exit();
         }

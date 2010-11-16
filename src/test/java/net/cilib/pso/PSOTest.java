@@ -31,7 +31,6 @@ import net.cilib.algorithm.PopulationBasedAlgorithmExecutor;
 import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
 import net.cilib.entity.CandidateSolution;
-import net.cilib.entity.Entity;
 import net.cilib.entity.Fitnesses;
 import net.cilib.entity.Particle;
 import net.cilib.entity.Velocity;
@@ -47,9 +46,9 @@ public class PSOTest {
 
     @Test
     public void iteration() {
-        Topology<Entity> topology = ImmutableGBestTopology.of();
+        Topology<Particle> topology = ImmutableGBestTopology.of();
         VelocityProvider velocityProvider = new StandardVelocityProvider(null, null, null, null, null, null);
-        PopulationBasedAlgorithm instance = new PSO(velocityProvider, null);
+        PopulationBasedAlgorithm<Particle> instance = new PSO(velocityProvider, null);
 
         instance.iterate(topology);
     }

@@ -25,7 +25,7 @@ import com.google.inject.Inject;
 import net.cilib.algorithm.PopulationBasedAlgorithm;
 import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
-import net.cilib.collection.immutable.ImmutableGBestTopology.ImmutableTopologyBuilder;
+import net.cilib.collection.immutable.ImmutableGBestTopology.ImmutableGBestTopologyBuilder;
 import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.ParticleProvider;
 import net.cilib.entity.MutableSeq;
@@ -53,7 +53,7 @@ public class PSO implements PopulationBasedAlgorithm<Particle> {
 
     @Override
     public Topology<Particle> iterate(Topology<Particle> topology) {
-        ImmutableTopologyBuilder<Particle> topologyBuilder = ImmutableGBestTopology.newBuilder();
+        ImmutableGBestTopologyBuilder<Particle> topologyBuilder = ImmutableGBestTopology.newBuilder();
         for (Particle particle : topology) {
             Velocity velocity = velocityProvider.create(particle); // New velocity
             MutableSeq newPosition = particle.solution().toMutableSeq().plus(velocity); // Update position

@@ -36,11 +36,21 @@ final class EmptyImmutableTopology implements Topology<Object> {
     private EmptyImmutableTopology() {
     }
 
+    /**
+     * Return an {@code Iterator} over an empty list of elements.
+     * @return an empty {@code Iterator} instance.
+     */
     @Override
     public Iterator<Object> iterator() {
         return Collections.emptyList().iterator();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * The neighborhood is defined to not contain any elements.
+     * @see EmptyImmutableTopology#iterator()
+     */
     @Override
     public Iterator<Object> neighborhoodOf(Object element) {
         return iterator();

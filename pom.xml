@@ -154,7 +154,7 @@
                 <configuration>
                     <bootclasspath>${java.home}/lib/rt.jar</bootclasspath>
                     <!-- This path needs to be dynamic??? -->
-                    <docletPath>/home/gpampara/tmp/doclava-read-only/build/dist/doclava/doclava.jar</docletPath>
+                    <docletPath>/home/gpampara/tmp/doclava-read-only/build/doclava-1.0.1-SNAPSHOT.jar</docletPath>
                     <doclet>com.google.doclava.Doclava</doclet>
                     <charset>UTF-8</charset>
                     <docencoding>UTF-8</docencoding>
