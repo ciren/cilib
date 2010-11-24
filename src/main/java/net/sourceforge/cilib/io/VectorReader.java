@@ -44,7 +44,7 @@ public class VectorReader implements DataReader<List<Type>> {
         Preconditions.checkArgument(vector != null);
         Preconditions.checkArgument(columnCount > 0);
         Preconditions.checkArgument(vector.size() % columnCount == 0,
-                "Vector cannot be split up into columns.");
+                "Vector cannot be split up into rows.");
         this.columnCount = columnCount;
         this.vector = vector;
         this.index = 0;
