@@ -41,7 +41,6 @@ import net.cilib.inject.annotation.Local;
 import net.cilib.inject.annotation.Unique;
 import net.cilib.collection.Topology;
 import net.cilib.entity.Entity;
-import net.cilib.inject.annotation.SimulationScoped;
 import net.cilib.pso.Guide;
 import net.cilib.pso.NeighborhoodBest;
 import net.cilib.pso.PersonalBest;
@@ -57,10 +56,6 @@ public class PopulationBasedModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        SimulationScope scope = new SimulationScope();
-        bindScope(SimulationScoped.class, scope);
-        bind(SimulationScope.class).toInstance(scope);
-
         bindConstant().annotatedWith(Names.named("population.size")).to(40);
         bind(Selector.class).to(ReplacementSelector.class);
         bind(MutationProvider.class).to(MockMutationProvider.class);
@@ -74,7 +69,7 @@ public class PopulationBasedModule extends AbstractModule {
         bind(new TypeLiteral<Supplier<Double>>() {
         }).annotatedWith(Names.named("acceleration")).toInstance(Suppliers.ofInstance(1.496180));
 
-        bind(Topology.class).toProvider(CurrentTopologyProvider.class).in(scope);
+        bind(Topology.class).toProvider(CurrentTopologyProvider.class);
     }
 
     /**
@@ -117,7 +112,7 @@ public class PopulationBasedModule extends AbstractModule {
 
         @Override
         public Topology get() {
-            return scope.get(Key.get(Topology.class));
+            return (Topology) scope.get(Key.get(Topology.class));
         }
     }
 
@@ -133,6 +128,7 @@ public class PopulationBasedModule extends AbstractModule {
         @Override
         public Supplier<Double> get() {
             return new Supplier<Double>() {
+
                 final RandomProvider random = randomProvider.get();
 
                 @Override

@@ -27,7 +27,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import net.cilib.algorithm.Algorithm;
 import net.cilib.algorithm.PopulationBasedAlgorithm;
-import net.cilib.algorithm.PopulationBasedAlgorithmExecutor;
+import net.cilib.algorithm.Simulation;
+import net.cilib.algorithm.SimulationBuilder;
 import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
 import net.cilib.entity.CandidateSolution;
@@ -36,6 +37,8 @@ import net.cilib.entity.Particle;
 import net.cilib.entity.Velocity;
 import net.cilib.inject.CIlibCoreModule;
 import net.cilib.inject.PopulationBasedModule;
+import net.cilib.main.MockProblem;
+import net.cilib.measurement.Measurement;
 import org.junit.Test;
 
 /**
@@ -60,12 +63,19 @@ public class PSOTest {
     public void integration() {
         Injector injector = Guice.createInjector(new CIlibCoreModule(), new PopulationBasedModule());
 
-        PopulationBasedAlgorithmExecutor executor = injector.getInstance(PopulationBasedAlgorithmExecutor.class);
-        PSO pso = injector.getInstance(PSO.class);
-
         Particle p1 = new Particle(CandidateSolution.copyOf(1.0, 1.0), CandidateSolution.copyOf(1.0, 1.0), Velocity.copyOf(0.0, 0.0), Fitnesses.inferior());
         Particle p2 = new Particle(CandidateSolution.copyOf(1.0, 1.0), CandidateSolution.copyOf(1.0, 1.0), Velocity.copyOf(0.0, 0.0), Fitnesses.inferior());
         Topology initial = ImmutableGBestTopology.newBuilder().add(p1).add(p2).build();
+
+        PSO pso = injector.getInstance(PSO.class);
+
+        Simulation simulation = injector.getInstance(SimulationBuilder.class)
+                .newPopulationBasedSimulation()
+                .using(pso)
+                .initialTopology(initial)
+                .on(new MockProblem())
+                .measuredBy(Lists.<Measurement>newArrayList())
+                .build();
 
         Predicate<Algorithm> predicate = new Predicate<Algorithm>() {
             int count = 5;
@@ -78,6 +88,7 @@ public class PSOTest {
                 return false;
             }
         };
-        executor.execute(pso, initial, Lists.newArrayList(predicate));
+
+        simulation.execute(Lists.newArrayList(predicate));
     }
 }

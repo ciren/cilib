@@ -24,6 +24,8 @@ package net.cilib.inject;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.ProvisionException;
 import net.cilib.inject.annotation.SimulationScoped;
 import org.junit.Assert;
 import org.junit.Test;
@@ -41,6 +43,7 @@ public class SimulationScopeTest {
     @Test
     public void scoping() {
         Injector injector = Guice.createInjector(new AbstractModule() {
+
             @Override
             protected void configure() {
                 SimulationScope scope = new SimulationScope();
@@ -59,11 +62,42 @@ public class SimulationScopeTest {
         scope.exit();
 
         Assert.assertSame(inside1, inside2);
-        A outside = injector.getInstance(A.class);
-
-        Assert.assertNotSame(inside1, outside);
     }
 
-    private static interface A {}
-    private static class B implements A {}
+    @Test(expected = ProvisionException.class)
+    public void outsideScope() {
+        Injector injector = Guice.createInjector(new AbstractModule() {
+
+            @Override
+            protected void configure() {
+                SimulationScope scope = new SimulationScope();
+                bindScope(SimulationScoped.class, scope);
+                bind(SimulationScope.class).toInstance(scope);
+                bind(A.class).to(B.class).in(scope);
+            }
+        });
+
+        injector.getInstance(A.class);
+    }
+
+    /**
+     * Updates to a scoped reference that does not exist should result in an
+     * error.
+     */
+    @Test(expected = IllegalStateException.class)
+    public void invalidUpdate() {
+        SimulationScope scope = new SimulationScope();
+        scope.enter();
+        try {
+            scope.update(Key.get(Integer.class), Integer.valueOf(0));
+        } finally {
+            scope.exit();
+        }
+    }
+
+    private static interface A {
+    }
+
+    private static class B implements A {
+    }
 }

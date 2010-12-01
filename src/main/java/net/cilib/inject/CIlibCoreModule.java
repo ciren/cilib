@@ -25,6 +25,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import net.cilib.inject.annotation.Seed;
+import net.cilib.inject.annotation.SimulationScoped;
 import net.cilib.inject.annotation.Unique;
 import net.cilib.main.MockProblem;
 import net.cilib.problem.Problem;
@@ -60,7 +61,14 @@ public final class CIlibCoreModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        // Define the custom simulation scope
+        SimulationScope scope = new SimulationScope();
+        bindScope(SimulationScoped.class, scope);
+        bind(SimulationScope.class).toInstance(scope);
+
+        // CIlib constants
         bindConstant().annotatedWith(Seed.class).to(System.currentTimeMillis());
+
         // Define the required bindings, like the PRNG
 
         bind(RandomProvider.class).to(MersenneTwister.class);
@@ -72,6 +80,7 @@ public final class CIlibCoreModule extends AbstractModule {
     }
 
     static class UniqueRandomProvider implements Provider<RandomProvider> {
+
         private final Provider<RandomProvider> provider;
 
         @Inject

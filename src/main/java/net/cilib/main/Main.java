@@ -30,9 +30,11 @@ import com.google.inject.Injector;
 import java.util.List;
 import net.cilib.algorithm.Algorithm;
 import net.cilib.algorithm.DE;
-import net.cilib.algorithm.PopulationBasedAlgorithmExecutor;
+import net.cilib.algorithm.Simulation;
+import net.cilib.algorithm.SimulationBuilder;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
-import net.cilib.entity.Individual;
+import net.cilib.measurement.Measurement;
+import net.cilib.problem.Problem;
 
 /**
  * @since 0.8
@@ -58,9 +60,18 @@ public final class Main {
         });
 
         Injector injector = Guice.createInjector(new CIlibCoreModule(), new PopulationBasedModule());
-        PopulationBasedAlgorithmExecutor executor = injector.getInstance(PopulationBasedAlgorithmExecutor.class);
-        DE de = injector.getInstance(DE.class);
 
-        executor.execute(de, ImmutableGBestTopology.<Individual>of(), stoppingConditions);
+        DE de = injector.getInstance(DE.class);
+        Problem problem = new MockProblem();
+        List<Measurement> measurements = Lists.newArrayList();
+        Simulation simulation = injector.getInstance(SimulationBuilder.class)
+                .newPopulationBasedSimulation()
+                .using(de)
+                .on(problem)
+                .initialTopology(ImmutableGBestTopology.of())
+                .measuredBy(measurements)
+                .build();
+
+        simulation.execute(stoppingConditions);
     }
 }
