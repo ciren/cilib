@@ -154,18 +154,16 @@
                 <configuration>
                     <bootclasspath>${java.home}/lib/rt.jar</bootclasspath>
                     <!-- This path needs to be dynamic??? -->
-                    <docletPath>/home/gpampara/tmp/doclava-read-only/build/doclava-1.0.1-SNAPSHOT.jar</docletPath>
+                    <docletPath>/home/gpampara/tmp/doclava-read-only/build/doclava-1.0.3-SNAPSHOT.jar</docletPath>
                     <doclet>com.google.doclava.Doclava</doclet>
                     <charset>UTF-8</charset>
                     <docencoding>UTF-8</docencoding>
-		    <!--<additionalparam>
-                        -quiet
-                        -federate JDK http://download.oracle.com/javase/6/docs/api/index.html?
-                        -federationxml JDK http://doclava.googlecode.com/svn/static/api/openjdk-6.xml
+		    <additionalparam>
                         -hdf project.name "Computational Intelligence Library (CIlib)"
-		    </additionalparam>-->
+		    </additionalparam>
                     <excludePackageNames>net.sourceforge.*</excludePackageNames>
                     <useStandardDocletOptions>false</useStandardDocletOptions>
+		    <additionalJOption>-J-Xmx1024m</additionalJOption>
                 </configuration>
             </plugin>
             <plugin>
@@ -372,4 +370,3 @@
         </plugins>
     </reporting>
 </project>
-
