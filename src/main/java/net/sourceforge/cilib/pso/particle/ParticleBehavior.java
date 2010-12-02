@@ -32,9 +32,11 @@ import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy
  *
  * @author Bennie Leonard
  */
-public class ParticleBehavior {
+public class ParticleBehavior implements Comparable<ParticleBehavior> {
     private PositionUpdateStrategy positionUpdateStrategy;
     private VelocityUpdateStrategy velocityUpdateStrategy;
+    private int successCounter;
+    private int selectedCounter;
 
     /**
      * Default constructor assigns standard position and velocity update
@@ -43,6 +45,8 @@ public class ParticleBehavior {
     public ParticleBehavior() {
         positionUpdateStrategy = new StandardPositionUpdateStrategy();
         velocityUpdateStrategy = new StandardVelocityUpdate();
+        successCounter = 0;
+        selectedCounter = 0;
     }
 
     /**
@@ -55,6 +59,8 @@ public class ParticleBehavior {
     public ParticleBehavior(PositionUpdateStrategy p, VelocityUpdateStrategy v) {
         positionUpdateStrategy = p;
         velocityUpdateStrategy = v;
+        successCounter = 0;
+        selectedCounter = 0;
     }
 
     /**
@@ -65,6 +71,8 @@ public class ParticleBehavior {
     public ParticleBehavior(ParticleBehavior copy) {
         this.positionUpdateStrategy = copy.positionUpdateStrategy;
         this.velocityUpdateStrategy = copy.velocityUpdateStrategy;
+        this.selectedCounter = copy.selectedCounter;
+        this.successCounter = copy.successCounter;
     }
 
     /**
@@ -108,5 +116,46 @@ public class ParticleBehavior {
      */
     public void setVelocityUpdateStrategy(VelocityUpdateStrategy strategy) {
         velocityUpdateStrategy = strategy;
+    }
+
+    /**
+     * Increment the number of times this behavior was successful
+     */
+    public void incrementSuccessCounter() {
+        successCounter++;
+    }
+
+    /**
+     * Increment the number of times this behavior has been selected
+     */
+    public void incrementSelectedCounter() {
+        selectedCounter++;
+    }
+
+    /**
+     * Get the number of times this behavior has been selected
+     */
+    public int getSelectedCounter() {
+        return selectedCounter;
+    }
+
+    /**
+     * Get the number of times this behavior was successful
+     */
+    public int getSuccessCounter() {
+        return successCounter;
+    }
+
+    /**
+     * Compare two behaviors with regards to how successful they were in finding
+     * better fitness values.
+     * @param o The {@link ParticleBehavior} object to compare with this object.
+     * @return -1 if this behavior was less successful, 0 if the two behaviors were equally successful, 1 otherwise.
+     */
+    @Override
+    public int compareTo(ParticleBehavior o) {
+        int mySuccesses = this.successCounter;
+        int otherSuccesses = o.successCounter;
+        return(mySuccesses < otherSuccesses ? -1 : (mySuccesses == otherSuccesses ? 0 : 1));
     }
 }

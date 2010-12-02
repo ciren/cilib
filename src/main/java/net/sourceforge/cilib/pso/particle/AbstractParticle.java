@@ -37,7 +37,7 @@ import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
- * This class defines the common behaviour available for all {@linkplain Particle}
+ * This class defines the common behavior available for all {@linkplain Particle}
  * instances.
  *
  * @author Edwin Peer
@@ -46,8 +46,6 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 public abstract class AbstractParticle extends AbstractEntity implements Particle {
     private static final long serialVersionUID = 7511192728112990230L;
 
-    //protected PositionUpdateStrategy positionUpdateStrategy;
-    //protected VelocityUpdateStrategy velocityUpdateStrategy;
     protected ParticleBehavior behavior;
     protected InitializationStrategy<Particle> velocityInitializationStrategy;
     protected InitializationStrategy<Particle> positionInitialisationStrategy;
@@ -155,17 +153,17 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public abstract StructuredType getVelocity();
 
     /**
-     * Set the neighbourhood best particle for the current Particle based on the
+     * Set the neighborhood best particle for the current Particle based on the
      * topology of the current particle.
      *
-     * @param particle The particle to use as the current particle's neighhod best particle
+     * @param particle The particle to use as the current particle's neighborhood best particle
      */
     @Override
     public abstract void setNeighbourhoodBest(Particle particle);
 
     /**
-     * Get the current <tt>Particle</tt>'s neighbourhood best.
-     * @return The neighbourhood best of the <tt>Particle</tt>
+     * Get the current <tt>Particle</tt>'s neighborhood best.
+     * @return The neighborhood best of the <tt>Particle</tt>
      */
     @Override
     public abstract Particle getNeighbourhoodBest();
