@@ -43,6 +43,8 @@ public class FeedForwardArchitectureBuilder extends ArchitectureBuilder {
     @Override
     public void buildArchitecture(Architecture architecture) {
         List<Layer> layers = architecture.getLayers();
+        layers.clear();
+
         LayerBuilder layerBuilder = this.getLayerBuilder();
         List<LayerConfiguration> layerConfigurations = this.getLayerConfigurations();
         int listSize = layerConfigurations.size();
@@ -67,5 +69,4 @@ public class FeedForwardArchitectureBuilder extends ArchitectureBuilder {
             previousLayerAbsoluteSize = currentLayer.size();
         }
     }
-
 }
