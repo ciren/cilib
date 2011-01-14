@@ -27,7 +27,7 @@
                                 <parameter value="0.5"/>
                             </socialAcceleration>
                     </velocityProvider>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
@@ -39,7 +39,7 @@
                             <parameter value="0.0"/>
                         </socialAcceleration>
                     </velocityProvider>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
@@ -51,17 +51,17 @@
                                 <parameter value="2.5"/>
                             </socialAcceleration>
                     </velocityProvider>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.LinearPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.LinearPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
 		<!-- end initial behaviors -->
             </initialisationStrategy>
@@ -81,7 +81,7 @@
                                 <parameter value="0.5"/>
                             </socialAcceleration>
                     </velocityProvider>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
@@ -93,7 +93,7 @@
                             <parameter value="0.0"/>
                         </socialAcceleration>
                     </velocityProvider>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
@@ -105,17 +105,17 @@
                                 <parameter value="2.5"/>
                             </socialAcceleration>
                     </velocityProvider>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.LinearPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.LinearPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
                 <!-- end behavior pool -->
             </iterationStrategy>
@@ -142,7 +142,7 @@
                                 <parameter value="0.5"/>
                             </socialAcceleration>
                     </velocityProvider>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
@@ -154,7 +154,7 @@
                             <parameter value="0.0"/>
                         </socialAcceleration>
                     </velocityProvider>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
@@ -166,17 +166,17 @@
                                 <parameter value="2.5"/>
                             </socialAcceleration>
                     </velocityProvider>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.LinearPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.LinearPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
 		<!-- end initial behaviors -->
             </initialisationStrategy>
@@ -195,7 +195,7 @@
                                 <parameter value="0.5"/>
                             </socialAcceleration>
                     </velocityProvider>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
@@ -207,7 +207,7 @@
                             <parameter value="0.0"/>
                         </socialAcceleration>
                     </velocityProvider>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
@@ -219,17 +219,17 @@
                                 <parameter value="2.5"/>
                             </socialAcceleration>
                     </velocityProvider>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.LinearPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
-                    <positionUpdateStrategy class="pso.positionupdatestrategies.LinearPositionUpdateStrategy"/>
+                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
 		<!-- end behavior pool -->
             </iterationStrategy>
