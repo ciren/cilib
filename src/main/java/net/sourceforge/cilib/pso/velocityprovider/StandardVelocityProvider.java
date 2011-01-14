@@ -28,6 +28,7 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ControlParameters;
+import net.sourceforge.cilib.util.RandomProviders;
 import net.sourceforge.cilib.util.Vectors;
 
 /**
@@ -86,8 +87,8 @@ public final class StandardVelocityProvider implements VelocityProvider {
         Vector globalGuide = (Vector) particle.getGlobalGuide();
 
         Vector dampenedVelocity = Vector.copyOf(velocity).multiply(ControlParameters.supplierOf(this.inertiaWeight));
-        Vector cognitiveComponent = Vector.copyOf(localGuide).subtract(position).multiply(ControlParameters.supplierOf(this.cognitiveAcceleration)).multiply(this.r1.nextDouble());
-        Vector socialComponent = Vector.copyOf(globalGuide).subtract(position).multiply(ControlParameters.supplierOf(this.socialAcceleration)).multiply(this.r2.nextDouble());
+        Vector cognitiveComponent = Vector.copyOf(localGuide).subtract(position).multiply(ControlParameters.supplierOf(this.cognitiveAcceleration)).multiply(RandomProviders.supplierOf(this.r1));
+        Vector socialComponent = Vector.copyOf(globalGuide).subtract(position).multiply(ControlParameters.supplierOf(this.socialAcceleration)).multiply(RandomProviders.supplierOf(this.r2));
         return Vectors.sumOf(dampenedVelocity, cognitiveComponent, socialComponent);
     }
 

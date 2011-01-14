@@ -22,33 +22,20 @@
 package net.sourceforge.cilib.util;
 
 import com.google.common.base.Supplier;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  *
  * @author Wiehann Matthysen
  */
-public final class ControlParameters {
+public class RandomProviders {
 
-    private ControlParameters() {
-    }
-
-    public static Supplier<Number> supplierOf(final ControlParameter controlParameter) {
+    public static Supplier<Number> supplierOf(final RandomProvider randomProvider) {
         return new Supplier<Number>() {
 
             @Override
             public Number get() {
-                return controlParameter.getParameter();
-            }
-        };
-    }
-
-    public static Supplier<Number> supplierOf(final ControlParameter controlParameter, final double min, final double max) {
-        return new Supplier<Number>() {
-
-            @Override
-            public Number get() {
-                return controlParameter.getParameter(min, max);
+                return randomProvider.nextDouble();
             }
         };
     }
