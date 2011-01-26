@@ -33,16 +33,6 @@
             <post>cilib-dev@groups.google.com</post>
         </mailingList>
     </mailingLists>
-    <issueManagement>
-        <system>sourceforge</system>
-        <url>http://sourceforge.net/tracker/?group_id=72233</url>
-    </issueManagement>
-    <distributionManagement>
-        <site>
-            <id>cilib.net</id>
-            <url>scp://cilib.net/var/www/www.cilib.net/htdocs</url>
-        </site>
-    </distributionManagement>
     <developers>
         <developer>
             <id>gpampara</id>
@@ -103,21 +93,15 @@
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
-            <version>2.0</version>
+            <version>3.0-rc2</version>
         </dependency>
         <dependency>
             <groupId>trove</groupId>
             <artifactId>trove</artifactId>
             <version>1.0.2</version>
         </dependency>
-<!--        <dependency>
-            <groupId>com.google.inject.extensions</groupId>
-            <artifactId>guice-assisted-inject</artifactId>
-            <version>2.0</version>
-        </dependency>-->
     </dependencies>
     <build>
-        <defaultGoal>package</defaultGoal>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -152,18 +136,21 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.7</version>
                 <configuration>
-                    <bootclasspath>${java.home}/lib/rt.jar</bootclasspath>
-                    <!-- This path needs to be dynamic??? -->
-                    <docletPath>/home/gpampara/tmp/doclava-read-only/build/doclava-1.0.3-SNAPSHOT.jar</docletPath>
+                    <bootclasspath>${sun.boot.class.path}</bootclasspath>
+                    <docletArtifact>
+                        <groupId>com.google.doclava</groupId>
+                        <artifactId>doclava</artifactId>
+                        <version>1.0.2</version>
+                    </docletArtifact>
                     <doclet>com.google.doclava.Doclava</doclet>
-                    <charset>UTF-8</charset>
-                    <docencoding>UTF-8</docencoding>
-		    <additionalparam>
+                    <additionalparam>
                         -hdf project.name "Computational Intelligence Library (CIlib)"
-		    </additionalparam>
+			<!---federate JDK http://download.oracle.com/javase/6/docs/api/index.html?
+			-federationxml JDK http://doclava.googlecode.com/svn/static/api/openjdk-6.xml -->
+                    </additionalparam>
                     <excludePackageNames>net.sourceforge.*</excludePackageNames>
                     <useStandardDocletOptions>false</useStandardDocletOptions>
-		    <additionalJOption>-J-Xmx1024m</additionalJOption>
+                    <additionalJOption>-J-Xmx1024m</additionalJOption>
                 </configuration>
             </plugin>
             <plugin>
@@ -311,16 +298,16 @@
                                 <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
                                 <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
                             </configuration>
-                            <reports><!--
+                            <reports>
                                 <report>summary</report>
                                 <report>mailing-list</report>
                                 <report>dependencies</report>
--->                            </reports>
+                            </reports>
                         </plugin>
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-javadoc-plugin</artifactId>
-                            <version>2.5</version>
+                            <version>2.7</version>
                         </plugin>
                     </reportPlugins>
                 </configuration>
