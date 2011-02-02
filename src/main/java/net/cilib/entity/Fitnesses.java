@@ -71,7 +71,6 @@ public class Fitnesses {
      * case the {@code MaximizationFitness} will always "be better".
      */
     static class MaximizationFitness implements Fitness {
-
         private final double value;
 
         MaximizationFitness(double value) {
@@ -127,7 +126,6 @@ public class Fitnesses {
      * case the {@code MinimizationFitness} will always "be better".
      */
     static class MinimizationFitness implements Fitness {
-
         private final double value;
 
         MinimizationFitness(double value) {
@@ -152,6 +150,25 @@ public class Fitnesses {
         @Override
         public boolean isMoreFitThan(Fitness previousFitness) {
             return compareTo(previousFitness) < 0;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final MinimizationFitness other = (MinimizationFitness) obj;
+            return Double.doubleToLongBits(this.value) == Double.doubleToLongBits(other.value);
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 3;
+            hash = 59 * hash + (int) (Double.doubleToLongBits(this.value) ^ (Double.doubleToLongBits(this.value) >>> 32));
+            return hash;
         }
     }
 
@@ -178,6 +195,16 @@ public class Fitnesses {
         @Override
         public boolean isMoreFitThan(Fitness previousFitness) {
             return false;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return Double.valueOf(Double.NaN).hashCode();
         }
     }
 }

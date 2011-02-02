@@ -49,9 +49,9 @@ public class DETest {
 
         IndividualProvider provider = injector.getInstance(IndividualProvider.class);
 
-        Individual i1 = provider.solution(CandidateSolution.copyOf(1.0)).get();
-        Individual i2 = provider.solution(CandidateSolution.copyOf(3.0)).get();
-        Individual i3 = provider.solution(CandidateSolution.copyOf(4.0)).get();
+        Individual i1 = provider.solution(CandidateSolution.of(1.0)).get();
+        Individual i2 = provider.solution(CandidateSolution.of(3.0)).get();
+        Individual i3 = provider.solution(CandidateSolution.of(4.0)).get();
 
         Topology<Entity> topology = ImmutableGBestTopology.<Entity>newBuilder()
                 .add(i1).add(i2).add(i3).build();

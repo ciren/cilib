@@ -32,8 +32,9 @@ import net.cilib.entity.IndividualProvider;
 
 /**
  * DE Implementation
- * @since 0.8
+ *
  * @author gpampara
+ * @since 0.8
  */
 public class DE implements PopulationBasedAlgorithm<Entity> {
 
@@ -44,9 +45,9 @@ public class DE implements PopulationBasedAlgorithm<Entity> {
 
     @Inject
     public DE(MutationProvider mutationProvider,
-            CrossoverProvider crossoverProvider,
-            Selector selector,
-            IndividualProvider individualProvider) {
+              CrossoverProvider crossoverProvider,
+              Selector selector,
+              IndividualProvider individualProvider) {
         this.mutationProvider = mutationProvider;
         this.crossoverProvider = crossoverProvider;
         this.selector = selector;

@@ -43,7 +43,8 @@ public class PSO implements PopulationBasedAlgorithm<Particle> {
 
     /**
      *
-     * @param velocityProvider
+     * @param velocityProvider {@code Velocity} provider
+     * @param particleProvider {@code Particle} provider (finalized particles)
      */
     @Inject
     public PSO(VelocityProvider velocityProvider, ParticleProvider particleProvider) {
@@ -51,15 +52,19 @@ public class PSO implements PopulationBasedAlgorithm<Particle> {
         this.particleProvider = particleProvider;
     }
 
+    /**
+     *
+     * @param topology the population for the algorithm to operate on
+     * @return topology of particles
+     */
     @Override
     public Topology<Particle> iterate(Topology<Particle> topology) {
         ImmutableGBestTopologyBuilder<Particle> topologyBuilder = ImmutableGBestTopology.newBuilder();
         for (Particle particle : topology) {
             Velocity velocity = velocityProvider.create(particle); // New velocity
             MutableSeq newPosition = particle.solution().toMutableSeq().plus(velocity); // Update position
-            Particle updatedParticle = particleProvider
-                .basedOn(particle)
-                .position(CandidateSolution.copyOf(newPosition.toArray()))
+            Particle updatedParticle = particleProvider.basedOn(particle)
+                .position(CandidateSolution.of(newPosition.toArray()))
                 .velocity(velocity)
                 .get();
             topologyBuilder.add(updatedParticle);

@@ -49,7 +49,6 @@ public class ImmutableLBestTopology<A> implements Topology<A> {
 
     /**
      * Obtain an empty immutable topology.
-     * @param <B> The defined type.
      * @return An immutable empty {@code l-best} topology.
      */
     public static <B> ImmutableLBestTopology<B> of() {
@@ -104,10 +103,7 @@ public class ImmutableLBestTopology<A> implements Topology<A> {
             @Override
             public boolean apply(A input) {
                 int index = elements.indexOf(input);
-                if (indexes.contains(index)) {
-                    return true;
-                }
-                return false;
+                return indexes.contains(index);
             }
         });
         return internal.iterator();
@@ -120,7 +116,6 @@ public class ImmutableLBestTopology<A> implements Topology<A> {
 
     /**
      * Create a new {@code ImmutableTopologyBuilder} instance.
-     * @param <A> the parameter type
      * @return a new builder instance.
      */
     public static <A> ImmutableLBestTopologyBuilder<A> newBuilder() {
@@ -130,7 +125,6 @@ public class ImmutableLBestTopology<A> implements Topology<A> {
     /**
      * Create a topology builder to create {@code ImmutableLBestTopology}
      * instances. The default neighborhood size is defined to be {@code 3}.
-     * @param <B> the parameter type.
      */
     public static class ImmutableLBestTopologyBuilder<B> {
 

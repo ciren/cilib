@@ -22,21 +22,21 @@
 package net.cilib.entity;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import com.google.common.base.Objects;
 import com.google.inject.Inject;
 import java.util.Comparator;
 import static net.cilib.entity.EntityComparators.FITNESS_COMPARATOR;
 
 /**
  * Basic individual class.
- * <p>
+ * <p/>
  * The individual is an {@link Entity} instances that maintains a single
  * {@linkplain CandidateSolution solution} and {@linkplain Fitness fitness}.
  *
- * @since 0.8
  * @author gpampara
+ * @since 0.8
  */
 public final class Individual implements Entity {
-
     private final CandidateSolution solution;
     private final Fitness fitness;
 
@@ -70,9 +70,13 @@ public final class Individual implements Entity {
         return fitness;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equiv(Entity that) {
-        throw new UnsupportedOperationException();
+        // the only check we can do it that the fitnesses are similar.
+        return this.fitness.equals(that.fitness());
     }
 
     /**
@@ -124,19 +128,15 @@ public final class Individual implements Entity {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int compareTo(Entity o) {
-        return fitness.compareTo(o.fitness());
-    }
-
-    /**
      * Get the {@code String} representation of the current {@code Individual}.
+     *
      * @return the {@code String} representation.
      */
     @Override
     public String toString() {
-        return "Individual{" + "solution=" + solution + "fitness=" + fitness + '}';
+        return Objects.toStringHelper(this)
+                .add("solution", solution)
+                .add("fitness", fitness)
+                .toString();
     }
 }

@@ -27,7 +27,8 @@ import gnu.trove.TDoubleArrayList;
 import java.util.Arrays;
 
 /**
- * Immutable candidate solution.
+ * Immutable candidate solution. A candidate solution is the representation
+ * of a solution within a given problem domain.
  *
  * @since 0.8
  * @author gpampara
@@ -62,7 +63,7 @@ public final class CandidateSolution implements LinearSeq {
      * @param solution the array of values, representing the candidate solution.
      * @return an immutable candidate solution representing the given values.
      */
-    public static CandidateSolution copyOf(final double... solution) {
+    public static CandidateSolution of(final double... solution) {
         Preconditions.checkArgument(solution.length > 0);
         return new CandidateSolution(new TDoubleArrayList(solution));
     }
@@ -227,7 +228,7 @@ public final class CandidateSolution implements LinearSeq {
             try {
                 double[] target = new double[current];
                 System.arraycopy(internal, 0, target, 0, current);
-                return CandidateSolution.copyOf(target);
+                return CandidateSolution.of(target);
             } finally {
                 current = 0;
                 internal = new double[]{};

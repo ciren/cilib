@@ -30,7 +30,6 @@ import com.google.inject.Provider;
  * @author gpampara
  */
 public final class ParticleProvider implements Provider<Particle> {
-
     private final FitnessProvider fitnessProvider;
     private CandidateSolution position;
     private Velocity velocity;
@@ -40,6 +39,17 @@ public final class ParticleProvider implements Provider<Particle> {
     @Inject
     public ParticleProvider(FitnessProvider fitnessProvider) {
         this.fitnessProvider = fitnessProvider;
+    }
+
+    /**
+     * @todo does this API make sense? Should it not be somewhere else?
+     * @param solution
+     * @return
+     */
+    public Particle newParticle(CandidateSolution solution) {
+        return new Particle(solution, solution,
+                Velocity.fill(0.0, solution.size()),
+                fitnessProvider.finalize(solution));
     }
 
     /**

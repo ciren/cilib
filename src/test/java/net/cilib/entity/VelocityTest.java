@@ -21,26 +21,24 @@
  */
 package net.cilib.entity;
 
-import java.util.Comparator;
+import org.junit.Assert;
+import org.junit.Test;
+import static org.hamcrest.CoreMatchers.*;
 
 /**
- * Predefined comparator instances for {@code Entity} objects.
  *
  * @author gpampara
  */
-public final class EntityComparators {
+public class VelocityTest {
 
     /**
-     * Comparator based on current {@link Fitness} instances. Any instances
-     * that implement {@link HasFitness}, may be compared.
+     * Test of fill method, of class Velocity.
      */
-    public static final Comparator<HasFitness> FITNESS_COMPARATOR = new Comparator<HasFitness>() {
-        @Override
-        public int compare(HasFitness o1, HasFitness o2) {
-            return o1.fitness().compareTo(o2.fitness());
-        }
-    };
+    @Test
+    public void fill() {
+        Velocity target = Velocity.fill(0.0, 30);
 
-    private EntityComparators() {
+        Assert.assertThat(target.size(), is(equalTo(30)));
+        Assert.assertArrayEquals(new double[target.size()], target.toArray(), 0.0001);
     }
 }

@@ -23,19 +23,36 @@ package net.cilib.entity;
 
 import com.google.common.base.Objects;
 import gnu.trove.TDoubleArrayList;
+
 import java.util.Arrays;
 
 /**
  * Sequence to represent a {@code Velocity}.
+ *
  * @author gpampara
  */
 public final class Velocity implements LinearSeq {
-
     private final TDoubleArrayList internal;
+
+    /**
+     * Create a velocity with length {@code size}, containing repeated
+     * {@code element} values.
+     *
+     * @param element the value to repeat
+     * @param size    the velocity size
+     * @return {@code Velocity} instance containing {@code element} repeated
+     *         {@code size} times.
+     */
+    public static Velocity fill(double element, int size) {
+        double[] values = new double[size];
+        Arrays.fill(values, element);
+        return new Velocity(new TDoubleArrayList(values));
+    }
 
     /**
      * Create a new {@code Velocity} instance, based on the provided
      * {@code elements}.
+     *
      * @param elements contents of {@code Velocity}.
      * @return a new {@code Velocity} instance.
      */
@@ -81,12 +98,12 @@ public final class Velocity implements LinearSeq {
 
     /**
      * Create an iterator view of the current {@code Velocity}.
+     *
      * @return a new {@code SeqIterator} instance.
      */
     public SeqIterator iterator() {
-        final double[] local = Arrays.copyOf(internal.toNativeArray(), internal.size());
         return new SeqIterator() {
-
+            private final double[] local = Arrays.copyOf(internal.toNativeArray(), internal.size());
             private int count = 0;
 
             @Override
@@ -105,6 +122,7 @@ public final class Velocity implements LinearSeq {
 
     /**
      * Get a {@code String} representation of the current {@code Velocity}.
+     *
      * @return the {@code String} representation.
      */
     @Override

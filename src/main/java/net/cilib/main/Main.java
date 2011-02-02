@@ -29,12 +29,16 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import java.util.List;
 import net.cilib.algorithm.Algorithm;
-import net.cilib.algorithm.DE;
-import net.cilib.algorithm.Simulation;
-import net.cilib.algorithm.SimulationBuilder;
+import net.cilib.simulation.Simulation;
+import net.cilib.simulation.SimulationBuilder;
+import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
+import net.cilib.entity.CandidateSolution;
+import net.cilib.entity.Entity;
+import net.cilib.entity.Particle;
 import net.cilib.measurement.Measurement;
 import net.cilib.problem.Problem;
+import net.cilib.pso.PSO;
 
 /**
  * @since 0.8
@@ -48,7 +52,7 @@ public final class Main {
     public static void main(String[] args) {
         List<Predicate<Algorithm>> stoppingConditions = Lists.newArrayList();
         stoppingConditions.add(new Predicate<Algorithm>() {
-            int count = 5;
+            private int count = 1000;
             @Override
             public boolean apply(Algorithm input) {
                 if (count > 0) {
@@ -61,17 +65,30 @@ public final class Main {
 
         Injector injector = Guice.createInjector(new CIlibCoreModule(), new PopulationBasedModule());
 
-        DE de = injector.getInstance(DE.class);
+        // The topology for the algorithm is externa. This implies that the topology
+        // needs to be constructed ahead of time, so that the algorithm may use it.
         Problem problem = new MockProblem();
+        Topology<Entity> topology = createParticleTopology();
+
+        PSO pso = injector.getInstance(PSO.class);
+
         List<Measurement> measurements = Lists.newArrayList();
         Simulation simulation = injector.getInstance(SimulationBuilder.class)
                 .newPopulationBasedSimulation()
-                .using(de)
+                .using(pso)
                 .on(problem)
-                .initialTopology(ImmutableGBestTopology.of())
+                .initialTopology(topology)
                 .measuredBy(measurements)
                 .build();
 
         simulation.execute(stoppingConditions);
+    }
+
+    private static Topology<Entity> createParticleTopology() {
+        ImmutableGBestTopology.ImmutableGBestTopologyBuilder<Entity> topology = ImmutableGBestTopology.newBuilder();
+        for (int i = 0; i < 20; i++) {
+            topology.add(Particle.create(CandidateSolution.of(0.0, 0.0)));
+        }
+        return topology.build();
     }
 }

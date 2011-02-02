@@ -33,7 +33,7 @@ public class IndividualTest {
 
     @Test
     public void createIndividual() {
-        CandidateSolution solution = CandidateSolution.copyOf(1.0, 3.0);
+        CandidateSolution solution = CandidateSolution.of(1.0, 3.0);
         Individual i = new Individual(solution, Fitnesses.inferior());
 
         Assert.assertThat(i.size(), is(2));

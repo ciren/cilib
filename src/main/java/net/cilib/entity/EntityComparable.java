@@ -27,21 +27,21 @@ import java.util.Comparator;
  * Comparisons for {@code Entity} instances.
  * @author gpampara
  */
-public interface EntityComparable extends Equiv<Entity> {
-
+public interface EntityComparable {
     /**
      * Obtain the {@code Entity} that is the more fit between the current
      * and provided instances.
-     * @param that {@code Entity} to test
-     * @return the fitter entity
+     * @param that {@code Entity} to test.
+     * @return the fitter entity.
      */
     Entity moreFit(Entity that);
 
     /**
      * Obtain the {@code Entity} that is the more fit between the current
      * and provided instances, based on the given {@code Comparator}.
-     * @param that {@code Entity} to test
-     * @return the fitter entity
+     * @param that {@code Entity} to test.
+     * @param comparator method of comparison.
+     * @return the fitter entity.
      */
     Entity moreFit(Entity that, Comparator<? super Entity> comparator);
 
@@ -60,16 +60,17 @@ public interface EntityComparable extends Equiv<Entity> {
     /**
      * Obtain the {@code Entity} that is the least fit between the current
      * and provided instances.
-     * @param that {@code Entity} to test
-     * @return the least fit entity
+     * @param that {@code Entity} to test.
+     * @return the least fit entity.
      */
     Entity lessFit(Entity that);
 
     /**
      * Obtain the {@code Entity} that is the least fit between the current
      * and provided instances, based on the given {@code Comparator}.
-     * @param that {@code Entity} to test
-     * @return the least fit entity
+     * @param that {@code Entity} to test.
+     * @param comparator method of comparison.
+     * @return the least fit entity.
      */
     Entity lessFit(Entity that, Comparator<? super Entity> comparator);
 
@@ -84,4 +85,23 @@ public interface EntityComparable extends Equiv<Entity> {
      *         {@code false} otherwise.
      */
     boolean isLessFit(Entity than);
+
+    /**
+     * Defining an equivalency between {@link Entity entities}. This is
+     * different from {@link Object#equals(java.lang.Object)} by indicating
+     * a semantically different concept.
+     * <p/>
+     * For example, two {@link Entity} instances may be equivalent, but they
+     * may not necessarily be equal in a strict sense.
+     * Such an example would be: two different entity instances, located at
+     * different locations within the search space yet have the same fitness.
+     * There is no direct reason that would indicate that one is better than
+     * the other (without additional inspection), the only conclusion that
+     * can be made is that both entities are equivalent to each other.
+     *
+     * @param that the {@code Entity} to test equivalency against
+     * @return {@code true} if the instances are equivalent, {@code false}
+     *         otherwise.
+     */
+    boolean equiv(Entity that);
 }

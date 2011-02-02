@@ -78,6 +78,7 @@ public final class PartialEntity implements Entity {
     /**
      * This method always returns the provided {@code Entity}.
      * {@inheritDoc}
+     * @param comparator for comparisons.
      */
     @Override
     public Entity moreFit(Entity that, Comparator<? super Entity> comparator) {
@@ -127,16 +128,5 @@ public final class PartialEntity implements Entity {
     @Override
     public boolean equiv(Entity that) {
         return false;
-    }
-
-    /**
-     * Compare a {@code PartialEntity} to the provided {@code Entity}.
-     * The provided entity is <b>always</b> better.
-     * @param o provided entity
-     * @return {@code -1} always
-     */
-    @Override
-    public int compareTo(Entity o) {
-        return -1;
     }
 }

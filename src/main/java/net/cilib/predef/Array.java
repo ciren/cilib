@@ -22,23 +22,18 @@
 package net.cilib.predef;
 
 import com.google.common.base.Function;
-import com.google.common.collect.Lists;
+
 import java.util.Iterator;
-import java.util.List;
+
+import static net.cilib.predef.Predef.array;
 
 /**
- *
+ * @param <A>
  */
 public final class Array<A> implements Iterable<A> {
-
     private final Object[] a;
 
-    public static <A> Array<A> array(A... elements) {
-        List<A> list = Lists.newArrayList(elements);
-        return new Array<A>(list.toArray());
-    }
-
-    private Array(Object[] a) {
+    Array(Object[] a) {
         this.a = a;
     }
 
@@ -47,6 +42,7 @@ public final class Array<A> implements Iterable<A> {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @SuppressWarnings("unchecked")
     public <B, C> Array<C> map(Function<B, C> function) {
         Object[] local = new Object[a.length];
         for (int i = 0; i < a.length; i++) {

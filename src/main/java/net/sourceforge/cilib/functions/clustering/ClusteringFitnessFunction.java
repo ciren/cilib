@@ -23,7 +23,7 @@ package net.sourceforge.cilib.functions.clustering;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Hashtable;
+import java.util.Map;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
@@ -51,7 +51,7 @@ public abstract class ClusteringFitnessFunction implements ContinuousFunction {
 
     protected ClusteringUtils helper = null;
     protected ClusterCenterStrategy clusterCenterStrategy = null;
-    protected ArrayList<Hashtable<Integer, Pattern>> arrangedClusters = null;
+    protected ArrayList<Map<Integer, Pattern>> arrangedClusters = null;
     protected ArrayList<Vector> arrangedCentroids = null;
     protected int clustersFormed = 0;
 

@@ -23,7 +23,7 @@ package net.cilib.predef;
 
 import com.google.common.base.Function;
 import org.junit.Test;
-import static net.cilib.predef.Array.*;
+import static net.cilib.predef.Predef.*;
 
 /**
  *

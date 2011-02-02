@@ -19,10 +19,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.algorithm;
+package net.cilib.simulation;
 
 import com.google.common.base.Predicate;
 import java.util.List;
+import net.cilib.algorithm.Algorithm;
 
 /**
  * {@code Simulation} provides an abstraction for any type of simulation. For

@@ -24,12 +24,12 @@ package net.cilib.collection;
 import java.util.Iterator;
 
 /**
+ * A topology is a collection instance that contains similar instances.
  * @param <A>
  * @since 0.8
  * @author gpampara
  */
 public interface Topology<A> extends Iterable<A> {
-
     /**
      * Given the provided {@code element}, return the neighborhood of
      * {@code element}.

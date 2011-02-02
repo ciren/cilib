@@ -23,6 +23,7 @@ package net.cilib.entity;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.google.common.primitives.Doubles;
 import java.util.Arrays;
 
@@ -32,7 +33,6 @@ import java.util.Arrays;
  * @author gpampara
  */
 public final class MutableSeq implements Seq {
-
     private final double[] internal;
 
     public MutableSeq(final LinearSeq seq) {
@@ -76,8 +76,18 @@ public final class MutableSeq implements Seq {
      * @return the altered mutable sequence.
      */
     public MutableSeq multiply(double scalar) {
+        return multiply(Suppliers.ofInstance(scalar));
+    }
+
+    /**
+     * Multiply each component within the mutable sequence by the value
+     * provided by the given supplier instance.
+     * @param supplier source of scalar values.
+     * @return the altered mutable sequence.
+     */
+    public MutableSeq multiply(final Supplier<Double> supplier) {
         for (int i = 0, n = internal.length; i < n; i++) {
-            internal[i] *= scalar;
+            internal[i] *= supplier.get().doubleValue();
         }
         return this;
     }
@@ -90,9 +100,20 @@ public final class MutableSeq implements Seq {
      * @return the altered mutable sequence.
      */
     public MutableSeq divide(double scalar) {
-        Preconditions.checkArgument(Doubles.compare(scalar, 0.0) != 0, "Cannot divide with a 0.0!");
+        return divide(Suppliers.ofInstance(scalar));
+    }
+
+    /**
+     * Divide each component within the mutable sequence by the values provided
+     * from the given {@code Supplier}. Division by {@code 0.0} is checked,
+     * resulting in a {@link ArithmeticException} when violated.
+     * @param supplier source of scalar values.
+     * @return the altered mutable sequence.
+     */
+    public MutableSeq divide(final Supplier<Double> supplier) {
+        final CheckingSupplier check = new CheckingSupplier(supplier);
         for (int i = 0, n = internal.length; i < n; i++) {
-            internal[i] /= scalar;
+            internal[i] /= check.get().doubleValue();
         }
         return this;
     }
@@ -113,15 +134,20 @@ public final class MutableSeq implements Seq {
         return Arrays.copyOf(internal, internal.length);
     }
 
-    /**
-     * ???????????????????
-     * @param supplier
-     * @return
-     */
-    public MutableSeq multiply(Supplier<Double> supplier) {
-        for (int i = 0; i < internal.length; i++) {
-            internal[i] *= supplier.get().doubleValue();
+    private static final class CheckingSupplier implements Supplier<Double> {
+        private final Supplier<Double> supplier;
+
+        private CheckingSupplier(Supplier<Double> supplier) { // Accept a function / closure
+            this.supplier = supplier;
         }
-        return this;
+
+        @Override
+        public Double get() {
+            double scalar = supplier.get().doubleValue();
+            if (Doubles.compare(scalar, 0.0) == 0) {
+                throw new ArithmeticException("Cannot divide with a 0.0!");
+            }
+            return scalar;
+        }
     }
 }

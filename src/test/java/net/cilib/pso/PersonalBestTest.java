@@ -38,7 +38,7 @@ public class PersonalBestTest {
 
     @Test
     public void memoryReturnedFromMemoryEntity() {
-        CandidateSolution memory = CandidateSolution.copyOf(1.0);
+        CandidateSolution memory = CandidateSolution.of(1.0);
         PersonalBest pbest = new PersonalBest();
         Entity partialEntity = pbest.of(new Particle(CandidateSolution.empty(), memory, Velocity.copyOf(), Fitnesses.inferior()));
 
@@ -47,10 +47,10 @@ public class PersonalBestTest {
 
     @Test
     public void memoryReturnedFromNonMemoryEntity() {
-        CandidateSolution position = CandidateSolution.copyOf(1.0);
+        CandidateSolution position = CandidateSolution.of(1.0);
         PersonalBest pbest = new PersonalBest();
         Entity partialEntity = pbest.of(new Individual(position, Fitnesses.inferior()));
 
-        Assert.assertThat(partialEntity.solution(), equalTo(CandidateSolution.copyOf(0.0)));
+        Assert.assertThat(partialEntity.solution(), equalTo(CandidateSolution.of(0.0)));
     }
 }

@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.algorithm;
+package net.cilib.simulation;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkArgument;
@@ -28,6 +28,8 @@ import com.google.common.base.Predicates;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 import java.util.List;
+import net.cilib.algorithm.Algorithm;
+import net.cilib.algorithm.PopulationBasedAlgorithm;
 import net.cilib.collection.Topology;
 import net.cilib.entity.Entity;
 import net.cilib.inject.SimulationScope;
@@ -92,7 +94,7 @@ public final class SimulationBuilder {
 
             try {
                 return new Simulation() {
-                    final PopulationBasedAlgorithm localAlgorithm = algorithm;
+                    final PopulationBasedAlgorithm<Entity> localAlgorithm = algorithm;
                     final Topology localTopology = initialTopology;
                     final Problem localProblem = problem;
                     final List<Measurement> localMeasurements = measurements;
@@ -108,7 +110,7 @@ public final class SimulationBuilder {
 
                         try {
                             Predicate<Algorithm> aggregate = Predicates.or(stoppingConditions);
-                            Topology<Entity> current = (Topology<Entity>) localTopology; // Current topology is inital topology
+                            Topology<Entity> current = (Topology<Entity>) localTopology; // Current topology is initial topology
 
                             while (aggregate.apply(localAlgorithm)) {
                                 current = localAlgorithm.iterate(current);

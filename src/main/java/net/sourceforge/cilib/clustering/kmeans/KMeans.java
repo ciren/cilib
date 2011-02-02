@@ -23,8 +23,8 @@ package net.sourceforge.cilib.clustering.kmeans;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.SingularAlgorithm;
@@ -109,10 +109,10 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
 
         // the fitness calculation step already arranged the clusters and centroids for us
         ClusteringUtils helper = ClusteringUtils.get();
-        ArrayList<Hashtable<Integer, Pattern>> clusters = helper.getOriginalClusters();
+        ArrayList<Map<Integer, Pattern>> clusters = helper.getOriginalClusters();
 
         for (int i = 0; i < clusters.size(); i++) {
-            Hashtable<Integer, Pattern> cluster = clusters.get(i);
+            Map<Integer, Pattern> cluster = clusters.get(i);
             // get the i'th centroid; only used to determine the dimension of a single centroid
             Vector centroid = helper.getOriginalCentroids().get(i);
 

@@ -28,7 +28,7 @@ import static org.junit.matchers.IsCollectionContaining.hasItem;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Hashtable;
+import java.util.Map;
 
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.AssociatedPairDataSetBuilder;
@@ -45,7 +45,7 @@ public class ClusteringUtilsTest {
 
     private static ClusteringUtils helper = ClusteringUtils.get();
     private static Vector centroids = null;
-    private static ArrayList<Hashtable<Integer, Pattern>> arrangedClusters = null;
+    private static ArrayList<Map<Integer, Pattern>> arrangedClusters = null;
     private static ArrayList<Vector> arrangedCentroids = null;
     private static AssociatedPairDataSetBuilder dataSetBuilder = null;
     private static ClusteringProblem problem = null;
@@ -103,7 +103,7 @@ public class ClusteringUtilsTest {
         assertThat(dataSetBuilder.getNumberOfPatterns(), equalTo(93));
         assertThat(centroids.size(), equalTo(14));
 
-        for (Hashtable<Integer, Pattern> cluster : arrangedClusters) {
+        for (Map<Integer, Pattern> cluster : arrangedClusters) {
             for (Pattern pattern : cluster.values()) {
                 assertThat(pattern.data.size(), equalTo(2));
             }

@@ -26,6 +26,9 @@ import net.cilib.collection.Topology;
 /**
  * Algorithm that operates on a {@link Topology}.
  *
+ * @todo A Question arises regarding the use of the generic parameter here.
+ *
+ * @param <A>
  * @since 0.8
  * @author gpampara
  */

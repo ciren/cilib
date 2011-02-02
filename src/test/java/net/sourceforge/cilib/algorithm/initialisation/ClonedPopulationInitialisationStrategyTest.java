@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.algorithm.initialisation;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
 import org.jmock.Expectations;

@@ -23,8 +23,10 @@ package net.cilib.algorithm;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+
 import java.util.Iterator;
 import java.util.List;
+
 import net.cilib.inject.annotation.Unique;
 import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.Entity;
@@ -32,7 +34,6 @@ import net.cilib.entity.Seq;
 import net.cilib.entity.MutableSeq;
 
 /**
- *
  * @author gpampara
  */
 public class MockMutationProvider implements MutationProvider {
@@ -58,6 +59,6 @@ public class MockMutationProvider implements MutationProvider {
         MutableSeq x3 = selector.select(list).solution().toMutableSeq();
 
         Seq result = x1.plus(x2.subtract(x3).multiply(beta));
-        return CandidateSolution.copyOf(result.toArray());
+        return CandidateSolution.of(result.toArray());
     }
 }

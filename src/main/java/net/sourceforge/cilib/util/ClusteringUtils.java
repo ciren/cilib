@@ -23,7 +23,9 @@ package net.sourceforge.cilib.util;
 
 import java.util.ArrayList;
 import java.util.EmptyStackException;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
@@ -60,8 +62,8 @@ public final class ClusteringUtils {
     private ArrayList<Vector> arrangedCentroids = null;
     // ArrayList of Hashtables, mapping indices to patterns
     // index i refers to the i'th Pattern in the DataSet
-    private ArrayList<Hashtable<Integer, Pattern>> originalClusters = null;
-    private ArrayList<Hashtable<Integer, Pattern>> arrangedClusters = null;
+    private ArrayList<Map<Integer, Pattern>> originalClusters = null;
+    private ArrayList<Map<Integer, Pattern>> arrangedClusters = null;
 
     /**
      * Private because this is a Singleton class. When starting an {@link Algorithm}, the
@@ -207,10 +209,10 @@ public final class ClusteringUtils {
     private void arrangeClusters() {
         int numberOfClusters = clusteringProblem.getNumberOfClusters();
         ArrayList<Pattern> patterns = clusterableDataSet.getPatterns();
-        originalClusters = new ArrayList<Hashtable<Integer, Pattern>>(numberOfClusters);
+        originalClusters = new ArrayList<Map<Integer, Pattern>>(numberOfClusters);
 
         for (int i = 0; i < numberOfClusters; i++) {
-            originalClusters.add(new Hashtable<Integer, Pattern>(patterns.size() / numberOfClusters));
+            originalClusters.add(new HashMap<Integer, Pattern>(patterns.size() / numberOfClusters));
         }
 
         for (int i = 0; i < patterns.size(); i++) {
@@ -221,7 +223,7 @@ public final class ClusteringUtils {
 
                 if (distance < minimum) {
                     minimum = distance;
-                    for (Hashtable<Integer, Pattern> all : originalClusters) {
+                    for (Map<Integer, Pattern> all : originalClusters) {
                         all.remove(i);
                     }
                     originalClusters.get(j).put(i, pattern);
@@ -253,7 +255,7 @@ public final class ClusteringUtils {
     private void removeEmptyClustersAndCentroids() {
         arrangedCentroids = new ArrayList<Vector>(originalCentroids.size());
         arrangedCentroids.addAll(originalCentroids);
-        arrangedClusters = new ArrayList<Hashtable<Integer, Pattern>>(originalClusters.size());
+        arrangedClusters = new ArrayList<Map<Integer, Pattern>>(originalClusters.size());
         arrangedClusters.addAll(originalClusters);
 
         // traverse list of clusters in reverse due to the way in which the remove(i) method works
@@ -314,7 +316,7 @@ public final class ClusteringUtils {
      *
      * @return an {@link ArrayList} of {@link Hashtable}s that may contain empty clusters
      */
-    public ArrayList<Hashtable<Integer, Pattern>> getOriginalClusters() {
+    public ArrayList<Map<Integer, Pattern>> getOriginalClusters() {
         return originalClusters;
     }
 
@@ -325,7 +327,7 @@ public final class ClusteringUtils {
      * @return an {@link ArrayList} of {@link Hashtable}s that does NOT contain empty
      *         clusters
      */
-    public ArrayList<Hashtable<Integer, Pattern>> getArrangedClusters() {
+    public ArrayList<Map<Integer, Pattern>> getArrangedClusters() {
         return arrangedClusters;
     }
 

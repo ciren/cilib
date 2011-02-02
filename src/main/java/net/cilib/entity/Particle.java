@@ -34,7 +34,6 @@ import static net.cilib.entity.EntityComparators.FITNESS_COMPARATOR;
  * @author gpampara
  */
 public final class Particle implements Entity, HasVelocity, HasMemory {
-
     private final CandidateSolution position;
     private final CandidateSolution bestPosition;
     private final Velocity velocity;
@@ -136,12 +135,8 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
      */
     @Override
     public boolean equiv(Entity that) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int compareTo(Entity o) {
-        return fitness.compareTo(o.fitness());
+        // The only equivalence that is possible is the current fitness
+        return this.fitness.equals(that.fitness());
     }
 
     /**
@@ -158,5 +153,21 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
     @Override
     public CandidateSolution memory() {
         return bestPosition;
+    }
+
+    /**
+     * Create a {@code Particle} instance, with the provided
+     * {@code CandidateSolution}. An initial {@code Particle}
+     * contains a best-position that is the same as the provided position,
+     * a zeroed velocity and an inferior fitness.
+     * @param initialSolution the initial position.
+     * @return a new {@code Particle} instance.
+     *
+     * TODO: This API doesn't seem really clean - feels like a backdoor???
+     */
+    public static Particle create(CandidateSolution initialSolution) {
+        return new Particle(initialSolution, initialSolution,
+                Velocity.fill(0.0, initialSolution.size()),
+                Fitnesses.inferior());
     }
 }

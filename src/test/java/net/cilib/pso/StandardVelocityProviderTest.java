@@ -28,36 +28,33 @@ import net.cilib.entity.Fitnesses;
 import net.cilib.entity.PartialEntity;
 import net.cilib.entity.Particle;
 import net.cilib.entity.Velocity;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
+
+import static org.mockito.Mockito.*;
 
 /**
  *
  * @author gpampara
  */
 public class StandardVelocityProviderTest {
-    private Mockery context = new JUnit4Mockery();
 
     @Test
     public void velocityCalculation() {
-        final Guide localGuide = context.mock(Guide.class, "localGuide");
-        final Guide globalGuide = context.mock(Guide.class, "globalGuide");
+        final PartialEntity tempEntity = new PartialEntity(CandidateSolution.of(0.0));
+
+        final Guide localGuide = mock(Guide.class);
+        final Guide globalGuide = mock(Guide.class);
         Supplier<Double> constant = Suppliers.ofInstance(1.0);
-        
+
         StandardVelocityProvider provider = new StandardVelocityProvider(localGuide, globalGuide, constant, constant, constant, constant);
-        final Particle particle = new Particle(CandidateSolution.copyOf(1.0),
-                CandidateSolution.copyOf(1.0),
+        final Particle particle = new Particle(CandidateSolution.of(1.0),
+                CandidateSolution.of(1.0),
                 Velocity.copyOf(1.0),
                 Fitnesses.newMaximizationFitness(1.0));
 
-        final PartialEntity tempEntity = new PartialEntity(CandidateSolution.copyOf(0.0));
-        context.checking(new Expectations() {{
-            oneOf(localGuide).of(with(particle)); will(returnValue(tempEntity));
-            oneOf(globalGuide).of(with(particle)); will(returnValue(tempEntity));
-        }});
+        when(localGuide.of(particle)).thenReturn(tempEntity);
+        when(globalGuide.of(particle)).thenReturn(tempEntity);
 
         Velocity newVelocity = provider.create(particle);
         Assert.assertArrayEquals(new double[]{-1.0}, newVelocity.toArray(), 0.0001);

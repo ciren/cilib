@@ -43,9 +43,10 @@ public class ImmutableGBestTopology<A> implements Topology<A> {
 
     /**
      * Obtain an empty immutable topology.
-     * @param <B> The defined type.
+     * @param <B> type parameter.
      * @return An immutable empty {@code g-best} topology.
      */
+    @SuppressWarnings("unchecked")
     public static <B> ImmutableGBestTopology<B> of() {
         return (ImmutableGBestTopology<B>) INSTANCE;
     }
@@ -86,6 +87,10 @@ public class ImmutableGBestTopology<A> implements Topology<A> {
         return iterator();
     }
 
+    /**
+     * Provide the {@code String} representation of the topology.
+     * @return {@code String} representation.
+     */
     @Override
     public String toString() {
         return Objects.toStringHelper(this).add("contents", elements).toString();
@@ -94,7 +99,6 @@ public class ImmutableGBestTopology<A> implements Topology<A> {
     /**
      * Obtain a {@code ImmutableTopologyBuilder} to build up a new topology
      * instance.
-     * @param <A> The parameter type
      * @return an {@code ImmutableTopologyBuilder}.
      */
     public static <A> ImmutableGBestTopologyBuilder<A> newBuilder() {
@@ -103,7 +107,7 @@ public class ImmutableGBestTopology<A> implements Topology<A> {
 
     /**
      * Topology builder to create ImmutableGBestTopology instances.
-     * @param <B> the parameter type.
+     * @param <B> parameter type.
      */
     public static class ImmutableGBestTopologyBuilder<B> {
 

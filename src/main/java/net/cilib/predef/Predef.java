@@ -19,26 +19,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.entity;
+package net.cilib.predef;
+
+import com.google.common.collect.Lists;
+
+import java.util.List;
 
 /**
- * Defining an equivalency between instances. This interface is
- * different from {@link Object#equals(java.lang.Object)} by indicating
- * a semantically different concept.
- * <p>
- * For example, two {@link Entity} instances may be equivalent, but they
- * may not necessarily be equal.
- * @param <A> The {@code Comparable} type.
- * @author gpampara
+ * Utility class of predefined helpers.
  */
-public interface Equiv<A> extends Comparable<A> {
+public final class Predef {
+    // Default constructor to prevent instantiation
+    private Predef() {
+    }
 
-    /**
-     * Determine if the current instance and the given instance are
-     * equivalent.
-     * @param that the {@code Entity} to test equivalency against
-     * @return {@code true} if the instances are equivalent, {@code false}
-     * otherwise.
-     */
-    boolean equiv(A that);
+    public static <A> Array<A> array(A... elements) {
+        List<A> list = Lists.newArrayList(elements);
+        return new Array<A>(list.toArray());
+    }
+
+    public static Range range(double start, double end) {
+        return Range.of(start, end);
+    }
 }
