@@ -27,7 +27,6 @@ package net.cilib.entity;
  * @author gpampara
  */
 public class Fitnesses {
-
     private static final Fitness INFERIOR_FITNESS = new InferiorFitness();
 
     private Fitnesses() {
@@ -176,7 +175,6 @@ public class Fitnesses {
      * A fitness value that is <b>always</b> worse than any other fitness.
      */
     private static class InferiorFitness implements Fitness {
-
         @Override
         public int compareTo(Fitness o) {
             return 1; // An inferior fitness is ALWAYS worse, therefore return the other one

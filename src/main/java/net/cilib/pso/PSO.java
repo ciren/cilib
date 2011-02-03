@@ -37,7 +37,6 @@ import net.cilib.entity.Velocity;
  * @author gpampara
  */
 public class PSO implements PopulationBasedAlgorithm<Particle> {
-
     private final VelocityProvider velocityProvider;
     private final ParticleProvider particleProvider;
 
