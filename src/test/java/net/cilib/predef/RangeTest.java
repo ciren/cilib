@@ -38,10 +38,10 @@ import static org.hamcrest.CoreMatchers.*;
 public class RangeTest {
     @Test
     public void creation() {
-        Range r = Range.of(-10.0, 20.0);
+        Range r = Range.of(-10, 20);
 
-        Assert.assertThat(r.begin(), equalTo(-10.0));
-        Assert.assertThat(r.end(), equalTo(20.0));
+        Assert.assertThat(r.begin(), equalTo(-10));
+        Assert.assertThat(r.end(), equalTo(20));
     }
 
     @Test(expected = IllegalStateException.class)
@@ -51,7 +51,7 @@ public class RangeTest {
 
     @Test
     public void supplierGivenRandomProvider() {
-        Range r = Range.of(-10.0, 20.0);
+        Range r = Range.of(-10, 20);
         Supplier<Double> supplier = r.toRandomSupplier(new MersenneTwister());
 
         Assert.assertThat(supplier.get().doubleValue(), IsBetween.isBetween(r.begin(), r.end()));
@@ -59,8 +59,8 @@ public class RangeTest {
 
     @Test
     public void iterator() {
-        for (double d : Range.ofWithIncrement(1.0, 2.0, 0.5)) {
-            System.out.println(d);
+        for (int i : Range.ofWithIncrement(1, 2, 1)) {
+            System.out.println(i);
         }
     }
 

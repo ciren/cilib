@@ -36,10 +36,10 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  *
  * @author gpampara
  */
-public final class Range implements Iterable<Double> {
-    private final double begin;
-    private final double end;
-    private final double increment;
+public final class Range implements Iterable<Integer> {
+    private final int begin;
+    private final int end;
+    private final int increment;
     
     /**
      * Create a {@code Range} instance, with the given {@code begin} and
@@ -49,16 +49,16 @@ public final class Range implements Iterable<Double> {
      * @param end   the range end.
      * @return the range instance.
      */
-    public static Range of(double begin, double end) {
-        return ofWithIncrement(begin, end, 1.0);
+    static Range of(int begin, int end) {
+        return ofWithIncrement(begin, end, 1);
     }
 
-    public static Range ofWithIncrement(double begin, double end, double increment) {
+    static Range ofWithIncrement(int begin, int end, int increment) {
         Preconditions.checkState(begin < end, "Invalid range: " + begin + " > " + end);
         return new Range(begin, end, increment);
     }
 
-    private Range(double begin, double end, double increment) {
+    private Range(int begin, int end, int increment) {
         this.begin = begin;
         this.end = end;
         this.increment = increment;
@@ -69,7 +69,7 @@ public final class Range implements Iterable<Double> {
      *
      * @return starting value.
      */
-    public double begin() {
+    public int begin() {
         return begin;
     }
 
@@ -78,7 +78,7 @@ public final class Range implements Iterable<Double> {
      *
      * @return ending value.
      */
-    public double end() {
+    public int end() {
         return end;
     }
 
@@ -108,11 +108,11 @@ public final class Range implements Iterable<Double> {
      * @return An iterator over the range of the current range.
      */
     @Override
-    public Iterator<Double> iterator() {
-        return new UnmodifiableIterator<Double>() {
-            private double current = begin;
-            private double i = increment;
-            private double e = end;
+    public Iterator<Integer> iterator() {
+        return new UnmodifiableIterator<Integer>() {
+            private int current = begin;
+            private int i = increment;
+            private int e = end;
 
             @Override
             public boolean hasNext() {
@@ -120,7 +120,7 @@ public final class Range implements Iterable<Double> {
             }
 
             @Override
-            public Double next() {
+            public Integer next() {
                 current += i;
                 return current;
             }

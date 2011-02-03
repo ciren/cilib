@@ -38,7 +38,7 @@ public final class Predef {
         return new Array<A>(list.toArray());
     }
 
-    public static Range range(double start, double end) {
+    public static Range range(int start, int end) {
         return Range.of(start, end);
     }
 }
