@@ -11,12 +11,12 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="1"/>
                 <entityType class="pso.particle.StandardParticle">
-                    <VelocityUpdateStrategy class="pso.velocityupdatestrategies.NoisyVelocityUpdateDecorator">
-                        <delegate class="pso.velocityupdatestrategies.StandardVelocityUpdate"/>
-                    </VelocityUpdateStrategy>
-                    <PositionUpdateStrategy class="pso.positionupdatestrategies.NoisyPositionUpdateDecorator">
-                        <delegate class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
-                    </PositionUpdateStrategy>
+                    <VelocityProvider class="pso.velocityprovider.NoisyVelocityProvider">
+                        <delegate class="pso.velocityprovider.StandardVelocityProvider"/>
+                    </VelocityProvider>
+                    <PositionProvider class="pso.positionprovider.NoisyPositionProvider">
+                        <delegate class="pso.positionprovider.StandardPositionProvider"/>
+                    </PositionProvider>
                 </entityType>
             </initialisationStrategy>
         </algorithm>

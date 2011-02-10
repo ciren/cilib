@@ -6,9 +6,9 @@
             <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000" />
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                         <inertiaWeight class="controlparameter.LinearDecreasingControlParameter" range="R(0.4, 1.4)" />
-                    </velocityUpdateStrategy>
+                    </velocityProvider>
                 </entityType>
             </initialisationStrategy>
         </algorithm>

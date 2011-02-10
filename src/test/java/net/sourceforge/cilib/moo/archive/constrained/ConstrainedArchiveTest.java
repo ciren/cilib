@@ -166,10 +166,11 @@ public class ConstrainedArchiveTest {
         archive.setCapacity(100);
         DummyOptimisationProblem1 problem = new DummyOptimisationProblem1();
         for (int i = 1; i <= 500; ++i) {
-            Vector vector = new Vector();
+            Vector.Builder builder = Vector.newBuilder();
             for (int j = i; j < i + 5; ++j) {
-                vector.add(Real.valueOf(j));
+                builder.add(Real.valueOf(j));
             }
+            Vector vector = builder.build();
             archive.addAll(Arrays.asList(new OptimisationSolution(vector, problem.getFitness(vector))));
         }
         assertThat(archive.size(), is(100));
@@ -177,10 +178,11 @@ public class ConstrainedArchiveTest {
 
         List<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
         for (int i = 1; i <= 500; ++i) {
-            Vector vector = new Vector();
+            Vector.Builder builder = Vector.newBuilder();
             for (int j = i; j < i + 5; ++j) {
-                vector.add(Real.valueOf(j));
+                builder.add(Real.valueOf(j));
             }
+            Vector vector = builder.build();
             solutions.add(new OptimisationSolution(vector, problem.getFitness(vector)));
         }
         archive.addAll(solutions);

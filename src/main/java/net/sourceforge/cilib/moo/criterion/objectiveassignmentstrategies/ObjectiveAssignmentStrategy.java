@@ -39,7 +39,7 @@ import net.sourceforge.cilib.util.Cloneable;
 public interface ObjectiveAssignmentStrategy extends Cloneable {
 
     @Override
-    ObjectiveAssignmentStrategy getClone();
+    public ObjectiveAssignmentStrategy getClone();
 
-    void assignObjectives(MOOptimisationProblem problem, List<PopulationBasedAlgorithm> populations);
+    public void assignObjectives(MOOptimisationProblem problem, List<PopulationBasedAlgorithm> populations);
 }

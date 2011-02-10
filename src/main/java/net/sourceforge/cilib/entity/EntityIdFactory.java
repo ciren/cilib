@@ -47,4 +47,8 @@ public final class EntityIdFactory {
         AtomicLong instance = sequence.get();
         return instance.getAndIncrement();
     }
+
+    public static void remove() {
+        sequence.remove();
+    }
 }

@@ -80,10 +80,10 @@ public class SelectionTest {
     @Test
     public void arrange() {
         List<Integer> ints = Lists.newArrayList(1, 2, 3);
-        List<Integer> outcome = Selection.copyOf(ints).orderBy(new Arrangement() {
+        List<Integer> outcome = Selection.copyOf(ints).orderBy(new Arrangement<Integer>() {
             @Override
-            public <T extends Comparable> Iterable<T> arrange(Iterable<T> elements) {
-                List<T> list = Lists.newArrayList(elements);
+            public Iterable<Integer> arrange(Iterable<Integer> elements) {
+                List<Integer> list = Lists.newArrayList(elements);
                 Collections.reverse(list);
                 return list;
             }

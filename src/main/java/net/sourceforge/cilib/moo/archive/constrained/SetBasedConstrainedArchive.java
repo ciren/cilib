@@ -21,12 +21,10 @@
  */
 package net.sourceforge.cilib.moo.archive.constrained;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Set;
 
 import net.sourceforge.cilib.moo.archive.Archive;
@@ -49,8 +47,17 @@ public class SetBasedConstrainedArchive extends ConstrainedArchive {
     private Selector<OptimisationSolution> pruningSelection;
 
     public SetBasedConstrainedArchive() {
-        this.solutions = new LinkedHashSet<OptimisationSolution>();
+        this.solutions = Sets.newLinkedHashSet();
         this.pruningSelection = new RandomSelector<OptimisationSolution>();
+    }
+
+    public SetBasedConstrainedArchive(SetBasedConstrainedArchive copy) {
+        super(copy);
+        this.solutions = Sets.newLinkedHashSet();
+        for (OptimisationSolution solution : copy.solutions) {
+            this.solutions.add(solution.getClone());
+        }
+        this.pruningSelection = copy.pruningSelection;
     }
 
     public void setPruningSelection(Selector<OptimisationSolution> pruningSelection) {
@@ -62,8 +69,28 @@ public class SetBasedConstrainedArchive extends ConstrainedArchive {
     }
 
     @Override
-    public Collection<OptimisationSolution> dominates(OptimisationSolution candidateSolution) {
-        List<OptimisationSolution> dominantSolutions = new LinkedList<OptimisationSolution>();
+    public boolean dominates(OptimisationSolution candidateSolution) {
+        for (OptimisationSolution archiveSolution : this.solutions) {
+            if (archiveSolution.compareTo(candidateSolution) > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isDominatedBy(OptimisationSolution candidateSolution) {
+        for (OptimisationSolution archiveSolution : this.solutions) {
+            if (candidateSolution.compareTo(archiveSolution) > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Collection<OptimisationSolution> getDominant(OptimisationSolution candidateSolution) {
+        List<OptimisationSolution> dominantSolutions = Lists.newLinkedList();
         for (OptimisationSolution archiveSolution : this.solutions) {
             if (archiveSolution.compareTo(candidateSolution) > 0) {
                 dominantSolutions.add(archiveSolution);
@@ -73,8 +100,8 @@ public class SetBasedConstrainedArchive extends ConstrainedArchive {
     }
 
     @Override
-    public Collection<OptimisationSolution> isDominatedBy(OptimisationSolution candidateSolution) {
-        List<OptimisationSolution> dominatedSolutions = new LinkedList<OptimisationSolution>();
+    public Collection<OptimisationSolution> getDominated(OptimisationSolution candidateSolution) {
+        List<OptimisationSolution> dominatedSolutions = Lists.newLinkedList();
         for (OptimisationSolution archiveSolution : this.solutions) {
             if (candidateSolution.compareTo(archiveSolution) > 0) {
                 dominatedSolutions.add(archiveSolution);
@@ -99,107 +126,7 @@ public class SetBasedConstrainedArchive extends ConstrainedArchive {
     }
 
     @Override
-    public void clear() {
-        this.solutions.clear();
-    }
-
-    @Override
-    public boolean contains(Object object) {
-        return this.solutions.contains(object);
-    }
-
-    @Override
-    public boolean containsAll(Collection<?> objects) {
-        return this.solutions.containsAll(objects);
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return this.solutions.isEmpty();
-    }
-
-    @Override
-    public Iterator<OptimisationSolution> iterator() {
-        return this.solutions.iterator();
-    }
-
-    @Override
-    public boolean remove(Object object) {
-        return this.solutions.remove(object);
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> objects) {
-        return this.solutions.removeAll(objects);
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> objects) {
-        return this.solutions.retainAll(objects);
-    }
-
-    @Override
-    public int size() {
-        return this.solutions.size();
-    }
-
-    @Override
-    public Object[] toArray() {
-        return this.solutions.toArray();
-    }
-
-    @Override
-    public <T> T[] toArray(T[] a) {
-        return this.solutions.toArray(a);
-    }
-
-    @Override
-    public boolean addAll(int index, Collection<? extends OptimisationSolution> c) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public OptimisationSolution get(int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public OptimisationSolution set(int index, OptimisationSolution element) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void add(int index, OptimisationSolution element) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public OptimisationSolution remove(int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int indexOf(Object o) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int lastIndexOf(Object o) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ListIterator<OptimisationSolution> listIterator() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ListIterator<OptimisationSolution> listIterator(int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<OptimisationSolution> subList(int fromIndex, int toIndex) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    protected Collection<OptimisationSolution> delegate() {
+        return this.solutions;
     }
 }

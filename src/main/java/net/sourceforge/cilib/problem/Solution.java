@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.problem;
 
-import java.io.Serializable;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * This is a common abstraction for all solution classes. All solutions should extend this interface.
@@ -29,5 +29,8 @@ import java.io.Serializable;
  *
  * @author  Edwin Peer
  */
-public interface Solution extends Serializable {
+public interface Solution extends Cloneable {
+
+    @Override
+    public Solution getClone();
 }

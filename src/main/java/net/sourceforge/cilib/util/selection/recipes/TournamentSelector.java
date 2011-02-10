@@ -128,18 +128,6 @@ public class TournamentSelector<E extends Comparable<? super E>> implements Sele
     /**
      * {@inheritDoc}
      */
-//    @Override
-//    public E select(List<? extends E> elements) {
-//        int tournamentSize = Double.valueOf(this.tournamentProportion.getParameter() * elements.size()).intValue();
-//        return Selection.from(elements).orderBy(new RandomOrdering<E>(this.random)).select(Samples.last(tournamentSize))
-//                .and().orderBy(new SortedOrdering<E>(this.comparator)).select(Samples.last()).performSingle();
-//    }
-//    @Override
-//    public SelectionBuilder<E> on(Iterable<? extends E> iterable) {
-//
-//        return Selection.from(iterable).orderBy(new RandomOrdering<E>(this.random)).select(Samples.last(tournamentSize))
-//                .and().orderBy(new SortedOrdering<E>(this.comparator)).and().reverse();//.select(Samples.last()).performSingle();
-//    }
     @Override
     public PartialSelection<E> on(Iterable<E> iterable) {
         int size = Iterables.size(iterable);

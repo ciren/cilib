@@ -50,7 +50,7 @@
         <algorithm id="gcpso-vn" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="30">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.GCVelocityUpdateStrategy"/>
+                    <velocityProvider class="pso.velocityprovider.GCVelocityProvider"/>
                     <FitnessCalculator class = "util.calculator.PropertyBasedFitnessCalculator"/>
                 </entityType>
             </initialisationStrategy>

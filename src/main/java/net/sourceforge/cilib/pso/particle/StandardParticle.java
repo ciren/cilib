@@ -26,6 +26,7 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -41,7 +42,6 @@ public class StandardParticle extends AbstractParticle {
     /** Creates a new instance of StandardParticle. */
     public StandardParticle() {
         super();
-
         this.getProperties().put(EntityType.Particle.BEST_POSITION, new Vector());
         this.getProperties().put(EntityType.Particle.VELOCITY, new Vector());
     }
@@ -52,7 +52,6 @@ public class StandardParticle extends AbstractParticle {
      */
     public StandardParticle(StandardParticle copy) {
         super(copy);
-        this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy;
     }
 
     /**
@@ -110,7 +109,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public Particle getNeighbourhoodBest() {
-        return neighbourhoodBest;
+        return this.neighbourhoodBest;
     }
 
     /**
@@ -135,18 +134,18 @@ public class StandardParticle extends AbstractParticle {
     @Override
     public void initialise(OptimisationProblem problem) {
         this.getProperties().put(EntityType.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresenation().getClone());
-
-        this.getPositionInitialisationStrategy().initialize(EntityType.CANDIDATE_SOLUTION, this);
         this.getProperties().put(EntityType.Particle.BEST_POSITION, getPosition().getClone());
-
-        // Create the velocity vector by cloning the position and setting all the values
-        // within the velocity to 0
         this.getProperties().put(EntityType.Particle.VELOCITY, getPosition().getClone());
+
+        this.positionInitialisationStrategy.initialize(EntityType.CANDIDATE_SOLUTION, this);
+        this.personalBestInitialisationStrategy.initialize(EntityType.Particle.BEST_POSITION, this);
         this.velocityInitializationStrategy.initialize(EntityType.Particle.VELOCITY, this);
 
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
         this.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
         this.neighbourhoodBest = this;
+
+        this.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
     }
 
     /**
@@ -154,9 +153,8 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void updatePosition() {
-        this.positionUpdateStrategy.updatePosition(this);
+        getProperties().put(EntityType.CANDIDATE_SOLUTION, this.behavior.getPositionProvider().get(this));
     }
-
 
     /**
      * {@inheritDoc}
@@ -182,7 +180,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void updateVelocity() {
-        this.velocityUpdateStrategy.updateVelocity(this);
+        getProperties().put(EntityType.Particle.VELOCITY, this.behavior.getVelocityProvider().get(this));
     }
 
     /**
@@ -190,7 +188,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void updateControlParameters() {
-        this.velocityUpdateStrategy.updateControlParameters(this);
+        this.behavior.getVelocityProvider().updateControlParameters(this);
     }
 
     /**
@@ -199,6 +197,7 @@ public class StandardParticle extends AbstractParticle {
     @Override
     public void reinitialise() {
         this.positionInitialisationStrategy.initialize(EntityType.CANDIDATE_SOLUTION, this);
+        this.personalBestInitialisationStrategy.initialize(EntityType.Particle.BEST_POSITION, this);
         this.velocityInitializationStrategy.initialize(EntityType.Particle.VELOCITY, this);
     }
 }

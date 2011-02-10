@@ -103,7 +103,7 @@ public class MultiPopulationCriterionBasedAlgorithm extends MultiPopulationBased
     @Override
     public List<OptimisationSolution> getSolutions() {
         List<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
-        solutions.addAll(Archive.get());
+        solutions.addAll(Archive.Provider.get());
         return solutions;
     }
 }

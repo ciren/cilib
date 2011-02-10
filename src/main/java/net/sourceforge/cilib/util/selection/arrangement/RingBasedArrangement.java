@@ -28,16 +28,16 @@ import java.util.List;
  *
  * @author gpampara
  */
-public class RingBasedArrangement implements Arrangement {
+public class RingBasedArrangement<T> implements Arrangement<T> {
 
-    private Object marker;
+    private T marker;
 
-    public RingBasedArrangement(Object marker) {
+    public RingBasedArrangement(T marker) {
         this.marker = marker;
     }
 
     @Override
-    public <T extends Comparable> Iterable<T> arrange(Iterable<T> elements) {
+    public Iterable<T> arrange(Iterable<T> elements) {
         List<T> tmp = Lists.newArrayList(elements);
         List<T> result = Lists.newArrayListWithCapacity(tmp.size());
 

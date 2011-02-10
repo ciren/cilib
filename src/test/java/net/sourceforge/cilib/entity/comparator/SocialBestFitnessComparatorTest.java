@@ -29,7 +29,7 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.pso.positionupdatestrategies.IterationNeighbourhoodBestUpdateStrategy;
+import net.sourceforge.cilib.pso.positionprovider.IterationNeighbourhoodBestUpdateStrategy;
 import org.junit.Assert;
 import org.junit.Test;
 

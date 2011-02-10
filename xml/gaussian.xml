@@ -13,8 +13,8 @@
                 <topology class="entity.topologies.VonNeumannTopology"/>
                 <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                     <entityType class="pso.particle.StandardParticle">
-                        <positionUpdateStrategy class="pso.positionupdatestrategies.BareBonesPositionUpdateStrategy" />
-                        <velocityUpdateStrategy class="pso.velocityupdatestrategies.BareBonesVelocityUpdateStrategy"/>
+                        <positionProvider class="pso.positionprovider.LinearPositionProvider" />
+                        <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
                     </entityType>
                 </initialisationStrategy>
                 <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="100"/>

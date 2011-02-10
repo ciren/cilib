@@ -110,7 +110,7 @@ public final class DomainParser {
      * @return The converted vector object.
      */
     private static <E extends StructuredType<? extends Type>> Vector toVector(E representation) {
-        Vector.Builder vector = new Vector.Builder();
+        Vector.Builder vector = Vector.newBuilder();
 
         for (Type type : representation) {
             vector.add((Numeric) type);

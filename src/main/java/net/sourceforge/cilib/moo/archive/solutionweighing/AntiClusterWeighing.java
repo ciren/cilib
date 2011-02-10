@@ -25,18 +25,16 @@ import com.google.common.collect.Lists;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MOFitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.pso.moo.guideselectionstrategies.GuideSelectionStrategy;
 import net.sourceforge.cilib.util.selection.WeightedObject;
 
 /**
  * <p>
  * An implementation of {@link SolutionWeighing} that weighs a collection of
- * {@link OptimisationSolution}s based on how closely clustered these solutions are to
- * one another.
+ * {@link OptimisationSolution}s based on how closely clustered these solutions
+ * are to one another.
  * </p>
  *
  * <p>

@@ -80,7 +80,7 @@ public class ArchivingIterationStrategy<E extends PopulationBasedAlgorithm> impl
             optimisationSolutions.add(new OptimisationSolution(solution,
                     topLevelAlgorithm.getOptimisationProblem().getFitness(solution)));
         }
-        Archive.get().addAll(optimisationSolutions);
+        Archive.Provider.get().addAll(optimisationSolutions);
     }
 
     @Override
@@ -90,11 +90,11 @@ public class ArchivingIterationStrategy<E extends PopulationBasedAlgorithm> impl
     }
 
     public void setArchive(Archive archive) {
-        Archive.set(archive);
+        Archive.Provider.set(archive);
     }
 
     public Archive getArchive() {
-        return Archive.get();
+        return Archive.Provider.get();
     }
 
     @Override

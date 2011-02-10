@@ -10,17 +10,13 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="30"/>
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.MOVelocityUpdateStrategy">
-                        <localGuideSelectionStrategy class="pso.moo.guideselectionstrategies.PBestGuideSelectionStrategy"/>
-                        <localGuideUpdateStrategy class="pso.moo.guideupdatestrategies.StandardGuideUpdateStrategy"/>
-                        <globalGuideSelectionStrategy class="pso.moo.guideselectionstrategies.VEPSOGuideSelectionStrategy">
-                            <knowledgeTransferStrategy class="algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy">
-                                <populationSelection class="util.selection.recipes.RingBasedPopulationSelector"/>
-                                <entitySelection class="util.selection.recipes.TournamentSelector"/>
-                            </knowledgeTransferStrategy>
-                        </globalGuideSelectionStrategy>
-                        <globalGuideUpdateStrategy class="pso.moo.guideupdatestrategies.StandardGuideUpdateStrategy"/>
-                    </velocityUpdateStrategy>
+                    <localGuideProvider class="pso.guideprovider.PBestGuideProvider"/>
+                    <globalGuideProvider class="pso.guideprovider.VEPSOGuideProvider">
+                        <knowledgeTransferStrategy class="algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy">
+                            <populationSelection class="util.selection.recipes.RingBasedPopulationSelector"/>
+                            <entitySelection class="util.selection.recipes.TournamentSelector"/>
+                        </knowledgeTransferStrategy>
+                    </globalGuideProvider>
                     <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy"/>
                 </entityType>
             </initialisationStrategy>
@@ -87,7 +83,7 @@
     </problems>
 
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">
-        <addMeasurement class="measurement.multiple.ParetoOptimalFront"/>
+        <addMeasurement class="measurement.multiple.moo.ParetoOptimalFront"/>
     </measurements>
 
     <simulations>

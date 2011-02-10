@@ -30,7 +30,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  *
  * @author gpampara
  */
-public class RandomArrangement implements Arrangement {
+public class RandomArrangement<T> implements Arrangement<T> {
 
     private final RandomProvider random;
 
@@ -39,30 +39,10 @@ public class RandomArrangement implements Arrangement {
     }
 
     @Override
-    public <T extends Comparable> Iterable<T> arrange(final Iterable<T> elements) {
+    public Iterable<T> arrange(final Iterable<T> elements) {
         final List<T> list = Lists.newArrayList(elements);
         shuffle(list);
         return list;
-//        return new Iterable<T>() {
-//            final List<T> list = Lists.newArrayList(elements);
-//            @Override
-//            public Iterator<T> iterator() {
-//                return new UnmodifiableIterator() {
-//                    @Override
-//                    public boolean hasNext() {
-//                        return list.size() > 0;
-//                    }
-//
-//                    @Override
-//                    public T next() {
-//                        int k = random.nextInt(list.size());
-//                        T item = list.get(k);
-//                        list.remove(k);
-//                        return item;
-//                    }
-//                };
-//            }
-//        };
     }
 
     /**

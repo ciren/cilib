@@ -28,18 +28,18 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.initialization.ConstantInitializationStrategy;
 import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
 import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
+import net.sourceforge.cilib.entity.initialization.StandardPBestPositionInitializationStrategy;
 import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.pso.positionupdatestrategies.MemoryNeighbourhoodBestUpdateStrategy;
+import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
 import net.sourceforge.cilib.pso.pbestupdate.PersonalBestUpdateStrategy;
-import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
-import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
-import net.sourceforge.cilib.pso.positionupdatestrategies.StandardPositionUpdateStrategy;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
+import net.sourceforge.cilib.pso.positionprovider.MemoryNeighbourhoodBestUpdateStrategy;
+import net.sourceforge.cilib.pso.positionprovider.NeighbourhoodBestUpdateStrategy;
+import net.sourceforge.cilib.pso.positionprovider.PositionProvider;
+import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
- * This class defines the common behaviour available for all {@linkplain Particle}
+ * This class defines the common behavior available for all {@linkplain Particle}
  * instances.
  *
  * @author Edwin Peer
@@ -48,11 +48,12 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 public abstract class AbstractParticle extends AbstractEntity implements Particle {
     private static final long serialVersionUID = 7511192728112990230L;
 
-    protected PositionUpdateStrategy positionUpdateStrategy;
-    protected VelocityUpdateStrategy velocityUpdateStrategy;
+    protected ParticleBehavior behavior;
+
     protected InitializationStrategy<Particle> velocityInitializationStrategy;
     protected InitializationStrategy<Particle> positionInitialisationStrategy;
     protected InitializationStrategy<Particle> personalBestInitialisationStrategy;
+    
     protected PersonalBestUpdateStrategy personalBestUpdateStrategy;
     protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;
 
@@ -60,16 +61,14 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * Default constructor for all Particles.
      */
     public AbstractParticle() {
-        super();
+        this.behavior = new ParticleBehavior();
 
-        neighbourhoodBestUpdateStrategy = new MemoryNeighbourhoodBestUpdateStrategy();
-        positionUpdateStrategy = new StandardPositionUpdateStrategy();
-        velocityUpdateStrategy = new StandardVelocityUpdate();
+        this.velocityInitializationStrategy = new ConstantInitializationStrategy<Particle>(0.0);
+        this.positionInitialisationStrategy = new RandomInitializationStrategy<Particle>();
+        this.personalBestInitialisationStrategy = new StandardPBestPositionInitializationStrategy();
 
-        velocityInitializationStrategy = new ConstantInitializationStrategy<Particle>(0.0);
-        positionInitialisationStrategy = new RandomInitializationStrategy<Particle>();
-
-        personalBestUpdateStrategy = new StandardPersonalBestUpdateStrategy();
+        this.personalBestUpdateStrategy = new StandardPersonalBestUpdateStrategy();
+        this.neighbourhoodBestUpdateStrategy = new MemoryNeighbourhoodBestUpdateStrategy();
     }
 
     /**
@@ -78,13 +77,14 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      */
     public AbstractParticle(AbstractParticle copy) {
         super(copy);
-        this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy.getClone();
-        this.positionUpdateStrategy = copy.getPositionUpdateStrategy().getClone();
-        this.velocityUpdateStrategy = copy.velocityUpdateStrategy.getClone();
-        this.positionInitialisationStrategy = copy.positionInitialisationStrategy.getClone();
+        this.behavior = copy.behavior.getClone();
+        
         this.velocityInitializationStrategy = copy.velocityInitializationStrategy.getClone();
+        this.positionInitialisationStrategy = copy.positionInitialisationStrategy.getClone();
+        this.personalBestInitialisationStrategy = copy.personalBestInitialisationStrategy.getClone();
+
         this.personalBestUpdateStrategy = copy.personalBestUpdateStrategy.getClone();
-        this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy;
+        this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy.getClone();
     }
 
     /**
@@ -158,17 +158,35 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public abstract StructuredType getVelocity();
 
     /**
+     * Get the global guide of the <tt>Particle</tt>.
+     * @return A <tt>Type</tt> representng the <tt>Particle</tt>'s global guide.
+     */
+    @Override
+    public StructuredType getGlobalGuide() {
+        return this.behavior.getGlobalGuideProvider().get(this);
+    }
+
+    /**
+     * Get the local guide of the <tt>Particle</tt>.
+     * @return A <tt>Type</tt> representng the <tt>Particle</tt>'s local guide.
+     */
+    @Override
+    public StructuredType getLocalGuide() {
+        return this.behavior.getLocalGuideProvider().get(this);
+    }
+
+    /**
      * Set the neighbourhood best particle for the current Particle based on the
      * topology of the current particle.
      *
-     * @param particle The particle to use as the current particle's neighhod best particle
+     * @param particle The particle to use as the current particle's neighborhood best particle
      */
     @Override
     public abstract void setNeighbourhoodBest(Particle particle);
 
     /**
-     * Get the current <tt>Particle</tt>'s neighbourhood best.
-     * @return The neighbourhood best of the <tt>Particle</tt>
+     * Get the current <tt>Particle</tt>'s neighborhood best.
+     * @return The neighborhood best of the <tt>Particle</tt>
      */
     @Override
     public abstract Particle getNeighbourhoodBest();
@@ -192,41 +210,73 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public abstract void updateControlParameters();
 
     /**
-     * Get the current <tt>PostionUpdateStrategy</tt> associated with this <tt>Particle</tt>.
-     * @return The currently associated <tt>PositionUpdateStrategy</tt>.
+     * Get the current <tt>PositionProvider</tt> associated with this <tt>Particle</tt>.
+     * @return The currently associated <tt>PositionProvider</tt>.
      */
     @Override
-    public PositionUpdateStrategy getPositionUpdateStrategy() {
-        return positionUpdateStrategy;
+    public PositionProvider getPositionProvider() {
+        return this.behavior.getPositionProvider();
     }
 
     /**
-     * Set the <tt>PostionUpdateStrategy</tt> for the <tt>Particle</tt>.
-     * @param positionUpdateStrategy The <tt>PositionUpdateStrategy</tt> to use.
+     * Set the <tt>PositionProvider</tt> for the <tt>Particle</tt>.
+     * @param positionProvider The <tt>PositionProvider</tt> to use.
      */
     @Override
-    public void setPositionUpdateStrategy(PositionUpdateStrategy positionUpdateStrategy) {
-        this.positionUpdateStrategy = positionUpdateStrategy;
+    public void setPositionProvider(PositionProvider positionProvider) {
+        this.behavior.setPositionProvider(positionProvider);
     }
 
     /**
-     * Get the {@see net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy}
+     * Get the {@see net.sourceforge.cilib.pso.velocityprovider.VelocityProvider}
      * of the current particle.
      *
-     * @return Returns the velocityUpdateStrategy.
+     * @return Returns the VelocityProvider.
      */
     @Override
-    public VelocityUpdateStrategy getVelocityUpdateStrategy() {
-        return velocityUpdateStrategy;
+    public VelocityProvider getVelocityProvider() {
+        return this.behavior.getVelocityProvider();
     }
 
     /**
      * Set the velocity updating strategy for the particle.
-     * @param velocityUpdateStrategy The velocityUpdateStrategy to set.
+     * @param velocityProvider The VelocityProvider to set.
      */
     @Override
-    public void setVelocityUpdateStrategy(VelocityUpdateStrategy velocityUpdateStrategy) {
-        this.velocityUpdateStrategy = velocityUpdateStrategy;
+    public void setVelocityProvider(VelocityProvider velocityProvider) {
+        this.behavior.setVelocityProvider(velocityProvider);
+    }
+
+    /**
+     * Get the current global <tt>GuideProvider</tt> associated with this <tt>Particle</tt>.
+     * @return The currently associated global <tt>GuideProvider</tt>.
+     */
+    public GuideProvider getGlobalGuideProvider() {
+        return this.behavior.getGlobalGuideProvider();
+    }
+
+    /**
+     * Set the <tt>GuideProvider</tt> for the <tt>Particle</tt>.
+     * @param globalGuideProvider The global <tt>GuideProvider</tt> to use.
+     */
+    public void setGlobalGuideProvider(GuideProvider globalGuideProvider) {
+        this.behavior.setGlobalGuideProvider(globalGuideProvider);
+    }
+
+    /**
+     * Get the current local <tt>GuideProvider</tt> associated with this <tt>Particle</tt>.
+     * @return The currently associated local <tt>GuideProvider</tt>.
+     */
+    public GuideProvider getLocalGuideProvider() {
+        return this.behavior.getLocalGuideProvider();
+    }
+
+    /**
+     * Set the <tt>GuideProvider</tt> for the <tt>Particle</tt>.
+     * @param localGuideProvider The local <tt>GuideProvider</tt> to use.
+     */
+    public void setLocalGuideProvider(GuideProvider localGuideProvider) {
+        this.behavior.setLocalGuideProvider(localGuideProvider);
     }
 
     /**
@@ -235,7 +285,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      */
     @Override
     public InitializationStrategy getVelocityInitializationStrategy() {
-        return velocityInitializationStrategy;
+        return this.velocityInitializationStrategy;
     }
 
     /**
@@ -252,7 +302,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * @return The current {@linkplain PositionInitialisationStrategy}.
      */
     public InitializationStrategy<Particle> getPositionInitialisationStrategy() {
-        return positionInitialisationStrategy;
+        return this.positionInitialisationStrategy;
     }
 
     /**
@@ -269,7 +319,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      */
     @Override
     public NeighbourhoodBestUpdateStrategy getNeighbourhoodBestUpdateStrategy() {
-        return neighbourhoodBestUpdateStrategy;
+        return this.neighbourhoodBestUpdateStrategy;
     }
 
     /**
@@ -313,4 +363,13 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
         this.personalBestUpdateStrategy = personalBestUpdateStrategy;
     }
 
+    @Override
+    public ParticleBehavior getParticleBehavior() {
+        return this.behavior;
+    }
+
+    @Override
+    public void setParticleBehavior(ParticleBehavior particleBehavior) {
+        this.behavior = particleBehavior;
+    }
 }

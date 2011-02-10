@@ -8,53 +8,78 @@
     <algorithms>
         <algorithm id="pso" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityNumber value="50"/>
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.MOVelocityUpdateStrategy">
-                        <localGuideSelectionStrategy class="pso.moo.guideselectionstrategies.PBestGuideSelectionStrategy"/>
-                        <localGuideUpdateStrategy class="pso.moo.guideupdatestrategies.StandardGuideUpdateStrategy"/>
-                        <globalGuideSelectionStrategy class="pso.moo.guideselectionstrategies.VEPSOGuideSelectionStrategy">
-                            <knowledgeTransferStrategy class="algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy">
-                                <populationSelection class="util.selection.recipes.RingBasedPopulationSelection"/>
-                                <entitySelection class="util.selection.recipes.TournamentSelection"/>
-                            </knowledgeTransferStrategy>
-                        </globalGuideSelectionStrategy>
-                        <globalGuideUpdateStrategy class="pso.moo.guideupdatestrategies.StandardGuideUpdateStrategy"/>
-                    </velocityUpdateStrategy>
+                    <localGuideProvider class="pso.guideprovider.PBestGuideProvider"/>
+                    <globalGuideProvider class="pso.guideprovider.VEPSOGuideProvider">
+                        <knowledgeTransferStrategy class="algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy">
+                            <populationSelection class="util.selection.recipes.RingBasedPopulationSelector"/>
+                            <entitySelection class="util.selection.recipes.ElitistSelector"/>
+                        </knowledgeTransferStrategy>
+                    </globalGuideProvider>
                 </entityType>
             </initialisationStrategy>
             <iterationStrategy class="moo.iterationstrategies.ArchivingIterationStrategy">
-            <archive class="moo.archive.constrained.SetBasedConstrainedArchive" capacity="1000"/>
-            <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy"/>
+                <archive class="moo.archive.constrained.SetBasedConstrainedArchive" capacity="10000"/>
+                <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
+                    <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+                </iterationStrategy>
             </iterationStrategy>
         </algorithm>
+
         <algorithm id="vepso" class="algorithm.population.MultiPopulationCriterionBasedAlgorithm">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="100"/>
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="250"/>
             <objectiveAssignmentStrategy class="moo.criterion.objectiveassignmentstrategies.SequentialObjectiveAssignmentStrategy"/>
             <addPopulationBasedAlgorithm idref="pso"/>
             <addPopulationBasedAlgorithm idref="pso"/>
         </algorithm>
     </algorithms>
+
     <problems>
-        <problem id="f1_x" class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.ExpressionFunction" expression="(1 / 4) * (x1^2 + x2^2 + x3^2 + x4^2)" domain="R(0.0, 2.0)^4"/>
-        </problem>
-        <problem id="f2_x" class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.ExpressionFunction" expression="(1 / 4) * ((x1 - 2)^2 + (x2 - 2)^2 + (x3 - 2)^2 + (x4 - 2)^2)" domain="R(0.0, 2.0)^4"/>
-        </problem>
-        <problem id="moo_problem" class="problem.MOOptimisationProblem">
-            <add idref="f1_x"/>
-            <add idref="f2_x"/>
-        </problem>
+        <problem id="T1" class="functions.continuous.moo.T1"/>
+        <problem id="T2" class="functions.continuous.moo.T2"/>
+        <problem id="T3" class="functions.continuous.moo.T3"/>
+        <problem id="T4" class="functions.continuous.moo.T4"/>
+        <problem id="T6" class="functions.continuous.moo.T6"/>
     </problems>
-    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">
-        <addMeasurement class="measurement.multiple.ParetoOptimalFront"/>
+
+    <measurements id="moo-quality" class="simulator.MeasurementSuite" resolution="10">
+        <addMeasurement class="measurement.single.moo.NumberOfSolutions"/>
+        <addMeasurement class="measurement.single.moo.SolutionDistribution"/>
+        <addMeasurement class="measurement.single.moo.ParetoFrontExtent"/>
+        <addMeasurement class="measurement.multiple.moo.ParetoOptimalFront"/>
     </measurements>
+
     <simulations>
-        <!--<simulation samples="1">
+        <simulation samples="1">
             <algorithm idref="vepso"/>
-            <problem idref="moo_problem"/>
-            <measurements idref="fitness" />
-            <output format="TXT" file="data/vepso.txt"/>
-        </simulation>-->
+            <problem idref="T1"/>
+            <measurements idref="moo-quality"/>
+            <output format="TXT" file="data/vepso-T1.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="vepso"/>
+            <problem idref="T2"/>
+            <measurements idref="moo-quality"/>
+            <output format="TXT" file="data/vepso-T2.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="vepso"/>
+            <problem idref="T3"/>
+            <measurements idref="moo-quality"/>
+            <output format="TXT" file="data/vepso-T3.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="vepso"/>
+            <problem idref="T4"/>
+            <measurements idref="moo-quality"/>
+            <output format="TXT" file="data/vepso-T4.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="vepso"/>
+            <problem idref="T6"/>
+            <measurements idref="moo-quality"/>
+            <output format="TXT" file="data/vepso-T6.txt"/>
+        </simulation>
     </simulations>
 </simulator>

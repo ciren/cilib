@@ -25,7 +25,7 @@ package net.sourceforge.cilib.util.selection.arrangement;
  *
  * @author gpampara
  */
-public interface Arrangement {
+public interface Arrangement<T> {
 
-    <T extends Comparable> Iterable<T> arrange(Iterable<T> elements);
+    Iterable<T> arrange(Iterable<T> elements);
 }

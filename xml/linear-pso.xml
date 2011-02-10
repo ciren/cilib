@@ -11,10 +11,11 @@
             <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <neighbourhoodBestUpdateStrategy class="pso.positionupdatestrategies.IterationNeighbourhoodBestUpdateStrategy"/>
-                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.LinearVelocityUpdate">
+                    <neighbourhoodBestUpdateStrategy class="pso.positionprovider.IterationNeighbourhoodBestUpdateStrategy"/>
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
                         <vMax class="controlparameter.ConstantControlParameter" parameter="0.1"/>
-                    </velocityUpdateStrategy>
+                        <delegate class="pso.velocityprovider.LinearVelocityProvider"/>
+                    </velocityProvider>
                 </entityType>
             </initialisationStrategy>
         </algorithm>

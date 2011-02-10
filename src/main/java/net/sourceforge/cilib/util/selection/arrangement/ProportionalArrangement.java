@@ -33,7 +33,7 @@ import net.sourceforge.cilib.util.selection.WeightedObject;
  *
  * @author gpampara
  */
-public class ProportionalArrangement implements Arrangement {
+public class ProportionalArrangement<T> implements Arrangement<T> {
 
     private RandomProvider generator;
 
@@ -46,7 +46,7 @@ public class ProportionalArrangement implements Arrangement {
     }
 
     @Override
-    public <T extends Comparable> Iterable<T> arrange(Iterable<T> elements) {
+    public Iterable<T> arrange(Iterable<T> elements) {
         Preconditions.checkArgument(elements.iterator().next() instanceof WeightedObject);
         List<WeightedObject> weightedObjects = (List<WeightedObject>) Lists.newArrayList(elements);
         

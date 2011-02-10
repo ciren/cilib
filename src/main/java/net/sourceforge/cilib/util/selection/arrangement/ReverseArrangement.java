@@ -33,10 +33,10 @@ import java.util.List;
  *
  * @author gpampara
  */
-public class ReverseArrangement implements Arrangement {
+public class ReverseArrangement<T> implements Arrangement<T> {
 
     @Override
-    public <T extends Comparable> Iterable<T> arrange(Iterable<T> elements) {
+    public Iterable<T> arrange(Iterable<T> elements) {
         List<T> list = Lists.newArrayList(elements);
         Collections.reverse(list);
         return list;

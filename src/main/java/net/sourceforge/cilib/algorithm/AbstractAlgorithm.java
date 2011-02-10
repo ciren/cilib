@@ -27,7 +27,8 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
-
+import net.sourceforge.cilib.entity.EntityIdFactory;
+import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
@@ -174,6 +175,11 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
         performUninitialisation();
 
         currentAlgorithmStack.get().pop();
+
+        // Cleanup thread-local variables -- very ugly hack!!!
+        currentAlgorithmStack.remove();
+        EntityIdFactory.remove();
+        Archive.Provider.remove();
     }
 
     /**
