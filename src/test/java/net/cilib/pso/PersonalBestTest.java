@@ -21,8 +21,8 @@
  */
 package net.cilib.pso;
 
+import fj.data.Option;
 import net.cilib.entity.Velocity;
-import net.cilib.entity.Fitnesses;
 import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.Entity;
 import net.cilib.entity.Individual;
@@ -40,7 +40,7 @@ public class PersonalBestTest {
     public void memoryReturnedFromMemoryEntity() {
         CandidateSolution memory = CandidateSolution.of(1.0);
         PersonalBest pbest = new PersonalBest();
-        Entity partialEntity = pbest.of(new Particle(CandidateSolution.empty(), memory, Velocity.copyOf(), Fitnesses.inferior()));
+        Entity partialEntity = pbest.of(new Particle(CandidateSolution.empty(), memory, Velocity.copyOf(), Option.<Double>none()));
 
         Assert.assertThat(partialEntity.solution(), is(memory));
     }
@@ -49,7 +49,7 @@ public class PersonalBestTest {
     public void memoryReturnedFromNonMemoryEntity() {
         CandidateSolution position = CandidateSolution.of(1.0);
         PersonalBest pbest = new PersonalBest();
-        Entity partialEntity = pbest.of(new Individual(position, Fitnesses.inferior()));
+        Entity partialEntity = pbest.of(new Individual(position, Option.<Double>none()));
 
         Assert.assertThat(partialEntity.solution(), equalTo(CandidateSolution.of(0.0)));
     }

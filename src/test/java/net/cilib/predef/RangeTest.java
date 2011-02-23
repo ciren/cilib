@@ -36,6 +36,7 @@ import static org.hamcrest.CoreMatchers.*;
  * @author gpampara
  */
 public class RangeTest {
+
     @Test
     public void creation() {
         Range r = Range.of(-10, 20);
@@ -65,6 +66,7 @@ public class RangeTest {
     }
 
     private static class IsBetween extends TypeSafeMatcher<Double> {
+
         private final double first;
         private final double second;
 

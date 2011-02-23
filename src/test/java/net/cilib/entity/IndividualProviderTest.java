@@ -21,6 +21,7 @@
  */
 package net.cilib.entity;
 
+import fj.data.Option;
 import net.cilib.problem.Problem;
 import org.junit.Assert;
 import org.junit.Test;
@@ -42,14 +43,14 @@ public class IndividualProviderTest {
     public void individualCreation() {
         IndividualProvider provider = new IndividualProvider(new FitnessProvider(new Problem() {
             @Override
-            public Fitness fitnessOf(CandidateSolution solution) {
-                return Fitnesses.newMaximizationFitness(1.0);
+            public Double f(Double a) {
+                return 1.0;
             }
         }));
 
         Individual i = provider.solution(CandidateSolution.empty()).get();
 
         Assert.assertNotNull(i);
-        Assert.assertThat(i.fitness(), equalTo(Fitnesses.newMaximizationFitness(1.0)));
+        Assert.assertThat(i.fitness().some(), equalTo(0.0));
     }
 }

@@ -21,26 +21,26 @@
  */
 package net.cilib.entity;
 
-import java.util.Comparator;
+import org.junit.Assert;
+import net.cilib.problem.Problem;
+import org.junit.Test;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 /**
- * Predefined comparator instances for {@code Entity} objects.
  *
  * @author gpampara
  */
-public final class EntityComparators {
+public class FitnessProviderTest {
 
-    /**
-     * Comparator based on current {@link Fitness} instances. Any instances
-     * that implement {@link HasFitness}, may be compared.
-     */
-    public static final Comparator<HasFitness> FITNESS_COMPARATOR = new Comparator<HasFitness>() {
-        @Override
-        public int compare(HasFitness o1, HasFitness o2) {
-            return o1.fitness().compareTo(o2.fitness());
-        }
-    };
-
-    private EntityComparators() {
+    @Test
+    public void testFinalize() {
+        FitnessProvider provider = new FitnessProvider(new Problem() {
+            @Override
+            public Double f(Double a) {
+                return a;
+            }
+        });
+        
+        Assert.assertThat(provider.finalize(CandidateSolution.of(1.0, 2.0)).some(), equalTo(3.0));
     }
 }

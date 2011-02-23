@@ -112,6 +112,11 @@
             <artifactId>trove</artifactId>
             <version>1.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.functionaljava</groupId>
+            <artifactId>functionaljava</artifactId>
+            <version>3.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <build>
         <resources>

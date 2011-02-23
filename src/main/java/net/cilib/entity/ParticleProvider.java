@@ -24,17 +24,21 @@ package net.cilib.entity;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import fj.Ord;
+import fj.Ordering;
+import fj.data.Option;
 
 /**
  * Factory object to create {@code Particle} instances.
  * @author gpampara
  */
 public final class ParticleProvider implements Provider<Particle> {
+
     private final FitnessProvider fitnessProvider;
     private CandidateSolution position;
     private Velocity velocity;
     private CandidateSolution previousBest;
-    private Fitness previousFitness;
+    private Option<Double> previousFitness;
 
     @Inject
     public ParticleProvider(FitnessProvider fitnessProvider) {
@@ -102,8 +106,8 @@ public final class ParticleProvider implements Provider<Particle> {
 
         // Should this be done with DI somehow?
         try {
-            Fitness newFitness = fitnessProvider.finalize(position);
-            if (newFitness.isMoreFitThan(previousFitness)) {
+            Option<Double> newFitness = fitnessProvider.finalize(position);
+            if (compare(newFitness, previousFitness) < 0) {
                 return new Particle(position, position, velocity, newFitness);
             } else {
                 return new Particle(position, previousBest, velocity, newFitness);
@@ -114,5 +118,9 @@ public final class ParticleProvider implements Provider<Particle> {
             previousBest = null;
             previousFitness = null;
         }
+    }
+
+    private int compare(Option<Double> newFitness, Option<Double> previousFitness) {
+        return Ord.optionOrd(Ord.doubleOrd).compare(newFitness, previousFitness) == Ordering.GT ? 0 : 1;
     }
 }

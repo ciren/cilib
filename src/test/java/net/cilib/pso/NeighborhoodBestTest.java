@@ -21,11 +21,12 @@
  */
 package net.cilib.pso;
 
+import net.cilib.entity.FitnessComparator.MaxFitnessComparator;
+import fj.data.Option;
 import com.google.inject.util.Providers;
 import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
 import net.cilib.entity.Entity;
-import net.cilib.entity.Fitnesses;
 import net.cilib.entity.Individual;
 import org.junit.Assert;
 import net.cilib.collection.immutable.ImmutableLBestTopology;
@@ -40,7 +41,7 @@ import static org.hamcrest.CoreMatchers.*;
 public class NeighborhoodBestTest {
 
     private Individual newMockIndividual(double fitness) {
-        return new Individual(CandidateSolution.empty(), Fitnesses.newMaximizationFitness(fitness));
+        return new Individual(CandidateSolution.empty(), Option.some(fitness));
     }
 
     @Test
@@ -53,9 +54,9 @@ public class NeighborhoodBestTest {
                 .add(newMockIndividual(4.0))
                 .add(newMockIndividual(5.0))
                 .build();
-        NeighborhoodBest guide = new NeighborhoodBest(Providers.<Topology>of(topology));
+        NeighborhoodBest guide = new NeighborhoodBest(Providers.<Topology>of(topology), new MaxFitnessComparator());
         Entity result = guide.of(target);
-        Assert.assertThat(result.fitness().value(), equalTo(4.0));
+        Assert.assertThat(result.fitness().some(), equalTo(4.0));
     }
 
     @Test
@@ -68,8 +69,8 @@ public class NeighborhoodBestTest {
                 .add(newMockIndividual(4.0))
                 .add(newMockIndividual(5.0))
                 .build();
-        NeighborhoodBest guide = new NeighborhoodBest(Providers.<Topology>of(topology));
+        NeighborhoodBest guide = new NeighborhoodBest(Providers.<Topology>of(topology), new MaxFitnessComparator());
         Entity result = guide.of(target);
-        Assert.assertThat(result.fitness().value(), equalTo(5.0));
+        Assert.assertThat(result.fitness().some(), equalTo(5.0));
     }
 }

@@ -25,8 +25,6 @@ import com.google.common.base.Function;
 
 import java.util.Iterator;
 
-import static net.cilib.predef.Predef.array;
-
 /**
  * @param <A>
  */
@@ -48,6 +46,6 @@ public final class Array<A> implements Iterable<A> {
         for (int i = 0; i < a.length; i++) {
             local[i] = function.apply((B) a[i]);
         }
-        return (Array<C>) array(local);
+        return (Array<C>) new Array(local);
     }
 }

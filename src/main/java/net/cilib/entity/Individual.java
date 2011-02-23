@@ -21,11 +21,10 @@
  */
 package net.cilib.entity;
 
+import fj.data.Option;
 import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Objects;
 import com.google.inject.Inject;
-import java.util.Comparator;
-import static net.cilib.entity.EntityComparators.FITNESS_COMPARATOR;
 
 /**
  * Basic individual class.
@@ -38,10 +37,10 @@ import static net.cilib.entity.EntityComparators.FITNESS_COMPARATOR;
  */
 public final class Individual implements Entity {
     private final CandidateSolution solution;
-    private final Fitness fitness;
+    private final Option<Double> fitness;
 
     @Inject
-    public Individual(CandidateSolution solution, Fitness fitness) {
+    public Individual(CandidateSolution solution, Option<Double> fitness) {
         this.solution = checkNotNull(solution);
         this.fitness = checkNotNull(fitness);
     }
@@ -66,65 +65,8 @@ public final class Individual implements Entity {
      * {@inheritDoc}
      */
     @Override
-    public Fitness fitness() {
+    public Option<Double> fitness() {
         return fitness;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equiv(Entity that) {
-        // the only check we can do it that the fitnesses are similar.
-        return this.fitness.equals(that.fitness());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Entity moreFit(Entity that) {
-        return moreFit(that, FITNESS_COMPARATOR);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Entity moreFit(Entity that, Comparator<? super Entity> comparator) {
-        return (comparator.compare(this, that) >= 0) ? this : that;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isMoreFit(Entity than) {
-        return moreFit(than) == this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Entity lessFit(Entity that) {
-        return lessFit(that, FITNESS_COMPARATOR);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Entity lessFit(Entity that, Comparator<? super Entity> comparator) {
-        return (comparator.compare(this, that) < 0) ? this : that;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isLessFit(Entity than) {
-        return lessFit(than) == this;
     }
 
     /**

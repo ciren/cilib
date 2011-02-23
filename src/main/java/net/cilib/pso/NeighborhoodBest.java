@@ -26,6 +26,7 @@ import com.google.inject.Provider;
 import java.util.Iterator;
 import net.cilib.collection.Topology;
 import net.cilib.entity.Entity;
+import net.cilib.entity.FitnessComparator;
 
 /**
  *
@@ -34,10 +35,12 @@ import net.cilib.entity.Entity;
 public class NeighborhoodBest implements Guide {
 
     private final Provider<Topology> topologyProvider;
+    private final FitnessComparator comparator;
 
     @Inject
-    public NeighborhoodBest(Provider<Topology> topologyProvider) {
+    public NeighborhoodBest(Provider<Topology> topologyProvider, FitnessComparator comparator) {
         this.topologyProvider = topologyProvider;
+        this.comparator = comparator;
     }
 
     /**
@@ -56,7 +59,7 @@ public class NeighborhoodBest implements Guide {
                 result = current;
                 continue;
             }
-            if (current.isMoreFit(result)) {
+            if (comparator.isMoreFit(current, result)) {
                 result = current;
             }
         }

@@ -22,13 +22,22 @@
 package net.cilib.algorithm;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 import net.cilib.entity.Entity;
+import net.cilib.entity.FitnessComparator;
 
 /**
  *
  * @author gpampara
  */
 public class ReplacementSelector implements Selector {
+
+    private final FitnessComparator comparator;
+
+    @Inject
+    public ReplacementSelector(FitnessComparator comparator) {
+        this.comparator = comparator;
+    }
 
     @Override
     public Entity select(Entity... elements) {
@@ -39,7 +48,7 @@ public class ReplacementSelector implements Selector {
     public Entity select(Iterable<Entity> elements) {
         Entity selected = null; // This should really be: Entity selected = Entity.dummy(); // or some name indicating that it's a temporary value
         for (Entity entity : elements) {
-            selected = (selected == null) ? entity : selected.moreFit(entity);
+            selected = (selected == null) ? entity : comparator.moreFit(selected, entity);
         }
         return selected;
     }

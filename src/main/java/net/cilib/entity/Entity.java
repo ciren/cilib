@@ -30,6 +30,5 @@ package net.cilib.entity;
  * @since 0.8
  * @author gpampara
  */
-public interface Entity extends HasCandidateSolution, HasFitness,
-    EntityComparable {
+public interface Entity extends HasCandidateSolution, HasFitness {
 }

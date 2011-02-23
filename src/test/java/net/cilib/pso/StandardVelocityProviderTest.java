@@ -21,10 +21,10 @@
  */
 package net.cilib.pso;
 
+import fj.data.Option;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import net.cilib.entity.CandidateSolution;
-import net.cilib.entity.Fitnesses;
 import net.cilib.entity.PartialEntity;
 import net.cilib.entity.Particle;
 import net.cilib.entity.Velocity;
@@ -51,7 +51,7 @@ public class StandardVelocityProviderTest {
         final Particle particle = new Particle(CandidateSolution.of(1.0),
                 CandidateSolution.of(1.0),
                 Velocity.copyOf(1.0),
-                Fitnesses.newMaximizationFitness(1.0));
+                Option.some(1.0));
 
         when(localGuide.of(particle)).thenReturn(tempEntity);
         when(globalGuide.of(particle)).thenReturn(tempEntity);

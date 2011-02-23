@@ -21,6 +21,7 @@
  */
 package net.cilib.entity;
 
+import fj.data.Option;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
@@ -34,42 +35,8 @@ public class IndividualTest {
     @Test
     public void createIndividual() {
         CandidateSolution solution = CandidateSolution.of(1.0, 3.0);
-        Individual i = new Individual(solution, Fitnesses.inferior());
+        Individual i = new Individual(solution, Option.<Double>none());
 
         Assert.assertThat(i.size(), is(2));
-    }
-
-    @Test
-    public void lessFit() {
-        Individual i1 = new Individual(CandidateSolution.empty(), Fitnesses.newMinimizationFitness(4.0));
-        Individual i2 = new Individual(CandidateSolution.empty(), Fitnesses.newMinimizationFitness(-3.0));
-
-        Assert.assertThat((Individual) i1.lessFit(i2), is(i1));
-        Assert.assertThat((Individual) i2.lessFit(i1), is(i1));
-    }
-
-    @Test
-    public void isLessFit() {
-        Individual i1 = new Individual(CandidateSolution.empty(), Fitnesses.newMinimizationFitness(4.0));
-        Individual i2 = new Individual(CandidateSolution.empty(), Fitnesses.newMinimizationFitness(-3.0));
-
-        Assert.assertTrue(i1.isLessFit(i2));
-    }
-
-    @Test
-    public void moreFit() {
-        Individual i1 = new Individual(CandidateSolution.empty(), Fitnesses.newMaximizationFitness(4.0));
-        Individual i2 = new Individual(CandidateSolution.empty(), Fitnesses.newMaximizationFitness(-3.0));
-
-        Assert.assertThat((Individual) i1.moreFit(i2), is(i1));
-        Assert.assertThat((Individual) i2.moreFit(i1), is(i1));
-    }
-
-    @Test
-    public void isMoreFit() {
-        Individual i1 = new Individual(CandidateSolution.empty(), Fitnesses.newMaximizationFitness(4.0));
-        Individual i2 = new Individual(CandidateSolution.empty(), Fitnesses.newMaximizationFitness(-3.0));
-
-        Assert.assertTrue(i1.isMoreFit(i2));
     }
 }
