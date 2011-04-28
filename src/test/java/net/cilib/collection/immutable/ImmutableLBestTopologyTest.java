@@ -36,7 +36,7 @@ public class ImmutableLBestTopologyTest {
 
     @Test
     public void neighborhoodOf() {
-        ImmutableLBestTopology<Double> lbest = ImmutableLBestTopology.<Double>newBuilder()
+        ImmutableLBestTopology<Double> lbest = new ImmutableLBestTopology.ImmutableLBestTopologyBuilder<Double>()
                 .add(4.0).add(3.0).add(2.0).add(1.0).add(0.0).build();
 
         Iterator<Double> neighborhood = lbest.neighborhoodOf(2.0); // Should contain 3.0, 2.0, and 1.0
@@ -50,7 +50,7 @@ public class ImmutableLBestTopologyTest {
 
     @Test
     public void neighborhoodOfWrappingLower() {
-        ImmutableLBestTopology<Double> lbest = ImmutableLBestTopology.<Double>newBuilder()
+        ImmutableLBestTopology<Double> lbest = new ImmutableLBestTopology.ImmutableLBestTopologyBuilder<Double>()
                 .add(4.0).add(3.0).add(2.0).add(1.0).add(0.0).build();
 
         Iterator<Double> neighborhood = lbest.neighborhoodOf(4.0); // Should contain 3.0, 2.0, and 1.0
@@ -64,7 +64,7 @@ public class ImmutableLBestTopologyTest {
 
     @Test
     public void neighborhoodOfWrappingUpper() {
-        ImmutableLBestTopology<Double> lbest = ImmutableLBestTopology.<Double>newBuilder()
+        ImmutableLBestTopology<Double> lbest = new ImmutableLBestTopology.ImmutableLBestTopologyBuilder<Double>()
                 .add(4.0).add(3.0).add(2.0).add(1.0).add(0.0).build();
 
         Iterator<Double> neighborhood = lbest.neighborhoodOf(0.0); // Should contain 3.0, 2.0, and 1.0

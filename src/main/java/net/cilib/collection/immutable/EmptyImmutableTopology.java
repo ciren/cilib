@@ -21,9 +21,12 @@
  */
 package net.cilib.collection.immutable;
 
+import com.google.common.collect.ImmutableList;
 import java.util.Collections;
 import java.util.Iterator;
 import net.cilib.collection.Topology;
+import net.cilib.collection.Topology.TopologyBuilder;
+import net.cilib.collection.TopologyBuffer;
 
 /**
  *
@@ -54,5 +57,23 @@ final class EmptyImmutableTopology implements Topology<Object> {
     @Override
     public Iterator<Object> neighborhoodOf(Object element) {
         return iterator();
+    }
+
+    @Override
+    public TopologyBuffer<Object> newBuffer() {
+        return new TopologyBuffer<Object>(new EmptyTopologyBuilder(), ImmutableList.of());
+    }
+
+    private static class EmptyTopologyBuilder implements Topology.TopologyBuilder<Object> {
+
+        @Override
+        public Topology<Object> build() {
+            return INSTANCE;
+        }
+
+        @Override
+        public TopologyBuilder<Object> add(Object element) {
+            return this;
+        }
     }
 }

@@ -32,6 +32,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import net.cilib.collection.Topology;
+import net.cilib.collection.TopologyBuffer;
 
 /**
  * {@code l-best} topology implementation. The {@code l-best} topology defines
@@ -43,7 +44,7 @@ import net.cilib.collection.Topology;
  */
 public class ImmutableLBestTopology<A> implements Topology<A> {
 
-    private static final Topology<Object> INSTANCE = newBuilder().build();
+    private static final Topology<Object> INSTANCE = new ImmutableLBestTopology<Object>(Lists.newArrayList(), 0);
     private final ImmutableList<A> elements;
     private final int neighborhoodsize;
 
@@ -115,18 +116,33 @@ public class ImmutableLBestTopology<A> implements Topology<A> {
     }
 
     /**
-     * Create a new {@code ImmutableTopologyBuilder} instance.
-     * @return a new builder instance.
+     * Create a new topology instance, with the given elements.
+     * @param <A> The type
+     * @param neighborhoodSize the size of neighborhoods within the topology.
+     * @param first the first element for the topology.
+     * @param rest the "potential" remainder of the topology.
+     * @return a new {@code ImmutableLBestTopology} instance containing the given
+     *         elements.
      */
-    public static <A> ImmutableLBestTopologyBuilder<A> newBuilder() {
-        return new ImmutableLBestTopologyBuilder<A>();
+    public static <A> ImmutableLBestTopology<A> topologyOf(int neighborhoodSize, A first, A... rest) {
+        ImmutableLBestTopologyBuilder<A> builder = new ImmutableLBestTopologyBuilder<A>();
+        builder.withNeighborhoodSize(neighborhoodSize).add(first);
+        for (A a : rest) {
+            builder.add(a);
+        }
+        return builder.build();
+    }
+
+    @Override
+    public TopologyBuffer<A> newBuffer() {
+        return new TopologyBuffer<A>(new ImmutableLBestTopologyBuilder<A>(), ImmutableList.<A>of());
     }
 
     /**
      * Create a topology builder to create {@code ImmutableLBestTopology}
      * instances. The default neighborhood size is defined to be {@code 3}.
      */
-    public static class ImmutableLBestTopologyBuilder<B> {
+    public static class ImmutableLBestTopologyBuilder<B> implements Topology.TopologyBuilder<B> {
 
         private final List<B> elements;
         private int neighborhoodSize = 3;
@@ -142,6 +158,7 @@ public class ImmutableLBestTopology<A> implements Topology<A> {
          * is cleared.
          * @return a new {@code ImmutableLBestTopology}.
          */
+        @Override
         public ImmutableLBestTopology<B> build() {
             try {
                 return new ImmutableLBestTopology<B>(elements, neighborhoodSize);
@@ -157,6 +174,7 @@ public class ImmutableLBestTopology<A> implements Topology<A> {
          * @param element to add
          * @return the current topology builder for chaining purposes.
          */
+        @Override
         public ImmutableLBestTopologyBuilder<B> add(B element) {
             elements.add(element);
             return this;

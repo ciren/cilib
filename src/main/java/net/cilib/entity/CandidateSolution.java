@@ -23,7 +23,6 @@ package net.cilib.entity;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import gnu.trove.TDoubleArrayList;
 import java.util.Arrays;
 
 /**
@@ -35,8 +34,8 @@ import java.util.Arrays;
  */
 public final class CandidateSolution implements LinearSeq {
 
-    private final static CandidateSolution EMPTY = new CandidateSolution(new TDoubleArrayList(new double[]{}));
-    private final TDoubleArrayList internal;
+    private final static CandidateSolution EMPTY = new CandidateSolution(new double[]{});
+    private final double[] internal;
 
     /**
      * Return an empty {@code CandidateSolution}. The same instance will be
@@ -54,7 +53,7 @@ public final class CandidateSolution implements LinearSeq {
      * @return an immutable copy of a provided new candidate solution.
      */
     public static CandidateSolution copyOf(final CandidateSolution solution) {
-        return new CandidateSolution(new TDoubleArrayList(solution.toArray()));
+        return new CandidateSolution(solution.toArray());
     }
 
     /**
@@ -65,7 +64,7 @@ public final class CandidateSolution implements LinearSeq {
      */
     public static CandidateSolution of(final double... solution) {
         Preconditions.checkArgument(solution.length > 0);
-        return new CandidateSolution(new TDoubleArrayList(solution));
+        return new CandidateSolution(solution);
     }
 
     /**
@@ -85,7 +84,7 @@ public final class CandidateSolution implements LinearSeq {
         return builder.build();
     }
 
-    private CandidateSolution(TDoubleArrayList list) {
+    private CandidateSolution(double[] list) {
         this.internal = list;
     }
 
@@ -97,7 +96,7 @@ public final class CandidateSolution implements LinearSeq {
      */
     @Override
     public double get(int index) {
-        return internal.get(index);
+        return internal[index];
     }
 
     /**
@@ -106,7 +105,7 @@ public final class CandidateSolution implements LinearSeq {
      */
     @Override
     public int size() {
-        return internal.size();
+        return internal.length;
     }
 
     /**
@@ -118,7 +117,7 @@ public final class CandidateSolution implements LinearSeq {
      */
     @Override
     public double[] toArray() {
-        return internal.toNativeArray();
+        return Arrays.copyOf(internal, internal.length);
     }
 
     /**
@@ -149,7 +148,7 @@ public final class CandidateSolution implements LinearSeq {
      * @return {@code SeqIterator} instance for the iteration.
      */
     public SeqIterator iterator() {
-        final double[] local = Arrays.copyOf(internal.toNativeArray(), internal.size());
+        final double[] local = Arrays.copyOf(internal, internal.length);
         return new SeqIterator() {
 
             private int count = 0;
@@ -173,7 +172,7 @@ public final class CandidateSolution implements LinearSeq {
         }
 
         CandidateSolution other = (CandidateSolution) obj;
-        return internal.equals(other.internal);
+        return Arrays.equals(internal, other.internal);//internal.equals(other.internal);
     }
 
     @Override

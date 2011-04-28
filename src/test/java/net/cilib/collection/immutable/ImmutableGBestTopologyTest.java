@@ -22,6 +22,7 @@
 package net.cilib.collection.immutable;
 
 import com.google.common.collect.Iterables;
+import net.cilib.collection.Topology;
 import net.cilib.entity.Particle;
 import java.util.Iterator;
 import org.junit.Assert;
@@ -44,7 +45,7 @@ public class ImmutableGBestTopologyTest {
 
     @Test
     public void iteratorOfTopology() {
-        ImmutableGBestTopology<Double> t = ImmutableGBestTopology.<Double>newBuilder()
+        Topology<Double> t = new ImmutableGBestTopology.ImmutableGBestTopologyBuilder<Double>()
                 .add(3.0).add(4.0).build();
 
         Assert.assertThat(Iterables.size(t), equalTo(2));
@@ -52,7 +53,7 @@ public class ImmutableGBestTopologyTest {
 
     @Test
     public void gBestNeighbourhood() {
-        ImmutableGBestTopology<Double> t = ImmutableGBestTopology.<Double>newBuilder()
+        Topology<Double> t = new ImmutableGBestTopology.ImmutableGBestTopologyBuilder<Double>()
                 .add(3.0).add(4.0).build();
 
         Assert.assertThat(Iterables.size(t), equalTo(2));

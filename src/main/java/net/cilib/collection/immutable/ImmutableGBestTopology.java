@@ -28,6 +28,7 @@ import com.google.common.collect.UnmodifiableIterator;
 import java.util.Iterator;
 import java.util.List;
 import net.cilib.collection.Topology;
+import net.cilib.collection.TopologyBuffer;
 
 /**
  * Implementation of the {@code g-best} topology. Each created topology
@@ -38,7 +39,7 @@ import net.cilib.collection.Topology;
  */
 public class ImmutableGBestTopology<A> implements Topology<A> {
 
-    private static final Topology<Object> INSTANCE = newBuilder().build();
+    private static final ImmutableGBestTopology<Object> INSTANCE = new ImmutableGBestTopology<Object>(Lists.newArrayList());
     private final ImmutableList<A> elements;
 
     /**
@@ -96,24 +97,37 @@ public class ImmutableGBestTopology<A> implements Topology<A> {
         return Objects.toStringHelper(this).add("contents", elements).toString();
     }
 
+    @Override
+    public TopologyBuffer<A> newBuffer() {
+        return new TopologyBuffer<A>(new ImmutableGBestTopologyBuilder<A>(), ImmutableList.<A>of());
+    }
+
     /**
-     * Obtain a {@code ImmutableTopologyBuilder} to build up a new topology
-     * instance.
-     * @return an {@code ImmutableTopologyBuilder}.
+     * Create a new topology instance, with the given elements.
+     * @param <A> The type
+     * @param first the first element for the topology.
+     * @param rest the "potential" remainder of the topology.
+     * @return a new {@code ImmutableGBestTopology} instance containing the given
+     *         elements.
      */
-    public static <A> ImmutableGBestTopologyBuilder<A> newBuilder() {
-        return new ImmutableGBestTopologyBuilder<A>();
+    public static <A> Topology<A> topologyOf(A first, A... rest) {
+        ImmutableGBestTopologyBuilder<A> builder = new ImmutableGBestTopologyBuilder<A>();
+        builder.add(first);
+        for (A a : rest) {
+            builder.add(a);
+        }
+        return builder.build();
     }
 
     /**
      * Topology builder to create ImmutableGBestTopology instances.
      * @param <B> parameter type.
      */
-    public static class ImmutableGBestTopologyBuilder<B> {
+    public static class ImmutableGBestTopologyBuilder<B> implements TopologyBuilder<B> {
 
         private final List<B> elements;
 
-        private ImmutableGBestTopologyBuilder() {
+        public ImmutableGBestTopologyBuilder() {
             elements = Lists.newArrayList();
         }
 
@@ -124,7 +138,8 @@ public class ImmutableGBestTopology<A> implements Topology<A> {
          * is cleared.
          * @return a new {@code ImmutableGBestTopology}.
          */
-        public ImmutableGBestTopology<B> build() {
+        @Override
+        public Topology<B> build() {
             try {
                 return new ImmutableGBestTopology<B>(elements);
             } finally {
@@ -138,7 +153,8 @@ public class ImmutableGBestTopology<A> implements Topology<A> {
          * @param element to add
          * @return the current topology builder for chaining purposes.
          */
-        public ImmutableGBestTopologyBuilder<B> add(B element) {
+        @Override
+        public TopologyBuilder<B> add(B element) {
             elements.add(element);
             return this;
         }
