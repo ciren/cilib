@@ -75,7 +75,7 @@ public final class CIlibCoreModule extends AbstractModule {
         bind(RandomProvider.class).annotatedWith(Unique.class).toProvider(UniqueRandomProvider.class);
 
         bind(Problem.class).to(MockProblem.class);
-        bind(FitnessComparator.class).to(FitnessComparator.MinFitnessComparator.class);
+        bind(FitnessComparator.class).toInstance(FitnessComparator.MIN);
     }
 
     static class UniqueRandomProvider implements Provider<RandomProvider> {
