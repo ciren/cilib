@@ -64,7 +64,7 @@ public class PSOTest {
 
         Particle p1 = new Particle(CandidateSolution.of(1.0, 1.0), CandidateSolution.of(1.0, 1.0), Velocity.copyOf(0.0, 0.0), Option.some(1.0));
         Particle p2 = new Particle(CandidateSolution.of(1.0, 1.0), CandidateSolution.of(1.0, 1.0), Velocity.copyOf(0.0, 0.0), Option.some(1.0));
-        Topology initial = ImmutableGBestTopology.newBuilder().add(p1).add(p2).build();
+        Topology initial = ImmutableGBestTopology.topologyOf(p1, p2);
 
         PSO pso = injector.getInstance(PSO.class);
 

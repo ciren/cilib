@@ -21,6 +21,7 @@
  */
 package net.cilib.pso;
 
+import net.cilib.entity.Entity;
 import fj.data.Option;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
@@ -41,7 +42,7 @@ public class StandardVelocityProviderTest {
 
     @Test
     public void velocityCalculation() {
-        final PartialEntity tempEntity = new PartialEntity(CandidateSolution.of(0.0));
+        final Option<Entity> tempEntity = Option.<Entity>some(new PartialEntity(CandidateSolution.of(0.0)));
 
         final Guide localGuide = mock(Guide.class);
         final Guide globalGuide = mock(Guide.class);

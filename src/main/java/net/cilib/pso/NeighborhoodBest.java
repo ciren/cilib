@@ -23,6 +23,7 @@ package net.cilib.pso;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import fj.data.Option;
 import java.util.Iterator;
 import net.cilib.collection.Topology;
 import net.cilib.entity.Entity;
@@ -50,7 +51,7 @@ public class NeighborhoodBest implements Guide {
      * within the neighborhood.
      */
     @Override
-    public Entity of(Entity target) {
+    public Option<Entity> of(Entity target) {
         Iterator<Entity> neighborhoodOf = topologyProvider.get().neighborhoodOf(target);
         Entity result = null;
         while (neighborhoodOf.hasNext()) {
@@ -63,6 +64,6 @@ public class NeighborhoodBest implements Guide {
                 result = current;
             }
         }
-        return result;
+        return (result != null) ? Option.some(result) : Option.<Entity>none();
     }
 }
