@@ -21,7 +21,6 @@
  */
 package net.cilib.entity;
 
-import net.cilib.entity.FitnessComparator.MaxFitnessComparator;
 import fj.data.Option;
 import org.junit.Assert;
 import org.junit.Test;
@@ -37,7 +36,7 @@ public class MaxFitnessComparatorTest {
     public void lessFit() {
         Individual i1 = new Individual(CandidateSolution.of(1.0), Option.some(1.0));
         Individual i2 = new Individual(CandidateSolution.of(1.0), Option.some(2.0));
-        FitnessComparator c = new MaxFitnessComparator();
+        FitnessComparator c = FitnessComparator.MAX;
 
         Assert.assertThat(c.lessFit(i1, i2), is(i2));
     }
@@ -46,7 +45,7 @@ public class MaxFitnessComparatorTest {
     public void isMoreFit() {
         Individual i1 = new Individual(CandidateSolution.of(1.0), Option.some(1.0));
         Individual i2 = new Individual(CandidateSolution.of(1.0), Option.some(2.0));
-        FitnessComparator c = new MaxFitnessComparator();
+        FitnessComparator c = FitnessComparator.MAX;
 
         Assert.assertThat(c.isMoreFit(i1, i2), is(false));
         Assert.assertThat(c.isMoreFit(i2, i1), is(true));
@@ -56,7 +55,7 @@ public class MaxFitnessComparatorTest {
     public void isAMoreFitIndividualReturned() {
         Individual i1 = new Individual(CandidateSolution.of(1.0), Option.some(1.0));
         Individual i2 = new Individual(CandidateSolution.of(1.0), Option.some(2.0));
-        FitnessComparator c = new MaxFitnessComparator();
+        FitnessComparator c = FitnessComparator.MAX;
         
         Assert.assertThat(c.moreFit(i1, i2), is(i2));
     }

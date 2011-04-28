@@ -23,7 +23,6 @@ package net.cilib.entity;
 
 import org.junit.Assert;
 import fj.data.Option;
-import net.cilib.entity.FitnessComparator.MinFitnessComparator;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 
@@ -37,25 +36,25 @@ public class FitnessComparatorTest {
     public void otherObjectFitnessIsInferiror() {
         Option<Double> valid = Option.some(1.0);
         Option<Double> invalid = Option.<Double>none();
-        MinFitnessComparator comparator = new MinFitnessComparator();
+        FitnessComparator comparator = FitnessComparator.MIN;
 
-        Assert.assertThat(comparator.compare(valid, invalid), is(true));
+        Assert.assertThat(comparator.compare(valid, invalid), is(-1));
     }
 
     @Test
     public void currentObjectFitnessIsInferior() {
         Option<Double> valid = Option.some(1.0);
         Option<Double> invalid = Option.<Double>none();
-        MinFitnessComparator comparator = new MinFitnessComparator();
+        FitnessComparator comparator = FitnessComparator.MIN;
 
-        Assert.assertThat(comparator.compare(invalid, valid), is(false));
+        Assert.assertThat(comparator.compare(invalid, valid), is(1));
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void bothOptionValuesAreNone() {
         Option<Double> a = Option.<Double>none();
         Option<Double> b = Option.<Double>none();
-        MinFitnessComparator comparator = new MinFitnessComparator();
+        FitnessComparator comparator = FitnessComparator.MIN;
 
         comparator.compare(a, b);
     }

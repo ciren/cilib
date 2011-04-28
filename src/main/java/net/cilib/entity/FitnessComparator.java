@@ -22,22 +22,68 @@
 package net.cilib.entity;
 
 import fj.data.Option;
+import java.util.Comparator;
 
 /**
  * General comparator for fitness comparisons.
  */
-public abstract class FitnessComparator {
+public enum FitnessComparator implements Comparator<Option<Double>> {
 
     /**
-     * Define the core logic for comparison of given fitness values.
-     * @param a the first fitness as an {@code Option}.
-     * @param b the second fitness as an {@code Option}.
-     * @return {@code true} if {@code a {@literal <} b},
-     *         {@code false} otherwise.
-     * @throws UnsupportedOperationException when both paramters are
-     *         {@linkplain Option#none() none}.
+     * Comparator designed to obtain the "least fit" of two instances that
+     * maintain a fitness.
      */
-    protected abstract boolean compare(Option<Double> a, Option<Double> b);
+    MIN {
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <A extends HasFitness> boolean isLessFit(A a, A b) {
+            return compare(a.fitness(), b.fitness()) < 0;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <A extends HasFitness> boolean isMoreFit(A a, A b) {
+            return compare(a.fitness(), b.fitness()) < 0;
+        }
+    },
+    /**
+     * Comparator designed to obtain the "most fit" of two instances that
+     * maintain a fitness.
+     */
+    MAX {
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <A extends HasFitness> boolean isLessFit(A a, A b) {
+            return compare(a.fitness(), b.fitness()) > 0;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <A extends HasFitness> boolean isMoreFit(A a, A b) {
+            return compare(a.fitness(), b.fitness()) > 0;
+        }
+    };
+
+    @Override
+    public int compare(Option<Double> o1, Option<Double> o2) {
+        if (o1.isNone() && o2.isNone()) {
+            throw new UnsupportedOperationException("Cannot compare fitnesses: " + o1 + " " + o2);
+        }
+
+        return o1.isNone() ? 1
+                : o2.isNone() ? -1
+                : o1.some().compareTo(o2.some());
+    }
 
     /**
      * Question whether the first parameter is less fit than the second.
@@ -47,16 +93,15 @@ public abstract class FitnessComparator {
      * @return {@code true} if {@code a} is less fit than {@code b},
      *         {@code false} otherwise.
      */
-    public <A extends HasFitness> boolean isLessFit(A a, A b) {
-        return compare(a.fitness(), b.fitness());
-    }
+    public abstract <A extends HasFitness> boolean isLessFit(A a, A b);
 
     /**
      * Obtain the less fit instance between the provided instances.
      * @param <A> the type extending {@code HasFitness}.
      * @param a first fitness.
      * @param b second fitness.
-     * @return {@code a} iff {@code a} is less fit, {@code b} otherwise.
+     * @return {@code a} if, and only if, {@code a} is less fit,
+     *         {@code b} otherwise.
      */
     public <A extends HasFitness> A lessFit(A a, A b) {
         return isLessFit(a, b) ? a : b;
@@ -70,60 +115,17 @@ public abstract class FitnessComparator {
      * @return {@code true} if {@code a} is more fit than {@code b},
      *         {@code false} otherwise.
      */
-    public <A extends HasFitness> boolean isMoreFit(A a, A b) {
-        return compare(a.fitness(), b.fitness());
-    }
+    public abstract <A extends HasFitness> boolean isMoreFit(A a, A b);
 
     /**
-     * Obtain the more fit instance between the provided instances.
+     * Obtain the more fit instance beObjecttween the provided instances.
      * @param <A> the type extending {@code HasFitness}.
      * @param a first fitness.
      * @param b second fitness.
-     * @return {@code a} iff {@code a} is more fit, {@code b} otherwise.
+     * @return {@code a} if, and only if, {@code a} is more fit,
+     *         {@code b} otherwise.
      */
     public <A extends HasFitness> A moreFit(A a, A b) {
         return isMoreFit(a, b) ? a : b;
-    }
-
-    /**
-     * Comparator determining the more fit instance, for <b>maximization</b>.
-     */
-    public static final class MaxFitnessComparator extends FitnessComparator {
-
-        /**
-         * Determine which {@code Option} provides a larger value.
-         * {@inheritDoc}
-         */
-        @Override
-        protected boolean compare(Option<Double> a, Option<Double> b) {
-            if (a.isNone() && b.isNone()) {
-                throw new UnsupportedOperationException();
-            }
-
-            return a.isNone() ? false
-                    : b.isNone() ? true
-                    : a.some() > b.some();
-        }
-    }
-
-    /**
-     * Comparator determining the more fit instance, for <b>minimization</b>.
-     */
-    public static final class MinFitnessComparator extends FitnessComparator {
-
-        /**
-         * Determine which {@code Option} provides a smaller value.
-         * {@inheritDoc}
-         */
-        @Override
-        protected boolean compare(Option<Double> a, Option<Double> b) {
-            if (a.isNone() && b.isNone()) {
-                throw new UnsupportedOperationException();
-            }
-
-            return a.isNone() ? false
-                    : b.isNone() ? true
-                    : a.some() < b.some();
-        }
     }
 }
