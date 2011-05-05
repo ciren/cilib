@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.functions.continuous.moo;
+package net.sourceforge.cilib.functions.continuous.moo.zdt;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -28,14 +28,19 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Wiehann Matthysen
  */
-final class T_f1 implements ContinuousFunction {
+final class ZDT_g implements ContinuousFunction {
 
-    private static final long serialVersionUID = 921516091265963637L;
+    private static final long serialVersionUID = -1677096322807541565L;
 
-    T_f1() { }
+    ZDT_g() { }
+
 
     @Override
     public Double apply(Vector input) {
-        return input.doubleValueOf(0);
+        double sum = 0.0;
+        for (int i = 1; i < input.size(); ++i) {
+            sum += input.doubleValueOf(i);
+        }
+        return 1.0 + 9.0 * sum / (input.size() - 1.0);
     }
 }

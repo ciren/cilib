@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.functions.continuous.moo;
+package net.sourceforge.cilib.functions.continuous.moo.zdt;
 
 import net.sourceforge.cilib.problem.MOFitness;
 import net.sourceforge.cilib.type.types.Real;
@@ -34,17 +34,16 @@ import static org.junit.Assert.assertThat;
  *
  * @author Wiehann Matthysen
  */
-public class T2Test {
+public class ZDT6Test {
 
     @Test
     public void testEvaluate01() {
         Vector.Builder builder = Vector.newBuilder();
-        builder.add(Real.valueOf(1.0));
-        for (int i = 0; i < 29; ++i) {
+        for (int i = 0; i < 10; ++i) {
             builder.add(Real.valueOf(0.0));
         }
-        T2 t2 = new T2();
-        MOFitness fitness = t2.getFitness(builder.build());
+        ZDT6 t6 = new ZDT6();
+        MOFitness fitness = t6.getFitness(builder.build());
 
         assertThat(fitness.getFitness(0).getValue(), is(equalTo(1.0)));
         assertThat(fitness.getFitness(1).getValue(), is(equalTo(0.0)));
@@ -53,28 +52,30 @@ public class T2Test {
     @Test
     public void testEvaluate02() {
         Vector.Builder builder = Vector.newBuilder();
-        for (int i = 0; i < 30; ++i) {
+        builder.add(Real.valueOf(0.0));
+        builder.add(Real.valueOf(1.0 / (9.0 * 9.0 * 9.0)));
+        for (int i = 0; i < 8; ++i) {
             builder.add(Real.valueOf(0.0));
         }
-        T2 t2 = new T2();
-        MOFitness fitness = t2.getFitness(builder.build());
+        ZDT6 t6 = new ZDT6();
+        MOFitness fitness = t6.getFitness(builder.build());
 
-        assertThat(fitness.getFitness(0).getValue(), is(equalTo(0.0)));
-        assertThat(fitness.getFitness(1).getValue(), is(equalTo(1.0)));
+        assertThat(fitness.getFitness(0).getValue(), is(equalTo(1.0)));
+        assertThat(fitness.getFitness(1).getValue(), is(equalTo(1.5)));
     }
 
     @Test
     public void testEvaluate03() {
         Vector.Builder builder = Vector.newBuilder();
         builder.add(Real.valueOf(0.0));
-        builder.add(Real.valueOf(-29.0 / 9.0));
-        for (int i = 0; i < 28; ++i) {
+        builder.add(Real.valueOf(-9.0));
+        for (int i = 0; i < 8; ++i) {
             builder.add(Real.valueOf(0.0));
         }
-        T2 t2 = new T2();
-        MOFitness fitness = t2.getFitness(builder.build());
+        ZDT6 t6 = new ZDT6();
+        MOFitness fitness = t6.getFitness(builder.build());
 
-        assertThat(fitness.getFitness(0).getValue(), is(equalTo(0.0)));
+        assertThat(fitness.getFitness(0).getValue(), is(equalTo(1.0)));
         assertThat(fitness.getFitness(1).getValue(), is(equalTo(Double.NaN)));
     }
 }

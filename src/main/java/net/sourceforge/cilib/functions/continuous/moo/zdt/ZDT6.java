@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.functions.continuous.moo;
+package net.sourceforge.cilib.functions.continuous.moo.zdt;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
@@ -62,12 +62,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Wiehann Matthysen
  */
-public final class T6 extends MOOptimisationProblem {
+public final class ZDT6 extends MOOptimisationProblem {
 
     private static final long serialVersionUID = -8294718517983975376L;
     private static final String DOMAIN = "R(0, 1)^10";
 
-    private static class T6_f1 implements ContinuousFunction {
+    private static class ZDT6_f1 implements ContinuousFunction {
 
         private static final long serialVersionUID = -7611726748395645976L;
 
@@ -77,7 +77,7 @@ public final class T6 extends MOOptimisationProblem {
         }
     }
 
-    private static class T6_g implements ContinuousFunction {
+    private static class ZDT6_g implements ContinuousFunction {
 
         private static final long serialVersionUID = -7961935910114582096L;
 
@@ -91,15 +91,15 @@ public final class T6 extends MOOptimisationProblem {
         }
     }
 
-    private static class T6_h implements ContinuousFunction {
+    private static class ZDT6_h implements ContinuousFunction {
 
         private static final long serialVersionUID = -6636124986465822446L;
-        private final T6_f1 f1;
-        private final T6_g g;
+        private final ZDT6_f1 f1;
+        private final ZDT6_g g;
 
-        public T6_h() {
-            this.f1 = new T6_f1();
-            this.g = new T6_g();
+        public ZDT6_h() {
+            this.f1 = new ZDT6_f1();
+            this.g = new ZDT6_g();
         }
 
         @Override
@@ -108,15 +108,15 @@ public final class T6 extends MOOptimisationProblem {
         }
     }
 
-    private static class T6_f2 implements ContinuousFunction {
+    private static class ZDT6_f2 implements ContinuousFunction {
 
         private static final long serialVersionUID = 6790101111642461359L;
-        private final T6_g g;
-        private final T6_h h;
+        private final ZDT6_g g;
+        private final ZDT6_h h;
 
-        public T6_f2() {
-            this.g = new T6_g();
-            this.h = new T6_h();
+        public ZDT6_f2() {
+            this.g = new ZDT6_g();
+            this.h = new ZDT6_h();
         }
 
         @Override
@@ -125,24 +125,24 @@ public final class T6 extends MOOptimisationProblem {
         }
     }
 
-    public T6() {
-        FunctionMinimisationProblem t6_f1 = new FunctionMinimisationProblem();
-        t6_f1.setFunction(new T6_f1());
-        t6_f1.setDomain(DOMAIN);
-        add(t6_f1);
+    public ZDT6() {
+        FunctionMinimisationProblem zdt6_f1 = new FunctionMinimisationProblem();
+        zdt6_f1.setFunction(new ZDT6_f1());
+        zdt6_f1.setDomain(DOMAIN);
+        add(zdt6_f1);
 
-        FunctionMinimisationProblem t6_f2 = new FunctionMinimisationProblem();
-        t6_f2.setFunction(new T6_f2());
-        t6_f2.setDomain(DOMAIN);
-        add(t6_f2);
+        FunctionMinimisationProblem zdt6_f2 = new FunctionMinimisationProblem();
+        zdt6_f2.setFunction(new ZDT6_f2());
+        zdt6_f2.setDomain(DOMAIN);
+        add(zdt6_f2);
     }
 
-    public T6(T6 copy) {
+    public ZDT6(ZDT6 copy) {
         super(copy);
     }
 
     @Override
-    public T6 getClone() {
-        return new T6(this);
+    public ZDT6 getClone() {
+        return new ZDT6(this);
     }
 }

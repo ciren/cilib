@@ -19,13 +19,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.functions.continuous.moo;
+package net.sourceforge.cilib.functions.continuous.moo.zdt;
 
 import net.sourceforge.cilib.problem.MOFitness;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Test;
-
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -35,7 +34,7 @@ import static org.junit.Assert.assertThat;
  *
  * @author Wiehann Matthysen
  */
-public class T1Test {
+public class ZDT2Test {
 
     @Test
     public void testEvaluate01() {
@@ -44,8 +43,8 @@ public class T1Test {
         for (int i = 0; i < 29; ++i) {
             builder.add(Real.valueOf(0.0));
         }
-        T1 t1 = new T1();
-        MOFitness fitness = t1.getFitness(builder.build());
+        ZDT2 t2 = new ZDT2();
+        MOFitness fitness = t2.getFitness(builder.build());
 
         assertThat(fitness.getFitness(0).getValue(), is(equalTo(1.0)));
         assertThat(fitness.getFitness(1).getValue(), is(equalTo(0.0)));
@@ -54,15 +53,14 @@ public class T1Test {
     @Test
     public void testEvaluate02() {
         Vector.Builder builder = Vector.newBuilder();
-        builder.add(Real.valueOf(-1.0));
-        for (int i = 0; i < 29; ++i) {
+        for (int i = 0; i < 30; ++i) {
             builder.add(Real.valueOf(0.0));
         }
-        T1 t1 = new T1();
-        MOFitness fitness = t1.getFitness(builder.build());
+        ZDT2 t2 = new ZDT2();
+        MOFitness fitness = t2.getFitness(builder.build());
 
-        assertThat(fitness.getFitness(0).getValue(), is(equalTo(-1.0)));
-        assertThat(fitness.getFitness(1).getValue(), is(equalTo(Double.NaN)));
+        assertThat(fitness.getFitness(0).getValue(), is(equalTo(0.0)));
+        assertThat(fitness.getFitness(1).getValue(), is(equalTo(1.0)));
     }
 
     @Test
@@ -73,8 +71,8 @@ public class T1Test {
         for (int i = 0; i < 28; ++i) {
             builder.add(Real.valueOf(0.0));
         }
-        T1 t1 = new T1();
-        MOFitness fitness = t1.getFitness(builder.build());
+        ZDT2 t2 = new ZDT2();
+        MOFitness fitness = t2.getFitness(builder.build());
 
         assertThat(fitness.getFitness(0).getValue(), is(equalTo(0.0)));
         assertThat(fitness.getFitness(1).getValue(), is(equalTo(Double.NaN)));

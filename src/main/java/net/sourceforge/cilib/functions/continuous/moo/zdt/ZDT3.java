@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.functions.continuous.moo;
+package net.sourceforge.cilib.functions.continuous.moo.zdt;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
@@ -61,20 +61,20 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Wiehann Matthysen
  */
-public final class T3 extends MOOptimisationProblem {
+public final class ZDT3 extends MOOptimisationProblem {
 
     private static final long serialVersionUID = 5783167168187614882L;
     private static final String DOMAIN = "R(0, 1)^30";
 
-    private static class T3_h implements ContinuousFunction {
+    private static class ZDT3_h implements ContinuousFunction {
 
         private static final long serialVersionUID = -3438306908263146396L;
-        private final T_f1 f1;
-        private final T_g g;
+        private final ZDT_f1 f1;
+        private final ZDT_g g;
 
-        public T3_h() {
-            this.f1 = new T_f1();
-            this.g = new T_g();
+        public ZDT3_h() {
+            this.f1 = new ZDT_f1();
+            this.g = new ZDT_g();
         }
 
         @Override
@@ -85,15 +85,15 @@ public final class T3 extends MOOptimisationProblem {
         }
     }
 
-    private static class T3_f2 implements ContinuousFunction {
+    private static class ZDT3_f2 implements ContinuousFunction {
 
         private static final long serialVersionUID = 1052615620850285975L;
-        private final T_g g;
-        private final T3_h h;
+        private final ZDT_g g;
+        private final ZDT3_h h;
 
-        public T3_f2() {
-            this.g = new T_g();
-            this.h = new T3_h();
+        public ZDT3_f2() {
+            this.g = new ZDT_g();
+            this.h = new ZDT3_h();
         }
 
         @Override
@@ -102,24 +102,24 @@ public final class T3 extends MOOptimisationProblem {
         }
     }
 
-    public T3() {
-        FunctionMinimisationProblem t3_f1 = new FunctionMinimisationProblem();
-        t3_f1.setFunction(new T_f1());
-        t3_f1.setDomain(DOMAIN);
-        add(t3_f1);
+    public ZDT3() {
+        FunctionMinimisationProblem zdt3_f1 = new FunctionMinimisationProblem();
+        zdt3_f1.setFunction(new ZDT_f1());
+        zdt3_f1.setDomain(DOMAIN);
+        add(zdt3_f1);
 
-        FunctionMinimisationProblem t3_f2 = new FunctionMinimisationProblem();
-        t3_f2.setFunction(new T3_f2());
-        t3_f2.setDomain(DOMAIN);
-        add(t3_f2);
+        FunctionMinimisationProblem zdt3_f2 = new FunctionMinimisationProblem();
+        zdt3_f2.setFunction(new ZDT3_f2());
+        zdt3_f2.setDomain(DOMAIN);
+        add(zdt3_f2);
     }
 
-    public T3(T3 copy) {
+    public ZDT3(ZDT3 copy) {
         super(copy);
     }
 
     @Override
-    public T3 getClone() {
-        return new T3(this);
+    public ZDT3 getClone() {
+        return new ZDT3(this);
     }
 }
