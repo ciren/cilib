@@ -23,7 +23,7 @@ package net.sourceforge.cilib.measurement.single.dynamic;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
+import net.sourceforge.cilib.problem.DynamicOptimizationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -44,7 +44,7 @@ public class ErrorMeasurement implements Measurement {
 
     @Override
     public Type getValue(Algorithm algorithm) {
-        return Real.valueOf(((FunctionOptimisationProblem) (algorithm.getOptimisationProblem())).getError(algorithm.getBestSolution().getPosition()));
+        return Real.valueOf(((DynamicOptimizationProblem) (algorithm.getOptimisationProblem())).getError(algorithm.getBestSolution().getPosition()));
     }
 
     @Override

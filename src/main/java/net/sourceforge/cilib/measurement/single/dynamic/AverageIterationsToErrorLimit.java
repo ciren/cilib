@@ -26,6 +26,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.problem.DynamicOptimizationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
@@ -85,7 +86,7 @@ public class AverageIterationsToErrorLimit extends DynamicMeasurement {
     public Type getValue(Algorithm algorithm) {
         int iteration = algorithm.getIterations();
 
-        FunctionOptimisationProblem function = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
+        DynamicOptimizationProblem function = (DynamicOptimizationProblem) algorithm.getOptimisationProblem();
         double error = function.getError(algorithm.getBestSolution().getPosition());
         int score = this.cycleSize;
 

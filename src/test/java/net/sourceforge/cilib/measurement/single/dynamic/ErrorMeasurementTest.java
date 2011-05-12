@@ -23,42 +23,34 @@ package net.sourceforge.cilib.measurement.single.dynamic;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
+import net.sourceforge.cilib.problem.DynamicOptimizationProblem;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
-import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.mockito.Matchers;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  *
  * @author Julien Duhain
  */
-@RunWith(JMock.class)
 public class ErrorMeasurementTest {
-    private Mockery mockery = new JUnit4Mockery()
-    {{
-       setImposteriser(ClassImposteriser.INSTANCE);
-    }};
 
     @Test
     public void results() {
-        final Algorithm algorithm = mockery.mock(Algorithm.class);
         final OptimisationSolution mockSolution = new OptimisationSolution(Vector.of(1.0), new MinimisationFitness(100.0));
-        final FunctionOptimisationProblem mockProblem = mockery.mock(FunctionOptimisationProblem.class);
+        final Algorithm algorithm = mock(Algorithm.class);
+        final DynamicOptimizationProblem mockProblem = mock(DynamicOptimizationProblem.class);
 
-        mockery.checking(new Expectations() {{
-            exactly(1).of(algorithm).getBestSolution(); will(returnValue(mockSolution));
-            exactly(1).of(algorithm).getOptimisationProblem();will(returnValue(mockProblem));
-            exactly(1).of(mockProblem).getError(Vector.of(1.0));will(returnValue(10.0));
-        }});
+        when(algorithm.getBestSolution()).thenReturn(mockSolution);
+        when(algorithm.getOptimisationProblem()).thenReturn(mockProblem);
+        when(mockProblem.getError(Matchers.<Type>anyObject())).thenReturn(10.0);
 
         Measurement m = new ErrorMeasurement();
         Assert.assertEquals(10.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);

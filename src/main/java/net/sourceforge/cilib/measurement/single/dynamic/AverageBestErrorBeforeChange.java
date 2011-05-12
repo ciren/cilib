@@ -26,6 +26,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.problem.DynamicOptimizationProblem;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
@@ -67,7 +68,7 @@ public class AverageBestErrorBeforeChange extends DynamicMeasurement {
     @Override
     public synchronized Type getValue(Algorithm algorithm) {
         if ((algorithm.getIterations() + 1) % cycleSize == 0) {
-            FunctionOptimisationProblem function = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
+            DynamicOptimizationProblem function = (DynamicOptimizationProblem) algorithm.getOptimisationProblem();
             double error = function.getError(algorithm.getBestSolution().getPosition());
             this.avg = (this.avg * this.cycleNr + error) / (this.cycleNr + 1);
             this.cycleNr++;

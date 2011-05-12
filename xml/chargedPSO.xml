@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>
+        <algorithm id="chargedPSO" class="pso.PSO">
+	    <iterationStrategy class="pso.dynamic.DynamicIterationStrategy">
+		<detectionStrategy class="pso.dynamic.detectionstrategies.PeriodicChangeDetectionStrategy">
+		    <period value="100"/>
+		</detectionStrategy>
+		<responseStrategy class="pso.dynamic.responsestrategies.ParticleReevaluationResponseStrategy"/>
+	    </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <initialisationStrategy class="algorithm.initialisation.ChargedPopulationInitialisationStrategy">
+                <entityType class="pso.dynamic.ChargedParticle"/>
+            </initialisationStrategy>
+	</algorithm>
+    </algorithms>
+
+    <measurements id="measurements" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.diversity.Diversity"/>
+        <addMeasurement class="measurement.single.dynamic.ErrorMeasurement"/>
+        <addMeasurement class="measurement.single.dynamic.CollectiveMeanError"/>
+    </measurements>
+
+    <problems>
+        <problem id="MovingPeaks" class="problem.DynamicOptimizationProblem">
+            <domain value="R(0.0, 100.0)^5"/>
+            <function class="functions.continuous.dynamic.GeneralizedMovingPeaks">
+		<peaks value = "1"/>
+		<frequency value = "100"/>
+		<lambda value = "0.75"/>
+		<shiftSeverity value = "5.0"/>
+		<widthSeverity value = "0.01"/>
+		<heightSeverity value = "7.0"/>
+		<minWidth value = "1.0"/>
+		<maxWidth value = "12.0"/>
+		<minHeight value = "30.0"/>
+		<maxHeight value = "70.0"/>
+	    </function>
+        </problem>
+
+        <simulation samples="30">
+            <algorithm idref="chargedPSO"/>
+            <problem idref="MovingPeaks"/>
+            <measurements idref="measurements"/>
+	     <output format="TXT" file="data/chargedPSO_MovingPeaks_5_Dimensions.txt"/>
+        </simulation>
+    </problems>
+</simulator>
