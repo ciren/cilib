@@ -27,10 +27,11 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.collect.UnmodifiableIterator;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+
 import net.cilib.collection.Topology;
 import net.cilib.collection.TopologyBuffer;
 
@@ -38,18 +39,20 @@ import net.cilib.collection.TopologyBuffer;
  * {@code l-best} topology implementation. The {@code l-best} topology defines
  * a neighborhood size and is per default set to a value of 3; the neighborhood
  * size may change, when using the defined topology builder.
+ *
  * @param <A> the parameter type.
- * @since 0.8
  * @author gpampara
+ * @since 0.8
  */
-public class ImmutableLBestTopology<A> implements Topology<A> {
+public class ImmutableLBestTopology<A> extends Topology<A> {
 
     private static final Topology<Object> INSTANCE = new ImmutableLBestTopology<Object>(Lists.newArrayList(), 0);
     private final ImmutableList<A> elements;
-    private final int neighborhoodsize;
+    private final int neighborhoodSize;
 
     /**
      * Obtain an empty immutable topology.
+     *
      * @return An immutable empty {@code l-best} topology.
      */
     public static <B> ImmutableLBestTopology<B> of() {
@@ -58,45 +61,22 @@ public class ImmutableLBestTopology<A> implements Topology<A> {
 
     private ImmutableLBestTopology(List<A> elements, int size) {
         this.elements = ImmutableList.copyOf(elements);
-        this.neighborhoodsize = size;
-    }
-
-    /**
-     * Returns an iterator over a set of elements of type T. The returned
-     * {@code Iterator} is not modifiable - invoking {@link Iterator#remove()}
-     * will throw a {@link UnsupportedOperationException}.
-     *
-     * @return an Iterator over the topology contents.
-     */
-    @Override
-    public Iterator<A> iterator() {
-        final Iterator<A> iter = elements.iterator();
-        return new UnmodifiableIterator<A>() {
-
-            @Override
-            public boolean hasNext() {
-                return iter.hasNext();
-            }
-
-            @Override
-            public A next() {
-                return iter.next();
-            }
-        };
+        this.neighborhoodSize = size;
     }
 
     /**
      * Return an {@code iterator} for the neighborhood of the given element.
+     *
      * @param element queried for it's neighborhood
      * @return an {@code iterator} to the neighborhood of {@code element}
      */
     @Override
     public Iterator<A> neighborhoodOf(final A element) {
-        final List<Integer> indexes = Lists.newArrayListWithCapacity(neighborhoodsize);
-        int start = elements.indexOf(element) - ((neighborhoodsize - 1) / 2);
+        final List<Integer> indexes = Lists.newArrayListWithCapacity(neighborhoodSize);
+        int start = elements.indexOf(element) - ((neighborhoodSize - 1) / 2);
         start = (start < 0) ? start += elements.size() : start;
 
-        for (int i = 0; i < neighborhoodsize; i++) {
+        for (int i = 0; i < neighborhoodSize; i++) {
             indexes.add((start + i) % elements.size());
         }
 
@@ -117,10 +97,11 @@ public class ImmutableLBestTopology<A> implements Topology<A> {
 
     /**
      * Create a new topology instance, with the given elements.
-     * @param <A> The type
+     *
+     * @param <A>              The type
      * @param neighborhoodSize the size of neighborhoods within the topology.
-     * @param first the first element for the topology.
-     * @param rest the "potential" remainder of the topology.
+     * @param first            the first element for the topology.
+     * @param rest             the "potential" remainder of the topology.
      * @return a new {@code ImmutableLBestTopology} instance containing the given
      *         elements.
      */
@@ -133,9 +114,25 @@ public class ImmutableLBestTopology<A> implements Topology<A> {
         return builder.build();
     }
 
+    /**
+     * Create a mutable buffer that my be finalized into a {@link ImmutableLBestTopology}
+     * instance.
+     *
+     * @return A new {@link TopologyBuffer} instance that can construct an
+     *         {@link ImmutableLBestTopology} instance.
+     * @see TopologyBuffer
+     */
     @Override
     public TopologyBuffer<A> newBuffer() {
         return new TopologyBuffer<A>(new ImmutableLBestTopologyBuilder<A>(), ImmutableList.<A>of());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected List<A> delegate() {
+        return this.elements;
     }
 
     /**
@@ -156,6 +153,7 @@ public class ImmutableLBestTopology<A> implements Topology<A> {
          * the current builder instance. When obtaining the topology instance
          * from this builder, the builder is invalidated and all internal state
          * is cleared.
+         *
          * @return a new {@code ImmutableLBestTopology}.
          */
         @Override
@@ -171,6 +169,7 @@ public class ImmutableLBestTopology<A> implements Topology<A> {
         /**
          * Add the provided element to the current builder, for inclusion in
          * the constructed topology instance.
+         *
          * @param element to add
          * @return the current topology builder for chaining purposes.
          */
@@ -183,6 +182,7 @@ public class ImmutableLBestTopology<A> implements Topology<A> {
         /**
          * Define the neighborhood size for the {@code ImmutableLBestTopology}
          * to be built from this builder.
+         *
          * @param size the neighborhood size.
          * @return the current builder instance.
          */

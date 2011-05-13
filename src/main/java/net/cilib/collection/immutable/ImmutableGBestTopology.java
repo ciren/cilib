@@ -24,26 +24,29 @@ package net.cilib.collection.immutable;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.collect.UnmodifiableIterator;
+
 import java.util.Iterator;
 import java.util.List;
+
 import net.cilib.collection.Topology;
 import net.cilib.collection.TopologyBuffer;
 
 /**
  * Implementation of the {@code g-best} topology. Each created topology
  * is completely immutable.
+ *
  * @param <A> The type.
- * @since 0.8
  * @author gpampara
+ * @since 0.8
  */
-public class ImmutableGBestTopology<A> implements Topology<A> {
+public class ImmutableGBestTopology<A> extends Topology<A> {
 
     private static final ImmutableGBestTopology<Object> INSTANCE = new ImmutableGBestTopology<Object>(Lists.newArrayList());
     private final ImmutableList<A> elements;
 
     /**
      * Obtain an empty immutable topology.
+     *
      * @param <B> type parameter.
      * @return An immutable empty {@code g-best} topology.
      */
@@ -57,30 +60,6 @@ public class ImmutableGBestTopology<A> implements Topology<A> {
     }
 
     /**
-     * Returns an iterator over a set of elements of type T. The returned
-     * {@code Iterator} is not modifiable - invoking {@link Iterator#remove()}
-     * will throw a {@link UnsupportedOperationException}.
-     *
-     * @return an Iterator over the topology contents.
-     */
-    @Override
-    public Iterator<A> iterator() {
-        final Iterator<A> iter = elements.iterator();
-        return new UnmodifiableIterator<A>() {
-
-            @Override
-            public boolean hasNext() {
-                return iter.hasNext();
-            }
-
-            @Override
-            public A next() {
-                return iter.next();
-            }
-        };
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -90,6 +69,7 @@ public class ImmutableGBestTopology<A> implements Topology<A> {
 
     /**
      * Provide the {@code String} representation of the topology.
+     *
      * @return {@code String} representation.
      */
     @Override
@@ -97,6 +77,14 @@ public class ImmutableGBestTopology<A> implements Topology<A> {
         return Objects.toStringHelper(this).add("contents", elements).toString();
     }
 
+    /**
+     * Create a mutable buffer that my be finalized into a {@link ImmutableGBestTopology}
+     * instance.
+     *
+     * @return A new {@link TopologyBuffer} instance that can construct an
+     *         {@link ImmutableGBestTopology} instance.
+     * @see TopologyBuffer
+     */
     @Override
     public TopologyBuffer<A> newBuffer() {
         return new TopologyBuffer<A>(new ImmutableGBestTopologyBuilder<A>(), ImmutableList.<A>of());
@@ -104,9 +92,10 @@ public class ImmutableGBestTopology<A> implements Topology<A> {
 
     /**
      * Create a new topology instance, with the given elements.
-     * @param <A> The type
+     *
+     * @param <A>   The type
      * @param first the first element for the topology.
-     * @param rest the "potential" remainder of the topology.
+     * @param rest  the "potential" remainder of the topology.
      * @return a new {@code ImmutableGBestTopology} instance containing the given
      *         elements.
      */
@@ -120,7 +109,16 @@ public class ImmutableGBestTopology<A> implements Topology<A> {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected List<A> delegate() {
+        return this.elements;
+    }
+
+    /**
      * Topology builder to create ImmutableGBestTopology instances.
+     *
      * @param <B> parameter type.
      */
     public static class ImmutableGBestTopologyBuilder<B> implements TopologyBuilder<B> {
@@ -136,6 +134,7 @@ public class ImmutableGBestTopology<A> implements Topology<A> {
          * the current builder instance. When obtaining the topology instance
          * from this builder, the builder is invalidated and all internal state
          * is cleared.
+         *
          * @return a new {@code ImmutableGBestTopology}.
          */
         @Override
@@ -150,6 +149,7 @@ public class ImmutableGBestTopology<A> implements Topology<A> {
         /**
          * Add the provided element to the current builder, for inclusion in
          * the constructed topology instance.
+         *
          * @param element to add
          * @return the current topology builder for chaining purposes.
          */
