@@ -23,33 +23,24 @@ package net.cilib.inject;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
-import com.google.inject.Key;
-import com.google.inject.Provider;
-import com.google.inject.Provides;
-import com.google.inject.TypeLiteral;
+import com.google.inject.*;
 import com.google.inject.name.Names;
-import java.util.List;
-import net.cilib.algorithm.Selector;
 import net.cilib.algorithm.MockMutationProvider;
 import net.cilib.algorithm.MutationProvider;
 import net.cilib.algorithm.ReplacementSelector;
+import net.cilib.algorithm.Selector;
+import net.cilib.collection.Topology;
+import net.cilib.entity.Entity;
+import net.cilib.entity.HasFitness;
 import net.cilib.inject.annotation.Global;
 import net.cilib.inject.annotation.Local;
 import net.cilib.inject.annotation.Unique;
-import net.cilib.collection.Topology;
-import net.cilib.entity.Entity;
-import net.cilib.pso.Guide;
-import net.cilib.pso.NeighborhoodBest;
-import net.cilib.pso.PersonalBest;
-import net.cilib.pso.StandardVelocityProvider;
-import net.cilib.pso.VelocityProvider;
+import net.cilib.pso.*;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
- *
  * @author gpampara
  */
 public class PopulationBasedModule extends AbstractModule {
@@ -75,6 +66,7 @@ public class PopulationBasedModule extends AbstractModule {
     /**
      * This needs serious work... The API is in the air... No real concrete
      * need for it is exists....
+     *
      * @param selector
      * @param randomProvider
      * @return
@@ -83,16 +75,15 @@ public class PopulationBasedModule extends AbstractModule {
     @Unique
     Selector getSelector(Selector selector, final RandomProvider randomProvider) {
         return new Selector() {
-
             @Override
-            public Entity select(Entity... elements) {
-                return select(Lists.newArrayList(elements));
+            public <A extends Entity> A select(HasFitness first, HasFitness... rest) {
+                return select(Lists.asList(first, rest));
             }
 
             @Override
-            public Entity select(Iterable<Entity> elements) {
-                List<Entity> list = Lists.newArrayList(elements);
-                return list.get(randomProvider.nextInt(list.size()));
+            public <A extends Entity> A select(Iterable<? extends HasFitness> elements) {
+                int size = Iterables.size(elements);
+                return (A) Iterables.get(elements, (randomProvider.nextInt(size)));
             }
         };
     }
@@ -112,7 +103,7 @@ public class PopulationBasedModule extends AbstractModule {
 
         @Override
         public Topology get() {
-            return (Topology) scope.get(Key.get(Topology.class));
+            return scope.get(Key.get(Topology.class));
         }
     }
 

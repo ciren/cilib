@@ -25,6 +25,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import net.cilib.entity.Entity;
 import net.cilib.entity.FitnessComparator;
+import net.cilib.entity.HasFitness;
 
 /**
  *
@@ -40,16 +41,16 @@ public class ReplacementSelector implements Selector {
     }
 
     @Override
-    public Entity select(Entity... elements) {
-        return select(Lists.newArrayList(elements));
+    public <A extends Entity> A select(HasFitness first, HasFitness... rest) {
+        return select(Lists.asList(first, rest));
     }
 
     @Override
-    public Entity select(Iterable<Entity> elements) {
-        Entity selected = null; // This should really be: Entity selected = Entity.dummy(); // or some name indicating that it's a temporary value
-        for (Entity entity : elements) {
+    public <A extends Entity> A select(Iterable<? extends HasFitness> elements) {
+        HasFitness selected = null; // This should really be: Entity selected = Entity.dummy(); // or some name indicating that it's a temporary value
+        for (HasFitness entity : elements) {
             selected = (selected == null) ? entity : comparator.moreFit(selected, entity);
         }
-        return selected;
+        return (A) selected;
     }
 }

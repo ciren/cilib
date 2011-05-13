@@ -6,11 +6,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *
+ * Annotation to indicate that a specific method raises an event.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Raises {
+public @interface CanRaise {
     
-    Class<?> value();
+    Class<? extends Event> value();
 }

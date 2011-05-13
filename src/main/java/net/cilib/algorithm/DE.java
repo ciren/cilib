@@ -22,14 +22,14 @@
 package net.cilib.algorithm;
 
 import com.google.inject.Inject;
-import net.cilib.entity.Entity;
 import net.cilib.collection.Topology;
 import net.cilib.collection.TopologyBuffer;
 import net.cilib.entity.CandidateSolution;
+import net.cilib.entity.Entity;
 import net.cilib.entity.Individual;
 import net.cilib.entity.IndividualProvider;
+import net.cilib.event.CanRaise;
 import net.cilib.event.IterationEvent;
-import net.cilib.event.Raises;
 
 /**
  * DE Implementation
@@ -55,14 +55,14 @@ public class DE<A extends Entity>  extends PopulationBasedAlgorithm<A> {
     }
 
     @Override
-    @Raises(IterationEvent.class)
+    @CanRaise(IterationEvent.class)
     public Topology<A> iterate(Topology<A> topology) {
-        TopologyBuffer buffer = topology.newBuffer();
+        TopologyBuffer<A> buffer = topology.newBuffer();
         for (A parent : topology) {
             CandidateSolution trialVector = mutationProvider.create(topology);
             CandidateSolution crossedOver = crossoverProvider.create(parent.solution(), trialVector);
             Individual offspring = individualProvider.solution(crossedOver).get();
-            buffer.add(selector.select(parent, offspring));
+            buffer.add(selector.<A>select(parent, offspring));
             buffer.add(parent);
         }
         return buffer.build();

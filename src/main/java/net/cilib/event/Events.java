@@ -39,10 +39,10 @@ public final class Events {
 
         @Override
         public boolean matches(AnnotatedElement element) {
-            if (!element.isAnnotationPresent(Raises.class)) {
+            if (!element.isAnnotationPresent(CanRaise.class)) {
                 return false;
             }
-            Raises p = element.getAnnotation(Raises.class);
+            CanRaise p = element.getAnnotation(CanRaise.class);
             return p.value().isAssignableFrom(eventType);
         }
 

@@ -53,8 +53,7 @@ public class DETest {
         Individual i2 = provider.solution(CandidateSolution.of(3.0)).get();
         Individual i3 = provider.solution(CandidateSolution.of(4.0)).get();
 
-        Topology<Entity> topology = new ImmutableGBestTopology.ImmutableGBestTopologyBuilder<Entity>()
-                .add(i1).add(i2).add(i3).build();
+        Topology<Individual> topology = ImmutableGBestTopology.topologyOf(i1, i2, i3);
         Topology<Entity> topology1 = de.iterate(topology);
     }
 
