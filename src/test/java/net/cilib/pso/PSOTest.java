@@ -25,6 +25,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import fj.data.Option;
 import net.cilib.algorithm.Algorithm;
 import net.cilib.algorithm.PopulationBasedAlgorithm;
 import net.cilib.simulation.Simulation;
@@ -32,7 +33,6 @@ import net.cilib.simulation.SimulationBuilder;
 import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
 import net.cilib.entity.CandidateSolution;
-import net.cilib.entity.Fitnesses;
 import net.cilib.entity.Particle;
 import net.cilib.entity.Velocity;
 import net.cilib.inject.CIlibCoreModule;
@@ -62,9 +62,9 @@ public class PSOTest {
     public void integration() {
         Injector injector = Guice.createInjector(new CIlibCoreModule(), new PopulationBasedModule());
 
-        Particle p1 = new Particle(CandidateSolution.of(1.0, 1.0), CandidateSolution.of(1.0, 1.0), Velocity.copyOf(0.0, 0.0), Fitnesses.inferior());
-        Particle p2 = new Particle(CandidateSolution.of(1.0, 1.0), CandidateSolution.of(1.0, 1.0), Velocity.copyOf(0.0, 0.0), Fitnesses.inferior());
-        Topology initial = ImmutableGBestTopology.newBuilder().add(p1).add(p2).build();
+        Particle p1 = new Particle(CandidateSolution.of(1.0, 1.0), CandidateSolution.of(1.0, 1.0), Velocity.copyOf(0.0, 0.0), Option.some(1.0));
+        Particle p2 = new Particle(CandidateSolution.of(1.0, 1.0), CandidateSolution.of(1.0, 1.0), Velocity.copyOf(0.0, 0.0), Option.some(1.0));
+        Topology initial = ImmutableGBestTopology.topologyOf(p1, p2);
 
         PSO pso = injector.getInstance(PSO.class);
 

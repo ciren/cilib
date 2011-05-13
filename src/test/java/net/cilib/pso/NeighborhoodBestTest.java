@@ -21,55 +21,54 @@
  */
 package net.cilib.pso;
 
+import net.cilib.entity.FitnessComparator;
+import fj.data.Option;
 import com.google.inject.util.Providers;
 import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
 import net.cilib.entity.Entity;
-import net.cilib.entity.Fitnesses;
 import net.cilib.entity.Individual;
 import org.junit.Assert;
 import net.cilib.collection.immutable.ImmutableLBestTopology;
 import net.cilib.entity.CandidateSolution;
 import org.junit.Test;
+
 import static org.hamcrest.CoreMatchers.*;
 
 /**
- *
  * @author gpampara
  */
 public class NeighborhoodBestTest {
 
     private Individual newMockIndividual(double fitness) {
-        return new Individual(CandidateSolution.empty(), Fitnesses.newMaximizationFitness(fitness));
+        return new Individual(CandidateSolution.empty(), Option.some(fitness));
     }
 
     @Test
     public void lbestNeighborhood() {
         Individual target = newMockIndividual(3.0);
-        ImmutableLBestTopology<Individual> topology = ImmutableLBestTopology.<Individual>newBuilder()
-                .add(newMockIndividual(1.0))
-                .add(newMockIndividual(2.0))
-                .add(target)
-                .add(newMockIndividual(4.0))
-                .add(newMockIndividual(5.0))
-                .build();
-        NeighborhoodBest guide = new NeighborhoodBest(Providers.<Topology>of(topology));
-        Entity result = guide.of(target);
-        Assert.assertThat(result.fitness().value(), equalTo(4.0));
+        ImmutableLBestTopology<Individual> topology = ImmutableLBestTopology.topologyOf(3,
+                newMockIndividual(1.0),
+                newMockIndividual(2.0),
+                target,
+                newMockIndividual(4.0),
+                newMockIndividual(5.0));
+        NeighborhoodBest guide = new NeighborhoodBest(Providers.<Topology>of(topology), FitnessComparator.MAX);
+        Option<Entity> result = guide.of(target);
+        Assert.assertThat(result.some().fitness().some(), equalTo(4.0));
     }
 
     @Test
     public void gbestNeighborhood() {
         Individual target = newMockIndividual(3.0);
-        ImmutableGBestTopology<Individual> topology = ImmutableGBestTopology.<Individual>newBuilder()
-                .add(newMockIndividual(1.0))
-                .add(newMockIndividual(2.0))
-                .add(target)
-                .add(newMockIndividual(4.0))
-                .add(newMockIndividual(5.0))
-                .build();
-        NeighborhoodBest guide = new NeighborhoodBest(Providers.<Topology>of(topology));
-        Entity result = guide.of(target);
-        Assert.assertThat(result.fitness().value(), equalTo(5.0));
+        Topology<Individual> topology = ImmutableGBestTopology.topologyOf(
+                newMockIndividual(1.0),
+                newMockIndividual(2.0),
+                target,
+                newMockIndividual(4.0),
+                newMockIndividual(5.0));
+        NeighborhoodBest guide = new NeighborhoodBest(Providers.<Topology>of(topology), FitnessComparator.MAX);
+        Option<Entity> result = guide.of(target);
+        Assert.assertThat(result.some().fitness().some(), equalTo(5.0));
     }
 }

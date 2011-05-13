@@ -29,13 +29,13 @@ import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.Entity;
 import net.cilib.entity.Individual;
 import net.cilib.entity.IndividualProvider;
+import net.cilib.event.EventingModuleBuilder;
 import net.cilib.inject.CIlibCoreModule;
 import net.cilib.inject.PopulationBasedModule;
 import org.junit.Test;
 
 /**
  *
- * @author gpampara
  */
 public class DETest {
 
@@ -53,9 +53,33 @@ public class DETest {
         Individual i2 = provider.solution(CandidateSolution.of(3.0)).get();
         Individual i3 = provider.solution(CandidateSolution.of(4.0)).get();
 
-        Topology<Entity> topology = ImmutableGBestTopology.<Entity>newBuilder()
-                .add(i1).add(i2).add(i3).build();
+        Topology<Individual> topology = ImmutableGBestTopology.topologyOf(i1, i2, i3);
         Topology<Entity> topology1 = de.iterate(topology);
-        System.out.println("topology1: " + topology1);
+    }
+
+    @Test
+    public void iteration() {
+        Injector injector = Guice.createInjector(new EventingModuleBuilder().build(), new CIlibCoreModule(), new PopulationBasedModule());
+        DE de = injector.getInstance(DE.class);
+
+        IndividualProvider provider = injector.getInstance(IndividualProvider.class);
+
+        Individual i1 = provider.solution(CandidateSolution.of(1.0)).get();
+        Individual i2 = provider.solution(CandidateSolution.of(3.0)).get();
+        Individual i3 = provider.solution(CandidateSolution.of(4.0)).get();
+
+        Topology<Individual> topology = ImmutableGBestTopology.topologyOf(i1, i2, i3);
+
+        Predicate<StateT> statePred = new Predicate<StateT>() {
+            private int count = 0;
+            @Override
+            public Boolean f(StateT a) {
+//                return /*(a.iterations() == 5) ? */true/* : false*/;
+                return count++ > 1;
+            }
+        };
+
+        Topology<Entity> result = de.fold(topology, statePred, new StateT());
+//        Topology<Entity> result = de.fold(topology, stop, new StateT());
     }
 }

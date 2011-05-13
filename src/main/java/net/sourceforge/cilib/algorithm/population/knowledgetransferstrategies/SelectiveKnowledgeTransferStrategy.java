@@ -33,10 +33,10 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
  * <p>
- * An implementation of {@link KnowledgeTransferStrategy} where two {@link Selection}
+ * An implementation of {@link KnowledgeTransferStrategy} where two {@link net.sourceforge.cilib.util.selection.Selection}
  * instances are used to first select a sub-population ({@link PopulationBasedAlgorithm}) from
  * a collection of population-based algorithms (see {@link MultiPopulationBasedAlgorithm) and then
- * within this sub-population's {@link Topology}, which entity's knowledge is to be transfered
+ * within this sub-population's {@link net.sourceforge.cilib.entity.Topology }, which entity's knowledge is to be transfered
  * to the caller requesting it.
  * </p>
  *

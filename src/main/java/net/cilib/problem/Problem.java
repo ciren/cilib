@@ -21,15 +21,11 @@
  */
 package net.cilib.problem;
 
-import net.cilib.entity.CandidateSolution;
-import net.cilib.entity.Fitness;
+import fj.F;
 
 /**
  * @since 0.8
  * @author gpampara
  */
-public interface Problem {
-
-    // Not sure about this as an API
-    Fitness fitnessOf(CandidateSolution solution);
+public abstract class Problem extends F<Double, Double> {
 }

@@ -22,6 +22,7 @@
 package net.cilib.pso;
 
 import com.google.common.base.Preconditions;
+import fj.data.Option;
 import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.Entity;
 import net.cilib.entity.HasMemory;
@@ -42,14 +43,14 @@ public final class PersonalBest implements Guide {
      * @return
      */
     @Override
-    public Entity of(Entity target) {
+    public Option<Entity> of(Entity target) {
         Preconditions.checkNotNull(target);
 
         if (target instanceof HasMemory) {
             HasMemory memory = (HasMemory) target;
-            return new PartialEntity(memory.memory());
+            return Option.<Entity>some(new PartialEntity(memory.memory()));
         }
 
-        return new PartialEntity(CandidateSolution.fill(0, target.solution().size()));
+        return Option.<Entity>some(new PartialEntity(CandidateSolution.fill(0, target.solution().size())));
     }
 }

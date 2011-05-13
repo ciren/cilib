@@ -22,13 +22,14 @@
 package net.cilib.algorithm;
 
 import com.google.inject.Inject;
-import net.cilib.entity.Entity;
 import net.cilib.collection.Topology;
-import net.cilib.collection.immutable.ImmutableGBestTopology;
-import net.cilib.collection.immutable.ImmutableGBestTopology.ImmutableGBestTopologyBuilder;
+import net.cilib.collection.TopologyBuffer;
 import net.cilib.entity.CandidateSolution;
+import net.cilib.entity.Entity;
 import net.cilib.entity.Individual;
 import net.cilib.entity.IndividualProvider;
+import net.cilib.event.CanRaise;
+import net.cilib.event.IterationEvent;
 
 /**
  * DE Implementation
@@ -36,7 +37,7 @@ import net.cilib.entity.IndividualProvider;
  * @author gpampara
  * @since 0.8
  */
-public class DE implements PopulationBasedAlgorithm<Entity> {
+public class DE<A extends Entity>  extends PopulationBasedAlgorithm<A> {
     private final MutationProvider mutationProvider;
     private final CrossoverProvider crossoverProvider;
     private final Selector selector;
@@ -54,14 +55,16 @@ public class DE implements PopulationBasedAlgorithm<Entity> {
     }
 
     @Override
-    public Topology<Entity> iterate(Topology<Entity> topology) {
-        ImmutableGBestTopologyBuilder<Entity> newTopology = ImmutableGBestTopology.newBuilder();
-        for (Entity parent : topology) {
+    @CanRaise(IterationEvent.class)
+    public Topology<A> iterate(Topology<A> topology) {
+        TopologyBuffer<A> buffer = topology.newBuffer();
+        for (A parent : topology) {
             CandidateSolution trialVector = mutationProvider.create(topology);
             CandidateSolution crossedOver = crossoverProvider.create(parent.solution(), trialVector);
             Individual offspring = individualProvider.solution(crossedOver).get();
-            newTopology.add(selector.select(parent, offspring));
+            buffer.add(selector.<A>select(parent, offspring));
+            buffer.add(parent);
         }
-        return newTopology.build();
+        return buffer.build();
     }
 }

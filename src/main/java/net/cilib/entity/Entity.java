@@ -23,13 +23,11 @@ package net.cilib.entity;
 
 /**
  * An {@code Entity} is an instance that maintains both a
- * {@link CandidateSolution} and a {@link Fitness}. {@code Entity} instances
- * are also {@linkplain EntityComparable comparable} to other {@code Entity}
- * instances.
+ * {@link CandidateSolution} and an {@link fj.data.Option} representing the
+ * fitness value.
  *
  * @since 0.8
  * @author gpampara
  */
-public interface Entity extends HasCandidateSolution, HasFitness,
-    EntityComparable {
+public interface Entity extends HasCandidateSolution, HasFitness {
 }

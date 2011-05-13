@@ -30,13 +30,6 @@ import static org.hamcrest.CoreMatchers.*;
  * @author gpampara
  */
 public class ParticleTest {
-    @Test
-    public void isMoreFit() {
-        Particle p1 = new Particle(CandidateSolution.empty(), CandidateSolution.empty(), Velocity.copyOf(), Fitnesses.newMaximizationFitness(0.0));
-        Particle p2 = new Particle(CandidateSolution.empty(), CandidateSolution.empty(), Velocity.copyOf(), Fitnesses.newMaximizationFitness(1.0));
-
-        Assert.assertTrue(p2.isMoreFit(p1));
-    }
 
     @Test
     public void staticCreation() {
@@ -44,25 +37,5 @@ public class ParticleTest {
 
         Assert.assertThat(CandidateSolution.empty(), sameInstance(p.solution()));
         Assert.assertThat(CandidateSolution.empty(), sameInstance(p.memory()));
-        Assert.assertThat(Fitnesses.inferior(), sameInstance(p.fitness()));
-//        Assert.assertThat(Velocity.copyOf(), p.velocity()));
-    }
-
-    @Test
-    public void equivalence() {
-        CandidateSolution empty = CandidateSolution.empty();
-        Particle p1 = new Particle(empty, empty, Velocity.copyOf(), Fitnesses.newMinimizationFitness(1.0));
-        Particle p2 = new Particle(empty, empty, Velocity.copyOf(), Fitnesses.newMinimizationFitness(1.0));
-
-        Assert.assertTrue(p1.equiv(p2));
-    }
-
-    @Test
-    public void falseEquivalence() {
-        CandidateSolution empty = CandidateSolution.empty();
-        Particle p1 = new Particle(empty, empty, Velocity.copyOf(), Fitnesses.newMinimizationFitness(1.0));
-        Particle p2 = new Particle(empty, empty, Velocity.copyOf(), Fitnesses.newMinimizationFitness(8.0));
-
-        Assert.assertFalse(p1.equiv(p2));
     }
 }

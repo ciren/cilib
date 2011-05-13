@@ -28,5 +28,4 @@ package net.cilib.measurement;
  * @author gpampara
  */
 public interface Measurement {
-
 }

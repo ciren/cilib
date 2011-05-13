@@ -32,7 +32,7 @@ import net.cilib.collection.Topology;
  * @since 0.8
  * @author gpampara
  */
-public interface PopulationBasedAlgorithm<A> extends Algorithm {
+public abstract class PopulationBasedAlgorithm<A> implements Algorithm {
 
     /**
      * Perform an iteration of the population based algorithm. The provided
@@ -41,5 +41,13 @@ public interface PopulationBasedAlgorithm<A> extends Algorithm {
      * @param topology the population for the algorithm to operate on
      * @return the given topology, post algorithm iteration.
      */
-    Topology<A> iterate(Topology<A> topology);
+    public abstract Topology<A> iterate(Topology<A> topology);
+
+    public Topology<A> fold(Topology<A> topology, Predicate<StateT> s, StateT state) {
+        Topology<A> local = topology;
+        while (!s.f(state)) {
+            local = iterate(local);
+        }
+        return local; // This is the final result.
+    }
 }

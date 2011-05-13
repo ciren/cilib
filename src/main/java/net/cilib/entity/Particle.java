@@ -21,10 +21,9 @@
  */
 package net.cilib.entity;
 
+import fj.data.Option;
 import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.inject.Inject;
-import java.util.Comparator;
-import static net.cilib.entity.EntityComparators.FITNESS_COMPARATOR;
 
 /**
  * Representation of a {@code Particle}. A {@code Particle} is an {@code Entity}
@@ -37,7 +36,7 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
     private final CandidateSolution position;
     private final CandidateSolution bestPosition;
     private final Velocity velocity;
-    private final Fitness fitness;
+    private final Option<Double> fitness;
 
     /**
      * Create a new {@code Particle}.
@@ -50,7 +49,7 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
     public Particle(CandidateSolution position,
             CandidateSolution bestPosition,
             Velocity velocity,
-            Fitness fitness) {
+            Option<Double> fitness) {
         this.position = checkNotNull(position);
         this.bestPosition = checkNotNull(bestPosition);
         this.velocity = checkNotNull(velocity);
@@ -78,65 +77,8 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
      * {@inheritDoc}
      */
     @Override
-    public Fitness fitness() {
+    public Option<Double> fitness() {
         return fitness;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Entity moreFit(Entity that) {
-        return moreFit(that, FITNESS_COMPARATOR);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Entity moreFit(Entity that, Comparator<? super Entity> comparator) {
-        return (comparator.compare(this, that) >= 0) ? this : that;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isMoreFit(Entity than) {
-        return moreFit(than) == this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Entity lessFit(Entity that) {
-        return lessFit(that, FITNESS_COMPARATOR);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Entity lessFit(Entity that, Comparator<? super Entity> comparator) {
-        return (comparator.compare(this, that) < 0) ? this : that;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isLessFit(Entity than) {
-        return lessFit(than) == this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equiv(Entity that) {
-        // The only equivalence that is possible is the current fitness
-        return this.fitness.equals(that.fitness());
     }
 
     /**
@@ -168,6 +110,6 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
     public static Particle create(CandidateSolution initialSolution) {
         return new Particle(initialSolution, initialSolution,
                 Velocity.fill(0.0, initialSolution.size()),
-                Fitnesses.inferior());
+                Option.<Double>none());
     }
 }

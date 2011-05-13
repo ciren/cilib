@@ -85,7 +85,7 @@ public final class Main {
     }
 
     private static Topology<Entity> createParticleTopology() {
-        ImmutableGBestTopology.ImmutableGBestTopologyBuilder<Entity> topology = ImmutableGBestTopology.newBuilder();
+        ImmutableGBestTopology.ImmutableGBestTopologyBuilder<Entity> topology = new ImmutableGBestTopology.ImmutableGBestTopologyBuilder<Entity>();
         for (int i = 0; i < 20; i++) {
             topology.add(Particle.create(CandidateSolution.of(0.0, 0.0)));
         }

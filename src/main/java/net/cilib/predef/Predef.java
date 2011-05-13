@@ -21,24 +21,37 @@
  */
 package net.cilib.predef;
 
-import com.google.common.collect.Lists;
-
-import java.util.List;
+import fj.data.Option;
 
 /**
  * Utility class of predefined helpers.
  */
 public final class Predef {
-    // Default constructor to prevent instantiation
+
     private Predef() {
+        throw new UnsupportedOperationException();
     }
 
-    public static <A> Array<A> array(A... elements) {
-        List<A> list = Lists.newArrayList(elements);
-        return new Array<A>(list.toArray());
+    /**
+     * Create a "<i>fitness</i>". In this case a "fitness" is nothing more than
+     * a simple {@link Option} that has a value.
+     * <p>
+     * This factory method is purely for convenience and is questionable.
+     * @param value fitness value
+     * @return an {@code Option} containing the fitness value.
+     */
+    public static Option<Double> fitness(double value) {
+        return Option.some(value);
     }
 
-    public static Range range(int start, int end) {
-        return Range.of(start, end);
+    /**
+     * Create an "<i>inferior fitness</i>". In this case a "fitness" is nothing
+     * more than the none option type.
+     * <p>
+     * This factory method is purely for convenience and is questionable.
+     * @return an {@code Option} representing an unspecified fitness value.
+     */
+    public static Option<Double> inferior() {
+        return Option.<Double>none();
     }
 }

@@ -21,16 +21,21 @@
  */
 package net.cilib.entity;
 
+import fj.data.Option;
+
 /**
- * Indicate that the instance does maintain a {@link Fitness}.
+ * Indicate that the instance does maintain a fitness value.
  *
  * @author gpampara
  */
 public interface HasFitness {
 
     /**
-     * Gets the current {@linkplain Fitness fitness} value.
+     * Gets the current fitness value. The fitness value may or may not exist.
+     * Valid fitness values are provided by an instance of {@link Option#some(Object)}
+     * and invalid fitness values are given by {@link fj.data.Option#none()}.
+     *
      * @return the fitness value.
      */
-    Fitness fitness();
+    Option<Double> fitness();
 }

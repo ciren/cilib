@@ -21,6 +21,7 @@
  */
 package net.cilib.pso;
 
+import fj.data.Option;
 import net.cilib.entity.Entity;
 
 /**
@@ -38,5 +39,5 @@ public interface Guide {
      * @param target {@code Entity} for which {@code guide} is requested.
      * @return the guiding {@code Entity}.
      */
-    Entity of(Entity target);
+    Option<Entity> of(Entity target);
 }

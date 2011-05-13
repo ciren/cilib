@@ -24,6 +24,7 @@ package net.cilib.inject;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import net.cilib.entity.FitnessComparator;
 import net.cilib.inject.annotation.Seed;
 import net.cilib.inject.annotation.SimulationScoped;
 import net.cilib.inject.annotation.Unique;
@@ -70,13 +71,11 @@ public final class CIlibCoreModule extends AbstractModule {
         bindConstant().annotatedWith(Seed.class).to(System.currentTimeMillis());
 
         // Define the required bindings, like the PRNG
-
         bind(RandomProvider.class).to(MersenneTwister.class);
         bind(RandomProvider.class).annotatedWith(Unique.class).toProvider(UniqueRandomProvider.class);
 
-//        bind(RandomProvider.class).annotatedWith(Seed.class).toProvider(SeededRandomProvider.class);
-
         bind(Problem.class).to(MockProblem.class);
+        bind(FitnessComparator.class).toInstance(FitnessComparator.MIN);
     }
 
     static class UniqueRandomProvider implements Provider<RandomProvider> {

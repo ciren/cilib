@@ -50,7 +50,7 @@ public class SimulatorTest {
 
     /**
      * <p>
-     * Iterate through all the availble XML simulation specifications and
+     * Iterate through all the available XML simulation specifications and
      * instantiate the needed objects, as well as making the simulations
      * ready for execution. After this process, discard the constructed
      * instances.
@@ -74,11 +74,7 @@ public class SimulatorTest {
 
             @Override
             public boolean accept(File dir, String name) {
-                if (name.endsWith("xml")) {
-                    return true;
-                }
-
-                return false;
+                return name.endsWith("xml");
             }
         }));
 

@@ -22,6 +22,7 @@
 package net.cilib.entity;
 
 import com.google.inject.Inject;
+import fj.data.Option;
 import net.cilib.problem.Problem;
 
 /**
@@ -29,6 +30,7 @@ import net.cilib.problem.Problem;
  * @author gpampara
  */
 public class FitnessProvider {
+
     private final Problem problem;
 
     @Inject
@@ -39,9 +41,18 @@ public class FitnessProvider {
     /**
      * Calculate the fitness for the given {@code CandidateSolution}.
      * @param solution {@code CandidateSolution} to evaluate.
-     * @return {@code Fitness} for the given {@code CandidateSolution}.
+     * @return the fitness of the given {@code CandidateSolution}.
      */
-    public Fitness finalize(CandidateSolution solution) {
-        return problem.fitnessOf(solution);
+    public Option<Double> finalize(CandidateSolution solution) {
+        try {
+            double acc = 0.0;
+            SeqIterator iter = solution.iterator();
+            while (iter.hasNext()) {
+                acc += problem.f(iter.next());
+            }
+            return Option.some(acc);
+        } catch (Exception e) {
+            return Option.none();
+        }
     }
 }

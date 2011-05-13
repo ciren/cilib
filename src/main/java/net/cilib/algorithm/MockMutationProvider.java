@@ -34,6 +34,7 @@ import net.cilib.entity.Seq;
 import net.cilib.entity.MutableSeq;
 
 /**
+ * @since 0.8
  * @author gpampara
  */
 public class MockMutationProvider implements MutationProvider {
@@ -47,12 +48,12 @@ public class MockMutationProvider implements MutationProvider {
     }
 
     @Override
-    public CandidateSolution create(Iterable<Entity> iterable) {
+    public CandidateSolution create(Iterable<? extends Entity> iterable) {
         return create(iterable.iterator());
     }
 
     @Override
-    public CandidateSolution create(Iterator<Entity> iterator) {
+    public CandidateSolution create(Iterator<? extends Entity> iterator) {
         List<Entity> list = Lists.newArrayList(iterator);
         MutableSeq x1 = selector.select(list).solution().toMutableSeq();
         MutableSeq x2 = selector.select(list).solution().toMutableSeq();

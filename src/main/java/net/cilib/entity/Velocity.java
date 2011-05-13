@@ -22,7 +22,6 @@
 package net.cilib.entity;
 
 import com.google.common.base.Objects;
-import gnu.trove.TDoubleArrayList;
 
 import java.util.Arrays;
 
@@ -32,7 +31,7 @@ import java.util.Arrays;
  * @author gpampara
  */
 public final class Velocity implements LinearSeq {
-    private final TDoubleArrayList internal;
+    private final double[] internal;
 
     /**
      * Create a velocity with length {@code size}, containing repeated
@@ -46,7 +45,7 @@ public final class Velocity implements LinearSeq {
     public static Velocity fill(double element, int size) {
         double[] values = new double[size];
         Arrays.fill(values, element);
-        return new Velocity(new TDoubleArrayList(values));
+        return new Velocity(values);
     }
 
     /**
@@ -57,10 +56,10 @@ public final class Velocity implements LinearSeq {
      * @return a new {@code Velocity} instance.
      */
     public static Velocity copyOf(double... elements) {
-        return new Velocity(new TDoubleArrayList(elements));
+        return new Velocity(elements);
     }
 
-    private Velocity(TDoubleArrayList list) {
+    private Velocity(double[] list) {
         this.internal = list;
     }
 
@@ -69,7 +68,7 @@ public final class Velocity implements LinearSeq {
      */
     @Override
     public double[] toArray() {
-        return internal.toNativeArray();
+        return Arrays.copyOf(internal, internal.length);
     }
 
     /**
@@ -77,7 +76,7 @@ public final class Velocity implements LinearSeq {
      */
     @Override
     public int size() {
-        return internal.size();
+        return internal.length;
     }
 
     /**
@@ -85,7 +84,7 @@ public final class Velocity implements LinearSeq {
      */
     @Override
     public double get(int index) {
-        return internal.get(index);
+        return internal[index];
     }
 
     /**
@@ -103,7 +102,7 @@ public final class Velocity implements LinearSeq {
      */
     public SeqIterator iterator() {
         return new SeqIterator() {
-            private final double[] local = Arrays.copyOf(internal.toNativeArray(), internal.size());
+            private final double[] local = Arrays.copyOf(internal, internal.length);
             private int count = 0;
 
             @Override

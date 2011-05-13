@@ -31,7 +31,7 @@ import net.cilib.entity.Entity;
  */
 public interface MutationProvider {
 
-    CandidateSolution create(Iterable<Entity> iterable);
+    CandidateSolution create(Iterable<? extends Entity> iterable);
 
-    CandidateSolution create(Iterator<Entity> iterator);
+    CandidateSolution create(Iterator<? extends Entity> iterator);
 }

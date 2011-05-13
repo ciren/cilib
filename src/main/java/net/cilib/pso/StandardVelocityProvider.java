@@ -80,8 +80,8 @@ public final class StandardVelocityProvider implements VelocityProvider {
      */
     @Override
     public Velocity create(Particle particle) {
-        LinearSeq local = localGuide.of(particle).solution();
-        LinearSeq global = globalGuide.of(particle).solution();
+        LinearSeq local = localGuide.of(particle).some().solution();
+        LinearSeq global = globalGuide.of(particle).some().solution();
 
         MutableSeq cognitive = local.toMutableSeq().subtract(particle.solution()).multiply(r1c1);
         MutableSeq social = global.toMutableSeq().subtract(particle.solution()).multiply(r2c2);

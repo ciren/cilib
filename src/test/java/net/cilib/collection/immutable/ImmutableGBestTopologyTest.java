@@ -22,14 +22,18 @@
 package net.cilib.collection.immutable;
 
 import com.google.common.collect.Iterables;
+import fj.F;
+import net.cilib.collection.Topology;
 import net.cilib.entity.Particle;
+
 import java.util.Iterator;
+
 import org.junit.Assert;
 import org.junit.Test;
+
 import static org.hamcrest.CoreMatchers.*;
 
 /**
- *
  * @author gpampara
  */
 public class ImmutableGBestTopologyTest {
@@ -44,18 +48,34 @@ public class ImmutableGBestTopologyTest {
 
     @Test
     public void iteratorOfTopology() {
-        ImmutableGBestTopology<Double> t = ImmutableGBestTopology.<Double>newBuilder()
-                .add(3.0).add(4.0).build();
+        Topology<Double> t = ImmutableGBestTopology.topologyOf(3.0, 4.0);
 
         Assert.assertThat(Iterables.size(t), equalTo(2));
     }
 
     @Test
     public void gBestNeighbourhood() {
-        ImmutableGBestTopology<Double> t = ImmutableGBestTopology.<Double>newBuilder()
-                .add(3.0).add(4.0).build();
+        Topology<Double> t = ImmutableGBestTopology.topologyOf(3.0, 4.0);
 
         Assert.assertThat(Iterables.size(t), equalTo(2));
         Assert.assertArrayEquals(new Double[]{3.0, 4.0}, Iterables.toArray(t, Double.class));
+    }
+
+    @Test
+    public void foldLeft() {
+        Topology<Integer> t = ImmutableGBestTopology.topologyOf(1, 2, 3, 4, 5);
+        Integer result = t.foldLeft(new F<Integer, F<Integer, Integer>>() {
+            @Override
+            public F<Integer, Integer> f(final Integer a1) {
+                return new F<Integer, Integer>() {
+                    @Override
+                    public Integer f(final Integer a2) {
+                        return a1 + a2;
+                    }
+                };
+            }
+        }, 0);
+
+        Assert.assertThat(result, equalTo(15));
     }
 }

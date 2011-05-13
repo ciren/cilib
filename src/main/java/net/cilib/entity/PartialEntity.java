@@ -22,7 +22,7 @@
 package net.cilib.entity;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import java.util.Comparator;
+import fj.data.Option;
 
 /**
  * A partial entity is an entity that has, at least, a candidate solution. No
@@ -62,71 +62,7 @@ public final class PartialEntity implements Entity {
      * @return An inferior fitness.
      */
     @Override
-    public Fitness fitness() {
-        return Fitnesses.inferior();
-    }
-
-    /**
-     * This method always returns the provided {@code Entity}.
-     * {@inheritDoc}
-     */
-    @Override
-    public Entity moreFit(Entity that) {
-        return that;
-    }
-
-    /**
-     * This method always returns the provided {@code Entity}.
-     * {@inheritDoc}
-     * @param comparator for comparisons.
-     */
-    @Override
-    public Entity moreFit(Entity that, Comparator<? super Entity> comparator) {
-        return that;
-    }
-
-    /**
-     * Always returns {@code false}.
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isMoreFit(Entity than) {
-        return false;
-    }
-
-    /**
-     * This method always returns the provided {@code Entity}.
-     * {@inheritDoc}
-     */
-    @Override
-    public Entity lessFit(Entity that) {
-        return that;
-    }
-
-    /**
-     * This method always returns the provided {@code Entity}.
-     * {@inheritDoc}
-     */
-    @Override
-    public Entity lessFit(Entity that, Comparator<? super Entity> comparator) {
-        return that;
-    }
-
-    /**
-     * Always returns {@code true}.
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isLessFit(Entity than) {
-        return true;
-    }
-
-    /**
-     * Always returns {@code false}.
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equiv(Entity that) {
-        return false;
+    public Option<Double> fitness() {
+        return Option.none();
     }
 }

@@ -21,16 +21,13 @@
  */
 package net.cilib.main;
 
-import net.cilib.entity.CandidateSolution;
-import net.cilib.entity.Fitness;
-import net.cilib.entity.Fitnesses;
 import net.cilib.problem.Problem;
 
 /**
  *
  * @author gpampara
  */
-public class MockProblem implements Problem {
+public final class MockProblem extends Problem {
 
     /**
      * Spherical
@@ -38,11 +35,7 @@ public class MockProblem implements Problem {
      * @return
      */
     @Override
-    public Fitness fitnessOf(CandidateSolution solution) {
-        double result = 0.0;
-        for (int i = 0, n = solution.size(); i < n; i++) {
-            result += solution.get(i) * solution.get(i);
-        }
-        return Fitnesses.newMinimizationFitness(result);
+    public Double f(Double x) {
+        return x * x;
     }
 }
