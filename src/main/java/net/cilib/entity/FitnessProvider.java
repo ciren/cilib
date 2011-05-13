@@ -52,7 +52,7 @@ public class FitnessProvider {
             }
             return Option.some(acc);
         } catch (Exception e) {
-            return Option.<Double>none();
+            return Option.none();
         }
     }
 }

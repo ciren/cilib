@@ -31,7 +31,10 @@ import fj.data.Option;
 public interface HasFitness {
 
     /**
-     * Gets the current fitness value.
+     * Gets the current fitness value. The fitness value may or may not exist.
+     * Valid fitness values are provided by an instance of {@link Option#some(Object)}
+     * and invalid fitness values are given by {@link fj.data.Option#none()}.
+     *
      * @return the fitness value.
      */
     Option<Double> fitness();

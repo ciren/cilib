@@ -22,6 +22,7 @@
 package net.cilib.entity;
 
 import fj.data.Option;
+
 import java.util.Comparator;
 
 /**
@@ -34,13 +35,12 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
      * maintain a fitness.
      */
     MIN {
-
         /**
          * {@inheritDoc}
          */
         @Override
         public <A extends HasFitness> boolean isLessFit(A a, A b) {
-            return compare(a.fitness(), b.fitness()) < 0;
+            return compare(a.fitness(), b.fitness()) > 0;
         }
 
         /**
@@ -49,6 +49,17 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
         @Override
         public <A extends HasFitness> boolean isMoreFit(A a, A b) {
             return compare(a.fitness(), b.fitness()) < 0;
+        }
+
+        @Override
+        public int compare(Option<Double> o1, Option<Double> o2) {
+            if (o1.isNone() && o2.isNone()) {
+                throw new UnsupportedOperationException("Cannot compare fitnesses: " + o1 + " " + o2);
+            }
+
+            return o1.isNone() ? 1 // o2 is better
+                    : o2.isNone() ? -1 // o1 is better
+                    : o1.some().compareTo(o2.some());
         }
     },
     /**
@@ -56,7 +67,6 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
      * maintain a fitness.
      */
     MAX {
-
         /**
          * {@inheritDoc}
          */
@@ -70,26 +80,30 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
          */
         @Override
         public <A extends HasFitness> boolean isMoreFit(A a, A b) {
-            return compare(a.fitness(), b.fitness()) > 0;
+            return compare(a.fitness(), b.fitness()) < 0;
+        }
+
+        @Override
+        public int compare(Option<Double> o1, Option<Double> o2) {
+            if (o1.isNone() && o2.isNone()) {
+                throw new UnsupportedOperationException("Cannot compare fitnesses: " + o1 + " " + o2);
+            }
+
+            return o1.isNone() ? 1 // o2 is better
+                    : o2.isNone() ? -1 // o1 is better
+                    : o2.some().compareTo(o1.some());
         }
     };
 
     @Override
-    public int compare(Option<Double> o1, Option<Double> o2) {
-        if (o1.isNone() && o2.isNone()) {
-            throw new UnsupportedOperationException("Cannot compare fitnesses: " + o1 + " " + o2);
-        }
-
-        return o1.isNone() ? 1
-                : o2.isNone() ? -1
-                : o1.some().compareTo(o2.some());
-    }
+    public abstract int compare(Option<Double> o1, Option<Double> o2);
 
     /**
      * Question whether the first parameter is less fit than the second.
+     *
      * @param <A> the type extending {@code HasFitness}.
-     * @param a first fitness.
-     * @param b second fitness.
+     * @param a   first fitness.
+     * @param b   second fitness.
      * @return {@code true} if {@code a} is less fit than {@code b},
      *         {@code false} otherwise.
      */
@@ -97,9 +111,10 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
 
     /**
      * Obtain the less fit instance between the provided instances.
+     *
      * @param <A> the type extending {@code HasFitness}.
-     * @param a first fitness.
-     * @param b second fitness.
+     * @param a   first fitness.
+     * @param b   second fitness.
      * @return {@code a} if, and only if, {@code a} is less fit,
      *         {@code b} otherwise.
      */
@@ -109,9 +124,10 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
 
     /**
      * Question whether the first parameter is more fit than the second.
+     *
      * @param <A> the type extending {@code HasFitness}.
-     * @param a first fitness.
-     * @param b second fitness.
+     * @param a   first fitness.
+     * @param b   second fitness.
      * @return {@code true} if {@code a} is more fit than {@code b},
      *         {@code false} otherwise.
      */
@@ -119,9 +135,10 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
 
     /**
      * Obtain the more fit instance beObjecttween the provided instances.
+     *
      * @param <A> the type extending {@code HasFitness}.
-     * @param a first fitness.
-     * @param b second fitness.
+     * @param a   first fitness.
+     * @param b   second fitness.
      * @return {@code a} if, and only if, {@code a} is more fit,
      *         {@code b} otherwise.
      */

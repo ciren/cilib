@@ -87,7 +87,7 @@ public final class MutableSeq implements Seq {
      */
     public MutableSeq multiply(final Supplier<Double> supplier) {
         for (int i = 0, n = internal.length; i < n; i++) {
-            internal[i] *= supplier.get().doubleValue();
+            internal[i] *= supplier.get();
         }
         return this;
     }
@@ -113,7 +113,7 @@ public final class MutableSeq implements Seq {
     public MutableSeq divide(final Supplier<Double> supplier) {
         final CheckingSupplier check = new CheckingSupplier(supplier);
         for (int i = 0, n = internal.length; i < n; i++) {
-            internal[i] /= check.get().doubleValue();
+            internal[i] /= check.get();
         }
         return this;
     }
@@ -143,7 +143,7 @@ public final class MutableSeq implements Seq {
 
         @Override
         public Double get() {
-            double scalar = supplier.get().doubleValue();
+            double scalar = supplier.get();
             if (Doubles.compare(scalar, 0.0) == 0) {
                 throw new ArithmeticException("Cannot divide with a 0.0!");
             }

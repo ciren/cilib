@@ -51,6 +51,7 @@ public final class ParticleProvider implements Provider<Particle> {
      * @return
      */
     public Particle newParticle(CandidateSolution solution) {
+        Preconditions.checkNotNull(solution);
         return new Particle(solution, solution,
                 Velocity.fill(0.0, solution.size()),
                 fitnessProvider.finalize(solution));
@@ -77,6 +78,7 @@ public final class ParticleProvider implements Provider<Particle> {
      * @return the current factory instance.
      */
     public ParticleProvider position(CandidateSolution position) {
+        Preconditions.checkNotNull(position);
         this.position = CandidateSolution.copyOf(position);
         return this;
     }
@@ -88,6 +90,7 @@ public final class ParticleProvider implements Provider<Particle> {
      * @return the current factory instance.
      */
     public ParticleProvider velocity(Velocity velocity) {
+        Preconditions.checkNotNull(velocity);
         this.velocity = Velocity.copyOf(velocity.toArray());
         return this;
     }
