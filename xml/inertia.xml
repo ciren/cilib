@@ -19,7 +19,6 @@
 
         <measurements class="simulator.MeasurementSuite" resolution="100">
             <addMeasurement class="measurement.generic.Iterations"/>
-            <addMeasurement class="measurement.single.FunctionOptimisationError" />
         </measurements>
         <output format="TXT" file="data/pso-inertia.txt" />
     </simulation>

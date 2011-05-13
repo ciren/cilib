@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.measurement.single.dynamic;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.problem.DynamicOptimizationProblem;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
@@ -57,7 +58,7 @@ public class CollectiveMeanError extends DynamicMeasurement {
     @Override
     public Type getValue(Algorithm algorithm) {
         int iteration = algorithm.getIterations();
-        FunctionOptimisationProblem function = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
+        DynamicOptimizationProblem function = (DynamicOptimizationProblem) algorithm.getOptimisationProblem();
         double error = function.getError(algorithm.getBestSolution().getPosition());
         avg = (avg * (iteration - 1) + error) / (iteration);
         return Real.valueOf(avg);

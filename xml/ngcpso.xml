@@ -71,7 +71,7 @@
     </problems>
     <measurements id="measurements" class="simulator.MeasurementSuite" resolution="100">
         <addMeasurement class="measurement.single.FitnessEvaluations"/>
-        <addMeasurement class="measurement.single.FunctionOptimisationError"/>
+        <addMeasurement class="measurement.single.Fitness"/>
     </measurements>
     <simulations>
         <simulation samples="30">

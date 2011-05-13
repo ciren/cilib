@@ -36,7 +36,7 @@
 
         <measurements class="simulator.MeasurementSuite" resolution="10">
             <addMeasurement class="measurement.single.FitnessEvaluations" />
-            <addMeasurement class="measurement.single.FunctionOptimisationError" />
+            <!--<addMeasurement class="measurement.single.FunctionOptimisationError" />-->
         </measurements>
         <output format="TXT" file="data/splitcooperative-pso-schwefel.txt"/>
     </simulation>

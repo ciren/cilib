@@ -25,7 +25,7 @@
             </problem>
 
             <measurements class="simulator.MeasurementSuite" resolution="1">
-                <addMeasurement class="measurement.single.FunctionOptimisationError"/>
+                <addMeasurement class="measurement.single.Fitness"/>
             </measurements>
             <output format="TXT" file="data/gaussian.txt"/>
         </simulation>
