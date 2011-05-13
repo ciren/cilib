@@ -1,9 +1,11 @@
 package net.cilib.matchers;
 
+import fj.F;
 import fj.data.Option;
 import net.cilib.collection.Topology;
+import net.cilib.entity.Entities;
+import net.cilib.entity.Entity;
 import net.cilib.entity.FitnessComparator;
-import net.cilib.entity.HasFitness;
 
 /**
  * A collection of matchers based on Entity instances.
@@ -17,19 +19,25 @@ public final class EntityMatchers {
     /**
      * Return the most fit {@code HasFitness} instance contained within the
      * provided {@code Topology}.
-     * @param topology the container of elements to compare.
+     *
+     * @param topology   the container of elements to compare.
      * @param comparator the comparison method.
      * @return an {@code Option} containing the most fit instance, or
      *         {@code none}.
      */
-    public static <A extends HasFitness> Option<A> mostFit(Topology<A> topology, FitnessComparator comparator) {
-        A currentBest = null;
-        for (A a : topology) {
-            if (currentBest == null) {
-                currentBest = a;
+    public static <A extends Entity> Option<A> mostFit(final Topology<A> topology, final FitnessComparator comparator) {
+        A result = topology.foldLeft(new F<A, F<A, A>>() {
+            @Override
+            public F<A, A> f(final A x) {
+                return new F<A, A>() {
+                    @Override
+                    public A f(final A y) {
+                        return comparator.moreFit(x, y);
+                    }
+                };
             }
-            currentBest = comparator.moreFit(a, currentBest);
-        }
-        return (currentBest != null) ? Option.some(currentBest) : Option.<A>none();
+        }, Entities.<A>dummy());
+
+        return (result == Entities.dummy()) ? Option.<A>none() : Option.some(result);
     }
 }

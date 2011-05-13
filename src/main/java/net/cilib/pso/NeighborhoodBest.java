@@ -24,13 +24,15 @@ package net.cilib.pso;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import fj.data.Option;
+
 import java.util.Iterator;
+
 import net.cilib.collection.Topology;
+import net.cilib.entity.Entities;
 import net.cilib.entity.Entity;
 import net.cilib.entity.FitnessComparator;
 
 /**
- *
  * @author gpampara
  */
 public class NeighborhoodBest implements Guide {
@@ -46,17 +48,18 @@ public class NeighborhoodBest implements Guide {
 
     /**
      * {@inheritDoc}
-     *
+     * <p/>
      * A neighborhood best {@code Entity} is the entity which is the most fit,
      * within the neighborhood.
      */
     @Override
     public Option<Entity> of(Entity target) {
-        Iterator<Entity> neighborhoodOf = topologyProvider.get().neighborhoodOf(target);
-        Entity result = null;
+        Topology<Entity> topology = topologyProvider.get();
+        Iterator<Entity> neighborhoodOf = topology.neighborhoodOf(target);
+        Entity result = Entities.dummy();
         while (neighborhoodOf.hasNext()) {
             Entity current = neighborhoodOf.next();
-            if (result == null) {
+            if (result == Entities.dummy()) {
                 result = current;
                 continue;
             }
@@ -64,6 +67,6 @@ public class NeighborhoodBest implements Guide {
                 result = current;
             }
         }
-        return (result != null) ? Option.some(result) : Option.<Entity>none();
+        return (result != Entities.dummy()) ? Option.some(result) : Option.<Entity>none();
     }
 }

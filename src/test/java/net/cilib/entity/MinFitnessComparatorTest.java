@@ -24,10 +24,10 @@ package net.cilib.entity;
 import fj.data.Option;
 import org.junit.Assert;
 import org.junit.Test;
+
 import static org.hamcrest.CoreMatchers.is;
 
 /**
- *
  * @author gpampara
  */
 public class MinFitnessComparatorTest {
@@ -38,7 +38,7 @@ public class MinFitnessComparatorTest {
         Individual i2 = new Individual(CandidateSolution.of(1.0), Option.some(2.0));
         FitnessComparator c = FitnessComparator.MIN;
 
-        Assert.assertThat(c.lessFit(i1, i2), is(i1));
+        Assert.assertThat(c.lessFit(i1, i2), is(i2));
     }
 
     @Test
@@ -56,7 +56,37 @@ public class MinFitnessComparatorTest {
         Individual i1 = new Individual(CandidateSolution.of(1.0), Option.some(1.0));
         Individual i2 = new Individual(CandidateSolution.of(1.0), Option.some(2.0));
         FitnessComparator c = FitnessComparator.MIN;
-        
+
         Assert.assertThat(c.moreFit(i1, i2), is(i1));
+    }
+
+    @Test
+    public void valueIsAlwaysFitterThanNone() {
+        Individual i1 = new Individual(CandidateSolution.of(1.0), Option.some(1.0));
+        Individual i2 = new Individual(CandidateSolution.of(1.0), Option.<Double>none());
+        FitnessComparator c = FitnessComparator.MIN;
+
+        Assert.assertThat(c.moreFit(i1, i2), is(i1));
+        Assert.assertThat(c.moreFit(i2, i1), is(i1));
+    }
+
+    @Test
+    public void bidirectionalMoreFit() {
+        Individual i1 = new Individual(CandidateSolution.of(1.0), Option.some(1.0));
+        Individual i2 = new Individual(CandidateSolution.of(1.0), Option.<Double>none());
+        FitnessComparator c = FitnessComparator.MIN;
+
+        Assert.assertThat(c.moreFit(i1, i2), is(i1));
+        Assert.assertThat(c.moreFit(i2, i1), is(i1));
+    }
+
+    @Test
+    public void bidirectionalLessFit() {
+        Individual i1 = new Individual(CandidateSolution.of(1.0), Option.some(1.0));
+        Individual i2 = new Individual(CandidateSolution.of(1.0), Option.<Double>none());
+        FitnessComparator c = FitnessComparator.MIN;
+
+        Assert.assertThat(c.lessFit(i1, i2), is(i2));
+        Assert.assertThat(c.lessFit(i2, i1), is(i2));
     }
 }

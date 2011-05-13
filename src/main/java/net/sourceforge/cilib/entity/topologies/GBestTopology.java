@@ -224,7 +224,7 @@ public class GBestTopology<E extends Entity> extends AbstractTopology<E> {
     }
 
     /**
-     * Interface to define the manner in which the iterator is to be constructed for Array types.
+     * Interface to define the manner in which the iterator is to be constructed for sequenced types.
      * @author gpampara
      *
      * @param <T> The {@linkplain Entity} type.
