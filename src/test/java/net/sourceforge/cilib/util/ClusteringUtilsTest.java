@@ -24,7 +24,7 @@ package net.sourceforge.cilib.util;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
-import static org.junit.matchers.IsCollectionContaining.hasItem;
+import static org.hamcrest.collection.IsCollectionContaining.hasItem;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,6 +37,8 @@ import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+import org.hamcrest.Matchers;
+import org.hamcrest.collection.IsCollectionContaining;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -123,7 +125,7 @@ public class ClusteringUtilsTest {
 
         while (counter <= 0) {
             assertThat(indices, hasItem(counter));
-            assertThat(patterns, hasItem(dataSetBuilder.getPattern(counter++)));
+            assertThat(patterns, IsCollectionContaining.hasItem(dataSetBuilder.getPattern(counter++)));
         }
 
         // cluster 1

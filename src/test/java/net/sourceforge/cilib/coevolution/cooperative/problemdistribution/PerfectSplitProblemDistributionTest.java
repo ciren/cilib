@@ -21,11 +21,6 @@
  */
 package net.sourceforge.cilib.coevolution.cooperative.problemdistribution;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Arrays;
-import java.util.List;
-
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -35,13 +30,18 @@ import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class PerfectSplitProblemDistributionTest {
     @Test
-    public void PerfectSplitTest(){
+    public void PerfectSplitTest() {
         final DomainRegistry problemDomain = new StringBasedDomainRegistry();
         problemDomain.setDomainString("R(0.0, 4.0)^4");
         Bounds bounds = new Bounds(0.0, 4.0);
@@ -51,20 +51,16 @@ public class PerfectSplitProblemDistributionTest {
         data.add(Real.valueOf(0.0, bounds));
         data.add(Real.valueOf(0.0, bounds));
 
-        List<PopulationBasedAlgorithm> populations = Arrays.asList((PopulationBasedAlgorithm)new PSO(), (PopulationBasedAlgorithm)new PSO());
+        List<PopulationBasedAlgorithm> populations = Arrays.asList((PopulationBasedAlgorithm) new PSO(), (PopulationBasedAlgorithm) new PSO());
 
-        Mockery context = new Mockery();
-        final OptimisationProblem problem = context.mock(OptimisationProblem.class);
-        context.checking(new Expectations() {{
-            allowing (problem).getDomain();
-            will(returnValue(problemDomain));
-        }});
+        final OptimisationProblem problem = mock(OptimisationProblem.class);
+        when(problem.getDomain()).thenReturn(problemDomain);
 
         PerfectSplitDistributionStrategy test = new PerfectSplitDistributionStrategy();
         test.performDistribution(populations, problem, data);
 
-        CooperativeCoevolutionProblemAdapter p1 = (CooperativeCoevolutionProblemAdapter)populations.get(0).getOptimisationProblem();
-        CooperativeCoevolutionProblemAdapter p2 = (CooperativeCoevolutionProblemAdapter)populations.get(1).getOptimisationProblem();
+        CooperativeCoevolutionProblemAdapter p1 = (CooperativeCoevolutionProblemAdapter) populations.get(0).getOptimisationProblem();
+        CooperativeCoevolutionProblemAdapter p2 = (CooperativeCoevolutionProblemAdapter) populations.get(1).getOptimisationProblem();
 
         assertEquals(2, p1.getDomain().getDimension(), 0.0);
         assertEquals(2, p2.getDomain().getDimension(), 0.0);

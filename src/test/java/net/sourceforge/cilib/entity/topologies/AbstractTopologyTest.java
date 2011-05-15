@@ -21,9 +21,6 @@
  */
 package net.sourceforge.cilib.entity.topologies;
 
-import static org.hamcrest.CoreMatchers.is;
-
-
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
@@ -32,22 +29,16 @@ import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
-
 import net.sourceforge.cilib.pso.particle.StandardParticle;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import static org.hamcrest.CoreMatchers.is;
 
 /**
- *
  * @author Gary Pampara
  */
-@RunWith(JMock.class)
 public class AbstractTopologyTest {
-    private Mockery context = new JUnit4Mockery();
 
     @Test
     public void comparatorBestEntity() {
@@ -94,5 +85,4 @@ public class AbstractTopologyTest {
 
         Assert.assertThat(best, is(p1));
     }
-
 }

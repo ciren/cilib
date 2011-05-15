@@ -36,8 +36,12 @@ public final class EventingModuleBuilder {
         protected void configure() {
             requireBinding(EventProcessor.class);
 
-            bindInterceptor(Matchers.any(), Events.raising(IterationEvent.class), new IterationInterceptor(getProvider(EventProcessor.class)));
-            bindInterceptor(Matchers.any(), Events.raising(FitnessEvaluationEvent.class), new FitnessEvaluationInterceptor(getProvider(EventProcessor.class)));
+            bindInterceptor(Matchers.any(),
+                    Events.raising(IterationEvent.class),
+                    new IterationInterceptor(getProvider(EventProcessor.class)));
+            bindInterceptor(Matchers.any(),
+                    Events.raising(FitnessEvaluationEvent.class),
+                    new FitnessEvaluationInterceptor(getProvider(EventProcessor.class)));
         }
     };
 

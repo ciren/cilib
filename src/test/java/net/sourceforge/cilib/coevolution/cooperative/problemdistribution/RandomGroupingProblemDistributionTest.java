@@ -21,11 +21,6 @@
  */
 package net.sourceforge.cilib.coevolution.cooperative.problemdistribution;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Arrays;
-import java.util.List;
-
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
 import net.sourceforge.cilib.math.random.generator.SeedSelectionStrategy;
@@ -38,10 +33,14 @@ import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
-import org.jmock.Expectations;
-import org.jmock.Mockery;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class RandomGroupingProblemDistributionTest {
 
@@ -60,13 +59,10 @@ public class RandomGroupingProblemDistributionTest {
             data.add(Real.valueOf(0.0, bounds));
             data.add(Real.valueOf(0.0, bounds));
 
-            List<PopulationBasedAlgorithm> populations = Arrays.asList((PopulationBasedAlgorithm) new PSO(), (PopulationBasedAlgorithm) new PSO());
+            List<PopulationBasedAlgorithm> populations = Arrays.<PopulationBasedAlgorithm>asList(new PSO(), new PSO());
 
-            Mockery context = new Mockery();
-            final OptimisationProblem problem = context.mock(OptimisationProblem.class);
-            context.checking(new Expectations() {{
-                allowing(problem).getDomain(); will(returnValue(problemDomain));
-            }});
+            final OptimisationProblem problem = mock(OptimisationProblem.class);
+            when(problem.getDomain()).thenReturn(problemDomain);
 
             RandomGroupingDistributionStrategy test = new RandomGroupingDistributionStrategy();
             test.performDistribution(populations, problem, data);

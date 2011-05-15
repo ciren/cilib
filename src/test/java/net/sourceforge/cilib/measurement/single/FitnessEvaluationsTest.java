@@ -27,35 +27,27 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
-
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
- *
  * @author Gary Pampara
  */
-@RunWith(JMock.class)
 public class FitnessEvaluationsTest {
-    private Mockery context = new JUnit4Mockery();
 
     @Test
     public void result() {
-        final PopulationBasedAlgorithm pba = context.mock(PopulationBasedAlgorithm.class);
-        final OptimisationProblem problem = context.mock(OptimisationProblem.class);
+        final PopulationBasedAlgorithm pba = mock(PopulationBasedAlgorithm.class);
+        final OptimisationProblem problem = mock(OptimisationProblem.class);
 
-        context.checking(new Expectations() {{
-            exactly(2).of(pba).getOptimisationProblem(); will(returnValue(problem));
-            exactly(2).of(problem).getFitnessEvaluations(); will(onConsecutiveCalls(returnValue(10), returnValue(20)));
-        }});
+        when(pba.getOptimisationProblem()).thenReturn(problem);
+        when(problem.getFitnessEvaluations()).thenReturn(10, 20);
 
         Measurement m = new FitnessEvaluations();
         Int i1 = (Int) m.getValue(pba);

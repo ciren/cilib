@@ -24,33 +24,25 @@ package net.sourceforge.cilib.measurement.generic;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Int;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
 
-import org.junit.runner.RunWith;
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
- *
  * @author Gary Pampara
  */
-@RunWith(JMock.class)
 public class IterationsTest {
-    private Mockery context = new JUnit4Mockery();
 
     @Test
     public void iterationNumber() {
         final int expected = 1000;
-        final PopulationBasedAlgorithm algorithm = context.mock(PopulationBasedAlgorithm.class);
+        final PopulationBasedAlgorithm algorithm = mock(PopulationBasedAlgorithm.class);
 
-        context.checking(new Expectations() {{
-            oneOf(algorithm).getIterations(); will(returnValue(expected));
-        }});
-        
+        when(algorithm.getIterations()).thenReturn(expected);
+
         Measurement m = new Iterations();
         Assert.assertEquals(expected, ((Int) m.getValue(algorithm)).intValue());
     }
@@ -63,11 +55,7 @@ public class IterationsTest {
 
     @Test
     public void resultType() {
-        final PopulationBasedAlgorithm algorithm = context.mock(PopulationBasedAlgorithm.class);
-
-        context.checking(new Expectations() {{
-            ignoring(algorithm);
-        }});
+        final PopulationBasedAlgorithm algorithm = mock(PopulationBasedAlgorithm.class);
 
         Measurement m = new Iterations();
         Assert.assertThat(m.getValue(algorithm), is(Int.class));

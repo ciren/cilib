@@ -30,43 +30,28 @@ import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
- *
  * @author Wiehann Matthysen
  */
-@RunWith(JMock.class)
 public class SolutionDistributionTest {
-
-    private Mockery mockery = new JUnit4Mockery();
 
     @Test
     public void testBiDistribution() {
-        Algorithm algorithm = this.mockery.mock(Algorithm.class);
+        Algorithm algorithm = mock(Algorithm.class);
 
         MOFitness fitness01 = Fitnesses.create(new MinimisationFitness(3.0), new MinimisationFitness(0.0));
-        final Type type01 = this.mockery.mock(Type.class, "type2_01");
+        final Type type01 = mock(Type.class, "type2_01");
+        when(type01.getClone()).thenReturn(type01);
 
         MOFitness fitness02 = Fitnesses.create(new MinimisationFitness(2.0), new MinimisationFitness(1.0));
-        final Type type02 = this.mockery.mock(Type.class, "type2_02");
-
-        // Cloning returns the mocked objects themselves.
-        this.mockery.checking(new Expectations() {
-
-            {
-                oneOf(type01).getClone();
-                will(returnValue(type01));
-                oneOf(type02).getClone();
-                will(returnValue(type02));
-            }
-        });
+        final Type type02 = mock(Type.class, "type2_02");
+        when(type02.getClone()).thenReturn(type02);
 
         OptimisationSolution solution01 = new OptimisationSolution(type01, fitness01);
         OptimisationSolution solution02 = new OptimisationSolution(type02, fitness02);
@@ -81,34 +66,23 @@ public class SolutionDistributionTest {
 
     @Test
     public void testPerfectDistribution() {
-        Algorithm algorithm = this.mockery.mock(Algorithm.class);
+        Algorithm algorithm = mock(Algorithm.class);
 
         MOFitness fitness01 = Fitnesses.create(new MinimisationFitness(3.0), new MinimisationFitness(0.0));
-        final Type type01 = this.mockery.mock(Type.class, "type2_01");
+        final Type type01 = mock(Type.class, "type2_01");
+        when(type01.getClone()).thenReturn(type01);
 
         MOFitness fitness02 = Fitnesses.create(new MinimisationFitness(2.0), new MinimisationFitness(1.0));
-        final Type type02 = this.mockery.mock(Type.class, "type2_02");
+        final Type type02 = mock(Type.class, "type2_02");
+        when(type02.getClone()).thenReturn(type02);
 
         MOFitness fitness03 = Fitnesses.create(new MinimisationFitness(1.0), new MinimisationFitness(2.0));
-        final Type type03 = this.mockery.mock(Type.class, "type2_03");
+        final Type type03 = mock(Type.class, "type2_03");
+        when(type03.getClone()).thenReturn(type03);
 
         MOFitness fitness04 = Fitnesses.create(new MinimisationFitness(0.0), new MinimisationFitness(3.0));
-        final Type type04 = this.mockery.mock(Type.class, "type2_04");
-
-        // Cloning returns the mocked objects themselves.
-        this.mockery.checking(new Expectations() {
-
-            {
-                oneOf(type01).getClone();
-                will(returnValue(type01));
-                oneOf(type02).getClone();
-                will(returnValue(type02));
-                oneOf(type03).getClone();
-                will(returnValue(type03));
-                oneOf(type04).getClone();
-                will(returnValue(type04));
-            }
-        });
+        final Type type04 = mock(Type.class, "type2_04");
+        when(type04.getClone()).thenReturn(type04);
 
         OptimisationSolution solution01 = new OptimisationSolution(type01, fitness01);
         OptimisationSolution solution02 = new OptimisationSolution(type02, fitness02);
@@ -127,34 +101,23 @@ public class SolutionDistributionTest {
 
     @Test
     public void testRandomDistribution() {
-        Algorithm algorithm = this.mockery.mock(Algorithm.class);
+        Algorithm algorithm = mock(Algorithm.class);
 
         MOFitness fitness01 = Fitnesses.create(new MinimisationFitness(6.0), new MinimisationFitness(0.0));
-        final Type type01 = this.mockery.mock(Type.class, "type1_01");
+        final Type type01 = mock(Type.class, "type1_01");
+        when(type01.getClone()).thenReturn(type01);
 
         MOFitness fitness02 = Fitnesses.create(new MinimisationFitness(5.0), new MinimisationFitness(1.0));
-        final Type type02 = this.mockery.mock(Type.class, "type1_02");
+        final Type type02 = mock(Type.class, "type1_02");
+        when(type02.getClone()).thenReturn(type02);
 
         MOFitness fitness03 = Fitnesses.create(new MinimisationFitness(3.0), new MinimisationFitness(3.0));
-        final Type type03 = this.mockery.mock(Type.class, "type1_03");
+        final Type type03 = mock(Type.class, "type1_03");
+        when(type03.getClone()).thenReturn(type03);
 
         MOFitness fitness04 = Fitnesses.create(new MinimisationFitness(0.0), new MinimisationFitness(6.0));
-        final Type type04 = this.mockery.mock(Type.class, "type1_04");
-
-        // Cloning returns the mocked objects themselves.
-        this.mockery.checking(new Expectations() {
-
-            {
-                oneOf(type01).getClone();
-                will(returnValue(type01));
-                oneOf(type02).getClone();
-                will(returnValue(type02));
-                oneOf(type03).getClone();
-                will(returnValue(type03));
-                oneOf(type04).getClone();
-                will(returnValue(type04));
-            }
-        });
+        final Type type04 = mock(Type.class, "type1_04");
+        when(type04.getClone()).thenReturn(type04);
 
         OptimisationSolution solution01 = new OptimisationSolution(type01, fitness01);
         OptimisationSolution solution02 = new OptimisationSolution(type02, fitness02);

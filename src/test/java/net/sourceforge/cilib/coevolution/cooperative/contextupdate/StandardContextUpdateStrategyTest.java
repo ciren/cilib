@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.coevolution.cooperative.contextupdate;
 
-import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.coevolution.cooperative.ContextEntity;
 import net.sourceforge.cilib.coevolution.cooperative.problem.DimensionAllocation;
 import net.sourceforge.cilib.coevolution.cooperative.problem.SequencialDimensionAllocation;
@@ -30,39 +29,38 @@ import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.calculator.FitnessCalculator;
-
-import org.jmock.Expectations;
-import org.jmock.Mockery;
 import org.junit.Test;
+import org.mockito.Matchers;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class StandardContextUpdateStrategyTest {
     @SuppressWarnings("unchecked")
     @Test
-     public void StandardUpdateTest(){
-         final ContextEntity contextEntity = new ContextEntity();
+    public void StandardUpdateTest() {
+        final ContextEntity contextEntity = new ContextEntity();
 
-         Mockery context = new Mockery();
-         final FitnessCalculator<Entity> test = context.mock(FitnessCalculator.class);
-         context.checking(new Expectations() {{
-                 oneOf (test).getFitness( with(any(ContextEntity.class)));
-                will(returnValue(new MinimisationFitness(1.0)));
-            }});
-         Vector testContext = new Vector();
-         testContext.add(Real.valueOf(1.0));
-         testContext.add(Real.valueOf(1.0));
+        final FitnessCalculator<Entity> test = mock(FitnessCalculator.class);
+        when(test.getFitness(Matchers.<Entity>anyObject())).thenReturn(new MinimisationFitness(1.0));
 
-         contextEntity.setCandidateSolution(testContext);
-         contextEntity.setFitnessCalculator(test);
-         contextEntity.setFitness(new MinimisationFitness(0.0));
+        Vector testContext = new Vector();
+        testContext.add(Real.valueOf(1.0));
+        testContext.add(Real.valueOf(1.0));
 
-         Vector solution = new Vector();
-         solution.add(Real.valueOf(0.0));
-         DimensionAllocation allocation = new SequencialDimensionAllocation(0, 1);
+        contextEntity.setCandidateSolution(testContext);
+        contextEntity.setFitnessCalculator(test);
+        contextEntity.setFitness(new MinimisationFitness(0.0));
 
-         StandardContextUpdateStrategy strategy = new StandardContextUpdateStrategy();
-         strategy.updateContext(contextEntity, solution, allocation);
+        Vector solution = new Vector();
+        solution.add(Real.valueOf(0.0));
+        DimensionAllocation allocation = new SequencialDimensionAllocation(0, 1);
 
-         assertEquals(0.0, contextEntity.getCandidateSolution().get(0).doubleValue(), 0.0);
-         assertEquals(1.0, contextEntity.getFitness().getValue(), 0.0);
-     }
+        StandardContextUpdateStrategy strategy = new StandardContextUpdateStrategy();
+        strategy.updateContext(contextEntity, solution, allocation);
+
+        assertEquals(0.0, contextEntity.getCandidateSolution().get(0).doubleValue(), 0.0);
+        assertEquals(1.0, contextEntity.getFitness().getValue(), 0.0);
+    }
 }

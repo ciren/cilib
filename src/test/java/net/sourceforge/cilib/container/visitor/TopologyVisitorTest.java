@@ -22,12 +22,11 @@
 package net.sourceforge.cilib.container.visitor;
 
 
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore("This test is empty currently")
 public class TopologyVisitorTest {
-    private Mockery context = new JUnit4Mockery();
 
     /**
      * Initialize a dummy algorithm and then test if the visitor knows

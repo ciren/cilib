@@ -21,39 +21,31 @@
  */
 package net.sourceforge.cilib.coevolution.cooperative.heterogeneous;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.ProblemDistributionStrategy;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
-
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.*;
+
 public class RecalculateProblemRedistributionTest {
 
-    private Mockery context = new Mockery()     {{
-        setImposteriser(ClassImposteriser.INSTANCE);
-    }};
-
     @Test
-    public void RecalculateRedistributionTest(){
+    public void RecalculateRedistributionTest() {
         final List<PopulationBasedAlgorithm> populations = new ArrayList<PopulationBasedAlgorithm>();
-        final OptimisationProblem problem = context.mock(OptimisationProblem.class);
-        final Vector contextEntity = context.mock(Vector.class);
+        final OptimisationProblem problem = mock(OptimisationProblem.class);
+        final Vector contextEntity = mock(Vector.class);
 
         RecalculateProblemRedistributionStrategy recalcStrategy = new RecalculateProblemRedistributionStrategy();
 
-         final ProblemDistributionStrategy distribution = context.mock(ProblemDistributionStrategy.class);
-         context.checking(new Expectations() {{ //make sure this method is called
-             atLeast(1).of (distribution).performDistribution(populations, problem, contextEntity);
-            }});
+        final ProblemDistributionStrategy distribution = mock(ProblemDistributionStrategy.class);
 
         recalcStrategy.redistributeProblem(populations, problem, distribution, contextEntity);
 
-        context.assertIsSatisfied(); //assert that alll the required methods have been invoked
+        verify(distribution, atLeastOnce()).performDistribution(populations, problem, contextEntity);
     }
 }

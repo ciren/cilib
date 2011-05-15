@@ -30,22 +30,17 @@ import net.sourceforge.cilib.math.random.generator.Seeder;
 import net.sourceforge.cilib.math.random.generator.ZeroSeederStrategy;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import static org.mockito.Mockito.mock;
 
 /**
  * Unit test for the constriction velocity update.
+ *
  * @author andrich
  */
-@RunWith(JMock.class)
 public class ConstrictionVelocityProviderTest {
-
-    private Mockery mockery = new JUnit4Mockery();
 
     /**
      * Test cloning and implicetly the copy constructor.
@@ -147,18 +142,12 @@ public class ConstrictionVelocityProviderTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void illegalVelocityProvision() {
-        final Particle particle = mockery.mock(Particle.class);
+        final Particle particle = mock(Particle.class);
 
         ConstantControlParameter controlParameter = new ConstantControlParameter();
         ConstrictionVelocityProvider velocityProvider = new ConstrictionVelocityProvider();
         velocityProvider.setCognitiveAcceleration(controlParameter);
         velocityProvider.setSocialAcceleration(controlParameter);
-
-        mockery.checking(new Expectations() {
-            {
-                ignoring(particle);
-            }
-        });
 
         velocityProvider.get(particle);
     }
