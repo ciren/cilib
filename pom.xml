@@ -66,6 +66,15 @@
             </roles>
         </contributor>
     </contributors>
+
+    <repositories>
+        <repository>
+            <id>scala-tools.snapshots</id>
+            <name>Scala-Tools dependencies snapshot repository</name>
+            <url>http://scala-tools.org/repo-snapshots</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
