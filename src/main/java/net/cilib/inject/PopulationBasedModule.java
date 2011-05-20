@@ -32,7 +32,6 @@ import net.cilib.algorithm.MutationProvider;
 import net.cilib.algorithm.ReplacementSelector;
 import net.cilib.algorithm.Selector;
 import net.cilib.collection.Topology;
-import net.cilib.entity.Entity;
 import net.cilib.entity.HasFitness;
 import net.cilib.inject.annotation.Global;
 import net.cilib.inject.annotation.Local;
@@ -76,14 +75,14 @@ public class PopulationBasedModule extends AbstractModule {
     Selector getSelector(Selector selector, final RandomProvider randomProvider) {
         return new Selector() {
             @Override
-            public <A extends Entity> A select(HasFitness first, HasFitness... rest) {
+            public <A extends HasFitness> A select(A first, A... rest) {
                 return select(Lists.asList(first, rest));
             }
 
             @Override
-            public <A extends Entity> A select(Iterable<? extends HasFitness> elements) {
+            public <A extends HasFitness> A select(Iterable<? extends A> elements) {
                 int size = Iterables.size(elements);
-                return (A) Iterables.get(elements, (randomProvider.nextInt(size)));
+                return Iterables.get(elements, (randomProvider.nextInt(size)));
             }
         };
     }
@@ -119,7 +118,6 @@ public class PopulationBasedModule extends AbstractModule {
         @Override
         public Supplier<Double> get() {
             return new Supplier<Double>() {
-
                 final RandomProvider random = randomProvider.get();
 
                 @Override

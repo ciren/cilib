@@ -21,7 +21,6 @@
  */
 package net.cilib.algorithm;
 
-import net.cilib.entity.Entity;
 import net.cilib.entity.HasFitness;
 
 /**
@@ -30,7 +29,7 @@ import net.cilib.entity.HasFitness;
  */
 public interface Selector {
 
-    <A extends Entity> A select(HasFitness first, HasFitness... rest);
+    <A extends HasFitness> A select(A first, A... rest);
 
-    <A extends Entity> A select(Iterable<? extends HasFitness> elements);
+    <A extends HasFitness> A select(Iterable<? extends A> elements);
 }

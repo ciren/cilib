@@ -62,7 +62,7 @@ public class DE<A extends Entity>  extends PopulationBasedAlgorithm<A> {
             CandidateSolution trialVector = mutationProvider.create(topology);
             CandidateSolution crossedOver = crossoverProvider.create(parent.solution(), trialVector);
             Individual offspring = individualProvider.solution(crossedOver).get();
-            buffer.add(selector.<A>select(parent, offspring));
+            buffer.add((A) selector.select(parent, offspring));
             buffer.add(parent);
         }
         return buffer.build();
