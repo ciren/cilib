@@ -35,10 +35,10 @@ import fj.data.Option;
 public final class ParticleProvider implements Provider<Particle> {
 
     private final FitnessProvider fitnessProvider;
-    private CandidateSolution position;
-    private Velocity velocity;
-    private CandidateSolution previousBest;
-    private Option<Double> previousFitness;
+    private CandidateSolution position = CandidateSolution.empty();
+    private Velocity velocity = Velocity.empty();
+    private CandidateSolution previousBest = CandidateSolution.empty();
+    private Option<Double> previousFitness = Option.none();
 
     @Inject
     public ParticleProvider(FitnessProvider fitnessProvider) {
@@ -102,10 +102,10 @@ public final class ParticleProvider implements Provider<Particle> {
      */
     @Override
     public Particle get() {
-        Preconditions.checkNotNull(position);
-        Preconditions.checkNotNull(velocity);
-        Preconditions.checkNotNull(previousBest);
-        Preconditions.checkNotNull(previousFitness);
+        Preconditions.checkState(position != CandidateSolution.empty());
+        Preconditions.checkState(velocity != Velocity.empty());
+        Preconditions.checkState(previousBest != CandidateSolution.empty());
+        Preconditions.checkState(!previousFitness.isNone());
 
         // Should this be done with DI somehow?
         try {
@@ -116,10 +116,10 @@ public final class ParticleProvider implements Provider<Particle> {
                 return new Particle(position, previousBest, velocity, newFitness);
             }
         } finally {
-            position = null;
-            velocity = null;
-            previousBest = null;
-            previousFitness = null;
+            position = CandidateSolution.empty();
+            velocity = Velocity.empty();
+            previousBest = CandidateSolution.empty();
+            previousFitness = Option.none();
         }
     }
 

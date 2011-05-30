@@ -22,6 +22,7 @@
 package net.cilib.entity;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+
 import fj.data.Option;
 
 /**
@@ -32,7 +33,6 @@ import fj.data.Option;
  * @author gpampara
  */
 public final class PartialEntity implements Entity {
-
     private final CandidateSolution solution;
 
     public PartialEntity(CandidateSolution solution) {
@@ -41,6 +41,7 @@ public final class PartialEntity implements Entity {
 
     /**
      * Get the current {@code CandidateSolution}.
+     *
      * @return the {@code CandidateSolution}.
      */
     @Override
@@ -58,7 +59,8 @@ public final class PartialEntity implements Entity {
 
     /**
      * The current fitness of the {@code PartialEntity} is always
-     * {@linkplain Fitnesses#inferior() inferior}.
+     * {@linkplain Option#none() inferior}.
+     *
      * @return An inferior fitness.
      */
     @Override

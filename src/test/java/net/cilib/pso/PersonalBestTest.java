@@ -21,7 +21,10 @@
  */
 package net.cilib.pso;
 
+import fj.F;
 import fj.data.Option;
+import net.cilib.collection.Topology;
+import net.cilib.collection.immutable.ImmutableGBestTopology;
 import net.cilib.entity.Velocity;
 import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.Entity;
@@ -40,7 +43,9 @@ public class PersonalBestTest {
     public void memoryReturnedFromMemoryEntity() {
         CandidateSolution memory = CandidateSolution.of(1.0);
         PersonalBest pbest = new PersonalBest();
-        Option<Entity> partialEntity = pbest.of(new Particle(CandidateSolution.empty(), memory, Velocity.copyOf(), Option.<Double>none()));
+
+        F<Topology, Option<Entity>> partial = pbest.f(new Particle(memory, memory, Velocity.copyOf(1.0), Option.<Double>none()));
+        Option<Entity> partialEntity = partial.f(ImmutableGBestTopology.of());
 
         Assert.assertThat(partialEntity.some().solution(), is(memory));
     }
@@ -49,7 +54,8 @@ public class PersonalBestTest {
     public void memoryReturnedFromNonMemoryEntity() {
         CandidateSolution position = CandidateSolution.of(1.0);
         PersonalBest pbest = new PersonalBest();
-        Option<Entity> partialEntity = pbest.of(new Individual(position, Option.<Double>none()));
+        F<Topology, Option<Entity>> partial = pbest.f(new Individual(position, Option.<Double>none()));
+        Option<Entity> partialEntity = partial.f(ImmutableGBestTopology.of());
 
         Assert.assertThat(partialEntity.some().solution(), equalTo(CandidateSolution.of(0.0)));
     }

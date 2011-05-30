@@ -21,6 +21,7 @@
  */
 package net.cilib.entity;
 
+import com.google.common.base.Preconditions;
 import fj.data.Option;
 import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.inject.Inject;
@@ -50,6 +51,8 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
             CandidateSolution bestPosition,
             Velocity velocity,
             Option<Double> fitness) {
+        Preconditions.checkArgument(position.size() == velocity.size());
+        Preconditions.checkArgument(position.size() == bestPosition.size());
         this.position = checkNotNull(position);
         this.bestPosition = checkNotNull(bestPosition);
         this.velocity = checkNotNull(velocity);

@@ -21,8 +21,11 @@
  */
 package net.cilib.pso;
 
+import fj.F2;
 import fj.data.Option;
+import net.cilib.collection.Topology;
 import net.cilib.entity.Entity;
+
 
 /**
  * A {@code guide} is an {@code Entity} instance used to provide an influence
@@ -32,12 +35,12 @@ import net.cilib.entity.Entity;
  *
  * @author gpampara
  */
-public interface Guide {
+public abstract class Guide extends F2<Entity, Topology, Option<Entity>> {
 
     /**
      * Get the {@code guide} for the provided {@code Entity}.
      * @param target {@code Entity} for which {@code guide} is requested.
      * @return the guiding {@code Entity}.
      */
-    Option<Entity> of(Entity target);
+//    Option<Entity> of(Entity target);
 }

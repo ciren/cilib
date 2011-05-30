@@ -22,11 +22,7 @@
 package net.cilib.pso;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import fj.data.Option;
-
-import java.util.Iterator;
-
 import net.cilib.collection.Topology;
 import net.cilib.entity.Entities;
 import net.cilib.entity.Entity;
@@ -35,36 +31,31 @@ import net.cilib.entity.FitnessComparator;
 /**
  * @author gpampara
  */
-public class NeighborhoodBest implements Guide {
+public class NeighborhoodBest extends Guide {
 
-    private final Provider<Topology> topologyProvider;
     private final FitnessComparator comparator;
 
     @Inject
-    public NeighborhoodBest(Provider<Topology> topologyProvider, FitnessComparator comparator) {
-        this.topologyProvider = topologyProvider;
+    public NeighborhoodBest(FitnessComparator comparator) {
         this.comparator = comparator;
     }
 
     /**
      * {@inheritDoc}
      * <p/>
-     * A neighborhood best {@code Entity} is the entity which is the most fit,
-     * within the neighborhood.
+     * A neighborhood best {@code Entity} is the most fit entity within
+     * a neighborhood.
      */
     @Override
-    public Option<Entity> of(Entity target) {
-        Topology<Entity> topology = topologyProvider.get();
-        Iterator<Entity> neighborhoodOf = topology.neighborhoodOf(target);
+    public Option<Entity> f(Entity entity, Topology topology) {
+        Iterable<Entity> neighbourhoodOf = topology.neighborhoodOf(entity);
         Entity result = Entities.dummy();
-        while (neighborhoodOf.hasNext()) {
-            Entity current = neighborhoodOf.next();
-            if (result == Entities.dummy()) {
-                result = current;
+        for (Entity n : neighbourhoodOf) {
+            if (n == entity) {
                 continue;
             }
-            if (comparator.isMoreFit(current, result)) {
-                result = current;
+            if (comparator.isMoreFit(n, result)) {
+                result = n;
             }
         }
         return (result != Entities.dummy()) ? Option.some(result) : Option.<Entity>none();

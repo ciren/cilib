@@ -40,6 +40,7 @@ public final class IndividualProvider implements Provider<Individual> {
     @Inject
     public IndividualProvider(FitnessProvider fitnessProvider) {
         this.fitnessProvider = fitnessProvider;
+        this.solution = CandidateSolution.empty();
     }
 
     /**
@@ -64,13 +65,13 @@ public final class IndividualProvider implements Provider<Individual> {
      */
     @Override
     public Individual get() {
-        Preconditions.checkState(this.solution != null,
+        Preconditions.checkState(this.solution != CandidateSolution.empty(),
             "Provide a candidate solution to create an Individual.");
 
         try {
             return new Individual(solution, fitnessProvider.finalize(solution));
         } finally {
-            this.solution = null;
+            this.solution = CandidateSolution.empty();
         }
     }
 }

@@ -113,7 +113,7 @@ public final class SimulationBuilder {
                             Topology<Entity> current = (Topology<Entity>) localTopology; // Current topology is initial topology
 
                             while (aggregate.apply(localAlgorithm)) {
-                                current = localAlgorithm.iterate(current);
+                                current = localAlgorithm.next(current);
                                 scope.update(Key.get(Topology.class), current); // Reset the scoped instance
                             }
                         } finally {

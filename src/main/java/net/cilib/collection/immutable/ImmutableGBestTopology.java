@@ -24,12 +24,10 @@ package net.cilib.collection.immutable;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-
-import java.util.Iterator;
-import java.util.List;
-
 import net.cilib.collection.Topology;
 import net.cilib.collection.TopologyBuffer;
+
+import java.util.List;
 
 /**
  * Implementation of the {@code g-best} topology. Each created topology
@@ -63,8 +61,8 @@ public class ImmutableGBestTopology<A> extends Topology<A> {
      * {@inheritDoc}
      */
     @Override
-    public Iterator<A> neighborhoodOf(A element) {
-        return iterator();
+    public Iterable<A> neighborhoodOf(A element) {
+        return elements;
     }
 
     /**
@@ -88,6 +86,16 @@ public class ImmutableGBestTopology<A> extends Topology<A> {
     @Override
     public TopologyBuffer<A> newBuffer() {
         return new TopologyBuffer<A>(new ImmutableGBestTopologyBuilder<A>(), ImmutableList.<A>of());
+    }
+
+    @Override
+    public Topology<A> drop(int n) {
+        return new ImmutableGBestTopologyBuilder().addAll(this.elements.subList(n, this.elements.size())).build();
+    }
+
+    @Override
+    public int indexOf(A obj) {
+        return this.elements.indexOf(obj);
     }
 
     /**
@@ -156,6 +164,11 @@ public class ImmutableGBestTopology<A> extends Topology<A> {
         @Override
         public TopologyBuilder<B> add(B element) {
             elements.add(element);
+            return this;
+        }
+
+        public TopologyBuilder<B> addAll(List<B> list) {
+            this.elements.addAll(list);
             return this;
         }
     }

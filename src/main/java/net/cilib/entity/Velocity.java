@@ -31,6 +31,7 @@ import java.util.Arrays;
  * @author gpampara
  */
 public final class Velocity implements LinearSeq {
+    private static final Velocity EMPTY = new Velocity(new double[]{});
     private final double[] internal;
 
     /**
@@ -127,5 +128,9 @@ public final class Velocity implements LinearSeq {
     @Override
     public String toString() {
         return Objects.toStringHelper(this).addValue(internal).toString();
+    }
+
+    public static Velocity empty() {
+        return EMPTY;
     }
 }

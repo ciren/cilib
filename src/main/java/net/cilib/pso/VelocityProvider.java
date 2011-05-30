@@ -21,6 +21,7 @@
  */
 package net.cilib.pso;
 
+import net.cilib.entity.HasCandidateSolution;
 import net.cilib.entity.Particle;
 import net.cilib.entity.Velocity;
 
@@ -39,5 +40,5 @@ public interface VelocityProvider {
      * @param particle to base the calculation of the {@link Velocity} on.
      * @return an newly created immutable {@link Velocity}.
      */
-    Velocity create(Particle particle);
+    Velocity create(Particle particle, HasCandidateSolution local, HasCandidateSolution global);
 }

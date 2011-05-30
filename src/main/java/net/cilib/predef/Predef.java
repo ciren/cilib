@@ -35,8 +35,9 @@ public final class Predef {
     /**
      * Create a "<i>fitness</i>". In this case a "fitness" is nothing more than
      * a simple {@link Option} that has a value.
-     * <p>
-     * This factory method is purely for convenience and is questionable.
+     * <p/>
+     * This factory method is purely for convenience and has questionable value.
+     *
      * @param value fitness value
      * @return an {@code Option} containing the fitness value.
      */
@@ -47,11 +48,12 @@ public final class Predef {
     /**
      * Create an "<i>inferior fitness</i>". In this case a "fitness" is nothing
      * more than the none option type.
-     * <p>
-     * This factory method is purely for convenience and is questionable.
+     * <p/>
+     * This factory method is purely for convenience and has questionable value.
+     *
      * @return an {@code Option} representing an unspecified fitness value.
      */
     public static Option<Double> inferior() {
-        return Option.<Double>none();
+        return Option.none();
     }
 }

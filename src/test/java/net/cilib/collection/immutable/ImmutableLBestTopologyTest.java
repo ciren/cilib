@@ -39,7 +39,7 @@ public class ImmutableLBestTopologyTest {
         ImmutableLBestTopology<Double> lbest = new ImmutableLBestTopology.ImmutableLBestTopologyBuilder<Double>()
                 .add(4.0).add(3.0).add(2.0).add(1.0).add(0.0).build();
 
-        Iterator<Double> neighborhood = lbest.neighborhoodOf(2.0); // Should contain 3.0, 2.0, and 1.0
+        Iterable<Double> neighborhood = lbest.neighborhoodOf(2.0); // Should contain 3.0, 2.0, and 1.0
 
         List<Double> neighbors = Lists.newArrayList(neighborhood);
         Assert.assertThat(neighbors.size(), equalTo(3));
@@ -53,7 +53,7 @@ public class ImmutableLBestTopologyTest {
         ImmutableLBestTopology<Double> lbest = new ImmutableLBestTopology.ImmutableLBestTopologyBuilder<Double>()
                 .add(4.0).add(3.0).add(2.0).add(1.0).add(0.0).build();
 
-        Iterator<Double> neighborhood = lbest.neighborhoodOf(4.0); // Should contain 3.0, 2.0, and 1.0
+        Iterable<Double> neighborhood = lbest.neighborhoodOf(4.0); // Should contain 3.0, 2.0, and 1.0
 
         List<Double> neighbors = Lists.newArrayList(neighborhood);
         Assert.assertThat(neighbors.size(), equalTo(3));
@@ -67,7 +67,7 @@ public class ImmutableLBestTopologyTest {
         ImmutableLBestTopology<Double> lbest = new ImmutableLBestTopology.ImmutableLBestTopologyBuilder<Double>()
                 .add(4.0).add(3.0).add(2.0).add(1.0).add(0.0).build();
 
-        Iterator<Double> neighborhood = lbest.neighborhoodOf(0.0); // Should contain 3.0, 2.0, and 1.0
+        Iterable<Double> neighborhood = lbest.neighborhoodOf(0.0); // Should contain 3.0, 2.0, and 1.0
 
         List<Double> neighbors = Lists.newArrayList(neighborhood);
         Assert.assertThat(neighbors.size(), equalTo(3));

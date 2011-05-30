@@ -27,13 +27,11 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
 import net.cilib.collection.Topology;
 import net.cilib.collection.TopologyBuffer;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * {@code l-best} topology implementation. The {@code l-best} topology defines
@@ -71,7 +69,7 @@ public class ImmutableLBestTopology<A> extends Topology<A> {
      * @return an {@code iterator} to the neighborhood of {@code element}
      */
     @Override
-    public Iterator<A> neighborhoodOf(final A element) {
+    public Iterable<A> neighborhoodOf(final A element) {
         final List<Integer> indexes = Lists.newArrayListWithCapacity(neighborhoodSize);
         int start = elements.indexOf(element) - ((neighborhoodSize - 1) / 2);
         start = (start < 0) ? start += elements.size() : start;
@@ -80,14 +78,13 @@ public class ImmutableLBestTopology<A> extends Topology<A> {
             indexes.add((start + i) % elements.size());
         }
 
-        Collection<A> internal = Collections2.filter(elements, new Predicate<A>() {
+        return Collections2.filter(elements, new Predicate<A>() {
             @Override
             public boolean apply(A input) {
                 int index = elements.indexOf(input);
                 return indexes.contains(index);
             }
         });
-        return internal.iterator();
     }
 
     @Override
@@ -125,6 +122,16 @@ public class ImmutableLBestTopology<A> extends Topology<A> {
     @Override
     public TopologyBuffer<A> newBuffer() {
         return new TopologyBuffer<A>(new ImmutableLBestTopologyBuilder<A>(), ImmutableList.<A>of());
+    }
+
+    @Override
+    public Topology<A> drop(int n) {
+        return new ImmutableLBestTopologyBuilder().addAll(this.elements.subList(n, this.elements.size())).build();
+    }
+
+    @Override
+    public int indexOf(A obj) {
+        return this.elements.indexOf(obj);
     }
 
     /**
@@ -189,6 +196,11 @@ public class ImmutableLBestTopology<A> extends Topology<A> {
         public ImmutableLBestTopologyBuilder<B> withNeighborhoodSize(int size) {
             Preconditions.checkArgument(neighborhoodSize >= 3, "Minimum required neighborhood size is 3.");
             this.neighborhoodSize = size;
+            return this;
+        }
+
+        public ImmutableLBestTopologyBuilder<B> addAll(List<B> list) {
+            this.elements.addAll(list);
             return this;
         }
     }

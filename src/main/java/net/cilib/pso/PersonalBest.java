@@ -23,6 +23,7 @@ package net.cilib.pso;
 
 import com.google.common.base.Preconditions;
 import fj.data.Option;
+import net.cilib.collection.Topology;
 import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.Entity;
 import net.cilib.entity.HasMemory;
@@ -31,19 +32,21 @@ import net.cilib.entity.PartialEntity;
 /**
  * this class needs to be better... The implementation is not really all that
  * nice - the instanceof test for example.
+ *
  * @author gpampara
  */
-public final class PersonalBest implements Guide {
+public final class PersonalBest extends Guide {
 
     /**
      * Obtain the memory of the provided {@code Entity}. If the provided
      * {@code Entity} does not maintain a {@linkplain HasMemory memory},
      * a zeroed {@code CandidateSolution} is then returned.
+     *
      * @param target
      * @return
      */
     @Override
-    public Option<Entity> of(Entity target) {
+    public Option<Entity> f(Entity target, Topology topology) {
         Preconditions.checkNotNull(target);
 
         if (target instanceof HasMemory) {

@@ -24,39 +24,37 @@ package net.cilib.pso;
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import net.cilib.entity.LinearSeq;
+import net.cilib.entity.HasCandidateSolution;
 import net.cilib.entity.MutableSeq;
 import net.cilib.entity.Particle;
 import net.cilib.entity.Velocity;
-import net.cilib.inject.annotation.Global;
-import net.cilib.inject.annotation.Local;
 import net.cilib.inject.annotation.Unique;
 
 /**
  * Velocity provider implementing the canonical velocity update equation
  * as defined by Kennedy and Eberhart [1].
- *
+ * <p/>
+ * A particle is defined to always do two simple tasks:
+ * 1. Move towards it's own personal best experience, and
+ * 2. Move towards the position of the current neighbourhood best
+ * <p/>
  * <pre>
  * [1]
  * </pre>
+ *
  * @author gpampara
  */
 public final class StandardVelocityProvider implements VelocityProvider {
 
-    private final Guide localGuide;
-    private final Guide globalGuide;
     private final Supplier<Double> r1c1;
     private final Supplier<Double> r2c2;
 
     @Inject
-    public StandardVelocityProvider(@Local final Guide localGuide,
-            @Global final Guide globalGuide,
+    public StandardVelocityProvider(
             @Unique final Supplier<Double> r1Supplier,
             @Unique final Supplier<Double> r2Supplier,
             @Named("acceleration") final Supplier<Double> constant1,
             @Named("acceleration") final Supplier<Double> constant2) {
-        this.localGuide = localGuide;
-        this.globalGuide = globalGuide;
 
         this.r1c1 = new Supplier<Double>() {
             @Override
@@ -74,17 +72,14 @@ public final class StandardVelocityProvider implements VelocityProvider {
     }
 
     /**
-     *
      * @param particle to base the calculation of the {@link Velocity} on.
      * @return
+     * @todo: The guides for the equation should be provided as parameters.
      */
     @Override
-    public Velocity create(Particle particle) {
-        LinearSeq local = localGuide.of(particle).some().solution();
-        LinearSeq global = globalGuide.of(particle).some().solution();
-
-        MutableSeq cognitive = local.toMutableSeq().subtract(particle.solution()).multiply(r1c1);
-        MutableSeq social = global.toMutableSeq().subtract(particle.solution()).multiply(r2c2);
+    public Velocity create(Particle particle, HasCandidateSolution global, HasCandidateSolution local) {
+        MutableSeq cognitive = local.solution().toMutableSeq().subtract(particle.solution()).multiply(r1c1);
+        MutableSeq social = global.solution().toMutableSeq().subtract(particle.solution()).multiply(r2c2);
 
         return Velocity.copyOf(particle.velocity().toMutableSeq().plus(cognitive).plus(social).toArray());
     }

@@ -32,7 +32,7 @@ import net.cilib.event.CanRaise;
 import net.cilib.event.IterationEvent;
 
 /**
- * DE Implementation
+ * DE Implementation of {@code DE/x/y/z}.
  *
  * @author gpampara
  * @since 0.8
@@ -56,7 +56,7 @@ public class DE<A extends Entity>  extends PopulationBasedAlgorithm<A> {
 
     @Override
     @CanRaise(IterationEvent.class)
-    public Topology<A> iterate(Topology<A> topology) {
+    public Topology<A> next(Topology<A> topology) {
         TopologyBuffer<A> buffer = topology.newBuffer();
         for (A parent : topology) {
             CandidateSolution trialVector = mutationProvider.create(topology);

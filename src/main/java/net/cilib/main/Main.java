@@ -47,6 +47,7 @@ import net.cilib.pso.PSO;
 public final class Main {
 
     private Main() {
+        throw new UnsupportedOperationException();
     }
 
     public static void main(String[] args) {
@@ -65,7 +66,7 @@ public final class Main {
 
         Injector injector = Guice.createInjector(new CIlibCoreModule(), new PopulationBasedModule());
 
-        // The topology for the algorithm is externa. This implies that the topology
+        // The topology for the algorithm is external. This implies that the topology
         // needs to be constructed ahead of time, so that the algorithm may use it.
         Problem problem = new MockProblem();
         Topology<Entity> topology = createParticleTopology();

@@ -21,10 +21,9 @@
  */
 package net.cilib.pso;
 
-import net.cilib.entity.Entity;
-import fj.data.Option;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
+import fj.data.Option;
 import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.PartialEntity;
 import net.cilib.entity.Particle;
@@ -32,32 +31,22 @@ import net.cilib.entity.Velocity;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.mockito.Mockito.*;
-
 /**
- *
  * @author gpampara
  */
 public class StandardVelocityProviderTest {
 
     @Test
     public void velocityCalculation() {
-        final Option<Entity> tempEntity = Option.<Entity>some(new PartialEntity(CandidateSolution.of(0.0)));
-
-        final Guide localGuide = mock(Guide.class);
-        final Guide globalGuide = mock(Guide.class);
-        Supplier<Double> constant = Suppliers.ofInstance(1.0);
-
-        StandardVelocityProvider provider = new StandardVelocityProvider(localGuide, globalGuide, constant, constant, constant, constant);
+        final PartialEntity tempEntity = new PartialEntity(CandidateSolution.of(0.0));
+        final Supplier<Double> constant = Suppliers.ofInstance(1.0);
+        final StandardVelocityProvider provider = new StandardVelocityProvider(constant, constant, constant, constant);
         final Particle particle = new Particle(CandidateSolution.of(1.0),
                 CandidateSolution.of(1.0),
                 Velocity.copyOf(1.0),
                 Option.some(1.0));
 
-        when(localGuide.of(particle)).thenReturn(tempEntity);
-        when(globalGuide.of(particle)).thenReturn(tempEntity);
-
-        Velocity newVelocity = provider.create(particle);
+        Velocity newVelocity = provider.create(particle, tempEntity, tempEntity);
         Assert.assertArrayEquals(new double[]{-1.0}, newVelocity.toArray(), 0.0001);
     }
 }

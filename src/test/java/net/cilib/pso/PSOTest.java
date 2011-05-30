@@ -28,8 +28,6 @@ import com.google.inject.Injector;
 import fj.data.Option;
 import net.cilib.algorithm.Algorithm;
 import net.cilib.algorithm.PopulationBasedAlgorithm;
-import net.cilib.simulation.Simulation;
-import net.cilib.simulation.SimulationBuilder;
 import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
 import net.cilib.entity.CandidateSolution;
@@ -39,7 +37,13 @@ import net.cilib.inject.CIlibCoreModule;
 import net.cilib.inject.PopulationBasedModule;
 import net.cilib.main.MockProblem;
 import net.cilib.measurement.Measurement;
+import net.cilib.simulation.Simulation;
+import net.cilib.simulation.SimulationBuilder;
 import org.junit.Test;
+
+import javax.inject.Provider;
+
+import static org.mockito.Mockito.mock;
 
 /**
  * @author gpampara
@@ -48,11 +52,13 @@ public class PSOTest {
 
     @Test
     public void iteration() {
+        Provider<Guide> localGuide = mock(Provider.class);
+        Provider<Guide> globalGuide = mock(Provider.class);
         Topology<Particle> topology = ImmutableGBestTopology.of();
-        VelocityProvider velocityProvider = new StandardVelocityProvider(null, null, null, null, null, null);
-        PopulationBasedAlgorithm<Particle> instance = new PSO(velocityProvider, null);
+        VelocityProvider velocityProvider = new StandardVelocityProvider(null, null, null, null);
+        PopulationBasedAlgorithm<Particle> instance = new PSO(velocityProvider, null, globalGuide, localGuide);
 
-        instance.iterate(topology);
+        instance.next(topology);
     }
 
     /**

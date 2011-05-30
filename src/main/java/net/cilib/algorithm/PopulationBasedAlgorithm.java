@@ -41,12 +41,12 @@ public abstract class PopulationBasedAlgorithm<A> implements Algorithm {
      * @param topology the population for the algorithm to operate on
      * @return the given topology, post algorithm iteration.
      */
-    public abstract Topology<A> iterate(Topology<A> topology);
+    public abstract Topology<A> next(Topology<A> topology);
 
     public Topology<A> fold(Topology<A> topology, Predicate<StateT> s, StateT state) {
         Topology<A> local = topology;
         while (!s.f(state)) {
-            local = iterate(local);
+            local = next(local);
         }
         return local; // This is the final result.
     }
