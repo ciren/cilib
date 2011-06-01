@@ -21,34 +21,34 @@
  */
 package net.cilib.entity;
 
-import fj.data.Option;
 import net.cilib.problem.Problem;
 import org.junit.Assert;
 import org.junit.Test;
-import static org.hamcrest.CoreMatchers.*;
+
+import static org.hamcrest.CoreMatchers.equalTo;
 
 /**
- *
  * @author gpampara
  */
 public class IndividualProviderTest {
 
     @Test(expected = IllegalStateException.class)
-    public void solutionReuqired() {
-        IndividualProvider provider = new IndividualProvider(null);
+    public void solutionRequired() {
+        IndividualProvider provider = new IndividualProvider();
         provider.get();
     }
 
     @Test
     public void individualCreation() {
-        IndividualProvider provider = new IndividualProvider(new FitnessProvider(new Problem() {
+        FitnessProvider fitnessProvider = new FitnessProvider(new Problem() {
             @Override
             public Double f(Double a) {
                 return 1.0;
             }
-        }));
+        });
+        IndividualProvider provider = new IndividualProvider();
 
-        Individual i = provider.solution(CandidateSolution.empty()).get();
+        Individual i = provider.solution(CandidateSolution.empty()).fitness(fitnessProvider).get();
 
         Assert.assertNotNull(i);
         Assert.assertThat(i.fitness().some(), equalTo(0.0));

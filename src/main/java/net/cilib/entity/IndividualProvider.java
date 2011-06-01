@@ -34,12 +34,11 @@ import com.google.inject.Provider;
  */
 public final class IndividualProvider implements Provider<Individual> {
 
-    private final FitnessProvider fitnessProvider;
     private CandidateSolution solution;
+    private FitnessProvider fitnessProvider;
 
     @Inject
-    public IndividualProvider(FitnessProvider fitnessProvider) {
-        this.fitnessProvider = fitnessProvider;
+    public IndividualProvider() {
         this.solution = CandidateSolution.empty();
     }
 
@@ -55,6 +54,11 @@ public final class IndividualProvider implements Provider<Individual> {
         return this;
     }
 
+    public IndividualProvider fitness(final FitnessProvider provider) {
+        this.fitnessProvider = provider;
+        return this;
+    }
+
     /**
      * Create the {@code Individual} instance which is fully populated.
      * If a solution has not been defined, a {@link IllegalStateException}
@@ -67,11 +71,13 @@ public final class IndividualProvider implements Provider<Individual> {
     public Individual get() {
         Preconditions.checkState(this.solution != CandidateSolution.empty(),
             "Provide a candidate solution to create an Individual.");
+        Preconditions.checkNotNull(fitnessProvider);
 
         try {
-            return new Individual(solution, fitnessProvider.finalize(solution));
+            return new Individual(solution, fitnessProvider.evaluate(solution));
         } finally {
             this.solution = CandidateSolution.empty();
+            this.fitnessProvider = null;
         }
     }
 }

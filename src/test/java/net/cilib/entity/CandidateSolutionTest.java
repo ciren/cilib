@@ -24,6 +24,7 @@ package net.cilib.entity;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
+import static net.cilib.entity.MutableSeq.*;
 
 /**
  *
@@ -52,9 +53,7 @@ public class CandidateSolutionTest {
     @Test
     public void mutatability() {
         CandidateSolution solution = CandidateSolution.of(1.0, 2.0);
-
-        MutableSeq seq = solution.toMutableSeq();
-        seq.multiply(2.0);
+        MutableSeq seq = multiply(2.0, solution.toMutableSeq());
 
         // The original instance must not change
         Assert.assertThat(solution, equalTo(CandidateSolution.of(1.0, 2.0)));

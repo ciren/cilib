@@ -24,6 +24,7 @@ package net.cilib.entity;
 import com.google.common.base.Supplier;
 import org.junit.Assert;
 import org.junit.Test;
+import static net.cilib.entity.MutableSeq.*;
 
 /**
  *
@@ -50,11 +51,11 @@ public class MutableSeqTest {
     }
 
     @Test
-    public void multiply() {
+    public void multiplication() {
         CandidateSolution solution = CandidateSolution.of(1.0, 3.0);
 
         // z = x * y
-        double[] result = solution.toMutableSeq().multiply(2.0).toArray();
+        double[] result = multiply(2.0, solution).toArray();
         Assert.assertArrayEquals(new double[]{2.0, 6.0}, result, 0.001);
     }
 
@@ -70,22 +71,22 @@ public class MutableSeqTest {
             }
         };
 
-        double[] result = solution.toMutableSeq().multiply(supplier).toArray();
+        double[] result = multiply(supplier, solution).toArray();
         Assert.assertArrayEquals(new double[]{2.0, 12.0}, result, 0.0001);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void illegalDivide() {
-        CandidateSolution solution = CandidateSolution.of(new double[]{});
-        solution.toMutableSeq().divide(0.0);
+        CandidateSolution solution = CandidateSolution.of();
+        divide(0.0, solution);
     }
 
     @Test
-    public void divide() {
+    public void division() {
         CandidateSolution solution = CandidateSolution.of(1.0, 3.0);
 
         // z = x / y
-        double[] result = solution.toMutableSeq().divide(1.0).toArray();
+        double[] result = divide(1.0, solution).toArray();
         Assert.assertArrayEquals(new double[]{1.0, 3.0}, result, 0.001);
     }
 
@@ -94,13 +95,12 @@ public class MutableSeqTest {
         CandidateSolution solution = CandidateSolution.of(1.0, 3.0);
 
         // z = x / y
-        double[] result = solution.toMutableSeq().divide(new Supplier<Double>() {
+        double[] result = divide(new Supplier<Double>() {
             @Override
             public Double get() {
                 return 1.0;
             }
-
-        }).toArray();
+        }, solution).toArray();
         Assert.assertArrayEquals(new double[]{1.0, 3.0}, result, 0.001);
     }
 
@@ -108,7 +108,7 @@ public class MutableSeqTest {
     public void complexFunctionalOperation() {
         CandidateSolution solution = CandidateSolution.of(1.0, 2.0);
 
-        double[] result = solution.toMutableSeq().multiply(4.0).plus(solution).toArray();
+        double[] result = multiply(4.0, solution).plus(solution).toArray();
         Assert.assertArrayEquals(new double[]{5.0, 10.0}, result, 0.001);
     }
 }

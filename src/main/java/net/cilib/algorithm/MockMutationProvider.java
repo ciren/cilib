@@ -23,19 +23,20 @@ package net.cilib.algorithm;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import net.cilib.entity.CandidateSolution;
+import net.cilib.entity.Entity;
+import net.cilib.entity.MutableSeq;
+import net.cilib.entity.Seq;
+import net.cilib.inject.annotation.Unique;
 
 import java.util.Iterator;
 import java.util.List;
 
-import net.cilib.inject.annotation.Unique;
-import net.cilib.entity.CandidateSolution;
-import net.cilib.entity.Entity;
-import net.cilib.entity.Seq;
-import net.cilib.entity.MutableSeq;
+import static net.cilib.entity.MutableSeq.multiply;
 
 /**
- * @since 0.8
  * @author gpampara
+ * @since 0.8
  */
 public class MockMutationProvider implements MutationProvider {
 
@@ -59,7 +60,7 @@ public class MockMutationProvider implements MutationProvider {
         MutableSeq x2 = selector.select(list).solution().toMutableSeq();
         MutableSeq x3 = selector.select(list).solution().toMutableSeq();
 
-        Seq result = x1.plus(x2.subtract(x3).multiply(beta));
+        Seq result = multiply(beta, x1.plus(x2.subtract(x3)));
         return CandidateSolution.of(result.toArray());
     }
 }

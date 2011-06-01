@@ -39,6 +39,7 @@ import javax.inject.Provider;
 public class PSO extends PopulationBasedAlgorithm<Particle> {
     private final VelocityProvider velocityProvider;
     private final ParticleProvider particleProvider;
+    private final FitnessProvider fitnessProvider;
     private final Provider<Guide> localGuide;
     private final Provider<Guide> globalGuide;
 
@@ -50,9 +51,11 @@ public class PSO extends PopulationBasedAlgorithm<Particle> {
      */
     @Inject
     public PSO(VelocityProvider velocityProvider, ParticleProvider particleProvider,
+               FitnessProvider fitnessProvider,
                @Global Provider<Guide> globalGuide, @Local Provider<Guide> localGuide) {
         this.velocityProvider = velocityProvider;
         this.particleProvider = particleProvider;
+        this.fitnessProvider = fitnessProvider;
         this.localGuide = localGuide;
         this.globalGuide = globalGuide;
     }
@@ -73,6 +76,7 @@ public class PSO extends PopulationBasedAlgorithm<Particle> {
             Particle updatedParticle = particleProvider.basedOn(particle)
                     .position(CandidateSolution.of(newPosition.toArray()))
                     .velocity(velocity)
+                    .fitness(fitnessProvider)
                     .get();
             topologyBuilder.add(updatedParticle);
         }

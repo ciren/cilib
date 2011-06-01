@@ -24,98 +24,27 @@ package net.cilib.entity;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
+import com.google.common.collect.UnmodifiableIterator;
 import com.google.common.primitives.Doubles;
+
 import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * A mutable sequence with mutation methods defined.
  *
  * @author gpampara
  */
-public final class MutableSeq implements Seq {
+public final class MutableSeq implements LinearSeq {
     private final double[] internal;
 
     public MutableSeq(final LinearSeq seq) {
         this.internal = seq.toArray();
     }
 
-    /**
-     * Adds a {@code Seq} to this mutable instance. The addition is applied
-     * component-wise.
-     * @param that The sequence to add
-     * @return the altered mutable sequence
-     */
-    public MutableSeq plus(Seq that) {
-        final double[] thatSolution = that.toArray();
-        Preconditions.checkState(internal.length == thatSolution.length);
-        for (int i = 0, n = thatSolution.length; i < n; i++) {
-            internal[i] += thatSolution[i];
-        }
-        return this;
-    }
-
-    /**
-     * Subtracts a {@code Seq} from this mutable instance. The subtraction is
-     * applied component-wise.
-     * @param that The sequence to subtract
-     * @return the altered mutable sequence
-     */
-    public MutableSeq subtract(Seq that) {
-        final double[] thatSolution = that.toArray();
-        Preconditions.checkState(internal.length == thatSolution.length);
-        for (int i = 0, n = thatSolution.length; i < n; i++) {
-            internal[i] -= thatSolution[i];
-        }
-        return this;
-    }
-
-    /**
-     * Multiply each component within the mutable sequence by the provided
-     * scalar constant.
-     * @param scalar the value to apply to each component.
-     * @return the altered mutable sequence.
-     */
-    public MutableSeq multiply(double scalar) {
-        return multiply(Suppliers.ofInstance(scalar));
-    }
-
-    /**
-     * Multiply each component within the mutable sequence by the value
-     * provided by the given supplier instance.
-     * @param supplier source of scalar values.
-     * @return the altered mutable sequence.
-     */
-    public MutableSeq multiply(final Supplier<Double> supplier) {
-        for (int i = 0, n = internal.length; i < n; i++) {
-            internal[i] *= supplier.get();
-        }
-        return this;
-    }
-
-    /**
-     * Divide each component within the mutable sequence by the provided
-     * scalar constant. Division by {@code 0.0} is checked and an exception
-     * is then raised, if needed.
-     * @param scalar the value to apply to each component.
-     * @return the altered mutable sequence.
-     */
-    public MutableSeq divide(double scalar) {
-        return divide(Suppliers.ofInstance(scalar));
-    }
-
-    /**
-     * Divide each component within the mutable sequence by the values provided
-     * from the given {@code Supplier}. Division by {@code 0.0} is checked,
-     * resulting in a {@link ArithmeticException} when violated.
-     * @param supplier source of scalar values.
-     * @return the altered mutable sequence.
-     */
-    public MutableSeq divide(final Supplier<Double> supplier) {
-        final CheckingSupplier check = new CheckingSupplier(supplier);
-        for (int i = 0, n = internal.length; i < n; i++) {
-            internal[i] /= check.get();
-        }
-        return this;
+    // ???? @TODO: This ok?
+    public MutableSeq(double[] contents) {
+        this.internal = contents;
     }
 
     /**
@@ -134,6 +63,47 @@ public final class MutableSeq implements Seq {
         return Arrays.copyOf(internal, internal.length);
     }
 
+    @Override
+    public double get(int index) {
+        return this.internal[index];
+    }
+
+    /**
+     * Returns the current {@code MutableSeq}.
+     *
+     * @return the current instance.
+     */
+    @Override
+    public MutableSeq toMutableSeq() {
+        return this;
+    }
+
+    public MutableSeq subtract(Seq seq) {
+        return subtract(this, seq);
+    }
+
+    public MutableSeq plus(Seq seq) {
+        return plus(this, seq);
+    }
+
+    @Override
+    public Iterator<Double> iterator() {
+        final double[] local = Arrays.copyOf(internal, internal.length);
+        return new UnmodifiableIterator<Double>() {
+            private int count = 0;
+
+            @Override
+            public boolean hasNext() {
+                return count < local.length;
+            }
+
+            @Override
+            public Double next() {
+                return local[count++];
+            }
+        };
+    }
+
     private static final class CheckingSupplier implements Supplier<Double> {
         private final Supplier<Double> supplier;
 
@@ -149,5 +119,102 @@ public final class MutableSeq implements Seq {
             }
             return scalar;
         }
+    }
+
+    // Helpers -> Should these be in Predef?
+
+    /**
+     * Adds a {@code Seq} to a provided mutable instance. The addition is applied
+     * component-wise.
+     *
+     * @param current The sequence.
+     * @param other   The sequence to add
+     * @return the altered mutable sequence
+     */
+    public static MutableSeq plus(Seq current, Seq other) {
+        final double[] currentSolution = current.toArray();
+        final double[] thatSolution = other.toArray();
+        Preconditions.checkState(currentSolution.length == thatSolution.length);
+        for (int i = 0, n = thatSolution.length; i < n; i++) {
+            currentSolution[i] += thatSolution[i];
+        }
+        return new MutableSeq(currentSolution);
+    }
+
+    /**
+     * Subtracts a {@code Seq} from a provided mutable instance. The subtraction is
+     * applied component-wise.
+     *
+     * @param current The sequence to based the operation on.
+     * @param other   The sequence to subtract
+     * @return the altered mutable sequence
+     */
+    public static MutableSeq subtract(Seq current, Seq other) {
+        final double[] currentSolution = current.toArray();
+        final double[] thatSolution = other.toArray();
+        Preconditions.checkState(currentSolution.length == thatSolution.length);
+        for (int i = 0, n = thatSolution.length; i < n; i++) {
+            currentSolution[i] -= thatSolution[i];
+        }
+        return new MutableSeq(currentSolution);
+    }
+
+    /**
+     * Multiply each component within the provided mutable sequence by the provided
+     * scalar constant.
+     *
+     * @param scalar the value to apply to each component.
+     * @param seq    the sequence to multiply the scalar value into.
+     * @return the altered mutable sequence.
+     */
+    public static MutableSeq multiply(double scalar, Seq seq) {
+        return multiply(Suppliers.ofInstance(scalar), seq);
+    }
+
+    /**
+     * Multiply each component within the provided mutable sequence by the value
+     * provided by the given supplier instance.
+     *
+     * @param supplier source of scalar values.
+     * @param seq      the sequence to multiple the scalar value into.
+     * @return the altered mutable sequence.
+     */
+    public static MutableSeq multiply(Supplier<Double> supplier, Seq seq) {
+        double[] d = seq.toArray();
+        for (int i = 0; i < d.length; i++) {
+            d[i] *= supplier.get();
+        }
+        return new MutableSeq(d);
+    }
+
+    /**
+     * Divide each component within the given mutable sequence by the provided
+     * scalar constant. Division by {@code 0.0} is checked and an exception
+     * is then raised, if needed.
+     *
+     * @param scalar the value to apply to each component.
+     * @param seq    the sequence to divide.
+     * @return the altered mutable sequence.
+     */
+    public static MutableSeq divide(double scalar, Seq seq) {
+        return divide(Suppliers.ofInstance(scalar), seq);
+    }
+
+    /**
+     * Divide each component within the given mutable sequence by the values provided
+     * from the given {@code Supplier}. Division by {@code 0.0} is checked,
+     * resulting in a {@link ArithmeticException} when violated.
+     *
+     * @param supplier source of scalar values.
+     * @param seq      the sequence to divide.
+     * @return the altered mutable sequence.
+     */
+    public static MutableSeq divide(final Supplier<Double> supplier, Seq seq) {
+        final CheckingSupplier check = new CheckingSupplier(supplier);
+        final double[] internal = seq.toArray();
+        for (int i = 0, n = internal.length; i < n; i++) {
+            internal[i] /= check.get();
+        }
+        return new MutableSeq(internal);
     }
 }

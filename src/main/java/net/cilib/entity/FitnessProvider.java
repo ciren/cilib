@@ -25,6 +25,8 @@ import com.google.inject.Inject;
 import fj.data.Option;
 import net.cilib.problem.Problem;
 
+import java.util.Iterator;
+
 /**
  * Factory instance to calculate the fitness, given a {@code CandidateSolution}.
  * @author gpampara
@@ -43,10 +45,10 @@ public class FitnessProvider {
      * @param solution {@code CandidateSolution} to evaluate.
      * @return the fitness of the given {@code CandidateSolution}.
      */
-    public Option<Double> finalize(CandidateSolution solution) {
+    public Option<Double> evaluate(LinearSeq solution) {
         try {
             double acc = 0.0;
-            SeqIterator iter = solution.iterator();
+            Iterator<Double> iter = solution.iterator();
             while (iter.hasNext()) {
                 acc += problem.f(iter.next());
             }

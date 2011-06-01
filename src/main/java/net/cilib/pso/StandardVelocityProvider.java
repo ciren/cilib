@@ -29,6 +29,7 @@ import net.cilib.entity.MutableSeq;
 import net.cilib.entity.Particle;
 import net.cilib.entity.Velocity;
 import net.cilib.inject.annotation.Unique;
+import static net.cilib.entity.MutableSeq.*;
 
 /**
  * Velocity provider implementing the canonical velocity update equation
@@ -78,8 +79,8 @@ public final class StandardVelocityProvider implements VelocityProvider {
      */
     @Override
     public Velocity create(Particle particle, HasCandidateSolution global, HasCandidateSolution local) {
-        MutableSeq cognitive = local.solution().toMutableSeq().subtract(particle.solution()).multiply(r1c1);
-        MutableSeq social = global.solution().toMutableSeq().subtract(particle.solution()).multiply(r2c2);
+        MutableSeq cognitive = multiply(r1c1, global.solution().toMutableSeq().subtract(particle.solution()));
+        MutableSeq social = multiply(r2c2, global.solution().toMutableSeq().subtract(particle.solution()));
 
         return Velocity.copyOf(particle.velocity().toMutableSeq().plus(cognitive).plus(social).toArray());
     }

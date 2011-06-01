@@ -23,7 +23,10 @@ package net.cilib.entity;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.UnmodifiableIterator;
+
 import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * Immutable candidate solution. A candidate solution is the representation
@@ -147,10 +150,9 @@ public final class CandidateSolution implements LinearSeq {
      * current {@code CandidateSolution} representation is made.
      * @return {@code SeqIterator} instance for the iteration.
      */
-    public SeqIterator iterator() {
+    public Iterator<Double> iterator() {
         final double[] local = Arrays.copyOf(internal, internal.length);
-        return new SeqIterator() {
-
+        return new UnmodifiableIterator<Double>() {
             private int count = 0;
 
             @Override
@@ -159,7 +161,7 @@ public final class CandidateSolution implements LinearSeq {
             }
 
             @Override
-            public double next() {
+            public Double next() {
                 return local[count++];
             }
         };
@@ -177,7 +179,7 @@ public final class CandidateSolution implements LinearSeq {
 
     @Override
     public int hashCode() {
-        return internal.hashCode();
+        return Arrays.hashCode(internal);
     }
 
     /**

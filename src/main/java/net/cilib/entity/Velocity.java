@@ -22,8 +22,10 @@
 package net.cilib.entity;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.UnmodifiableIterator;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * Sequence to represent a {@code Velocity}.
@@ -101,8 +103,8 @@ public final class Velocity implements LinearSeq {
      *
      * @return a new {@code SeqIterator} instance.
      */
-    public SeqIterator iterator() {
-        return new SeqIterator() {
+    public Iterator<Double> iterator() {
+        return new UnmodifiableIterator<Double>() {
             private final double[] local = Arrays.copyOf(internal, internal.length);
             private int count = 0;
 
@@ -112,7 +114,7 @@ public final class Velocity implements LinearSeq {
             }
 
             @Override
-            public double next() {
+            public Double next() {
                 double result = local[count];
                 count++;
                 return result;

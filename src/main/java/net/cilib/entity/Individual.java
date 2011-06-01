@@ -41,8 +41,8 @@ public final class Individual implements Entity {
 
     @Inject
     public Individual(CandidateSolution solution, Option<Double> fitness) {
-        this.solution = checkNotNull(solution);
-        this.fitness = checkNotNull(fitness);
+        this.solution = checkNotNull(solution, "Individual expects a CandidateSolution, but null found.");
+        this.fitness = checkNotNull(fitness, "Option type expected, but null found.");
     }
 
     /**

@@ -22,7 +22,6 @@
 package net.cilib.entity;
 
 import com.google.common.base.Preconditions;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import fj.Ord;
 import fj.Ordering;
@@ -34,28 +33,11 @@ import fj.data.Option;
  */
 public final class ParticleProvider implements Provider<Particle> {
 
-    private final FitnessProvider fitnessProvider;
     private CandidateSolution position = CandidateSolution.empty();
     private Velocity velocity = Velocity.empty();
     private CandidateSolution previousBest = CandidateSolution.empty();
     private Option<Double> previousFitness = Option.none();
-
-    @Inject
-    public ParticleProvider(FitnessProvider fitnessProvider) {
-        this.fitnessProvider = fitnessProvider;
-    }
-
-    /**
-     * @todo does this API make sense? Should it not be somewhere else?
-     * @param solution
-     * @return
-     */
-    public Particle newParticle(CandidateSolution solution) {
-        Preconditions.checkNotNull(solution);
-        return new Particle(solution, solution,
-                Velocity.fill(0.0, solution.size()),
-                fitnessProvider.finalize(solution));
-    }
+    private FitnessProvider fitnessProvider;
 
     /**
      * Base the builder on the provided {@code Particle}. The provided particle
@@ -109,7 +91,7 @@ public final class ParticleProvider implements Provider<Particle> {
 
         // Should this be done with DI somehow?
         try {
-            Option<Double> newFitness = fitnessProvider.finalize(position);
+            Option<Double> newFitness = fitnessProvider.evaluate(position);
             if (compare(newFitness, previousFitness) < 0) {
                 return new Particle(position, position, velocity, newFitness);
             } else {
@@ -125,5 +107,10 @@ public final class ParticleProvider implements Provider<Particle> {
 
     private int compare(Option<Double> newFitness, Option<Double> previousFitness) {
         return Ord.optionOrd(Ord.doubleOrd).compare(newFitness, previousFitness) == Ordering.GT ? 0 : 1;
+    }
+
+    public ParticleProvider fitness(FitnessProvider provider) {
+        this.fitnessProvider = provider;
+        return this;
     }
 }

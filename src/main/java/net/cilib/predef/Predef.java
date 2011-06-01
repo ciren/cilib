@@ -22,6 +22,8 @@
 package net.cilib.predef;
 
 import fj.data.Option;
+import net.cilib.entity.LinearSeq;
+import net.cilib.entity.MutableSeq;
 
 /**
  * Utility class of predefined helpers.

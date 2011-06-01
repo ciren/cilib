@@ -56,7 +56,7 @@ public class PSOTest {
         Provider<Guide> globalGuide = mock(Provider.class);
         Topology<Particle> topology = ImmutableGBestTopology.of();
         VelocityProvider velocityProvider = new StandardVelocityProvider(null, null, null, null);
-        PopulationBasedAlgorithm<Particle> instance = new PSO(velocityProvider, null, globalGuide, localGuide);
+        PopulationBasedAlgorithm<Particle> instance = new PSO(velocityProvider, null, null, globalGuide, localGuide);
 
         instance.next(topology);
     }

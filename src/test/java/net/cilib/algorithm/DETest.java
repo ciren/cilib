@@ -25,10 +25,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
-import net.cilib.entity.CandidateSolution;
-import net.cilib.entity.Entity;
-import net.cilib.entity.Individual;
-import net.cilib.entity.IndividualProvider;
+import net.cilib.entity.*;
 import net.cilib.event.EventingModuleBuilder;
 import net.cilib.inject.CIlibCoreModule;
 import net.cilib.inject.PopulationBasedModule;
@@ -48,10 +45,11 @@ public class DETest {
         DE de = injector.getInstance(DE.class);
 
         IndividualProvider provider = injector.getInstance(IndividualProvider.class);
+        FitnessProvider fitnessProvider = new FitnessProvider(null);
 
-        Individual i1 = provider.solution(CandidateSolution.of(1.0)).get();
-        Individual i2 = provider.solution(CandidateSolution.of(3.0)).get();
-        Individual i3 = provider.solution(CandidateSolution.of(4.0)).get();
+        Individual i1 = provider.solution(CandidateSolution.of(1.0)).fitness(fitnessProvider).get();
+        Individual i2 = provider.solution(CandidateSolution.of(3.0)).fitness(fitnessProvider).get();
+        Individual i3 = provider.solution(CandidateSolution.of(4.0)).fitness(fitnessProvider).get();
 
         Topology<Individual> topology = ImmutableGBestTopology.topologyOf(i1, i2, i3);
         Topology<Entity> topology1 = de.next(topology);
@@ -63,10 +61,11 @@ public class DETest {
         DE de = injector.getInstance(DE.class);
 
         IndividualProvider provider = injector.getInstance(IndividualProvider.class);
+        FitnessProvider fitnessProvider = injector.getInstance(FitnessProvider.class);
 
-        Individual i1 = provider.solution(CandidateSolution.of(1.0)).get();
-        Individual i2 = provider.solution(CandidateSolution.of(3.0)).get();
-        Individual i3 = provider.solution(CandidateSolution.of(4.0)).get();
+        Individual i1 = provider.solution(CandidateSolution.of(1.0)).fitness(fitnessProvider).get();
+        Individual i2 = provider.solution(CandidateSolution.of(3.0)).fitness(fitnessProvider).get();
+        Individual i3 = provider.solution(CandidateSolution.of(4.0)).fitness(fitnessProvider).get();
 
         Topology<Individual> topology = ImmutableGBestTopology.topologyOf(i1, i2, i3);
 

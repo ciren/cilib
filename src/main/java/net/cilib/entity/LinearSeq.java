@@ -28,7 +28,7 @@ import java.util.RandomAccess;
  * elements.
  * @author gpampara
  */
-public interface LinearSeq extends Seq, RandomAccess {
+public interface LinearSeq extends Seq, RandomAccess, Iterable<Double> {
 
     /**
      * Get the value at the provided {@code index}.

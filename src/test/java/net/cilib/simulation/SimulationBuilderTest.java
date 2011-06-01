@@ -68,7 +68,7 @@ public class SimulationBuilderTest {
     public void populationBuilderClearsMembersAfterBuild() {
         PopulationBasedSimulationBuilder builder = new SimulationBuilder(new SimulationScope())
                 .newPopulationBasedSimulation()
-                .using(new DE(null, null, null, null))
+                .using(new DE(null, null, null, null, null))
                 .on(new MockProblem())
                 .initialTopology(ImmutableGBestTopology.of())
                 .measuredBy(Lists.<Measurement>newArrayList());

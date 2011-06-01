@@ -24,10 +24,7 @@ package net.cilib.algorithm;
 import com.google.inject.Inject;
 import net.cilib.collection.Topology;
 import net.cilib.collection.TopologyBuffer;
-import net.cilib.entity.CandidateSolution;
-import net.cilib.entity.Entity;
-import net.cilib.entity.Individual;
-import net.cilib.entity.IndividualProvider;
+import net.cilib.entity.*;
 import net.cilib.event.CanRaise;
 import net.cilib.event.IterationEvent;
 
@@ -42,16 +39,19 @@ public class DE<A extends Entity>  extends PopulationBasedAlgorithm<A> {
     private final CrossoverProvider crossoverProvider;
     private final Selector selector;
     private final IndividualProvider individualProvider;
+    private final FitnessProvider fitnessProvider;
 
     @Inject
     public DE(MutationProvider mutationProvider,
             CrossoverProvider crossoverProvider,
             Selector selector,
-            IndividualProvider individualProvider) {
+            IndividualProvider individualProvider,
+            FitnessProvider fitnessProvider) {
         this.mutationProvider = mutationProvider;
         this.crossoverProvider = crossoverProvider;
         this.selector = selector;
         this.individualProvider = individualProvider;
+        this.fitnessProvider = fitnessProvider;
     }
 
     @Override
@@ -61,7 +61,8 @@ public class DE<A extends Entity>  extends PopulationBasedAlgorithm<A> {
         for (A parent : topology) {
             CandidateSolution trialVector = mutationProvider.create(topology);
             CandidateSolution crossedOver = crossoverProvider.create(parent.solution(), trialVector);
-            Individual offspring = individualProvider.solution(crossedOver).get();
+            Individual offspring = individualProvider.solution(crossedOver)
+                    .fitness(fitnessProvider).get();
             buffer.add((A) selector.select(parent, offspring));
             buffer.add(parent);
         }
