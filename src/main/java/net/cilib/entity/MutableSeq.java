@@ -21,94 +21,71 @@
  */
 package net.cilib.entity;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
-import com.google.common.collect.UnmodifiableIterator;
 import com.google.common.primitives.Doubles;
+import fj.F;
+import fj.F2;
+import fj.data.Array;
+import fj.data.Stream;
 
-import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * A mutable sequence with mutation methods defined.
  *
  * @author gpampara
  */
-public final class MutableSeq implements LinearSeq {
-    private final double[] internal;
+public final class MutableSeq implements Seq {
+    private final Array<Double> internal;
 
     public MutableSeq(final LinearSeq seq) {
-        this.internal = seq.toArray();
+        List<Double> list = Doubles.asList(seq.toArray());
+        this.internal = Array.iterableArray(list);
     }
 
-    // ???? @TODO: This ok?
-    public MutableSeq(double[] contents) {
-        this.internal = contents;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int size() {
-        return internal.length;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public double[] toArray() {
-        return Arrays.copyOf(internal, internal.length);
-    }
-
-    @Override
-    public double get(int index) {
-        return this.internal[index];
-    }
-
-    /**
-     * Returns the current {@code MutableSeq}.
-     *
-     * @return the current instance.
-     */
-    @Override
-    public MutableSeq toMutableSeq() {
-        return this;
+    private MutableSeq(final Array<Double> stream) {
+        this.internal = stream;
     }
 
     public MutableSeq subtract(Seq seq) {
-        return subtract(this, seq);
+        return zipWith(seq.toMutableSeq().internal, new F2<Double, Double, Double>() {
+            @Override
+            public Double f(Double a, Double b) {
+                return a - b;
+            }
+        });
+    }
+
+    private final MutableSeq zipWith(Array<Double> s, F2<Double, Double, Double> f) {
+        return new MutableSeq(internal.zipWith(s, f));
     }
 
     public MutableSeq plus(Seq seq) {
-        return plus(this, seq);
+        return zipWith(seq.toMutableSeq().internal, new F2<Double, Double, Double>() {
+            @Override
+            public Double f(Double a, Double b) {
+                return a + b;
+            }
+        });
     }
 
     @Override
-    public Iterator<Double> iterator() {
-        final double[] local = Arrays.copyOf(internal, internal.length);
-        return new UnmodifiableIterator<Double>() {
-            private int count = 0;
+    public final Iterator<Double> iterator() {
+        return this.internal.iterator(); // This delegates to the safe iterator in Stream#toCollection()
+    }
 
-            @Override
-            public boolean hasNext() {
-                return count < local.length;
-            }
-
-            @Override
-            public Double next() {
-                return local[count++];
-            }
-        };
+    @Override
+    public final MutableSeq toMutableSeq() {
+        return this;
     }
 
     private static final class CheckingSupplier implements Supplier<Double> {
         private final Supplier<Double> supplier;
 
         private CheckingSupplier(Supplier<Double> supplier) { // Accept a function / closure
-            this.supplier = supplier;
+            this.supplier = Suppliers.memoize(supplier);
         }
 
         @Override
@@ -124,42 +101,6 @@ public final class MutableSeq implements LinearSeq {
     // Helpers -> Should these be in Predef?
 
     /**
-     * Adds a {@code Seq} to a provided mutable instance. The addition is applied
-     * component-wise.
-     *
-     * @param current The sequence.
-     * @param other   The sequence to add
-     * @return the altered mutable sequence
-     */
-    public static MutableSeq plus(Seq current, Seq other) {
-        final double[] currentSolution = current.toArray();
-        final double[] thatSolution = other.toArray();
-        Preconditions.checkState(currentSolution.length == thatSolution.length);
-        for (int i = 0, n = thatSolution.length; i < n; i++) {
-            currentSolution[i] += thatSolution[i];
-        }
-        return new MutableSeq(currentSolution);
-    }
-
-    /**
-     * Subtracts a {@code Seq} from a provided mutable instance. The subtraction is
-     * applied component-wise.
-     *
-     * @param current The sequence to based the operation on.
-     * @param other   The sequence to subtract
-     * @return the altered mutable sequence
-     */
-    public static MutableSeq subtract(Seq current, Seq other) {
-        final double[] currentSolution = current.toArray();
-        final double[] thatSolution = other.toArray();
-        Preconditions.checkState(currentSolution.length == thatSolution.length);
-        for (int i = 0, n = thatSolution.length; i < n; i++) {
-            currentSolution[i] -= thatSolution[i];
-        }
-        return new MutableSeq(currentSolution);
-    }
-
-    /**
      * Multiply each component within the provided mutable sequence by the provided
      * scalar constant.
      *
@@ -167,7 +108,7 @@ public final class MutableSeq implements LinearSeq {
      * @param seq    the sequence to multiply the scalar value into.
      * @return the altered mutable sequence.
      */
-    public static MutableSeq multiply(double scalar, Seq seq) {
+    public static final MutableSeq multiply(double scalar, Seq seq) {
         return multiply(Suppliers.ofInstance(scalar), seq);
     }
 
@@ -179,12 +120,13 @@ public final class MutableSeq implements LinearSeq {
      * @param seq      the sequence to multiple the scalar value into.
      * @return the altered mutable sequence.
      */
-    public static MutableSeq multiply(Supplier<Double> supplier, Seq seq) {
-        double[] d = seq.toArray();
-        for (int i = 0; i < d.length; i++) {
-            d[i] *= supplier.get();
-        }
-        return new MutableSeq(d);
+    public static final MutableSeq multiply(final Supplier<Double> supplier, final Seq seq) {
+        return new MutableSeq(seq.toMutableSeq().internal.map(new F<Double, Double>() {
+            @Override
+            public Double f(Double a) {
+                return a * supplier.get();
+            }
+        }));
     }
 
     /**
@@ -196,7 +138,7 @@ public final class MutableSeq implements LinearSeq {
      * @param seq    the sequence to divide.
      * @return the altered mutable sequence.
      */
-    public static MutableSeq divide(double scalar, Seq seq) {
+    public static final MutableSeq divide(double scalar, Seq seq) {
         return divide(Suppliers.ofInstance(scalar), seq);
     }
 
@@ -209,12 +151,13 @@ public final class MutableSeq implements LinearSeq {
      * @param seq      the sequence to divide.
      * @return the altered mutable sequence.
      */
-    public static MutableSeq divide(final Supplier<Double> supplier, Seq seq) {
+    public static final MutableSeq divide(final Supplier<Double> supplier, Seq seq) {
         final CheckingSupplier check = new CheckingSupplier(supplier);
-        final double[] internal = seq.toArray();
-        for (int i = 0, n = internal.length; i < n; i++) {
-            internal[i] /= check.get();
-        }
-        return new MutableSeq(internal);
+        return new MutableSeq(seq.toMutableSeq().internal.map(new F<Double, Double>() {
+            @Override
+            public Double f(Double a) {
+                return a / check.get();
+            }
+        }));
     }
 }

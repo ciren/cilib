@@ -22,10 +22,13 @@
 package net.cilib.entity;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
+import com.google.common.primitives.Doubles;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Sequence to represent a {@code Velocity}.
@@ -60,6 +63,11 @@ public final class Velocity implements LinearSeq {
      */
     public static Velocity copyOf(double... elements) {
         return new Velocity(elements);
+    }
+
+    public static Velocity copyOf(Seq sequence) {
+        List<Double> list = Lists.newArrayList(sequence.iterator());
+        return new Velocity(Doubles.toArray(list));
     }
 
     private Velocity(double[] list) {

@@ -23,10 +23,13 @@ package net.cilib.entity;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
+import com.google.common.primitives.Doubles;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Immutable candidate solution. A candidate solution is the representation
@@ -55,8 +58,9 @@ public final class CandidateSolution implements LinearSeq {
      * @param solution the candidate solution to copy.
      * @return an immutable copy of a provided new candidate solution.
      */
-    public static CandidateSolution copyOf(final CandidateSolution solution) {
-        return new CandidateSolution(solution.toArray());
+    public static CandidateSolution copyOf(final Seq solution) {
+        List<Double> list = Lists.newArrayList(solution);
+        return new CandidateSolution(Doubles.toArray(list));
     }
 
     /**
@@ -79,7 +83,7 @@ public final class CandidateSolution implements LinearSeq {
      * @return A newly created {@code CandidateSolution} of filled
      *         {@code item}s.
      */
-    public static CandidateSolution fill(final int item, final int size) {
+    public static CandidateSolution fill(final double item, final int size) {
         Builder builder = newBuilder();
         for (int i = 0; i < size; i++) {
             builder.add(item);

@@ -61,6 +61,6 @@ public class MockMutationProvider implements MutationProvider {
         MutableSeq x3 = selector.select(list).solution().toMutableSeq();
 
         Seq result = multiply(beta, x1.plus(x2.subtract(x3)));
-        return CandidateSolution.of(result.toArray());
+        return CandidateSolution.copyOf(result);
     }
 }

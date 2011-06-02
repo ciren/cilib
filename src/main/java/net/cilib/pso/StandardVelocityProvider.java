@@ -82,6 +82,6 @@ public final class StandardVelocityProvider implements VelocityProvider {
         MutableSeq cognitive = multiply(r1c1, global.solution().toMutableSeq().subtract(particle.solution()));
         MutableSeq social = multiply(r2c2, global.solution().toMutableSeq().subtract(particle.solution()));
 
-        return Velocity.copyOf(particle.velocity().toMutableSeq().plus(cognitive).plus(social).toArray());
+        return Velocity.copyOf(particle.velocity().toMutableSeq().plus(cognitive).plus(social));
     }
 }

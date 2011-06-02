@@ -23,21 +23,18 @@ package net.cilib.entity;
 
 /**
  * A sequence of values.
+ *
  * @author gpampara
  */
-public interface Seq {
+public interface Seq extends Iterable<Double> {
 
     /**
-     * Get the size of the current sequence.
-     * @return the sequence size.
+     * Convert the instance to a mutable version. The mutable version contains
+     * a copy of the data contained within the {@code LinearSeq} instance.
+     *
+     * @return a {@code MutableSeq} instance.
      */
-    int size();
-
-    /**
-     * Get an array representation of this sequence.
-     * @return array representation of this sequence.
-     */
-    double[] toArray();
+    MutableSeq toMutableSeq();
 
     /**
      * A {@code builder} interface to build up a {@code Seq} instance.
@@ -46,6 +43,7 @@ public interface Seq {
 
         /**
          * Add an element to the builder.
+         *
          * @param element to be added.
          * @return the current modified builder instance.
          */
@@ -53,6 +51,7 @@ public interface Seq {
 
         /**
          * Create a {@code Seq} instance from the {@code Builder} contents.
+         *
          * @return a new {@code Seq} instance.
          */
         Seq build();

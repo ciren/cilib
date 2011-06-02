@@ -26,22 +26,39 @@ import java.util.RandomAccess;
 /**
  * A {@code Seq} arranged in a linear fashion, providing random access to
  * elements.
+ *
  * @author gpampara
  */
-public interface LinearSeq extends Seq, RandomAccess, Iterable<Double> {
+public interface LinearSeq extends Seq, RandomAccess {
+
+    /**
+     * Get the size of the current sequence.
+     *
+     * @return the sequence size.
+     */
+    int size();
+
+    /**
+     * Get an array representation of this sequence.
+     *
+     * @return array representation of this sequence.
+     */
+    double[] toArray();
 
     /**
      * Get the value at the provided {@code index}.
+     *
      * @param index the location within the {@code LinearSeq}.
      * @return the requested value
      * @throws
      */
     double get(int index);
 
-    /**
-     * Convert the instance to a mutable version. The mutable version contains
-     * a copy of the data contained within the {@code LinearSeq} instance.
-     * @return a {@code MutableSeq} instance.
-     */
-    MutableSeq toMutableSeq();
+//    /**
+//     * Convert the instance to a mutable version. The mutable version contains
+//     * a copy of the data contained within the {@code LinearSeq} instance.
+//     *
+//     * @return a {@code MutableSeq} instance.
+//     */
+//    MutableSeq toMutableSeq();
 }

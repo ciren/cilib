@@ -66,6 +66,7 @@ public class PSO extends PopulationBasedAlgorithm<Particle> {
      */
     @Override
     public Topology<Particle> next(Topology<Particle> topology) {
+//        throw new UnsupportedOperationException();
         TopologyBuffer<Particle> topologyBuilder = topology.newBuffer();
         for (Particle particle : topology) {
             Entity local = localGuide.get().f(particle, topology).some();
@@ -74,7 +75,7 @@ public class PSO extends PopulationBasedAlgorithm<Particle> {
             Velocity velocity = velocityProvider.create(particle, local, global); // New velocity
             MutableSeq newPosition = particle.solution().toMutableSeq().plus(velocity); // Update position
             Particle updatedParticle = particleProvider.basedOn(particle)
-                    .position(CandidateSolution.of(newPosition.toArray()))
+                    .position(CandidateSolution.copyOf(newPosition))
                     .velocity(velocity)
                     .fitness(fitnessProvider)
                     .get();

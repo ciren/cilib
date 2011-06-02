@@ -21,6 +21,8 @@
  */
 package net.cilib.entity;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
@@ -53,11 +55,12 @@ public class CandidateSolutionTest {
     @Test
     public void mutatability() {
         CandidateSolution solution = CandidateSolution.of(1.0, 2.0);
-        MutableSeq seq = multiply(2.0, solution.toMutableSeq());
+        MutableSeq seq = multiply(2.0, solution);
 
         // The original instance must not change
         Assert.assertThat(solution, equalTo(CandidateSolution.of(1.0, 2.0)));
         // The mutable version did change
-        Assert.assertThat(seq.toArray(), equalTo(new double[]{2.0, 4.0}));
+//        Assert.assertThat(seq.toArray(), equalTo(new double[]{2.0, 4.0}));
+        Assert.assertTrue(Iterables.elementsEqual(Lists.newArrayList(2.0, 4.0), seq));
     }
 }
