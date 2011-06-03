@@ -21,6 +21,7 @@
  */
 package net.cilib.main;
 
+import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.inject.PopulationBasedModule;
 import net.cilib.inject.CIlibCoreModule;
 import com.google.common.base.Predicate;
@@ -33,7 +34,6 @@ import net.cilib.simulation.Simulation;
 import net.cilib.simulation.SimulationBuilder;
 import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
-import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.Entity;
 import net.cilib.entity.Particle;
 import net.cilib.measurement.Measurement;

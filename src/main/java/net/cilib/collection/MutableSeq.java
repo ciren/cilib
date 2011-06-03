@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.entity;
+package net.cilib.collection;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
@@ -27,7 +27,6 @@ import com.google.common.primitives.Doubles;
 import fj.F;
 import fj.F2;
 import fj.data.Array;
-import fj.data.Stream;
 
 import java.util.Iterator;
 import java.util.List;
@@ -58,7 +57,7 @@ public final class MutableSeq implements Seq {
         });
     }
 
-    private final MutableSeq zipWith(Array<Double> s, F2<Double, Double, Double> f) {
+    private MutableSeq zipWith(Array<Double> s, F2<Double, Double, Double> f) {
         return new MutableSeq(internal.zipWith(s, f));
     }
 
@@ -108,7 +107,7 @@ public final class MutableSeq implements Seq {
      * @param seq    the sequence to multiply the scalar value into.
      * @return the altered mutable sequence.
      */
-    public static final MutableSeq multiply(double scalar, Seq seq) {
+    public static MutableSeq multiply(double scalar, Seq seq) {
         return multiply(Suppliers.ofInstance(scalar), seq);
     }
 
@@ -120,7 +119,7 @@ public final class MutableSeq implements Seq {
      * @param seq      the sequence to multiple the scalar value into.
      * @return the altered mutable sequence.
      */
-    public static final MutableSeq multiply(final Supplier<Double> supplier, final Seq seq) {
+    public static MutableSeq multiply(final Supplier<Double> supplier, final Seq seq) {
         return new MutableSeq(seq.toMutableSeq().internal.map(new F<Double, Double>() {
             @Override
             public Double f(Double a) {
@@ -138,7 +137,7 @@ public final class MutableSeq implements Seq {
      * @param seq    the sequence to divide.
      * @return the altered mutable sequence.
      */
-    public static final MutableSeq divide(double scalar, Seq seq) {
+    public static MutableSeq divide(double scalar, Seq seq) {
         return divide(Suppliers.ofInstance(scalar), seq);
     }
 
@@ -151,7 +150,7 @@ public final class MutableSeq implements Seq {
      * @param seq      the sequence to divide.
      * @return the altered mutable sequence.
      */
-    public static final MutableSeq divide(final Supplier<Double> supplier, Seq seq) {
+    public static MutableSeq divide(final Supplier<Double> supplier, Seq seq) {
         final CheckingSupplier check = new CheckingSupplier(supplier);
         return new MutableSeq(seq.toMutableSeq().internal.map(new F<Double, Double>() {
             @Override

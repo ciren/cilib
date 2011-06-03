@@ -25,6 +25,8 @@ import com.google.common.base.Preconditions;
 import fj.data.Option;
 import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.inject.Inject;
+import net.cilib.collection.immutable.CandidateSolution;
+import net.cilib.collection.immutable.Velocity;
 
 /**
  * Representation of a {@code Particle}. A {@code Particle} is an {@code Entity}

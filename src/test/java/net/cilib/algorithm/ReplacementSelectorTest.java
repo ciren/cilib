@@ -22,7 +22,7 @@
 package net.cilib.algorithm;
 
 import fj.data.Option;
-import net.cilib.entity.CandidateSolution;
+import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.entity.Entity;
 import net.cilib.entity.FitnessComparator;
 import net.cilib.entity.Individual;

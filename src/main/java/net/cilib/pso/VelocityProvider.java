@@ -21,9 +21,9 @@
  */
 package net.cilib.pso;
 
+import net.cilib.collection.immutable.Velocity;
 import net.cilib.entity.HasCandidateSolution;
 import net.cilib.entity.Particle;
-import net.cilib.entity.Velocity;
 
 /**
  * Provider interface defining how to create {@link Velocity}

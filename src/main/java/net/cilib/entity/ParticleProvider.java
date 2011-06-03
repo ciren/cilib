@@ -26,6 +26,8 @@ import com.google.inject.Provider;
 import fj.Ord;
 import fj.Ordering;
 import fj.data.Option;
+import net.cilib.collection.immutable.CandidateSolution;
+import net.cilib.collection.immutable.Velocity;
 
 /**
  * Factory object to create {@code Particle} instances.

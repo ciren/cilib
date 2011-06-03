@@ -22,6 +22,7 @@
 package net.cilib.entity;
 
 import fj.data.Option;
+import net.cilib.collection.immutable.CandidateSolution;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;

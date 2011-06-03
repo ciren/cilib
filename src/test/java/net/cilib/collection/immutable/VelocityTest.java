@@ -19,41 +19,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.entity;
+package net.cilib.collection.immutable;
+
+import org.junit.Assert;
+import org.junit.Test;
+import static org.hamcrest.CoreMatchers.*;
 
 /**
- * A sequence of values.
  *
  * @author gpampara
  */
-public interface Seq extends Iterable<Double> {
+public class VelocityTest {
 
     /**
-     * Convert the instance to a mutable version. The mutable version contains
-     * a copy of the data contained within the {@code LinearSeq} instance.
-     *
-     * @return a {@code MutableSeq} instance.
+     * Test of fill method, of class Velocity.
      */
-    MutableSeq toMutableSeq();
+    @Test
+    public void fill() {
+        Velocity target = Velocity.fill(0.0, 30);
 
-    /**
-     * A {@code builder} interface to build up a {@code Seq} instance.
-     */
-    interface Builder {
-
-        /**
-         * Add an element to the builder.
-         *
-         * @param element to be added.
-         * @return the current modified builder instance.
-         */
-        Builder add(double element);
-
-        /**
-         * Create a {@code Seq} instance from the {@code Builder} contents.
-         *
-         * @return a new {@code Seq} instance.
-         */
-        Seq build();
+        Assert.assertThat(target.size(), is(equalTo(30)));
+        Assert.assertArrayEquals(new double[target.size()], target.toArray(), 0.0001);
     }
 }

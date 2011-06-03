@@ -23,16 +23,16 @@ package net.cilib.algorithm;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import net.cilib.entity.CandidateSolution;
+import net.cilib.collection.MutableSeq;
+import net.cilib.collection.Seq;
+import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.entity.Entity;
-import net.cilib.entity.MutableSeq;
-import net.cilib.entity.Seq;
 import net.cilib.inject.annotation.Unique;
 
 import java.util.Iterator;
 import java.util.List;
 
-import static net.cilib.entity.MutableSeq.multiply;
+import static net.cilib.collection.MutableSeq.multiply;
 
 /**
  * @author gpampara

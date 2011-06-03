@@ -24,6 +24,7 @@ package net.cilib.algorithm;
 import com.google.inject.Inject;
 import net.cilib.collection.Topology;
 import net.cilib.collection.TopologyBuffer;
+import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.entity.*;
 import net.cilib.event.CanRaise;
 import net.cilib.event.IterationEvent;

@@ -24,6 +24,7 @@ package net.cilib.algorithm;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import net.cilib.collection.Topology;
+import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
 import net.cilib.entity.*;
 import net.cilib.event.EventingModuleBuilder;

@@ -24,6 +24,7 @@ package net.cilib.entity;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import net.cilib.collection.immutable.CandidateSolution;
 
 /**
  * Factory class to create {@code Individual} instances, given a

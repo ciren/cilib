@@ -21,6 +21,8 @@
  */
 package net.cilib.entity;
 
+import net.cilib.collection.immutable.Velocity;
+
 /**
  * Indicate that the current instance maintains a {@code Velocity}.
  * @author gpampara

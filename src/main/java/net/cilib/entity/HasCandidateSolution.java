@@ -21,6 +21,8 @@
  */
 package net.cilib.entity;
 
+import net.cilib.collection.immutable.CandidateSolution;
+
 /**
  * Require an instance which maintains a {@link CandidateSolution}.
  *
@@ -37,7 +39,7 @@ public interface HasCandidateSolution {
 
     /**
      * Determines the size of the maintained
-     * {@linkplain CandidateSolution candidate solution}.
+     * {@linkplain net.cilib.collection.immutable.CandidateSolution candidate solution}.
      * @return the size.
      */
     int size();

@@ -24,12 +24,12 @@ package net.cilib.pso;
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import net.cilib.collection.MutableSeq;
+import net.cilib.collection.immutable.Velocity;
 import net.cilib.entity.HasCandidateSolution;
-import net.cilib.entity.MutableSeq;
 import net.cilib.entity.Particle;
-import net.cilib.entity.Velocity;
 import net.cilib.inject.annotation.Unique;
-import static net.cilib.entity.MutableSeq.*;
+import static net.cilib.collection.MutableSeq.*;
 
 /**
  * Velocity provider implementing the canonical velocity update equation

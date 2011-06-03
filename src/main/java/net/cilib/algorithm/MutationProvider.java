@@ -22,7 +22,8 @@
 package net.cilib.algorithm;
 
 import java.util.Iterator;
-import net.cilib.entity.CandidateSolution;
+
+import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.entity.Entity;
 
 /**

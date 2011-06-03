@@ -24,10 +24,10 @@ package net.cilib.pso;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import fj.data.Option;
-import net.cilib.entity.CandidateSolution;
+import net.cilib.collection.immutable.CandidateSolution;
+import net.cilib.collection.immutable.Velocity;
 import net.cilib.entity.PartialEntity;
 import net.cilib.entity.Particle;
-import net.cilib.entity.Velocity;
 import org.junit.Assert;
 import org.junit.Test;
 

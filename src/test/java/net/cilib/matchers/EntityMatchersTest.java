@@ -23,8 +23,8 @@ package net.cilib.matchers;
 
 import fj.data.Option;
 import net.cilib.collection.Topology;
+import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
-import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.FitnessComparator;
 import net.cilib.entity.Individual;
 import org.junit.Assert;

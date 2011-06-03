@@ -25,6 +25,7 @@ import fj.data.Option;
 import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Objects;
 import com.google.inject.Inject;
+import net.cilib.collection.immutable.CandidateSolution;
 
 /**
  * Basic individual class.

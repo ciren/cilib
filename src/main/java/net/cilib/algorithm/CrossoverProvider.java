@@ -25,7 +25,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import java.util.List;
-import net.cilib.entity.CandidateSolution;
+
+import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.entity.HasCandidateSolution;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 

@@ -21,6 +21,8 @@
  */
 package net.cilib.entity;
 
+import net.cilib.collection.immutable.CandidateSolution;
+
 /**
  * Any class implementing this interface defines that the instance maintains
  * a memory of a {@link CandidateSolution}.

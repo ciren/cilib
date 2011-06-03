@@ -23,6 +23,7 @@ package net.cilib.entity;
 
 import com.google.inject.Inject;
 import fj.data.Option;
+import net.cilib.collection.LinearSeq;
 import net.cilib.problem.Problem;
 
 import java.util.Iterator;

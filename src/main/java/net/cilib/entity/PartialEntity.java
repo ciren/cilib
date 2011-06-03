@@ -24,6 +24,7 @@ package net.cilib.entity;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import fj.data.Option;
+import net.cilib.collection.immutable.CandidateSolution;
 
 /**
  * A partial entity is an entity that has, at least, a candidate solution. No

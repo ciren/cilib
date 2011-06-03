@@ -23,9 +23,9 @@ package net.cilib.pso;
 
 import fj.data.Option;
 import net.cilib.collection.Topology;
+import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
 import net.cilib.collection.immutable.ImmutableLBestTopology;
-import net.cilib.entity.CandidateSolution;
 import net.cilib.entity.Entity;
 import net.cilib.entity.FitnessComparator;
 import net.cilib.entity.Individual;

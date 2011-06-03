@@ -23,8 +23,11 @@ package net.cilib.pso;
 
 import com.google.inject.Inject;
 import net.cilib.algorithm.PopulationBasedAlgorithm;
+import net.cilib.collection.MutableSeq;
 import net.cilib.collection.Topology;
 import net.cilib.collection.TopologyBuffer;
+import net.cilib.collection.immutable.CandidateSolution;
+import net.cilib.collection.immutable.Velocity;
 import net.cilib.entity.*;
 import net.cilib.inject.annotation.Global;
 import net.cilib.inject.annotation.Local;

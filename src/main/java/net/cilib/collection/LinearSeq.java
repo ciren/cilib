@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.entity;
+package net.cilib.collection;
 
 import java.util.RandomAccess;
 
@@ -53,12 +53,4 @@ public interface LinearSeq extends Seq, RandomAccess {
      * @throws
      */
     double get(int index);
-
-//    /**
-//     * Convert the instance to a mutable version. The mutable version contains
-//     * a copy of the data contained within the {@code LinearSeq} instance.
-//     *
-//     * @return a {@code MutableSeq} instance.
-//     */
-//    MutableSeq toMutableSeq();
 }

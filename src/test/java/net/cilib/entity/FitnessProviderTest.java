@@ -21,6 +21,7 @@
  */
 package net.cilib.entity;
 
+import net.cilib.collection.immutable.CandidateSolution;
 import org.junit.Assert;
 import net.cilib.problem.Problem;
 import org.junit.Test;
