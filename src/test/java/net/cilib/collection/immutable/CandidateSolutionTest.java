@@ -21,13 +21,13 @@
  */
 package net.cilib.collection.immutable;
 
+import net.cilib.collection.Seq;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import net.cilib.collection.MutableSeq;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
-import static net.cilib.collection.MutableSeq.*;
+import static net.cilib.collection.SeqView.*;
 
 /**
  *
@@ -36,7 +36,7 @@ import static net.cilib.collection.MutableSeq.*;
 public class CandidateSolutionTest {
     @Test
     public void defensiveToArray() {
-        CandidateSolution solution = CandidateSolution.of(1.0, 1.0);
+        CandidateSolution solution = CandidateSolution.solution(1.0, 1.0);
         double[] a = solution.toArray();
         double[] b = solution.toArray();
 
@@ -46,7 +46,7 @@ public class CandidateSolutionTest {
 
     @Test
     public void copyOfCreation() {
-        CandidateSolution solution = CandidateSolution.of(1.0, 2.0);
+        CandidateSolution solution = CandidateSolution.solution(1.0, 2.0);
         CandidateSolution copy = CandidateSolution.copyOf(solution);
 
         Assert.assertThat(copy, not(sameInstance(solution)));
@@ -55,11 +55,11 @@ public class CandidateSolutionTest {
 
     @Test
     public void mutatability() {
-        CandidateSolution solution = CandidateSolution.of(1.0, 2.0);
-        MutableSeq seq = multiply(2.0, solution);
+        CandidateSolution solution = CandidateSolution.solution(1.0, 2.0);
+        Seq seq = multiply(2.0, solution);
 
         // The original instance must not change
-        Assert.assertThat(solution, equalTo(CandidateSolution.of(1.0, 2.0)));
+        Assert.assertThat(solution, equalTo(CandidateSolution.solution(1.0, 2.0)));
         // The mutable version did change
 //        Assert.assertThat(seq.toArray(), equalTo(new double[]{2.0, 4.0}));
         Assert.assertTrue(Iterables.elementsEqual(Lists.newArrayList(2.0, 4.0), seq));

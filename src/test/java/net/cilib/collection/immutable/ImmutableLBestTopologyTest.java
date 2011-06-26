@@ -21,9 +21,12 @@
  */
 package net.cilib.collection.immutable;
 
+import fj.data.Option;
+import com.google.common.collect.Iterables;
+import net.cilib.entity.Particle;
 import com.google.common.collect.Lists;
 import java.util.List;
-import java.util.Iterator;
+import net.cilib.collection.TopologyBuffer;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
@@ -36,8 +39,7 @@ public class ImmutableLBestTopologyTest {
 
     @Test
     public void neighborhoodOf() {
-        ImmutableLBestTopology<Double> lbest = new ImmutableLBestTopology.ImmutableLBestTopologyBuilder<Double>()
-                .add(4.0).add(3.0).add(2.0).add(1.0).add(0.0).build();
+        ImmutableLBestTopology<Double> lbest = new ImmutableLBestTopology.ImmutableLBestTopologyBuffer<Double>().add(4.0).add(3.0).add(2.0).add(1.0).add(0.0).build();
 
         Iterable<Double> neighborhood = lbest.neighborhoodOf(2.0); // Should contain 3.0, 2.0, and 1.0
 
@@ -50,8 +52,7 @@ public class ImmutableLBestTopologyTest {
 
     @Test
     public void neighborhoodOfWrappingLower() {
-        ImmutableLBestTopology<Double> lbest = new ImmutableLBestTopology.ImmutableLBestTopologyBuilder<Double>()
-                .add(4.0).add(3.0).add(2.0).add(1.0).add(0.0).build();
+        ImmutableLBestTopology<Double> lbest = new ImmutableLBestTopology.ImmutableLBestTopologyBuffer<Double>().add(4.0).add(3.0).add(2.0).add(1.0).add(0.0).build();
 
         Iterable<Double> neighborhood = lbest.neighborhoodOf(4.0); // Should contain 3.0, 2.0, and 1.0
 
@@ -64,8 +65,7 @@ public class ImmutableLBestTopologyTest {
 
     @Test
     public void neighborhoodOfWrappingUpper() {
-        ImmutableLBestTopology<Double> lbest = new ImmutableLBestTopology.ImmutableLBestTopologyBuilder<Double>()
-                .add(4.0).add(3.0).add(2.0).add(1.0).add(0.0).build();
+        ImmutableLBestTopology<Double> lbest = new ImmutableLBestTopology.ImmutableLBestTopologyBuffer<Double>().add(4.0).add(3.0).add(2.0).add(1.0).add(0.0).build();
 
         Iterable<Double> neighborhood = lbest.neighborhoodOf(0.0); // Should contain 3.0, 2.0, and 1.0
 
@@ -74,5 +74,15 @@ public class ImmutableLBestTopologyTest {
         Assert.assertTrue(neighbors.contains(1.0));
         Assert.assertTrue(neighbors.contains(0.0));
         Assert.assertTrue(neighbors.contains(4.0));
+    }
+
+    @Test
+    public void bufferCreationContainsCurrentTopologyElements() {
+        Particle dummy = new Particle(CandidateSolution.empty(), CandidateSolution.empty(), Velocity.empty(), Option.<Double>none());
+        ImmutableLBestTopology lbest = ImmutableLBestTopology.topologyOf(3, dummy, dummy, dummy, dummy);
+
+        TopologyBuffer<Particle> buffer = lbest.newBuffer();
+
+        Assert.assertThat(Iterables.size(buffer), equalTo(0));
     }
 }

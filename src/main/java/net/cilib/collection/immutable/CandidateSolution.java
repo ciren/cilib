@@ -22,17 +22,19 @@
 package net.cilib.collection.immutable;
 
 import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import com.google.common.collect.UnmodifiableIterator;
 import com.google.common.primitives.Doubles;
+import fj.F;
+import fj.F2;
+import fj.Function;
+import fj.Unit;
 import net.cilib.collection.LinearSeq;
-import net.cilib.collection.MutableSeq;
+import net.cilib.collection.SeqView;
 import net.cilib.collection.Seq;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import net.cilib.collection.Array;
 
 /**
  * Immutable candidate solution. A candidate solution is the representation
@@ -41,10 +43,10 @@ import java.util.List;
  * @since 0.8
  * @author gpampara
  */
-public final class CandidateSolution implements LinearSeq {
+public final class CandidateSolution extends LinearSeq {
 
-    private final static CandidateSolution EMPTY = new CandidateSolution(new double[]{});
-    private final double[] internal;
+    private final static CandidateSolution EMPTY = new CandidateSolution(Array.empty());
+    private final Array internal;
 
     /**
      * Return an empty {@code CandidateSolution}. The same instance will be
@@ -63,7 +65,8 @@ public final class CandidateSolution implements LinearSeq {
      */
     public static CandidateSolution copyOf(final Seq solution) {
         List<Double> list = Lists.newArrayList(solution);
-        return new CandidateSolution(Doubles.toArray(list));
+        double[] a = Doubles.toArray(list);
+        return new CandidateSolution(Array.array(a));
     }
 
     /**
@@ -72,41 +75,46 @@ public final class CandidateSolution implements LinearSeq {
      * @param solution the array of values, representing the candidate solution.
      * @return an immutable candidate solution representing the given values.
      */
-    public static CandidateSolution of(final double... solution) {
-        Preconditions.checkArgument(solution.length > 0);
-        return new CandidateSolution(solution);
+    public static CandidateSolution solution(final double first, final double... rest) {
+        int size = rest.length + 1;
+        double[] contents = new double[size];
+        contents[0] = first;
+        System.arraycopy(rest, 0, contents, 1, rest.length);
+        return new CandidateSolution(Array.array(contents));
     }
 
     /**
      * Create a {@code CandidateSolution} instance, filled up with the
      * provided {@code item} for {@code size} dimensions.
-     * @param item used to fill the {@code CandidateSolution}
-     * @param size the number of items to include within the
+     * @param n the number of items to include within the
      *        {@code CandidateSolution}
+     * @param item used to fill the {@code CandidateSolution}
      * @return A newly created {@code CandidateSolution} of filled
      *         {@code item}s.
      */
-    public static CandidateSolution fill(final double item, final int size) {
+    public static CandidateSolution replicate(final int n, final double item) {
+        return replicate(n, Function.<Unit, Double>constant(item));
+    }
+
+    /**
+     * Create a {@code CandidateSolution} instance, filled up with the
+     * provided function for {@code size} dimensions.
+     * @param n the number of items to include within the
+     *        {@code CandidateSolution}
+     * @param generator function applied for value.
+     * @return A newly created {@code CandidateSolution} of filled
+     *         {@code item}s.
+     */
+    public static CandidateSolution replicate(final int n, final F<Unit, Double> generator) {
         Builder builder = newBuilder();
-        for (int i = 0; i < size; i++) {
-            builder.add(item);
+        for (int i = 0; i < n; i++) {
+            builder.add(generator.f(Unit.unit()));
         }
         return builder.build();
     }
 
-    private CandidateSolution(double[] list) {
-        this.internal = list;
-    }
-
-    /**
-     * Get the value of the candidate solution at the given {@code index}.
-     * @param index position of the value
-     * @return the value within the candidate solution at the given
-     *  {@code index}.
-     */
-    @Override
-    public double get(int index) {
-        return internal[index];
+    private CandidateSolution(Array a) {
+        this.internal = a;
     }
 
     /**
@@ -115,7 +123,7 @@ public final class CandidateSolution implements LinearSeq {
      */
     @Override
     public int size() {
-        return internal.length;
+        return internal.length();
     }
 
     /**
@@ -127,7 +135,7 @@ public final class CandidateSolution implements LinearSeq {
      */
     @Override
     public double[] toArray() {
-        return Arrays.copyOf(internal, internal.length);
+        return internal.copyOfInternal();
     }
 
     /**
@@ -140,38 +148,14 @@ public final class CandidateSolution implements LinearSeq {
     }
 
     /**
-     * Translate the {@code CandidateSolution} into a mutable instance. The
-     * resulting mutable instance contains a copy of the
-     * {@code CandidateSolution} representation and will not alter the
-     * {@code CandidateSolution}.
-     * @return a {@code MutableSeq}.
-     */
-    @Override
-    public MutableSeq toMutableSeq() {
-        return new MutableSeq(this);
-    }
-
-    /**
      * Create an iterator to traverse the contents of the
      * {@code CandidateSolution}. For the iterator, a defensive copy of the
      * current {@code CandidateSolution} representation is made.
      * @return {@code SeqIterator} instance for the iteration.
      */
+    @Override
     public Iterator<Double> iterator() {
-        final double[] local = Arrays.copyOf(internal, internal.length);
-        return new UnmodifiableIterator<Double>() {
-            private int count = 0;
-
-            @Override
-            public boolean hasNext() {
-                return count < local.length;
-            }
-
-            @Override
-            public Double next() {
-                return local[count++];
-            }
-        };
+        return internal.iterator();
     }
 
     @Override
@@ -181,12 +165,12 @@ public final class CandidateSolution implements LinearSeq {
         }
 
         CandidateSolution other = (CandidateSolution) obj;
-        return Arrays.equals(internal, other.internal);//internal.equals(other.internal);
+        return internal.equals(other.internal);
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(internal);
+        return internal.hashCode();
     }
 
     /**
@@ -198,15 +182,53 @@ public final class CandidateSolution implements LinearSeq {
         return new Builder();
     }
 
+    @Override
+    public Seq plus(Seq other) {
+        return new SeqView(internal.plus(other));
+    }
+
+    @Override
+    protected Array delegate() {
+        return this.internal;
+    }
+
+    @Override
+    public Seq subtract(Seq other) {
+        return new SeqView(internal.subtract(other));
+    }
+
+    @Override
+    public CandidateSolution take(int n) {
+        return new CandidateSolution(internal.take(n));
+    }
+
+    @Override
+    public CandidateSolution drop(int n) {
+        return new CandidateSolution(internal.drop(n));
+    }
+
+    @Override
+    public CandidateSolution map(F<Double, Double> f) {
+        return new CandidateSolution(internal.map(f));
+    }
+
+    public CandidateSolution zipWith(CandidateSolution target, F<Double, F<Double, Double>> f) {
+        return new CandidateSolution(internal.zipWith(target.internal, f));
+    }
+
+    public CandidateSolution zipWith(CandidateSolution target, F2<Double, Double, Double> f) {
+        return zipWith(target, Function.curry(f));
+    }
+
     /**
      * Builder to create {@link CandidateSolution} instances. After the builder
      * has created the {@link CandidateSolution}, the builder is reset to an
      * empty state.
      */
-    public static class Builder implements Seq.Builder {
+    public static class Builder implements Seq.Buffer {
 
         private int current;
-        private double[] internal; // Use TDoubleArrayList?
+        private double[] internal;
 
         private Builder() {
             current = 0;
@@ -236,7 +258,7 @@ public final class CandidateSolution implements LinearSeq {
             try {
                 double[] target = new double[current];
                 System.arraycopy(internal, 0, target, 0, current);
-                return CandidateSolution.of(target);
+                return new CandidateSolution(Array.array(target));
             } finally {
                 current = 0;
                 internal = new double[]{};

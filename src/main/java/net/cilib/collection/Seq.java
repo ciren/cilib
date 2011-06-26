@@ -21,25 +21,27 @@
  */
 package net.cilib.collection;
 
+import fj.F;
+
 /**
  * A sequence of values.
  *
  * @author gpampara
  */
-public interface Seq extends Iterable<Double> {
+public abstract class Seq implements Iterable<Double> {
 
-    /**
-     * Convert the instance to a mutable version. The mutable version contains
-     * a copy of the data contained within the {@code LinearSeq} instance.
-     *
-     * @return a {@code MutableSeq} instance.
-     */
-    MutableSeq toMutableSeq();
+    protected abstract Array delegate();
+
+    public abstract Seq plus(Seq other);
+
+    public abstract Seq subtract(Seq other);
+
+    public abstract Seq map(F<Double, Double> f);
 
     /**
      * A {@code builder} interface to build up a {@code Seq} instance.
      */
-    interface Builder {
+    public interface Buffer {
 
         /**
          * Add an element to the builder.
@@ -47,7 +49,7 @@ public interface Seq extends Iterable<Double> {
          * @param element to be added.
          * @return the current modified builder instance.
          */
-        Builder add(double element);
+        Buffer add(double element);
 
         /**
          * Create a {@code Seq} instance from the {@code Builder} contents.

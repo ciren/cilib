@@ -21,6 +21,8 @@
  */
 package net.cilib.collection.immutable;
 
+import fj.data.Option;
+import net.cilib.collection.TopologyBuffer;
 import com.google.common.collect.Iterables;
 import fj.F;
 import net.cilib.collection.Topology;
@@ -65,9 +67,11 @@ public class ImmutableGBestTopologyTest {
     public void foldLeft() {
         Topology<Integer> t = ImmutableGBestTopology.topologyOf(1, 2, 3, 4, 5);
         Integer result = t.foldLeft(new F<Integer, F<Integer, Integer>>() {
+
             @Override
             public F<Integer, Integer> f(final Integer a1) {
                 return new F<Integer, Integer>() {
+
                     @Override
                     public Integer f(final Integer a2) {
                         return a1 + a2;
@@ -77,5 +81,15 @@ public class ImmutableGBestTopologyTest {
         }, 0);
 
         Assert.assertThat(result, equalTo(15));
+    }
+
+    @Test
+    public void bufferCreationContainsCurrentTopologyElements() {
+        Particle dummy = new Particle(CandidateSolution.empty(), CandidateSolution.empty(), Velocity.empty(), Option.<Double>none());
+        ImmutableGBestTopology lbest = ImmutableGBestTopology.topologyOf(dummy, dummy, dummy, dummy);
+
+        TopologyBuffer<Particle> buffer = lbest.newBuffer();
+
+        Assert.assertThat(Iterables.size(buffer), equalTo(0));
     }
 }

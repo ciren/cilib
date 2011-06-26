@@ -21,7 +21,6 @@
  */
 package net.cilib.collection;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
@@ -32,12 +31,12 @@ import java.util.List;
  * @param <A>
  */
 public class TopologyBuffer<A> implements Iterable<A> {
-    private Topology.TopologyBuilder<A> builder;
+    private Topology.Buffer<A> builder;
     private final List<A> inner;
 
-    public TopologyBuffer(Topology.TopologyBuilder<A> builder, ImmutableList<A> list) {
+    public TopologyBuffer(Topology.Buffer<A> builder/*, ImmutableList<A> list*/) {
         this.builder = builder;
-        this.inner = Lists.newArrayList(list);
+        this.inner = Lists.newArrayList();
     }
 
     /**

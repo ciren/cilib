@@ -29,28 +29,23 @@ import java.util.RandomAccess;
  *
  * @author gpampara
  */
-public interface LinearSeq extends Seq, RandomAccess {
+public abstract class LinearSeq extends Seq implements RandomAccess {
 
     /**
      * Get the size of the current sequence.
      *
      * @return the sequence size.
      */
-    int size();
+    public abstract int size();
 
     /**
      * Get an array representation of this sequence.
      *
      * @return array representation of this sequence.
      */
-    double[] toArray();
+    public abstract double[] toArray();
 
-    /**
-     * Get the value at the provided {@code index}.
-     *
-     * @param index the location within the {@code LinearSeq}.
-     * @return the requested value
-     * @throws
-     */
-    double get(int index);
+    public abstract Seq take(int n);
+
+    public abstract Seq drop(int n);
 }

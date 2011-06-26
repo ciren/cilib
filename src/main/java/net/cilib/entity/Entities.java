@@ -21,15 +21,17 @@
  */
 package net.cilib.entity;
 
+import fj.F;
+import fj.Unit;
 import fj.data.Option;
 import net.cilib.collection.immutable.CandidateSolution;
+import net.cilib.collection.immutable.Velocity;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
-/**
- *
- */
 public final class Entities {
 
     private final static Entity DUMMY = new Entity() {
+
         @Override
         public CandidateSolution solution() {
             return CandidateSolution.empty();
@@ -45,6 +47,24 @@ public final class Entities {
             return Option.none();
         }
     };
+
+    public static F<Unit, Particle> particleGen(final int n, final RandomProvider random) {
+        return new F<Unit, Particle>() {
+            @Override
+            public Particle f(Unit a) {
+                CandidateSolution position = CandidateSolution.replicate(n, new F<Unit, Double>() {
+                    @Override
+                    public Double f(Unit a) {
+                        return random.nextDouble();
+                    }
+                });
+
+                return new Particle(position, position,
+                        Velocity.replicate(n, 0.0),
+                        Option.<Double>none());
+            }
+        };
+    }
 
     private Entities() {
         throw new UnsupportedOperationException();

@@ -85,12 +85,12 @@ public class ImmutableGBestTopology<A> extends Topology<A> {
      */
     @Override
     public TopologyBuffer<A> newBuffer() {
-        return new TopologyBuffer<A>(new ImmutableGBestTopologyBuilder<A>(), ImmutableList.<A>of());
+        return new TopologyBuffer<A>(new ImmutableGBestTopologyBuffer<A>());
     }
 
     @Override
     public Topology<A> drop(int n) {
-        return new ImmutableGBestTopologyBuilder().addAll(this.elements.subList(n, this.elements.size())).build();
+        return new ImmutableGBestTopologyBuffer().addAll(this.elements.subList(n, this.elements.size())).build();
     }
 
     @Override
@@ -107,8 +107,8 @@ public class ImmutableGBestTopology<A> extends Topology<A> {
      * @return a new {@code ImmutableGBestTopology} instance containing the given
      *         elements.
      */
-    public static <A> Topology<A> topologyOf(A first, A... rest) {
-        ImmutableGBestTopologyBuilder<A> builder = new ImmutableGBestTopologyBuilder<A>();
+    public static <A> ImmutableGBestTopology<A> topologyOf(A first, A... rest) {
+        ImmutableGBestTopologyBuffer<A> builder = new ImmutableGBestTopologyBuffer<A>();
         builder.add(first);
         for (A a : rest) {
             builder.add(a);
@@ -129,11 +129,11 @@ public class ImmutableGBestTopology<A> extends Topology<A> {
      *
      * @param <B> parameter type.
      */
-    public static class ImmutableGBestTopologyBuilder<B> implements TopologyBuilder<B> {
+    public static class ImmutableGBestTopologyBuffer<B> implements Buffer<B> {
 
         private final List<B> elements;
 
-        public ImmutableGBestTopologyBuilder() {
+        public ImmutableGBestTopologyBuffer() {
             elements = Lists.newArrayList();
         }
 
@@ -146,7 +146,7 @@ public class ImmutableGBestTopology<A> extends Topology<A> {
          * @return a new {@code ImmutableGBestTopology}.
          */
         @Override
-        public Topology<B> build() {
+        public ImmutableGBestTopology<B> build() {
             try {
                 return new ImmutableGBestTopology<B>(elements);
             } finally {
@@ -162,12 +162,12 @@ public class ImmutableGBestTopology<A> extends Topology<A> {
          * @return the current topology builder for chaining purposes.
          */
         @Override
-        public TopologyBuilder<B> add(B element) {
+        public Buffer<B> add(B element) {
             elements.add(element);
             return this;
         }
 
-        public TopologyBuilder<B> addAll(List<B> list) {
+        public Buffer<B> addAll(List<B> list) {
             this.elements.addAll(list);
             return this;
         }

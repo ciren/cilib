@@ -36,7 +36,7 @@ public class VelocityTest {
      */
     @Test
     public void fill() {
-        Velocity target = Velocity.fill(0.0, 30);
+        Velocity target = Velocity.replicate(30, 0.0);
 
         Assert.assertThat(target.size(), is(equalTo(30)));
         Assert.assertArrayEquals(new double[target.size()], target.toArray(), 0.0001);

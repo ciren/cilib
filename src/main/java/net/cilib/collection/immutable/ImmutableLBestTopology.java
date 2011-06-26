@@ -28,10 +28,9 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import net.cilib.collection.Topology;
-import net.cilib.collection.TopologyBuffer;
 
-import java.util.Collection;
 import java.util.List;
+import net.cilib.collection.TopologyBuffer;
 
 /**
  * {@code l-best} topology implementation. The {@code l-best} topology defines
@@ -103,8 +102,8 @@ public class ImmutableLBestTopology<A> extends Topology<A> {
      *         elements.
      */
     public static <A> ImmutableLBestTopology<A> topologyOf(int neighborhoodSize, A first, A... rest) {
-        ImmutableLBestTopologyBuilder<A> builder = new ImmutableLBestTopologyBuilder<A>();
-        builder.withNeighborhoodSize(neighborhoodSize).add(first);
+        ImmutableLBestTopologyBuffer<A> builder = new ImmutableLBestTopologyBuffer<A>()
+                .withNeighborhoodSize(neighborhoodSize).add(first);
         for (A a : rest) {
             builder.add(a);
         }
@@ -121,12 +120,12 @@ public class ImmutableLBestTopology<A> extends Topology<A> {
      */
     @Override
     public TopologyBuffer<A> newBuffer() {
-        return new TopologyBuffer<A>(new ImmutableLBestTopologyBuilder<A>(), ImmutableList.<A>of());
+        return new TopologyBuffer<A>(new ImmutableLBestTopologyBuffer<A>());
     }
 
     @Override
     public Topology<A> drop(int n) {
-        return new ImmutableLBestTopologyBuilder().addAll(this.elements.subList(n, this.elements.size())).build();
+        return new ImmutableLBestTopologyBuffer().addAll(this.elements.subList(n, this.elements.size())).build();
     }
 
     @Override
@@ -146,12 +145,12 @@ public class ImmutableLBestTopology<A> extends Topology<A> {
      * Create a topology builder to create {@code ImmutableLBestTopology}
      * instances. The default neighborhood size is defined to be {@code 3}.
      */
-    public static class ImmutableLBestTopologyBuilder<B> implements Topology.TopologyBuilder<B> {
+    public static class ImmutableLBestTopologyBuffer<B> implements Topology.Buffer<B> {
 
         private final List<B> elements;
         private int neighborhoodSize = 3;
 
-        ImmutableLBestTopologyBuilder() {
+        ImmutableLBestTopologyBuffer() {
             elements = Lists.newArrayList();
         }
 
@@ -181,7 +180,7 @@ public class ImmutableLBestTopology<A> extends Topology<A> {
          * @return the current topology builder for chaining purposes.
          */
         @Override
-        public ImmutableLBestTopologyBuilder<B> add(B element) {
+        public ImmutableLBestTopologyBuffer<B> add(B element) {
             elements.add(element);
             return this;
         }
@@ -193,13 +192,13 @@ public class ImmutableLBestTopology<A> extends Topology<A> {
          * @param size the neighborhood size.
          * @return the current builder instance.
          */
-        public ImmutableLBestTopologyBuilder<B> withNeighborhoodSize(int size) {
+        public ImmutableLBestTopologyBuffer<B> withNeighborhoodSize(int size) {
             Preconditions.checkArgument(neighborhoodSize >= 3, "Minimum required neighborhood size is 3.");
             this.neighborhoodSize = size;
             return this;
         }
 
-        public ImmutableLBestTopologyBuilder<B> addAll(List<B> list) {
+        public ImmutableLBestTopologyBuffer<B> addAll(List<B> list) {
             this.elements.addAll(list);
             return this;
         }

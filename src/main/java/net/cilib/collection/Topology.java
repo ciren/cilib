@@ -136,7 +136,7 @@ public abstract class Topology<A> implements Iterable<A> {
      *
      * @param <A> the type of the topology.
      */
-    protected interface TopologyBuilder<A> {
+    protected interface Buffer<A> {
 
         /**
          * Yield a new {@link Topology} instance from the builder.
@@ -151,8 +151,8 @@ public abstract class Topology<A> implements Iterable<A> {
          * @param element to be added.
          * @return the same {@linkplain TopologyBuilder builder} instance for chaining.
          */
-        TopologyBuilder<A> add(A element);
+        Buffer<A> add(A element);
 
-        TopologyBuilder<A> addAll(List<A> list);
+        Buffer<A> addAll(List<A> list);
     }
 }

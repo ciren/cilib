@@ -23,10 +23,11 @@ package net.cilib.collection.immutable;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
-import com.google.common.collect.UnmodifiableIterator;
 import com.google.common.primitives.Doubles;
+import fj.F;
+import net.cilib.collection.Array;
 import net.cilib.collection.LinearSeq;
-import net.cilib.collection.MutableSeq;
+import net.cilib.collection.SeqView;
 import net.cilib.collection.Seq;
 
 import java.util.Arrays;
@@ -38,23 +39,23 @@ import java.util.List;
  *
  * @author gpampara
  */
-public final class Velocity implements LinearSeq {
-    private static final Velocity EMPTY = new Velocity(new double[]{});
-    private final double[] internal;
+public final class Velocity extends LinearSeq {
+    private static final Velocity EMPTY = new Velocity(Array.empty());
+    private final Array internal;
 
     /**
      * Create a velocity with length {@code size}, containing repeated
      * {@code element} values.
      *
      * @param element the value to repeat
-     * @param size    the velocity size
+     * @param n    the velocity size
      * @return {@code Velocity} instance containing {@code element} repeated
      *         {@code size} times.
      */
-    public static Velocity fill(double element, int size) {
-        double[] values = new double[size];
+    public static Velocity replicate(final int n, final double element) {
+        double[] values = new double[n];
         Arrays.fill(values, element);
-        return new Velocity(values);
+        return new Velocity(Array.array(values));
     }
 
     /**
@@ -65,16 +66,16 @@ public final class Velocity implements LinearSeq {
      * @return a new {@code Velocity} instance.
      */
     public static Velocity copyOf(double... elements) {
-        return new Velocity(elements);
+        return new Velocity(Array.array(elements));
     }
 
     public static Velocity copyOf(Seq sequence) {
         List<Double> list = Lists.newArrayList(sequence.iterator());
-        return new Velocity(Doubles.toArray(list));
+        return new Velocity(Array.array(Doubles.toArray(list)));
     }
 
-    private Velocity(double[] list) {
-        this.internal = list;
+    private Velocity(Array array) {
+        this.internal = array;
     }
 
     /**
@@ -82,7 +83,7 @@ public final class Velocity implements LinearSeq {
      */
     @Override
     public double[] toArray() {
-        return Arrays.copyOf(internal, internal.length);
+        return internal.copyOfInternal();
     }
 
     /**
@@ -90,23 +91,7 @@ public final class Velocity implements LinearSeq {
      */
     @Override
     public int size() {
-        return internal.length;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public double get(int index) {
-        return internal[index];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public MutableSeq toMutableSeq() {
-        return new MutableSeq(this);
+        return internal.length();
     }
 
     /**
@@ -114,23 +99,9 @@ public final class Velocity implements LinearSeq {
      *
      * @return a new {@code SeqIterator} instance.
      */
+    @Override
     public Iterator<Double> iterator() {
-        return new UnmodifiableIterator<Double>() {
-            private final double[] local = Arrays.copyOf(internal, internal.length);
-            private int count = 0;
-
-            @Override
-            public boolean hasNext() {
-                return count < local.length;
-            }
-
-            @Override
-            public Double next() {
-                double result = local[count];
-                count++;
-                return result;
-            }
-        };
+        return internal.iterator();
     }
 
     /**
@@ -145,5 +116,35 @@ public final class Velocity implements LinearSeq {
 
     public static Velocity empty() {
         return EMPTY;
+    }
+
+    @Override
+    protected Array delegate() {
+        return this.internal;
+    }
+
+    @Override
+    public Seq plus(Seq other) {
+        return new SeqView(internal.plus(other));
+    }
+
+    @Override
+    public Seq subtract(Seq other) {
+        return new SeqView(internal.subtract(other));
+    }
+
+    @Override
+    public Velocity take(int n) {
+        return new Velocity(internal.take(n));
+    }
+
+    @Override
+    public Velocity drop(int n) {
+        return new Velocity(internal.drop(n));
+    }
+
+    @Override
+    public Velocity map(F<Double, Double> f) {
+        return new Velocity(internal.map(f));
     }
 }
