@@ -80,12 +80,12 @@ public final class EventingModuleBuilder {
         final Module constructed = new AbstractModule() {
             @Override
             protected void configure() {
-                install(new AbstractModule() {
-                    @Override
-                    protected void configure() {
-                        bind(new TypeLiteral<Queue<Event>>(){}).to(new TypeLiteral<LinkedBlockingQueue<Event>>(){});
-                    }
-                });
+//                install(new AbstractModule() {
+//                    @Override
+//                    protected void configure() {
+//                        bind(new TypeLiteral<Queue<Event>>(){}).to(new TypeLiteral<LinkedBlockingQueue<Event>>(){});
+//                    }
+//                });
                 for (Map.Entry<EventBinding, MethodInterceptor> entry : interceptors.entrySet()) {
                     bindInterceptor(Events.on(entry.getKey().source),
                             Events.raising(entry.getKey().eventType),

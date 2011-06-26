@@ -21,22 +21,12 @@
  */
 package net.cilib.entity;
 
-import net.cilib.collection.immutable.CandidateSolution;
-import org.junit.Assert;
-import org.junit.Test;
-import static org.hamcrest.CoreMatchers.*;
+import org.junit.Ignore;
 
 /**
  *
  * @author gpampara
  */
+@Ignore("Tests pending")
 public class ParticleTest {
-
-    @Test
-    public void staticCreation() {
-        Particle p = Particle.create(CandidateSolution.empty());
-
-        Assert.assertThat(CandidateSolution.empty(), sameInstance(p.solution()));
-        Assert.assertThat(CandidateSolution.empty(), sameInstance(p.memory()));
-    }
 }

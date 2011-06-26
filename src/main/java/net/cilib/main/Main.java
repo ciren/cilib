@@ -21,22 +21,21 @@
  */
 package net.cilib.main;
 
-import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.inject.PopulationBasedModule;
 import net.cilib.inject.CIlibCoreModule;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import fj.F;
+import fj.Unit;
 import java.util.List;
 import net.cilib.algorithm.Algorithm;
-import net.cilib.simulation.Simulation;
-import net.cilib.simulation.SimulationBuilder;
 import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
+import net.cilib.entity.Entities;
 import net.cilib.entity.Entity;
 import net.cilib.entity.Particle;
-import net.cilib.measurement.Measurement;
+import net.cilib.predef.Predicate;
 import net.cilib.problem.Problem;
 import net.cilib.pso.PSO;
 
@@ -53,9 +52,11 @@ public final class Main {
     public static void main(String[] args) {
         List<Predicate<Algorithm>> stoppingConditions = Lists.newArrayList();
         stoppingConditions.add(new Predicate<Algorithm>() {
+
             private int count = 1000;
+
             @Override
-            public boolean apply(Algorithm input) {
+            public Boolean f(Algorithm input) {
                 if (count > 0) {
                     count--;
                     return true;
@@ -73,22 +74,23 @@ public final class Main {
 
         PSO pso = injector.getInstance(PSO.class);
 
-        List<Measurement> measurements = Lists.newArrayList();
-        Simulation simulation = injector.getInstance(SimulationBuilder.class)
-                .newPopulationBasedSimulation()
-                .using(pso)
-                .on(problem)
-                .initialTopology(topology)
-                .measuredBy(measurements)
-                .build();
-
-        simulation.execute(stoppingConditions);
+//        List<Measurement> measurements = Lists.newArrayList();
+//        Simulation simulation = injector.getInstance(SimulationBuilder.class)
+//                .newPopulationBasedSimulation()
+//                .using(pso)
+//                .on(problem)
+//                .initialTopology(topology)
+//                .measuredBy(measurements)
+//                .build();
+//
+//        simulation.execute(stoppingConditions);
     }
 
     private static Topology<Entity> createParticleTopology() {
-        ImmutableGBestTopology.ImmutableGBestTopologyBuilder<Entity> topology = new ImmutableGBestTopology.ImmutableGBestTopologyBuilder<Entity>();
+        final F<Unit, Particle> generator = Entities.particleGen(2, null);
+        final ImmutableGBestTopology.ImmutableGBestTopologyBuffer<Entity> topology = new ImmutableGBestTopology.ImmutableGBestTopologyBuffer<Entity>();
         for (int i = 0; i < 20; i++) {
-            topology.add(Particle.create(CandidateSolution.of(0.0, 0.0)));
+            topology.add(generator.f(Unit.unit()));
         }
         return topology.build();
     }

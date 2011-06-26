@@ -21,8 +21,9 @@
  */
 package net.cilib.pso;
 
+import fj.F2;
+import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.Velocity;
-import net.cilib.entity.HasCandidateSolution;
 import net.cilib.entity.Particle;
 
 /**
@@ -31,7 +32,7 @@ import net.cilib.entity.Particle;
  *
  * @author gpampara
  */
-public interface VelocityProvider {
+public abstract class VelocityProvider extends F2<Particle, Topology, Velocity> {
 
     /**
      * Create a new {@code Velocity} instance based on the given
@@ -40,5 +41,5 @@ public interface VelocityProvider {
      * @param particle to base the calculation of the {@link Velocity} on.
      * @return an newly created immutable {@link Velocity}.
      */
-    Velocity create(Particle particle, HasCandidateSolution local, HasCandidateSolution global);
+//    Velocity create(Particle particle, HasCandidateSolution local, HasCandidateSolution global);
 }

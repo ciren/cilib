@@ -22,6 +22,8 @@
 package net.cilib.predef;
 
 import fj.data.Option;
+import net.cilib.collection.immutable.CandidateSolution;
+import net.cilib.collection.immutable.Velocity;
 
 /**
  * Utility class of predefined helpers.
@@ -55,5 +57,16 @@ public final class Predef {
      */
     public static Option<Double> inferior() {
         return Option.none();
+    }
+
+    public static CandidateSolution solution(final double first, final double... rest) {
+        return CandidateSolution.solution(first, rest);
+    }
+
+    public static Velocity velocity(final double first, final double... rest) {
+        double[] array = new double[rest.length + 1];
+        array[0] = first;
+        System.arraycopy(rest, 0, array, 1, rest.length);
+        return Velocity.copyOf(array);
     }
 }

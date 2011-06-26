@@ -23,7 +23,6 @@ package net.cilib.entity;
 
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import net.cilib.collection.immutable.CandidateSolution;
 
 /**
@@ -33,7 +32,7 @@ import net.cilib.collection.immutable.CandidateSolution;
  *
  * @author gpampara
  */
-public final class IndividualProvider implements Provider<Individual> {
+public final class IndividualProvider {
 
     private CandidateSolution solution;
     private FitnessProvider fitnessProvider;
@@ -68,7 +67,6 @@ public final class IndividualProvider implements Provider<Individual> {
      * @throws IllegalStateException if the provider is in an inconsistent
      *         state.
      */
-    @Override
     public Individual get() {
         Preconditions.checkState(this.solution != CandidateSolution.empty(),
             "Provide a candidate solution to create an Individual.");

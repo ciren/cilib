@@ -42,6 +42,6 @@ public class FitnessProviderTest {
             }
         });
         
-        Assert.assertThat(provider.evaluate(CandidateSolution.of(1.0, 2.0)).some(), equalTo(3.0));
+        Assert.assertThat(provider.evaluate(CandidateSolution.solution(1.0, 2.0)).some(), equalTo(3.0));
     }
 }

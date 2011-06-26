@@ -54,6 +54,6 @@ public final class PersonalBest extends Guide {
             return Option.<Entity>some(new PartialEntity(memory.memory()));
         }
 
-        return Option.<Entity>some(new PartialEntity(CandidateSolution.fill(0, target.solution().size())));
+        return Option.<Entity>some(new PartialEntity(CandidateSolution.replicate(target.solution().size(), 0)));
     }
 }

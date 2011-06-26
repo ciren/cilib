@@ -21,9 +21,9 @@
  */
 package net.cilib.simulation;
 
-import com.google.common.base.Predicate;
 import java.util.List;
 import net.cilib.algorithm.Algorithm;
+import net.cilib.predef.Predicate;
 
 /**
  * {@code Simulation} provides an abstraction for any type of simulation. For

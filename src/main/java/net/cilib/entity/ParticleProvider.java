@@ -22,24 +22,33 @@
 package net.cilib.entity;
 
 import com.google.common.base.Preconditions;
-import com.google.inject.Provider;
-import fj.Ord;
-import fj.Ordering;
+import com.google.inject.Inject;
 import fj.data.Option;
+import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.collection.immutable.Velocity;
+import net.cilib.pso.PositionProvider;
+import net.cilib.pso.VelocityProvider;
 
 /**
  * Factory object to create {@code Particle} instances.
  * @author gpampara
  */
-public final class ParticleProvider implements Provider<Particle> {
+public final class ParticleProvider {
 
-    private CandidateSolution position = CandidateSolution.empty();
-    private Velocity velocity = Velocity.empty();
-    private CandidateSolution previousBest = CandidateSolution.empty();
-    private Option<Double> previousFitness = Option.none();
-    private FitnessProvider fitnessProvider;
+    private final PositionProvider positionProvider;
+    private final VelocityProvider velocityProvider;
+    private final FitnessProvider fitnessProvider;
+    private final FitnessComparator comparator;
+
+    @Inject
+    public ParticleProvider(PositionProvider position, VelocityProvider velocity,
+            FitnessProvider fitness, FitnessComparator comparator) {
+        this.positionProvider = position;
+        this.velocityProvider = velocity;
+        this.fitnessProvider = fitness;
+        this.comparator = comparator;
+    }
 
     /**
      * Base the builder on the provided {@code Particle}. The provided particle
@@ -48,71 +57,48 @@ public final class ParticleProvider implements Provider<Particle> {
      * @param previous the {@code Particle} to base the new instance on.
      * @return the current builder instance.
      */
-    public ParticleProvider basedOn(Particle previous) {
+    public BuildableParticleProvider basedOn(Particle previous) {
         Preconditions.checkNotNull(previous);
-        this.previousBest = previous.memory();
-        this.previousFitness = previous.fitness();
-        return this;
+        return new BuildableParticleProvider(positionProvider, velocityProvider, previous);
     }
 
-    /**
-     * Define the {@linkplain CandidateSolution position} for the new
-     * {@code Particle} instance.
-     * @param position the {@code CandidateSolution} to use
-     * @return the current factory instance.
-     */
-    public ParticleProvider position(CandidateSolution position) {
-        Preconditions.checkNotNull(position);
-        this.position = CandidateSolution.copyOf(position);
-        return this;
-    }
+    public class BuildableParticleProvider {
+        private final VelocityProvider velocityProvider;
+        private final PositionProvider positionProvider;
+        private Particle previous;
 
-    /**
-     * Provide a velocity. The provided velocity will be used to create the
-     * new {@code Particle} instance.
-     * @param velocity velocity for the created {@code Particle} instance.
-     * @return the current factory instance.
-     */
-    public ParticleProvider velocity(Velocity velocity) {
-        Preconditions.checkNotNull(velocity);
-        this.velocity = Velocity.copyOf(velocity.toArray());
-        return this;
-    }
-
-    /**
-     * Create a new instance of a {@code Particle}.
-     * @return a new {@code Particle} instance.
-     * @throws NullPointerException if a required value is not set.
-     */
-    @Override
-    public Particle get() {
-        Preconditions.checkState(position != CandidateSolution.empty());
-        Preconditions.checkState(velocity != Velocity.empty());
-        Preconditions.checkState(previousBest != CandidateSolution.empty());
-        Preconditions.checkState(!previousFitness.isNone());
-
-        // Should this be done with DI somehow?
-        try {
-            Option<Double> newFitness = fitnessProvider.evaluate(position);
-            if (compare(newFitness, previousFitness) < 0) {
-                return new Particle(position, position, velocity, newFitness);
-            } else {
-                return new Particle(position, previousBest, velocity, newFitness);
-            }
-        } finally {
-            position = CandidateSolution.empty();
-            velocity = Velocity.empty();
-            previousBest = CandidateSolution.empty();
-            previousFitness = Option.none();
+        private BuildableParticleProvider(PositionProvider positionProvider,
+                VelocityProvider velocityProvider, Particle previous) {
+            this.positionProvider = positionProvider;
+            this.velocityProvider = velocityProvider;
+            this.previous = previous;
         }
-    }
 
-    private int compare(Option<Double> newFitness, Option<Double> previousFitness) {
-        return Ord.optionOrd(Ord.doubleOrd).compare(newFitness, previousFitness) == Ordering.GT ? 0 : 1;
-    }
+        /**
+         * Create a new instance of a {@code Particle}.
+         * @return a new {@code Particle} instance.
+         * @throws NullPointerException if a required value is not set.
+         */
+        public Particle get(Topology topology) {
+            try {
+                final Velocity velocity = velocityProvider.f(previous, topology);
+                final CandidateSolution position = positionProvider.f(previous.solution(), velocity);
 
-    public ParticleProvider fitness(FitnessProvider provider) {
-        this.fitnessProvider = provider;
-        return this;
+                Preconditions.checkState(position != CandidateSolution.empty());
+                Preconditions.checkState(velocity != Velocity.empty());
+                Preconditions.checkNotNull(previous);
+                Preconditions.checkState(previous.memory() != CandidateSolution.empty());
+                Preconditions.checkState(!previous.fitness().isNone());
+
+                Option<Double> newFitness = fitnessProvider.evaluate(position);
+                if (comparator.isMoreFit(newFitness, previous.fitness())) {
+                    return new Particle(position, position, velocity, newFitness);
+                } else {
+                    return new Particle(position, previous.memory(), velocity, newFitness);
+                }
+            } finally {
+                previous = null;
+            }
+        }
     }
 }

@@ -21,29 +21,22 @@
  */
 package net.cilib.pso;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Lists;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import com.google.common.collect.Iterables;
 import fj.data.Option;
-import net.cilib.algorithm.Algorithm;
-import net.cilib.algorithm.PopulationBasedAlgorithm;
+import junit.framework.Assert;
+import net.cilib.collection.LinearSeq;
 import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.CandidateSolution;
+import static net.cilib.collection.immutable.CandidateSolution.solution;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
 import net.cilib.collection.immutable.Velocity;
+import net.cilib.entity.FitnessComparator;
+import net.cilib.entity.FitnessProvider;
 import net.cilib.entity.Particle;
-import net.cilib.inject.CIlibCoreModule;
-import net.cilib.inject.PopulationBasedModule;
-import net.cilib.main.MockProblem;
-import net.cilib.measurement.Measurement;
-import net.cilib.simulation.Simulation;
-import net.cilib.simulation.SimulationBuilder;
+import net.cilib.entity.ParticleProvider;
+import net.cilib.problem.Problem;
+import static org.mockito.Mockito.*;
 import org.junit.Test;
-
-import javax.inject.Provider;
-
-import static org.mockito.Mockito.mock;
 
 /**
  * @author gpampara
@@ -51,50 +44,47 @@ import static org.mockito.Mockito.mock;
 public class PSOTest {
 
     @Test
-    public void iteration() {
-        Provider<Guide> localGuide = mock(Provider.class);
-        Provider<Guide> globalGuide = mock(Provider.class);
-        Topology<Particle> topology = ImmutableGBestTopology.of();
-        VelocityProvider velocityProvider = new StandardVelocityProvider(null, null, null, null);
-        PopulationBasedAlgorithm<Particle> instance = new PSO(velocityProvider, null, null, globalGuide, localGuide);
+    public void algorithmCreation() {
+        final PositionProvider p = mock(PositionProvider.class);
+        final VelocityProvider v = mock(VelocityProvider.class);
+        final Problem problem = mock(Problem.class);
 
-        instance.next(topology);
+        when(v.f(any(Particle.class), any(Topology.class))).thenReturn(Velocity.copyOf(0.0));
+        when(p.f(any(CandidateSolution.class), any(Velocity.class))).thenReturn(solution(1.0));
+
+        ParticleProvider provider = new ParticleProvider(p, v, new FitnessProvider(problem), FitnessComparator.MAX);
+        PSO pso = new PSO(provider);
+
+        Topology<Particle> next = pso.next(ImmutableGBestTopology.topologyOf(newParticle(solution(1.0))));
+
+        Assert.assertTrue(Iterables.size(next) == 1);
     }
 
-    /**
-     * Integration test
-     */
     @Test
-    public void integration() {
-        Injector injector = Guice.createInjector(new CIlibCoreModule(), new PopulationBasedModule());
+    public void iterationCreatesNewParticlesFromOld() {
+        PositionProvider p = mock(PositionProvider.class);
+        VelocityProvider v = mock(VelocityProvider.class);
+        FitnessProvider f = mock(FitnessProvider.class);
+        ParticleProvider provider = new ParticleProvider(p, v, f, FitnessComparator.MAX);
 
-        Particle p1 = new Particle(CandidateSolution.of(1.0, 1.0), CandidateSolution.of(1.0, 1.0), Velocity.copyOf(0.0, 0.0), Option.some(1.0));
-        Particle p2 = new Particle(CandidateSolution.of(1.0, 1.0), CandidateSolution.of(1.0, 1.0), Velocity.copyOf(0.0, 0.0), Option.some(1.0));
-        Topology initial = ImmutableGBestTopology.topologyOf(p1, p2);
+        when(p.f(any(LinearSeq.class), any(LinearSeq.class))).thenReturn(solution(1.0));
+        when(v.f(any(Particle.class), any(Topology.class))).thenReturn(Velocity.copyOf(0.0));
+        when(f.evaluate(any(LinearSeq.class))).thenReturn(Option.some(1.0));
 
-        PSO pso = injector.getInstance(PSO.class);
+        PSO pso = new PSO(provider);
 
-        Simulation simulation = injector.getInstance(SimulationBuilder.class)
-                .newPopulationBasedSimulation()
-                .using(pso)
-                .initialTopology(initial)
-                .on(new MockProblem())
-                .measuredBy(Lists.<Measurement>newArrayList())
-                .build();
+        Particle particle = newParticle(solution(1.0));
+        Topology<Particle> next = pso.next(ImmutableGBestTopology.topologyOf(particle));
 
-        Predicate<Algorithm> predicate = new Predicate<Algorithm>() {
-            int count = 5;
+        Assert.assertTrue(Iterables.size(next) == 1);
+        Assert.assertNotSame(next.iterator().next(), particle);
+    }
 
-            @Override
-            public boolean apply(Algorithm input) {
-                if (count > 0) {
-                    count--;
-                    return true;
-                }
-                return false;
-            }
-        };
+    private Particle newParticle(CandidateSolution solution) {
+        return new Particle(solution, solution, Velocity.replicate(solution.size(), 0.0), Option.some(1.0));
+    }
 
-        simulation.execute(Lists.newArrayList(predicate));
+    @Test
+    public void runPSO() {
     }
 }

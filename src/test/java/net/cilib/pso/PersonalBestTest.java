@@ -41,7 +41,7 @@ public class PersonalBestTest {
 
     @Test
     public void memoryReturnedFromMemoryEntity() {
-        CandidateSolution memory = CandidateSolution.of(1.0);
+        CandidateSolution memory = CandidateSolution.solution(1.0);
         PersonalBest pbest = new PersonalBest();
 
         F<Topology, Option<Entity>> partial = pbest.f(new Particle(memory, memory, Velocity.copyOf(1.0), Option.<Double>none()));
@@ -52,11 +52,11 @@ public class PersonalBestTest {
 
     @Test
     public void memoryReturnedFromNonMemoryEntity() {
-        CandidateSolution position = CandidateSolution.of(1.0);
+        CandidateSolution position = CandidateSolution.solution(1.0);
         PersonalBest pbest = new PersonalBest();
         F<Topology, Option<Entity>> partial = pbest.f(new Individual(position, Option.<Double>none()));
         Option<Entity> partialEntity = partial.f(ImmutableGBestTopology.of());
 
-        Assert.assertThat(partialEntity.some().solution(), equalTo(CandidateSolution.of(0.0)));
+        Assert.assertThat(partialEntity.some().solution(), equalTo(CandidateSolution.solution(0.0)));
     }
 }

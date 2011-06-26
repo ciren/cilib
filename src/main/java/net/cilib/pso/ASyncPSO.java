@@ -23,16 +23,10 @@ package net.cilib.pso;
 
 import com.google.inject.Inject;
 import net.cilib.algorithm.PopulationBasedAlgorithm;
-import net.cilib.collection.MutableSeq;
 import net.cilib.collection.Topology;
-import net.cilib.collection.TopologyBuffer;
-import net.cilib.collection.immutable.CandidateSolution;
-import net.cilib.collection.immutable.Velocity;
 import net.cilib.entity.*;
-import net.cilib.inject.annotation.Global;
-import net.cilib.inject.annotation.Local;
 
-import javax.inject.Provider;
+import net.cilib.collection.TopologyBuffer;
 
 /**
  * Particle Swarm Optimizer implementing the asynchronous update strategy.
@@ -41,10 +35,8 @@ import javax.inject.Provider;
  * @since 0.8
  */
 public class ASyncPSO extends PopulationBasedAlgorithm<Particle> {
-    private final VelocityProvider velocityProvider;
+
     private final ParticleProvider particleProvider;
-    private final Provider<Guide> localGuide;
-    private final Provider<Guide> globalGuide;
 
     /**
      * @param velocityProvider {@code Velocity} provider
@@ -53,12 +45,8 @@ public class ASyncPSO extends PopulationBasedAlgorithm<Particle> {
      * @param localGuide       {@code Provider} for local guides.
      */
     @Inject
-    public ASyncPSO(VelocityProvider velocityProvider, ParticleProvider particleProvider,
-                    @Global Provider<Guide> globalGuide, @Local Provider<Guide> localGuide) {
-        this.velocityProvider = velocityProvider;
+    public ASyncPSO(ParticleProvider particleProvider) {
         this.particleProvider = particleProvider;
-        this.localGuide = localGuide;
-        this.globalGuide = globalGuide;
     }
 
     /**
@@ -67,25 +55,13 @@ public class ASyncPSO extends PopulationBasedAlgorithm<Particle> {
      */
     @Override
     public Topology<Particle> next(Topology<Particle> topology) {
-        TopologyBuffer<Particle> topologyBuilder = topology.newBuffer();
-        for (Particle particle : topology) { // This should be Particle p = topology.drop(1)
-            /*
-             In the async pso is similar to the sync pso, except that the
-             neighbourhood best may also be from the currently forming topology.
-             As a result, the new and previous topologies need to be merged.
-            */
-            // @TODO: This needs to be tested, the drop + current partial topology might be too slow?
-            Topology<Particle> partial = topology.drop(topology.indexOf(particle)).newBuffer().addAll(topologyBuilder).build();
-            Entity global = globalGuide.get().f(particle, partial).some();
-            Entity local = localGuide.get().f(particle, topology).some();
-
-            Velocity velocity = velocityProvider.create(particle, local, global); // New velocity
-            MutableSeq newPosition = particle.solution().toMutableSeq().plus(velocity); // Update position
-            Particle updatedParticle = particleProvider.basedOn(particle)
-                    .position(CandidateSolution.copyOf(newPosition))
-                    .velocity(velocity)
-                    .get();
-            topologyBuilder.add(updatedParticle);
+        final TopologyBuffer<Particle> topologyBuilder = topology.newBuffer();
+        for (Particle particle : topology) {
+            Topology<Particle> partial = topology.newBuffer()
+                    .addAll(topology.drop(topology.indexOf(particle)))
+                    .addAll(topologyBuilder)
+                    .build();
+            topologyBuilder.add(particleProvider.basedOn(particle).get(partial));
         }
         return topologyBuilder.build();
     }

@@ -24,8 +24,8 @@ package net.cilib.algorithm;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import java.util.List;
 
+import java.util.List;
 import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.entity.HasCandidateSolution;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
@@ -49,7 +49,7 @@ public class CrossoverProvider {
 
     public CandidateSolution create(CandidateSolution target, CandidateSolution trialVector) {
         Preconditions.checkArgument(target.size() == trialVector.size(), "ERROR! different sizes");
-        List<Integer> crossoverPoints = Lists.newArrayList();
+        final List<Integer> crossoverPoints = Lists.newArrayList();
 
         // Select the crossover points
         int random = randomProvider.nextInt(trialVector.size());
@@ -61,15 +61,37 @@ public class CrossoverProvider {
             }
         }
 
-        CandidateSolution.Builder offspringBuilder = CandidateSolution.newBuilder();
-        for (int i = 0; i < trialVector.size(); i++) {
-            if (crossoverPoints.contains(Integer.valueOf(i))) {
-                offspringBuilder.add(trialVector.get(i));
-            } else {
-                offspringBuilder.add(target.get(i));
-            }
-        }
+        return conditionalZip(trialVector, target, crossoverPoints);
+    }
 
-        return offspringBuilder.build();
+    private CandidateSolution conditionalZip(final CandidateSolution trialVector,
+            final CandidateSolution target, final List<Integer> crossoverPoints) {
+
+        throw new UnsupportedOperationException();
+
+        // I don't like this increment on index...
+//        final F2<Double, Double, Double> f = new F2<Double, Double, Double>() {
+//            int index = 0;
+//            @Override
+//            public Double f(Double a, Double b) {
+//                if (crossoverPoints.contains(index++)) {
+//                    return a;
+//                } else {
+//                    return b;
+//                }
+//            }
+//        };
+
+//        return trialVector.zipWith(target, f);
+//        CandidateSolution.Builder offspringBuilder = CandidateSolution.newBuilder();
+//        for (int i = 0; i < trialVector.size(); i++) {
+//            if (crossoverPoints.contains(Integer.valueOf(i))) {
+//                offspringBuilder.add(trialVector.get(i));
+//            } else {
+//                offspringBuilder.add(target.get(i));
+//            }
+//        }
+//
+//        return offspringBuilder.build();
     }
 }

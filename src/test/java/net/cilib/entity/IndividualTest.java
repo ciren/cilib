@@ -35,7 +35,7 @@ public class IndividualTest {
 
     @Test
     public void createIndividual() {
-        CandidateSolution solution = CandidateSolution.of(1.0, 3.0);
+        CandidateSolution solution = CandidateSolution.solution(1.0, 3.0);
         Individual i = new Individual(solution, Option.<Double>none());
 
         Assert.assertThat(i.size(), is(2));

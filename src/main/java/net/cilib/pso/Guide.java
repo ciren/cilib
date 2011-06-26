@@ -36,11 +36,4 @@ import net.cilib.entity.Entity;
  * @author gpampara
  */
 public abstract class Guide extends F2<Entity, Topology, Option<Entity>> {
-
-    /**
-     * Get the {@code guide} for the provided {@code Entity}.
-     * @param target {@code Entity} for which {@code guide} is requested.
-     * @return the guiding {@code Entity}.
-     */
-//    Option<Entity> of(Entity target);
 }

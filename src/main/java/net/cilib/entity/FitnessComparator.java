@@ -40,7 +40,12 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
          */
         @Override
         public <A extends HasFitness> boolean isLessFit(A a, A b) {
-            return compare(a.fitness(), b.fitness()) > 0;
+            return isLessFit(a.fitness(), b.fitness());
+        }
+
+        @Override
+        public boolean isLessFit(Option<Double> a, Option<Double> b) {
+            return compare(a, b) > 0;
         }
 
         /**
@@ -48,7 +53,12 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
          */
         @Override
         public <A extends HasFitness> boolean isMoreFit(A a, A b) {
-            return compare(a.fitness(), b.fitness()) < 0;
+            return isMoreFit(a.fitness(), b.fitness());
+        }
+
+        @Override
+        public boolean isMoreFit(Option<Double> a, Option<Double> b) {
+            return compare(a, b) < 0;
         }
 
         @Override
@@ -72,7 +82,12 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
          */
         @Override
         public <A extends HasFitness> boolean isLessFit(A a, A b) {
-            return compare(a.fitness(), b.fitness()) > 0;
+            return isLessFit(a.fitness(), b.fitness());
+        }
+
+        @Override
+        public boolean isLessFit(Option<Double> a, Option<Double> b) {
+            return compare(a, b) > 0;
         }
 
         /**
@@ -80,7 +95,12 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
          */
         @Override
         public <A extends HasFitness> boolean isMoreFit(A a, A b) {
-            return compare(a.fitness(), b.fitness()) < 0;
+            return isMoreFit(a.fitness(), b.fitness());
+        }
+
+        @Override
+        public boolean isMoreFit(Option<Double> a, Option<Double> b) {
+            return compare(a, b) < 0;
         }
 
         @Override
@@ -109,6 +129,8 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
      */
     public abstract <A extends HasFitness> boolean isLessFit(A a, A b);
 
+    public abstract boolean isLessFit(Option<Double> a, Option<Double> b);
+
     /**
      * Obtain the less fit instance between the provided instances.
      *
@@ -132,6 +154,8 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
      *         {@code false} otherwise.
      */
     public abstract <A extends HasFitness> boolean isMoreFit(A a, A b);
+
+    public abstract boolean isMoreFit(Option<Double> a, Option<Double> b);
 
     /**
      * Obtain the more fit instance beObjecttween the provided instances.

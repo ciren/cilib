@@ -23,16 +23,9 @@ package net.cilib.pso;
 
 import com.google.inject.Inject;
 import net.cilib.algorithm.PopulationBasedAlgorithm;
-import net.cilib.collection.MutableSeq;
 import net.cilib.collection.Topology;
 import net.cilib.collection.TopologyBuffer;
-import net.cilib.collection.immutable.CandidateSolution;
-import net.cilib.collection.immutable.Velocity;
 import net.cilib.entity.*;
-import net.cilib.inject.annotation.Global;
-import net.cilib.inject.annotation.Local;
-
-import javax.inject.Provider;
 
 /**
  * Particle Swarm Optimizer, implementing the synchronous update strategy.
@@ -40,49 +33,30 @@ import javax.inject.Provider;
  * @since 0.8
  */
 public class PSO extends PopulationBasedAlgorithm<Particle> {
-    private final VelocityProvider velocityProvider;
-    private final ParticleProvider particleProvider;
-    private final FitnessProvider fitnessProvider;
-    private final Provider<Guide> localGuide;
-    private final Provider<Guide> globalGuide;
 
-    /**
-     * @param velocityProvider {@code Velocity} provider
-     * @param particleProvider {@code Particle} provider (finalized particles)
-     * @param globalGuide {@code Provider} providing global guides.
-     * @param localGuide {@code Provider} providing local guides.
-     */
+    private final ParticleProvider particleProvider;
+
     @Inject
-    public PSO(VelocityProvider velocityProvider, ParticleProvider particleProvider,
-               FitnessProvider fitnessProvider,
-               @Global Provider<Guide> globalGuide, @Local Provider<Guide> localGuide) {
-        this.velocityProvider = velocityProvider;
+    public PSO(final ParticleProvider particleProvider) {
         this.particleProvider = particleProvider;
-        this.fitnessProvider = fitnessProvider;
-        this.localGuide = localGuide;
-        this.globalGuide = globalGuide;
     }
 
     /**
      * @param topology the population for the algorithm to operate on
      * @return topology of particles
+     *
+     * All particles had had their fitness already updated.
+     *
+     * TODO: Need to verify the neighourhood best selection.
+     *
+     * TODO: This is nothing more than a simple function that you can map() over
+     * the current topology to create the next topology for the process.
      */
     @Override
-    public Topology<Particle> next(Topology<Particle> topology) {
-//        throw new UnsupportedOperationException();
-        TopologyBuffer<Particle> topologyBuilder = topology.newBuffer();
+    public Topology<Particle> next(final Topology<Particle> topology) {
+        final TopologyBuffer<Particle> topologyBuilder = topology.newBuffer();
         for (Particle particle : topology) {
-            Entity local = localGuide.get().f(particle, topology).some();
-            Entity global = globalGuide.get().f(particle, topology).some();
-
-            Velocity velocity = velocityProvider.create(particle, local, global); // New velocity
-            MutableSeq newPosition = particle.solution().toMutableSeq().plus(velocity); // Update position
-            Particle updatedParticle = particleProvider.basedOn(particle)
-                    .position(CandidateSolution.copyOf(newPosition))
-                    .velocity(velocity)
-                    .fitness(fitnessProvider)
-                    .get();
-            topologyBuilder.add(updatedParticle);
+            topologyBuilder.add(particleProvider.basedOn(particle).get(topology));
         }
         return topologyBuilder.build();
     }

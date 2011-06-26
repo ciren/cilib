@@ -35,8 +35,8 @@ public class MinFitnessComparatorTest {
 
     @Test
     public void lessFit() {
-        Individual i1 = new Individual(CandidateSolution.of(1.0), Option.some(1.0));
-        Individual i2 = new Individual(CandidateSolution.of(1.0), Option.some(2.0));
+        Individual i1 = new Individual(CandidateSolution.solution(1.0), Option.some(1.0));
+        Individual i2 = new Individual(CandidateSolution.solution(1.0), Option.some(2.0));
         FitnessComparator c = FitnessComparator.MIN;
 
         Assert.assertThat(c.lessFit(i1, i2), is(i2));
@@ -44,8 +44,8 @@ public class MinFitnessComparatorTest {
 
     @Test
     public void isMoreFit() {
-        Individual i1 = new Individual(CandidateSolution.of(1.0), Option.some(1.0));
-        Individual i2 = new Individual(CandidateSolution.of(1.0), Option.some(2.0));
+        Individual i1 = new Individual(CandidateSolution.solution(1.0), Option.some(1.0));
+        Individual i2 = new Individual(CandidateSolution.solution(1.0), Option.some(2.0));
         FitnessComparator c = FitnessComparator.MIN;
 
         Assert.assertThat(c.isMoreFit(i1, i2), is(true));
@@ -54,8 +54,8 @@ public class MinFitnessComparatorTest {
 
     @Test
     public void isAMoreFitIndividualReturned() {
-        Individual i1 = new Individual(CandidateSolution.of(1.0), Option.some(1.0));
-        Individual i2 = new Individual(CandidateSolution.of(1.0), Option.some(2.0));
+        Individual i1 = new Individual(CandidateSolution.solution(1.0), Option.some(1.0));
+        Individual i2 = new Individual(CandidateSolution.solution(1.0), Option.some(2.0));
         FitnessComparator c = FitnessComparator.MIN;
 
         Assert.assertThat(c.moreFit(i1, i2), is(i1));
@@ -63,8 +63,8 @@ public class MinFitnessComparatorTest {
 
     @Test
     public void valueIsAlwaysFitterThanNone() {
-        Individual i1 = new Individual(CandidateSolution.of(1.0), Option.some(1.0));
-        Individual i2 = new Individual(CandidateSolution.of(1.0), Option.<Double>none());
+        Individual i1 = new Individual(CandidateSolution.solution(1.0), Option.some(1.0));
+        Individual i2 = new Individual(CandidateSolution.solution(1.0), Option.<Double>none());
         FitnessComparator c = FitnessComparator.MIN;
 
         Assert.assertThat(c.moreFit(i1, i2), is(i1));
@@ -73,8 +73,8 @@ public class MinFitnessComparatorTest {
 
     @Test
     public void bidirectionalMoreFit() {
-        Individual i1 = new Individual(CandidateSolution.of(1.0), Option.some(1.0));
-        Individual i2 = new Individual(CandidateSolution.of(1.0), Option.<Double>none());
+        Individual i1 = new Individual(CandidateSolution.solution(1.0), Option.some(1.0));
+        Individual i2 = new Individual(CandidateSolution.solution(1.0), Option.<Double>none());
         FitnessComparator c = FitnessComparator.MIN;
 
         Assert.assertThat(c.moreFit(i1, i2), is(i1));
@@ -83,8 +83,8 @@ public class MinFitnessComparatorTest {
 
     @Test
     public void bidirectionalLessFit() {
-        Individual i1 = new Individual(CandidateSolution.of(1.0), Option.some(1.0));
-        Individual i2 = new Individual(CandidateSolution.of(1.0), Option.<Double>none());
+        Individual i1 = new Individual(CandidateSolution.solution(1.0), Option.some(1.0));
+        Individual i2 = new Individual(CandidateSolution.solution(1.0), Option.<Double>none());
         FitnessComparator c = FitnessComparator.MIN;
 
         Assert.assertThat(c.lessFit(i1, i2), is(i2));

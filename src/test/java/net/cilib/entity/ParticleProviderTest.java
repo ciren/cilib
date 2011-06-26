@@ -1,0 +1,106 @@
+package net.cilib.entity;
+
+import net.cilib.collection.Topology;
+import net.cilib.collection.immutable.CandidateSolution;
+import net.cilib.collection.immutable.Velocity;
+import fj.data.Option;
+import net.cilib.collection.LinearSeq;
+import net.cilib.collection.immutable.ImmutableGBestTopology;
+import net.cilib.problem.Problem;
+import net.cilib.pso.PositionProvider;
+import net.cilib.pso.VelocityProvider;
+import org.junit.Test;
+import org.junit.Assert;
+import static org.mockito.Mockito.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
+import static net.cilib.predef.Predef.*;
+
+/**
+ *
+ */
+public class ParticleProviderTest {
+
+    private static final Particle OLD_PARTICLE = new Particle(solution(1.0),
+            solution(1.0), velocity(0.0), Option.some(1.0));
+
+    @Test
+    public void newParticleCreation() {
+        final Problem problem = mock(Problem.class);
+        final PositionProvider position = mock(PositionProvider.class);
+        final VelocityProvider velocity = mock(VelocityProvider.class);
+
+        when(position.f(any(LinearSeq.class), any(LinearSeq.class))).thenReturn(solution(2.0));
+        when(velocity.f(any(Particle.class), any(Topology.class))).thenReturn(velocity(1.0));
+
+        final FitnessProvider fitness = new FitnessProvider(problem);
+        final ParticleProvider provider = new ParticleProvider(position, velocity, fitness, FitnessComparator.MAX);
+        final Particle p = provider.basedOn(OLD_PARTICLE).get(ImmutableGBestTopology.of());
+
+        Assert.assertNotSame(p, OLD_PARTICLE);
+        verify(velocity, times(1)).f(any(Particle.class), any(Topology.class));
+        verify(position, times(1)).f(any(LinearSeq.class), any(LinearSeq.class));
+    }
+
+    @Test
+    public void newParticleBestPositionUpdated() {
+        final PositionProvider p = mock(PositionProvider.class);
+        final VelocityProvider v = mock(VelocityProvider.class);
+        final FitnessProvider f = mock(FitnessProvider.class);
+
+        when(p.f(any(LinearSeq.class), any(LinearSeq.class))).thenReturn(solution(2.0));
+        when(v.f(any(Particle.class), any(Topology.class))).thenReturn(velocity(1.0));
+        when(f.evaluate(any(LinearSeq.class))).thenReturn(Option.some(1.5));
+
+        final ParticleProvider provider = new ParticleProvider(p, v, f, FitnessComparator.MAX);
+        final Particle newPart = provider.basedOn(OLD_PARTICLE).get(ImmutableGBestTopology.of());
+
+        Assert.assertThat(newPart.memory(), not(equalTo(solution(1.0))));
+    }
+
+    @Test
+    public void oldBestPositionMaintainedInNewParticle() {
+        final PositionProvider p = mock(PositionProvider.class);
+        final VelocityProvider v = mock(VelocityProvider.class);
+        final FitnessProvider f = mock(FitnessProvider.class);
+
+        when(p.f(any(LinearSeq.class), any(LinearSeq.class))).thenReturn(solution(2.0));
+        when(v.f(any(Particle.class), any(Topology.class))).thenReturn(velocity(1.0));
+        when(f.evaluate(any(LinearSeq.class))).thenReturn(Option.some(0.5));
+
+        final ParticleProvider provider = new ParticleProvider(p, v, f, FitnessComparator.MAX);
+        final Particle newPart = provider.basedOn(OLD_PARTICLE).get(ImmutableGBestTopology.of());
+
+        Assert.assertThat(newPart.memory(), equalTo(solution(1.0)));
+    }
+
+    @Test
+    public void newVelocityCreated() {
+        final PositionProvider p = mock(PositionProvider.class);
+        final VelocityProvider v = mock(VelocityProvider.class);
+        final Problem problem = mock(Problem.class);
+
+        when(v.f(any(Particle.class), any(Topology.class))).thenReturn(Velocity.copyOf(0.0));
+        when(p.f(any(CandidateSolution.class), any(Velocity.class))).thenReturn(solution(1.0));
+
+        final ParticleProvider provider = new ParticleProvider(p, v, new FitnessProvider(problem), FitnessComparator.MAX);
+        provider.basedOn(OLD_PARTICLE).get(ImmutableGBestTopology.of());
+
+        verify(v, times(1)).f(any(Particle.class), any(Topology.class));
+    }
+
+    @Test
+    public void newPositionCreated() {
+        final PositionProvider p = mock(PositionProvider.class);
+        final VelocityProvider v = mock(VelocityProvider.class);
+        final Problem problem = mock(Problem.class);
+
+        when(v.f(any(Particle.class), any(Topology.class))).thenReturn(Velocity.copyOf(0.0));
+        when(p.f(any(CandidateSolution.class), any(Velocity.class))).thenReturn(solution(1.0));
+
+        final ParticleProvider provider = new ParticleProvider(p, v, new FitnessProvider(problem), FitnessComparator.MAX);
+        provider.basedOn(OLD_PARTICLE).get(ImmutableGBestTopology.of());
+
+        verify(p, times(1)).f(any(LinearSeq.class), any(LinearSeq.class));
+    }
+}
