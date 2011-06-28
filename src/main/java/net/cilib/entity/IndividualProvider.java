@@ -23,7 +23,7 @@ package net.cilib.entity;
 
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
-import net.cilib.collection.immutable.CandidateSolution;
+import fj.data.List;
 
 /**
  * Factory class to create {@code Individual} instances, given a
@@ -34,12 +34,13 @@ import net.cilib.collection.immutable.CandidateSolution;
  */
 public final class IndividualProvider {
 
-    private CandidateSolution solution;
-    private FitnessProvider fitnessProvider;
+    private final FitnessProvider fitnessProvider;
+    private List<Double> solution;
 
     @Inject
-    public IndividualProvider() {
-        this.solution = CandidateSolution.empty();
+    public IndividualProvider(final FitnessProvider fitnessProvider) {
+        this.fitnessProvider = fitnessProvider;
+        this.solution = List.nil();
     }
 
     /**
@@ -49,13 +50,8 @@ public final class IndividualProvider {
      * @param solution the {@code CandidateSolution}.
      * @return the current {@code IndividualProvider}.
      */
-    public IndividualProvider solution(CandidateSolution solution) {
-        this.solution = CandidateSolution.copyOf(solution);
-        return this;
-    }
-
-    public IndividualProvider fitness(final FitnessProvider provider) {
-        this.fitnessProvider = provider;
+    public IndividualProvider solution(List<Double> solution) {
+        this.solution = solution;
         return this;
     }
 
@@ -68,15 +64,15 @@ public final class IndividualProvider {
      *         state.
      */
     public Individual get() {
-        Preconditions.checkState(this.solution != CandidateSolution.empty(),
+        Preconditions.checkNotNull(this.solution);
+        Preconditions.checkState(this.solution.isNotEmpty(),
             "Provide a candidate solution to create an Individual.");
         Preconditions.checkNotNull(fitnessProvider);
 
         try {
             return new Individual(solution, fitnessProvider.evaluate(solution));
         } finally {
-            this.solution = CandidateSolution.empty();
-            this.fitnessProvider = null;
+            this.solution = List.nil();
         }
     }
 }

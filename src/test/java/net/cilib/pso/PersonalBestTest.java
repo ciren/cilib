@@ -21,17 +21,18 @@
  */
 package net.cilib.pso;
 
+import com.google.common.collect.Iterables;
 import fj.F;
+import fj.data.List;
 import fj.data.Option;
 import net.cilib.collection.Topology;
-import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
-import net.cilib.collection.immutable.Velocity;
 import net.cilib.entity.Entity;
 import net.cilib.entity.Individual;
 import net.cilib.entity.Particle;
 import org.junit.Assert;
 import org.junit.Test;
+import static net.cilib.predef.Predef.*;
 import static org.hamcrest.CoreMatchers.*;
 
 /**
@@ -41,22 +42,22 @@ public class PersonalBestTest {
 
     @Test
     public void memoryReturnedFromMemoryEntity() {
-        CandidateSolution memory = CandidateSolution.solution(1.0);
+        List<Double> memory = List.list(1.0);
         PersonalBest pbest = new PersonalBest();
 
-        F<Topology, Option<Entity>> partial = pbest.f(new Particle(memory, memory, Velocity.copyOf(1.0), Option.<Double>none()));
-        Option<Entity> partialEntity = partial.f(ImmutableGBestTopology.of());
+        F<Topology, Entity> partial = pbest.f(new Particle(memory, memory, List.<Double>list(1.0), Option.<Double>none()));
+        Entity partialEntity = partial.f(ImmutableGBestTopology.of());
 
-        Assert.assertThat(partialEntity.some().solution(), is(memory));
+        Assert.assertThat(partialEntity.solution(), is(memory));
     }
 
     @Test
     public void memoryReturnedFromNonMemoryEntity() {
-        CandidateSolution position = CandidateSolution.solution(1.0);
+        List<Double> position = List.list(1.0);
         PersonalBest pbest = new PersonalBest();
-        F<Topology, Option<Entity>> partial = pbest.f(new Individual(position, Option.<Double>none()));
-        Option<Entity> partialEntity = partial.f(ImmutableGBestTopology.of());
+        F<Topology, Entity> partial = pbest.f(new Individual(position, Option.<Double>none()));
+        Entity partialEntity = partial.f(ImmutableGBestTopology.of());
 
-        Assert.assertThat(partialEntity.some().solution(), equalTo(CandidateSolution.solution(0.0)));
+        Assert.assertTrue(Iterables.elementsEqual(partialEntity.solution(), solution(0.0)));
     }
 }

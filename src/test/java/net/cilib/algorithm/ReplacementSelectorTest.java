@@ -21,8 +21,8 @@
  */
 package net.cilib.algorithm;
 
+import fj.data.List;
 import fj.data.Option;
-import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.entity.Entity;
 import net.cilib.entity.FitnessComparator;
 import net.cilib.entity.Individual;
@@ -38,8 +38,8 @@ public class ReplacementSelectorTest {
     public void selection() {
         Selector selector = new ReplacementSelector(FitnessComparator.MAX);
 
-        Entity e = new Individual(CandidateSolution.empty(), Option.some(0.0));
-        Individual i = new Individual(CandidateSolution.empty(), Option.some(1.0));
+        Entity e = new Individual(List.<Double>nil(), Option.some(0.0));
+        Individual i = new Individual(List.<Double>nil(), Option.some(1.0));
 
         Entity r = selector.select(e, i);
 
@@ -50,7 +50,7 @@ public class ReplacementSelectorTest {
 //    public void getBestInstanceFromListOfInstances() {
 //        Selector selector = new ReplacementSelector(FitnessComparator.MAX);
 //
-//               
+//
 //    }
 
     static class ReferenceMatcher extends BaseMatcher<Object> {

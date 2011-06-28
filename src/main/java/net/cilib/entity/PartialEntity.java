@@ -22,9 +22,9 @@
 package net.cilib.entity;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import fj.data.List;
 
 import fj.data.Option;
-import net.cilib.collection.immutable.CandidateSolution;
 
 /**
  * A partial entity is an entity that has, at least, a candidate solution. No
@@ -34,9 +34,9 @@ import net.cilib.collection.immutable.CandidateSolution;
  * @author gpampara
  */
 public final class PartialEntity implements Entity {
-    private final CandidateSolution solution;
+    private final List<Double> solution;
 
-    public PartialEntity(CandidateSolution solution) {
+    public PartialEntity(List<Double> solution) {
         this.solution = checkNotNull(solution);
     }
 
@@ -46,7 +46,7 @@ public final class PartialEntity implements Entity {
      * @return the {@code CandidateSolution}.
      */
     @Override
-    public CandidateSolution solution() {
+    public List<Double> solution() {
         return solution;
     }
 
@@ -55,7 +55,7 @@ public final class PartialEntity implements Entity {
      */
     @Override
     public int size() {
-        return solution.size();
+        return solution.length();
     }
 
     /**

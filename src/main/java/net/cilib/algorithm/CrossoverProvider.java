@@ -21,18 +21,16 @@
  */
 package net.cilib.algorithm;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import fj.F;
+import fj.P2;
+import fj.data.List;
 
-import java.util.List;
-import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.entity.HasCandidateSolution;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  *
- * @author gpampara
  */
 public class CrossoverProvider {
 
@@ -43,55 +41,34 @@ public class CrossoverProvider {
         this.randomProvider = randomProvider;
     }
 
-    public CandidateSolution create(HasCandidateSolution target, HasCandidateSolution trialVector) {
+    public List<Double> create(HasCandidateSolution target, HasCandidateSolution trialVector) {
         return create(target.solution(), trialVector.solution());
     }
 
-    public CandidateSolution create(CandidateSolution target, CandidateSolution trialVector) {
-        Preconditions.checkArgument(target.size() == trialVector.size(), "ERROR! different sizes");
-        final List<Integer> crossoverPoints = Lists.newArrayList();
+    public List<Double> create(List<Double> target, List<Double> trialVector) {
+        final int j = randomProvider.nextInt(trialVector.length());
 
-        // Select the crossover points
-        int random = randomProvider.nextInt(trialVector.size());
-        crossoverPoints.add(random);
-
-        for (int i = 0, n = trialVector.size(); i < n; i++) {
-            if (randomProvider.nextInt() < 0.5 && i != random) {
-                crossoverPoints.add(i);
+        return trialVector.zip(target).zipIndex()
+                .bind(new F<P2<P2<Double, Double>, Integer> , List<Double>>() {
+            @Override
+            public List<Double> f(P2<P2<Double, Double>, Integer> a) {
+                return (randomProvider.nextDouble() < 0.5 || a._2() == j)
+                        ? List.list(a._1()._1())
+                        : List.list(a._1()._2());
             }
-        }
+        });
 
-        return conditionalZip(trialVector, target, crossoverPoints);
-    }
+//        final List<Integer> crossoverPoints = Lists.newArrayList();
+        // Select the crossover points
+//        int random = randomProvider.nextInt(trialVector.length());
+//        crossoverPoints.add(random);
 
-    private CandidateSolution conditionalZip(final CandidateSolution trialVector,
-            final CandidateSolution target, final List<Integer> crossoverPoints) {
-
-        throw new UnsupportedOperationException();
-
-        // I don't like this increment on index...
-//        final F2<Double, Double, Double> f = new F2<Double, Double, Double>() {
-//            int index = 0;
-//            @Override
-//            public Double f(Double a, Double b) {
-//                if (crossoverPoints.contains(index++)) {
-//                    return a;
-//                } else {
-//                    return b;
-//                }
-//            }
-//        };
-
-//        return trialVector.zipWith(target, f);
-//        CandidateSolution.Builder offspringBuilder = CandidateSolution.newBuilder();
-//        for (int i = 0; i < trialVector.size(); i++) {
-//            if (crossoverPoints.contains(Integer.valueOf(i))) {
-//                offspringBuilder.add(trialVector.get(i));
-//            } else {
-//                offspringBuilder.add(target.get(i));
+//        for (int i = 0, n = trialVector.size(); i < n; i++) {
+//            if (randomProvider.nextInt() < 0.5 && i != random) {
+//                crossoverPoints.add(i);
 //            }
 //        }
-//
-//        return offspringBuilder.build();
+
+//        return conditionalZip(trialVector, target, crossoverPoints);
     }
 }

@@ -21,8 +21,9 @@
  */
 package net.cilib.entity;
 
+import static net.cilib.predef.Predef.*;
+import fj.data.List;
 import fj.data.Option;
-import net.cilib.collection.immutable.CandidateSolution;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
@@ -35,7 +36,7 @@ public class IndividualTest {
 
     @Test
     public void createIndividual() {
-        CandidateSolution solution = CandidateSolution.solution(1.0, 3.0);
+        List<Double> solution = solution(1.0, 3.0);
         Individual i = new Individual(solution, Option.<Double>none());
 
         Assert.assertThat(i.size(), is(2));

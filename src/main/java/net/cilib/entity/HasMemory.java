@@ -21,7 +21,7 @@
  */
 package net.cilib.entity;
 
-import net.cilib.collection.immutable.CandidateSolution;
+import fj.data.List;
 
 /**
  * Any class implementing this interface defines that the instance maintains
@@ -35,5 +35,5 @@ public interface HasMemory {
      * solution}.
      * @return the maintained memory.
      */
-    CandidateSolution memory();
+    List<Double> memory();
 }

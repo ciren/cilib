@@ -21,7 +21,7 @@
  */
 package net.cilib.entity;
 
-import net.cilib.collection.immutable.Velocity;
+import fj.data.List;
 
 /**
  * Indicate that the current instance maintains a {@code Velocity}.
@@ -33,5 +33,5 @@ public interface HasVelocity {
      * Obtain the current {@code Velocity} instance.
      * @return current {@code Velocity}.
      */
-    Velocity velocity();
+    List<Double> velocity();
 }

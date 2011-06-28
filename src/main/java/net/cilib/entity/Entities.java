@@ -23,18 +23,16 @@ package net.cilib.entity;
 
 import fj.F;
 import fj.Unit;
+import fj.data.List;
 import fj.data.Option;
-import net.cilib.collection.immutable.CandidateSolution;
-import net.cilib.collection.immutable.Velocity;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 public final class Entities {
 
     private final static Entity DUMMY = new Entity() {
-
         @Override
-        public CandidateSolution solution() {
-            return CandidateSolution.empty();
+        public List<Double> solution() {
+            return List.<Double>nil();
         }
 
         @Override
@@ -52,15 +50,15 @@ public final class Entities {
         return new F<Unit, Particle>() {
             @Override
             public Particle f(Unit a) {
-                CandidateSolution position = CandidateSolution.replicate(n, new F<Unit, Double>() {
+                List<Double> position = List.<Double>replicate(n, 0.0).map(new F<Double, Double>() {
                     @Override
-                    public Double f(Unit a) {
+                    public Double f(Double a) {
                         return random.nextDouble();
                     }
                 });
 
                 return new Particle(position, position,
-                        Velocity.replicate(n, 0.0),
+                        List.replicate(n, 0.0),
                         Option.<Double>none());
             }
         };

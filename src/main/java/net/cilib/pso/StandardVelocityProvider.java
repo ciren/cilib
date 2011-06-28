@@ -21,6 +21,7 @@
  */
 package net.cilib.pso;
 
+import fj.data.List;
 import net.cilib.collection.Topology;
 import net.cilib.inject.annotation.Global;
 import net.cilib.inject.annotation.Local;
@@ -28,11 +29,9 @@ import net.cilib.entity.Particle;
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import net.cilib.collection.Seq;
-import net.cilib.collection.immutable.Velocity;
 import net.cilib.entity.Entity;
 import net.cilib.inject.annotation.Unique;
-import static net.cilib.collection.SeqView.*;
+import static net.cilib.predef.Predef.*;
 
 /**
  * Velocity provider implementing the canonical velocity update equation
@@ -88,13 +87,13 @@ public final class StandardVelocityProvider extends VelocityProvider {
      * @todo: The guides for the equation should be provided as parameters.
      */
     @Override
-    public Velocity f(Particle a, Topology b) {
-        Entity n = globalGuide.f(a, b).valueE("Cannot obtain global guide.");
-        Entity p = localGuide.f(a, b).valueE("Cannot obtain local guide.");
+    public List<Double> f(Particle a, Topology b) {
+        Entity n = globalGuide.f(a, b);
+        Entity p = localGuide.f(a, b);
 
-        Seq cognitive = multiply(r1c1, p.solution().subtract(a.solution()));
-        Seq social = multiply(r2c2, n.solution().subtract(a.solution()));
+        List<Double> cognitive = multiply(r1c1, subtract(p.solution(), a.solution()));
+        List<Double> social = multiply(r2c2, subtract(n.solution(), a.solution()));
 
-        return Velocity.copyOf(a.velocity().plus(cognitive).plus(social));
+        return plus(a.velocity(), plus(cognitive, social));
     }
 }

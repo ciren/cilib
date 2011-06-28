@@ -22,9 +22,9 @@
 package net.cilib.pso;
 
 import com.google.common.base.Preconditions;
+import fj.F;
 import fj.data.Option;
 import net.cilib.collection.Topology;
-import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.entity.Entity;
 import net.cilib.entity.HasMemory;
 import net.cilib.entity.PartialEntity;
@@ -46,14 +46,19 @@ public final class PersonalBest extends Guide {
      * @return
      */
     @Override
-    public Option<Entity> f(Entity target, Topology topology) {
+    public Entity f(Entity target, Topology topology) {
         Preconditions.checkNotNull(target);
 
         if (target instanceof HasMemory) {
             HasMemory memory = (HasMemory) target;
-            return Option.<Entity>some(new PartialEntity(memory.memory()));
+            return new PartialEntity(memory.memory());
         }
 
-        return Option.<Entity>some(new PartialEntity(CandidateSolution.replicate(target.solution().size(), 0)));
+        return new PartialEntity(target.solution().map(new F<Double, Double>() {
+            @Override
+            public Double f(Double a) {
+                return 0.0;
+            }
+        }));
     }
 }

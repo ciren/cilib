@@ -23,10 +23,9 @@ package net.cilib.entity;
 
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
+import fj.data.List;
 import fj.data.Option;
 import net.cilib.collection.Topology;
-import net.cilib.collection.immutable.CandidateSolution;
-import net.cilib.collection.immutable.Velocity;
 import net.cilib.pso.PositionProvider;
 import net.cilib.pso.VelocityProvider;
 
@@ -63,6 +62,7 @@ public final class ParticleProvider {
     }
 
     public class BuildableParticleProvider {
+
         private final VelocityProvider velocityProvider;
         private final PositionProvider positionProvider;
         private Particle previous;
@@ -81,21 +81,19 @@ public final class ParticleProvider {
          */
         public Particle get(Topology topology) {
             try {
-                final Velocity velocity = velocityProvider.f(previous, topology);
-                final CandidateSolution position = positionProvider.f(previous.solution(), velocity);
+                final List<Double> velocity = velocityProvider.f(previous, topology);
+                final List<Double> position = positionProvider.f(previous.solution(), velocity);
 
-                Preconditions.checkState(position != CandidateSolution.empty());
-                Preconditions.checkState(velocity != Velocity.empty());
                 Preconditions.checkNotNull(previous);
-                Preconditions.checkState(previous.memory() != CandidateSolution.empty());
-                Preconditions.checkState(!previous.fitness().isNone());
+                Preconditions.checkState(previous.memory().isNotEmpty());
+                Preconditions.checkState(previous.fitness().isSome());
+                Preconditions.checkState(position.isNotEmpty());
+                Preconditions.checkState(velocity.isNotEmpty());
 
                 Option<Double> newFitness = fitnessProvider.evaluate(position);
-                if (comparator.isMoreFit(newFitness, previous.fitness())) {
-                    return new Particle(position, position, velocity, newFitness);
-                } else {
-                    return new Particle(position, previous.memory(), velocity, newFitness);
-                }
+                return comparator.isMoreFit(newFitness, previous.fitness())
+                        ? new Particle(position, position, velocity, newFitness)
+                        : new Particle(position, previous.memory(), velocity, newFitness);
             } finally {
                 previous = null;
             }

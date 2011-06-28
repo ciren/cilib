@@ -39,10 +39,7 @@ public class ASyncPSO extends PopulationBasedAlgorithm<Particle> {
     private final ParticleProvider particleProvider;
 
     /**
-     * @param velocityProvider {@code Velocity} provider
-     * @param particleProvider {@code Particle} provider (finalized particles)
-     * @param globalGuide      {@code Provider} for global guides.
-     * @param localGuide       {@code Provider} for local guides.
+     * @param particleProvider
      */
     @Inject
     public ASyncPSO(ParticleProvider particleProvider) {
@@ -58,7 +55,7 @@ public class ASyncPSO extends PopulationBasedAlgorithm<Particle> {
         final TopologyBuffer<Particle> topologyBuilder = topology.newBuffer();
         for (Particle particle : topology) {
             Topology<Particle> partial = topology.newBuffer()
-                    .addAll(topology.drop(topology.indexOf(particle)))
+                    .addAll(topology.drop(topology.indexOf(particle).some()))
                     .addAll(topologyBuilder)
                     .build();
             topologyBuilder.add(particleProvider.basedOn(particle).get(partial));

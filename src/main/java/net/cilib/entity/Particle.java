@@ -22,12 +22,10 @@
 package net.cilib.entity;
 
 import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import fj.data.Option;
 import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.inject.Inject;
-import net.cilib.collection.immutable.CandidateSolution;
-import net.cilib.collection.immutable.Velocity;
+import fj.data.List;
 
 /**
  * Representation of a {@code Particle}. A {@code Particle} is an {@code Entity}
@@ -37,9 +35,9 @@ import net.cilib.collection.immutable.Velocity;
  * @author gpampara
  */
 public final class Particle implements Entity, HasVelocity, HasMemory {
-    private final CandidateSolution position;
-    private final CandidateSolution bestPosition;
-    private final Velocity velocity;
+    private final List<Double> position;
+    private final List<Double> bestPosition;
+    private final List<Double> velocity;
     private final Option<Double> fitness;
 
     /**
@@ -50,12 +48,10 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
      * @param fitness the fitness of the current position.
      */
     @Inject
-    public Particle(CandidateSolution position,
-            CandidateSolution bestPosition,
-            Velocity velocity,
+    public Particle(List<Double> position,
+            List<Double> bestPosition,
+            List<Double> velocity,
             Option<Double> fitness) {
-        Preconditions.checkArgument(position.size() == velocity.size());
-        Preconditions.checkArgument(position.size() == bestPosition.size());
         this.position = checkNotNull(position);
         this.bestPosition = checkNotNull(bestPosition);
         this.velocity = checkNotNull(velocity);
@@ -67,7 +63,7 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
      * {@inheritDoc}
      */
     @Override
-    public CandidateSolution solution() {
+    public List<Double> solution() {
         return position;
     }
 
@@ -76,7 +72,7 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
      */
     @Override
     public int size() {
-        return position.size();
+        return position.length();
     }
 
     /**
@@ -91,7 +87,7 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
      * {@inheritDoc}
      */
     @Override
-    public Velocity velocity() {
+    public List<Double> velocity() {
         return velocity;
     }
 
@@ -99,7 +95,7 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
      * {@inheritDoc}
      */
     @Override
-    public CandidateSolution memory() {
+    public List<Double> memory() {
         return bestPosition;
     }
 

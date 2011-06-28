@@ -22,10 +22,10 @@
 package net.cilib.entity;
 
 import fj.data.Option;
-import net.cilib.collection.immutable.CandidateSolution;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static net.cilib.predef.Predef.*;
 import static org.hamcrest.CoreMatchers.is;
 
 /**
@@ -35,8 +35,8 @@ public class MaxFitnessComparatorTest {
 
     @Test
     public void lessFit() {
-        Individual i1 = new Individual(CandidateSolution.solution(1.0), Option.some(1.0));
-        Individual i2 = new Individual(CandidateSolution.solution(1.0), Option.some(2.0));
+        Individual i1 = new Individual(solution(1.0), Option.some(1.0));
+        Individual i2 = new Individual(solution(1.0), Option.some(2.0));
         FitnessComparator c = FitnessComparator.MAX;
 
         Assert.assertThat(c.lessFit(i1, i2), is(i1));
@@ -44,8 +44,8 @@ public class MaxFitnessComparatorTest {
 
     @Test
     public void isMoreFit() {
-        Individual i1 = new Individual(CandidateSolution.solution(1.0), Option.some(1.0));
-        Individual i2 = new Individual(CandidateSolution.solution(1.0), Option.some(2.0));
+        Individual i1 = new Individual(solution(1.0), Option.some(1.0));
+        Individual i2 = new Individual(solution(1.0), Option.some(2.0));
         FitnessComparator c = FitnessComparator.MAX;
 
         Assert.assertThat(c.isMoreFit(i1, i2), is(false));
@@ -54,8 +54,8 @@ public class MaxFitnessComparatorTest {
 
     @Test
     public void isAMoreFitIndividualReturned() {
-        Individual i1 = new Individual(CandidateSolution.solution(1.0), Option.some(1.0));
-        Individual i2 = new Individual(CandidateSolution.solution(1.0), Option.some(2.0));
+        Individual i1 = new Individual(solution(1.0), Option.some(1.0));
+        Individual i2 = new Individual(solution(1.0), Option.some(2.0));
         FitnessComparator c = FitnessComparator.MAX;
 
         Assert.assertThat(c.moreFit(i1, i2), is(i2));
@@ -63,8 +63,8 @@ public class MaxFitnessComparatorTest {
 
     @Test
     public void validIndividualReturned() {
-        Individual i1 = new Individual(CandidateSolution.solution(1.0), Option.some(1.0));
-        Individual i2 = new Individual(CandidateSolution.solution(1.0), Option.<Double>none());
+        Individual i1 = new Individual(solution(1.0), Option.some(1.0));
+        Individual i2 = new Individual(solution(1.0), Option.<Double>none());
         FitnessComparator c = FitnessComparator.MAX;
 
         Individual result = c.moreFit(i1, i2);
@@ -73,8 +73,8 @@ public class MaxFitnessComparatorTest {
 
     @Test
     public void bidirectionalMoreFit() {
-        Individual i1 = new Individual(CandidateSolution.solution(1.0), Option.some(1.0));
-        Individual i2 = new Individual(CandidateSolution.solution(1.0), Option.<Double>none());
+        Individual i1 = new Individual(solution(1.0), Option.some(1.0));
+        Individual i2 = new Individual(solution(1.0), Option.<Double>none());
         FitnessComparator c = FitnessComparator.MAX;
 
         Assert.assertThat(c.moreFit(i1, i2), is(i1));
@@ -83,8 +83,8 @@ public class MaxFitnessComparatorTest {
 
     @Test
     public void bidirectionalLessFit() {
-        Individual i1 = new Individual(CandidateSolution.solution(1.0), Option.some(1.0));
-        Individual i2 = new Individual(CandidateSolution.solution(1.0), Option.<Double>none());
+        Individual i1 = new Individual(solution(1.0), Option.some(1.0));
+        Individual i2 = new Individual(solution(1.0), Option.<Double>none());
         FitnessComparator c = FitnessComparator.MAX;
 
         Assert.assertThat(c.lessFit(i1, i2), is(i2));

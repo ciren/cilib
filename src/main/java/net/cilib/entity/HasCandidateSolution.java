@@ -21,7 +21,7 @@
  */
 package net.cilib.entity;
 
-import net.cilib.collection.immutable.CandidateSolution;
+import fj.data.List;
 
 /**
  * Require an instance which maintains a {@link CandidateSolution}.
@@ -35,7 +35,7 @@ public interface HasCandidateSolution {
      * The currently maintained solution.
      * @return the current {@linkplain CandidateSolution candidate solution}.
      */
-    CandidateSolution solution();
+    List<Double> solution();
 
     /**
      * Determines the size of the maintained

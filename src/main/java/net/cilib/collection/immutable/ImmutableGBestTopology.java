@@ -22,12 +22,11 @@
 package net.cilib.collection.immutable;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
+import fj.Equal;
+import fj.data.List;
+import fj.data.Option;
 import net.cilib.collection.Topology;
 import net.cilib.collection.TopologyBuffer;
-
-import java.util.List;
 
 /**
  * Implementation of the {@code g-best} topology. Each created topology
@@ -39,8 +38,8 @@ import java.util.List;
  */
 public class ImmutableGBestTopology<A> extends Topology<A> {
 
-    private static final ImmutableGBestTopology<Object> INSTANCE = new ImmutableGBestTopology<Object>(Lists.newArrayList());
-    private final ImmutableList<A> elements;
+    private static final ImmutableGBestTopology<Object> INSTANCE = new ImmutableGBestTopology<Object>(List.<Object>nil());
+    private final List<A> elements;
 
     /**
      * Obtain an empty immutable topology.
@@ -54,14 +53,14 @@ public class ImmutableGBestTopology<A> extends Topology<A> {
     }
 
     private ImmutableGBestTopology(List<A> elements) {
-        this.elements = ImmutableList.copyOf(elements);
+        this.elements = elements;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Iterable<A> neighborhoodOf(A element) {
+    public List<A> neighborhoodOf(A element) {
         return elements;
     }
 
@@ -90,12 +89,17 @@ public class ImmutableGBestTopology<A> extends Topology<A> {
 
     @Override
     public Topology<A> drop(int n) {
-        return new ImmutableGBestTopologyBuffer().addAll(this.elements.subList(n, this.elements.size())).build();
+        return new ImmutableGBestTopology<A>(this.elements.drop(n));
     }
 
     @Override
-    public int indexOf(A obj) {
-        return this.elements.indexOf(obj);
+    public Topology<A> take(int n) {
+        return new ImmutableGBestTopology<A>(this.elements.take(n));
+    }
+
+    @Override
+    public Option<Integer> indexOf(A obj) {
+        return this.elements.elementIndex(Equal.<A>anyEqual(), obj);
     }
 
     /**
@@ -131,10 +135,10 @@ public class ImmutableGBestTopology<A> extends Topology<A> {
      */
     public static class ImmutableGBestTopologyBuffer<B> implements Buffer<B> {
 
-        private final List<B> elements;
+        private List.Buffer<B> elements;
 
         public ImmutableGBestTopologyBuffer() {
-            elements = Lists.newArrayList();
+            elements = List.Buffer.empty();
         }
 
         /**
@@ -148,9 +152,9 @@ public class ImmutableGBestTopology<A> extends Topology<A> {
         @Override
         public ImmutableGBestTopology<B> build() {
             try {
-                return new ImmutableGBestTopology<B>(elements);
+                return new ImmutableGBestTopology<B>(elements.toList());
             } finally {
-                elements.clear();
+                elements = List.Buffer.empty();
             }
         }
 
@@ -163,12 +167,13 @@ public class ImmutableGBestTopology<A> extends Topology<A> {
          */
         @Override
         public Buffer<B> add(B element) {
-            elements.add(element);
+            elements.snoc(element);
             return this;
         }
 
+        @Override
         public Buffer<B> addAll(List<B> list) {
-            this.elements.addAll(list);
+            elements.append(list);
             return this;
         }
     }

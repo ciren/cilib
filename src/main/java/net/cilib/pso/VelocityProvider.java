@@ -22,8 +22,8 @@
 package net.cilib.pso;
 
 import fj.F2;
+import fj.data.List;
 import net.cilib.collection.Topology;
-import net.cilib.collection.immutable.Velocity;
 import net.cilib.entity.Particle;
 
 /**
@@ -32,7 +32,7 @@ import net.cilib.entity.Particle;
  *
  * @author gpampara
  */
-public abstract class VelocityProvider extends F2<Particle, Topology, Velocity> {
+public abstract class VelocityProvider extends F2<Particle, Topology, List<Double>> {
 
     /**
      * Create a new {@code Velocity} instance based on the given

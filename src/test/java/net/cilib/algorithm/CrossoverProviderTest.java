@@ -1,9 +1,32 @@
+/**
+ * Computational Intelligence Library (CIlib)
+ * Copyright (C) 2003 - 2010
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, see <http://www.gnu.org/licenses/>.
+ */
 package net.cilib.algorithm;
 
 import fj.F;
 import fj.P2;
 import fj.Show;
-import fj.data.Array;
+import fj.data.List;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import org.junit.Test;
 
 /**
@@ -13,27 +36,23 @@ import org.junit.Test;
 public class CrossoverProviderTest {
 
     @Test
-    public void functionalZapp() {
-        Array<Integer> a1 = Array.array(1, 2, 3, 4, 5);
-        Array<Integer> a2 = Array.array(6, 7, 8, 9, 10);
+    public void binding() {
+        List<Double> x = List.list(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0);
+        List<Double> y = List.list(10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0,2.0 ,1.0);
 
-        F<Integer, Integer> f = new F<Integer, Integer>() {
+        final RandomProvider randomProvider = new MersenneTwister();
+        final int j = randomProvider.nextInt(x.length());
+
+        List<Double> crossedOver = x.zip(y).zipIndex()
+                .bind(new F<P2<P2<Double, Double>, Integer> , List<Double>>() {
             @Override
-            public Integer f(Integer a) {
-                return a*2;
+            public List<Double> f(P2<P2<Double, Double>, Integer> a) {
+                return (randomProvider.nextDouble() < 0.5 || a._2() == j)
+                        ? List.list(a._1()._1())
+                        : List.list(a._1()._2());
             }
-        };
-        Array<Integer> result = a2.apply(Array.array(f));
-
-//        Show.arrayShow(Show.intShow).println(a1.zip(a2));
-        Show.arrayShow(Show.p2Show(Show.intShow, Show.intShow)).println(a1.zip(a2));
-
-        F<P2<P2<Integer, Integer>, Integer>, Integer> check = new F<P2<P2<Integer, Integer>, Integer>, Integer>() {
-            @Override
-            public Integer f(P2<P2<Integer, Integer>, Integer> a) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-        };
-//        a1.zip(a2).zipIndex().toStream().apply()
+        });
+        System.out.println(crossedOver.length());
+        Show.listShow(Show.doubleShow).println(crossedOver);
     }
 }

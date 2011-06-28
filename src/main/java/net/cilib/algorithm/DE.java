@@ -22,9 +22,9 @@
 package net.cilib.algorithm;
 
 import com.google.inject.Inject;
+import fj.data.List;
 import net.cilib.collection.Topology;
 import net.cilib.collection.TopologyBuffer;
-import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.entity.*;
 import net.cilib.event.CanRaise;
 import net.cilib.event.IterationEvent;
@@ -60,10 +60,9 @@ public class DE<A extends Entity>  extends PopulationBasedAlgorithm<A> {
     public Topology<A> next(Topology<A> topology) {
         TopologyBuffer<A> buffer = topology.newBuffer();
         for (A parent : topology) {
-            CandidateSolution trialVector = mutationProvider.create(topology);
-            CandidateSolution crossedOver = crossoverProvider.create(parent.solution(), trialVector);
-            Individual offspring = individualProvider.solution(crossedOver)
-                    .fitness(fitnessProvider).get();
+            List<Double> trialVector = mutationProvider.create(topology);
+            List<Double> crossedOver = crossoverProvider.create(parent.solution(), trialVector);
+            Individual offspring = individualProvider.solution(crossedOver).get();
             buffer.add((A) selector.select(parent, offspring));
             buffer.add(parent);
         }

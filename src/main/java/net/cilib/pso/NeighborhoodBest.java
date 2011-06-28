@@ -22,9 +22,11 @@
 package net.cilib.pso;
 
 import com.google.inject.Inject;
-import fj.data.Option;
+import fj.F;
+import fj.Ord;
+import fj.Ordering;
+import fj.data.List;
 import net.cilib.collection.Topology;
-import net.cilib.entity.Entities;
 import net.cilib.entity.Entity;
 import net.cilib.entity.FitnessComparator;
 
@@ -47,17 +49,19 @@ public class NeighborhoodBest extends Guide {
      * a neighborhood.
      */
     @Override
-    public Option<Entity> f(Entity entity, Topology topology) {
-        Iterable<Entity> neighbourhoodOf = topology.neighborhoodOf(entity);
-        Entity result = Entities.dummy();
-        for (Entity n : neighbourhoodOf) {
-            if (n == entity) {
-                continue;
+    public Entity f(Entity entity, Topology topology) {
+        List<Entity> sorted = topology.neighborhoodOf(entity).sort(Ord.ord(new F<Entity, F<Entity, Ordering>>() {
+            @Override
+            public F<Entity, Ordering> f(final Entity a) {
+                return new F<Entity, Ordering>() {
+                    @Override
+                    public Ordering f(final Entity b) {
+                        return !comparator.isMoreFit(a, b) ? Ordering.GT : Ordering.LT;
+                    }
+                };
             }
-            if (comparator.isMoreFit(n, result)) {
-                result = n;
-            }
-        }
-        return (result != Entities.dummy()) ? Option.some(result) : Option.<Entity>none();
+        }));
+
+        return sorted.head();
     }
 }

@@ -34,7 +34,7 @@ public class TopologyBuffer<A> implements Iterable<A> {
     private Topology.Buffer<A> builder;
     private final List<A> inner;
 
-    public TopologyBuffer(Topology.Buffer<A> builder/*, ImmutableList<A> list*/) {
+    public TopologyBuffer(Topology.Buffer<A> builder) {
         this.builder = builder;
         this.inner = Lists.newArrayList();
     }

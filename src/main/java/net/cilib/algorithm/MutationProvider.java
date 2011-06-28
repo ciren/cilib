@@ -21,9 +21,9 @@
  */
 package net.cilib.algorithm;
 
+import fj.data.List;
 import java.util.Iterator;
 
-import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.entity.Entity;
 
 /**
@@ -32,7 +32,7 @@ import net.cilib.entity.Entity;
  */
 public interface MutationProvider {
 
-    CandidateSolution create(Iterable<? extends Entity> iterable);
+    List<Double> create(Iterable<? extends Entity> iterable);
 
-    CandidateSolution create(Iterator<? extends Entity> iterator);
+    List<Double> create(Iterator<? extends Entity> iterator);
 }

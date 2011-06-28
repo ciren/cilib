@@ -22,19 +22,17 @@
 package net.cilib.pso;
 
 import com.google.common.collect.Iterables;
+import fj.data.List;
 import fj.data.Option;
 import junit.framework.Assert;
-import net.cilib.collection.LinearSeq;
 import net.cilib.collection.Topology;
-import net.cilib.collection.immutable.CandidateSolution;
-import static net.cilib.collection.immutable.CandidateSolution.solution;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
-import net.cilib.collection.immutable.Velocity;
 import net.cilib.entity.FitnessComparator;
 import net.cilib.entity.FitnessProvider;
 import net.cilib.entity.Particle;
 import net.cilib.entity.ParticleProvider;
 import net.cilib.problem.Problem;
+import static net.cilib.predef.Predef.*;
 import static org.mockito.Mockito.*;
 import org.junit.Test;
 
@@ -49,8 +47,8 @@ public class PSOTest {
         final VelocityProvider v = mock(VelocityProvider.class);
         final Problem problem = mock(Problem.class);
 
-        when(v.f(any(Particle.class), any(Topology.class))).thenReturn(Velocity.copyOf(0.0));
-        when(p.f(any(CandidateSolution.class), any(Velocity.class))).thenReturn(solution(1.0));
+        when(v.f(any(Particle.class), any(Topology.class))).thenReturn(List.<Double>list(0.0));
+        when(p.f(any(List.class), any(List.class))).thenReturn(solution(1.0));
 
         ParticleProvider provider = new ParticleProvider(p, v, new FitnessProvider(problem), FitnessComparator.MAX);
         PSO pso = new PSO(provider);
@@ -67,9 +65,9 @@ public class PSOTest {
         FitnessProvider f = mock(FitnessProvider.class);
         ParticleProvider provider = new ParticleProvider(p, v, f, FitnessComparator.MAX);
 
-        when(p.f(any(LinearSeq.class), any(LinearSeq.class))).thenReturn(solution(1.0));
-        when(v.f(any(Particle.class), any(Topology.class))).thenReturn(Velocity.copyOf(0.0));
-        when(f.evaluate(any(LinearSeq.class))).thenReturn(Option.some(1.0));
+        when(p.f(any(List.class), any(List.class))).thenReturn(solution(1.0));
+        when(v.f(any(Particle.class), any(Topology.class))).thenReturn(velocity(0.0));
+        when(f.evaluate(any(List.class))).thenReturn(Option.some(1.0));
 
         PSO pso = new PSO(provider);
 
@@ -80,11 +78,9 @@ public class PSOTest {
         Assert.assertNotSame(next.iterator().next(), particle);
     }
 
-    private Particle newParticle(CandidateSolution solution) {
-        return new Particle(solution, solution, Velocity.replicate(solution.size(), 0.0), Option.some(1.0));
-    }
-
-    @Test
-    public void runPSO() {
+    private Particle newParticle(List<Double> solution) {
+        return new Particle(solution, solution,
+                List.<Double>replicate(solution.length(), 0.0),
+                Option.some(1.0));
     }
 }

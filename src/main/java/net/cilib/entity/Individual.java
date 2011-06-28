@@ -25,7 +25,7 @@ import fj.data.Option;
 import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Objects;
 import com.google.inject.Inject;
-import net.cilib.collection.immutable.CandidateSolution;
+import fj.data.List;
 
 /**
  * Basic individual class.
@@ -37,11 +37,11 @@ import net.cilib.collection.immutable.CandidateSolution;
  * @since 0.8
  */
 public final class Individual implements Entity {
-    private final CandidateSolution solution;
+    private final List<Double> solution;
     private final Option<Double> fitness;
 
     @Inject
-    public Individual(CandidateSolution solution, Option<Double> fitness) {
+    public Individual(List<Double> solution, Option<Double> fitness) {
         this.solution = checkNotNull(solution, "Individual expects a CandidateSolution, but null found.");
         this.fitness = checkNotNull(fitness, "Option type expected, but null found.");
     }
@@ -50,7 +50,7 @@ public final class Individual implements Entity {
      * {@inheritDoc}
      */
     @Override
-    public CandidateSolution solution() {
+    public List<Double> solution() {
         return solution;
     }
 
@@ -59,7 +59,7 @@ public final class Individual implements Entity {
      */
     @Override
     public int size() {
-        return solution.size();
+        return solution.length();
     }
 
     /**

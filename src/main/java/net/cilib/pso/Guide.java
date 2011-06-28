@@ -22,7 +22,6 @@
 package net.cilib.pso;
 
 import fj.F2;
-import fj.data.Option;
 import net.cilib.collection.Topology;
 import net.cilib.entity.Entity;
 
@@ -35,5 +34,5 @@ import net.cilib.entity.Entity;
  *
  * @author gpampara
  */
-public abstract class Guide extends F2<Entity, Topology, Option<Entity>> {
+public abstract class Guide extends F2<Entity, Topology, Entity> {
 }

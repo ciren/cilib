@@ -22,11 +22,10 @@
 package net.cilib.entity;
 
 import com.google.inject.Inject;
+import fj.F2;
+import fj.data.List;
 import fj.data.Option;
-import net.cilib.collection.LinearSeq;
 import net.cilib.problem.Problem;
-
-import java.util.Iterator;
 
 /**
  * Factory instance to calculate the fitness, given a {@code CandidateSolution}.
@@ -46,14 +45,14 @@ public class FitnessProvider {
      * @param solution {@code CandidateSolution} to evaluate.
      * @return the fitness of the given {@code CandidateSolution}.
      */
-    public Option<Double> evaluate(LinearSeq solution) {
+    public Option<Double> evaluate(List<Double> solution) {
         try {
-            double acc = 0.0;
-            Iterator<Double> iter = solution.iterator();
-            while (iter.hasNext()) {
-                acc += problem.f(iter.next());
-            }
-            return Option.some(acc);
+            return Option.some(solution.foldLeft(new F2<Double, Double, Double>() {
+                @Override
+                public Double f(Double a, Double b) {
+                    return a + b;
+                }
+            }, 0.0));
         } catch (Exception e) {
             return Option.none();
         }

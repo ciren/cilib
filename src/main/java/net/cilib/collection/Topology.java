@@ -24,9 +24,10 @@ package net.cilib.collection;
 import com.google.common.collect.UnmodifiableIterator;
 import fj.F;
 import fj.Unit;
+import fj.data.List;
+import fj.data.Option;
 
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * A topology is a collection instance that contains similar instances. It is
@@ -53,7 +54,7 @@ public abstract class Topology<A> implements Iterable<A> {
      * @param element neighborhood element to obtain neighborhood for
      * @return an {@code Iterator} for the returned neighborhood.
      */
-    public abstract Iterable<A> neighborhoodOf(A element);
+    public abstract List<A> neighborhoodOf(A element);
 
     /**
      * Create a mutable buffer instance. Once the contents of the instances are
@@ -124,12 +125,14 @@ public abstract class Topology<A> implements Iterable<A> {
      */
     public abstract Topology<A> drop(int n);
 
+    public abstract Topology<A> take(int n);
+
     /**
      * @param obj
      * @return
      * @TODO: This method needs to be tested / verified. Does it make sense?
      */
-    public abstract int indexOf(A obj);
+    public abstract Option<Integer> indexOf(A obj);
 
     /**
      * Definition of a builder for topology instances.

@@ -21,11 +21,11 @@
  */
 package net.cilib.entity;
 
-import net.cilib.collection.immutable.CandidateSolution;
 import org.junit.Assert;
 import net.cilib.problem.Problem;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static net.cilib.predef.Predef.solution;
 
 /**
  *
@@ -41,7 +41,7 @@ public class FitnessProviderTest {
                 return a;
             }
         });
-        
-        Assert.assertThat(provider.evaluate(CandidateSolution.solution(1.0, 2.0)).some(), equalTo(3.0));
+
+        Assert.assertThat(provider.evaluate(solution(1.0, 2.0)).some(), equalTo(3.0));
     }
 }

@@ -21,9 +21,14 @@
  */
 package net.cilib.predef;
 
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
+import com.google.common.collect.Lists;
+import com.google.common.primitives.Doubles;
+import fj.F;
+import fj.F2;
+import fj.data.List;
 import fj.data.Option;
-import net.cilib.collection.immutable.CandidateSolution;
-import net.cilib.collection.immutable.Velocity;
 
 /**
  * Utility class of predefined helpers.
@@ -59,14 +64,102 @@ public final class Predef {
         return Option.none();
     }
 
-    public static CandidateSolution solution(final double first, final double... rest) {
-        return CandidateSolution.solution(first, rest);
+    public static List<Double> solution(final double first, final double... rest) {
+        java.util.List<Double> tmp = Lists.newArrayList(first);
+        for (Double d : rest) {
+            tmp.add(d);
+        }
+        return List.iterableList(tmp);
     }
 
-    public static Velocity velocity(final double first, final double... rest) {
-        double[] array = new double[rest.length + 1];
-        array[0] = first;
-        System.arraycopy(rest, 0, array, 1, rest.length);
-        return Velocity.copyOf(array);
+    public static List<Double> velocity(final double first, final double... rest) {
+        return solution(first, rest);
+    }
+
+    public static List<Double> plus(List<Double> la, List<Double> lb) {
+        F2<Double, Double, Double> plus = new F2<Double, Double, Double>() {
+
+            @Override
+            public Double f(Double a, Double b) {
+                return a + b;
+            }
+        };
+        return la.zipWith(lb, plus);
+    }
+
+    public static List<Double> subtract(List<Double> a, List<Double> b) {
+        F2<Double, Double, Double> subtract = new F2<Double, Double, Double>() {
+
+            @Override
+            public Double f(Double a, Double b) {
+                return a - b;
+            }
+        };
+        return a.zipWith(b, subtract);
+    }
+
+    public static List<Double> multiply(final Supplier<Double> supplier, final List<Double> a) {
+        return a.map(new F<Double, Double>() {
+
+            @Override
+            public Double f(Double a) {
+                return a * supplier.get();
+            }
+        });
+    }
+
+    public static List<Double> multiply(final Double constant, final List<Double> a) {
+        return multiply(Suppliers.ofInstance(constant), a);
+    }
+
+    /**
+     * Divide each component within the given mutable sequence by the provided
+     * scalar constant. Division by {@code 0.0} is checked and an exception
+     * is then raised, if needed.
+     *
+     * @param scalar the value to apply to each component.
+     * @param seq    the sequence to divide.
+     * @return the altered mutable sequence.
+     */
+    public static List<Double> divide(double scalar, List<Double> seq) {
+        return divide(Suppliers.ofInstance(scalar), seq);
+    }
+
+    /**
+     * Divide each component within the given mutable sequence by the values provided
+     * from the given {@code Supplier}. Division by {@code 0.0} is checked,
+     * resulting in a {@link ArithmeticException} when violated.
+     *
+     * @param supplier source of scalar values.
+     * @param seq      the sequence to divide.
+     * @return the altered mutable sequence.
+     */
+    public static List<Double> divide(final Supplier<Double> supplier, List<Double> seq) {
+        final CheckingSupplier check = new CheckingSupplier(supplier);
+        return seq.map(new F<Double, Double>() {
+
+            @Override
+            public Double f(Double a) {
+                return a / check.get();
+            }
+        });
+    }
+
+    private static final class CheckingSupplier implements Supplier<Double> {
+
+        private final Supplier<Double> supplier;
+
+        private CheckingSupplier(Supplier<Double> supplier) { // Accept a function / closure
+            this.supplier = Suppliers.memoize(supplier);
+        }
+
+        @Override
+        public Double get() {
+            double scalar = supplier.get();
+            if (Doubles.compare(scalar, 0.0) == 0) {
+                throw new ArithmeticException("Cannot divide with a 0.0!");
+            }
+            return scalar;
+        }
     }
 }

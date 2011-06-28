@@ -21,16 +21,18 @@
  */
 package net.cilib.pso;
 
+import fj.data.List;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
+import com.google.common.collect.Iterables;
+import fj.data.Array;
 import fj.data.Option;
-import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
-import net.cilib.collection.immutable.Velocity;
 import net.cilib.entity.FitnessComparator;
 import net.cilib.entity.Particle;
 import org.junit.Assert;
 import org.junit.Test;
+import static net.cilib.predef.Predef.*;
 
 /**
  * @author gpampara
@@ -42,16 +44,16 @@ public class StandardVelocityProviderTest {
         final Supplier<Double> constant = Suppliers.ofInstance(1.0);
         final StandardVelocityProvider provider = new StandardVelocityProvider(constant, constant, constant, constant,
                 new PersonalBest(), new NeighborhoodBest(FitnessComparator.MIN));
-        final Particle particle1 = new Particle(CandidateSolution.solution(1.0),
-                CandidateSolution.solution(1.0),
-                Velocity.copyOf(1.0),
+        final Particle particle1 = new Particle(solution(1.0),
+                solution(1.0),
+                velocity(1.0),
                 Option.some(1.0));
-        final Particle particle2 = new Particle(CandidateSolution.solution(1.0),
-                CandidateSolution.solution(1.0),
-                Velocity.copyOf(1.0),
+        final Particle particle2 = new Particle(solution(1.0),
+                solution(1.0),
+                velocity(1.0),
                 Option.some(1.0));
 
-        Velocity newVelocity = provider.f(particle1, ImmutableGBestTopology.topologyOf(particle1, particle2));
-        Assert.assertArrayEquals(new double[]{1.0}, newVelocity.toArray(), 0.0001);
+        List<Double> newVelocity = provider.f(particle1, ImmutableGBestTopology.topologyOf(particle1, particle2));
+        Assert.assertTrue(Iterables.elementsEqual(Array.<Double>array(1.0), newVelocity));
     }
 }

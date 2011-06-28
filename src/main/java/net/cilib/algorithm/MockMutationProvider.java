@@ -22,16 +22,14 @@
 package net.cilib.algorithm;
 
 import com.google.common.collect.Lists;
+import fj.data.List;
 import com.google.inject.Inject;
-import net.cilib.collection.Seq;
-import net.cilib.collection.immutable.CandidateSolution;
 import net.cilib.entity.Entity;
 import net.cilib.inject.annotation.Unique;
+import static net.cilib.predef.Predef.*;
 
 import java.util.Iterator;
-import java.util.List;
 
-import static net.cilib.collection.SeqView.multiply;
 
 /**
  * @author gpampara
@@ -48,18 +46,18 @@ public class MockMutationProvider implements MutationProvider {
     }
 
     @Override
-    public CandidateSolution create(Iterable<? extends Entity> iterable) {
+    public List<Double> create(Iterable<? extends Entity> iterable) {
         return create(iterable.iterator());
     }
 
     @Override
-    public CandidateSolution create(Iterator<? extends Entity> iterator) {
-        List<Entity> list = Lists.newArrayList(iterator);
-        Seq x1 = selector.select(list).solution();
-        Seq x2 = selector.select(list).solution();
-        Seq x3 = selector.select(list).solution();
+    public List<Double> create(Iterator<? extends Entity> iterator) {
+        List<Entity> list = List.iterableList(Lists.newArrayList(iterator));
+        List<Double> x1 = selector.select(list).solution();
+        List<Double> x2 = selector.select(list).solution();
+        List<Double> x3 = selector.select(list).solution();
 
-        Seq result = multiply(beta, x1.plus(x2.subtract(x3)));
-        return CandidateSolution.copyOf(result);
+        List<Double> result = multiply(beta, plus(x1, subtract(x2, x3)));
+        return result;
     }
 }

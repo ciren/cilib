@@ -21,7 +21,7 @@
  */
 package net.cilib.entity;
 
-import net.cilib.collection.immutable.CandidateSolution;
+import fj.data.List;
 import net.cilib.problem.Problem;
 import org.junit.Assert;
 import org.junit.Test;
@@ -35,7 +35,7 @@ public class IndividualProviderTest {
 
     @Test(expected = IllegalStateException.class)
     public void solutionRequired() {
-        IndividualProvider provider = new IndividualProvider();
+        IndividualProvider provider = new IndividualProvider(null);
         provider.get();
     }
 
@@ -47,9 +47,9 @@ public class IndividualProviderTest {
                 return 1.0;
             }
         });
-        IndividualProvider provider = new IndividualProvider();
 
-        Individual i = provider.solution(CandidateSolution.empty()).fitness(fitnessProvider).get();
+        IndividualProvider provider = new IndividualProvider(fitnessProvider);
+        Individual i = provider.solution(List.<Double>list(0.0)).get();
 
         Assert.assertNotNull(i);
         Assert.assertThat(i.fitness().some(), equalTo(0.0));

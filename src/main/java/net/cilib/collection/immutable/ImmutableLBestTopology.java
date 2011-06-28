@@ -23,13 +23,11 @@ package net.cilib.collection.immutable;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
+import fj.Equal;
+import fj.data.List;
+import fj.data.Option;
 import net.cilib.collection.Topology;
 
-import java.util.List;
 import net.cilib.collection.TopologyBuffer;
 
 /**
@@ -43,8 +41,8 @@ import net.cilib.collection.TopologyBuffer;
  */
 public class ImmutableLBestTopology<A> extends Topology<A> {
 
-    private static final Topology<Object> INSTANCE = new ImmutableLBestTopology<Object>(Lists.newArrayList(), 0);
-    private final ImmutableList<A> elements;
+    private static final Topology<Object> INSTANCE = new ImmutableLBestTopology<Object>(List.<Object>nil(), 0);
+    private final List<A> elements;
     private final int neighborhoodSize;
 
     /**
@@ -57,7 +55,7 @@ public class ImmutableLBestTopology<A> extends Topology<A> {
     }
 
     private ImmutableLBestTopology(List<A> elements, int size) {
-        this.elements = ImmutableList.copyOf(elements);
+        this.elements = elements;
         this.neighborhoodSize = size;
     }
 
@@ -68,22 +66,16 @@ public class ImmutableLBestTopology<A> extends Topology<A> {
      * @return an {@code iterator} to the neighborhood of {@code element}
      */
     @Override
-    public Iterable<A> neighborhoodOf(final A element) {
-        final List<Integer> indexes = Lists.newArrayListWithCapacity(neighborhoodSize);
-        int start = elements.indexOf(element) - ((neighborhoodSize - 1) / 2);
-        start = (start < 0) ? start += elements.size() : start;
+    public List<A> neighborhoodOf(final A element) {
+        final int length = elements.length();
+        int start = elements.elementIndex(Equal.<A>anyEqual(), element).some() - ((neighborhoodSize - 1) / 2);
+        start = (start < 0) ? start += length : start;
 
+        List.Buffer<A> buffer = List.Buffer.empty();
         for (int i = 0; i < neighborhoodSize; i++) {
-            indexes.add((start + i) % elements.size());
+            buffer.snoc(elements.index((start + i) % length));
         }
-
-        return Collections2.filter(elements, new Predicate<A>() {
-            @Override
-            public boolean apply(A input) {
-                int index = elements.indexOf(input);
-                return indexes.contains(index);
-            }
-        });
+        return buffer.toList();
     }
 
     @Override
@@ -125,12 +117,17 @@ public class ImmutableLBestTopology<A> extends Topology<A> {
 
     @Override
     public Topology<A> drop(int n) {
-        return new ImmutableLBestTopologyBuffer().addAll(this.elements.subList(n, this.elements.size())).build();
+        return new ImmutableLBestTopology(elements.drop(n), this.neighborhoodSize);
     }
 
     @Override
-    public int indexOf(A obj) {
-        return this.elements.indexOf(obj);
+    public Topology<A> take(int n) {
+        return new ImmutableLBestTopology(elements.take(n), this.neighborhoodSize);
+    }
+
+    @Override
+    public Option<Integer> indexOf(A obj) {
+        return this.elements.elementIndex(Equal.<A>anyEqual(), obj);
     }
 
     /**
@@ -147,11 +144,11 @@ public class ImmutableLBestTopology<A> extends Topology<A> {
      */
     public static class ImmutableLBestTopologyBuffer<B> implements Topology.Buffer<B> {
 
-        private final List<B> elements;
+        private List.Buffer<B> elements;
         private int neighborhoodSize = 3;
 
         ImmutableLBestTopologyBuffer() {
-            elements = Lists.newArrayList();
+            elements = List.Buffer.empty();
         }
 
         /**
@@ -165,9 +162,9 @@ public class ImmutableLBestTopology<A> extends Topology<A> {
         @Override
         public ImmutableLBestTopology<B> build() {
             try {
-                return new ImmutableLBestTopology<B>(elements, neighborhoodSize);
+                return new ImmutableLBestTopology<B>(elements.toList(), neighborhoodSize);
             } finally {
-                elements.clear();
+                elements = List.Buffer.empty();
                 neighborhoodSize = 3;
             }
         }
@@ -181,7 +178,7 @@ public class ImmutableLBestTopology<A> extends Topology<A> {
          */
         @Override
         public ImmutableLBestTopologyBuffer<B> add(B element) {
-            elements.add(element);
+            elements.snoc(element);
             return this;
         }
 
@@ -198,8 +195,9 @@ public class ImmutableLBestTopology<A> extends Topology<A> {
             return this;
         }
 
+        @Override
         public ImmutableLBestTopologyBuffer<B> addAll(List<B> list) {
-            this.elements.addAll(list);
+            this.elements.append(list);
             return this;
         }
     }
