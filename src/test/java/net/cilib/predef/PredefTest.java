@@ -59,8 +59,14 @@ public class PredefTest {
     }
 
     @Test
+    public void multiplyBind() {
+        List<Double> solution = solution(1.0, 3.0, 5.0);
+        Assert.assertTrue(Iterables.elementsEqual(Lists.newArrayList(2.0, 6.0, 10.0), multiply(2.0, solution)));
+    }
+
+    @Test
     public void multiplySupplier() {
-        List<Double> solution = solution(1.0, 3.0);
+        List<Double> solution = solution(1.0, 3.0, 5.0);
         Supplier<Double> supplier = new Supplier<Double>() {
             private double value = 1.0;
 
@@ -72,8 +78,7 @@ public class PredefTest {
         };
 
         List<Double> result = multiply(supplier, solution);
-
-        Assert.assertTrue(Iterables.elementsEqual(Lists.newArrayList(2.0, 12.0), result));
+        Assert.assertTrue(Iterables.elementsEqual(Lists.newArrayList(2.0, 12.0, 40.0), result));
     }
 
     @Test(expected = ArithmeticException.class)
