@@ -41,8 +41,10 @@ public class StandardVelocityProviderTest {
 
     @Test
     public void velocityCalculation() {
-        final Supplier<Double> constant = Suppliers.ofInstance(1.0);
-        final StandardVelocityProvider provider = new StandardVelocityProvider(constant, constant, constant, constant,
+        final Supplier<Double> constant = Suppliers.ofInstance(5.0);
+        final StandardVelocityProvider provider = new StandardVelocityProvider(
+                Suppliers.ofInstance(1.0),
+                constant, constant, constant, constant,
                 new PersonalBest(), new NeighborhoodBest(FitnessComparator.MIN));
         final Particle particle1 = new Particle(solution(1.0),
                 solution(1.0),
@@ -54,6 +56,7 @@ public class StandardVelocityProviderTest {
                 Option.some(1.0));
 
         List<Double> newVelocity = provider.f(particle1, ImmutableGBestTopology.topologyOf(particle1, particle2));
+
         Assert.assertTrue(Iterables.elementsEqual(Array.<Double>array(1.0), newVelocity));
     }
 }

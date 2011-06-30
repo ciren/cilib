@@ -51,6 +51,7 @@ public class PopulationBasedModule extends AbstractModule {
         bind(MutationProvider.class).to(MockMutationProvider.class);
 
         // PSO related bindings
+        bind(PositionProvider.class).to(StandardPositionProvider.class);
         bind(VelocityProvider.class).to(StandardVelocityProvider.class);
         bind(Guide.class).annotatedWith(Global.class).to(NeighborhoodBest.class);
         bind(Guide.class).annotatedWith(Local.class).to(PersonalBest.class);
@@ -58,6 +59,8 @@ public class PopulationBasedModule extends AbstractModule {
         }).annotatedWith(Unique.class).toProvider(UniqueSupplier.class);
         bind(new TypeLiteral<Supplier<Double>>() {
         }).annotatedWith(Names.named("acceleration")).toInstance(Suppliers.ofInstance(1.496180));
+        bind(new TypeLiteral<Supplier<Double>>() {
+        }).annotatedWith(Names.named("inertia")).toInstance(Suppliers.ofInstance(0.729844));
 
         bind(Topology.class).toProvider(CurrentTopologyProvider.class);
     }
@@ -74,6 +77,7 @@ public class PopulationBasedModule extends AbstractModule {
     @Unique
     Selector getSelector(Selector selector, final RandomProvider randomProvider) {
         return new Selector() {
+
             @Override
             public <A extends HasFitness> A select(A first, A... rest) {
                 return select(Lists.asList(first, rest));
@@ -118,6 +122,7 @@ public class PopulationBasedModule extends AbstractModule {
         @Override
         public Supplier<Double> get() {
             return new Supplier<Double>() {
+
                 final RandomProvider random = randomProvider.get();
 
                 @Override

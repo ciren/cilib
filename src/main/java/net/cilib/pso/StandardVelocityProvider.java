@@ -53,17 +53,19 @@ public final class StandardVelocityProvider extends VelocityProvider {
     private final Supplier<Double> r2c2;
     private final Guide localGuide;
     private final Guide globalGuide;
+    private final Supplier<Double> inertia;
 
     @Inject
     public StandardVelocityProvider(
+            @Named("inertia") final Supplier<Double> inertia,
             @Unique final Supplier<Double> r1Supplier,
             @Unique final Supplier<Double> r2Supplier,
             @Named("acceleration") final Supplier<Double> constant1,
             @Named("acceleration") final Supplier<Double> constant2,
             @Local Guide localGuide, @Global Guide globalGuide) {
 
+        this.inertia = inertia;
         this.r1c1 = new Supplier<Double>() {
-
             @Override
             public Double get() {
                 return constant1.get() * r1Supplier.get();
@@ -71,7 +73,6 @@ public final class StandardVelocityProvider extends VelocityProvider {
         };
 
         this.r2c2 = new Supplier<Double>() {
-
             @Override
             public Double get() {
                 return constant2.get() * r2Supplier.get();
@@ -88,12 +89,12 @@ public final class StandardVelocityProvider extends VelocityProvider {
      */
     @Override
     public List<Double> f(Particle a, Topology b) {
-        Entity n = globalGuide.f(a, b);
         Entity p = localGuide.f(a, b);
+        Entity n = globalGuide.f(a, b);
 
         List<Double> cognitive = multiply(r1c1, subtract(p.solution(), a.solution()));
         List<Double> social = multiply(r2c2, subtract(n.solution(), a.solution()));
 
-        return plus(a.velocity(), plus(cognitive, social));
+        return plus(multiply(inertia, a.velocity()), plus(cognitive, social));
     }
 }
