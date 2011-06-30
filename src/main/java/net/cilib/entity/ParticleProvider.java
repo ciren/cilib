@@ -86,11 +86,11 @@ public final class ParticleProvider {
 
                 Preconditions.checkNotNull(previous);
                 Preconditions.checkState(previous.memory().isNotEmpty());
-                Preconditions.checkState(previous.fitness().isSome());
                 Preconditions.checkState(position.isNotEmpty());
                 Preconditions.checkState(velocity.isNotEmpty());
 
                 Option<Double> newFitness = fitnessProvider.evaluate(position);
+
                 return comparator.isMoreFit(newFitness, previous.fitness())
                         ? new Particle(position, position, velocity, newFitness)
                         : new Particle(position, previous.memory(), velocity, newFitness);

@@ -52,6 +52,6 @@ public class IndividualProviderTest {
         Individual i = provider.solution(List.<Double>list(0.0)).get();
 
         Assert.assertNotNull(i);
-        Assert.assertThat(i.fitness().some(), equalTo(0.0));
+        Assert.assertThat(i.fitness().some(), equalTo(1.0));
     }
 }

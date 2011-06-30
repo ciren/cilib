@@ -21,6 +21,7 @@
  */
 package net.cilib.entity;
 
+import com.google.common.base.Supplier;
 import fj.F;
 import fj.Unit;
 import fj.data.List;
@@ -46,8 +47,8 @@ public final class Entities {
         }
     };
 
-    public static F<Unit, Particle> particleGen(final int n, final RandomProvider random) {
-        return new F<Unit, Particle>() {
+    public static Supplier<Particle> particleGen(final int n, final RandomProvider random) {
+        final F<Unit, Particle> func = new F<Unit, Particle>() {
             @Override
             public Particle f(Unit a) {
                 List<Double> position = List.<Double>replicate(n, 0.0).map(new F<Double, Double>() {
@@ -60,6 +61,12 @@ public final class Entities {
                 return new Particle(position, position,
                         List.replicate(n, 0.0),
                         Option.<Double>none());
+            }
+        };
+        return new Supplier<Particle>() {
+            @Override
+            public Particle get() {
+                return func.f(Unit.unit());
             }
         };
     }

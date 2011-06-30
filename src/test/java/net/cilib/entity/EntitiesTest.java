@@ -21,10 +21,9 @@
  */
 package net.cilib.entity;
 
+import com.google.common.base.Supplier;
 import com.google.common.collect.Iterables;
 import org.junit.Assert;
-import fj.F;
-import fj.Unit;
 import fj.data.List;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
@@ -39,10 +38,10 @@ public class EntitiesTest {
     @Test
     public void particleGen() {
         RandomProvider random = new MersenneTwister();
-        F<Unit, Particle> generator = Entities.particleGen(30, random);
+        Supplier<Particle> generator = Entities.particleGen(30, random);
 
-        Particle p1 = generator.f(Unit.unit());
-        Particle p2 = generator.f(Unit.unit());
+        Particle p1 = generator.get();
+        Particle p2 = generator.get();
 
         Assert.assertNotSame(p1, p2);
 

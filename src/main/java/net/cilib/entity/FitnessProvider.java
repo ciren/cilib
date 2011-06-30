@@ -22,7 +22,6 @@
 package net.cilib.entity;
 
 import com.google.inject.Inject;
-import fj.F2;
 import fj.data.List;
 import fj.data.Option;
 import net.cilib.problem.Problem;
@@ -47,12 +46,20 @@ public class FitnessProvider {
      */
     public Option<Double> evaluate(List<Double> solution) {
         try {
-            return Option.some(solution.foldLeft(new F2<Double, Double, Double>() {
-                @Override
-                public Double f(Double a, Double b) {
-                    return a + b;
-                }
-            }, 0.0));
+            double acc = 0.0;
+            for (Double d : solution) {
+                acc += problem.f(d);
+//                System.out.println("acc="+acc);
+            }
+            return Option.some(acc);
+//            return Option.some(solution.foldLeft(new F2<Double, Double, Double>() {
+//                @Override
+//                public Double f(Double a, Double b) {
+//                    System.out.println("a =" + a);
+//                    System.out.println("b = " + b);
+//                    return a + problem.f(b);
+//                }
+//            }, 0.0));
         } catch (Exception e) {
             return Option.none();
         }

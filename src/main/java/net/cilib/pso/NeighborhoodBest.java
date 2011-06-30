@@ -56,7 +56,7 @@ public class NeighborhoodBest extends Guide {
                 return new F<Entity, Ordering>() {
                     @Override
                     public Ordering f(final Entity b) {
-                        return !comparator.isMoreFit(a, b) ? Ordering.GT : Ordering.LT;
+                        return comparator.isLessFit(a, b) ? Ordering.GT : Ordering.LT;
                     }
                 };
             }

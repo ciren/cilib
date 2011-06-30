@@ -78,7 +78,6 @@ public final class Predef {
 
     public static List<Double> plus(List<Double> la, List<Double> lb) {
         F2<Double, Double, Double> plus = new F2<Double, Double, Double>() {
-
             @Override
             public Double f(Double a, Double b) {
                 return a + b;
@@ -89,7 +88,6 @@ public final class Predef {
 
     public static List<Double> subtract(List<Double> a, List<Double> b) {
         F2<Double, Double, Double> subtract = new F2<Double, Double, Double>() {
-
             @Override
             public Double f(Double a, Double b) {
                 return a - b;
@@ -100,7 +98,6 @@ public final class Predef {
 
     public static List<Double> multiply(final Supplier<Double> supplier, final List<Double> a) {
         return a.map(new F<Double, Double>() {
-
             @Override
             public Double f(Double a) {
                 return a * supplier.get();

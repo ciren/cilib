@@ -22,7 +22,6 @@
 package net.cilib.matchers;
 
 import fj.data.List;
-import fj.data.Option;
 import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
 import net.cilib.entity.FitnessComparator;
@@ -43,7 +42,7 @@ public class EntityMatchersTest {
         Individual worst = new Individual(List.<Double>nil(), some(1.0));
         Topology<Individual> topology = ImmutableGBestTopology.<Individual>topologyOf(best, worst);
 
-        Option<Individual> result = EntityMatchers.mostFit(topology, FitnessComparator.MAX);
-        Assert.assertThat(result.some(), is(best));
+        Individual result = EntityMatchers.mostFit(topology, FitnessComparator.MAX);
+        Assert.assertThat(result, is(best));
     }
 }

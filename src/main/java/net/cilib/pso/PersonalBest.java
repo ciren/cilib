@@ -23,7 +23,6 @@ package net.cilib.pso;
 
 import com.google.common.base.Preconditions;
 import fj.F;
-import fj.data.Option;
 import net.cilib.collection.Topology;
 import net.cilib.entity.Entity;
 import net.cilib.entity.HasMemory;

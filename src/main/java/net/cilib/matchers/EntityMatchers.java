@@ -22,7 +22,6 @@
 package net.cilib.matchers;
 
 import fj.F;
-import fj.data.Option;
 import net.cilib.collection.Topology;
 import net.cilib.entity.Entities;
 import net.cilib.entity.Entity;
@@ -46,7 +45,7 @@ public final class EntityMatchers {
      * @return an {@code Option} containing the most fit instance, or
      *         {@code none}.
      */
-    public static <A extends Entity> Option<A> mostFit(final Topology<A> topology, final FitnessComparator comparator) {
+    public static <A extends Entity> A mostFit(final Topology<A> topology, final FitnessComparator comparator) {
         A result = topology.foldLeft(new F<A, F<A, A>>() {
             @Override
             public F<A, A> f(final A x) {
@@ -59,6 +58,6 @@ public final class EntityMatchers {
             }
         }, Entities.<A>dummy());
 
-        return (result == Entities.dummy()) ? Option.<A>none() : Option.some(result);
+        return result;
     }
 }

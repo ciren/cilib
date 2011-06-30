@@ -44,7 +44,7 @@ public class NeighborhoodBestTest {
     }
 
     @Test
-    public void lbestNeighborhood() {
+    public void lbestNeighborhoodMax() {
         Individual target = newMockIndividual(3.0);
         ImmutableLBestTopology<Individual> topology = ImmutableLBestTopology.topologyOf(3,
                 newMockIndividual(1.0),
@@ -58,7 +58,7 @@ public class NeighborhoodBestTest {
     }
 
     @Test
-    public void gbestNeighborhood() {
+    public void gbestNeighborhoodMax() {
         Individual target = newMockIndividual(3.0);
         Topology<Individual> topology = ImmutableGBestTopology.topologyOf(
                 newMockIndividual(1.0),
@@ -69,5 +69,33 @@ public class NeighborhoodBestTest {
         NeighborhoodBest guide = new NeighborhoodBest(FitnessComparator.MAX);
         Entity result = guide.f(target, topology);
         Assert.assertThat(result.fitness().some(), equalTo(5.0));
+    }
+
+    @Test
+    public void lbestNeighborhoodMin() {
+        Individual target = newMockIndividual(3.0);
+        ImmutableLBestTopology<Individual> topology = ImmutableLBestTopology.topologyOf(3,
+                newMockIndividual(1.0),
+                newMockIndividual(2.0),
+                target,
+                newMockIndividual(4.0),
+                newMockIndividual(5.0));
+        NeighborhoodBest guide = new NeighborhoodBest(FitnessComparator.MIN);
+        Entity result = guide.f(target, topology);
+        Assert.assertThat(result.fitness().some(), equalTo(2.0));
+    }
+
+    @Test
+    public void gbestNeighborhoodMin() {
+        Individual target = newMockIndividual(3.0);
+        Topology<Individual> topology = ImmutableGBestTopology.topologyOf(
+                newMockIndividual(1.0),
+                newMockIndividual(2.0),
+                target,
+                newMockIndividual(4.0),
+                newMockIndividual(5.0));
+        NeighborhoodBest guide = new NeighborhoodBest(FitnessComparator.MIN);
+        Entity result = guide.f(target, topology);
+        Assert.assertThat(result.fitness().some(), equalTo(1.0));
     }
 }
