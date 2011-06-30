@@ -43,6 +43,15 @@ public class MaxFitnessComparatorTest {
     }
 
     @Test
+    public void moreFit() {
+        Individual i1 = new Individual(solution(1.0), Option.some(1.0));
+        Individual i2 = new Individual(solution(1.0), Option.some(2.0));
+        FitnessComparator c = FitnessComparator.MAX;
+
+        Assert.assertThat(c.moreFit(i1, i2), is(i2));
+    }
+
+    @Test
     public void isMoreFit() {
         Individual i1 = new Individual(solution(1.0), Option.some(1.0));
         Individual i2 = new Individual(solution(1.0), Option.some(2.0));

@@ -50,12 +50,24 @@ public class FitnessComparatorTest {
         Assert.assertThat(comparator.compare(invalid, valid), is(1));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void bothOptionValuesAreNone() {
+    /**
+     * When both fitness values are inferior
+     */
+    @Test
+    public void bothOptionValuesAreNoneMin() {
         Option<Double> a = Option.<Double>none();
         Option<Double> b = Option.<Double>none();
         FitnessComparator comparator = FitnessComparator.MIN;
 
-        comparator.compare(a, b);
+        Assert.assertEquals(0, comparator.compare(a, b));
+    }
+
+    @Test
+    public void bothOptionValuesAreNoneMax() {
+        Option<Double> a = Option.<Double>none();
+        Option<Double> b = Option.<Double>none();
+        FitnessComparator comparator = FitnessComparator.MAX;
+
+        Assert.assertEquals(0, comparator.compare(a, b));
     }
 }

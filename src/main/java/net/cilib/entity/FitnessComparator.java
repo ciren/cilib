@@ -35,6 +35,7 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
      * maintain a fitness.
      */
     MIN {
+
         /**
          * {@inheritDoc}
          */
@@ -45,7 +46,7 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
 
         @Override
         public boolean isLessFit(Option<Double> a, Option<Double> b) {
-            return compare(a, b) > 0;
+            return compare(a, b) == -1 ? false : true;
         }
 
         /**
@@ -58,18 +59,15 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
 
         @Override
         public boolean isMoreFit(Option<Double> a, Option<Double> b) {
-            return compare(a, b) < 0;
+            return compare(a, b) == 1 ? false : true;
         }
 
         @Override
-        public int compare(Option<Double> o1, Option<Double> o2) {
-            if (o1.isNone() && o2.isNone()) {
-                throw new UnsupportedOperationException("Cannot compare fitnesses: " + o1 + " " + o2);
-            }
-
-            return o1.isNone() ? 1 // o2 is better
-                    : o2.isNone() ? -1 // o1 is better
-                    : o1.some().compareTo(o2.some());
+        public int compare(Option<Double> a, Option<Double> b) {
+            return a.isNone() && b.isNone() ? 0
+                    : a.isNone() ? 1
+                    : b.isNone() ? -1
+                    : a.some().compareTo(b.some());
         }
     },
     /**
@@ -77,6 +75,7 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
      * maintain a fitness.
      */
     MAX {
+
         /**
          * {@inheritDoc}
          */
@@ -87,7 +86,7 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
 
         @Override
         public boolean isLessFit(Option<Double> a, Option<Double> b) {
-            return compare(a, b) > 0;
+            return compare(a, b) == -1 ? true : false;
         }
 
         /**
@@ -100,18 +99,15 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
 
         @Override
         public boolean isMoreFit(Option<Double> a, Option<Double> b) {
-            return compare(a, b) < 0;
+            return compare(a, b) == 1 ? true : false;
         }
 
         @Override
-        public int compare(Option<Double> o1, Option<Double> o2) {
-            if (o1.isNone() && o2.isNone()) {
-                throw new UnsupportedOperationException("Cannot compare fitnesses: " + o1 + " " + o2);
-            }
-
-            return o1.isNone() ? 1 // o2 is better
-                    : o2.isNone() ? -1 // o1 is better
-                    : o2.some().compareTo(o1.some());
+        public int compare(Option<Double> a, Option<Double> b) {
+            return a.isNone() && b.isNone() ? 0
+                    : a.isNone() ? -1
+                    : b.isNone() ? 1
+                    : a.some().compareTo(b.some());
         }
     };
 
