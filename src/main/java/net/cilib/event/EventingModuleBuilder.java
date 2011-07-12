@@ -22,11 +22,11 @@
 package net.cilib.event;
 
 import com.google.common.collect.Maps;
-import com.google.inject.*;
-import com.google.inject.matcher.Matchers;
+import com.google.inject.AbstractModule;
+import com.google.inject.Module;
+import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
 import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
 
 import java.util.Map;
 import java.util.Queue;
@@ -55,14 +55,16 @@ public final class EventingModuleBuilder {
     private final Module DEFAULT_EVENTS = new AbstractModule() {
         @Override
         protected void configure() {
-            requireBinding(EventProcessor.class);
+//            requireBinding(EventProcessor.class);
+//
+//            bindInterceptor(Matchers.any(),
+//                    Events.raising(),
+//                    new EventInterceptor(getProvider(EventProcessor.class)));
 
-            bindInterceptor(Matchers.any(),
-                    Events.raising(IterationEvent.class),
-                    new IterationInterceptor(getProvider(EventProcessor.class)));
-            bindInterceptor(Matchers.any(),
-                    Events.raising(FitnessEvaluationEvent.class),
-                    new FitnessEvaluationInterceptor(getProvider(EventProcessor.class)));
+
+//            bindInterceptor(Matchers.any(),
+//                    Events.raising(FitnessEvaluationEvent.class),
+//                    new EventInterceptor(getProvider(EventProcessor.class)));
         }
     };
 
@@ -72,7 +74,7 @@ public final class EventingModuleBuilder {
     }
 
     public EventingModuleBuilder intercept(Class<?> source, Class<? extends Event> eventType, MethodInterceptor interceptor) {
-        interceptors.put(EventBinding.get(source, eventType), interceptor);
+        interceptors.put(EventBinding.get(source), interceptor);
         return this;
     }
 
@@ -80,15 +82,9 @@ public final class EventingModuleBuilder {
         final Module constructed = new AbstractModule() {
             @Override
             protected void configure() {
-//                install(new AbstractModule() {
-//                    @Override
-//                    protected void configure() {
-//                        bind(new TypeLiteral<Queue<Event>>(){}).to(new TypeLiteral<LinkedBlockingQueue<Event>>(){});
-//                    }
-//                });
                 for (Map.Entry<EventBinding, MethodInterceptor> entry : interceptors.entrySet()) {
                     bindInterceptor(Events.on(entry.getKey().source),
-                            Events.raising(entry.getKey().eventType),
+                            Events.raising(),
                             entry.getValue());
                 }
             }
@@ -105,52 +101,29 @@ public final class EventingModuleBuilder {
     private static class EventBinding {
 
         private final Class<?> source;
-        private final Class<? extends Event> eventType;
 
-        static EventBinding get(Class<?> source, Class<? extends Event> eventType) {
-            return new EventBinding(source, eventType);
+        static EventBinding get(Class<?> source) {
+            return new EventBinding(source);
         }
 
-        private EventBinding(Class<?> source, Class<? extends Event> eventType) {
+        private EventBinding(Class<?> source) {
             this.source = source;
-            this.eventType = eventType;
         }
     }
 
-    public static class IterationInterceptor implements MethodInterceptor {
-        private final Provider<EventProcessor> processorProvider;
-
-        @Inject
-        IterationInterceptor(Provider<EventProcessor> eventProcessor) {
-            processorProvider = eventProcessor;
-        }
-
-        @Override
-        public Object invoke(MethodInvocation invocation) throws Throwable {
-            EventProcessor processor = processorProvider.get();
-            System.out.println("iteration start");
-            processor.process(IterationEvent.START);
-            Object result = invocation.proceed();
-            processor.process(IterationEvent.STOP);
-            return result;
-        }
-    }
-
-    private static class FitnessEvaluationInterceptor implements MethodInterceptor {
-        private final Provider<EventProcessor> processorProvider;
-
-        @Inject
-        FitnessEvaluationInterceptor(Provider<EventProcessor> eventProcessor) {
-            this.processorProvider = eventProcessor;
-        }
-
-        @Override
-        public Object invoke(MethodInvocation invocation) throws Throwable {
-            EventProcessor processor = processorProvider.get();
-            processor.process(FitnessEvaluationEvent.START);
-            Object result = invocation.proceed();
-            processor.process(FitnessEvaluationEvent.STOP);
-            return result;
-        }
-    }
+//    public static class EventInterceptor implements MethodInterceptor {
+//        private final Provider<EventProcessor> processorProvider;
+//
+//        @Inject
+//        EventInterceptor(Provider<EventProcessor> eventProcessor) {
+//            processorProvider = eventProcessor;
+//        }
+//
+//        @Override
+//        public Object invoke(MethodInvocation invocation) throws Throwable {
+//            Event result = (Event) invocation.proceed();
+//            processorProvider.get().process(result);
+//            return result;
+//        }
+//    }
 }

@@ -19,32 +19,36 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.entity;
+package net.cilib.problem;
 
-import fj.function.Doubles;
+import fj.F2;
 import fj.data.List;
 import fj.data.Option;
-import net.cilib.problem.Evaluatable;
-import org.junit.Assert;
-import org.junit.Test;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static net.cilib.predef.Predef.solution;
+import fj.function.Doubles;
 
 /**
- *
+ * This is not pretty :/ but I cannot see another way of doing it
  * @author gpampara
  */
-public class FitnessProviderTest {
+final class Problem2 implements Evaluatable {
 
-    @Test
-    public void testFinalize() {
-        FitnessProvider provider = new FitnessProvider(new Evaluatable() {
-            @Override
-            public Option<Double> eval(List<Double> a) {
-                return Option.some(a.foldLeft(Doubles.add, 0.0));
+    private final F2<Double, Double, Double> f;
+
+    public Problem2(F2<Double, Double, Double> f) {
+        this.f = f;
+    }
+
+    @Override
+    public final Option<Double> eval(List<Double> a) {
+        try {
+            final List<List<Double>> params = a.partition(2);
+            final List.Buffer<Double> bs = List.Buffer.empty();
+            for (List<Double> param : params) {
+                bs.snoc(f.f(param.head(), param.tail().head()));
             }
-        });
-
-        Assert.assertThat(provider.evaluate(solution(1.0, 2.0)).some(), equalTo(3.0));
+            return Option.some(bs.toList().foldLeft(Doubles.add, 0.0));
+        } catch (Exception e) {
+        }
+        return Option.none();
     }
 }

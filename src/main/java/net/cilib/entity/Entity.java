@@ -23,8 +23,7 @@ package net.cilib.entity;
 
 /**
  * An {@code Entity} is an instance that maintains both a
- * {@link net.cilib.collection.immutable.CandidateSolution} and an {@link fj.data.Option} representing the
- * fitness value.
+ * candidate solution and a fitness.
  *
  * @since 0.8
  * @author gpampara

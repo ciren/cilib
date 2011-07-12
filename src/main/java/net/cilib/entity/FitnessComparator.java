@@ -46,7 +46,7 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
 
         @Override
         public boolean isLessFit(Option<Double> a, Option<Double> b) {
-            return compare(a, b) == -1 ? false : true;
+            return compare(a, b) != -1;
         }
 
         /**
@@ -59,7 +59,7 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
 
         @Override
         public boolean isMoreFit(Option<Double> a, Option<Double> b) {
-            return compare(a, b) == 1 ? false : true;
+            return compare(a, b) != 1;
         }
 
         @Override
@@ -86,7 +86,7 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
 
         @Override
         public boolean isLessFit(Option<Double> a, Option<Double> b) {
-            return compare(a, b) == -1 ? true : false;
+            return compare(a, b) == -1;
         }
 
         /**
@@ -99,7 +99,7 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
 
         @Override
         public boolean isMoreFit(Option<Double> a, Option<Double> b) {
-            return compare(a, b) == 1 ? true : false;
+            return compare(a, b) == 1;
         }
 
         @Override

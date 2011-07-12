@@ -21,10 +21,10 @@
  */
 package net.cilib.predef;
 
-import com.google.common.base.Supplier;
-import com.google.common.base.Suppliers;
 import com.google.common.collect.Lists;
 import fj.F;
+import fj.P1;
+import fj.data.Either;
 import fj.data.List;
 import fj.data.Option;
 import fj.function.Doubles;
@@ -51,17 +51,17 @@ public final class Predef {
         return Option.some(value);
     }
 
-    /**
-     * Create an "<i>inferior fitness</i>". In this case a "fitness" is nothing
-     * more than the none option type.
-     * <p/>
-     * This factory method is purely for convenience and has questionable value.
-     *
-     * @return an {@code Option} representing an unspecified fitness value.
-     */
-    public static Option<Double> inferior() {
-        return Option.none();
-    }
+//    /**
+//     * Create an "<i>inferior fitness</i>". In this case a "fitness" is nothing
+//     * more than the none option type.
+//     * <p/>
+//     * This factory method is purely for convenience and has questionable value.
+//     *
+//     * @return an {@code Option} representing an unspecified fitness value.
+//     */
+////    public static Option<Double> inferior() {
+////        return Option.none();
+////    }
 
     public static List<Double> solution(final double first, final double... rest) {
         java.util.List<Double> tmp = Lists.newArrayList(first);
@@ -83,16 +83,11 @@ public final class Predef {
         return a.zipWith(b, Doubles.subtract);
     }
 
-    public static List<Double> multiply(final Supplier<Double> supplier, final List<Double> a) {
-        return a.map(Doubles.multiply.bind(new F<F<Double, Double>, F<Double, Double>>() {
+    public static List<Double> multiply(final P1<Double> p, final List<Double> a) {
+        return a.map(Doubles.multiply.andThen(new F<F<Double, Double>, Double>() {
             @Override
-            public F<Double, Double> f(F<Double, Double> a) {
-                return new F<Double, Double>() {
-                    @Override
-                    public Double f(Double a) {
-                        return a * supplier.get();
-                    }
-                };
+            public Double f(F<Double, Double> a) {
+                return a.f(p._1());
             }
         }));
     }
@@ -107,52 +102,27 @@ public final class Predef {
      * is then raised, if needed.
      *
      * @param scalar the value to apply to each component.
-     * @param a    the sequence to divide.
-     * @return the altered mutable sequence.
-     */
-    public static List<Double> divide(double scalar, List<Double> a) {
-        return a.map(Doubles.multiply.f(1.0 / scalar));
-    }
-
-    /**
-     * Divide each component within the given mutable sequence by the values provided
-     * from the given {@code Supplier}. Division by {@code 0.0} is checked,
-     * resulting in a {@link ArithmeticException} when violated.
-     *
-     * @param supplier source of scalar values.
      * @param a      the sequence to divide.
      * @return the altered mutable sequence.
      */
-    public static List<Double> divide(final Supplier<Double> supplier, List<Double> a) {
-        final CheckingSupplier check = new CheckingSupplier(supplier);
-        return a.map(Doubles.multiply.bind(new F<F<Double, Double>, F<Double, Double>>() {
-            @Override
-            public F<Double, Double> f(F<Double, Double> a) {
-                return new F<Double, Double>() {
-                    @Override
-                    public Double f(Double a) {
-                        return a * (1.0 / check.get());
-                    }
-                };
-            }
-        }));
+    public static List<Double> divide(double scalar, List<Double> a) {
+        Either<Exception, Double> z = divide(1.0, scalar)._1();
+        if (z.isLeft()) {
+            throw new Error(z.left().value());
+        }
+        return a.map(Doubles.multiply.f(z.right().value()));
     }
 
-    private static final class CheckingSupplier implements Supplier<Double> {
-
-        private final Supplier<Double> supplier;
-
-        private CheckingSupplier(Supplier<Double> supplier) { // Accept a function / closure
-            this.supplier = Suppliers.memoize(supplier);
-        }
-
-        @Override
-        public Double get() {
-            double scalar = supplier.get();
-            if (Double.compare(scalar, 0.0) == 0) {
-                throw new ArithmeticException("Cannot divide with a 0.0!");
+    private static P1<Either<Exception, Double>> divide(final double x, final double y) {
+        return new P1<Either<Exception, Double>>() {
+            @Override
+            public Either<Exception, Double> _1() {
+                try {
+                    return Either.right(x / y);
+                } catch (Exception e) {
+                    return Either.left(e);
+                }
             }
-            return scalar;
-        }
+        };
     }
 }

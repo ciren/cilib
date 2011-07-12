@@ -19,32 +19,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.entity;
+package net.cilib.problem;
 
-import fj.function.Doubles;
-import fj.data.List;
 import fj.data.Option;
-import net.cilib.problem.Evaluatable;
+import fj.data.List;
 import org.junit.Assert;
 import org.junit.Test;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static net.cilib.predef.Predef.solution;
+import static org.hamcrest.CoreMatchers.*;
 
 /**
  *
  * @author gpampara
  */
-public class FitnessProviderTest {
+public class Problem1Test {
 
     @Test
-    public void testFinalize() {
-        FitnessProvider provider = new FitnessProvider(new Evaluatable() {
-            @Override
-            public Option<Double> eval(List<Double> a) {
-                return Option.some(a.foldLeft(Doubles.add, 0.0));
-            }
-        });
+    public void evaluationOfSolution() {
+        List<Double> list = List.list(1.0, 2.0, 3.0);
 
-        Assert.assertThat(provider.evaluate(solution(1.0, 2.0)).some(), equalTo(3.0));
+        Problem1 mockProblem1 = new Problem1(Benchmarks.square);
+
+        Option<Double> result = mockProblem1.eval(list);
+        Assert.assertThat(result.some(), equalTo(14.0));
     }
 }

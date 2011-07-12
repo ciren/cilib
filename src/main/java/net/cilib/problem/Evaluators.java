@@ -19,32 +19,46 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.entity;
+package net.cilib.problem;
 
-import fj.function.Doubles;
+import fj.F;
+import fj.F2;
+import fj.F3;
+import fj.F4;
+import fj.F5;
 import fj.data.List;
-import fj.data.Option;
-import net.cilib.problem.Evaluatable;
-import org.junit.Assert;
-import org.junit.Test;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static net.cilib.predef.Predef.solution;
 
 /**
  *
  * @author gpampara
  */
-public class FitnessProviderTest {
+public final class Evaluators {
 
-    @Test
-    public void testFinalize() {
-        FitnessProvider provider = new FitnessProvider(new Evaluatable() {
-            @Override
-            public Option<Double> eval(List<Double> a) {
-                return Option.some(a.foldLeft(Doubles.add, 0.0));
-            }
-        });
+    private Evaluators() {
+        throw new UnsupportedOperationException();
+    }
 
-        Assert.assertThat(provider.evaluate(solution(1.0, 2.0)).some(), equalTo(3.0));
+    public static Evaluatable create1(F<Double, Double> f) {
+        return new Problem1(f);
+    }
+
+    public static Evaluatable create2(F2<Double, Double, Double> f) {
+        return new Problem2(f);
+    }
+
+    public static Evaluatable create3(F3<Double, Double, Double, Double> f) {
+        return new Problem3(f);
+    }
+
+    public static Evaluatable create4(F4<Double, Double, Double, Double, Double> f) {
+        return new Problem4(f);
+    }
+
+    public static Evaluatable create5(F5<Double, Double, Double, Double, Double, Double> f) {
+        return new Problem5(f);
+    }
+
+    public static Evaluatable createL(F<List<Double>, Double> f) {
+        return new ProblemDirect(f);
     }
 }

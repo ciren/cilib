@@ -46,7 +46,7 @@ public final class EntityMatchers {
      *         {@code none}.
      */
     public static <A extends Entity> A mostFit(final Topology<A> topology, final FitnessComparator comparator) {
-        A result = topology.foldLeft(new F<A, F<A, A>>() {
+        return topology.foldLeft(new F<A, F<A, A>>() {
             @Override
             public F<A, A> f(final A x) {
                 return new F<A, A>() {
@@ -57,7 +57,5 @@ public final class EntityMatchers {
                 };
             }
         }, Entities.<A>dummy());
-
-        return result;
     }
 }

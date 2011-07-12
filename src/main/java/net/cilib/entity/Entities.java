@@ -33,12 +33,7 @@ public final class Entities {
     private final static Entity DUMMY = new Entity() {
         @Override
         public List<Double> solution() {
-            return List.<Double>nil();
-        }
-
-        @Override
-        public int size() {
-            return 0;
+            return List.nil();
         }
 
         @Override

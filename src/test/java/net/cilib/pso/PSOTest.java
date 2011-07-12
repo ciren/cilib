@@ -31,7 +31,7 @@ import net.cilib.entity.FitnessComparator;
 import net.cilib.entity.FitnessProvider;
 import net.cilib.entity.Particle;
 import net.cilib.entity.ParticleProvider;
-import net.cilib.problem.Problem;
+import net.cilib.problem.Evaluatable;
 import static net.cilib.predef.Predef.*;
 import static org.mockito.Mockito.*;
 import org.junit.Test;
@@ -45,10 +45,11 @@ public class PSOTest {
     public void algorithmCreation() {
         final PositionProvider p = mock(PositionProvider.class);
         final VelocityProvider v = mock(VelocityProvider.class);
-        final Problem problem = mock(Problem.class);
+        final Evaluatable problem = mock(Evaluatable.class);
 
         when(v.f(any(Particle.class), any(Topology.class))).thenReturn(List.<Double>list(0.0));
         when(p.f(any(List.class), any(List.class))).thenReturn(solution(1.0));
+        when(problem.eval(any(List.class))).thenReturn(Option.<Double>some(1.0));
 
         ParticleProvider provider = new ParticleProvider(p, v, new FitnessProvider(problem), FitnessComparator.MAX);
         PSO pso = new PSO(provider);

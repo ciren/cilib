@@ -21,11 +21,28 @@
  */
 package net.cilib.problem;
 
-import fj.F;
+import org.junit.Assert;
+import fj.data.List;
+import org.junit.Test;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.number.IsCloseTo.*;
 
 /**
- * @since 0.8
- * @author gpampara
+ *
  */
-public abstract class Problem extends F<Double, Double> {
+public class BenchmarksTest {
+
+    @Test
+    public void griewankSolution() {
+        Evaluatable e = Evaluators.createL(Benchmarks.rastrigin);
+        Assert.assertThat(e.eval(List.list(0.0, 0.0)).some(), equalTo(0.0));
+    }
+
+    @Test
+    public void griewankAtPoint() {
+        Evaluatable e = Evaluators.createL(Benchmarks.rastrigin);
+
+        Assert.assertEquals(2, 2, 2);
+        Assert.assertThat(e.eval(List.list(Math.PI / 2, Math.PI / 2)).some(), closeTo(1.0012337, 0.000001));
+    }
 }

@@ -19,32 +19,40 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.entity;
+package net.cilib.problem;
 
-import com.google.inject.Inject;
+import fj.F3;
 import fj.data.List;
 import fj.data.Option;
-import net.cilib.problem.Evaluatable;
+import fj.function.Doubles;
 
 /**
- * Factory instance to calculate the fitness, given a {@code CandidateSolution}.
+ * This is not pretty :/ but I cannot see another way of doing it
  * @author gpampara
  */
-public class FitnessProvider {
+final class Problem3 implements Evaluatable {
 
-    private final Evaluatable evaluator;
+    private final F3<Double, Double, Double, Double> f;
 
-    @Inject
-    public FitnessProvider(Evaluatable e) {
-        this.evaluator = e;
+    public Problem3(F3<Double, Double, Double, Double> f) {
+        this.f = f;
     }
 
-    /**
-     * Calculate the fitness for the given {@code CandidateSolution}.
-     * @param solution {@code CandidateSolution} to evaluate.
-     * @return the fitness of the given {@code CandidateSolution}.
-     */
-    public Option<Double> evaluate(List<Double> solution) {
-        return evaluator.eval(solution);
+    @Override
+    public final Option<Double> eval(List<Double> a) {
+        try {
+            final List<List<Double>> params = a.partition(3);
+            final List.Buffer<Double> bs = List.Buffer.empty();
+            for (List<Double> param : params) {
+                List<Double> xs = param;
+                Double _a = xs.head(); xs = xs.tail();
+                Double _b = xs.head(); xs = xs.tail();
+                Double _c = xs.head();
+                bs.snoc(f.f(_a, _b, _c));
+            }
+            return Option.some(bs.toList().foldLeft(Doubles.add, 0.0));
+        } catch (Exception e) {
+        }
+        return Option.none();
     }
 }

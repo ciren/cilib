@@ -26,7 +26,7 @@ import fj.data.List;
 import net.cilib.collection.Topology;
 import fj.data.Option;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
-import net.cilib.problem.Problem;
+import net.cilib.problem.Evaluatable;
 import net.cilib.pso.PositionProvider;
 import net.cilib.pso.VelocityProvider;
 import org.junit.Test;
@@ -46,12 +46,13 @@ public class ParticleProviderTest {
 
     @Test
     public void newParticleCreation() {
-        final Problem problem = mock(Problem.class);
+        final Evaluatable problem = mock(Evaluatable.class);
         final PositionProvider position = mock(PositionProvider.class);
         final VelocityProvider velocity = mock(VelocityProvider.class);
 
         when(position.f(any(List.class), any(List.class))).thenReturn(solution(2.0));
         when(velocity.f(any(Particle.class), any(Topology.class))).thenReturn(velocity(1.0));
+        when(problem.eval(any(List.class))).thenReturn(Option.<Double>none());
 
         final FitnessProvider fitness = new FitnessProvider(problem);
         final ParticleProvider provider = new ParticleProvider(position, velocity, fitness, FitnessComparator.MAX);
@@ -98,10 +99,11 @@ public class ParticleProviderTest {
     public void newVelocityCreated() {
         final PositionProvider p = mock(PositionProvider.class);
         final VelocityProvider v = mock(VelocityProvider.class);
-        final Problem problem = mock(Problem.class);
+        final Evaluatable problem = mock(Evaluatable.class);
 
         when(v.f(any(Particle.class), any(Topology.class))).thenReturn(velocity(0.0));
         when(p.f(any(List.class), any(List.class))).thenReturn(solution(1.0));
+        when(problem.eval(any(List.class))).thenReturn(Option.<Double>none());
 
         final ParticleProvider provider = new ParticleProvider(p, v, new FitnessProvider(problem), FitnessComparator.MAX);
         provider.basedOn(OLD_PARTICLE).get(ImmutableGBestTopology.of());
@@ -113,10 +115,11 @@ public class ParticleProviderTest {
     public void newPositionCreated() {
         final PositionProvider p = mock(PositionProvider.class);
         final VelocityProvider v = mock(VelocityProvider.class);
-        final Problem problem = mock(Problem.class);
+        final Evaluatable problem = mock(Evaluatable.class);
 
         when(v.f(any(Particle.class), any(Topology.class))).thenReturn(velocity(0.0));
         when(p.f(any(List.class), any(List.class))).thenReturn(solution(1.0));
+        when(problem.eval(any(List.class))).thenReturn(Option.<Double>none());
 
         final ParticleProvider provider = new ParticleProvider(p, v, new FitnessProvider(problem), FitnessComparator.MAX);
         provider.basedOn(OLD_PARTICLE).get(ImmutableGBestTopology.of());

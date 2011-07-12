@@ -22,7 +22,8 @@
 package net.cilib.entity;
 
 import fj.data.List;
-import net.cilib.problem.Problem;
+import fj.data.Option;
+import net.cilib.problem.Evaluatable;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -41,10 +42,10 @@ public class IndividualProviderTest {
 
     @Test
     public void individualCreation() {
-        FitnessProvider fitnessProvider = new FitnessProvider(new Problem() {
+        FitnessProvider fitnessProvider = new FitnessProvider(new Evaluatable() {
             @Override
-            public Double f(Double a) {
-                return 1.0;
+            public Option<Double> eval(List<Double> a) {
+                return Option.some(1.0);
             }
         });
 

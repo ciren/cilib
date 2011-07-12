@@ -19,45 +19,41 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.entity;
+package net.cilib.problem;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import fj.F4;
 import fj.data.List;
-
 import fj.data.Option;
+import fj.function.Doubles;
 
 /**
- * A partial entity is an entity that has, at least, a candidate solution. No
- * guarantees are made regarding the content of this object. This object is
- * mainly required in cases where an adapter class is necessitated.
- *
+ * This is not pretty :/ but I cannot see another way of doing it
  * @author gpampara
  */
-public final class PartialEntity implements Entity {
-    private final List<Double> solution;
+final class Problem4 implements Evaluatable {
 
-    public PartialEntity(List<Double> solution) {
-        this.solution = checkNotNull(solution);
+    private final F4<Double, Double, Double, Double, Double> f;
+
+    public Problem4(F4<Double, Double, Double, Double, Double> f) {
+        this.f = f;
     }
 
-    /**
-     * Get the current {@code CandidateSolution}.
-     *
-     * @return the {@code CandidateSolution}.
-     */
     @Override
-    public List<Double> solution() {
-        return solution;
-    }
-
-    /**
-     * The current fitness of the {@code PartialEntity} is always
-     * {@linkplain Option#none() inferior}.
-     *
-     * @return An inferior fitness.
-     */
-    @Override
-    public Option<Double> fitness() {
+    public final Option<Double> eval(List<Double> a) {
+        try {
+            final List<List<Double>> params = a.partition(3);
+            final List.Buffer<Double> bs = List.Buffer.empty();
+            for (List<Double> param : params) {
+                List<Double> xs = param;
+                Double _a = xs.head(); xs = xs.tail();
+                Double _b = xs.head(); xs = xs.tail();
+                Double _c = xs.head(); xs = xs.tail();
+                Double _d = xs.head();
+                bs.snoc(f.f(_a, _b, _c, _d));
+            }
+            return Option.some(bs.toList().foldLeft(Doubles.add, 0.0));
+        } catch (Exception e) {
+        }
         return Option.none();
     }
 }

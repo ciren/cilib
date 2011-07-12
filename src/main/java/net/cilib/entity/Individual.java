@@ -31,7 +31,7 @@ import fj.data.List;
  * Basic individual class.
  * <p/>
  * The individual is an {@link Entity} instances that maintains a single
- * {@linkplain CandidateSolution solution} and {@linkplain Fitness fitness}.
+ * candidate solution and fitness.
  *
  * @author gpampara
  * @since 0.8
@@ -52,14 +52,6 @@ public final class Individual implements Entity {
     @Override
     public List<Double> solution() {
         return solution;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int size() {
-        return solution.length();
     }
 
     /**

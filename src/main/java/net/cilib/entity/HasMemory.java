@@ -25,14 +25,13 @@ import fj.data.List;
 
 /**
  * Any class implementing this interface defines that the instance maintains
- * a memory of a {@link CandidateSolution}.
+ * a memory.
  * @author gpampara
  */
 public interface HasMemory {
 
     /**
-     * Get the currently remembered {@linkplain CandidateSolution candidate
-     * solution}.
+     * Get the currently memory.
      * @return the maintained memory.
      */
     List<Double> memory();

@@ -19,24 +19,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.cilib.algorithm;
+package net.cilib.problem;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import fj.F;
+import fj.data.List;
+import fj.data.Option;
+import fj.function.Doubles;
 
 /**
- * This class defines the global algorithm state associated with a running
- * algorithm.
+ * @since 0.8
  * @author gpampara
  */
-public class StateT {
+final class Problem1 implements Evaluatable {
+    private final F<Double, Double> f;
 
-    private AtomicInteger iterations = new AtomicInteger();
-
-    public void incIterations() {
-        this.iterations.incrementAndGet();
+    public Problem1(F<Double, Double> f) {
+        this.f = f;
     }
 
-    public int iterations() {
-        return iterations.get();
+    @Override
+    public final Option<Double> eval(final List<Double> a) {
+        try {
+            return Option.some(a.map(f).foldLeft(Doubles.add, 0.0));
+        } catch (Exception e) {
+        }
+        return Option.<Double>none();
     }
 }

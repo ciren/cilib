@@ -28,8 +28,7 @@ import net.cilib.entity.FitnessComparator;
 import net.cilib.inject.annotation.Seed;
 import net.cilib.inject.annotation.SimulationScoped;
 import net.cilib.inject.annotation.Unique;
-import net.cilib.main.MockProblem;
-import net.cilib.problem.Problem;
+import net.cilib.problem.Evaluatable;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
@@ -62,6 +61,8 @@ public final class CIlibCoreModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        requireBinding(Evaluatable.class); // This needs to be provided by the user.
+
         // Define the custom simulation scope
         SimulationScope scope = new SimulationScope();
         bindScope(SimulationScoped.class, scope);
@@ -74,7 +75,7 @@ public final class CIlibCoreModule extends AbstractModule {
         bind(RandomProvider.class).to(MersenneTwister.class);
         bind(RandomProvider.class).annotatedWith(Unique.class).toProvider(UniqueRandomProvider.class);
 
-        bind(Problem.class).to(MockProblem.class);
+//        bind(Evaluatable.class).toInstance(null);
         bind(FitnessComparator.class).toInstance(FitnessComparator.MIN);
     }
 

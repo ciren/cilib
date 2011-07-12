@@ -21,13 +21,13 @@
  */
 package net.cilib.main;
 
-import net.cilib.problem.Problem;
+import fj.F;
 
 /**
  *
  * @author gpampara
  */
-public final class MockProblem extends Problem {
+public final class MockProblem extends F<Double, Double> {
 
     /**
      * Spherical

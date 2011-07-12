@@ -45,7 +45,7 @@ public class EntitiesTest {
 
         Assert.assertNotSame(p1, p2);
 
-        Assert.assertEquals(30, p1.size());
+        Assert.assertEquals(30, p1.solution().length());
         Assert.assertEquals(p1.solution(), p1.memory());
         Assert.assertTrue(p1.fitness().isNone());
         Assert.assertTrue(Iterables.elementsEqual(p1.velocity(), List.<Double>replicate(30, 0.0)));

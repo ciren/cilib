@@ -29,9 +29,8 @@ import fj.data.List;
 
 /**
  * Representation of a {@code Particle}. A {@code Particle} is an {@code Entity}
- * that maintains a {@linkplain CandidateSolution current position},
- * {@linkplain Velocity velocity}, {@linkplain Fitness fitness} and also has a
- * memory to record the best observed {@linkplain CandidateSolution position}.
+ * that maintains a current position}, velocity, fitness and also has a
+ * memory to record the best observed position.
  * @author gpampara
  */
 public final class Particle implements Entity, HasVelocity, HasMemory {
@@ -65,14 +64,6 @@ public final class Particle implements Entity, HasVelocity, HasMemory {
     @Override
     public List<Double> solution() {
         return position;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int size() {
-        return position.length();
     }
 
     /**

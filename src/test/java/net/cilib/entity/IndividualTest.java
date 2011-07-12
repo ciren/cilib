@@ -39,6 +39,6 @@ public class IndividualTest {
         List<Double> solution = solution(1.0, 3.0);
         Individual i = new Individual(solution, Option.<Double>none());
 
-        Assert.assertThat(i.size(), is(2));
+        Assert.assertThat(i.solution().length(), is(2));
     }
 }

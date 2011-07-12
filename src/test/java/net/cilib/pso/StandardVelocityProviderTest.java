@@ -21,18 +21,20 @@
  */
 package net.cilib.pso;
 
-import fj.data.List;
-import com.google.common.base.Supplier;
-import com.google.common.base.Suppliers;
 import com.google.common.collect.Iterables;
+import fj.P;
+import fj.P1;
 import fj.data.Array;
+import fj.data.List;
 import fj.data.Option;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
 import net.cilib.entity.FitnessComparator;
 import net.cilib.entity.Particle;
 import org.junit.Assert;
 import org.junit.Test;
-import static net.cilib.predef.Predef.*;
+
+import static net.cilib.predef.Predef.solution;
+import static net.cilib.predef.Predef.velocity;
 
 /**
  * @author gpampara
@@ -41,9 +43,9 @@ public class StandardVelocityProviderTest {
 
     @Test
     public void velocityCalculation() {
-        final Supplier<Double> constant = Suppliers.ofInstance(5.0);
+        final P1<Double> constant = P.p(5.0);
         final StandardVelocityProvider provider = new StandardVelocityProvider(
-                Suppliers.ofInstance(1.0),
+                P.p(1.0),
                 constant, constant, constant, constant,
                 new PersonalBest(), new NeighborhoodBest(FitnessComparator.MIN));
         final Particle particle1 = new Particle(solution(1.0),

@@ -21,15 +21,15 @@
  */
 package net.cilib.pso;
 
-import fj.data.List;
-import net.cilib.collection.Topology;
-import net.cilib.inject.annotation.Global;
-import net.cilib.inject.annotation.Local;
-import net.cilib.entity.Particle;
-import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import fj.P1;
+import fj.data.List;
+import net.cilib.collection.Topology;
 import net.cilib.entity.Entity;
+import net.cilib.entity.Particle;
+import net.cilib.inject.annotation.Global;
+import net.cilib.inject.annotation.Local;
 import net.cilib.inject.annotation.Unique;
 import static net.cilib.predef.Predef.*;
 
@@ -49,33 +49,33 @@ import static net.cilib.predef.Predef.*;
  */
 public final class StandardVelocityProvider extends VelocityProvider {
 
-    private final Supplier<Double> r1c1;
-    private final Supplier<Double> r2c2;
+    private final P1<Double> r1c1;
+    private final P1<Double> r2c2;
     private final Guide localGuide;
     private final Guide globalGuide;
-    private final Supplier<Double> inertia;
+    private final P1<Double> inertia;
 
     @Inject
     public StandardVelocityProvider(
-            @Named("inertia") final Supplier<Double> inertia,
-            @Unique final Supplier<Double> r1Supplier,
-            @Unique final Supplier<Double> r2Supplier,
-            @Named("acceleration") final Supplier<Double> constant1,
-            @Named("acceleration") final Supplier<Double> constant2,
+            @Named("inertia") final P1<Double> inertia,
+            @Unique final P1<Double> r1Supplier,
+            @Unique final P1<Double> r2Supplier,
+            @Named("acceleration") final P1<Double> constant1,
+            @Named("acceleration") final P1<Double> constant2,
             @Local Guide localGuide, @Global Guide globalGuide) {
 
         this.inertia = inertia;
-        this.r1c1 = new Supplier<Double>() {
+        this.r1c1 = new P1<Double>() {
             @Override
-            public Double get() {
-                return constant1.get() * r1Supplier.get();
+            public Double _1() {
+                return constant1._1() * r1Supplier._1();
             }
         };
 
-        this.r2c2 = new Supplier<Double>() {
+        this.r2c2 = new P1<Double>() {
             @Override
-            public Double get() {
-                return constant2.get() * r2Supplier.get();
+            public Double _1() {
+                return constant2._1() * r2Supplier._1();
             }
         };
         this.localGuide = localGuide;
@@ -83,8 +83,8 @@ public final class StandardVelocityProvider extends VelocityProvider {
     }
 
     /**
-     * @param particle to base the calculation of the {@link Velocity} on.
-     * @return
+     * @param a particle to base the calculation of the velocity on.
+     * @return a new velocity
      * @todo: The guides for the equation should be provided as parameters.
      */
     @Override

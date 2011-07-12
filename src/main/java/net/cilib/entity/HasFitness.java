@@ -32,8 +32,9 @@ public interface HasFitness {
 
     /**
      * Gets the current fitness value. The fitness value may or may not exist.
-     * Valid fitness values are provided by an instance of {@link Option#some(Object)}
-     * and invalid fitness values are given by {@link fj.data.Option#none()}.
+     * Valid fitness values are provided by an instance of
+     * {@linkplain Option#some(Object) some}
+     * and invalid fitness values are given by {@linkplain Option#none() none}.
      *
      * @return the fitness value.
      */

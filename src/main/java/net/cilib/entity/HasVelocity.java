@@ -24,14 +24,14 @@ package net.cilib.entity;
 import fj.data.List;
 
 /**
- * Indicate that the current instance maintains a {@code Velocity}.
+ * Indicate that the current instance maintains a velocity.
  * @author gpampara
  */
 public interface HasVelocity {
 
     /**
-     * Obtain the current {@code Velocity} instance.
-     * @return current {@code Velocity}.
+     * Obtain the current {@code velocity} instance.
+     * @return current {@code velocity}.
      */
     List<Double> velocity();
 }

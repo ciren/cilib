@@ -21,15 +21,6 @@
  */
 package net.cilib.simulation;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import com.google.inject.Inject;
-import java.util.List;
-import net.cilib.algorithm.PopulationBasedAlgorithm;
-import net.cilib.collection.Topology;
-import net.cilib.inject.SimulationScope;
-import net.cilib.measurement.Measurement;
-import net.cilib.problem.Problem;
-
 /**
  *
  * @author gpampara

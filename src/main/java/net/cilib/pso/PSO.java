@@ -54,6 +54,7 @@ public class PSO extends PopulationBasedAlgorithm<Particle> {
      */
     @Override
     public Topology<Particle> next(final Topology<Particle> topology) {
+//        return topology.map(particleProvider.basedOn(particle).get(topology));
         final TopologyBuffer<Particle> topologyBuilder = topology.newBuffer();
         for (Particle particle : topology) {
             topologyBuilder.add(particleProvider.basedOn(particle).get(topology));

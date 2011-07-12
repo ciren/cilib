@@ -27,7 +27,6 @@ import net.cilib.collection.Topology;
 import net.cilib.collection.TopologyBuffer;
 import net.cilib.entity.*;
 import net.cilib.event.CanRaise;
-import net.cilib.event.IterationEvent;
 
 /**
  * DE Implementation of {@code DE/x/y/z}.
@@ -40,23 +39,20 @@ public class DE<A extends Entity>  extends PopulationBasedAlgorithm<A> {
     private final CrossoverProvider crossoverProvider;
     private final Selector selector;
     private final IndividualProvider individualProvider;
-    private final FitnessProvider fitnessProvider;
 
     @Inject
     public DE(MutationProvider mutationProvider,
             CrossoverProvider crossoverProvider,
             Selector selector,
-            IndividualProvider individualProvider,
-            FitnessProvider fitnessProvider) {
+            IndividualProvider individualProvider) {
         this.mutationProvider = mutationProvider;
         this.crossoverProvider = crossoverProvider;
         this.selector = selector;
         this.individualProvider = individualProvider;
-        this.fitnessProvider = fitnessProvider;
     }
 
     @Override
-    @CanRaise(IterationEvent.class)
+    @CanRaise
     public Topology<A> next(Topology<A> topology) {
         TopologyBuffer<A> buffer = topology.newBuffer();
         for (A parent : topology) {

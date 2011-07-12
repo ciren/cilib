@@ -76,6 +76,7 @@ public final class ParticleProvider {
 
         /**
          * Create a new instance of a {@code Particle}.
+         * @param topology topology to base particle creation on.
          * @return a new {@code Particle} instance.
          * @throws NullPointerException if a required value is not set.
          */
