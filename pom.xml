@@ -125,15 +125,6 @@
             <resource>
                 <directory>src/main/resources</directory>
             </resource>
-            <resource>
-                <filtering>true</filtering>
-                <directory>src/main/scripts</directory>
-                <includes>
-                    <include>simulator.sh</include>
-                    <include>simulator.bat</include>
-                </includes>
-                <targetPath>../..</targetPath>
-            </resource>
         </resources>
         <testResources>
             <testResource>
@@ -215,16 +206,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <descriptors>
-                        <descriptor>src/main/assembly/assembly-bin.xml</descriptor>
-                        <descriptor>src/main/assembly/assembly-src.xml</descriptor>
-                    </descriptors>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
