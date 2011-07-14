@@ -49,7 +49,7 @@ public class PSOTest {
 
         when(v.f(any(Particle.class), any(Topology.class))).thenReturn(List.<Double>list(0.0));
         when(p.f(any(List.class), any(List.class))).thenReturn(solution(1.0));
-        when(problem.eval(any(List.class))).thenReturn(Option.<Double>some(1.0));
+        when(problem.evaluate(any(List.class))).thenReturn(Option.<Double>some(1.0));
 
         ParticleProvider provider = new ParticleProvider(p, v, new FitnessProvider(problem), FitnessComparator.MAX);
         PSO pso = new PSO(provider);

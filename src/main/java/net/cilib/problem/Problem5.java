@@ -39,9 +39,9 @@ final class Problem5 implements Evaluatable {
     }
 
     @Override
-    public final Option<Double> eval(List<Double> a) {
+    public final Option<Double> evaluate(List<Double> a) {
         try {
-            final List<List<Double>> params = a.partition(3);
+            final List<List<Double>> params = a.partition(5);
             final List.Buffer<Double> bs = List.Buffer.empty();
             for (List<Double> param : params) {
                 List<Double> xs = param;

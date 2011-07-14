@@ -35,5 +35,5 @@ public interface Evaluatable {
      * @param a list to evaluate
      * @return
      */
-    Option<Double> eval(List<Double> a);
+    Option<Double> evaluate(List<Double> a);
 }

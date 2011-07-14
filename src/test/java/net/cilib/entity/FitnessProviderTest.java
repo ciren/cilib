@@ -40,7 +40,7 @@ public class FitnessProviderTest {
     public void testFinalize() {
         FitnessProvider provider = new FitnessProvider(new Evaluatable() {
             @Override
-            public Option<Double> eval(List<Double> a) {
+            public Option<Double> evaluate(List<Double> a) {
                 return Option.some(a.foldLeft(Doubles.add, 0.0));
             }
         });

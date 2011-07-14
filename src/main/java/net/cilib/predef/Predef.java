@@ -24,9 +24,9 @@ package net.cilib.predef;
 import com.google.common.collect.Lists;
 import fj.F;
 import fj.P1;
-import fj.data.Either;
 import fj.data.List;
 import fj.data.Option;
+import fj.data.Validation;
 import fj.function.Doubles;
 
 /**
@@ -106,23 +106,23 @@ public final class Predef {
      * @return the altered mutable sequence.
      */
     public static List<Double> divide(double scalar, List<Double> a) {
-        Either<String, Double> z = divide(1.0, scalar)._1();
-        if (z.isLeft()) {
-            throw new Error(z.left().value());
+        Validation<String, Double> z = divide(1.0, scalar)._1();
+        if (z.isFail()) {
+            throw new Error(z.fail());
         }
-        return a.map(Doubles.multiply.f(z.right().value()));
+        return a.map(Doubles.multiply.f(z.success()));
     }
 
-    private static P1<Either<String, Double>> divide(final double x, final double y) {
-        return new P1<Either<String, Double>>() {
+    private static P1<Validation<String, Double>> divide(final double x, final double y) {
+        return new P1<Validation<String, Double>>() {
             @Override
-            public Either<String, Double> _1() {
+            public Validation<String, Double> _1() {
                 double z = x / y;
                 if (Double.isInfinite(z) || Double.isNaN(z)) {
-                    return Either.left("Division by 0.0 not allowed.");
+                    return Validation.fail("Division by 0.0 not allowed.");
                 }
                 else {
-                    return Either.right(z);
+                    return Validation.success(z);
                 }
             }
         };

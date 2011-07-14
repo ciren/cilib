@@ -44,7 +44,7 @@ public class IndividualProviderTest {
     public void individualCreation() {
         FitnessProvider fitnessProvider = new FitnessProvider(new Evaluatable() {
             @Override
-            public Option<Double> eval(List<Double> a) {
+            public Option<Double> evaluate(List<Double> a) {
                 return Option.some(1.0);
             }
         });

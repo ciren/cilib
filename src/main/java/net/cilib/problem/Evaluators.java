@@ -29,7 +29,9 @@ import fj.F5;
 import fj.data.List;
 
 /**
- *
+ * TODO: These methods need a manner in which the desired strategy for partitioning
+ * should be provided.
+ * 
  * @author gpampara
  */
 public final class Evaluators {

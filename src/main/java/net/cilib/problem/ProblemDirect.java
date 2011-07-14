@@ -37,7 +37,7 @@ final class ProblemDirect implements Evaluatable {
     }
 
     @Override
-    public Option<Double> eval(List<Double> a) {
+    public Option<Double> evaluate(List<Double> a) {
         return Option.some(f.f(a));
     }
 }

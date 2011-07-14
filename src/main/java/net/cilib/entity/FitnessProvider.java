@@ -45,6 +45,6 @@ public class FitnessProvider {
      * @return the fitness of the given {@code CandidateSolution}.
      */
     public Option<Double> evaluate(List<Double> solution) {
-        return evaluator.eval(solution);
+        return evaluator.evaluate(solution);
     }
 }

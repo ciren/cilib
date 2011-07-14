@@ -38,7 +38,7 @@ final class Problem1 implements Evaluatable {
     }
 
     @Override
-    public final Option<Double> eval(final List<Double> a) {
+    public final Option<Double> evaluate(final List<Double> a) {
         try {
             return Option.some(a.map(f).foldLeft(Doubles.add, 0.0));
         } catch (Exception e) {

@@ -52,7 +52,7 @@ public class ParticleProviderTest {
 
         when(position.f(any(List.class), any(List.class))).thenReturn(solution(2.0));
         when(velocity.f(any(Particle.class), any(Topology.class))).thenReturn(velocity(1.0));
-        when(problem.eval(any(List.class))).thenReturn(Option.<Double>none());
+        when(problem.evaluate(any(List.class))).thenReturn(Option.<Double>none());
 
         final FitnessProvider fitness = new FitnessProvider(problem);
         final ParticleProvider provider = new ParticleProvider(position, velocity, fitness, FitnessComparator.MAX);
@@ -103,7 +103,7 @@ public class ParticleProviderTest {
 
         when(v.f(any(Particle.class), any(Topology.class))).thenReturn(velocity(0.0));
         when(p.f(any(List.class), any(List.class))).thenReturn(solution(1.0));
-        when(problem.eval(any(List.class))).thenReturn(Option.<Double>none());
+        when(problem.evaluate(any(List.class))).thenReturn(Option.<Double>none());
 
         final ParticleProvider provider = new ParticleProvider(p, v, new FitnessProvider(problem), FitnessComparator.MAX);
         provider.basedOn(OLD_PARTICLE).get(ImmutableGBestTopology.of());
@@ -119,7 +119,7 @@ public class ParticleProviderTest {
 
         when(v.f(any(Particle.class), any(Topology.class))).thenReturn(velocity(0.0));
         when(p.f(any(List.class), any(List.class))).thenReturn(solution(1.0));
-        when(problem.eval(any(List.class))).thenReturn(Option.<Double>none());
+        when(problem.evaluate(any(List.class))).thenReturn(Option.<Double>none());
 
         final ParticleProvider provider = new ParticleProvider(p, v, new FitnessProvider(problem), FitnessComparator.MAX);
         provider.basedOn(OLD_PARTICLE).get(ImmutableGBestTopology.of());

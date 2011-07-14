@@ -39,7 +39,7 @@ public class Problem1Test {
 
         Problem1 mockProblem1 = new Problem1(Benchmarks.square);
 
-        Option<Double> result = mockProblem1.eval(list);
+        Option<Double> result = mockProblem1.evaluate(list);
         Assert.assertThat(result.some(), equalTo(14.0));
     }
 }

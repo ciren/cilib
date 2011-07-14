@@ -41,7 +41,7 @@ public class Problem2Test {
 
         Problem2 mockProblem2 = new Problem2(Function.uncurryF2(Doubles.multiply));
 
-        Option<Double> result = mockProblem2.eval(list);
+        Option<Double> result = mockProblem2.evaluate(list);
         Assert.assertThat(result.some(), equalTo(14.0));
     }
 }
