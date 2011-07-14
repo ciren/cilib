@@ -106,21 +106,23 @@ public final class Predef {
      * @return the altered mutable sequence.
      */
     public static List<Double> divide(double scalar, List<Double> a) {
-        Either<Exception, Double> z = divide(1.0, scalar)._1();
+        Either<String, Double> z = divide(1.0, scalar)._1();
         if (z.isLeft()) {
             throw new Error(z.left().value());
         }
         return a.map(Doubles.multiply.f(z.right().value()));
     }
 
-    private static P1<Either<Exception, Double>> divide(final double x, final double y) {
-        return new P1<Either<Exception, Double>>() {
+    private static P1<Either<String, Double>> divide(final double x, final double y) {
+        return new P1<Either<String, Double>>() {
             @Override
-            public Either<Exception, Double> _1() {
-                try {
-                    return Either.right(x / y);
-                } catch (Exception e) {
-                    return Either.left(e);
+            public Either<String, Double> _1() {
+                double z = x / y;
+                if (Double.isInfinite(z) || Double.isNaN(z)) {
+                    return Either.left("Division by 0.0 not allowed.");
+                }
+                else {
+                    return Either.right(z);
                 }
             }
         };

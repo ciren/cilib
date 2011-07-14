@@ -82,7 +82,7 @@ public class PredefTest {
         Assert.assertTrue(Iterables.elementsEqual(Lists.newArrayList(2.0, 12.0, 40.0), result));
     }
 
-    @Test(expected = ArithmeticException.class)
+    @Test(expected = Error.class)
     public void illegalDivide() {
         List<Double> solution = solution(1.0);
         divide(0.0, solution);
