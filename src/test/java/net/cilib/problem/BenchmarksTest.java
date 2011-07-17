@@ -34,13 +34,13 @@ public class BenchmarksTest {
 
     @Test
     public void griewankSolution() {
-        Evaluatable e = Evaluators.createL(Benchmarks.rastrigin);
+        Evaluatable e = Evaluators.createL(Benchmarks.griewank);
         Assert.assertThat(e.evaluate(List.list(0.0, 0.0)).some(), equalTo(0.0));
     }
 
     @Test
     public void griewankAtPoint() {
-        Evaluatable e = Evaluators.createL(Benchmarks.rastrigin);
+        Evaluatable e = Evaluators.createL(Benchmarks.griewank);
 
         Assert.assertEquals(2, 2, 2);
         Assert.assertThat(e.evaluate(List.list(Math.PI / 2, Math.PI / 2)).some(), closeTo(1.0012337, 0.000001));
