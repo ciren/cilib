@@ -28,109 +28,18 @@ import fj.Ord;
 import fj.P2;
 import fj.data.List;
 import fj.function.Doubles;
+import static net.cilib.problem.BasicFunctions.*;
 
 /**
- * @author gpampara
+ * @author filipe
  */
-public final class Benchmarks {
-
-    private Benchmarks() {
+public final class UnconstrainedFunctions {
+    private UnconstrainedFunctions() {
         throw new UnsupportedOperationException();
-    }
-    
-    /**
-     * Base helper functions
-     */
-    public static final F<Double, Double> pi = new F<Double, Double>() {
-        @Override
-        public Double f(Double a) {
-            return a * Math.PI;
-        }
-    };
-    
-    public static final F<Integer, Integer> succ = new F<Integer, Integer>() {
-        @Override
-        public Integer f(Integer a) {
-            return a + 1;
-        }
-    };
-    
-    public static final F<Integer, Integer> pred = new F<Integer, Integer>() {
-        @Override
-        public Integer f(Integer a) {
-            return a - 1;
-        }
-    };
-    
-    /**
-     * Lifted identity function.
-     */
-    public static final F<Double, Double> identity = new F<Double, Double>() {
-        @Override
-        public Double f(Double a) {
-            return a;
-        }
-    };
-    
-    public static final F2<Double, Double, Double> pow = new F2<Double, Double, Double>() {
-        @Override
-        public Double f(Double a, Double b) {
-            return Math.pow(a, b);
-        }
-    };
-    
-    public static final F<Double, Double> abs = new F<Double, Double>() {
-        @Override
-        public Double f(Double a) {
-            return Math.abs(a);
-        }
-    };
-    
-    public static final F<Double, Double> square = new F<Double, Double>() {
-        @Override
-        public Double f(Double a) {
-            return a * a;
-        }
-    };
-    
-    public static final F<Double, Double> sqrt = new F<Double, Double>() {
-        @Override
-        public Double f(Double a) {
-            return Math.sqrt(a);
-        }
-    };
-    
-    public static final F<Double, Double> cos = new F<Double, Double>() {
-        @Override
-        public Double f(Double a) {
-            return Math.cos(a);
-        }
-    };
-    
-    public static final F<Double, Double> sin = new F<Double, Double>() {
-        @Override
-        public Double f(Double a) {
-            return Math.sin(a);
-        }
-    };
-    
-    public static final F<Double, Double> ceil = new F<Double, Double>() {
-        @Override
-        public Double f(Double a) {
-            return Math.ceil(a);
-        }
-    };
-    
-    public static final F<Double, Double> floor = new F<Double, Double>() {
-        @Override
-        public Double f(Double a) {
-            return Math.floor(a);
-        }
-    };
+    }    
     
     /**
      * 1-Dimensional functions
-     * More complex functions - methods or instances?
      */
     public static final F<Double, Double> alpine = new F<Double, Double>() {
         @Override
@@ -162,7 +71,6 @@ public final class Benchmarks {
     /**
      * 2-Dimensional functions
      */
-    //Not generalized
     public static final F2<Double, Double, Double> beale = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
@@ -170,7 +78,6 @@ public final class Benchmarks {
         }
     };
     
-    //Not generalized
     public static final F2<Double, Double, Double> bird = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
@@ -178,7 +85,6 @@ public final class Benchmarks {
         }
     };
     
-    //Not generalized
     public static final F2<Double, Double, Double> bohachevsky1 = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
@@ -186,7 +92,6 @@ public final class Benchmarks {
         }
     };
     
-    //Not generalized
     public static final F2<Double, Double, Double> bohachevsky2 = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
@@ -194,7 +99,6 @@ public final class Benchmarks {
         }
     };
     
-    //Not generalized
     public static final F2<Double, Double, Double> bohachevsky3 = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
@@ -202,7 +106,6 @@ public final class Benchmarks {
         }
     };
     
-    //Not generalized
     public static final F2<Double, Double, Double> booth = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
@@ -210,7 +113,6 @@ public final class Benchmarks {
         }
     };
 
-    //Not generalized
     public static F2<Double, Double, Double> branin(final double a, final double b, final double c,
                                                     final double d, final double e, final double f) {
         return new F2<Double, Double, Double>() {
@@ -224,7 +126,6 @@ public final class Benchmarks {
     public static final F2<Double, Double, Double> branin = branin(1.0, 5.1 / square.o(pi).f(2.0), 5.0 / pi.f(1.0),
                                                                    6.0, 10.0, 1.0 / pi.f(8.0));
     
-    //Not generalized
     public static final F2<Double, Double, Double> bukin4 = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
@@ -232,7 +133,6 @@ public final class Benchmarks {
         }
     };
     
-    //Not generalized
     public static final F2<Double, Double, Double> bukin6 = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
@@ -240,17 +140,14 @@ public final class Benchmarks {
         }
     };
     
-    //Not generalized
     public static final F2<Double, Double, Double> damavandi = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
-            return (1 - pow.f(abs.f(sin.o(pi).f(a - 2) * sin.o(pi).f(b - 2) 
-                              / square.o(pi).f(a - 2)), 5.0))
+            return (1 - pow.f(abs.f(sin.o(pi).f(a - 2) * sin.o(pi).f(b - 2) / square.o(pi).f(a - 2)), 5.0))
                     * (2 + square.f(a - 7) + 2 * square.f(b - 7));
         }
     };
     
-    //Not generalized
     public static final F2<Double, Double, Double> easom = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
@@ -258,7 +155,6 @@ public final class Benchmarks {
         }
     };
     
-    //Generalized
     public static final F2<Double, Double, Double> eggHolder = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
@@ -267,7 +163,6 @@ public final class Benchmarks {
         }
     };
     
-    //Not generalized
     public static final F2<Double, Double, Double> goldsteinPrice = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
@@ -276,7 +171,6 @@ public final class Benchmarks {
         }
     };
     
-    //Not generalized
     public static final F2<Double, Double, Double> himmelblau = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
@@ -284,7 +178,6 @@ public final class Benchmarks {
         }
     };
     
-    //Generalized
     public static final F2<Double, Double, Double> modifiedSchaffer2 = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
@@ -292,7 +185,6 @@ public final class Benchmarks {
         }
     };
     
-    //Generalized
     public static final F2<Double, Double, Double> modifiedSchaffer3 = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
@@ -300,7 +192,6 @@ public final class Benchmarks {
         }
     };
     
-    //Generalized
     public static final F2<Double, Double, Double> modifiedSchaffer4 = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
@@ -308,7 +199,6 @@ public final class Benchmarks {
         }
     };
     
-    //Generalized
     public static final F2<Double, Double, Double> rosenbrock = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
@@ -316,7 +206,6 @@ public final class Benchmarks {
         }
     };
     
-    //Generalized
     public static final F2<Double, Double, Double> schaffer6 = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
@@ -324,7 +213,6 @@ public final class Benchmarks {
         }
     };
     
-    //Not generalized
     public static final F2<Double, Double, Double> sixHumpCamelBack = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
@@ -335,7 +223,6 @@ public final class Benchmarks {
     /**
      * 4-Dimensional functions
      */
-    //Not generalized
     public static final F4<Double, Double, Double, Double, Double> colville = new F4<Double, Double, Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b, Double c, Double d) {
@@ -389,11 +276,7 @@ public final class Benchmarks {
     }
     
     public static final F<List<Double>, Double> elliptic = elliptic(1000000.0);
-    
-    /**
-     * Generalized Griewank function. Although the function is "generalized" the
-     * resulting implementation is definitely not "general". It is very specific.
-     */
+
     public static final F<List<Double>, Double> griewank = new F<List<Double>, Double>() {
         @Override
         public Double f(final List<Double> a) {
