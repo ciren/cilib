@@ -37,7 +37,7 @@ public class Problem1Test {
     public void evaluationOfSolution() {
         List<Double> list = List.list(1.0, 2.0, 3.0);
 
-        Problem1 mockProblem1 = new Problem1(Benchmarks.square);
+        Problem1 mockProblem1 = new Problem1(BasicFunctions.square);
 
         Option<Double> result = mockProblem1.evaluate(list);
         Assert.assertThat(result.some(), equalTo(14.0));
