@@ -52,8 +52,6 @@ public final class UnconstrainedFunctions {
     
     public static final F<Double, Double> spherical = square;
     
-    public static final F<Double, Double> absoluteValue = abs;
-    
     public static final F<Double, Double> rastrigin = new F<Double, Double>() {
         @Override
         public Double f(Double a) {
@@ -118,7 +116,7 @@ public final class UnconstrainedFunctions {
         return new F2<Double, Double, Double>() {
             @Override
             public Double f(Double x, Double y) {
-                return a * square.f(y - b * a * a + c * a - d) + e * (1 - f) * cos.f(a) + e;
+                return a * square.f(y - b * square.f(x) + c * x - d) + e * (1 - f) * cos.f(x) + e;
             }
         };
     }
@@ -159,7 +157,7 @@ public final class UnconstrainedFunctions {
         @Override
         public Double f(Double a, Double b) {
             return -(b + 47) * sin.o(sqrt).o(abs).f(b + a/2 + 47)
-                    + -a * sin.o(sqrt).o(abs).f(a - b + 47);
+                   + sin.o(sqrt).o(abs).f(a - (b + 47)) * (-a);
         }
     };
     
@@ -206,10 +204,17 @@ public final class UnconstrainedFunctions {
         }
     };
     
-    public static final F2<Double, Double, Double> schaffer6 = new F2<Double, Double, Double>() {
+    public static final F2<Double, Double, Double> pathological = new F2<Double, Double, Double>() {
         @Override
         public Double f(Double a, Double b) {
             return 0.5 + (square.o(sin).o(sqrt).f(100*square.f(a) + square.f(b)) - 0.5) / (1 + 0.001 * square.o(square).f(a-b));
+        }
+    };
+    
+    public static final F2<Double, Double, Double> schafferF6 = new F2<Double, Double, Double>() {
+        @Override
+        public Double f(Double a, Double b) {
+            return 0.5 + (square.o(sin).o(sqrt).f(square.f(a) + square.f(b)) - 0.5) / (1 + 0.001 * square.f(square.f(a) + square.f(b)));
         }
     };
     

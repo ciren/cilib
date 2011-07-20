@@ -145,7 +145,7 @@ public class ConstrainedFunctions {
 
                 @Override
                 public Double f(Integer c) {
-                    return 1.0 / (c + pow.f(a - foxholes2dimA[0][c % 5], 6.0) + pow.f(b - foxholes2dimA[1][c / 5], 6.0));
+                    return 1.0 / (succ.f(c) + pow.f(a - foxholes2dimA[0][c % 5], 6.0) + pow.f(b - foxholes2dimA[1][c / 5], 6.0));
                 }
             })));
         }
@@ -160,24 +160,24 @@ public class ConstrainedFunctions {
         }
     };
     
-    //Not generalized
+    /*research this function, not very common/popular
     public static final F2<Double, Double, Double> ripple = new F2<Double, Double, Double>() {
 
         @Override
         public Double f(final Double a, final Double b) {
             return Math.exp(-1.0 * Math.log(2) * square.f((a - 0.1) / 0.8))
                     * (multimodalFunction1.f(a) + 0.1 * square.o(cos).o(pi).o(Doubles.multiply.f(500.0)).f(a))
-                    * Math.exp(-2.0 * Math.log(2) * square.f((b - 0.1) / 0.8))
+                    + Math.exp(-2.0 * Math.log(2) * square.f((b - 0.1) / 0.8))
                     * (sin.o(pi).f(5 * b) + 0.1 * 0.1 * square.o(cos).o(pi).o(Doubles.multiply.f(500.0)).f(b));
         }
-    };
+    };*/
     
     //Not generalized
     public static final F2<Double, Double, Double> schaffer2 = new F2<Double, Double, Double>() {
 
         @Override
         public Double f(final Double a, final Double b) {
-            return pow.f(square.f(a) + square.f(b), 0.25) * square.o(Doubles.multiply.f(50.0)).f(pow.f(square.f(a) + square.f(b), 0.1)) + 1;
+            return pow.f(square.f(a) + square.f(b), 0.25) * (square.o(Doubles.multiply.f(50.0)).f(pow.f(square.f(a) + square.f(b), 0.1)) + 1);
         }
     };
     
@@ -186,7 +186,7 @@ public class ConstrainedFunctions {
 
         @Override
         public Double f(final Double a, final Double b) {
-            return sin.f(2.0 * a - pi.f(0.5)) + 3.0 * cos.f(b) + 0.5 * a;
+            return sin.f(2.0 * a - pi.f(0.5)) + 1.0 + 2.0 * cos.f(b) + 0.5 * a;
         }
     };
     
@@ -205,7 +205,7 @@ public class ConstrainedFunctions {
 
         @Override
         public Double f(final Double a, final Double b) {
-            return 3.0 * sin.o(pi).f(0.5 * (a + 1)) * (2.0 - sqrt.f(square.f(a) + square.f(b)) / 4.0);
+            return 3.0 * sin.o(pi).f(0.5 * (a + 1)) * (2.0 - sqrt.f(square.f(a) + square.f(b))) / 4.0;
         }
     };
 
@@ -222,8 +222,8 @@ public class ConstrainedFunctions {
 
                     @Override
                     public Double f(Integer e) {
-                        return -1.0 / (square.f(a - foxholes4dimA[0][e]) + square.f(b - foxholes4dimA[0][e])
-                                + square.f(c - foxholes4dimA[0][e]) + square.f(d - foxholes4dimA[0][e]) + foxholes4dimC[e]);
+                        return -1.0 / (square.f(a - foxholes4dimA[e][0]) + square.f(b - foxholes4dimA[e][1])
+                                + square.f(c - foxholes4dimA[e][2]) + square.f(d - foxholes4dimA[e][3]) + foxholes4dimC[e]);
                     }
                 }));
             }
