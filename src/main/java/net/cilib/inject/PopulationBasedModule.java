@@ -21,8 +21,6 @@
  */
 package net.cilib.inject;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Key;
@@ -32,6 +30,8 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import fj.P;
 import fj.P1;
+import fj.data.Array;
+import fj.data.List;
 import net.cilib.algorithm.MockMutationProvider;
 import net.cilib.algorithm.MutationProvider;
 import net.cilib.algorithm.ReplacementSelector;
@@ -89,13 +89,13 @@ public class PopulationBasedModule extends AbstractModule {
         return new Selector() {
             @Override
             public <A extends HasFitness> A select(A first, A... rest) {
-                return select(Lists.asList(first, rest));
+                return select(List.cons(first, Array.array(rest).toList()));
             }
 
             @Override
-            public <A extends HasFitness> A select(Iterable<? extends A> elements) {
-                int size = Iterables.size(elements);
-                return Iterables.get(elements, (randomProvider.nextInt(size)));
+            public <A extends HasFitness> A select(List<A> list) {
+                final int length = list.length();
+                return list.index(randomProvider.nextInt(length));
             }
         };
     }

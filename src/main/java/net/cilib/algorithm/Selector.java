@@ -21,6 +21,7 @@
  */
 package net.cilib.algorithm;
 
+import fj.data.List;
 import net.cilib.entity.HasFitness;
 
 /**
@@ -31,5 +32,5 @@ public interface Selector {
 
     <A extends HasFitness> A select(A first, A... rest);
 
-    <A extends HasFitness> A select(Iterable<? extends A> elements);
+    <A extends  HasFitness> A select(List<A> list);
 }

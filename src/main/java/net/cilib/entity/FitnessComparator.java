@@ -21,21 +21,20 @@
  */
 package net.cilib.entity;
 
+import fj.Ord;
+import fj.Ordering;
 import fj.data.Option;
-
-import java.util.Comparator;
 
 /**
  * General comparator for fitness comparisons.
  */
-public enum FitnessComparator implements Comparator<Option<Double>> {
+public enum FitnessComparator {
 
     /**
      * Comparator designed to obtain the "least fit" of two instances that
      * maintain a fitness.
      */
     MIN {
-
         /**
          * {@inheritDoc}
          */
@@ -46,7 +45,7 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
 
         @Override
         public boolean isLessFit(Option<Double> a, Option<Double> b) {
-            return compare(a, b) != -1;
+            return compare(a, b) != Ordering.LT;
         }
 
         /**
@@ -59,15 +58,15 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
 
         @Override
         public boolean isMoreFit(Option<Double> a, Option<Double> b) {
-            return compare(a, b) != 1;
+            return compare(a, b) != Ordering.GT;
         }
 
         @Override
-        public int compare(Option<Double> a, Option<Double> b) {
-            return a.isNone() && b.isNone() ? 0
-                    : a.isNone() ? 1
-                    : b.isNone() ? -1
-                    : a.some().compareTo(b.some());
+        public Ordering compare(Option<Double> a, Option<Double> b) {
+            return a.isNone() && b.isNone() ? Ordering.EQ
+                    : a.isNone() ? Ordering.GT
+                    : b.isNone() ? Ordering.LT
+                    : ord.compare(a, b);
         }
     },
     /**
@@ -75,7 +74,6 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
      * maintain a fitness.
      */
     MAX {
-
         /**
          * {@inheritDoc}
          */
@@ -86,7 +84,7 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
 
         @Override
         public boolean isLessFit(Option<Double> a, Option<Double> b) {
-            return compare(a, b) == -1;
+            return compare(a, b) == Ordering.LT;
         }
 
         /**
@@ -99,20 +97,21 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
 
         @Override
         public boolean isMoreFit(Option<Double> a, Option<Double> b) {
-            return compare(a, b) == 1;
+            return compare(a, b) == Ordering.GT;
         }
 
         @Override
-        public int compare(Option<Double> a, Option<Double> b) {
-            return a.isNone() && b.isNone() ? 0
-                    : a.isNone() ? -1
-                    : b.isNone() ? 1
-                    : a.some().compareTo(b.some());
+        public Ordering compare(Option<Double> a, Option<Double> b) {
+            return a.isNone() && b.isNone() ? Ordering.EQ
+                    : a.isNone() ? Ordering.LT
+                    : b.isNone() ? Ordering.GT
+                    : ord.compare(a, b);
         }
     };
 
-    @Override
-    public abstract int compare(Option<Double> o1, Option<Double> o2);
+    private static final Ord<Option<Double>> ord = Ord.optionOrd(Ord.doubleOrd);
+
+    public abstract Ordering compare(Option<Double> o1, Option<Double> o2);
 
     /**
      * Question whether the first parameter is less fit than the second.
@@ -154,7 +153,7 @@ public enum FitnessComparator implements Comparator<Option<Double>> {
     public abstract boolean isMoreFit(Option<Double> a, Option<Double> b);
 
     /**
-     * Obtain the more fit instance beObjecttween the provided instances.
+     * Obtain the more fit instance between the provided instances.
      *
      * @param <A> the type extending {@code HasFitness}.
      * @param a   first fitness.

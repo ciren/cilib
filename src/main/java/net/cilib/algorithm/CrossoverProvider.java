@@ -57,18 +57,5 @@ public class CrossoverProvider {
                         : List.list(a._1()._2());
             }
         });
-
-//        final List<Integer> crossoverPoints = Lists.newArrayList();
-        // Select the crossover points
-//        int random = randomProvider.nextInt(trialVector.length());
-//        crossoverPoints.add(random);
-
-//        for (int i = 0, n = trialVector.size(); i < n; i++) {
-//            if (randomProvider.nextInt() < 0.5 && i != random) {
-//                crossoverPoints.add(i);
-//            }
-//        }
-
-//        return conditionalZip(trialVector, target, crossoverPoints);
     }
 }

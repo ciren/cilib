@@ -60,7 +60,6 @@ public class DE<A extends Entity>  extends PopulationBasedAlgorithm<A> {
             List<Double> crossedOver = crossoverProvider.create(parent.solution(), trialVector);
             Individual offspring = individualProvider.solution(crossedOver).get();
             buffer.add((A) selector.select(parent, offspring));
-            buffer.add(parent);
         }
         return buffer.build();
     }

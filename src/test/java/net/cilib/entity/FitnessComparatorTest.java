@@ -21,13 +21,14 @@
  */
 package net.cilib.entity;
 
-import org.junit.Assert;
+import fj.Ordering;
 import fj.data.Option;
+import org.junit.Assert;
 import org.junit.Test;
+
 import static org.hamcrest.CoreMatchers.is;
 
 /**
- *
  * @author gpampara
  */
 public class FitnessComparatorTest {
@@ -38,7 +39,7 @@ public class FitnessComparatorTest {
         Option<Double> invalid = Option.<Double>none();
         FitnessComparator comparator = FitnessComparator.MIN;
 
-        Assert.assertThat(comparator.compare(valid, invalid), is(-1));
+        Assert.assertThat(comparator.compare(valid, invalid), is(Ordering.LT));
     }
 
     @Test
@@ -47,7 +48,7 @@ public class FitnessComparatorTest {
         Option<Double> invalid = Option.<Double>none();
         FitnessComparator comparator = FitnessComparator.MIN;
 
-        Assert.assertThat(comparator.compare(invalid, valid), is(1));
+        Assert.assertThat(comparator.compare(invalid, valid), is(Ordering.GT));
     }
 
     /**
@@ -59,7 +60,7 @@ public class FitnessComparatorTest {
         Option<Double> b = Option.<Double>none();
         FitnessComparator comparator = FitnessComparator.MIN;
 
-        Assert.assertEquals(0, comparator.compare(a, b));
+        Assert.assertEquals(Ordering.EQ, comparator.compare(a, b));
     }
 
     @Test
@@ -68,6 +69,6 @@ public class FitnessComparatorTest {
         Option<Double> b = Option.<Double>none();
         FitnessComparator comparator = FitnessComparator.MAX;
 
-        Assert.assertEquals(0, comparator.compare(a, b));
+        Assert.assertEquals(Ordering.EQ, comparator.compare(a, b));
     }
 }

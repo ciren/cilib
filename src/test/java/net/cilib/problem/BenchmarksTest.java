@@ -42,7 +42,6 @@ public class BenchmarksTest {
     public void griewankAtPoint() {
         Evaluatable e = Evaluators.createL(Benchmarks.rastrigin);
 
-        Assert.assertEquals(2, 2, 2);
         Assert.assertThat(e.evaluate(List.list(Math.PI / 2, Math.PI / 2)).some(), closeTo(1.0012337, 0.000001));
     }
 }
