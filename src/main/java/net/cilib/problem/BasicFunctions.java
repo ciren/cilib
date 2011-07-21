@@ -22,104 +22,104 @@
 package net.cilib.problem;
 
 import fj.F;
-import fj.P2;
-import fj.data.List;
-import fj.function.Doubles;
+import fj.F2;
 
 /**
- * @author gpampara
+ *
+ * @author filipe
  */
-public final class Benchmarks {
-
-    private Benchmarks() {
+public class BasicFunctions {
+    private BasicFunctions() {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Base helper functions
+     */
+    public static final F<Double, Double> pi = new F<Double, Double>() {
+        @Override
+        public Double f(Double a) {
+            return a * Math.PI;
+        }
+    };
+    
     public static final F<Integer, Integer> succ = new F<Integer, Integer>() {
+        @Override
         public Integer f(Integer a) {
             return a + 1;
         }
     };
-
+    
     public static final F<Integer, Integer> pred = new F<Integer, Integer>() {
+        @Override
         public Integer f(Integer a) {
             return a - 1;
         }
     };
-
+    
     /**
      * Lifted identity function.
      */
     public static final F<Double, Double> identity = new F<Double, Double>() {
+        @Override
         public Double f(Double a) {
             return a;
         }
     };
-
+    
+    public static final F2<Double, Double, Double> pow = new F2<Double, Double, Double>() {
+        @Override
+        public Double f(Double a, Double b) {
+            return Math.pow(a, b);
+        }
+    };
+    
     public static final F<Double, Double> abs = new F<Double, Double>() {
+        @Override
         public Double f(Double a) {
             return Math.abs(a);
         }
     };
-
+    
     public static final F<Double, Double> square = new F<Double, Double>() {
+        @Override
         public Double f(Double a) {
             return a * a;
         }
     };
-
+    
     public static final F<Double, Double> sqrt = new F<Double, Double>() {
+        @Override
         public Double f(Double a) {
             return Math.sqrt(a);
         }
     };
-
+    
     public static final F<Double, Double> cos = new F<Double, Double>() {
+        @Override
         public Double f(Double a) {
             return Math.cos(a);
         }
     };
-
+    
     public static final F<Double, Double> sin = new F<Double, Double>() {
+        @Override
         public Double f(Double a) {
             return Math.sin(a);
         }
     };
-
+    
     public static final F<Double, Double> ceil = new F<Double, Double>() {
+        @Override
         public Double f(Double a) {
             return Math.ceil(a);
         }
     };
-
+    
     public static final F<Double, Double> floor = new F<Double, Double>() {
+        @Override
         public Double f(Double a) {
             return Math.floor(a);
-        }
-    };
-
-    // More complex functions - methods or instances?
-    public static final F<Double, Double> alpine = new F<Double, Double>() {
-        public Double f(Double a) {
-            return abs.f(Doubles.multiply.f(a).f(sin.f(a))) + (0.1 * a);
-        }
-    };
-
-    public static final F<Double, Double> quartic = square.o(square);
-
-    /**
-     * Generalized Rastrigin function. Although the function is "generalized" the
-     * resulting implementation is definitely not "general". It is very specific.
-     */
-    public static final F<List<Double>, Double> rastrigin = new F<List<Double>, Double>() {
-        public Double f(final List<Double> a) {
-            return 1 + Doubles.sum(a.map(square)) * (1.0 / 4000)
-                    - Doubles.product(a.zipIndex().map(new F<P2<Double, Integer>, Double>() {
-                @Override
-                public Double f(P2<Double, Integer> a) {
-                    return cos.f(a._1() / sqrt.f(succ.f(a._2()).doubleValue()));
-                }
-            }));
         }
     };
 }
