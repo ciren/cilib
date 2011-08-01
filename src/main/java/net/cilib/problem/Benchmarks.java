@@ -21,8 +21,7 @@
  */
 package net.cilib.problem;
 
-import fj.F;
-import fj.P2;
+import fj.*;
 import fj.data.List;
 import fj.function.Doubles;
 
@@ -50,11 +49,7 @@ public final class Benchmarks {
     /**
      * Lifted identity function.
      */
-    public static final F<Double, Double> identity = new F<Double, Double>() {
-        public Double f(Double a) {
-            return a;
-        }
-    };
+    public static final F<Double, Double> identity = Function.identity();
 
     public static final F<Double, Double> abs = new F<Double, Double>() {
         public Double f(Double a) {
@@ -98,24 +93,29 @@ public final class Benchmarks {
         }
     };
 
-    // More complex functions - methods or instances?
-    public static final F<Double, Double> alpine = new F<Double, Double>() {
-        public Double f(Double a) {
-            return abs.f(Doubles.multiply.f(a).f(sin.f(a))) + (0.1 * a);
+    public static final F<Double, Double> quartic = square.o(square);
+
+    public static final ListF sum = new ListF() {
+        public Double f(List<Double> a) {
+            return Doubles.sum(a);
         }
     };
 
-    public static final F<Double, Double> quartic = square.o(square);
+    public static final ListF product = new ListF() {
+        public Double f(List<Double> a) {
+            return Doubles.product(a);
+        }
+    };
 
     /**
-     * Generalized Rastrigin function. Although the function is "generalized" the
+     * Generalized Griewank function. Although the function is "generalized" the
      * resulting implementation is definitely not "general". It is very specific.
      */
-    public static final F<List<Double>, Double> rastrigin = new F<List<Double>, Double>() {
-        public Double f(final List<Double> a) {
-            return 1 + Doubles.sum(a.map(square)) * (1.0 / 4000)
-                    - Doubles.product(a.zipIndex().map(new F<P2<Double, Integer>, Double>() {
-                @Override
+    public static final ListF griewank = new ListF() {
+        @Override
+        public Double f(List<Double> a) {
+            return 1 + (1.0 / 4000) * sum.f(a.map(square))
+                    - product.f(a.zipIndex().map(new F<P2<Double, Integer>, Double>() {
                 public Double f(P2<Double, Integer> a) {
                     return cos.f(a._1() / sqrt.f(succ.f(a._2()).doubleValue()));
                 }

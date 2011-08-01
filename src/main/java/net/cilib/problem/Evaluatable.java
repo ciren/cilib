@@ -21,6 +21,8 @@
  */
 package net.cilib.problem;
 
+import fj.F;
+import fj.Monoid;
 import fj.data.List;
 import fj.data.Option;
 
@@ -28,12 +30,32 @@ import fj.data.Option;
  *
  * @author gpampara
  */
-public interface Evaluatable {
+public abstract class Evaluatable {
 
     /**
      * Evaluate the provided <code>List</code>.
      * @param a list to evaluate
      * @return
      */
-    Option<Double> evaluate(List<Double> a);
+    public abstract Option<Double> evaluate(List<Double> a);
+
+    public static Evaluatable lift(final F<Double, Double> f, final Monoid<Double> reducer) {
+        return new Evaluatable() {
+            @Override
+            public Option<Double> evaluate(List<Double> a) {
+                double d = reducer.sumLeft(a.map(f));
+                return Double.isInfinite(d) || Double.isNaN(d) ? Option.<Double>none() : Option.some(d);
+            }
+        };
+    }
+
+    public static Evaluatable lift(final ListF f, final Monoid<Double> reducer) {
+        return new Evaluatable() {
+            @Override
+            public Option<Double> evaluate(List<Double> a) {
+                double d = reducer.sum(f.f(a), reducer.zero());
+                return Double.isInfinite(d) || Double.isNaN(d) ? Option.<Double>none() : Option.some(d);
+            }
+        };
+    }
 }

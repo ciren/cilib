@@ -21,8 +21,9 @@
  */
 package net.cilib.problem;
 
-import org.junit.Assert;
+import fj.Monoid;
 import fj.data.List;
+import org.junit.Assert;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.number.IsCloseTo.*;
@@ -31,16 +32,15 @@ import static org.hamcrest.number.IsCloseTo.*;
  *
  */
 public class BenchmarksTest {
-
     @Test
     public void griewankSolution() {
-        Evaluatable e = Evaluators.createL(Benchmarks.rastrigin);
+        Evaluatable e = Evaluatable.lift(Benchmarks.griewank, Monoid.doubleAdditionMonoid);
         Assert.assertThat(e.evaluate(List.list(0.0, 0.0)).some(), equalTo(0.0));
     }
 
     @Test
     public void griewankAtPoint() {
-        Evaluatable e = Evaluators.createL(Benchmarks.rastrigin);
+        Evaluatable e = Evaluatable.lift(Benchmarks.griewank, Monoid.doubleAdditionMonoid);
 
         Assert.assertThat(e.evaluate(List.list(Math.PI / 2, Math.PI / 2)).some(), closeTo(1.0012337, 0.000001));
     }

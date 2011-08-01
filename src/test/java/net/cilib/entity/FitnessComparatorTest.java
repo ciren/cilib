@@ -21,8 +21,11 @@
  */
 package net.cilib.entity;
 
-import fj.Ordering;
+import fj.*;
+import fj.data.List;
 import fj.data.Option;
+import fj.function.Doubles;
+import net.cilib.problem.Benchmarks;
 import org.junit.Assert;
 import org.junit.Test;
 

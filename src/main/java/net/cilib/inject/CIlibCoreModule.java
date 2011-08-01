@@ -75,7 +75,6 @@ public final class CIlibCoreModule extends AbstractModule {
         bind(RandomProvider.class).to(MersenneTwister.class);
         bind(RandomProvider.class).annotatedWith(Unique.class).toProvider(UniqueRandomProvider.class);
 
-//        bind(Evaluatable.class).toInstance(null);
         bind(FitnessComparator.class).toInstance(FitnessComparator.MIN);
     }
 
