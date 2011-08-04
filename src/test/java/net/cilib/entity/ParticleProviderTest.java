@@ -40,7 +40,6 @@ import static net.cilib.predef.Predef.*;
  *
  */
 public class ParticleProviderTest {
-
     private static final Particle OLD_PARTICLE = new Particle(solution(1.0),
             solution(1.0), velocity(0.0), Option.some(1.0));
 

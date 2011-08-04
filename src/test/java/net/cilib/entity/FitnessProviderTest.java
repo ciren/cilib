@@ -21,9 +21,10 @@
  */
 package net.cilib.entity;
 
-import fj.function.Doubles;
-import fj.data.List;
-import fj.data.Option;
+import fj.F3;
+import fj.F2;
+import fj.Monoid;
+import net.cilib.problem.Benchmarks;
 import net.cilib.problem.Evaluatable;
 import org.junit.Assert;
 import org.junit.Test;
@@ -35,16 +36,36 @@ import static net.cilib.predef.Predef.solution;
  * @author gpampara
  */
 public class FitnessProviderTest {
-
     @Test
     public void testFinalize() {
-        FitnessProvider provider = new FitnessProvider(new Evaluatable() {
+        FitnessProvider provider = new FitnessProvider(Evaluatable.lift(Benchmarks.square, Monoid.doubleAdditionMonoid));
+
+        Assert.assertThat(provider.evaluate(solution(1.0, 2.0)).some(), equalTo(5.0));
+    }
+
+    @Test
+    public void curriedF2() {
+        F2<Double, Double, Double> f = new F2<Double, Double, Double>() {
             @Override
-            public Option<Double> evaluate(List<Double> a) {
-                return Option.some(a.foldLeft(Doubles.add, 0.0));
+            public Double f(Double a, Double b) {
+                return a + b;
             }
-        });
+        };
+        FitnessProvider provider = new FitnessProvider(Evaluatable.lift(f, Monoid.doubleAdditionMonoid));
 
         Assert.assertThat(provider.evaluate(solution(1.0, 2.0)).some(), equalTo(3.0));
+    }
+
+    @Test
+    public void curriedF3() {
+        F3<Double, Double, Double, Double> f = new F3<Double, Double, Double, Double>() {
+            @Override
+            public Double f(Double a, Double b, Double c) {
+                return a + b + c;
+            }
+        };
+        FitnessProvider provider = new FitnessProvider(Evaluatable.lift(f, Monoid.doubleAdditionMonoid));
+
+        Assert.assertThat(provider.evaluate(solution(1.0, 2.0, 3.0)).some(), equalTo(6.0));
     }
 }

@@ -45,10 +45,10 @@ public final class Entities {
     public static P1<Particle> particleGen(final int n, final RandomProvider random) {
         final F<Unit, Particle> func = new F<Unit, Particle>() {
             @Override
-            public Particle f(Unit a) {
+            public Particle f(final Unit a) {
                 List<Double> position = List.<Double>replicate(n, 0.0).map(new F<Double, Double>() {
                     @Override
-                    public Double f(Double a) {
+                    public Double f(final Double a) {
                         return random.nextDouble();
                     }
                 });

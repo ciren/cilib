@@ -41,7 +41,8 @@ public final class Individual implements Entity {
     private final Option<Double> fitness;
 
     @Inject
-    public Individual(List<Double> solution, Option<Double> fitness) {
+    public Individual(final List<Double> solution,
+            final Option<Double> fitness) {
         this.solution = checkNotNull(solution, "Individual expects a CandidateSolution, but null found.");
         this.fitness = checkNotNull(fitness, "Option type expected, but null found.");
     }
@@ -71,7 +72,6 @@ public final class Individual implements Entity {
     public String toString() {
         return Objects.toStringHelper(this)
                 .add("solution", solution)
-                .add("fitness", fitness)
-                .toString();
+                .add("fitness", fitness).toString();
     }
 }

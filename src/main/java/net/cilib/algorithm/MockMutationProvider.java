@@ -51,7 +51,7 @@ public class MockMutationProvider implements MutationProvider {
     }
 
     @Override
-    public List<Double> create(Iterator<? extends Entity> iterator) {
+    public List<Double> create(final Iterator<? extends Entity> iterator) {
         List<Entity> list = List.iterableList(Lists.newArrayList(iterator));
         List<Double> x1 = selector.select(list).solution();
         List<Double> x2 = selector.select(list).solution();

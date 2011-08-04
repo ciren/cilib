@@ -335,7 +335,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
                 default: throw new NoSuchElementException();
             }
 
-            index = Direction.values()[index.ordinal()+1];
+            index = Direction.values()[index.ordinal() + 1];
             return topology.entities.get(row).get(col);
         }
 

@@ -32,7 +32,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class KnightsCoverage implements DiscreteFunction {
-
     private static final long serialVersionUID = -8039165934381145252L;
     private final int[] movesX = {1, 2, 2, 1, -1, -2, -2, -1};
     private final int[] movesY = {-2, -1, 1, 2, 2, 1, -1, -2};
@@ -92,10 +91,8 @@ public class KnightsCoverage implements DiscreteFunction {
             int moveX = movesX[m] + i;
             int moveY = movesY[m] + j;
 
-            if ((moveX >= 0 && moveX < boardSize) && (moveY >= 0 && moveY < boardSize)) {
-                if (board[moveX][moveY] != -1) {
-                    board[moveX][moveY]++;
-                }
+            if ((moveX >= 0 && moveX < boardSize) && (moveY >= 0 && moveY < boardSize) && (board[moveX][moveY] != -1)) {
+                board[moveX][moveY]++;
             }
         }
     }

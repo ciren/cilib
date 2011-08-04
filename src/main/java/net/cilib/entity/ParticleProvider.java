@@ -34,7 +34,6 @@ import net.cilib.pso.VelocityProvider;
  * @author gpampara
  */
 public final class ParticleProvider {
-
     private final PositionProvider positionProvider;
     private final VelocityProvider velocityProvider;
     private final FitnessProvider fitnessProvider;
@@ -62,7 +61,6 @@ public final class ParticleProvider {
     }
 
     public class BuildableParticleProvider {
-
         private final VelocityProvider velocityProvider;
         private final PositionProvider positionProvider;
         private Particle previous;
@@ -82,6 +80,10 @@ public final class ParticleProvider {
          */
         public Particle get(Topology topology) {
             try {
+                // Ideally:
+                // for { v <- newVelocity
+                //       p <- newPosition(v)
+                //       f <- newFitness(p) } yield new Particle(p, v ,f)
                 final List<Double> velocity = velocityProvider.f(previous, topology);
                 final List<Double> position = positionProvider.f(previous.solution(), velocity);
 

@@ -53,7 +53,7 @@ public class DE<A extends Entity>  extends PopulationBasedAlgorithm<A> {
 
     @Override
     @CanRaise
-    public Topology<A> next(Topology<A> topology) {
+    public Topology<A> next(final Topology<A> topology) {
         TopologyBuffer<A> buffer = topology.newBuffer();
         for (A parent : topology) {
             List<Double> trialVector = mutationProvider.create(topology);

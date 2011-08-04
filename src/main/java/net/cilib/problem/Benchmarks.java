@@ -21,7 +21,9 @@
  */
 package net.cilib.problem;
 
-import fj.*;
+import fj.F;
+import fj.Function;
+import fj.P2;
 import fj.data.List;
 import fj.function.Doubles;
 
