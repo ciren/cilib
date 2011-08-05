@@ -87,7 +87,7 @@ public class GCVelocityProvider implements VelocityProvider {
 
         this.inertiaWeight = new ConstantControlParameter(0.729844);
         this.randomProvider = new MersenneTwister();
-        
+
         this.rho = new ConstantControlParameter(1.0);
         this.rhoLowerBound = new ConstantControlParameter(1.0e-323);
 
@@ -107,11 +107,12 @@ public class GCVelocityProvider implements VelocityProvider {
      */
     public GCVelocityProvider(GCVelocityProvider copy) {
         this.delegate = copy.delegate.getClone();
+        this.inertiaWeight = copy.inertiaWeight.getClone();
         this.randomProvider = new MersenneTwister();
-        
+
         this.rho = copy.rho.getClone();
         this.rhoLowerBound = copy.rhoLowerBound.getClone();
-        
+
         this.successCount = copy.successCount;
         this.failureCount = copy.failureCount;
         this.successCountThreshold = copy.successCountThreshold;
@@ -152,7 +153,7 @@ public class GCVelocityProvider implements VelocityProvider {
             }
 
             this.oldFitness = particle.getFitness().getClone(); // Keep a copy of the old Fitness object - particle.calculateFitness() within the IterationStrategy resets the fitness value
-            
+
             return builder.build();
         }
         else {
