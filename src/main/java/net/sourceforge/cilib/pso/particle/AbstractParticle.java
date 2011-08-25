@@ -372,4 +372,8 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public void setParticleBehavior(ParticleBehavior particleBehavior) {
         this.behavior = particleBehavior;
     }
+
+    public void setPersonalBestInitialisationStrategy(InitializationStrategy<Particle> personalBestInitialisationStrategy) {
+        this.personalBestInitialisationStrategy = personalBestInitialisationStrategy;
+    }
 }
