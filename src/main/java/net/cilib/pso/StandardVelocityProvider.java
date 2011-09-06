@@ -31,7 +31,9 @@ import net.cilib.entity.Particle;
 import net.cilib.inject.annotation.Global;
 import net.cilib.inject.annotation.Local;
 import net.cilib.inject.annotation.Unique;
-import static net.cilib.predef.Predef.*;
+import static net.cilib.predef.Predef.subtract;
+import static net.cilib.predef.Predef.multiply;
+import static net.cilib.predef.Predef.plus;
 
 /**
  * Velocity provider implementing the canonical velocity update equation

@@ -21,8 +21,8 @@
  */
 package net.cilib.entity;
 
-import com.google.common.base.Supplier;
 import fj.F;
+import fj.P1;
 import fj.Unit;
 import fj.data.List;
 import fj.data.Option;
@@ -42,7 +42,7 @@ public final class Entities {
         }
     };
 
-    public static Supplier<Particle> particleGen(final int n, final RandomProvider random) {
+    public static P1<Particle> particleGen(final int n, final RandomProvider random) {
         final F<Unit, Particle> func = new F<Unit, Particle>() {
             @Override
             public Particle f(Unit a) {
@@ -58,9 +58,9 @@ public final class Entities {
                         Option.<Double>none());
             }
         };
-        return new Supplier<Particle>() {
+        return new P1<Particle>() {
             @Override
-            public Particle get() {
+            public Particle _1() {
                 return func.f(Unit.unit());
             }
         };

@@ -21,12 +21,17 @@
  */
 package net.cilib.inject;
 
-import com.google.common.base.Supplier;
-import com.google.common.base.Suppliers;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.inject.*;
+import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import com.google.inject.Key;
+import com.google.inject.Provider;
+import com.google.inject.Provides;
+import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
+import fj.P;
+import fj.P1;
 import net.cilib.algorithm.MockMutationProvider;
 import net.cilib.algorithm.MutationProvider;
 import net.cilib.algorithm.ReplacementSelector;
@@ -36,14 +41,19 @@ import net.cilib.entity.HasFitness;
 import net.cilib.inject.annotation.Global;
 import net.cilib.inject.annotation.Local;
 import net.cilib.inject.annotation.Unique;
-import net.cilib.pso.*;
+import net.cilib.pso.Guide;
+import net.cilib.pso.NeighborhoodBest;
+import net.cilib.pso.PersonalBest;
+import net.cilib.pso.PositionProvider;
+import net.cilib.pso.StandardPositionProvider;
+import net.cilib.pso.StandardVelocityProvider;
+import net.cilib.pso.VelocityProvider;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  * @author gpampara
  */
 public class PopulationBasedModule extends AbstractModule {
-
     @Override
     protected void configure() {
         bindConstant().annotatedWith(Names.named("population.size")).to(40);
@@ -55,12 +65,12 @@ public class PopulationBasedModule extends AbstractModule {
         bind(VelocityProvider.class).to(StandardVelocityProvider.class);
         bind(Guide.class).annotatedWith(Global.class).to(NeighborhoodBest.class);
         bind(Guide.class).annotatedWith(Local.class).to(PersonalBest.class);
-        bind(new TypeLiteral<Supplier<Double>>() {
+        bind(new TypeLiteral<P1<Double>>() {
         }).annotatedWith(Unique.class).toProvider(UniqueSupplier.class);
-        bind(new TypeLiteral<Supplier<Double>>() {
-        }).annotatedWith(Names.named("acceleration")).toInstance(Suppliers.ofInstance(1.496180));
-        bind(new TypeLiteral<Supplier<Double>>() {
-        }).annotatedWith(Names.named("inertia")).toInstance(Suppliers.ofInstance(0.729844));
+        bind(new TypeLiteral<P1<Double>>() {
+        }).annotatedWith(Names.named("acceleration")).toInstance(P.p(1.496180));
+        bind(new TypeLiteral<P1<Double>>() {
+        }).annotatedWith(Names.named("inertia")).toInstance(P.p(0.729844));
 
         bind(Topology.class).toProvider(CurrentTopologyProvider.class);
     }
@@ -77,7 +87,6 @@ public class PopulationBasedModule extends AbstractModule {
     @Unique
     Selector getSelector(Selector selector, final RandomProvider randomProvider) {
         return new Selector() {
-
             @Override
             public <A extends HasFitness> A select(A first, A... rest) {
                 return select(Lists.asList(first, rest));
@@ -96,7 +105,6 @@ public class PopulationBasedModule extends AbstractModule {
      * entire process.
      */
     static class CurrentTopologyProvider implements Provider<Topology> {
-
         private final SimulationScope scope;
 
         @Inject
@@ -110,8 +118,7 @@ public class PopulationBasedModule extends AbstractModule {
         }
     }
 
-    static class UniqueSupplier implements Provider<Supplier<Double>> {
-
+    static class UniqueSupplier implements Provider<P1<Double>> {
         private final Provider<RandomProvider> randomProvider;
 
         @Inject
@@ -120,13 +127,12 @@ public class PopulationBasedModule extends AbstractModule {
         }
 
         @Override
-        public Supplier<Double> get() {
-            return new Supplier<Double>() {
-
-                final RandomProvider random = randomProvider.get();
+        public P1<Double> get() {
+            return new P1<Double>() {
+                private final RandomProvider random = randomProvider.get();
 
                 @Override
-                public Double get() {
+                public Double _1() {
                     return random.nextDouble();
                 }
             };

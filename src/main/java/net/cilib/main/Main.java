@@ -21,11 +21,11 @@
  */
 package net.cilib.main;
 
-import com.google.common.base.Supplier;
 import net.cilib.inject.PopulationBasedModule;
 import net.cilib.inject.CIlibCoreModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import fj.P1;
 import fj.Show;
 import net.cilib.collection.Topology;
 import net.cilib.collection.immutable.ImmutableGBestTopology;
@@ -68,10 +68,10 @@ public final class Main {
     }
 
     private static Topology<Particle> createParticleTopology() {
-        final Supplier<Particle> generator = Entities.particleGen(20, new MersenneTwister());
+        final P1<Particle> generator = Entities.particleGen(20, new MersenneTwister());
         final ImmutableGBestTopology.ImmutableGBestTopologyBuffer<Particle> topology = new ImmutableGBestTopology.ImmutableGBestTopologyBuffer<Particle>();
         for (int i = 0; i < 20; i++) {
-            topology.add(generator.get());
+            topology.add(generator._1());
         }
         return topology.build();
     }
