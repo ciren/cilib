@@ -25,6 +25,7 @@ import net.cilib.inject.PopulationBasedModule;
 import net.cilib.inject.CIlibCoreModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import fj.Monoid;
 import fj.P1;
 import fj.Show;
 import net.cilib.collection.Topology;
@@ -33,6 +34,8 @@ import net.cilib.entity.Entities;
 import net.cilib.entity.FitnessComparator;
 import net.cilib.entity.Particle;
 import net.cilib.matchers.EntityMatchers;
+import net.cilib.problem.Benchmarks;
+import net.cilib.problem.Evaluatable;
 import net.cilib.pso.ASyncPSO;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 
@@ -47,7 +50,9 @@ public final class Main {
     }
 
     public static void main(String[] args) {
-        Injector injector = Guice.createInjector(new CIlibCoreModule(), new PopulationBasedModule());
+        Injector injector = Guice.createInjector(
+                new CIlibCoreModule(Evaluatable.lift(Benchmarks.square, Monoid.doubleAdditionMonoid)),
+                new PopulationBasedModule());
 
         // The topology for the algorithm is external. This implies that the topology
         // needs to be constructed ahead of time, so that the algorithm may use it.

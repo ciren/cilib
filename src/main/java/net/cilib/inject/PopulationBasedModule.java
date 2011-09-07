@@ -66,7 +66,7 @@ public class PopulationBasedModule extends AbstractModule {
         bind(Guide.class).annotatedWith(Global.class).to(NeighborhoodBest.class);
         bind(Guide.class).annotatedWith(Local.class).to(PersonalBest.class);
         bind(new TypeLiteral<P1<Double>>() {
-        }).annotatedWith(Unique.class).toProvider(UniqueSupplier.class);
+        }).annotatedWith(Unique.class).toProvider(UniqueProvider.class);
         bind(new TypeLiteral<P1<Double>>() {
         }).annotatedWith(Names.named("acceleration")).toInstance(P.p(1.496180));
         bind(new TypeLiteral<P1<Double>>() {
@@ -118,11 +118,11 @@ public class PopulationBasedModule extends AbstractModule {
         }
     }
 
-    static class UniqueSupplier implements Provider<P1<Double>> {
+    static class UniqueProvider implements Provider<P1<Double>> {
         private final Provider<RandomProvider> randomProvider;
 
         @Inject
-        public UniqueSupplier(@Unique Provider<RandomProvider> randomProvider) {
+        public UniqueProvider(@Unique Provider<RandomProvider> randomProvider) {
             this.randomProvider = randomProvider;
         }
 

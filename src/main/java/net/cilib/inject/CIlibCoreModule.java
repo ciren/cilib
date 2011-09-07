@@ -58,10 +58,15 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  * @author gpampara
  */
 public final class CIlibCoreModule extends AbstractModule {
+    private final Evaluatable evaluatable;
+
+    public CIlibCoreModule(final Evaluatable evaluatable) {
+        this.evaluatable = evaluatable;
+    }
 
     @Override
     protected void configure() {
-        requireBinding(Evaluatable.class); // This needs to be provided by the user.
+        bind(Evaluatable.class).toInstance(evaluatable); // TODO: This feels like a hack ?
 
         // Define the custom simulation scope
         SimulationScope scope = new SimulationScope();

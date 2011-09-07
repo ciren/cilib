@@ -15,57 +15,24 @@
             <distribution>manual</distribution>
         </license>
     </licenses>
+
     <organization>
         <name>CIRG</name>
         <url>http://cirg.cs.up.ac.za</url>
     </organization>
+
     <scm>
         <connection>scm:git:http://github.com/gpampara/cilib.git/</connection>
         <developerConnection>scm:git:git://github.com/gpampara/cilib.git</developerConnection>
         <url>http://github.com/gpampara/cilib</url>
     </scm>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+
     <mailingLists>
         <mailingList>
             <name>CILib Developer List</name>
             <post>cilib-dev@groups.google.com</post>
         </mailingList>
     </mailingLists>
-    <developers>
-        <developer>
-            <id>gpampara</id>
-            <name>Gary Pampara</name>
-            <email>gpampara@cs.up.ac.za</email>
-            <roles>
-                <role>Maintainer</role>
-                <role>Developer</role>
-            </roles>
-            <timezone>2</timezone>
-        </developer>
-        <developer>
-            <id>heatzync</id>
-            <name>Theuns Cloete</name>
-            <email>tcloete@cs.up.ac.za</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-            <timezone>2</timezone>
-        </developer>
-    </developers>
-    <contributors>
-        <contributor>
-            <name>Andries Engelbrecht</name>
-            <email>engel@cs.up.ac.za</email>
-            <url/>
-            <organization>University of Pretoria, Department of Computer Science</organization>
-            <organizationUrl>http://www.cs.up.ac.za</organizationUrl>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </contributor>
-    </contributors>
 
     <repositories>
         <repository>
@@ -221,22 +188,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>2.4.1</version>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>${basedir}</directory>
-                            <includes>
-                                <include>simulator.*</include>
-                                <include>*.log</include>
-                            </includes>
-                        </fileset>
-                    </filesets>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>com.google.code.maven-license-plugin</groupId>
                 <artifactId>maven-license-plugin</artifactId>
                 <version>1.4.0</version>
@@ -287,77 +238,6 @@
                     <argLine>-Xmx1024m</argLine>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.0-beta-3</version>
-                <configuration>
-                    <reportPlugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-project-info-reports-plugin</artifactId>
-                            <version>2.1.2</version>
-                            <configuration>
-                                <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
-                                <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-                            </configuration>
-                            <reports>
-                                <report>summary</report>
-                                <report>mailing-list</report>
-                                <report>dependencies</report>
-                            </reports>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-javadoc-plugin</artifactId>
-                            <version>2.7</version>
-                        </plugin>
-                    </reportPlugins>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
-    <reporting>
-        <plugins>
-<!--            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.4</version>
-            </plugin>-->
-<!--            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>2.5</version>
-                <configuration>
-                    <linkXref>true</linkXref>
-                    <sourceEncoding>utf-8</sourceEncoding>
-                    <minimumTokens>100</minimumTokens>
-                    <targetJdk>1.5</targetJdk>
-                    <rulesets>
-                        <ruleset>/rulesets/basic.xml</ruleset>
-                        <ruleset>/rulesets/javabeans.xml</ruleset>
-                    </rulesets>
-                </configuration>
-            </plugin>-->
-<!--            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.6</version>
-            </plugin>-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-                </configuration>
-            </plugin>
-<!--            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>2.3.1</version>
-            </plugin>-->
-        </plugins>
-    </reporting>
 </project>
