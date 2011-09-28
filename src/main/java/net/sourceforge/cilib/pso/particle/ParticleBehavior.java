@@ -190,6 +190,34 @@ public class ParticleBehavior implements Comparable<ParticleBehavior> {
     public int getSuccessCounter() {
         return successCounter;
     }
+    
+    /**
+     * Reset the selected counter to zero.
+     */
+    public void resetSelectedCounter() {
+        selectedCounter = 0;
+    }
+    
+    /**
+     * Reset the success counter to zero.
+     */
+    public void resetSuccessCounter() {
+        successCounter = 0;
+    }
+    
+    /**
+     * Get the number of times this behavior has been selected
+     */
+    public void setSelectedCounter(int n) {
+        selectedCounter = n;
+    }
+
+    /**
+     * Get the number of times this behavior was successful
+     */
+    public void setSuccessCounter(int n) {
+        successCounter = n;
+    }
 
     /**
      * Compare two behaviors with regards to how successful they were in finding

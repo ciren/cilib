@@ -110,10 +110,10 @@ public class GCVelocityProvider implements VelocityProvider {
         this.delegate = copy.delegate.getClone();
         this.inertiaWeight = copy.inertiaWeight.getClone();
         this.randomProvider = new MersenneTwister();
-
+        
         this.rho = copy.rho.getClone();
         this.rhoLowerBound = copy.rhoLowerBound.getClone();
-
+        
         this.successCount = copy.successCount;
         this.failureCount = copy.failureCount;
         this.successCountThreshold = copy.successCountThreshold;

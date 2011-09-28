@@ -36,6 +36,7 @@ public enum EntityType {
     public enum Particle {
         BEST_POSITION,
         BEST_FITNESS,
+        PREV_FITNESS,
         VELOCITY;
 
         public enum Count {

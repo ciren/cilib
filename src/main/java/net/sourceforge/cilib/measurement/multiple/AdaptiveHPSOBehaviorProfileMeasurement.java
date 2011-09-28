@@ -30,7 +30,7 @@ import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.hpso.AdaptiveHeterogeneousIterationStrategy;
+import net.sourceforge.cilib.pso.hpso.HeterogeneousIterationStrategy;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -75,7 +75,7 @@ public class AdaptiveHPSOBehaviorProfileMeasurement implements Measurement<Vecto
 
         //this is better than checkState(), because a single measurement suite
         //can be used for a range of algorithms without causing an exception.
-        if(!(strategy instanceof AdaptiveHeterogeneousIterationStrategy)) {
+        if(!(strategy instanceof HeterogeneousIterationStrategy)) {
             return null;
         }
 
@@ -84,7 +84,7 @@ public class AdaptiveHPSOBehaviorProfileMeasurement implements Measurement<Vecto
         List<ParticleBehavior> initialBehaviorPool = ((HeterogeneousPopulationInitialisationStrategy)((PSO)algorithm).getInitialisationStrategy()).getBehaviorPool();
         List<ParticleBehavior> behaviorPool;
 
-        behaviorPool = ((AdaptiveHeterogeneousIterationStrategy)strategy).getBehaviorPool();
+        behaviorPool = ((HeterogeneousIterationStrategy)strategy).getBehaviorPool();
         
         for (int i = 0; i < behaviorPool.size(); i++) {
             profile.add(Int.valueOf(0));
