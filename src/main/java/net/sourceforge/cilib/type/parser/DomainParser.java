@@ -21,28 +21,18 @@
  */
 package net.sourceforge.cilib.type.parser;
 
-import java.io.IOException;
-import java.io.PushbackReader;
-import java.io.StringReader;
-import net.sourceforge.cilib.type.parser.analysis.DepthFirstAdapter;
-import net.sourceforge.cilib.type.parser.lexer.Lexer;
-import net.sourceforge.cilib.type.parser.lexer.LexerException;
-import net.sourceforge.cilib.type.parser.node.ABoundedBoundsStatement;
-import net.sourceforge.cilib.type.parser.node.ABoundsBoundedStatement;
-import net.sourceforge.cilib.type.parser.node.ADoubleNumber;
-import net.sourceforge.cilib.type.parser.node.AIntegerNumber;
-import net.sourceforge.cilib.type.parser.node.ANonEmptyExponentStatement;
-import net.sourceforge.cilib.type.parser.node.AStatement;
-import net.sourceforge.cilib.type.parser.node.Start;
-import net.sourceforge.cilib.type.parser.node.TType;
-import net.sourceforge.cilib.type.parser.parser.Parser;
-import net.sourceforge.cilib.type.parser.parser.ParserException;
-import net.sourceforge.cilib.type.types.Bounds;
+import com.google.common.collect.Lists;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
+import org.parboiled.Parboiled;
+import org.parboiled.errors.ParseError;
+import org.parboiled.parserunners.ReportingParseRunner;
+import org.parboiled.support.ParsingResult;
+
+import java.util.List;
 
 /**
  * The domain parser converts a provided domain string representation into
@@ -62,39 +52,46 @@ public final class DomainParser {
      *         to consist of {@code Numeric} types, a {@code Vector} instance is returned.
      */
     public static <E extends StructuredType<? extends Type>> E parse(String domain) {
-        try {
-            Evaluator e = new Evaluator();
-            Lexer lexer = new Lexer(new PushbackReader(new StringReader(domain), 100));
-            Parser parser = new Parser(lexer);
-            Start ast = parser.parse();
-            ast.apply(e);
-            @SuppressWarnings("unchecked")
-            E result = (E) e.typeList; // This is a typesafe operation
+        final DomainParserGrammar.Parser parser = Parboiled.createParser(DomainParserGrammar.Parser.class);
+        final ReportingParseRunner<?> runner = new ReportingParseRunner(parser.Domain());
+        final ParsingResult<Type> result = (ParsingResult<Type>) runner.run(domain.replaceAll(" ", ""));
 
-            if (isVector(result)) {
-                @SuppressWarnings("unchecked")
-                E vector = (E) toVector(result);
-                return vector;
+        if (result.hasErrors()) {
+            for (ParseError e : result.parseErrors) {
+                System.out.println(e.getErrorMessage());
             }
-
-            return result;
-        } catch (IOException io) {
-            throw new RuntimeException("IOException somehow happened during the parsing of the domain: " + domain, io);
-        } catch (LexerException lexer) {
-            throw new RuntimeException("A lexer error was caused during parsing of domain string: " + domain, lexer);
-        } catch (ParserException ex) {
-            throw new RuntimeException("An exception occured during the parsing of: " + domain, ex);
+            throw new RuntimeException("Error in parsing domain: " + domain);
         }
+
+        List<Type> l = Lists.newArrayList(result.valueStack);
+
+        if (isVector(l)) {
+            @SuppressWarnings("unchecked")
+            E vector = (E) toVector(l);
+            return vector;
+        }
+
+        return (E) toTypeList(l);
+    }
+
+    private static TypeList toTypeList(List<Type> l) {
+        TypeList list = new TypeList();
+        for (Type t : l) {
+            list.prepend(t);
+        }
+        return list;
     }
 
     /**
      * Convert the {@code TypeList} into a {@code Vector} if all elements are
      * {@code Numeric} types.
+     *
+     *
      * @param representation The current data structure of the representation.
      * @return {@code true} if the structure should really be a {@code Vector},
      *         {@code false} otherwise.
      */
-    private static boolean isVector(StructuredType<? extends Type> representation) {
+    private static boolean isVector(List<Type> representation) {
         for (Type type : representation) {
             if (!(type instanceof Numeric)) {
                 return false;
@@ -106,121 +103,17 @@ public final class DomainParser {
 
     /**
      * Convert the provided {@code representation} into a {@code Vector}.
+     *
      * @param representation The {@code StructuredType} to convert.
      * @return The converted vector object.
      */
-    private static <E extends StructuredType<? extends Type>> Vector toVector(E representation) {
-        Vector vector = new Vector();
+    private static Vector toVector(List<Type> representation) {
+        Vector.Builder vector = Vector.newBuilder();
 
         for (Type type : representation) {
-            vector.add((Numeric) type);
+            vector.prepend((Numeric) type);
         }
 
-        return vector;
-    }
-
-    private static class Evaluator extends DepthFirstAdapter {
-
-        private TypeList typeList = new TypeList();
-        private BoundsFactory boundsFactory = new BoundsFactory();
-
-        @Override
-        public void outAStatement(AStatement node) {
-            ExponentVisitor exponentVisitor = new ExponentVisitor();
-            BoundVisitor boundVisitor = new BoundVisitor();
-
-            node.getBoundsStatement().apply(boundVisitor);
-            node.getExponentStatement().apply(exponentVisitor);
-
-            TypeCreator creator = getCreator(node.getType());
-            for (int i = 0; i < exponentVisitor.getExponentValue(); i++) {
-                Type instance = null;
-
-                if (boundVisitor.value && Double.compare(boundVisitor.lowerBound, Double.NEGATIVE_INFINITY) == 0) {
-                    instance = creator.create();
-                } else if (boundVisitor.value && Double.compare(boundVisitor.lowerBound, Double.NEGATIVE_INFINITY) != 0) {
-                    instance = creator.create(boundVisitor.lowerBound);
-                } else {
-                    Bounds bounds = boundsFactory.create(boundVisitor.lowerBound, boundVisitor.upperBound);
-                    instance = creator.create(bounds);
-                }
-
-                typeList.add(instance);
-            }
-        }
-
-        private TypeCreator getCreator(TType type) {
-            TypeCreator instance = null;
-
-            try {
-                // create an instance of the TypeCreator
-                Class<?> creatorClass = Class.forName("net.sourceforge.cilib.type.parser." + type.getText());
-                instance = (TypeCreator) creatorClass.newInstance();
-            } catch (ClassNotFoundException c) {
-                throw new UnsupportedOperationException("Cannot find class: net.sourceforge.cilib.type.creator." + type.getText(), c);
-            } catch (IllegalAccessException i) {
-                throw new UnsupportedOperationException("Cannot access!", i);
-            } catch (InstantiationException in) {
-                throw new UnsupportedOperationException("Cannot instantiate class: net.sourceforge.cilib.type.creator." + type.getText(), in);
-            }
-
-            return instance;
-        }
-    }
-
-    private static class ExponentVisitor extends DepthFirstAdapter {
-
-        private int exponentValue = 1;
-
-        @Override
-        public void outANonEmptyExponentStatement(ANonEmptyExponentStatement node) {
-            this.exponentValue = Integer.valueOf(node.getPositiveInteger().getText());
-        }
-
-        public int getExponentValue() {
-            return exponentValue;
-        }
-    }
-
-    private static class BoundVisitor extends DepthFirstAdapter {
-
-        private boolean value = true;
-        private double lowerBound = Double.NEGATIVE_INFINITY;
-        private double upperBound = Double.POSITIVE_INFINITY;
-
-        @Override
-        public void outABoundsBoundedStatement(ABoundsBoundedStatement node) {
-            value = false;
-            node.getNumber().apply(new DepthFirstAdapter() {
-
-                @Override
-                public void outADoubleNumber(ADoubleNumber node) {
-                    upperBound = Double.valueOf(node.getDecimal().getText());
-                }
-
-                @Override
-                public void outAIntegerNumber(AIntegerNumber node) {
-                    upperBound = Integer.valueOf(node.getPositiveInteger().getText());
-                }
-            });
-        }
-
-        @Override
-        public void outABoundedBoundsStatement(ABoundedBoundsStatement node) {
-            node.getValue().apply(new DepthFirstAdapter() {
-
-                @Override
-                public void outADoubleNumber(ADoubleNumber node) {
-                    lowerBound = Double.valueOf(node.getDecimal().getText());
-                }
-
-                @Override
-                public void outAIntegerNumber(AIntegerNumber node) {
-                    lowerBound = Integer.valueOf(node.getPositiveInteger().getText());
-                }
-            });
-
-            node.getBoundedStatement().apply(this);
-        }
+        return vector.build();
     }
 }

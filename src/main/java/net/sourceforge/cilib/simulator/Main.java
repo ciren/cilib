@@ -35,7 +35,9 @@ import net.sourceforge.cilib.algorithm.ProgressListener;
  */
 public final class Main {
 
-    private Main() {} // Prevent instances of this class.
+    private Main() {
+        throw new UnsupportedOperationException("Cannot instantiate.");
+    }
 
     /**
      * Main entry point for the simulator.
@@ -43,7 +45,7 @@ public final class Main {
      */
     public static void main(String[] args) {
         if (args.length < 1) {
-            throw new IllegalArgumentException("Please provide the correct arguments.\nUsage: Simulator <simulation-config.xml> [-noprogress|-textprogress|-guiprogress]");
+            throw new IllegalArgumentException("Please provide the correct arguments.\nUsage: Simulator <simulation-config.xml> [-textprogress|-guiprogress]");
         }
 
         Injector injector = Guice.createInjector(new SimulatorModule());
@@ -53,7 +55,7 @@ public final class Main {
         ProgressListener progress = null;
         if (args.length > 1 && args[1].equals("-textprogress")) {
             progress = new ProgressText(simulators.size());
-        } else if (args.length > 1 && args[1].equals("-guiprogress")) { //-guiprogress
+        } else if (args.length > 1 && args[1].equals("-guiprogress")) {
             ProgressFrame pf = new ProgressFrame(simulators.size());
             pf.setVisible(true);
             progress = pf;
