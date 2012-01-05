@@ -163,7 +163,7 @@ public class RotatingFunctionDecorator implements ContinuousFunction {
     public void setFunction(ContinuousFunction function) {
 //        this.function = function;
 //
-//        Vector structure = (Vector) DomainParser.parse(function.getDomain());
+//        Vector structure = (Vector) Parser.parse(function.getDomain());
 //        Bounds bounds = structure.get(0).getBounds();
 //        double lowerLimit = bounds.getLowerBound();
 //        double upperLimit = bounds.getUpperBound();

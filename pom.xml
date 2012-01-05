@@ -27,69 +27,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <mailingLists>
-        <mailingList>
-            <name>CILib User List</name>
-            <subscribe>http://forums.cilib.net</subscribe>
-        </mailingList>
-        <mailingList>
-            <name>CILib Developer List</name>
-            <subscribe>cilib-devel-subscribe@lists.sourceforge.net</subscribe>
-            <unsubscribe>cilib-devel-unsubscribe@lists.sourceforge.net</unsubscribe>
-            <post>cilib-devel@lists.sourceforge.net</post>
-            <archive>http://sourceforge.net/mailarchive/forum.php?forum_id=34915</archive>
-        </mailingList>
-        <mailingList>
-            <name>CILib Announce</name>
-            <subscribe>cilib-announce-subscribe@lists.sourceforge.net</subscribe>
-            <unsubscribe>cilib-announce-unsubscribe@lists.sourceforge.net</unsubscribe>
-            <post>cilib-announce@lists.sourceforge.net</post>
-            <archive>http://sourceforge.net/mailarchive/forum.php?forum=cilib-announce</archive>
-        </mailingList>
-    </mailingLists>
-    <issueManagement>
-        <system>sourceforge</system>
-        <url>http://sourceforge.net/tracker/?group_id=72233</url>
-    </issueManagement>
-    <distributionManagement>
-        <site>
-            <id>cilib.net</id>
-            <url>scp://cilib.net/var/www/www.cilib.net/htdocs</url>
-        </site>
-    </distributionManagement>
-    <developers>
-        <developer>
-            <id>gpampara</id>
-            <name>Gary Pampara</name>
-            <email>gpampara@cs.up.ac.za</email>
-            <roles>
-                <role>Maintainer</role>
-                <role>Developer</role>
-            </roles>
-            <timezone>2</timezone>
-        </developer>
-        <developer>
-            <id>heatzync</id>
-            <name>Theuns Cloete</name>
-            <email>tcloete@cs.up.ac.za</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-            <timezone>2</timezone>
-        </developer>
-    </developers>
-    <contributors>
-        <contributor>
-            <name>Andries Engelbrecht</name>
-            <email>engel@cs.up.ac.za</email>
-            <url/>
-            <organization>University of Pretoria, Department of Computer Science</organization>
-            <organizationUrl>http://www.cs.up.ac.za</organizationUrl>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </contributor>
-    </contributors>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -124,6 +61,21 @@
             <artifactId>guice</artifactId>
             <version>2.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.parboiled</groupId>
+            <artifactId>parboiled-core</artifactId>
+            <version>0.11.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.parboiled</groupId>
+            <artifactId>parboiled-java</artifactId>
+            <version>0.11.0</version>
+        </dependency>
+        <dependency>
+            <groupId>asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>3.3.1</version>
+        </dependency>
     </dependencies>
     <build>
         <defaultGoal>package</defaultGoal>
@@ -154,7 +106,7 @@
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
-		    <encoding>UTF-8</encoding>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
             <plugin>
@@ -179,28 +131,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>sablecc-maven-plugin</artifactId>
-                <version>2.2</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <descriptors>
-                        <descriptor>src/main/assembly/assembly-bin.xml</descriptor>
-                        <descriptor>src/main/assembly/assembly-src.xml</descriptor>
-                    </descriptors>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -271,6 +201,13 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>net.sourceforge.cilib.simulator.Main</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

@@ -90,11 +90,11 @@ public class PatternDataTableBuilder{}// implements DataTableBuilder {
 //    }
 //
 //    public void setDataDomain(String domain) {
-//        dataDomain = DomainParser.parse(domain);
+//        dataDomain = Parser.parse(domain);
 //    }
 //
 //    public void setTargetDomain(String domain) {
-//        targetDomain = DomainParser.parse(domain);
+//        targetDomain = Parser.parse(domain);
 //    }
 //
 //    public int getBeginIndex() {
