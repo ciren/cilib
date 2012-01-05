@@ -931,6 +931,13 @@ public class Vector implements StructuredType<Numeric>,
             this.elements = Lists.newArrayList();
         }
 
+        public Builder prepend(Numeric n) {
+            List<Numeric> t = Lists.newArrayList(n);
+            t.addAll(elements);
+            elements = t;
+            return this;
+        }
+
         /**
          * Add a {@code double} to the {@code Builder}. The {@code double}
          * is wrapped within a {@link Real} instance.

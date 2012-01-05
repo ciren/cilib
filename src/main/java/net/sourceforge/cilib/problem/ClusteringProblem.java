@@ -216,7 +216,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
      *        clustered
      */
     public void setDomain(String representation) {
-//        DomainParser parser = new DomainParser();//DomainParser.getInstance();
+//        Parser parser = new Parser();//Parser.getInstance();
 //        parser.parse(representation);
 
         domainRegistry.setDomainString(representation);

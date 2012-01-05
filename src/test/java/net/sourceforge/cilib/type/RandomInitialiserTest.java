@@ -38,7 +38,7 @@ public class RandomInitialiserTest {
     @BeforeClass
     public static void setUp() {
 /*        initialiser = new RandomInitialiser(new Random());
-        parser = new DomainParser(initialiser);*/
+        parser = new Parser(initialiser);*/
     }
 
     @Test
@@ -223,6 +223,6 @@ public class RandomInitialiserTest {
         // TODO: Check the contents
     }
 
-//    private DomainParser parser;
+//    private Parser parser;
 //    private RandomInitialiser initialiser;
 }
