@@ -30,6 +30,7 @@ import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.functions.DynamicFunction;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 
 /**
  * A generalized implementation of the Moving Peaks benchmark problem
@@ -77,12 +78,6 @@ public class GeneralizedMovingPeaks implements ContinuousFunction, DynamicFuncti
         this.maxHeight = 70.0;
         this.minWidth = 1.0;
         this.maxWidth = 12.0;
-
-        this.peakHeigths = new double[peaks];
-        this.peakWidths = new double[peaks];
-        this.movementDirections = null; //cannot initialize without knowing the dimension of the problem
-        this.peakPositions = new Vector[peaks];
-        this.shiftVectors = new Vector[peaks];
     }
 
     public GeneralizedMovingPeaks(int frequency, int peaks, double widthSeverity, double heightSeverity, double shiftSeverity, double lambda) {
@@ -99,12 +94,6 @@ public class GeneralizedMovingPeaks implements ContinuousFunction, DynamicFuncti
         this.maxHeight = 70.0;
         this.minWidth = 1.0;
         this.maxWidth = 12.0;
-
-        this.peakHeigths = new double[peaks];
-        this.peakWidths = new double[peaks];
-        this.movementDirections = null; //cannot initialize without knowing the dimension of the problem
-        this.peakPositions = new Vector[peaks];
-        this.shiftVectors = new Vector[peaks];
     }
 
     @Override
@@ -113,7 +102,7 @@ public class GeneralizedMovingPeaks implements ContinuousFunction, DynamicFuncti
         if (movementDirections == null) initializePeaks(input.size());
 
         //change environment once at each change interval
-        int iteration = AbstractAlgorithm.get().getIterations();
+        int iteration = 1;//AbstractAlgorithm.get().getIterations();
         if (iteration % frequency == 0 && lastChange != iteration) {
             lastChange = iteration;
             changeEnvironment();
@@ -145,9 +134,13 @@ public class GeneralizedMovingPeaks implements ContinuousFunction, DynamicFuncti
      * Changes the environment according to Branke's formal description of how
      * peak heights, widths and positions change at each change interval.
      */
-    private void changeEnvironment() {
+    public void changeEnvironment() {
         //get problem domain boundaries
-        Vector bounds = (Vector) DomainParser.parse(AbstractAlgorithm.get().getOptimisationProblem().getDomain().getDomainString());
+        //Vector bounds = (Vector) DomainParser.parse(AbstractAlgorithm.get().getOptimisationProblem().getDomain().getDomainString());
+
+        double upper = 50;
+        double lower = -50;
+
         Vector tempPosition;
 
         updateShiftVectors();
@@ -183,8 +176,8 @@ public class GeneralizedMovingPeaks implements ContinuousFunction, DynamicFuncti
 
             //enforce boundary constraints
             for (int i = 0; i < dimensions; i++) {
-                if (tempPosition.get(i).doubleValue() > bounds.boundsOf(i).getUpperBound() ||
-                        tempPosition.get(i).doubleValue() < bounds.boundsOf(i).getLowerBound()) {
+                if (tempPosition.get(i).doubleValue() > upper ||
+                        tempPosition.get(i).doubleValue() < lower) {
                     movementDirections[p][i] *= -1;
                     shift[i] *= -1;
                 }
@@ -210,9 +203,16 @@ public class GeneralizedMovingPeaks implements ContinuousFunction, DynamicFuncti
      */
     private void initializePeaks(int dimensions) {
         movementDirections = new int[peaks][dimensions];
+        peakHeigths = new double[peaks];
+        peakWidths = new double[peaks];
+        peakPositions = new Vector[peaks];
+        shiftVectors = new Vector[peaks];
 
         //get problem domain boundaries
-        Vector bounds = (Vector) DomainParser.parse(AbstractAlgorithm.get().getOptimisationProblem().getDomain().getDomainString());
+        //Vector bounds = (Vector) DomainParser.parse(AbstractAlgorithm.get().getOptimisationProblem().getDomain().getDomainString());
+
+        double upper = 50;
+        double lower = -50;
 
         Double[] oneVector = new Double[dimensions];
         for (int i = 0; i < dimensions; i++) {
@@ -223,7 +223,7 @@ public class GeneralizedMovingPeaks implements ContinuousFunction, DynamicFuncti
         Double[] position = new Double[dimensions];
         for (int p = 0; p < peaks; p++) {
             for (int i = 0; i < dimensions; i++) {
-                position[i] = uniform.getRandomNumber(bounds.boundsOf(i).getLowerBound(), bounds.boundsOf(i).getUpperBound());
+                position[i] = uniform.getRandomNumber(lower, upper);
                 movementDirections[p][i] = 1;
             }
 
@@ -352,5 +352,9 @@ public class GeneralizedMovingPeaks implements ContinuousFunction, DynamicFuncti
 
     public void setWidthSeverity(double widthSeverity) {
         this.widthSeverity = widthSeverity;
+    }
+
+    public void setSeed(long seed) {
+        ((UniformDistribution)uniform).setProvider(new MersenneTwister(seed));
     }
 }
