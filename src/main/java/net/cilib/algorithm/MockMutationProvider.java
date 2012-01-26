@@ -57,7 +57,7 @@ public class MockMutationProvider implements MutationProvider {
         List<Double> x2 = selector.select(list).solution();
         List<Double> x3 = selector.select(list).solution();
 
-        List<Double> result = multiply(beta, plus(x1, subtract(x2, x3)));
+        List<Double> result = plus(x1, multiply(beta, subtract(x2, x3)));
         return result;
     }
 }
