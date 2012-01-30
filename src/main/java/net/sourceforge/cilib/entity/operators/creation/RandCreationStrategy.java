@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.entity.operators.creation;
 
-import com.google.common.base.Supplier;
 import java.util.Iterator;
 import java.util.List;
 
