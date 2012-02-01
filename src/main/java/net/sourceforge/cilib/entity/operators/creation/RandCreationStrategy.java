@@ -31,6 +31,7 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.ControlParameters;
 import net.sourceforge.cilib.util.Sequence;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
@@ -82,7 +83,7 @@ public class RandCreationStrategy implements CreationStrategy {
         Vector differenceVector = determineDistanceVector(participants);
 
         Vector targetVector = (Vector) targetEntity.getCandidateSolution();
-        Vector trialVector = targetVector.plus(differenceVector.multiply(scaleParameter.getParameter()));
+        Vector trialVector = targetVector.plus(differenceVector.multiply(ControlParameters.supplierOf(scaleParameter)));
 
         Entity trialEntity = current.getClone();
         trialEntity.setCandidateSolution(trialVector);
