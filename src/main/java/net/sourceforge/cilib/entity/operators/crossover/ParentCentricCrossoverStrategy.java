@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.entity.operators.crossover;
 
 import static com.google.common.base.Preconditions.checkState;
+import com.google.common.base.Supplier;
 import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -55,18 +56,20 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class ParentCentricCrossoverStrategy extends CrossoverStrategy {
     
     private int numberOfOffspring;
-    private ControlParameter deviation1;
-    private ControlParameter deviation2;
+    private ControlParameter sigma1;
+    private ControlParameter sigma2;
     private GaussianDistribution random;
+    private boolean useIndividualProviders;
     
     /**
      * Default constructor
      */
     public ParentCentricCrossoverStrategy() {
         this.numberOfOffspring = 1;
-        this.deviation1 = new ConstantControlParameter(0.1);
-        this.deviation2 = new ConstantControlParameter(0.1);
+        this.sigma1 = new ConstantControlParameter(0.1);
+        this.sigma2 = new ConstantControlParameter(0.1);
         this.random = new GaussianDistribution();
+        this.useIndividualProviders = true;
     }
     
     /**
@@ -76,9 +79,10 @@ public class ParentCentricCrossoverStrategy extends CrossoverStrategy {
      */
     public ParentCentricCrossoverStrategy(ParentCentricCrossoverStrategy copy) {
         this.numberOfOffspring = copy.numberOfOffspring;
-        this.deviation1 = copy.deviation1.getClone();
-        this.deviation2 = copy.deviation2.getClone();
+        this.sigma1 = copy.sigma1.getClone();
+        this.sigma2 = copy.sigma2.getClone();
         this.random = copy.random;
+        this.useIndividualProviders = copy.useIndividualProviders;
     }
 
     /**
@@ -107,56 +111,73 @@ public class ParentCentricCrossoverStrategy extends CrossoverStrategy {
         List<Entity> parents = new ArrayList<Entity>(parentCollection);
         UniformDistribution randomParent = new UniformDistribution();
         List<Entity> offspring = new ArrayList<Entity>();
-        int n = parents.size();
+        int k = parents.size();
         
         //calculate mean of parents
-        Vector mean = (Vector) parents.get(0).getCandidateSolution();
-        for (int i = 1; i < n; i++) {
-            mean = mean.plus((Vector) parents.get(i).getCandidateSolution());
+        Vector g = (Vector) parents.get(0).getCandidateSolution();
+        for (int i = 1; i < k; i++) {
+            g = g.plus((Vector) parents.get(i).getCandidateSolution());
         }
         
-        mean.divide(n);
+        g = g.divide(k);
 
         //get each offspring
         for (int os = 0; os < numberOfOffspring; os++) {
-            int parent = (int) randomParent.getRandomNumber(0.0, n);
+            int parent = (int) randomParent.getRandomNumber(0.0, k);
             Entity temp = parents.get(parent);
-            parents.set(parent, parents.get(n - 1));
-            parents.set(n - 1, temp);
-            
-            List<Vector> eList = new ArrayList<Vector>();
-            eList.add(((Vector) parents.get(n - 1).getCandidateSolution()).subtract(mean));
+            parents.set(parent, parents.get(k - 1));
+            parents.set(k - 1, temp);
+
+            List<Vector> e_eta = new ArrayList<Vector>();
+            e_eta.add(((Vector) parents.get(k - 1).getCandidateSolution()).subtract(g));
 
             double D = 0.0;
 
-            //basis vectors defined by remainder of parents
-            for (int i = 0; i < n - 1; i++) {
-                Vector d = ((Vector) parents.get(i).getCandidateSolution()).subtract(mean);
+            // basis vectors defined by parents
+            for (int i = 0; i < k - 1; i++) {
+                Vector d = ((Vector) parents.get(i).getCandidateSolution()).subtract(g);
 
                 if (!isZero(d)) {
-                    Vector e = Vector.copyOf(d);
-                    for (Vector v : eList) {
-                        e = e.subtract(v.multiply(e.dot(v) / v.dot(v)));
-                    }
+                    Vector e = orthogonalize(d, e_eta);
 
                     if (!isZero(e)) {
                         D += e.length();
-                        eList.add(e.normalize());
+                        e_eta.add(e.normalize());
                     }
                 }
             }
 
-            D /= n - 1;
+            D /= k - 1;
 
-            //construct the offspring
-            Vector child = ((Vector) parents.get(n - 1).getCandidateSolution())
-                            .plus(eList.get(0).multiply(random.getRandomNumber(0.0, deviation1.getParameter())));
-        
-            for (int i = 1; i < eList.size(); i++) {
-                child = child.plus(eList.get(i).multiply(random.getRandomNumber(0.0, deviation2.getParameter()) * D));
+            // construct the offspring
+            Vector child = (Vector) parents.get(k - 1).getCandidateSolution().getClone();
+
+            if (useIndividualProviders) {
+                child = child.plus(e_eta.get(0).multiply(new Supplier<Number>() {
+                    @Override
+                    public Number get() {
+                        return random.getRandomNumber(0.0, sigma1.getParameter());
+                    }
+                }));
+
+                for (int i = 1; i < e_eta.size(); i++) {
+                    child = child.plus(e_eta.get(i).multiply(D).multiply(new Supplier<Number>() {
+                        @Override
+                        public Number get() {
+                            return random.getRandomNumber(0.0, sigma2.getParameter());
+                        }
+                    }));
+                }
+            } else {
+                child = child.plus(e_eta.get(0).multiply(random.getRandomNumber(0.0, sigma1.getParameter())));
+
+                double eta = random.getRandomNumber(0.0, this.sigma2.getParameter());
+                for (int i = 1; i < e_eta.size(); i++) {
+                    child = child.plus(e_eta.get(i).multiply(eta * D));
+                }
             }
 
-            Entity result = parents.get(n - 1).getClone();
+            Entity result = parents.get(k - 1).getClone();
             result.setCandidateSolution(child);
             offspring.add(result);
         }
@@ -169,8 +190,8 @@ public class ParentCentricCrossoverStrategy extends CrossoverStrategy {
      * 
      * @param dev The deviation to use
      */
-    public void setDeviation1(ControlParameter dev) {
-        this.deviation1 = dev;
+    public void setSigma1(ControlParameter dev) {
+        this.sigma1 = dev;
     }
 
     /**
@@ -178,8 +199,8 @@ public class ParentCentricCrossoverStrategy extends CrossoverStrategy {
      * 
      * @param dev The deviation to use
      */
-    public void setDeviation2(ControlParameter dev) {
-        this.deviation2 = dev;
+    public void setSigma2(ControlParameter dev) {
+        this.sigma2 = dev;
     }
 
     /**
@@ -189,6 +210,15 @@ public class ParentCentricCrossoverStrategy extends CrossoverStrategy {
      */
     public void setNumberOfOffspring(int numberOfOffspring) {
         this.numberOfOffspring = numberOfOffspring;
+    }
+
+    /**
+     * Sets whether to use different random numbers for different dimensions.
+     * 
+     * @param useIndividualProviders 
+     */
+    public void setUseIndividualProviders(boolean useIndividualProviders) {
+        this.useIndividualProviders = useIndividualProviders;
     }
     
     /**
@@ -208,4 +238,29 @@ public class ParentCentricCrossoverStrategy extends CrossoverStrategy {
         return true;
     }
     
+    /**
+     * Calculates a vector that is orthogonals to a number of other vectors.
+     * 
+     * @param u the vector
+     * @param vs list of vectors
+     * @return the orthogonal vector
+     */
+    private Vector orthogonalize(Vector u, Iterable<Vector> vs) {
+        for (Vector v : vs) {
+            u = u.subtract(project(u, v));
+        }
+
+        return u;
+    }
+    
+    /**
+     * Projects a vector onto another vector
+     * 
+     * @param u the first vector
+     * @param v the second vector
+     * @return the projected vector 
+     */
+    private Vector project(Vector u, Vector v) {
+        return v.multiply(u.dot(v) / v.dot(v));
+    }
 }
