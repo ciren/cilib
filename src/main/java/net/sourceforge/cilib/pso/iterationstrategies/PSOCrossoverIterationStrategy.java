@@ -21,13 +21,11 @@
  */
 package net.sourceforge.cilib.pso.iterationstrategies;
 
-import java.util.Comparator;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.ParentCentricCrossoverStrategy;
 import net.sourceforge.cilib.pso.PSO;
@@ -47,7 +45,6 @@ public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO
     private CrossoverStrategy crossoverStrategy;
     private int retries;
     private RandomSelector selector;
-    private Comparator comparator;
     
     /**
      * Default constructor
@@ -57,7 +54,6 @@ public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO
         this.crossoverStrategy = new ParentCentricCrossoverStrategy();
         this.retries = 10;
         this.selector = new RandomSelector();
-        this.comparator = new AscendingFitnessComparator<Particle>();
     }
     
     /**
@@ -70,7 +66,6 @@ public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO
         this.crossoverStrategy = copy.crossoverStrategy.getClone();
         this.retries = copy.retries;
         this.selector = copy.selector;
-        this.comparator = copy.comparator;
     }
 
     /**
@@ -86,7 +81,7 @@ public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO
     /**
      * Performs a standard iteration then selects three random parents and performs
      * crossover with them (default crossover strategy is PCX). If the offspring is
-     * better that the worst parent then the worst parent is replaced by the offspring.
+     * better than the worst parent then the worst parent is replaced by the offspring.
      * If not, the process is repeated a number of times (default 10).
      * 
      * @param algorithm 
@@ -110,11 +105,11 @@ public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO
             Particle worstParent = (Particle) new ElitistSelector().on(parents).select(Samples.all()).get(2);
             
             //replace worst parent with offspring if offspring is better
-            if (comparator.compare(offspring, worstParent) > 0) {
+            if (offspring.getFitness().compareTo(worstParent.getFitness()) > 0) {
                 isBetter = true;
                 worstParent = offspring;
             }            
-        } while(++counter < retries || !isBetter);
+        } while(++counter < retries && !isBetter);
     }
 
     /**
