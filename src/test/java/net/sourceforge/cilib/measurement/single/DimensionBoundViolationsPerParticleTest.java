@@ -31,22 +31,16 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
 *
 * @author Andries Engelbrecht
 */
-@RunWith(JMock.class)
 public class DimensionBoundViolationsPerParticleTest {
-    private Mockery context = new JUnit4Mockery();
 
     @Test
     public void testDimensionBoundViolationsPerParticle() {
@@ -67,11 +61,9 @@ public class DimensionBoundViolationsPerParticleTest {
         topology.add(p3);
         topology.add(p4);
 
-        final PopulationBasedAlgorithm pba = context.mock(PopulationBasedAlgorithm.class);
-        context.checking(new Expectations(){{
-            atLeast(1).of(pba).getTopology(); will(returnValue(topology));
-        }});
-
+        final PopulationBasedAlgorithm pba = mock(PopulationBasedAlgorithm.class);
+        when(pba.getTopology()).thenReturn((Topology) topology);
+             
         Measurement m = new DimensionBoundViolationsPerParticle();
         Assert.assertEquals(Real.valueOf(1.25), m.getValue(pba));
     }

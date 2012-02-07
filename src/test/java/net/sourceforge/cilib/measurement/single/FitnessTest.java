@@ -28,30 +28,22 @@ import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.mockito.Mockito.*;
 
 /**
  *
  * @author Gary Pampara
  */
-@RunWith(JMock.class)
 public class FitnessTest {
-    private Mockery mockery = new JUnit4Mockery();
 
     @Test
     public void results() {
-        final Algorithm algorithm = mockery.mock(Algorithm.class);
+        final Algorithm algorithm = mock(Algorithm.class);
         final OptimisationSolution mockSolution = new OptimisationSolution(Vector.of(1.0), new MinimisationFitness(0.0));
 
-        mockery.checking(new Expectations() {{
-            oneOf(algorithm).getBestSolution(); will(returnValue(mockSolution));
-        }});
+        when(algorithm.getBestSolution()).thenReturn(mockSolution);
 
         Measurement m = new Fitness();
         Assert.assertEquals(0.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);

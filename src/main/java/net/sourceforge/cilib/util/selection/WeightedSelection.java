@@ -21,14 +21,14 @@
  */
 package net.sourceforge.cilib.util.selection;
 
-import java.util.List;
-import net.sourceforge.cilib.util.selection.arrangement.Arrangement;
-import com.google.common.base.Predicate;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import java.util.Arrays;
+import java.util.List;
+import net.sourceforge.cilib.util.selection.arrangement.Arrangement;
 
 /**
  *
@@ -109,6 +109,6 @@ public class WeightedSelection<T> implements PartialSelection<T> {
     }
 
     public List<WeightedObject> weightedElements() {
-        return ImmutableList.of(elements);
+        return Arrays.asList(elements);
     }
 }

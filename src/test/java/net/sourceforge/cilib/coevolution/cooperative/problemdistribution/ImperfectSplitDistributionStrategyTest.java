@@ -21,11 +21,8 @@
  */
 package net.sourceforge.cilib.coevolution.cooperative.problemdistribution;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.Arrays;
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -35,10 +32,10 @@ import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
-import org.jmock.Expectations;
-import org.jmock.Mockery;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ImperfectSplitDistributionStrategyTest {
     @Test
@@ -55,12 +52,8 @@ public class ImperfectSplitDistributionStrategyTest {
 
         List<PopulationBasedAlgorithm> populations = Arrays.asList((PopulationBasedAlgorithm)new PSO(), (PopulationBasedAlgorithm)new PSO());
 
-        Mockery context = new Mockery();
-        final OptimisationProblem problem = context.mock(OptimisationProblem.class);
-        context.checking(new Expectations() {{
-            allowing (problem).getDomain();
-            will(returnValue(problemDomain));
-        }});
+        final OptimisationProblem problem = mock(OptimisationProblem.class);
+        when(problem.getDomain()).thenReturn(problemDomain);
 
         ImperfectSplitDistributionStrategy test = new ImperfectSplitDistributionStrategy();
         test.performDistribution(populations, problem, data);

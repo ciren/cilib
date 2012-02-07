@@ -22,44 +22,26 @@
 package net.sourceforge.cilib.algorithm.initialisation;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
-
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.mockito.Mockito.*;
 
-/**
- * Class to test the concept of initialising a <tt>Topology</tt> of
- * <tt>Entity</tt> objects, by cloning a given prototype <tt>Entity</tt>.
- *
- * @author Gary Pampara
- */
-@RunWith(JMock.class)
+@Ignore
 public class ClonedPopulationInitialisationStrategyTest {
-    private Mockery context = new JUnit4Mockery();
 
-    /**
-     * Test that the initialisation of the entity does indeed mean that the initialised
-     * Entity is added to the topology and the Entity is not the same as the original.
-     */
     @Test
     public void initialiseClonedTopology() {
-        final Entity entity = context.mock(Entity.class);
-        final OptimisationProblem problem = context.mock(OptimisationProblem.class);
+        final Entity entity = mock(Entity.class);
+        final OptimisationProblem problem = mock(OptimisationProblem.class);
 
         final PopulationInitialisationStrategy<Entity> initialisationBuilder = new ClonedPopulationInitialisationStrategy<Entity>();
         initialisationBuilder.setEntityType(entity);
         initialisationBuilder.setEntityNumber(20);
 
-        context.checking(new Expectations() {{
-            exactly(20).of(entity).getClone(); // The prototype entity is cloned exactly 20 times.
-        }});
-
         initialisationBuilder.initialise(problem);
+        
+        verify(entity, times(20)).getClone();
     }
 
 }

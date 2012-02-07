@@ -29,11 +29,9 @@ import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.calculator.FitnessCalculator;
-import static org.junit.Assert.*;
-
-import org.jmock.Expectations;
-import org.jmock.Mockery;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import static org.mockito.Mockito.*;
 
 public class SelectiveContextUpdateStrategyTest {
      @SuppressWarnings("unchecked")
@@ -41,15 +39,11 @@ public class SelectiveContextUpdateStrategyTest {
      public void SelectiveUpdateTest(){
          final ContextEntity contextEntity = new ContextEntity();
 
-         Mockery context = new Mockery();
-         final FitnessCalculator<Entity> test = context.mock(FitnessCalculator.class);
-         context.checking(new Expectations() {{
-                 atLeast(2).of (test).getFitness( with(any(ContextEntity.class)));
-                will(onConsecutiveCalls(
-                            returnValue(new MinimisationFitness(1.0)),
-                            returnValue(new MinimisationFitness(3.0))));
-                allowing (test).getClone(); will(returnValue(test));
-            }});
+         final FitnessCalculator<Entity> test = mock(FitnessCalculator.class);
+         
+         when(test.getFitness(any(ContextEntity.class))).thenReturn(new MinimisationFitness(1.0), new MinimisationFitness(3.0));
+         when(test.getClone()).thenReturn(test);
+         
          Vector testContext = new Vector();
          testContext.add(Real.valueOf(1.0));
          testContext.add(Real.valueOf(1.0));
@@ -72,5 +66,7 @@ public class SelectiveContextUpdateStrategyTest {
 
          assertEquals(0.0, contextEntity.getCandidateSolution().get(0).doubleValue(), 0.0);
          assertEquals(1.0, contextEntity.getFitness().getValue(), 0.0);
+         
+         verify(test, atLeast(2)).getFitness(any(ContextEntity.class));
      }
 }

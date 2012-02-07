@@ -21,30 +21,22 @@
  */
 package net.sourceforge.cilib.measurement.generic;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
-import org.junit.runner.RunWith;
 
 /**
  *
  * @author Gary Pampara
  */
-@RunWith(JMock.class)
 public class PercentageCompleteTest {
-    private Mockery context = new JUnit4Mockery();
 
     @Test
     public void value() {

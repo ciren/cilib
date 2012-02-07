@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.coevolution.cooperative.contextupdate;
 
-import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.coevolution.cooperative.ContextEntity;
 import net.sourceforge.cilib.coevolution.cooperative.problem.DimensionAllocation;
 import net.sourceforge.cilib.coevolution.cooperative.problem.SequencialDimensionAllocation;
@@ -30,10 +29,11 @@ import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.calculator.FitnessCalculator;
-
-import org.jmock.Expectations;
-import org.jmock.Mockery;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class StandardContextUpdateStrategyTest {
     @SuppressWarnings("unchecked")
@@ -41,12 +41,9 @@ public class StandardContextUpdateStrategyTest {
      public void StandardUpdateTest(){
          final ContextEntity contextEntity = new ContextEntity();
 
-         Mockery context = new Mockery();
-         final FitnessCalculator<Entity> test = context.mock(FitnessCalculator.class);
-         context.checking(new Expectations() {{
-                 oneOf (test).getFitness( with(any(ContextEntity.class)));
-                will(returnValue(new MinimisationFitness(1.0)));
-            }});
+         final FitnessCalculator<Entity> test = mock(FitnessCalculator.class);
+         when(test.getFitness(any(ContextEntity.class))).thenReturn(new MinimisationFitness(1.0));
+
          Vector testContext = new Vector();
          testContext.add(Real.valueOf(1.0));
          testContext.add(Real.valueOf(1.0));

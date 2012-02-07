@@ -21,24 +21,13 @@
  */
 package net.sourceforge.cilib.measurement.single.dynamic;
 
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
-import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 /**
  *
  * @author Julien Duhain
  */
-@RunWith(JMock.class)
 public class GlobalMaximumMeasurementTest {
-    private Mockery mockery = new JUnit4Mockery()
-    {{
-       setImposteriser(ClassImposteriser.INSTANCE);
-    }};
-
     @Test
     public void results() {
 //        final Algorithm algorithm = mockery.mock(Algorithm.class);

@@ -27,49 +27,27 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
-import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  *
  * @author Julien Duhain
  */
-@RunWith(JMock.class)
 public class AverageBestFitnessBeforeChangeTest {
-    private Mockery mockery = new JUnit4Mockery()
-    {{
-       setImposteriser(ClassImposteriser.INSTANCE);
-    }}
-;
 
     @Test
     public void results() {
-        final Algorithm algorithm = mockery.mock(Algorithm.class);
+        final Algorithm algorithm = mock(Algorithm.class);
         final OptimisationSolution mockSolution1 = new OptimisationSolution(Vector.of(1.0), new MinimisationFitness(0.0));
-        final OptimisationProblem mockProblem = mockery.mock(OptimisationProblem.class);
+        final OptimisationProblem mockProblem = mock(OptimisationProblem.class);
 
-        mockery.checking(new Expectations() {{
-            exactly(2).of(algorithm).getBestSolution(); will(returnValue(mockSolution1));
-            exactly(2).of(algorithm).getOptimisationProblem();will(returnValue(mockProblem));
-            exactly(2).of(mockProblem).getFitness(Vector.of(1.0));
-            will(onConsecutiveCalls(returnValue(new MinimisationFitness(10.0)),
-                                    returnValue(new MinimisationFitness(30.0))
-                                    ));
-            exactly(6).of(algorithm).getIterations();
-            will(onConsecutiveCalls(returnValue(1),
-                                    returnValue(2),
-                                    returnValue(3),
-                                    returnValue(4),
-                                    returnValue(5),
-                                    returnValue(6)
-                                    ));
-        }});
+        when(algorithm.getBestSolution()).thenReturn(mockSolution1);
+        when(algorithm.getOptimisationProblem()).thenReturn(mockProblem);
+        when(mockProblem.getFitness(Vector.of(1.0))).thenReturn(new MinimisationFitness(10.0), new MinimisationFitness(30.0));
+        when(algorithm.getIterations()).thenReturn(1,2,3,4,5,6);
 
         AverageBestFitnessBeforeChange m = new AverageBestFitnessBeforeChange();
         m.setCycleSize(3);

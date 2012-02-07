@@ -39,9 +39,8 @@ import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import org.jmock.Expectations;
-import org.jmock.Mockery;
 import org.junit.Test;
+import static org.mockito.Mockito.*;
 
 public class RandomAlgorithmImperfectSplitDistributionTest {
     @Test
@@ -61,12 +60,9 @@ public class RandomAlgorithmImperfectSplitDistributionTest {
 
             List<PopulationBasedAlgorithm> populations = Arrays.asList((PopulationBasedAlgorithm)new PSO(), (PopulationBasedAlgorithm)new PSO());
 
-            Mockery context = new Mockery();
-            final OptimisationProblem problem = context.mock(OptimisationProblem.class);
-            context.checking(new Expectations() {{
-                allowing (problem).getDomain();
-                will(returnValue(problemDomain));
-            }});
+            final OptimisationProblem problem = mock(OptimisationProblem.class);
+            
+            when(problem.getDomain()).thenReturn(problemDomain);
 
             RandomAlgorithmImperfectSplitDistribution test = new RandomAlgorithmImperfectSplitDistribution();
             test.performDistribution(populations, problem, data);

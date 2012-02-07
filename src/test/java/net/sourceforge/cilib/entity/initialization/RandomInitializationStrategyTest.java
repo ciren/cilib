@@ -29,25 +29,17 @@ import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
+import static org.hamcrest.CoreMatchers.*;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
 /**
  *
  * @author gpampara
  */
-@RunWith(JMock.class)
 public class RandomInitializationStrategyTest {
-
-    private Mockery mockery = new JUnit4Mockery();
 
     @Test
     public void testInitialize() {
@@ -67,19 +59,17 @@ public class RandomInitializationStrategyTest {
 
     @Test
     public void randomized() {
-        final Particle particle = mockery.mock(Particle.class);
-        final StructuredType<?> randomizable = mockery.mock(StructuredType.class);
+        final Particle particle = mock(Particle.class);
+        final StructuredType<?> randomizable = mock(StructuredType.class);
+        
         final Blackboard<Enum<?>, Type> blackboard = new Blackboard<Enum<?>, Type>();
         blackboard.put(EntityType.CANDIDATE_SOLUTION, randomizable);
 
+        when(particle.getProperties()).thenReturn(blackboard);
         RandomInitializationStrategy<Particle> strategy = new RandomInitializationStrategy<Particle>();
 
-        mockery.checking(new Expectations() {{
-            oneOf(particle).getProperties();
-            will(returnValue(blackboard));
-            oneOf(randomizable).randomize(with(any(RandomProvider.class)));
-        }});
-
         strategy.initialize(EntityType.CANDIDATE_SOLUTION, particle);
+        
+        verify(randomizable).randomize(any(RandomProvider.class));
     }
 }
