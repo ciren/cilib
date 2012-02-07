@@ -30,7 +30,6 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.UniformDistribution;
-import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -137,10 +136,10 @@ public class ParentCentricCrossoverStrategy extends CrossoverStrategy {
             for (int i = 0; i < k - 1; i++) {
                 Vector d = ((Vector) parents.get(i).getCandidateSolution()).subtract(g);
 
-                if (!isZero(d)) {
-                    Vector e = orthogonalize(d, e_eta);
+                if (!d.isZero()) {
+                    Vector e = d.orthogonalize(e_eta);
 
-                    if (!isZero(e)) {
+                    if (!e.isZero()) {
                         D += e.length();
                         e_eta.add(e.normalize());
                     }
@@ -219,48 +218,5 @@ public class ParentCentricCrossoverStrategy extends CrossoverStrategy {
      */
     public void setUseIndividualProviders(boolean useIndividualProviders) {
         this.useIndividualProviders = useIndividualProviders;
-    }
-    
-    /**
-     * Determines if the given vector is a zero vector
-     * 
-     * @param v The vector to check
-     * @return True if the vector is a zero vector, false otherwise
-     */
-    private boolean isZero(Vector v) {
-        double epsilon = 0.00000001;
-        for (Numeric n : v) {
-            if (Math.abs(n.doubleValue()) > epsilon) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-    
-    /**
-     * Calculates a vector that is orthogonals to a number of other vectors.
-     * 
-     * @param u the vector
-     * @param vs list of vectors
-     * @return the orthogonal vector
-     */
-    private Vector orthogonalize(Vector u, Iterable<Vector> vs) {
-        for (Vector v : vs) {
-            u = u.subtract(project(u, v));
-        }
-
-        return u;
-    }
-    
-    /**
-     * Projects a vector onto another vector
-     * 
-     * @param u the first vector
-     * @param v the second vector
-     * @return the projected vector 
-     */
-    private Vector project(Vector u, Vector v) {
-        return v.multiply(u.dot(v) / v.dot(v));
     }
 }
