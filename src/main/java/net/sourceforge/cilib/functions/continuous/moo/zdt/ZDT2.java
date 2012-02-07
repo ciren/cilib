@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.functions.continuous.moo;
+package net.sourceforge.cilib.functions.continuous.moo.zdt;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
@@ -27,17 +27,18 @@ import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * <p>Zitzler-Thiele-Deb Test Function 1</p>
+ * <p>Zitzler-Thiele-Deb Test Function 2</p>
  *
  * Characteristics:
  * <ul>
- * <li>Convex Pareto-optimal front.</li>
+ * <li>Nonconvex Pareto-optimal front.</li>
  * </ul>
  *
  * <p>
+ * This function is representative of the nonconvex counterpart to T1.
  * The Pareto-optimal front is formed with g(x) = 1
  * </p>
- *
+ * 
  * <p>
  * References:
  * </p>
@@ -53,37 +54,37 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Wiehann Matthysen
  */
-public final class T1 extends MOOptimisationProblem {
+public final class ZDT2 extends MOOptimisationProblem {
 
-    private static final long serialVersionUID = 3345180577731621477L;
+    private static final long serialVersionUID = -2949170760033824427L;
     private static final String DOMAIN = "R(0, 1)^30";
 
-    private static class T1_h implements ContinuousFunction {
+    private static class ZDT2_h implements ContinuousFunction {
 
-        private static final long serialVersionUID = 3672916606445089134L;
-        private final T_f1 f1;
-        private final T_g g;
+        private static final long serialVersionUID = 6575398958907399233L;
+        private final ZDT_f1 f1;
+        private final ZDT_g g;
 
-        public T1_h() {
-            this.f1 = new T_f1();
-            this.g = new T_g();
+        public ZDT2_h() {
+            this.f1 = new ZDT_f1();
+            this.g = new ZDT_g();
         }
 
         @Override
         public Double apply(Vector input) {
-            return 1.0 - Math.sqrt(this.f1.apply(input) / this.g.apply(input));
+            return 1.0 - (this.f1.apply(input) / this.g.apply(input)) * (this.f1.apply(input) / this.g.apply(input));
         }
     }
 
-    private static class T1_f2 implements ContinuousFunction {
+    private static class ZDT2_f2 implements ContinuousFunction {
 
-        private static final long serialVersionUID = 5864890886162485183L;
-        private final T_g g;
-        private final T1_h h;
+        private static final long serialVersionUID = 1983853514735870004L;
+        private final ZDT_g g;
+        private final ZDT2_h h;
 
-        private T1_f2() {
-            this.g = new T_g();
-            this.h = new T1_h();
+        public ZDT2_f2() {
+            this.g = new ZDT_g();
+            this.h = new ZDT2_h();
         }
 
         @Override
@@ -92,24 +93,24 @@ public final class T1 extends MOOptimisationProblem {
         }
     }
 
-    public T1() {
-        FunctionMinimisationProblem t1_f1 = new FunctionMinimisationProblem();
-        t1_f1.setFunction(new T_f1());
-        t1_f1.setDomain(DOMAIN);
-        add(t1_f1);
+    public ZDT2() {
+        FunctionMinimisationProblem zdt2_f1 = new FunctionMinimisationProblem();
+        zdt2_f1.setFunction(new ZDT_f1());
+        zdt2_f1.setDomain(DOMAIN);
+        add(zdt2_f1);
 
-        FunctionMinimisationProblem t1_f2 = new FunctionMinimisationProblem();
-        t1_f2.setFunction(new T1_f2());
-        t1_f2.setDomain(DOMAIN);
-        add(t1_f2);
+        FunctionMinimisationProblem zdt2_f2 = new FunctionMinimisationProblem();
+        zdt2_f2.setFunction(new ZDT2_f2());
+        zdt2_f2.setDomain(DOMAIN);
+        add(zdt2_f2);
     }
 
-    public T1(T1 copy) {
+    public ZDT2(ZDT2 copy) {
         super(copy);
     }
 
     @Override
-    public T1 getClone() {
-        return new T1(this);
+    public ZDT2 getClone() {
+        return new ZDT2(this);
     }
 }
