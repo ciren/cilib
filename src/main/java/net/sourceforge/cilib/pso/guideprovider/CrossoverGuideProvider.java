@@ -21,14 +21,12 @@
  */
 package net.sourceforge.cilib.pso.guideprovider;
 
-import java.util.Comparator;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.ParentCentricCrossoverStrategy;
 import net.sourceforge.cilib.pso.PSO;
@@ -37,66 +35,97 @@ import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 
 /**
- *
+ * This guide provider generates an offspring particle from random parents.
+ * If the offspring is better than the gBest of the swarm then the offspring
+ * "replaces" (the gBest's best position and fitness are updated) the gBest.
+ * This is done until a better offspring is generated or the retry limit is 
+ * reached.
+ * 
  * @author filipe
  */
 public class CrossoverGuideProvider implements GuideProvider {
     
+    private GuideProvider delegate;
     private CrossoverStrategy crossoverStrategy;
     private int retries;
     private RandomSelector selector;
-    private Comparator comparator;
 
+    /**
+     * Default constructor.
+     */
     public CrossoverGuideProvider() {
+        this.delegate = new NBestGuideProvider();
         this.crossoverStrategy = new ParentCentricCrossoverStrategy();
         this.retries = 10;
         this.selector = new RandomSelector();
-        this.comparator = new AscendingFitnessComparator<Particle>();
     }
     
+    /**
+     * Copy constructor.
+     * 
+     * @param copy 
+     */
     public CrossoverGuideProvider(CrossoverGuideProvider copy) {
+        this.delegate = copy.delegate.getClone();
         this.crossoverStrategy = copy.crossoverStrategy.getClone();
         this.retries = copy.retries;
         this.selector = copy.selector;
-        this.comparator = copy.comparator;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public GuideProvider getClone() {
+    public CrossoverGuideProvider getClone() {
         return new CrossoverGuideProvider(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public StructuredType get(Particle particle) {
         int counter = 0;
         boolean isBetter = false;
         Topology<Particle> topology = ((PSO)AbstractAlgorithm.get()).getTopology();
-        Particle offspring = null;
         
         do {
             // get 3 random particles
             List<Entity> parents = selector.on(topology).select(Samples.all().unique()).subList(0, 3);
             
             //perform crossover and compute offspring's fitness
-            offspring = (Particle) crossoverStrategy.crossover(parents).get(0);
+            Particle offspring = (Particle) crossoverStrategy.crossover(parents).get(0);
             offspring.calculateFitness();
             
-            for (Particle p : topology) {
-                //get gBest
-                Particle gBest = p.getNeighbourhoodBest();
+            Particle gBest = particle.getNeighbourhoodBest();
 
-                //replace gBest if offspring is better
-                if (comparator.compare(offspring, gBest.getBestPosition()) > 0) {
-                    isBetter = true;
-                    gBest.getProperties().put(EntityType.Particle.BEST_POSITION, offspring.getCandidateSolution());
-                    gBest.getProperties().put(EntityType.Particle.BEST_FITNESS, offspring.getFitness());
-                }
+            //replace gBest if offspring is better (we dont replace the gbest particle,
+            //we only update it's best position)
+            if (offspring.getFitness().compareTo(gBest.getBestFitness()) > 0) {
+                isBetter = true;
+                gBest.getProperties().put(EntityType.Particle.BEST_POSITION, offspring.getCandidateSolution());
+                gBest.getProperties().put(EntityType.Particle.BEST_FITNESS, offspring.getFitness());
             }
-        } while(++counter < retries || !isBetter);
+        } while(++counter < retries && !isBetter);
         
-        if (isBetter)
-            return offspring.getCandidateSolution();
-        
-        return particle.getNeighbourhoodBest().getBestPosition();
-    }    
+        return delegate.get(particle);
+    }
+
+    /**
+     * Sets the crossover strategy to use.
+     * 
+     * @param crossoverStrategy 
+     */
+    public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {
+        this.crossoverStrategy = crossoverStrategy;
+    }
+
+    /**
+     * Sets the number times to retry before returning the gBest.
+     * 
+     * @param retries 
+     */
+    public void setRetries(int retries) {
+        this.retries = retries;
+    }
 }
