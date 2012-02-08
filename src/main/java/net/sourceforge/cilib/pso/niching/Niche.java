@@ -60,12 +60,13 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 public class Niche extends MultiPopulationBasedAlgorithm {
     private static final long serialVersionUID = 3575627467034673738L;
 
-    private PopulationBasedAlgorithm mainSwarm;
+    protected PopulationBasedAlgorithm mainSwarm;
 
-    private NicheIdentificationStrategy nicheIdentificationStrategy;
-    private NicheCreationStrategy swarmCreationStrategy;
-    private AbsorptionStrategy absorptionStrategy;
-    private MergeStrategy mergeStrategy;
+    protected NicheIdentificationStrategy nicheIdentificationStrategy;
+    protected NicheCreationStrategy swarmCreationStrategy;
+    protected AbsorptionStrategy absorptionStrategy;
+    protected MergeStrategy mergeStrategy;
+    protected Particle mainSwarmParticle;
 
     /**
      * Create a new instance of Niche.
@@ -75,21 +76,21 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         PSO pso = (PSO) this.mainSwarm;
         ((SynchronousIterationStrategy)pso.getIterationStrategy()).setBoundaryConstraint(new ReinitialisationBoundary());
 
-        Particle mainSwarmParticle = new StandardParticle();
+        mainSwarmParticle = new StandardParticle();
         mainSwarmParticle.setVelocityInitializationStrategy(new RandomInitializationStrategy());
-        StandardVelocityProvider velocityProvider = new StandardVelocityProvider();
-        velocityProvider.setSocialAcceleration(new ConstantControlParameter(0.0));
+        StandardVelocityProvider velocityUpdateStrategy = new StandardVelocityProvider();
+        velocityUpdateStrategy.setSocialAcceleration(new ConstantControlParameter(0.0));
 
-        mainSwarmParticle.setVelocityProvider(velocityProvider);
+        mainSwarmParticle.setVelocityProvider(velocityUpdateStrategy);
         PopulationInitialisationStrategy mainSwarmInitialisationStrategy = new ClonedPopulationInitialisationStrategy();
         mainSwarmInitialisationStrategy.setEntityType(mainSwarmParticle);
-        mainSwarmInitialisationStrategy.setEntityNumber(40);
+        mainSwarmInitialisationStrategy.setEntityNumber(20);
 
         this.mainSwarm.setInitialisationStrategy(mainSwarmInitialisationStrategy);
 
         this.nicheIdentificationStrategy = new StandardNicheIdentificationStrategy();
         this.swarmCreationStrategy = new StandardSwarmCreationStrategy();
-        this.absorptionStrategy = new NullAbsorptionStrategy();
+        this.absorptionStrategy = new StandardAbsorptionStrategy();
         this.mergeStrategy = new StandardMergeStrategy();
     }
 
@@ -185,6 +186,24 @@ public class Niche extends MultiPopulationBasedAlgorithm {
      */
     public void setMainSwarm(PopulationBasedAlgorithm mainSwarm) {
         this.mainSwarm = mainSwarm;
+    }
+
+    /**
+     * @param absorptionStrategy the absorptionStrategy to set
+     */
+    public void setAbsorptionStrategy(AbsorptionStrategy absorptionStrategy) {
+        this.absorptionStrategy = absorptionStrategy;
+    }
+
+    /**
+     * @param mergeStrategy the mergeStrategy to set
+     */
+    public void setMergeStrategy(MergeStrategy mergeStrategy) {
+        this.mergeStrategy = mergeStrategy;
+    }
+
+    public Particle getMainSwarmParticle(){
+        return mainSwarmParticle;
     }
 
 }
