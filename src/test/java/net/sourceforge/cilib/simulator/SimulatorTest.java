@@ -72,11 +72,7 @@ public class SimulatorTest {
 
             @Override
             public boolean accept(File dir, String name) {
-                if (name.endsWith("xml")) {
-                    return true;
-                }
-
-                return false;
+                return name.endsWith("xml");
             }
         }));
 

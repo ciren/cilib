@@ -24,13 +24,7 @@ package net.sourceforge.cilib.simulator;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.Text;
+import org.w3c.dom.*;
 
 /**
  * <p>
@@ -139,7 +133,7 @@ class XMLObjectFactory {
         try {
             return Class.forName("net.sourceforge.cilib." + className);
         } catch (ClassNotFoundException e) {
-            System.out.println("Class not found: " + className);
+            System.out.println("Class not found: net.sourceforge.cilib." + className);
             e.printStackTrace();
         }
 
