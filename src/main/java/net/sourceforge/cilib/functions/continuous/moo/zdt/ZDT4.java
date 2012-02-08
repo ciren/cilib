@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.functions.continuous.moo;
+package net.sourceforge.cilib.functions.continuous.moo.zdt;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
@@ -61,12 +61,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Wiehann Matthysen
  */
-public final class T4 extends MOOptimisationProblem {
+public final class ZDT4 extends MOOptimisationProblem {
 
     private static final long serialVersionUID = 6807423144357771198L;
     private static final String DOMAIN = "R(0, 1)^1, R(-5,5)^9";
 
-    private static class T4_g implements ContinuousFunction {
+    private static class ZDT4_g implements ContinuousFunction {
 
         private static final long serialVersionUID = -4693394582794280778L;
 
@@ -80,15 +80,15 @@ public final class T4 extends MOOptimisationProblem {
         }
     }
 
-    private static class T4_h implements ContinuousFunction {
+    private static class ZDT4_h implements ContinuousFunction {
 
         private static final long serialVersionUID = 3672916606445089134L;
-        private final T_f1 f1;
-        private final T4_g g;
+        private final ZDT_f1 f1;
+        private final ZDT4_g g;
 
-        public T4_h() {
-            this.f1 = new T_f1();
-            this.g = new T4_g();
+        public ZDT4_h() {
+            this.f1 = new ZDT_f1();
+            this.g = new ZDT4_g();
         }
 
         @Override
@@ -97,15 +97,15 @@ public final class T4 extends MOOptimisationProblem {
         }
     }
 
-    private static class T4_f2 implements ContinuousFunction {
+    private static class ZDT4_f2 implements ContinuousFunction {
 
         private static final long serialVersionUID = -4303326355255421549L;
-        private final T4_g g;
-        private final T4_h h;
+        private final ZDT4_g g;
+        private final ZDT4_h h;
 
-        public T4_f2() {
-            this.g = new T4_g();
-            this.h = new T4_h();
+        public ZDT4_f2() {
+            this.g = new ZDT4_g();
+            this.h = new ZDT4_h();
         }
 
         @Override
@@ -114,24 +114,24 @@ public final class T4 extends MOOptimisationProblem {
         }
     }
 
-    public T4() {
-        FunctionMinimisationProblem t4_f1 = new FunctionMinimisationProblem();
-        t4_f1.setFunction(new T_f1());
-        t4_f1.setDomain(DOMAIN);
-        add(t4_f1);
+    public ZDT4() {
+        FunctionMinimisationProblem zdt4_f1 = new FunctionMinimisationProblem();
+        zdt4_f1.setFunction(new ZDT_f1());
+        zdt4_f1.setDomain(DOMAIN);
+        add(zdt4_f1);
 
-        FunctionMinimisationProblem t4_f2 = new FunctionMinimisationProblem();
-        t4_f2.setFunction(new T4_f2());
-        t4_f2.setDomain(DOMAIN);
-        add(t4_f2);
+        FunctionMinimisationProblem zdt4_f2 = new FunctionMinimisationProblem();
+        zdt4_f2.setFunction(new ZDT4_f2());
+        zdt4_f2.setDomain(DOMAIN);
+        add(zdt4_f2);
     }
 
-    public T4(T4 copy) {
+    public ZDT4(ZDT4 copy) {
         super(copy);
     }
 
     @Override
-    public T4 getClone() {
-        return new T4(this);
+    public ZDT4 getClone() {
+        return new ZDT4(this);
     }
 }
