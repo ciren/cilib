@@ -75,7 +75,6 @@ public class Vector implements StructuredType<Numeric>,
         VectorMath, RandomAccess {
 
     private static final long serialVersionUID = -4853190809813810272L;
-    private static final double EPSILON = 0.00000001;
     private Numeric[] components;
 
     /**
@@ -613,7 +612,7 @@ public class Vector implements StructuredType<Numeric>,
      */
     public boolean isZero() {
         for (Numeric n : this) {
-            if (Math.abs(n.doubleValue()) > EPSILON) {
+            if (Double.compare(n.doubleValue(), 0.0) != 0) {
                 return false;
             }
         }
