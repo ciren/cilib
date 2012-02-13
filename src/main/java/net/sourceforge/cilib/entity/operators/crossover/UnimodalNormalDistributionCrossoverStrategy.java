@@ -24,11 +24,13 @@ package net.sourceforge.cilib.entity.operators.crossover;
 import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.Supplier;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Entities;
 import net.sourceforge.cilib.util.Vectors;
@@ -96,25 +98,28 @@ public class UnimodalNormalDistributionCrossoverStrategy extends CrossoverStrate
      */
     @Override
     public List<Entity> crossover(List<Entity> parentCollection) {
-        List<Entity> offspring = new ArrayList<Entity>();
-        List<Vector> parents = Entities.<Vector>getCandidateSolutions(parentCollection);
+        checkState(parentCollection.size() >= 3, "There must be a minimum of three parents to perform UNDX crossover.");
+        checkState(numberOfOffspring > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
         
-        final int k = parents.size();
-        final int n = parents.get(0).size();
-
-        //calculate mean of parents
-        Vector g = Vectors.mean(parents);
+        List<Vector> solutions = Entities.<Vector>getCandidateSolutions(parentCollection);
+        List<Entity> offspring = new ArrayList<Entity>();
+        UniformDistribution randomParent = new UniformDistribution();
+        final int k = solutions.size();
+        final int n = solutions.get(0).size();
 
         for (int os = 0; os < numberOfOffspring; os++) {
-            checkState(parents.size() >= 3, "There must be a minimum of three parents to perform UNDX crossover.");
-            checkState(numberOfOffspring > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
-
+            //get index of main parent and put its solution at the end of the list
+            int parent = (int) randomParent.getRandomNumber(0.0, k);
+            Collections.swap(solutions, parent, k - 1);
+            
             List<Vector> e_zeta = new ArrayList<Vector>();
-            List<Vector> e_eta = new ArrayList<Vector>();
+            
+            //calculate mean of parents except main parent
+            Vector g = Vectors.mean(solutions.subList(0, k - 1));
 
             // basis vectors defined by parents
             for (int i = 0; i < k - 1; i++) {
-                Vector d = parents.get(i).subtract(g);
+                Vector d = solutions.get(i).subtract(g);
 
                 if (!d.isZero()) {
                     double dbar = d.length();
@@ -126,20 +131,10 @@ public class UnimodalNormalDistributionCrossoverStrategy extends CrossoverStrate
                 }
             }
 
-            double D = parents.get(k - 1).subtract(g).length();
+            final double D = solutions.get(k - 1).subtract(g).length();
 
             // create the remaining basis vectors
-            for (int i = 0; i < n - e_zeta.size(); i++) {
-                Vector d = Vector.newBuilder().copyOf(g).buildRandom();
-
-                if (!d.isZero()) {
-                    Vector e = d.orthogonalize(e_eta);
-
-                    if (!e.isZero()) {
-                        e_eta.add(e.normalize().multiply(D));
-                    }
-                }
-            }
+            List<Vector> e_eta = Vectors.orthonormalize(e_zeta);
 
             // construct the offspring
             Vector variables = Vector.copyOf(g);
@@ -150,7 +145,7 @@ public class UnimodalNormalDistributionCrossoverStrategy extends CrossoverStrate
                 }
 
                 for (int i = 0; i < e_eta.size(); i++) {
-                    variables = variables.plus(e_eta.get(i).multiply(random.getRandomNumber(0.0, sigma2.getParameter() / Math.sqrt(n))));
+                    variables = variables.plus(e_eta.get(i).multiply(D * random.getRandomNumber(0.0, sigma2.getParameter() / Math.sqrt(n))));
                 }
             } else {
                 for (int i = 0; i < e_zeta.size(); i++) {
@@ -166,13 +161,13 @@ public class UnimodalNormalDistributionCrossoverStrategy extends CrossoverStrate
                     variables = variables.plus(e_eta.get(i).multiply(new Supplier<Number>() {
                         @Override
                         public Number get() {
-                            return random.getRandomNumber(0.0, sigma2.getParameter() / Math.sqrt(n));
+                            return D * random.getRandomNumber(0.0, sigma2.getParameter() / Math.sqrt(n));
                         }
                     }));
                 }
             }
 
-            Entity child = parentCollection.get(k - 1).getClone();
+            Entity child = parentCollection.get(parent).getClone();
             child.setCandidateSolution(variables);                
             offspring.add(child);
         }

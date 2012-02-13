@@ -24,6 +24,7 @@ package net.sourceforge.cilib.entity.operators.crossover;
 import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.Supplier;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -31,6 +32,8 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Entities;
+import net.sourceforge.cilib.util.Vectors;
 
 /**
  * <p>
@@ -107,34 +110,27 @@ public class ParentCentricCrossoverStrategy extends CrossoverStrategy {
         checkState(parentCollection.size() >= 3, "There must be a minimum of three parents to perform parent-centric crossover.");
         checkState(numberOfOffspring > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
         
-        List<Entity> parents = new ArrayList<Entity>(parentCollection);
+        List<Vector> solutions = Entities.<Vector>getCandidateSolutions(parentCollection);
         UniformDistribution randomParent = new UniformDistribution();
         List<Entity> offspring = new ArrayList<Entity>();
-        int k = parents.size();
+        int k = solutions.size();
         
         //calculate mean of parents
-        Vector g = (Vector) parents.get(0).getCandidateSolution();
-        for (int i = 1; i < k; i++) {
-            g = g.plus((Vector) parents.get(i).getCandidateSolution());
-        }
-        
-        g = g.divide(k);
+        Vector g = Vectors.mean(solutions);
 
         //get each offspring
         for (int os = 0; os < numberOfOffspring; os++) {
             int parent = (int) randomParent.getRandomNumber(0.0, k);
-            Entity temp = parents.get(parent);
-            parents.set(parent, parents.get(k - 1));
-            parents.set(k - 1, temp);
+            Collections.swap(solutions, parent, k - 1);
 
             List<Vector> e_eta = new ArrayList<Vector>();
-            e_eta.add(((Vector) parents.get(k - 1).getCandidateSolution()).subtract(g));
+            e_eta.add(solutions.get(k - 1).subtract(g));
 
             double D = 0.0;
 
             // basis vectors defined by parents
             for (int i = 0; i < k - 1; i++) {
-                Vector d = ((Vector) parents.get(i).getCandidateSolution()).subtract(g);
+                Vector d = solutions.get(i).subtract(g);
 
                 if (!d.isZero()) {
                     Vector e = d.orthogonalize(e_eta);
@@ -149,7 +145,7 @@ public class ParentCentricCrossoverStrategy extends CrossoverStrategy {
             D /= k - 1;
 
             // construct the offspring
-            Vector child = (Vector) parents.get(k - 1).getCandidateSolution().getClone();
+            Vector child = Vector.copyOf(solutions.get(k - 1));
 
             if (useIndividualProviders) {
                 child = child.plus(e_eta.get(0).multiply(new Supplier<Number>() {
@@ -176,7 +172,7 @@ public class ParentCentricCrossoverStrategy extends CrossoverStrategy {
                 }
             }
 
-            Entity result = parents.get(k - 1).getClone();
+            Entity result = parentCollection.get(parent).getClone();
             result.setCandidateSolution(child);
             offspring.add(result);
         }
