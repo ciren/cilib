@@ -400,4 +400,21 @@ public class VectorTest {
 
         Assert.assertEquals(4.0, result, 0.0001);
     }
+    
+    @Test
+    public void testIsZero() {
+        Vector zero = Vector.of(0.0, 0.0, 0.0, 0.0, 0.0);
+        Vector notZero = Vector.of(0.0, 0.0, 1.0, 0.0, 0.0);
+        
+        assertFalse(notZero.isZero());
+        assertTrue(zero.isZero());
+    }
+    
+    @Test
+    public void testProject() {
+        Vector u = Vector.of(2.0, 1.0);
+        Vector v = Vector.of(-3.0, 4.0);
+        
+        assertEquals(u.project(v), Vector.of(6.0 / 25.0, -8.0 / 25.0));
+    }
 }

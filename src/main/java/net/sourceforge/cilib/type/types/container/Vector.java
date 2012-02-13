@@ -621,7 +621,7 @@ public class Vector implements StructuredType<Numeric>,
     }
     
     /**
-     * Calculates a vector that is orthogonals to a number of other vectors.
+     * Calculates a vector that is orthogonal to a number of other vectors.
      * 
      * @param u the vector
      * @param vs list of vectors
