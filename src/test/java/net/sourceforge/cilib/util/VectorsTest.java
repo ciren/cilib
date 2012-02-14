@@ -108,9 +108,6 @@ public class VectorsTest {
         List<Vector> vectors = Arrays.asList(Vector.of(3.0, 1.0), Vector.of(2.0, 2.0));
         List<Vector> ortho = Vectors.orthonormalize(vectors);
         
-        System.out.println(ortho.get(0));
-        System.out.println(ortho.get(1));
-        
         assertEquals(ortho.get(0).doubleValueOf(0), 3.0 / Math.sqrt(10), 0.00000001);
         assertEquals(ortho.get(0).doubleValueOf(1), 1.0 / Math.sqrt(10), 0.00000001);
         assertEquals(ortho.get(1).doubleValueOf(0), -2.0 / 5.0 / Math.sqrt(40.0 / 25.0), 0.00000001);

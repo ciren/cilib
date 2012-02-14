@@ -21,28 +21,33 @@
  */
 package net.sourceforge.cilib.util;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.type.types.container.StructuredType;
+import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.StandardParticle;
+import net.sourceforge.cilib.type.types.container.Vector;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 /**
- * Utility methods for Entities.
+ *
  * @author filipe
  */
-public class Entities {
-    /**
-     * Gets the candidate solutions from a list of entities.
-     * @param entities The list of entities.
-     * @return The list of candidate solutions.
-     */
-    public static <T extends StructuredType> List<T> getCandidateSolutions(List<? extends Entity> entities) {
-        List<T> solutions = new ArrayList<T>();
+public class EntitiesTest {
+    @Test
+    public void testGetCandidateSolutions() {
+        Vector v1 = Vector.of(1.0, 2.0, 3.0);
+        Vector v2 = Vector.of(4.0, 5.0, 6.0);
         
-        for (Entity e : entities) {
-            solutions.add((T) e.getCandidateSolution());
-        }
+        Particle p1 = new StandardParticle();
+        Particle p2 = new StandardParticle();
         
-        return solutions;
+        p1.setCandidateSolution(v1);
+        p2.setCandidateSolution(v2);
+        
+        List<Vector> list = Entities.<Vector>getCandidateSolutions(Arrays.asList(p1, p2));
+        
+        assertEquals(v1, list.get(0));
+        assertEquals(v2, list.get(1));
     }
 }
