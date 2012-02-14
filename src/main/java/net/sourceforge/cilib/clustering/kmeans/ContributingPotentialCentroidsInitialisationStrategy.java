@@ -35,15 +35,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
- * Initialises each centroid with probability proportional to its contribution to the overall potential.
- * Note that no parameter tuning is needed.
- *
- * @InProceedings{ 2007.Arthur.jan, title = "k-means++: The Advantages of Careful Seeding",
- *                 booktitle = "In Proceedings of the eighteenth annual ACM-SIAM symposium on Discrete Algorithms",
- *                 series = "Symposium on Discrete Algorithms", author = "David Arthur and Sergei Vassilvitskii",
- *                 publisher = "Society for Industrial and Applied Mathematics", location = "New Orleans, Louisiana",
- *                 address = "Philadelphia, PA, USA", pages = "1027--1035", month = jan, year = "2007",
- *                 isbn = "978-0-898716-24-5"}
+ * Initialise each centroid with probability proportional to its contribution to the overall potential.
+ * Note that no parameter tuning is needed. This approach is explained in <em>k-means++: The Advantages of Careful
+ * Seeding</em> by <b>David Arthur and Sergei Vassilvitskii</b> in Proceedings of the eighteenth annual ACM-SIAM
+ * symposium on Discrete Algorithms. Society for Industrial and Applied Mathematics, New
+ * Orleans, Louisiana, pages 1027 - 1035, January 2007.
  *
  * @author Theuns Cloete
  */
@@ -67,7 +63,6 @@ public class ContributingPotentialCentroidsInitialisationStrategy implements Cen
     }
 
     /**
-     * Initialise the centroids as explained in Section 2.2 of the referenced article.
      * {@inheritDoc}
      */
     @Override
@@ -88,21 +83,19 @@ public class ContributingPotentialCentroidsInitialisationStrategy implements Cen
     }
 
     /**
-     * Remove the unwanted centroid and replace it with a newly chosen centroid, still based on its contribtution to the
-     * overall potential.
      * {@inheritDoc}
      */
     @Override
     public Vector reinitialise(List<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which) {
-        Vector candidateCentroid = null;
+        Vector reinitialised = null;
 
         do {
-            candidateCentroid = Vector.copyOf(dataTable.getRow(randomPattern.nextInt(dataTable.size())).getVector());
+            reinitialised = Vector.copyOf(dataTable.getRow(randomPattern.nextInt(dataTable.size())).getVector());
         }
-        while (this.randomProbability.nextDouble() >= this.calculateProbability(dataTable, distanceMeasure, centroids, candidateCentroid));
+        while (this.randomProbability.nextDouble() >= this.calculateProbability(dataTable, distanceMeasure, centroids, reinitialised));
 
-        centroids.set(which, candidateCentroid);
-        return candidateCentroid;
+        centroids.set(which, reinitialised);
+        return reinitialised;
     }
 
     private double calculateProbability(DataTable<StandardPattern, TypeList> dataTable, DistanceMeasure distanceMeasure, List<Vector> chosenCentroids, Vector candidateCentroid) {

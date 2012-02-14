@@ -27,6 +27,7 @@ import java.util.List;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.problem.clustering.ClusteringProblem;
+import net.sourceforge.cilib.problem.clustering.PartitionalClusteringProblem;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -39,9 +40,9 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  * The following approaches have already been implemented:
  * <ul>
  * <li>Randomly ({@link RandomCentroidsInitialisationStrategy}); or</li>
- * <li>Based on random patterns chosen from the dataset ({@link DataSetBasedCentroidsInitialisationStrategy})</li>
+ * <li>Based on random patterns chosen from the data set ({@link DataSetBasedCentroidsInitialisationStrategy})</li>
  * <li>Based on the contribution that each centroid contributes towards the overall potential
- * ({@link KMeansPlusPlusCentroidsInitialisationStrategy})</li>
+ * ({@link ContributingPotentialCentroidsInitialisationStrategy})</li>
  * </ul>
  *
  * @author Theuns Cloete
@@ -51,29 +52,39 @@ public interface CentroidsInitialisationStrategy extends Serializable, Cloneable
     public CentroidsInitialisationStrategy getClone();
 
     /**
-     * Initialise the centroid vectors for a clustering. Each centroid is individually initialised and then added to an
-     * {@link List} that represents all the centroids. This structure is then returned. The problem and/or dataset
+     * Initialise the centroid vectors for a clustering. Each centroid is individually initialised and added to a
+     * {@link List} of {@link Vector centroids} that is returned. The problem and/or data set
      * that are currently being clustered can be used to get information about the clustering, such as the dimension of
      * the search space and centroids.
      *
      * TODO: When we start using Guice, then only the required parameters have to be injected when the class is
      * instantiated and this method will not need all these parameters.
      *
-     * @param problem the {@link ClusteringProblem} currently being optimized
-     * @param dataset the {@link StaticDataSetBuilder} currently being clustered
-     * @return an {@link List} of {@link Vector}s that represent all the centroids
+     * @param dataTable the {@link DataTable} representing the data set that should be clustered
+     * @param domainRegistry the {@link DomainRegistry} that represents the
+     * {@link PartitionalClusteringProblem#standardDomain standard domain} (not duplicated) of the
+     * {@link ClusteringProblem}
+     * @param distanceMeasure the {@link DistanceMeasure} that should be used to calculate similarity
+     * @param numberOfCentroids the number of centroids that should be initialised
+     * @return the {@link List} of initialised {@link Vector centroids}
      */
-    public abstract List<Vector> initialise(DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids);
+    List<Vector> initialise(DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids);
 
     /**
-     * Reinitialise the specified centroid (residing in the given list of centroids) and return it.
+     * Reinitialise the specified centroid, residing in the given list of centroids, replace it and return it.
      *
      * TODO: When we start using Guice, then only the required parameters have to be injected when the class is
      * instantiated and this method will not need all these parameters.
      *
-     * @param centroids The list of centroid vectors containing the centroid that needs to be reinitialised.
-     * @param which The index of the centroid that should be reinitialised.
+     * @param centroids the {@link List} of {@link Vector centroids} containing the centroid that should to be
+     * reinitialised
+     * @param dataTable the {@link DataTable} representing the data set that should be clustered
+     * @param domainRegistry the {@link DomainRegistry} that represents the
+     * {@link PartitionalClusteringProblem#standardDomain standard domain} (not duplicated) of the
+     * {@link ClusteringProblem}
+     * @param distanceMeasure the {@link DistanceMeasure} that should be used to calculate similarity
+     * @param which the index of the centroid that should be reinitialised
      * @return the reinitialised centroid for convenience
      */
-    public abstract Vector reinitialise(List<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which);
+    Vector reinitialise(List<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which);
 }

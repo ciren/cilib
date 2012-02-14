@@ -76,8 +76,10 @@ public class RandomCentroidsInitialisationStrategy implements CentroidsInitialis
      */
     @Override
     public Vector reinitialise(List<Vector> centroids, DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int which) {
-        // TODO: pass in RandomProvider
-        return Vector.newBuilder().copyOf(centroids.get(which)).buildRandom();
+        Vector reinitialised = Vector.newBuilder().copyOf(centroids.get(which)).buildRandom();
+
+        centroids.set(which, reinitialised);
+        return reinitialised;
     }
 
     /**

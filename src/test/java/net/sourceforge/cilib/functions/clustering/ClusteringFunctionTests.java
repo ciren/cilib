@@ -28,6 +28,8 @@ import java.util.List;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.StandardPatternDataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.TypeList;
@@ -96,6 +98,13 @@ public final class ClusteringFunctionTests {
             }
         }
         return dataTable;
+    }
+
+    public static DomainRegistry getDomainRegistry() {
+        DomainRegistry domainRegistry = new StringBasedDomainRegistry();
+
+        domainRegistry.setDomainString("R(0.0, 10.01)^2");
+        return domainRegistry;
     }
 
     public static DistanceMeasure getDistanceMeasure() {

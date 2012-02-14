@@ -42,22 +42,15 @@ import net.sourceforge.cilib.util.calculator.StructuredTypeFitnessCalculator;
 
 /**
  * This algorithm is an implementation of the KMeans Clustering algorithm. This is the implementation as described in
- * Section 2 of:
+ * Section 2 of <em>Determination of Number of Clusters in K-Means Clustering and Application in Colour Image
+ * Segmentation</em> by <b>Siddheswar Ray and Rose H. Turi</b>" July 2000, Proceedings of the Fourth International
+ * Conference on Advances in Pattern Recognition and Digital Techniques, pages 137 - 143.<br/>
  *
- * @inproceedings{ 2000.Ray.jul, title = "Determination of Number of Clusters in
- *                 K-Means Clustering and Application in Colour Image
- *                 Segmentation", author = "Siddheswar Ray and Rose H. Turi",
- *                 year = "2000", month = jul, booktitle = "Proceedings of the
- *                 Fourth International Conference on Advances in Pattern
- *                 Recognition and Digital Techniques", pages = "137--143",
- *                 address = "Calcutta, India"}
- *
- * This class makes use of a {@link CentroidsInitialisationStrategy} to initialise the
- * centroids in the desired manner. The default centroids initialisation strategy is the
- * {@link RandomCentroidsInitialisationStrategy}. It also makes use of a {@link CentroidsDiversificationStrategy} to add
- * diversity at certain moments defined by the strategy. The default centroids diversification strategy is the
- * {@link NullCentroidsDiversificationStrategy} which does not add any diversity, i.e. adhering to the normal KMeans
- * algorithm.
+ * This class makes use of a {@link CentroidsInitialisationStrategy} to initialise the centroids in the desired manner.
+ * The default centroids initialisation strategy is the {@link RandomCentroidsInitialisationStrategy}. It also makes use
+ * of a {@link CentroidsDiversificationStrategy} to add diversity at certain moments defined by the strategy. The
+ * default centroids diversification strategy is the {@link NullCentroidsDiversificationStrategy} which does not add any
+ * diversity, i.e. adhering to the normal KMeans algorithm.
  *
  * @author Theuns Cloete
  */

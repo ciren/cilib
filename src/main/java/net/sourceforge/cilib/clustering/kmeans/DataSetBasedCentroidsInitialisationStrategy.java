@@ -36,8 +36,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
- * This strategy initializes the parts of the returned centroids {@link Vector} from
- * randomly chosen patterns in the dataset.
+ * This strategy initializes the parts of the returned centroids {@link Vector} from randomly chosen patterns in the
+ * data set.
  *
  * @author Theuns Cloete
  */
@@ -59,12 +59,7 @@ public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsIni
     }
 
     /**
-     * Initialize the centroid vectors for a clustering from randomly chosen patterns in the
-     * given dataset.
-     *
-     * @param problem the {@link ClusteringProblem} currently being optimized
-     * @param dataTable the {@link DataTable} currently being clustered
-     * @return an {@link List} of {@link Vector}s that represents all the centroids
+     * {@inheritDoc}
      */
     @Override
     public List<Vector> initialise(DataTable<StandardPattern, TypeList> dataTable, DomainRegistry domainRegistry, DistanceMeasure distanceMeasure, int numberOfCentroids) {
@@ -79,7 +74,6 @@ public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsIni
     }
 
     /**
-     * Just pick a random pattern from the data set.
      * {@inheritDoc}
      */
     @Override
