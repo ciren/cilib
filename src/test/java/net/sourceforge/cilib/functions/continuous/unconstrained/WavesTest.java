@@ -32,32 +32,36 @@ import org.junit.Test;
  *
  * @author engel
  */
-public class FiveUnevenPeakTrapTest {
-    
+public class WavesTest {
+ 
     private ContinuousFunction function;
 
     @Before
     public void instantiate() {
-        this.function = new FiveUnevenPeakTrap();
+        this.function = new Waves();
     }
 
     /** Test for Central2PeakTrapTest */
     @Test
     public void testEvaluate() {
-        Vector x = Vector.of(0.0);
+        Vector x = Vector.of(-0.5,-1.2);
         
-        assertEquals(-200.0, function.apply(x), 0.000000009);
+        assertEquals(-5.907363227, function.apply(x), 0.000000009);
 
-        x.setReal(0, 5.0);
-        assertEquals(-160.0, function.apply(x), 0.000000009);
+        x.setReal(0, 0.0);
+        x.setReal(1, 0.0);
+        assertEquals(0.0, function.apply(x), 0.000000009);
         
-        x.setReal(0, 12.5);
-        assertEquals(-140.0, function.apply(x), 0.000000009);
+        x.setReal(0, 0.0);
+        x.setReal(1, 1.2);
+        assertEquals(0.0, function.apply(x), 0.000000009);
         
-        x.setReal(0, 22.5);
-        assertEquals(-160.0, function.apply(x), 0.000000009);
+        x.setReal(0, 1.2);
+        x.setReal(1, -1.2);
+        assertEquals(7.210944, function.apply(x), 0.000000009);
         
-        x.setReal(0, 30.0);
-        assertEquals(-200.0, function.apply(x), 0.000000009);
-    }
+        x.setReal(0, 1.2);
+        x.setReal(1, 0);
+        assertEquals(-0.046656, function.apply(x), 0.000000009);
+    }   
 }

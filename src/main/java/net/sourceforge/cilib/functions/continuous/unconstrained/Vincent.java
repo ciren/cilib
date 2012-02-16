@@ -51,6 +51,6 @@ public class Vincent implements ContinuousFunction {
         double result = 1.0;
         for (int i = 0; i < input.size(); ++i)
             result += Math.sin(10*Math.log(input.doubleValueOf(i)));
-        return result;
+        return -result;
     }
 }

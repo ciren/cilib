@@ -19,7 +19,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import static org.junit.Assert.assertEquals;
@@ -29,31 +28,32 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Before;
 import org.junit.Test;
 
-
 /**
  *
  * @author engel
  */
-public class Central2PeakTrapTest {
-    
+public class VincentTest {
+ 
     private ContinuousFunction function;
 
     @Before
     public void instantiate() {
-        this.function = new Central2PeakTrap();
+        this.function = new Vincent();
     }
 
-    /** Test for Central2PeakTrapTest */
+    /** Test for Vincent Function */
     @Test
     public void testEvaluate() {
-        Vector x = Vector.of(20.0);
+        Vector x = Vector.of(5,5);
         
-        assertEquals(-200.0, function.apply(x), 0.000000009);
+        assertEquals(-0.246258053, function.apply(x), 0.000000009);
 
-        x.setReal(0, 0.0);
-        assertEquals(0.0, function.apply(x), 0.000000009);
-        
         x.setReal(0, 10.0);
-        assertEquals(-160.0, function.apply(x), 0.000000009);
-    }
+        x.setReal(1, 10.0);
+        assertEquals(0.719420726, function.apply(x), 0.000000009);
+        
+        x.setReal(0, 8.0);
+        x.setReal(1, 8.0);
+        assertEquals(-2.861700698, function.apply(x), 0.000000009);
+    }   
 }
