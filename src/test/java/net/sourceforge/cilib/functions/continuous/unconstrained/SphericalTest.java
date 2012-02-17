@@ -34,7 +34,7 @@ import org.junit.Test;
  */
 public class SphericalTest {
 
-    private ContinuousFunction function = new Spherical();
+    private Spherical function = new Spherical();
 
     @Before
     public void instantiate() {
@@ -44,15 +44,15 @@ public class SphericalTest {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Spherical. */
     @Test
     public void testEvaluate() {
-        Vector x = new Vector();
-        x.add(Real.valueOf(1.0));
-        x.add(Real.valueOf(2.0));
-        x.add(Real.valueOf(3.0));
+        Vector x = Vector.of(1.0, 2.0, 3.0);
 
         assertEquals(14.0, function.apply(x), 0.0);
     }
 
+    @Test
     public void testGradient() {
-        throw new UnsupportedOperationException("gradient test is expected");
+        Vector x = Vector.of(1.0, 2.0, 3.0);
+
+        assertEquals(Vector.of(2.0, 4.0, 6.0), function.getGradient(x));
     }
 }
