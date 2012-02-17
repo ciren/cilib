@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -44,14 +46,18 @@ public class Elliptic implements ContinuousFunction {
      * The condition number 10^6 is used to transform a sphere
      * to an elliptic function
      */
-    private static final double CONDITION_NUMBER = 1000000;
+    private ControlParameter conditionNumber;
+    
+    public Elliptic() {
+        this.conditionNumber = new ConstantControlParameter(1000000);
+    }
 
     @Override
     public Double apply(Vector input) {
         double sum = 0;
 
         for (int i = 0; i < input.size(); i++) {
-            sum += Math.pow(CONDITION_NUMBER, i / (input.size() - 1)) * input.doubleValueOf(i) * input.doubleValueOf(i);
+            sum += Math.pow(conditionNumber.getParameter(), i / (input.size() - 1)) * input.doubleValueOf(i) * input.doubleValueOf(i);
         }
 
         return sum;
