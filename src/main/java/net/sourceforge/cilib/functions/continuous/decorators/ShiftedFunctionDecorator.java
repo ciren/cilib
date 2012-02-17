@@ -21,9 +21,13 @@
  */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.Vector.Function;
 
 /**
  * ShiftedFunctionDecorator.
@@ -47,32 +51,27 @@ public class ShiftedFunctionDecorator implements ContinuousFunction {
 
     private static final long serialVersionUID = 8687711759870298103L;
     private ContinuousFunction function;
-    private double verticalShift;
-    private double horizontalShift;
+    private ControlParameter verticalShift;
+    private ControlParameter horizontalShift;
 
     public ShiftedFunctionDecorator() {
-        verticalShift = 0.0;
-        horizontalShift = 0.0;
+        this.verticalShift = new ConstantControlParameter(0.0);
+        this.horizontalShift = new ConstantControlParameter(0.0);
     }
 
-//    /**
-//     * {@inheritDoc}
-//     */
-//    public Double getMinimum() {
-//        return function.getMinimum() + verticalShift;
-//    }
     /**
      * {@inheritDoc}
      */
     @Override
     public Double apply(Vector input) {
-        Vector tmp = Vector.of();
+        Vector tmp = input.map(new Function<Numeric, Numeric>() {
+            @Override
+            public Numeric apply(Numeric x) {
+                return Real.valueOf(x.doubleValue() + horizontalShift.getParameter());
+            }
+        });
 
-        for (int i = 0; i < input.size(); i++) {
-            tmp.add(Real.valueOf(input.doubleValueOf(i) + horizontalShift));
-        }
-
-        return function.apply(tmp) + verticalShift;
+        return function.apply(tmp) + verticalShift.getParameter();
     }
 
     /**
@@ -93,7 +92,7 @@ public class ShiftedFunctionDecorator implements ContinuousFunction {
      * Get the horizontal shift (X-axis) associated with this function.
      * @return The horizontal shift in the X-axis
      */
-    public double getHorizontalShift() {
+    public ControlParameter getHorizontalShift() {
         return horizontalShift;
     }
 
@@ -101,7 +100,7 @@ public class ShiftedFunctionDecorator implements ContinuousFunction {
      * Set the amount of horizontal shift to be applied to the function during evaluation.
      * @param horizontalShift The amount of horizontal shift.
      */
-    public void setHorizontalShift(double horizontalShift) {
+    public void setHorizontalShift(ControlParameter horizontalShift) {
         this.horizontalShift = horizontalShift;
     }
 
@@ -109,7 +108,7 @@ public class ShiftedFunctionDecorator implements ContinuousFunction {
      * Get the vertical shift (Y-axis) associated with this function.
      * @return The vertical shift in the Y-axis
      */
-    public double getVerticalShift() {
+    public ControlParameter getVerticalShift() {
         return verticalShift;
     }
 
@@ -117,7 +116,7 @@ public class ShiftedFunctionDecorator implements ContinuousFunction {
      * Set the amount of vertical shift to be applied to the function during evaluation.
      * @param verticalShift the amount of vertical shift.
      */
-    public void setVerticalShift(double verticalShift) {
+    public void setVerticalShift(ControlParameter verticalShift) {
         this.verticalShift = verticalShift;
     }
 }
