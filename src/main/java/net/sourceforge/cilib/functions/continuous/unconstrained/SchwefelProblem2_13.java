@@ -73,7 +73,7 @@ public class SchwefelProblem2_13 implements ContinuousFunction {
                 m_b[i][j] = random.nextInt(201) - 100;
             }
             
-            optimum[i] = 0.0;
+            optimum[i] = random.nextDouble() * 2 * Math.PI - Math.PI;
         }
 
         for (int i = 0; i < dimensions; i++) {
