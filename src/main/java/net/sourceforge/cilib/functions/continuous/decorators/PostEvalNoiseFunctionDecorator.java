@@ -31,7 +31,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Adds noise to result of an evaluated function.
  * The noise is added as follows:
- * functionResult * (offset + scale * Gaussian(0,1))
+ * functionResult * (offset + scale * |Gaussian(0,1)|)
  * <p>
  * Reference:
  * </p>
@@ -45,7 +45,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class PostEvalNoiseFunctionDecorator implements ContinuousFunction {
 
-    private static final long serialVersionUID = -3918271655104447420L;
     private ContinuousFunction function;
     private ProbabilityDistributionFuction randomNumber;
     private ControlParameter variance;
@@ -67,7 +66,7 @@ public class PostEvalNoiseFunctionDecorator implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
-        return function.apply(input) * (offset.getParameter() + scale.getParameter() * randomNumber.getRandomNumber(0.0, this.variance.getParameter()));
+        return function.apply(input) * (offset.getParameter() + scale.getParameter() * Math.abs(randomNumber.getRandomNumber(0.0, this.variance.getParameter())));
     }
 
     /**
