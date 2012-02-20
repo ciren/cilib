@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.pso.velocityprovider;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -32,6 +33,7 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.ParametizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -147,5 +149,22 @@ public class FDRVelocityProvider implements VelocityProvider {
      */
     public void setFdrMaximizerAcceleration(ControlParameter fdrMaximizerAcceleration) {
         this.fdrMaximizerAcceleration = fdrMaximizerAcceleration;
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public void setControlParameters(ParametizedParticle particle) {
+        //not applicable
+    }
+    
+    /*
+     * not applicable
+     */
+    @Override
+    public HashMap<String, Double> getControlParameterVelocity(ParametizedParticle particle){
+        //not applicable
+        return null;
     }
 }

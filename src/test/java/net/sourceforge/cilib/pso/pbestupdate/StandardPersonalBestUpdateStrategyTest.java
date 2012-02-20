@@ -21,9 +21,12 @@
  */
 package net.sourceforge.cilib.pso.pbestupdate;
 
+import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.MinimisationFitness;
+import net.sourceforge.cilib.pso.particle.ParametizedParticle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -45,7 +48,7 @@ public class StandardPersonalBestUpdateStrategyTest {
      * stagnation counter should <b>not be</b> incremented.
      */
     @Test
-    public void updatePersonalBest() {
+    public void testUpdatePersonalBest() {
         Particle particle = new StandardParticle();
 
         particle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(200.0));
@@ -68,7 +71,7 @@ public class StandardPersonalBestUpdateStrategyTest {
      * and the pbest stagnation counter should be incremented.
      */
     @Test
-    public void updatePersonalBestFails() {
+    public void testUpdatePersonalBestFails() {
         Particle particle = new StandardParticle();
 
         particle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(200.0));
@@ -82,5 +85,35 @@ public class StandardPersonalBestUpdateStrategyTest {
         Assert.assertThat(particle.getBestFitness(), is(not(particle.getFitness())));
         Assert.assertThat(particle.getBestPosition(), is(not(particle.getPosition())));
         Assert.assertEquals(((Int)particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER)).intValue(), 1);
+    }
+    
+    
+    @Test
+    public void testUpdateParametizedPersonalBest() {
+        ParametizedParticle particle = new ParametizedParticle();
+
+        particle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(200.0));
+        particle.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(300.0));
+        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(0.0));
+        particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
+        ControlParameter parameter = new BoundedModifiableControlParameter();
+        ControlParameter bestParameter = new BoundedModifiableControlParameter();
+        bestParameter.setParameter(0.6);
+        parameter.setParameter(0.55);
+        particle.setInertia(parameter);
+        particle.setSocialAcceleration(parameter);
+        particle.setCognitiveAcceleration(parameter);
+        particle.setVmax(parameter);
+
+        StandardPersonalBestUpdateStrategy strategy = new StandardPersonalBestUpdateStrategy();
+        strategy.updateParametizedPersonalBest(particle);
+
+        Assert.assertThat(particle.getBestFitness(), is(particle.getFitness()));
+        Assert.assertThat(particle.getBestPosition(), is(particle.getPosition()));
+        Assert.assertEquals(((Int)particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER)).intValue(), 0);
+        Assert.assertThat(particle.getBestInertia().getParameter(), is(particle.getInertia().getParameter()));
+        Assert.assertThat(particle.getBestSocialAcceleration().getParameter(), is(particle.getSocialAcceleration().getParameter()));
+        Assert.assertThat(particle.getBestCognitiveAcceleration().getParameter(), is(particle.getCognitiveAcceleration().getParameter()));
+        Assert.assertThat(particle.getBestVmax().getParameter(), is(particle.getVmax().getParameter()));
     }
 }

@@ -21,7 +21,12 @@
  */
 package net.sourceforge.cilib.pso.positionprovider;
 
+import net.sourceforge.cilib.controlparameter.BoundedControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.type.types.Bounds;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -57,5 +62,49 @@ public class LinearPositionProvider implements PositionProvider {
             builder.addWithin(velocity.doubleValueOf(n), position.boundsOf(n));
         
         return builder.build();
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getInertia(ParametizedParticle particle) {
+        double velocity =  particle.getInertia().getVelocity();
+        BoundedControlParameter position =  (BoundedControlParameter) particle.getInertia();
+        Bounds bounds = new Bounds(position.getLowerBound(), position.getUpperBound());
+        return Real.valueOf(velocity, bounds).doubleValue();
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getSocialAcceleration(ParametizedParticle particle) {
+        double velocity =  particle.getSocialAcceleration().getVelocity();
+        BoundedControlParameter position =  (BoundedControlParameter) particle.getSocialAcceleration();
+        Bounds bounds = new Bounds(position.getLowerBound(), position.getUpperBound());
+        return Real.valueOf(velocity, bounds).doubleValue();
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getCognitiveAcceleration(ParametizedParticle particle) {
+        double velocity =  particle.getCognitiveAcceleration().getVelocity();
+        BoundedControlParameter position =  (BoundedControlParameter) particle.getCognitiveAcceleration();
+        Bounds bounds = new Bounds(position.getLowerBound(), position.getUpperBound());
+        return Real.valueOf(velocity, bounds).doubleValue();
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getVmax(ParametizedParticle particle) {
+        double velocity =  particle.getVmax().getVelocity();
+        BoundedControlParameter position =  (BoundedControlParameter) particle.getVmax();
+        Bounds bounds = new Bounds(position.getLowerBound(), position.getUpperBound());
+        return Real.valueOf(velocity, bounds).doubleValue();
     }
 }

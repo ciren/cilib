@@ -20,10 +20,16 @@
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
 package net.sourceforge.cilib.pso.velocityprovider;
+import java.util.HashMap;
+import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Particle;import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
+import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
+import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -47,7 +53,7 @@ public class ClampingVelocityProviderTest {
      * Test velocity clamping.
      */
     @Test
-    public void testClamping() {
+    public void testGet() {
         Particle particle = createParticle(Vector.of(0.0));
         Particle nBest = createParticle(Vector.of(1.0));
         particle.setNeighbourhoodBest(nBest);
@@ -60,6 +66,112 @@ public class ClampingVelocityProviderTest {
         for (Numeric number : velocity) {
             Assert.assertTrue(Double.compare(number.doubleValue(), 0.5) <= 0);
             Assert.assertTrue(Double.compare(number.doubleValue(), -0.5) >= 0);
-        }
+        }    
+    }
+
+    /**
+     * Test of setVMax method, of class ClampingVelocityProvider.
+     */
+    @Test
+    public void testSetVMax() {
+        System.out.println("setVMax");
+        ClampingVelocityProvider provider = new ClampingVelocityProvider();
+        ControlParameter expectedResult = new ConstantControlParameter(0.55);
+        provider.setVMax(expectedResult);
+        ControlParameter result = provider.getVMax();
+        
+        Assert.assertTrue(expectedResult.getParameter() - result.getParameter() == 0);
+        
+    }
+
+    /**
+     * Test of getVMax method, of class ClampingVelocityProvider.
+     */
+    @Test
+    public void testGetVMax() {
+        System.out.println("getVMax");
+        ClampingVelocityProvider provider = new ClampingVelocityProvider();
+        ControlParameter expectedResult = new ConstantControlParameter(0.55);
+        provider.setVMax(expectedResult);
+        ControlParameter result = provider.getVMax();
+        
+        Assert.assertTrue(expectedResult.getParameter() - result.getParameter() == 0);
+       
+    }
+
+    /**
+     * Test of setDelegate method, of class ClampingVelocityProvider.
+     */
+    @Test
+    public void testSetDelegate() {
+        System.out.println("setDelegate");
+        ClampingVelocityProvider provider = new ClampingVelocityProvider();
+        VelocityProvider expectedResult = new StandardVelocityProvider();
+        provider.setDelegate(expectedResult);
+        VelocityProvider result = provider.getDelegate();
+        
+        Assert.assertSame(expectedResult, result);
+        
+    }
+
+    /**
+     * Test of getDelegate method, of class ClampingVelocityProvider.
+     */
+    @Test
+    public void testGetDelegate() {
+        System.out.println("getDelegate");
+        ClampingVelocityProvider provider = new ClampingVelocityProvider();
+        VelocityProvider expectedResult = new StandardVelocityProvider();
+        provider.setDelegate(expectedResult);
+        VelocityProvider result = provider.getDelegate();
+        
+        Assert.assertSame(expectedResult, result);
+    }
+
+    /**
+     * Test of setControlParameters method, of class ClampingVelocityProvider.
+     */
+    @Test
+    public void testSetControlParameters() {
+        System.out.println("setControlParameters");
+        ClampingVelocityProvider instance = new ClampingVelocityProvider();
+        ControlParameter parameter = new BoundedModifiableControlParameter();
+        parameter.setParameter(0.55);
+        ParametizedParticle particle = new ParametizedParticle();
+        particle.setVmax(parameter);
+        
+        instance.setControlParameters(particle);
+        
+        Assert.assertTrue(parameter.getParameter() - instance.getVMax().getParameter() == 0);
+    }
+
+    /**
+     * Test of getControlParameterVelocity method, of class ClampingVelocityProvider.
+     */
+    @Test
+    public void testGetControlParameterVelocity() {
+        System.out.println("getControlParameterVelocity");
+        FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
+        problem.setDomain("R(-5.12, 5.12)^30");
+        problem.setFunction(new Spherical());
+            
+        ParametizedParticle particle = new ParametizedParticle();
+        particle.initialise(problem);
+        ControlParameter parameter = new BoundedModifiableControlParameter();
+        parameter.setParameter(0.5);
+        parameter.setVelocity(0);
+        particle.setVmax(parameter);
+        double velocityValue = new StandardVelocityProvider().getControlParameterVelocity(particle).get("VmaxVelocity");
+        
+        ClampingVelocityProvider velocityProvider = new ClampingVelocityProvider();
+        StandardVelocityProvider standardProvider = new StandardVelocityProvider();
+        velocityProvider.setVMax(particle.getVmax());
+        double velocity = standardProvider.getControlParameterVelocity(particle).get("VmaxVelocity");
+        HashMap<String, Double> result = velocityProvider.getControlParameterVelocity(particle);
+        
+        Assert.assertNotSame(velocity, result.get("VmaxVelocity"));
+        Assert.assertTrue(Double.compare(result.get("VmaxVelocity"), 0.5) <= 0);
+        Assert.assertTrue(Double.compare(result.get("VmaxVelocity"), -0.5) >= 0);
+
     }
 }

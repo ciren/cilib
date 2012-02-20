@@ -22,7 +22,10 @@
 package net.sourceforge.cilib.pso.velocityprovider;
 
 
+import java.util.HashMap;
+import java.util.Hashtable;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.ParametizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -43,4 +46,28 @@ public interface VelocityProvider extends Cloneable {
      * @param particle The <tt>Particle</tt> to apply the operation on.
      */
     Vector get(Particle particle);
+
+    /**
+     * Update the needed control parameters for the <tt>VelocityProvider</tt>,
+     * if needed.
+     * @param particle The particle for whom the VelocityProvider parameters need to be updated.
+     */
+    void updateControlParameters(Particle particle);
+
+    /*
+     * Set the values of the control parameters to those held by a parametized particle
+     * @param particle The aprticle holding the parameter values
+     */
+    void setControlParameters(ParametizedParticle particle);
+    
+    /*
+     * Get the velocity value for the control parameters held by a parametized particle
+     * @param particle The particle holding the parameter and velocity values
+     * @return The hashmap containing the new velocity values for each parameter. This 
+     * hashmap holds the velocity for inertia as "InertiaVelocity", for social acceleration
+     * as "SocialAccelerationVelocity", for cognitive acceleration as "CognitiveAccelerationVelocity"
+     * and for vmax as "VmaxVelocity".
+     */
+    HashMap<String, Double> getControlParameterVelocity(ParametizedParticle particle);
+
 }

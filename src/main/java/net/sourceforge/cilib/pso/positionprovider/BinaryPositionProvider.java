@@ -23,6 +23,7 @@ package net.sourceforge.cilib.pso.positionprovider;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.functions.activation.Sigmoid;
+import net.sourceforge.cilib.pso.particle.ParametizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -75,6 +76,38 @@ public class BinaryPositionProvider implements PositionProvider {
             }
         }
         return builder.build();
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public double getInertia(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Not applicable");
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public double getSocialAcceleration(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Not applicable");
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public double getCognitiveAcceleration(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Not applicable");
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public double getVmax(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Not applicable");
     }
 
     /**

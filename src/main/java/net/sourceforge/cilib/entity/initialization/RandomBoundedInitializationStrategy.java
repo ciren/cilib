@@ -44,7 +44,7 @@ public class RandomBoundedInitializationStrategy<E extends Entity> implements
     public RandomBoundedInitializationStrategy() {
         this.lowerBound = ConstantControlParameter.of(0.1);
         this.upperBound = ConstantControlParameter.of(0.1);
-        this.random = new UniformDistribution();
+ this.random = new UniformDistribution();
     }
 
     public RandomBoundedInitializationStrategy(RandomBoundedInitializationStrategy copy) {

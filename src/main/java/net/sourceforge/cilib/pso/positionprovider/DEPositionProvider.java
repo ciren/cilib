@@ -31,6 +31,7 @@ import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.ParametizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
@@ -133,5 +134,37 @@ public class DEPositionProvider implements PositionProvider {
             }
             return dePosition;
         }
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public double getInertia(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Not applicable");
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public double getSocialAcceleration(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Not applicable");
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public double getCognitiveAcceleration(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Not applicable");
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public double getVmax(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Not applicable");
     }
 }

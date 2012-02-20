@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.pso.velocityprovider;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -34,6 +35,7 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.ParametizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -260,5 +262,22 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
 
     public void setR2(RandomProvider r2) {
         this.r2 = r2;
+    }
+    
+    /*
+     * Not applicable
+     */
+     @Override
+    public void setControlParameters(ParametizedParticle particle) {
+        //not applicable
+    }
+    
+     /*
+     * Not applicable
+     */
+    @Override
+    public HashMap<String, Double> getControlParameterVelocity(ParametizedParticle particle) {
+        //Not applicable
+        return null;
     }
 }

@@ -21,9 +21,11 @@
  */
 package net.sourceforge.cilib.pso.velocityprovider;
 
+import java.util.HashMap;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.ParametizedParticle;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -80,5 +82,38 @@ public class ClampingVelocityProvider implements VelocityProvider {
 
     public VelocityProvider getDelegate() {
         return this.delegate;
+    }
+
+    @Override
+    public void updateControlParameters(Particle particle) {
+        this.delegate.updateControlParameters(particle);
+        this.vMax.updateParameter();
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public void setControlParameters(ParametizedParticle particle) {
+        vMax = particle.getVmax();
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public HashMap<String, Double> getControlParameterVelocity(ParametizedParticle particle) {
+        double velocity = this.delegate.getControlParameterVelocity(particle).get("VmaxVelocity");
+        HashMap<String, Double> parameterVelocity = new HashMap<String, Double>();
+        
+        if (velocity < -vMax.getParameter()) {
+            parameterVelocity.put("VmaxVelocity", -vMax.getParameter());
+        } else if (velocity > vMax.getParameter()) {
+            parameterVelocity.put("VmaxVelocity", vMax.getParameter());
+        } else {
+            parameterVelocity.put("VmaxVelocity", velocity);
+        }
+        
+        return parameterVelocity;
     }
 }

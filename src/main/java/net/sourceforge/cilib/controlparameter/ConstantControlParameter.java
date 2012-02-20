@@ -28,17 +28,17 @@ package net.sourceforge.cilib.controlparameter;
 public class ConstantControlParameter implements ControlParameter {
     private static final long serialVersionUID = 8847038781478109426L;
     protected double parameter;
-
-
+    
     public static ControlParameter of(double value) {
         return new ConstantControlParameter(value);
     }
 
-    /**
+    private double velocity;
+  /**
      * Create a new instance of {@code ConstantControlParameter}.
      */
     public ConstantControlParameter() {
-
+        velocity = 0;
     }
 
     /**
@@ -48,6 +48,7 @@ public class ConstantControlParameter implements ControlParameter {
      */
     protected ConstantControlParameter(double value) {
         this.parameter = value;
+        velocity = 0;
     }
 
     /**
@@ -67,7 +68,8 @@ public class ConstantControlParameter implements ControlParameter {
     }
 
     /**
-     * {@inheritDoc}
+     * Get the parameter value
+     * @return The parameter value
      */
     @Override
     public double getParameter() {
@@ -75,7 +77,8 @@ public class ConstantControlParameter implements ControlParameter {
     }
     
     /**
-     * {@inheritDoc}
+     * Get the parameter value
+     * @return The parameter value
      */
     @Override
     public double getParameter(double min, double max) {
@@ -83,11 +86,51 @@ public class ConstantControlParameter implements ControlParameter {
     }
 
     /**
-     * Sets the constant parameter.
-     * 
-     * @param value The new constant parameter.
+     * Set the value of the parameter to the value provided
+     * @param value The new value of the parameter
      */
+    @Override
     public void setParameter(double value) {
         this.parameter = value;
+    }
+    
+    @Override
+    public boolean wasSetByUser() {
+        return true;
+    }
+
+    /**
+     * Not applicable to this class as it is constant
+     */
+    @Override
+    public void updateParameter() {
+        // Nothing to update - This paramter is constant.
+    }
+    
+    /*
+     * Not applicable to this class as it is constant
+     * @param value The value to update the parameter to
+     */
+    @Override
+    public void updateParameter(double value) {
+        //Nothing to update
+    }
+    
+    /*
+     * Get the current velocity of the parameter
+     * @return The current velocity of the parameter
+     */
+    @Override
+    public double getVelocity() {
+        return velocity;
+    }
+    
+    /*
+     * Set the current velocity of the parameter to the value provided. Nothing happens as it is a constant class
+     * @param value The new velocity value
+     */
+    @Override
+    public void setVelocity(double value) {
+        //Nothing to change
     }
 }

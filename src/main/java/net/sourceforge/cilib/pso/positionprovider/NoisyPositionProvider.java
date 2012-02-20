@@ -25,6 +25,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.pso.particle.ParametizedParticle;
 import net.sourceforge.cilib.util.Vectors;
 
 /**
@@ -48,6 +49,9 @@ public class NoisyPositionProvider implements PositionProvider {
         this.delegate = rhs.delegate.getClone();
     }
 
+    /*
+     * {@inheritDoc}
+     */
     @Override
     public Vector get(Particle particle) {
         Vector position = this.delegate.get(particle);
@@ -58,6 +62,9 @@ public class NoisyPositionProvider implements PositionProvider {
         return Vectors.sumOf(position, builder.build());
     }
 
+    /*
+     * {@inheritDoc}
+     */
     @Override
     public NoisyPositionProvider getClone() {
         return new NoisyPositionProvider(this);
@@ -77,5 +84,45 @@ public class NoisyPositionProvider implements PositionProvider {
 
     public void setDistribution(ProbabilityDistributionFuction distribution) {
         this.distribution = distribution;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getInertia(ParametizedParticle particle) {
+        double position = this.delegate.getInertia(particle);
+        double randomValue = this.distribution.getRandomNumber();
+        return position + randomValue;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getSocialAcceleration(ParametizedParticle particle) {
+        double position = this.delegate.getSocialAcceleration(particle);
+        double randomValue = this.distribution.getRandomNumber();
+        return position + randomValue;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getCognitiveAcceleration(ParametizedParticle particle) {
+        double position = this.delegate.getCognitiveAcceleration(particle);
+        double randomValue = this.distribution.getRandomNumber();
+        return position + randomValue;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getVmax(ParametizedParticle particle) {
+        double position = this.delegate.getVmax(particle);
+        double randomValue = this.distribution.getRandomNumber();
+        return position + randomValue;
     }
 }

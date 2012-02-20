@@ -21,7 +21,9 @@
  */
 package net.sourceforge.cilib.pso.guideprovider;
 
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.ParametizedParticle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
@@ -41,13 +43,51 @@ public class PBestGuideProvider implements GuideProvider {
     public PBestGuideProvider(PBestGuideProvider copy) {
     }
 
+    /*
+     * {@inheritDoc}
+     */
     @Override
     public PBestGuideProvider getClone() {
         return new PBestGuideProvider(this);
     }
 
+    /*
+     * {@inheritDoc}
+     */
     @Override
     public StructuredType get(Particle particle) {
         return particle.getBestPosition();
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public ControlParameter getInertia(ParametizedParticle particle) {
+        return particle.getBestInertia();
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public ControlParameter getSocialAcceleration(ParametizedParticle particle) {
+        return particle.getBestSocialAcceleration();
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public ControlParameter getCognitiveAcceleration(ParametizedParticle particle) {
+        return particle.getBestCognitiveAcceleration();
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public ControlParameter getVmax(ParametizedParticle particle) {
+        return particle.getBestVmax();
     }
 }
