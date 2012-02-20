@@ -21,9 +21,11 @@
  */
 package net.sourceforge.cilib.pso.velocityprovider;
 
+import java.util.HashMap;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.pso.particle.ParametizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -78,4 +80,23 @@ public class BareBonesVelocityProvider implements VelocityProvider {
     public void setRandomDistribution(ProbabilityDistributionFuction pdf) {
         this.randomDistribution = pdf;
     }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public void setControlParameters(ParametizedParticle particle) {
+        //Not applicable
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public HashMap<String, Double> getControlParameterVelocity(ParametizedParticle particle) {
+        //Not applicable
+        return null;
+    }
+    
+  
 }

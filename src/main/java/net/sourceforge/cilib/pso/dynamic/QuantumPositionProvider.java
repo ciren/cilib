@@ -30,6 +30,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.pso.particle.ParametizedParticle;
 import net.sourceforge.cilib.pso.positionprovider.PositionProvider;
 import net.sourceforge.cilib.pso.positionprovider.StandardPositionProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -150,5 +151,37 @@ public class QuantumPositionProvider implements PositionProvider {
     public void setRadius(ControlParameter radius) {
         Preconditions.checkArgument(radius.getParameter() >= 0, "Radius of the electron cloud can not be negative");
         this.radius = radius;
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public double getInertia(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Implementation is required.");
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public double getSocialAcceleration(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Implementation is required.");
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public double getCognitiveAcceleration(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Implementation is required.");
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public double getVmax(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Implementation is required.");
     }
 }

@@ -26,9 +26,11 @@ import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationCriterionBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.knowledgetransferstrategies.KnowledgeTransferStrategy;
 import net.sourceforge.cilib.algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.moo.criterion.CriterionBasedMOProblemAdapter;
+import net.sourceforge.cilib.pso.particle.ParametizedParticle;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -92,5 +94,37 @@ public class VEPSOGuideProvider implements GuideProvider {
         MultiPopulationBasedAlgorithm topLevelAlgorithm = (MultiPopulationBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
         Blackboard<Enum<?>, Type> knowledge = (Blackboard<Enum<?>, Type>) this.knowledgeTransferStrategy.transferKnowledge(topLevelAlgorithm.getPopulations());
         return (StructuredType) knowledge.get(EntityType.Particle.BEST_POSITION);
+    }
+    
+    /*
+     * Not supported yet
+     */
+    @Override
+    public ControlParameter getInertia(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    /*
+     * Not supported yet
+     */
+    @Override
+    public ControlParameter getSocialAcceleration(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    /*
+     * Not supported yet
+     */
+    @Override
+    public ControlParameter getCognitiveAcceleration(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    /*
+     * Not supported yet
+     */
+    @Override
+    public ControlParameter getVmax(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

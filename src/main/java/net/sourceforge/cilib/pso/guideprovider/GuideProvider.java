@@ -21,7 +21,9 @@
  */
 package net.sourceforge.cilib.pso.guideprovider;
 
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.ParametizedParticle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -38,4 +40,32 @@ public interface GuideProvider extends Cloneable {
      * @return The selected guide.
      */
     StructuredType get(Particle particle);
+    
+    /*
+     * Gets the guide of the inertia control parameter for the particle provided
+     * @param particle The particle whose guide is returned
+     * @return The guide
+     */
+    ControlParameter getInertia(ParametizedParticle particle);
+    
+     /*
+     * Gets the guide of the social acceleration control parameter for the particle provided
+     * @param particle The particle whose guide is returned
+     * @return The guide
+     */
+    ControlParameter getSocialAcceleration(ParametizedParticle particle);
+    
+     /*
+     * Gets the guide of the cognitive acceleration control parameter for the particle provided
+     * @param particle The particle whose guide is returned
+     * @return The guide
+     */
+    ControlParameter getCognitiveAcceleration(ParametizedParticle particle);
+    
+     /*
+     * Gets the guide of the vmax control parameter for the particle provided
+     * @param particle The particle whose guide is returned
+     * @return The guide
+     */
+    ControlParameter getVmax(ParametizedParticle particle);
 }

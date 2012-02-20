@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.pso.positionprovider;
 
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.ParametizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
@@ -64,5 +65,45 @@ public class StandardPositionProvider implements PositionProvider {
         Vector position = (Vector) particle.getPosition();
         Vector velocity = (Vector) particle.getVelocity();
         return Vectors.sumOf(position, velocity);
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getInertia(ParametizedParticle particle) {
+        double position = particle.getInertia().getParameter();
+        double velocity = particle.getInertia().getVelocity();
+        return position + velocity;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getSocialAcceleration(ParametizedParticle particle) {
+        double position = particle.getSocialAcceleration().getParameter();
+        double velocity = particle.getSocialAcceleration().getVelocity();
+        return position + velocity;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getCognitiveAcceleration(ParametizedParticle particle) {
+        double position = particle.getCognitiveAcceleration().getParameter();
+        double velocity = particle.getCognitiveAcceleration().getVelocity();
+        return position + velocity;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getVmax(ParametizedParticle particle) {
+        double position = particle.getVmax().getParameter();
+        double velocity = particle.getVmax().getVelocity();
+        return position + velocity;
     }
 }

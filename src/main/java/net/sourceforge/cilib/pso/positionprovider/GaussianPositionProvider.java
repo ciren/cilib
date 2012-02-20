@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.pso.positionprovider;
 
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.ParametizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -31,13 +32,51 @@ public class GaussianPositionProvider implements PositionProvider {
 
     private static final long serialVersionUID = 1888395118987536803L;
 
+    /*
+     * {@inheritDoc}
+     */
     @Override
     public GaussianPositionProvider getClone() {
         throw new UnsupportedOperationException("Implementation is required.");
     }
 
+    /*
+     * {@inheritDoc}
+     */
     @Override
     public Vector get(Particle particle) {
+        throw new UnsupportedOperationException("Implementation is required.");
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getInertia(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Implementation is required.");
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getSocialAcceleration(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Implementation is required.");
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getCognitiveAcceleration(ParametizedParticle particle) {
+        throw new UnsupportedOperationException("Implementation is required.");
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getVmax(ParametizedParticle particle) {
         throw new UnsupportedOperationException("Implementation is required.");
     }
 }

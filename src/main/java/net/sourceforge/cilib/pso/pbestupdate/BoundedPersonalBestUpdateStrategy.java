@@ -21,9 +21,13 @@
  */
 package net.sourceforge.cilib.pso.pbestupdate;
 
+import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.InferiorFitness;
+import net.sourceforge.cilib.pso.particle.ParametizedParticle;
 import net.sourceforge.cilib.type.types.Types;
 
 /**
@@ -59,4 +63,41 @@ public class BoundedPersonalBestUpdateStrategy extends StandardPersonalBestUpdat
 
         super.updatePersonalBest(particle);
     }
+    
+    /*
+     * Update personal best if the candidate solution and control parameters are all within their bounds
+     * @param paticle The particle whose personal best is being updated
+     */
+    @Override
+    public void updateParametizedPersonalBest(ParametizedParticle particle) {
+       
+        if (!Types.isInsideBounds(particle.getPosition()) || !parameterIsWithinBounds(particle.getInertia()) || 
+                !parameterIsWithinBounds(particle.getSocialAcceleration()) || !parameterIsWithinBounds(particle.getCognitiveAcceleration()) 
+                || !parameterIsWithinBounds(particle.getVmax())) {
+                    
+                    particle.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+                    return;
+        }
+
+        super.updateParametizedPersonalBest(particle);
+    }
+    
+    /*
+     * Checks if the parameter provided falls within its appropriate bounds
+     * @param parameter The parameter to be checked
+     * @return true if it falls within bounds and false if it does not
+     */
+    private boolean parameterIsWithinBounds(ControlParameter parameter) {
+        if(parameter instanceof ConstantControlParameter) {
+            return true;
+        } else {
+            BoundedModifiableControlParameter newParameter = (BoundedModifiableControlParameter) parameter;
+            
+            if((newParameter.getParameter() < newParameter.getUpperBound()) && (newParameter.getParameter() > newParameter.getLowerBound())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }
