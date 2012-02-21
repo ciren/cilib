@@ -22,12 +22,12 @@
 package net.sourceforge.cilib.type.types.container;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Supplier;
 import com.google.common.collect.Iterables;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.util.Vectors;
 
 /**
  * Representation of a Matrix. This class is immutable with the intention that
@@ -129,6 +129,35 @@ public final class Matrix implements Type {
         for (int i = 0; i < getRows(); i++) {
             for (int j = 0; j < getColumns(); j++) {
                 result.contents[i][j] = this.contents[i][j] - b.contents[i][j];
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * Multiplies every element of this matrix by the given scalar;
+     * @param scalar The scalar to multiply into the matrix.
+     * @return The resultant matrix.
+     */
+    public Matrix multiply(final double scalar) {
+        return multiply(new Supplier<Double>() {
+            @Override
+            public Double get() {
+                return scalar;
+            }            
+        });
+    }
+    
+    /**
+     * Multiplies every element of this matrix by the given supplier;
+     * @param supplier The supplier that supplies scalar values.
+     * @return The resultant matrix.
+     */
+    public Matrix multiply(Supplier<Double> supplier) {
+        Matrix result = new Matrix(this.getRows(), this.getColumns());
+        for (int i = 0; i < getRows(); i++) {
+            for (int j = 0; j < getColumns(); j++) {
+                result.contents[i][j] = this.contents[i][j] * supplier.get();
             }
         }
         return result;
