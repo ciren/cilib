@@ -21,36 +21,36 @@
  */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.math.random.GaussianDistribution;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
-import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.type.types.container.Matrix;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Matrices;
 import net.sourceforge.cilib.util.Sequence;
 
 /**
- *
- * Rotates a n-dimensional continuous function by multiplying it with
- * an orthonormal basis for R^n.
+ * A function decorator that rotates a given function by a random orthonormal 
+ * matrix or a linear transformation matrix.
  */
 public class RotatedFunctionDecorator implements ContinuousFunction {
 
     private static final long serialVersionUID = 3107473364744861153L;
     private ContinuousFunction function;
-    private double[][] rotationMatrix;
-    /**
-     * Specifies a probability that determines whether the rotationMatrix should be
-     * re-created for a particular function evaluation.
-     *
-     * Default value is 0.5.
-     */
-    private ControlParameter rotationProbability;
-
+    private Matrix rotationMatrix;
+    private boolean initialized;
+    private MatrixType type;
+    private int condition;
+    
+    public enum MatrixType {
+        IDENTITY,
+        ORTHONORMAL,
+        LINEAR_TRANSFORMATION
+    }
+    
     public RotatedFunctionDecorator() {
-        rotationMatrix = null;
-        rotationProbability = ConstantControlParameter.of(0.5);
+        this.rotationMatrix = null;
+        this.type = MatrixType.ORTHONORMAL;
+        this.initialized = false;
+        this.condition = 1;
     }
 
     /**
@@ -60,124 +60,24 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
      */
     @Override
     public Double apply(final Vector input) {
-        ProbabilityDistributionFuction rotateOrNot = new UniformDistribution();
-
-        if (rotationMatrix == null || rotateOrNot.getRandomNumber() < rotationProbability.getParameter()) {
+        if (type == MatrixType.IDENTITY) {
+            return function.apply(input);
+        }
+        
+        if (!initialized) {
             setRotationMatrix(input.size());
+            initialized = true;
         }
 
         Vector rotatedX = Vector.copyOf(Sequence.repeat(0.0, input.size()));
 
         for (int j = 0; j < input.size(); j++) {
             for (int i = 0; i < input.size(); i++) {
-                rotatedX.setReal(j, rotatedX.doubleValueOf(j) + input.doubleValueOf(i) * rotationMatrix[i][j]);
+                rotatedX.setReal(j, rotatedX.doubleValueOf(j) + input.doubleValueOf(i) * rotationMatrix.valueAt(i, j));
             }
         }
 
         return function.apply(rotatedX);
-    }
-
-    /**
-     * Initializes the rotation matrix with random values normally distributed
-     * with a mean of 0.0 and a standard deviation of 1.0 and then applies the
-     * numerically stable version of the Gram-Schmidt Process to it's columns
-     * to generate an orthonormal spaning set for R.
-     *
-     * The process is outlined as follows for each n-dimensional column vector of the
-     * rotation matrix (represented here by column_i where i e [0, n]):
-     *
-     * 1) draw components of column_i from a gaussian distribution with mean 0.0 and
-     *    sigma 1.0
-     * 2) column_i = column_i - projection, where:
-     *    projection = SUM( INNER_PRODUCT(column_i, column_j) * column_j )
-     *    with j e [0, i-1]
-     * 3) column_i = column_i/|column_i|
-     *
-     */
-    private void initializeMatrix(int dimension) {
-        /*
-         * set up a spanning set of gaussian random numbers
-         */
-        rotationMatrix = new double[dimension][dimension];
-        ProbabilityDistributionFuction initializer = new GaussianDistribution();
-
-        for (int i = 0; i < dimension; i++) {
-            for (int j = 0; j < dimension; j++) {
-                rotationMatrix[i][j] = initializer.getRandomNumber();
-            }
-        }
-
-        /*
-         * generate an orthonormal spanning set from the above spanning set by
-         * replacing each column vector with it's orthonormal equivalent
-         *
-         * NOTE: matrix representation is actually the 'transpose' of a 2-dimensional
-         *       java array. Hence, rotationMatrix[i] is used as a column vector,
-         *       instead of a row vector. This means that:
-         *
-         *       e_13 (math) = rotationMatrix[3][1] (java)
-         *
-         *       This makes for somewhat easier array representation and operations.
-         */
-        for (int i = 0; i < dimension; i++) {
-
-            /*
-             * create a vector to store the result of projecting the current column on
-             * column_j, where j e [0, i-1]
-             */
-            double[] projection = new double[dimension];
-            for (int contents = 0; contents < dimension; contents++) {
-                projection[contents] = 0;
-            }
-
-            /*
-             * set up the projection vector
-             */
-            for (int j = 0; j < i; j++) {
-                double[] column_j = rotationMatrix[j];
-                double innerProduct = 0.0;
-
-                /*
-                 * calculate inner product for the current vector and column_j
-                 */
-                for (int contents = 0; contents < dimension; contents++) {
-                    innerProduct += (rotationMatrix[i][contents] * column_j[contents]);
-                }
-
-                /*
-                 * multiply column_j by above inner product and add to the projection
-                 */
-                for (int contents = 0; contents < dimension; contents++) {
-                    projection[contents] += (column_j[contents] * innerProduct);
-                }
-            }
-
-            /*
-             * subtract the projection from the column to be replaced and normalize
-             */
-            for (int contents = 0; contents < dimension; contents++) {
-                rotationMatrix[i][contents] -= projection[contents];
-            }
-
-            /*
-             * evaluate the norm of the current rotation matrix column to be replaced
-             */
-            double columnNorm = 0.0;
-
-            for (int contents = 0; contents < dimension; contents++) {
-                columnNorm += rotationMatrix[i][contents] * rotationMatrix[i][contents];
-            }
-
-            columnNorm = Math.sqrt(columnNorm);
-
-            /*
-             * normalize the vector
-             */
-            for (int contents = 0; contents < dimension; contents++) {
-                rotationMatrix[i][contents] /= columnNorm;
-            }
-        }
-
     }
 
     /**
@@ -197,28 +97,40 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
     /**
      * @return the rotationMatrix
      */
-    public double[][] getRotationMatrix() {
+    public Matrix getRotationMatrix() {
         return rotationMatrix;
     }
 
     /**
      * @param rotationMatrix the rotationMatrix to set
      */
-    public void setRotationMatrix(int dimension) {
-        initializeMatrix(dimension);
+    public void setRotationMatrix(int size) {
+        switch(type) {
+            case IDENTITY:
+                rotationMatrix = Matrices.getIdentityMatrix(size);
+                break;
+            case ORTHONORMAL:
+                rotationMatrix = Matrices.getRandomOrthonormalMatrix(size);
+                break;
+            case LINEAR_TRANSFORMATION:
+                rotationMatrix = Matrices.getRandomLinearTransformationMatrix(size, condition);
+                break;
+        }
     }
 
-    /**
-     * @return the rotationProbability
-     */
-    public ControlParameter getRotationProbability() {
-        return rotationProbability;
+    public void setMatrixType(String type) {
+        if ("identity".equalsIgnoreCase(type)) {
+            this.type = MatrixType.IDENTITY;
+        } else if ("orthonormal".equalsIgnoreCase(type)) {
+            this.type = MatrixType.ORTHONORMAL;
+        } else if ("linear_transformation".equalsIgnoreCase(type)) {
+            this.type = MatrixType.LINEAR_TRANSFORMATION;
+        }else {
+            throw new IllegalArgumentException("Unkown matrix type. Must be 'identity' or 'orthonormal'");
+        }
     }
-
-    /**
-     * @param rotationProbability the rotationProbability to set
-     */
-    public void setRotationProbability(ControlParameter rotationProbability) {
-        this.rotationProbability = rotationProbability;
+    
+    public void setCondition(int condition) {
+        this.condition = condition;
     }
 }
