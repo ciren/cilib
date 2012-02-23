@@ -23,6 +23,7 @@ package net.sourceforge.cilib.entity.operators.crossover;
 
 import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.Supplier;
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -134,7 +135,15 @@ public class UnimodalNormalDistributionCrossoverStrategy extends CrossoverStrate
             final double D = solutions.get(k - 1).subtract(g).length();
 
             // create the remaining basis vectors
-            List<Vector> e_eta = Vectors.orthonormalize(e_zeta);
+            List<Vector> e_eta = Lists.newArrayList();
+            e_eta.add(solutions.get(k - 1).subtract(g));
+            
+            for (int i = 0; i < n - e_zeta.size() - 1; i++) {
+                Vector d = Vector.newBuilder().copyOf(g).buildRandom();
+                e_eta.add(d);
+            }
+            
+            e_eta = Vectors.orthonormalize(e_eta);
 
             // construct the offspring
             Vector variables = Vector.copyOf(g);
