@@ -92,9 +92,12 @@ public final class Vectors {
             return null;
         }
         
-        Vector result = Vector.copyOf(Sequence.repeat(0, vectors.get(0).size()));
-        for(Vector v : vectors) {
-            result = result.plus(v);
+        Vector result = vectors.get(0);
+        
+        if (vectors.size() > 1) {
+            for(int i = 1; i < vectors.size(); i++) {
+                result = result.plus(vectors.get(i));
+            }
         }
         
         return result;
