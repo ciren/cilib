@@ -19,38 +19,31 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.functions.continuous.dynamic.moo.fda2;
+package net.sourceforge.cilib.functions.continuous.dynamic.moo.fda1;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * This function is the g function of the FDA2 problem defined on page 429 in the following paper:
+ * This function is the f1 function of the FDA1 problem defined on page 428 in the following paper:
  * M.Farina, K.Deb, P.Amato. Dynamic multiobjective optimization problems: test cases, approximations
  * and applications, IEEE Transactions on Evolutionary Computation, 8(5): 425-442, 2003
  *
  * @author Marde Greeff
  */
 
-public class FDA2_g implements ContinuousFunction {
+public class FDA1_f1_1 implements ContinuousFunction {
 
-    private static final long serialVersionUID = 8726700022515610264L;
+    private static final long serialVersionUID = 1914230427150406406L;
 
-    //setDomain("R(-1, 1)^15");
-
+    //Domain("R(0, 1)");
+    
     /**
      * Evaluates the function.
      */
     @Override
     public Double apply(Vector x) {
-
-        double sum = 1.0;
-
-        for (int k=0; k < x.size(); k++) {
-            sum += Math.pow(x.doubleValueOf(k), 2);
-        }
-
-        return sum;
+        double value = Math.abs(x.doubleValueOf(0));
+        return value;
     }
-
 }

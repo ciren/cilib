@@ -34,7 +34,7 @@ import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
  * @author Marde Greeff
  */
 
-public class FDA2_h implements ContinuousFunction {
+public class FDA2_h_1 implements ContinuousFunction {
 
     private static final long serialVersionUID = -637862405309737323L;
 
@@ -54,12 +54,12 @@ public class FDA2_h implements ContinuousFunction {
     /**
      * Creates a new instance of FDA2_h.
      */
-    public FDA2_h() {
+    public FDA2_h_1() {
         //initialize the members
         this.tau_t = 5;
         this.tau = 1;
         this.n_t = 10;
-    }
+    }    
 
     /**
      * Sets the f1 function with a specified problem.
@@ -183,7 +183,7 @@ public class FDA2_h implements ContinuousFunction {
         this.tau = AbstractAlgorithm.get().getIterations();
         return this.apply(this.tau, x);
     }
-
+    
     /**
      * Evaluates the function for a specific iteration.
      * */
