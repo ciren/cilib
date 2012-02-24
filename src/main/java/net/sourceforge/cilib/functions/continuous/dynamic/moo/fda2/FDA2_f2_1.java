@@ -34,7 +34,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Marde Greeff
  */
 
-public class FDA2_f2 implements ContinuousFunction {
+public class FDA2_f2_1 implements ContinuousFunction {
 
     private static final long serialVersionUID = 7814549850032093196L;
 
@@ -45,7 +45,7 @@ public class FDA2_f2 implements ContinuousFunction {
     FunctionMinimisationProblem fda2_h_problem;
 
     //Domain("R(-1, 1)^31");
-
+    
 
     /**
      * Sets the g function with a specified problem.
@@ -121,18 +121,18 @@ public class FDA2_f2 implements ContinuousFunction {
         int iteration = AbstractAlgorithm.get().getIterations();
         return this.apply(iteration, x);
     }
-
+    
     /**
      * Evaluates the function for a specific iteration.
      */
     public double apply(int iteration, Vector x) {
-        Vector y = x;
+        Vector y = x; 
         if (x.size() > 1)
             y = x.copyOfRange(1, 16);
-
+             
         double g = this.fda2_g.apply(y);
         double h = ((FDA2_h)this.fda2_h).apply(iteration, x);
-
+        
         double value = g*h;
         return value;
     }

@@ -1,0 +1,137 @@
+/**
+ * Computational Intelligence Library (CIlib)
+ * Copyright (C) 2003 - 2010
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, see <http://www.gnu.org/licenses/>.
+ */
+package net.sourceforge.cilib.functions.continuous.dynamic.moo.fda3;
+
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
+
+/**
+ * This function is the f2 function of the FDA3 problem defined on page 428 in the following paper:
+ * M.Farina, K.Deb, P.Amato. Dynamic multiobjective optimization problems: test cases, approximations 
+ * and applications, IEEE Transactions on Evolutionary Computation, 8(5): 425-442
+ * 
+ * @author Marde Greeff
+ */
+
+public class FDA3_f2 implements ContinuousFunction {
+
+	private static final long serialVersionUID = 6810010897943653288L;
+	
+	//member
+	ContinuousFunction fda3_g;
+	ContinuousFunction fda3_h;
+	FunctionMinimisationProblem fda3_g_problem;
+	FunctionMinimisationProblem fda3_h_problem;
+	
+	//Domain("R(-1, 1)^30");
+	
+	/**
+	 * Sets the g function with a specified problem.
+	 * @param problem FunctionMinimisationProblem used for the g function.
+	 */
+	public void setFDA3_g(FunctionMinimisationProblem problem) {
+		this.fda3_g_problem = problem;
+		this.fda3_g = (ContinuousFunction)problem.getFunction();
+	}
+	
+	/**
+	 * Returns the problem used to set the g function.
+	 * @return fda3_g_problem FunctionMinimisationProblem used for the g function.
+	 */
+	public FunctionMinimisationProblem getFDA3_g_problem() {
+		return this.fda3_g_problem;
+	}
+	
+	/**
+	 * Sets the g function that is used in the FDA3 problem without specifying the problem.
+	 * @param fda3_g ContinuousFunction used for the g function.
+	 */
+	public void setFDA3_g(ContinuousFunction fda3_g) {
+		this.fda3_g = fda3_g;
+	}
+	
+	/**
+	 * Returns the g function that is used in the FDA3 problem.
+	 * @return fda3_g ContinuousFunction used for the g function.
+	 */
+	public ContinuousFunction getFDA3_g() {
+		return this.fda3_g;
+	}
+	
+	/**
+	 * Sets the h function with a specified problem.
+	 * @param problem FunctionMinimisationProblem used for the h function.
+	 */
+	public void setFDA3_h(FunctionMinimisationProblem problem) {
+		this.fda3_h_problem = problem;
+		this.fda3_h = (ContinuousFunction)problem.getFunction();
+	}
+	
+	/**
+	 * Returns the problem used to set the h function.
+	 * @return fda3_h_problem FunctionMinimisationProblem used for the h function.
+	 */
+	public FunctionMinimisationProblem getFDA3_h_problem() {
+		return this.fda3_h_problem;
+	}
+	 
+	/**
+	 * Sets the h function that is used in the FDA3 problem.
+     * @param fda3_h ContinuousFunction used for the h function.
+	 */
+	public void setFDA3_h(ContinuousFunction fda3_h) {
+		this.fda3_h = fda3_h;
+	}
+	
+	/**
+	 * Returns the h function that is used in the FDA3 problem.
+     * @return fda3_h ContinuousFunction used for the h function.
+	 */
+	public ContinuousFunction getFDA3_h() {
+		return this.fda3_h;
+	}
+	
+	/**
+	 * Evaluates the function.
+	 */
+    @Override
+	public Double apply(Vector x) {
+		int iteration  = AbstractAlgorithm.get().getIterations();
+		return this.apply(iteration, x);
+	}
+	
+	/**
+	 * Evaluates the function for a specific iteration.
+	 */
+	public Double apply(int iteration, Vector x) {
+		Vector y = x.copyOfRange(5, x.size());
+		
+		double g = ((FDA3_g)this.fda3_g).apply(iteration, y);
+		double h = ((FDA3_h)this.fda3_h).apply(iteration, x);
+		
+		double value = g*h;
+		
+		return value;
+	}
+}
