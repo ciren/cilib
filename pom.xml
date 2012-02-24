@@ -5,7 +5,7 @@
     <artifactId>cilib</artifactId>
     <packaging>jar</packaging>
     <version>0.7.5</version>
-    <name>cilib</name>
+    <name>cilib-git</name>
     <description>Collaborative component based framework for developing Computational Intelligence software</description>
     <url>http://www.cilib.net</url>
     <licenses>
@@ -203,4 +203,5 @@
         </plugins>
     </build>
 </project>
+
 

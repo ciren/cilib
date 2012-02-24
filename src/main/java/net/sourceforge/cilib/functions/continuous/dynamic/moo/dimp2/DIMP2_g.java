@@ -19,24 +19,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.functions.continuous.dynamic.moo.fda1;
+package net.sourceforge.cilib.functions.continuous.dynamic.moo.dimp2;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * This function is the g function of the FDA1 problem defined on page 428 in the following paper:
- * M.Farina, K.Deb, P.Amato. Dynamic multiobjective optimization problems: test cases, approximations
- * and applications, IEEE Transactions on Evolutionary Computation, 8(5): 425-442, 2003
+ *  This function is the g function of the DIMP2 problem defined in the following paper:
+ * W.T. Koo and C.K. Goh and K.C. Tan. A predictive gradien strategy for multiobjective
+ * evolutionary algorithms in a fast changing environment, Memetic Computing, 2:87-110,
+ * 2010.
  *
  * @author Marde Greeff
  */
 
-public class FDA1_g implements ContinuousFunction {
+public class DIMP2_g implements ContinuousFunction {
 
-    private static final long serialVersionUID = 1721209032942724811L;
-
+    
     //members
     //number of generations for which t remains fixed
     private int tau_t;
@@ -48,13 +48,13 @@ public class FDA1_g implements ContinuousFunction {
     /**
      * Creates a new instance of FDA1_g.
      */
-    public FDA1_g() {
+    public DIMP2_g() {
         //initialize the members
         this.tau_t =  5;
         this.tau = 1;
         this.n_t = 10;
     }
-
+    
     /**
      * Sets the iteration number.
      * @param tau Iteration number.
@@ -111,17 +111,17 @@ public class FDA1_g implements ContinuousFunction {
         this.tau = AbstractAlgorithm.get().getIterations();
     	return this.apply(this.tau, x);
     }
-
+    
     /**
      * Evaluates the function for a specific iteration.
      */
     public Double apply(int iteration, Vector x) {
-        double t = (1.0/(double)n_t)*Math.floor((double)iteration/(double)this.tau_t);
-        double G = Math.sin(0.5*Math.PI*t);
+        double t = (1.0/(double)n_t)*Math.floor((double)iteration/(double)this.tau_t);        
 
-        double sum = 1.0;
+        double sum = 1.0 + 2.0*(x.size());
         for (int k=0; k < x.size(); k++) {
-        	sum += Math.pow(x.doubleValueOf(k) - G, 2);
+            double G = Math.sin(0.5*Math.PI*t + 2.0*Math.PI*Math.pow((double)k/(double)(x.size()+2.0), 2));
+            sum += Math.pow(x.doubleValueOf(k) - G, 2) - 2.0*Math.cos(3.0*Math.PI*(x.doubleValueOf(k)-G));
         }
         return sum;
     }

@@ -27,24 +27,25 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 
 /**
- * This function is the h function of the FDA1 problem defined on page 428 in the following paper:
+ * This function is the g*h function of the FDA1 problem defined on page 428 in the following paper:
  * M.Farina, K.Deb, P.Amato. Dynamic multiobjective optimization problems: test cases, approximations
  * and applications, IEEE Transactions on Evolutionary Computation, 8(5): 425-442, 2003
  *
  * @author Marde Greeff
  */
 
-public class FDA1_h implements ContinuousFunction {
+public class FDA1_f2_1 implements ContinuousFunction {
 
-    private static final long serialVersionUID = -539665464941830813L;
+    private static final long serialVersionUID = 6369118486095689078L;
 
-    //members
-    private ContinuousFunction fda1_g;
-    private ContinuousFunction fda1_f1;
-    private FunctionMinimisationProblem fda1_f1_problem;
-    private FunctionMinimisationProblem fda1_g_problem;
+    //member
+    ContinuousFunction fda1_g;
+    ContinuousFunction fda1_h;
+    FunctionMinimisationProblem fda1_g_problem;
+    FunctionMinimisationProblem fda1_h_problem;
 
     //Domain("R(-1, 1)^20");
+    
 
     /**
      * Sets the g function with a specified problem.
@@ -68,7 +69,7 @@ public class FDA1_h implements ContinuousFunction {
 	 * @param fda1_g ContinuousFunction used for the g function.
      */
     public void setFDA1_g(ContinuousFunction fda1_g) {
-        this.fda1_g = fda1_g;
+        this.fda1_g = fda1_g;        
     }
 
     /**
@@ -80,65 +81,59 @@ public class FDA1_h implements ContinuousFunction {
     }
 
     /**
-     * Sets the f1 function with a specified problem.
-	 * @param problem FunctionMinimisationProblem used for the f1 function.
+     * Sets the h function with a specified problem.
+	 * @param problem FunctionMinimisationProblem used for the h function.
      */
-    public void setFDA1_f(FunctionMinimisationProblem problem) {
-        this.fda1_f1_problem = problem;
-        this.fda1_f1 = (ContinuousFunction)problem.getFunction();
+    public void setFDA1_h(FunctionMinimisationProblem problem) {
+        this.fda1_h_problem = problem;
+        this.fda1_h = (ContinuousFunction)problem.getFunction();
     }
 
     /**
-     * Returns the problem used to set the f1 function.
-	 * @return fda1_f1_problem FunctionMinimisationProblem used for the f1 function.
+     * Returns the problem used to set the h function.
+	 * @return fda1_h_problem FunctionMinimisationProblem used for the h function.
      */
-    public FunctionMinimisationProblem getFDA1_f_problem() {
-        return this.fda1_f1_problem;
+    public FunctionMinimisationProblem getFDA1_h_problem() {
+        return this.fda1_h_problem;
     }
 
     /**
-     * Sets the f1 function that is used in the FDA1 problem without specifying the problem.
-	 * @param fda1_f ContinuousFunction used for the f1 function.
+     * Sets the h function that is used in the FDA1 problem without specifying the problem.
+	 * @param fda1_h ContinuousFunction used for the h function.
      */
-    public void setFDA1_f(ContinuousFunction fda1_f1) {
-        this.fda1_f1 = fda1_f1;
+    public void setFDA1_h(ContinuousFunction fda1_h) {
+        this.fda1_h = fda1_h;        
     }
 
     /**
-     * Returns the f1 function that is used in the FDA1 problem.
-	 * @return fda1_f1 ContinuousFunction used for the f1 function.
+     * Sets the f1 hunction that is used in the FDA1 problem without specifying the problem.
+	 * @param fda1_h ContinuousFunction used for the h function.
      */
-    public ContinuousFunction getFDA1_f() {
-        return this.fda1_f1;
+    public ContinuousFunction getFDA1_h() {
+        return this.fda1_h;
     }
 
     /**
      * Evaluates the function.
+     * g*h
      */
     @Override
-    public Double apply(Vector x) {
+    public Double apply(Vector input) {
         int iteration = AbstractAlgorithm.get().getIterations();
-        return apply(iteration, x);
+        return apply(iteration, input);
     }
 
     /**
      * Evaluates the function for a specific iteration.
+     * g*h
      */
-    public Double apply(int iteration, Vector x) {
+    public Double apply(int iteration, Vector input) {
+        Vector y = input.copyOfRange(1, input.size());
+        double g = ((FDA1_g)this.fda1_g).apply(iteration, y);
+        double h = ((FDA1_h)this.fda1_h).apply(iteration, input);
 
-        //only the first element
-        Vector y = x.copyOfRange(0, 1);
-        //all the elements except the first element
-        Vector z = x.copyOfRange(1, x.size());
-        //evaluate the fda1_g function
-        double g = ((FDA1_g)this.fda1_g).apply(iteration, z);
-        //evaluate the fda1_f1 function
-        double f1 = this.fda1_f1.apply(y);
-
-        double value = 1.0;
-        value -= Math.sqrt((double)f1 / (double)g);
+        double value = g*h;
 
         return value;
     }
-
 }
