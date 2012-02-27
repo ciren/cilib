@@ -43,7 +43,7 @@ public abstract class CrossoverStrategy implements Operator {
     private Selector selectionStrategy;
 
     public CrossoverStrategy() {
-        crossoverProbability = new ConstantControlParameter(0.5);
+        crossoverProbability = ConstantControlParameter.of(0.5);
         randomDistribution = new UniformDistribution();
         selectionStrategy = new RandomSelector();
     }

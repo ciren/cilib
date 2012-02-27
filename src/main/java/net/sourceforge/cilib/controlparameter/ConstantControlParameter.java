@@ -31,6 +31,11 @@ public class ConstantControlParameter implements ControlParameter {
     private static final long serialVersionUID = 8847038781478109426L;
     protected double parameter;
 
+
+    public static ControlParameter of(double value) {
+        return new ConstantControlParameter(value);
+    }
+
     /**
      * Create a new instance of {@code ConstantControlParameter}.
      */

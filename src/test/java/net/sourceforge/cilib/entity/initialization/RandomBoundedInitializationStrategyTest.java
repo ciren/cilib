@@ -51,8 +51,8 @@ public class RandomBoundedInitializationStrategyTest {
         particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, vector);
 
         RandomBoundedInitializationStrategy<Particle> strategy = new RandomBoundedInitializationStrategy<Particle>();
-        strategy.setLowerBound(new ConstantControlParameter(-5.0));
-        strategy.setUpperBound(new ConstantControlParameter(5.0));
+        strategy.setLowerBound(ConstantControlParameter.of(-5.0));
+        strategy.setUpperBound(ConstantControlParameter.of(5.0));
         strategy.initialize(EntityType.CANDIDATE_SOLUTION, particle);
 
         for (int i = 0; i < vector.size(); i++) {

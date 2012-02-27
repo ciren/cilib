@@ -45,7 +45,7 @@ public class IterationBasedChangeStrategy implements ChangeStrategy {
      * Create a new instance.
      */
     public IterationBasedChangeStrategy() {
-        this.resolution = new ConstantControlParameter(1.0);
+        this.resolution = ConstantControlParameter.of(1.0);
     }
 
     /**

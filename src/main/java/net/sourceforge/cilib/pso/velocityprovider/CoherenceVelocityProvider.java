@@ -48,7 +48,7 @@ public class CoherenceVelocityProvider implements VelocityProvider {
      * Create an instance of {@linkplain CoherenceVelocityProvider}.
      */
     public CoherenceVelocityProvider() {
-        this.scalingFactor = new ConstantControlParameter(1.0);
+        this.scalingFactor = ConstantControlParameter.of(1.0);
         this.randomNumber = new CauchyDistribution();
         this.sigmoid = new Sigmoid();
         this.delegate = new StandardVelocityProvider();

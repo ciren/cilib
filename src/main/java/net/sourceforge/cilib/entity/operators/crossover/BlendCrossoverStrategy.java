@@ -79,7 +79,7 @@ public class BlendCrossoverStrategy extends CrossoverStrategy {
     private ControlParameter alpha;
 
     public BlendCrossoverStrategy() {
-        alpha = new ConstantControlParameter(0.5);
+        alpha = ConstantControlParameter.of(0.5);
     }
 
     public BlendCrossoverStrategy(BlendCrossoverStrategy copy) {

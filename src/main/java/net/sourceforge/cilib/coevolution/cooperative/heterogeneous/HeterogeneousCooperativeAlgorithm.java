@@ -52,7 +52,7 @@ public class HeterogeneousCooperativeAlgorithm extends CooperativeCoevolutionAlg
 
     public HeterogeneousCooperativeAlgorithm() {
         problemDistribution = new RandomAlgorithmImperfectSplitDistribution();
-        problemAllocationSwapIteration = new ConstantControlParameter(1);
+        problemAllocationSwapIteration = ConstantControlParameter.of(1);
         redistributionStrategy = new ShuffleProblemRedistributionStrategy();
     }
 

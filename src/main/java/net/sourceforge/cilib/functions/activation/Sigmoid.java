@@ -43,8 +43,8 @@ public class Sigmoid implements ActivationFunction {
      * to a value of {@code 1.0}, with the {@code offset} defined as {@code 0.0}.
      */
     public Sigmoid() {
-        this.steepness = new ConstantControlParameter(1.0);
-        this.offset = new ConstantControlParameter(0.0);
+        this.steepness = ConstantControlParameter.of(1.0);
+        this.offset = ConstantControlParameter.of(0.0);
     }
 
     /**

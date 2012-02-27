@@ -46,7 +46,7 @@ public class NoisyFunctionDecorator implements ContinuousFunction {
     public NoisyFunctionDecorator() {
 //        setDomain("R");
         randomNumber = new GaussianDistribution();
-        this.variance = new ConstantControlParameter(1.0);
+        this.variance = ConstantControlParameter.of(1.0);
     }
 
     /**

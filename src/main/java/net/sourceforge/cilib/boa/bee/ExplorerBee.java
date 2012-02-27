@@ -52,7 +52,7 @@ public class ExplorerBee implements Cloneable {
         random = new MersenneTwister();
         previousUpdatedIteration = -1;
         numberOfUpdates = 0;
-        explorerBeeUpdateLimit = new ConstantControlParameter(1.0);
+        explorerBeeUpdateLimit = ConstantControlParameter.of(1.0);
     }
 
     /**

@@ -55,7 +55,7 @@ public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
     public VeenmanReindersBackerIndex() {
         super();
         clusterCenterStrategy = new ClusterMeanStrategy();
-        maximumVariance = new ConstantControlParameter(1.0);    // default variance limit is 1.0
+        maximumVariance = ConstantControlParameter.of(1.0);    // default variance limit is 1.0
     }
 
     @Override

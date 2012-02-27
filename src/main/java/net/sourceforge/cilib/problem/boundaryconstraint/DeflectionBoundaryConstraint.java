@@ -47,7 +47,7 @@ public class DeflectionBoundaryConstraint implements BoundaryConstraint {
      * value of -1.0.
      */
     public DeflectionBoundaryConstraint() {
-        this.velocityDampingFactor = new ConstantControlParameter(-1.0);
+        this.velocityDampingFactor = ConstantControlParameter.of(-1.0);
     }
 
     /**

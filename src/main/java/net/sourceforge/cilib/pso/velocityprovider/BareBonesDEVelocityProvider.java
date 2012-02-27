@@ -66,9 +66,9 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
         this.rand3 = new UniformDistribution();
         this.r1 = new MersenneTwister();
         this.r2 = new MersenneTwister();
-        this.cognitive = new ConstantControlParameter(1);
-        this.social = new ConstantControlParameter(1);
-        this.crossoverProbability = new ConstantControlParameter(0.5);
+        this.cognitive = ConstantControlParameter.of(1);
+        this.social = ConstantControlParameter.of(1);
+        this.crossoverProbability = ConstantControlParameter.of(0.5);
     }
 
     /**

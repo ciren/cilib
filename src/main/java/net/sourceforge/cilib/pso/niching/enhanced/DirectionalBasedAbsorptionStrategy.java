@@ -75,7 +75,7 @@ public class DirectionalBasedAbsorptionStrategy implements AbsorptionStrategy {
                 if (distance <= radius && direction < 0) {
                     Particle p = (Particle) entity;
                     StandardVelocityProvider velocityUpdateStrategy = new StandardVelocityProvider();
-                    velocityUpdateStrategy.setSocialAcceleration(new ConstantControlParameter(0.0));
+                    velocityUpdateStrategy.setSocialAcceleration(ConstantControlParameter.of(0.0));
                     p.setVelocityProvider(velocityUpdateStrategy);
                     p.setNeighbourhoodBest((Particle) pba.getTopology().getBestEntity());
                     Topology<Particle> topology = (Topology<Particle>) pba.getTopology();
