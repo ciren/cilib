@@ -53,7 +53,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
      */
     public LBestTopology() {
         super();
-        neighbourhoodSize = new ConstantControlParameter(3);
+        neighbourhoodSize = ConstantControlParameter.of(3);
     }
 
     /**

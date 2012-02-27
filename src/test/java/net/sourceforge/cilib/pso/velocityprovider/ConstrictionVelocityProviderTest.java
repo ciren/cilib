@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.pso.velocityprovider;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.Maths;
@@ -32,6 +33,7 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
+
 import static org.mockito.Mockito.mock;
 
 /**
@@ -53,9 +55,9 @@ public class ConstrictionVelocityProviderTest {
         Assert.assertEquals(original.getCognitiveAcceleration().getParameter(), copy.getCognitiveAcceleration().getParameter(), Maths.EPSILON);
         Assert.assertEquals(original.getSocialAcceleration().getParameter(), copy.getSocialAcceleration().getParameter(), Maths.EPSILON);
 
-        copy.setKappa(new ConstantControlParameter(0.7));
-        //copy.setVMax(new ConstantControlParameter(0.7));
-        ConstantControlParameter controlParameter = new ConstantControlParameter();
+        copy.setKappa(ConstantControlParameter.of(0.7));
+        //copy.setVMax(ConstantControlParameter.of(0.7));
+        ControlParameter controlParameter = ConstantControlParameter.of(0.0);
         controlParameter.setParameter(4.0);
         copy.setSocialAcceleration(controlParameter.getClone());
         copy.setCognitiveAcceleration(controlParameter.getClone());
@@ -142,7 +144,7 @@ public class ConstrictionVelocityProviderTest {
     public void illegalVelocityProvision() {
         final Particle particle = mock(Particle.class);
 
-        ConstantControlParameter controlParameter = new ConstantControlParameter();
+        ControlParameter controlParameter = ConstantControlParameter.of(0.0);
         ConstrictionVelocityProvider velocityProvider = new ConstrictionVelocityProvider();
         velocityProvider.setCognitiveAcceleration(controlParameter);
         velocityProvider.setSocialAcceleration(controlParameter);

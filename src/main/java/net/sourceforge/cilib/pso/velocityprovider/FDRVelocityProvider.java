@@ -69,13 +69,13 @@ public class FDRVelocityProvider implements VelocityProvider {
     private StandardVelocityProvider delegate;
 
     public FDRVelocityProvider() {
-        this.fdrMaximizerAcceleration = new ConstantControlParameter(2);
+        this.fdrMaximizerAcceleration = ConstantControlParameter.of(2);
         this.randomProvider = new MersenneTwister();
 
         this.delegate = new StandardVelocityProvider();
         this.delegate.setInertiaWeight(new LinearDecreasingControlParameter());
-        this.delegate.setCognitiveAcceleration(new ConstantControlParameter(1));
-        this.delegate.setSocialAcceleration(new ConstantControlParameter(2));
+        this.delegate.setCognitiveAcceleration(ConstantControlParameter.of(1));
+        this.delegate.setSocialAcceleration(ConstantControlParameter.of(2));
     }
 
     public FDRVelocityProvider(FDRVelocityProvider copy) {

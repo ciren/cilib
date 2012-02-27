@@ -46,9 +46,9 @@ public class FIPSVelocityProvider implements VelocityProvider {
     private RandomProvider randomProvider;
 
     public FIPSVelocityProvider() {
-        this.inertiaWeight = new ConstantControlParameter(0.729844);
-        this.socialAcceleration = new ConstantControlParameter(1.496180);
-        this.cognitiveAcceleration = new ConstantControlParameter(1.496180);
+        this.inertiaWeight = ConstantControlParameter.of(0.729844);
+        this.socialAcceleration = ConstantControlParameter.of(1.496180);
+        this.cognitiveAcceleration = ConstantControlParameter.of(1.496180);
         this.randomProvider = new MersenneTwister();
     }
 

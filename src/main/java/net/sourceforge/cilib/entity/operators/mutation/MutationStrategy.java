@@ -47,7 +47,7 @@ public abstract class MutationStrategy implements Operator {
     public MutationStrategy() {
         this.setOperator("+");
 
-        mutationProbability = new ConstantControlParameter(0.3);
+        mutationProbability = ConstantControlParameter.of(0.3);
         randomDistribution = new UniformDistribution();
     }
 

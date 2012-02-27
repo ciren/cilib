@@ -56,7 +56,7 @@ public class OnePointCrossoverStrategyTest {
         parents.add(i2);
 
         OnePointCrossoverStrategy crossoverStrategy = new OnePointCrossoverStrategy();
-        crossoverStrategy.setCrossoverProbability(new ConstantControlParameter(1.0));
+        crossoverStrategy.setCrossoverProbability(ConstantControlParameter.of(1.0));
         List<Entity> children = crossoverStrategy.crossover(parents);
 
         Vector child1 = (Vector) children.get(0).getCandidateSolution();

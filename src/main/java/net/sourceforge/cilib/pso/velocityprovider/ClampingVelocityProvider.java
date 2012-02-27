@@ -39,7 +39,7 @@ public class ClampingVelocityProvider implements VelocityProvider {
     private VelocityProvider delegate;
 
     public ClampingVelocityProvider() {
-        this.vMax = new ConstantControlParameter(Double.MAX_VALUE);
+        this.vMax = ConstantControlParameter.of(Double.MAX_VALUE);
         this.delegate = new StandardVelocityProvider();
     }
 

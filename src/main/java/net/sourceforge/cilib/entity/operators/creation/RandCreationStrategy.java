@@ -47,8 +47,8 @@ public class RandCreationStrategy implements CreationStrategy {
      * Create a new instance of {@code CurrentToRandCreationStrategy}.
      */
     public RandCreationStrategy() {
-        this.scaleParameter = new ConstantControlParameter(0.5);
-        this.numberOfDifferenceVectors = new ConstantControlParameter(2);
+        this.scaleParameter = ConstantControlParameter.of(0.5);
+        this.numberOfDifferenceVectors = ConstantControlParameter.of(2);
     }
 
     /**

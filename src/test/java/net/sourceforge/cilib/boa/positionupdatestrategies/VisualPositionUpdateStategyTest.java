@@ -56,8 +56,8 @@ public class VisualPositionUpdateStategyTest {
         WorkerBee bee = new WorkerBee();
         initStrategy.setEntityType(bee);
         abc.setInitialisationStrategy(initStrategy);
-        abc.setWorkerBeePercentage(new ConstantControlParameter(0.5));
-        abc.setForageLimit(new ConstantControlParameter(Integer.MAX_VALUE));
+        abc.setWorkerBeePercentage(ConstantControlParameter.of(0.5));
+        abc.setForageLimit(ConstantControlParameter.of(Integer.MAX_VALUE));
         abc.addStoppingCondition(condition);
         abc.setOptimisationProblem(problem);
         abc.initialise();

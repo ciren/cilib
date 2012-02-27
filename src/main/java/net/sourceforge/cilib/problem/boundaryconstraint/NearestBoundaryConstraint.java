@@ -67,7 +67,7 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
      * initially set to 0.0.
      */
     public NearestBoundaryConstraint() {
-        turbulenceProbability = new ConstantControlParameter(0.0);
+        turbulenceProbability = ConstantControlParameter.of(0.0);
         this.random = new UniformDistribution();
     }
 

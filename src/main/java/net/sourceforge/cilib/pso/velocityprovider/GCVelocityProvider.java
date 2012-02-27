@@ -85,11 +85,11 @@ public class GCVelocityProvider implements VelocityProvider {
     public GCVelocityProvider() {
         this.delegate = new StandardVelocityProvider();
 
-        this.inertiaWeight = new ConstantControlParameter(0.729844);
+        this.inertiaWeight = ConstantControlParameter.of(0.729844);
         this.randomProvider = new MersenneTwister();
 
-        this.rho = new ConstantControlParameter(1.0);
-        this.rhoLowerBound = new ConstantControlParameter(1.0e-323);
+        this.rho = ConstantControlParameter.of(1.0);
+        this.rhoLowerBound = ConstantControlParameter.of(1.0e-323);
 
         this.successCount = 0;
         this.failureCount = 0;
@@ -97,8 +97,8 @@ public class GCVelocityProvider implements VelocityProvider {
         this.failureCountThreshold = 5;
 
         this.oldFitness = InferiorFitness.instance();
-        this.rhoExpandCoefficient = new ConstantControlParameter(1.2);
-        this.rhoContractCoefficient = new ConstantControlParameter(0.5);
+        this.rhoExpandCoefficient = ConstantControlParameter.of(1.2);
+        this.rhoContractCoefficient = ConstantControlParameter.of(0.5);
     }
 
     /**

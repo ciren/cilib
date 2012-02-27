@@ -51,7 +51,7 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
 
     public RotatedFunctionDecorator() {
         rotationMatrix = null;
-        rotationProbability = new ConstantControlParameter(0.5);
+        rotationProbability = ConstantControlParameter.of(0.5);
     }
 
     /**
