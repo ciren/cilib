@@ -48,11 +48,11 @@ public class ConstantControlParameter implements ControlParameter {
      * with the provided value as the value for the {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter}.
      * @param value The value to set.
      */
-    public ConstantControlParameter(double value) {
+    protected ConstantControlParameter(double value) {
         this.parameter = value;
     }
 
-    /**
+    /**IBS
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
