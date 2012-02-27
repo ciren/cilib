@@ -50,6 +50,10 @@ public class CrossoverGuideProvider implements GuideProvider {
     private int retries;
     private RandomSelector selector;
 
+    private enum TempEnums {
+        TEMP
+    };
+    
     /**
      * Default constructor.
      */
@@ -88,10 +92,17 @@ public class CrossoverGuideProvider implements GuideProvider {
         int counter = 0;
         boolean isBetter = false;
         Topology<Particle> topology = ((PSO)AbstractAlgorithm.get()).getTopology();
-        
+       
         do {
             // get 3 random particles
             List<Entity> parents = selector.on(topology).select(Samples.all().unique()).subList(0, 3);
+            
+            //put pbest as candidate solution for the crossover
+            for (Entity e : parents) {
+                Particle p = (Particle) e;
+                e.getProperties().put(TempEnums.TEMP, p.getCandidateSolution());
+                e.getProperties().put(EntityType.CANDIDATE_SOLUTION, p.getBestPosition());              
+            }
             
             //perform crossover and compute offspring's fitness
             Particle offspring = (Particle) crossoverStrategy.crossover(parents).get(0);
@@ -105,6 +116,10 @@ public class CrossoverGuideProvider implements GuideProvider {
                 isBetter = true;
                 gBest.getProperties().put(EntityType.Particle.BEST_POSITION, offspring.getCandidateSolution());
                 gBest.getProperties().put(EntityType.Particle.BEST_FITNESS, offspring.getFitness());
+            }
+            
+            for (Entity e : parents) {
+                e.getProperties().put(EntityType.CANDIDATE_SOLUTION, e.getProperties().get(TempEnums.TEMP));
             }
         } while(++counter < retries && !isBetter);
         
