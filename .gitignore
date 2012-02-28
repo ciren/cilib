@@ -1,5 +1,7 @@
+data
 target
-simulator*
+simulator.sh
+simulator.bat
 build*
 project
 .ensime*
