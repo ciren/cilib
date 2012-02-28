@@ -52,8 +52,8 @@ public class ChargedVelocityProvider implements VelocityProvider {
 
     public ChargedVelocityProvider() {
         this.delegate = new StandardVelocityProvider();
-        this.pCore = new ConstantControlParameter(1);
-        this.p = new ConstantControlParameter(30);
+        this.pCore = ConstantControlParameter.of(1);
+        this.p = ConstantControlParameter.of(30);
     }
 
     public ChargedVelocityProvider(ChargedVelocityProvider copy) {

@@ -42,7 +42,7 @@ public class IterationBasedSingleChangeStrategy implements ChangeStrategy {
     private int changeCounter=0;
 
     public IterationBasedSingleChangeStrategy(int numberOfIterationBetweenChanges) {
-        this.resolution = new ConstantControlParameter(numberOfIterationBetweenChanges);
+        this.resolution = ConstantControlParameter.of(numberOfIterationBetweenChanges);
     }
 
     @Override

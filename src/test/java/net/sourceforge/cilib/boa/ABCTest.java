@@ -47,7 +47,7 @@ public class ABCTest {
         ABC abc = new ABC();
         abc.addStoppingCondition(condition);
         abc.setOptimisationProblem(problem);
-        abc.setWorkerBeePercentage(new ConstantControlParameter(0.7));
+        abc.setWorkerBeePercentage(ConstantControlParameter.of(0.7));
 
         abc.initialise();
         assertEquals(abc.getTopology().size(), 100);

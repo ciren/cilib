@@ -59,8 +59,8 @@ public class GradientDescentBackpropagationTraining extends AbstractAlgorithm im
      * Default constructor.
      */
     public GradientDescentBackpropagationTraining() {
-        learningRate = new ConstantControlParameter(0.1);
-        momentum = new ConstantControlParameter(0.9);
+        learningRate = ConstantControlParameter.of(0.1);
+        momentum = ConstantControlParameter.of(0.9);
         bpVisitor = new BackPropagationVisitor();
     }
 

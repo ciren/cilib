@@ -71,7 +71,7 @@ public class SpeciationPSO extends MultiPopulationBasedAlgorithm {
         this.mainSwarm.setInitialisationStrategy(mainSwarmInitialisationStrategy);
         this.sortedList = new ArrayList<Particle>();
         this.seedsList = new ArrayList<Particle>();
-        this.radius = new ConstantControlParameter(3.0);
+        this.radius = ConstantControlParameter.of(3.0);
     }
 
     /**

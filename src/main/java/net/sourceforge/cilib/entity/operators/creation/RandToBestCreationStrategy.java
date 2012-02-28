@@ -53,7 +53,7 @@ public class RandToBestCreationStrategy extends RandCreationStrategy {
      */
     public RandToBestCreationStrategy() {
         super();
-        greedynessParameter = new ConstantControlParameter(0.5);
+        greedynessParameter = ConstantControlParameter.of(0.5);
     }
 
     /**

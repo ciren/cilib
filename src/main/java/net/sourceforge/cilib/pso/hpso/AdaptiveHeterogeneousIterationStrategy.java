@@ -67,7 +67,7 @@ public class AdaptiveHeterogeneousIterationStrategy implements IterationStrategy
         this.behaviorSelectionRecipe = new TournamentSelector<ParticleBehavior>();
         this.behaviorPool = new ArrayList<ParticleBehavior>();
 
-        this.behaviorSelectionRecipe.setTournamentSize(new ConstantControlParameter(0.2));
+        this.behaviorSelectionRecipe.setTournamentSize(ConstantControlParameter.of(0.2));
     }
 
     /**

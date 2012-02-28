@@ -69,9 +69,9 @@ public class ParallelVBPSO extends MultiPopulationBasedAlgorithm {
         VBParticle mainSwarmParticle = new VBParticle();
         mainSwarmParticle.setVelocityInitializationStrategy(new RandomInitializationStrategy());
         StandardVelocityProvider velocityUpdateStrategy = new StandardVelocityProvider();
-        velocityUpdateStrategy.setCognitiveAcceleration(new ConstantControlParameter(1.0));
-        velocityUpdateStrategy.setSocialAcceleration(new ConstantControlParameter(1.0));
-        velocityUpdateStrategy.setInertiaWeight(new ConstantControlParameter(0.8));
+        velocityUpdateStrategy.setCognitiveAcceleration(ConstantControlParameter.of(1.0));
+        velocityUpdateStrategy.setSocialAcceleration(ConstantControlParameter.of(1.0));
+        velocityUpdateStrategy.setInertiaWeight(ConstantControlParameter.of(0.8));
 
         mainSwarmParticle.setVelocityProvider(velocityUpdateStrategy);
         PopulationInitialisationStrategy mainSwarmInitialisationStrategy = new ClonedPopulationInitialisationStrategy();

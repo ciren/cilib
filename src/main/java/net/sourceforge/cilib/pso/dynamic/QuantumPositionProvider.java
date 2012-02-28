@@ -54,7 +54,7 @@ public class QuantumPositionProvider implements PositionProvider {
     private PositionProvider delegate;
 
     public QuantumPositionProvider() {
-        this.radius = new ConstantControlParameter(5);
+        this.radius = ConstantControlParameter.of(5);
         this.randomizer = new UniformDistribution();
         this.delegate = new StandardPositionProvider();
     }

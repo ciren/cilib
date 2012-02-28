@@ -50,8 +50,8 @@ public class MinimumDiversity implements StoppingCondition<PopulationBasedAlgori
     private int iterations = 0;
 
     public MinimumDiversity() {
-        minimumDiversity = new ConstantControlParameter(1.0);
-        consecutiveIterations = new ConstantControlParameter(10);
+        minimumDiversity = ConstantControlParameter.of(1.0);
+        consecutiveIterations = ConstantControlParameter.of(10);
         diversity = new Diversity();
     }
 

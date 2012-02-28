@@ -111,12 +111,12 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
      * necessarily represent good values.
      */
     public ConstrictionVelocityProvider() {
-        this.socialAcceleration = new ConstantControlParameter(2.05);
-        this.cognitiveAcceleration = new ConstantControlParameter(2.05);
+        this.socialAcceleration = ConstantControlParameter.of(2.05);
+        this.cognitiveAcceleration = ConstantControlParameter.of(2.05);
         this.r1 = new MersenneTwister();
         this.r2 = new MersenneTwister();
 
-        this.kappa = new ConstantControlParameter(1.0);
+        this.kappa = ConstantControlParameter.of(1.0);
         this.constrictionCoefficient = null;
     }
 
@@ -193,7 +193,7 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
         double chi;
         chi = (2 * this.kappa.getParameter()) / Math.abs(2 - phi - Math.sqrt(phi * (phi - 4.0)));
 
-        this.constrictionCoefficient = new ConstantControlParameter();
+        this.constrictionCoefficient = ConstantControlParameter.of(0.0);
         this.constrictionCoefficient.setParameter(chi);
     }
 

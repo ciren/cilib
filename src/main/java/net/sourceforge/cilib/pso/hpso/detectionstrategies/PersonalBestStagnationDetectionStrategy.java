@@ -46,7 +46,7 @@ public class PersonalBestStagnationDetectionStrategy implements BehaviorChangeTr
      * default window size of 10.
      */
     public PersonalBestStagnationDetectionStrategy() {
-        windowSize = new ConstantControlParameter(10);
+        windowSize = ConstantControlParameter.of(10);
     }
 
     /**

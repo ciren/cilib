@@ -53,9 +53,9 @@ public class ExplorerBeeTest {
         initStrategy.setEntityNumber(10);
         WorkerBee bee = new WorkerBee();
         initStrategy.setEntityType(bee);
-        abc.setForageLimit(new ConstantControlParameter(-1));
+        abc.setForageLimit(ConstantControlParameter.of(-1));
         abc.setInitialisationStrategy(initStrategy);
-        abc.setWorkerBeePercentage(new ConstantControlParameter(0.5));
+        abc.setWorkerBeePercentage(ConstantControlParameter.of(0.5));
         abc.addStoppingCondition(condition);
         abc.setOptimisationProblem(problem);
         abc.initialise();

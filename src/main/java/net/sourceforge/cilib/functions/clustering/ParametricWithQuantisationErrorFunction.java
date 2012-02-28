@@ -46,9 +46,9 @@ public class ParametricWithQuantisationErrorFunction extends ParametricClusterin
      */
     public ParametricWithQuantisationErrorFunction() {
         super();
-        w1 = new ConstantControlParameter(0.3);
-        w2 = new ConstantControlParameter(0.3);
-        w3 = new ConstantControlParameter(0.4);
+        w1 = ConstantControlParameter.of(0.3);
+        w2 = ConstantControlParameter.of(0.3);
+        w3 = ConstantControlParameter.of(0.4);
     }
 
     /**

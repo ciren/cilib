@@ -48,8 +48,8 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 
     public ParametricClusteringFunction() {
         super();
-        w1 = new ConstantControlParameter(0.5);
-        w2 = new ConstantControlParameter(0.5);
+        w1 = ConstantControlParameter.of(0.5);
+        w2 = ConstantControlParameter.of(0.5);
         zMax = -1.0;
     }
 

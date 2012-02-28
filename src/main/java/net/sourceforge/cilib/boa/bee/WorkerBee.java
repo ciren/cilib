@@ -41,7 +41,7 @@ public class WorkerBee extends AbstractBee {
      */
     public WorkerBee() {
         failureCount = 0;
-        this.forageLimit = new ConstantControlParameter(500);
+        this.forageLimit = ConstantControlParameter.of(500);
     }
 
     /**

@@ -55,7 +55,7 @@ public class ClampingVelocityProviderTest {
         nBest.setNeighbourhoodBest(nBest);
 
         ClampingVelocityProvider velocityProvider = new ClampingVelocityProvider();
-        velocityProvider.setVMax(new ConstantControlParameter(0.5));
+        velocityProvider.setVMax(ConstantControlParameter.of(0.5));
         Vector velocity = velocityProvider.get(particle);
 
         for (Numeric number : velocity) {

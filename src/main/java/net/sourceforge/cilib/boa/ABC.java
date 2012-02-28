@@ -90,9 +90,9 @@ public class ABC extends SinglePopulationBasedAlgorithm {
         explorerBee = new ExplorerBee();
         dancingSelectionStrategy = new RouletteWheelSelector();
 
-        forageLimit = new ConstantControlParameter(500);
-        workerBeePercentage = new ConstantControlParameter(0.5);
-        explorerBeeUpdateLimit = new ConstantControlParameter(1.0);
+        forageLimit = ConstantControlParameter.of(500);
+        workerBeePercentage = ConstantControlParameter.of(0.5);
+        explorerBeeUpdateLimit = ConstantControlParameter.of(1.0);
     }
 
     /**
