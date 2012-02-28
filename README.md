@@ -20,4 +20,4 @@ developer mailing list.
     http://groups.google.com/group/cilib-dev    (Developer mailing list)
     http://groups.google.com/group/cilib-user   (User mailing list)
 
-### Current build status: https://secure.travis-ci.org/cilib/cilib.png
+[![Build Status](https://secure.travis-ci.org/cilib/cilib.png)](http://travis-ci.org/cilib/cilib)
