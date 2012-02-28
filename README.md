@@ -1,4 +1,4 @@
-# CIlib - Computational Intelligence Library (http://www.cilib.net)
+# CIlib - Computational Intelligence Library (http://cilib.net)
 
 Copyright (C) 2003,  2010 - CIRG@UP
 Computational Intelligence Research Group (CIRG@UP)
@@ -19,3 +19,5 @@ developer mailing list.
     http://cilib.net                            (Web site)
     http://groups.google.com/group/cilib-dev    (Developer mailing list)
     http://groups.google.com/group/cilib-user   (User mailing list)
+
+### Current build status: https://secure.travis-ci.org/cilib/cilib.png
