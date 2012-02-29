@@ -31,6 +31,11 @@ public class ConstantControlParameter implements ControlParameter {
     private static final long serialVersionUID = 8847038781478109426L;
     protected double parameter;
 
+
+    public static ControlParameter of(double value) {
+        return new ConstantControlParameter(value);
+    }
+
     /**
      * Create a new instance of {@code ConstantControlParameter}.
      */
@@ -43,11 +48,11 @@ public class ConstantControlParameter implements ControlParameter {
      * with the provided value as the value for the {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter}.
      * @param value The value to set.
      */
-    public ConstantControlParameter(double value) {
+    protected ConstantControlParameter(double value) {
         this.parameter = value;
     }
 
-    /**
+    /**IBS
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */

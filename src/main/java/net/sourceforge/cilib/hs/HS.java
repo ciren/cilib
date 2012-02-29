@@ -73,10 +73,10 @@ public class HS extends AbstractAlgorithm implements SingularAlgorithm {
         this.uniform2 = new UniformDistribution();
         this.uniform3 = new UniformDistribution();
 
-        this.harmonyMemorySize = new ConstantControlParameter(20); //should be equal to number of individuals
-        this.harmonyMemoryConsideringRate = new ConstantControlParameter(0.9);
-        this.pitchAdjustingRate = new ConstantControlParameter(0.35);
-        this.distanceBandwidth = new ConstantControlParameter(0.5);
+        this.harmonyMemorySize = ConstantControlParameter.of(20); //should be equal to number of individuals
+        this.harmonyMemoryConsideringRate = ConstantControlParameter.of(0.9);
+        this.pitchAdjustingRate = ConstantControlParameter.of(0.35);
+        this.distanceBandwidth = ConstantControlParameter.of(0.5);
 
         this.harmonyMemory = new SortedList<Harmony>();
     }

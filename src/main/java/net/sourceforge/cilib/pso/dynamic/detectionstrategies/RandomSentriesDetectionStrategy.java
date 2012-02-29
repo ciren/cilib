@@ -50,7 +50,7 @@ public class RandomSentriesDetectionStrategy<E extends PopulationBasedAlgorithm>
 
     public RandomSentriesDetectionStrategy() {
         // super() is automatically called
-        numberOfSentries = new ConstantControlParameter(1.0);
+        numberOfSentries = ConstantControlParameter.of(1.0);
         randomGenerator = new MersenneTwister();
     }
 

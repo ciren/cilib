@@ -48,9 +48,9 @@ public final class StandardVelocityProvider implements VelocityProvider {
 
     /** Creates a new instance of StandardVelocityUpdate. */
     public StandardVelocityProvider() {
-        this.inertiaWeight = new ConstantControlParameter(0.729844);
-        this.socialAcceleration = new ConstantControlParameter(1.496180);
-        this.cognitiveAcceleration = new ConstantControlParameter(1.496180);
+        this.inertiaWeight = ConstantControlParameter.of(0.729844);
+        this.socialAcceleration = ConstantControlParameter.of(1.496180);
+        this.cognitiveAcceleration = ConstantControlParameter.of(1.496180);
         this.r1 = new MersenneTwister();
         this.r2 = new MersenneTwister();
     }

@@ -43,7 +43,7 @@ public class SigmoidTest {
     @Test(expected = UnsupportedOperationException.class)
     public void invalidEvaluate() {
         Sigmoid sigmoid = new Sigmoid();
-        sigmoid.setSteepness(new ConstantControlParameter(-8.0));
+        sigmoid.setSteepness(ConstantControlParameter.of(-8.0));
 
         sigmoid.apply(Real.valueOf(0.0));
     }

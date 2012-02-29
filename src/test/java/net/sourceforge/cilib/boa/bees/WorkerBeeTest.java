@@ -46,7 +46,7 @@ public class WorkerBeeTest {
         ClonedPopulationInitialisationStrategy initStrategy = new ClonedPopulationInitialisationStrategy();
         initStrategy.setEntityNumber(100);
         WorkerBee clone = new WorkerBee();
-        clone.setForageLimit(new ConstantControlParameter(680));
+        clone.setForageLimit(ConstantControlParameter.of(680));
         initStrategy.setEntityType(clone);
         Topology<WorkerBee> population = new GBestTopology<WorkerBee>();
         Iterables.addAll(population, initStrategy.initialise(problem));

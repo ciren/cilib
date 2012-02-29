@@ -91,8 +91,8 @@ public class DeratingNichePSO extends Niche {
         mainSwarmParticle = new StandardParticle();
         mainSwarmParticle.setVelocityInitializationStrategy(new RandomInitializationStrategy());
         StandardVelocityProvider velocityUpdateStrategy = new StandardVelocityProvider();
-        velocityUpdateStrategy.setSocialAcceleration(new ConstantControlParameter(0.0));
-        velocityUpdateStrategy.setCognitiveAcceleration(new ConstantControlParameter(1.2));
+        velocityUpdateStrategy.setSocialAcceleration(ConstantControlParameter.of(0.0));
+        velocityUpdateStrategy.setCognitiveAcceleration(ConstantControlParameter.of(1.2));
 
         mainSwarmParticle.setVelocityProvider(velocityUpdateStrategy);
         PopulationInitialisationStrategy mainSwarmInitialisationStrategy = new ClonedPopulationInitialisationStrategy();

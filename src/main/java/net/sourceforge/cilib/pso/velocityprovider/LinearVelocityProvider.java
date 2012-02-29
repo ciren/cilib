@@ -52,9 +52,9 @@ public class LinearVelocityProvider implements VelocityProvider {
     public LinearVelocityProvider() {
         // Resetting the social and cognitive components is required to ensure
         // that during the velocity update process, only 1 random number is used.
-        this.inertiaWeight = new ConstantControlParameter(0.729844);
-        this.socialAcceleration = new ConstantControlParameter(1.496180);
-        this.cognitiveAcceleration = new ConstantControlParameter(1.496180);
+        this.inertiaWeight = ConstantControlParameter.of(0.729844);
+        this.socialAcceleration = ConstantControlParameter.of(1.496180);
+        this.cognitiveAcceleration = ConstantControlParameter.of(1.496180);
 
         this.socialRandomGenerator = new KnuthSubtractive();
         this.cognitiveRandomGenerator = new KnuthSubtractive();
