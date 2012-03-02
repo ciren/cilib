@@ -19,43 +19,43 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-
-package net.sourceforge.cilib.pso.niching.enhanced;
+package net.sourceforge.cilib.pso.niching.absorption;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
-import net.sourceforge.cilib.pso.niching.AbsorptionStrategy;
 import net.sourceforge.cilib.pso.niching.Niche;
-import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.pso.particle.ParticleBehavior;
+import net.sourceforge.cilib.pso.velocityprovider.GCVelocityProvider;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
- *
+ * <p>
+ * Standard absorption strategy for NichePSO.
+ * </p>
+ * <p>
+ * Absorption is a process that occurs when an entity from the main swarm wonders
+ * into the radius of the sub-swarm. When this occurs, the entity is removed from
+ * the main swarm and is incorporated into the sub-swarm.
+ * </p>
  */
-public class DirectionalBasedAbsorptionStrategy implements AbsorptionStrategy {
+public class StandardAbsorptionStrategy implements AbsorptionStrategy {
 
     private DistanceMeasure distanceMeasure;
+    private ParticleBehavior particleBehavior;
 
-    public DirectionalBasedAbsorptionStrategy() {
-        distanceMeasure = new EuclideanDistanceMeasure();
-    }
-
-    public DirectionalBasedAbsorptionStrategy(DirectionalBasedAbsorptionStrategy copy) {
-        this.distanceMeasure = copy.distanceMeasure;
+    public StandardAbsorptionStrategy() {
+        this.distanceMeasure = new EuclideanDistanceMeasure();
+        this.particleBehavior = new ParticleBehavior();
+        this.particleBehavior.setVelocityProvider(new GCVelocityProvider());
     }
 
     /**
-     * absorp a particle if, and only if the particle is contained withing the
-     * radius of a subswarm and the particle moves in the same direction as the
-     * global best position of the subswarm.
-     * @param algorithm; Is the niche algorithm that has to absorb.
+     * {@inheritDoc}
      */
     @Override
     public void absorb(Niche algorithm) {
@@ -69,15 +69,10 @@ public class DirectionalBasedAbsorptionStrategy implements AbsorptionStrategy {
             for (int i = 0; i < mainSwarmTopology.size(); i++) {
                 Entity entity = mainSwarmTopology.get(i);
                 double distance = distanceMeasure.distance(entity.getCandidateSolution(), Topologies.getBestEntity(pba.getTopology()).getCandidateSolution());
-                Vector vec1 = (Vector) entity.getCandidateSolution();
-                Vector vec2 = (Vector) Topologies.getBestEntity(pba.getTopology()).getCandidateSolution();
-                double direction = vec1.dot(vec2);
-                if (distance <= radius && direction < 0) {
+                if (distance <= radius) {
                     Particle p = (Particle) entity;
-                    StandardVelocityProvider velocityUpdateStrategy = new StandardVelocityProvider();
-                    velocityUpdateStrategy.setSocialAcceleration(ConstantControlParameter.of(0.0));
-                    p.setVelocityProvider(velocityUpdateStrategy);
                     p.setNeighbourhoodBest((Particle) Topologies.getBestEntity(pba.getTopology()));
+                    p.setParticleBehavior(particleBehavior);
                     Topology<Particle> topology = (Topology<Particle>) pba.getTopology();
                     topology.add(p);
                     algorithm.getMainSwarm().getTopology().remove(entity);
@@ -86,18 +81,11 @@ public class DirectionalBasedAbsorptionStrategy implements AbsorptionStrategy {
         }
     }
 
-    /**
-     * @return the distanceMeasure
-     */
-    public DistanceMeasure getDistanceMeasure() {
-        return distanceMeasure;
+    public void setParticleBehavior(ParticleBehavior particleBehavior) {
+        this.particleBehavior = particleBehavior;
     }
 
-    /**
-     * @param distanceMeasure the distanceMeasure to set
-     */
     public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
         this.distanceMeasure = distanceMeasure;
     }
-
 }

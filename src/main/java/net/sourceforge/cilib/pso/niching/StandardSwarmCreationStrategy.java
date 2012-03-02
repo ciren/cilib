@@ -22,6 +22,8 @@
 package net.sourceforge.cilib.pso.niching;
 
 import java.util.List;
+import net.sourceforge.cilib.algorithm.population.IterationStrategy;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
@@ -49,6 +51,16 @@ import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrateg
  * </p>
  */
 public class StandardSwarmCreationStrategy implements NicheCreationStrategy {
+    
+    private PSO subSwarm;
+    
+    /**
+     * Default constructor.
+     */
+    public StandardSwarmCreationStrategy() {
+        this.subSwarm = new PSO();
+        ((SynchronousIterationStrategy) this.subSwarm.getIterationStrategy()).setBoundaryConstraint(new ReinitialisationBoundary());
+    }
 
     /**
      * {@inheritDoc}
@@ -80,8 +92,7 @@ public class StandardSwarmCreationStrategy implements NicheCreationStrategy {
             nicheMainParticle.setNeighbourhoodBest(nicheMainParticle);
             nicheClosestParticle.setNeighbourhoodBest(nicheMainParticle);
 
-            PSO pso = new PSO();
-            ((SynchronousIterationStrategy)pso.getIterationStrategy()).setBoundaryConstraint(new ReinitialisationBoundary());
+            PSO pso = subSwarm.getClone();
             pso.setOptimisationProblem(algorithm.getOptimisationProblem());
             pso.getTopology().add(nicheMainParticle);
             pso.getTopology().add(nicheClosestParticle);
@@ -91,4 +102,11 @@ public class StandardSwarmCreationStrategy implements NicheCreationStrategy {
         }
     }
 
+    /**
+     * Sets the type of the subswarm to use.
+     * @param subSwarm 
+     */
+    public void setSubSwarm(PSO subSwarm) {
+        this.subSwarm = subSwarm;
+    }
 }

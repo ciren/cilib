@@ -20,17 +20,18 @@
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.cilib.pso.niching.enhanced;
+package net.sourceforge.cilib.pso.niching.absorption;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
-import net.sourceforge.cilib.pso.niching.AbsorptionStrategy;
 import net.sourceforge.cilib.pso.niching.Niche;
-import net.sourceforge.cilib.pso.velocityprovider.LinearVelocityProvider;
+import net.sourceforge.cilib.pso.particle.ParticleBehavior;
+import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -38,26 +39,30 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 /**
  *
  */
-public class EuclideanDiversityAbsorptionStrategy implements AbsorptionStrategy {
+public class DirectionalBasedAbsorptionStrategy implements AbsorptionStrategy {
 
     private DistanceMeasure distanceMeasure;
-    private double threshold;
+    private ParticleBehavior particleBehavior;
 
-    public EuclideanDiversityAbsorptionStrategy() {
-        distanceMeasure = new EuclideanDistanceMeasure();
-        threshold = 0.1;
+    public DirectionalBasedAbsorptionStrategy() {
+        this.distanceMeasure = new EuclideanDistanceMeasure();
+        this.particleBehavior = new ParticleBehavior();
+        
+        StandardVelocityProvider velocity = new StandardVelocityProvider();
+        velocity.setSocialAcceleration(ConstantControlParameter.of(0.0));
+        
+        this.particleBehavior.setVelocityProvider(velocity);
     }
 
-    public EuclideanDiversityAbsorptionStrategy(EuclideanDiversityAbsorptionStrategy copy) {
+    public DirectionalBasedAbsorptionStrategy(DirectionalBasedAbsorptionStrategy copy) {
         this.distanceMeasure = copy.distanceMeasure;
-        this.threshold = copy.threshold;
     }
 
     /**
-     * a particle is absorbed into a subswarm if the particle is within the
-     * radius of the subswarm and the diversity of the subswarm is below a given
-     * threshold
-     * @param algorithm. The niche algorithm to be absorb.
+     * absorp a particle if, and only if the particle is contained withing the
+     * radius of a subswarm and the particle moves in the same direction as the
+     * global best position of the subswarm.
+     * @param algorithm; Is the niche algorithm that has to absorb.
      */
     @Override
     public void absorb(Niche algorithm) {
@@ -66,16 +71,24 @@ public class EuclideanDiversityAbsorptionStrategy implements AbsorptionStrategy 
             pba.accept(radiusVisitor);
 
             double radius = radiusVisitor.getResult().doubleValue();
-            double diversity = calculateDiversity(pba);
 
             Topology<? extends Entity> mainSwarmTopology = algorithm.getMainSwarm().getTopology();
             for (int i = 0; i < mainSwarmTopology.size(); i++) {
+                
                 Entity entity = mainSwarmTopology.get(i);
                 double distance = distanceMeasure.distance(entity.getCandidateSolution(), Topologies.getBestEntity(pba.getTopology()).getCandidateSolution());
-                if ((distance <= radius) && (diversity < threshold)) {
+                Vector vec1 = (Vector) entity.getCandidateSolution();
+                Vector vec2 = (Vector) Topologies.getBestEntity(pba.getTopology()).getCandidateSolution();
+                double direction = vec1.dot(vec2);
+                
+                if (distance <= radius && direction < 0) {
                     Particle p = (Particle) entity;
-                    p.setVelocityProvider(new LinearVelocityProvider());
+                    StandardVelocityProvider velocityUpdateStrategy = new StandardVelocityProvider();
+                    velocityUpdateStrategy.setSocialAcceleration(ConstantControlParameter.of(0.0));
+                    p.setVelocityProvider(velocityUpdateStrategy);
                     p.setNeighbourhoodBest((Particle) Topologies.getBestEntity(pba.getTopology()));
+
+                    p.setParticleBehavior(particleBehavior);
                     Topology<Particle> topology = (Topology<Particle>) pba.getTopology();
                     topology.add(p);
                     algorithm.getMainSwarm().getTopology().remove(entity);
@@ -84,15 +97,21 @@ public class EuclideanDiversityAbsorptionStrategy implements AbsorptionStrategy 
         }
     }
 
-    private double calculateDiversity(PopulationBasedAlgorithm pba){
-        Topology<Particle> topology = (Topology<Particle>) pba.getTopology();
-        double sum = 0.0;
-        Vector best = (Vector) Topologies.getBestEntity(topology).getBestPosition();
-        for(Particle p: topology){
-            sum += distanceMeasure.distance(p.getPosition(), best);
-        }
-        double size = topology.size() * 1.0;
-        return sum/size;
+    /**
+     * @return the distanceMeasure
+     */
+    public DistanceMeasure getDistanceMeasure() {
+        return distanceMeasure;
     }
 
+    /**
+     * @param distanceMeasure the distanceMeasure to set
+     */
+    public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
+        this.distanceMeasure = distanceMeasure;
+    }
+
+    public void setParticleBehavior(ParticleBehavior particleBehavior) {
+        this.particleBehavior = particleBehavior;
+    }
 }

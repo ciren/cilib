@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.Stats;
@@ -45,13 +47,13 @@ import net.sourceforge.cilib.math.Stats;
  */
 public class StandardNicheIdentificationStrategy implements NicheIdentificationStrategy {
 
-    private double threshold;
-    private int stationaryCounter;
+    private ControlParameter threshold;
+    private ControlParameter stationaryCounter;
     private Map<Entity, List<Double>> entityFitness;
 
     public StandardNicheIdentificationStrategy() {
-        this.threshold = 1.0E-6;
-        this.stationaryCounter = 3;
+        this.threshold = new ConstantControlParameter(1.0E-6);
+        this.stationaryCounter = new ConstantControlParameter(3.0);
         this.entityFitness = new HashMap<Entity, List<Double>>();
     }
 
@@ -78,7 +80,7 @@ public class StandardNicheIdentificationStrategy implements NicheIdentificationS
             if (this.entityFitness.keySet().contains(entity)) {
                 List<Double> fitnessList = this.entityFitness.get(entity);
 
-                if (fitnessList.size() >= this.stationaryCounter)
+                if (fitnessList.size() >= this.stationaryCounter.getParameter())
                     fitnessList.remove(0);
 
                 fitnessList.add(entity.getFitness().getValue());
@@ -101,7 +103,7 @@ public class StandardNicheIdentificationStrategy implements NicheIdentificationS
         // Identify the niches
         List<Entity> niches = new ArrayList<Entity>();
         for (Map.Entry<Entity, Double> entry : stdev.entrySet()) {
-            if (entry.getValue() < this.threshold) {
+            if (entry.getValue() < this.threshold.getParameter()) {
                 niches.add(entry.getKey());
             }
         }
@@ -113,7 +115,7 @@ public class StandardNicheIdentificationStrategy implements NicheIdentificationS
      * Get the defined threshold value.
      * @return The threshold value.
      */
-    public double getThreshold() {
+    public ControlParameter getThreshold() {
         return threshold;
     }
 
@@ -121,7 +123,7 @@ public class StandardNicheIdentificationStrategy implements NicheIdentificationS
      * Set the threshold value
      * @param threshold The value to set.
      */
-    public void setThreshold(double threshold) {
+    public void setThreshold(ControlParameter threshold) {
         this.threshold = threshold;
     }
 
@@ -129,7 +131,7 @@ public class StandardNicheIdentificationStrategy implements NicheIdentificationS
      * Obtain the stationary counter for the identification process.
      * @return The value of the stationary counter.
      */
-    public int getStationaryCounter() {
+    public ControlParameter getStationaryCounter() {
         return stationaryCounter;
     }
 
@@ -137,7 +139,7 @@ public class StandardNicheIdentificationStrategy implements NicheIdentificationS
      * Set the stationary counter for the identification process.
      * @param stationaryCounter The counter value to set.
      */
-    public void setStationaryCounter(int stationaryCounter) {
+    public void setStationaryCounter(ControlParameter stationaryCounter) {
         this.stationaryCounter = stationaryCounter;
     }
 

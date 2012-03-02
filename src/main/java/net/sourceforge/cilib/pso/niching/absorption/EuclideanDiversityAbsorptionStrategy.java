@@ -19,38 +19,52 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.niching;
+
+package net.sourceforge.cilib.pso.niching.absorption;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
-import net.sourceforge.cilib.pso.velocityprovider.GCVelocityProvider;
+import net.sourceforge.cilib.measurement.single.diversity.Diversity;
+import net.sourceforge.cilib.measurement.single.diversity.centerinitialisationstrategies.GBestCenterInitialisationStrategy;
+import net.sourceforge.cilib.pso.niching.Niche;
+import net.sourceforge.cilib.pso.velocityprovider.LinearVelocityProvider;
+import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
- * <p>
- * Standard absorption strategy for NichePSO.
- * </p>
- * <p>
- * Absorption is a process that occurs when an entity from the main swarm wonders
- * into the radius of the sub-swarm. When this occurs, the entity is removed from
- * the main swarm and is incorporated into the sub-swarm.
- * </p>
+ *
  */
-public class StandardAbsorptionStrategy implements AbsorptionStrategy {
+public class EuclideanDiversityAbsorptionStrategy implements AbsorptionStrategy {
 
     private DistanceMeasure distanceMeasure;
+    private ControlParameter threshold;
+    private Diversity diversityMeasure;
 
-    public StandardAbsorptionStrategy() {
+    public EuclideanDiversityAbsorptionStrategy() {
         this.distanceMeasure = new EuclideanDistanceMeasure();
+        this.threshold = ConstantControlParameter.of(0.1);
+        this.diversityMeasure = new Diversity();
+        this.diversityMeasure.setPopulationCenter(new GBestCenterInitialisationStrategy());
+    }
+
+    public EuclideanDiversityAbsorptionStrategy(EuclideanDiversityAbsorptionStrategy copy) {
+        this.distanceMeasure = copy.distanceMeasure;
+        this.threshold = copy.threshold.getClone();
+        this.diversityMeasure = copy.diversityMeasure.getClone();
     }
 
     /**
-     * {@inheritDoc}
+     * a particle is absorbed into a subswarm if the particle is within the
+     * radius of the subswarm and the diversity of the subswarm is below a given
+     * threshold
+     * @param algorithm. The niche algorithm to be absorb.
      */
     @Override
     public void absorb(Niche algorithm) {
@@ -59,14 +73,15 @@ public class StandardAbsorptionStrategy implements AbsorptionStrategy {
             pba.accept(radiusVisitor);
 
             double radius = radiusVisitor.getResult().doubleValue();
+            double diversity = diversityMeasure.getValue(pba).doubleValue();
 
             Topology<? extends Entity> mainSwarmTopology = algorithm.getMainSwarm().getTopology();
             for (int i = 0; i < mainSwarmTopology.size(); i++) {
                 Entity entity = mainSwarmTopology.get(i);
                 double distance = distanceMeasure.distance(entity.getCandidateSolution(), Topologies.getBestEntity(pba.getTopology()).getCandidateSolution());
-                if (distance <= radius) {
+                if ((distance <= radius) && (diversity < threshold.getParameter())) {
                     Particle p = (Particle) entity;
-                    p.setVelocityProvider(new GCVelocityProvider());
+                    p.setVelocityProvider(new LinearVelocityProvider());
                     p.setNeighbourhoodBest((Particle) Topologies.getBestEntity(pba.getTopology()));
                     Topology<Particle> topology = (Topology<Particle>) pba.getTopology();
                     topology.add(p);
@@ -76,4 +91,15 @@ public class StandardAbsorptionStrategy implements AbsorptionStrategy {
         }
     }
 
+    public void setThreshold(ControlParameter threshold) {
+        this.threshold = threshold;
+    }
+
+    public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
+        this.distanceMeasure = distanceMeasure;
+    }
+
+    public void setDiversityMeasure(Diversity diversityMeasure) {
+        this.diversityMeasure = diversityMeasure;
+    }
 }
