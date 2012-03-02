@@ -52,8 +52,8 @@ public class StandardNicheIdentificationStrategy implements NicheIdentificationS
     private Map<Entity, List<Double>> entityFitness;
 
     public StandardNicheIdentificationStrategy() {
-        this.threshold = new ConstantControlParameter(1.0E-6);
-        this.stationaryCounter = new ConstantControlParameter(3.0);
+        this.threshold = ConstantControlParameter.of(1.0E-6);
+        this.stationaryCounter = ConstantControlParameter.of(3.0);
         this.entityFitness = new HashMap<Entity, List<Double>>();
     }
 

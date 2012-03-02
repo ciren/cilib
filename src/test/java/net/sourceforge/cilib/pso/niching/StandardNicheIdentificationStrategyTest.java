@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.pso.niching;
 
 import java.util.List;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
@@ -51,7 +52,7 @@ public class StandardNicheIdentificationStrategyTest {
         topology.add(i1);
 
         StandardNicheIdentificationStrategy nicheIdentificationStrategy = new StandardNicheIdentificationStrategy();
-        nicheIdentificationStrategy.setThreshold(0.1E-6);
+        nicheIdentificationStrategy.setThreshold(ConstantControlParameter.of(0.1E-6));
 
         List<Entity> results = nicheIdentificationStrategy.identify(topology);
         Assert.assertEquals(0, results.size());
@@ -76,7 +77,7 @@ public class StandardNicheIdentificationStrategyTest {
         topology.add(i1);
 
         StandardNicheIdentificationStrategy nicheIdentificationStrategy = new StandardNicheIdentificationStrategy();
-        nicheIdentificationStrategy.setThreshold(1.0);
+        nicheIdentificationStrategy.setThreshold(ConstantControlParameter.of(1.0));
 
         nicheIdentificationStrategy.identify(topology);
 

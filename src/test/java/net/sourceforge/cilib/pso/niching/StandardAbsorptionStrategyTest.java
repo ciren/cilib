@@ -27,6 +27,8 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.niching.absorption.AbsorptionStrategy;
+import net.sourceforge.cilib.pso.niching.absorption.StandardAbsorptionStrategy;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
