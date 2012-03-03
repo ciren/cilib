@@ -24,6 +24,7 @@ package net.sourceforge.cilib.measurement.single.diversity;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.type.types.Real;
@@ -44,17 +45,18 @@ public class AverageDiversityAroundAllEntities extends Diversity {
     /**
      * {@inheritDoc}
      */
-    public Real getValue() {
-        PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get();
-        int numberOfEntities = algorithm.getTopology().size();
+    @Override
+    public Real getValue(Algorithm algorithm) {
+        PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
+        int numberOfEntities = populationBasedAlgorithm.getTopology().size();
 
-        Iterator<? extends Entity> populationCenterIterator = algorithm.getTopology().iterator();
+        Iterator<? extends Entity> populationCenterIterator = populationBasedAlgorithm.getTopology().iterator();
 
         double totalDistanceSum = 0.0;
 
         while (populationCenterIterator.hasNext()) {
             Vector currentCenter = (Vector) (((Entity) populationCenterIterator.next()).getCandidateSolution());
-            Iterator<? extends Entity> populationIterator = algorithm.getTopology().iterator();
+            Iterator<? extends Entity> populationIterator = populationBasedAlgorithm.getTopology().iterator();
             double currentDistanceSum = 0.0;
 
             while (populationIterator.hasNext()) {
@@ -66,9 +68,7 @@ public class AverageDiversityAroundAllEntities extends Diversity {
         }
 
         totalDistanceSum /= numberOfEntities;
-
-        normalisationParameter.setDistanceMeasure(distanceMeasure);
-        totalDistanceSum /= normalisationParameter.getValue();
+        totalDistanceSum /= normalisationParameter.getNormalisationParameter(populationBasedAlgorithm);
 
         return Real.valueOf(totalDistanceSum);
     }

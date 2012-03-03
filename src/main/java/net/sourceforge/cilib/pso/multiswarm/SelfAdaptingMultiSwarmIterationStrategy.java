@@ -25,6 +25,8 @@ import java.util.ListIterator;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.visitor.ChargedTopologyVisitorDecorator;
+import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
@@ -99,7 +101,7 @@ public class SelfAdaptingMultiSwarmIterationStrategy extends AbstractIterationSt
     boolean isConverged(PopulationBasedAlgorithm algorithm) {
         dynamicConvergenceRadius = calculateRadius();
 
-        MultiSwarmDiameterVisitor visitor = new MultiSwarmDiameterVisitor();
+        TopologyVisitor visitor = new ChargedTopologyVisitorDecorator();
         double radius = (Double) ((PSO) algorithm).accept(visitor);
         return radius <= dynamicConvergenceRadius;
     }

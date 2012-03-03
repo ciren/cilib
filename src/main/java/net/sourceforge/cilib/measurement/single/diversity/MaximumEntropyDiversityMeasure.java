@@ -73,7 +73,7 @@ public class MaximumEntropyDiversityMeasure extends Diversity {
             }
         }
 
-        diversity /= this.normalisationParameter.getValue();
+        diversity /= this.normalisationParameter.getNormalisationParameter(populationBasedAlgorithm);
 
         return Real.valueOf(diversity);
     }

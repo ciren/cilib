@@ -21,50 +21,45 @@
  */
 package net.sourceforge.cilib.measurement.single.diversity.normalisation;
 
-import net.sourceforge.cilib.util.DistanceMeasure;
-import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 
 /**
- * TODO: Complete this javadoc.
+ * Diversity normalisation based on a control parameter.
  */
-public class NormalisationParameter {
+public class NormalisationParameter implements DiversityNormalisation {
 
-    protected double normalisationParameter;
-    protected DistanceMeasure distanceMeasure;
+    protected ControlParameter normalisationParameter;
 
+    /**
+     * Default constructor.
+     */
     public NormalisationParameter() {
-        normalisationParameter = 1.0;
-        distanceMeasure = new EuclideanDistanceMeasure();
+        normalisationParameter = ConstantControlParameter.of(1.0);
     }
 
     /**
      * @return the normalising parameter
      */
-    public double getValue() {
-        return this.normalisationParameter;
+    @Override
+    public double getNormalisationParameter(PopulationBasedAlgorithm algorithm) {
+        return this.normalisationParameter.getParameter();
     }
 
     /**
-     * @param
-     *
-     * set the value to be used as a normalisation parameter
+     * Set the value to be used as a normalisation parameter
+     * @param value The new normalisation parameter.
      */
-    public void setNormalisationParameter(double value) {
+    public void setNormalisationParameter(ControlParameter value) {
         this.normalisationParameter = value;
     }
 
     /**
-     * @return the distance measure used in the calculation
+     * Gets the normalisation parameter.
+     * @return 
      */
-    public DistanceMeasure getDistanceMeasure() {
-        return this.distanceMeasure;
+    public ControlParameter getNormalisationParameter() {
+        return normalisationParameter;
     }
-
-    /**
-     * @param distance The distance measure to be used in the normalisation calculation
-     */
-    public void setDistanceMeasure(DistanceMeasure distance) {
-        this.distanceMeasure = distance;
-    }
-
 }

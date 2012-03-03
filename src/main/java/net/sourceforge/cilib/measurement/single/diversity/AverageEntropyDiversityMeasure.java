@@ -72,7 +72,7 @@ public class AverageEntropyDiversityMeasure extends Diversity {
 
         diversity /= dimensions;
 
-        diversity /= this.normalisationParameter.getValue();
+        diversity /= this.normalisationParameter.getNormalisationParameter(populationBasedAlgorithm);
 
         return Real.valueOf(diversity);
     }
