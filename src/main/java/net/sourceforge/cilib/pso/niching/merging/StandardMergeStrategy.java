@@ -21,129 +21,35 @@
  */
 package net.sourceforge.cilib.pso.niching.merging;
 
-import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.DistanceMeasure;
-import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  * <p>
- * Merge sub-swarms if the radius of two subswarms overlap.
- * </p>
- * <p>
- * This overlap is determined by the radius of the sub-swarm. If the overlap
- * is less than a predefined threshold value, the sub-swarms will merge into
- * a single sub-swarm but having all participants within the one swarm
- * being transferred over to the other sub-swarm.
- * </p>
- * <p>
- * Upon completion of the entity migration, the empty sub-swarm is destroyed.
- * </p>
+ * Merges sub-swarms.
  *
  */
-public class StandardMergeStrategy implements MergeStrategy {
+public class StandardMergeStrategy extends MergeStrategy {
     private static final long serialVersionUID = 6790307057694598017L;
-
-    private double threshold;
-
-    public StandardMergeStrategy() {
-        this.threshold  = 10e-8;
-    }
-
-    public StandardMergeStrategy(StandardMergeStrategy copy) {
-        this.threshold = copy.threshold;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
-    public StandardMergeStrategy getClone() {
-        return new StandardMergeStrategy(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void merge(MultiPopulationBasedAlgorithm algorithm) {
-        if (algorithm.getPopulations().size() < 2)
-            return;
-
-        DistanceMeasure distanceMeasure = new EuclideanDistanceMeasure();
-        RadiusVisitor radiusVisitor = new RadiusVisitor();
-
-        for (int i = 0; i < algorithm.getPopulations().size()-1; i++) {
-            PopulationBasedAlgorithm k1 = algorithm.getPopulations().get(i);
-
-            k1.accept(radiusVisitor);
-            double k1Radius = radiusVisitor.getResult().doubleValue();
-
-            for (int j = i+1; j < algorithm.getPopulations().size(); j++) {
-                PopulationBasedAlgorithm k2 = algorithm.getPopulations().get(j);
-
-                k2.accept(radiusVisitor);
-                double k2Radius = radiusVisitor.getResult().doubleValue();
-                Vector vectorK1 = (Vector) Topologies.getBestEntity(k1.getTopology()).getCandidateSolution();
-                Vector vectorK2 = (Vector) Topologies.getBestEntity(k2.getTopology()).getCandidateSolution();
-
-                // Radii need to be normalized based on the size of the domain?????????
-//                Vector normalK1 = vectorK1.normalize();
-//                Vector normalK2 = vectorK2.normalize();
-                Vector normalK1 = vectorK1;
-                Vector normalK2 = vectorK2;
-
-                double distance = distanceMeasure.distance(normalK1, normalK2);//Math.abs(normalK1.subtract(normalK2).norm());
-
-                if (k1Radius == k2Radius && k1Radius == 0) {
-                    if (distance < threshold)
-                        mergeSwarms(algorithm, k1, k2);
-
-                    continue;
-                }
-
-                if (distance < threshold) {
-                    mergeSwarms(algorithm, k1, k2);
-                }
-            }
+    public PopulationBasedAlgorithm f(PopulationBasedAlgorithm a, PopulationBasedAlgorithm b) {
+        PopulationBasedAlgorithm newAlg = a.getClone();        
+        Particle neighbourhoodBest = (Particle) Topologies.getBestEntity(newAlg.getTopology());
+        
+        for (Entity e : newAlg.getTopology()) {
+            ((Particle) e).setNeighbourhoodBest(neighbourhoodBest);
         }
-    }
 
-    private void mergeSwarms(final MultiPopulationBasedAlgorithm algorithm, final PopulationBasedAlgorithm k1, PopulationBasedAlgorithm k2) {
-        Topology<Particle> topology = (Topology<Particle>) k1.getTopology();
-        Particle neighbourhoodBest = Topologies.getBestEntity(topology);
-
-        // migrate all entities from k2 into k1
-        for (int i = 0; i < k2.getTopology().size(); i++) {
-            Particle p = (Particle) k2.getTopology().get(i);
-            topology.add(p);
-
+        for (Entity e : b.getTopology()) {
+            Particle p = (Particle) e.getClone();
             p.setNeighbourhoodBest(neighbourhoodBest);
+            ((Topology<Particle>) newAlg.getTopology()).add(p);
         }
 
-        algorithm.getPopulations().remove(k2);
-        k2 = null;
+        return newAlg;
     }
-
-    /**
-     * Get the merge threshold value.
-     * @return The value of the merge threshold.
-     */
-    public double getThreshold() {
-        return threshold;
-    }
-
-    /**
-     * Set the merge threshold value.
-     * @param threshold The value to set.
-     */
-    public void setThreshold(double threshold) {
-        this.threshold = threshold;
-    }
-
 }

@@ -28,7 +28,6 @@ import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.niching.merging.MergeStrategy;
 import net.sourceforge.cilib.pso.niching.Niche;
 import net.sourceforge.cilib.pso.velocityprovider.LinearVelocityProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -38,7 +37,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 /**
  *
  */
-public class ScatterMergeStrategy implements MergeStrategy {
+public class ScatterMergeStrategy extends MergeStrategy {
 
     private double threshold;
 
@@ -46,21 +45,12 @@ public class ScatterMergeStrategy implements MergeStrategy {
         this.threshold = 10e-8;
     }
 
-    public ScatterMergeStrategy(ScatterMergeStrategy  copy) {
-        this.threshold = copy.threshold;
-    }
-
-    @Override
-    public ScatterMergeStrategy getClone() {
-        return new ScatterMergeStrategy(this);
-    }
-
     /**
      * the particles of one of the subswarms that are merged are reinitialized
      * and inserted back into the main swarm.
      * @param algorithm; The niche algorithm that is merged
      */
-    @Override
+    //@Override
     public void merge(MultiPopulationBasedAlgorithm algorithm) {
         if (algorithm.getPopulations().size() < 2)
             return;
@@ -133,6 +123,11 @@ public class ScatterMergeStrategy implements MergeStrategy {
      */
     public void setThreshold(double threshold) {
         this.threshold = threshold;
+    }
+
+    @Override
+    public PopulationBasedAlgorithm f(PopulationBasedAlgorithm pop1, PopulationBasedAlgorithm pop2) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

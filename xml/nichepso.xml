@@ -16,7 +16,10 @@
         </problem>
     </problems>
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
-        <addMeasurement class="measurement.multiple.MultipleSolutions"/>
+        <addMeasurement class="measurement.multiple.CompositeMeasurement">
+            <addMeasurement class="measurement.single.Solution"/>
+            <addMeasurement class="measurement.single.Fitness"/>
+        </addMeasurement>
     </measurements>
     <simulations>
         <simulation samples="1">

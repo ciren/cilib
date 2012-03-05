@@ -183,7 +183,7 @@ public class DeratingNichePSO extends Niche {
     protected void runPhase1() {
         getMainSwarm().performIteration();
 
-        this.mergeStrategy.merge(this);
+        //this.mergeStrategy.merge(this);
 
         List<Entity> niches = this.nicheIdentificationStrategy.identify(getMainSwarm().getTopology());
         

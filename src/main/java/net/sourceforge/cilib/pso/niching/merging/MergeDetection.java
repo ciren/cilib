@@ -23,11 +23,14 @@ package net.sourceforge.cilib.pso.niching.merging;
 
 import fj.F2;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * Merge strategies for Niching.
+ * Merge detection strategies for Niching.
  * 
- * Combines two PopulationBasedAlgorithms into one, returns the combined one.
+ * Used to merge two swarms into one.
+ * 
+ * @author filipe
  */
-public abstract class MergeStrategy extends F2<PopulationBasedAlgorithm, PopulationBasedAlgorithm, PopulationBasedAlgorithm> {
+public abstract class MergeDetection extends F2<PopulationBasedAlgorithm, PopulationBasedAlgorithm, Boolean> {
 }

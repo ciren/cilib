@@ -74,7 +74,7 @@ public class CompositeMeasurement implements Measurement<TypeList> {
 
         MultiPopulationBasedAlgorithm multi = (MultiPopulationBasedAlgorithm) algorithm;
 
-        for (PopulationBasedAlgorithm single : multi) {
+        for (PopulationBasedAlgorithm single : multi.getPopulations()) {
             for (Measurement<? extends Type> measurement : measurements) {
                 vector.add(measurement.getValue(single));
             }
