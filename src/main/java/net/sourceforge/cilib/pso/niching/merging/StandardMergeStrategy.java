@@ -29,23 +29,18 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 
 /**
- * <p>
- * Merges sub-swarms.
- *
+ * Takes all the entities of the first sub-swarm, puts them in the second sub-swarm
+ * and returns a copy of that sub-swarm.
  */
 public class StandardMergeStrategy extends MergeStrategy {
     private static final long serialVersionUID = 6790307057694598017L;
     
     @Override
     public PopulationBasedAlgorithm f(PopulationBasedAlgorithm subSwarm1, PopulationBasedAlgorithm subSwarm2) {
-        PopulationBasedAlgorithm newSwarm = subSwarm1.getClone();        
+        PopulationBasedAlgorithm newSwarm = new SingleSwarmMergeStrategy().f(subSwarm1, subSwarm2);
         Particle neighbourhoodBest = (Particle) Topologies.getBestEntity(newSwarm.getTopology(), new SocialBestFitnessComparator());
-        
-        for (Entity e : newSwarm.getTopology()) {
-            ((Particle) e).setNeighbourhoodBest(neighbourhoodBest);
-        }
 
-        for (Entity e : subSwarm2.getTopology()) {
+        for (Entity e : subSwarm1.getTopology()) {
             Particle p = (Particle) e.getClone();
             p.setNeighbourhoodBest(neighbourhoodBest);
             p.setParticleBehavior(neighbourhoodBest.getParticleBehavior());

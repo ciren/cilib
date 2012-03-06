@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.pso.niching;
 
 import com.google.common.collect.Lists;
+import fj.P;
 import fj.P2;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +40,7 @@ import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 import net.sourceforge.cilib.pso.niching.absorption.AbsorptionStrategy;
 import net.sourceforge.cilib.pso.niching.absorption.StandardAbsorptionStrategy;
-import net.sourceforge.cilib.pso.niching.merging.MergeOperation;
-import net.sourceforge.cilib.pso.niching.merging.MergeStrategy;
-import net.sourceforge.cilib.pso.niching.merging.StandardMergeOperation;
+import net.sourceforge.cilib.pso.niching.merging.*;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
@@ -71,7 +70,11 @@ public class Niche extends MultiPopulationBasedAlgorithm {
     protected NicheIdentificationStrategy nicheIdentificationStrategy;
     protected NicheCreationStrategy swarmCreationStrategy;
     protected AbsorptionStrategy absorptionStrategy;
-    protected MergeOperation mergeOperation;
+    
+    protected MergeStrategy mergeStrategy;
+    protected MergeStrategy mainSwarmMergeStrategy;
+    protected MergeDetection mergeDetection;
+    
     protected Particle mainSwarmParticle;
 
     /**
@@ -82,14 +85,16 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         PSO pso = (PSO) this.mainSwarm;
         ((SynchronousIterationStrategy)pso.getIterationStrategy()).setBoundaryConstraint(new ReinitialisationBoundary());
 
-        mainSwarmParticle = new StandardParticle();
-        mainSwarmParticle.setVelocityInitializationStrategy(new RandomInitializationStrategy());
         StandardVelocityProvider velocityUpdateStrategy = new StandardVelocityProvider();
         velocityUpdateStrategy.setSocialAcceleration(ConstantControlParameter.of(0.0));
+        
+        this.mainSwarmParticle = new StandardParticle();
+        this.mainSwarmParticle.setVelocityInitializationStrategy(new RandomInitializationStrategy());        
 
-        mainSwarmParticle.setVelocityProvider(velocityUpdateStrategy);
+        this.mainSwarmParticle.setVelocityProvider(velocityUpdateStrategy);
+        
         PopulationInitialisationStrategy mainSwarmInitialisationStrategy = new ClonedPopulationInitialisationStrategy();
-        mainSwarmInitialisationStrategy.setEntityType(mainSwarmParticle);
+        mainSwarmInitialisationStrategy.setEntityType(this.mainSwarmParticle);
         mainSwarmInitialisationStrategy.setEntityNumber(20);
 
         this.mainSwarm.setInitialisationStrategy(mainSwarmInitialisationStrategy);
@@ -97,7 +102,10 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         this.nicheIdentificationStrategy = new StandardNicheIdentificationStrategy();
         this.swarmCreationStrategy = new StandardSwarmCreationStrategy();
         this.absorptionStrategy = new StandardAbsorptionStrategy();
-        this.mergeOperation = new StandardMergeOperation();
+        
+        this.mergeStrategy = new StandardMergeStrategy();
+        this.mainSwarmMergeStrategy = new SingleSwarmMergeStrategy();
+        this.mergeDetection = new RadiusOverlapMergeDetection();
     }
 
     /**
@@ -120,6 +128,27 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         this.mainSwarm.setOptimisationProblem(getOptimisationProblem());
 
         this.mainSwarm.performInitialisation();
+    }
+    
+    public P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> merge(PopulationBasedAlgorithm mainSwarm, fj.data.List<PopulationBasedAlgorithm> subSwarms) {
+        if (subSwarms.isEmpty()) {
+            return P.p(mainSwarm, fj.data.List.<PopulationBasedAlgorithm>nil());
+        }
+        
+        if (subSwarms.length() == 1) {
+            return P.p(mainSwarm, fj.data.List.single(subSwarms.head()));
+        }
+        
+        PopulationBasedAlgorithm newMainSwarm = subSwarms.tail()
+                .filter(mergeDetection.f(subSwarms.head()))
+                .foldLeft(mainSwarmMergeStrategy, mainSwarm);
+        
+        return this.merge(newMainSwarm, 
+                fj.data.List.cons(
+                    subSwarms.tail().filter(mergeDetection.f(subSwarms.head())).foldLeft(mergeStrategy, subSwarms.head()),
+                    subSwarms.tail().removeAll(mergeDetection.f(subSwarms.head()))
+                )
+            );
     }
 
     /**
@@ -147,7 +176,7 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         }
 
         fj.data.List<PopulationBasedAlgorithm> algs = fj.data.List.<PopulationBasedAlgorithm>iterableList(subPopulationsAlgorithms);
-        P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> newPops = mergeOperation.f(mainSwarm, algs);
+        P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> newPops = merge(mainSwarm, algs);
         subPopulationsAlgorithms = Lists.newArrayList(newPops._2().toCollection());
         mainSwarm = newPops._1();
 
@@ -204,11 +233,27 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         this.absorptionStrategy = absorptionStrategy;
     }
 
-    public MergeOperation getMergeOperation() {
-        return mergeOperation;
+    public MergeDetection getMergeDetection() {
+        return mergeDetection;
     }
 
-    public void setMergeOperation(MergeOperation mergeOperation) {
-        this.mergeOperation = mergeOperation;
+    public void setMergeDetection(MergeDetection mergeDetection) {
+        this.mergeDetection = mergeDetection;
+    }
+
+    public MergeStrategy getMainSwarmMergeStrategy() {
+        return mainSwarmMergeStrategy;
+    }
+
+    public void setMainSwarmMergeStrategy(MergeStrategy mainSwarmMergeStrategy) {
+        this.mainSwarmMergeStrategy = mainSwarmMergeStrategy;
+    }
+
+    public MergeStrategy getMergeStrategy() {
+        return mergeStrategy;
+    }
+
+    public void setMergeStrategy(MergeStrategy mergeStrategy) {
+        this.mergeStrategy = mergeStrategy;
     }
 }

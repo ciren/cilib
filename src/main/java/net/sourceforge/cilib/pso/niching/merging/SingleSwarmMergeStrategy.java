@@ -21,14 +21,26 @@
  */
 package net.sourceforge.cilib.pso.niching.merging;
 
-import fj.F2;
-import fj.P2;
-import fj.data.List;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 
 /**
- *
+ * Returns a copy of the second sub-swarm.
+ * 
  * @author filipe
  */
-public abstract class MergeOperation extends F2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>, P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>>> {
+public class SingleSwarmMergeStrategy extends MergeStrategy {
+    @Override
+    public PopulationBasedAlgorithm f(PopulationBasedAlgorithm subSwarm1, PopulationBasedAlgorithm subSwarm2) {
+        PopulationBasedAlgorithm newSwarm = subSwarm2.getClone();        
+        Particle neighbourhoodBest = (Particle) newSwarm.getTopology().getBestEntity(new SocialBestFitnessComparator());
+        
+        for (Entity e : newSwarm.getTopology()) {
+            ((Particle) e).setNeighbourhoodBest(neighbourhoodBest);
+        }
+
+        return newSwarm;
+    }
 }

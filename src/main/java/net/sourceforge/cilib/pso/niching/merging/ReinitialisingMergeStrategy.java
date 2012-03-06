@@ -21,39 +21,25 @@
  */
 package net.sourceforge.cilib.pso.niching.merging;
 
-import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
-import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.niching.Niche;
-import net.sourceforge.cilib.pso.velocityprovider.LinearVelocityProvider;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.DistanceMeasure;
-import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
- *
+ * Takes all the entities of the second sub-swarm, reinitializes those entities
+ * in the second sub-swarm and returns a copy of that sub-swarm.
+ * 
  * @author wayne
+ * @author filipe
  */
-public class ReinitialisingMergeStrategy extends MergeStrategy {
-    /**
-     * the particles of one of the subswarms that are merged are reinitialized
-     * and inserted back into the main swarm.
-     * @param algorithm; The niche algorithm that is merged
-     */
+public class ReinitialisingMergeStrategy extends MergeStrategy {    
     @Override
     public PopulationBasedAlgorithm f(PopulationBasedAlgorithm subSwarm1, PopulationBasedAlgorithm subSwarm2) {
-        PopulationBasedAlgorithm np = new StandardMergeStrategy().f(subSwarm1, subSwarm2);
+        PopulationBasedAlgorithm newSwarm = new StandardMergeStrategy().f(subSwarm1, subSwarm2);
         
-        for (int i = subSwarm1.getTopology().size(); i < np.getTopology().size(); i++) {
-            np.getTopology().get(i).reinitialise();
-            np.getTopology().get(i).calculateFitness();
+        for (int i = subSwarm2.getTopology().size(); i < newSwarm.getTopology().size(); i++) {
+            newSwarm.getTopology().get(i).reinitialise();
+            newSwarm.getTopology().get(i).calculateFitness();
         }
 
-        return np;
+        return newSwarm;
     }
 }
