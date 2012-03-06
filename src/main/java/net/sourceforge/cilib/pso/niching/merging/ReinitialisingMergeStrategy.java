@@ -21,38 +21,39 @@
  */
 package net.sourceforge.cilib.pso.niching.merging;
 
+import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
+import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
+import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.niching.Niche;
+import net.sourceforge.cilib.pso.velocityprovider.LinearVelocityProvider;
+import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
+import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
- * <p>
- * Merges sub-swarms.
  *
+ * @author wayne
  */
-public class StandardMergeStrategy extends MergeStrategy {
-    private static final long serialVersionUID = 6790307057694598017L;
-    
+public class ReinitialisingMergeStrategy extends MergeStrategy {
+    /**
+     * the particles of one of the subswarms that are merged are reinitialized
+     * and inserted back into the main swarm.
+     * @param algorithm; The niche algorithm that is merged
+     */
     @Override
     public PopulationBasedAlgorithm f(PopulationBasedAlgorithm subSwarm1, PopulationBasedAlgorithm subSwarm2) {
-        PopulationBasedAlgorithm newSwarm = subSwarm1.getClone();        
-        Particle neighbourhoodBest = (Particle) Topologies.getBestEntity(newSwarm.getTopology(), new SocialBestFitnessComparator());
+        PopulationBasedAlgorithm np = new StandardMergeStrategy().f(subSwarm1, subSwarm2);
         
-        for (Entity e : newSwarm.getTopology()) {
-            ((Particle) e).setNeighbourhoodBest(neighbourhoodBest);
+        for (int i = subSwarm1.getTopology().size(); i < np.getTopology().size(); i++) {
+            np.getTopology().get(i).reinitialise();
+            np.getTopology().get(i).calculateFitness();
         }
 
-        for (Entity e : subSwarm2.getTopology()) {
-            Particle p = (Particle) e.getClone();
-            p.setNeighbourhoodBest(neighbourhoodBest);
-            p.setParticleBehavior(neighbourhoodBest.getParticleBehavior());
-            
-            ((Topology<Particle>) newSwarm.getTopology()).add(p);
-        }
-
-        return newSwarm;
+        return np;
     }
 }

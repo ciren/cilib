@@ -32,14 +32,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author wayne
  * @author filipe
  */
-public class DirectionalBasedMergeDetection extends MergeDetection {
+public class DirectionBasedMergeDetection extends MergeDetection {
 
     private MergeDetection mergeDetector;
 
     /**
      * Default constructor.
      */
-    public DirectionalBasedMergeDetection() {
+    public DirectionBasedMergeDetection() {
         this.mergeDetector = new RadiusOverlapMergeDetection();
     }
 

@@ -22,11 +22,7 @@
 package net.sourceforge.cilib.pso.niching;
 
 import com.google.common.collect.Lists;
-import fj.Effect;
-import fj.F;
-import fj.P1;
 import fj.P2;
-import fj.data.Zipper;
 import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
@@ -36,7 +32,6 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
@@ -44,10 +39,9 @@ import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 import net.sourceforge.cilib.pso.niching.absorption.AbsorptionStrategy;
 import net.sourceforge.cilib.pso.niching.absorption.StandardAbsorptionStrategy;
-import net.sourceforge.cilib.pso.niching.merging.MergeDetection;
+import net.sourceforge.cilib.pso.niching.merging.MergeOperation;
 import net.sourceforge.cilib.pso.niching.merging.MergeStrategy;
-import net.sourceforge.cilib.pso.niching.merging.RadiusOverlapMergeDetection;
-import net.sourceforge.cilib.pso.niching.merging.StandardMergeStrategy;
+import net.sourceforge.cilib.pso.niching.merging.StandardMergeOperation;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
@@ -77,8 +71,7 @@ public class Niche extends MultiPopulationBasedAlgorithm {
     protected NicheIdentificationStrategy nicheIdentificationStrategy;
     protected NicheCreationStrategy swarmCreationStrategy;
     protected AbsorptionStrategy absorptionStrategy;
-    protected MergeStrategy mergeStrategy;
-    protected MergeDetection mergeDetection;
+    protected MergeOperation mergeOperation;
     protected Particle mainSwarmParticle;
 
     /**
@@ -104,8 +97,7 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         this.nicheIdentificationStrategy = new StandardNicheIdentificationStrategy();
         this.swarmCreationStrategy = new StandardSwarmCreationStrategy();
         this.absorptionStrategy = new StandardAbsorptionStrategy();
-        this.mergeStrategy = new StandardMergeStrategy();
-        this.mergeDetection = new RadiusOverlapMergeDetection();
+        this.mergeOperation = new StandardMergeOperation();
     }
 
     /**
@@ -128,20 +120,6 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         this.mainSwarm.setOptimisationProblem(getOptimisationProblem());
 
         this.mainSwarm.performInitialisation();
-    }
-    
-    fj.data.List<PopulationBasedAlgorithm> merge(fj.data.List<PopulationBasedAlgorithm> pops) {
-        if (pops.isEmpty()) {
-            return fj.data.List.nil();
-        }
-        
-        if (pops.length() == 1) {
-            return fj.data.List.single(pops.head());
-        }
-        
-        return fj.data.List.cons(
-                pops.filter(mergeDetection.f(pops.head())).foldLeft(mergeStrategy, pops.head()),
-                merge(pops.removeAll(mergeDetection.f(pops.head()))));
     }
 
     /**
@@ -168,8 +146,10 @@ public class Niche extends MultiPopulationBasedAlgorithm {
             subSwarm.performIteration(); // TODO: There may be an issue with this and the number of iterations
         }
 
-        fj.data.List<PopulationBasedAlgorithm> algs = fj.data.List.iterableList(subPopulationsAlgorithms);
-        subPopulationsAlgorithms = Lists.newArrayList(merge(algs).toCollection());
+        fj.data.List<PopulationBasedAlgorithm> algs = fj.data.List.<PopulationBasedAlgorithm>iterableList(subPopulationsAlgorithms);
+        P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> newPops = mergeOperation.f(mainSwarm, algs);
+        subPopulationsAlgorithms = Lists.newArrayList(newPops._2().toCollection());
+        mainSwarm = newPops._1();
 
         this.absorptionStrategy.absorb(this);
 
@@ -224,15 +204,11 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         this.absorptionStrategy = absorptionStrategy;
     }
 
-    /**
-     * @param mergeStrategy the mergeStrategy to set
-     */
-    public void setMergeStrategy(MergeStrategy mergeStrategy) {
-        this.mergeStrategy = mergeStrategy;
+    public MergeOperation getMergeOperation() {
+        return mergeOperation;
     }
 
-    public Particle getMainSwarmParticle(){
-        return mainSwarmParticle;
+    public void setMergeOperation(MergeOperation mergeOperation) {
+        this.mergeOperation = mergeOperation;
     }
-
 }
