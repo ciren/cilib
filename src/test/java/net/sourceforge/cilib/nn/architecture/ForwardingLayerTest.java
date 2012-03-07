@@ -46,13 +46,15 @@ public class ForwardingLayerTest {
         layer = new ForwardingLayer();
         layer.setSource(new PatternInputSource(pattern));
         layer.add(new BiasNeuron());
+        layer.add(new BiasNeuron());
+        layer.add(new BiasNeuron());
     }
 
     @Test
     public void testNeuralInput() {
         Vector refInput = Vector.copyOf(input);
         refInput.add(Real.valueOf(-1.0));
-        Assert.assertEquals(6, layer.size());
+        Assert.assertEquals(8, layer.size());
 
         for (int i = 0; i < refInput.size(); i++) {
             Assert.assertEquals(refInput.doubleValueOf(i), layer.getNeuralInput(i), Maths.EPSILON);
@@ -62,6 +64,8 @@ public class ForwardingLayerTest {
     @Test
     public void testGetActivations() {
         Vector refInput = Vector.copyOf(input);
+        refInput.add(Real.valueOf(-1.0));
+        refInput.add(Real.valueOf(-1.0));
         refInput.add(Real.valueOf(-1.0));
         Assert.assertEquals(refInput, layer.getActivations());
     }
