@@ -27,14 +27,14 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 
 /**
- * Returns a copy of the second sub-swarm.
+ * Returns a copy of the first sub-swarm.
  * 
  * @author filipe
  */
 public class SingleSwarmMergeStrategy extends MergeStrategy {
     @Override
     public PopulationBasedAlgorithm f(PopulationBasedAlgorithm subSwarm1, PopulationBasedAlgorithm subSwarm2) {
-        PopulationBasedAlgorithm newSwarm = subSwarm2.getClone();        
+        PopulationBasedAlgorithm newSwarm = subSwarm1.getClone();
         Particle neighbourhoodBest = (Particle) newSwarm.getTopology().getBestEntity(new SocialBestFitnessComparator());
         
         for (Entity e : newSwarm.getTopology()) {

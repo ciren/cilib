@@ -40,7 +40,7 @@ public class StandardMergeStrategy extends MergeStrategy {
         PopulationBasedAlgorithm newSwarm = new SingleSwarmMergeStrategy().f(subSwarm1, subSwarm2);
         Particle neighbourhoodBest = (Particle) Topologies.getBestEntity(newSwarm.getTopology(), new SocialBestFitnessComparator());
 
-        for (Entity e : subSwarm1.getTopology()) {
+        for (Entity e : subSwarm2.getTopology()) {
             Particle p = (Particle) e.getClone();
             p.setNeighbourhoodBest(neighbourhoodBest);
             p.setParticleBehavior(neighbourhoodBest.getParticleBehavior());

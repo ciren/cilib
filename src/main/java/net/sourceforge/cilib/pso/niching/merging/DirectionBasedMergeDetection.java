@@ -23,11 +23,15 @@ package net.sourceforge.cilib.pso.niching.merging;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * A merge detection strategy which indicates swarms can merge if they overlap
- * and if they are moving in the same direction.
+ * and if they are moving in the same direction. They are moving in the same 
+ * direction if the dot product of the velocities of the best particle from each 
+ * swarm is greater than zero i.e. the angle between their direction of motion is
+ * greater than zero and less than 90 degrees.
  * 
  * @author wayne
  * @author filipe
@@ -54,15 +58,15 @@ public class DirectionBasedMergeDetection extends MergeDetection {
      */
     @Override
     public Boolean f(PopulationBasedAlgorithm swarm1, PopulationBasedAlgorithm swarm2) {
-        Particle swarm1Best = (Particle) swarm1.getTopology().getBestEntity();
-        Particle swarm2Best = (Particle) swarm2.getTopology().getBestEntity();
+        Particle swarm1Best = (Particle) swarm1.getTopology().getBestEntity(new SocialBestFitnessComparator());
+        Particle swarm2Best = (Particle) swarm2.getTopology().getBestEntity(new SocialBestFitnessComparator());
         
         Vector velocity1 = ((Vector) swarm1Best.getVelocity()).normalize();
         Vector velocity2 = ((Vector) swarm2Best.getVelocity()).normalize();
         
         double direction = velocity1.dot(velocity2);
         
-        return direction < 0 && mergeDetector.f(swarm1, swarm2);
+        return direction > 0 && mergeDetector.f(swarm1, swarm2);
     }
 
     /**

@@ -25,7 +25,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 
 /**
  * Takes all the entities of the second sub-swarm, reinitializes those entities
- * in the second sub-swarm and returns a copy of that sub-swarm.
+ * in the first sub-swarm and returns the merged sub-swarm.
  * 
  * @author wayne
  * @author filipe

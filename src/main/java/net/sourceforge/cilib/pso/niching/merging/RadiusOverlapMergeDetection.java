@@ -70,14 +70,14 @@ public class RadiusOverlapMergeDetection extends MergeDetection {
         swarm2.accept(radiusVisitor);
         double swarm2Radius = radiusVisitor.getResult().doubleValue();
         
-        Vector swarm1GBest = (Vector) swarm1.getTopology().getBestEntity().getCandidateSolution();
-        Vector swarm2GBest = (Vector) swarm2.getTopology().getBestEntity().getCandidateSolution();
+        Vector swarm1GBest = (Vector) swarm1.getBestSolution().getPosition();
+        Vector swarm2GBest = (Vector) swarm2.getBestSolution().getPosition();
 
         double distance = distanceMeasure.distance(swarm1GBest, swarm2GBest);
         
         //special case if both radii approximate 0 or if the swarms intersect
-        if (Math.abs(swarm1Radius) == Maths.EPSILON && Math.abs(swarm2Radius) == Maths.EPSILON 
-                && distance < threshold.getParameter() || distance < swarm1Radius + swarm2Radius) {
+        if ((Math.abs(swarm1Radius) == Maths.EPSILON && Math.abs(swarm2Radius) == Maths.EPSILON 
+                && distance < threshold.getParameter()) || (distance < swarm1Radius + swarm2Radius)) {
             return true;
         }
         

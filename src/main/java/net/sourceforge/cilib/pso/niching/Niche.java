@@ -142,13 +142,13 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         PopulationBasedAlgorithm newMainSwarm = subSwarms.tail()
                 .filter(mergeDetection.f(subSwarms.head()))
                 .foldLeft(mainSwarmMergeStrategy, mainSwarm);
+
+        PopulationBasedAlgorithm mergedSwarms = subSwarms.tail().filter(mergeDetection.f(subSwarms.head())).foldLeft(mergeStrategy.flip(), subSwarms.head());
+
+        P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> newSwarms = 
+                this.merge(newMainSwarm, subSwarms.tail().removeAll(mergeDetection.f(subSwarms.head())));
         
-        return this.merge(newMainSwarm, 
-                fj.data.List.cons(
-                    subSwarms.tail().filter(mergeDetection.f(subSwarms.head())).foldLeft(mergeStrategy, subSwarms.head()),
-                    subSwarms.tail().removeAll(mergeDetection.f(subSwarms.head()))
-                )
-            );
+        return P.p(newSwarms._1(), fj.data.List.cons(mergedSwarms, newSwarms._2()));
     }
 
     /**
