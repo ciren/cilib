@@ -60,7 +60,6 @@ public class GBestTopology<E extends Entity> extends AbstractTopology<E> {
     public GBestTopology(GBestTopology<E> copy) {
         this.entities = new LinkedList<E>();
         for (E entity : copy.entities) {
-            entity.reinitialise();
             this.entities.add((E) entity.getClone());
         }
     }
