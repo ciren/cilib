@@ -33,7 +33,9 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
+import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.pso.PSO;
@@ -179,8 +181,31 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> newPops = merge(mainSwarm, algs);
         subPopulationsAlgorithms = Lists.newArrayList(newPops._2().toCollection());
         mainSwarm = newPops._1();
+        
+        fj.data.List<PopulationBasedAlgorithm> singlePops = fj.data.List.<PopulationBasedAlgorithm>nil();
+        for (Entity e : mainSwarm.getTopology()) {
+            PSO tmp = new PSO();
+            tmp.setTopology(new GBestTopology<Particle>());
+            tmp.getTopology().add((Particle) e);
 
-        this.absorptionStrategy.absorb(this);
+            singlePops.cons(tmp);
+        }
+        
+        List<PopulationBasedAlgorithm> newSubs = new ArrayList<PopulationBasedAlgorithm>();
+        for (PopulationBasedAlgorithm pba : subPopulationsAlgorithms) {            
+            
+            P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> newNewPops = merge(pba, singlePops);
+            singlePops = newNewPops._2();
+
+            newSubs.add(newNewPops._1());
+        }
+        
+        Topology<Particle> newMainSwarm = (Topology<Particle>) mainSwarm.getTopology().getClone();
+        for (PopulationBasedAlgorithm pba : Lists.newArrayList(singlePops.toCollection())) {
+            newMainSwarm.add((Particle) pba.getTopology().get(0));
+        }
+
+        //this.absorptionStrategy.absorb(this);
 
         List<Entity> niches = this.nicheIdentificationStrategy.identify(mainSwarm.getTopology());
         this.swarmCreationStrategy.create(this, niches);
