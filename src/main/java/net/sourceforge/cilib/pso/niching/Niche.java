@@ -21,17 +21,12 @@
  */
 package net.sourceforge.cilib.pso.niching;
 
-import net.sourceforge.cilib.pso.niching.creation.NicheCreationStrategy;
-import net.sourceforge.cilib.pso.niching.creation.StandardNicheIdentificationStrategy;
-import net.sourceforge.cilib.pso.niching.creation.NicheDetection;
-import net.sourceforge.cilib.pso.niching.creation.StandardSwarmCreationStrategy;
 import com.google.common.collect.Lists;
 import fj.F;
-import fj.F2;
 import fj.P;
 import fj.P2;
+import fj.data.List;
 import java.util.ArrayList;
-import java.util.List;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
@@ -41,11 +36,14 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
+import net.sourceforge.cilib.pso.niching.creation.NicheCreationStrategy;
+import net.sourceforge.cilib.pso.niching.creation.NicheDetection;
+import net.sourceforge.cilib.pso.niching.creation.StandardNicheIdentificationStrategy;
+import net.sourceforge.cilib.pso.niching.creation.StandardSwarmCreationStrategy;
 import net.sourceforge.cilib.pso.niching.merging.*;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
@@ -141,6 +139,32 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         this.mainSwarm.performInitialisation();
     }
     
+    public static class Swarms extends P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> {
+        
+        private final PopulationBasedAlgorithm mainSwarm;
+        private final List<PopulationBasedAlgorithm> subSwarms;
+        
+        public Swarms(PopulationBasedAlgorithm mainSwarm, List<PopulationBasedAlgorithm> subSwarms) {
+            this.mainSwarm = mainSwarm;
+            this.subSwarms = subSwarms;
+        }
+        
+        public static Swarms of(PopulationBasedAlgorithm mainSwarm, List<PopulationBasedAlgorithm> subSwarms) {
+            return new Swarms(mainSwarm, subSwarms);
+        }
+
+        @Override
+        public PopulationBasedAlgorithm _1() {
+            return mainSwarm;
+        }
+
+        @Override
+        public List<PopulationBasedAlgorithm> _2() {
+            return subSwarms;
+        }
+        
+    }
+    
     /**
      * Merges sub-swarms that satisfy given conditions. Also handles merging with
      * the main swarm if applicable.
@@ -151,16 +175,16 @@ public class Niche extends MultiPopulationBasedAlgorithm {
      * 
      * @return A tuple containing the main swarm and the sub-swarms.
      */
-    public static F<P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>>, P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>>> merge(final MergeDetection mergeDetection, final MergeStrategy mainSwarmMergeStrategy, final MergeStrategy subSwarmsMergeStrategy) {
-        return new F<P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>>, P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>>>() {
+    public static F<Swarms, Swarms> merge(final MergeDetection mergeDetection, final MergeStrategy mainSwarmMergeStrategy, final MergeStrategy subSwarmsMergeStrategy) {
+        return new F<Swarms, Swarms>() {
             @Override
-            public P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> f(P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> swarms) {
+            public Swarms f(Swarms swarms) {
                 if (swarms._2().isEmpty()) {
-                    return P.p(swarms._1(), fj.data.List.<PopulationBasedAlgorithm>nil());
+                    return Swarms.of(swarms._1(), List.<PopulationBasedAlgorithm>nil());
                 }
 
                 if (swarms._2().length() == 1) {
-                    return P.p(swarms._1(), fj.data.List.single(swarms._2().head()));
+                    return Swarms.of(swarms._1(), List.single(swarms._2().head()));
                 }
 
                 PopulationBasedAlgorithm newMainSwarm = swarms._2().tail()
@@ -171,10 +195,10 @@ public class Niche extends MultiPopulationBasedAlgorithm {
                         .filter(mergeDetection.f(swarms._2().head()))
                         .foldLeft(subSwarmsMergeStrategy.flip(), swarms._2().head());
 
-                P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> newSwarms = 
-                        this.f(P.p(newMainSwarm, swarms._2().tail().removeAll(mergeDetection.f(swarms._2().head()))));
+                Swarms newSwarms = 
+                        this.f(Swarms.of(newMainSwarm, swarms._2().tail().removeAll(mergeDetection.f(swarms._2().head()))));
 
-                return P.p(newSwarms._1(), fj.data.List.cons(mergedSwarms, newSwarms._2()));
+                return Swarms.of(newSwarms._1(), List.cons(mergedSwarms, newSwarms._2()));
             }        
         };
     }
@@ -189,20 +213,22 @@ public class Niche extends MultiPopulationBasedAlgorithm {
      * 
      * @return A tuple containing the main swarm and the sub-swarm.
      */
-    public static F2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>, P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm>> absorbSingleSwarm(final MergeDetection absorptionDetection, final MergeStrategy mainSwarmAbsorptionStrategy, final MergeStrategy subSwarmsAbsorptionStrategy) {
-        return new F2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>, P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm>>() {
+    public static F<Swarms, P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm>> absorbSingleSwarm(final MergeDetection absorptionDetection,
+                                                                                                      final MergeStrategy mainSwarmAbsorptionStrategy,
+                                                                                                      final MergeStrategy subSwarmsAbsorptionStrategy) {
+        return new F<Swarms, P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm>>() {
             @Override
-            public P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> f(PopulationBasedAlgorithm absorgingSwarm, fj.data.List<PopulationBasedAlgorithm> mainSwarm) {
-                PopulationBasedAlgorithm newSubSwarm = mainSwarm
-                        .filter(absorptionDetection.f(absorgingSwarm))
-                        .foldLeft(subSwarmsAbsorptionStrategy, absorgingSwarm);
+            public P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> f(Swarms swarms) {
+                PopulationBasedAlgorithm newSubSwarm = swarms._2()
+                        .filter(absorptionDetection.f(swarms._1()))
+                        .foldLeft(subSwarmsAbsorptionStrategy, swarms._1());
 
-                PopulationBasedAlgorithm unmergedSwarms = mainSwarm
-                        .removeAll(absorptionDetection.f(absorgingSwarm))
+                PopulationBasedAlgorithm unmergedSwarms = swarms._2()
+                        .removeAll(absorptionDetection.f(swarms._1()))
                         .foldLeft1(new StandardMergeStrategy());
                 
-                PopulationBasedAlgorithm mergedSwarms = mainSwarm
-                        .filter(absorptionDetection.f(absorgingSwarm))
+                PopulationBasedAlgorithm mergedSwarms = swarms._2()
+                        .filter(absorptionDetection.f(swarms._1()))
                         .foldLeft1(new StandardMergeStrategy());
                 
                 PopulationBasedAlgorithm newMainSwarm = mainSwarmAbsorptionStrategy.f(unmergedSwarms, mergedSwarms);
@@ -221,22 +247,53 @@ public class Niche extends MultiPopulationBasedAlgorithm {
      * @param subSwarmsAbsorptionStrategy
      * @return A tuple containing the mainSwarm and a list of sub-swarms.
      */
-    public static F<P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>>, P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>>> absorb(final MergeDetection absorptionDetection, final MergeStrategy mainSwarmAbsorptionStrategy, final MergeStrategy subSwarmsAbsorptionStrategy) {
-        return new F<P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>>, P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>>>() {
+    public static F<Swarms, Swarms> absorb(final MergeDetection absorptionDetection,
+                                           final MergeStrategy mainSwarmAbsorptionStrategy,
+                                           final MergeStrategy subSwarmsAbsorptionStrategy) {
+        return new F<Swarms, Swarms>() {
             @Override
-            public P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> f(P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> swarms) {
+            public Swarms f(Swarms swarms) {
                 if (swarms._2().isEmpty()) {
-                    return P.p(swarms._1(), fj.data.List.<PopulationBasedAlgorithm>nil());
+                    return Swarms.of(swarms._1(), List.<PopulationBasedAlgorithm>nil());
                 }
                 
                 P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> newPopulations = 
                         absorbSingleSwarm(absorptionDetection, mainSwarmAbsorptionStrategy, subSwarmsAbsorptionStrategy)
-                        .f(swarms._2().head(), swarmToAlgorithms.f(swarms._1()));
+                        .f(Swarms.of(swarms._2().head(), swarmToAlgorithms.f(swarms._1())));
                 
-                P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> joinedPopulations = 
-                        this.f(P.p(newPopulations._1(), swarms._2().tail()));
+                Swarms joinedPopulations = 
+                        this.f(Swarms.of(newPopulations._1(), swarms._2().tail()));
                 
-                return P.p(joinedPopulations._1(), fj.data.List.cons(newPopulations._2(), joinedPopulations._2()));
+                return Swarms.of(joinedPopulations._1(), List.cons(newPopulations._2(), joinedPopulations._2()));
+            }
+        };
+    }
+    
+    public static F<Swarms, Swarms> createNiches(final NicheDetection nicheDetection,
+                                                 final NicheCreationStrategy creationStrategy,
+                                                 final MergeStrategy subSwarmsAbsorptionStrategy) {
+        return new F<Swarms, Swarms>() {
+            @Override
+            public Swarms f(Swarms swarms) {
+                List.<Entity>iterableList((Topology<Entity>) swarms._1().getTopology())
+                        .filter(nicheDetection).map(creationStrategy.flip().curry());
+                
+                List<Entity> entities = List.<Entity>iterableList((Topology<Entity>) swarms._1().getTopology());
+                
+                List<PopulationBasedAlgorithm> extraSubswarms = List.<PopulationBasedAlgorithm>nil();
+                for (Entity e : entities.filter(nicheDetection)) {
+                    extraSubswarms.cons(creationStrategy.f(swarms._1(), e));
+                }
+                
+                /*PopulationBasedAlgorithm unmergedSwarms = entities
+                        .removeAll(nicheDetection)
+                        .foldLeft1(new StandardMergeStrategy());
+                
+                PopulationBasedAlgorithm mergedSwarms = entities
+                        .filter(nicheDetection)
+                        .foldLeft1(new StandardMergeStrategy());*/
+                
+                return null;
             }
         };
     }
@@ -244,20 +301,29 @@ public class Niche extends MultiPopulationBasedAlgorithm {
     /**
      * A function that puts each entity of a swarm into its own swarm.
      */
-    public static F<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> swarmToAlgorithms = new F<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>>() {
+    public static F<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> swarmToAlgorithms = new F<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>>() {
         @Override
-        public fj.data.List<PopulationBasedAlgorithm> f(final PopulationBasedAlgorithm a) {
-            return fj.data.List.<Entity>iterableList((Topology<Entity>) a.getTopology()).map(new F<Entity, PopulationBasedAlgorithm>() {
-                @Override
-                public PopulationBasedAlgorithm f(Entity e) {
-                    PSO tmp = (PSO) a.getClone();
-                    tmp.setTopology(new GBestTopology<Particle>());
-                    tmp.getTopology().add((Particle) e);
-
-                    return (PopulationBasedAlgorithm) tmp;
-                }
-            });
+        public List<PopulationBasedAlgorithm> f(final PopulationBasedAlgorithm a) {
+            return entitiesToAlgorithms.f((Topology<Entity>) a.getTopology());
         }  
+    };
+    
+    public static F<Entity, PopulationBasedAlgorithm> entityToAlgorithm = new F<Entity, PopulationBasedAlgorithm>() {
+        @Override
+        public PopulationBasedAlgorithm f(Entity e) {
+            PSO tmp = new PSO();
+            tmp.getTopology().add((Particle) e);
+
+            return (PopulationBasedAlgorithm) tmp;
+        }
+    };
+    
+    public static F<Iterable<Entity>, List<PopulationBasedAlgorithm>> entitiesToAlgorithms = new F<Iterable<Entity>, List<PopulationBasedAlgorithm>>() {
+
+        @Override
+        public List<PopulationBasedAlgorithm> f(Iterable<Entity> a) {
+            return List.<Entity>iterableList(a).map(entityToAlgorithm);
+        }
     };
 
     /**
@@ -284,11 +350,11 @@ public class Niche extends MultiPopulationBasedAlgorithm {
             subSwarm.performIteration(); // TODO: There may be an issue with this and the number of iterations
         }
 
-        fj.data.List<PopulationBasedAlgorithm> subSwarms = fj.data.List.<PopulationBasedAlgorithm>iterableList(subPopulationsAlgorithms);
-        P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> newPops = P.p(mainSwarm, subSwarms);
+        List<PopulationBasedAlgorithm> subSwarms = List.<PopulationBasedAlgorithm>iterableList(subPopulationsAlgorithms);
+        Swarms newPops = Swarms.of(mainSwarm, subSwarms);
         
-        newPops = merge(mergeDetection, mainSwarmMergeStrategy, subSwarmsMergeStrategy)
-                .andThen(absorb(absorptionDetection, mainSwarmAbsorptionStrategy, subSwarmsAbsorptionStrategy)).f(newPops);
+        newPops = merge(mergeDetection, mainSwarmMergeStrategy, subSwarmsMergeStrategy).andThen(
+                  absorb(absorptionDetection, mainSwarmAbsorptionStrategy, subSwarmsAbsorptionStrategy)).f(newPops);
         
         subPopulationsAlgorithms = Lists.newArrayList(newPops._2().toCollection());
         mainSwarm = newPops._1();
@@ -318,8 +384,8 @@ public class Niche extends MultiPopulationBasedAlgorithm {
      * @return The list of best solutions for each niche.
      */
     @Override
-    public List<OptimisationSolution> getSolutions() {
-        List<OptimisationSolution> list = new ArrayList<OptimisationSolution>();
+    public java.util.List<OptimisationSolution> getSolutions() {
+        java.util.List<OptimisationSolution> list = new ArrayList<OptimisationSolution>();
 
         for (PopulationBasedAlgorithm subSwarm : this)
             list.add(subSwarm.getBestSolution());

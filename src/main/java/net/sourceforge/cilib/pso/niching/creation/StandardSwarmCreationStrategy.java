@@ -21,10 +21,7 @@
  */
 package net.sourceforge.cilib.pso.niching.creation;
 
-import fj.P2;
 import java.util.Arrays;
-import java.util.List;
-import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
@@ -33,7 +30,8 @@ import net.sourceforge.cilib.entity.visitor.ClosestEntityVisitor;
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
-import net.sourceforge.cilib.pso.niching.Niche;
+import net.sourceforge.cilib.pso.particle.ParticleBehavior;
+import net.sourceforge.cilib.pso.velocityprovider.GCVelocityProvider;
 
 /**
  * <p>
@@ -56,64 +54,22 @@ import net.sourceforge.cilib.pso.niching.Niche;
 public class StandardSwarmCreationStrategy extends NicheCreationStrategy {
     
     private PopulationBasedAlgorithm subSwarm;
+    private ParticleBehavior behavior;
     
     /**
      * Default constructor.
      */
     public StandardSwarmCreationStrategy() {
         this.subSwarm = new PSO();
-        ((SynchronousIterationStrategy) ((PSO) this.subSwarm).getIterationStrategy()).setBoundaryConstraint(new ReinitialisationBoundary());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void create(Niche algorithm, List<Entity> niches) {
-        /*Topology<? extends Entity> mainSwarm = algorithm.getMainSwarm().getTopology();
-
-        if (mainSwarm.size() < 2)
-            return;
-
-        for (int i = 0; i < niches.size(); i++) {
-            Entity niche = niches.get(i);
-
-            // Determine the closest Entity to the current
-            ClosestEntityVisitor closestEntityVisitor = new ClosestEntityVisitor();
-            closestEntityVisitor.setTargetEntity(niche);
-            mainSwarm.accept(closestEntityVisitor);
-
-            Particle nicheMainParticle = (Particle) niche;
-            Particle nicheClosestParticle = (Particle) closestEntityVisitor.getResult();
-
-            mainSwarm.remove(nicheMainParticle);
-            mainSwarm.remove(nicheClosestParticle);
-
-            niches.remove(nicheMainParticle);
-            niches.remove(nicheClosestParticle);
-
-            nicheMainParticle.setNeighbourhoodBest(nicheMainParticle);
-            nicheClosestParticle.setNeighbourhoodBest(nicheMainParticle);
-
-            PSO pso = subSwarm.getClone();
-            pso.setOptimisationProblem(algorithm.getOptimisationProblem());
-            pso.getTopology().add(nicheMainParticle);
-            pso.getTopology().add(nicheClosestParticle);
-
-            // Add the newly created niche to the list of maintained sub populations.
-            algorithm.addPopulationBasedAlgorithm(pso);
-        }*/
-    }
-
-    /**
-     * Sets the type of the subswarm to use.
-     * @param subSwarm 
-     */
-    public void setSubSwarm(PSO subSwarm) {
-        this.subSwarm = subSwarm;
+        ((SynchronousIterationStrategy) ((PSO) this.subSwarm).getIterationStrategy())
+                .setBoundaryConstraint(new ReinitialisationBoundary());
+        
+        this.behavior = new ParticleBehavior();
+        this.behavior.setVelocityProvider(new GCVelocityProvider());
     }
 
     @Override
-    public P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> f(PopulationBasedAlgorithm a, Entity b) {
+    public PopulationBasedAlgorithm f(PopulationBasedAlgorithm a, Entity b) {
         ClosestEntityVisitor closestEntityVisitor = new ClosestEntityVisitor();
         closestEntityVisitor.setTargetEntity(b);
         a.accept(closestEntityVisitor);
@@ -124,12 +80,29 @@ public class StandardSwarmCreationStrategy extends NicheCreationStrategy {
         nicheMainParticle.setNeighbourhoodBest(nicheMainParticle);
         nicheClosestParticle.setNeighbourhoodBest(nicheMainParticle);
         
+        nicheMainParticle.setParticleBehavior(behavior.getClone());
+        nicheClosestParticle.setParticleBehavior(behavior.getClone());
+        
         PopulationBasedAlgorithm newSubSwarm = subSwarm.getClone();
         newSubSwarm.setOptimisationProblem(a.getOptimisationProblem());
         ((Topology<Particle>) newSubSwarm.getTopology()).addAll(Arrays.asList(nicheMainParticle, nicheClosestParticle));
         
-        //todo main swarm removal
-        
-        return null;
+        return newSubSwarm;
+    }
+
+    public void setSubSwarm(PopulationBasedAlgorithm subSwarm) {
+        this.subSwarm = subSwarm;
+    }
+
+    public PopulationBasedAlgorithm getSubSwarm() {
+        return subSwarm;
+    }
+
+    public void setBehavior(ParticleBehavior behavior) {
+        this.behavior = behavior;
+    }
+
+    public ParticleBehavior getBehavior() {
+        return behavior;
     }
 }
