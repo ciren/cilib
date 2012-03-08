@@ -19,8 +19,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.niching;
+package net.sourceforge.cilib.pso.niching.creation;
 
+import fj.P2;
+import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
@@ -31,6 +33,7 @@ import net.sourceforge.cilib.entity.visitor.ClosestEntityVisitor;
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
+import net.sourceforge.cilib.pso.niching.Niche;
 
 /**
  * <p>
@@ -50,24 +53,23 @@ import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrateg
  * to still operate.
  * </p>
  */
-public class StandardSwarmCreationStrategy implements NicheCreationStrategy {
+public class StandardSwarmCreationStrategy extends NicheCreationStrategy {
     
-    private PSO subSwarm;
+    private PopulationBasedAlgorithm subSwarm;
     
     /**
      * Default constructor.
      */
     public StandardSwarmCreationStrategy() {
         this.subSwarm = new PSO();
-        ((SynchronousIterationStrategy) this.subSwarm.getIterationStrategy()).setBoundaryConstraint(new ReinitialisationBoundary());
+        ((SynchronousIterationStrategy) ((PSO) this.subSwarm).getIterationStrategy()).setBoundaryConstraint(new ReinitialisationBoundary());
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
     public void create(Niche algorithm, List<Entity> niches) {
-        Topology<? extends Entity> mainSwarm = algorithm.getMainSwarm().getTopology();
+        /*Topology<? extends Entity> mainSwarm = algorithm.getMainSwarm().getTopology();
 
         if (mainSwarm.size() < 2)
             return;
@@ -99,7 +101,7 @@ public class StandardSwarmCreationStrategy implements NicheCreationStrategy {
 
             // Add the newly created niche to the list of maintained sub populations.
             algorithm.addPopulationBasedAlgorithm(pso);
-        }
+        }*/
     }
 
     /**
@@ -108,5 +110,26 @@ public class StandardSwarmCreationStrategy implements NicheCreationStrategy {
      */
     public void setSubSwarm(PSO subSwarm) {
         this.subSwarm = subSwarm;
+    }
+
+    @Override
+    public P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> f(PopulationBasedAlgorithm a, Entity b) {
+        ClosestEntityVisitor closestEntityVisitor = new ClosestEntityVisitor();
+        closestEntityVisitor.setTargetEntity(b);
+        a.accept(closestEntityVisitor);
+        
+        Particle nicheMainParticle = (Particle) b.getClone();
+        Particle nicheClosestParticle = (Particle) closestEntityVisitor.getResult().getClone();
+        
+        nicheMainParticle.setNeighbourhoodBest(nicheMainParticle);
+        nicheClosestParticle.setNeighbourhoodBest(nicheMainParticle);
+        
+        PopulationBasedAlgorithm newSubSwarm = subSwarm.getClone();
+        newSubSwarm.setOptimisationProblem(a.getOptimisationProblem());
+        ((Topology<Particle>) newSubSwarm.getTopology()).addAll(Arrays.asList(nicheMainParticle, nicheClosestParticle));
+        
+        //todo main swarm removal
+        
+        return null;
     }
 }

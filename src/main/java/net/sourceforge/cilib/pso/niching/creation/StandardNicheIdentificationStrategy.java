@@ -19,17 +19,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.niching;
+package net.sourceforge.cilib.pso.niching.creation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import fj.data.HashMap;
+import fj.data.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.Stats;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * <p>
@@ -45,24 +43,53 @@ import net.sourceforge.cilib.math.Stats;
  * result for a new niching location.
  * </p>
  */
-public class StandardNicheIdentificationStrategy implements NicheIdentificationStrategy {
+public class StandardNicheIdentificationStrategy extends NicheDetection {
 
     private ControlParameter threshold;
     private ControlParameter stationaryCounter;
-    private Map<Entity, List<Double>> entityFitness;
+    private HashMap<Entity, List<Double>> entityFitness;
 
     public StandardNicheIdentificationStrategy() {
         this.threshold = ConstantControlParameter.of(1.0E-6);
         this.stationaryCounter = ConstantControlParameter.of(3.0);
-        this.entityFitness = new HashMap<Entity, List<Double>>();
+        this.entityFitness = HashMap.<Entity, List<Double>>hashMap();
     }
 
     /**
-     * {@inheritDoc}
+     * Get the defined threshold value.
+     * @return The threshold value.
      */
+    public ControlParameter getThreshold() {
+        return threshold;
+    }
+
+    /**
+     * Set the threshold value
+     * @param threshold The value to set.
+     */
+    public void setThreshold(ControlParameter threshold) {
+        this.threshold = threshold;
+    }
+
+    /**
+     * Obtain the stationary counter for the identification process.
+     * @return The value of the stationary counter.
+     */
+    public ControlParameter getStationaryCounter() {
+        return stationaryCounter;
+    }
+
+    /**
+     * Set the stationary counter for the identification process.
+     * @param stationaryCounter The counter value to set.
+     */
+    public void setStationaryCounter(ControlParameter stationaryCounter) {
+        this.stationaryCounter = stationaryCounter;
+    }
+
     @Override
-    public List<Entity> identify(Topology<? extends Entity> topology) {
-        Map<Entity, Double> stdev = new HashMap<Entity, Double>();
+    public Boolean f(Entity entity) {
+        /*Map<Entity, Double> stdev = new HashMap<Entity, Double>();
 
         // Need to clean out old entity + fitness entries.
         List<Entity> removalList = new ArrayList<Entity>();
@@ -108,39 +135,21 @@ public class StandardNicheIdentificationStrategy implements NicheIdentificationS
             }
         }
 
-        return niches;
-    }
+        return niches;*/
 
-    /**
-     * Get the defined threshold value.
-     * @return The threshold value.
-     */
-    public ControlParameter getThreshold() {
-        return threshold;
-    }
+        // Need to update the list of fitnesses
 
-    /**
-     * Set the threshold value
-     * @param threshold The value to set.
-     */
-    public void setThreshold(ControlParameter threshold) {
-        this.threshold = threshold;
+        if (entityFitness.contains(entity)) {
+            if (entityFitness.get(entity).some().length() >= this.stationaryCounter.getParameter()) {
+                entityFitness.set(entity, entityFitness.get(entity).some().tail());
+            }
+        } else {
+            entityFitness.set(entity, List.<Double>nil());
+        }
+        
+        entityFitness.set(entity, entityFitness.get(entity).some().snoc(entity.getFitness().getValue()));
+        
+        return entityFitness.get(entity).some().length() == (int) this.stationaryCounter.getParameter()
+                && Stats.stdDeviation(Vector.copyOf(entityFitness.get(entity).some())) < threshold.getParameter();
     }
-
-    /**
-     * Obtain the stationary counter for the identification process.
-     * @return The value of the stationary counter.
-     */
-    public ControlParameter getStationaryCounter() {
-        return stationaryCounter;
-    }
-
-    /**
-     * Set the stationary counter for the identification process.
-     * @param stationaryCounter The counter value to set.
-     */
-    public void setStationaryCounter(ControlParameter stationaryCounter) {
-        this.stationaryCounter = stationaryCounter;
-    }
-
 }

@@ -41,15 +41,15 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
-import net.sourceforge.cilib.pso.niching.absorption.AbsorptionStrategy;
+//import net.sourceforge.cilib.pso.niching.absorption.AbsorptionStrategy;
 import net.sourceforge.cilib.pso.niching.merging.MergeStrategy;
 import net.sourceforge.cilib.pso.niching.Niche;
-import net.sourceforge.cilib.pso.niching.NicheCreationStrategy;
-import net.sourceforge.cilib.pso.niching.NicheIdentificationStrategy;
-import net.sourceforge.cilib.pso.niching.absorption.StandardAbsorptionStrategy;
+import net.sourceforge.cilib.pso.niching.creation.NicheCreationStrategy;
+import net.sourceforge.cilib.pso.niching.creation.NicheDetection;
+//import net.sourceforge.cilib.pso.niching.absorption.StandardAbsorptionStrategy;
 import net.sourceforge.cilib.pso.niching.merging.StandardMergeStrategy;
-import net.sourceforge.cilib.pso.niching.StandardNicheIdentificationStrategy;
-import net.sourceforge.cilib.pso.niching.StandardSwarmCreationStrategy;
+import net.sourceforge.cilib.pso.niching.creation.StandardNicheIdentificationStrategy;
+import net.sourceforge.cilib.pso.niching.creation.StandardSwarmCreationStrategy;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityprovider.GCVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
@@ -62,9 +62,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class DeratingNichePSO extends Niche {
 
     private PopulationBasedAlgorithm mainSwarm;
-    private NicheIdentificationStrategy nicheIdentificationStrategy;
+    private NicheDetection nicheIdentificationStrategy;
     private StandardSwarmCreationStrategy swarmCreationStrategy;
-    private AbsorptionStrategy absorptionStrategy;
+    //private AbsorptionStrategy absorptionStrategy;
     private MergeStrategy mergeStrategy;
     private DeratingMergeStrategy dmergeStrategy;
     private int stopPhase1;
@@ -103,7 +103,7 @@ public class DeratingNichePSO extends Niche {
 
         this.nicheIdentificationStrategy = new StandardNicheIdentificationStrategy();
         this.swarmCreationStrategy = new StandardSwarmCreationStrategy();
-        this.absorptionStrategy = new StandardAbsorptionStrategy();
+        //this.absorptionStrategy = new StandardAbsorptionStrategy();
         this.mergeStrategy = new StandardMergeStrategy();
         this.dmergeStrategy = new DeratingMergeStrategy();
 
@@ -185,9 +185,9 @@ public class DeratingNichePSO extends Niche {
 
         //this.mergeStrategy.merge(this);
 
-        List<Entity> niches = this.nicheIdentificationStrategy.identify(getMainSwarm().getTopology());
+        //List<Entity> niches = this.nicheIdentificationStrategy.identify(getMainSwarm().getTopology());
         
-        this.swarmCreationStrategy.create(this, niches);
+        //this.swarmCreationStrategy.create(this, niches);
     }
 
     protected void runPhase2(){
@@ -195,9 +195,9 @@ public class DeratingNichePSO extends Niche {
             subSwarm.performIteration();
         }
 
-        this.absorptionStrategy.absorb(this);
-        List<Entity> niches = this.nicheIdentificationStrategy.identify(getMainSwarm().getTopology());
-        this.swarmCreationStrategy.create(this, niches);
+        //this.absorptionStrategy.absorb(this);
+        //List<Entity> niches = this.nicheIdentificationStrategy.identify(getMainSwarm().getTopology());
+        //this.swarmCreationStrategy.create(this, niches);
     }
 
     protected void calculateModifiedFunction(){
@@ -255,30 +255,30 @@ public class DeratingNichePSO extends Niche {
     /**
      * @return the nicheIdentificationStrategy
      */
-    public NicheIdentificationStrategy getNicheIdentificationStrategy() {
+    public NicheDetection getNicheIdentificationStrategy() {
         return nicheIdentificationStrategy;
     }
 
     /**
      * @param nicheIdentificationStrategy the nicheIdentificationStrategy to set
      */
-    public void setNicheIdentificationStrategy(NicheIdentificationStrategy nicheIdentificationStrategy) {
+    public void setNicheIdentificationStrategy(NicheDetection nicheIdentificationStrategy) {
         this.nicheIdentificationStrategy = nicheIdentificationStrategy;
     }
 
     /**
      * @return the swarmCreationStrategy
      */
-    public NicheCreationStrategy getSwarmCreationStrategy() {
-        return swarmCreationStrategy;
-    }
+    //public NicheCreationStrategy getSwarmCreationStrategy() {
+    //    return swarmCreationStrategy;
+    //}
 
     /**
      * @return the absorptionStrategy
      */
-    public AbsorptionStrategy getAbsorptionStrategy() {
-        return absorptionStrategy;
-    }
+    //public AbsorptionStrategy getAbsorptionStrategy() {
+    //    return absorptionStrategy;
+    //}
 
     /**
      * @return the mergeStrategy

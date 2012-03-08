@@ -21,7 +21,13 @@
  */
 package net.sourceforge.cilib.pso.niching;
 
+import net.sourceforge.cilib.pso.niching.creation.NicheCreationStrategy;
+import net.sourceforge.cilib.pso.niching.creation.StandardNicheIdentificationStrategy;
+import net.sourceforge.cilib.pso.niching.creation.NicheDetection;
+import net.sourceforge.cilib.pso.niching.creation.StandardSwarmCreationStrategy;
 import com.google.common.collect.Lists;
+import fj.F;
+import fj.F2;
 import fj.P;
 import fj.P2;
 import java.util.ArrayList;
@@ -40,8 +46,6 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
-import net.sourceforge.cilib.pso.niching.absorption.AbsorptionStrategy;
-import net.sourceforge.cilib.pso.niching.absorption.StandardAbsorptionStrategy;
 import net.sourceforge.cilib.pso.niching.merging.*;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
@@ -69,13 +73,16 @@ public class Niche extends MultiPopulationBasedAlgorithm {
 
     protected PopulationBasedAlgorithm mainSwarm;
 
-    protected NicheIdentificationStrategy nicheIdentificationStrategy;
+    protected NicheDetection nicheIdentificationStrategy;
     protected NicheCreationStrategy swarmCreationStrategy;
-    protected AbsorptionStrategy absorptionStrategy;
     
-    protected MergeStrategy mergeStrategy;
+    protected MergeStrategy subSwarmsMergeStrategy;
     protected MergeStrategy mainSwarmMergeStrategy;
     protected MergeDetection mergeDetection;
+    
+    protected MergeStrategy mainSwarmAbsorptionStrategy;
+    protected MergeStrategy subSwarmsAbsorptionStrategy;
+    protected MergeDetection absorptionDetection;
     
     protected Particle mainSwarmParticle;
 
@@ -91,8 +98,7 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         velocityUpdateStrategy.setSocialAcceleration(ConstantControlParameter.of(0.0));
         
         this.mainSwarmParticle = new StandardParticle();
-        this.mainSwarmParticle.setVelocityInitializationStrategy(new RandomInitializationStrategy());        
-
+        this.mainSwarmParticle.setVelocityInitializationStrategy(new RandomInitializationStrategy());
         this.mainSwarmParticle.setVelocityProvider(velocityUpdateStrategy);
         
         PopulationInitialisationStrategy mainSwarmInitialisationStrategy = new ClonedPopulationInitialisationStrategy();
@@ -103,9 +109,12 @@ public class Niche extends MultiPopulationBasedAlgorithm {
 
         this.nicheIdentificationStrategy = new StandardNicheIdentificationStrategy();
         this.swarmCreationStrategy = new StandardSwarmCreationStrategy();
-        this.absorptionStrategy = new StandardAbsorptionStrategy();
         
-        this.mergeStrategy = new StandardMergeStrategy();
+        this.mainSwarmAbsorptionStrategy = new SingleSwarmMergeStrategy();
+        this.subSwarmsAbsorptionStrategy = new StandardMergeStrategy();
+        this.absorptionDetection = new RadiusOverlapMergeDetection();
+        
+        this.subSwarmsMergeStrategy = new StandardMergeStrategy();
         this.mainSwarmMergeStrategy = new SingleSwarmMergeStrategy();
         this.mergeDetection = new RadiusOverlapMergeDetection();
     }
@@ -132,26 +141,124 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         this.mainSwarm.performInitialisation();
     }
     
-    public P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> merge(PopulationBasedAlgorithm mainSwarm, fj.data.List<PopulationBasedAlgorithm> subSwarms) {
-        if (subSwarms.isEmpty()) {
-            return P.p(mainSwarm, fj.data.List.<PopulationBasedAlgorithm>nil());
-        }
-        
-        if (subSwarms.length() == 1) {
-            return P.p(mainSwarm, fj.data.List.single(subSwarms.head()));
-        }
-        
-        PopulationBasedAlgorithm newMainSwarm = subSwarms.tail()
-                .filter(mergeDetection.f(subSwarms.head()))
-                .foldLeft(mainSwarmMergeStrategy, mainSwarm);
+    /**
+     * Merges sub-swarms that satisfy given conditions. Also handles merging with
+     * the main swarm if applicable.
+     * 
+     * @param mergeDetection
+     * @param mainSwarmMergeStrategy
+     * @param subSwarmsMergeStrategy
+     * 
+     * @return A tuple containing the main swarm and the sub-swarms.
+     */
+    public static F<P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>>, P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>>> merge(final MergeDetection mergeDetection, final MergeStrategy mainSwarmMergeStrategy, final MergeStrategy subSwarmsMergeStrategy) {
+        return new F<P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>>, P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>>>() {
+            @Override
+            public P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> f(P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> swarms) {
+                if (swarms._2().isEmpty()) {
+                    return P.p(swarms._1(), fj.data.List.<PopulationBasedAlgorithm>nil());
+                }
 
-        PopulationBasedAlgorithm mergedSwarms = subSwarms.tail().filter(mergeDetection.f(subSwarms.head())).foldLeft(mergeStrategy.flip(), subSwarms.head());
+                if (swarms._2().length() == 1) {
+                    return P.p(swarms._1(), fj.data.List.single(swarms._2().head()));
+                }
 
-        P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> newSwarms = 
-                this.merge(newMainSwarm, subSwarms.tail().removeAll(mergeDetection.f(subSwarms.head())));
-        
-        return P.p(newSwarms._1(), fj.data.List.cons(mergedSwarms, newSwarms._2()));
+                PopulationBasedAlgorithm newMainSwarm = swarms._2().tail()
+                        .filter(mergeDetection.f(swarms._2().head()))
+                        .foldLeft(mainSwarmMergeStrategy, swarms._1());
+
+                PopulationBasedAlgorithm mergedSwarms = swarms._2().tail()
+                        .filter(mergeDetection.f(swarms._2().head()))
+                        .foldLeft(subSwarmsMergeStrategy.flip(), swarms._2().head());
+
+                P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> newSwarms = 
+                        this.f(P.p(newMainSwarm, swarms._2().tail().removeAll(mergeDetection.f(swarms._2().head()))));
+
+                return P.p(newSwarms._1(), fj.data.List.cons(mergedSwarms, newSwarms._2()));
+            }        
+        };
     }
+    
+    /**
+     * Performs absorption between one sub-swarm and the main swarm. Each entity 
+     * in the main swarm is in a swarm of its own.
+     * 
+     * @param absorptionDetection
+     * @param mainSwarmAbsorptionStrategy
+     * @param subSwarmsAbsorptionStrategy
+     * 
+     * @return A tuple containing the main swarm and the sub-swarm.
+     */
+    public static F2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>, P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm>> absorbSingleSwarm(final MergeDetection absorptionDetection, final MergeStrategy mainSwarmAbsorptionStrategy, final MergeStrategy subSwarmsAbsorptionStrategy) {
+        return new F2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>, P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm>>() {
+            @Override
+            public P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> f(PopulationBasedAlgorithm absorgingSwarm, fj.data.List<PopulationBasedAlgorithm> mainSwarm) {
+                PopulationBasedAlgorithm newSubSwarm = mainSwarm
+                        .filter(absorptionDetection.f(absorgingSwarm))
+                        .foldLeft(subSwarmsAbsorptionStrategy, absorgingSwarm);
+
+                PopulationBasedAlgorithm unmergedSwarms = mainSwarm
+                        .removeAll(absorptionDetection.f(absorgingSwarm))
+                        .foldLeft1(new StandardMergeStrategy());
+                
+                PopulationBasedAlgorithm mergedSwarms = mainSwarm
+                        .filter(absorptionDetection.f(absorgingSwarm))
+                        .foldLeft1(new StandardMergeStrategy());
+                
+                PopulationBasedAlgorithm newMainSwarm = mainSwarmAbsorptionStrategy.f(unmergedSwarms, mergedSwarms);
+
+                return P.p(newMainSwarm, newSubSwarm);
+            }        
+        };
+    }
+    
+    /**
+     * Performs absorption between the main swarm and each sub-swarm. Each entity 
+     * in the main swarm is split up into its own swarm.
+     * 
+     * @param absorptionDetection
+     * @param mainSwarmAbsorptionStrategy
+     * @param subSwarmsAbsorptionStrategy
+     * @return A tuple containing the mainSwarm and a list of sub-swarms.
+     */
+    public static F<P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>>, P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>>> absorb(final MergeDetection absorptionDetection, final MergeStrategy mainSwarmAbsorptionStrategy, final MergeStrategy subSwarmsAbsorptionStrategy) {
+        return new F<P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>>, P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>>>() {
+            @Override
+            public P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> f(P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> swarms) {
+                if (swarms._2().isEmpty()) {
+                    return P.p(swarms._1(), fj.data.List.<PopulationBasedAlgorithm>nil());
+                }
+                
+                P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> newPopulations = 
+                        absorbSingleSwarm(absorptionDetection, mainSwarmAbsorptionStrategy, subSwarmsAbsorptionStrategy)
+                        .f(swarms._2().head(), swarmToAlgorithms.f(swarms._1()));
+                
+                P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> joinedPopulations = 
+                        this.f(P.p(newPopulations._1(), swarms._2().tail()));
+                
+                return P.p(joinedPopulations._1(), fj.data.List.cons(newPopulations._2(), joinedPopulations._2()));
+            }
+        };
+    }
+    
+    /**
+     * A function that puts each entity of a swarm into its own swarm.
+     */
+    public static F<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> swarmToAlgorithms = new F<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>>() {
+        @Override
+        public fj.data.List<PopulationBasedAlgorithm> f(final PopulationBasedAlgorithm a) {
+            return fj.data.List.<Entity>iterableList((Topology<Entity>) a.getTopology()).map(new F<Entity, PopulationBasedAlgorithm>() {
+                @Override
+                public PopulationBasedAlgorithm f(Entity e) {
+                    PSO tmp = (PSO) a.getClone();
+                    tmp.setTopology(new GBestTopology<Particle>());
+                    tmp.getTopology().add((Particle) e);
+
+                    return (PopulationBasedAlgorithm) tmp;
+                }
+            });
+        }  
+    };
 
     /**
      * <p>
@@ -164,7 +271,7 @@ public class Niche extends MultiPopulationBasedAlgorithm {
      *   <li>Perform an iteration for each of the contained sub-swarms.</li>
      *   <li>Merge any sub-swarms as defined my the associated {@link MergeStrategy}.</li>
      *   <li>Perform an absorption step defined by a {@link AbsorptionStrategy}.</li>
-     *   <li>Identify any new potential niches using a {@link NicheIdentificationStrategy}.</li>
+     *   <li>Identify any new potential niches using a {@link NicheDetection}.</li>
      *   <li>Create new sub-swarms via a {@link NicheCreationStrategy} for the identified niches.</li>
      * </ol>
      * </p>
@@ -177,38 +284,23 @@ public class Niche extends MultiPopulationBasedAlgorithm {
             subSwarm.performIteration(); // TODO: There may be an issue with this and the number of iterations
         }
 
-        fj.data.List<PopulationBasedAlgorithm> algs = fj.data.List.<PopulationBasedAlgorithm>iterableList(subPopulationsAlgorithms);
-        P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> newPops = merge(mainSwarm, algs);
+        fj.data.List<PopulationBasedAlgorithm> subSwarms = fj.data.List.<PopulationBasedAlgorithm>iterableList(subPopulationsAlgorithms);
+        P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> newPops = P.p(mainSwarm, subSwarms);
+        
+        newPops = merge(mergeDetection, mainSwarmMergeStrategy, subSwarmsMergeStrategy)
+                .andThen(absorb(absorptionDetection, mainSwarmAbsorptionStrategy, subSwarmsAbsorptionStrategy)).f(newPops);
+        
         subPopulationsAlgorithms = Lists.newArrayList(newPops._2().toCollection());
         mainSwarm = newPops._1();
         
-        fj.data.List<PopulationBasedAlgorithm> singlePops = fj.data.List.<PopulationBasedAlgorithm>nil();
-        for (Entity e : mainSwarm.getTopology()) {
-            PSO tmp = new PSO();
-            tmp.setTopology(new GBestTopology<Particle>());
-            tmp.getTopology().add((Particle) e);
-
-            singlePops.cons(tmp);
-        }
-        
-        List<PopulationBasedAlgorithm> newSubs = new ArrayList<PopulationBasedAlgorithm>();
-        for (PopulationBasedAlgorithm pba : subPopulationsAlgorithms) {            
-            
-            P2<PopulationBasedAlgorithm, fj.data.List<PopulationBasedAlgorithm>> newNewPops = merge(pba, singlePops);
-            singlePops = newNewPops._2();
-
-            newSubs.add(newNewPops._1());
-        }
-        
-        Topology<Particle> newMainSwarm = (Topology<Particle>) mainSwarm.getTopology().getClone();
-        for (PopulationBasedAlgorithm pba : Lists.newArrayList(singlePops.toCollection())) {
-            newMainSwarm.add((Particle) pba.getTopology().get(0));
+        for(Entity e : mainSwarm.getTopology()) {
+            if (nicheIdentificationStrategy.f(e)) {
+                //swarm creation
+            }
         }
 
-        //this.absorptionStrategy.absorb(this);
-
-        List<Entity> niches = this.nicheIdentificationStrategy.identify(mainSwarm.getTopology());
-        this.swarmCreationStrategy.create(this, niches);
+        //List<Entity> niches = this.nicheIdentificationStrategy.identify(mainSwarm.getTopology());
+        //this.swarmCreationStrategy.create(this, niches);
     }
 
     /**
@@ -251,13 +343,6 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         this.mainSwarm = mainSwarm;
     }
 
-    /**
-     * @param absorptionStrategy the absorptionStrategy to set
-     */
-    public void setAbsorptionStrategy(AbsorptionStrategy absorptionStrategy) {
-        this.absorptionStrategy = absorptionStrategy;
-    }
-
     public MergeDetection getMergeDetection() {
         return mergeDetection;
     }
@@ -274,11 +359,35 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         this.mainSwarmMergeStrategy = mainSwarmMergeStrategy;
     }
 
-    public MergeStrategy getMergeStrategy() {
-        return mergeStrategy;
+    public MergeStrategy getSubSwarmsMergeStrategy() {
+        return subSwarmsMergeStrategy;
     }
 
-    public void setMergeStrategy(MergeStrategy mergeStrategy) {
-        this.mergeStrategy = mergeStrategy;
+    public void setSubSwarmsMergeStrategy(MergeStrategy subSwarmsMergeStrategy) {
+        this.subSwarmsMergeStrategy = subSwarmsMergeStrategy;
+    }
+
+    public MergeDetection getAbsorptionDetection() {
+        return absorptionDetection;
+    }
+
+    public void setAbsorptionDetection(MergeDetection absorptionDetection) {
+        this.absorptionDetection = absorptionDetection;
+    }
+
+    public MergeStrategy getMainSwarmAbsorptionStrategy() {
+        return mainSwarmAbsorptionStrategy;
+    }
+
+    public void setMainSwarmAbsorptionStrategy(MergeStrategy mainSwarmAbsorptionStrategy) {
+        this.mainSwarmAbsorptionStrategy = mainSwarmAbsorptionStrategy;
+    }
+
+    public MergeStrategy getSubSwarmsAbsorptionStrategy() {
+        return subSwarmsAbsorptionStrategy;
+    }
+
+    public void setSubSwarmsAbsorptionStrategy(MergeStrategy subSwarmsAbsorptionStrategy) {
+        this.subSwarmsAbsorptionStrategy = subSwarmsAbsorptionStrategy;
     }
 }

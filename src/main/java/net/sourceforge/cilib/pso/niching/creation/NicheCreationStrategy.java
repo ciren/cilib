@@ -19,24 +19,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.niching;
+package net.sourceforge.cilib.pso.niching.creation;
 
-import java.util.List;
+import fj.F2;
+import fj.P2;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 
 /**
  * Niche creation strategies.
- *
  */
-public interface NicheCreationStrategy {
-
-    /**
-     * Create new niching populations for the provided Niche. The newly found niche
-     * points are provided and are then used to create new niching populations for
-     * the provided Niche algorithm.
-     * @param algorithm The Niche containing all niching populations.
-     * @param niches The newly identified niching locations.
-     */
-    void create(Niche algorithm, List<Entity> niches);
-
+public abstract class NicheCreationStrategy extends F2<PopulationBasedAlgorithm, Entity, P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm>> {
 }
