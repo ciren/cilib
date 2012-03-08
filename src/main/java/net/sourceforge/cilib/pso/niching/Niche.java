@@ -271,29 +271,30 @@ public class Niche extends MultiPopulationBasedAlgorithm {
     
     public static F<Swarms, Swarms> createNiches(final NicheDetection nicheDetection,
                                                  final NicheCreationStrategy creationStrategy,
-                                                 final MergeStrategy subSwarmsAbsorptionStrategy) {
+                                                 final MergeStrategy mainSwarmCreationMergingStrategy) {
         return new F<Swarms, Swarms>() {
             @Override
             public Swarms f(Swarms swarms) {
-                List.<Entity>iterableList((Topology<Entity>) swarms._1().getTopology())
-                        .filter(nicheDetection).map(creationStrategy.flip().curry());
-                
                 List<Entity> entities = List.<Entity>iterableList((Topology<Entity>) swarms._1().getTopology());
-                
                 List<PopulationBasedAlgorithm> extraSubswarms = List.<PopulationBasedAlgorithm>nil();
+                
                 for (Entity e : entities.filter(nicheDetection)) {
                     extraSubswarms.cons(creationStrategy.f(swarms._1(), e));
+                    //this is wrong: swarms._1() must change
+                    //swarms = ???
                 }
                 
-                /*PopulationBasedAlgorithm unmergedSwarms = entities
-                        .removeAll(nicheDetection)
+                PopulationBasedAlgorithm unmergedSwarms = entities
+                        .removeAll(nicheDetection).map(entityToAlgorithm)
                         .foldLeft1(new StandardMergeStrategy());
                 
                 PopulationBasedAlgorithm mergedSwarms = entities
-                        .filter(nicheDetection)
-                        .foldLeft1(new StandardMergeStrategy());*/
+                        .filter(nicheDetection).map(entityToAlgorithm)
+                        .foldLeft1(new StandardMergeStrategy());
                 
-                return null;
+                PopulationBasedAlgorithm newMainSwarm = mainSwarmCreationMergingStrategy.f(unmergedSwarms, mergedSwarms);
+                
+                return Swarms.of(newMainSwarm, swarms._2().append(extraSubswarms));
             }
         };
     }
