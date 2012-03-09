@@ -22,11 +22,12 @@
 package net.sourceforge.cilib.pso.niching.creation;
 
 import fj.F2;
+import fj.P2;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 
 /**
  * Niche creation strategies.
  */
-public abstract class NicheCreationStrategy extends F2<PopulationBasedAlgorithm, Entity, PopulationBasedAlgorithm> {
+public abstract class NicheCreationStrategy extends F2<PopulationBasedAlgorithm, Entity, P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm>> {
 }

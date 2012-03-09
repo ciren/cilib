@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.pso.niching.creation;
 
+import fj.P;
+import fj.P2;
 import java.util.Arrays;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
@@ -30,6 +32,7 @@ import net.sourceforge.cilib.entity.visitor.ClosestEntityVisitor;
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
+import net.sourceforge.cilib.pso.niching.merging.SingleSwarmMergeStrategy;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.velocityprovider.GCVelocityProvider;
 
@@ -69,7 +72,7 @@ public class StandardSwarmCreationStrategy extends NicheCreationStrategy {
     }
 
     @Override
-    public PopulationBasedAlgorithm f(PopulationBasedAlgorithm a, Entity b) {
+    public P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> f(PopulationBasedAlgorithm a, Entity b) {
         ClosestEntityVisitor closestEntityVisitor = new ClosestEntityVisitor();
         closestEntityVisitor.setTargetEntity(b);
         a.accept(closestEntityVisitor);
@@ -87,7 +90,10 @@ public class StandardSwarmCreationStrategy extends NicheCreationStrategy {
         newSubSwarm.setOptimisationProblem(a.getOptimisationProblem());
         ((Topology<Particle>) newSubSwarm.getTopology()).addAll(Arrays.asList(nicheMainParticle, nicheClosestParticle));
         
-        return newSubSwarm;
+        a.getTopology().remove(b);
+        a.getTopology().remove(closestEntityVisitor.getResult());
+        
+        return P.p(new SingleSwarmMergeStrategy().f(a.getClone(), null), newSubSwarm);
     }
 
     public void setSubSwarm(PopulationBasedAlgorithm subSwarm) {
