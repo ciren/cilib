@@ -24,7 +24,6 @@ package net.sourceforge.cilib.entity;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
-
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
@@ -90,10 +89,14 @@ public abstract class AbstractTopology<E extends Entity> implements Topology<E> 
     public E getBestEntity(Comparator<? super E> comparator) {
         E bestEntity = null;
         Iterator<E> i = this.iterator();
-        bestEntity = i.next();
 
         while (i.hasNext()) {
             E entity = i.next();
+            if (bestEntity == null) {
+                bestEntity = entity;
+                continue;
+            }
+
             if (comparator.compare(bestEntity, entity) < 0) { // bestEntity is worse than entity
                 bestEntity = entity;
             }
