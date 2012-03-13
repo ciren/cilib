@@ -21,57 +21,30 @@
  */
 package net.sourceforge.cilib.entity.visitor;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.util.DistanceMeasure;
-import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
- * Base class for all visitor instances that visit an entire {@link Topology}
+ * Interface for all visitor instances that visit an entire {@link Topology}
  * at once. These type of visitors are generally assocaited with the
  * calculation of topology related information, such as diameter and
  * radius calculations of the provided topologies.
  *
  * @author gpampara
  */
-public abstract class TopologyVisitor implements Visitor<Topology<? extends Entity>> {
-
-    protected PopulationBasedAlgorithm currentAlgorithm;
-    protected DistanceMeasure distanceMeasure;
-
-    public TopologyVisitor() {
-        distanceMeasure = new EuclideanDistanceMeasure();
-    }
-
+public interface TopologyVisitor extends Visitor<Topology<? extends Entity>> {
     /**
      * Perfrom the visit operation on the provided {@link Topology}.
      * @param topology The {@link Topology} to visit.
      */
-    public abstract void visit(Topology<? extends Entity> topology);
+    @Override
+    public void visit(Topology<? extends Entity> topology);
 
     /**
      * Get the result of the visitor after it has performed the visit()
      * action.
      * @return The result of the visit()
      */
-    public abstract Object getResult();
-
-    public DistanceMeasure getDistanceMeasure() {
-        return distanceMeasure;
-    }
-
-    public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
-        this.distanceMeasure = distanceMeasure;
-    }
-
-    public PopulationBasedAlgorithm getCurrentAlgorithm() {
-        return currentAlgorithm;
-    }
-
-    public void setCurrentAlgorithm(PopulationBasedAlgorithm currentAlgorithm) {
-        this.currentAlgorithm = currentAlgorithm;
-    }
-
+    public Object getResult();
 }
