@@ -43,13 +43,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * result for a new niching location.
  * </p>
  */
-public class StandardNicheIdentificationStrategy extends NicheDetection {
+public class StandardNicheDetection extends NicheDetection {
 
     private ControlParameter threshold;
     private ControlParameter stationaryCounter;
     private HashMap<Entity, List<Double>> entityFitness;
 
-    public StandardNicheIdentificationStrategy() {
+    public StandardNicheDetection() {
         this.threshold = ConstantControlParameter.of(1.0E-6);
         this.stationaryCounter = ConstantControlParameter.of(3.0);
         this.entityFitness = HashMap.<Entity, List<Double>>hashMap();
