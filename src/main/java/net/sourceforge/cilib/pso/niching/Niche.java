@@ -159,6 +159,10 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         public static Swarms of(PopulationBasedAlgorithm mainSwarm, List<PopulationBasedAlgorithm> subSwarms) {
             return new Swarms(mainSwarm, subSwarms);
         }
+        
+        public static Swarms of(Swarms swarms) {
+            return Swarms.of(swarms._1(), swarms._2());
+        }
 
         @Override
         public PopulationBasedAlgorithm _1() {
@@ -236,7 +240,7 @@ public class Niche extends MultiPopulationBasedAlgorithm {
                 PopulationBasedAlgorithm mergedSwarms = swarms._2()
                         .filter(absorptionDetection.f(swarms._1()))
                         .foldLeft(new StandardMergeStrategy().flip(), emptyPopulation.f(swarms._2().head()));
-
+                
                 PopulationBasedAlgorithm newMainSwarm = mainSwarmAbsorptionStrategy.f(unmergedSwarms, mergedSwarms);
 
                 return P.p(newMainSwarm, newSubSwarm);
@@ -259,16 +263,17 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         return new F<Swarms, Swarms>() {
             @Override
             public Swarms f(Swarms swarms) {
+                if (swarms._2().isEmpty()) {
+                    return Swarms.of(swarms);
+                }
+                
                 P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> newPopulations = 
                         absorbSingleSwarm(absorptionDetection, mainSwarmAbsorptionStrategy, subSwarmsAbsorptionStrategy)
                         .f(Swarms.of(swarms._2().head(), swarmToAlgorithms.f(swarms._1())));
-                
-                for (Entity e : newPopulations._2().getTopology())
-                    System.out.println(e.getCandidateSolution());
 
-                if (newPopulations._1().getTopology().isEmpty()) {
+                /*if (newPopulations._1().getTopology().isEmpty()) {
                     return Swarms.of(emptyPopulation.f(swarms._1()), List.cons(newPopulations._2(), swarms._2().tail()));
-                }
+                }*/
 
                 Swarms joinedPopulations = 
                         this.f(Swarms.of(newPopulations._1(), swarms._2().tail()));
@@ -316,6 +321,7 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         @Override
         public PopulationBasedAlgorithm f(Entity e, PopulationBasedAlgorithm p) {
             PopulationBasedAlgorithm tmp = p.getClone();
+            tmp.getTopology().clear();
             ((Topology<Entity>) tmp.getTopology()).add(e);
 
             return (PopulationBasedAlgorithm) tmp;

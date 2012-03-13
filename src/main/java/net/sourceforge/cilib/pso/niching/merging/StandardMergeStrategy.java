@@ -38,11 +38,7 @@ public class StandardMergeStrategy extends MergeStrategy {
     @Override
     public PopulationBasedAlgorithm f(PopulationBasedAlgorithm subSwarm1, PopulationBasedAlgorithm subSwarm2) {
         PopulationBasedAlgorithm newSwarm = new SingleSwarmMergeStrategy().f(subSwarm1, subSwarm2);
-        Particle neighbourhoodBest = null;
-        
-        if (!newSwarm.getTopology().isEmpty()) {
-            neighbourhoodBest = (Particle) Topologies.getBestEntity(newSwarm.getTopology(), new SocialBestFitnessComparator());
-        }
+        Particle neighbourhoodBest = (Particle) Topologies.getBestEntity(newSwarm.getTopology(), new SocialBestFitnessComparator());
 
         for (Entity e : subSwarm2.getTopology()) {
             Particle p = (Particle) e.getClone();
