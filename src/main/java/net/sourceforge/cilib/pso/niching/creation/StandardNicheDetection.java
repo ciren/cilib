@@ -21,12 +21,13 @@
  */
 package net.sourceforge.cilib.pso.niching.creation;
 
-import fj.data.HashMap;
-import fj.data.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.Stats;
+import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -44,15 +45,17 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </p>
  */
 public class StandardNicheDetection extends NicheDetection {
+    
+    public enum NicheEnum{
+        NICHE_DETECTION_FITNESSES
+    }
 
     private ControlParameter threshold;
     private ControlParameter stationaryCounter;
-    private HashMap<Entity, List<Double>> entityFitness;
 
     public StandardNicheDetection() {
         this.threshold = ConstantControlParameter.of(1.0E-6);
         this.stationaryCounter = ConstantControlParameter.of(3.0);
-        this.entityFitness = HashMap.<Entity, List<Double>>hashMap();
     }
 
     /**
@@ -89,67 +92,29 @@ public class StandardNicheDetection extends NicheDetection {
 
     @Override
     public Boolean f(Entity entity) {
-        /*Map<Entity, Double> stdev = new HashMap<Entity, Double>();
-
-        // Need to clean out old entity + fitness entries.
-        List<Entity> removalList = new ArrayList<Entity>();
-        for (Map.Entry<Entity, List<Double>> entry : this.entityFitness.entrySet()) {
-            if (!topology.contains(entry.getKey())) {
-                removalList.add(entry.getKey());
-            }
-        }
-
-        for (Entity element : removalList)
-            this.entityFitness.remove(element);
-
-        // Need to update the list of fitnesses
-        for (Entity entity : topology) {
-            if (this.entityFitness.keySet().contains(entity)) {
-                List<Double> fitnessList = this.entityFitness.get(entity);
-
-                if (fitnessList.size() >= this.stationaryCounter.getParameter())
-                    fitnessList.remove(0);
-
-                fitnessList.add(entity.getFitness().getValue());
-                continue;
-            }
-
-            List<Double> list = new ArrayList<Double>();
-            list.add(entity.getFitness().getValue());
-            this.entityFitness.put(entity, list);
-        }
-
-        // Finally do the calculations of the stdev:
-        for (Map.Entry<Entity, List<Double>> entry : this.entityFitness.entrySet()) {
-            if (entry.getValue().size() <= 2)
-                continue;
-
-            stdev.put(entry.getKey(), Stats.stdDeviation(entry.getValue().toArray(new Double []{})));
-        }
-
-        // Identify the niches
-        List<Entity> niches = new ArrayList<Entity>();
-        for (Map.Entry<Entity, Double> entry : stdev.entrySet()) {
-            if (entry.getValue() < this.threshold.getParameter()) {
-                niches.add(entry.getKey());
-            }
-        }
-
-        return niches;*/
-
-        // Need to update the list of fitnesses
-
-        if (entityFitness.contains(entity)) {
-            if (entityFitness.get(entity).some().length() >= this.stationaryCounter.getParameter()) {
-                entityFitness.set(entity, entityFitness.get(entity).some().tail());
-            }
-        } else {
-            entityFitness.set(entity, List.<Double>nil());
+        TypeList fitnesses = (TypeList) entity.getProperties().get(NicheEnum.NICHE_DETECTION_FITNESSES);
+        
+        if (fitnesses == null) {
+            TypeList fitness = new TypeList();
+            
+            fitness.add(Real.valueOf(entity.getFitness().getValue()));
+            entity.getProperties().put(NicheEnum.NICHE_DETECTION_FITNESSES, fitness);
+            
+            return false;
         }
         
-        entityFitness.set(entity, entityFitness.get(entity).some().snoc(entity.getFitness().getValue()));
+        if (fitnesses.size() >= stationaryCounter.getParameter()) {
+            fitnesses.remove(fitnesses.get(0));
+        }
         
-        return entityFitness.get(entity).some().length() == (int) this.stationaryCounter.getParameter()
-                && Stats.stdDeviation(Vector.copyOf(entityFitness.get(entity).some())) < threshold.getParameter();
+        fitnesses.add(Real.valueOf(entity.getFitness().getValue()));
+        
+        Vector.Builder builder = Vector.newBuilder();
+        for (Type t : fitnesses) {
+            builder.add((Real) t);
+        }
+                
+        return fitnesses.size() == (int) this.stationaryCounter.getParameter()
+                && Stats.stdDeviation(builder.build()) < threshold.getParameter();
     }
 }

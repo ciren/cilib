@@ -35,11 +35,9 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.SocialEntity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.pso.PSO;
@@ -47,7 +45,7 @@ import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrateg
 import net.sourceforge.cilib.pso.niching.creation.NicheCreationStrategy;
 import net.sourceforge.cilib.pso.niching.creation.NicheDetection;
 import net.sourceforge.cilib.pso.niching.creation.StandardNicheDetection;
-import net.sourceforge.cilib.pso.niching.creation.StandardSwarmCreationStrategy;
+import net.sourceforge.cilib.pso.niching.creation.StandardNicheCreationStrategy;
 import net.sourceforge.cilib.pso.niching.merging.*;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
@@ -111,7 +109,7 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         this.mainSwarm.setInitialisationStrategy(mainSwarmInitialisationStrategy);
 
         this.nicheDetection = new StandardNicheDetection();
-        this.swarmCreationStrategy = new StandardSwarmCreationStrategy();
+        this.swarmCreationStrategy = new StandardNicheCreationStrategy();
         this.mainSwarmPostCreation = new SingleSwarmMergeStrategy();
 
         this.mainSwarmAbsorptionStrategy = new SingleSwarmMergeStrategy();

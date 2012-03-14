@@ -49,7 +49,7 @@ import net.sourceforge.cilib.pso.niching.creation.NicheDetection;
 //import net.sourceforge.cilib.pso.niching.absorption.StandardAbsorptionStrategy;
 import net.sourceforge.cilib.pso.niching.merging.StandardMergeStrategy;
 import net.sourceforge.cilib.pso.niching.creation.StandardNicheDetection;
-import net.sourceforge.cilib.pso.niching.creation.StandardSwarmCreationStrategy;
+import net.sourceforge.cilib.pso.niching.creation.StandardNicheCreationStrategy;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityprovider.GCVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
@@ -63,7 +63,7 @@ public class DeratingNichePSO extends Niche {
 
     private PopulationBasedAlgorithm mainSwarm;
     private NicheDetection nicheIdentificationStrategy;
-    private StandardSwarmCreationStrategy swarmCreationStrategy;
+    private StandardNicheCreationStrategy swarmCreationStrategy;
     //private AbsorptionStrategy absorptionStrategy;
     private MergeStrategy mergeStrategy;
     private DeratingMergeStrategy dmergeStrategy;
@@ -102,7 +102,7 @@ public class DeratingNichePSO extends Niche {
         this.mainSwarm.setInitialisationStrategy(mainSwarmInitialisationStrategy);
 
         this.nicheIdentificationStrategy = new StandardNicheDetection();
-        this.swarmCreationStrategy = new StandardSwarmCreationStrategy();
+        this.swarmCreationStrategy = new StandardNicheCreationStrategy();
         //this.absorptionStrategy = new StandardAbsorptionStrategy();
         this.mergeStrategy = new StandardMergeStrategy();
         this.dmergeStrategy = new DeratingMergeStrategy();

@@ -21,10 +21,13 @@
  */
 package net.sourceforge.cilib.pso.niching.creation;
 
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.niching.NicheTest;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -34,8 +37,29 @@ import org.junit.Test;
 public class StandardNicheDetectionTest {
     
     @Test
-    public void testTrueDetection() {
+    public void testDetection() {
         Particle p1 = NicheTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
+        Particle p2 = NicheTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
+        
+        StandardNicheDetection detection = new StandardNicheDetection();
+        Assert.assertFalse(detection.f(p1));
+        p1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.999999));
+        p1 = p1.getClone();
+        Assert.assertFalse(detection.f(p1));
+        p1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.999998));
+        p1 = p1.getClone();
+        Assert.assertTrue(detection.f(p1));
+        
+        Assert.assertFalse(detection.f(p2));
+        p2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.999999));
+        p2 = p2.getClone();
+        Assert.assertFalse(detection.f(p2));
+        p2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.999998));
+        p2 = p2.getClone();
+        Assert.assertTrue(detection.f(p2));
+        p2 = p2.getClone();
+        detection.f(p2);
+        Assert.assertEquals(3, ((TypeList) p2.getProperties().get(StandardNicheDetection.NicheEnum.NICHE_DETECTION_FITNESSES)).size());
     }
 
 }

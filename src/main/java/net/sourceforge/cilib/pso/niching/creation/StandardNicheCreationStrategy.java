@@ -54,7 +54,7 @@ import net.sourceforge.cilib.pso.velocityprovider.GCVelocityProvider;
  * to still operate.
  * </p>
  */
-public class StandardSwarmCreationStrategy extends NicheCreationStrategy {
+public class StandardNicheCreationStrategy extends NicheCreationStrategy {
     
     private PopulationBasedAlgorithm subSwarm;
     private ParticleBehavior behavior;
@@ -62,7 +62,7 @@ public class StandardSwarmCreationStrategy extends NicheCreationStrategy {
     /**
      * Default constructor.
      */
-    public StandardSwarmCreationStrategy() {
+    public StandardNicheCreationStrategy() {
         this.subSwarm = new PSO();
         ((SynchronousIterationStrategy) ((PSO) this.subSwarm).getIterationStrategy())
                 .setBoundaryConstraint(new ReinitialisationBoundary());
@@ -90,10 +90,15 @@ public class StandardSwarmCreationStrategy extends NicheCreationStrategy {
         newSubSwarm.setOptimisationProblem(a.getOptimisationProblem());
         ((Topology<Particle>) newSubSwarm.getTopology()).addAll(Arrays.asList(nicheMainParticle, nicheClosestParticle));
         
-        a.getTopology().remove(b);
-        a.getTopology().remove(closestEntityVisitor.getResult());
+        PopulationBasedAlgorithm newMainSwarm = a.getClone();
+        newMainSwarm.getTopology().clear();
+        for(Entity e : a.getTopology()) {
+            if (!e.equals(b) && !e.equals(closestEntityVisitor.getResult())) {
+                ((Topology<Entity>) newMainSwarm.getTopology()).add(e.getClone());
+            }
+        }
         
-        return P.p(new SingleSwarmMergeStrategy().f(a.getClone(), null), newSubSwarm);
+        return P.p(new SingleSwarmMergeStrategy().f(newMainSwarm, null), newSubSwarm);
     }
 
     public void setSubSwarm(PopulationBasedAlgorithm subSwarm) {
