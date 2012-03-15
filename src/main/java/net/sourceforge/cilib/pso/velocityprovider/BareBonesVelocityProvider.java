@@ -71,10 +71,6 @@ public class BareBonesVelocityProvider implements VelocityProvider {
         return builder.build();
     }
 
-    @Override
-    public void updateControlParameters(Particle particle) {
-    }
-
     public ProbabilityDistributionFuction getRandomDistribution() {
         return this.randomDistribution;
     }

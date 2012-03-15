@@ -139,6 +139,7 @@ public class GCVelocityProvider implements VelocityProvider {
     public Vector get(Particle particle) {
         PSO pso = (PSO) AbstractAlgorithm.get();
         final Particle globalBest = Topologies.getBestEntity(pso.getTopology(), new SocialBestFitnessComparator<Particle>());
+        Vector result;
 
         if (particle == globalBest) {
             final Vector velocity = (Vector) particle.getVelocity();
@@ -155,17 +156,20 @@ public class GCVelocityProvider implements VelocityProvider {
 
             this.oldFitness = particle.getFitness().getClone(); // Keep a copy of the old Fitness object - particle.calculateFitness() within the IterationStrategy resets the fitness value
 
-            return builder.build();
+            result = builder.build();
         }
         else {
-            return this.delegate.get(particle);
+            result =  this.delegate.get(particle);
         }
+        
+        updateControlParameters(particle);
+        return result;
     }
 
     /**
-     * {@inheritDoc}
+     * Updates certain control parameters for this velocity provider.
+     * @param particle 
      */
-    @Override
     public void updateControlParameters(Particle particle) {
         // Remember NOT to reset the rho value to 1.0
         PSO pso = (PSO) AbstractAlgorithm.get();
@@ -187,8 +191,6 @@ public class GCVelocityProvider implements VelocityProvider {
 
         this.failureCount = 0;
         this.successCount = 0;
-
-        this.delegate.updateControlParameters(particle);
     }
 
     /**
@@ -215,7 +217,7 @@ public class GCVelocityProvider implements VelocityProvider {
             tmp = average;
         }
 
-        this.rho.setParameter(tmp);
+        this.rho = ConstantControlParameter.of(tmp);
     }
 
     public VelocityProvider getDelegate() {

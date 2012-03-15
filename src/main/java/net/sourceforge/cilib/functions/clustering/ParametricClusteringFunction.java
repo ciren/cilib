@@ -119,9 +119,4 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 
         return helper.calculateDistance(upperBoundVector, lowerBoundVector);
     }
-
-    public void updateControlParameters() {
-        w1.updateParameter();
-        w2.updateParameter();
-    }
 }

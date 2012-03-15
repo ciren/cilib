@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.pso.velocityprovider;
 
 import java.util.Iterator;
-
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -102,12 +101,5 @@ public class FIPSVelocityProvider implements VelocityProvider {
         }
 
         return builder.build();
-    }
-
-    @Override
-    public void updateControlParameters(Particle particle) {
-        this.inertiaWeight.updateParameter();
-        this.socialAcceleration.updateParameter();
-        this.cognitiveAcceleration.updateParameter();
     }
 }

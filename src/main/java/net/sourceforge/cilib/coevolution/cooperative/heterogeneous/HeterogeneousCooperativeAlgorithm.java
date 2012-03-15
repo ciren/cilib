@@ -70,9 +70,10 @@ public class HeterogeneousCooperativeAlgorithm extends CooperativeCoevolutionAlg
     @Override
     public void algorithmIteration() {
         super.algorithmIteration();
-        if ((getIterations() + 1) % (int)problemAllocationSwapIteration.getParameter() == 0)
+        
+        if ((getIterations() + 1) % (int)problemAllocationSwapIteration.getParameter() == 0) {
              redistributionStrategy.redistributeProblem(subPopulationsAlgorithms, optimisationProblem, problemDistribution, context.getCandidateSolution());
-        problemAllocationSwapIteration.updateParameter();
+        }
     }
 
     public void setRedistributionStrategy(

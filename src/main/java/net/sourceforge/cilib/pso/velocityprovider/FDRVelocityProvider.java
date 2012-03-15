@@ -22,11 +22,10 @@
 package net.sourceforge.cilib.pso.velocityprovider;
 
 import java.util.Iterator;
-
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.controlparameter.LinearDecreasingControlParameter;
+import net.sourceforge.cilib.controlparameter.LinearlyVaryingControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
@@ -72,7 +71,11 @@ public class FDRVelocityProvider implements VelocityProvider {
         this.randomProvider = new MersenneTwister();
 
         this.delegate = new StandardVelocityProvider();
-        this.delegate.setInertiaWeight(new LinearDecreasingControlParameter());
+        //TODO: recheck this inertia, the original paper has some weird values that become negative early on
+        LinearlyVaryingControlParameter inertia = new LinearlyVaryingControlParameter();
+        inertia.setInitialValue(0.9);
+        inertia.setFinalValue(0.4);
+        this.delegate.setInertiaWeight(inertia);
         this.delegate.setCognitiveAcceleration(ConstantControlParameter.of(1));
         this.delegate.setSocialAcceleration(ConstantControlParameter.of(2));
     }
@@ -129,15 +132,6 @@ public class FDRVelocityProvider implements VelocityProvider {
                     * (fdrMaximizerPosition.doubleValueOf(i) - position.doubleValueOf(i)));
         }
         return builder.build();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateControlParameters(Particle particle) {
-        this.delegate.updateControlParameters(particle);
-        this.fdrMaximizerAcceleration.updateParameter();
     }
 
     /**

@@ -21,10 +21,10 @@
  */
 package net.sourceforge.cilib.pso.velocityprovider;
 
-import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
 /**
@@ -61,11 +61,6 @@ public class NoisyVelocityProvider implements VelocityProvider {
     @Override
     public NoisyVelocityProvider getClone() {
         return new NoisyVelocityProvider(this);
-    }
-
-    @Override
-    public void updateControlParameters(Particle particle) {
-        this.delegate.updateControlParameters(particle);
     }
 
     public VelocityProvider getDelegate() {

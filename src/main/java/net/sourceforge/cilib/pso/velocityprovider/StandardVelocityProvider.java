@@ -92,17 +92,6 @@ public final class StandardVelocityProvider implements VelocityProvider {
     }
 
     /**
-     * Update the associated <tt>ControlParameter</tt>s for the <tt>VelocityProvider</tt>.
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateControlParameters(Particle particle) {
-        this.inertiaWeight.updateParameter();
-        this.cognitiveAcceleration.updateParameter();
-        this.socialAcceleration.updateParameter();
-    }
-
-    /**
      * Get the <code>ControlParameter</code> representing the inertia weight of
      * the VelocityProvider.
      * @return Returns the inertia component <tt>ControlParameter</tt>.

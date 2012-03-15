@@ -166,16 +166,6 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
     }
 
     /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void updateControlParameters(Particle particle) {
-        this.kappa.updateParameter();
-        this.cognitiveAcceleration.updateParameter();
-        this.socialAcceleration.updateParameter();
-    }
-
-    /**
      * Calculate the constriction coefficient as well as the
      * maximum acceleration.
      */
@@ -192,8 +182,7 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
         double chi;
         chi = (2 * this.kappa.getParameter()) / Math.abs(2 - phi - Math.sqrt(phi * (phi - 4.0)));
 
-        this.constrictionCoefficient = ConstantControlParameter.of(0.0);
-        this.constrictionCoefficient.setParameter(chi);
+        this.constrictionCoefficient = ConstantControlParameter.of(chi);
     }
 
     /**

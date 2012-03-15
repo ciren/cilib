@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.pso.dynamic;
 
 import java.util.Iterator;
-
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -141,12 +140,5 @@ public class ChargedVelocityProvider implements VelocityProvider {
      */
     public void setP(ControlParameter p) {
         this.p = p;
-    }
-
-    @Override
-    public void updateControlParameters(Particle particle) {
-        this.delegate.updateControlParameters(particle);
-        this.pCore.updateParameter();
-        this.p.updateParameter();
     }
 }

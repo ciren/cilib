@@ -85,12 +85,4 @@ public class ParametricWithQuantisationErrorFunction extends ParametricClusterin
     protected double getW3() {
         return w3.getParameter();
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void updateControlParameters() {
-        super.updateControlParameters();
-        w3.updateParameter();
-    }
 }

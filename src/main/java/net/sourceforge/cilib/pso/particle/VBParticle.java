@@ -174,11 +174,6 @@ public class VBParticle extends AbstractParticle{
             (this.neighbourhoodBest == null ? true : this.neighbourhoodBest.equals(other.neighbourhoodBest));
     }
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -280,14 +275,6 @@ public class VBParticle extends AbstractParticle{
     @Override
     public void updateVelocity() {
         getProperties().put(EntityType.Particle.VELOCITY, this.behavior.getVelocityProvider().get(this));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateControlParameters() {
-        this.behavior.getVelocityProvider().updateControlParameters(this);
     }
 
     /**

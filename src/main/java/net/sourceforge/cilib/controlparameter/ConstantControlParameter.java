@@ -62,6 +62,7 @@ public class ConstantControlParameter implements ControlParameter {
     /**
      * {@inheritDoc}
      */
+    @Override
     public ConstantControlParameter getClone() {
         return new ConstantControlParameter(this);
     }
@@ -69,28 +70,25 @@ public class ConstantControlParameter implements ControlParameter {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getParameter() {
         return parameter;
     }
-
+    
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getParameter(double min, double max) {
-        throw new UnsupportedOperationException("This method is not supported");
+        throw new UnsupportedOperationException("ConstantControlParameter has no bounds. Use a BoundedControlParameter instead.");
     }
 
     /**
-     * {@inheritDoc}
+     * Sets the constant parameter.
+     * 
+     * @param value The new constant parameter.
      */
     public void setParameter(double value) {
         this.parameter = value;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void updateParameter() {
-        // Nothing to update - This paramter is constant.
     }
 }

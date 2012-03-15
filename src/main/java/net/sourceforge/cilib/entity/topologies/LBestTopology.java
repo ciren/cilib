@@ -71,7 +71,6 @@ public class LBestTopology<E extends Entity> extends AbstractTopology<E> {
      */
     @Override
     public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
-        neighbourhoodSize.updateParameter();
         return new LBestNeighbourhoodIterator<E>(this, (IndexedIterator<E>) iterator);
     }
 

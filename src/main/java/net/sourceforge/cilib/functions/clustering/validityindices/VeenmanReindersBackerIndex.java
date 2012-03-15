@@ -23,7 +23,6 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
@@ -97,9 +96,5 @@ public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
 
     private double getMaximumVariance() {
         return maximumVariance.getParameter();
-    }
-
-    public void updateControlParameters() {
-        maximumVariance.updateParameter();
     }
 }

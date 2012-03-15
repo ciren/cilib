@@ -179,10 +179,6 @@ public class CoherenceVelocityProvider implements VelocityProvider {
         return swarmCenterVelocity / averageParticleVelocity;
     }
 
-    @Override
-    public void updateControlParameters(Particle particle) {
-        this.delegate.updateControlParameters(particle);
-    }
     /*
      * @return Returns the congnitiveRandomGenerator.
      */

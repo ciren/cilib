@@ -21,8 +21,6 @@
  */
 package net.sourceforge.cilib.controlparameter;
 
-import java.io.Serializable;
-
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -31,38 +29,19 @@ import net.sourceforge.cilib.util.Cloneable;
  * types. These parameters are updatable and can be changed over time, if required.
  *
  */
-public interface ControlParameter extends Cloneable, Serializable {
-
-    /**
-     * Clone the current object such that a comparison of the clone and original object will yield
-     * two separate, but duplicate objects.
-     * @return The cloned <tt>ControlParameter</tt>
-     */
-    ControlParameter getClone();
+public interface ControlParameter extends Cloneable {
 
     /**
      * Get the value of the represented parameter.
      * @return The value of the represented parameter.
      */
     double getParameter();
-
-    /**
-     * Get the parameter value based on the provided <code>min</code> and <code>max</code>.
-     * @param min The minimum value to use in getting the parameter value
-     * @param max The maximum value to use in getting the parameter value
-     * @return The value of the represented parameter.
-     */
+    
     double getParameter(double min, double max);
-
+    
     /**
-     * Set the value of the represented parameter.
-     * @param value The value to be used.
+     * {@inheritDoc}
      */
-    void setParameter(double value);
-
-    /**
-     * Update the required and needed parameters contained within this
-     * {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter parameter}.
-     */
-    void updateParameter();
+    @Override
+    ControlParameter getClone();
 }

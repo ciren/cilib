@@ -67,26 +67,14 @@ public class ProportionalControlParameter implements ControlParameter {
      */
     @Override
     public double getParameter(double min, double max) {
-        double diff = max - min;
-        return this.proportion * diff;
+        return this.proportion * (max - min);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setParameter(double value) {
-        if (value < 0) {
-            throw new IllegalArgumentException("The proportion must be positive");
-        }
-
-        this.proportion = value;
+    public double getProportion() {
+        return proportion;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateParameter() {
+    public void setProportion(double proportion) {
+        this.proportion = proportion;
     }
 }

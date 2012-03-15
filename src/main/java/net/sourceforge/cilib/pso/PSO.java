@@ -23,7 +23,6 @@ package net.sourceforge.cilib.pso;
 
 import java.util.Arrays;
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
@@ -120,10 +119,6 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
     @Override
     protected void algorithmIteration() {
         iterationStrategy.performIteration(this);
-
-        for (Particle particle : this.getTopology()) {
-            particle.updateControlParameters();
-        }
     }
 
     /**

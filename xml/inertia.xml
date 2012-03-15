@@ -7,7 +7,7 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <inertiaWeight class="controlparameter.LinearDecreasingControlParameter" range="R(0.4, 1.4)" />
+                        <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="1.4" finalValue="0.4"/>
                     </velocityProvider>
                 </entityType>
             </initialisationStrategy>

@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.controlparameter;
 
+import net.sourceforge.cilib.type.types.Bounds;
+
 /**
  * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter} instance
  * that is defined to operate within a specific range of values. The range is defined as a domain string.
@@ -28,33 +30,56 @@ package net.sourceforge.cilib.controlparameter;
  * the edges of the range specified.
  *
  */
-public interface BoundedControlParameter extends ControlParameter {
+public class BoundedControlParameter implements ControlParameter {
+    
+    private Bounds bounds;
+    private ControlParameter controlParameter;
+    
+    public BoundedControlParameter() {
+        this.bounds = new Bounds(-Double.MAX_VALUE, Double.MAX_VALUE);
+        this.controlParameter = new LinearlyVaryingControlParameter();
+    }
+    
+    public BoundedControlParameter(BoundedControlParameter copy) {
+        this.bounds = copy.bounds;
+    }
+    
+    @Override
+    public BoundedControlParameter getClone() {
+        return new BoundedControlParameter(this);
+    }
+    
+    @Override
+    public double getParameter() {
+        return getParameter(bounds.getLowerBound(), bounds.getUpperBound());
+    }
+    
+    @Override
+    public double getParameter(double min, double max) {
+        double value = controlParameter.getParameter();
+        
+        if (value < min) {
+            return min;
+        } else if (value > max) {
+            return max;
+        }
+        
+        return value;
+    }
 
-    /**
-     * Get the lower bound of the
-     * {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control paramter}.
-     * @return The lower bound value.
-     */
-    double getLowerBound();
+    public Bounds getBounds() {
+        return this.bounds;
+    }
 
-    /**
-     * Set the value of the lower bound.
-     * @param lower The value to set.
-     */
-    void setLowerBound(double lower);
+    public void setBounds(Bounds bounds) {
+        this.bounds = bounds;
+    }
 
-    /**
-     * Get the upper bound for the
-     * {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}.
-     * @return The upper bound value.
-     */
-    double getUpperBound();
+    public ControlParameter getControlParameter() {
+        return controlParameter;
+    }
 
-    /**
-     * Set the value for the upper bound.
-     * @param value The value to set.
-     */
-    void setUpperBound(double value);
-
-    void setRange(String range);
+    public void setControlParameter(ControlParameter controlParameter) {
+        this.controlParameter = controlParameter;
+    }
 }
