@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.nn.architecture;
 
+import net.sourceforge.cilib.nn.components.Neuron;
 import net.sourceforge.cilib.nn.components.PatternInputSource;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -46,7 +47,7 @@ public class ForwardingLayer extends Layer {
         if (index < sourceSize) {
             return this.source.getNeuralInput(index);
         }
-        return this.get(index - sourceSize).getActivation();
+        return super.get(index - sourceSize).getActivation();
     }
 
     /**
@@ -72,6 +73,17 @@ public class ForwardingLayer extends Layer {
     @Override
     public int size() {
         return this.getSourceSize() + super.size();
+    }
+
+	/**
+     * {@inheritDoc }
+     */
+	@Override
+    public Neuron get(int index) {
+        if (index < sourceSize) {
+            return this.source.get(index);
+        }
+        return super.get(index - sourceSize);
     }
 
     /**

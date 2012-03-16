@@ -62,6 +62,17 @@ public class PatternInputSource implements NeuralInputSource {
         return pattern.getVector().size();
     }
 
+	/**
+     * {@inheritDoc }
+     */
+    @Override
+    public Neuron get(int index) {
+		Neuron neuron = new Neuron();
+		neuron.setActivation(this.getNeuralInput(index));
+        return neuron;
+    }
+	 
+
     /**
      * Gets the pattern's input vector.
      * @return the input vector of the pattern.

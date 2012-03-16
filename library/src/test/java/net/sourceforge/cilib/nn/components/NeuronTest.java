@@ -63,6 +63,12 @@ public class NeuronTest {
             public Vector getInput() {
                 return input;
             }
+
+			public Neuron get(int index) {
+				Neuron neuron = new Neuron();
+				neuron.setActivation(5);
+				return neuron;
+			}
         };
         Vector input = Vector.of(0.5, 0.4, 0.3, 0.2, 0.1); // duplicate of vector above
         Vector weights = neuron.getWeights();
