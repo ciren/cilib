@@ -18,7 +18,7 @@
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
         <addMeasurement class="measurement.multiple.CompositeMeasurement">
             <addMeasurement class="measurement.single.Solution"/>
-            <addMeasurement class="measurement.single.Fitness"/>
+            <!--addMeasurement class="measurement.single.Fitness"/-->
         </addMeasurement>
     </measurements>
     <simulations>

@@ -44,8 +44,8 @@ import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 import net.sourceforge.cilib.pso.niching.creation.NicheCreationStrategy;
 import net.sourceforge.cilib.pso.niching.creation.NicheDetection;
-import net.sourceforge.cilib.pso.niching.creation.StandardNicheDetection;
 import net.sourceforge.cilib.pso.niching.creation.StandardNicheCreationStrategy;
+import net.sourceforge.cilib.pso.niching.creation.StandardNicheDetection;
 import net.sourceforge.cilib.pso.niching.merging.*;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
@@ -186,12 +186,8 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         return new F<Swarms, Swarms>() {
             @Override
             public Swarms f(Swarms swarms) {
-                if (swarms._2().isEmpty()) {
-                    return Swarms.of(swarms._1(), List.<PopulationBasedAlgorithm>nil());
-                }
-
-                if (swarms._2().length() == 1) {
-                    return Swarms.of(swarms._1(), List.single(swarms._2().head()));
+                if (swarms._2().isEmpty() || swarms._2().length() == 1) {
+                    return Swarms.of(swarms);
                 }
 
                 PopulationBasedAlgorithm newMainSwarm = swarms._2().tail()
@@ -200,7 +196,7 @@ public class Niche extends MultiPopulationBasedAlgorithm {
 
                 PopulationBasedAlgorithm mergedSwarms = swarms._2().tail()
                         .filter(mergeDetection.f(swarms._2().head()))
-                        .foldLeft(subSwarmsMergeStrategy.flip(), swarms._2().head());
+                        .foldLeft(subSwarmsMergeStrategy, swarms._2().head());
 
                 Swarms newSwarms =
                         this.f(Swarms.of(newMainSwarm, swarms._2().tail().removeAll(mergeDetection.f(swarms._2().head()))));
@@ -260,10 +256,11 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         return new F<Swarms, Swarms>() {
             @Override
             public Swarms f(Swarms swarms) {
-                if (swarms._2().isEmpty()) {
+                if (swarms._2().isEmpty() || swarms._1().getTopology().isEmpty()) {
                     return Swarms.of(swarms);
                 }
 
+                System.out.println("Head");
                 P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> newPopulations =
                         absorbSingleSwarm(absorptionDetection, mainSwarmAbsorptionStrategy, subSwarmsAbsorptionStrategy)
                         .f(Swarms.of(swarms._2().head(), swarmToAlgorithms.f(swarms._1())));
@@ -292,8 +289,9 @@ public class Niche extends MultiPopulationBasedAlgorithm {
                 List<Entity> entities = List.<Entity>iterableList((Topology<Entity>) swarms._1().getTopology());
                 List<Entity> filteredEntities = entities.filter(nicheDetection);
 
-                if (filteredEntities.isEmpty()) {
-                    return Swarms.of(swarms._1(), swarms._2());
+                // make sure there are enough entities to put into a new swarm
+                if (filteredEntities.isEmpty() || entities.length() == 1) {
+                    return Swarms.of(swarms);
                 }
 
                 P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> createdSwarms = creationStrategy.f(swarms._1(), filteredEntities.head());
@@ -402,15 +400,28 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         }
 
         List<PopulationBasedAlgorithm> subSwarms = List.<PopulationBasedAlgorithm>iterableList(subPopulationsAlgorithms);
-        Swarms newPops = merge(mergeDetection, mainSwarmMergeStrategy, subSwarmsMergeStrategy)
-                .andThen(absorb(absorptionDetection, mainSwarmAbsorptionStrategy, subSwarmsAbsorptionStrategy))
-                .f(Swarms.of(mainSwarm, subSwarms));
-
-        newPops = createNiches(nicheDetection, swarmCreationStrategy, mainSwarmPostCreation)
-                        .f(Swarms.of(newPops._1(), newPops._2().map(enforceTopology(mainSwarmParticle.getParticleBehavior()))));
+        System.out.println("Merge");
+        Swarms newPops = merge(mergeDetection, mainSwarmMergeStrategy, subSwarmsMergeStrategy).f(Swarms.of(mainSwarm, subSwarms));
+        System.out.println("Absorb");
+        newPops = absorb(absorptionDetection, mainSwarmAbsorptionStrategy, subSwarmsAbsorptionStrategy).f(newPops);
+        newPops = Swarms.of(enforceTopology(mainSwarmParticle.getParticleBehavior()).f(newPops._1()), newPops._2());
+        newPops = createNiches(nicheDetection, swarmCreationStrategy, mainSwarmPostCreation).f(newPops);
 
         subPopulationsAlgorithms = Lists.newArrayList(newPops._2().toCollection());
         mainSwarm = newPops._1();
+        
+        System.out.print("main: ");
+        for (Entity e : mainSwarm.getTopology())
+            System.out.print(e.getCandidateSolution() + " ");
+        System.out.println();
+        for (PopulationBasedAlgorithm pba : subPopulationsAlgorithms) {
+            for (Entity e : pba.getTopology())
+                System.out.print(e.getCandidateSolution() + " ");
+            System.out.println();
+        }
+        System.out.println();
+        
+        //System.out.println(subPopulationsAlgorithms.size() + " " + mainSwarm.getTopology().size());
     }
 
     /**

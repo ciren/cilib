@@ -63,6 +63,7 @@ public class RadiusOverlapMergeDetection extends MergeDetection {
     @Override
     public Boolean f(PopulationBasedAlgorithm swarm1, PopulationBasedAlgorithm swarm2) {
         RadiusVisitor radiusVisitor = new RadiusVisitor();
+        radiusVisitor.setDistanceMeasure(distanceMeasure);
         
         swarm1.accept(radiusVisitor);
         double swarm1Radius = radiusVisitor.getResult().doubleValue();
@@ -70,21 +71,22 @@ public class RadiusOverlapMergeDetection extends MergeDetection {
         swarm2.accept(radiusVisitor);
         double swarm2Radius = radiusVisitor.getResult().doubleValue();
         
-        Vector swarm1GBest = (Vector) swarm1.getBestSolution().getPosition();
-        Vector swarm2GBest = (Vector) swarm2.getBestSolution().getPosition();
+        Vector swarm1GBest = (Vector) swarm1.getTopology().getBestEntity().getCandidateSolution();
+        Vector swarm2GBest = (Vector) swarm2.getTopology().getBestEntity().getCandidateSolution();
 
         double distance = distanceMeasure.distance(swarm1GBest, swarm2GBest);
+        double normalizedDistance = distance / swarm1GBest.boundsOf(0).getRange();
         
         //special case if both radii approximate 0 or if the swarms intersect
-        if ((Math.abs(swarm1Radius) == Maths.EPSILON && Math.abs(swarm2Radius) == Maths.EPSILON 
-                && distance < threshold.getParameter()) || (distance < swarm1Radius + swarm2Radius)) {
+        if ((Math.abs(swarm1Radius) < Maths.EPSILON && Math.abs(swarm2Radius) < Maths.EPSILON 
+                && normalizedDistance < threshold.getParameter()) || (distance < swarm1Radius + swarm2Radius)) {
+            System.out.println(swarm1GBest + " " + swarm2GBest + " " + distance + " " + swarm1Radius + " " + swarm2Radius);
             return true;
         }
         
         return false;
     }
-    
-    
+
     /**
      * Get the merge threshold value.
      * 

@@ -35,7 +35,11 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.dynamic.QuantumVelocityProvider;
-import net.sourceforge.cilib.pso.iterationstrategies.ASynchronousIterationStrategy;
+import net.sourceforge.cilib.pso.niching.creation.NicheCreationStrategy;
+import net.sourceforge.cilib.pso.niching.creation.NicheDetection;
+import net.sourceforge.cilib.pso.niching.creation.StandardNicheCreationStrategy;
+import net.sourceforge.cilib.pso.niching.creation.StandardNicheDetection;
+import net.sourceforge.cilib.pso.niching.merging.MergeStrategy;
 import net.sourceforge.cilib.pso.niching.merging.RadiusOverlapMergeDetection;
 import net.sourceforge.cilib.pso.niching.merging.SingleSwarmMergeStrategy;
 import net.sourceforge.cilib.pso.niching.merging.StandardMergeStrategy;
@@ -226,6 +230,44 @@ public class NicheTest {
 
         Assert.assertNotNull(((Particle) a.getTopology().get(0)).getNeighbourhoodBest());
         Assert.assertEquals(QuantumVelocityProvider.class, ((Particle) a.getTopology().get(0)).getVelocityProvider().getClass());
+    }
+    
+    @Test
+    public void testCreateNiches() {
+        PSO mainSwarm = new PSO();
+        PSO pso1 = new PSO();
+        PSO pso2 = new PSO();
+
+        mainSwarm.setTopology(new GBestTopology<Particle>());
+        pso1.setTopology(new GBestTopology<Particle>());
+        pso2.setTopology(new GBestTopology<Particle>());
+
+        Particle m1 = createParticle(new MinimisationFitness(1.0), Vector.of(0.0, 0.0));
+        Particle m2 = createParticle(new MinimisationFitness(0.0), Vector.of(0.4, 0.4));
+        Particle m3 = createParticle(new MinimisationFitness(3.0), Vector.of(100.0, 12.0));
+
+        Particle p1_1 = createParticle(new MinimisationFitness(0.0), Vector.of(0.3, 0.3));
+        Particle p1_2 = createParticle(new MinimisationFitness(3.0), Vector.of(0.6, 0.6));
+
+        Particle p2_1 = createParticle(new MinimisationFitness(3.0), Vector.of(10.0, 0.0));
+        Particle p2_2 = createParticle(new MinimisationFitness(3.0), Vector.of(100.0, 12.0));
+        
+        mainSwarm.getTopology().addAll(Arrays.asList(m1, m2, m3));
+        pso1.getTopology().addAll(Arrays.asList(p1_1, p1_2));
+        pso2.getTopology().addAll(Arrays.asList(p2_1, p2_2));
+        
+        NicheDetection detector = new StandardNicheDetection();
+        NicheCreationStrategy creator = new StandardNicheCreationStrategy();
+        MergeStrategy merger = new SingleSwarmMergeStrategy();
+        
+        Niche.Swarms merged = Niche.createNiches(detector, creator, merger).andThen(Niche.createNiches(detector, creator, merger).andThen(Niche.createNiches(detector, creator, merger)))
+                .f(Niche.Swarms.of(mainSwarm, List.list((PopulationBasedAlgorithm) pso1, pso2)));
+
+        Assert.assertEquals(1, merged._1().getTopology().size());
+        Assert.assertEquals(3, merged._2().length());
+        Assert.assertEquals(2, merged._2().head().getTopology().size());
+        Assert.assertEquals(Vector.of(0.0, 0.0), merged._2().head().getTopology().get(0).getCandidateSolution());
+        Assert.assertEquals(Vector.of(0.4, 0.4), merged._2().head().getTopology().get(1).getCandidateSolution());
     }
 
     public static Particle createParticle(Fitness fitness, Vector position) {
