@@ -72,7 +72,8 @@ public class RandomBoundaryConstraint implements BoundaryConstraint {
      * {@inheritDoc}
      */
     @Override
-    public void enforce(Entity entity) {
+    public Entity enforce(Entity oldEntity) {
+        Entity entity = oldEntity.getClone();
         StructuredType<?> velocity = (StructuredType<?>) entity.getProperties().get(EntityType.Particle.VELOCITY);
 
         if (velocity == null) {
@@ -85,12 +86,12 @@ public class RandomBoundaryConstraint implements BoundaryConstraint {
 
         Iterator<?> pIterator = entity.getCandidateSolution().iterator();
         Iterator<?> vIterator = velocity.iterator();
-
+        
         while (pIterator.hasNext()) {
             Numeric pos = (Numeric) pIterator.next();
             Numeric vel = (Numeric) vIterator.next();
             Bounds bounds = pos.getBounds();
-
+            
             if (Double.compare(pos.doubleValue(), bounds.getLowerBound()) < 0) {
                 constrain(pos, vel, newPosition, newVelocity);
             } else if (Double.compare(pos.doubleValue(), bounds.getUpperBound()) > 0) {
@@ -103,6 +104,8 @@ public class RandomBoundaryConstraint implements BoundaryConstraint {
 
         entity.getProperties().put(EntityType.CANDIDATE_SOLUTION, newPosition.build());
         entity.getProperties().put(EntityType.Particle.VELOCITY, newVelocity.build());
+        
+        return entity;
     }
 
     /**

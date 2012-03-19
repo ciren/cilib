@@ -28,7 +28,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -155,7 +155,7 @@ public class ChargedVelocityProvider implements VelocityProvider {
      * Not applicable
      */
     @Override
-    public void setControlParameters(ParametizedParticle particle) {
+    public void setControlParameters(ParameterizedParticle particle) {
         //Not applicable
     }
     
@@ -163,7 +163,7 @@ public class ChargedVelocityProvider implements VelocityProvider {
      * Not applicable
      */
     @Override
-    public HashMap<String, Double> getControlParameterVelocity(ParametizedParticle particle) {
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
         //Not applicable
         return null;
     }

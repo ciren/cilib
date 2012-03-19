@@ -24,7 +24,7 @@ package net.sourceforge.cilib.pso.positionprovider;
 import java.io.Serializable;
 
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -55,27 +55,27 @@ public interface PositionProvider extends Cloneable, Serializable {
      * @param The particle whose parameters are being updated
      * @return inertia The new value of the inertia parameter
      */
-    double getInertia(ParametizedParticle particle);
+    double getInertia(ParameterizedParticle particle);
     
     /*
      * Gets the value of the updated position of the social acceleration parameter
      * @param The particle whose parameters are being updated
      * @return inertia The new value of the social acceleration parameter
      */
-    double getSocialAcceleration(ParametizedParticle particle);
+    double getSocialAcceleration(ParameterizedParticle particle);
     
     /*
      * Gets the value of the updated position of the cognitive acceleration parameter
      * @param The particle whose parameters are being updated
      * @return inertia The new value of the cognitive acceleration parameter
      */
-    double getCognitiveAcceleration(ParametizedParticle particle);
+    double getCognitiveAcceleration(ParameterizedParticle particle);
     
     /*
      * Gets the value of the updated position of the vmax parameter
      * @param The particle whose parameters are being updated
      * @return inertia The new value of the vmax parameter
      */
-    double getVmax(ParametizedParticle particle);
+    double getVmax(ParameterizedParticle particle);
 
 }

@@ -26,7 +26,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.util.Vectors;
 
 /**
@@ -85,16 +85,27 @@ public class NoisyVelocityProvider implements VelocityProvider {
      * Not applicable
      */
     @Override
-    public void setControlParameters(ParametizedParticle particle) {
-        //not applicable
+    public void setControlParameters(ParameterizedParticle particle) {
+        this.delegate.setControlParameters(particle);
     }
     
     /*
      * Not applicable
      */
     @Override
-    public HashMap<String, Double> getControlParameterVelocity(ParametizedParticle particle){
-        //not applicable
-        return null;
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle){
+        HashMap<String, Double> result = new HashMap<String, Double>();
+        HashMap<String, Double> velocity = this.delegate.getControlParameterVelocity(particle);
+        double inertiaVelocity = this.distribution.getRandomNumber() + velocity.get("InertiaVelocity");
+        double socialAccelerationVelocity = this.distribution.getRandomNumber() + velocity.get("SocialAccelerationVelocity");
+        double cognitiveAccelerationVelocity = this.distribution.getRandomNumber() + velocity.get("CognitiveAccelerationVelocity");
+        double vmaxVelocity = this.distribution.getRandomNumber() + velocity.get("VmaxVelocity");
+        
+        result.put("InertiaVelocity", inertiaVelocity);
+        result.put("SocialAccelerationVelocity", socialAccelerationVelocity);
+        result.put("CognitiveAccelerationVelocity", cognitiveAccelerationVelocity);
+        result.put("VmaxVelocity", vmaxVelocity);
+        
+        return result;
     }
 }

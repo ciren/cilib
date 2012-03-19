@@ -27,13 +27,17 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
- * @author Kristina
+ * This class represents a control parameter which can be changed by a ParametizedParticle when
+ * the particle's position changes. The updateParameter(double value) method is used for this
+ * update.
+ * 
+ * @author Kristina Georgieva
  */
-public class BoundedModifiableControlParameter implements BoundedControlParameter {
+public class BoundedModifiableControlParameter implements ParameterAdaptingPSOControlParameter, BoundedControlParameter {
     private Real parameter;
     private double velocity;
     private boolean wasInitialySetByUser;
+    private ParameterAdaptingPSOControlParameter bestValue;
 
     /**
      * Create an instance of {@code LinearDecreasingControlParameter}.
@@ -42,6 +46,7 @@ public class BoundedModifiableControlParameter implements BoundedControlParamete
         parameter = Real.valueOf(0.0);
         velocity = 0;
         wasInitialySetByUser = false;
+        bestValue = new BoundedModifiableControlParameter(this);
     }
 
     /**
@@ -52,6 +57,7 @@ public class BoundedModifiableControlParameter implements BoundedControlParamete
         this.parameter = copy.parameter.getClone();
         velocity = copy.velocity;
         wasInitialySetByUser = copy.wasInitialySetByUser;
+        bestValue = copy.bestValue;
     }
 
     /**
@@ -76,6 +82,7 @@ public class BoundedModifiableControlParameter implements BoundedControlParamete
      * Update the current parameter to the value provided
      * @param value The value to update the parameter to
      */
+    @Override
     public void updateParameter(double value) {
         parameter = Real.valueOf(value, parameter.getBounds());
     }
@@ -87,7 +94,8 @@ public class BoundedModifiableControlParameter implements BoundedControlParamete
     @Override
     public void setLowerBound(double lower) {
         Bounds current = parameter.getBounds();
-        this.parameter = Real.valueOf(lower, new Bounds(lower, current.getUpperBound()));
+        double parameterValue= this.parameter.doubleValue();
+        this.parameter = Real.valueOf(parameterValue, new Bounds(lower, current.getUpperBound()));
     }
 
     /**
@@ -143,7 +151,8 @@ public class BoundedModifiableControlParameter implements BoundedControlParamete
      */
     @Override
     public void setUpperBound(double value) {
-        this.parameter = Real.valueOf(value, new Bounds(parameter.getBounds().getLowerBound(), value));
+        double parameterValue= this.parameter.doubleValue();
+        this.parameter = Real.valueOf(parameterValue, new Bounds(parameter.getBounds().getLowerBound(), value));
     }
 
     /**
@@ -178,4 +187,13 @@ public class BoundedModifiableControlParameter implements BoundedControlParamete
         velocity = value;
     }
     
+    @Override
+    public void setBestValue(double value) {
+        bestValue.setParameter(value);
+    }
+    
+    @Override
+    public ParameterAdaptingPSOControlParameter getBestValue() {
+        return bestValue;
+    }
 }

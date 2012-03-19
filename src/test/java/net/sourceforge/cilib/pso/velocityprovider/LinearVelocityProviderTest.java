@@ -29,7 +29,7 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.pso.guideprovider.PBestGuideProvider;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -156,7 +156,7 @@ public class LinearVelocityProviderTest {
     @Test
     public void testSetControlParameters() {
         System.out.println("setControlParameters");
-        ParametizedParticle particle = new ParametizedParticle();
+        ParameterizedParticle particle = new ParameterizedParticle();
         particle.setInertia(new ConstantControlParameter(0.0));
         particle.setSocialAcceleration(new ConstantControlParameter(0.0));
         particle.setCognitiveAcceleration(new ConstantControlParameter(0.0));
@@ -182,7 +182,7 @@ public class LinearVelocityProviderTest {
     @Test
     public void testGetControlParameterVelocity() {
         System.out.println("getControlParameterVelocity");
-        ParametizedParticle particle = new ParametizedParticle();
+        ParameterizedParticle particle = new ParameterizedParticle();
         particle.setInertia(new ConstantControlParameter(0.0));
         particle.setSocialAcceleration(new ConstantControlParameter(0.0));
         particle.setCognitiveAcceleration(new ConstantControlParameter(0.0));

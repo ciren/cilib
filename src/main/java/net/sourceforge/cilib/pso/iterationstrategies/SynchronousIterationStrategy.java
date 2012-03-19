@@ -24,9 +24,11 @@ package net.sourceforge.cilib.pso.iterationstrategies;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 
 /**
  * Implementation of the synchronous iteration strategy for PSO.
@@ -65,20 +67,25 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
         for (Particle current : topology) {
             current.updateVelocity();
             current.updatePosition(); // TODO: replace with visitor (will simplify particle interface)
-
-            boundaryConstraint.enforce(current);
+           
+            Entity enforcedEntity = boundaryConstraint.enforce(current);
+            current = (Particle) enforcedEntity.getClone();
+            
         }
 
         for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
             Particle current = i.next();
+            
             current.calculateFitness();
-
+            //System.out.println("Fitness: " + current.getFitness().getValue());
             for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
                 Particle other = j.next();
+                
                 if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
                     other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?
                 }
             }
+           
         }
     }
 }

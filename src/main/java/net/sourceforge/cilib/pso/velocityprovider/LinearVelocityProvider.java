@@ -28,7 +28,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.KnuthSubtractive;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
@@ -138,7 +138,7 @@ public class LinearVelocityProvider implements VelocityProvider {
      * {@inheritDoc}
      */
     @Override
-    public void setControlParameters(ParametizedParticle particle) {
+    public void setControlParameters(ParameterizedParticle particle) {
         inertiaWeight = particle.getInertia();
         socialAcceleration = particle.getSocialAcceleration();
         cognitiveAcceleration = particle.getCognitiveAcceleration();
@@ -148,7 +148,7 @@ public class LinearVelocityProvider implements VelocityProvider {
      * {@inheritDoc}
      */
     @Override
-    public HashMap<String, Double> getControlParameterVelocity(ParametizedParticle particle) {
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
         HashMap<String, Double> parameterVelocity = new HashMap<String, Double>();
         
         double velocity = particle.getInertia().getVelocity();
@@ -189,6 +189,8 @@ public class LinearVelocityProvider implements VelocityProvider {
             cognitive  * this.cognitiveAcceleration.getParameter() * (localGuide.getParameter() - position) +
             social * this.socialAcceleration.getParameter() * (globalGuide.getParameter() - position);
         parameterVelocity.put("CognitiveAccelerationVelocity", value);
+        
+        parameterVelocity.put("VmaxVelocity", particle.getVmax().getVelocity());
         
         return parameterVelocity;
     }

@@ -25,7 +25,7 @@ import java.util.HashMap;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -85,7 +85,7 @@ public class BareBonesVelocityProvider implements VelocityProvider {
      * Not applicable
      */
     @Override
-    public void setControlParameters(ParametizedParticle particle) {
+    public void setControlParameters(ParameterizedParticle particle) {
         //Not applicable
     }
     
@@ -93,9 +93,40 @@ public class BareBonesVelocityProvider implements VelocityProvider {
      * Not applicable
      */
     @Override
-    public HashMap<String, Double> getControlParameterVelocity(ParametizedParticle particle) {
-        //Not applicable
-        return null;
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
+        HashMap<String, Double> result = new HashMap<String, Double>();
+        
+        double localGuide = particle.getLocalGuideInertia().getParameter();
+        double globalGuide =  particle.getGlobalGuideInertia().getParameter();
+        double sigma = Math.abs(localGuide - globalGuide);
+        //according to Kennedy
+        double mean = (localGuide + globalGuide) / 2;
+        //andries proposal: double mean = (tmp1*personalBestPosition.getReal(i) + tmp2*nBestPosition.getReal(i)) / (tmp1+tmp2);
+        double value = this.randomDistribution.getRandomNumber(mean, sigma);
+        result.put("InertiaVelocity", value);
+        
+        localGuide = particle.getLocalGuideSocial().getParameter();
+        globalGuide =  particle.getGlobalGuideSocial().getParameter();
+        sigma = Math.abs(localGuide - globalGuide);
+        mean = (localGuide + globalGuide) / 2;
+        value = this.randomDistribution.getRandomNumber(mean, sigma);
+        result.put("SocialAccelerationVelocity", value);
+        
+        localGuide = particle.getLocalGuidePersonal().getParameter();
+        globalGuide =  particle.getGlobalGuidePersonal().getParameter();
+        sigma = Math.abs(localGuide - globalGuide);
+        mean = (localGuide + globalGuide) / 2;
+        value = this.randomDistribution.getRandomNumber(mean, sigma);
+        result.put("CognitiveAccelerationVelocity", value);
+        
+        localGuide = particle.getLocalGuideVmax().getParameter();
+        globalGuide =  particle.getGlobalGuideVmax().getParameter();
+        sigma = Math.abs(localGuide - globalGuide);
+        mean = (localGuide + globalGuide) / 2;
+        value = this.randomDistribution.getRandomNumber(mean, sigma);
+        result.put("VmaxVelocity", value);
+        
+        return result;
     }
     
   

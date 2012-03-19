@@ -33,7 +33,7 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -155,16 +155,89 @@ public class FDRVelocityProvider implements VelocityProvider {
      * Not applicable
      */
     @Override
-    public void setControlParameters(ParametizedParticle particle) {
-        //not applicable
+    public void setControlParameters(ParameterizedParticle particle) {
+        this.delegate.setControlParameters(particle);
     }
     
     /*
      * not applicable
      */
     @Override
-    public HashMap<String, Double> getControlParameterVelocity(ParametizedParticle particle){
-        //not applicable
-        return null;
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle){
+        HashMap<String, Double> result = new HashMap<String, Double>();
+        
+        double positionInertia = particle.getInertia().getParameter();
+        double positionSocialAcceleration = particle.getInertia().getParameter();
+        double positionCognitiveAcceleration = particle.getInertia().getParameter();
+        double positionVmax = particle.getInertia().getParameter();
+
+        HashMap<String, Double> standardVelocity = this.delegate.getControlParameterVelocity(particle);
+
+        Topology<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
+        Iterator<Particle> swarmIterator = topology.iterator();
+        ParameterizedParticle fdrMaximizer = (ParameterizedParticle) swarmIterator.next();
+        double maxFDR = 0.0;
+
+        while (swarmIterator.hasNext()) {
+            ParameterizedParticle currentTarget = (ParameterizedParticle) swarmIterator.next();
+
+            if (currentTarget.getId() != particle.getId()) {
+                Fitness currentTargetFitness = currentTarget.getBestFitness();
+                double currentTargetPositionInertia = currentTarget.getInertia().getBestValue().getParameter();
+                double currentTargetPositionSocialAcceleration = currentTarget.getSocialAcceleration().getBestValue().getParameter();
+                double currentTargetPositionCognitiveAcceleration = currentTarget.getCognitiveAcceleration().getBestValue().getParameter();
+                double currentTargetPositionVmax = currentTarget.getVmax().getBestValue().getParameter();
+
+                double fitnessDifference = (currentTargetFitness.getValue() - particle.getFitness().getValue());
+                double testFDRInertia = fitnessDifference / Math.abs(positionInertia - currentTargetPositionInertia);
+                double testFDRSocialAcceleration = fitnessDifference / Math.abs(positionInertia - currentTargetPositionSocialAcceleration);
+                double testFDRCognitiveAcceleration = fitnessDifference / Math.abs(positionInertia - currentTargetPositionCognitiveAcceleration);
+                double testFDRVmax = fitnessDifference / Math.abs(positionInertia - currentTargetPositionVmax);
+
+                if (testFDRInertia > maxFDR) {
+                    maxFDR = testFDRInertia;
+                    fdrMaximizer = currentTarget;
+                }
+                
+                if (testFDRSocialAcceleration > maxFDR) {
+                    maxFDR = testFDRSocialAcceleration;
+                    fdrMaximizer = currentTarget;
+                }
+                
+                if (testFDRCognitiveAcceleration > maxFDR) {
+                    maxFDR = testFDRCognitiveAcceleration;
+                    fdrMaximizer = currentTarget;
+                }
+                
+                if (testFDRVmax > maxFDR) {
+                    maxFDR = testFDRVmax;
+                    fdrMaximizer = currentTarget;
+                }
+            }
+        }
+
+        double fdrMaximizerPositionInertia = fdrMaximizer.getInertia().getBestValue().getParameter();
+        double fdrMaximizerPositionSocialAcceleration = fdrMaximizer.getSocialAcceleration().getBestValue().getParameter();
+        double fdrMaximizerPositionCognitiveAcceleration = fdrMaximizer.getCognitiveAcceleration().getBestValue().getParameter();
+        double fdrMaximizerPositionVmax = fdrMaximizer.getVmax().getBestValue().getParameter();
+        
+        double inertia = standardVelocity.get("InertiaVelocity") + this.fdrMaximizerAcceleration.getParameter() * this.randomProvider.nextDouble() 
+                * (fdrMaximizerPositionInertia - positionInertia);
+        
+        double socialAcceleration = standardVelocity.get("SocialAccelerationVelocity") + this.fdrMaximizerAcceleration.getParameter() * this.randomProvider.nextDouble() 
+                * (fdrMaximizerPositionSocialAcceleration - positionSocialAcceleration);
+         
+        double cognitiveAcceleration = standardVelocity.get("CognitiveAccelerationVelocity") + this.fdrMaximizerAcceleration.getParameter() * this.randomProvider.nextDouble() 
+                * (fdrMaximizerPositionCognitiveAcceleration - positionCognitiveAcceleration);
+          
+        double vmax = standardVelocity.get("VmaxVelocity") + this.fdrMaximizerAcceleration.getParameter() * this.randomProvider.nextDouble() 
+                * (fdrMaximizerPositionVmax - positionVmax);
+        
+        result.put("InertiaVelocity", inertia);
+        result.put("SocialAccelerationVelocity", socialAcceleration);
+        result.put("CognitiveAccelerationVelocity", cognitiveAcceleration);
+        result.put("VmaxVelocity", vmax);
+        
+        return result;
     }
 }

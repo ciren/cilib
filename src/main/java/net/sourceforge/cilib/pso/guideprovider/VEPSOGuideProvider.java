@@ -30,7 +30,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.moo.criterion.CriterionBasedMOProblemAdapter;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -100,7 +100,7 @@ public class VEPSOGuideProvider implements GuideProvider {
      * Not supported yet
      */
     @Override
-    public ControlParameter getInertia(ParametizedParticle particle) {
+    public ControlParameter getInertia(ParameterizedParticle particle) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
@@ -108,7 +108,7 @@ public class VEPSOGuideProvider implements GuideProvider {
      * Not supported yet
      */
     @Override
-    public ControlParameter getSocialAcceleration(ParametizedParticle particle) {
+    public ControlParameter getSocialAcceleration(ParameterizedParticle particle) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
@@ -116,7 +116,7 @@ public class VEPSOGuideProvider implements GuideProvider {
      * Not supported yet
      */
     @Override
-    public ControlParameter getCognitiveAcceleration(ParametizedParticle particle) {
+    public ControlParameter getCognitiveAcceleration(ParameterizedParticle particle) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
@@ -124,7 +124,7 @@ public class VEPSOGuideProvider implements GuideProvider {
      * Not supported yet
      */
     @Override
-    public ControlParameter getVmax(ParametizedParticle particle) {
+    public ControlParameter getVmax(ParameterizedParticle particle) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

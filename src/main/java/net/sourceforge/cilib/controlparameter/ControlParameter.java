@@ -57,22 +57,4 @@ public interface ControlParameter extends Cloneable {
      * @param value The value the parameter must change to
      */
     void updateParameter(double value);
-    
-    /*
-     * Get the current velocity of the parameter
-     * @return The current velocity of the parameter
-     */
-    public double getVelocity();
-    
-    /*
-     * Set the current velocity of the parameter if the parameter can change after being initialized previously.
-     * @param value The new value of the parameter
-     */
-    public void setVelocity(double value);
-          
-    /*
-     * States whether the parameter's initial value was set by the user or msut be initialized randomly. 
-     * If false, it must be initialized randomly, if true, the initialization is not necessary.
-     */
-    public boolean wasSetByUser();
 }

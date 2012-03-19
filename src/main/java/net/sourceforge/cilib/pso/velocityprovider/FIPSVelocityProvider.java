@@ -31,7 +31,7 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -117,7 +117,7 @@ public class FIPSVelocityProvider implements VelocityProvider {
      * {@inheritDoc}
      */
     @Override
-    public void setControlParameters(ParametizedParticle particle) {
+    public void setControlParameters(ParameterizedParticle particle) {
         inertiaWeight = particle.getInertia();
         socialAcceleration = particle.getSocialAcceleration();
         cognitiveAcceleration = particle.getCognitiveAcceleration();
@@ -127,7 +127,7 @@ public class FIPSVelocityProvider implements VelocityProvider {
      * {@inheritDoc}
      */
     @Override
-    public HashMap<String, Double> getControlParameterVelocity(ParametizedParticle particle) {
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
         HashMap<String, Double> parameterVelocity = new HashMap<String, Double>();
         
         //Inertia
@@ -159,7 +159,7 @@ public class FIPSVelocityProvider implements VelocityProvider {
         Iterator<Particle> neighborhoodIterator = topology.neighbourhood(swarmIterator);
 
         while (neighborhoodIterator.hasNext()) {
-            ParametizedParticle CurrentTarget = (ParametizedParticle) neighborhoodIterator.next();
+            ParameterizedParticle CurrentTarget = (ParameterizedParticle) neighborhoodIterator.next();
             double inertiaCurrentTargetPosition = CurrentTarget.getBestInertia().getParameter();
             double socialCurrentTargetPosition = CurrentTarget.getBestSocialAcceleration().getParameter();
             double personalCurrentTargetPosition = CurrentTarget.getBestCognitiveAcceleration().getParameter();

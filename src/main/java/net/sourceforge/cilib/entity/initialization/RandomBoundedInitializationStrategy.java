@@ -42,9 +42,11 @@ public class RandomBoundedInitializationStrategy<E extends Entity> implements
     private ProbabilityDistributionFuction random;
 
     public RandomBoundedInitializationStrategy() {
+
         this.lowerBound = ConstantControlParameter.of(0.1);
         this.upperBound = ConstantControlParameter.of(0.1);
  this.random = new UniformDistribution();
+
     }
 
     public RandomBoundedInitializationStrategy(RandomBoundedInitializationStrategy copy) {

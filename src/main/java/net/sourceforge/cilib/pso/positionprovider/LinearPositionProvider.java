@@ -22,9 +22,10 @@
 package net.sourceforge.cilib.pso.positionprovider;
 
 import net.sourceforge.cilib.controlparameter.BoundedControlParameter;
+import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -68,43 +69,69 @@ public class LinearPositionProvider implements PositionProvider {
      * {@inheritDoc}
      */
     @Override
-    public double getInertia(ParametizedParticle particle) {
+    public double getInertia(ParameterizedParticle particle) {
         double velocity =  particle.getInertia().getVelocity();
         BoundedControlParameter position =  (BoundedControlParameter) particle.getInertia();
         Bounds bounds = new Bounds(position.getLowerBound(), position.getUpperBound());
-        return Real.valueOf(velocity, bounds).doubleValue();
+        double value =  Real.valueOf(velocity, bounds).doubleValue();
+        //if(isWithinBounds(value, particle.getInertia()))
+            return value;
+        //return position.getParameter();
     }
     
     /*
      * {@inheritDoc}
      */
     @Override
-    public double getSocialAcceleration(ParametizedParticle particle) {
+    public double getSocialAcceleration(ParameterizedParticle particle) {
         double velocity =  particle.getSocialAcceleration().getVelocity();
         BoundedControlParameter position =  (BoundedControlParameter) particle.getSocialAcceleration();
         Bounds bounds = new Bounds(position.getLowerBound(), position.getUpperBound());
-        return Real.valueOf(velocity, bounds).doubleValue();
+        double value =  Real.valueOf(velocity, bounds).doubleValue();
+        //if(isWithinBounds(value, particle.getSocialAcceleration()))
+            return value;
+        //return position.getParameter();
     }
     
     /*
      * {@inheritDoc}
      */
     @Override
-    public double getCognitiveAcceleration(ParametizedParticle particle) {
+    public double getCognitiveAcceleration(ParameterizedParticle particle) {
         double velocity =  particle.getCognitiveAcceleration().getVelocity();
         BoundedControlParameter position =  (BoundedControlParameter) particle.getCognitiveAcceleration();
         Bounds bounds = new Bounds(position.getLowerBound(), position.getUpperBound());
-        return Real.valueOf(velocity, bounds).doubleValue();
+        double value =  Real.valueOf(velocity, bounds).doubleValue();
+        //if(isWithinBounds(value, particle.getCognitiveAcceleration()))
+            return value;
+        //return position.getParameter();
     }
     
     /*
      * {@inheritDoc}
      */
     @Override
-    public double getVmax(ParametizedParticle particle) {
+    public double getVmax(ParameterizedParticle particle) {
         double velocity =  particle.getVmax().getVelocity();
         BoundedControlParameter position =  (BoundedControlParameter) particle.getVmax();
         Bounds bounds = new Bounds(position.getLowerBound(), position.getUpperBound());
-        return Real.valueOf(velocity, bounds).doubleValue();
+        double value =  Real.valueOf(velocity, bounds).doubleValue();
+        //if(isWithinBounds(value, particle.getVmax()))
+            return value;
+        //return position.getParameter();
+    }
+    
+     public boolean isWithinBounds(double value, ControlParameter parameter) {
+        if(parameter instanceof BoundedModifiableControlParameter) {
+            BoundedModifiableControlParameter newParameter = (BoundedModifiableControlParameter) parameter;
+            
+            if((value > newParameter.getLowerBound()) && (value < newParameter.getUpperBound())) {
+                return true;
+            }
+        } else {
+            return true;
+        }
+        
+        return false;
     }
 }

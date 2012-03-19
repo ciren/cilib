@@ -31,7 +31,7 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -74,7 +74,7 @@ public class StandardVelocityProviderTest {
         problem.setDomain("R(-5.12, 5.12)^5");
         problem.setFunction(new Spherical());
         
-        Particle particle = new ParametizedParticle();
+        Particle particle = new ParameterizedParticle();
         particle.initialise(problem);
         particle.setCandidateSolution(Vector.of(1.0,1.0,1.0));
         particle.getProperties().put(EntityType.Particle.VELOCITY, Vector.of(2.0,2.0,2.0));
@@ -223,7 +223,7 @@ public class StandardVelocityProviderTest {
     @Test
     public void testSetControlParameters() {
         System.out.println("setControlParameters");
-        ParametizedParticle particle = new ParametizedParticle();
+        ParameterizedParticle particle = new ParameterizedParticle();
         particle.setInertia(new ConstantControlParameter(0.55));
         particle.setSocialAcceleration(new ConstantControlParameter(0.55));
         particle.setCognitiveAcceleration(new ConstantControlParameter(0.55));
@@ -246,7 +246,7 @@ public class StandardVelocityProviderTest {
         problem.setDomain("R(-5.12, 5.12)^5");
         problem.setFunction(new Spherical());
         
-        ParametizedParticle particle = new ParametizedParticle();
+        ParameterizedParticle particle = new ParameterizedParticle();
         /*particle.initialise(problem);
         particle.setCandidateSolution(Vector.of(1.0,1.0,1.0));
         particle.getProperties().put(EntityType.Particle.VELOCITY, Vector.of(2.0,2.0,2.0));

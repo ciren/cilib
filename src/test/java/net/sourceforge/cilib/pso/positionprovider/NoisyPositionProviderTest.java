@@ -22,14 +22,14 @@
 package net.sourceforge.cilib.pso.positionprovider;
 
 import junit.framework.Assert;
-import net.sourceforge.cilib.controlparameter.BoundedControlParameter;
 import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.controlparameter.ParameterAdaptingPSOControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.ExponentialDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
@@ -38,7 +38,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -142,8 +141,8 @@ public class NoisyPositionProviderTest {
     public void testGetInertia() {
         System.out.println("getInertia");
         NoisyPositionProvider noisyProvider = new NoisyPositionProvider();
-        ParametizedParticle particle = new ParametizedParticle();
-        ControlParameter parameter = new BoundedModifiableControlParameter();
+        ParameterizedParticle particle = new ParameterizedParticle();
+        ParameterAdaptingPSOControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(0.5);
         particle.setInertia(parameter);
         particle.getInertia().setVelocity(0.1);
@@ -152,6 +151,7 @@ public class NoisyPositionProviderTest {
         
         Assert.assertNotSame(intermediatePosition, result);
         Assert.assertNotSame(result, parameter.getParameter());
+        
     }
 
     /**
@@ -161,8 +161,8 @@ public class NoisyPositionProviderTest {
     public void testGetSocial() {
         System.out.println("getSocial");
         NoisyPositionProvider noisyProvider = new NoisyPositionProvider();
-        ParametizedParticle particle = new ParametizedParticle();
-        ControlParameter parameter = new BoundedModifiableControlParameter();
+        ParameterizedParticle particle = new ParameterizedParticle();
+        ParameterAdaptingPSOControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(0.5);
         particle.setSocialAcceleration(parameter);
         particle.getSocialAcceleration().setVelocity(0.1);
@@ -180,8 +180,8 @@ public class NoisyPositionProviderTest {
     public void testGetPersonal() {
         System.out.println("getPersonal");
         NoisyPositionProvider noisyProvider = new NoisyPositionProvider();
-        ParametizedParticle particle = new ParametizedParticle();
-        ControlParameter parameter = new BoundedModifiableControlParameter();
+        ParameterizedParticle particle = new ParameterizedParticle();
+        ParameterAdaptingPSOControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(0.5);
         particle.setCognitiveAcceleration(parameter);
         particle.getCognitiveAcceleration().setVelocity(0.1);
@@ -199,8 +199,8 @@ public class NoisyPositionProviderTest {
     public void testGetVmax() {
         System.out.println("getVmax");
         NoisyPositionProvider noisyProvider = new NoisyPositionProvider();
-        ParametizedParticle particle = new ParametizedParticle();
-        ControlParameter parameter = new BoundedModifiableControlParameter();
+        ParameterizedParticle particle = new ParameterizedParticle();
+        ParameterAdaptingPSOControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(0.5);
         particle.setVmax(parameter);
         particle.getVmax().setVelocity(0.1);
@@ -209,5 +209,26 @@ public class NoisyPositionProviderTest {
         
         Assert.assertNotSame(intermediatePosition, result);
         Assert.assertNotSame(result, parameter.getParameter());
+    }
+    
+    /*
+     * Test isWithinBounds, of class NoisyPositionProvider
+     */
+    public void testIsWithinBounds() {
+       BoundedModifiableControlParameter parameter = new BoundedModifiableControlParameter();
+       parameter.setLowerBound(0.3);
+       parameter.setUpperBound(0.6);
+       parameter.setParameter(0.44);
+       
+       NoisyPositionProvider instance = new NoisyPositionProvider();
+       
+       Assert.assertTrue(instance.isWithinBounds(parameter.getParameter(), parameter));
+       
+       parameter = new BoundedModifiableControlParameter();
+       parameter.setLowerBound(0.3);
+       parameter.setUpperBound(0.6);
+       parameter.setParameter(0.9);
+       
+       Assert.assertFalse(instance.isWithinBounds(parameter.getParameter(), parameter));
     }
 }

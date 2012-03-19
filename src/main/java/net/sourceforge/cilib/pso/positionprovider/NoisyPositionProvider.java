@@ -21,11 +21,13 @@
  */
 package net.sourceforge.cilib.pso.positionprovider;
 
+import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.util.Vectors;
 
 /**
@@ -90,39 +92,65 @@ public class NoisyPositionProvider implements PositionProvider {
      * {@inheritDoc}
      */
     @Override
-    public double getInertia(ParametizedParticle particle) {
+    public double getInertia(ParameterizedParticle particle) {
         double position = this.delegate.getInertia(particle);
         double randomValue = this.distribution.getRandomNumber();
-        return position + randomValue;
+        double value = position + randomValue;
+        //if(isWithinBounds(value, particle.getInertia()))
+            return value;
+       // return position;
     }
     
     /*
      * {@inheritDoc}
      */
     @Override
-    public double getSocialAcceleration(ParametizedParticle particle) {
+    public double getSocialAcceleration(ParameterizedParticle particle) {
         double position = this.delegate.getSocialAcceleration(particle);
         double randomValue = this.distribution.getRandomNumber();
-        return position + randomValue;
+        double value = position + randomValue;
+        //if(isWithinBounds(value, particle.getSocialAcceleration()))
+            return value;
+        //return position;
     }
     
     /*
      * {@inheritDoc}
      */
     @Override
-    public double getCognitiveAcceleration(ParametizedParticle particle) {
+    public double getCognitiveAcceleration(ParameterizedParticle particle) {
         double position = this.delegate.getCognitiveAcceleration(particle);
         double randomValue = this.distribution.getRandomNumber();
-        return position + randomValue;
+        double value = position + randomValue;
+        //if(isWithinBounds(value, particle.getCognitiveAcceleration()))
+            return value;
+        //return position;
     }
     
     /*
      * {@inheritDoc}
      */
     @Override
-    public double getVmax(ParametizedParticle particle) {
+    public double getVmax(ParameterizedParticle particle) {
         double position = this.delegate.getVmax(particle);
         double randomValue = this.distribution.getRandomNumber();
-        return position + randomValue;
+        double value = position + randomValue;
+        //if(isWithinBounds(value, particle.getVmax()))
+            return value;
+        //return position;
+    }
+    
+    public boolean isWithinBounds(double value, ControlParameter parameter) {
+        if(parameter instanceof BoundedModifiableControlParameter) {
+            BoundedModifiableControlParameter newParameter = (BoundedModifiableControlParameter) parameter;
+            
+            if((value > newParameter.getLowerBound()) && (value < newParameter.getUpperBound())) {
+                return true;
+            }
+        } else {
+            return true;
+        }
+        
+        return false;
     }
 }

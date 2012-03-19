@@ -28,7 +28,7 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
@@ -88,7 +88,7 @@ public class BoundedPersonalBestUpdateStrategyTest {
     public void testUpdateParametizedPersonalBest() {
         System.out.println("updateParametizedPersonalBest");
         Real real = Real.valueOf(0.0, new Bounds(-5.0, 5.0));
-        ParametizedParticle particle = new ParametizedParticle();
+        ParameterizedParticle particle = new ParameterizedParticle();
 
         particle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(200.0));
         particle.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(300.0));
@@ -120,7 +120,7 @@ public class BoundedPersonalBestUpdateStrategyTest {
     public void testUpdateParametizedPersonalBestFails() {
         System.out.println("updateParametizedPersonalBest Fails");
         Real real = Real.valueOf(0.0, new Bounds(-5.0, 5.0));
-        ParametizedParticle particle = new ParametizedParticle();
+        ParameterizedParticle particle = new ParameterizedParticle();
 
         particle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(200.0));
         particle.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(300.0));

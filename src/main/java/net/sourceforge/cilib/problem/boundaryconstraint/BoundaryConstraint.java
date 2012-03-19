@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.problem.boundaryconstraint;
 
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -41,6 +42,6 @@ public interface BoundaryConstraint extends Cloneable {
      * Enforce the defined boundary constraint on the provided {@linkplain Entity}.
      * @param entity The {@linkplain Entity} with which the boundary is to be enforced.
      */
-    void enforce(Entity entity);
+    Entity enforce(Entity entity);
 
 }
