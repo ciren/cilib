@@ -21,8 +21,8 @@
  */
 package net.sourceforge.cilib.functions.continuous.dynamic.moo.fda1;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 
@@ -31,118 +31,109 @@ import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
  * M.Farina, K.Deb, P.Amato. Dynamic multiobjective optimization problems: test cases, approximations
  * and applications, IEEE Transactions on Evolutionary Computation, 8(5): 425-442, 2003
  *
- * R(-1, 1)^20
- *
  * @author Marde Greeff
  */
+
 public class FDA1_f2 implements ContinuousFunction {
 
     private static final long serialVersionUID = 6369118486095689078L;
+
     //member
-    private Function<Vector, ? extends Number> fda1_g;
-    private Function<Vector, ? extends Number> fda1_h;
-    private FunctionMinimisationProblem fda1_g_problem;
-    private FunctionMinimisationProblem fda1_h_problem;
+    ContinuousFunction fda1_g;
+    ContinuousFunction fda1_h;
+    FunctionMinimisationProblem fda1_g_problem;
+    FunctionMinimisationProblem fda1_h_problem;
+
+    //Domain("R(-1, 1)^20");
+
 
     /**
-     * Default constructor
-     */
-    public FDA1_f2() {
-        super();
-    }
-
-    /**
-     * Copy constructor.
-     * @param copy
-     */
-    @SuppressWarnings("unchecked")
-    public FDA1_f2(FDA1_f2 copy) {
-//        this.setDomain(copy.getDomain());
-        this.setFDA1_g(copy.getFDA1_g());
-        this.setFDA1_g(copy.getFDA1_g_problem());
-        this.setFDA1_h(copy.getFDA1_h());
-        this.setFDA1_h(copy.getFDA1_h_problem());
-    }
-
-    /**
-     * Sets the g function
-     * @param problem
+     * Sets the g function with a specified problem.
+	 * @param problem FunctionMinimisationProblem used for the g function.
      */
     public void setFDA1_g(FunctionMinimisationProblem problem) {
         this.fda1_g_problem = problem;
-        this.fda1_g = problem.getFunction();
-//        this.fda1_g.setDomain(fda1_g.getDomainRegistry().getDomainString());
+        this.fda1_g = (ContinuousFunction)problem.getFunction();
     }
 
     /**
-     * returns the problem used to set the g function
-     * @return
+     * Returns the problem used to set the g function.
+	 * @return fda1_g_problem FunctionMinimisationProblem used for the g function.
      */
     public FunctionMinimisationProblem getFDA1_g_problem() {
         return this.fda1_g_problem;
     }
 
     /**
-     * Sets the g function that is used in the FDA1 problem
-     * @param fda1_g
+     * Sets the g function that is used in the FDA1 problem without specifying the problem.
+	 * @param fda1_g ContinuousFunction used for the g function.
      */
-    public void setFDA1_g(Function<Vector, ? extends Number> fda1_g) {
+    public void setFDA1_g(ContinuousFunction fda1_g) {
         this.fda1_g = fda1_g;
-//        this.setDomain(fda1_g.getDomainRegistry().getDomainString());
     }
 
     /**
-     * Returns the g function that is used in the FDA1 problem
-     * @return
+     * Returns the g function that is used in the FDA1 problem.
+	 * @return fda1_g ContinuousFunction used for the g function.
      */
-    public Function getFDA1_g() {
+    public ContinuousFunction getFDA1_g() {
         return this.fda1_g;
     }
 
     /**
-     * Sets the h function
-     * @param problem
+     * Sets the h function with a specified problem.
+	 * @param problem FunctionMinimisationProblem used for the h function.
      */
     public void setFDA1_h(FunctionMinimisationProblem problem) {
         this.fda1_h_problem = problem;
-        this.fda1_h = problem.getFunction();
-//        this.fda1_h.setDomain(fda1_h.getDomainRegistry().getDomainString());
+        this.fda1_h = (ContinuousFunction)problem.getFunction();
     }
 
     /**
-     * returns the problem used to set the h function
-     * @return
+     * Returns the problem used to set the h function.
+	 * @return fda1_h_problem FunctionMinimisationProblem used for the h function.
      */
     public FunctionMinimisationProblem getFDA1_h_problem() {
         return this.fda1_h_problem;
     }
 
     /**
-     * Sets the f1 function that is used in the FDA1 problem
-     * @param fda1_h
+     * Sets the h function that is used in the FDA1 problem without specifying the problem.
+	 * @param fda1_h ContinuousFunction used for the h function.
      */
-    public void setFDA1_h(Function<Vector, ? extends Number> fda1_h) {
+    public void setFDA1_h(ContinuousFunction fda1_h) {
         this.fda1_h = fda1_h;
-//        this.setDomain(fda1_h.getDomainRegistry().getDomainString());
     }
 
     /**
-     * Gets the f1 function that is used in the FDA1 problem
-     * @return
+     * Sets the f1 hunction that is used in the FDA1 problem without specifying the problem.
+	 * @param fda1_h ContinuousFunction used for the h function.
      */
-    public Function getFDA1_h() {
+    public ContinuousFunction getFDA1_h() {
         return this.fda1_h;
     }
 
     /**
-     * Evaluates the function
+     * Evaluates the function.
      * g*h
      */
     @Override
     public Double apply(Vector input) {
+        int iteration = AbstractAlgorithm.get().getIterations();
+        return apply(iteration, input);
+    }
+
+    /**
+     * Evaluates the function for a specific iteration.
+     * g*h
+     */
+    public Double apply(int iteration, Vector input) {
         Vector y = input.copyOfRange(1, input.size());
-        double g = this.fda1_g.apply(y).doubleValue();
-        double h = this.fda1_h.apply(input).doubleValue();
-        return g * h;
+        double g = ((FDA1_g)this.fda1_g).apply(iteration, y);
+        double h = ((FDA1_h)this.fda1_h).apply(iteration, input);
+
+        double value = g*h;
+
+        return value;
     }
 }

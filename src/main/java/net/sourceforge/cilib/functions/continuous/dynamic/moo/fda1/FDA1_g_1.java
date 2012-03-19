@@ -33,7 +33,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Marde Greeff
  */
 
-public class FDA1_g implements ContinuousFunction {
+public class FDA1_g_1 implements ContinuousFunction {
 
     private static final long serialVersionUID = 1721209032942724811L;
 
@@ -48,13 +48,13 @@ public class FDA1_g implements ContinuousFunction {
     /**
      * Creates a new instance of FDA1_g.
      */
-    public FDA1_g() {
+    public FDA1_g_1() {
         //initialize the members
         this.tau_t =  5;
         this.tau = 1;
         this.n_t = 10;
     }
-
+    
     /**
      * Sets the iteration number.
      * @param tau Iteration number.
@@ -111,7 +111,7 @@ public class FDA1_g implements ContinuousFunction {
         this.tau = AbstractAlgorithm.get().getIterations();
     	return this.apply(this.tau, x);
     }
-
+    
     /**
      * Evaluates the function for a specific iteration.
      */

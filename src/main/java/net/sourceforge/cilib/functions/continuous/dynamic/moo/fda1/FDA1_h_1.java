@@ -34,7 +34,7 @@ import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
  * @author Marde Greeff
  */
 
-public class FDA1_h implements ContinuousFunction {
+public class FDA1_h_1 implements ContinuousFunction {
 
     private static final long serialVersionUID = -539665464941830813L;
 
@@ -120,7 +120,7 @@ public class FDA1_h implements ContinuousFunction {
         int iteration = AbstractAlgorithm.get().getIterations();
         return apply(iteration, x);
     }
-
+    
     /**
      * Evaluates the function for a specific iteration.
      */

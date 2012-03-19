@@ -32,7 +32,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Marde Greeff
  */
 
-public class FDA2_g implements ContinuousFunction {
+public class FDA2_g_1 implements ContinuousFunction {
 
     private static final long serialVersionUID = 8726700022515610264L;
 
