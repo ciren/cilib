@@ -50,7 +50,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-6.285714286,6.285714286)^2
  *
- * @author Andries Engelbrecht
  */
 public class Bird implements ContinuousFunction {
 

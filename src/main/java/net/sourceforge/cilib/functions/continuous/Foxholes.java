@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * Default domain: R(-65.536,65.536)^2
  *
- * @author Gary Pampara
  */
 public class Foxholes implements ContinuousFunction {
 

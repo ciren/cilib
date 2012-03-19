@@ -33,7 +33,6 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  *
- * @author Wiehann Matthysen
  */
 public class WFG1Test {
 

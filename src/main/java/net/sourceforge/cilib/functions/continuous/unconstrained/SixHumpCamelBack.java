@@ -44,7 +44,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-3,3),R(-2,2)
  *
- * @author Clive Naicker
  * @version 1.0
  */
 public class SixHumpCamelBack implements ContinuousFunction {

@@ -38,7 +38,6 @@ import net.sourceforge.cilib.entity.Entity;
  * chapter 6, pp. 212-226. Academic Press Professional, 1996.
  * </li></ul></p>
  *
- * @author Edwin Peer
  * @param <E> The {@linkplain Entity} type.
  */
 public class LBestTopology<E extends Entity> extends GBestTopology<E> {

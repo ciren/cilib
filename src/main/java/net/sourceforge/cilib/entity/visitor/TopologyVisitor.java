@@ -31,7 +31,6 @@ import net.sourceforge.cilib.entity.Topology;
  * calculation of topology related information, such as diameter and
  * radius calculations of the provided topologies.
  *
- * @author gpampara
  */
 public interface TopologyVisitor extends Visitor<Topology<? extends Entity>> {
     /**

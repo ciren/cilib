@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * @author leo
  * This class represents all agents that function as state evaluators.
  * A state evaluator agent makes a decision by ranking each possible game state and choosing the one with the highest rank
  */

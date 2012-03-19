@@ -47,7 +47,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-1.28, 1.28)^30
  *
- * @author Gary Pampara
  */
 public class Quartic implements ContinuousFunction {
 

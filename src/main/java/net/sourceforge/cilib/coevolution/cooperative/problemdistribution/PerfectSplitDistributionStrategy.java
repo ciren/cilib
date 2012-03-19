@@ -37,8 +37,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * This {@linkplain ProblemDistributionStrategy} performs a split by assigning a
  * sequential portion of the same length to each participating
  * {@linkplain PopulationBasedAlgorithm}.
- * @author Theuns Cloete
- * @author leo
  */
 public class PerfectSplitDistributionStrategy implements ProblemDistributionStrategy {
 

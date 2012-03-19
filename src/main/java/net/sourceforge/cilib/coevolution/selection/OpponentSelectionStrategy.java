@@ -31,8 +31,6 @@ import net.sourceforge.cilib.util.Cloneable;
 /**
  * This class determins how opponents are selected from the opponent pool. A List of {@linkplain OpponentPoolSelectionStrategy}'s is maintained by
  * this class to dictate how the opponent pool is selected.
- * @author Julien Duhain
- * @author leo
  */
 public abstract class OpponentSelectionStrategy implements Cloneable{
 	List<OpponentPoolSelectionStrategy> poolSelection;

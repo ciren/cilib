@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.types.container.Matrix;
  * Implements the Curvilinear Component function for evaluating the
  * fitness of the Mapping problem.  (@see MappingProblem}
  *
- * @author jkroon
  */
 public class CurvilinearCompEvaluator implements MappingEvaluator {
     /**
@@ -40,7 +39,6 @@ public class CurvilinearCompEvaluator implements MappingEvaluator {
      *
      * @return the fitness as a double, wrapped inside a Fitness.
      *
-     * @author jkroon
      */
     public Fitness evaluateMapping(Matrix dist) {
         int numvect = prob.getNumInputVectors();
@@ -68,7 +66,6 @@ public class CurvilinearCompEvaluator implements MappingEvaluator {
      *
      * @return A value that decreases as o increases, never reaching 0.
      *
-     * @author jkroon
      */
     protected double f(double o) {
 //        return Math.exp(-o);
@@ -81,7 +78,6 @@ public class CurvilinearCompEvaluator implements MappingEvaluator {
      *
      * @param prob The instance of MappingProblem that is going use us.
      *
-     * @author jkroon
      */
     public void setMappingProblem(MappingProblem prob) {
         this.prob = prob;

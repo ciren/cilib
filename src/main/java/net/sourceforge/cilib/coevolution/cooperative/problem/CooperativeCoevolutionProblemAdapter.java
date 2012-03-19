@@ -43,8 +43,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * means to calculate the fitness of {@linkplain Entitie}s
  * of the participating {@linkplain Algorithm}s.
  *
- * @author leo
- * @author Theuns Cloete
  */
 public class CooperativeCoevolutionProblemAdapter extends OptimisationProblemAdapter {
 

@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * A strategy to determine what is meant by the <i>center of a cluster</i>. Sometimes,
  * <i>cluster center</i> refers to a cluster's {@link ClusterCentroidStrategy centroid} and other times it
  * refers to a cluster's {@link ClusterMeanStrategy mean}.
- * @author Theuns Cloete
  */
 public interface ClusterCenterStrategy extends Serializable {
     /**

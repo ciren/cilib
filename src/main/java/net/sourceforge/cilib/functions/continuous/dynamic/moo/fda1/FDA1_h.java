@@ -30,7 +30,6 @@ import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
  * M.Farina, K.Deb, P.Amato. Dynamic multiobjective optimization problems: test cases, approximations
  * and applications, IEEE Transactions on Evolutionary Computation, 8(5): 425-442, 2003
  *
- * @author Marde Greeff
  */
 public class FDA1_h implements ContinuousFunction {
 

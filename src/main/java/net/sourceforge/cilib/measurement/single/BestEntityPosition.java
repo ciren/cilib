@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Print the position of the best entity within a topology.
  *
- * @author Gary Pampara
  */
 public class BestEntityPosition implements Measurement<StringType> {
     private static final long serialVersionUID = 5808686984197365658L;

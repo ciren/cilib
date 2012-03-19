@@ -38,7 +38,6 @@ import static org.mockito.Mockito.when;
 
 /**
 *
-* @author Andries Engelbrecht
 */
 public class DimensionBoundViolationsPerParticleTest {
 

@@ -38,7 +38,6 @@ import net.sourceforge.cilib.entity.operators.mutation.MutationStrategy;
 
 /**
  * TODO: Complete this javadoc.
- * @author Gary Pampara
  */
 public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy<EC> {
 

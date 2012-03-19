@@ -28,7 +28,6 @@ import java.util.List;
  * An interface to an object that is capable of reading data from a source and
  * iterating over it in a row by row basis. This is essential as all input data
  * is assumed to be compatible with a table (which operates on rows).
- * @author andrich
  * @param <T> the type of the elements the row contains.
  */
 public interface DataReader<T> {

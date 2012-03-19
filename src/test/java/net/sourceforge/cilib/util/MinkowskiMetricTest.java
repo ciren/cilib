@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 /**
- * @author Theuns Cloete
  */
 public class MinkowskiMetricTest {
 

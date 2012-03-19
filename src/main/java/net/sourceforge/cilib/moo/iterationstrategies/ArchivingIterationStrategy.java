@@ -42,7 +42,6 @@ import net.sourceforge.cilib.type.types.Type;
  * of the inner {@code IterationStrategy} class.
  * </p>
  *
- * @author Wiehann Matthysen
  *
  * @param <E> The {@link PopulationBasedAlgorithm} that will have it's entities' positions added to
  * the archive as potential solutions.

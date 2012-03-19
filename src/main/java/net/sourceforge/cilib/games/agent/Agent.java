@@ -32,7 +32,6 @@ import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * This class represents a game playing agent.
- * @author leo
  */
 public abstract class Agent implements Cloneable {
     private static final long serialVersionUID = -9100541859324175287L;

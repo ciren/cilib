@@ -30,8 +30,6 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author Andries Engelbrecht
- * @author Gary Pampara
  */
 public class UniformMutationStrategy extends MutationStrategy {
 

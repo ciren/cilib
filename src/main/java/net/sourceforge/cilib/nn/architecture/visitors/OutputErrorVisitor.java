@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * The visitor calculates the output error as the difference between the target
  * output and the output layer output. The differences is not squared or summed.
- * @author andrich
  */
 public class OutputErrorVisitor extends ArchitectureOperationVisitor {
 

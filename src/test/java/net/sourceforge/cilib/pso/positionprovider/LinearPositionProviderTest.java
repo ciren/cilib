@@ -32,7 +32,6 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author filipe
  */
 public class LinearPositionProviderTest {
     @Test

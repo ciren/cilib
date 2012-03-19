@@ -28,7 +28,6 @@ import net.sourceforge.cilib.type.types.Type;
  * It is responsible for keeping track of the optimisation problem and position of the solution within the search
  * space.
  *
- * @author  Edwin Peer
  */
 public final class OptimisationSolution implements Solution, Comparable<OptimisationSolution> {
 

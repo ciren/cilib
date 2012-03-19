@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.games.result;
 
 /**
- * @author leo
  * the game resulted in a draw
  */
 public class DrawResult extends AbstractGameResult {

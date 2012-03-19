@@ -45,7 +45,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * In order for a pattern to be constructed, the index of the class of the pattern in the typed row needs to be known.
  * Some patterns also have an entire vector as the class, hence the class length can also be set. The default class
  * index is the last item in a row, and the default length is 1.
- * @author andrich
  */
 public class PatternConversionOperator extends SelectiveDataOperator {
     private Set<Integer> ignoreColumnIndices;

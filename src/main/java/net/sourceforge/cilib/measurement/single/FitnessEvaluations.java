@@ -27,7 +27,6 @@ import net.sourceforge.cilib.type.types.Int;
 
 /**
  *
- * @author  Edwin Peer
  */
 public class FitnessEvaluations implements Measurement<Int> {
     private static final long serialVersionUID = 8843539724541605245L;

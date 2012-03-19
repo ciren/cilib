@@ -52,7 +52,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(0,30)^1
  *
- * @author  engel
  */
 public class FiveUnevenPeakTrap implements ContinuousFunction {
     

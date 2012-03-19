@@ -32,7 +32,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Checks of the best position in the current population violates
  * boundary constraints.
  *
- * @author  Andries Engelbrecht
  */
 public class BestPositionBoundViolations implements Measurement<Real> {
     private static final long serialVersionUID = 8707987903689437725L;

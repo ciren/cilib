@@ -26,7 +26,6 @@ package net.sourceforge.cilib.nn.architecture;
  * can calculate its activations. This abstraction is necessary for avoiding
  * special cases such as when the feeding source is a pattern, or two layers
  * instead of one.
- * @author andrich
  */
 public interface NeuralInputSource {
 

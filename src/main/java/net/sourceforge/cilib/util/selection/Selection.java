@@ -33,7 +33,6 @@ import net.sourceforge.cilib.util.selection.weighting.Weighting;
 
 /**
  *
- * @author gpampara
  */
 public final class Selection<T> implements WeighableSelection<T>, PartialSelection<T> {
 

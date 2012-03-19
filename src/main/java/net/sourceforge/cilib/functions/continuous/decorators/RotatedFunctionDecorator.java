@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Sequence;
 
 /**
- * @author Olusegun Olorunda
  *
  * Rotates a n-dimensional continuous function by multiplying it with
  * an orthonormal basis for R^n.

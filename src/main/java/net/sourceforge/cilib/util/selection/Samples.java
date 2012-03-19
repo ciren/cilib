@@ -31,7 +31,6 @@ import java.util.Set;
 
 /**
  *
- * @author gpampara
  */
 public class Samples {
 

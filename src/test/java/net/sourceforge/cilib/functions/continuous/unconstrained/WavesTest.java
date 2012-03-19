@@ -30,7 +30,6 @@ import org.junit.Test;
 
 /**
  *
- * @author engel
  */
 public class WavesTest {
  

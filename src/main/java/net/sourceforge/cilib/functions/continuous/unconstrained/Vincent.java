@@ -40,7 +40,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(0.25,10)^n
  *
- * @author  engel
  */
 public class Vincent implements ContinuousFunction {
     /**

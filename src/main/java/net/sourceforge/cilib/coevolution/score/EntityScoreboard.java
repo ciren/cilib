@@ -30,8 +30,6 @@ import net.sourceforge.cilib.type.types.Type;
 /**
  * This class provides a means of keeping a competition
  * history of one specific entity within a {@linkplain CoevolutionAlgorithm}.
- * @author cornelius gouws
- * @author leo
  */
 public class EntityScoreboard implements Type {
 	private static final long serialVersionUID = -2524835257237678625L;

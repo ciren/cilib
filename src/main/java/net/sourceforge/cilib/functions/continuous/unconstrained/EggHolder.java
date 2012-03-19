@@ -52,7 +52,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-512.0,512.0)^30
  *
- * @author gpampara
  */
 public class EggHolder implements ContinuousFunction {
 

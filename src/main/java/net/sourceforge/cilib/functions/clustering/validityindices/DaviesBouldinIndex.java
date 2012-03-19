@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *           Intelligence", volume = "1", number = "2", year = "1979", pages = "224--227", month =
  *           apr, issn = "0162-8828" }
  * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
- * @author Theuns Cloete
  */
 public class DaviesBouldinIndex extends ScatterSeperationRatio {
     private static final long serialVersionUID = -5167494843653998358L;

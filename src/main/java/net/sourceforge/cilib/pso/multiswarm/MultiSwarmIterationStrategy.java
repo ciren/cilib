@@ -58,7 +58,6 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  *    </algorithm>}
  * </pre>
  *
- * @author Julien Duhain
  *
  */
 public class MultiSwarmIterationStrategy extends AbstractIterationStrategy<MultiSwarm> {

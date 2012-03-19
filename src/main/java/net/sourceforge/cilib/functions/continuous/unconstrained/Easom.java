@@ -40,7 +40,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-100, 100)^2
  *
- * @author  engel
  */
 public class Easom implements ContinuousFunction {
 

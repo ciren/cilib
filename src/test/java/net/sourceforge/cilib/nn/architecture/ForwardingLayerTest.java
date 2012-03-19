@@ -33,7 +33,6 @@ import org.junit.Test;
 
 /**
  *
- * @author andrich
  */
 public class ForwardingLayerTest {
 

@@ -33,7 +33,6 @@ import net.sourceforge.cilib.util.Vectors;
 
 /**
  *
- * @author gpampara
  */
 public class SelfAdaptiveMutationStrategy extends MutationStrategy {
 

@@ -38,7 +38,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * stretched in the vertical direction by a factor of c (0 < c < 1) means that
  * g(x) is f(x) compressed in the vertical direction by a factor of 1/c
  *
- * @author Olusegun Olorunda
  */
 public class ScaledFunctionDecorator implements ContinuousFunction {
 

@@ -31,8 +31,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * The interface used to distribute the dimensions in a given {@link OptimisationProblem}
  * into sub-problems for a {@linkplain CooperativeCoevolutionAlgorithm}.
- * @author Theuns Cloete
- * @author leo
  */
 public interface ProblemDistributionStrategy {
     /**

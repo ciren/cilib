@@ -38,7 +38,6 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
 /**
  * Evolutionary Strategy to implement the Differential Evolutionary Algorithm.
  *
- * @author Gary Pampara
  */
 public class DifferentialEvolutionIterationStrategy extends AbstractIterationStrategy<EC> {
 

@@ -41,7 +41,6 @@ import net.sourceforge.cilib.type.types.Type;
  *
  * NOTE: For this measurement to be used, a resolution of 1 has to be set for
  * the measurement
- * @author  Julien Duhain
  */
 public class AverageBestErrorBeforeChange extends DynamicMeasurement {
 

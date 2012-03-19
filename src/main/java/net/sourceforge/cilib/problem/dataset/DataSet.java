@@ -29,8 +29,6 @@ import net.sourceforge.cilib.util.Cloneable;
 /**
  * This interface provides an abstraction for accessing data sets. The underlying data set can be
  * accessed using either an <code>InputStream</code> or a <code>byte[]</code>
- * @author Edwin Peer
- * @author Theuns Cloete
  */
 public abstract class DataSet implements Cloneable, Serializable {
     private static final long serialVersionUID = 5190227337412349440L;

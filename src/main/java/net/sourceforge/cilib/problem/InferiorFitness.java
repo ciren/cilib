@@ -26,7 +26,6 @@ package net.sourceforge.cilib.problem;
  * <p />
  * This class is a singleton.
  *
- * @author Edwin Peer
  */
 public final class InferiorFitness implements Fitness {
     private static final long serialVersionUID = -2129092436359289935L;

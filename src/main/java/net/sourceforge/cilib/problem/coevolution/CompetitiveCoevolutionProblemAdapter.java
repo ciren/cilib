@@ -29,7 +29,6 @@ import net.sourceforge.cilib.util.calculator.PropertyBasedFitnessCalculator;
 
 /**
  * This class is used by the sub populations of a competitive coevolution algorithm. It can only optimise {@linkplain Entitie}s using the {@linkplain PropertyBasedFitnessCalculator}
- * @author leo
  */
 public class CompetitiveCoevolutionProblemAdapter extends OptimisationProblemAdapter {
 	private static final long serialVersionUID = -6940622506198881027L;

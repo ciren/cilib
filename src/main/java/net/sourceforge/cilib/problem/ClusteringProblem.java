@@ -79,7 +79,6 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * </p>
  *
  * @see #regenerateDomain()
- * @author Theuns Cloete
  */
 public class ClusteringProblem extends OptimisationProblemAdapter {
     private static final long serialVersionUID = 7027242527499147957L;

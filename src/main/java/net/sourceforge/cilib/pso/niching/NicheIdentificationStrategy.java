@@ -28,7 +28,6 @@ import net.sourceforge.cilib.entity.Topology;
 /**
  * Identification of niches within a Niching process.
  *
- * @author gpampara
  */
 public interface NicheIdentificationStrategy {
 

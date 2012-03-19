@@ -30,7 +30,6 @@ import java.nio.channels.FileChannel;
 
 /**
  * Abstract data writer that writes data to a local file.
- * @author andrich
  */
 public abstract class FileWriter implements DataWriter {
 

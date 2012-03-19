@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * M.Farina, K.Deb, P.Amato. Dynamic multiobjective optimization problems: test cases, approximations
  * and applications, IEEE Transactions on Evolutionary Computation, 8(5): 425-442, 2003
  *
- * @author Marde Greeff
  */
 public class FDA2_f1 implements ContinuousFunction {
 

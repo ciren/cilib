@@ -30,7 +30,6 @@ import org.junit.Test;
 
 /**
  * Tests based on the usage of the ClosestEntityVisitor.
- * @author gpampara
  */
 public class ClosestEntityVisitorTest {
 

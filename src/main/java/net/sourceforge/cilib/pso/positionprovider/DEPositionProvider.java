@@ -36,7 +36,6 @@ import net.sourceforge.cilib.util.Vectors;
 
 /** Implementation of the DE PSO of Hendtlass.
  * TODO: can the DE strategies be incorporated somehow?
- * @author Andries Engelbrecht
  */
 public class DEPositionProvider implements PositionProvider {
 

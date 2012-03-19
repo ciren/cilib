@@ -28,7 +28,6 @@ import net.sourceforge.cilib.entity.Entity;
 /**
  * Perform a comparison based on the natural ordering of fitnesses.
  * @param <E> The {@code Entity} type.
- * @author gpampara
  */
 public class NaturalOrderFitnessComparator<E extends Entity> implements Comparator<E>, Serializable {
     private static final long serialVersionUID = -7915197939462591121L;

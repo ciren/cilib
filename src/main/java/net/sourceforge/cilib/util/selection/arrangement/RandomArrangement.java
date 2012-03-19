@@ -28,7 +28,6 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  *
- * @author gpampara
  */
 public class RandomArrangement<T> implements Arrangement<T> {
 

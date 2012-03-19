@@ -71,7 +71,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * ISSN={ }, }
  * </pre>
  *
- * @author Olusegun Olorunda
  */
 public class BlendCrossoverStrategy extends CrossoverStrategy {
 

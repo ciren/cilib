@@ -26,9 +26,6 @@ import net.sourceforge.cilib.coevolution.cooperative.contributionselection.Contr
  * Any algorithm that implements this interface can be used as a participant in any Cooperative
  * Algorithm. Any class that inherits from this inteface has to define a {@linkplain ContributionSelectionStrategy} member variable. This
  * strategy dictates how the solution contribution is selected from the {@linkplain ParticipatingAlgorithm}.
- * @author Edwin Peer
- * @author Theuns Cloete
- * @author leo
  */
 public interface ParticipatingAlgorithm {
 

@@ -30,9 +30,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 /**
- * @author Edwin Peer
- * @author Gary Pampara
- * @author Theuns Cloete
  */
 public class EuclideanDistanceMeasureTest {
 

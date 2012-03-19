@@ -27,7 +27,6 @@ import java.util.NoSuchElementException;
 import net.sourceforge.cilib.entity.Entity;
 
 /**
- * @author Gareth David
  * @param <E> The {@linkplain Entity} type.
  */
 public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {

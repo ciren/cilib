@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.types.Type;
  *
  * The creation of the Type can be done using specified bounds or with no bounds.
  *
- * @author Gary Pampara
  */
 interface TypeCreator {
 

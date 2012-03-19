@@ -37,7 +37,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * year={2010}}
  * </pre>
  *
- * @author Bennie Leonard
  */
 public class Elliptic implements ContinuousFunction {
 

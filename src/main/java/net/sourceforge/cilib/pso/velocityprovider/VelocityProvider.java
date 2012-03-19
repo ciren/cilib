@@ -28,7 +28,6 @@ import net.sourceforge.cilib.util.Cloneable;
 
 /**
  *
- * @author Gary Pampara
  */
 public interface VelocityProvider extends Cloneable {
 

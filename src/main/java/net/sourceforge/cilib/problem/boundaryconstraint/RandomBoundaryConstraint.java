@@ -50,7 +50,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *                      booktitle = "Proceedings of the 2007 IEEE Swarm Intelligence Symposium", month = apr,
  *                      year = {2007}, pages = {198--205} }
  * </pre>
- * @author Wiehann Matthysen
  */
 public class RandomBoundaryConstraint implements BoundaryConstraint {
 

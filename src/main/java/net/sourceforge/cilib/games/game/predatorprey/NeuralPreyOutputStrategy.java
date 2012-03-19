@@ -28,7 +28,6 @@ import net.sourceforge.cilib.games.items.GameToken;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author leo
  * This is a {@linkplain NeuralOutputInterpretationStrategy} that will interperet the output of a neural network to make a movement decision for a Prey agent
  */
 public class NeuralPreyOutputStrategy extends

@@ -30,7 +30,6 @@ import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author leo
  * This is an scoring strategy for the game of tetris. In this strategy certain features are measured and used
  * in the score as well as the number of lines cleared
  */

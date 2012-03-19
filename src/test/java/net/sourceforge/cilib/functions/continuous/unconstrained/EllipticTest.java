@@ -32,7 +32,6 @@ import org.junit.Test;
 
 /**
  * Test the validity of the implementation of the {@link Elliptic} function.
- * @author Bennie Leonard
  */
 public class EllipticTest {
 

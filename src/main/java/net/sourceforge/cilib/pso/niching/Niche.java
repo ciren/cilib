@@ -55,7 +55,6 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
  * <pre>
  * {@literal @}inproceedings{}
  * </pre>
- * @author gpampara
  */
 public class Niche extends MultiPopulationBasedAlgorithm {
     private static final long serialVersionUID = 3575627467034673738L;

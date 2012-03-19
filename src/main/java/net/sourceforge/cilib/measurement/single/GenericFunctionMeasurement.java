@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * @param <F> The "from" type.
  * @param <T> The "to" type.
- * @author Theuns Cloete
  */
 public class GenericFunctionMeasurement<F, T> implements Measurement<Real> {
 

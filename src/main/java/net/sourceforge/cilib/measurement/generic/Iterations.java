@@ -27,7 +27,6 @@ import net.sourceforge.cilib.type.types.Int;
 
 /**
  *
- * @author  Edwin Peer
  */
 public class Iterations implements Measurement<Int> {
     private static final long serialVersionUID = -1689111168205874937L;

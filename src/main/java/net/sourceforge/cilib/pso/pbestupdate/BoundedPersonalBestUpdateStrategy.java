@@ -32,7 +32,6 @@ import net.sourceforge.cilib.type.types.Types;
  * infeasible part of the search space will be allowed to do so, however, any solutions
  * found will not allowed to become personal best positions.
  *
- * @author gpampara
  */
 public class BoundedPersonalBestUpdateStrategy extends StandardPersonalBestUpdateStrategy {
 

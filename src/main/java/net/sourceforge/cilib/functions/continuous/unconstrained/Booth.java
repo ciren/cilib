@@ -50,7 +50,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-10,10)^2
  *
- * @author Andries Engelbrecht
  */
 public class Booth implements ContinuousFunction {
     private static final long serialVersionUID = -7803711986955989075L;

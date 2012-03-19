@@ -54,7 +54,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(0,20)^1
  *
- * @author  engel
  */
 public class Central2PeakTrap implements ContinuousFunction {
     

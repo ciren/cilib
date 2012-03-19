@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author Olusegun Olorunda
  *
  * This extends the concept of diversity around the population center by evaluating the average distance
  * around each entity in the population, i.e. each population entity is used as a center, and then

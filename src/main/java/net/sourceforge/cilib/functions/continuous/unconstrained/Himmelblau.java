@@ -39,7 +39,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-6, 6)^2
  *
- * @author Clive Naicker
  * @version 1.0
  */
 public class Himmelblau implements ContinuousFunction {

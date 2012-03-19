@@ -25,7 +25,6 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 
 /**
  * This seeding strategy always uses the same seed.
- * @author leo
  */
 public class FixedSeedStrategy extends GameSeedingStrategy {
     private static final long serialVersionUID = -4840550863563767935L;

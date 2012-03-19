@@ -48,7 +48,6 @@ import net.sourceforge.cilib.type.types.Type;
  * } <br />
  * </code> <br />
  *
- * @author Edwin Peer
  */
 public interface Fitness extends Type, Comparable<Fitness>, Serializable {
 

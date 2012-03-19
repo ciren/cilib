@@ -27,7 +27,6 @@ import java.util.concurrent.ExecutorService;
 
 /**
  *
- * @author gpampara
  */
 class SimulatorCreator implements Provider<Simulator> {
 

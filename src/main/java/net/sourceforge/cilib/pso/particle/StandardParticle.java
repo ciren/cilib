@@ -31,8 +31,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
- * @author Edwin Peer
- * @author Gary Pampara
  */
 public class StandardParticle extends AbstractParticle {
     private static final long serialVersionUID = 2610843008637279845L;

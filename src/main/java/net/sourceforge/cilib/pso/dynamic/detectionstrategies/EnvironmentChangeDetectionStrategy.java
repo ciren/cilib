@@ -33,9 +33,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * Detection strategies are used within the scope of a {@link DynamicIterationStrategy} to
  * detect whether the environment has change during the course of an
  * {@link Algorithm algorithm's} execution.
- * @author Anna Rakatianskaia
- * @author Gary Pampara
- * @author Theuns Cloete
  */
 public abstract class EnvironmentChangeDetectionStrategy<E extends PopulationBasedAlgorithm> implements Cloneable, Serializable {
     protected double epsilon = 0.0;

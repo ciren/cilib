@@ -29,7 +29,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * Class represents a data pattern: A feature vector and it's corresponding target.
  * The target type is a cloneable object, thereby being very unrestricted.
  *
- * @author andrich
  */
 public class StandardPattern implements Cloneable {
 

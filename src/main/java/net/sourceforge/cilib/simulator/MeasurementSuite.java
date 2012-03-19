@@ -40,7 +40,6 @@ import net.sourceforge.cilib.type.types.Type;
  *
  * @see net.sourceforge.Measurement.Measurement
  *
- * @author  Edwin Peer
  */
 public class MeasurementSuite implements MeasurementCollector {
 

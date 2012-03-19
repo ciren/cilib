@@ -35,7 +35,6 @@ import net.sourceforge.cilib.problem.MOOptimisationProblem;
  * {@link PopulationBasedAlgorithm}s.
  * </p>
  *
- * @author Wiehann Matthysen
  */
 public class RandomObjectiveAssignmentStrategy implements ObjectiveAssignmentStrategy {
 	private static final long serialVersionUID = 2421634715881142661L;

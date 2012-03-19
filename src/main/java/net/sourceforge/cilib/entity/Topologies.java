@@ -30,7 +30,6 @@ import net.sourceforge.cilib.entity.comparator.NaturalOrderFitnessComparator;
 
 /**
  * Topology related utilities.
- * @author gpampara
  */
 public final class Topologies {
 
@@ -57,7 +56,6 @@ public final class Topologies {
      * @param comparator The comparator to use.
      * @return a {@link Set} cosisting of the best entity of each neighbourhood in the
      *         topology
-     * @author Theuns Cloete
      */
     public static <T extends Entity> Set<T> getNeighbourhoodBestEntities(Topology<T> topology, Comparator<T> comparator) {
         // a Set does not allow duplicates

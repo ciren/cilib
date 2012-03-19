@@ -25,7 +25,6 @@ package net.sourceforge.cilib.algorithm;
  * This interface must be implemented by any class that wishes to receive progress
  * events.
  *
- * @author  Edwin Peer
  */
 public interface ProgressListener {
 

@@ -35,7 +35,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * other Entities.
  * </p>
  *
- * @author gpampara
  */
 public interface SocialEntity extends Cloneable {
 

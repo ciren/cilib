@@ -26,7 +26,6 @@ import net.sourceforge.cilib.entity.Particle;
 
 
 /**
- * @author Edwin Peer
  */
 public abstract class ParticleVisitor implements Visitor<Particle> {
 

@@ -37,7 +37,6 @@ import static org.mockito.Mockito.when;
 
 /**
  *
- * @author Gary Pampara
  */
 public class FitnessEvaluationsTest {
 

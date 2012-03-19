@@ -34,7 +34,6 @@ import net.sourceforge.cilib.util.Cloneable;
 /**
  * This interface defines a problem re-distribution strategy. This strategy is used to re-distribute a problem amongst a number of participating algorithms in a {@link HeterogeneousCooperativeAlgorithm}.
  *
- * @author leo
  *
  */
 public interface ProblemRedistributionStrategy extends Cloneable {

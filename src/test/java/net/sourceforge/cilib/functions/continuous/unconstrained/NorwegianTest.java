@@ -29,7 +29,6 @@ import org.junit.Before;
 import org.junit.Assert;
 
 /**
- * @author Bennie Leonard
  */
 public class NorwegianTest {
     private static final double EPSILON = 1.0E-6;

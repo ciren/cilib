@@ -31,7 +31,6 @@ import org.junit.Test;
 
 /**
  *
- * @author Wiehann Matthysen
  */
 public class VectorReaderTest {
 

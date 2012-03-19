@@ -27,7 +27,6 @@ import net.sourceforge.cilib.type.types.Type;
 
 
 /**
- * @author Gary Pampara
  */
 final class R implements TypeCreator {
     private static final long serialVersionUID = -3393953231231613279L;

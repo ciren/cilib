@@ -26,7 +26,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  *
- * @author Gary Pampara
  */
 public class Int implements Numeric {
 

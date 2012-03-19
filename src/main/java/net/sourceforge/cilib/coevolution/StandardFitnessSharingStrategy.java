@@ -29,7 +29,6 @@ import net.sourceforge.cilib.problem.MaximisationFitness;
 
 /**
  * example of implementation of an FitnessSharingStrategy.
- * @author Julien Duhain
  *
  */
 public class StandardFitnessSharingStrategy extends FitnessSharingStrategy{

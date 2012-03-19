@@ -30,7 +30,6 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 /**
  * Base class for algorithms that focus on a single populations of entities.
  * These types of algoruthms typically include PSO , EC, ACO etc.
- * @author Gary Pampara
  */
 public abstract class SinglePopulationBasedAlgorithm extends AbstractAlgorithm implements PopulationBasedAlgorithm {
     private static final long serialVersionUID = -4095104893057340895L;

@@ -30,8 +30,6 @@ import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 
 /**
  * This iteration strategy defines methods to select opponents.
- * @author Julien Duhain
- * @author leo
  * TODO: Refactor this code, it seems unnecesary
  */
 public class CompetitiveCoevolutionIterationStrategy extends CoevolutionIterationStrategy {

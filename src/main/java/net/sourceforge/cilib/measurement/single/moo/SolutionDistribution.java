@@ -38,7 +38,6 @@ import net.sourceforge.cilib.problem.Fitnesses;
  * in an archive.
  * </p>
  *
- * @author Wiehann Matthysen
  */
 public class SolutionDistribution implements Measurement {
 

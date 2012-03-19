@@ -26,7 +26,6 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 /**
  * This class uses the percentage games won as the Fitness value
- * @author leo
  *
  */
 public class PercentageWonFitnessCalculationStrategy extends FitnessCalculationStrategy {

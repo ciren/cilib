@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.container.Matrix;
 
 /**
  * TODO: This needs to implement the reading of a matrix as needed by MappingProblem.
- * @author Gary Pampara
  */
 public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
     private static final long serialVersionUID = 1141280214032774956L;

@@ -25,7 +25,6 @@ import org.junit.Test;
 
 /**
  *
- * @author Julien Duhain
  */
 public class GlobalMaximumMeasurementTest {
     @Test

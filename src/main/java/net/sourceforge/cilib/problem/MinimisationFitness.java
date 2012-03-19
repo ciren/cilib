@@ -25,7 +25,6 @@ package net.sourceforge.cilib.problem;
  * This class implements the <code>Comparable</code> interface for a minimisation problem.
  * That is, smaller fitness values have superior fitness.
  *
- * @author Edwin Peer
  */
 public class MinimisationFitness implements Fitness {
     private static final long serialVersionUID = 8380821922737298435L;

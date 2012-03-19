@@ -23,7 +23,6 @@ package net.sourceforge.cilib.io;
 
 /**
  *
- * @author gpampara
  */
 public class PatternDataTableBuilder{}// implements DataTableBuilder {
 //

@@ -31,7 +31,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * Class represents a neuron within a neural network and encapsulates weights
  * (that lead in to the neuron), an activation function and also stores its
  * current activation.
- * @author andrich
  */
 public class Neuron implements Cloneable {
 

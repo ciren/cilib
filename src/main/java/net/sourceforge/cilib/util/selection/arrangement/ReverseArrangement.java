@@ -31,7 +31,6 @@ import java.util.List;
 
 /**
  *
- * @author gpampara
  */
 public class ReverseArrangement<T> implements Arrangement<T> {
 

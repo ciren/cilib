@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * {@linkplain net.sourceforge.cilib.entity.Particle Particles} that overstep the
  * boundary get re-initialised to simulate a bouncing effect by flipping the
  * velocity (multiplying it with -1.0).
- * @author Wiehann Matthysen
  */
 public class DeflectionBoundaryConstraint implements BoundaryConstraint {
 

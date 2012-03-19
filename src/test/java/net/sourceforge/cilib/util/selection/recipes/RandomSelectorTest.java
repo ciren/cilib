@@ -30,7 +30,6 @@ import static org.hamcrest.core.Is.is;
 
 /**
  *
- * @author gpampara
  */
 public class RandomSelectorTest {
 

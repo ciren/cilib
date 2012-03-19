@@ -27,7 +27,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * This is a common abstraction for all solution classes. All solutions should extend this interface.
  * This interface does not declare any methods.
  *
- * @author  Edwin Peer
  */
 public interface Solution extends Cloneable {
 

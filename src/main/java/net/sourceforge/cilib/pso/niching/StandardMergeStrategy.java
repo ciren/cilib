@@ -44,7 +44,6 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * Upon completion of the entity migration, the empty sub-swarm is destroyed.
  * </p>
  *
- * @author gpampara
  */
 public class StandardMergeStrategy implements MergeStrategy {
     private static final long serialVersionUID = 6790307057694598017L;

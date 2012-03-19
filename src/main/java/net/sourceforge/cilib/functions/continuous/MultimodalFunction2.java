@@ -26,7 +26,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * R(0, 1)^1
- * @author gpampara
  */
 public class MultimodalFunction2 implements ContinuousFunction {
 

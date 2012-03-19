@@ -30,7 +30,6 @@ import net.sourceforge.cilib.entity.Entity;
  *                 Eberhart", year = "2002", volume = "2", pages = "1666--1670", booktitle =
  *                 "Proceedings of the 2002 Congress on Evolutionary Computation", location =
  *                 "Honolulu, HI, USA", isbn = "0-7803-7282-4", month = may }
- * @author Theuns Cloete
  * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
  */
 public class TopologyBestSentryDetectionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {

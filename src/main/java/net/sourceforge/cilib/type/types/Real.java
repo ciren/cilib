@@ -26,7 +26,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
- * @author Gary Pampara
  */
 public class Real implements Numeric {
 

@@ -36,7 +36,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
- * @author Bennie Leonard
  */
 public class EntropyDiversityTest {
     private PSO pso = new PSO();

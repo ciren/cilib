@@ -31,7 +31,6 @@ import org.junit.Test;
 
 /**
  *
- * @author Bennie Leonard
  */
 public class QuarticTest {
 

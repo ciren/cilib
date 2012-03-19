@@ -39,7 +39,6 @@ import net.sourceforge.cilib.util.Vectors;
  * developed by Blackwell and Bentley and then further improved by
  * Blackwell and Branke.
  *
- * @author Anna Rakitianskaia
  *
  */
 public class ChargedVelocityProvider implements VelocityProvider {

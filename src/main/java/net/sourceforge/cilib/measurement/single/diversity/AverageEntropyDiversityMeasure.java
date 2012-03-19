@@ -32,7 +32,6 @@ import net.sourceforge.cilib.type.types.container.TypeList;
  * A diversity measurement that calculates the diversity of a population to be
  * the average entropy over all dimensions in the search space.
  *
- * @author Bennie Leonard
  */
 public class AverageEntropyDiversityMeasure extends Diversity {
 

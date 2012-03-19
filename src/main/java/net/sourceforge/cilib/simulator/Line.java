@@ -24,7 +24,6 @@ package net.sourceforge.cilib.simulator;
 
 /**
  *
- * @author  Edwin Peer
  */
 class Line {
 

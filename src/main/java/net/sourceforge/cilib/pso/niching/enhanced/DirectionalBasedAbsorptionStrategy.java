@@ -37,7 +37,6 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  *
- * @author wayne
  */
 public class DirectionalBasedAbsorptionStrategy implements AbsorptionStrategy {
 

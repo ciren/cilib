@@ -31,7 +31,6 @@ package net.sourceforge.cilib.math.random.generator;
  * source code is Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler
  * and Brian Gough.
  *
- * @author  Edwin Peer
  */
 public class KnuthSubtractive implements RandomProvider {
     private static final long serialVersionUID = 8124520969303604479L;

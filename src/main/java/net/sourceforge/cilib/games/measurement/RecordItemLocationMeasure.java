@@ -32,7 +32,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Record each location an Agent has occupied at each timestep in the game. This could also be used
  * to measure locations a specific item type has occupied.
- * @author leo
  *
  */
 public class RecordItemLocationMeasure extends SingleAgentMeasure {

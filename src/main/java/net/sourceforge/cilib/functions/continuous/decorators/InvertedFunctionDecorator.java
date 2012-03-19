@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Function implementation to accept a function and to return the reciprocal
  * of that function value.
  *
- * @author Gary Pampara
  */
 public class InvertedFunctionDecorator implements ContinuousFunction {
 

@@ -28,7 +28,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * All {@linkplain net.sourceforge.cilib.problem.Problem problems} are effectively dynamic problems
  * where non-dynamic problems are essentially problems that are "frozen" at an arbitrary time step.
  *
- * @author  Edwin Peer
  */
 public interface Problem extends Cloneable {
 

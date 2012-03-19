@@ -27,7 +27,6 @@ package net.sourceforge.cilib.controlparameter;
  * Any time the parameter exceeds the bounded range, it will be clamped and brought back to remain on
  * the edges of the range specified.
  *
- * @author Gary Pampara
  */
 public interface BoundedControlParameter extends ControlParameter {
 

@@ -39,7 +39,6 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * into the radius of the sub-swarm. When this occurs, the entity is removed from
  * the main swarm and is incorporated into the sub-swarm.
  * </p>
- * @author gpampara
  */
 public class StandardAbsorptionStrategy implements AbsorptionStrategy {
 

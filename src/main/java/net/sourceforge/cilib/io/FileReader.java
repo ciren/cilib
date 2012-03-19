@@ -32,7 +32,6 @@ import java.io.InputStreamReader;
  * Class represents a {@link DataReader DataReader} object that reads its data from
  * a local file. The type of file is not restricted.
  * @param <T> The data type that will be read from the file.
- * @author andrich
  */
 public abstract class FileReader<T> implements DataReader<T> {
 

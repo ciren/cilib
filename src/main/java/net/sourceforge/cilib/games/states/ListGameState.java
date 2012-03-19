@@ -31,7 +31,6 @@ import net.sourceforge.cilib.games.items.ItemLocation;
  * This is a {@linkplain GameState} where {@linkplain GameItem}'s are stored in a list of items. This implies that any items position
  * in the list has not correlation to the items location in the game. This is usefull when you have items in large 2 or 3 dimensional spaces
  * and you would more likely look for an item by searching through a list than quering a location in a known structure.
- * @author leo
  */
 public class ListGameState extends GameState {
     private static final long serialVersionUID = -3783796952913336520L;

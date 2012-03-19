@@ -29,7 +29,6 @@ import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
  * <tt>Particle Swarm Optimization Methods for Pattern Recognition and Image Processing</tt>,
  * November 2004
  * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
- * @author Theuns Cloete
  */
 public class TuriIndex extends ClusteringFitnessFunction {
     private static final long serialVersionUID = 2457356424874462741L;

@@ -36,7 +36,6 @@ import net.sourceforge.cilib.type.types.Type;
  * An implementation of an ARFF file reader according to:
  * {@link http://www.cs.waikato.ac.nz/~ml/weka/arff.html}. Currently the reader
  * does not support the DATE format as no CIlib equivalent type exists.
- * @author andrich
  */
 public class ARFFFileReader extends FileReader<List<Type>> {
 

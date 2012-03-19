@@ -34,7 +34,6 @@ import static org.hamcrest.Matchers.lessThanOrEqualTo;
 
 /**
  *
- * @author gpampara
  */
 public class DomainPercentageInitializationStrategyTest {
 

@@ -23,7 +23,6 @@ package net.sourceforge.cilib.measurement;
 
 /**
  *
- * @author gpampara
  */
 public class MeasurementMemento {
 

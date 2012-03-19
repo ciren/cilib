@@ -37,7 +37,6 @@ import net.sourceforge.cilib.type.types.container.TypeList;
  * Requires the set of non-dominated decision vectors to be evaluated.
  * </p>
  *
- * @author Wiehann Matthysen
  */
 public class ParetoOptimalFront implements Measurement<TypeList> {
 

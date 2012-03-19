@@ -34,7 +34,6 @@ import static org.hamcrest.CoreMatchers.*;
 
 /**
  *
- * @author gpampara
  */
 public class ProportionalArrangementTest {
 

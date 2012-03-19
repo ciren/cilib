@@ -40,7 +40,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * useful to see if convergence in certain dimensions is
  * too slow.
  *
- * @author  Andries Engelbrecht
  */
 public class ConvergedDimensions implements Measurement<Real> {
 

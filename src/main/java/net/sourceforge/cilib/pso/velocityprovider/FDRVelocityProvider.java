@@ -57,7 +57,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </code>
  * </p>
  *
- * @author Olusegun Olorunda
  */
 public class FDRVelocityProvider implements VelocityProvider {
 

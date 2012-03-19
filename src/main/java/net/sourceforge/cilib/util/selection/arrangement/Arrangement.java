@@ -23,7 +23,6 @@ package net.sourceforge.cilib.util.selection.arrangement;
 
 /**
  *
- * @author gpampara
  */
 public interface Arrangement<T> {
 

@@ -33,7 +33,6 @@ import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
  *
  * R(-1, 1)^31
  *
- * @author Marde Greeff
  */
 public class FDA2_h implements ContinuousFunction {
 

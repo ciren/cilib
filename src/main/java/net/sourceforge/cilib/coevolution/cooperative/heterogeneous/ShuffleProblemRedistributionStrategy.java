@@ -36,7 +36,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * all the current participating algorithm's {@link CooperativeCoevolutionProblemAdapter}s is created, and then randomly re-assinged to the list
  * of algorithms.
  *
- * @author leo
  */
 public class ShuffleProblemRedistributionStrategy implements
         ProblemRedistributionStrategy {

@@ -38,7 +38,6 @@ import static org.mockito.Mockito.*;
 
 /**
  *
- * @author Wiehann Matthysen
  */
 public class NumberOfSolutionsTest {
 

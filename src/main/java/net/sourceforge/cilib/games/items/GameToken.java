@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.games.items;
 /**
  * This enum defines descriptors for any game items.
- * @author leo
  *
  */
 public enum GameToken implements GameEnum {
@@ -39,7 +38,6 @@ public enum GameToken implements GameEnum {
     }
     /**
      * Predator Prey tokens
-     * @author leo
      */
     public enum PredatorPrey implements GameEnum{
         PREDATOR,
@@ -59,7 +57,6 @@ public enum GameToken implements GameEnum {
     }
     /**
      * Tick Tack Toe tokens
-     * @author leo
      *
      */
     public enum TicTacToe implements GameEnum{
@@ -80,7 +77,6 @@ public enum GameToken implements GameEnum {
     }
     /**
      * Tetris tokens
-     * @author leo
      */
     public enum Tetris implements GameEnum{
         BOX,

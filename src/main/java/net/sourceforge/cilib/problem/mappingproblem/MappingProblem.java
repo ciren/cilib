@@ -37,7 +37,6 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * and merely provides a nice skeleton, similar to the
  * OptimisationProblemAdapter.
  *
- * @author jkroon
  *
  * TODO: change this to use the MatrixDataSetBuilder correctly
  */
@@ -71,7 +70,6 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
      * @param solution The solution to evaluate.  This must conform to the
      *        domain.
      *
-     * @author jkroon
      */
     protected final Fitness calculateFitness(Type solution) {
         Vector matrix = (Vector) solution;
@@ -114,7 +112,6 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
      * @param distmatrix The matrix as supplied by the Algorithm - do not alter.
      * @param outputs Place your resulting output vectors in here.
      *
-     * @author jkroon
      */
     protected abstract void performMapping(Matrix inputs, Vector distmatrix, Matrix outputs);
 
@@ -125,7 +122,6 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
      *
      * @return The size of the mapping matrix.
      *
-     * @author jkroon
      */
     protected abstract int getMatrixSize();
 
@@ -135,7 +131,6 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
      *
      * @return The current value of M.
      *
-     * @author jkroon
      */
     public final int getInputDim() {
         return inputDimension;
@@ -147,7 +142,6 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
      *
      * @return The current value of D.
      *
-     * @author jkroon
      */
     public final int getOutputDim() {
         return outputDimension;
@@ -158,7 +152,6 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
      * This function retrieves the number of input vectors that forms
      * part of the dataset.
      *
-     * @author jkroon
      */
     protected final int getNumInputVectors() {
         return numvectors;
@@ -170,7 +163,6 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
      *
      * @param The evaluator to use.
      *
-     * @author jkroon
      */
     public final void setEvaluator(MappingEvaluator evaluator) {
         this.evaluator = evaluator;
@@ -184,7 +176,6 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
      *
      * @param dataset The dataset from which to retrieve the data.
      *
-     * @author jkroon
      *
      * TODO: Get this to work!!!
      *
@@ -216,7 +207,6 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
      *
      * @return the distance between the two vectors.
      *
-     * @author jkroon
      */
     public final double getDistanceInputVect(int i1, int i2) {
         return inpDistMatrix.valueAt(i2, i1);

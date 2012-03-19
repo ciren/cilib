@@ -28,7 +28,6 @@ import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * All datasets that will be clustered have to implement this interface.
- * @author Theuns Cloete
  */
 public interface ClusterableDataSet {
 

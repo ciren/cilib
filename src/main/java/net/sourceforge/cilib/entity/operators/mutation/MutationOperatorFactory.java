@@ -28,7 +28,6 @@ import net.sourceforge.cilib.math.ArithmeticOperator;
 /**
  * Factory to return the correct object based on the given symbol / token.
  *
- * @author Gary Pampara
  */
 public final class MutationOperatorFactory {
 

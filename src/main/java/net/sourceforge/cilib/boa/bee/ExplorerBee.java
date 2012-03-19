@@ -33,7 +33,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * position is generated upon request if it is allowed. Keeps track of how many updates have occurred via numberOfUpdates and which iteration
  * the previous update occurred.
  *
- * @author Andrich
  *
  */
 public class ExplorerBee implements Cloneable {

@@ -42,7 +42,6 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  * <li>The <tt>getArrangedClusters()</tt> method (defined in {@linkplain ClusterableDataSet})
  * should be implemented to return the list of non-empty clusters.</li>
  * </ol>
- * @author Theuns Cloete
  */
 public class NumberOfClustersFormed implements Measurement<Int> {
     private static final long serialVersionUID = 2174807313995885918L;

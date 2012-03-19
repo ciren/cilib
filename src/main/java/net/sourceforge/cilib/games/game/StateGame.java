@@ -26,7 +26,6 @@ import net.sourceforge.cilib.games.agent.state.StateEvaluationAgent;
 import net.sourceforge.cilib.games.states.GameState;
 
 /**
- * @author leo
  * This interface should be extended by games that can be optimized by agents that expand every possible game state and select the best one.
  * This implies the use of {@linkplain StateEvaluationAgent}s
  */

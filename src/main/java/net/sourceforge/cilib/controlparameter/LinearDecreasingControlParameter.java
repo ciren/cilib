@@ -34,7 +34,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * within the parameter is based on the percentage complete of the running
  * {@linkplain net.sourceforge.cilib.algorithm.Algorithm algorithm}.
  *
- * @author Gary Pampara
  */
 public class LinearDecreasingControlParameter implements BoundedControlParameter {
 

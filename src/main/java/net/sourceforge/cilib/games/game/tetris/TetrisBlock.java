@@ -28,7 +28,6 @@ import net.sourceforge.cilib.games.items.ItemLocation;
 import net.sourceforge.cilib.games.states.GridGameState;
 
 /**
- * @author leo
  * This class represents a Block in tetris
  */
 public class TetrisBlock extends GameItem {

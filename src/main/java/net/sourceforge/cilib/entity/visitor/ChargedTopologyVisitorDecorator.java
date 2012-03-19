@@ -29,7 +29,6 @@ import net.sourceforge.cilib.pso.dynamic.ChargedParticle;
  * A topology visitor decorator that removes all charged particles from a topology
  * and then visits the topology with the decorated visitor.
  * 
- * @author filipe
  */
 public class ChargedTopologyVisitorDecorator implements TopologyVisitor {
     

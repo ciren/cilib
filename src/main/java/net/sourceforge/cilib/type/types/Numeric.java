@@ -24,7 +24,6 @@ package net.sourceforge.cilib.type.types;
 /**
  * Definition of the <tt>Numeric</tt> type.
  *
- * @author Gary Pampara
  */
 public interface Numeric extends Type, BoundedType, Comparable<Numeric>, Randomizable {
 

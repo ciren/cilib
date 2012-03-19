@@ -29,7 +29,6 @@ import java.util.List;
  * number of elements only. Selection of elements occurs numerically as a list
  * integers. The concrete extension of the class processes the list to determine
  * selected items.
- * @author andrich
  */
 public abstract class SelectiveDataOperator implements DataOperator {
 

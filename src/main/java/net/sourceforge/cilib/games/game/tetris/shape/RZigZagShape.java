@@ -27,7 +27,6 @@ import net.sourceforge.cilib.games.items.GridLocation;
 
 /**
  * This class represents the Reverse ZigZag shape
- * @author leo
  *
  */
 public class RZigZagShape extends AbstractShape {

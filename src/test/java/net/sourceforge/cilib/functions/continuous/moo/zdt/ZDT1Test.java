@@ -33,7 +33,6 @@ import static org.junit.Assert.assertThat;
 
 /**
  *
- * @author Wiehann Matthysen
  */
 public class ZDT1Test {
 

@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author Edwin Peer
  */
 public class ParticlePositions implements Measurement<StringType> {
     private static final long serialVersionUID = -7891715753767819344L;

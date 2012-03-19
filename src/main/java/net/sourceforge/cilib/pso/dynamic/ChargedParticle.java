@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.Int;
  * difference from DynamicParticle is that a charged particle stores the charge
  * magnitude and the initialization strategy for charge.
  *
- * @author Anna Rakitianskaia
  *
  */
 public class ChargedParticle extends DynamicParticle {

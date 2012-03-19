@@ -34,7 +34,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * in a {@link MOOptimisationProblem} to specific {@link PopulationBasedAlgorithm}s.
  * </p>
  *
- * @author Wiehann Matthysen
  */
 public interface ObjectiveAssignmentStrategy extends Cloneable {
 

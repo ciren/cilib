@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.container.Matrix;
  * Implements the Curvilinear Distance function for evaluating the
  * fitness of the Mapping problem.  (@see MappingProblem}
  *
- * @author jkroon
  */
 public class CurvilinearDistEvaluator implements MappingEvaluator {
     /**
@@ -39,7 +38,6 @@ public class CurvilinearDistEvaluator implements MappingEvaluator {
      *
      * @return the fitness as a double, wrapped inside a Fitness.
      *
-     * @author jkroon
      */
     public Fitness evaluateMapping(Matrix d) {
         int numvect = prob.getNumInputVectors();
@@ -67,7 +65,6 @@ public class CurvilinearDistEvaluator implements MappingEvaluator {
      *
      * @return A value that decreases as o increases, never reaching 0.
      *
-     * @author jkroon
      */
     protected double f(double o) {
 //        return Math.exp(-o);
@@ -80,7 +77,6 @@ public class CurvilinearDistEvaluator implements MappingEvaluator {
      *
      * @param prob The instance of MappingProblem that is going use us.
      *
-     * @author jkroon
      */
     public void setMappingProblem(MappingProblem prob) {
         this.prob = prob;
@@ -93,7 +89,6 @@ public class CurvilinearDistEvaluator implements MappingEvaluator {
      *
      * @param distanceMetric The DistanceMetric to use
      *
-     * @author jkroon
      */
     public void setDistanceMetric(DistanceMetric distanceMetric) {
         dist = distanceMetric;
@@ -106,7 +101,6 @@ public class CurvilinearDistEvaluator implements MappingEvaluator {
      *
      * @return The DistanceMetric currently in use.
      *
-     * @author jkroon
      */
     public DistanceMetric getDistanceMetric() {
         return dist;

@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * This strategy initializes the centroids of a clustering to random positions in the search
  * space.
  *
- * @author Theuns Cloete
  */
 public class RandomCentroidsInitialisationStrategy implements CentroidsInitialisationStrategy {
     private static final long serialVersionUID = -7509467292180867974L;

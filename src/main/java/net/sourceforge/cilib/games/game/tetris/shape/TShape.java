@@ -27,7 +27,6 @@ import net.sourceforge.cilib.games.items.GridLocation;
 
 /**
  * This class represents the T shape
- * @author leo
  *
  */
 public class TShape extends AbstractShape {

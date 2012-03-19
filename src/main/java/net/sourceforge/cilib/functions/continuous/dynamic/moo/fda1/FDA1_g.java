@@ -32,7 +32,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-1, 1)^19
  *
- * @author Marde Greeff
  */
 public class FDA1_g implements ContinuousFunction {
 

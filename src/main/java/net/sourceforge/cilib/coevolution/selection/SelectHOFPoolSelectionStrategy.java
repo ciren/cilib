@@ -36,7 +36,6 @@ import net.sourceforge.cilib.type.types.Type;
 
 /**
  * Maintains a HOF and adds the HOF {@linkplain Competitor}s to the pool
- * @author leo
  *
  */
 public class SelectHOFPoolSelectionStrategy extends

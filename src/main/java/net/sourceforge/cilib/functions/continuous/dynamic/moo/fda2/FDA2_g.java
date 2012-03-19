@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-1, 1)^15
  *
- * @author Marde Greeff
  */
 public class FDA2_g implements ContinuousFunction {
 

@@ -38,7 +38,6 @@ import static org.hamcrest.Matchers.hasItem;
 
 /**
  *
- * @author gpampara
  */
 public class ElitistSelectorTest {
 

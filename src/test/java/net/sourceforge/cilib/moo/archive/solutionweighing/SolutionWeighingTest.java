@@ -44,7 +44,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * @author Wiehann Matthysen
  */
 public class SolutionWeighingTest {
 

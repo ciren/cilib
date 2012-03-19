@@ -31,7 +31,6 @@ import net.sourceforge.cilib.util.Vectors;
  * Decorates a {@link PositionUpdateVisitor} or a {@link VelocityUpdateVisitor}
  * with random noise from any probability distribution function.
  *
- * @author Bennie Leonard
  */
 public class NoisyPositionProvider implements PositionProvider {
 

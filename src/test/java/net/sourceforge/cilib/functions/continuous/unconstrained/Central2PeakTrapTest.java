@@ -32,7 +32,6 @@ import org.junit.Test;
 
 /**
  *
- * @author engel
  */
 public class Central2PeakTrapTest {
     

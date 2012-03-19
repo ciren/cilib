@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.games.result;
 
 /**
- * @author leo
  * there is no winner and or loser, each player is given a score in the game, and this is recorded
  */
 public class ScoreGameResult extends AbstractGameResult {

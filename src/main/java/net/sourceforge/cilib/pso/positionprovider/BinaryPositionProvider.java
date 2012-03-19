@@ -28,7 +28,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Binary position update strategy to enable the BinaryPSO.
  *
- * @author Gary Pampara
  */
 public class BinaryPositionProvider implements PositionProvider {
 

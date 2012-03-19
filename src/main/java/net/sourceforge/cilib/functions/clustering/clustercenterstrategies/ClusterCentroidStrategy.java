@@ -26,7 +26,6 @@ import net.sourceforge.cilib.util.ClusteringUtils;
 
 /**
  * The <i>center of a cluster</i> is interpreted as the <i>centroid of a cluster</i>.
- * @author Theuns Cloete
  */
 public class ClusterCentroidStrategy implements ClusterCenterStrategy {
     private static final long serialVersionUID = -7831635507079248268L;

@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * This class is used to give a Neural Network a Tic Tac Toe game.
  * For this {@linkplain NeuralStateInputStrategy} the Neural Network needs to have a number of inputs equals to the number of cells in the game.
  * Each input is then given to the network depending if the cell is occupied by the current player, the opponent player or if its empty.
- * @author leo
  *
  */
 public class TTTStateInputStrategy extends NeuralStateInputStrategy {

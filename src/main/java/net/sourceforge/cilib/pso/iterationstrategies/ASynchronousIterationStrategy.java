@@ -31,7 +31,6 @@ import net.sourceforge.cilib.pso.PSO;
 /**
  * Implementation of the asynchrounous iteration strategy for PSO.
  *
- * @author Gary Pampara
  */
 public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO> {
 

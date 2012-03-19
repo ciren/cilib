@@ -29,7 +29,6 @@ import net.sourceforge.cilib.games.states.GameState;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author leo
  * This class is used by the {@linkplain NeuralAgent} to alter the given game state by the output vector of the Neural Network after the input has
  * been processed.
  */

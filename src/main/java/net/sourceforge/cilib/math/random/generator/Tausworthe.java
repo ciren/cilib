@@ -47,7 +47,6 @@ package net.sourceforge.cilib.math.random.generator;
  *
  * Comment text ripped from GSL.
  *
- * @author  Edwin Peer
  */
 public class Tausworthe implements RandomProvider {
     private static final long serialVersionUID = -2863057390167225361L;

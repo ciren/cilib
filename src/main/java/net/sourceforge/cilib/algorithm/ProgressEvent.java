@@ -24,7 +24,6 @@ package net.sourceforge.cilib.algorithm;
 /**
  * A progress event informs the listening party about the percentage complete of the simulation.
  *
- * @author  Edwin Peer
  */
 public class ProgressEvent {
 

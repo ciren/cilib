@@ -27,7 +27,6 @@ package net.sourceforge.cilib.simulator;
 
 /**
  *
- * @author gpampara
  */
 interface LinkedXMLObjectBuilder {
 

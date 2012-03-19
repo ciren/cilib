@@ -44,7 +44,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-5.12, 5.12)^30
  *
- * @author  Edwin Peer
  */
 public class Rastrigin implements ContinuousFunction, Differentiable {
 

@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  *
  *
- * @author Edwin Peer
  */
 public class DeviationDecorator extends ParticleDecorator implements Cloneable {
     private static final long serialVersionUID = -7919347953251165107L;

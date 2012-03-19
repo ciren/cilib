@@ -25,7 +25,6 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 
 /**
- * @author Gary Pampara
  */
 public class IterationNeighbourhoodBestUpdateStrategy implements NeighbourhoodBestUpdateStrategy {
     private static final long serialVersionUID = 9029103734770326975L;

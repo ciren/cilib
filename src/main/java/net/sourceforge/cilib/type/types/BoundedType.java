@@ -32,7 +32,6 @@ package net.sourceforge.cilib.type.types;
  * functionality may need to be extended to an arbitrary amount of bounds. This
  * is still very much in debate.
  *
- * @author gpampara
  */
 public interface BoundedType {
 

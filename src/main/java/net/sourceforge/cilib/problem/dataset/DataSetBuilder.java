@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * @author Gary Pampara
  */
 public abstract class DataSetBuilder implements Iterable<DataSet>, Cloneable, Serializable {
 

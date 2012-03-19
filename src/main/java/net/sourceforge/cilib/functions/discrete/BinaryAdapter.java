@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @TODO: This doesn't actually make sense...... should rather be a problem that
  * does the needed mapping between spaces.
  *
- * @author Gary Pampara
  */
 public class BinaryAdapter implements ContinuousFunction {
     private static final long serialVersionUID = -329657439970469569L;

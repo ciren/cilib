@@ -29,7 +29,6 @@ import net.sourceforge.cilib.util.selection.weighting.Weighting;
 
 /**
  *
- * @author gpampara
  */
 public interface WeighableSelection<T> {
 

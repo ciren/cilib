@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.Type;
  * Class represents a DataOperator that converts a {@link StandardDataTable<String> StandardDataTable<String>}
  * to a {@link StandardDataTable<Type> StandardDataTable<Type>}. Attempts to match
  * tokens (in order) as: Real, Bit (booleans) and then defaults to StringType.
- * @author andrich
  */
 public class TypeConversionOperator extends SelectiveDataOperator {
 

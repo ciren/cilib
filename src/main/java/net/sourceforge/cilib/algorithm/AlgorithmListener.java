@@ -27,7 +27,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * Any class can implement this interface to be notified about algorithm events. Classes
  * implementing this interface can be added to the algorithm as an event listener using
  * {@link Algorithm#addAlgorithmListener(AlgorithmListener)}.
- * @author Edwin Peer
  */
 public interface AlgorithmListener extends Cloneable {
     /**

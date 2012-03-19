@@ -36,7 +36,6 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  *
- * @author wayne
  */
 public class ScatterMergeStrategy implements MergeStrategy {
 

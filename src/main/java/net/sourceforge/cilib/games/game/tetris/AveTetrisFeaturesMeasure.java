@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author leo
  * This is an {@linkplain AgentMeasure} that records certain Tetris features after every piece has been placed.
  */
 public class AveTetrisFeaturesMeasure extends AgentMeasure {

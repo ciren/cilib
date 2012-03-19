@@ -27,7 +27,6 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * Class to perform the needed mappings between a top level domain string
  * and the built representation.
  *
- * @author Gary Pampara
  */
 public class StringBasedDomainRegistry implements DomainRegistry {
     private static final long serialVersionUID = 3821361290684036030L;

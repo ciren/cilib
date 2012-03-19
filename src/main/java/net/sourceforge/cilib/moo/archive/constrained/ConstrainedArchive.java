@@ -34,7 +34,6 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * An {@link Archive} constrained by the number of solutions that it can store.
  * </p>
  *
- * @author Wiehann Matthysen
  */
 public abstract class ConstrainedArchive extends ForwardingCollection<OptimisationSolution> implements Archive {
 

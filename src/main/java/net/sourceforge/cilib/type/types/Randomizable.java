@@ -25,7 +25,6 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  *
- * @author gpampara
  */
 public interface Randomizable {
 

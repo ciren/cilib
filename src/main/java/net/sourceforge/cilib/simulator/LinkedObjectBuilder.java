@@ -25,7 +25,6 @@ import org.w3c.dom.Node;
 
 /**
  *
- * @author gpampara
  */
 interface LinkedObjectBuilder {
 

@@ -42,7 +42,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *             (c > 0) means that g(x) is f(x) shifted c units upwards
  *             (c < 0) means that g(x) is f(x) shifted c units downwards
  *
- * @author Olusegun Olorunda
  */
 public class ShiftedFunctionDecorator implements ContinuousFunction {
 

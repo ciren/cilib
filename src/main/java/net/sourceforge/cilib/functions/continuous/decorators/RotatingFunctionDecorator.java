@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Sequence;
 
 /**
- * @author Julien Duhain
  *
  * Rotates a n-dimensional continuous function according to the pseudo-code found in:
  * <pre>

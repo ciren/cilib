@@ -26,7 +26,6 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * @author leo
  * Defines how fitness values stored in the scoreboard are combined to get a single fitness value
  */
 public abstract class FitnessCalculationStrategy implements Cloneable {

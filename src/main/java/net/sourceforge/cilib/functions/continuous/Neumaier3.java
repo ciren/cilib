@@ -28,7 +28,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-900, 900)^30
  * 
- * @author  engel
  */
 public class Neumaier3 implements ContinuousFunction {
 

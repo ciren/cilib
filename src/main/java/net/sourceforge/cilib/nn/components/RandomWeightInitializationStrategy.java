@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Class implements the {@link WeightInitializationStrategy} interface and initializes
  * the weights randomly within a domain.
- * @author andrich
  */
 public class RandomWeightInitializationStrategy implements WeightInitializationStrategy {
 

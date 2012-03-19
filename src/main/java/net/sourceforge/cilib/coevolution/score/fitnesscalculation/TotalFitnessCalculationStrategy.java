@@ -28,7 +28,6 @@ import net.sourceforge.cilib.problem.Fitness;
 
 /**
  * the fitness is the total Fitness over all the fitness values attained in each round
- * @author leo
  */
 public class TotalFitnessCalculationStrategy extends FitnessCalculationStrategy {
 

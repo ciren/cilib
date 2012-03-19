@@ -28,7 +28,6 @@ import java.util.Iterator;
 
 /**
  *
- * @author Wiehann Matthysen
  */
 public class StandardMOFitness implements MOFitness {
 

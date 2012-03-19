@@ -38,8 +38,6 @@ import net.sourceforge.cilib.type.DomainRegistry;
 
 /**
  * This is the framework for a coevolution algorithm, either competitive or cooperative
- * @author Julien Duhain
- * @author leo
  * TODO: impliment and test cooperative side
  * TODO: This code needs a lot of love, need to refactor!
  */

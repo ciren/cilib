@@ -47,7 +47,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(0, 3.141592653589793)^10
  * 
- * @author  engel
  */
 public class Michalewicz implements ContinuousFunction {
 

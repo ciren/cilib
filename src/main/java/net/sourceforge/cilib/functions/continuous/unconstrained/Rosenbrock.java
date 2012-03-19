@@ -45,7 +45,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-2.048, 2.048)^30
  *
- * @author  Edwin Peer
  */
 public class Rosenbrock implements ContinuousFunction {
 

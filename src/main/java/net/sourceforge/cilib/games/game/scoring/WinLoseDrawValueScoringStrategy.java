@@ -29,7 +29,6 @@ import net.sourceforge.cilib.games.result.WinGameResult;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 
 /**
- * @author leo
  * This class assigns a fitness based upon the win/lose/draw result of the game and a value assosiated with each outcome.
  * If the outcome is a {@linkplain ScoreGameResult} then assign the score attained as the fitness
  */

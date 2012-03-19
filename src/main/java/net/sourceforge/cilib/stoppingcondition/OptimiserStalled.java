@@ -31,7 +31,6 @@ import net.sourceforge.cilib.util.ManhattanDistanceMeasure;
  * used to check if optimisation algorithm has stalled. still a very crude implementation. if the
  * distance from the current best is less then the specified minimum for more then the specified
  * maximum consecutive minimum change, then the algorithm is assumed to have stalled.
- * @author frans
  */
 public class OptimiserStalled implements StoppingCondition<Algorithm> {
     private static final long serialVersionUID = 4017249915571841835L;

@@ -41,7 +41,6 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * the knowledge gained during the search among the different sub-populations.
  * </p>
  *
- * @author Wiehann Matthysen
  */
 public class MultiPopulationCriterionBasedAlgorithm extends MultiPopulationBasedAlgorithm {
 

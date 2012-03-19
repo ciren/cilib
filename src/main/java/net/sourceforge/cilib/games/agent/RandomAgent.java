@@ -33,7 +33,6 @@ import net.sourceforge.cilib.type.types.Type;
 
 /**
  * This is an agent that chooses a random state as its decision, it will only work on {@linkplain Game}'s that impliment {@linkplain StateGame}
- * @author leo
  */
 public class RandomAgent extends Agent {
 
