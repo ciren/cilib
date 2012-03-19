@@ -34,7 +34,7 @@ public class ReinitialisingMergeStrategy extends MergeStrategy {
     @Override
     public PopulationBasedAlgorithm f(PopulationBasedAlgorithm subSwarm1, PopulationBasedAlgorithm subSwarm2) {
         PopulationBasedAlgorithm newSwarm = new StandardMergeStrategy().f(subSwarm1, subSwarm2);
-        
+
         for (int i = subSwarm2.getTopology().size(); i < newSwarm.getTopology().size(); i++) {
             newSwarm.getTopology().get(i).reinitialise();
             newSwarm.getTopology().get(i).calculateFitness();

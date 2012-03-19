@@ -83,6 +83,7 @@ public class StandardNicheCreationStrategy extends NicheCreationStrategy {
         
         GCVelocityProvider gcVelocityProvider = new GCVelocityProvider();
         gcVelocityProvider.setDelegate(delegate);
+        gcVelocityProvider.setRho(ConstantControlParameter.of(0.01));
         
         this.behavior = new ParticleBehavior();
         this.behavior.setVelocityProvider(gcVelocityProvider);
@@ -105,6 +106,7 @@ public class StandardNicheCreationStrategy extends NicheCreationStrategy {
         
         PopulationBasedAlgorithm newSubSwarm = subSwarm.getClone();
         newSubSwarm.setOptimisationProblem(a.getOptimisationProblem());
+        newSubSwarm.getTopology().clear();
         ((Topology<Particle>) newSubSwarm.getTopology()).addAll(Arrays.asList(nicheMainParticle, nicheClosestParticle));
         
         PopulationBasedAlgorithm newMainSwarm = a.getClone();

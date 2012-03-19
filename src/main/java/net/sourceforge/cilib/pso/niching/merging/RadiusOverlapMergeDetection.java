@@ -80,7 +80,6 @@ public class RadiusOverlapMergeDetection extends MergeDetection {
         //special case if both radii approximate 0 or if the swarms intersect
         if ((Math.abs(swarm1Radius) < Maths.EPSILON && Math.abs(swarm2Radius) < Maths.EPSILON 
                 && normalizedDistance < threshold.getParameter()) || (distance < swarm1Radius + swarm2Radius)) {
-            System.out.println(swarm1GBest + " " + swarm2GBest + " " + distance + " " + swarm1Radius + " " + swarm2Radius);
             return true;
         }
         
