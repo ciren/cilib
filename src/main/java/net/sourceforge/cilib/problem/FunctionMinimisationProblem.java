@@ -27,7 +27,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * An implementation of {@link net.sourceforge.cilib.problem.OptimisationProblemAdapter} that can be used to find the minimum of
  * any {@link net.sourceforge.cilib.functions.Function}.
- * @author Edwin Peer
  */
 public class FunctionMinimisationProblem extends FunctionOptimisationProblem {
     private static final long serialVersionUID = 8635875300412883576L;

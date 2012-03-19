@@ -45,7 +45,6 @@ import net.sourceforge.cilib.util.calculator.PropertyBasedFitnessCalculator;
 
 /**
  * This class is used by {@linkplain CoevolutionAlgorithm} to optimize a {@linkplain Game}.
- * @author leo
  */
 public class CompetitiveCoevolutionGameLearningOptimizationProblem extends
 		GameLearningOptimizationProblem implements

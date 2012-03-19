@@ -27,8 +27,6 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  *
- * @author Gary Pampara
- * @author Bennie Leonard
  */
 public class UniformDistribution implements ProbabilityDistributionFuction {
 

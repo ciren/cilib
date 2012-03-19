@@ -28,7 +28,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 /**
  *
- * @author Gary Pampara
  */
 public class StringTypeTest {
 

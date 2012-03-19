@@ -25,7 +25,6 @@ package net.sourceforge.cilib.coevolution.cooperative.problem;
  * This is an implimentation of the {@linkplain DimensionAllocation} class which stores a
  * offset into the original problem vector. Therefore the index values are in a sequencial order.
  *
- * @author leo
  */
 public class SequencialDimensionAllocation extends DimensionAllocation {
     private static final long serialVersionUID = 3575267573164099385L;

@@ -29,7 +29,6 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
  * according to a specified probability distribution function. By default,
  * the distribution is uniform.
  * 
- * @author bennie
  */
 public class RandomControlParameter implements BoundedControlParameter {
     protected ProbabilityDistributionFuction distribution;

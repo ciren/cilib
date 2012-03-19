@@ -26,7 +26,6 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * @author Julien Duhain
  *
  */
 public abstract class FitnessSharingStrategy implements Cloneable {

@@ -26,7 +26,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  *
- * @author leo
  *
  */
 public class Long implements Numeric {

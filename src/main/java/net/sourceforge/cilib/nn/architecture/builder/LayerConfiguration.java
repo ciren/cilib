@@ -28,7 +28,6 @@ import net.sourceforge.cilib.functions.activation.Sigmoid;
  * Intermediate object that encapsulates the data that specifies a layer configuration.
  * This includes its size, the activation function to use and whether it has a
  * bias neuron.
- * @author andrich
  */
 public class LayerConfiguration {
 

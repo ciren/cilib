@@ -33,7 +33,6 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 
 /**
  *
- * @author gpampara
  */
 public class ArchiveReevaluationResponseStrategy extends EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm> {
 

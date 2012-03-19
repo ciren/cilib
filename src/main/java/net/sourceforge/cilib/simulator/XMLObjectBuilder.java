@@ -27,7 +27,6 @@ import org.w3c.dom.Node;
 
 /**
  *
- * @author gpampara
  */
 class XMLObjectBuilder implements LinkedObjectBuilder, LinkedXMLObjectBuilder {
     private Document config;

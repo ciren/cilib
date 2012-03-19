@@ -44,7 +44,6 @@ import net.sourceforge.cilib.type.types.Type;
  * </p>
  *
  * @param <E> The {@code Type} type.
- * @author gpampara
  */
 public abstract class StateAwareMeasurement<E extends Type> implements Measurement<E>, Externalizable {
 

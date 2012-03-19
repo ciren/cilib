@@ -26,7 +26,6 @@ import net.sourceforge.cilib.nn.architecture.Architecture;
 
 /**
  * Interface extends a Visitor that visits a neural network {@link Architecture}
- * @author andrich
  */
 public interface ArchitectureVisitor extends Visitor<Architecture> {
 

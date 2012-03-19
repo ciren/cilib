@@ -28,7 +28,6 @@ import net.sourceforge.cilib.type.types.container.Matrix;
  * Class that actually evaluates a given Mapping. This is to allow using
  * the same evaluator for different mapping mechanisms in an easy manner.
  *
- * @author jkroon
  */
 public interface MappingEvaluator {
     /**
@@ -38,7 +37,6 @@ public interface MappingEvaluator {
      *
      * @return An instance of Fitness indicating the Fitness of this mapping.
      *
-     * @author jkroon
      */
     Fitness evaluateMapping(Matrix dist);
 
@@ -49,7 +47,6 @@ public interface MappingEvaluator {
      *
      * @param prob The instance of MappingProblem that is going to use the evaluator.
      *
-     * @author jkroon
      */
     void setMappingProblem(MappingProblem prob);
 

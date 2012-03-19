@@ -50,7 +50,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-5,10),R(0,15)
  *
- * @author Clive Naicker
  *
  */
 public class Branin implements ContinuousFunction {

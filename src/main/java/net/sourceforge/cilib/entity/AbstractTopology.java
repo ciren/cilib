@@ -33,8 +33,6 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
  * All {@linkplain net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm}
  * Topologies must inherit from this class.
  *
- * @author Gary Pampara
- * @author otter
  * @param <E> The {@code Entity} type.
  */
 public abstract class AbstractTopology<E extends Entity> implements Topology<E> {

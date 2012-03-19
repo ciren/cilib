@@ -25,7 +25,6 @@ import net.sourceforge.cilib.util.selection.arrangement.Arrangement;
 
 /**
  *
- * @author gpampara
  */
 public interface OrderableSelection<T> {
 

@@ -26,7 +26,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Interface to define operations associated with Vector mathematics.
  *
- * @author Gary Pampara
  */
 public interface VectorMath {
 

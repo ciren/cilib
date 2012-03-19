@@ -32,7 +32,6 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
- * @author leo
  *
  */
 public class AverageItemDistanceMeasure extends AgentMeasure {

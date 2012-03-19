@@ -50,7 +50,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-4.5,4.5)^2
  *
- * @author Andries Engelbrecht
  */
 public class Beale implements ContinuousFunction {
 

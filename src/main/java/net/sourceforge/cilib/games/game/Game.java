@@ -41,7 +41,6 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * @author leo
  * A general framework for a Game, turn based or real time. A game is played by Agents until it is terminated. A game has four possible outcomes
  * from the perspective of a player: Win, lose, draw or receive a score. A fitness is assigned to each game playing {@linkplain Agent} by the {@linkplain GameScoringStrategy}.
  */

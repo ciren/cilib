@@ -28,7 +28,6 @@ import java.util.concurrent.Executors;
 
 /**
  *
- * @author gpampara
  */
  final class SimulatorModule extends AbstractModule {
 

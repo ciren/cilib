@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.types.Numeric;
  * Update the personal best of the particle, based on the standard PSO definition
  * of the process.
  *
- * @author gpampara
  */
 public class StandardPersonalBestUpdateStrategy implements PersonalBestUpdateStrategy {
 

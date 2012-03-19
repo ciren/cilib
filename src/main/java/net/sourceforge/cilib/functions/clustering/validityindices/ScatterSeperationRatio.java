@@ -30,7 +30,6 @@ import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
  * of the cluster scatter and cluster seperation concepts. This class caches these values and
  * defines abstract methods (calculateWithinClusterScatter and calculateBetweenClusterSeperation)
  * which sub-classes have to implement to specify how their specific values are calculated.
- * @author Theuns Cloete
  */
 public abstract class ScatterSeperationRatio extends ClusteringFitnessFunction {
     private static final long serialVersionUID = 6758442782079174817L;

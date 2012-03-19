@@ -26,7 +26,6 @@ import net.sourceforge.cilib.coevolution.score.fitnesscalculation.TotalFitnessCa
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 
 /**
- * @author leo
  * This class represents all kinds of problems where an entity's fitness is determined by performing
  * a task a number of times.
  * For example when a game player is optimized the fitness is determined by playing the game a number of times and a score

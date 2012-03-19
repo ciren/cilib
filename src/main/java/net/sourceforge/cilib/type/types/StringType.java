@@ -35,7 +35,6 @@ import java.io.ObjectOutput;
  * It is not possible to determine what the delimeter within a data file will be
  * as a result the whitespace is "escaped".
  *
- * @author Gary Pampara
  */
 public class StringType implements Type {
     private static final long serialVersionUID = 2946972552546398657L;

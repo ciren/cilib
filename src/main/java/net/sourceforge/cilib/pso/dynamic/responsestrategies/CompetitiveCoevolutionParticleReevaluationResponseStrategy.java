@@ -34,7 +34,6 @@ import net.sourceforge.cilib.type.types.Type;
 
 /**
  * This class re-calculates all the personal best positions in the population. It will only work for PSO algorithms.
- * @author leo
  *
  */
 public class CompetitiveCoevolutionParticleReevaluationResponseStrategy<E extends PopulationBasedAlgorithm>

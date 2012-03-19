@@ -32,7 +32,6 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * by cloning the given prototype {@link net.sourceforge.cilib.entity.Entity}.
  *
  * @param <E> The {@code Entity} type.
- * @author Gary Pampara
  */
 public class ClonedPopulationInitialisationStrategy<E extends Entity> implements PopulationInitialisationStrategy<E> {
 

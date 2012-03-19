@@ -28,7 +28,6 @@ import net.sourceforge.cilib.games.states.GameState;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * @author leo
  * This strategy determines how the state space for a game is traversed when the {@linkplain StateEvaluationAgent} needs to make a decision.
  */
 public abstract class StateTraversalStrategy implements Cloneable {

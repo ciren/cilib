@@ -31,8 +31,6 @@ import org.junit.Assert;
 
 /**
  *
- * @author Edwin Peer
- * @author Bennie Leonard
  */
 public class QuadricTest {
 

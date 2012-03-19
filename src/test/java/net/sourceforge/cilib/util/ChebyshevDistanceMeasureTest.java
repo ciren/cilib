@@ -32,7 +32,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 /**
- * @author Olusegun Olorunda
  */
 public class ChebyshevDistanceMeasureTest {
 

@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * and adds the functionality to the visitor of having an input/output
  * operations where the input is a {@link StandardPattern} and the output is a
  * {@link Vector}
- * @author andrich
  */
 public abstract class ArchitectureOperationVisitor implements ArchitectureVisitor {
 

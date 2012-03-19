@@ -27,7 +27,6 @@ import java.util.List;
 
 /**
  *
- * @author gpampara
  */
 public class SortedArrangement<T extends Comparable> implements Arrangement<T> {
 

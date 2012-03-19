@@ -28,7 +28,6 @@ import net.sourceforge.cilib.type.types.Types;
  * The basic definition for all {@linkplain Type} objects that are based on a list.
  *
  * @param <E> The type element.
- * @author Gary Pampara
  */
 public abstract class AbstractList<E extends Type> implements StructuredType<E> {
 

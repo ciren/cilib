@@ -32,7 +32,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Implementation of the Longest Common Subsequence problem.
  *
- * @author gpampara
  */
 public class LongestCommonSubsequence implements DiscreteFunction {
 

@@ -23,7 +23,6 @@ package net.sourceforge.cilib.games.items;
 
 /**
  * An object in the game that is located in a grid.
- * @author leo
  *
  */
 public class GridItem extends PlayerItem {

@@ -29,7 +29,6 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
  * @Article{ dunn1974vi, title = "Well Separated Clusters and Optimal Fuzzy Partitions", author =
  *           "J. C. Dunn", journal = "Journal of Cybernetics", pages = "95--104", volume = "4", year =
  *           "1974" }
- * @author Theuns Cloete
  */
 public class DunnIndex extends GeneralisedDunnIndex {
     private static final long serialVersionUID = -7440453719679272149L;

@@ -31,7 +31,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * This class is used to generate random numbers for {@linkplain Game}'s. By making sure the seed is only set once, and at the start of the game,
  * it becomes possible to duplicate games played by fixing the seed.
  *
- * @author leo
  *
  */
 public abstract class GameSeedingStrategy implements Cloneable {

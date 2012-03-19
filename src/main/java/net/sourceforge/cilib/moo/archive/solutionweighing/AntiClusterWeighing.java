@@ -45,7 +45,6 @@ import net.sourceforge.cilib.util.selection.WeightedObject;
  * algorithm (see {@link GuideSelectionStrategy}).
  * </p>
  *
- * @author Wiehann Matthysen
  */
 public class AntiClusterWeighing implements SolutionWeighing {
 

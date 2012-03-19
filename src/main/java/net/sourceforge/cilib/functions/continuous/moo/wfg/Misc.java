@@ -26,7 +26,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
- * @author Wiehann Matthysen
  */
 public final class Misc {
 

@@ -36,7 +36,6 @@ import net.sourceforge.cilib.games.states.GameState;
 
 /**
  * This is an implimentation of the game of Tetris.
- * @author leo
  */
 public class Tetris extends Game<TetrisGameState> implements UpdateGame, StateGame, RealTimeGame {
 	private static final long serialVersionUID = -3843619009373056306L;

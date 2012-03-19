@@ -25,7 +25,6 @@ package net.sourceforge.cilib.problem.mappingproblem;
  * Represents a method for calculating the structure distance between two
  * vectors in a MappingProblem.
  *
- * @author jkroon
  */
 public interface DistanceMetric {
     /**

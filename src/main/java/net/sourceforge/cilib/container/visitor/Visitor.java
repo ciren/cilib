@@ -24,7 +24,6 @@ package net.sourceforge.cilib.container.visitor;
 /**
  * Abstract class defining the general structure of a <tt>Visitor</tt>.
  *
- * @author Gary Pampara, andrich
  * @param <E> The type object.
  */
 public interface Visitor<E> {

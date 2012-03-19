@@ -69,7 +69,6 @@ import net.sourceforge.cilib.util.Sequence;
  * quite substantially. All deprecations will be removed in a subsequent
  * version.</strong>
  *
- * @author gpampara
  */
 public class Vector implements StructuredType<Numeric>,
         VectorMath, RandomAccess {

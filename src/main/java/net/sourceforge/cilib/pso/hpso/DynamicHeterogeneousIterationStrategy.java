@@ -55,7 +55,6 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
  *
  * TODO: add reference
  *
- * @author Bennie Leonard
  */
 public class DynamicHeterogeneousIterationStrategy implements IterationStrategy<PSO> {
     private IterationStrategy<PSO> iterationStrategy;

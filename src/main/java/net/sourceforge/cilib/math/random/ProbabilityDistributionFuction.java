@@ -28,7 +28,6 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  * this type provide methods to sample random values from specific probability
  * distributions.
  *
- * @author Bennie Leonard
  */
 public interface ProbabilityDistributionFuction {
 

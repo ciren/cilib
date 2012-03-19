@@ -32,7 +32,6 @@ import net.sourceforge.cilib.type.types.container.TypeList;
  * A diversity measurement that calculates the diversity of a population to be
  * the maximum of entropy measurements over all dimensions in the search space.
  *
- * @author Bennie Leonard
  */
 public class MaximumEntropyDiversityMeasure extends Diversity {
 

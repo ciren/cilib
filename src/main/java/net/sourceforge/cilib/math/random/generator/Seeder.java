@@ -25,7 +25,6 @@ package net.sourceforge.cilib.math.random.generator;
 /**
  *
  * @deprecated This class needs to be replaced by some enum type solution.
- * @author  Edwin Peer
  */
 @Deprecated
 public final class Seeder {

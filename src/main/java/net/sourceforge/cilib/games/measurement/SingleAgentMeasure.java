@@ -28,7 +28,6 @@ import net.sourceforge.cilib.games.items.GameToken;
 /**
  * This defines an {@linkplain AgentMeasure} that only records information for a specified {@linkplain Agent}
  * As specified by the given {@linkplain GameToken}
- * @author leo
  *
  */
 public abstract class SingleAgentMeasure extends AgentMeasure {

@@ -38,7 +38,6 @@ import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.functions.activation.ActivationFunction;
 
 /**
- * @author leo
  * An agent that uses a Neural Network to make decisions
  */
 public class NeuralAgent extends Agent {

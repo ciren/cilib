@@ -30,8 +30,6 @@ import net.sourceforge.cilib.problem.Fitness;
  * the entity stored in this class against one other
  * specific entity.
  *
- * @author cornelius gouws
- * @author leo
  * @see EntityScoreboard
  */
 public class EntityScore {

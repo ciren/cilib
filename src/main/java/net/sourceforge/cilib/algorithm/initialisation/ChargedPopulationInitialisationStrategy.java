@@ -37,7 +37,6 @@ import net.sourceforge.cilib.pso.dynamic.ChargedParticle;
  * initialization process.
  *
  * @param <E> The {@code Entity} type.
- * @author Julien Duhain
  */
 public class ChargedPopulationInitialisationStrategy<E extends Entity>
         implements PopulationInitialisationStrategy<E> {

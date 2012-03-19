@@ -34,7 +34,6 @@ import net.sourceforge.cilib.type.types.Type;
 /**
  * General list container for all {@code Type} instances.
  *
- * @author gpampara
  */
 public class TypeList extends AbstractList<Type> {
 

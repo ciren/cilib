@@ -41,7 +41,6 @@ import java.util.List;
  * Create a combined view of the generated data in the normal CIlib text
  * file format.
  *
- * @author gpampara
  * @TODO: This class should probably use a divide and conquer startegy to combine files as needed
  */
 class TextBasedCombiner implements MeasurementCombiner {

@@ -51,7 +51,6 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
  * ISSN={},}
  * </pre>
  *
- * @author Bennie Leonard
  */
 public class GeneralizedMovingPeaks implements ContinuousFunction, DynamicFunction {
     private ProbabilityDistributionFuction gaussian, uniform; //random providers.

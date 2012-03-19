@@ -39,7 +39,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
- * @author leo
  * This is an implimentation of the predator prey game. The game is played on a 2 dimentional grid with a Predator and a Prey agent.
  * The goal of the Predator is to catch the Prey, and vice versa. For this implimentation the players take turns making movement decisions.
  */

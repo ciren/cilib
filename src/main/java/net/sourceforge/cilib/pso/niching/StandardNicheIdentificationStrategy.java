@@ -42,7 +42,6 @@ import net.sourceforge.cilib.math.Stats;
  * determined that a niche has been located and the entity is returned as a
  * result for a new niching location.
  * </p>
- * @author gpampara
  */
 public class StandardNicheIdentificationStrategy implements NicheIdentificationStrategy {
 

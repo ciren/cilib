@@ -35,7 +35,6 @@ import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
  *   <li>A random element is selected from the provided list.</li>
  *   <li>Return the result.</li>
  * </ol>
- * @author Wiehann Matthysen
  * @param <E>
  */
 public class RandomSelector<E> implements Selector<E> {

@@ -27,7 +27,6 @@ import net.sourceforge.cilib.util.Cloneable;
 /**
  * Merge startegies for Niching.
  *
- * @author gpampara
  */
 public interface MergeStrategy extends Cloneable {
 

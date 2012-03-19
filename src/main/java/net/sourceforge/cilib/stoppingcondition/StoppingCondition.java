@@ -36,7 +36,6 @@ import net.sourceforge.cilib.algorithm.Algorithm;
  * Stopping conditions are also useful for implementing graphical progress bars and varying inertia
  * weights etc.
  * </p>
- * @author Edwin Peer
  */
 public interface StoppingCondition<T extends Algorithm> extends Predicate<T> {
 

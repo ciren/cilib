@@ -30,7 +30,6 @@ import net.sourceforge.cilib.util.Cloneable;
 /**
  * This class represents a list of {@linkplain Competitor}'s with the same
  * populationID
- * @author leo
  *
  */
 public class PopulationCompetitorList implements Cloneable {

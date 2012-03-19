@@ -27,7 +27,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Discrete function to match the given bit string or a randomly generated bit string.
  *
- * @author Gary Pampara
  */
 public class BitStringMatcher implements DiscreteFunction {
 

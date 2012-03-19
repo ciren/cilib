@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.Type;
  * This measurement should be used on dynamic algorithms where the pbest of the
  * particles may be innacurate (outdated).
  *
- * @author Julien Duhain
  *
  */
 public class FitnessMeasurement implements Measurement {

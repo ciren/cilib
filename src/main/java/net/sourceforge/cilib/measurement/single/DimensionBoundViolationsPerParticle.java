@@ -36,7 +36,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * indicator of whether the algorithm spend too much time exploring
  * in infeasible space (with respect to the boundary constraints).
  *
- * @author  Andries Engelbrecht
  */
 public class DimensionBoundViolationsPerParticle implements Measurement<Real> {
 

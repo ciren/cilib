@@ -25,8 +25,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Marker interface to differentiate continuous-valued functions.
- * @author Edwin Peer
- * @author Olusegun Olorunda
  */
 public interface ContinuousFunction extends Function<Vector, Double> {
 }

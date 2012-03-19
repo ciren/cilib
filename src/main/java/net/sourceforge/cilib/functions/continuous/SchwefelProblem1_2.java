@@ -38,7 +38,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-100,100)^30
  *
- * @author Gary Pampara
  */
 public class SchwefelProblem1_2 implements ContinuousFunction {
 

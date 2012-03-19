@@ -26,7 +26,6 @@ import net.sourceforge.cilib.entity.Particle;
 
 /**
  *
- * @author Wiehann Matthysen
  */
 public class StandardPBestPositionInitializationStrategy implements InitializationStrategy<Particle> {
 

@@ -33,7 +33,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Class represents a Neural Network and encapsulates an {@link Architecture}
  * and a default {@link ArchitectureOperationVisitor}. It has a number of
  * convenience methods for common operations.
- * @author andrich
  */
 public class NeuralNetwork {
 

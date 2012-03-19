@@ -34,7 +34,6 @@ import static org.mockito.Mockito.*;
 
 /**
  *
- * @author Gary Pampara
  */
 public class FitnessTest {
 

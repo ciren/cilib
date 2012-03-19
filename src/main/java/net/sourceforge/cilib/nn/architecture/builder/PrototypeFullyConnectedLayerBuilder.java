@@ -32,7 +32,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Class is a concrete extension of the abstract {@link LayerBuilder}. It constructs
  * a layer by cloning a prototype neuron and adding to it weights such that it is
  * fully connected to the feeding layer.
- * @author andrich
  */
 public class PrototypeFullyConnectedLayerBuilder extends LayerBuilder {
 

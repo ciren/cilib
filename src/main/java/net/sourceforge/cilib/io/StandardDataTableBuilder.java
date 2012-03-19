@@ -26,7 +26,6 @@ package net.sourceforge.cilib.io;
  * of {@link #dataTable dataTable} and {@link #dataReader dataReader} that is used,
  * the behaviour changes. The default behaviour is to read a text file from the local
  * machine to a text datatable.
- * @author andrich
  */
 public class StandardDataTableBuilder {}//implements DataTableBuilder {
 //

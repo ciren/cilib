@@ -35,8 +35,6 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  * {@link ClusteringUtils} class. Therefore, this class' name will probably change to
  * something like ClusterableDataSetBuilder.
  *
- * @author Gary Pampara
- * @author Theuns Cloete
  */
 public class AssociatedPairDataSetBuilder extends DataSetBuilder implements ClusterableDataSet {
 

@@ -25,7 +25,6 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 
 /**
- * @author Edwin Peer
  */
 public class MinimumFunctionMinimisationError implements StoppingCondition<Algorithm> {
 

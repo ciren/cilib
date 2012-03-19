@@ -35,7 +35,6 @@ import net.sourceforge.cilib.problem.Problem;
  * </p>
  * @see ControlParameter
  *
- * @author gpampara
  */
 public class IterationBasedChangeStrategy implements ChangeStrategy {
 

@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Visitor that takes a {@link Vector} of weights as input to set the weights of
  * the neurons in an architecture. The weight values are not cloned.
- * @author andrich
  */
 public class WeightSettingVisitor implements ArchitectureVisitor {
 

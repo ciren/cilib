@@ -31,8 +31,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * the value of what it is measuring given the algorithm that it is measuring.
  *
  * @param <E> The return {@code Type}.
- * @author Edwin Peer
- * @author Gary Pampara
  */
 public interface Measurement<E extends Type> extends Cloneable {
 

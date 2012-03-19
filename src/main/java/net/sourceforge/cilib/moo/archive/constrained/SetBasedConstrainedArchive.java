@@ -39,7 +39,6 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
  * will be selected next for removal if the archive grows larger than the capacity.
  * </p>
  *
- * @author Wiehann Matthysen
  */
 public class SetBasedConstrainedArchive extends ConstrainedArchive {
 

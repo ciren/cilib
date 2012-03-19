@@ -27,7 +27,6 @@ import net.sourceforge.cilib.type.types.Type;
 
 /**
  *
- * @author Gary Pampara
  *
  */
 final class Z implements TypeCreator {

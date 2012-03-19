@@ -28,7 +28,6 @@ import net.sourceforge.cilib.type.types.Int;
 
 /**
  *
- * @author  Edwin Peer
  */
 public class Restarts implements Measurement<Int> {
     private static final long serialVersionUID = 3990735185462072444L;

@@ -28,7 +28,6 @@ import net.sourceforge.cilib.problem.Fitness;
 
 /**
  * This Fitness calulation strategy simply gets the average score attained regardless of win/lose or draw as the Fitness value.
- * @author leo
  *
  */
 public class AveFitnessCalculationStrategy extends FitnessCalculationStrategy {

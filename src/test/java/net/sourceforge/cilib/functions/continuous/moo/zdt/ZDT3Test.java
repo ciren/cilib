@@ -33,7 +33,6 @@ import static org.junit.Assert.assertEquals;
 
 /**
  *
- * @author Wiehann Matthysen
  */
 public class ZDT3Test {
 

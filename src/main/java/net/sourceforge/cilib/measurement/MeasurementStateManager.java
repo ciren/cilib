@@ -28,7 +28,6 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 
 /**
  *
- * @author gpampara
  */
 public class MeasurementStateManager {
     private ConcurrentHashMap<Algorithm, ConcurrentHashMap<Measurement, MeasurementMemento>> algorithmData;

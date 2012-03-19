@@ -50,7 +50,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-15,-5),R(-3,3)
  *
- * @author Andries Engelbrecht
  */
 public class Bukin6 implements ContinuousFunction {
 

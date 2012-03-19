@@ -44,7 +44,6 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  * because sometimes the <i>centroid</i> is used and other times the <i>mean</i> is used.
  * By default, the cluster center is interpreted as the cluster centroid.
  *
- * @author Theuns Cloete
  */
 public abstract class ClusteringFitnessFunction implements ContinuousFunction {
     private static final long serialVersionUID = 4834673666638644106L;

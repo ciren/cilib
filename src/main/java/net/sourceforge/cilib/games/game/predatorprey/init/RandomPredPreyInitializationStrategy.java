@@ -26,7 +26,6 @@ import net.sourceforge.cilib.games.items.GridLocation;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
- * @author leo
  * This {@linkplain PredPreyPositionInitializationStrategy} initialises each agent to a random location
  */
 public class RandomPredPreyInitializationStrategy extends PredPreyPositionInitializationStrategy {

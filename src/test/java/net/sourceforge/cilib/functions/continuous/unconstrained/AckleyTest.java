@@ -31,8 +31,6 @@ import org.junit.Test;
 
 /**
  *
- * @author Edwin Peer
- * @author Andries Engelbrecht
  */
 public class AckleyTest {
 

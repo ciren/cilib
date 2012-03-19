@@ -40,7 +40,6 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  * {@link ClusteringUtils#getClusteringProblem()} method.
  *
  * @param <E> The type of {@code Entity}.
- * @author Theuns Cloete
  */
 public class DataSetBasedInitializationStrategy<E extends Entity> implements InitializationStrategy<E> {
     private static final long serialVersionUID = 1341622520702058537L;

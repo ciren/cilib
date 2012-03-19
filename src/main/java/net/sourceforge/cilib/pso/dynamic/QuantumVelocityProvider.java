@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * to paper by Blackwell and Branke, "Multiswarms, Exclusion, and
  * Anti-Convergence in Dynamic Environments."
  *
- * @author Anna Rakitianskaia
  *
  */
 public class QuantumVelocityProvider implements VelocityProvider {

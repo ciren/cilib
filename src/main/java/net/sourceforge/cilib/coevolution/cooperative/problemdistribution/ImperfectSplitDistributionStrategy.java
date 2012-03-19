@@ -37,8 +37,6 @@ import static com.google.common.base.Preconditions.checkArgument;
  * This {@linkplain ProblemDistributionStrategy} performs a split by assining a sequencial
  * portion of the varying length to each participating {@linkplain PopulationBasedAlgorithm}.
  * Defaults into a split of equal sizes if possible.
- * @author leo
- * @author Olusegun Olorunda
  */
 public class ImperfectSplitDistributionStrategy implements ProblemDistributionStrategy {
 

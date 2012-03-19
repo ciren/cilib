@@ -28,7 +28,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Minimum: 0.0
  * R(-500, 500)^30
  * 
- * @author  Edwin Peer
  */
 public class NastyBenchmark implements ContinuousFunction {
 

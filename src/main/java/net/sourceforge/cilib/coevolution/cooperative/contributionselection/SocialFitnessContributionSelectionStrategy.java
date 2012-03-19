@@ -33,7 +33,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Select the contribution based on the best position of the social best entity of the
  * {@linkplain PopulationBasedAlgorithm}.
  *
- * @author leo
  */
 public class SocialFitnessContributionSelectionStrategy implements
         ContributionSelectionStrategy {

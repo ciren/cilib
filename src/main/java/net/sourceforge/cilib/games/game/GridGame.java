@@ -24,7 +24,6 @@ package net.sourceforge.cilib.games.game;
 import net.sourceforge.cilib.games.states.GridGameState;
 
 /**
- * @author leo
  * This class represents any game that takes place in a grid. It will use the
  * concrete {@linkplain GridGameState} object
  */

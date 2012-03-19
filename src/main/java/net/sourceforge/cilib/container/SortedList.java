@@ -36,7 +36,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * specified by the provided {@linkplain Comparator} instance. If no comparator is
  * provided, the natural ordering of the type {@code E} will be used.
  *
- * @author Gary Pampara
  * @param <E> The {@linkplain Comparable} type.
  */
 public class SortedList<E extends Comparable<? super E>> implements List<E>, Cloneable {

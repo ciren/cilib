@@ -43,7 +43,6 @@ import net.sourceforge.cilib.entity.Entity;
  * </li></ul></p>
  *
  * @param <E> The {@linkplain Entity} type.
- * @author Edwin Peer
  */
 public class GBestTopology<E extends Entity> extends AbstractTopology<E> {
     private static final long serialVersionUID = 3190027340582769112L;
@@ -224,7 +223,6 @@ public class GBestTopology<E extends Entity> extends AbstractTopology<E> {
 
     /**
      * Interface to define the manner in which the iterator is to be constructed for Array types.
-     * @author gpampara
      *
      * @param <T> The {@linkplain Entity} type.
      */

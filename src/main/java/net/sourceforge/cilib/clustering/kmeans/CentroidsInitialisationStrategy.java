@@ -36,7 +36,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * <li>Based on random patterns chosen from the dataset ({@link DataSetBasedCentroidsInitialisationStrategy})</li>
  * </ul>
  *
- * @author Theuns Cloete
  */
 public interface CentroidsInitialisationStrategy extends Serializable, Cloneable {
 

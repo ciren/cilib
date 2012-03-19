@@ -59,7 +59,6 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * </ul>
  * </p>
  *
- * @author Wiehann Matthysen
  */
 public class VEPSOGuideProvider implements GuideProvider {
 

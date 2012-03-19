@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * TODO: Dynamic optimization is currently only defined for maximization problems.
  *
- * @author Bennie Leonard
  */
 public class DynamicOptimizationProblem extends FunctionOptimisationProblem {
     private FunctionOptimisationProblem functionOptimisationProblem;

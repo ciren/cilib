@@ -27,7 +27,6 @@ import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author Edwin Peer
  */
 public class Solution implements Measurement<StringType> {
     private static final long serialVersionUID = -7485598441585703760L;

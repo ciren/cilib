@@ -27,7 +27,6 @@ import java.util.List;
 
 /**
  * Implements a Data Writer that writes a datatable to a local CSV file.
- * @author andrich
  */
 public class CSVFileWriter extends FileWriter {
 

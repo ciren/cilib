@@ -38,7 +38,6 @@ import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
  *
  * NOTE: For this measurement to be used, a resolution of 1 has to be set for
  * the measurement.
- * @author  Julien Duhain
  */
 public class AverageIterationsToErrorLimit extends DynamicMeasurement {
 

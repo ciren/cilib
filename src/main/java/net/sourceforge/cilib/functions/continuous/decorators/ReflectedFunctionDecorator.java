@@ -37,7 +37,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * Setting values in xml works the same as setting string values
  *
- * @author Olusegun Olorunda
  */
 public class ReflectedFunctionDecorator implements ContinuousFunction {
     private static final long serialVersionUID = -5042848697343918398L;

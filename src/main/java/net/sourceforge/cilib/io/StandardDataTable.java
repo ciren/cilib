@@ -32,7 +32,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * where the underlying datastructures used are ArrayLists and rows are represented
  * as a List of type T. Both the row and column type is the same.
  * @param <T> type of elements contained in a row.
- * @author andrich
  */
 public class StandardDataTable<T extends Cloneable> implements DataTable<List<T>, List<T>> {
 

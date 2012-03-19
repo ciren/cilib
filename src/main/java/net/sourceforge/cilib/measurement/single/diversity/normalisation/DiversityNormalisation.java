@@ -26,7 +26,6 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 /**
  * A strategy to normalise a diversity measurement.
  * 
- * @author filipe
  */
 public interface DiversityNormalisation {
     double getNormalisationParameter(PopulationBasedAlgorithm algorithm);

@@ -33,8 +33,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
- * @author Andries Engelbrecht
- * @author Gary Pampara
  */
 public class CauchyMutationStrategy extends MutationStrategy {
 

@@ -43,7 +43,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Practice", Computer Methods in Applied Mechanics and Engineering, volume 194,
  * pages 3902--3933, 2005
  *
- * @author Andries Engelbrecht
  */
 public class HS extends AbstractAlgorithm implements SingularAlgorithm {
 

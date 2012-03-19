@@ -26,7 +26,6 @@ import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * An interface representing a data table.
- * @author andrich
  * @param <T> A type that represents a single row.
  * @param <E> A type that represents a column. Note, not necessarily the same type as the row.
  */

@@ -38,8 +38,6 @@ import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 /**
  * An entity that maintains the context vector for a {@linkplain CooperativeCoevolutionAlgorithm}.
  *
- * @author leo
- * @author Theuns Cloete
  */
 public class ContextEntity implements Entity {
     private static final long serialVersionUID = -3580129615323553890L;

@@ -43,7 +43,6 @@ import net.sourceforge.cilib.type.types.Numeric;
  * <p>
  * NOTE: The default 'alpha' value is 0 when this class is instantiated.
  * </p>
- * @author Theuns Cloete
  */
 public class MinkowskiMetric implements DistanceMeasure {
 

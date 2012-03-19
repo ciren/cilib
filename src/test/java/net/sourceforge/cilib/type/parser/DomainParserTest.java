@@ -30,7 +30,6 @@ import static org.hamcrest.CoreMatchers.is;
 
 /**
  * Tests related to the parsing of domain strings.
- * @author gpampara
  */
 public class DomainParserTest {
 

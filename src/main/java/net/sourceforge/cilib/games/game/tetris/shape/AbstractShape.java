@@ -30,7 +30,6 @@ import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * This class represents a Shape in tetris.
- * @author leo
  *
  */
 public abstract class AbstractShape implements Cloneable {

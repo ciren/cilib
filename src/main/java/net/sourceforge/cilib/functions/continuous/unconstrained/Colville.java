@@ -47,7 +47,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-10, 10)^4
  *
- * @author  engel
  */
 public class Colville implements ContinuousFunction {
 

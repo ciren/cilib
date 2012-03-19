@@ -27,7 +27,6 @@ import java.util.Iterator;
 /**
  * TODO: This random number tester is extremely primitive. We need to implement something like the die-hard test suite to test for simulation quality.
  *
- * @author  Edwin Peer
  */
 public class SimpleRandomTester implements RandomTester {
 

@@ -28,7 +28,6 @@ import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Int;
 
 /**
- * @author Edwin Peer
  */
 public class Time implements Measurement<Int>, AlgorithmListener {
 

@@ -28,7 +28,6 @@ import net.sourceforge.cilib.games.random.UniqueSeedingStrategy;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * @author leo
  * This class represents a snapshot of the game at any given iteration.
  */
 public abstract class GameState implements Cloneable {

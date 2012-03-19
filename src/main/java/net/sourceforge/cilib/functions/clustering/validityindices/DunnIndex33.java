@@ -36,7 +36,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *           Cybernetics", pages = "301--315", volume = "28", number = "3", month = jun, year =
  *           "1998", issn = "1083-4419" }
  * NOTE: By default, the cluster center refers to the cluster mean. See {@link ClusterCenterStrategy}.
- * @author Theuns Cloete
  */
 public class DunnIndex33 extends GeneralisedDunnIndex {
     private static final long serialVersionUID = -3307601269742583865L;

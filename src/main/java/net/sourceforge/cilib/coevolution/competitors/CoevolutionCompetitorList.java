@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.Type;
 /**
  * This class maintains a list of competitors per population for a coevolution problem.
  * It could also be used to represent a HOF.
- * @author leo
  *
  */
 public class CoevolutionCompetitorList implements Type{

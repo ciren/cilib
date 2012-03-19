@@ -23,7 +23,6 @@ package net.sourceforge.cilib.util.selection;
 
 /**
  *
- * @author gpampara
  */
 public interface PartialSelection<T> extends FunctionalSelection<T>,
         OrderableSelection<T>, Selectable<T> {

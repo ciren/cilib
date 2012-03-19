@@ -39,7 +39,6 @@ import net.sourceforge.cilib.games.states.GridGameState;
 
 /**
  * This is an implimentation of the game of Tic Tac Toe
- * @author leo
  *
  */
 public class TicTacToe extends GridGame implements StateGame {

@@ -25,7 +25,6 @@ import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Any object that exists in the game.
- * @author leo
  */
 public abstract class GameItem implements Cloneable {
     private static final long serialVersionUID = -5725025967973967757L;

@@ -50,8 +50,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * column for the class of the patterns, and in this case the filename of the dataset is
  * used as the class.
  *
- * @author Edwin Peer
- * @author Theuns Cloete
  */
 public class LocalDataSet extends DataSet {
     private static final long serialVersionUID = -3482617012711168661L;

@@ -33,7 +33,6 @@ import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
  * A {@link ParticleBehavior} object encapsulates the {@link PositionUpdateStrategy}
  * and {@link VelocityUpdateStrategy} that a particle uses.
  *
- * @author Bennie Leonard
  */
 public class ParticleBehavior implements Comparable<ParticleBehavior> {
 

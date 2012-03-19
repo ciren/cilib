@@ -30,7 +30,6 @@ import net.sourceforge.cilib.nn.architecture.visitors.ArchitectureVisitor;
 /**
  * Class represents a neural network architecture and encapsulates a {@link ArchitectureBuilder}
  * and a list of {@link Layers}.
- * @author andrich
  */
 public class Architecture {
 

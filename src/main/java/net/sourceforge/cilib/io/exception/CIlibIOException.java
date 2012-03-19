@@ -25,7 +25,6 @@ package net.sourceforge.cilib.io.exception;
  * Class represent an Exception that occurs during data I/O in CIlib. As the data
  * source is unknown, exceptions might range from simple IOExceptions to SAXExceptions
  * or SQL Exceptions, therefore the super class is simply Exception.
- * @author andrich
  */
 public class CIlibIOException extends Exception {
 

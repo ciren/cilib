@@ -24,7 +24,6 @@ package net.sourceforge.cilib.pso.vectorbased;
 
 /**
  *
- * @author wayne
  */
 public class EnhancedParallelVBPSO extends ParallelVBPSO{
 

@@ -49,7 +49,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-100, 100)^2
  *
- * @author Andries Engelbrecht
  */
 public class Bohachevsky2 implements ContinuousFunction {
 

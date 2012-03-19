@@ -29,7 +29,6 @@ import net.sourceforge.cilib.nn.components.BiasNeuron;
 
 /**
  *
- * @author andrich
  */
 public class FeedForwardArchitectureBuilder extends ArchitectureBuilder {
 

@@ -50,7 +50,6 @@ import net.sourceforge.cilib.util.selection.recipes.TournamentSelector;
  *
  * TODO: add reference
  *
- * @author Bennie Leonard
  */
 public class AdaptiveHeterogeneousIterationStrategy implements IterationStrategy<PSO> {
     private IterationStrategy<PSO> iterationStrategy;

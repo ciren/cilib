@@ -33,7 +33,6 @@ import net.sourceforge.cilib.type.types.Int;
 
 /**
  * Adds all the {@linkplain Entity}s current positions to the pool of potentail opponents
- * @author leo
  *
  */
 public class SelectAllSolutionsPoolSelectionStrategy extends

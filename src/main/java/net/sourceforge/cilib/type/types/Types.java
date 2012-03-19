@@ -27,7 +27,6 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
  *
- * @author gpampara
  */
 public final class Types {
 

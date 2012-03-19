@@ -27,7 +27,6 @@ import net.sourceforge.cilib.algorithm.ProgressListener;
 
 /**
  *
- * @author  Edwin Peer
  */
 final class ProgressFrame extends javax.swing.JFrame implements ProgressListener {
 

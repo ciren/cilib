@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * This is a {@linkplain NeuralStateInputStrategy} that gives certain specified features of a tetris game state as input to the Neural Network.
  * These feautures were taken from REFERENCE!
  * Others from REFERENCE
- * @author leo
  *
  */
 public class TetrisFeaturesInputStrategy extends NeuralStateInputStrategy {

@@ -25,7 +25,6 @@ import org.junit.Ignore;
 
 /**
  *
- * @author gpampara
  */
 @Ignore
 public class XMLTranslatorTest {

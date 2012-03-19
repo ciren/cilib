@@ -45,7 +45,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *           address = "Washington, DC, USA", }
  * </pre>
  * NOTE: By default, the cluster center refers to the cluster mean. See {@link ClusterCenterStrategy}.
- * @author Theuns Cloete
  */
 public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
     private static final long serialVersionUID = 5683593481233814465L;

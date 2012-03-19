@@ -28,7 +28,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * This {@linkplain ContextUpdateStrategy} always updates the given context with
  * the given participant solution.
- * @author leo
  *
  */
 public class StandardContextUpdateStrategy implements ContextUpdateStrategy {

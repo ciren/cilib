@@ -27,7 +27,6 @@ import net.sourceforge.cilib.boa.ABC;
 
 /**
  * Represents an onlooker bee in the hive.
- * @author Andrich
  *
  */
 public class OnlookerBee extends AbstractBee {

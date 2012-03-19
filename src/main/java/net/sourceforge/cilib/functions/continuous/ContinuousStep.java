@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p>
  * The default domain of the function is defined to be R(-100.0, 100.0)^30
  *
- * @author Andries Engelbrecht
  */
 public class ContinuousStep implements ContinuousFunction {
 

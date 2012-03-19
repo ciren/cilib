@@ -31,7 +31,6 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
  * the particle. A dynamic algorithm usually re-evaluates all particles when a
  * change in the environment has been detected.
  *
- * @author Anna Rakitianskaia, Julien Duhain
  */
 public class DynamicParticle extends StandardParticle {
 

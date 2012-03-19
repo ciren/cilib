@@ -26,7 +26,6 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * @author Gary Pampara
  */
 public class StringDataTable implements DataTable<String, String> {
     private static final long serialVersionUID = 3309485547124815669L;

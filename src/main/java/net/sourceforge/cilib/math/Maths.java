@@ -37,7 +37,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * These utility functions further are necessary for the various distributions and selections
  * required within CIlib as a whole.
  *
- * @author Gary Pampara
  */
 public final class Maths {
 

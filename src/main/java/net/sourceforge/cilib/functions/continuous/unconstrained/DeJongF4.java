@@ -45,7 +45,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-1.28, 1.28)^30
  *
- * @author leo
  */
 public class DeJongF4 implements ContinuousFunction {
 

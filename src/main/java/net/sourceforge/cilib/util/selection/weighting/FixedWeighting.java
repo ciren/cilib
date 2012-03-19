@@ -27,7 +27,6 @@ import net.sourceforge.cilib.util.selection.WeightedObject;
 
 /**
  *
- * @author gpampara
  */
 public class FixedWeighting implements Weighting {
     private final double weight;

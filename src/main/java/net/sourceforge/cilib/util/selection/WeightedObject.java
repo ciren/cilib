@@ -23,7 +23,6 @@ package net.sourceforge.cilib.util.selection;
 
 /**
  *
- * @author gpampara
  */
 public class WeightedObject implements Comparable<WeightedObject> {
 

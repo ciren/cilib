@@ -28,7 +28,6 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
  * A list of specified seeds are stored. The same number of seeds in the list are used multiple times, and at a fixed interval
  * the next set of seeds in the list are used. This class is used to set a fixed number of seeds and to alternate
  * between them at fixed intervals.
- * @author leo
  *
  */
 public class FixedListSeedingStrategy extends RandomListSeedingStrategy {

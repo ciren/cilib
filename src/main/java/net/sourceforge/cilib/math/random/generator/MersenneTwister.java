@@ -50,7 +50,6 @@ package net.sourceforge.cilib.math.random.generator;
  *
  * Comment text ripped from GSL.
  *
- * @author  Edwin Peer
  */
 public class MersenneTwister implements RandomProvider {
 

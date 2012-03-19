@@ -28,7 +28,6 @@ import java.util.List;
  * This is an implimentation of the {@linkplain DimensionAllocation} class which stores a
  * list of randomly generated index values.
  *
- * @author leo
  */
 public class RandomDimensionAllocation extends DimensionAllocation {
     private static final long serialVersionUID = -2006187323873094124L;

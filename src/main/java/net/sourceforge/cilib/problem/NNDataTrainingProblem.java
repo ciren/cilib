@@ -44,7 +44,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Class represents an {@link OptimisationProblem} where the goal is to optimize
  * the set of weights of a neural network to best fit a given dataset (either
  * regression, classification etc.).
- * @author andrich
  */
 public class NNDataTrainingProblem extends OptimisationProblemAdapter {
     private static final long serialVersionUID = -8765101028460476990L;

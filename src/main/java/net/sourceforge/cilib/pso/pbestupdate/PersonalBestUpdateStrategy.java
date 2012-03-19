@@ -28,7 +28,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * Update the personal best of the particle. Updates are done in a variety
  * of manners, refer to implementations for details.
  *
- * @author gpampara
  */
 public interface PersonalBestUpdateStrategy extends Cloneable {
 

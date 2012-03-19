@@ -27,7 +27,6 @@ import net.sourceforge.cilib.games.items.GridLocation;
 
 /**
  * This class represents the reverse L shape
- * @author leo
  *
  */
 public class RLShape extends AbstractShape {

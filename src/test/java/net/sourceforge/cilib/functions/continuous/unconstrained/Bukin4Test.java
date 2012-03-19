@@ -31,7 +31,6 @@ import org.junit.Test;
 
 /**
  *
- * @author Andries Engelbrecht
  */
 public class Bukin4Test {
 

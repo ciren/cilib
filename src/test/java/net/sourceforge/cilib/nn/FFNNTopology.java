@@ -33,8 +33,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * This is a basic Feedforward Neural network implementation. Its sole purpose is to illustrate the
  * working of the CIlib Neural network framework and to show how it can be used to create a custom
  * NN.
- * @author Stefan van der Stockt
- * @author Wiehann Matthysen
  */
 public class FFNNTopology {
 

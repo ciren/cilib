@@ -36,7 +36,6 @@ import org.mockito.Matchers;
 import static org.mockito.Mockito.*;
 
 /**
- * @author Julien Duhain
  */
 public class CollectiveMeanErrorTest {
 

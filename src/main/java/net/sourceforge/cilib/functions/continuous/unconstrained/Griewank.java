@@ -40,7 +40,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-600, 600)^30
  *
- * @author  Edwin Peer
  */
 public class Griewank implements ContinuousFunction {
 

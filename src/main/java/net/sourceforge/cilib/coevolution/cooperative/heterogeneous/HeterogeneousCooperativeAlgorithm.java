@@ -43,7 +43,6 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
  * </ul>
  * </p>
  *
- * @author leo
  */
 public class HeterogeneousCooperativeAlgorithm extends CooperativeCoevolutionAlgorithm {
     private static final long serialVersionUID = 3680479678156166964L;

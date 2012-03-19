@@ -38,7 +38,6 @@ import net.sourceforge.cilib.util.selection.arrangement.SortedArrangement;
  *   <li>Return the result.</li>
  * </ol>
  * @param <E> The selection type.
- * @author Wiehann Matthysen
  */
 public class ElitistSelector<E extends Comparable<? super E>> implements Selector<E> {
 

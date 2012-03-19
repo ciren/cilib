@@ -36,7 +36,6 @@ import net.sourceforge.cilib.type.types.Int;
  * recent window of iterations, the particle is assumed to have stagnated
  * and should therefore change its behavior.
  *
- * @author Bennie Leonard
  */
 public class PersonalBestStagnationDetectionStrategy implements BehaviorChangeTriggerDetectionStrategy {
     private ControlParameter windowSize;

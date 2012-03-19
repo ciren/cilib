@@ -33,7 +33,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * The reason the mapping is non-linear because it is not reverseable.
  *
- * @author jkroon
  */
 public class LinearMappingProblem extends MappingProblem {
     private static final long serialVersionUID = -8250226009646654027L;
@@ -73,7 +72,6 @@ public class LinearMappingProblem extends MappingProblem {
      * @param matrix The matrix to be used for the mapping.
      * @param output The vector into which the output should be placed.
      *
-     * @author jkroon
      */
     protected final void performMapping(Matrix input, Vector matrix, Matrix output) {
         int outputDimension = getOutputDim(); // D
@@ -99,7 +97,6 @@ public class LinearMappingProblem extends MappingProblem {
      *
      * @return The dimension required for the formulae outputs = inputs * matrix.
      *
-     * @author jkroon
      */
     public final int getMatrixSize() {
         return getInputDim() * getOutputDim();

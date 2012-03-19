@@ -40,7 +40,6 @@ import org.w3c.dom.NodeList;
  * The {@code SimulatorShell} may construct more than one simulator instance
  * if required, based on the provided simulation file.
  *
- * @author gpampara
  */
 class SimulatorShell {
 

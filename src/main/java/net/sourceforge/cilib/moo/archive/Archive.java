@@ -32,8 +32,6 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * algorithms for solution storage during a search.
  * </p>
  *
- * @author Andries Engelbrecht
- * @author Wiehann Matthysen
  */
 public interface Archive extends Collection<OptimisationSolution> {
 

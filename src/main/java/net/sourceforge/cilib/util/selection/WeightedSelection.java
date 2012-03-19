@@ -32,7 +32,6 @@ import net.sourceforge.cilib.util.selection.arrangement.Arrangement;
 
 /**
  *
- * @author gpampara
  */
 public class WeightedSelection<T> implements PartialSelection<T> {
 

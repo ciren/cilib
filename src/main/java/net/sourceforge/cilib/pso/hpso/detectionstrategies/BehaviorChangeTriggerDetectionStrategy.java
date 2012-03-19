@@ -26,7 +26,6 @@ import net.sourceforge.cilib.entity.Entity;
 /**
  * An interface to detect when an {@link Entity} should change its behavior.
  * 
- * @author Bennie Leonard
  */
 public interface BehaviorChangeTriggerDetectionStrategy<E extends Entity> {
     /**

@@ -57,7 +57,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
- * @author wayne
  */
 public class DeratingNichePSO extends Niche {
 

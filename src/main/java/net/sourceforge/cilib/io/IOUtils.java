@@ -29,7 +29,6 @@ import java.nio.charset.CharsetEncoder;
 
 /**
  * Utility methods used in the I/O packages.
- * @author andrich
  */
 public final class IOUtils {
 

@@ -27,7 +27,6 @@ import net.sourceforge.cilib.games.items.GridLocation;
 
 /**
  * This class represents the line shape
- * @author leo
  *
  */
 public class LineShape extends AbstractShape {

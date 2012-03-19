@@ -28,7 +28,6 @@ import net.sourceforge.cilib.util.Cloneable;
 /**
  * Interface describing the manner in which populations are initialised.
  * @param <E> The {@code Entity} type.
- * @author Gary Pampara
  */
 public interface PopulationInitialisationStrategy<E extends Entity> extends Cloneable {
 

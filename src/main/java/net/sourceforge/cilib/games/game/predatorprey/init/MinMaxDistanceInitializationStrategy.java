@@ -27,7 +27,6 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
- * @author leo
  * This is a {@linkplain PredPreyPositionInitializationStrategy} that initializes the agents with a minimum and maximum distance constraint.
  */
 public class MinMaxDistanceInitializationStrategy extends

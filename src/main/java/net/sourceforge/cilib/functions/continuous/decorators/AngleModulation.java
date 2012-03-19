@@ -41,7 +41,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
- * @author Gary Pampara
  */
 public class AngleModulation extends OptimisationProblemAdapter {
 

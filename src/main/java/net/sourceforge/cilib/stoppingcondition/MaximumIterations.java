@@ -24,7 +24,6 @@ package net.sourceforge.cilib.stoppingcondition;
 import net.sourceforge.cilib.algorithm.Algorithm;
 
 /**
- * @author Edwin Peer
  */
 public class MaximumIterations implements StoppingCondition<Algorithm> {
     private static final long serialVersionUID = -6344490201879962979L;

@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.games.result;
 
 /**
- * @author leo
  * One of the agents won the game
  */
 //TODO Teams, multiple winners

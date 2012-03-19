@@ -36,7 +36,6 @@ import net.sourceforge.cilib.problem.Fitnesses;
  * solutions located furthest from one another in an archive.
  * </p>
  *
- * @author Wiehann Matthysen
  */
 public class ParetoFrontExtent implements Measurement {
 

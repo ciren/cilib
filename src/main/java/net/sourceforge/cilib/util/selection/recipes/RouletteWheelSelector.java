@@ -41,7 +41,6 @@ import net.sourceforge.cilib.util.selection.weighting.Weighting;
  *   <li>Returning the best result.</li>
  * </ol>
  * @param <E> The selection type.
- * @author Wiehann Matthysen
  */
 public class RouletteWheelSelector<E extends Comparable<? super E>> implements Selector<E> {
 

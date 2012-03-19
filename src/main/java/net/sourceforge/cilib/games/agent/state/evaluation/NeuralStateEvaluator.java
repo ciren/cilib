@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 /**
- * @author leo
  * This is a {@linkplain StateEvaluator} that uses a Neural Network to evaluate a given game state. This class inherets from the NeuralAgent class
  * becuase it's functionality is very similar.
  */

@@ -34,7 +34,6 @@ import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author Olusegun Olorunda
  */
 public class FIPSVelocityProvider implements VelocityProvider {
 

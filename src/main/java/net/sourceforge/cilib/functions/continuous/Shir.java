@@ -38,7 +38,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Maximum: 1.0
  * R(0, 1)^30
  *
- * @author  Andries Engelbrecht
  */
 public class Shir implements ContinuousFunction {
 

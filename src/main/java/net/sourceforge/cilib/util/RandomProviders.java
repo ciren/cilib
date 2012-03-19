@@ -26,7 +26,6 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  *
- * @author Wiehann Matthysen
  */
 public class RandomProviders {
 

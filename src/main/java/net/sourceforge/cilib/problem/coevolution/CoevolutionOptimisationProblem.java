@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.types.Type;
 
 /**
  * This interface should be extended by any problem that should be optimised using a {@linkplain CoevolutionAlgorithm}
- * @author leo
  */
 public interface CoevolutionOptimisationProblem {
 

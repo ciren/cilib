@@ -32,7 +32,6 @@ import org.junit.Test;
 /**
  * This test does not compare against anything (the same problem as with unit testing
  * a PSO) but simply executes to see whether there is exceptions.
- * @author andrich
  */
 public class NNDataTrainingProblemTest {
 

@@ -34,7 +34,6 @@ import net.sourceforge.cilib.util.Vectors;
 
 /**
  * Velocity update for the Coherence PSO.
- * @author Daniel Lowes
  */
 public class CoherenceVelocityProvider implements VelocityProvider {
 

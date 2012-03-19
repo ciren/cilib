@@ -34,7 +34,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * This strategy initializes the parts of the returned centroids {@link Vector} from
  * randomly chosen patterns in the dataset.
  *
- * @author Theuns Cloete
  */
 public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsInitialisationStrategy {
     private static final long serialVersionUID = -3016201656688883387L;

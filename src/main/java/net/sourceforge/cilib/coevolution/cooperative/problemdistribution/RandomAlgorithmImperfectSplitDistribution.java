@@ -41,7 +41,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * This {@linkplain ProblemDistributionStrategy} performs a split by assining a sequencial portion of the varying length to each participating {@linkplain PopulationBasedAlgorithm}. Defaults into a
  * split of equal sizes if possible.
  * The order in which the algorithms are assigned is generated randomly.
- * @author leo
  */
 public class RandomAlgorithmImperfectSplitDistribution implements
         ProblemDistributionStrategy {

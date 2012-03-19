@@ -46,7 +46,6 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  *
- * @author wayne
  */
 public class SequentialVBPSO extends MultiPopulationBasedAlgorithm {
     private VBPSO mainSwarm;

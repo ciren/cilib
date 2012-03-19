@@ -26,7 +26,6 @@ import net.sourceforge.cilib.util.selection.Samples;
 
 /**
  *
- * @author gpampara
  */
 public interface Selectable<T> {
 

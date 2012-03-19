@@ -36,7 +36,6 @@ import org.junit.Test;
 
 /**
  * Tests the data table builder, also illustrates a typical usage scenario.
- * @author andrich
  */
 public class DataTableBuilderTest {
 

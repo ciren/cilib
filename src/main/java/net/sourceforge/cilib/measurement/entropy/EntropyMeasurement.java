@@ -28,7 +28,6 @@ import net.sourceforge.cilib.type.types.container.TypeList;
 /**
  * An interface to allow entropy measurements to be performed on an algorithm.
  * 
- * @author Bennie Leonard
  */
 public abstract class EntropyMeasurement implements Measurement<TypeList> {
     protected int intervals; //the number of intervals over which entropy is measured

@@ -31,7 +31,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * Interface specifying the manner in which the neighbourhood best of the
  * {@linkplain Entity} is obtained.
  *
- * @author Gary Pampara
  */
 public interface NeighbourhoodBestUpdateStrategy extends Serializable, Cloneable {
 

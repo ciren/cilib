@@ -25,7 +25,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  *
- * @author gpampara
  */
 public final class Bounds {
     private final double lowerBound;

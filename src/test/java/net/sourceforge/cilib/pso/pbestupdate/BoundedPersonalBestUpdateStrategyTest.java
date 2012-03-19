@@ -38,7 +38,6 @@ import static org.hamcrest.CoreMatchers.not;
 
 /**
  *
- * @author gpampara
  */
 public class BoundedPersonalBestUpdateStrategyTest {
 

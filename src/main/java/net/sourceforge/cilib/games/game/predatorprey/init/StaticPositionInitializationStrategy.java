@@ -26,7 +26,6 @@ import net.sourceforge.cilib.games.items.GameToken;
 import net.sourceforge.cilib.games.items.ItemLocation;
 
 /**
- * @author leo
  * This PP initialization strategy initialises the Agents to fixed locations in the grid.
  */
 public class StaticPositionInitializationStrategy extends

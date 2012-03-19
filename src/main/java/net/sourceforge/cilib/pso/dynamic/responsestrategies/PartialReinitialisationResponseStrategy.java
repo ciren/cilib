@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.util.Vectors;
 
 /**
- * @author Anna Rakitianskaia, Julien Duhain
  */
 public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAlgorithm> extends ParticleReevaluationResponseStrategy<E> {
 

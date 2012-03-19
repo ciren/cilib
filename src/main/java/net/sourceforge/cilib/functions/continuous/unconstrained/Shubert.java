@@ -50,7 +50,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
- * @author Clive Naicker
  */
 public class Shubert implements ContinuousFunction {
 

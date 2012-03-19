@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
- * @author Edwin Peer
  * @deprecated This class is no longer valid. A combination of the
  *             {@link CompositeMeasurement} and {@link net.sourceforge.cilib.measurement.single.Solution}
  *             should be used instead

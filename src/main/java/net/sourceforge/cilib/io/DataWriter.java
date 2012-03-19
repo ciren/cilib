@@ -25,7 +25,6 @@ import net.sourceforge.cilib.io.exception.CIlibIOException;
 
 /**
  * Interface for a data writer: writes a data table object to a file.
- * @author andrich
  */
 public interface DataWriter {
 

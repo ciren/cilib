@@ -34,7 +34,6 @@ import net.sourceforge.cilib.type.types.Real;
 
 /**
  *
- * @author gpampara
  */
 public class CollectiveFitness implements Measurement<Real> {
     private static final long serialVersionUID = 6171032748690594619L;

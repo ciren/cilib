@@ -41,7 +41,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * author={Mishra, S.K. and Campus, N.}
  * }
  *
- * @author  Bennie Leonard
  */
 public class Norwegian implements ContinuousFunction {
     

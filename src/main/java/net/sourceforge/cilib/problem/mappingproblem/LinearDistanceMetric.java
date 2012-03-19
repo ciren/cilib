@@ -28,7 +28,6 @@ package net.sourceforge.cilib.problem.mappingproblem;
  * follows on one another.  This can sometimes be the case, but I don't see
  * many situations where this will make a hell of a lot of sense...
  *
- * @author jkroon
  */
 public class LinearDistanceMetric implements DistanceMetric {
     /**

@@ -30,7 +30,6 @@ import org.junit.Test;
 
 /**
  *
- * @author andrich
  */
 public class ArchitectureTest {
 

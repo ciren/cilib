@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-10, 10)^30
  *
- * @author  Andries Engelbrecht
  */
 // TODO: Check discontinuous / continuous
 public class SchwefelProblem2_22 implements ContinuousFunction {

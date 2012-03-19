@@ -25,7 +25,6 @@ import net.sourceforge.cilib.entity.visitor.DiameterVisitor;
 import net.sourceforge.cilib.pso.PSO;
 
 /**
- * @author Edwin Peer
  */
 public class MinimumSwarmDiameter implements StoppingCondition<PSO> {
 

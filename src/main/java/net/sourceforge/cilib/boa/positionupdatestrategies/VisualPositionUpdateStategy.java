@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Represents the visual exploration strategy used by bees to choose a their next
  * forage patch close by.
- * @author Andrich
  *
  */
 public class VisualPositionUpdateStategy implements BeePositionUpdateStrategy {

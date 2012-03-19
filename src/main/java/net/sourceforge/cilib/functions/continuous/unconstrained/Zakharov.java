@@ -45,7 +45,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-5, 10)^30
  *
- * @author leo
  */
 public class Zakharov implements ContinuousFunction {
 

@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.problem;
 
 /**
- * @author Edwin Peer
  *
  */
 public interface MOFitness extends Fitness, Iterable<Fitness> {

@@ -25,7 +25,6 @@ import net.sourceforge.cilib.games.game.RealTimeGame;
 import net.sourceforge.cilib.games.states.ListGameState;
 
 /**
- * @author leo
  * This is an implimentation of the Predator Prey game where the Predator and PRey agents make their movements simultaneously instead of turn based.
  * Therefore they each make a movement decision on the same state of the game, and they are both moved at the same time.
  */

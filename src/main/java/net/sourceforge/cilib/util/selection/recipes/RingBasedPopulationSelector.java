@@ -29,7 +29,6 @@ import net.sourceforge.cilib.util.selection.arrangement.Arrangement;
 import net.sourceforge.cilib.util.selection.arrangement.RingBasedArrangement;
 
 /**
- * @author Wiehann Matthysen
  */
 public class RingBasedPopulationSelector implements Selector<PopulationBasedAlgorithm> {
 

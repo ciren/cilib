@@ -28,7 +28,6 @@ import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * @author leo
  * This is an implimentation of the Tetris {@linkplain StateEvaluator} that was created by Pierre Dellacherie in 2003. The implimentation was adapted
  * from code downloaded from http://colinfahey.com/tetris/tetris_en.html
  */

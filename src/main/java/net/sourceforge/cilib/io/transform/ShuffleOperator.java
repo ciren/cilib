@@ -27,7 +27,6 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 
 /**
  * A data operator that efficiently shuffles a datatable.
- * @author andrich
  */
 public class ShuffleOperator implements DataOperator {
 

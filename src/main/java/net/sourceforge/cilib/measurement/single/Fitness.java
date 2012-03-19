@@ -27,7 +27,6 @@ import net.sourceforge.cilib.type.types.Real;
 
 /**
  *
- * @author  Edwin Peer
  */
 public class Fitness implements Measurement<Real> {
     private static final long serialVersionUID = 4152219744331703008L;

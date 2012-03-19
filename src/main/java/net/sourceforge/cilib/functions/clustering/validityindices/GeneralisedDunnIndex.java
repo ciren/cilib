@@ -33,7 +33,6 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
  * </pre>
  * Sub-classes should implement the <tt>calculateWithinClusterScatter</tt> and
  * <tt>calculateBetweenClusterSeperation</tt> methods defined in {@linkplain ScatterSeperationRatio}.
- * @author Theuns Cloete
  */
 public abstract class GeneralisedDunnIndex extends ScatterSeperationRatio {
     private static final long serialVersionUID = -2232760005736588472L;
