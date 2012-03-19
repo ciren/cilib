@@ -26,14 +26,26 @@ import java.util.Iterator;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
+import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  * Visitor to determine the size of the diameter of the provided {@linkplain Topology}
  * within the <code>visit</code> method.
  */
-public class DiameterVisitor extends TopologyVisitor {
-    private double distance = -Double.MAX_VALUE;
+public class DiameterVisitor implements TopologyVisitor {
+    private double distance;
     private boolean done;
+    protected DistanceMeasure distanceMeasure;
+    
+    /**
+     * Default constructor.
+     */
+    public DiameterVisitor() {
+        this.distance = -Double.MAX_VALUE;
+        this.done = false;
+        this.distanceMeasure = new EuclideanDistanceMeasure();
+    }
 
     /**
      * Obtain the {@code diameter} of the provided {@code Topology}.
@@ -82,4 +94,19 @@ public class DiameterVisitor extends TopologyVisitor {
         return done;
     }
 
+    /**
+     * Gets the distance measure used.
+     * @return 
+     */
+    public DistanceMeasure getDistanceMeasure() {
+        return distanceMeasure;
+    }
+
+    /**
+     * Sets the distance measure to use.
+     * @param distanceMeasure 
+     */
+    public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
+        this.distanceMeasure = distanceMeasure;
+    }
 }

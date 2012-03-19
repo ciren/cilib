@@ -29,6 +29,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.measurement.single.diversity.centerinitialisationstrategies.CenterInitialisationStrategy;
 import net.sourceforge.cilib.measurement.single.diversity.centerinitialisationstrategies.SpatialCenterInitialisationStrategy;
+import net.sourceforge.cilib.measurement.single.diversity.normalisation.DiversityNormalisation;
 import net.sourceforge.cilib.measurement.single.diversity.normalisation.NormalisationParameter;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -46,7 +47,7 @@ public class Diversity implements Measurement<Real> {
     private static final long serialVersionUID = 7417526206433000209L;
     protected DistanceMeasure distanceMeasure;
     protected CenterInitialisationStrategy populationCenter;
-    protected NormalisationParameter normalisationParameter;
+    protected DiversityNormalisation normalisationParameter;
 
     public Diversity() {
         distanceMeasure = new EuclideanDistanceMeasure();
@@ -75,7 +76,7 @@ public class Diversity implements Measurement<Real> {
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
         int numberOfEntities = populationBasedAlgorithm.getTopology().size();
 
-        Vector center = populationCenter.getCenter();
+        Vector center = populationCenter.getCenter(populationBasedAlgorithm.getTopology());
         Iterator<? extends Entity> populationIterator = populationBasedAlgorithm.getTopology().iterator();
 
         double distanceSum = 0.0;
@@ -86,9 +87,7 @@ public class Diversity implements Measurement<Real> {
         }
 
         distanceSum /= numberOfEntities;
-
-        normalisationParameter.setDistanceMeasure(distanceMeasure);
-        distanceSum /= normalisationParameter.getValue();
+        distanceSum /= normalisationParameter.getNormalisationParameter(populationBasedAlgorithm);
 
         return Real.valueOf(distanceSum);
     }
@@ -110,14 +109,14 @@ public class Diversity implements Measurement<Real> {
     /**
      * @return the normalisationParameter
      */
-    public NormalisationParameter getNormalisationParameter() {
+    public DiversityNormalisation getNormalisationParameter() {
         return normalisationParameter;
     }
 
     /**
      * @param normalisationParameter the normalisationParameter to set
      */
-    public void setNormalisationParameter(NormalisationParameter normalizationParameter) {
+    public void setNormalisationParameter(DiversityNormalisation normalizationParameter) {
         this.normalisationParameter = normalizationParameter;
     }
 

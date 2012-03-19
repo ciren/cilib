@@ -21,19 +21,21 @@
  */
 package net.sourceforge.cilib.measurement.single.diversity.centerinitialisationstrategies;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * TODO: Complete this javadoc.
+ * Returns the center of a given topology where the center is the position
+ * of the best entity in the topology.
  */
 public class GBestCenterInitialisationStrategy implements CenterInitialisationStrategy {
 
+    /**
+     * {@inheritDoc} 
+     */
     @Override
-    public Vector getCenter() {
-        PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get();
-
-        return (Vector) algorithm.getTopology().getBestEntity().getCandidateSolution();
+    public Vector getCenter(Topology<? extends Entity> topology) {
+        return (Vector) topology.getBestEntity().getCandidateSolution();
     }
 }

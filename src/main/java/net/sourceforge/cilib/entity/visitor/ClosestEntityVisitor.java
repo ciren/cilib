@@ -23,6 +23,8 @@ package net.sourceforge.cilib.entity.visitor;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.util.DistanceMeasure;
+import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  * Vistor to calculate the closest entity to the provided {@code targetEntity}
@@ -30,12 +32,21 @@ import net.sourceforge.cilib.entity.Topology;
  *
  * @author gpampara
  */
-public class ClosestEntityVisitor extends TopologyVisitor {
+public class ClosestEntityVisitor implements TopologyVisitor {
 
     private Entity closestEntity;
     private Entity targetEntity;
-    private double closest = Double.MAX_VALUE;
+    private double closest;
     private boolean done;
+    protected DistanceMeasure distanceMeasure;
+    
+    /**
+     * Deault constructor.
+     */
+    public ClosestEntityVisitor() {
+        this.closest = Double.MAX_VALUE;
+        this.distanceMeasure = new EuclideanDistanceMeasure();
+    }
 
     /**
      * Perform the search for the closest entity.
@@ -57,6 +68,7 @@ public class ClosestEntityVisitor extends TopologyVisitor {
                 this.closest = distance;
             }
         }
+        
         done = true;
     }
 
@@ -92,5 +104,21 @@ public class ClosestEntityVisitor extends TopologyVisitor {
     @Override
     public boolean isDone() {
         return done;
+    }
+    
+    /**
+     * Gets the distance measure used.
+     * @return 
+     */
+    public DistanceMeasure getDistanceMeasure() {
+        return distanceMeasure;
+    }
+
+    /**
+     * Sets the distance measure to use.
+     * @param distanceMeasure 
+     */
+    public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
+        this.distanceMeasure = distanceMeasure;
     }
 }

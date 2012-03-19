@@ -19,21 +19,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.measurement.single.diversity.centerinitialisationstrategies;
+package net.sourceforge.cilib.measurement.single.diversity.normalisation;
 
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 
 /**
- * Calculates the center of a given topology.
+ * A strategy to normalise a diversity measurement.
+ * 
+ * @author filipe
  */
-public interface CenterInitialisationStrategy {
-
-    /**
-     * Get the population center.
-     * @return the populationCenter
-     */
-    Vector getCenter(Topology<? extends Entity> topology);
-
+public interface DiversityNormalisation {
+    double getNormalisationParameter(PopulationBasedAlgorithm algorithm);
 }

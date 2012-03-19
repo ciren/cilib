@@ -98,7 +98,6 @@ public abstract class SinglePopulationBasedAlgorithm extends AbstractAlgorithm i
      */
     @Override
     public Object accept(TopologyVisitor visitor) {
-        visitor.setCurrentAlgorithm(this);
         getTopology().accept(visitor);
         return visitor.getResult();
     }

@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.measurement.single.diversity.normalisation;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.DiameterVisitor;
@@ -30,7 +29,7 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 /**
  * Normalisation based on the {@linkplain Topology}.
  */
-public class TopologyBasedNormalisation extends NormalisationParameter {
+public class TopologyBasedNormalisation implements DiversityNormalisation {
 
     private TopologyVisitor visitor;
 
@@ -38,7 +37,6 @@ public class TopologyBasedNormalisation extends NormalisationParameter {
      * Create an instance of the {@linkplain TopologyBasedNormalisation}.
      */
     public TopologyBasedNormalisation() {
-        super();
         visitor = new DiameterVisitor();
     }
 
@@ -46,13 +44,10 @@ public class TopologyBasedNormalisation extends NormalisationParameter {
      * {@inheritDoc}
      */
     @Override
-    public double getValue() {
-        PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get();
-        visitor.setDistanceMeasure(distanceMeasure);
-        algorithm.accept(visitor);
-        this.normalisationParameter = (Double) visitor.getResult();
+    public double getNormalisationParameter(PopulationBasedAlgorithm algorithm) {
+        algorithm.getTopology().accept(visitor);
 
-        return this.normalisationParameter;
+        return (Double) visitor.getResult();
     }
 
     /**
