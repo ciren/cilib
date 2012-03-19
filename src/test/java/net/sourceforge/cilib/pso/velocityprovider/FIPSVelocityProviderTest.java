@@ -34,7 +34,7 @@ import junit.framework.Assert;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -79,7 +79,7 @@ public class FIPSVelocityProviderTest {
                 
         PSO pso = new PSO();
         
-        ParametizedParticle particle = new ParametizedParticle();
+        ParameterizedParticle particle = new ParameterizedParticle();
         particle.initialise(problem);
         
         FIPSVelocityProvider instance = new FIPSVelocityProvider();
@@ -101,7 +101,7 @@ public class FIPSVelocityProviderTest {
         pso.addStoppingCondition(new MaximumIterations(1));
         pso.initialise();
         particle.setVelocityProvider(instance);
-        Topology<ParametizedParticle> topology = new GBestTopology();
+        Topology<ParameterizedParticle> topology = new GBestTopology();
         topology.add(particle);
         pso.setTopology(topology);
         pso.run();

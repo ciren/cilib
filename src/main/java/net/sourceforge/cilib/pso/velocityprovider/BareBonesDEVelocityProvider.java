@@ -35,7 +35,7 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -268,7 +268,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
      * Not applicable
      */
      @Override
-    public void setControlParameters(ParametizedParticle particle) {
+    public void setControlParameters(ParameterizedParticle particle) {
         //not applicable
     }
     
@@ -276,7 +276,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
      * Not applicable
      */
     @Override
-    public HashMap<String, Double> getControlParameterVelocity(ParametizedParticle particle) {
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
         //Not applicable
         return null;
     }

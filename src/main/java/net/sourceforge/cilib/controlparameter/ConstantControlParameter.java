@@ -25,7 +25,7 @@ package net.sourceforge.cilib.controlparameter;
  * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}
  * to represent a constant value. The specified value will be maintained until it is altered.
  */
-public class ConstantControlParameter implements ControlParameter {
+public class ConstantControlParameter implements ParameterAdaptingPSOControlParameter{
     private static final long serialVersionUID = 8847038781478109426L;
     protected double parameter;
     
@@ -34,11 +34,13 @@ public class ConstantControlParameter implements ControlParameter {
     }
 
     private double velocity;
-  /**
+
+    /**
      * Create a new instance of {@code ConstantControlParameter}.
      */
     public ConstantControlParameter() {
         velocity = 0;
+        bestValue = new ConstantControlParameter(this);
     }
 
     /**
@@ -49,6 +51,8 @@ public class ConstantControlParameter implements ControlParameter {
     protected ConstantControlParameter(double value) {
         this.parameter = value;
         velocity = 0;
+        bestValue = new ConstantControlParameter();
+        bestValue.setParameter(value);
     }
 
     /**
@@ -57,6 +61,7 @@ public class ConstantControlParameter implements ControlParameter {
      */
     public ConstantControlParameter(ConstantControlParameter copy) {
         this.parameter = copy.parameter;
+        this.bestValue = copy.bestValue;
     }
 
     /**
@@ -132,5 +137,15 @@ public class ConstantControlParameter implements ControlParameter {
     @Override
     public void setVelocity(double value) {
         //Nothing to change
+    }
+    
+    @Override
+    public void setBestValue(double value) {
+        bestValue.setParameter(value);
+    }
+    
+    @Override
+    public ParameterAdaptingPSOControlParameter getBestValue() {
+        return bestValue;
     }
 }

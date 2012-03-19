@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.pso.pbestupdate;
 
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -43,5 +43,5 @@ public interface PersonalBestUpdateStrategy extends Cloneable {
      */
     void updatePersonalBest(Particle particle);
     
-    void updateParametizedPersonalBest(ParametizedParticle particle);
+    void updateParametizedPersonalBest(ParameterizedParticle particle);
 }

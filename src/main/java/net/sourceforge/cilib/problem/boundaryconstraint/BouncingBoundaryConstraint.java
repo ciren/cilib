@@ -57,11 +57,12 @@ public class BouncingBoundaryConstraint implements BoundaryConstraint {
      * {@inheritDoc}
      */
     @Override
-    public void enforce(Entity entity) {
-        StructuredType<?> structuredType = (StructuredType<?>) entity.getProperties().get(EntityType.Particle.VELOCITY);
+    public Entity enforce(Entity entity) {
+        Entity newEntity = entity.getClone();
+        StructuredType<?> structuredType = (StructuredType<?>) newEntity.getProperties().get(EntityType.Particle.VELOCITY);
 
         if (structuredType == null) {
-            throw new UnsupportedOperationException("Cannot perform this boundary constrain on a " + entity.getClass().getSimpleName());
+            throw new UnsupportedOperationException("Cannot perform this boundary constrain on a " + newEntity.getClass().getSimpleName());
         }
 
         Vector result = Vectors.transform((Vector) structuredType, new Function<Numeric, Double>() {
@@ -77,6 +78,9 @@ public class BouncingBoundaryConstraint implements BoundaryConstraint {
                 return from.doubleValue();
             }
         });
-        entity.getProperties().put(EntityType.Particle.VELOCITY, result);
+       
+        newEntity.getProperties().put(EntityType.Particle.VELOCITY, result);
+        
+        return newEntity;
     }
 }

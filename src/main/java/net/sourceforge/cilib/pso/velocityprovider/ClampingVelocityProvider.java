@@ -25,7 +25,7 @@ import java.util.HashMap;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -94,7 +94,7 @@ public class ClampingVelocityProvider implements VelocityProvider {
      * {@inheritDoc}
      */
     @Override
-    public void setControlParameters(ParametizedParticle particle) {
+    public void setControlParameters(ParameterizedParticle particle) {
         vMax = particle.getVmax();
     }
     
@@ -102,10 +102,12 @@ public class ClampingVelocityProvider implements VelocityProvider {
      * {@inheritDoc}
      */
     @Override
-    public HashMap<String, Double> getControlParameterVelocity(ParametizedParticle particle) {
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
         double velocity = this.delegate.getControlParameterVelocity(particle).get("VmaxVelocity");
         HashMap<String, Double> parameterVelocity = new HashMap<String, Double>();
-        
+        parameterVelocity.put("InertiaVelocity", particle.getInertia().getVelocity());
+        parameterVelocity.put("SocialAccelerationVelocity", particle.getInertia().getVelocity());
+        parameterVelocity.put("CognitiveAccelerationVelocity", particle.getInertia().getVelocity());
         if (velocity < -vMax.getParameter()) {
             parameterVelocity.put("VmaxVelocity", -vMax.getParameter());
         } else if (velocity > vMax.getParameter()) {

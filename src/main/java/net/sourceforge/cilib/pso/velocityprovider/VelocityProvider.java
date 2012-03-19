@@ -25,7 +25,7 @@ package net.sourceforge.cilib.pso.velocityprovider;
 import java.util.HashMap;
 import java.util.Hashtable;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -58,7 +58,7 @@ public interface VelocityProvider extends Cloneable {
      * Set the values of the control parameters to those held by a parametized particle
      * @param particle The aprticle holding the parameter values
      */
-    void setControlParameters(ParametizedParticle particle);
+    void setControlParameters(ParameterizedParticle particle);
     
     /*
      * Get the velocity value for the control parameters held by a parametized particle
@@ -68,6 +68,5 @@ public interface VelocityProvider extends Cloneable {
      * as "SocialAccelerationVelocity", for cognitive acceleration as "CognitiveAccelerationVelocity"
      * and for vmax as "VmaxVelocity".
      */
-    HashMap<String, Double> getControlParameterVelocity(ParametizedParticle particle);
-
+    HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle);
 }

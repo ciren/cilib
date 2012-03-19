@@ -28,7 +28,7 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.util.Vectors;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -86,14 +86,22 @@ public class StandardPositionProviderTest {
     public void testGetInertia() {
         System.out.println("getInertia");
         StandardPositionProvider instance = new StandardPositionProvider();
-        ParametizedParticle particle = new ParametizedParticle();
+        ParameterizedParticle particle = new ParameterizedParticle();
         double position = 5.0;
-        ControlParameter parameter = new BoundedModifiableControlParameter();
+        BoundedModifiableControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(position);
         particle.setInertia(parameter);
         particle.getInertia().setVelocity(2.0);
         double expectedResult = particle.getInertia().getParameter() + particle.getInertia().getVelocity();
         double result = instance.getInertia(particle);
+        
+        Assert.assertEquals(expectedResult, result);
+        
+        parameter.setLowerBound(3.0);
+        parameter.setUpperBound(5.0);
+        particle.setInertia(parameter);
+        expectedResult = particle.getInertia().getParameter();
+        result = instance.getInertia(particle);
         
         Assert.assertEquals(expectedResult, result);
     }
@@ -105,14 +113,22 @@ public class StandardPositionProviderTest {
     public void testGetSocial() {
         System.out.println("getSocial");
         StandardPositionProvider instance = new StandardPositionProvider();
-        ParametizedParticle particle = new ParametizedParticle();
+        ParameterizedParticle particle = new ParameterizedParticle();
         double position = 5.0;
-        ControlParameter parameter = new BoundedModifiableControlParameter();
+        BoundedModifiableControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(position);
         particle.setSocialAcceleration(parameter);
         particle.getSocialAcceleration().setVelocity(2.0);
         double expectedResult = particle.getSocialAcceleration().getParameter() + particle.getSocialAcceleration().getVelocity();
         double result = instance.getSocialAcceleration(particle);
+        
+        Assert.assertEquals(expectedResult, result);
+        
+        parameter.setLowerBound(3.0);
+        parameter.setUpperBound(5.0);
+        particle.setSocialAcceleration(parameter);
+        expectedResult = particle.getSocialAcceleration().getParameter();
+        result = instance.getSocialAcceleration(particle);
         
         Assert.assertEquals(expectedResult, result);
     }
@@ -124,14 +140,22 @@ public class StandardPositionProviderTest {
     public void testGetPersonal() {
         System.out.println("getPersonal");
         StandardPositionProvider instance = new StandardPositionProvider();
-        ParametizedParticle particle = new ParametizedParticle();
+        ParameterizedParticle particle = new ParameterizedParticle();
         double position = 5.0;
-        ControlParameter parameter = new BoundedModifiableControlParameter();
+        BoundedModifiableControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(position);
         particle.setCognitiveAcceleration(parameter);
         particle.getCognitiveAcceleration().setVelocity(2.0);
         double expectedResult = particle.getCognitiveAcceleration().getParameter() + particle.getCognitiveAcceleration().getVelocity();
         double result = instance.getCognitiveAcceleration(particle);
+        
+        Assert.assertEquals(expectedResult, result);
+        
+        parameter.setLowerBound(3.0);
+        parameter.setUpperBound(5.0);
+        particle.setCognitiveAcceleration(parameter);
+        expectedResult = particle.getCognitiveAcceleration().getParameter();
+        result = instance.getCognitiveAcceleration(particle);
         
         Assert.assertEquals(expectedResult, result);
     }
@@ -143,9 +167,9 @@ public class StandardPositionProviderTest {
     public void testGetVmax() {
         System.out.println("getVmax");
         StandardPositionProvider instance = new StandardPositionProvider();
-        ParametizedParticle particle = new ParametizedParticle();
+        ParameterizedParticle particle = new ParameterizedParticle();
         double position = 5.0;
-        ControlParameter parameter = new BoundedModifiableControlParameter();
+        BoundedModifiableControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(position);
         particle.setVmax(parameter);
         particle.getVmax().setVelocity(2.0);
@@ -153,5 +177,34 @@ public class StandardPositionProviderTest {
         double result = instance.getVmax(particle);
         
         Assert.assertEquals(expectedResult, result);
+        
+        parameter.setLowerBound(3.0);
+        parameter.setUpperBound(5.0);
+        particle.setVmax(parameter);
+        expectedResult = particle.getVmax().getParameter();
+        result = instance.getVmax(particle);
+        
+        Assert.assertEquals(expectedResult, result);
+    }
+    
+    /*
+     * Test isWithinBounds, of class StandardPositionProvider
+     */
+    public void testIsWithinBounds() {
+       BoundedModifiableControlParameter parameter = new BoundedModifiableControlParameter();
+       parameter.setLowerBound(0.3);
+       parameter.setUpperBound(0.6);
+       parameter.setParameter(0.44);
+       
+       StandardPositionProvider instance = new StandardPositionProvider();
+       
+       Assert.assertTrue(instance.isWithinBounds(parameter.getParameter(), parameter));
+       
+       parameter = new BoundedModifiableControlParameter();
+       parameter.setLowerBound(0.3);
+       parameter.setUpperBound(0.6);
+       parameter.setParameter(0.9);
+       
+       Assert.assertFalse(instance.isWithinBounds(parameter.getParameter(), parameter));
     }
 }

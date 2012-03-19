@@ -25,10 +25,11 @@ import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.controlparameter.ParameterAdaptingPSOControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Numeric;
@@ -135,9 +136,9 @@ public class ClampingVelocityProviderTest {
     public void testSetControlParameters() {
         System.out.println("setControlParameters");
         ClampingVelocityProvider instance = new ClampingVelocityProvider();
-        ControlParameter parameter = new BoundedModifiableControlParameter();
+        ParameterAdaptingPSOControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(0.55);
-        ParametizedParticle particle = new ParametizedParticle();
+        ParameterizedParticle particle = new ParameterizedParticle();
         particle.setVmax(parameter);
         
         instance.setControlParameters(particle);
@@ -155,9 +156,9 @@ public class ClampingVelocityProviderTest {
         problem.setDomain("R(-5.12, 5.12)^30");
         problem.setFunction(new Spherical());
             
-        ParametizedParticle particle = new ParametizedParticle();
+        ParameterizedParticle particle = new ParameterizedParticle();
         particle.initialise(problem);
-        ControlParameter parameter = new BoundedModifiableControlParameter();
+        ParameterAdaptingPSOControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(0.5);
         parameter.setVelocity(0);
         particle.setVmax(parameter);

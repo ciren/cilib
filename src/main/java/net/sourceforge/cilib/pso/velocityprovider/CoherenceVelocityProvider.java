@@ -30,9 +30,14 @@ import net.sourceforge.cilib.functions.activation.Sigmoid;
 import net.sourceforge.cilib.math.random.CauchyDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
+
+/*
+ * TODO: This class is entirely wrong, it needs to be recoded.
+ * Kristina
+ */
 
 /**
  * Velocity update for the Coherence PSO.
@@ -213,16 +218,18 @@ public class CoherenceVelocityProvider implements VelocityProvider {
      * Not applicable
      */
     @Override
-    public void setControlParameters(ParametizedParticle particle) {
+    public void setControlParameters(ParameterizedParticle particle) {
         //not applicable
+        this.delegate.setControlParameters(particle);
     }
     
     /*
      * Not applicable
      */
     @Override
-    public HashMap<String, Double> getControlParameterVelocity(ParametizedParticle particle){
-        //not applicable
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle){
+        //what is going on in this class?
         return null;
     }
+        
 }

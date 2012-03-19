@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.pso.positionprovider;
 import junit.framework.Assert;
 import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
@@ -61,7 +61,7 @@ public class LinearPositionProviderTest {
     @Test
     public void testGetInertia() {
         System.out.println("getInertia");
-        ParametizedParticle particle = new ParametizedParticle();
+        ParameterizedParticle particle = new ParameterizedParticle();
         BoundedModifiableControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter((Real.valueOf(1.0, new Bounds(-5.0, 5.0))).doubleValue());
         parameter.setVelocity((Real.valueOf(0.0, new Bounds(-10.0, 10.0))).doubleValue());
@@ -79,7 +79,7 @@ public class LinearPositionProviderTest {
     @Test
     public void testGetSocial() {
         System.out.println("getSocial");
-        ParametizedParticle particle = new ParametizedParticle();
+        ParameterizedParticle particle = new ParameterizedParticle();
         BoundedModifiableControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter((Real.valueOf(1.0, new Bounds(-5.0, 5.0))).doubleValue());
         parameter.setVelocity((Real.valueOf(0.0, new Bounds(-10.0, 10.0))).doubleValue());
@@ -96,7 +96,7 @@ public class LinearPositionProviderTest {
     @Test
     public void testGetPersonal() {
         System.out.println("getPersonal");
-        ParametizedParticle particle = new ParametizedParticle();
+        ParameterizedParticle particle = new ParameterizedParticle();
         BoundedModifiableControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter((Real.valueOf(1.0, new Bounds(-5.0, 5.0))).doubleValue());
         parameter.setVelocity((Real.valueOf(0.0, new Bounds(-10.0, 10.0))).doubleValue());
@@ -113,7 +113,7 @@ public class LinearPositionProviderTest {
     @Test
     public void testGetVmax() {
         System.out.println("getVmax");
-        ParametizedParticle particle = new ParametizedParticle();
+        ParameterizedParticle particle = new ParameterizedParticle();
         BoundedModifiableControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter((Real.valueOf(1.0, new Bounds(-5.0, 5.0))).doubleValue());
         parameter.setVelocity((Real.valueOf(0.0, new Bounds(-10.0, 10.0))).doubleValue());
@@ -122,5 +122,26 @@ public class LinearPositionProviderTest {
         double updatedPosition = new LinearPositionProvider().getVmax(particle);
         
         Assert.assertEquals(updatedPosition, Real.valueOf(0.0, new Bounds(-5.0, 5.0)).doubleValue());
+    }
+    
+    /*
+     * Test isWithinBounds, of class LinearPositionProvider
+     */
+    public void testIsWithinBounds() {
+       BoundedModifiableControlParameter parameter = new BoundedModifiableControlParameter();
+       parameter.setLowerBound(0.3);
+       parameter.setUpperBound(0.6);
+       parameter.setParameter(0.44);
+       
+       LinearPositionProvider instance = new LinearPositionProvider();
+       
+       Assert.assertTrue(instance.isWithinBounds(parameter.getParameter(), parameter));
+       
+       parameter = new BoundedModifiableControlParameter();
+       parameter.setLowerBound(0.3);
+       parameter.setUpperBound(0.6);
+       parameter.setParameter(0.9);
+       
+       Assert.assertFalse(instance.isWithinBounds(parameter.getParameter(), parameter));
     }
 }

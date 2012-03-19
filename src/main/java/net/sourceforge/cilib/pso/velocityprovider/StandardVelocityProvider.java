@@ -28,7 +28,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ControlParameters;
 import net.sourceforge.cilib.util.RandomProviders;
@@ -175,7 +175,7 @@ public final class StandardVelocityProvider implements VelocityProvider {
      * {@inheritDoc}
      */
     @Override
-    public void setControlParameters(ParametizedParticle particle) {
+    public void setControlParameters(ParameterizedParticle particle) {
         inertiaWeight  = particle.getInertia();
         socialAcceleration = particle.getSocialAcceleration();
         cognitiveAcceleration = particle.getCognitiveAcceleration();
@@ -185,17 +185,17 @@ public final class StandardVelocityProvider implements VelocityProvider {
      * {@inheritDoc}
      */
     @Override
-    public HashMap<String, Double> getControlParameterVelocity(ParametizedParticle particle) {
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
         HashMap<String, Double> parameterVelocity = new HashMap<String, Double> ();
         
         double velocity = particle.getInertia().getVelocity();
         double position = particle.getInertia().getParameter();
         ControlParameter localGuide = particle.getLocalGuideInertia();
         ControlParameter globalGuide = particle.getGlobalGuideInertia();
-
-        double dampenedVelocity = velocity * this.inertiaWeight.getParameter();
-        double cognitiveComponent = localGuide.getParameter() - position * this.cognitiveAcceleration.getParameter() * this.r1.nextDouble();
-        double socialComponent = globalGuide.getParameter() - position * this.socialAcceleration.getParameter() * this.r2.nextDouble();
+        
+        double dampenedVelocity = velocity * inertiaWeight.getParameter();
+        double cognitiveComponent = localGuide.getParameter() - position * cognitiveAcceleration.getParameter() * this.r1.nextDouble();
+        double socialComponent = globalGuide.getParameter() - position * socialAcceleration.getParameter() * this.r2.nextDouble();
         double newVelocity = dampenedVelocity + cognitiveComponent + socialComponent;
         parameterVelocity.put("InertiaVelocity", newVelocity);
         
@@ -204,9 +204,9 @@ public final class StandardVelocityProvider implements VelocityProvider {
         localGuide = particle.getLocalGuideSocial();
         globalGuide = particle.getGlobalGuideSocial();
 
-        dampenedVelocity = velocity * this.inertiaWeight.getParameter();
-        cognitiveComponent = localGuide.getParameter() - position * this.cognitiveAcceleration.getParameter() * this.r1.nextDouble();
-        socialComponent = globalGuide.getParameter() - position * this.socialAcceleration.getParameter() * this.r2.nextDouble();
+        dampenedVelocity = velocity * inertiaWeight.getParameter();
+        cognitiveComponent = localGuide.getParameter() - position * cognitiveAcceleration.getParameter() * this.r1.nextDouble();
+        socialComponent = globalGuide.getParameter() - position * socialAcceleration.getParameter() * this.r2.nextDouble();
         newVelocity = dampenedVelocity + cognitiveComponent + socialComponent;
         parameterVelocity.put("SocialAccelerationVelocity", newVelocity);
         
@@ -215,9 +215,9 @@ public final class StandardVelocityProvider implements VelocityProvider {
         localGuide = particle.getLocalGuidePersonal();
         globalGuide = particle.getGlobalGuidePersonal();
 
-        dampenedVelocity = velocity * this.inertiaWeight.getParameter();
-        cognitiveComponent = localGuide.getParameter() - position * this.cognitiveAcceleration.getParameter() * this.r1.nextDouble();
-        socialComponent = globalGuide.getParameter() - position * this.socialAcceleration.getParameter() * this.r2.nextDouble();
+        dampenedVelocity = velocity * inertiaWeight.getParameter();
+        cognitiveComponent = localGuide.getParameter() - position * cognitiveAcceleration.getParameter() * this.r1.nextDouble();
+        socialComponent = globalGuide.getParameter() - position * socialAcceleration.getParameter() * this.r2.nextDouble();
         newVelocity = dampenedVelocity + cognitiveComponent + socialComponent;
         parameterVelocity.put("CognitiveAccelerationVelocity", newVelocity);
         
@@ -226,9 +226,9 @@ public final class StandardVelocityProvider implements VelocityProvider {
         localGuide = particle.getLocalGuidePersonal();
         globalGuide = particle.getGlobalGuidePersonal();
 
-        dampenedVelocity = velocity * this.inertiaWeight.getParameter();
-        cognitiveComponent = localGuide.getParameter() - position * this.cognitiveAcceleration.getParameter() * this.r1.nextDouble();
-        socialComponent = globalGuide.getParameter() - position * this.socialAcceleration.getParameter() * this.r2.nextDouble();
+        dampenedVelocity = velocity * inertiaWeight.getParameter();
+        cognitiveComponent = localGuide.getParameter() - position * cognitiveAcceleration.getParameter() * this.r1.nextDouble();
+        socialComponent = globalGuide.getParameter() - position * socialAcceleration.getParameter() * this.r2.nextDouble();
         newVelocity = dampenedVelocity + cognitiveComponent + socialComponent;
         parameterVelocity.put("VmaxVelocity", newVelocity);
         

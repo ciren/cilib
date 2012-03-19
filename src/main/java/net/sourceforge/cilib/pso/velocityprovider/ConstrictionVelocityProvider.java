@@ -27,7 +27,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -255,7 +255,7 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
      * {@inheritDoc}
      */
     @Override
-    public void setControlParameters(ParametizedParticle particle) {
+    public void setControlParameters(ParameterizedParticle particle) {
         socialAcceleration = particle.getSocialAcceleration();
         cognitiveAcceleration = particle.getCognitiveAcceleration();
     }
@@ -264,7 +264,8 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
      * {@inheritDoc}
      */
     @Override
-    public HashMap<String, Double> getControlParameterVelocity(ParametizedParticle particle) {
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
+        //throw new UnsupportedOperationException("This velocity provider is not applicable to parametized particles");
         HashMap<String, Double> parameterVelocity = new HashMap<String, Double>();
         
         if (this.constrictionCoefficient == null) {
@@ -292,6 +293,28 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
                 + (globalGuide.getParameter() - position) * this.socialAcceleration.getParameter() * this.r2.nextDouble());
         
         parameterVelocity.put("CognitiveAccelerationVelocity", value);
+        
+        velocity = particle.getInertia().getVelocity();
+        position =  particle.getInertia().getParameter();
+        localGuide = particle.getLocalGuideInertia();
+        globalGuide = particle.getGlobalGuideInertia();
+
+        value = this.constrictionCoefficient.getParameter() * (velocity
+                + (localGuide.getParameter() - position) * this.cognitiveAcceleration.getParameter() * this.r1.nextDouble()
+                + (globalGuide.getParameter() - position) * this.socialAcceleration.getParameter() * this.r2.nextDouble());
+        
+        parameterVelocity.put("InertiaVelocity", value);
+        
+        velocity = particle.getVmax().getVelocity();
+        position =  particle.getVmax().getParameter();
+        localGuide = particle.getLocalGuideVmax();
+        globalGuide = particle.getGlobalGuideVmax();
+
+        value = this.constrictionCoefficient.getParameter() * (velocity
+                + (localGuide.getParameter() - position) * this.cognitiveAcceleration.getParameter() * this.r1.nextDouble()
+                + (globalGuide.getParameter() - position) * this.socialAcceleration.getParameter() * this.r2.nextDouble());
+        
+        parameterVelocity.put("VmaxVelocity", value);
         
         return parameterVelocity;
     }

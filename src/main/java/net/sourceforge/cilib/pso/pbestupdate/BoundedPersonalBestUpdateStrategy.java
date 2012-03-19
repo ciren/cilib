@@ -27,7 +27,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.InferiorFitness;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.Types;
 
 /**
@@ -69,7 +69,7 @@ public class BoundedPersonalBestUpdateStrategy extends StandardPersonalBestUpdat
      * @param paticle The particle whose personal best is being updated
      */
     @Override
-    public void updateParametizedPersonalBest(ParametizedParticle particle) {
+    public void updateParametizedPersonalBest(ParameterizedParticle particle) {
        
         if (!Types.isInsideBounds(particle.getPosition()) || !parameterIsWithinBounds(particle.getInertia()) || 
                 !parameterIsWithinBounds(particle.getSocialAcceleration()) || !parameterIsWithinBounds(particle.getCognitiveAcceleration()) 

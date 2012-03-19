@@ -23,25 +23,33 @@ package net.sourceforge.cilib.entity.initialization;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.controlparameter.ParameterAdaptingPSOControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 
 /**
- *
- * @author Kristina
+ * This class initializes a ParametizedParticle. It initialized the position fo the particle
+ * using any entity initialization strategy chosen by the user. It then initializes the four
+ * parameters (inertia, social acceleration, cognitive acceleration and vmax) using the 
+ * BoundedRandomInitializationStrategy. The constant parameters and bounded parameters with 
+ * an already specified initial value are not initialized, they are left to be the values 
+ * specified. The parameters are initialized to fall within the user defined upper and lower
+ * bounds.
+ * 
+ * @author Kristina Georgieva
  */
-public class ParameterInclusiveInitializationStrategy<P extends ParametizedParticle> implements InitializationStrategy<ParametizedParticle> {
+public class ParameterInclusiveInitializationStrategy<P extends ParameterizedParticle> implements InitializationStrategy<ParameterizedParticle> {
     private static final long serialVersionUID = -7926839076670354209L;
     private ProbabilityDistributionFuction random;
     
     private InitializationStrategy entityInitializationStrategy;
     
-    private ControlParameter inertia;
-    private ControlParameter socialAcceleration;
-    private ControlParameter cognitiveAcceleration;
-    private ControlParameter vmax;
+    private ParameterAdaptingPSOControlParameter inertia;
+    private ParameterAdaptingPSOControlParameter socialAcceleration;
+    private ParameterAdaptingPSOControlParameter cognitiveAcceleration;
+    private ParameterAdaptingPSOControlParameter vmax;
     
     private ControlParameter lowerBoundInertia;
     private ControlParameter upperBoundInertia;
@@ -123,7 +131,7 @@ public class ParameterInclusiveInitializationStrategy<P extends ParametizedParti
      * @param particle the particle to be initialized
      */
     @Override
-    public void initialize(Enum<?> key, ParametizedParticle particle) {
+    public void initialize(Enum<?> key, ParameterizedParticle particle) {
         //set bounds if there are any
       if(entityInitializationStrategy instanceof RandomBoundedInitializationStrategy) {
           RandomBoundedInitializationStrategy newStrategy = (RandomBoundedInitializationStrategy) entityInitializationStrategy;
@@ -186,7 +194,7 @@ public class ParameterInclusiveInitializationStrategy<P extends ParametizedParti
      * @param parameter The parameter inertia mst be set to
      */
     public void setInertia(ControlParameter parameter) {
-        this.inertia = parameter.getClone();
+        this.inertia = (ParameterAdaptingPSOControlParameter) parameter.getClone();
     }
     
     /*
@@ -203,7 +211,7 @@ public class ParameterInclusiveInitializationStrategy<P extends ParametizedParti
      * @param parameter The parameter social acceleration mst be set to
      */
     public void setSocialAcceleration(ControlParameter parameter) {
-        this.socialAcceleration = parameter.getClone();
+        this.socialAcceleration = (ParameterAdaptingPSOControlParameter) parameter.getClone();
     }
     
     /*
@@ -220,7 +228,7 @@ public class ParameterInclusiveInitializationStrategy<P extends ParametizedParti
      * @param parameter The parameter cognitive acceleration mst be set to
      */
     public void setCognitiveAcceleration(ControlParameter parameter) {
-        this.cognitiveAcceleration = parameter.getClone();
+        this.cognitiveAcceleration = (ParameterAdaptingPSOControlParameter) parameter.getClone();
     }
     
     /*
@@ -237,7 +245,7 @@ public class ParameterInclusiveInitializationStrategy<P extends ParametizedParti
      * @param parameter The parameter vmax mst be set to
      */
     public void setVmax(ControlParameter parameter) {
-        this.vmax = parameter.getClone();
+        this.vmax = (ParameterAdaptingPSOControlParameter) parameter.getClone();
     }
     
     /*

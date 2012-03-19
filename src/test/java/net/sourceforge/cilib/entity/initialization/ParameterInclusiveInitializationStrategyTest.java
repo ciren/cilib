@@ -31,7 +31,7 @@ import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -77,7 +77,7 @@ public class ParameterInclusiveInitializationStrategyTest {
         problem.setFunction(new Spherical());
         
         Vector vector = Vector.of(1.0, 1.0, 1.0,1.0, 1.0, 1.0,1.0, 1.0, 1.0,1.0);
-        ParametizedParticle individual = new ParametizedParticle();
+        ParameterizedParticle individual = new ParameterizedParticle();
         individual.getProperties().put(EntityType.CANDIDATE_SOLUTION, vector.getClone());
         
         ControlParameter modifiableParameter = new BoundedModifiableControlParameter();
@@ -117,7 +117,7 @@ public class ParameterInclusiveInitializationStrategyTest {
         problem.setFunction(new Spherical());
         
         Vector vector = Vector.of(1.0, 1.0, 1.0,1.0, 1.0, 1.0,1.0, 1.0, 1.0,1.0);
-        ParametizedParticle individual = new ParametizedParticle();
+        ParameterizedParticle individual = new ParameterizedParticle();
         individual.getProperties().put(EntityType.CANDIDATE_SOLUTION, vector.getClone());
         
         ControlParameter modifiableParameter = new BoundedModifiableControlParameter();
@@ -129,6 +129,9 @@ public class ParameterInclusiveInitializationStrategyTest {
         initializationStrategy.setSocialAcceleration(modifiableParameter);
         initializationStrategy.setCognitiveAcceleration(constantParameter);
         initializationStrategy.setVmax(constantParameter);
+        
+        initializationStrategy.setLowerBound(new ConstantControlParameter(0.2));
+        initializationStrategy.setUpperBound(new ConstantControlParameter(0.6));
         
         initializationStrategy.initialize(EntityType.CANDIDATE_SOLUTION, individual);
         
@@ -258,7 +261,9 @@ public class ParameterInclusiveInitializationStrategyTest {
     public void testGetLowerBoundInertia() {
         System.out.println("getLowerBoundInertia");
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
-        ControlParameter expResult = new ConstantControlParameter(0.1); //default value
+        BoundedModifiableControlParameter expResult = new BoundedModifiableControlParameter();
+        expResult.setParameter(0.55);
+        instance.setLowerBoundInertia(expResult);
         ControlParameter result = instance.getLowerBoundInertia();
         
         Assert.assertEquals(expResult.getParameter(), result.getParameter());
@@ -272,7 +277,9 @@ public class ParameterInclusiveInitializationStrategyTest {
     public void testGetUpperBoundInertia() {
         System.out.println("getUpperBoundInertia");
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
-        ControlParameter expResult = new ConstantControlParameter(0.9); //default value
+        BoundedModifiableControlParameter expResult = new BoundedModifiableControlParameter();
+        expResult.setParameter(0.55);
+        instance.setUpperBoundInertia(expResult);
         ControlParameter result = instance.getUpperBoundInertia();
         
         Assert.assertEquals(expResult.getParameter(), result.getParameter());
@@ -285,8 +292,10 @@ public class ParameterInclusiveInitializationStrategyTest {
     @Test
     public void testGetLowerBoundSocial() {
         System.out.println("getLowerBoundSocial");
-       ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
-        ControlParameter expResult = new ConstantControlParameter(0.1); //default value
+        ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
+        BoundedModifiableControlParameter expResult = new BoundedModifiableControlParameter();
+        expResult.setParameter(0.55);
+        instance.setLowerBoundSocialAcceleration(expResult);
         ControlParameter result = instance.getLowerBoundSocialAcceleration();
         
         Assert.assertEquals(expResult.getParameter(), result.getParameter());
@@ -300,7 +309,9 @@ public class ParameterInclusiveInitializationStrategyTest {
     public void testGetUpperBoundSocial() {
         System.out.println("getUpperBoundSocial");
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
-        ControlParameter expResult = new ConstantControlParameter(0.9); //default value
+        BoundedModifiableControlParameter expResult = new BoundedModifiableControlParameter();
+        expResult.setParameter(0.55);
+        instance.setUpperBoundSocialAcceleration(expResult);
         ControlParameter result = instance.getUpperBoundSocialAcceleration();
         
         Assert.assertEquals(expResult.getParameter(), result.getParameter());
@@ -313,7 +324,9 @@ public class ParameterInclusiveInitializationStrategyTest {
     public void testGetLowerBoundPersonal() {
         System.out.println("getLowerBoundPersonal");
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
-        ControlParameter expResult = new ConstantControlParameter(0.1); //default value
+        BoundedModifiableControlParameter expResult = new BoundedModifiableControlParameter();
+        expResult.setParameter(0.55);
+        instance.setLowerBoundCognitiveAcceleration(expResult);
         ControlParameter result = instance.getLowerBoundCognitiveAcceleration();
         
         Assert.assertEquals(expResult.getParameter(), result.getParameter());
@@ -326,7 +339,9 @@ public class ParameterInclusiveInitializationStrategyTest {
     public void testGetUpperBoundPersonal() {
         System.out.println("getUpperBoundPersonal");
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
-        ControlParameter expResult = new ConstantControlParameter(0.9); //default value
+        BoundedModifiableControlParameter expResult = new BoundedModifiableControlParameter();
+        expResult.setParameter(0.55);
+        instance.setUpperBoundCognitiveAcceleration(expResult);
         ControlParameter result = instance.getUpperBoundCognitiveAcceleration();
         
         Assert.assertEquals(expResult.getParameter(), result.getParameter());
@@ -339,7 +354,9 @@ public class ParameterInclusiveInitializationStrategyTest {
     public void testGetLowerBoundVmax() {
         System.out.println("getLowerBoundVmax");
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
-        ControlParameter expResult = new ConstantControlParameter(0.1); //default value
+        BoundedModifiableControlParameter expResult = new BoundedModifiableControlParameter();
+        expResult.setParameter(0.55);
+        instance.setLowerBoundVmax(expResult);
         ControlParameter result = instance.getLowerBoundVmax();
         
         Assert.assertEquals(expResult.getParameter(), result.getParameter());
@@ -352,10 +369,56 @@ public class ParameterInclusiveInitializationStrategyTest {
     public void testGetUpperBoundVmax() {
         System.out.println("getUpperBoundVmax");
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
-        ControlParameter expResult = new ConstantControlParameter(0.9); //default value
+        BoundedModifiableControlParameter expResult = new BoundedModifiableControlParameter();
+        expResult.setParameter(0.55);
+        instance.setUpperBoundVmax(expResult);
         ControlParameter result = instance.getUpperBoundVmax();
         
         Assert.assertEquals(expResult.getParameter(), result.getParameter());
+    }
+    
+    /**
+     * Test of getUpperBound method, of class ParameterInclusiveInitializationStrategy.
+     */
+    @Test
+    public void testGetUpperBound() {
+        System.out.println("getUpperBoundVmax");
+        ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
+        BoundedModifiableControlParameter expResult = new BoundedModifiableControlParameter();
+        expResult.setParameter(0.55);
+        instance.setUpperBound(expResult);
+        ControlParameter result = instance.getUpperBound();
+        
+        Assert.assertEquals(expResult.getParameter(), result.getParameter());
+    }
+    
+    /**
+     * Test of getLowerBound method, of class ParameterInclusiveInitializationStrategy.
+     */
+    @Test
+    public void testGetLowerBound() {
+        System.out.println("getUpperBoundVmax");
+        ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
+        BoundedModifiableControlParameter expResult = new BoundedModifiableControlParameter();
+        expResult.setParameter(0.55);
+        instance.setLowerBound(expResult);
+        ControlParameter result = instance.getLowerBound();
+        
+        Assert.assertEquals(expResult.getParameter(), result.getParameter());
+    }
+    
+     /**
+     * Test of setLowerBound method, of class ParameterInclusiveInitializationStrategy.
+     */
+    @Test
+    public void testSetLowerBound() {
+        System.out.println("setLowerBoundInertia");
+        ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
+        BoundedModifiableControlParameter bound = new BoundedModifiableControlParameter();
+        bound.setParameter(0.55);
+        instance.setLowerBound(bound);
+        
+        Assert.assertEquals(instance.getLowerBound().getParameter(), bound.getParameter());
     }
 
     /**
@@ -364,8 +427,9 @@ public class ParameterInclusiveInitializationStrategyTest {
     @Test
     public void testSetLowerBoundInertia() {
         System.out.println("setLowerBoundInertia");
-        ControlParameter bound = new ConstantControlParameter(0.3);
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
+        BoundedModifiableControlParameter bound = new BoundedModifiableControlParameter();
+        bound.setParameter(0.55);
         instance.setLowerBoundInertia(bound);
         
         Assert.assertEquals(instance.getLowerBoundInertia().getParameter(), bound.getParameter());
@@ -377,8 +441,9 @@ public class ParameterInclusiveInitializationStrategyTest {
     @Test
     public void testSetUpperBoundInertia() {
         System.out.println("setUpperBoundInertia");
-        ControlParameter bound = new ConstantControlParameter(0.3);
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
+        BoundedModifiableControlParameter bound = new BoundedModifiableControlParameter();
+        bound.setParameter(0.55);
         instance.setUpperBoundInertia(bound);
         
         Assert.assertEquals(instance.getUpperBoundInertia().getParameter(), bound.getParameter());
@@ -390,8 +455,9 @@ public class ParameterInclusiveInitializationStrategyTest {
     @Test
     public void testSetLowerBoundSocial() {
         System.out.println("setLowerBoundSocial");
-        ControlParameter bound = new ConstantControlParameter(0.3);
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
+        BoundedModifiableControlParameter bound = new BoundedModifiableControlParameter();
+        bound.setParameter(0.55);
         instance.setLowerBoundSocialAcceleration(bound);
         
         Assert.assertEquals(instance.getLowerBoundSocialAcceleration().getParameter(), bound.getParameter());
@@ -403,8 +469,9 @@ public class ParameterInclusiveInitializationStrategyTest {
     @Test
     public void testSetUpperBoundSocial() {
         System.out.println("setUpperBoundSocial");
-        ControlParameter bound = new ConstantControlParameter(0.3);
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
+        BoundedModifiableControlParameter bound = new BoundedModifiableControlParameter();
+        bound.setParameter(0.55);
         instance.setUpperBoundSocialAcceleration(bound);
         
         Assert.assertEquals(instance.getUpperBoundSocialAcceleration().getParameter(), bound.getParameter());
@@ -415,8 +482,9 @@ public class ParameterInclusiveInitializationStrategyTest {
      */
     @Test
     public void testSetLowerBoundPersonal() {
-        ControlParameter bound = new ConstantControlParameter(0.3);
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
+        BoundedModifiableControlParameter bound = new BoundedModifiableControlParameter();
+        bound.setParameter(0.55);
         instance.setLowerBoundCognitiveAcceleration(bound);
         
         Assert.assertEquals(instance.getLowerBoundCognitiveAcceleration().getParameter(), bound.getParameter());
@@ -428,8 +496,9 @@ public class ParameterInclusiveInitializationStrategyTest {
     @Test
     public void testSetUpperBoundPersonal() {
         System.out.println("setUpperBoundPersonal");
-        ControlParameter bound = new ConstantControlParameter(0.3);
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
+        BoundedModifiableControlParameter bound = new BoundedModifiableControlParameter();
+        bound.setParameter(0.55);
         instance.setUpperBoundCognitiveAcceleration(bound);
         
         Assert.assertEquals(instance.getUpperBoundCognitiveAcceleration().getParameter(), bound.getParameter());
@@ -441,23 +510,39 @@ public class ParameterInclusiveInitializationStrategyTest {
     @Test
     public void testSetLowerBoundVmax() {
         System.out.println("setLowerBoundVmax");
-        ControlParameter bound = new ConstantControlParameter(0.3);
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
+        BoundedModifiableControlParameter bound = new BoundedModifiableControlParameter();
+        bound.setParameter(0.55);
         instance.setLowerBoundVmax(bound);
         
         Assert.assertEquals(instance.getLowerBoundVmax().getParameter(), bound.getParameter());
     }
-
+    
     /**
      * Test of setUpperBoundVmax method, of class ParameterInclusiveInitializationStrategy.
      */
     @Test
     public void testSetUpperBoundVmax() {
         System.out.println("setUpperBoundVmax");
-       ControlParameter bound = new ConstantControlParameter(0.3);
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
+        BoundedModifiableControlParameter bound = new BoundedModifiableControlParameter();
+        bound.setParameter(0.55);
         instance.setUpperBoundVmax(bound);
         
         Assert.assertEquals(instance.getUpperBoundVmax().getParameter(), bound.getParameter());
+    }
+    
+     /**
+     * Test of setUpperBound method, of class ParameterInclusiveInitializationStrategy.
+     */
+    @Test
+    public void testSetUpperBound() {
+        System.out.println("setUpperBoundVmax");
+        ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
+        BoundedModifiableControlParameter bound = new BoundedModifiableControlParameter();
+        bound.setParameter(0.55);
+        instance.setUpperBound(bound);
+        
+        Assert.assertEquals(instance.getUpperBound().getParameter(), bound.getParameter());
     }
 }

@@ -30,7 +30,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
-import net.sourceforge.cilib.pso.particle.ParametizedParticle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.pso.positionprovider.PositionProvider;
 import net.sourceforge.cilib.pso.positionprovider.StandardPositionProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -157,7 +157,7 @@ public class QuantumPositionProvider implements PositionProvider {
      * Not applicable
      */
     @Override
-    public double getInertia(ParametizedParticle particle) {
+    public double getInertia(ParameterizedParticle particle) {
         throw new UnsupportedOperationException("Implementation is required.");
     }
     
@@ -165,7 +165,7 @@ public class QuantumPositionProvider implements PositionProvider {
      * Not applicable
      */
     @Override
-    public double getSocialAcceleration(ParametizedParticle particle) {
+    public double getSocialAcceleration(ParameterizedParticle particle) {
         throw new UnsupportedOperationException("Implementation is required.");
     }
     
@@ -173,7 +173,7 @@ public class QuantumPositionProvider implements PositionProvider {
      * Not applicable
      */
     @Override
-    public double getCognitiveAcceleration(ParametizedParticle particle) {
+    public double getCognitiveAcceleration(ParameterizedParticle particle) {
         throw new UnsupportedOperationException("Implementation is required.");
     }
     
@@ -181,7 +181,7 @@ public class QuantumPositionProvider implements PositionProvider {
      * Not applicable
      */
     @Override
-    public double getVmax(ParametizedParticle particle) {
+    public double getVmax(ParameterizedParticle particle) {
         throw new UnsupportedOperationException("Implementation is required.");
     }
 }
