@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Calculates the entropy in each dimension of the search space, with respect
  * to the positions of the entities in the population.
  *
- * @author Bennie Leonard
  */
 public class DimensionalEntropyMeasurement extends EntropyMeasurement {
 

@@ -27,7 +27,6 @@ import net.sourceforge.cilib.problem.Fitness;
 /**
  * Obtain the current fitness of an entity.
  * @param <E> The entity type.
- * @author Wiehann Matthysen
  */
 public class CurrentFitness<E extends Entity> implements EntityFitness<E> {
 

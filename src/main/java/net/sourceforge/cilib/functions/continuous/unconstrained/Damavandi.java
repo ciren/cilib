@@ -44,7 +44,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(0, 12)^2
  *
- * @author  Andries Engelbrecht
  */
 public class Damavandi implements ContinuousFunction {
 

@@ -26,7 +26,6 @@ import net.sourceforge.cilib.io.exception.CIlibIOException;
 
 /**
  * Interface for classes that perform an operation on data in a DataTable.
- * @author andrich
  */
 public interface DataOperator {
 

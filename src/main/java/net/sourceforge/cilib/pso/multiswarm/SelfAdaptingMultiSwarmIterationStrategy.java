@@ -42,7 +42,6 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  *  pages={29--49}
  * }
  *
- * @author Julien Duhain
  *
  */
 public class SelfAdaptingMultiSwarmIterationStrategy extends AbstractIterationStrategy<MultiSwarm> {

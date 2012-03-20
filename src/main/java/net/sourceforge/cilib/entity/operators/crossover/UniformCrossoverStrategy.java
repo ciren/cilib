@@ -32,7 +32,6 @@ import net.sourceforge.cilib.util.selection.Samples;
 
 /**
  *
- * @author  Andries Engelbrecht
  */
 public class UniformCrossoverStrategy extends CrossoverStrategy {
 

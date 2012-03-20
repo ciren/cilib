@@ -29,7 +29,6 @@ import net.sourceforge.cilib.measurement.single.GenericFunctionMeasurement;
  * main reason why it has been implemented is to be able to take measurements of the
  * <i>inter-cluster distance</i> via the {@linkplain GenericFunctionMeasurement} class.
  * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
- * @author Theuns Cloete
  */
 public class InterClusterDistance extends ClusteringFitnessFunction {
 

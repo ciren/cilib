@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Minimum: 2.2
  * R(0, 1)^2
  * 
- * @author Clive Naicker
  * @version 1.0
  */
 public class Ripple implements ContinuousFunction {

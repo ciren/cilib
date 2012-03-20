@@ -23,7 +23,6 @@ package net.sourceforge.cilib.math.random.generator;
 
 /**
  *
- * @author gpampara
  */
 public final class RandomAdaptor extends java.util.Random {
     private static final long serialVersionUID = 9072860165404102971L;

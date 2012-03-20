@@ -31,7 +31,6 @@ import net.sourceforge.cilib.pso.PSO;
 /**
  * Implementation of the synchronous iteration strategy for PSO.
  *
- * @author Gary Pampara
  */
 public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO> {
 

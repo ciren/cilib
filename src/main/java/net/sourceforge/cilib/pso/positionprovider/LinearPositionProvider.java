@@ -27,7 +27,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * This sets the position to the velocity.
  *
- * @author Andries Engelbrecht
  *
  */
 public class LinearPositionProvider implements PositionProvider {

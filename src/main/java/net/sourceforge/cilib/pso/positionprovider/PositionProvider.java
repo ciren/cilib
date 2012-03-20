@@ -30,7 +30,6 @@ import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * TODO: Complete this javadoc.
- * @author Gary Pampara
  *
  */
 public interface PositionProvider extends Cloneable, Serializable {

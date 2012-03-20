@@ -30,7 +30,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
-* @author Andries Engelbrecht
 */
 public class AbsoluteValueTest {
 

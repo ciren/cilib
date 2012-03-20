@@ -42,7 +42,6 @@ import static org.hamcrest.core.IsInstanceOf.instanceOf;
 
 /**
  * Test the PatternConversionOperator
- * @author andrich
  */
 public class PatternConversionOperatorTest {
     @Test

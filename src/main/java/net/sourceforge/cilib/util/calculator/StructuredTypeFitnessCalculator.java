@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * A fitness calculator that determines the fitness value of a StructuredType.
  *
  * @param <T> The structured type to determine the fitness of.
- * @author gpampara
  */
 public class StructuredTypeFitnessCalculator<T extends StructuredType<?>> implements FitnessCalculator<T> {
     private static final long serialVersionUID = 8578856272481600577L;

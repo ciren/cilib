@@ -40,7 +40,6 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  *              "Anthony Jack Carlisle and Gerry V. Dozier", institution = "Huntingdon
  *              College", year = "2001", number = "CSSE01-08" }
  * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
- * @author Theuns Cloete
  */
 public class RandomSentriesDetectionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
     private static final long serialVersionUID = -7299802900616282412L;

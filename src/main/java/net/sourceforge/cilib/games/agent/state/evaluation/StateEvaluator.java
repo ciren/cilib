@@ -28,7 +28,6 @@ import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * @author leo
  * This interface defines the methods required to evaluate a given state for a {@linkplain StateEvaluationAgent}. It is used to determine
  * which state to select when making a decision.
  */

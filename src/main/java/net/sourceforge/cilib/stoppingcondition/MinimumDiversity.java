@@ -31,7 +31,6 @@ import net.sourceforge.cilib.measurement.single.diversity.Diversity;
  * A stopping condition that is based on the {@link Diversity} of the population. The
  * {@link Algorithm} will stop as soon as the population's diversity drops below a (user-specified)
  * threshold for a (user-specified) number of consecutive iterations.
- * @author Theuns Cloete
  */
 public class MinimumDiversity implements StoppingCondition<PopulationBasedAlgorithm> {
     private static final long serialVersionUID = 8678755417913002799L;

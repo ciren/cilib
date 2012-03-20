@@ -34,7 +34,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Visitor implements a general gradient decent backpropagation algorithm
  * for an N layer feed forward network with momentum and learning rate terms.
- * @author andrich
  */
 public class BackPropagationVisitor implements ArchitectureVisitor {
 

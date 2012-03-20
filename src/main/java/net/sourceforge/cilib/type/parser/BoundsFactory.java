@@ -29,7 +29,6 @@ import java.util.Map;
  * This class represents the bounds information for all Numeric types in
  * CIlib. This implemetnation is done by using the Flyweight design pattern.
  *
- * @author gpampara
  */
 public class BoundsFactory {
     private final Map<Integer, Bounds> bounds = Maps.newHashMap();

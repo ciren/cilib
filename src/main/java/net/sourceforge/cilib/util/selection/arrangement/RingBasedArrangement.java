@@ -26,7 +26,6 @@ import java.util.List;
 
 /**
  *
- * @author gpampara
  */
 public class RingBasedArrangement<T> implements Arrangement<T> {
 

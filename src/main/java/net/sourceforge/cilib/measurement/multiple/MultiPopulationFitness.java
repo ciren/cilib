@@ -32,7 +32,6 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author leo
  * This class currently only works for PSO, it finds the best personal best fitness
  * values for each population in a multi-population based algorithm without re-calculating
  * the fitness.

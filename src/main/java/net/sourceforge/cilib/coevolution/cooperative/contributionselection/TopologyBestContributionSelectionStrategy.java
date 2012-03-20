@@ -26,7 +26,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Select the contribution based on the topology best entity of the {@linkplain PopulationBasedAlgorithm}.
- * @author leo
  */
 public class TopologyBestContributionSelectionStrategy implements
         ContributionSelectionStrategy {

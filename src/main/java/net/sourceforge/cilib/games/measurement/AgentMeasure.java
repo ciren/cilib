@@ -26,7 +26,6 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * @author leo
  * This class measures any game specific features observed by agents during play. This information can be used to describe the game player and/or
  * calculate fitness based on certain game specific requirements.
  */

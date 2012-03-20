@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Perform the knapsack problem optimisation.
  *
- * @author Gary Pampara
  */
 public class KnapSack implements DiscreteFunction {
 

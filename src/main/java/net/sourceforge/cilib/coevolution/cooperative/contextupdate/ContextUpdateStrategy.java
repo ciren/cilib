@@ -31,8 +31,6 @@ import net.sourceforge.cilib.util.Cloneable;
 /**
  * This interface is used to update the context vector of a {@linkplain CooperativeCoevolutionAlgorithm}
  * with the best solution from a participating {@linkplain PopulationBasedAlgorithm}.
- * @author leo
- * @author Theuns Cloete
  */
 public interface ContextUpdateStrategy extends Cloneable {
     /**

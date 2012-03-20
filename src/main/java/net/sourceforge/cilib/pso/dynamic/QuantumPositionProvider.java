@@ -39,7 +39,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Blackwell and Branke, "Multiswarms, Exclusion, and Anti-Convergence in
  * Dynamic Environments."
  *
- * @author Anna Rakitianskaia, Julien Duhain
  */
 public class QuantumPositionProvider implements PositionProvider {
 

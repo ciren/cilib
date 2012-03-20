@@ -36,7 +36,6 @@ import static org.hamcrest.CoreMatchers.is;
 
 /**
  *
- * @author Gary Pampara
  */
 public class MathsTest {
 

@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * The function class only determines the fitness of the solution by determining
  * the number of conflicts and penalises the fitness if there are.
  *
- * @author Gary Pampara
  */
 public class Queens implements DiscreteFunction {
 

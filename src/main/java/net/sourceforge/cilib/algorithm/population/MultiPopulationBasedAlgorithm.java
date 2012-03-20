@@ -46,7 +46,6 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
  *   <li>etc.</li>
  * </ul>
  *
- * @author Gary Pampara
  */
 public abstract class MultiPopulationBasedAlgorithm extends AbstractAlgorithm implements PopulationBasedAlgorithm, Iterable<PopulationBasedAlgorithm> {
     private static final long serialVersionUID = -5311450612897848103L;

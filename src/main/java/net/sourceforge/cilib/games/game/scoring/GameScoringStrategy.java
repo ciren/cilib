@@ -24,7 +24,6 @@ package net.sourceforge.cilib.games.game.scoring;
 import net.sourceforge.cilib.games.game.Game;
 
 /**
- * @author leo
  * This class assigns a fitness to a player after a game has been played
  */
 public abstract class GameScoringStrategy {

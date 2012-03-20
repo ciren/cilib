@@ -33,7 +33,6 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
- * @author Andries Engelbrecht
  */
 public abstract class CrossoverStrategy implements Operator {
 

@@ -47,7 +47,6 @@ import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrateg
  * a sub-swarm will enable the velocity update equation associated with the particle
  * to still operate.
  * </p>
- * @author gpampara
  */
 public class StandardSwarmCreationStrategy implements NicheCreationStrategy {
 

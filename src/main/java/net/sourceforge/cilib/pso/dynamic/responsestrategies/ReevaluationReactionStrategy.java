@@ -36,7 +36,6 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
  * {@link #setReevaluationRatio(double) ratio} of randomly chosen entities in the given
  * {@link Topology}.
  *
- * @author Theuns Cloete
  * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
  */
 public class ReevaluationReactionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy<E> {

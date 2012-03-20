@@ -38,7 +38,6 @@ import static org.mockito.Mockito.when;
 
 /**
  *
- * @author Julien Duhain
  */
 public class ErrorMeasurementTest {
 

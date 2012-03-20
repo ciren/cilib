@@ -33,7 +33,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-2, 2)^2
  *
- * @author Gary Pampara
  *
  */
 public class GoldsteinPrice implements ContinuousFunction {

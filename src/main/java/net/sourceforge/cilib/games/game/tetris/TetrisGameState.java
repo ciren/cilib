@@ -39,7 +39,6 @@ import net.sourceforge.cilib.games.states.GridGameState;
 /**
  * This class represents a Tetris game state.
  *
- * @author leo
  *
  */
 public class TetrisGameState extends GridGameState {

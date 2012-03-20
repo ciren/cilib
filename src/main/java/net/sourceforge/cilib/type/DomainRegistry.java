@@ -28,7 +28,6 @@ import net.sourceforge.cilib.util.Cloneable;
 
 /**
  *
- * @author gpampara
  *
  */
 public interface DomainRegistry extends Cloneable, Serializable {

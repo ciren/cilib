@@ -27,7 +27,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Hyperbollic Tangent Function.
  *
- * @author leo
  */
 public class TanH implements ActivationFunction {
 

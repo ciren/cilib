@@ -44,7 +44,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *                      booktitle = "IEEE Congress on Evolutionary Computation", month = jun,
  *                      year = {2004}, volume = "2", pages = {2307--2311} }
  * </pre>
- * @author Wiehann Matthysen
  */
 public class PeriodicBoundaryConstraint implements BoundaryConstraint {
 

@@ -45,7 +45,6 @@ import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
  * sizes if possible. The order in which the algorithms are assigned
  * is generated randomly.
  * 
- * @author leo
  */
 public class RandomGroupingDistributionStrategy implements
         ProblemDistributionStrategy {

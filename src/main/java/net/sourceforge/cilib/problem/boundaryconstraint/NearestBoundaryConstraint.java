@@ -54,7 +54,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *                 year = {2007}, pages = {198--205} }
  * </pre>
  *
- * @author Wiehann Matthysen
  */
 public class NearestBoundaryConstraint implements BoundaryConstraint {
 

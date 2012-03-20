@@ -25,7 +25,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
- * @author  Edwin Peer
  */
 public interface Differentiable {
 

@@ -25,7 +25,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  *
- * @author gpampara
  */
 public final class EntityIdFactory {
     private static ThreadLocal<AtomicLong> sequence = new ThreadLocal<AtomicLong>() {

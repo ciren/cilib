@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Sequence;
 
 /**
- * @author otter
  * Implements the Entity interface. Individual represents entities used within the EC paradigm.
  */
 public class Individual extends AbstractEntity {

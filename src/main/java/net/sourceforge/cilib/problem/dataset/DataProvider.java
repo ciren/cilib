@@ -23,7 +23,6 @@ package net.sourceforge.cilib.problem.dataset;
 
 /**
  *
- * @author gpampara
  */
 public interface DataProvider {
 

@@ -34,7 +34,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * {@linkplain DimensionAllocation} to copy the solution from a participating
  * {@linkplain Entity} in a participating {@linkplain PopulationBasedAlgorithm}
  * into the contet vector so that its {@linkplain Fitness} can be calculated.
- * @author leo
  */
 public abstract class DimensionAllocation implements Cloneable {
     private int size;

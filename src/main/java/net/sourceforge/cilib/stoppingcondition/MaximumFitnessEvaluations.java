@@ -24,7 +24,6 @@ package net.sourceforge.cilib.stoppingcondition;
 import net.sourceforge.cilib.algorithm.Algorithm;
 
 /**
- * @author Edwin Peer
  */
 public class MaximumFitnessEvaluations implements StoppingCondition<Algorithm> {
     private static final long serialVersionUID = 92433928310230011L;

@@ -46,7 +46,6 @@ import net.sourceforge.cilib.type.types.Type;
  * to different sub-populations.
  * </p>
  *
- * @author Wiehann Matthysen
  */
 public class CriterionBasedMOProblemAdapter extends OptimisationProblemAdapter {
 

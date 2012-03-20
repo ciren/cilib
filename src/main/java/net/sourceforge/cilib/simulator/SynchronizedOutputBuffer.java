@@ -32,7 +32,6 @@ import net.sourceforge.cilib.measurement.Measurement;
 
 /**
  *
- * @author  Edwin Peer
  */
 class SynchronizedOutputBuffer {
 

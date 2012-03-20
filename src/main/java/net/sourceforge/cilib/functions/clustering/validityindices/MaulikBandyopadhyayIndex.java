@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *           volume = "31", number = "1", month = feb, year = "2001", issn = "1094-6977", }
  * NOTE: I(K) isn't really a name, so I'm calling it the Maulik-Bandyopadhyay Validity Index
  * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
- * @author Theuns Cloete
  */
 public class MaulikBandyopadhyayIndex extends ClusteringFitnessFunction {
     private static final long serialVersionUID = -1094819834873604274L;

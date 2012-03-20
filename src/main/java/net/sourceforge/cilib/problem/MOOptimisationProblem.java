@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * @author Edwin Peer
  *
  */
 public class MOOptimisationProblem extends ForwardingList<OptimisationProblem> implements OptimisationProblem {

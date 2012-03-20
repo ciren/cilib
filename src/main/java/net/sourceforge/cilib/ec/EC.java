@@ -43,7 +43,6 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * Generic EC skeleton algorithm. The algorithm is altered by defining the
  * appropriate {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy}.
  *
- * @author Gary Pampara
  */
 public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingAlgorithm {
 

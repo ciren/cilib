@@ -27,7 +27,6 @@ import net.sourceforge.cilib.nn.architecture.NeuralInputSource;
  * Class represents a bias neuron. The neuron has no input weights and always
  * returns -1 as its activation.
  *
- * @author andrich
  */
 public class BiasNeuron extends Neuron {
 

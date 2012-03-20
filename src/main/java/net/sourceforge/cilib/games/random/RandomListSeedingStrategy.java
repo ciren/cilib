@@ -27,7 +27,6 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.math.random.generator.Seeder;
 
 /**
- * @author leo
  * This is a seeding strategy that does the following.
  * At a specified interval a specified number of seeds are generated. These seeds are stored in a list.
  * Every time the {@code seedGenerator} method is called a new seed from this list is used.

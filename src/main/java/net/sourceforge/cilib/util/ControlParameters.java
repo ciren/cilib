@@ -26,7 +26,6 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 
 /**
  *
- * @author Wiehann Matthysen
  */
 public final class ControlParameters {
 

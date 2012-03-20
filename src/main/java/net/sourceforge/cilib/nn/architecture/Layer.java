@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Class represents a layer in a neural network, therefore it simply extends
  * an ArrayList<Neuron> . It also implements the {@link NeuralInputSource}
  * interface and can therefore be used as input for a neuron.
- * @author andrich
  */
 public class Layer extends ArrayList<Neuron> implements NeuralInputSource {
 

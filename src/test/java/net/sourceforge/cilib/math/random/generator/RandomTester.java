@@ -23,7 +23,6 @@ package net.sourceforge.cilib.math.random.generator;
 
 /**
  *
- * @author  Edwin Peer
  */
 public interface RandomTester {
     void addSample(double number);

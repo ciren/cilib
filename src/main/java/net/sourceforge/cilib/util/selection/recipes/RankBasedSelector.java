@@ -43,7 +43,6 @@ import net.sourceforge.cilib.util.selection.arrangement.SortedArrangement;
  *   <li>Randomizing the sub list of elements and selecting an element from the randomized list.</li>
  *   <li>Return the result.</li>
  * </ol>
- * @author Wiehann Matthysen
  * @param <E>
  */
 public class RankBasedSelector<E extends Comparable<? super E>> implements Selector<E> {

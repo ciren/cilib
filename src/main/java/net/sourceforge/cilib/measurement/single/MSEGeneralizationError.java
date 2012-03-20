@@ -36,7 +36,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Calculates the MSE generalization error of the best solution of an algorithm
  * optimizing a {@link NNDataTrainingProblem}.
- * @author andrich
  */
 public class MSEGeneralizationError implements Measurement {
 

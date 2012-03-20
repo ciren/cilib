@@ -29,7 +29,6 @@ import net.sourceforge.cilib.problem.Fitness;
  * Obtain the social best fitness value from a {@link SocialEntity}.
  * @param <E> The type that is both an {@code Entity} and a {@code SocialEntity}.
  *            An example of such an entity is the {@link net.sourceforge.cilib.entity.Particle}.
- * @author Wiehann Matthysen
  */
 public class SocialBestFitness<E extends Entity & SocialEntity> implements EntityFitness<E> {
 

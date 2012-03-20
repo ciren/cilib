@@ -53,7 +53,6 @@ import net.sourceforge.cilib.util.calculator.StructuredTypeFitnessCalculator;
  * centroids in the desired manner. The default centroid initialisation strategy is the
  * {@link RandomCentroidsInitialisationStrategy}.
  *
- * @author Theuns Cloete
  * @TODO: Check that removing the FitnessCalculator does not break the functionality of this class.
  */
 public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {

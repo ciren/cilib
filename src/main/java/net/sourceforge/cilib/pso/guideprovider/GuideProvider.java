@@ -26,7 +26,6 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * @author Wiehann Matthysen
  */
 public interface GuideProvider extends Cloneable {
 

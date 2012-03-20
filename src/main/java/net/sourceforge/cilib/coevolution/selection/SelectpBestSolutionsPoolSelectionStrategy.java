@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.Int;
 
 /**
  * Add all the populations personal best vectors to the opponent pool, this can only be used on {@linkplain Algorithm}s that optimise {@linkplain Particle}s
- * @author leo
  *
  */
 public class SelectpBestSolutionsPoolSelectionStrategy extends

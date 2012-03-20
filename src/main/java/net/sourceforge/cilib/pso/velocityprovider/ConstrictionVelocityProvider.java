@@ -91,7 +91,6 @@ ISSN={1089-778X}, }
  * $c1 + c2 \leq 4$ , and
  * $\kappa \in [0, 1]$
  *
- * @author andrich
  */
 public class ConstrictionVelocityProvider implements VelocityProvider {
 

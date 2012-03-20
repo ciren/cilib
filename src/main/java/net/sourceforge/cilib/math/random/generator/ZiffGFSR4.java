@@ -64,7 +64,6 @@ package net.sourceforge.cilib.math.random.generator;
  * which is also covered by the GNU General Public License. The original C
  * source code is Copyright (C) 1998 James Theiler
  *
- * @author  Edwin Peer
  */
 public class ZiffGFSR4 implements RandomProvider {
 

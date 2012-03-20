@@ -48,8 +48,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-32.768, 32.768)^30
  *
  *
- * @author Edwin Peer
- * @author Olusegun Olorunda
  */
 public class Ackley implements ContinuousFunction {
 

@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * This interface only applies to continuous valued problems.
  *
- * @author  Edwin Peer
  */
 public interface GradientOptimisationProblem {
 

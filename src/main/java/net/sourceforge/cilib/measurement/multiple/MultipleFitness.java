@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
  * <p>Company: </p>
- * @author Clive Naicker
  * @version 1.0
  * @deprecated This class is no longer valid. A combination of the
  *             {@link CompositeMeasurement} and {@link net.sourceforge.cilib.measurement.single.Fitness}

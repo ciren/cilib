@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-65.536, 65.536)^2
  * Minimum: 0.9980038
  * 
- * @author Clive Naicker
  * @version 1.0
  */
 public class ShekelsFoxholes implements ContinuousFunction {

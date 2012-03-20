@@ -27,7 +27,6 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  *
- * @author Bennie Leonard
  */
 public class ExponentialDistribution implements ProbabilityDistributionFuction {
 

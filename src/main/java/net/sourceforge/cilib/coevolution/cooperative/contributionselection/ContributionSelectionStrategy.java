@@ -28,7 +28,6 @@ import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * This inteface dictates how a participating {@linkplain PopulationBasedAlgorithm} should select its participant solution for a {@linkplain CooperativeCoevolutionAlgorithm}.
- * @author leo
  */
 public interface ContributionSelectionStrategy extends Cloneable {
 

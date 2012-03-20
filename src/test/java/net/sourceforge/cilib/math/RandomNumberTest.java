@@ -30,7 +30,6 @@ import org.junit.Test;
 
 /**
  *
- * @author Gary Pampara
  *
  */
 public class RandomNumberTest {

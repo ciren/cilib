@@ -32,7 +32,6 @@ import net.sourceforge.cilib.type.StringBasedDomainRegistry;
  * and correctly set up all the neurons the layer should contain. The concrete
  * extension defines how this is done. Class also stores the {@link WeightInitializationStrategy}
  * and the {@link DomainRegistry} for the weights.
- * @author andrich
  */
 public abstract class LayerBuilder {
 

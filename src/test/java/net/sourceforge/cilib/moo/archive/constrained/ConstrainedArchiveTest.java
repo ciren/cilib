@@ -42,7 +42,6 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import org.junit.Test;
 
 /**
- * @author Wiehann Matthysen
  */
 public class ConstrainedArchiveTest {
 

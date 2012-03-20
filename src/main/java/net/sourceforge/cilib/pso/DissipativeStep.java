@@ -42,7 +42,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Honolulu, Hawaii USA, May 2002
  * </li></ul>
  *
- * @author  Edwin Peer
  */
 public class DissipativeStep {
 

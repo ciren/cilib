@@ -39,7 +39,6 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  * {@link #setReevaluationRatio(double) number of reevaluations} on randomly chosen entities
  * from those that remain.
  *
- * @author Theuns Cloete
  * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
  */
 public class DualReactionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy<E> {

@@ -29,7 +29,6 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
  * This class contains a list of seed values to use. When a seed is requested the
  * current index in the list is returned, and the index moves to the next item in the list.
  * When the index reaches the end of the list, it goes back to the beginning.
- * @author leo
  */
 public class ListSeedingStrategy extends GameSeedingStrategy {
     private static final long serialVersionUID = 7525722649417922902L;

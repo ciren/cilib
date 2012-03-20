@@ -43,7 +43,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * AP Engelbrecht, "Fundamentals of Computational Swarm Intelligence",
  * Wiley & Sons, pages 125, 2005.
  * </li></ul></p>
- * @author Andries Engelbrecht
  */
 /**
  * TODO: Rather let this extend Diversity, call super.getValue, but how

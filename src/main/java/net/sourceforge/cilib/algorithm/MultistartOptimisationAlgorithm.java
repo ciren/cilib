@@ -48,7 +48,6 @@ import net.sourceforge.cilib.type.types.Type;
  *          PhD thesis, Department of Computer Science,
  *          University of Pretoria, South Africa, 2002.
  *
- * @author  Edwin Peer
  */
 public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implements ParticipatingAlgorithm {
     private static final long serialVersionUID = 1493525363256406120L;

@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * @author leo
  * This is a {@linkplain StateEvaluator} that simply scores the state that results in a win for the decision player with a value of 1, and everything else with a value of -1.
  * This evaluator can only evaluate game states where the game is completed.
  */

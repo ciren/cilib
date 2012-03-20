@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.Real;
  *
  *
  *
- * @author  Andries Engelbrecht
  */
 public class Diameter implements Measurement<Real> {
     private static final long serialVersionUID = 5136996282460480831L;

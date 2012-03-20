@@ -25,7 +25,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Marker interface for discrete-valued functions.
- * @author Gary Pampara
  */
 public interface DiscreteFunction extends Function<Vector, Integer> {
 }

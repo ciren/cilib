@@ -37,7 +37,6 @@ import net.sourceforge.cilib.type.types.Type;
  * The contract of returning an instance of {@link net.sourceforge.cilib.problem.InferiorFitness} for
  * solutions outside the problem search space is implemented by {@link #getFitness(Type, boolean)}
  * </p>
- * @author Edwin Peer
  */
 public abstract class OptimisationProblemAdapter implements OptimisationProblem {
 

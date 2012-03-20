@@ -30,8 +30,6 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
 
 /**
  * Select N random opponents from the pool of competitors
- * @author Julien Duhain
- * @author leo
  */
 public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy {
 

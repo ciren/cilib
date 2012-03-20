@@ -36,7 +36,6 @@ import static org.mockito.Mockito.*;
 
 /**
  *
- * @author Julien Duhain
  */
 public class AverageBestErrorBeforeChangeTest {
 

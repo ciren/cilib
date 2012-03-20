@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.problem;
 
 /**
- * @author Edwin Peer
  *
  * This class implements the <code>Comparable</code> interface for a maximisation problem.
  * That is, larger fitness values have superior fitness.

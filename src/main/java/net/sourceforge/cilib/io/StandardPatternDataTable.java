@@ -32,7 +32,6 @@ import net.sourceforge.cilib.type.types.container.TypeList;
 /**
  * Class implements a DataTable, where each row is a StandardPattern. The last column
  * of the row is the classification.
- * @author andrich
  */
 public class StandardPatternDataTable implements DataTable<StandardPattern, TypeList> {
 

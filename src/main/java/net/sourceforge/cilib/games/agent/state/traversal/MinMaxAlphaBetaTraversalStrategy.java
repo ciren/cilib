@@ -30,7 +30,6 @@ import net.sourceforge.cilib.games.states.GameState;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
- * @author leo
  * An implimentation of the min max state traversal strategy with the alpha beta pruning optimization.
  */
 public class MinMaxAlphaBetaTraversalStrategy extends StateTraversalStrategy {

@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author leo
  * This is the neural input strategr for a Predator or Prey agent. It determins how the game is described to the {@linkplain NeuralAgent}
  */
 public class PredatorPreyNeuralInputStrategy extends NeuralStateInputStrategy {

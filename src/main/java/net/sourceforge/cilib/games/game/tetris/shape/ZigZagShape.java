@@ -27,7 +27,6 @@ import net.sourceforge.cilib.games.items.GridLocation;
 
 /**
  * This class represents the ZigZag shape
- * @author leo
  *
  */
 public class ZigZagShape extends AbstractShape {

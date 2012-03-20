@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Calculates the average number of personal best positions in
  * the current swarm that violates boundary constraints.
  *
- * @author  Andries Engelbrecht
  */
 public class PbestBoundViolations implements Measurement<Real> {
 

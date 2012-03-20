@@ -32,8 +32,6 @@ import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author Andries Engelbrecht
- * @author Gary Pampara
  */
 public class GaussianMutationStrategy extends MutationStrategy {
 

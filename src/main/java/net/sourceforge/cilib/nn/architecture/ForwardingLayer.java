@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * own NeuralInputSource. In terms of index, the other NeuralInputSource's input
  * is returned before indexing into the ForwardingLayer's neurons. As such
  * this class can be used as an input layer, forwarding from a {@link PatternInputSource}
- * @author andrich
  */
 public class ForwardingLayer extends Layer {
 

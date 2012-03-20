@@ -31,7 +31,6 @@ import net.sourceforge.cilib.problem.Fitness;
  * fitness.
  * @param <E> The {@code SocialEntity} type.
  * @see SocialEntity#getSocialBestFitness()
- * @author gpampara
  */
 public class SocialBestFitnessComparator<E extends SocialEntity> implements Comparator<E>, Serializable {
     private static final long serialVersionUID = 9035734190908368266L;

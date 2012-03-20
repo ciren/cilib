@@ -33,7 +33,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * TODO: test this.
  *
- * @author engel
  */
 public class LinearVelocityProvider implements VelocityProvider {
 

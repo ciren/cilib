@@ -27,7 +27,6 @@ import net.sourceforge.cilib.entity.Entity;
 /**
  * Niche creation strategies.
  *
- * @author gpampara
  */
 public interface NicheCreationStrategy {
 

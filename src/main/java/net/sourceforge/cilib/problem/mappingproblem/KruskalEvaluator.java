@@ -28,7 +28,6 @@ import net.sourceforge.cilib.type.types.container.Matrix;
 /**
  * Implements the Kruskal stress function for evaluating the fitness of the MappingProblem.
  *
- * @author jkroon
  */
 public class KruskalEvaluator implements MappingEvaluator {
     /**
@@ -38,7 +37,6 @@ public class KruskalEvaluator implements MappingEvaluator {
      *
      * @return the fitness as a double, wrapped inside a Fitness.
      *
-     * @author jkroon
      */
     public Fitness evaluateMapping(Matrix dist) {
         double above = 0.0;
@@ -62,7 +60,6 @@ public class KruskalEvaluator implements MappingEvaluator {
 
     /**
      *
-     * @author jkroon
      */
     public void setMappingProblem(MappingProblem prob) {
         this.prob = prob;

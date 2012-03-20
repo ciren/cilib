@@ -30,7 +30,6 @@ import org.junit.Test;
 
 /**
  *
- * @author Edwin Peer
  */
 public class NumericalRecipesRan4Test {
 

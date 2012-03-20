@@ -26,7 +26,6 @@ package net.sourceforge.cilib.functions.clustering;
  * main reason why it has been implemented is to be able to take measurements of the
  * <i>intra-cluster distance</i> via the {@linkplain GenericFunctionMeasurement} class.
  * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
- * @author Theuns Cloete
  */
 public class IntraClusterDistance extends ClusteringFitnessFunction {
     private static final long serialVersionUID = -4185205766188040942L;

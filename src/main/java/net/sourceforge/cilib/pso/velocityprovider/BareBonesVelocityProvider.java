@@ -31,8 +31,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  *  TODO: get the required references
  *
- *  @author Gary Pampara
- *  @author Andries Engelbrecht
  */
 public class BareBonesVelocityProvider implements VelocityProvider {
 

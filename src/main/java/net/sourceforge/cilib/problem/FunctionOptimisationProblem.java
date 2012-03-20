@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * This class serves as a base class for function optimisation problems using a
  * {@link net.sourceforge.cilib.functions.Function}.
  *
- * @author  Edwin Peer
  */
 public abstract class FunctionOptimisationProblem extends OptimisationProblemAdapter {
 

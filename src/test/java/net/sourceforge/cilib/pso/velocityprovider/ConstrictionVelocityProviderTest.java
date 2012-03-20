@@ -38,7 +38,6 @@ import static org.mockito.Mockito.mock;
 
 /**
  * Unit test for the constriction velocity update.
- * @author andrich
  */
 public class ConstrictionVelocityProviderTest {
 

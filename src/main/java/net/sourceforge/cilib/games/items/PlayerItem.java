@@ -23,7 +23,6 @@ package net.sourceforge.cilib.games.items;
 
 /**
  * any game item controlled by a player
- * @author leo
  */
 public class PlayerItem extends GameItem {
     private static final long serialVersionUID = -674781677901305287L;

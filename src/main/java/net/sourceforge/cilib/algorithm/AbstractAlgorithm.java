@@ -42,7 +42,6 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
  * Failure to do so will cause an {@linkplain InitialisationException} to be thrown when {@link #run()}
  * is called.
  * </p>
- * @author Edwin Peer
  */
 public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
 

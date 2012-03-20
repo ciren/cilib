@@ -58,8 +58,6 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
  * Congress on Evolutionary Computation, (Anchorage, Alaska), pp. 69-73, May 1998. </li>
  * </ul>
  * </p>
- * @author Edwin Peer
- * @author Gary Pampara
  */
 public class PSO extends SinglePopulationBasedAlgorithm implements ParticipatingAlgorithm {
     private static final long serialVersionUID = -8234345682394295357L;

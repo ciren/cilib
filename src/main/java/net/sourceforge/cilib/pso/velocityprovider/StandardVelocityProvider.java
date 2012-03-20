@@ -34,7 +34,6 @@ import net.sourceforge.cilib.util.Vectors;
 /**
  * Implementation of the standard / default velocity update equation.
  *
- * @author  Edwin Peer
  */
 public final class StandardVelocityProvider implements VelocityProvider {
 

@@ -39,7 +39,6 @@ import org.junit.Test;
 
 /**
  * Tests the functionality of the StandardPatternDataTable class.
- * @author andrich
  */
 public class StandardPatternDataTableTest {
 

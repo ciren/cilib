@@ -27,7 +27,6 @@ import net.sourceforge.cilib.games.items.GameItem;
  * This is a {@linkplain GameState} where all the {@linkplain GameItem}'s are stored in a matrix. For games like TickTackToe or Tetris
  * storing all the gameItems in a list would not be desireable since accessing an item in a specific location in the grid would be
  * much more complex.
- * @author leo
  */
 public class GridGameState extends GameState {
     private static final long serialVersionUID = 1906158746298773282L;

@@ -29,8 +29,6 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 /**
  * Definition of how to determine the distance between two objects.
  *
- * @author Edwin Peer
- * @author Gary Pampara
  */
 public interface DistanceMeasure {
 

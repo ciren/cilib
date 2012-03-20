@@ -25,7 +25,6 @@ import net.sourceforge.cilib.math.Maths;
 
 /**
  *
- * @author Gary Pampara
  *
  */
 public final class DiscreteRandomNumber {

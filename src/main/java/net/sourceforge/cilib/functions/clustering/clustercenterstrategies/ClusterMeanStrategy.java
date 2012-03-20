@@ -30,7 +30,6 @@ import net.sourceforge.cilib.util.ClusteringUtils;
 
 /**
  * The <i>center of a cluster</i> is interpreted as the <i>mean of a cluster</i>.
- * @author Theuns Cloete
  */
 public class ClusterMeanStrategy implements ClusterCenterStrategy {
     private static final long serialVersionUID = 9080168372118441393L;

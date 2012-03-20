@@ -37,7 +37,6 @@ import static org.mockito.Mockito.*;
 
 /**
  *
- * @author gpampara
  */
 public class RandomInitializationStrategyTest {
 

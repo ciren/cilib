@@ -31,7 +31,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * When opponents is selected for an {@linkplain Entity} the algorithm uses an arbitrary number of
  * {@linkplain OpponentPoolSelectionStrategy}'s to determine the potentail pool of competitors, then they are
  * selected with the {@linkplain OpponentSelectionStrategy}
- * @author leo
  *
  */
 public abstract class OpponentPoolSelectionStrategy implements Cloneable

@@ -26,7 +26,6 @@ package net.sourceforge.cilib.algorithm;
  *
  * See {@see AlgorithmListener}
  *
- * @author  Edwin Peer
  */
 public class AlgorithmEvent {
 

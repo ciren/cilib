@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * moves remaining. Once the tour can continue, the move is replaced and evaluation
  * continues.
  *
- * @author Gary Pampara
  */
 public class RepairingKnightsTour implements DiscreteFunction {
     private static final long serialVersionUID = 6961834833997387285L;

@@ -48,7 +48,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * @author Wiehann Matthysen
  */
 public class ArchiveTest {
 

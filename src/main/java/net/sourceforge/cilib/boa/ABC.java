@@ -59,7 +59,6 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
  * address = "Netherlands"
  * </p>
  *
- * @author Andrich
  *
  */
 public class ABC extends SinglePopulationBasedAlgorithm {

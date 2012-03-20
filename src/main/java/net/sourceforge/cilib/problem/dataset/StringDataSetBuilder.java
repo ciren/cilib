@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * @author Gary Pampara
  */
 public class StringDataSetBuilder extends TextDataSetBuilder {
     private static final long serialVersionUID = 3309485547124815669L;

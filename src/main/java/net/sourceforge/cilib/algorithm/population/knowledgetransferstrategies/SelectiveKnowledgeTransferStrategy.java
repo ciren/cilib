@@ -40,7 +40,6 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
  * to the caller requesting it.
  * </p>
  *
- * @author Wiehann Matthysen
  */
 public class SelectiveKnowledgeTransferStrategy implements KnowledgeTransferStrategy {
 

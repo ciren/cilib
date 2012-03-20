@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * position of a particle gets selected as a guide (usually local guide).
  * </p>
  *
- * @author Wiehann Matthysen
  */
 public class PBestGuideProvider implements GuideProvider {
 

@@ -32,7 +32,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  *
  * @param <E> The entity type.
- * @author Andries Engelbrecht
  */
 public class RandomBoundedInitializationStrategy<E extends Entity> implements
         InitializationStrategy<E> {

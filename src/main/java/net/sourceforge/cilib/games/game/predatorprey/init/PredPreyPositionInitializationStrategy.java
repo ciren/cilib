@@ -25,7 +25,6 @@ import net.sourceforge.cilib.games.game.predatorprey.PredatorPreyGame;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * @author leo
  * This class determines how the Predator and Prey agent's positions will be initialized in a game of Predator vs Prey.
  */
 public abstract class PredPreyPositionInitializationStrategy implements Cloneable {

@@ -45,7 +45,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-100, 100)^30
  *
- * @author Olusegun Olorunda
  */
 public class AbsoluteValue implements ContinuousFunction {
 

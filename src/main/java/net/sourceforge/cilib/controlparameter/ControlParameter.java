@@ -30,8 +30,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * parameter that is used within most {@linkplain net.sourceforge.cilib.algorithm.Algorithm algorithm}
  * types. These parameters are updatable and can be changed over time, if required.
  *
- * @author Gary Pampara
- * @author Andries Engelbrecht
  */
 public interface ControlParameter extends Cloneable, Serializable {
 

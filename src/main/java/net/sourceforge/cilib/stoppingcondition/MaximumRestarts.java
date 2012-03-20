@@ -25,7 +25,6 @@ import net.sourceforge.cilib.algorithm.MultistartOptimisationAlgorithm;
 
 /**
  * The maximum number of allowed restarts.
- * @author Edwin Peer
  */
 public class MaximumRestarts implements StoppingCondition<MultistartOptimisationAlgorithm> {
     private static final long serialVersionUID = 8888789427315067855L;

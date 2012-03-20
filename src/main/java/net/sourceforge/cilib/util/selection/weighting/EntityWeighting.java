@@ -32,7 +32,6 @@ import net.sourceforge.cilib.util.selection.WeightedObject;
 
 /**
  *
- * @author gpampara
  */
 public class EntityWeighting implements Weighting {
 

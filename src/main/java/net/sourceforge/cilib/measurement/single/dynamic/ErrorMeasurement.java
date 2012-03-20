@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.Type;
  * Calculate the error between the current best value of the swarm and the
  * global optimum of the function.
  *
- * @author Anna Rakitianskaia, Julien Duhain
  */
 public class ErrorMeasurement implements Measurement {
 

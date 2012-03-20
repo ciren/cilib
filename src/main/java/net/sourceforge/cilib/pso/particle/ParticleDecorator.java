@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
  *
- * @author  Edwin Peer
  */
 public abstract class ParticleDecorator extends AbstractParticle {
 

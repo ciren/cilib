@@ -24,7 +24,6 @@ package net.sourceforge.cilib.games.result;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * @author leo
  * This class represents the result of a game after it has beenplayed
  */
 public abstract class AbstractGameResult implements Cloneable {

@@ -26,7 +26,6 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
  *
- * @author leo
  * The location of any item in the game
  */
 public abstract interface ItemLocation extends Type {

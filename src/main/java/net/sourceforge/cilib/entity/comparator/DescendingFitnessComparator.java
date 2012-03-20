@@ -33,7 +33,6 @@ import net.sourceforge.cilib.problem.Fitness;
  * an ordering from the "most fit" entity to the "least fit" entity.
  *
  * @param <E> The {@code Entity} type.
- * @author Gary Pampara
  */
 public class DescendingFitnessComparator<E extends Entity> implements Comparator<E>, Serializable {
     private static final long serialVersionUID = 6320495046411962803L;

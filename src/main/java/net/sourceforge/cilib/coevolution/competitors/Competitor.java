@@ -26,7 +26,6 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * @author leo
  * This class contains the entity data, fitness and population id of a competitor used in a coevolution algorithm
  */
 public class Competitor implements Cloneable {

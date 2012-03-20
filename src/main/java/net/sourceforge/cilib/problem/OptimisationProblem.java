@@ -37,7 +37,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * </p>
  * <p>All optimisation problems must implement this interface.</p>
  *
- * @author  Edwin Peer
  */
 public interface OptimisationProblem extends Problem, Cloneable {
 

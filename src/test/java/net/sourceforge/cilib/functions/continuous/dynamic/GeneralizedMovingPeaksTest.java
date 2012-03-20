@@ -28,7 +28,6 @@ import org.junit.Test;
 
 /**
  *
- * @author bennie
  */
 public class GeneralizedMovingPeaksTest {
 

@@ -26,7 +26,6 @@ import net.sourceforge.cilib.games.items.GameToken;
 import net.sourceforge.cilib.games.items.GridLocation;
 /**
  * This class represents the L shape
- * @author leo
  *
  */
 public class LShape extends AbstractShape {

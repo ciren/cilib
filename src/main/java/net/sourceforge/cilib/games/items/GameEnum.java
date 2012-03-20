@@ -27,7 +27,6 @@ import net.sourceforge.cilib.games.game.Game;
  * This interface should be implimented by all {@linkplain GameToken} Enum's
  * so that a textual description of each instance can easily be accessed
  *
- * @author leo
  *
  */
 public interface GameEnum {

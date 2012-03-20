@@ -32,7 +32,6 @@ import org.junit.Test;
 
 /**
  * Unit test for the ARFF File Reader class.
- * @author andrich
  */
 public class ARFFFileReaderTest {
 

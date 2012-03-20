@@ -31,7 +31,6 @@ import org.junit.Test;
 
 /**
  *
- * @author leo
  */
 public class DeJongF4Test {
 

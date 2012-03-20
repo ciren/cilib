@@ -46,7 +46,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-0.9,1.2), R(-1.2,1.2)
  *
- * @author  engel
  */
 public class Waves implements ContinuousFunction {
     /**

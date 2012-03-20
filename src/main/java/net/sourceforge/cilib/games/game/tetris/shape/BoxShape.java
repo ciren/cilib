@@ -27,7 +27,6 @@ import net.sourceforge.cilib.games.items.GridLocation;
 
 /**
  * This class represents the Box shape
- * @author leo
  *
  */
 public class BoxShape extends AbstractShape {

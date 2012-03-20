@@ -38,8 +38,6 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  * TODO: Add JavaDoc.
- * @author Olusegun Olorunda
- * @author gpampara
  *
  */
 public class Diversity implements Measurement<Real> {

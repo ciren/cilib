@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
- * @author leo
  * A location inside a grid
  */
 public class GridLocation extends Vector implements ItemLocation {

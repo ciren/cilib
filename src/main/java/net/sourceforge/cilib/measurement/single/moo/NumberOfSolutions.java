@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.Int;
  * Measures the number of non-dominated solutions in an archive.
  * </p>
  *
- * @author Wiehann Matthysen
  */
 public class NumberOfSolutions implements Measurement {
 

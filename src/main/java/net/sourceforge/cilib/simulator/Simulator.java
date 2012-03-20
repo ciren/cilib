@@ -55,7 +55,6 @@ import net.sourceforge.cilib.problem.Problem;
  * on a given problem. For that reason, a simulation accepts a measurement suite which it uses to
  * record the performace.
  * </p>
- * @author Edwin Peer
  */
 class Simulator {
 

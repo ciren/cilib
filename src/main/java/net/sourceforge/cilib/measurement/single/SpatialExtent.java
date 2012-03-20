@@ -45,7 +45,6 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  * AP Engelbrecht, "Fundamentals of Computational Swarm Intelligence",
  * Wiley & Sons, pages 125, 2005.
  * </li></ul></p>
- * @author Andries Engelbrecht
  */
 public class SpatialExtent implements Measurement<Real> {
 

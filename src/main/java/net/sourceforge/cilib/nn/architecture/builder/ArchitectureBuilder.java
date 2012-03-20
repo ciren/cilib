@@ -31,7 +31,6 @@ import net.sourceforge.cilib.nn.architecture.Architecture;
  * of architecture that is required. Different types of architectures are
  * constructed by extensions of this class. It depends on a {@link LayerBuilder}
  * to construct the layers themselves.
- * @author andrich
  */
 public abstract class ArchitectureBuilder {
 

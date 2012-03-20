@@ -31,7 +31,6 @@ import net.sourceforge.cilib.util.selection.WeightedObject;
 
 /**
  *
- * @author gpampara
  */
 public class ProportionalArrangement<T> implements Arrangement<T> {
 

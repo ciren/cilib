@@ -28,7 +28,6 @@ import net.sourceforge.cilib.util.selection.PartialSelection;
  * A recipe is a series of steps that need to be followed to achieve a
  * selection.
  * @param <E> The selection type.
- * @author Wiehann Matthysen
  */
 public interface Selector<E> {
 

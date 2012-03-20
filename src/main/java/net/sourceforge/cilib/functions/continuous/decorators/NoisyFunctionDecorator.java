@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
- * @author Gary Pampara
  *
  */
 public class NoisyFunctionDecorator implements ContinuousFunction {

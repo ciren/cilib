@@ -38,7 +38,6 @@ import net.sourceforge.cilib.entity.Topology;
  *                      Artificial Intelligence", author = "Anthony Jack Carlisle and Gerry
  *                      V. Dozier", pages = "429--434", year = "2000", }
  * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
- * @author Theuns Cloete
  */
 public class RandomSentryPointsDetectionStrategy<E extends PopulationBasedAlgorithm> extends RandomSentriesDetectionStrategy<E> {
     private static final long serialVersionUID = -7908355064341601839L;

@@ -32,7 +32,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * This is a generalization for all algorithms that maintain a collection of
  * {@linkplain Entity} objects. Examples of this would include PSO, EC and ACO.
  *
- * @author Gary Pampara
  * @param <E> All types derived from {@linkplain Entity}.
  */
 public interface Topology<E> extends Iterable<E>, List<E>, Cloneable {

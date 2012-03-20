@@ -30,7 +30,6 @@ import net.sourceforge.cilib.problem.boundaryconstraint.UnconstrainedBoundary;
  * required to be executed during the iteration. For the implementing classes, a default
  * pipeline is constructed and made available, this can (as with everything within CIlib) be overridden.
  *
- * @author Gary Pampara
  *
  * @param <E> The {@linkplain PopulationBasedAlgorithm} type.
  */

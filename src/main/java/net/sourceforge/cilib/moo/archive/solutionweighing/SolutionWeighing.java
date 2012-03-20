@@ -31,7 +31,6 @@ import net.sourceforge.cilib.util.selection.weighting.Weighting;
  * {@code Archive} or selected to be used as guide during the search process.
  * </p>
  *
- * @author Wiehann Matthysen
  */
 public interface SolutionWeighing extends Weighting, Cloneable {
 

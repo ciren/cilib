@@ -46,7 +46,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-10, 10)^30
  * 
- * @author leo
  */
 public class Alpine implements ContinuousFunction {
 

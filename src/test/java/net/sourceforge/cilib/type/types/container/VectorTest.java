@@ -40,7 +40,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * @author Gary Pampara
  */
 public class VectorTest {
 

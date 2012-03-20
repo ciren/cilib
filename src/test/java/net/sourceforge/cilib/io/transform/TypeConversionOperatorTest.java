@@ -38,7 +38,6 @@ import org.junit.Test;
 /**
  * Test the Type conversion operator. Note the untyped usage of DataTable, the
  * type is infered.
- * @author andrich
  */
 public class TypeConversionOperatorTest {
 

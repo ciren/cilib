@@ -29,7 +29,6 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  * Implemetantation of the <tt>Bit</tt> object. The <tt>Bit</tt> object is the
  * <tt>Type</tt> system equivalent of a bit.
  *
- * @author Gary Pampara
  */
 public class Bit implements Numeric {
 

@@ -51,7 +51,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  * </p>
  *
- * @author Wiehann Matthysen
  */
 public final class ZDT1 extends MOOptimisationProblem {
 

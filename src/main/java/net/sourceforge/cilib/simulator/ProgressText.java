@@ -27,7 +27,6 @@ import net.sourceforge.cilib.algorithm.ProgressListener;
 /**
  * Implements a text progress meter.
  *
- * @author  jkroon
  */
 final class ProgressText implements ProgressListener {
 

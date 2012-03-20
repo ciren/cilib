@@ -27,7 +27,6 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 
 /**
- * @author leo
  * Calculates the fitness by passing the entity's blackboard to the algorithm's optimization problem
  */
 public class PropertyBasedFitnessCalculator implements

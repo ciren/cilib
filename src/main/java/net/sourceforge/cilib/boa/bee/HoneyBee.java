@@ -28,7 +28,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Super interface for all types of bees in the artificial bee algorithm.
- * @author Andrich
  */
 public interface HoneyBee extends Entity {
 

@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.Real;
 
 /**
  * This measurement only works for PSO. Simply find the Entity with the Best person best fitness in the population without re-calculating the fitness.
- * @author leo
  */
 public class StoredFitness implements Measurement<Real> {
 

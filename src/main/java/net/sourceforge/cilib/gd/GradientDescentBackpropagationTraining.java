@@ -44,7 +44,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Class implementing the gradien decent backpropagation training algorithm. The
  * error measure used is MSE and it supports both learning rate and momemtum
  * parameters.
- * @author andrich
  */
 public class GradientDescentBackpropagationTraining extends AbstractAlgorithm implements SingularAlgorithm {
     private static final long serialVersionUID = 7984749431187521004L;

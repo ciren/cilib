@@ -38,7 +38,6 @@ import net.sourceforge.cilib.problem.MOOptimisationProblem;
  * sub-objective.
  * </p>
  *
- * @author Wiehann Matthysen
  */
 public class SequentialObjectiveAssignmentStrategy implements ObjectiveAssignmentStrategy {
 

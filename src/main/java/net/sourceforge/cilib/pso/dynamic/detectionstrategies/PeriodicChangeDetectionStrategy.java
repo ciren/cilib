@@ -29,7 +29,6 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
  * Detection strategy that returns true periodically after a known number of iteration.
  * For environment where change frequency is known.
  *
- * @author Julien Duhain
  */
 public class PeriodicChangeDetectionStrategy extends    EnvironmentChangeDetectionStrategy {
 

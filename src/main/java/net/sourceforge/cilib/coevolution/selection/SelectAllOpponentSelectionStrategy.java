@@ -25,8 +25,6 @@ import net.sourceforge.cilib.coevolution.competitors.CoevolutionCompetitorList;
 
 /**
  * example of implementation of an OpponentSelectionStrategy, selects all the opponents in the pool
- * @author Julien Duhain
- * @author leo
  *
  */
 public class SelectAllOpponentSelectionStrategy extends OpponentSelectionStrategy{

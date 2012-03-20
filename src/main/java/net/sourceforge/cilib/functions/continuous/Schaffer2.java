@@ -27,7 +27,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * f(x) = 0.0 (Minimum)
  * R(-100, 100)^2
- * @author  engel
  */
 public class Schaffer2 implements ContinuousFunction {
 

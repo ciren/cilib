@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
- * @author Wiehann Matthysen
  */
 public class WFG4 extends MOOptimisationProblem {
 

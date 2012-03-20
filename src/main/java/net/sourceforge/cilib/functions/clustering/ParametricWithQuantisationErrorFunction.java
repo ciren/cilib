@@ -33,7 +33,6 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
  *             Pretoria", school = "Computer Science", year = "2004", month = nov, pages = "114 &
  *             115" address = "Pretoria, South Africa", note = "Supervisor: A. P. Engelbrecht" }
  * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
- * @author Theuns Cloete
  */
 public class ParametricWithQuantisationErrorFunction extends ParametricClusteringFunction {
     private static final long serialVersionUID = -2022785065235231801L;

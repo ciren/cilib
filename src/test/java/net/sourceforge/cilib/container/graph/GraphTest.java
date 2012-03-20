@@ -29,7 +29,6 @@ import org.junit.Test;
 /**
  * This Unit test tests all the needed operations of the Queue container class.
  *
- * @author Gary Pampara
  */
 public class GraphTest {
 

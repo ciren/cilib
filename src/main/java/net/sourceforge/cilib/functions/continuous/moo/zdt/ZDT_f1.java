@@ -26,7 +26,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
- * @author Wiehann Matthysen
  */
 final class ZDT_f1 implements ContinuousFunction {
 

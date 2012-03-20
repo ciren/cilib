@@ -32,7 +32,6 @@ import org.junit.Test;
 
 /**
  * Tests the functionality of the StandardDataTable class.
- * @author andrich
  */
 public class StandardDataTableTest {
     private static List<List<StringType>> testData;

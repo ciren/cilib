@@ -28,7 +28,6 @@ import net.sourceforge.cilib.type.types.Real;
 
 /**
  *
- * @author  Edwin Peer
  */
 public class PercentageComplete implements Measurement<Real> {
     private static final long serialVersionUID = 552272710698138639L;

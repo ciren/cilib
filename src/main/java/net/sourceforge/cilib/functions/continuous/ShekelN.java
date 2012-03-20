@@ -39,7 +39,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(0, 10)^4
  * 
- * @author  engel
  */
 public class ShekelN implements ContinuousFunction {
 

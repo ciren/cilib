@@ -43,8 +43,6 @@ import net.sourceforge.cilib.entity.Entity;
  * (Honolulu, Hawaii USA), May 2002.
  * </li></ul></p>
  *
- * @author Edwin Peer
- * @author Gary Pampara
  *
  * @param <E> A {@linkplain Entity} instance.
  */

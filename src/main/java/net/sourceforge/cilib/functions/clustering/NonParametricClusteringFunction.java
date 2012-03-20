@@ -30,7 +30,6 @@ package net.sourceforge.cilib.functions.clustering;
  *             Pretoria", school = "Computer Science", year = "2004", month = nov, pages = "128 &
  *             129" address = "Pretoria, South Africa", note = "Supervisor: A. P. Engelbrecht" }
  * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
- * @author Theuns Cloete
  */
 public class NonParametricClusteringFunction extends ClusteringFitnessFunction {
     private static final long serialVersionUID = 5712216719378084294L;

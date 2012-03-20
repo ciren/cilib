@@ -44,7 +44,6 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * A Sequential Niche Technique for Multimodal Function Optimization.
  * Evolutionary Computation 1(2), MIT Press, pp.101-125.
  * </p>
- * @author Clive Naicker
  */
 public class DeratingFunctionMaximisationProblem extends FunctionMaximisationProblem {
 

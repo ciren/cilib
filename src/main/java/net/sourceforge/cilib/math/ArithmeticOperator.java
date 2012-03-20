@@ -25,7 +25,6 @@ package net.sourceforge.cilib.math;
  * Basic arithmetic operations. This class provides the simple operators so that
  * they may be reused in other classes.
  *
- * @author gpampara
  */
 public enum ArithmeticOperator {
     ADDITION {

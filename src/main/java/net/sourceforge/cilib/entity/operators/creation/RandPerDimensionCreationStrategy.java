@@ -41,7 +41,6 @@ import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
  * A creation strategy for DE where the difference vector is computed by
  * selecting random entities from the population for each dimension.
  * 
- * @author bennie
  */
 public class RandPerDimensionCreationStrategy implements CreationStrategy {
 

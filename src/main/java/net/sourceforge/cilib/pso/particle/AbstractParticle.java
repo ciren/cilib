@@ -42,8 +42,6 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * This class defines the common behavior available for all {@linkplain Particle}
  * instances.
  *
- * @author Edwin Peer
- * @author Gary Pampara
  */
 public abstract class AbstractParticle extends AbstractEntity implements Particle {
     private static final long serialVersionUID = 7511192728112990230L;

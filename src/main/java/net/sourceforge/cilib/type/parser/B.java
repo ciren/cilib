@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.Type;
 
 /**
  *
- * @author Gary Pampara
  *
  */
 final class B implements TypeCreator {

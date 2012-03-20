@@ -23,7 +23,6 @@ package net.sourceforge.cilib.functions;
 
 /**
  *
- * @author csbmcd
  */
 public interface DynamicFunction {
     double getMaximum();

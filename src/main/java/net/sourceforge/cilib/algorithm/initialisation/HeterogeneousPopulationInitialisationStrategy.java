@@ -42,7 +42,6 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
  * by the {@link Selector} (random by default).
  *
  * @param <E> The {@code Entity} type.
- * @author Bennie Leonard
  */
 public class HeterogeneousPopulationInitialisationStrategy<E extends Entity> implements PopulationInitialisationStrategy<E> {
 

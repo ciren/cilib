@@ -31,7 +31,6 @@ import net.sourceforge.cilib.algorithm.ProgressListener;
  * This is the entry point for the CIlib simulator. This class accepts one
  * command line parameter, which is the name of the XML config file to parse.
  *
- * @author  Edwin Peer
  */
 public final class Main {
 

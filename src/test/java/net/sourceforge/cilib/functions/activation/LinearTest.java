@@ -29,7 +29,6 @@ import org.junit.Test;
 
 /**
  * Unit tests for the linear activation function;
- * @author andrich
  */
 public class LinearTest {
 

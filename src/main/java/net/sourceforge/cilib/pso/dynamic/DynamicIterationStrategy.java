@@ -44,7 +44,6 @@ import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrateg
  *         year=           {2005}
  * }
  *
- * @author Anna Rakitianskaia
  */
 public class DynamicIterationStrategy implements IterationStrategy<PSO> {
 

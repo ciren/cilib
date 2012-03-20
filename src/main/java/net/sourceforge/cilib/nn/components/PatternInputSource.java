@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Class represents a {@link NeuralInputSource} that decorates a {@link StandardPattern}
  * such that the pattern can be used as an input source for a neuron.
- * @author andrich
  */
 public class PatternInputSource implements NeuralInputSource {
 

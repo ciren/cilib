@@ -67,7 +67,6 @@ import org.w3c.dom.*;
  *
  * See: <a href="http://www.sourceforge.net/projects/cilib/">Factory Demo</a> for XML samples.
  *
- * @author  Edwin Peer
  */
 // TODO: Rewrite to use SAX instead of maintaining a DOM tree.
 class XMLObjectFactory {

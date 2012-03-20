@@ -27,7 +27,6 @@ import net.sourceforge.cilib.games.states.GameState;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author leo
  * This class is used by the {@linkplain NeuralAgent} to get an input vector based on a given {@linkplain GameState}
  */
 public abstract class NeuralStateInputStrategy {

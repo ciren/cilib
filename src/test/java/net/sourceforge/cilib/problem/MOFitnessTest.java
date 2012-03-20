@@ -31,7 +31,6 @@ import org.junit.Test;
 
 /**
  *
- * @author jkroon
  */
 public class MOFitnessTest {
 

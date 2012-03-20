@@ -30,7 +30,6 @@ import com.google.common.base.Predicate;
 
 /**
  *
- * @author gpampara
  */
 public interface FunctionalSelection<T> {
 

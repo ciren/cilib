@@ -27,7 +27,6 @@ import net.sourceforge.cilib.math.random.generator.Seeder;
 /**
  * This is a seeding strategy that generates a unique seed everytime the {@code seedGenerator} method is called.
  * This is also the default seeding strategy
- * @author leo
  *
  */
 public class UniqueSeedingStrategy extends GameSeedingStrategy {

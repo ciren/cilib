@@ -35,7 +35,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * be shared among different sub-populations during a search.
  * </p>
  *
- * @author Wiehann Matthysen
  */
 public interface KnowledgeTransferStrategy extends Cloneable {
 

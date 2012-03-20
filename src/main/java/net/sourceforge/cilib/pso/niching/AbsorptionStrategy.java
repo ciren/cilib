@@ -24,7 +24,6 @@ package net.sourceforge.cilib.pso.niching;
 /**
  * Absorption of entities during Niching.
  *
- * @author gpampara
  */
 public interface AbsorptionStrategy {
 

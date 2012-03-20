@@ -36,7 +36,6 @@ import org.junit.Test;
 
 /**
  *
- * @author gpampara
  */
 public class BlendCrossoverStrategyTest {
 

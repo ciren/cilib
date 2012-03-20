@@ -34,7 +34,6 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
  * The entity class for the ABC algorithm that represents the bees.
- * @author Andrich
  *
  */
 public abstract class AbstractBee extends AbstractEntity implements HoneyBee {

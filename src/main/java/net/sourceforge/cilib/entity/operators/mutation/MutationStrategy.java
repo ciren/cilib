@@ -33,8 +33,6 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
 
 /**
  *
- * @author Andries Engelbrecht
- * @author Gary Pampara
  */
 public abstract class MutationStrategy implements Operator {
 

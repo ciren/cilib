@@ -32,7 +32,6 @@ import org.junit.Test;
 
 /**
  * Test the validity of the implmentation of the {@link GoldsteinPrice} function.
- * @author Bennie Leonard
  */
 public class GoldsteinPriceTest {
 

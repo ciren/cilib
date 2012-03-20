@@ -25,7 +25,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Interface for a strategy class that initializes a set of neuron weights.
- * @author andrich
  */
 public interface WeightInitializationStrategy {
 

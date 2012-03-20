@@ -35,7 +35,6 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 
 /**
- * @author Anna Rakitianskaia
  */
 public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> extends
         EnvironmentChangeDetectionStrategy<E> {

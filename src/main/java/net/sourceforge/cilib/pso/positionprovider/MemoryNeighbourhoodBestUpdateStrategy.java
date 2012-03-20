@@ -27,7 +27,6 @@ import net.sourceforge.cilib.problem.Fitness;
 /**
  * This class.....
  *
- * @author Gary Pampara
  */
 public class MemoryNeighbourhoodBestUpdateStrategy implements NeighbourhoodBestUpdateStrategy {
     private static final long serialVersionUID = -6674766322219682030L;

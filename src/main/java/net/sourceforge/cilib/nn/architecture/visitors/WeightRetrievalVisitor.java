@@ -30,7 +30,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Visitor retreives all the weights in the architecture, starting with the far
  * left hidden layer and top neuron, moving down and then to the layer to the right.
- * @author andrich
  */
 public class WeightRetrievalVisitor extends ArchitectureOperationVisitor {
 

@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-2.5, 3)^2
  * Minimum: 4.81681
  * 
- * @author Clive Naicker
  * @version 1.0
  */
 public class UrsemF1 implements ContinuousFunction {

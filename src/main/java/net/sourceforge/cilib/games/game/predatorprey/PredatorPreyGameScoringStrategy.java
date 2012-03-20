@@ -29,7 +29,6 @@ import net.sourceforge.cilib.games.result.WinGameResult;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 
 /**
- * @author leo
  * This is a {@linkplain GameScoringStrategy} that will score a game of Predator Prey. It is score of 1 if the agent has one, and an additional value of 0.05 for every iteration of the game
  * the agent survived in the case of a Prey agent
  */

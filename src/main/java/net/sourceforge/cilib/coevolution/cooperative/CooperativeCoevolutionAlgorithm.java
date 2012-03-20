@@ -66,9 +66,6 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  *
  * @TODO: test this class.
  *
- * @author Edwin Peer
- * @author Theuns Cloete
- * @author leo
  */
 public class CooperativeCoevolutionAlgorithm extends MultiPopulationBasedAlgorithm implements ParticipatingAlgorithm {
 

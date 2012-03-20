@@ -34,7 +34,6 @@ import net.sourceforge.cilib.type.types.Type;
 
 /**
  * Optimize either a single player game or a game against hand coded opponents
- * @author leo
  */
 public class GameLearningOptimizationProblem extends
 		PerformanceEvaluationOptimizationProblem {

@@ -29,7 +29,6 @@ import static org.hamcrest.CoreMatchers.is;
 
 /**
  *
- * @author gpampara
  */
 public class RingBasedArrangementTest {
 

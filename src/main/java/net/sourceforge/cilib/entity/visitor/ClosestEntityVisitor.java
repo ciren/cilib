@@ -30,7 +30,6 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * Vistor to calculate the closest entity to the provided {@code targetEntity}
  * using a {@link net.sourceforge.cilib.util.DistanceMeasure}.
  *
- * @author gpampara
  */
 public class ClosestEntityVisitor implements TopologyVisitor {
 

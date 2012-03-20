@@ -30,7 +30,6 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 
 /**
- * @author Anna Rakitianskaia
  */
 public class ParticleReevaluationResponseStrategy<E extends PopulationBasedAlgorithm> extends
         EnvironmentChangeResponseStrategy<E> {

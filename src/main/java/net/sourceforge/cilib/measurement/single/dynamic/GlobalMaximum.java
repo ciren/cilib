@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.Type;
  * Give the current value of the global optimum of the
  * function.
  *
- * @author Julien Duhain
  *
  */
 public class GlobalMaximum implements Measurement {
