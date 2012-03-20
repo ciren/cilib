@@ -97,6 +97,7 @@ public class Niche extends MultiPopulationBasedAlgorithm {
 
         StandardVelocityProvider velocityUpdateStrategy = new StandardVelocityProvider();
         velocityUpdateStrategy.setSocialAcceleration(ConstantControlParameter.of(0.0));
+        velocityUpdateStrategy.setCognitiveAcceleration(ConstantControlParameter.of(1.2));
         
         this.mainSwarmParticle = new StandardParticle();
         this.mainSwarmParticle.setVelocityInitializationStrategy(new RandomInitializationStrategy());
