@@ -50,7 +50,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * position changes, or they can be BoundedModifiableControlParameters, in which case they can change
  * as though they are part of the particle's position.
  * 
- * @author Kristina Georgieva
  */
 public class ParameterizedParticle extends AbstractParticle{
     private static final long serialVersionUID = 2610843008637279845L;

@@ -265,7 +265,6 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
      */
     @Override
     public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
-        //throw new UnsupportedOperationException("This velocity provider is not applicable to parametized particles");
         HashMap<String, Double> parameterVelocity = new HashMap<String, Double>();
         
         if (this.constrictionCoefficient == null) {

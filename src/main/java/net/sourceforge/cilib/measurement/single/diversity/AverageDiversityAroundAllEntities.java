@@ -45,16 +45,10 @@ public class AverageDiversityAroundAllEntities extends Diversity {
      * {@inheritDoc}
      */
     @Override
-<<<<<<< HEAD
     public Real getValue(Algorithm algorithm) {
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
         int numberOfEntities = populationBasedAlgorithm.getTopology().size();
-=======
-    public Real getValue(Algorithm currentAlgorithm) {
-        PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) currentAlgorithm; //this class did not override the Interface's getValue. Changed now.
-        int numberOfEntities = algorithm.getTopology().size();
->>>>>>> /bad-path/
-
+        
         Iterator<? extends Entity> populationCenterIterator = populationBasedAlgorithm.getTopology().iterator();
 
         double totalDistanceSum = 0.0;

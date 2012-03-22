@@ -38,7 +38,6 @@ import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
  * specified. The parameters are initialized to fall within the user defined upper and lower
  * bounds.
  * 
- * @author Kristina Georgieva
  */
 public class ParameterInclusiveInitializationStrategy<P extends ParameterizedParticle> implements InitializationStrategy<ParameterizedParticle> {
     private static final long serialVersionUID = -7926839076670354209L;

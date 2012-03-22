@@ -38,7 +38,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * operating in the current search space. Various strategies are available to
  * enforce these boundary constraints on the provided {@link Entity} objects.
  * 
- * @author Kristina
  */
 public class ParameterBoundaryConstraint implements BoundaryConstraint{
     BoundaryConstraint constraint;

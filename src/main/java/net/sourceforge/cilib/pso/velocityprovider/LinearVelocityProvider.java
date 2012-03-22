@@ -190,7 +190,18 @@ public class LinearVelocityProvider implements VelocityProvider {
             social * this.socialAcceleration.getParameter() * (globalGuide.getParameter() - position);
         parameterVelocity.put("CognitiveAccelerationVelocity", value);
         
-        parameterVelocity.put("VmaxVelocity", particle.getVmax().getVelocity());
+        velocity = particle.getVmax().getVelocity();
+        position = particle.getVmax().getParameter();
+        localGuide = particle.getLocalGuideVmax();
+        globalGuide = particle.getGlobalGuideVmax();
+
+        social = this.socialRandomGenerator.nextFloat();
+        cognitive = this.cognitiveRandomGenerator.nextFloat();
+        
+        value = this.inertiaWeight.getParameter() * velocity +
+            cognitive  * this.cognitiveAcceleration.getParameter() * (localGuide.getParameter() - position) +
+            social * this.socialAcceleration.getParameter() * (globalGuide.getParameter() - position);
+        parameterVelocity.put("VmaxVelocity", value);
         
         return parameterVelocity;
     }
