@@ -37,7 +37,7 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-/*
+/**
  * This class calculates the new velocity of the particle using the Coherence 
  * Velocity method described by Hendtlass. The aim of this method of calculating
  * velocity is to improve diversity by soreading particles according to the 
