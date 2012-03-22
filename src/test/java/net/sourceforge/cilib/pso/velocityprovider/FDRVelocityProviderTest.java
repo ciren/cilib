@@ -89,9 +89,9 @@ public class FDRVelocityProviderTest {
         particle.initialise(problem);
         
         FDRVelocityProvider instance = new FDRVelocityProvider();
-        particle.setInertia(new ConstantControlParameter(2.0));
-        particle.setSocialAcceleration(new ConstantControlParameter(0.0));
-        particle.setCognitiveAcceleration(new ConstantControlParameter(0.0));
+        particle.setInertia(ConstantControlParameter.of(2.0));
+        particle.setSocialAcceleration(ConstantControlParameter.of(0.0));
+        particle.setCognitiveAcceleration(ConstantControlParameter.of(0.0));
         particle.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.of(1.0,1.0,1.0,1.0));
         
         particle.getProperties().put(EntityType.Particle.VELOCITY, Vector.of(2.0,2.0,2.0,2.0));
@@ -124,7 +124,7 @@ public class FDRVelocityProviderTest {
     public void testGetFdrMaximizerAcceleration() {
         System.out.println("getFdrMaximizerAcceleration");
         FDRVelocityProvider instance = new FDRVelocityProvider();
-        instance.setFdrMaximizerAcceleration(new ConstantControlParameter(2.0));
+        instance.setFdrMaximizerAcceleration(ConstantControlParameter.of(2.0));
         
         Assert.assertEquals(instance.getFdrMaximizerAcceleration().getParameter(), 2.0);
     }
@@ -136,7 +136,7 @@ public class FDRVelocityProviderTest {
     public void testSetFdrMaximizerAcceleration() {
         System.out.println("setFdrMaximizerAcceleration");
         FDRVelocityProvider instance = new FDRVelocityProvider();
-        instance.setFdrMaximizerAcceleration(new ConstantControlParameter(2.0));
+        instance.setFdrMaximizerAcceleration(ConstantControlParameter.of(2.0));
         
         Assert.assertEquals(instance.getFdrMaximizerAcceleration().getParameter(), 2.0);
     }
@@ -159,10 +159,10 @@ public class FDRVelocityProviderTest {
         particle.initialise(problem);
         
         FDRVelocityProvider instance = new FDRVelocityProvider();
-        particle.setInertia(new ConstantControlParameter(2.0));
-        particle.setSocialAcceleration(new ConstantControlParameter(2.0));
-        particle.setCognitiveAcceleration(new ConstantControlParameter(2.0));
-        particle.setVmax(new ConstantControlParameter(2.0));
+        particle.setInertia(ConstantControlParameter.of(2.0));
+        particle.setSocialAcceleration(ConstantControlParameter.of(2.0));
+        particle.setCognitiveAcceleration(ConstantControlParameter.of(2.0));
+        particle.setVmax(ConstantControlParameter.of(2.0));
         
         particle.getInertia().setVelocity(1.0);
         particle.getSocialAcceleration().setVelocity(1.0);

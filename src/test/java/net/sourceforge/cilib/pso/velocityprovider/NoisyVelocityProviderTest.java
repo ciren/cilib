@@ -143,10 +143,10 @@ public class NoisyVelocityProviderTest {
     public void testGetControlParameterVelocity() {
         System.out.println("getControlParameterVelocity");
         ParameterizedParticle particle = new ParameterizedParticle();
-        particle.setInertia(new ConstantControlParameter(1.0));
-        particle.setSocialAcceleration(new ConstantControlParameter(1.0));
-        particle.setCognitiveAcceleration(new ConstantControlParameter(1.0));
-        particle.setVmax(new ConstantControlParameter(1.0));
+        particle.setInertia(ConstantControlParameter.of(1.0));
+        particle.setSocialAcceleration(ConstantControlParameter.of(1.0));
+        particle.setCognitiveAcceleration(ConstantControlParameter.of(1.0));
+        particle.setVmax(ConstantControlParameter.of(1.0));
         
         particle.getInertia().setVelocity(2.0);
         particle.getSocialAcceleration().setVelocity(2.0);

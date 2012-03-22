@@ -75,8 +75,7 @@ public class IndexBasedAverageDiversityAroundAllEntities extends Diversity {
 
         totalDistanceSum /= numberOfEntities;
 
-        normalisationParameter.setDistanceMeasure(distanceMeasure);
-        totalDistanceSum /= normalisationParameter.getValue();
+        totalDistanceSum /= normalisationParameter.getNormalisationParameter((PopulationBasedAlgorithm) algorithm);
 
         return Real.valueOf(totalDistanceSum);
     }

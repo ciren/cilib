@@ -75,21 +75,21 @@ public class ParameterInclusiveInitializationStrategy<P extends ParameterizedPar
         this.random = new UniformDistribution();
         this.entityInitializationStrategy = new RandomBoundedInitializationStrategy<Entity>();
         
-        this.inertia = new ConstantControlParameter(INERTIA_DEFAULT);
-        this.socialAcceleration = new ConstantControlParameter(SOCIAL_DEFAULT);
-        this.cognitiveAcceleration = new ConstantControlParameter(PERSONAL_DEFAULT);
-        this.vmax = new ConstantControlParameter(VMAX_DEFAULT);
+        this.inertia = ConstantControlParameter.of(INERTIA_DEFAULT);
+        this.socialAcceleration = ConstantControlParameter.of(SOCIAL_DEFAULT);
+        this.cognitiveAcceleration = ConstantControlParameter.of(PERSONAL_DEFAULT);
+        this.vmax = ConstantControlParameter.of(VMAX_DEFAULT);
         
-        this.lowerBoundInertia = new ConstantControlParameter(0.1);
-        this.upperBoundInertia = new ConstantControlParameter(0.9);
-        this.lowerBoundSocial = new ConstantControlParameter(0.1);
-        this.upperBoundSocial = new ConstantControlParameter(0.9);
-        this.lowerBoundPersonal = new ConstantControlParameter(0.1);
-        this.upperBoundPersonal = new ConstantControlParameter(0.9);
-        this.lowerBoundVmax = new ConstantControlParameter(0.1);
-        this.upperBoundVmax = new ConstantControlParameter(0.9);
-        this.lowerBound = new ConstantControlParameter(0.1);
-        this.upperBound = new ConstantControlParameter(0.9);
+        this.lowerBoundInertia = ConstantControlParameter.of(0.1);
+        this.upperBoundInertia = ConstantControlParameter.of(0.9);
+        this.lowerBoundSocial = ConstantControlParameter.of(0.1);
+        this.upperBoundSocial = ConstantControlParameter.of(0.9);
+        this.lowerBoundPersonal = ConstantControlParameter.of(0.1);
+        this.upperBoundPersonal = ConstantControlParameter.of(0.9);
+        this.lowerBoundVmax = ConstantControlParameter.of(0.1);
+        this.upperBoundVmax = ConstantControlParameter.of(0.9);
+        this.lowerBound = ConstantControlParameter.of(0.1);
+        this.upperBound = ConstantControlParameter.of(0.9);
     }
 
      /*

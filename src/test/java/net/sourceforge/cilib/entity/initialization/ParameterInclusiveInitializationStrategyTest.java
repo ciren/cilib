@@ -81,7 +81,7 @@ public class ParameterInclusiveInitializationStrategyTest {
         individual.getProperties().put(EntityType.CANDIDATE_SOLUTION, vector.getClone());
         
         ControlParameter modifiableParameter = new BoundedModifiableControlParameter();
-        ControlParameter constantParameter = new ConstantControlParameter(0.55);
+        ControlParameter constantParameter = ConstantControlParameter.of(0.55);
         
         ParameterInclusiveInitializationStrategy initializationStrategy = new ParameterInclusiveInitializationStrategy();
         initializationStrategy.setInertia(modifiableParameter);
@@ -122,7 +122,7 @@ public class ParameterInclusiveInitializationStrategyTest {
         
         ControlParameter modifiableParameter = new BoundedModifiableControlParameter();
         modifiableParameter.setParameter(0.12);
-        ControlParameter constantParameter = new ConstantControlParameter(0.55);
+        ControlParameter constantParameter = ConstantControlParameter.of(0.55);
         
         ParameterInclusiveInitializationStrategy initializationStrategy = new ParameterInclusiveInitializationStrategy();
         initializationStrategy.setInertia(modifiableParameter);
@@ -130,8 +130,8 @@ public class ParameterInclusiveInitializationStrategyTest {
         initializationStrategy.setCognitiveAcceleration(constantParameter);
         initializationStrategy.setVmax(constantParameter);
         
-        initializationStrategy.setLowerBound(new ConstantControlParameter(0.2));
-        initializationStrategy.setUpperBound(new ConstantControlParameter(0.6));
+        initializationStrategy.setLowerBound( ConstantControlParameter.of(0.2));
+        initializationStrategy.setUpperBound( ConstantControlParameter.of(0.6));
         
         initializationStrategy.initialize(EntityType.CANDIDATE_SOLUTION, individual);
         
@@ -184,7 +184,7 @@ public class ParameterInclusiveInitializationStrategyTest {
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
         
         //Test setting a constant parameter works
-        ControlParameter parameter = new ConstantControlParameter(0.1);
+        ControlParameter parameter = ConstantControlParameter.of(0.1);
         instance.setInertia(parameter);
         Assert.assertEquals(instance.getInertia().getParameter(), parameter.getParameter());
         
@@ -204,7 +204,7 @@ public class ParameterInclusiveInitializationStrategyTest {
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
         
         //Test setting a constant parameter works
-        ControlParameter parameter = new ConstantControlParameter(0.1);
+        ControlParameter parameter = ConstantControlParameter.of(0.1);
         instance.setSocialAcceleration(parameter);
         Assert.assertEquals(instance.getSocialAcceleration().getParameter(), parameter.getParameter());
         
@@ -224,7 +224,7 @@ public class ParameterInclusiveInitializationStrategyTest {
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
         
         //Test setting a constant parameter works
-        ControlParameter parameter = new ConstantControlParameter(0.1);
+        ControlParameter parameter = ConstantControlParameter.of(0.1);
         instance.setCognitiveAcceleration(parameter);
         Assert.assertEquals(instance.getPersonal().getParameter(), parameter.getParameter());
         
@@ -243,7 +243,7 @@ public class ParameterInclusiveInitializationStrategyTest {
         ParameterInclusiveInitializationStrategy instance = new ParameterInclusiveInitializationStrategy();
         
         //Test setting a constant parameter works
-        ControlParameter parameter = new ConstantControlParameter(0.1);
+        ControlParameter parameter = ConstantControlParameter.of(0.1);
         instance.setVmax(parameter);
         Assert.assertEquals(instance.getVmax().getParameter(), parameter.getParameter());
         

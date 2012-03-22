@@ -159,7 +159,7 @@ public class ConstrictionVelocityProviderTest {
     public void testGetKappa() {
         System.out.println("getKappa");
         ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
-        ControlParameter expectedResult = new ConstantControlParameter(0.55);
+        ControlParameter expectedResult = ConstantControlParameter.of(0.55);
         instance.setKappa(expectedResult);
         ControlParameter result = instance.getKappa();
         
@@ -173,7 +173,7 @@ public class ConstrictionVelocityProviderTest {
     public void testSetKappa() {
         System.out.println("setKappa");
         ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
-        ControlParameter expectedResult = new ConstantControlParameter(0.55);
+        ControlParameter expectedResult = ConstantControlParameter.of(0.55);
         instance.setKappa(expectedResult);
         ControlParameter result = instance.getKappa();
         
@@ -187,7 +187,7 @@ public class ConstrictionVelocityProviderTest {
     public void testGetCognitiveAcceleration() {
         System.out.println("getCognitiveAcceleration");
         ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
-        ControlParameter expectedResult = new ConstantControlParameter(0.55);
+        ControlParameter expectedResult = ConstantControlParameter.of(0.55);
         instance.setCognitiveAcceleration(expectedResult);
         ControlParameter result = instance.getCognitiveAcceleration();
         
@@ -201,7 +201,7 @@ public class ConstrictionVelocityProviderTest {
     public void testSetCognitiveAcceleration() {
         System.out.println("setCognitiveAcceleration");
         ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
-        ControlParameter expectedResult = new ConstantControlParameter(0.55);
+        ControlParameter expectedResult = ConstantControlParameter.of(0.55);
         instance.setCognitiveAcceleration(expectedResult);
         ControlParameter result = instance.getCognitiveAcceleration();
         
@@ -215,7 +215,7 @@ public class ConstrictionVelocityProviderTest {
     public void testGetSocialAcceleration() {
         System.out.println("getSocialAcceleration");
         ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
-        ControlParameter expectedResult = new ConstantControlParameter(0.55);
+        ControlParameter expectedResult = ConstantControlParameter.of(0.55);
         instance.setSocialAcceleration(expectedResult);
         ControlParameter result = instance.getSocialAcceleration();
         
@@ -229,7 +229,7 @@ public class ConstrictionVelocityProviderTest {
     public void testSetSocialAcceleration() {
         System.out.println("setSocialAcceleration");
         ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
-        ControlParameter expectedResult = new ConstantControlParameter(0.55);
+        ControlParameter expectedResult = ConstantControlParameter.of(0.55);
         instance.setSocialAcceleration(expectedResult);
         ControlParameter result = instance.getSocialAcceleration();
         
@@ -243,7 +243,7 @@ public class ConstrictionVelocityProviderTest {
     public void testGetConstrictionCoefficient() {
         System.out.println("getConstrictionCoefficient");
         ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
-        ControlParameter expectedResult = new ConstantControlParameter(0.55);
+        ControlParameter expectedResult = ConstantControlParameter.of(0.55);
         instance.setConstrictionCoefficient(expectedResult);
         ControlParameter result = instance.getConstrictionCoefficient();
         
@@ -257,7 +257,7 @@ public class ConstrictionVelocityProviderTest {
     public void testSetConstrictionCoefficient() {
         System.out.println("setConstrictionCoefficient");
         ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
-        ControlParameter expectedResult = new ConstantControlParameter(0.55);
+        ControlParameter expectedResult = ConstantControlParameter.of(0.55);
         instance.setConstrictionCoefficient(expectedResult);
         ControlParameter result = instance.getConstrictionCoefficient();
         
@@ -271,9 +271,9 @@ public class ConstrictionVelocityProviderTest {
     public void testSetControlParameters() {
         System.out.println("setControlParameters");
         ParameterizedParticle particle = new ParameterizedParticle();
-        ParameterAdaptingPSOControlParameter socialParameter = new ConstantControlParameter(0.55);
+        ParameterAdaptingPSOControlParameter socialParameter = ConstantControlParameter.of(0.55);
         particle.setSocialAcceleration(socialParameter);
-        ParameterAdaptingPSOControlParameter cognitiveParameter = new ConstantControlParameter(0.55);
+        ParameterAdaptingPSOControlParameter cognitiveParameter = ConstantControlParameter.of(0.55);
         particle.setCognitiveAcceleration(cognitiveParameter);
         ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
         instance.setControlParameters(particle);
@@ -289,9 +289,9 @@ public class ConstrictionVelocityProviderTest {
     public void testGetControlParameterVelocity() {
         System.out.println("getControlParameterVelocity");
         ParameterizedParticle particle = new ParameterizedParticle();
-        ParameterAdaptingPSOControlParameter socialParameter = new ConstantControlParameter(0.55);
+        ParameterAdaptingPSOControlParameter socialParameter = ConstantControlParameter.of(0.55);
         particle.setSocialAcceleration(socialParameter);
-        ParameterAdaptingPSOControlParameter cognitiveParameter = new ConstantControlParameter(0.55);
+        ParameterAdaptingPSOControlParameter cognitiveParameter = ConstantControlParameter.of(0.55);
         particle.setCognitiveAcceleration(cognitiveParameter);
         ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
         instance.setControlParameters(particle);

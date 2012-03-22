@@ -90,9 +90,9 @@ public class GCVelocityProviderTest {
         particle.initialise(problem);
         
         GCVelocityProvider instance = new GCVelocityProvider();
-        particle.setInertia(new ConstantControlParameter(2.0));
-        particle.setSocialAcceleration(new ConstantControlParameter(0.0));
-        particle.setCognitiveAcceleration(new ConstantControlParameter(0.0));
+        particle.setInertia(ConstantControlParameter.of(2.0));
+        particle.setSocialAcceleration(ConstantControlParameter.of(0.0));
+        particle.setCognitiveAcceleration(ConstantControlParameter.of(0.0));
         particle.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.of(1.0,1.0,1.0,1.0));
         
         particle.getProperties().put(EntityType.Particle.VELOCITY, Vector.of(2.0,2.0,2.0,2.0));
@@ -150,7 +150,7 @@ public class GCVelocityProviderTest {
     public void testGetRhoLowerBound() {
         System.out.println("getRhoLowerBound");
         GCVelocityProvider instance = new GCVelocityProvider();
-        instance.setRhoLowerBound(new ConstantControlParameter(2));
+        instance.setRhoLowerBound(ConstantControlParameter.of(2));
         ControlParameter result = instance.getRhoLowerBound();
         
         Assert.assertEquals(result.getParameter(), 2.0);
@@ -163,7 +163,7 @@ public class GCVelocityProviderTest {
     public void testSetRhoLowerBound() {
         System.out.println("setRhoLowerBound");
         GCVelocityProvider instance = new GCVelocityProvider();
-        instance.setRhoLowerBound(new ConstantControlParameter(2));
+        instance.setRhoLowerBound(ConstantControlParameter.of(2));
         ControlParameter result = instance.getRhoLowerBound();
         
         Assert.assertEquals(result.getParameter(), 2.0);
@@ -176,7 +176,7 @@ public class GCVelocityProviderTest {
     public void testGetRho() {
         System.out.println("getRho");
         GCVelocityProvider instance = new GCVelocityProvider();
-        instance.setRho(new ConstantControlParameter(2));
+        instance.setRho(ConstantControlParameter.of(2));
         ControlParameter result = instance.getRho();
         
         Assert.assertEquals(result.getParameter(), 2.0);
@@ -189,7 +189,7 @@ public class GCVelocityProviderTest {
     public void testSetRho() {
         System.out.println("setRho");
         GCVelocityProvider instance = new GCVelocityProvider();
-        instance.setRho(new ConstantControlParameter(2));
+        instance.setRho(ConstantControlParameter.of(2));
         ControlParameter result = instance.getRho();
         
         Assert.assertEquals(result.getParameter(), 2.0);
@@ -254,7 +254,7 @@ public class GCVelocityProviderTest {
     public void testGetRhoExpandCoefficient() {
         System.out.println("getRhoExpandCoefficient");
         GCVelocityProvider instance = new GCVelocityProvider();
-        instance.setRhoExpandCoefficient(new ConstantControlParameter(2));
+        instance.setRhoExpandCoefficient(ConstantControlParameter.of(2));
         ControlParameter result = instance.getRhoExpandCoefficient();
         
         Assert.assertEquals(result.getParameter(), 2.0);
@@ -267,7 +267,7 @@ public class GCVelocityProviderTest {
     public void testSetRhoExpandCoefficient() {
         System.out.println("setRhoExpandCoefficient");
         GCVelocityProvider instance = new GCVelocityProvider();
-        instance.setRhoExpandCoefficient(new ConstantControlParameter(2));
+        instance.setRhoExpandCoefficient(ConstantControlParameter.of(2));
         ControlParameter result = instance.getRhoExpandCoefficient();
         
         Assert.assertEquals(result.getParameter(), 2.0);
@@ -280,7 +280,7 @@ public class GCVelocityProviderTest {
     public void testGetRhoContractCoefficient() {
         System.out.println("getRhoContractCoefficient");
         GCVelocityProvider instance = new GCVelocityProvider();
-        instance.setRhoContractCoefficient(new ConstantControlParameter(2));
+        instance.setRhoContractCoefficient(ConstantControlParameter.of(2));
         ControlParameter result = instance.getRhoContractCoefficient();
         
         Assert.assertEquals(result.getParameter(), 2.0);
@@ -293,7 +293,7 @@ public class GCVelocityProviderTest {
     public void testSetRhoContractCoefficient() {
         System.out.println("setRhoContractCoefficient");
         GCVelocityProvider instance = new GCVelocityProvider();
-        instance.setRhoContractCoefficient(new ConstantControlParameter(2));
+        instance.setRhoContractCoefficient(ConstantControlParameter.of(2));
         ControlParameter result = instance.getRhoContractCoefficient();
         
         Assert.assertEquals(result.getParameter(), 2.0);
@@ -316,10 +316,10 @@ public class GCVelocityProviderTest {
         particle.initialise(problem);
         
         GCVelocityProvider instance = new GCVelocityProvider();
-        particle.setInertia(new ConstantControlParameter(2.0));
-        particle.setSocialAcceleration(new ConstantControlParameter(2.0));
-        particle.setCognitiveAcceleration(new ConstantControlParameter(2.0));
-        particle.setVmax(new ConstantControlParameter(2.0));
+        particle.setInertia(ConstantControlParameter.of(2.0));
+        particle.setSocialAcceleration(ConstantControlParameter.of(2.0));
+        particle.setCognitiveAcceleration(ConstantControlParameter.of(2.0));
+        particle.setVmax(ConstantControlParameter.of(2.0));
         
         particle.getInertia().setVelocity(1.0);
         particle.getSocialAcceleration().setVelocity(1.0);

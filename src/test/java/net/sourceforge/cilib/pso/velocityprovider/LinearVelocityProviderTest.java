@@ -157,13 +157,13 @@ public class LinearVelocityProviderTest {
     public void testSetControlParameters() {
         System.out.println("setControlParameters");
         ParameterizedParticle particle = new ParameterizedParticle();
-        particle.setInertia(new ConstantControlParameter(0.0));
-        particle.setSocialAcceleration(new ConstantControlParameter(0.0));
-        particle.setCognitiveAcceleration(new ConstantControlParameter(0.0));
+        particle.setInertia(ConstantControlParameter.of(0.0));
+        particle.setSocialAcceleration(ConstantControlParameter.of(0.0));
+        particle.setCognitiveAcceleration(ConstantControlParameter.of(0.0));
         
-        particle.setBestInertia(new ConstantControlParameter(0.0));
-        particle.setBestSocialAcceleration(new ConstantControlParameter(0.0));
-        particle.setBestCognitiveAcceleration(new ConstantControlParameter(0.0));
+        particle.setBestInertia(ConstantControlParameter.of(0.0));
+        particle.setBestSocialAcceleration(ConstantControlParameter.of(0.0));
+        particle.setBestCognitiveAcceleration(ConstantControlParameter.of(0.0));
         
         particle.setNeighbourhoodBest(particle);
         
@@ -183,13 +183,13 @@ public class LinearVelocityProviderTest {
     public void testGetControlParameterVelocity() {
         System.out.println("getControlParameterVelocity");
         ParameterizedParticle particle = new ParameterizedParticle();
-        particle.setInertia(new ConstantControlParameter(0.0));
-        particle.setSocialAcceleration(new ConstantControlParameter(0.0));
-        particle.setCognitiveAcceleration(new ConstantControlParameter(0.0));
+        particle.setInertia(ConstantControlParameter.of(0.0));
+        particle.setSocialAcceleration(ConstantControlParameter.of(0.0));
+        particle.setCognitiveAcceleration(ConstantControlParameter.of(0.0));
         
-        particle.setBestInertia(new ConstantControlParameter(0.0));
-        particle.setBestSocialAcceleration(new ConstantControlParameter(0.0));
-        particle.setBestCognitiveAcceleration(new ConstantControlParameter(0.0));
+        particle.setBestInertia(ConstantControlParameter.of(0.0));
+        particle.setBestSocialAcceleration(ConstantControlParameter.of(0.0));
+        particle.setBestCognitiveAcceleration(ConstantControlParameter.of(0.0));
         
         particle.setNeighbourhoodBest(particle);
         
@@ -200,13 +200,13 @@ public class LinearVelocityProviderTest {
         Assert.assertTrue(result.get("SocialAccelerationVelocity") == 0.0);
         Assert.assertTrue(result.get("CognitiveAccelerationVelocity") == 0.0);
         
-        particle.setInertia(new ConstantControlParameter(2.0));
-        particle.setSocialAcceleration(new ConstantControlParameter(2.0));
-        particle.setCognitiveAcceleration(new ConstantControlParameter(2.0));
+        particle.setInertia(ConstantControlParameter.of(2.0));
+        particle.setSocialAcceleration(ConstantControlParameter.of(2.0));
+        particle.setCognitiveAcceleration(ConstantControlParameter.of(2.0));
         
-        particle.setBestInertia(new ConstantControlParameter(2.0));
-        particle.setBestSocialAcceleration(new ConstantControlParameter(2.0));
-        particle.setBestCognitiveAcceleration(new ConstantControlParameter(2.0));
+        particle.setBestInertia(ConstantControlParameter.of(2.0));
+        particle.setBestSocialAcceleration(ConstantControlParameter.of(2.0));
+        particle.setBestCognitiveAcceleration(ConstantControlParameter.of(2.0));
         
         particle.setNeighbourhoodBest(particle);
         
