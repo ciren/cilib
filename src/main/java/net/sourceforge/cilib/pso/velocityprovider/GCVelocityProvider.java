@@ -355,7 +355,7 @@ public class GCVelocityProvider implements VelocityProvider {
                     + this.rho.getParameter() * (1 - 2 * this.randomProvider.nextDouble());
             
             this.oldFitness = particle.getFitness().getClone(); // Keep a copy of the old Fitness object - particle.calculateFitness() within the IterationStrategy resets the fitness value
-            result.put("InertiaVelocity", velocity);
+            result.put("InertiaVelocity", component);
             
             velocity = particle.getSocialAcceleration().getVelocity();
             position = particle.getSocialAcceleration().getParameter();
@@ -366,7 +366,7 @@ public class GCVelocityProvider implements VelocityProvider {
                     + this.rho.getParameter() * (1 - 2 * this.randomProvider.nextDouble());
             
             this.oldFitness = particle.getFitness().getClone(); // Keep a copy of the old Fitness object - particle.calculateFitness() within the IterationStrategy resets the fitness value
-            result.put("SocialAccelerationVelocity", velocity);
+            result.put("SocialAccelerationVelocity", component);
             
             velocity = particle.getCognitiveAcceleration().getVelocity();
             position = particle.getCognitiveAcceleration().getParameter();
@@ -377,7 +377,7 @@ public class GCVelocityProvider implements VelocityProvider {
                     + this.rho.getParameter() * (1 - 2 * this.randomProvider.nextDouble());
             
             this.oldFitness = particle.getFitness().getClone(); // Keep a copy of the old Fitness object - particle.calculateFitness() within the IterationStrategy resets the fitness value
-            result.put("CognitiveAccelerationVelocity", velocity);
+            result.put("CognitiveAccelerationVelocity", component);
             
             velocity = particle.getVmax().getVelocity();
             position = particle.getVmax().getParameter();
@@ -388,7 +388,7 @@ public class GCVelocityProvider implements VelocityProvider {
                     + this.rho.getParameter() * (1 - 2 * this.randomProvider.nextDouble());
             
             this.oldFitness = particle.getFitness().getClone(); // Keep a copy of the old Fitness object - particle.calculateFitness() within the IterationStrategy resets the fitness value
-            result.put("VmaxVelocity", velocity);
+            result.put("VmaxVelocity", component);
         }
         
         return this.delegate.getControlParameterVelocity(particle);

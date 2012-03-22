@@ -159,11 +159,11 @@ public class FIPSVelocityProvider implements VelocityProvider {
         Iterator<Particle> neighborhoodIterator = topology.neighbourhood(swarmIterator);
 
         while (neighborhoodIterator.hasNext()) {
-            ParameterizedParticle CurrentTarget = (ParameterizedParticle) neighborhoodIterator.next();
-            double inertiaCurrentTargetPosition = CurrentTarget.getBestInertia().getParameter();
-            double socialCurrentTargetPosition = CurrentTarget.getBestSocialAcceleration().getParameter();
-            double personalCurrentTargetPosition = CurrentTarget.getBestCognitiveAcceleration().getParameter();
-            double vmaxCurrentTargetPosition = CurrentTarget.getBestVmax().getParameter();
+            ParameterizedParticle currentTarget = (ParameterizedParticle) neighborhoodIterator.next();
+            double inertiaCurrentTargetPosition = currentTarget.getBestInertia().getParameter();
+            double socialCurrentTargetPosition = currentTarget.getBestSocialAcceleration().getParameter();
+            double personalCurrentTargetPosition = currentTarget.getBestCognitiveAcceleration().getParameter();
+            double vmaxCurrentTargetPosition = currentTarget.getBestVmax().getParameter();
 
             double inertiaRandomComponent = (this.cognitiveAcceleration.getParameter() + this.socialAcceleration.getParameter()) * this.randomProvider.nextDouble();
             double socialRandomComponent = (this.cognitiveAcceleration.getParameter() + this.socialAcceleration.getParameter()) * this.randomProvider.nextDouble();

@@ -167,15 +167,19 @@ public class FDRVelocityProvider implements VelocityProvider {
         HashMap<String, Double> result = new HashMap<String, Double>();
         
         double positionInertia = particle.getInertia().getParameter();
-        double positionSocialAcceleration = particle.getInertia().getParameter();
-        double positionCognitiveAcceleration = particle.getInertia().getParameter();
-        double positionVmax = particle.getInertia().getParameter();
+        double positionSocialAcceleration = particle.getSocialAcceleration().getParameter();
+        double positionCognitiveAcceleration = particle.getCognitiveAcceleration().getParameter();
+        double positionVmax = particle.getVmax().getParameter();
 
         HashMap<String, Double> standardVelocity = this.delegate.getControlParameterVelocity(particle);
 
         Topology<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
         Iterator<Particle> swarmIterator = topology.iterator();
         ParameterizedParticle fdrMaximizer = (ParameterizedParticle) swarmIterator.next();
+        ParameterizedParticle fdrMaximizerInertia = fdrMaximizer.getClone();
+        ParameterizedParticle fdrMaximizerSocial = fdrMaximizer.getClone();
+        ParameterizedParticle fdrMaximizerCognitive = fdrMaximizer.getClone();
+        ParameterizedParticle fdrMaximizerVmax = fdrMaximizer.getClone();
         double maxFDR = 0.0;
 
         while (swarmIterator.hasNext()) {
@@ -196,30 +200,30 @@ public class FDRVelocityProvider implements VelocityProvider {
 
                 if (testFDRInertia > maxFDR) {
                     maxFDR = testFDRInertia;
-                    fdrMaximizer = currentTarget;
+                    fdrMaximizerInertia = currentTarget;
                 }
                 
                 if (testFDRSocialAcceleration > maxFDR) {
                     maxFDR = testFDRSocialAcceleration;
-                    fdrMaximizer = currentTarget;
+                    fdrMaximizerSocial = currentTarget;
                 }
                 
                 if (testFDRCognitiveAcceleration > maxFDR) {
                     maxFDR = testFDRCognitiveAcceleration;
-                    fdrMaximizer = currentTarget;
+                    fdrMaximizerCognitive = currentTarget;
                 }
                 
                 if (testFDRVmax > maxFDR) {
                     maxFDR = testFDRVmax;
-                    fdrMaximizer = currentTarget;
+                    fdrMaximizerVmax = currentTarget;
                 }
             }
         }
 
-        double fdrMaximizerPositionInertia = fdrMaximizer.getInertia().getBestValue().getParameter();
-        double fdrMaximizerPositionSocialAcceleration = fdrMaximizer.getSocialAcceleration().getBestValue().getParameter();
-        double fdrMaximizerPositionCognitiveAcceleration = fdrMaximizer.getCognitiveAcceleration().getBestValue().getParameter();
-        double fdrMaximizerPositionVmax = fdrMaximizer.getVmax().getBestValue().getParameter();
+        double fdrMaximizerPositionInertia = fdrMaximizerInertia.getInertia().getBestValue().getParameter();
+        double fdrMaximizerPositionSocialAcceleration = fdrMaximizerSocial.getSocialAcceleration().getBestValue().getParameter();
+        double fdrMaximizerPositionCognitiveAcceleration = fdrMaximizerCognitive.getCognitiveAcceleration().getBestValue().getParameter();
+        double fdrMaximizerPositionVmax = fdrMaximizerVmax.getVmax().getBestValue().getParameter();
         
         double inertia = standardVelocity.get("InertiaVelocity") + this.fdrMaximizerAcceleration.getParameter() * this.randomProvider.nextDouble() 
                 * (fdrMaximizerPositionInertia - positionInertia);

@@ -25,22 +25,26 @@ import java.util.HashMap;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.functions.activation.Sigmoid;
 import net.sourceforge.cilib.math.random.CauchyDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
+import net.sourceforge.cilib.pso.particle.StandardParticle;
+import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 
 /*
- * TODO: This class is entirely wrong, it needs to be recoded.
- * Kristina
- */
-
-/**
- * Velocity update for the Coherence PSO.
+ * This class calculates the new velocity of the particle using the Coherence 
+ * Velocity method described by Hendtlass. The aim of this method of calculating
+ * velocity is to improve diversity by soreading particles according to the 
+ * optimality of solutions found.
+ * 
+ * NOTE: This class is only usable if velocities are initialized to not be Zero.
+ * Hendtlass has managed to divide by Zero, again.
  */
 public class CoherenceVelocityProvider implements VelocityProvider {
 
@@ -49,6 +53,7 @@ public class CoherenceVelocityProvider implements VelocityProvider {
     private ProbabilityDistributionFuction randomNumber;
     private Sigmoid sigmoid;
     private VelocityProvider delegate;
+    Topology topology;
 
     /**
      * Create an instance of {@linkplain CoherenceVelocityProvider}.
@@ -86,150 +91,186 @@ public class CoherenceVelocityProvider implements VelocityProvider {
      */
     @Override
     public Vector get(Particle particle) {
-        double averageParticleVelocity = 0.0;
-
-        Vector averageVelocity = null;//velocity.getClone();
-//        averageVelocity.reset();
         PSO pso = (PSO) AbstractAlgorithm.get();
-        for (Particle p : pso.getTopology()) {
-            if (averageVelocity == null) {
-                averageVelocity = (Vector) p.getVelocity();
-                continue;
-            }
-            Vector particleVelocity = (Vector) p.getVelocity();
-            averageVelocity = averageVelocity.plus(particleVelocity);
-            averageParticleVelocity += particleVelocity.norm();
+        topology = pso.getTopology();
+        double sigmoidResult = getSigmoidResult();
+        int dimension = 0;
+        double value = 0;
+        
+        Vector velocity = (Vector) particle.getVelocity();
+        Vector.Builder resultingVelocity = Vector.newBuilder();
+        
+        for(Numeric velocityValue : velocity) {
+            value = this.scalingFactor.getParameter() * sigmoidResult * getParticleVelocityForDimension(dimension) * randomNumber.getRandomNumber();
+            resultingVelocity.add(value);
         }
-        averageVelocity = averageVelocity.divide(particle.getDimension());
-        averageParticleVelocity /= particle.getDimension();
-
-        double swarmCenterVelocity = averageVelocity.norm();
-        double swarmCoherence = calculateSwarmCoherence(swarmCenterVelocity, averageParticleVelocity);
-
-        double sigmoidValue = this.sigmoid.apply(swarmCoherence);
-
-        Vector standardVelocity = this.delegate.get(particle);
-
-        Vector.Builder builder = Vector.newBuilder();
-        for (int i = 0; i < particle.getDimension(); ++i) {
-            double coherenceVelocity = this.scalingFactor.getParameter() * sigmoidValue * averageVelocity.doubleValueOf(i) * this.randomNumber.getRandomNumber();
-            builder.add(coherenceVelocity);
-        }
-        Vector coherence = builder.build();
-
-        return Vectors.sumOf(standardVelocity, coherence);
-
-
-//        float social = socialRandomGenerator.nextFloat();
-//        float cognitive = cognitiveRandomGenerator.nextFloat();
-//
-//        //DistanceMeasure adm = new AbsoluteDistanceMeasure();
-//        //DistanceMeasure dm = new MetricDistanceMeasure();
-//
-//        double avgv = 0.0;
-//        double swv = 0.0;
-//        Topology<Particle> topology = ((PSO)Algorithm.get()).getTopology();
-//          Iterator<? extends Particle> it = topology.neighbourhood(null);
-//          double[] al = new double[particle.getDimension()];
-//           while (it.hasNext()) {
-//               Particle pl = it.next();
-//               double tmpv = 0.0;
-//               //double tmpsv = 0.0;
-//               for(int dim = 0; dim < particle.getDimension(); dim++) {
-//                al[dim] = al[dim]+((Vector)pl.getVelocity()).getReal(dim);
-//                   tmpv += Math.pow(((Vector)pl.getVelocity()).getReal(dim), 2);
-//               }
-//               tmpv = Math.sqrt(tmpv);
-//               avgv += tmpv;
-//           }
-//           for(int i = 0; i < particle.getDimension(); i++) {
-//            //al.set(i, ;
-//            swv += (al[i]/topology.size()) * (al[i]/topology.size());
-//        }
-//        swv = Math.sqrt(swv);
-//
-//        for (int i = 0; i < particle.getDimension(); ++i) {
-//            double tmp = 0.0;
-//            tmp = inertiaWeight.getParameter()*velocity.getReal(i)
-//                + cognitive * (bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter()
-//                + social * (nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
-//
-//            double avgdim = 0.0;
-//              it = topology.neighbourhood(null);
-//               while (it.hasNext()) {
-//                   avgdim += ((Vector)(it.next().getVelocity())).getReal(i);
-//               }
-//            avgdim /= particle.getDimension();
-//
-//            double cvelocity = MathUtil.sigmoid(swv/avgv)*avgdim*randomNumber.getCauchy();
-//
-//            System.out.println(cvelocity);
-//            tmp += cvelocity;
-//
-//            velocity.setReal(i, tmp);
-//
-//            clamp(velocity, i);
-//        }
+        
+        return resultingVelocity.build();
     }
 
-    /**
-     * Calculate the swarm coherence.
-     * @param swarmCenterVelocity The swarm center velocity.
-     * @param averageParticleVelocity The average {@linkplain Particle} velocity.
-     * @return The swarm coherence value.
-     */
-    private double calculateSwarmCoherence(double swarmCenterVelocity, double averageParticleVelocity) {
-        if (averageParticleVelocity == 0.0) {
-            return 0.0;
+    public double getAverageParticleVelocity() {
+        double average = 0;
+        
+        for(int i = 0; i < topology.size(); i++) {
+            Particle particle = (Particle) topology.get(i);
+            Vector velocity = (Vector) particle.getVelocity();
+            average += velocity.norm();
         }
-
-        return swarmCenterVelocity / averageParticleVelocity;
+        return average/topology.size();
     }
-
-    /*
-     * @return Returns the congnitiveRandomGenerator.
-     */
-//    public Random getCongnitiveRandomGenerator() {
-//        return cognitiveRandomGenerator;
-//    }
-//
-//    /**
-//     * @param congnitiveRandomGenerator The congnitiveRandomGenerator to set.
-//     */
-//    public void setCongnitiveRandomGenerator(Random congnitiveRandomGenerator) {
-//        this.cognitiveRandomGenerator = congnitiveRandomGenerator;
-//    }
-//
-//    /**
-//     * @return Returns the socialRandomGenerator.
-//     */
-//    public Random getSocialRandomGenerator() {
-//        return socialRandomGenerator;
-//    }
-//
-//    /**
-//     * @param socialRandomGenerator The socialRandomGenerator to set.
-//     */
-//    public void setSocialRandomGenerator(Random socialRandomGenerator) {
-//        this.socialRandomGenerator = socialRandomGenerator;
-//    }
     
     /*
-     * Not applicable
+     * Calculates and returns the swarm center velocity as the norm of the average 
+     * velocity of the swarm.
+     * @return The swarm centre velocity
      */
+    public double getSwarmCenterVelocity() {
+        Particle dummyParticle = (Particle) topology.get(0);
+        Vector dummyVelocity = (Vector) dummyParticle.getClone().getVelocity();
+        Vector sum = dummyVelocity.multiply(0);
+        for(int i = 0; i < topology.size(); i++) {
+            Particle particle = (Particle) topology.get(i);
+            Vector velocity = (Vector) particle.getVelocity();
+            sum = sum.plus(velocity);
+        }
+        sum = sum.divide(topology.size());
+        
+        return sum.norm();
+    }
+
+    /*
+     * Calulates and returns the swarm coherence as the swarm center velocity 
+     * divided by the average particle velocity.
+     * Possibility of division by Zero. Velocities must be initialized to not 
+     * be Zero
+     * @return The swarm coherence
+     */
+    private double getSwarmCoherence() {
+        return getSwarmCenterVelocity()/getAverageParticleVelocity();
+    }
+
+    /*
+     * Calculates the average velocity for a certain dimension
+     * @param dimension The dimension for which the average should be calculated
+     * @return The average velocity for that dimension
+     */
+    private double getParticleVelocityForDimension(int dimension) {
+       double average = 0;
+       double dimensions = 0;
+       
+       for(int i = 0; i < topology.size(); i++) {
+           Particle particle = (Particle) topology.get(i);
+           dimensions = particle.getVelocity().size();
+           if(dimension < dimensions) {
+               Vector velocity = (Vector) particle.getVelocity();
+               average += velocity.get(dimension).doubleValue();
+           }
+       }
+       return average/topology.size();
+    }
+    
+    /*
+     * Gets the result of applying the sigmoid function to the swarm coherence
+     * @return The result of applying the sigmoid function
+     */
+    private double getSigmoidResult() {
+        return this.sigmoid.apply(getSwarmCoherence());
+    }
+    
+    @Override
+    public void updateControlParameters(Particle particle) {
+        this.delegate.updateControlParameters(particle);
+    }
+    
     @Override
     public void setControlParameters(ParameterizedParticle particle) {
-        //not applicable
-        this.delegate.setControlParameters(particle);
+        //do nothing
     }
     
     /*
-     * Not applicable
+     * 
      */
     @Override
-    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle){
-        //what is going on in this class?
-        return null;
-    }
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
+        HashMap<String, Double> parameterVelocity = new HashMap<String, Double>();
+        PSO pso = (PSO) AbstractAlgorithm.get();
+        topology = pso.getTopology().getClone();
+        topology.clear();
+        Particle standardParticle;
         
+        for(Particle swarmParticle : pso.getTopology()) {
+            standardParticle = new StandardParticle();
+            ParameterizedParticle parameterizedParticle = (ParameterizedParticle) swarmParticle;
+            standardParticle.getProperties().put(EntityType.Particle.VELOCITY, Vector.of(parameterizedParticle.getInertia().getVelocity()));
+            topology.add(standardParticle);
+        }
+        
+        int dimension = 0;
+        double value = 0;
+        double resultingVelocity = 0;
+        
+        //double velocity = particle.getInertia().getVelocity();
+        double sigmoidResult = getSigmoidResult();
+        value = this.scalingFactor.getParameter() * sigmoidResult * getParticleVelocityForDimension(dimension) * randomNumber.getRandomNumber();
+        parameterVelocity.put("InertiaVelocity", value);
+        
+        //Social Acceleration
+        topology.clear();
+        
+        for(Particle swarmParticle : pso.getTopology()) {
+            standardParticle = new StandardParticle();
+            ParameterizedParticle parameterizedParticle = (ParameterizedParticle) swarmParticle;
+            standardParticle.getProperties().put(EntityType.Particle.VELOCITY, Vector.of(parameterizedParticle.getSocialAcceleration().getVelocity()));
+            topology.add(standardParticle);
+        }
+        
+        dimension = 0;
+        value = 0;
+        resultingVelocity = 0;
+        
+        //velocity = particle.getSocialAcceleration().getVelocity();
+        sigmoidResult = getSigmoidResult();
+        value = this.scalingFactor.getParameter() * sigmoidResult * getParticleVelocityForDimension(dimension) * randomNumber.getRandomNumber();
+        parameterVelocity.put("SocialAccelerationVelocity", value);
+        
+        //cognitive acceleration
+        topology.clear();
+        
+        for(Particle swarmParticle : pso.getTopology()) {
+            standardParticle = new StandardParticle();
+            ParameterizedParticle parameterizedParticle = (ParameterizedParticle) swarmParticle;
+            standardParticle.getProperties().put(EntityType.Particle.VELOCITY, Vector.of(parameterizedParticle.getCognitiveAcceleration().getVelocity()));
+            topology.add(standardParticle);
+        }
+        
+        dimension = 0;
+        value = 0;
+        resultingVelocity = 0;
+        
+        //velocity = particle.getCognitiveAcceleration().getVelocity();
+        sigmoidResult = getSigmoidResult();
+        value = this.scalingFactor.getParameter() * sigmoidResult * getParticleVelocityForDimension(dimension) * randomNumber.getRandomNumber();
+        parameterVelocity.put("CognitiveAccelerationVelocity", value);
+        
+        //get vmax
+        topology.clear();
+        
+        for(Particle swarmParticle : pso.getTopology()) {
+            standardParticle = new StandardParticle();
+            ParameterizedParticle parameterizedParticle = (ParameterizedParticle) swarmParticle;
+            standardParticle.getProperties().put(EntityType.Particle.VELOCITY, Vector.of(parameterizedParticle.getVmax().getVelocity()));
+            topology.add(standardParticle);
+        }
+        
+        dimension = 0;
+        value = 0;
+        resultingVelocity = 0;
+        
+        //velocity = particle.getVmax().getVelocity();
+        sigmoidResult = getSigmoidResult();
+        value = this.scalingFactor.getParameter() * sigmoidResult * getParticleVelocityForDimension(dimension) * randomNumber.getRandomNumber();
+        parameterVelocity.put("VmaxVelocity", value);
+        
+        return parameterVelocity;
+    }
 }

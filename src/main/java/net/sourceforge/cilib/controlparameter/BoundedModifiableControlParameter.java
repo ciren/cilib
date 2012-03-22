@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * the particle's position changes. The updateParameter(double value) method is used for this
  * update.
  * 
- * @author Kristina Georgieva
  */
 public class BoundedModifiableControlParameter implements ParameterAdaptingPSOControlParameter, BoundedControlParameter {
     private Real parameter;

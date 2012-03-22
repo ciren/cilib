@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * This class allows the user to determine the diversity of a single dimension of the entity.
  * It treats parameters as an extra 4 dimensions at the end of the particle.
  * 
- * @author Kristina
  */
 public class IndexBasedAverageDiversityAroundAllEntities extends Diversity {
     private int index;
