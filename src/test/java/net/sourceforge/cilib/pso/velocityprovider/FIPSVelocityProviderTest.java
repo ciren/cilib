@@ -83,9 +83,9 @@ public class FIPSVelocityProviderTest {
         particle.initialise(problem);
         
         FIPSVelocityProvider instance = new FIPSVelocityProvider();
-        particle.setInertia(new ConstantControlParameter(2.0));
-        particle.setSocialAcceleration(new ConstantControlParameter(0.0));
-        particle.setCognitiveAcceleration(new ConstantControlParameter(0.0));
+        particle.setInertia(ConstantControlParameter.of(2.0));
+        particle.setSocialAcceleration(ConstantControlParameter.of(0.0));
+        particle.setCognitiveAcceleration(ConstantControlParameter.of(0.0));
         particle.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.of(1.0,1.0,1.0,1.0));
         
         particle.getProperties().put(EntityType.Particle.VELOCITY, Vector.of(2.0,2.0,2.0,2.0));

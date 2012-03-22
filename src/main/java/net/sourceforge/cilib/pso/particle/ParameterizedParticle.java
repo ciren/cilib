@@ -83,13 +83,13 @@ public class ParameterizedParticle extends AbstractParticle{
         super();
         this.getProperties().put(EntityType.Particle.BEST_POSITION, new Vector());
         this.getProperties().put(EntityType.Particle.VELOCITY, new Vector());
-        inertia = new ConstantControlParameter(0.1);
-        socialAcceleration = new ConstantControlParameter(0.1);
-        cognitiveAcceleration = new ConstantControlParameter(0.1);
-        vmax = new ConstantControlParameter(0.1);
+        inertia = ConstantControlParameter.of(0.1);
+        socialAcceleration = ConstantControlParameter.of(0.1);
+        cognitiveAcceleration = ConstantControlParameter.of(0.1);
+        vmax = ConstantControlParameter.of(0.1);
         
-        entityLowerBound = new ConstantControlParameter(0.1);
-        entityLowerBound = new ConstantControlParameter(0.9);
+        entityLowerBound = ConstantControlParameter.of(0.1);
+        entityLowerBound = ConstantControlParameter.of(0.9);
         
         parameterVelocityProvider = new StandardVelocityProvider();
         parameterPositionProvider = new StandardPositionProvider();
@@ -542,7 +542,7 @@ public class ParameterizedParticle extends AbstractParticle{
      * @param parameterValue The value for the lower bound
      */
     public void setEntityLowerBound(double parameterValue) {
-        entityLowerBound = new ConstantControlParameter(parameterValue);
+        entityLowerBound = ConstantControlParameter.of(parameterValue);
     }
     
     /*
@@ -558,7 +558,7 @@ public class ParameterizedParticle extends AbstractParticle{
      * @param parameterValue The value for the upper bound
      */
     public void setEntityUpperBound(double parameterValue) {
-        entityUpperBound = new ConstantControlParameter(parameterValue);
+        entityUpperBound = ConstantControlParameter.of(parameterValue);
     }
     
     /*

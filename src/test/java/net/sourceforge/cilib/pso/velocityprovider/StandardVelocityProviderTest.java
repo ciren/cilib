@@ -94,7 +94,7 @@ public class StandardVelocityProviderTest {
     public void testGetInertiaWeight() {
         System.out.println("getInertiaWeight");
         StandardVelocityProvider instance = new StandardVelocityProvider();
-        ControlParameter expResult = new ConstantControlParameter(0.9);
+        ControlParameter expResult = ConstantControlParameter.of(0.9);
         instance.setInertiaWeight(expResult);
         ControlParameter result = instance.getInertiaWeight();
         Assert.assertTrue(expResult.getParameter() == result.getParameter());
@@ -107,7 +107,7 @@ public class StandardVelocityProviderTest {
     public void testSetInertiaWeight() {
         System.out.println("setInertiaWeight");
         StandardVelocityProvider instance = new StandardVelocityProvider();
-        ControlParameter expResult = new ConstantControlParameter(0.9);
+        ControlParameter expResult = ConstantControlParameter.of(0.9);
         instance.setInertiaWeight(expResult);
         ControlParameter result = instance.getInertiaWeight();
         Assert.assertTrue(expResult.getParameter() == result.getParameter());
@@ -120,7 +120,7 @@ public class StandardVelocityProviderTest {
     public void testGetCognitiveAcceleration() {
         System.out.println("getCognitiveAcceleration");
         StandardVelocityProvider instance = new StandardVelocityProvider();
-        ControlParameter expResult = new ConstantControlParameter(0.9);
+        ControlParameter expResult = ConstantControlParameter.of(0.9);
         instance.setCognitiveAcceleration(expResult);
         ControlParameter result = instance.getCognitiveAcceleration();
         Assert.assertTrue(expResult.getParameter() == result.getParameter());
@@ -133,7 +133,7 @@ public class StandardVelocityProviderTest {
     public void testSetCognitiveAcceleration() {
         System.out.println("setCognitiveAcceleration");
         StandardVelocityProvider instance = new StandardVelocityProvider();
-        ControlParameter expResult = new ConstantControlParameter(0.9);
+        ControlParameter expResult = ConstantControlParameter.of(0.9);
         instance.setCognitiveAcceleration(expResult);
         ControlParameter result = instance.getCognitiveAcceleration();
         Assert.assertTrue(expResult.getParameter() == result.getParameter());
@@ -146,7 +146,7 @@ public class StandardVelocityProviderTest {
     public void testGetSocialAcceleration() {
         System.out.println("getSocialAcceleration");
         StandardVelocityProvider instance = new StandardVelocityProvider();
-        ControlParameter expResult = new ConstantControlParameter(0.9);
+        ControlParameter expResult = ConstantControlParameter.of(0.9);
         instance.setSocialAcceleration(expResult);
         ControlParameter result = instance.getSocialAcceleration();
         Assert.assertTrue(expResult.getParameter() == result.getParameter());
@@ -159,7 +159,7 @@ public class StandardVelocityProviderTest {
     public void testSetSocialAcceleration() {
         System.out.println("setSocialAcceleration");
         StandardVelocityProvider instance = new StandardVelocityProvider();
-        ControlParameter expResult = new ConstantControlParameter(0.9);
+        ControlParameter expResult = ConstantControlParameter.of(0.9);
         instance.setSocialAcceleration(expResult);
         ControlParameter result = instance.getSocialAcceleration();
         Assert.assertTrue(expResult.getParameter() == result.getParameter());
@@ -224,9 +224,9 @@ public class StandardVelocityProviderTest {
     public void testSetControlParameters() {
         System.out.println("setControlParameters");
         ParameterizedParticle particle = new ParameterizedParticle();
-        particle.setInertia(new ConstantControlParameter(0.55));
-        particle.setSocialAcceleration(new ConstantControlParameter(0.55));
-        particle.setCognitiveAcceleration(new ConstantControlParameter(0.55));
+        particle.setInertia(ConstantControlParameter.of(0.55));
+        particle.setSocialAcceleration(ConstantControlParameter.of(0.55));
+        particle.setCognitiveAcceleration(ConstantControlParameter.of(0.55));
         
         StandardVelocityProvider instance = new StandardVelocityProvider();
         instance.setControlParameters(particle);
@@ -251,13 +251,13 @@ public class StandardVelocityProviderTest {
         particle.setCandidateSolution(Vector.of(1.0,1.0,1.0));
         particle.getProperties().put(EntityType.Particle.VELOCITY, Vector.of(2.0,2.0,2.0));
         particle.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.of(2.0,2.0,2.0));*/
-        particle.setInertia(new ConstantControlParameter(0.55));
-        particle.setSocialAcceleration(new ConstantControlParameter(0.55));
-        particle.setCognitiveAcceleration(new ConstantControlParameter(0.55));
+        particle.setInertia(ConstantControlParameter.of(0.55));
+        particle.setSocialAcceleration(ConstantControlParameter.of(0.55));
+        particle.setCognitiveAcceleration(ConstantControlParameter.of(0.55));
         
-        particle.setBestInertia(new ConstantControlParameter(0.55));
-        particle.setBestSocialAcceleration(new ConstantControlParameter(0.55));
-        particle.setBestCognitiveAcceleration(new ConstantControlParameter(0.55));
+        particle.setBestInertia(ConstantControlParameter.of(0.55));
+        particle.setBestSocialAcceleration(ConstantControlParameter.of(0.55));
+        particle.setBestCognitiveAcceleration(ConstantControlParameter.of(0.55));
         
         particle.getInertia().setVelocity(0.2);
         particle.getSocialAcceleration().setVelocity(0.2);

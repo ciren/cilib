@@ -77,7 +77,7 @@ public class ClampingVelocityProviderTest {
     public void testSetVMax() {
         System.out.println("setVMax");
         ClampingVelocityProvider provider = new ClampingVelocityProvider();
-        ControlParameter expectedResult = new ConstantControlParameter(0.55);
+        ControlParameter expectedResult = ConstantControlParameter.of(0.55);
         provider.setVMax(expectedResult);
         ControlParameter result = provider.getVMax();
         
@@ -92,7 +92,7 @@ public class ClampingVelocityProviderTest {
     public void testGetVMax() {
         System.out.println("getVMax");
         ClampingVelocityProvider provider = new ClampingVelocityProvider();
-        ControlParameter expectedResult = new ConstantControlParameter(0.55);
+        ControlParameter expectedResult = ConstantControlParameter.of(0.55);
         provider.setVMax(expectedResult);
         ControlParameter result = provider.getVMax();
         

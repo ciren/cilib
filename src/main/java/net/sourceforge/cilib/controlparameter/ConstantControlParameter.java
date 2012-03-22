@@ -28,8 +28,9 @@ package net.sourceforge.cilib.controlparameter;
 public class ConstantControlParameter implements ParameterAdaptingPSOControlParameter{
     private static final long serialVersionUID = 8847038781478109426L;
     protected double parameter;
+    private ParameterAdaptingPSOControlParameter bestValue;
     
-    public static ControlParameter of(double value) {
+    public static ParameterAdaptingPSOControlParameter of(double value) {
         return new ConstantControlParameter(value);
     }
 
