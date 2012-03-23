@@ -21,18 +21,11 @@
  */
 package net.sourceforge.cilib.pso.niching.merging;
 
-import fj.P2;
-import fj.data.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.niching.Niche;
-import net.sourceforge.cilib.pso.niching.NicheTest;
-import net.sourceforge.cilib.pso.particle.StandardParticle;
+import net.sourceforge.cilib.pso.niching.NichingTest;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
@@ -51,10 +44,10 @@ public class StandardMergeStrategyTest {
         pso1.setTopology(new GBestTopology<Particle>());
         pso2.setTopology(new GBestTopology<Particle>());
 
-        Particle p1 = NicheTest.createParticle(new MinimisationFitness(1.0), Vector.of(0.0, 0.0));
-        Particle p2 = NicheTest.createParticle(new MinimisationFitness(0.0), Vector.of(Math.sqrt(0.6), Math.sqrt(0.6)));
-        Particle p3 = NicheTest.createParticle(new MinimisationFitness(2.0), Vector.of(Math.sqrt(0.3), Math.sqrt(0.3)));
-        Particle p4 = NicheTest.createParticle(new MinimisationFitness(3.0), Vector.of(1.0, 1.0));
+        Particle p1 = NichingTest.createParticle(new MinimisationFitness(1.0), Vector.of(0.0, 0.0));
+        Particle p2 = NichingTest.createParticle(new MinimisationFitness(0.0), Vector.of(Math.sqrt(0.6), Math.sqrt(0.6)));
+        Particle p3 = NichingTest.createParticle(new MinimisationFitness(2.0), Vector.of(Math.sqrt(0.3), Math.sqrt(0.3)));
+        Particle p4 = NichingTest.createParticle(new MinimisationFitness(3.0), Vector.of(1.0, 1.0));
 
         pso1.getTopology().add(p1); pso2.getTopology().add(p2);
         pso2.getTopology().add(p3); pso2.getTopology().add(p4);

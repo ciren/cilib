@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.pso.niching;
 
+import fj.P;
 import fj.P2;
 import fj.data.List;
 import java.util.Arrays;
@@ -53,7 +54,7 @@ import org.junit.Test;
 /**
  *
  */
-public class NicheTest {
+public class NichingTest {
     @Test
     public void testNormalMerge() {
         PSO pso1 = new PSO();
@@ -74,8 +75,8 @@ public class NicheTest {
         pso2.getTopology().add(p3); pso2.getTopology().add(p4);
         pso3.getTopology().add(p5);
 
-        Niche.Swarms merged = Niche.merge(new RadiusOverlapMergeDetection(), new SingleSwarmMergeStrategy(), new StandardMergeStrategy())
-                .f(Niche.Swarms.of(pso3, List.list((PopulationBasedAlgorithm) pso1, pso2)));
+        P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> merged = Niching.merge(new RadiusOverlapMergeDetection(), new SingleSwarmMergeStrategy(), new StandardMergeStrategy())
+                .f(P.p((PopulationBasedAlgorithm) pso3, List.list((PopulationBasedAlgorithm) pso1, pso2)));
 
         Assert.assertEquals(1, merged._1().getTopology().size());
         Assert.assertEquals(1, merged._2().length());
@@ -106,15 +107,15 @@ public class NicheTest {
         pso1.getTopology().addAll(Arrays.asList(p1_1, p1_2));
         pso2.getTopology().addAll(Arrays.asList(p2_1, p2_2));
 
-        P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> merged = Niche.absorbSingleSwarm(new RadiusOverlapMergeDetection(), new SingleSwarmMergeStrategy(), new StandardMergeStrategy())
-                .f(Niche.Swarms.of(pso1, Niche.swarmToAlgorithms.f(mainSwarm)));
+        P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> merged = Niching.absorbSingleSwarm(new RadiusOverlapMergeDetection(), new SingleSwarmMergeStrategy(), new StandardMergeStrategy())
+                .f(P.p((PopulationBasedAlgorithm) pso1, Niching.swarmToAlgorithms.f(mainSwarm)));
 
         Assert.assertEquals(2, merged._1().getTopology().size());
         Assert.assertEquals(3, merged._2().getTopology().size());
         Assert.assertEquals(Vector.of(0.4, 0.4), merged._2().getTopology().get(2).getCandidateSolution());
 
-        merged = Niche.absorbSingleSwarm(new RadiusOverlapMergeDetection(), new SingleSwarmMergeStrategy(), new StandardMergeStrategy())
-                .f(Niche.Swarms.of(pso2, Niche.swarmToAlgorithms.f(mainSwarm)));
+        merged = Niching.absorbSingleSwarm(new RadiusOverlapMergeDetection(), new SingleSwarmMergeStrategy(), new StandardMergeStrategy())
+                .f(P.p((PopulationBasedAlgorithm) pso2, Niching.swarmToAlgorithms.f(mainSwarm)));
 
         Assert.assertEquals(2, merged._1().getTopology().size());
         Assert.assertEquals(3, merged._2().getTopology().size());
@@ -145,8 +146,8 @@ public class NicheTest {
         pso1.getTopology().addAll(Arrays.asList(p1_1, p1_2));
         pso2.getTopology().addAll(Arrays.asList(p2_1, p2_2));
 
-        Niche.Swarms merged = Niche.absorb(new RadiusOverlapMergeDetection(), new SingleSwarmMergeStrategy(), new StandardMergeStrategy())
-                .f(Niche.Swarms.of(mainSwarm, List.list((PopulationBasedAlgorithm) pso1, pso2)));
+        P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> merged = Niching.absorb(new RadiusOverlapMergeDetection(), new SingleSwarmMergeStrategy(), new StandardMergeStrategy())
+                .f(P.p((PopulationBasedAlgorithm) mainSwarm, List.list((PopulationBasedAlgorithm) pso1, pso2)));
 
         Assert.assertEquals(1, merged._1().getTopology().size());
         Assert.assertEquals(2, merged._2().length());
@@ -158,7 +159,7 @@ public class NicheTest {
     public void testEntityToAlgorithm() {
         PSO pso = new PSO();
         pso.setInitialisationStrategy(new ChargedPopulationInitialisationStrategy<Entity>());
-        PopulationBasedAlgorithm a = Niche.entityToAlgorithm.f(
+        PopulationBasedAlgorithm a = Niching.entityToAlgorithm.f(
                 createParticle(new MinimisationFitness(0.0), Vector.of(1.0, 1.0)),
                 pso);
 
@@ -170,7 +171,7 @@ public class NicheTest {
     public void testEntitiesToAlgorithm() {
         PSO pso = new PSO();
         pso.setInitialisationStrategy(new ChargedPopulationInitialisationStrategy<Entity>());
-        List<PopulationBasedAlgorithm> a = Niche.entitiesToAlgorithms.f(Arrays.asList(
+        List<PopulationBasedAlgorithm> a = Niching.entitiesToAlgorithms.f(Arrays.asList(
                 (Entity) createParticle(new MinimisationFitness(0.0), Vector.of(1.0, 1.0)),
                 createParticle(new MinimisationFitness(0.0), Vector.of(2.0, 2.0))),
                 pso);
@@ -191,7 +192,7 @@ public class NicheTest {
                 createParticle(new MinimisationFitness(0.0), Vector.of(1.0, 1.0)),
                 createParticle(new MinimisationFitness(1.0), Vector.of(2.0, 2.0))
                 ));
-        List<PopulationBasedAlgorithm> a = Niche.swarmToAlgorithms.f(pso);
+        List<PopulationBasedAlgorithm> a = Niching.swarmToAlgorithms.f(pso);
 
         Assert.assertEquals(2, a.length());
         Assert.assertEquals(1, a.head().getTopology().size());
@@ -205,7 +206,7 @@ public class NicheTest {
     public void testEmptyPopulation() {
         PSO pso = new PSO();
         pso.setInitialisationStrategy(new ChargedPopulationInitialisationStrategy<Entity>());
-        PopulationBasedAlgorithm a = Niche.emptyPopulation.f(pso);
+        PopulationBasedAlgorithm a = Niching.emptyPopulation.f(pso);
 
         Assert.assertEquals(0, a.getTopology().size());
         Assert.assertEquals(ChargedPopulationInitialisationStrategy.class, a.getInitialisationStrategy().getClass());
@@ -226,14 +227,67 @@ public class NicheTest {
         Assert.assertNull(pso.getTopology().get(0).getNeighbourhoodBest());
         Assert.assertEquals(StandardVelocityProvider.class, pso.getTopology().get(0).getVelocityProvider().getClass());
 
-        PopulationBasedAlgorithm a = Niche.enforceTopology(pb).f(pso);
+        PopulationBasedAlgorithm a = Niching.enforceTopology(pb).f(pso);
 
         Assert.assertNotNull(((Particle) a.getTopology().get(0)).getNeighbourhoodBest());
         Assert.assertEquals(QuantumVelocityProvider.class, ((Particle) a.getTopology().get(0)).getVelocityProvider().getClass());
     }
     
     @Test
-    public void testCreateNiches() {
+    public void testEnforceMainTopology() {
+        ParticleBehavior pb = new ParticleBehavior();
+        pb.setVelocityProvider(new QuantumVelocityProvider());
+
+        PSO pso = new PSO();
+        pso.setInitialisationStrategy(new ChargedPopulationInitialisationStrategy<Entity>());
+        pso.getTopology().addAll(Arrays.asList(
+                createParticle(new MinimisationFitness(0.0), Vector.of(1.0, 1.0)).getClone(),
+                createParticle(new MinimisationFitness(1.0), Vector.of(2.0, 2.0)).getClone()
+                ));
+
+        Assert.assertNull(pso.getTopology().get(0).getNeighbourhoodBest());
+        Assert.assertEquals(StandardVelocityProvider.class, pso.getTopology().get(0).getVelocityProvider().getClass());
+
+        P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> a = Niching.enforceMainSwarmTopology(pb).f(P.p((PopulationBasedAlgorithm) pso, List.<PopulationBasedAlgorithm>nil()));
+
+        Assert.assertNotNull(((Particle) a._1().getTopology().get(0)).getNeighbourhoodBest());
+        Assert.assertEquals(QuantumVelocityProvider.class, ((Particle) a._1().getTopology().get(0)).getVelocityProvider().getClass());
+    }
+    
+    @Test
+    public void testCombineSwarms() {
+        PSO mainSwarm = new PSO();
+        PSO pso1 = new PSO();
+        PSO pso2 = new PSO();
+
+        mainSwarm.setTopology(new GBestTopology<Particle>());
+        pso1.setTopology(new GBestTopology<Particle>());
+        pso2.setTopology(new GBestTopology<Particle>());
+
+        Particle m1 = createParticle(new MinimisationFitness(1.0), Vector.of(0.0, 0.0));
+        Particle m2 = createParticle(new MinimisationFitness(0.0), Vector.of(0.4, 0.4));
+        Particle m3 = createParticle(new MinimisationFitness(3.0), Vector.of(100.0, 12.0));
+
+        Particle p1_1 = createParticle(new MinimisationFitness(0.0), Vector.of(0.3, 0.3));
+        Particle p1_2 = createParticle(new MinimisationFitness(3.0), Vector.of(0.6, 0.6));
+
+        Particle p2_1 = createParticle(new MinimisationFitness(3.0), Vector.of(10.0, 0.0));
+        Particle p2_2 = createParticle(new MinimisationFitness(3.0), Vector.of(100.0, 12.0));
+        
+        mainSwarm.getTopology().addAll(Arrays.asList(m1, m2, m3));
+        pso1.getTopology().addAll(Arrays.asList(p1_1, p1_2));
+        pso2.getTopology().addAll(Arrays.asList(p2_1, p2_2));
+        
+        P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> swarms = 
+                Niching.combineSwarms.f(P.p((PopulationBasedAlgorithm) mainSwarm, Arrays.asList((PopulationBasedAlgorithm)pso1, pso2)));
+        
+        Assert.assertEquals(List.list(0).getClass(), swarms._2().getClass());
+        Assert.assertEquals(2, swarms._2().length());
+        Assert.assertEquals(mainSwarm, swarms._1());
+    }
+    
+    @Test
+    public void testCreateNichings() {
         PSO mainSwarm = new PSO();
         PSO pso1 = new PSO();
         PSO pso2 = new PSO();
@@ -260,14 +314,46 @@ public class NicheTest {
         NicheCreationStrategy creator = new StandardNicheCreationStrategy();
         MergeStrategy merger = new SingleSwarmMergeStrategy();
         
-        Niche.Swarms merged = Niche.createNiches(detector, creator, merger).andThen(Niche.createNiches(detector, creator, merger).andThen(Niche.createNiches(detector, creator, merger)))
-                .f(Niche.Swarms.of(mainSwarm, List.list((PopulationBasedAlgorithm) pso1, pso2)));
+        P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> merged = Niching.createNiches(detector, creator, merger)
+                .andThen(Niching.createNiches(detector, creator, merger)
+                .andThen(Niching.createNiches(detector, creator, merger)))
+                .f(P.p((PopulationBasedAlgorithm) mainSwarm, List.list((PopulationBasedAlgorithm) pso1, pso2)));
 
         Assert.assertEquals(1, merged._1().getTopology().size());
         Assert.assertEquals(3, merged._2().length());
         Assert.assertEquals(2, merged._2().head().getTopology().size());
         Assert.assertEquals(Vector.of(0.0, 0.0), merged._2().head().getTopology().get(0).getCandidateSolution());
         Assert.assertEquals(Vector.of(0.4, 0.4), merged._2().head().getTopology().get(1).getCandidateSolution());
+    }
+    
+    //@Test
+    public void testIterateSwarms() {
+        PSO mainSwarm = new PSO();
+        PSO pso1 = new PSO();
+        PSO pso2 = new PSO();
+
+        mainSwarm.setTopology(new GBestTopology<Particle>());
+        pso1.setTopology(new GBestTopology<Particle>());
+        pso2.setTopology(new GBestTopology<Particle>());
+
+        Particle m1 = createParticle(new MinimisationFitness(1.0), Vector.of(0.0, 0.0));
+        Particle m2 = createParticle(new MinimisationFitness(0.0), Vector.of(0.4, 0.4));
+        Particle m3 = createParticle(new MinimisationFitness(3.0), Vector.of(100.0, 12.0));
+
+        Particle p1_1 = createParticle(new MinimisationFitness(0.0), Vector.of(0.3, 0.3));
+        Particle p1_2 = createParticle(new MinimisationFitness(3.0), Vector.of(0.6, 0.6));
+
+        Particle p2_1 = createParticle(new MinimisationFitness(3.0), Vector.of(10.0, 0.0));
+        Particle p2_2 = createParticle(new MinimisationFitness(3.0), Vector.of(100.0, 12.0));
+        
+        mainSwarm.getTopology().addAll(Arrays.asList(m1, m2, m3));
+        pso1.getTopology().addAll(Arrays.asList(p1_1, p1_2));
+        pso2.getTopology().addAll(Arrays.asList(p2_1, p2_2));
+        
+        P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> swarms =
+                Niching.iterateAllSwarms.f(P.p((PopulationBasedAlgorithm) mainSwarm, List.list((PopulationBasedAlgorithm) pso1, pso2)));
+        
+        
     }
 
     public static Particle createParticle(Fitness fitness, Vector position) {

@@ -24,11 +24,10 @@ package net.sourceforge.cilib.pso.niching.creation;
 import fj.P2;
 import java.util.Arrays;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.niching.NicheTest;
+import net.sourceforge.cilib.pso.niching.NichingTest;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
@@ -41,9 +40,9 @@ public class StandardNicheCreationStrategyTest {
     
     @Test
     public void testCreation() {
-        Particle p1 = NicheTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
-        Particle p2 = NicheTest.createParticle(new MinimisationFitness(2.0), Vector.of(1.0, 1.0));
-        Particle p3 = NicheTest.createParticle(new MinimisationFitness(1.0), Vector.of(2.0, 2.0));
+        Particle p1 = NichingTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
+        Particle p2 = NichingTest.createParticle(new MinimisationFitness(2.0), Vector.of(1.0, 1.0));
+        Particle p3 = NichingTest.createParticle(new MinimisationFitness(1.0), Vector.of(2.0, 2.0));
         
         PSO pso = new PSO();        
         pso.getTopology().addAll(Arrays.asList(p1, p2, p3));
@@ -57,21 +56,4 @@ public class StandardNicheCreationStrategyTest {
         Assert.assertEquals(Vector.of(0.0, 1.0), swarms._2().getTopology().get(0).getCandidateSolution());
         Assert.assertEquals(Vector.of(1.0, 1.0), swarms._2().getTopology().get(1).getCandidateSolution());
     }
-    
-    /*@Test
-    public void testSingleCreation() {
-        Particle p1 = NicheTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
-        
-        PSO pso = new PSO();        
-        pso.getTopology().add(p1);
-        
-        StandardNicheCreationStrategy creator = new StandardNicheCreationStrategy();
-        P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> swarms = creator.f(pso, p1);
-        
-        Assert.assertEquals(1, swarms._1().getTopology().size());
-        Assert.assertEquals(Vector.of(2.0, 2.0), swarms._1().getTopology().get(0).getCandidateSolution());
-        Assert.assertEquals(2, swarms._2().getTopology().size());
-        Assert.assertEquals(Vector.of(0.0, 1.0), swarms._2().getTopology().get(0).getCandidateSolution());
-        Assert.assertEquals(Vector.of(1.0, 1.0), swarms._2().getTopology().get(1).getCandidateSolution());
-    }*/
 }

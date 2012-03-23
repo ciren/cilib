@@ -26,7 +26,7 @@ import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.niching.NicheTest;
+import net.sourceforge.cilib.pso.niching.NichingTest;
 import net.sourceforge.cilib.type.types.container.Vector;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -47,10 +47,10 @@ public class RadiusOverlapMergeDetectionTest {
         pso1.setTopology(new GBestTopology());
         pso2.setTopology(new GBestTopology());
         
-        Particle p1 = NicheTest.createParticle(new MinimisationFitness(0.0), Vector.of(0.0, 1.0));
-        Particle p2 = NicheTest.createParticle(new MinimisationFitness(1.0), Vector.of(0.0, 0.0));
-        Particle p3 = NicheTest.createParticle(new MinimisationFitness(2.0), Vector.of(10.0, 10.0));
-        Particle p4 = NicheTest.createParticle(new MinimisationFitness(3.0), Vector.of(10.0, 11.0));
+        Particle p1 = NichingTest.createParticle(new MinimisationFitness(0.0), Vector.of(0.0, 1.0));
+        Particle p2 = NichingTest.createParticle(new MinimisationFitness(1.0), Vector.of(0.0, 0.0));
+        Particle p3 = NichingTest.createParticle(new MinimisationFitness(2.0), Vector.of(10.0, 10.0));
+        Particle p4 = NichingTest.createParticle(new MinimisationFitness(3.0), Vector.of(10.0, 11.0));
         
         pso1.getTopology().add(p1); pso1.getTopology().add(p2);
         pso2.getTopology().add(p3); pso2.getTopology().add(p4);
@@ -68,10 +68,10 @@ public class RadiusOverlapMergeDetectionTest {
         pso1.setTopology(new GBestTopology());
         pso2.setTopology(new GBestTopology());
         
-        Particle p1 = NicheTest.createParticle(new MinimisationFitness(0.0), Vector.of(0.0, 1.0));
-        Particle p2 = NicheTest.createParticle(new MinimisationFitness(1.0), Vector.of(0.0, 0.0));
-        Particle p3 = NicheTest.createParticle(new MinimisationFitness(2.0), Vector.of(1.0, 1.0));
-        Particle p4 = NicheTest.createParticle(new MinimisationFitness(3.0), Vector.of(1.0, 0.0));
+        Particle p1 = NichingTest.createParticle(new MinimisationFitness(0.0), Vector.of(0.0, 1.0));
+        Particle p2 = NichingTest.createParticle(new MinimisationFitness(1.0), Vector.of(0.0, 0.0));
+        Particle p3 = NichingTest.createParticle(new MinimisationFitness(2.0), Vector.of(1.0, 1.0));
+        Particle p4 = NichingTest.createParticle(new MinimisationFitness(3.0), Vector.of(1.0, 0.0));
         
         pso1.getTopology().add(p1); pso1.getTopology().add(p2);
         pso2.getTopology().add(p3); pso2.getTopology().add(p4);
@@ -89,10 +89,10 @@ public class RadiusOverlapMergeDetectionTest {
         pso1.setTopology(new GBestTopology());
         pso2.setTopology(new GBestTopology());
         
-        Particle p1 = NicheTest.createParticle(new MinimisationFitness(0.0), Vector.of(0.0, 1.0 + Maths.EPSILON));
-        Particle p2 = NicheTest.createParticle(new MinimisationFitness(1.0), Vector.of(0.0, 1.0));
-        Particle p3 = NicheTest.createParticle(new MinimisationFitness(2.0), Vector.of(0.0 + Maths.EPSILON, 1.0));
-        Particle p4 = NicheTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
+        Particle p1 = NichingTest.createParticle(new MinimisationFitness(0.0), Vector.of(0.0, 1.0 + Maths.EPSILON));
+        Particle p2 = NichingTest.createParticle(new MinimisationFitness(1.0), Vector.of(0.0, 1.0));
+        Particle p3 = NichingTest.createParticle(new MinimisationFitness(2.0), Vector.of(0.0 + Maths.EPSILON, 1.0));
+        Particle p4 = NichingTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
         
         pso1.getTopology().add(p1); pso1.getTopology().add(p2);
         pso2.getTopology().add(p3); pso2.getTopology().add(p4);

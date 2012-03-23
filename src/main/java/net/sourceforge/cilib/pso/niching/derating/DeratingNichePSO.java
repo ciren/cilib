@@ -29,7 +29,6 @@ import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationSt
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
@@ -41,15 +40,11 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
-//import net.sourceforge.cilib.pso.niching.absorption.AbsorptionStrategy;
-import net.sourceforge.cilib.pso.niching.merging.MergeStrategy;
-import net.sourceforge.cilib.pso.niching.Niche;
-import net.sourceforge.cilib.pso.niching.creation.NicheCreationStrategy;
 import net.sourceforge.cilib.pso.niching.creation.NicheDetection;
-//import net.sourceforge.cilib.pso.niching.absorption.StandardAbsorptionStrategy;
-import net.sourceforge.cilib.pso.niching.merging.StandardMergeStrategy;
-import net.sourceforge.cilib.pso.niching.creation.StandardNicheDetection;
 import net.sourceforge.cilib.pso.niching.creation.StandardNicheCreationStrategy;
+import net.sourceforge.cilib.pso.niching.creation.StandardNicheDetection;
+import net.sourceforge.cilib.pso.niching.merging.MergeStrategy;
+import net.sourceforge.cilib.pso.niching.merging.StandardMergeStrategy;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityprovider.GCVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
@@ -59,7 +54,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  *
  */
-public class DeratingNichePSO extends Niche {
+public class DeratingNichePSO extends MultiPopulationBasedAlgorithm {
 
     private PopulationBasedAlgorithm mainSwarm;
     private NicheDetection nicheIdentificationStrategy;
@@ -339,7 +334,6 @@ public class DeratingNichePSO extends Niche {
     /**
      * @param mainSwarm the mainSwarm to set
      */
-    @Override
     public void setMainSwarm(PopulationBasedAlgorithm mainSwarm) {
         this.mainSwarm = mainSwarm;
     }
@@ -347,7 +341,6 @@ public class DeratingNichePSO extends Niche {
     /**
      * @return the mainSwarm
      */
-    @Override
     public PopulationBasedAlgorithm getMainSwarm() {
         return this.mainSwarm;
     }

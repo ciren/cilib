@@ -24,7 +24,7 @@ package net.sourceforge.cilib.pso.niching.creation;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.MinimisationFitness;
-import net.sourceforge.cilib.pso.niching.NicheTest;
+import net.sourceforge.cilib.pso.niching.NichingTest;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
@@ -38,8 +38,8 @@ public class StandardNicheDetectionTest {
     
     @Test
     public void testDetection() {
-        Particle p1 = NicheTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
-        Particle p2 = NicheTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
+        Particle p1 = NichingTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
+        Particle p2 = NichingTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
         
         StandardNicheDetection detection = new StandardNicheDetection();
         Assert.assertFalse(detection.f(p1));
