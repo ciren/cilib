@@ -36,9 +36,7 @@ public class RandomControlParameter implements ControlParameter {
     private double upperBound;
 
     public RandomControlParameter() {
-        this.distribution = new UniformDistribution();
-        this.lowerBound = 0.0;
-        this.upperBound = 1.0;
+        this(new UniformDistribution());
     }
 
     public RandomControlParameter(ProbabilityDistributionFuction distribution) {

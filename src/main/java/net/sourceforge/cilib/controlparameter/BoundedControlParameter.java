@@ -42,6 +42,7 @@ public class BoundedControlParameter implements ControlParameter {
     
     public BoundedControlParameter(BoundedControlParameter copy) {
         this.bounds = copy.bounds;
+        this.controlParameter = copy.controlParameter.getClone();
     }
     
     @Override
@@ -56,15 +57,7 @@ public class BoundedControlParameter implements ControlParameter {
     
     @Override
     public double getParameter(double min, double max) {
-        double value = controlParameter.getParameter();
-        
-        if (value < min) {
-            return min;
-        } else if (value > max) {
-            return max;
-        }
-        
-        return value;
+        return Math.max(min, Math.min(max, controlParameter.getParameter()));
     }
 
     public Bounds getBounds() {
