@@ -58,13 +58,9 @@ public class ForwardingLayer extends Layer {
     @Override
     public Vector getActivations() {
         Vector activations = new Vector();
-        int size = this.source.size();
+        int size = this.size();
         for (int i = 0; i < size; i++) {
-            activations.add(Real.valueOf(source.getNeuralInput(i)));
-        }
-        int thisSize = size - sourceSize + 1;
-        for (int i = 0; i < thisSize; i++) {
-            activations.add(Real.valueOf(this.get(i).getActivation()));
+            activations.add(Real.valueOf(getNeuralInput(i)));
         }
         return activations;
     }
