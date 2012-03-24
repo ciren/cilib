@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.util;
 
+import java.util.Arrays;
+import java.util.List;
 import net.sourceforge.cilib.type.types.Bounds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -79,9 +81,36 @@ public class VectorsTest {
         Vector v4 = Vector.of(1.0);
         Vector v5 = Vector.of(1.0);
 
-        Vector result = Vectors.sumOf(v1, v2, v3, v4, v5);
+        Vector result1 = Vectors.sumOf(v1, v2, v3, v4, v5);
+        Vector result2 = Vectors.sumOf(Arrays.asList(v1, v2, v3, v4, v5));
 
-        Assert.assertThat(result.doubleValueOf(0), is(5.0));
+        Assert.assertThat(result1.doubleValueOf(0), is(5.0));
+        Assert.assertThat(result2.doubleValueOf(0), is(5.0));
     }
 
+    @Test
+    public void vectorMean() {
+        Vector v1 = Vector.of(1.0);
+        Vector v2 = Vector.of(1.0);
+        Vector v3 = Vector.of(1.0);
+        Vector v4 = Vector.of(1.0);
+        Vector v5 = Vector.of(1.0);
+
+        Vector result1 = Vectors.mean(v1, v2, v3, v4, v5);
+        Vector result2 = Vectors.mean(Arrays.asList(v1, v2, v3, v4, v5));
+
+        Assert.assertThat(result1.doubleValueOf(0), is(1.0));
+        Assert.assertThat(result2.doubleValueOf(0), is(1.0));
+    }
+    
+    @Test
+    public void testOrthonormalize() {
+        List<Vector> vectors = Arrays.asList(Vector.of(3.0, 1.0), Vector.of(2.0, 2.0));
+        List<Vector> ortho = Vectors.orthonormalize(vectors);
+        
+        assertEquals(ortho.get(0).doubleValueOf(0), 3.0 / Math.sqrt(10), 0.00000001);
+        assertEquals(ortho.get(0).doubleValueOf(1), 1.0 / Math.sqrt(10), 0.00000001);
+        assertEquals(ortho.get(1).doubleValueOf(0), -2.0 / 5.0 / Math.sqrt(40.0 / 25.0), 0.00000001);
+        assertEquals(ortho.get(1).doubleValueOf(1), 6.0 / 5.0 / Math.sqrt(40.0 / 25.0), 0.00000001);
+    }
 }
