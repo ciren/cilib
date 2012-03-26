@@ -518,21 +518,4 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     public List<E> subList(int fromIndex, int toIndex) {
         throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getId() {
-        return null;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setId(String id) {
-
-    }
-
 }

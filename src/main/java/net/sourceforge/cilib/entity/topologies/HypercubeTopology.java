@@ -23,24 +23,20 @@ package net.sourceforge.cilib.entity.topologies;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 import net.sourceforge.cilib.entity.Entity;
 
 /**
  * @param <E> The {@linkplain Entity} type.
  */
-public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
+public class HypercubeTopology<E extends Entity> extends LBestTopology<E> {
     private static final long serialVersionUID = -8328600903928335004L;
-    private int neighbourhoodSize;
 
     public HypercubeTopology() {
         super();
-        neighbourhoodSize = 5;
     }
 
     public HypercubeTopology(HypercubeTopology<E> copy) {
         super(copy);
-        this.neighbourhoodSize = copy.neighbourhoodSize;
     }
 
     /**
@@ -59,50 +55,10 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
         return new HypercubeNeighbourhoodIterator<E>(this, (IndexedIterator<E>) iterator);
     }
 
-    /**
-     * Sets the number particles in the neighbourhood of each particle. The default is 5.
-     *
-     * @param neighbourhoodSize The size of the neighbourhood.
-     */
-    public void setNeighbourhoodSize(int neighbourhoodSize) {
-        this.neighbourhoodSize = neighbourhoodSize;
-    }
-
-    /**
-     * Accessor for the number of particles in a neighbourhood.
-     *
-     * @return The size of the neighbourhood.
-     */
-    public int getNeighbourhoodSize() {
-           return neighbourhoodSize;
-    }
-
-    private class HypercubeNeighbourhoodIterator<T extends Entity> implements IndexedIterator<T> {
-        private HypercubeTopology<T> topology;
-        private int index;
-        private int count;
+    protected class HypercubeNeighbourhoodIterator<T extends Entity> extends LBestNeighbourhoodIterator<T> {
 
         public HypercubeNeighbourhoodIterator(HypercubeTopology<T> topology, IndexedIterator<T> iterator) {
-            if (iterator.getIndex() == -1) {
-                throw new IllegalStateException();
-            }
-            this.topology = topology;
-            index = iterator.getIndex();
-
-            if (index < 0)
-                index += topology.size();
-
-            count = 0;
-        }
-
-        @Override
-        public int getIndex() {
-            return index;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return (count < topology.getNeighbourhoodSize());
+            super(topology, iterator);
         }
 
         @Override

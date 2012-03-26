@@ -43,19 +43,6 @@ public interface Topology<E extends Entity> extends List<E>, Cloneable {
     Topology<E> getClone();
 
     /**
-     * Get the <code>id</code> associated with this {@linkplain Topology}, if
-     * an id is defined.
-     * @return The <code>id</code> for this {@linkplain Topology}.
-     */
-    String getId();
-
-    /**
-     * Set the <code>id</code> for this {@linkplain Topology}.
-     * @param id The value to set.
-     */
-    void setId(String id);
-
-    /**
      * Obtain the current best entity within the {@code Topology}.
      * @return The best {@code Entity}.
      */
