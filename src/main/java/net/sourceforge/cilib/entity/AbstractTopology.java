@@ -103,14 +103,6 @@ public abstract class AbstractTopology<E extends Entity> implements Topology<E> 
         return bestEntity;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void update() {
-    }
-
-
     @Override
     public boolean containsAll(Collection<?> c) {
         Iterator<?> e = c.iterator();

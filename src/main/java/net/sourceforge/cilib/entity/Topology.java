@@ -34,7 +34,7 @@ import net.sourceforge.cilib.util.Cloneable;
  *
  * @param <E> All types derived from {@linkplain Entity}.
  */
-public interface Topology<E extends Entity> extends Iterable<E>, List<E>, Cloneable {
+public interface Topology<E extends Entity> extends List<E>, Cloneable {
 
     /**
      * {@inheritDoc}
@@ -83,13 +83,6 @@ public interface Topology<E extends Entity> extends Iterable<E>, List<E>, Clonea
      * @param visitor The instance to accept into the {@code Topology}.
      */
     void accept(TopologyVisitor visitor);
-
-    /**
-     * Perform any required updates to the {@linkplain Topology} instance.
-     * The method in has an empty implementation and needs to be overridden
-     * within the required subclass.
-     */
-    void update();
 
     /**
      * Returns an <code>Iterator</code> over all particles in the neighbourhood of
