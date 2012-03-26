@@ -21,9 +21,9 @@
  */
 package net.sourceforge.cilib.entity.topologies;
 
-import com.google.common.collect.Lists;
 import java.util.*;
-import net.sourceforge.cilib.entity.AbstractTopology;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 
 /**
@@ -41,43 +41,25 @@ import net.sourceforge.cilib.entity.Entity;
  *
  * @param <E> A {@linkplain Entity} instance.
  */
-public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
+public class VonNeumannTopology<E extends Entity> extends LBestTopology<E> {
     private static final long serialVersionUID = -4795901403887110994L;
 
     private enum Direction { CENTER, NORTH, EAST, SOUTH, WEST, DONE };
-    private ArrayList<ArrayList<E>> entities;
-    private int lastRow;
-    private int lastCol;
 
     /**
      * Creates a new instance of <code>VonNeumannTopology</code>.
      */
     public VonNeumannTopology() {
-        this.entities = Lists.<ArrayList<E>>newArrayList();
-        this.lastRow = 0;
-        this.lastCol = -1;
+        super();
+        this.neighbourhoodSize = ConstantControlParameter.of(5);
     }
 
     /**
      * Copy constructor. Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    @SuppressWarnings("unchecked")
     public VonNeumannTopology(VonNeumannTopology<E> copy) {
-        this.entities = Lists.<ArrayList<E>>newArrayList();
-        
-        for (ArrayList<E> list : copy.entities) {
-            ArrayList<E> tmpList = new ArrayList<E>(list.size());
-
-            for (E e : list) {
-                tmpList.add((E) e.getClone());
-            }
-
-            this.entities.add(tmpList);
-        }
-
-        this.lastRow = copy.lastRow;
-        this.lastCol = copy.lastCol;
+        super(copy);
     }
 
     /**
@@ -91,186 +73,38 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Override
     public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
-        MatrixIterator<E> i = (MatrixIterator<E>) iterator;
-        return new VonNeumannNeighbourhoodIterator<E>(this, i);
+        return new VonNeumannNeighbourhoodIterator<E>(this, (IndexedIterator<E>) iterator);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public Iterator<E> iterator() {
-        return new VonNeumannTopologyIterator<E>(this);
+    public int getNeighbourhoodSize() {
+        return 5;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public boolean add(E particle) {
-        int min = entities.size();
-        
-        ArrayList<E> shortest = null;
-        for (ArrayList<E> tmp : entities) {
-            if (tmp.size() < min) {
-                shortest = tmp;
-                min = tmp.size();
-            }
-        }
-        
-        if (shortest == null) {
-            shortest = new ArrayList<E>(entities.size() + 1);
-            entities.add(shortest);
-        }
-        
-        shortest.add(particle);
-
-        lastRow = entities.size() - 1;
-        lastCol = entities.get(lastRow).size() - 1;
-
-        return true;
+    public void setNeighbourhoodSize(ControlParameter neighbourhoodSize) {
+        // This is fixed to 5 so cant change it
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean addAll(Collection<? extends E> set) {
-        this.entities.ensureCapacity(this.entities.size()+set.size());
-        Iterator<? extends E> i = set.iterator();
+    private class VonNeumannNeighbourhoodIterator<T extends Entity> extends LBestNeighbourhoodIterator<T> {
 
-        while (i.hasNext()) {
-            this.add(i.next());
-        }
+        private final int sqSide;
+        private final int nRows;
+        private final int row;
+        private final int col;
+        private Direction element;
 
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int size() {
-        int size = 0;
-
-        for (ArrayList<E> i : entities)
-            size += i.size();
-
-        return size;
-    }
-
-    private void remove(int x, int y) {
-        ArrayList<E> row = entities.get(x);
-        row.remove(y);
-        
-        if (row.isEmpty()) {
-            entities.remove(x);
-        }
-
-        lastRow = entities.size() - 1;
-        lastCol = entities.get(lastRow).size() - 1;
-    }
-
-    private interface MatrixIterator<T extends Entity> extends Iterator<T> {
-        public int getRow();
-        public int getCol();
-    }
-
-    private class VonNeumannTopologyIterator<T extends Entity> implements MatrixIterator<T> {
-
-        private int row;
-        private int col;
-        private VonNeumannTopology<T> topology;
-
-        public VonNeumannTopologyIterator(VonNeumannTopology<T> topology) {
-            this.topology = topology;
-            row = 0;
-            col = -1;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean hasNext() {
-            return row != topology.lastRow || col != topology.lastCol;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public T next() {
-            if (row == topology.lastRow && col == topology.lastCol) {
-                throw new NoSuchElementException();
-            }
-
-            ++col;
-            if (col >= entities.get(row).size()) {
-                ++row;
-                col = 0;
-            }
-
-            return topology.entities.get(row).get(col);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void remove() {
-            if (col == -1) {
-                throw new IllegalStateException();
-            }
-
-            topology.remove(row, col);
-
-            --col;
-            if (row != 0 && col < 0) {
-                --row;
-                col = topology.entities.get(row).size() - 1;
-            }
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public int getRow() {
-            return row;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public int getCol() {
-            return col;
-        }
-    }
-
-    private class VonNeumannNeighbourhoodIterator<T extends Entity> implements MatrixIterator<T> {
-
-        private int x;
-        private int y;
-        private int row;
-        private int col;
-        private Direction index;
-        private VonNeumannTopology<T> topology;
-
-
-        public VonNeumannNeighbourhoodIterator(VonNeumannTopology<T> topology, MatrixIterator<T> iterator) {
-            if (iterator.getCol() == -1) {
-                throw new IllegalStateException();
-            }
+        public VonNeumannNeighbourhoodIterator(LBestTopology<T> topology, IndexedIterator<T> iterator) {
+            super(topology, iterator)         ;
             
-            this.topology = topology;
-            this.row = x = iterator.getRow();
-            this.col = y = iterator.getCol();
-            this.index = Direction.CENTER;
+            this.sqSide = (int) Math.round(Math.sqrt(topology.size()));
+            this.row = iterator.getIndex() / sqSide;
+            this.col = iterator.getIndex() % sqSide;
+            this.nRows = (int) Math.ceil(topology.size() / (double) sqSide);
+            this.index = row * sqSide + col;
+            this.element = Direction.CENTER;
         }
 
         /**
@@ -278,7 +112,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
          */
         @Override
         public boolean hasNext() {
-            return (index != Direction.DONE);
+            return (element != Direction.DONE);
         }
 
         /**
@@ -286,66 +120,47 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
          */
         @Override
         public T next() {
-            switch (index) {
-                case CENTER: {
-                    row = x;
-                    col = y;
+            int r;
+            int c;
+            
+            switch (element) {
+                case CENTER:
+                    r = row;
+                    c = col;
                     break;
-                }
 
-                case NORTH: {
-                    row = x - 1;
-                    col = y;
-                    while (true) {
-                        if (row < 0) {
-                            row = topology.entities.size() - 1;
-                        }
-                        if (col < topology.entities.get(row).size()) {
-                            break;
-                        }
-                        --row;
+                case NORTH:
+                    r = (row - 1 + nRows) % nRows;
+                    c = col;
+                    while (c >= getColumnsInRow(r)) {
+                        r = (--r + nRows) % nRows;
                     }
                     break;
-                }
 
-                case EAST: {
-                    row = x;
-                    col = y + 1;
-                    if (col >= topology.entities.get(row).size()) {
-                        col = 0;
-                    }
+                case EAST:
+                    r = row;
+                    c = (col + 1) % getColumnsInRow(r);
                     break;
-                }
 
-                case SOUTH: {
-                    row = x + 1;
-                    col = y;
-                    while (true) {
-                        if (row >= topology.entities.size()) {
-                            row = 0;
-                        }
-                        if (col < topology.entities.get(row).size()) {
-                            break;
-                        }
-                        ++row;
-                    }
+                case SOUTH:
+                    r = (row + 1) % nRows;
+                    c = col;                    
+                    while (c >= getColumnsInRow(r)) {
+                        r = ++r % nRows;
+                    }                    
                     break;
-                }
 
-                case WEST: {
-                    row = x;
-                    col = y - 1;
-                    if (col < 0) {
-                        col = topology.entities.get(row).size() - 1;
-                    }
+                case WEST:
+                    r = row;
+                    c = (col - 1 + getColumnsInRow(r)) % getColumnsInRow(r);
                     break;
-                }
 
                 default: throw new NoSuchElementException();
             }
 
-            index = Direction.values()[index.ordinal()+1];
-            return topology.entities.get(row).get(col);
+            index = r * sqSide + c;
+            element = Direction.values()[element.ordinal()+1];
+            return topology.entities.get(index);
         }
 
         /**
@@ -353,193 +168,14 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
          */
         @Override
         public void remove() {
-            topology.remove(row, col);
-            if (index == Direction.CENTER) {
-                index = Direction.DONE;
+            topology.remove(index);
+            if (element == Direction.CENTER) {
+                element = Direction.DONE;
             }
         }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public int getRow() {
-            return row;
+        
+        private int getColumnsInRow(int r) {
+            return r == nRows - 1 ? topology.size() - r * sqSide : sqSide;
         }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public int getCol() {
-            return col;
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean remove(E indiv) {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public E get(int index) {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public E set(int index, E indiv) {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isEmpty() {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void clear() {
-        this.entities.clear();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean contains(Object o) {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object o) {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int hashCode() {
-        return this.entities.hashCode() + this.lastCol*6 + this.lastRow*8;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean remove(Object o) {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Object[] toArray() {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public <T> T[] toArray(T[] a) {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean addAll(int index, Collection<? extends E> c) {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void add(int index, E element) {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public E remove(int index) {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int indexOf(Object o) {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int lastIndexOf(Object o) {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ListIterator<E> listIterator() {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ListIterator<E> listIterator(int index) {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<E> subList(int fromIndex, int toIndex) {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
     }
 }

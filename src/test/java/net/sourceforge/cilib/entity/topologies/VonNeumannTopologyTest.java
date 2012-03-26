@@ -98,12 +98,12 @@ public class VonNeumannTopologyTest {
         for (int c = 0; c < 5; ++c) {
             p = (DumbParticle) i.next();
         }
-        assertEquals("4", p.getParticleName());
+        assertEquals("5", p.getParticleName());
 
         Iterator<Particle> j = square.neighbourhood(i);
 
         int count = 0;
-        int nid[] = {4, 3, 8, 6, 2};
+        int nid[] = {5, 2, 6, 8, 4};
         while (j.hasNext()) {
             p = (DumbParticle) j.next();
             assertEquals(String.valueOf(nid[count]), p.getParticleName());
@@ -124,7 +124,7 @@ public class VonNeumannTopologyTest {
         j = irregular.neighbourhood(i);
 
         count = 0;
-        int nnid[] = {1, 10, 3, 2, 7};
+        int nnid[] = {1, 10, 2, 4, 3};
         while (j.hasNext()) {
             p = (DumbParticle) j.next();
             assertEquals(String.valueOf(nnid[count]), p.getParticleName());
@@ -140,7 +140,7 @@ public class VonNeumannTopologyTest {
         j = irregular.neighbourhood(i);
 
         count = 0;
-        int nnnid[] = {9, 8, 5, 7, 6};
+        int nnnid[] = {9, 6, 7, 3, 8};
         while (j.hasNext()) {
             p = (DumbParticle) j.next();
             assertEquals(String.valueOf(nnnid[count]), p.getParticleName());
@@ -154,7 +154,7 @@ public class VonNeumannTopologyTest {
         j = irregular.neighbourhood(i);
 
         count = 0;
-        int nnnnid[] = {10, 5, 10, 1, 10};
+        int nnnnid[] = {10, 7, 10, 1, 10};
         while (j.hasNext()) {
             p = (DumbParticle) j.next();
             assertEquals(String.valueOf(nnnnid[count]), p.getParticleName());
@@ -167,7 +167,8 @@ public class VonNeumannTopologyTest {
     private static Topology<Particle> square;
     private static Topology<Particle> irregular;
 
-    private int[] id = {1, 3, 7, 2, 4, 8, 5, 6, 9, 10};
+    //private int[] id = {1, 3, 7, 2, 4, 8, 5, 6, 9, 10};
+    private int[] id = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     private static class DumbParticle extends AbstractParticle {
         private static final long serialVersionUID = 4273664052866515691L;
