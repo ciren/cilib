@@ -387,17 +387,6 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
-    public List<E> asList() {
-        List<E> entityList = new ArrayList<E>();
-        for (ArrayList<E> i : entities){
-            entityList.addAll(i);
-        }
-        return entityList;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public boolean isEmpty() {
         throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
     }

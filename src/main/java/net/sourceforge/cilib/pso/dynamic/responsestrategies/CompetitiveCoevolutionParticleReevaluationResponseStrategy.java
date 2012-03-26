@@ -61,7 +61,7 @@ public class CompetitiveCoevolutionParticleReevaluationResponseStrategy<E extend
           //select new competitors and re-evaluate PBest vector of Particle
          PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get(); //the current sub population algorithm
          int populationID = -1;
-         for(Entity e: currentAlgorithm.getTopology().asList()) {
+         for(Entity e: currentAlgorithm.getTopology()) {
              if(!(e instanceof AbstractParticle))
                  throw new RuntimeException("CompetitiveCoevolutionParticleReevaluationResponseStrategy should only be used with Particles");
              if(populationID == -1)

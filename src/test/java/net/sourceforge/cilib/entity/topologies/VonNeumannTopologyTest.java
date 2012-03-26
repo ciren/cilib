@@ -163,12 +163,6 @@ public class VonNeumannTopologyTest {
         assertEquals(5, count);
     }
 
-    @Test
-    public void topologyAsList() {
-        assertEquals(9, square.asList().size());
-        assertEquals(10, irregular.asList().size());
-    }
-
     private static Topology<Particle> empty;
     private static Topology<Particle> square;
     private static Topology<Particle> irregular;

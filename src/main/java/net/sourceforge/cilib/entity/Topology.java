@@ -34,7 +34,7 @@ import net.sourceforge.cilib.util.Cloneable;
  *
  * @param <E> All types derived from {@linkplain Entity}.
  */
-public interface Topology<E> extends Iterable<E>, List<E>, Cloneable {
+public interface Topology<E extends Entity> extends Iterable<E>, List<E>, Cloneable {
 
     /**
      * {@inheritDoc}
@@ -54,12 +54,6 @@ public interface Topology<E> extends Iterable<E>, List<E>, Cloneable {
      * @param id The value to set.
      */
     void setId(String id);
-
-    /**
-     * Get all the entities within the topology.
-     * @return Collection. Data collection of all the entities
-     */
-    List<E> asList();
 
     /**
      * Obtain the current best entity within the {@code Topology}.

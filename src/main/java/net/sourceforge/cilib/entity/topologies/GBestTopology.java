@@ -105,11 +105,6 @@ public class GBestTopology<E extends Entity> extends AbstractTopology<E> {
     }
 
     @Override
-    public List<E> asList() {
-        return new ArrayList<E>(this.entities);
-    }
-
-    @Override
     public boolean isEmpty() {
         return this.entities.isEmpty();
     }

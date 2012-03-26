@@ -71,7 +71,7 @@ public class RandToBestCreationStrategy extends RandCreationStrategy {
             Topology<? extends Entity> topology) {
         Entity bestEntity = topology.getBestEntity();
         RandomProvider random = new MersenneTwister();
-        List<Entity> participants = (List<Entity>) Selection.copyOf(topology.asList())
+        List<Entity> participants = (List<Entity>) Selection.copyOf(topology)
                 .exclude(targetEntity, bestEntity, current)
                 .orderBy(new RandomArrangement(random))
                 .select(Samples.first((int) numberOfDifferenceVectors.getParameter()).unique());

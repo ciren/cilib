@@ -79,9 +79,7 @@ public class RandPerDimensionCreationStrategy implements CreationStrategy {
      */
     @Override
     public Entity create(Entity targetEntity, Entity current, Topology<? extends Entity> topology) {
-        RandomProvider random = new MersenneTwister();
-        
-        List<Entity> participants = (List<Entity>) Selection.copyOf(topology.asList())
+        List<Entity> participants = (List<Entity>) Selection.copyOf(topology)
                 .exclude(targetEntity, current)
                 .select(Samples.all());
         Vector differenceVector = determineDistanceVector(participants);

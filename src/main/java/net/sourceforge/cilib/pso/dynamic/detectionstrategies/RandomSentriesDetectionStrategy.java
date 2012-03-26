@@ -28,6 +28,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
@@ -78,7 +79,7 @@ public class RandomSentriesDetectionStrategy<E extends PopulationBasedAlgorithm>
     @Override
     public boolean detect(E algorithm) {
         if (algorithm.getIterations() % interval == 0) {
-            List<? extends Entity> all = algorithm.getTopology().asList();
+            Topology<? extends Entity> all = algorithm.getTopology();
 
             for (int i = 0; i < numberOfSentries.getParameter(); i++) {
                 // select random sentry entity
