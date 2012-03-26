@@ -21,13 +21,8 @@
  */
 package net.sourceforge.cilib.entity.topologies;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
-
+import com.google.common.collect.Lists;
+import java.util.*;
 import net.sourceforge.cilib.entity.AbstractTopology;
 import net.sourceforge.cilib.entity.Entity;
 
@@ -58,9 +53,9 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
      * Creates a new instance of <code>VonNeumannTopology</code>.
      */
     public VonNeumannTopology() {
-        entities = new ArrayList<ArrayList<E>>();
-        lastRow = 0;
-        lastCol = -1;
+        this.entities = Lists.<ArrayList<E>>newArrayList();
+        this.lastRow = 0;
+        this.lastCol = -1;
     }
 
     /**
@@ -69,7 +64,8 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
      */
     @SuppressWarnings("unchecked")
     public VonNeumannTopology(VonNeumannTopology<E> copy) {
-        this.entities = new ArrayList<ArrayList<E>>(copy.entities.size());
+        this.entities = Lists.<ArrayList<E>>newArrayList();
+        
         for (ArrayList<E> list : copy.entities) {
             ArrayList<E> tmpList = new ArrayList<E>(list.size());
 
@@ -87,6 +83,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public VonNeumannTopology<E> getClone() {
         return new VonNeumannTopology<E>(this);
     }
@@ -95,6 +92,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
+    @Override
     public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
         MatrixIterator<E> i = (MatrixIterator<E>) iterator;
         return new VonNeumannNeighbourhoodIterator<E>(this, i);
@@ -103,6 +101,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Iterator<E> iterator() {
         return new VonNeumannTopologyIterator<E>(this);
     }
@@ -110,8 +109,10 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean add(E particle) {
         int min = entities.size();
+        
         ArrayList<E> shortest = null;
         for (ArrayList<E> tmp : entities) {
             if (tmp.size() < min) {
@@ -119,10 +120,12 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
                 min = tmp.size();
             }
         }
+        
         if (shortest == null) {
             shortest = new ArrayList<E>(entities.size() + 1);
             entities.add(shortest);
         }
+        
         shortest.add(particle);
 
         lastRow = entities.size() - 1;
@@ -134,6 +137,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean addAll(Collection<? extends E> set) {
         this.entities.ensureCapacity(this.entities.size()+set.size());
         Iterator<? extends E> i = set.iterator();
@@ -148,8 +152,8 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int size() {
-        // TODO: couldn't we just return entities.size()?
         int size = 0;
 
         for (ArrayList<E> i : entities)
@@ -161,15 +165,14 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     private void remove(int x, int y) {
         ArrayList<E> row = entities.get(x);
         row.remove(y);
-        if (row.size() == 0) {
+        
+        if (row.isEmpty()) {
             entities.remove(x);
         }
 
         lastRow = entities.size() - 1;
         lastCol = entities.get(lastRow).size() - 1;
     }
-
-
 
     private interface MatrixIterator<T extends Entity> extends Iterator<T> {
         public int getRow();
@@ -191,6 +194,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
         /**
          * {@inheritDoc}
          */
+        @Override
         public boolean hasNext() {
             return row != topology.lastRow || col != topology.lastCol;
         }
@@ -198,6 +202,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
         /**
          * {@inheritDoc}
          */
+        @Override
         public T next() {
             if (row == topology.lastRow && col == topology.lastCol) {
                 throw new NoSuchElementException();
@@ -215,6 +220,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
         /**
          * {@inheritDoc}
          */
+        @Override
         public void remove() {
             if (col == -1) {
                 throw new IllegalStateException();
@@ -232,6 +238,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
         /**
          * {@inheritDoc}
          */
+        @Override
         public int getRow() {
             return row;
         }
@@ -239,6 +246,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
         /**
          * {@inheritDoc}
          */
+        @Override
         public int getCol() {
             return col;
         }
@@ -258,15 +266,17 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
             if (iterator.getCol() == -1) {
                 throw new IllegalStateException();
             }
+            
             this.topology = topology;
-            row = x = iterator.getRow();
-            col = y = iterator.getCol();
-            index = Direction.CENTER;
+            this.row = x = iterator.getRow();
+            this.col = y = iterator.getCol();
+            this.index = Direction.CENTER;
         }
 
         /**
          * {@inheritDoc}
          */
+        @Override
         public boolean hasNext() {
             return (index != Direction.DONE);
         }
@@ -274,6 +284,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
         /**
          * {@inheritDoc}
          */
+        @Override
         public T next() {
             switch (index) {
                 case CENTER: {
@@ -340,6 +351,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
         /**
          * {@inheritDoc}
          */
+        @Override
         public void remove() {
             topology.remove(row, col);
             if (index == Direction.CENTER) {
@@ -350,6 +362,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
         /**
          * {@inheritDoc}
          */
+        @Override
         public int getRow() {
             return row;
         }
@@ -357,10 +370,10 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
         /**
          * {@inheritDoc}
          */
+        @Override
         public int getCol() {
             return col;
         }
-
     }
 
     /**
@@ -373,6 +386,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public E get(int index) {
         throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
     }
@@ -380,6 +394,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public E set(int index, E indiv) {
         throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
     }
@@ -387,6 +402,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isEmpty() {
         throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
     }
@@ -394,10 +410,10 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void clear() {
         this.entities.clear();
     }
-
 
     /**
      * {@inheritDoc}
@@ -466,6 +482,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean addAll(int index, Collection<? extends E> c) {
         throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
     }
@@ -473,6 +490,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void add(int index, E element) {
         throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
     }
@@ -480,6 +498,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public E remove(int index) {
         throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
     }
@@ -487,6 +506,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int indexOf(Object o) {
         throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
     }
@@ -494,6 +514,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int lastIndexOf(Object o) {
         throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
     }
@@ -501,6 +522,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public ListIterator<E> listIterator() {
         throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
     }
@@ -508,6 +530,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public ListIterator<E> listIterator(int index) {
         throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
     }
@@ -515,6 +538,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<E> subList(int fromIndex, int toIndex) {
         throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
     }
