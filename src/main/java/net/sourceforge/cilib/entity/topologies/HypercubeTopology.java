@@ -23,18 +23,28 @@ package net.sourceforge.cilib.entity.topologies;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.AbstractTopology;
 import net.sourceforge.cilib.entity.Entity;
 
 /**
  * @param <E> The {@linkplain Entity} type.
  */
-public class HypercubeTopology<E extends Entity> extends LBestTopology<E> {
+public class HypercubeTopology<E extends Entity> extends AbstractTopology<E> {
     private static final long serialVersionUID = -8328600903928335004L;
 
+    /**
+     * Default constructor.
+     */
     public HypercubeTopology() {
         super();
+        this.neighbourhoodSize = ConstantControlParameter.of(5);
     }
 
+    /**
+     * Copy constructor.
+     */
     public HypercubeTopology(HypercubeTopology<E> copy) {
         super(copy);
     }
@@ -55,10 +65,31 @@ public class HypercubeTopology<E extends Entity> extends LBestTopology<E> {
         return new HypercubeNeighbourhoodIterator<E>(this, (IndexedIterator<E>) iterator);
     }
 
-    protected class HypercubeNeighbourhoodIterator<T extends Entity> extends LBestNeighbourhoodIterator<T> {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getNeighbourhoodSize() {
+        return (int) Math.round(neighbourhoodSize.getParameter());
+    }
 
-        public HypercubeNeighbourhoodIterator(HypercubeTopology<T> topology, IndexedIterator<T> iterator) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setNeighbourhoodSize(ControlParameter neighbourhoodSize) {
+        this.neighbourhoodSize = neighbourhoodSize;
+    }
+
+    /**
+     * Iterator to traverse the hypercube topology.
+     */
+    private class HypercubeNeighbourhoodIterator<T extends Entity> extends NeighbourhoodIterator<T> {
+        private int count;
+
+        public HypercubeNeighbourhoodIterator(AbstractTopology<T> topology, IndexedIterator<T> iterator) {
             super(topology, iterator);
+            this.count = 0;
         }
 
         @Override
@@ -66,19 +97,26 @@ public class HypercubeTopology<E extends Entity> extends LBestTopology<E> {
             if (count >= topology.getNeighbourhoodSize()) {
                 throw new NoSuchElementException();
             }
+            
             int i = index ^ Double.valueOf(Math.pow(2, count)).intValue();
             count++;
 
-            return topology.entities.get(i);
+            return topology.get(i);
         }
 
         @Override
         public void remove() {
-            topology.entities.remove(index);
+            topology.remove(index);
             index = index ^ Double.valueOf(Math.pow(2, count)).intValue();
+            
             if (index < 0) {
                 index += topology.size();
             }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return count < topology.getNeighbourhoodSize();
         }
     }
 }

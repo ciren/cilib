@@ -21,7 +21,9 @@
  */
 package net.sourceforge.cilib.entity.topologies;
 
+import java.util.Iterator;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.AbstractTopology;
 import net.sourceforge.cilib.entity.Entity;
 
 /**
@@ -37,33 +39,53 @@ import net.sourceforge.cilib.entity.Entity;
  *
  * @param <E> The {@linkplain Entity} type.
  */
-public class GBestTopology<E extends Entity> extends LBestTopology<E> {
+public class GBestTopology<E extends Entity> extends AbstractTopology<E> {
     private static final long serialVersionUID = 3190027340582769112L;
 
     /**
-     * Creates a new instance of <code>GBestTopology</code>.
+     * Default constructor.
      */
     public GBestTopology() {
         super();
     }
 
+    /**
+     * Copy constructor.
+     */
     public GBestTopology(GBestTopology<E> copy) {
         super(copy);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GBestTopology<E> getClone() {
         return new GBestTopology<E>(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setNeighbourhoodSize(ControlParameter neighbourhoodSize) {
         // Do nothing: neighbourhood size is the swarm size
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getNeighbourhoodSize() {
         return size();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
+        return new TopologyIterator<E>(this);
     }
 }
 

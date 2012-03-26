@@ -24,6 +24,7 @@ package net.sourceforge.cilib.entity.topologies;
 import java.util.*;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.AbstractTopology;
 import net.sourceforge.cilib.entity.Entity;
 
 /**
@@ -41,13 +42,13 @@ import net.sourceforge.cilib.entity.Entity;
  *
  * @param <E> A {@linkplain Entity} instance.
  */
-public class VonNeumannTopology<E extends Entity> extends LBestTopology<E> {
+public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     private static final long serialVersionUID = -4795901403887110994L;
 
     private enum Direction { CENTER, NORTH, EAST, SOUTH, WEST, DONE };
 
     /**
-     * Creates a new instance of <code>VonNeumannTopology</code>.
+     * Default constructor.
      */
     public VonNeumannTopology() {
         super();
@@ -55,8 +56,7 @@ public class VonNeumannTopology<E extends Entity> extends LBestTopology<E> {
     }
 
     /**
-     * Copy constructor. Create a copy of the provided instance.
-     * @param copy The instance to copy.
+     * Copy constructor.
      */
     public VonNeumannTopology(VonNeumannTopology<E> copy) {
         super(copy);
@@ -78,17 +78,26 @@ public class VonNeumannTopology<E extends Entity> extends LBestTopology<E> {
         return new VonNeumannNeighbourhoodIterator<E>(this, (IndexedIterator<E>) iterator);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getNeighbourhoodSize() {
         return 5;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setNeighbourhoodSize(ControlParameter neighbourhoodSize) {
-        // This is fixed to 5 so cant change it
+        //Note: This is fixed to 5 so it cant be change
     }
 
-    private class VonNeumannNeighbourhoodIterator<T extends Entity> extends LBestNeighbourhoodIterator<T> {
+    /**
+     * Iterator to traverse the Von Neumann topology.
+     */
+    private class VonNeumannNeighbourhoodIterator<T extends Entity> extends NeighbourhoodIterator<T> {
 
         private final int sqSide;
         private final int nRows;
@@ -96,7 +105,7 @@ public class VonNeumannTopology<E extends Entity> extends LBestTopology<E> {
         private final int col;
         private Direction element;
 
-        public VonNeumannNeighbourhoodIterator(LBestTopology<T> topology, IndexedIterator<T> iterator) {
+        public VonNeumannNeighbourhoodIterator(AbstractTopology<T> topology, IndexedIterator<T> iterator) {
             super(topology, iterator)         ;
             
             this.sqSide = (int) Math.round(Math.sqrt(topology.size()));
@@ -160,7 +169,7 @@ public class VonNeumannTopology<E extends Entity> extends LBestTopology<E> {
 
             index = r * sqSide + c;
             element = Direction.values()[element.ordinal()+1];
-            return topology.entities.get(index);
+            return topology.get(index);
         }
 
         /**
@@ -174,6 +183,12 @@ public class VonNeumannTopology<E extends Entity> extends LBestTopology<E> {
             }
         }
         
+        /**
+         * Gets the number of columns in a given row.
+         * 
+         * @param r The given row.
+         * @return The number of columns in the row.
+         */
         private int getColumnsInRow(int r) {
             return r == nRows - 1 ? topology.size() - r * sqSide : sqSide;
         }

@@ -25,6 +25,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -43,16 +44,20 @@ public interface Topology<E extends Entity> extends List<E>, Cloneable {
     Topology<E> getClone();
 
     /**
-     * Obtain the current best entity within the {@code Topology}.
-     * @return The best {@code Entity}.
+     * Obtain the most fit {@link Entity} within the {@code Topology}. This is
+     * the same as {@code getBestEntity(Comparator)} with a {@link AscendingFitnessComparator}
+     * as the provided comparator.
+     * 
+     * @see AbstractTopology#getBestEntity(java.util.Comparator)
+     * @return The current best {@linkplain Entity}.
      */
     E getBestEntity();
 
     /**
-     * Obtain the current best entity within the {@code Topology}, based
-     * on the provided {@code Comparator}.
-     * @param comparator The {@code Comparator} to use.
-     * @return The best {@code Entity} based on the defined comparison.
+     * Obtain the {@link Entity} within the current {@code Topology}, based
+     * on the provided {@link Comparator} instance.
+     * @param comparator The {@link Comparator} to base the selection on.
+     * @return The best entity within the current topology.
      */
     E getBestEntity(Comparator<? super E> comparator);
 
@@ -72,7 +77,7 @@ public interface Topology<E extends Entity> extends List<E>, Cloneable {
     void accept(TopologyVisitor visitor);
 
     /**
-     * Returns an <code>Iterator</code> over all particles in the neighbourhood of
+     * Returns an <code>Iterator</code> over all entites in the neighbourhood of
      * the particle referred to by the given <code>Iterator</code>.
      *
      * @param iterator An iterator that refers to a particle in this topology.
@@ -80,4 +85,19 @@ public interface Topology<E extends Entity> extends List<E>, Cloneable {
      */
     Iterator<E> neighbourhood(Iterator<? extends Entity> iterator);
 
+    /**
+     * Accessor for the number of entities in a neighbourhood. NOTE: This method should
+     * return the value of the {@linkplain ControlParameter} rounded to the nearest integer.
+     * 
+     * @return The size of the neighbourhood.
+     */
+    int getNeighbourhoodSize();
+
+    /**
+     * Sets the {@linkplain ControlParameter} that should be used to determine the
+     * number of entities in the neighbourhood of each entity.
+     * 
+     * @param neighbourhoodSize The {@linkplain ControlParameter} to use.
+     */
+    void setNeighbourhoodSize(ControlParameter neighbourhoodSize);
 }
