@@ -44,24 +44,6 @@ public interface Topology<E extends Entity> extends List<E>, Cloneable {
     Topology<E> getClone();
 
     /**
-     * Obtain the most fit {@link Entity} within the {@code Topology}. This is
-     * the same as {@code getBestEntity(Comparator)} with a {@link AscendingFitnessComparator}
-     * as the provided comparator.
-     * 
-     * @see AbstractTopology#getBestEntity(java.util.Comparator)
-     * @return The current best {@linkplain Entity}.
-     */
-    E getBestEntity();
-
-    /**
-     * Obtain the {@link Entity} within the current {@code Topology}, based
-     * on the provided {@link Comparator} instance.
-     * @param comparator The {@link Comparator} to base the selection on.
-     * @return The best entity within the current topology.
-     */
-    E getBestEntity(Comparator<? super E> comparator);
-
-    /**
      * Accept a vistitor and perform the visitor actions on this
      * <tt>Topology</tt>.
      *

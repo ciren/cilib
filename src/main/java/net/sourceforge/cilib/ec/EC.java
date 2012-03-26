@@ -32,6 +32,7 @@ import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ZeroC
 import net.sourceforge.cilib.ec.iterationstrategies.GeneticAlgorithmIterationStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
 import net.sourceforge.cilib.entity.initialization.NullInitializationStrategy;
@@ -151,7 +152,7 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        Entity bestEntity = topology.getBestEntity();
+        Entity bestEntity = Topologies.getBestEntity(topology);
         OptimisationSolution solution = new OptimisationSolution(bestEntity.getCandidateSolution().getClone(), bestEntity.getFitness());
 
         return solution;

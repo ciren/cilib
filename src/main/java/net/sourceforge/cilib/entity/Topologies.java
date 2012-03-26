@@ -21,11 +21,11 @@
  */
 package net.sourceforge.cilib.entity;
 
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
 import net.sourceforge.cilib.entity.comparator.NaturalOrderFitnessComparator;
 
 /**
@@ -83,6 +83,83 @@ public final class Topologies {
         }
 
         return neighbourhoodBests;
+    }
+
+    /**
+     * Returns the current best entity from a given topology based on the current 
+     * fitness of the entities.
+     * 
+     * @param <T> The entity type.
+     * @param topology The topology to query
+     * @return The current best entity in the topology
+     */
+    public static <T extends Entity> T getBestEntity(Topology<T> topology) {
+        return getBestEntity(topology, new AscendingFitnessComparator<T>());
+    }
+
+    /**
+     * Returns an entity from a given topology using the given comparator.
+     * 
+     * @param <T> The entity type.
+     * @param topology The topology to query.
+     * @param comparator The comparator to use to compare entities.
+     * @return The best entity in the topology accroding to the comparator.
+     */
+    public static <T extends Entity> T getBestEntity(Topology<T> topology, Comparator<? super T> comparator) {
+        return getIteratorBest(topology.iterator(), comparator);
+    }
+    
+    /**
+     * Returns the current best entity from the neighbourhood of an entity
+     * in a topology based on the current fitness of the entities.
+     * 
+     * @param <T> The entity type.
+     * @param topology The topology to query
+     * @return The current best entity in the ne
+     */
+    public static <T extends Entity> T getNeighbourhoodBest(Topology<T> topology, T entity) {
+        return getNeighbourhoodBest(topology, entity, new AscendingFitnessComparator<T>());
+    }
+
+    /**
+     * Returns an entity from the neighbourhood of an entity in a topology using 
+     * the given comparator.
+     * 
+     * @param <T> The entity type.
+     * @param topology The topology to query.
+     * @param comparator The comparator to use to compare entities.
+     * @return The best entity in the topology accroding to the comparator.
+     */
+    public static <T extends Entity> T getNeighbourhoodBest(Topology<T> topology, T entity, Comparator<? super T> comparator) {
+        Iterator<T> entities = topology.iterator();
+        Iterator<T> neighbours = null;
+        
+        while (entities.hasNext()) {
+            if (entities.next().equals(entity)) {
+                neighbours = topology.neighbourhood(entities);
+                break;
+            }
+        }
+        
+        return getIteratorBest(neighbours, comparator);
+    }
+    
+    private static <T extends Entity> T getIteratorBest(Iterator<T> iterator, Comparator<? super T> comparator) {
+        T bestEntity = null;
+
+        while (iterator.hasNext()) {
+            T entity = iterator.next();
+            if (bestEntity == null) {
+                bestEntity = entity;
+                continue;
+            }
+
+            if (comparator.compare(bestEntity, entity) < 0) { // bestEntity is worse than entity
+                bestEntity = entity;
+            }
+        }
+
+        return bestEntity;
     }
 
 }

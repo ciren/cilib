@@ -95,37 +95,6 @@ public abstract class AbstractTopology<E extends Entity> implements Topology<E> 
         visitor.visit(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public E getBestEntity() {
-        return getBestEntity(new AscendingFitnessComparator<E>());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public E getBestEntity(Comparator<? super E> comparator) {
-        E bestEntity = null;
-        Iterator<E> i = this.iterator();
-
-        while (i.hasNext()) {
-            E entity = i.next();
-            if (bestEntity == null) {
-                bestEntity = entity;
-                continue;
-            }
-
-            if (comparator.compare(bestEntity, entity) < 0) { // bestEntity is worse than entity
-                bestEntity = entity;
-            }
-        }
-
-        return bestEntity;
-    }
-    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

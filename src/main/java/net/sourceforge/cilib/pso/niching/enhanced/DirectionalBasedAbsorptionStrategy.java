@@ -26,6 +26,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
 import net.sourceforge.cilib.pso.niching.AbsorptionStrategy;
@@ -67,16 +68,16 @@ public class DirectionalBasedAbsorptionStrategy implements AbsorptionStrategy {
             Topology<? extends Entity> mainSwarmTopology = algorithm.getMainSwarm().getTopology();
             for (int i = 0; i < mainSwarmTopology.size(); i++) {
                 Entity entity = mainSwarmTopology.get(i);
-                double distance = distanceMeasure.distance(entity.getCandidateSolution(), pba.getTopology().getBestEntity().getCandidateSolution());
+                double distance = distanceMeasure.distance(entity.getCandidateSolution(), Topologies.getBestEntity(pba.getTopology()).getCandidateSolution());
                 Vector vec1 = (Vector) entity.getCandidateSolution();
-                Vector vec2 = (Vector) pba.getTopology().getBestEntity().getCandidateSolution();
+                Vector vec2 = (Vector) Topologies.getBestEntity(pba.getTopology()).getCandidateSolution();
                 double direction = vec1.dot(vec2);
                 if (distance <= radius && direction < 0) {
                     Particle p = (Particle) entity;
                     StandardVelocityProvider velocityUpdateStrategy = new StandardVelocityProvider();
                     velocityUpdateStrategy.setSocialAcceleration(ConstantControlParameter.of(0.0));
                     p.setVelocityProvider(velocityUpdateStrategy);
-                    p.setNeighbourhoodBest((Particle) pba.getTopology().getBestEntity());
+                    p.setNeighbourhoodBest((Particle) Topologies.getBestEntity(pba.getTopology()));
                     Topology<Particle> topology = (Topology<Particle>) pba.getTopology();
                     topology.add(p);
                     algorithm.getMainSwarm().getTopology().remove(entity);
