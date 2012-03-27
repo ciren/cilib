@@ -44,14 +44,6 @@ public interface Topology<E extends Entity> extends List<E>, Cloneable {
     Topology<E> getClone();
 
     /**
-     * Accept a vistitor and perform the visitor actions on this
-     * <tt>Topology</tt>.
-     *
-     * @param visitor The {@see net.sourceforge.cilib.container.visitor.Visitor} to accept
-     */
-    void accept(Visitor<E> visitor);
-
-    /**
      * Accept a {@code TopologyVisitor} into the {@code Topology} to perform the actions
      * defined within the {@code TopologyVisitor}.
      * @param visitor The instance to accept into the {@code Topology}.

@@ -54,10 +54,10 @@ public final class Topologies {
      * @param <T> The entity type.
      * @param topology The topology to query.
      * @param comparator The comparator to use.
-     * @return a {@link Set} cosisting of the best entity of each neighbourhood in the
+     * @return a {@link Set} consisting of the best entity of each neighbourhood in the
      *         topology
      */
-    public static <T extends Entity> Set<T> getNeighbourhoodBestEntities(Topology<T> topology, Comparator<T> comparator) {
+    public static <T extends Entity> Set<T> getNeighbourhoodBestEntities(Topology<T> topology, Comparator<? super T> comparator) {
         // a Set does not allow duplicates
         Set<T> neighbourhoodBests = new HashSet<T>(topology.size());
         Iterator<T> topologyIterator = topology.iterator();
@@ -65,17 +65,8 @@ public final class Topologies {
         // iterate over all entities in the topology
         while (topologyIterator.hasNext()) {
             topologyIterator.next();
-            Iterator<T> neighbourhoodIterator = topology.neighbourhood(topologyIterator);
-            T currentBestEntity = null;
+            T currentBestEntity = getIteratorBest(topology.neighbourhood(topologyIterator), comparator);
 
-            // iterate over the neighbours of the current entity
-            while (neighbourhoodIterator.hasNext()) {
-                T anotherEntity = neighbourhoodIterator.next();
-                // keep track of the best entity
-                if (currentBestEntity == null || comparator.compare(currentBestEntity, anotherEntity) > 0) {
-                    currentBestEntity = anotherEntity;
-                }
-            }
             // only gather unique entities
             if (currentBestEntity != null) {
                 neighbourhoodBests.add(currentBestEntity);
@@ -103,7 +94,7 @@ public final class Topologies {
      * @param <T> The entity type.
      * @param topology The topology to query.
      * @param comparator The comparator to use to compare entities.
-     * @return The best entity in the topology accroding to the comparator.
+     * @return The best entity in the topology according to the comparator.
      */
     public static <T extends Entity> T getBestEntity(Topology<T> topology, Comparator<? super T> comparator) {
         return getIteratorBest(topology.iterator(), comparator);
@@ -115,7 +106,7 @@ public final class Topologies {
      * 
      * @param <T> The entity type.
      * @param topology The topology to query
-     * @return The current best entity in the ne
+     * @return The current best entity in the neighbourhood.
      */
     public static <T extends Entity> T getNeighbourhoodBest(Topology<T> topology, T entity) {
         return getNeighbourhoodBest(topology, entity, new AscendingFitnessComparator<T>());
@@ -128,7 +119,7 @@ public final class Topologies {
      * @param <T> The entity type.
      * @param topology The topology to query.
      * @param comparator The comparator to use to compare entities.
-     * @return The best entity in the topology accroding to the comparator.
+     * @return The best entity in the topology according to the comparator.
      */
     public static <T extends Entity> T getNeighbourhoodBest(Topology<T> topology, T entity, Comparator<? super T> comparator) {
         Iterator<T> entities = topology.iterator();
@@ -144,6 +135,15 @@ public final class Topologies {
         return getIteratorBest(neighbours, comparator);
     }
     
+    /**
+     * Helper method which compares entities in an iterator according to a 
+     * comparator.
+     * 
+     * @param <T> The entity type.
+     * @param iterator The iterator to query.
+     * @param comparator 
+     * @return 
+     */
     private static <T extends Entity> T getIteratorBest(Iterator<T> iterator, Comparator<? super T> comparator) {
         T bestEntity = null;
 

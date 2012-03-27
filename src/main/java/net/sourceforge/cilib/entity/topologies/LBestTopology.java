@@ -21,7 +21,8 @@
  */
 package net.sourceforge.cilib.entity.topologies;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.AbstractTopology;

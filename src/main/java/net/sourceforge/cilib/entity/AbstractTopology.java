@@ -22,15 +22,9 @@
 package net.sourceforge.cilib.entity;
 
 import com.google.common.collect.Lists;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 
 /**
@@ -71,20 +65,6 @@ public abstract class AbstractTopology<E extends Entity> implements Topology<E> 
     @Override
     public Iterator<E> iterator() {
         return new TopologyIterator<E>(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void accept(Visitor<E> visitor) {
-        //TODO: check this isDone thing
-        for (E element : this) {
-            if (visitor.isDone())
-                return;
-
-            visitor.visit(element);
-        }
     }
 
     /**
@@ -290,7 +270,7 @@ public abstract class AbstractTopology<E extends Entity> implements Topology<E> 
     }
     
     /**
-     * An iterator that iterates through a neighbourhood in the topology..
+     * An iterator that iterates through a neighbourhood in the topology.
      * 
      * @param <T> The {@linkplain Entity} type.
      */
