@@ -140,18 +140,6 @@ public class ConstrictionVelocityProviderTest {
         return particle;
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void illegalVelocityProvision() {
-        final Particle particle = mock(Particle.class);
-
-        ControlParameter controlParameter = ConstantControlParameter.of(0.0);
-        ConstrictionVelocityProvider velocityProvider = new ConstrictionVelocityProvider();
-        velocityProvider.setCognitiveAcceleration(controlParameter);
-        velocityProvider.setSocialAcceleration(controlParameter);
-
-        velocityProvider.get(particle);
-    }
-
     /**
      * Test of getKappa method, of class ConstrictionVelocityProvider.
      */
