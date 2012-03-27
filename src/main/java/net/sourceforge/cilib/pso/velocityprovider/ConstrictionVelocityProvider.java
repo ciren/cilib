@@ -105,6 +105,7 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
 
     private ControlParameter kappa;
     private ControlParameter constrictionCoefficient;
+    private boolean hasOutputWarning;
 
     /**
      * Default constructor. The values given to the control parameters attempt to
@@ -119,6 +120,7 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
 
         this.kappa = ConstantControlParameter.of(1.0);
         this.constrictionCoefficient = null;
+        this.hasOutputWarning = false;
     }
 
     /**
@@ -131,6 +133,7 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
         this.r1 = copy.r1;
         this.r2 = copy.r2;
         this.kappa = copy.kappa.getClone();
+        this.hasOutputWarning = copy.hasOutputWarning;
     }
 
     /**
@@ -177,9 +180,13 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
 
         double phi = c1 + c2;
         if (phi < 4.0) {
-            throw new UnsupportedOperationException("Parameter constraint violation: "
-                + "The sum of the Cognitive (" + c1 + ") and Social (" + c2 + ") acceleration parameters "
-                + "has to be greater than or equal to 4.");
+            if(!hasOutputWarning) {
+                System.err.println("\rWARNING: Parameters social acceleration and cognitive acceleration do not comply with the rules of Constriction "
+                        + "Velocity calculation. The results may not be as expected. If you are using a ParameterizedParticle this is due to changes in "
+                        + "the parameters and this warning may be ignored, otherwise, it is advised for the values of the social and "
+                        + "cognitive acceleration parameters to be changed");
+                hasOutputWarning = true;
+            }
         }
         double chi;
         chi = (2 * this.kappa.getParameter()) / Math.abs(2 - phi - Math.sqrt(phi * (phi - 4.0)));
