@@ -26,7 +26,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
-import net.sourceforge.cilib.entity.comparator.NaturalOrderFitnessComparator;
 
 /**
  * Topology related utilities.
@@ -43,7 +42,7 @@ public final class Topologies {
      * @return a {@code Set} of neighbourhood best entities.
      */
     public static <T extends Entity> Set<T> getNeighbourhoodBestEntities(Topology<T> topology) {
-        return getNeighbourhoodBestEntities(topology, new NaturalOrderFitnessComparator<T>());
+        return getNeighbourhoodBestEntities(topology, new AscendingFitnessComparator<T>());
     }
 
     /**
