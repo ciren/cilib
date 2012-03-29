@@ -32,11 +32,9 @@ import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
-import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
+import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.util.DistanceMeasure;
-import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
@@ -44,22 +42,17 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 public class SequentialNiching extends AbstractAlgorithm implements PopulationBasedAlgorithm {
     private PopulationBasedAlgorithm algorithm;
     private List<OptimisationSolution> solutions;
-    private ContinuousFunction deratingFunction;
-    private DistanceMeasure distanceMeasure;
     private ControlParameter threshold;
+    private DeratingOptimisationProblem deratingProblem;
     
     public SequentialNiching() {
         this.algorithm = new EC();
-        this.distanceMeasure = new EuclideanDistanceMeasure();
-        this.deratingFunction = new PowerDeratingFunction();
         this.solutions = Lists.<OptimisationSolution>newLinkedList();
         this.threshold = ConstantControlParameter.of(0);
     }
     
     public SequentialNiching(SequentialNiching copy) {
         this.algorithm = copy.algorithm.getClone();
-        this.distanceMeasure = copy.distanceMeasure;
-        this.deratingFunction = copy.deratingFunction;
         this.solutions = Lists.<OptimisationSolution>newLinkedList(solutions);
         this.threshold = copy.threshold.getClone();
     }
@@ -70,19 +63,16 @@ public class SequentialNiching extends AbstractAlgorithm implements PopulationBa
     }
 
     @Override
-    public void performInitialisation() {
-        algorithm.performInitialisation();
-        algorithm.setOptimisationProblem(optimisationProblem);
-    }
-
-    @Override
     protected void algorithmIteration() {
-        algorithm.performIteration();
+        ((AbstractAlgorithm) algorithm).initialise();
+        algorithm.run();
         
-        Entity best = algorithm.getTopology().getBestEntity();
+        OptimisationSolution best = algorithm.getBestSolution();
+        deratingProblem.addSolution((Vector) best.getPosition());
         
-        ((FunctionOptimisationProblem) algorithm.getOptimisationProblem()).getFunction();
-        
+        if (best.getFitness().getValue() > threshold.getParameter()) {
+            solutions.add(best);
+        }        
     }
 
     @Override
@@ -114,5 +104,10 @@ public class SequentialNiching extends AbstractAlgorithm implements PopulationBa
     @Override
     public PopulationInitialisationStrategy getInitialisationStrategy() {
         return algorithm.getInitialisationStrategy();
+    }
+
+    @Override
+    public void setOptimisationProblem(OptimisationProblem problem) {
+        super.setOptimisationProblem(problem);
     }
 }
