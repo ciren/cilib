@@ -211,8 +211,6 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 
         subPopulationsAlgorithms = Lists.newArrayList(newSwarms._2().toCollection());
         mainSwarm = newSwarms._1();
-        
-        System.out.println(getIterations() + " " + mainSwarm.getIterations() + " " + subPopulationsAlgorithms.size());
     }
 
     /**
