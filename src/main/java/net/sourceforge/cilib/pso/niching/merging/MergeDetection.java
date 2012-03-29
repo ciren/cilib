@@ -23,14 +23,11 @@ package net.sourceforge.cilib.pso.niching.merging;
 
 import fj.F2;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Merge detection strategies for Niching.
  * 
  * Used to merge two swarms into one.
- * 
- * @author filipe
  */
 public abstract class MergeDetection extends F2<PopulationBasedAlgorithm, PopulationBasedAlgorithm, Boolean> {
 }

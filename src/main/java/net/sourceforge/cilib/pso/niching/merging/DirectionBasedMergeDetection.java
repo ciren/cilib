@@ -32,9 +32,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * direction if the dot product of the velocities of the best particle from each 
  * swarm is greater than zero i.e. the angle between their direction of motion is
  * greater than zero and less than 90 degrees.
- * 
- * @author wayne
- * @author filipe
  */
 public class DirectionBasedMergeDetection extends MergeDetection {
 

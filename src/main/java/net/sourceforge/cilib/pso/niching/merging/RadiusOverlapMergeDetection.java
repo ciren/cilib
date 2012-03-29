@@ -38,8 +38,6 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * is less than a predefined threshold value, the sub-swarms will merge into
  * a single sub-swarm. The new swarm is returned.
  * </p>
- * 
- * @author filipe
  */
 public class RadiusOverlapMergeDetection extends MergeDetection {
     private ControlParameter threshold;

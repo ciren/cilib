@@ -58,7 +58,7 @@ import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
  * to still operate.
  * </p>
  */
-public class StandardNicheCreationStrategy extends NicheCreationStrategy {
+public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy {
     
     private PopulationBasedAlgorithm subSwarm;
     private ParticleBehavior behavior;
@@ -66,7 +66,7 @@ public class StandardNicheCreationStrategy extends NicheCreationStrategy {
     /**
      * Default constructor.
      */
-    public StandardNicheCreationStrategy() {
+    public ClosestNeighbourNicheCreationStrategy() {
         this.subSwarm = new PSO();
         ((SynchronousIterationStrategy) ((PSO) this.subSwarm).getIterationStrategy()).setBoundaryConstraint(new ClampingBoundaryConstraint());
         

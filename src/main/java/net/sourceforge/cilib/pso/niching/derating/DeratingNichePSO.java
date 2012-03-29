@@ -41,8 +41,8 @@ import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 import net.sourceforge.cilib.pso.niching.creation.NicheDetection;
-import net.sourceforge.cilib.pso.niching.creation.StandardNicheCreationStrategy;
-import net.sourceforge.cilib.pso.niching.creation.StandardNicheDetection;
+import net.sourceforge.cilib.pso.niching.creation.ClosestNeighbourNicheCreationStrategy;
+import net.sourceforge.cilib.pso.niching.creation.MaintainedFitnessNicheDetection;
 import net.sourceforge.cilib.pso.niching.merging.MergeStrategy;
 import net.sourceforge.cilib.pso.niching.merging.StandardMergeStrategy;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
@@ -58,7 +58,7 @@ public class DeratingNichePSO extends MultiPopulationBasedAlgorithm {
 
     private PopulationBasedAlgorithm mainSwarm;
     private NicheDetection nicheIdentificationStrategy;
-    private StandardNicheCreationStrategy swarmCreationStrategy;
+    private ClosestNeighbourNicheCreationStrategy swarmCreationStrategy;
     //private AbsorptionStrategy absorptionStrategy;
     private MergeStrategy mergeStrategy;
     private DeratingMergeStrategy dmergeStrategy;
@@ -96,8 +96,8 @@ public class DeratingNichePSO extends MultiPopulationBasedAlgorithm {
 
         this.mainSwarm.setInitialisationStrategy(mainSwarmInitialisationStrategy);
 
-        this.nicheIdentificationStrategy = new StandardNicheDetection();
-        this.swarmCreationStrategy = new StandardNicheCreationStrategy();
+        this.nicheIdentificationStrategy = new MaintainedFitnessNicheDetection();
+        this.swarmCreationStrategy = new ClosestNeighbourNicheCreationStrategy();
         //this.absorptionStrategy = new StandardAbsorptionStrategy();
         this.mergeStrategy = new StandardMergeStrategy();
         this.dmergeStrategy = new DeratingMergeStrategy();

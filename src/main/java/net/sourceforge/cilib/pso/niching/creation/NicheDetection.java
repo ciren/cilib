@@ -28,9 +28,6 @@ import net.sourceforge.cilib.entity.Entity;
  * Identify any Entity instances that, based on the decision strategy,
  * have found niches. These entities are returned, with the expectation
  * that the callee will use them in some or other manner.
- *
- * @author gpampara
- * @author filipe
  */
 public abstract class NicheDetection extends F<Entity, Boolean> {
 }

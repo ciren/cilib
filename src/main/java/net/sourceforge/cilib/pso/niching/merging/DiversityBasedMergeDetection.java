@@ -29,7 +29,6 @@ import net.sourceforge.cilib.measurement.single.diversity.centerinitialisationst
 
 /**
  *
- * @author filipe
  */
 public class DiversityBasedMergeDetection extends MergeDetection {
     private MergeDetection mergeDetector;

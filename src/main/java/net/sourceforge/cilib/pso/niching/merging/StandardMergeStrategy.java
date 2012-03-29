@@ -21,38 +21,30 @@
  */
 package net.sourceforge.cilib.pso.niching.merging;
 
+import java.util.Collection;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
+import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 
 /**
- * Takes all the entities of the first sub-swarm, puts them in the second sub-swarm
- * and returns a copy of that sub-swarm.
+ * Takes all the entities of the second sub-swarm, puts them in the first sub-swarm
+ * and returns a copy of the combined sub-swarms.
  */
 public class StandardMergeStrategy extends MergeStrategy {
     private static final long serialVersionUID = 6790307057694598017L;
     
     @Override
     public PopulationBasedAlgorithm f(PopulationBasedAlgorithm subSwarm1, PopulationBasedAlgorithm subSwarm2) {
-        PopulationBasedAlgorithm newSwarm = new SingleSwarmMergeStrategy().f(subSwarm1, subSwarm2);
-        Particle neighbourhoodBest = (Particle) newSwarm.getTopology().getBestEntity(new SocialBestFitnessComparator());
+        PopulationBasedAlgorithm newSwarm = subSwarm1.getClone();
+        newSwarm.getTopology().addAll((Collection) subSwarm2.getClone().getTopology());
 
-        for (Entity e : subSwarm2.getTopology()) {
-            Particle p = (Particle) e.getClone();
-            ((Topology<Particle>) newSwarm.getTopology()).add(p);
-        }
-        
-        if (neighbourhoodBest == null) {
-            neighbourhoodBest = (Particle) Topologies.getBestEntity(newSwarm.getTopology(), new SocialBestFitnessComparator());
-        }
-
-        for (Entity e : newSwarm.getTopology()) {
-            Particle p = (Particle) e;
-            p.setNeighbourhoodBest(neighbourhoodBest);
-            p.setParticleBehavior(neighbourhoodBest.getParticleBehavior());
+        Particle p;
+        if (!newSwarm.getTopology().isEmpty() && (p = (Particle) newSwarm.getTopology().get(0)) instanceof Particle) {
+            ParticleBehavior pb = p.getParticleBehavior();
+            for (Entity e : newSwarm.getTopology()) {
+                ((Particle) e).setParticleBehavior(pb);
+            }
         }
 
         return newSwarm;

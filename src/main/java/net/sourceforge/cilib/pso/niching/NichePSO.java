@@ -39,8 +39,8 @@ import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrateg
 import static net.sourceforge.cilib.pso.niching.Niching.*;
 import net.sourceforge.cilib.pso.niching.creation.NicheCreationStrategy;
 import net.sourceforge.cilib.pso.niching.creation.NicheDetection;
-import net.sourceforge.cilib.pso.niching.creation.StandardNicheCreationStrategy;
-import net.sourceforge.cilib.pso.niching.creation.StandardNicheDetection;
+import net.sourceforge.cilib.pso.niching.creation.ClosestNeighbourNicheCreationStrategy;
+import net.sourceforge.cilib.pso.niching.creation.MaintainedFitnessNicheDetection;
 import net.sourceforge.cilib.pso.niching.merging.*;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
@@ -62,7 +62,6 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
  * <pre>
  * {@literal @}inproceedings{}
  * </pre>
- * @author gpampara
  */
 public class NichePSO extends MultiPopulationBasedAlgorithm {
     private static final long serialVersionUID = 3575627467034673738L;
@@ -127,8 +126,8 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 
         this.mainSwarm.setInitialisationStrategy(mainSwarmInitialisationStrategy);
 
-        this.nicheDetection = new StandardNicheDetection();
-        this.swarmCreationStrategy = new StandardNicheCreationStrategy();
+        this.nicheDetection = new MaintainedFitnessNicheDetection();
+        this.swarmCreationStrategy = new ClosestNeighbourNicheCreationStrategy();
         this.mainSwarmPostCreation = new SingleSwarmMergeStrategy();
 
         this.mainSwarmAbsorptionStrategy = new SingleSwarmMergeStrategy();
@@ -144,6 +143,8 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
      * Copy constructor.
      */
     public NichePSO(NichePSO copy) {
+        super(copy);
+        
         this.mainSwarm = copy.mainSwarm.getClone();
         this.mainSwarmParticle = copy.mainSwarmParticle.getClone();
         
@@ -201,24 +202,17 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
      */
     @Override
     protected void algorithmIteration() {
-        mainSwarm.performIteration();
-        
-        for (PopulationBasedAlgorithm pba : subPopulationsAlgorithms) {
-            pba.performIteration();
-        }
-        
         P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> newSwarms = combineSwarms
-                //.andThen(iterateAllSwarms)
+                .andThen(iterateAllSwarms)
                 .andThen(merge(mergeDetection, mainSwarmMergeStrategy, subSwarmsMergeStrategy))
                 .andThen(absorb(absorptionDetection, mainSwarmAbsorptionStrategy, subSwarmsAbsorptionStrategy))
                 .andThen(enforceMainSwarmTopology(mainSwarmParticle.getParticleBehavior()))
-                .andThen(createNiches(nicheDetection, swarmCreationStrategy, mainSwarmPostCreation))
-                .f(P.p(mainSwarm, subPopulationsAlgorithms));
+                .andThen(createNiches(nicheDetection, swarmCreationStrategy, mainSwarmPostCreation)).f(P.p(mainSwarm, subPopulationsAlgorithms));
 
         subPopulationsAlgorithms = Lists.newArrayList(newSwarms._2().toCollection());
         mainSwarm = newSwarms._1();
         
-        System.out.println(getIterations() + " " + mainSwarm.getIterations());
+        System.out.println(getIterations() + " " + mainSwarm.getIterations() + " " + subPopulationsAlgorithms.size());
     }
 
     /**
@@ -239,15 +233,10 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
      */
     @Override
     public java.util.List<OptimisationSolution> getSolutions() {
-        /*return List.iterableList(subPopulationsAlgorithms).map(new F<PopulationBasedAlgorithm, OptimisationSolution>() {
-            @Override
-            public OptimisationSolution f(PopulationBasedAlgorithm a) {
-                return a.getBestSolution();
-            }            
-        });*/
         java.util.List<OptimisationSolution> list = Lists.newArrayList();
-        for (PopulationBasedAlgorithm pba : subPopulationsAlgorithms)
+        for (PopulationBasedAlgorithm pba : subPopulationsAlgorithms) {
             list.add(pba.getBestSolution());
+        }
         return list;
     }
 

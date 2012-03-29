@@ -24,7 +24,6 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.pso.niching.creation.NicheCreationStrategy;
 import net.sourceforge.cilib.pso.niching.creation.NicheDetection;
 import net.sourceforge.cilib.pso.niching.merging.MergeDetection;
@@ -254,12 +253,12 @@ public final class Niching {
             @Override
             public PopulationBasedAlgorithm f(PopulationBasedAlgorithm a) {
                 PopulationBasedAlgorithm tmp = a.getClone();
-                Particle nBest = (Particle) tmp.getTopology().getBestEntity(new SocialBestFitnessComparator());
 
-                for (Entity e : tmp.getTopology()) {
-                    Particle p = (Particle) e;
-                    p.setNeighbourhoodBest(nBest);
-                    p.setParticleBehavior(pb);
+                if (!tmp.getTopology().isEmpty() && tmp.getTopology().get(0) instanceof Particle) {
+                    for (Entity e : tmp.getTopology()) {
+                        Particle p = (Particle) e;
+                        p.setParticleBehavior(pb);
+                    }
                 }
 
                 return tmp;
@@ -279,7 +278,7 @@ public final class Niching {
         return new F<P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>>, P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>>>() {
             @Override
             public P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> f(P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> a) {
-                return a.map1(enforceTopology(pb));
+                return P.p(enforceTopology(pb).f(a._1()), a._2());
             }
         };
     }

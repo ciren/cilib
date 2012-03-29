@@ -44,7 +44,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * result for a new niching location.
  * </p>
  */
-public class StandardNicheDetection extends NicheDetection {
+public class MaintainedFitnessNicheDetection extends NicheDetection {
     
     public enum NicheEnum{
         NICHE_DETECTION_FITNESSES
@@ -53,7 +53,7 @@ public class StandardNicheDetection extends NicheDetection {
     private ControlParameter threshold;
     private ControlParameter stationaryCounter;
 
-    public StandardNicheDetection() {
+    public MaintainedFitnessNicheDetection() {
         this.threshold = ConstantControlParameter.of(1.0E-6);
         this.stationaryCounter = ConstantControlParameter.of(3.0);
     }

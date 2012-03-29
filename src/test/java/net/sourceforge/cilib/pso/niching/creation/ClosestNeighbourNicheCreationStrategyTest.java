@@ -36,7 +36,7 @@ import org.junit.Test;
  *
  * @author filipe
  */
-public class StandardNicheCreationStrategyTest {
+public class ClosestNeighbourNicheCreationStrategyTest {
     
     @Test
     public void testCreation() {
@@ -47,7 +47,7 @@ public class StandardNicheCreationStrategyTest {
         PSO pso = new PSO();        
         pso.getTopology().addAll(Arrays.asList(p1, p2, p3));
         
-        StandardNicheCreationStrategy creator = new StandardNicheCreationStrategy();
+        ClosestNeighbourNicheCreationStrategy creator = new ClosestNeighbourNicheCreationStrategy();
         P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> swarms = creator.f(pso, p1);
         
         Assert.assertEquals(1, swarms._1().getTopology().size());

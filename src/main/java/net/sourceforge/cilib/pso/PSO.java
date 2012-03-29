@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.pso;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
@@ -90,6 +91,22 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
         this.iterationStrategy = copy.iterationStrategy; // need to clone?
         this.initialisationStrategy = copy.initialisationStrategy; // need to clone?
         this.contributionSelection = copy.contributionSelection.getClone();
+        
+        for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
+            Particle current = i.next();
+            Particle nBest = current;
+            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
+                Particle other = j.next();
+                if (nBest.getSocialFitness().compareTo(other.getSocialFitness()) > 0) {
+                    nBest = other;
+                }
+            }
+            
+            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
+                Particle other = j.next();
+                other.setNeighbourhoodBest(nBest);
+            }
+        }
     }
 
     /**

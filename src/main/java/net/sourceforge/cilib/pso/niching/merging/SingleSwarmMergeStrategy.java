@@ -22,29 +22,13 @@
 package net.sourceforge.cilib.pso.niching.merging;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 
 /**
  * Returns a copy of the first sub-swarm.
- * 
- * @author filipe
  */
 public class SingleSwarmMergeStrategy extends MergeStrategy {
     @Override
     public PopulationBasedAlgorithm f(PopulationBasedAlgorithm subSwarm1, PopulationBasedAlgorithm subSwarm2) {
-        PopulationBasedAlgorithm newSwarm = subSwarm1.getClone();
-        Particle neighbourhoodBest = (Particle) newSwarm.getTopology().getBestEntity(new SocialBestFitnessComparator());
-                
-        if (neighbourhoodBest == null) {
-            return newSwarm;
-        }
-        
-        for (Entity e : newSwarm.getTopology()) {
-            ((Particle) e).setNeighbourhoodBest(neighbourhoodBest);
-        }
-
-        return newSwarm;
+        return subSwarm1.getClone();
     }
 }

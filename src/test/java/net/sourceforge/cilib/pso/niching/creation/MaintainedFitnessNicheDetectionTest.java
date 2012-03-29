@@ -34,14 +34,14 @@ import org.junit.Test;
  *
  * @author filipe
  */
-public class StandardNicheDetectionTest {
+public class MaintainedFitnessNicheDetectionTest {
     
     @Test
     public void testDetection() {
         Particle p1 = NichingTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
         Particle p2 = NichingTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
         
-        StandardNicheDetection detection = new StandardNicheDetection();
+        MaintainedFitnessNicheDetection detection = new MaintainedFitnessNicheDetection();
         Assert.assertFalse(detection.f(p1));
         p1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.999999));
         p1 = p1.getClone();
@@ -59,7 +59,7 @@ public class StandardNicheDetectionTest {
         Assert.assertTrue(detection.f(p2));
         p2 = p2.getClone();
         detection.f(p2);
-        Assert.assertEquals(3, ((TypeList) p2.getProperties().get(StandardNicheDetection.NicheEnum.NICHE_DETECTION_FITNESSES)).size());
+        Assert.assertEquals(3, ((TypeList) p2.getProperties().get(MaintainedFitnessNicheDetection.NicheEnum.NICHE_DETECTION_FITNESSES)).size());
     }
 
 }

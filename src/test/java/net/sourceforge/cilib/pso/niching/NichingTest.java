@@ -36,10 +36,10 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.dynamic.QuantumVelocityProvider;
+import net.sourceforge.cilib.pso.niching.creation.ClosestNeighbourNicheCreationStrategy;
+import net.sourceforge.cilib.pso.niching.creation.MaintainedFitnessNicheDetection;
 import net.sourceforge.cilib.pso.niching.creation.NicheCreationStrategy;
 import net.sourceforge.cilib.pso.niching.creation.NicheDetection;
-import net.sourceforge.cilib.pso.niching.creation.StandardNicheCreationStrategy;
-import net.sourceforge.cilib.pso.niching.creation.StandardNicheDetection;
 import net.sourceforge.cilib.pso.niching.merging.MergeStrategy;
 import net.sourceforge.cilib.pso.niching.merging.RadiusOverlapMergeDetection;
 import net.sourceforge.cilib.pso.niching.merging.SingleSwarmMergeStrategy;
@@ -310,8 +310,8 @@ public class NichingTest {
         pso1.getTopology().addAll(Arrays.asList(p1_1, p1_2));
         pso2.getTopology().addAll(Arrays.asList(p2_1, p2_2));
         
-        NicheDetection detector = new StandardNicheDetection();
-        NicheCreationStrategy creator = new StandardNicheCreationStrategy();
+        NicheDetection detector = new MaintainedFitnessNicheDetection();
+        NicheCreationStrategy creator = new ClosestNeighbourNicheCreationStrategy();
         MergeStrategy merger = new SingleSwarmMergeStrategy();
         
         P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> merged = Niching.createNiches(detector, creator, merger)
