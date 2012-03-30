@@ -203,11 +203,13 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
     @Override
     protected void algorithmIteration() {
         P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> newSwarms = combineSwarms
-                .andThen(iterateAllSwarms)
+                .andThen(iterateMainSwarm)
+                .andThen(iterateSubswarms)
                 .andThen(merge(mergeDetection, mainSwarmMergeStrategy, subSwarmsMergeStrategy))
                 .andThen(absorb(absorptionDetection, mainSwarmAbsorptionStrategy, subSwarmsAbsorptionStrategy))
                 .andThen(enforceMainSwarmTopology(mainSwarmParticle.getParticleBehavior()))
-                .andThen(createNiches(nicheDetection, swarmCreationStrategy, mainSwarmPostCreation)).f(P.p(mainSwarm, subPopulationsAlgorithms));
+                .andThen(createNiches(nicheDetection, swarmCreationStrategy, mainSwarmPostCreation))
+                .f(P.p(mainSwarm, subPopulationsAlgorithms));
 
         subPopulationsAlgorithms = Lists.newArrayList(newSwarms._2().toCollection());
         mainSwarm = newSwarms._1();
