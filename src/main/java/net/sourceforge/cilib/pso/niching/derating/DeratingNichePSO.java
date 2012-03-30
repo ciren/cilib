@@ -34,7 +34,7 @@ import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.continuous.DeratingFunction;
+//import net.sourceforge.cilib.functions.continuous.DeratingFunction;
 import net.sourceforge.cilib.problem.FunctionMaximisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
@@ -198,7 +198,7 @@ public class DeratingNichePSO extends MultiPopulationBasedAlgorithm {
     protected void calculateModifiedFunction(){
         ContinuousFunction f = (ContinuousFunction) modifiedSpace.getFunction();
         FunctionMaximisationProblem temp = new FunctionMaximisationProblem();
-        DeratingFunction der = new DeratingFunction();
+        /*DeratingFunction der = new DeratingFunction();
         der.setPreviousFunction(f);
         der.setAlpha(alpha);
         der.setRadius(radius);
@@ -208,7 +208,7 @@ public class DeratingNichePSO extends MultiPopulationBasedAlgorithm {
         }
         der.setYbests(yheads);
 
-        temp.setFunction(der);
+        temp.setFunction(der);*/
         modifiedSpace = temp;
     }
 
