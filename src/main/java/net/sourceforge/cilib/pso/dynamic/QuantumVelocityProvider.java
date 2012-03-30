@@ -103,7 +103,28 @@ public class QuantumVelocityProvider implements VelocityProvider {
      */
     @Override
     public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
-        //Not applicable
-        return null;
+        HashMap<String, Double> parameterVelocity = new HashMap<String, Double> ();
+        ChargedParticle checkChargeParticle = (ChargedParticle) particle;
+        if (checkChargeParticle.getCharge() < EPSILON) {    
+            parameterVelocity.put("InertiaVelocity", this.delegate.getControlParameterVelocity(particle).get("InertiaVelocity"));
+        }
+        parameterVelocity.put("InertiaVelocity", particle.getInertia().getVelocity());
+        
+        if (checkChargeParticle.getCharge() < EPSILON) {    
+            parameterVelocity.put("SocialAccelerationVelocity", this.delegate.getControlParameterVelocity(particle).get("SocialAccelerationVelocity"));
+        }
+        parameterVelocity.put("SocialAccelerationVelocity", particle.getSocialAcceleration().getVelocity());
+        
+        if (checkChargeParticle.getCharge() < EPSILON) {    
+            parameterVelocity.put("CognitiveAccelerationVelocity", this.delegate.getControlParameterVelocity(particle).get("CognitiveAccelerationVelocity"));
+        }
+        parameterVelocity.put("CognitiveAccelerationVelocity", particle.getCognitiveAcceleration().getVelocity());
+        
+        if (checkChargeParticle.getCharge() < EPSILON) {   
+            parameterVelocity.put("VmaxVelocity", this.delegate.getControlParameterVelocity(particle).get("VmaxVelocity"));
+        }
+        parameterVelocity.put("VmaxVelocity", particle.getVmax().getVelocity());
+        
+        return parameterVelocity;
     }
 }

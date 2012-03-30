@@ -32,6 +32,7 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.pso.dynamic.ChargedParticle;
 import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
 import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
 import net.sourceforge.cilib.pso.guideprovider.PBestGuideProvider;
@@ -51,9 +52,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * as though they are part of the particle's position.
  * 
  */
-public class ParameterizedParticle extends AbstractParticle{
+public class ParameterizedParticle extends ChargedParticle{
     private static final long serialVersionUID = 2610843008637279845L;
-    protected ParameterizedParticle neighbourhoodBest;
+    //protected ParameterizedParticle neighbourhoodBest;
     
     /*private ControlParameter bestInertia;
     private ControlParameter bestSocialAcceleration;
@@ -191,7 +192,7 @@ public class ParameterizedParticle extends AbstractParticle{
      */
     @Override
     public ParameterizedParticle getNeighbourhoodBest() {
-        return this.neighbourhoodBest;
+        return (ParameterizedParticle) neighbourhoodBest;
     }
 
     /**

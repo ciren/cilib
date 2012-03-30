@@ -26,7 +26,9 @@ import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
@@ -164,7 +166,75 @@ public class ChargedVelocityProvider implements VelocityProvider {
      */
     @Override
     public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
-        //Not applicable
-        return null;
+        HashMap<String, Double> parameterVelocity = new HashMap<String, Double> ();
+        PSO pso = (PSO) AbstractAlgorithm.get();
+        ParameterizedParticle parameterizedParticle = new ParameterizedParticle();
+        
+        double inertiaPosition =  parameterizedParticle.getInertia().getParameter();
+        double socialPosition =  parameterizedParticle.getSocialAcceleration().getParameter();
+        double cognitivePosition =  parameterizedParticle.getCognitiveAcceleration().getParameter();
+        double vmaxPosition =  parameterizedParticle.getVmax().getParameter();
+
+        Iterator<Particle> iter = null;
+        // make iter point to the current particle
+        for (Iterator<Particle> i = pso.getTopology().iterator(); i.hasNext();) {
+            if (i.next().getId() == particle.getId()) {
+                iter = i;
+                break;
+            }
+        }
+
+            double accSumInertia = 0;
+            double accSumSocial = 0;
+            double accSumCognitive = 0;
+            double accSumVmax = 0;
+            
+            for (Iterator<Particle> j = pso.getTopology().neighbourhood(iter); j.hasNext();) {
+                ParameterizedParticle other = (ParameterizedParticle) j.next();
+                if (particle.getId() == other.getId()) {
+                    continue;
+                }
+                double qi = ((ChargedParticle) particle).getCharge();
+                double qj = other.getCharge();
+                double rijInertia = inertiaPosition - other.getInertia().getParameter();
+                double rijSocial = socialPosition - other.getSocialAcceleration().getParameter();
+                double rijCognitive = cognitivePosition - other.getCognitiveAcceleration().getParameter();
+                double rijVmax = vmaxPosition - other.getVmax().getParameter();
+                double magnitudeInertia = Vector.of(rijInertia).norm();
+                double magnitudeSocial = Vector.of(rijSocial).norm();
+                double magnitudeCognitive = Vector.of(rijCognitive).norm();
+                double magnitudeVmax = Vector.of(rijVmax).norm();
+                if (this.pCore.getParameter() <= magnitudeInertia && magnitudeInertia <= this.p.getParameter()) {
+                    accSumInertia += (qi * qj / Math.pow(magnitudeInertia, 3)) * rijInertia;
+                }
+                if (this.pCore.getParameter() <= magnitudeSocial && magnitudeSocial <= this.p.getParameter()) {
+                    accSumSocial += (qi * qj / Math.pow(magnitudeSocial, 3)) * rijSocial;
+                }
+                if (this.pCore.getParameter() <= magnitudeCognitive && magnitudeCognitive <= this.p.getParameter()) {
+                    accSumCognitive += (qi * qj / Math.pow(magnitudeCognitive, 3)) * rijCognitive;
+                }
+                if (this.pCore.getParameter() <= magnitudeVmax && magnitudeVmax <= this.p.getParameter()) {
+                    accSumVmax += (qi * qj / Math.pow(magnitudeVmax, 3)) * rijVmax;
+                }
+            }
+
+        double accelerationInertia = accSumInertia;
+        double accelerationSocial = accSumSocial;
+        double accelerationCognitive = accSumCognitive;
+        double accelerationVmax = accSumVmax;
+
+        double velocityInertia = this.delegate.getControlParameterVelocity(particle).get("InertiaVelocity");
+        double velocitySocial = this.delegate.getControlParameterVelocity(particle).get("SocialAccelerationVelocity");
+        double velocityCognitive = this.delegate.getControlParameterVelocity(particle).get("CognitiveAccelerationVelocity");
+        double velocityVmax = this.delegate.getControlParameterVelocity(particle).get("VmaxVelocity");
+
+        parameterVelocity.put("InertiaVelocity", velocityInertia + accelerationInertia);
+        parameterVelocity.put("SocialAccelerationVelocity", velocitySocial + accelerationSocial);
+        parameterVelocity.put("CognitiveAccelerationVelocity", velocityCognitive + accelerationCognitive);
+        parameterVelocity.put("VmaxVelocity", velocityVmax + accelerationVmax);
+        
+        return parameterVelocity; 
+        
     }
+    
 }

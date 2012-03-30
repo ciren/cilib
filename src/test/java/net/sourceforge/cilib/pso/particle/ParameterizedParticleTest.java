@@ -59,7 +59,7 @@ import static org.junit.Assert.*;
  * @author Kristina
  */
 public class ParameterizedParticleTest {
-    
+
     public ParameterizedParticleTest() {
     }
 
@@ -70,11 +70,11 @@ public class ParameterizedParticleTest {
     @AfterClass
     public static void tearDownClass() throws Exception {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -129,7 +129,7 @@ public class ParameterizedParticleTest {
         ParameterizedParticle neighbourhoodBest = new ParameterizedParticle();
         neighbourhoodBest.setCandidateSolution(vector);
         instance.setNeighbourhoodBest(neighbourhoodBest);
-        
+
         ParameterizedParticle result = instance.getNeighbourhoodBest();
         assertEquals(neighbourhoodBest.getCandidateSolution(), result.getCandidateSolution());
     }
@@ -169,25 +169,25 @@ public class ParameterizedParticleTest {
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
         problem.setDomain("R(-5.12, 5.12)^30");
         problem.setFunction(new Spherical());
-            
+
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.initialise(problem);
         int dimension = instance.getDimension();
-        
+
         Assert.assertNotSame(0, dimension);
         Assert.assertEquals(instance.getInertia().getParameter(), 0.1);
-        
+
         problem = new FunctionMinimisationProblem();
         problem.setDomain("R(-5.12, 5.12)^30");
         problem.setFunction(new Spherical());
-        
+
         instance = new ParameterizedParticle();
         BoundedModifiableControlParameter parameter = new BoundedModifiableControlParameter();
         instance.setInertia(parameter);
         instance.initialise(problem);
-        
+
         Assert.assertNotSame(instance.getInertia().getParameter(), 0.1);
-        
+
     }
 
     /**
@@ -197,7 +197,7 @@ public class ParameterizedParticleTest {
     public void testUpdatePosition() {
         System.out.println("updatePosition");
         ParameterizedParticle instance = new ParameterizedParticle();
-        
+
         BoundedModifiableControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(0.2);
         instance.setInertia(parameter);
@@ -208,14 +208,14 @@ public class ParameterizedParticleTest {
         instance.getSocialAcceleration().setVelocity(1);
         instance.getCognitiveAcceleration().setVelocity(1);
         instance.getVmax().setVelocity(1);
-        
+
         Vector position  = Vector.of(1,2,3,4,5);
         Vector velocity = Vector.of(1,1,1,1,1);
         instance.setCandidateSolution(position);
         instance.getProperties().put(EntityType.Particle.VELOCITY, velocity);
         Vector expectedResult = Vectors.sumOf(position, velocity);
         instance.updatePosition();
-        
+
         Assert.assertEquals(expectedResult, instance.getPosition());
         Assert.assertEquals(1.2, instance.getInertia().getParameter());
         Assert.assertEquals(1.2, instance.getSocialAcceleration().getParameter());
@@ -229,13 +229,13 @@ public class ParameterizedParticleTest {
     @Test
     public void testCalculateFitness() {
         System.out.println("calculateFitness");
-        
+
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
         problem.setDomain("R(-5.12, 5.12)^5");
         problem.setFunction(new Spherical());
-                
+
         PSO pso = new PSO();
-        
+
         ParameterizedParticle instance = new ParameterizedParticle();
         ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0);
         instance.setInertia(parameter);
@@ -243,16 +243,17 @@ public class ParameterizedParticleTest {
         instance.setCognitiveAcceleration(parameter);
         instance.setVmax(parameter);
         instance.initialise(problem);
-        
+
         Vector candidateSolution = Vector.of(1,2,3,4,5);
         Vector velocity = Vector.of(0,0,0,0,0);
         instance.setCandidateSolution(candidateSolution);
         instance.getProperties().put(EntityType.Particle.VELOCITY, velocity);
+        instance.setVelocityProvider(new StandardVelocityProvider());
         //instance.setNeighbourhoodBest(instance);
         /*PopulationInitialisationStrategy newStrategy = new ClonedPopulationInitialisationStrategy();
         newStrategy.setEntityType(instance);
         newStrategy.setEntityNumber(1);*/
-        
+
         pso.setOptimisationProblem(problem);
         pso.addStoppingCondition(new MaximumIterations(1));
         //pso.setInitialisationStrategy(newStrategy);
@@ -261,9 +262,9 @@ public class ParameterizedParticleTest {
         topology.add(instance);
         pso.setTopology(topology);
         pso.run();
-        
+
         double expectedValue = 55;
-        
+
         Assert.assertEquals(expectedValue, pso.getBestSolution().getFitness().getValue());
     }
 
@@ -276,10 +277,10 @@ public class ParameterizedParticleTest {
         Vector neighbourhoodBest = Vector.of(1,2,3,4,5);
         Particle particle = new ParameterizedParticle();
         particle.setCandidateSolution(neighbourhoodBest);
-        
+
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setNeighbourhoodBest(particle);
-        
+
         Assert.assertEquals(neighbourhoodBest, instance.getNeighbourhoodBest().getCandidateSolution());
     }
 
@@ -290,11 +291,11 @@ public class ParameterizedParticleTest {
     public void testUpdateVelocity() {
         System.out.println("updateVelocity");
         ParameterizedParticle instance = new ParameterizedParticle();
-        
+
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
         problem.setDomain("R(-5.12, 5.12)^5");
         problem.setFunction(new Spherical());
-        
+
         instance.initialise(problem);
         Vector particleVelocity = Vector.of(1,1,1,1,1);
         Vector particleSolution = Vector.of(1,1,1,1,1);
@@ -302,18 +303,19 @@ public class ParameterizedParticleTest {
         double velocitySocial = 0.1;
         double velocityPersonal = 0.1;
         double velocityVmax = 0.1;
-        
+
         instance.getProperties().put(EntityType.Particle.VELOCITY, particleVelocity);
         instance.setCandidateSolution(particleSolution);
         instance.getInertia().setVelocity(velocityInertia);
         instance.getSocialAcceleration().setVelocity(velocitySocial);
         instance.getCognitiveAcceleration().setVelocity(velocityPersonal);
         instance.getVmax().setVelocity(velocityVmax);
-        
+
+        instance.setVelocityProvider(new StandardVelocityProvider());
         instance.setParameterVelocityProvider(new ClampingVelocityProvider());
-        
+
         instance.updateVelocity();
-        
+
         Assert.assertNotSame(particleVelocity, instance.getVelocity());
         Assert.assertNotSame(velocityInertia, instance.getInertia().getVelocity());
         Assert.assertNotSame(velocitySocial, instance.getSocialAcceleration().getVelocity());
@@ -328,20 +330,20 @@ public class ParameterizedParticleTest {
     public void testReinitialise() {
         System.out.println("reinitialise");
         ParameterizedParticle instance = new ParameterizedParticle();
-        
+
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
         problem.setDomain("R(-5.12, 5.12)^5");
         problem.setFunction(new Spherical());
-        
+
         instance.initialise(problem);
         Vector candidateSolution = (Vector) instance.getCandidateSolution();
         double inertia = instance.getInertia().getParameter();
         double social = instance.getSocialAcceleration().getParameter();
         double personal = instance.getCognitiveAcceleration().getParameter();
         double vMax = instance.getVmax().getParameter();
-        
+
         instance.reinitialise();
-        
+
         Assert.assertNotSame(candidateSolution, instance.getCandidateSolution());
         Assert.assertNotSame(inertia, instance.getInertia().getParameter());
         Assert.assertNotSame(social, instance.getSocialAcceleration().getParameter());
@@ -358,7 +360,7 @@ public class ParameterizedParticleTest {
         ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setInertia(parameter);
-        
+
         Assert.assertEquals(parameter.getParameter(), instance.getInertia().getParameter());
     }
 
@@ -371,7 +373,7 @@ public class ParameterizedParticleTest {
         ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setInertia(parameter);
-        
+
         Assert.assertEquals(parameter.getParameter(), instance.getInertia().getParameter());
     }
 
@@ -384,7 +386,7 @@ public class ParameterizedParticleTest {
         ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setSocialAcceleration(parameter);
-        
+
         Assert.assertEquals(parameter.getParameter(), instance.getSocialAcceleration().getParameter());
     }
 
@@ -397,7 +399,7 @@ public class ParameterizedParticleTest {
         ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setSocialAcceleration(parameter);
-        
+
         Assert.assertEquals(parameter.getParameter(), instance.getSocialAcceleration().getParameter());
     }
 
@@ -410,7 +412,7 @@ public class ParameterizedParticleTest {
         ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setCognitiveAcceleration(parameter);
-        
+
         Assert.assertEquals(parameter.getParameter(), instance.getCognitiveAcceleration().getParameter());
     }
 
@@ -423,7 +425,7 @@ public class ParameterizedParticleTest {
         ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setSocialAcceleration(parameter);
-        
+
         Assert.assertEquals(parameter.getParameter(), instance.getSocialAcceleration().getParameter());
     }
 
@@ -436,7 +438,7 @@ public class ParameterizedParticleTest {
         ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setVmax(parameter);
-        
+
         Assert.assertEquals(parameter.getParameter(), instance.getVmax().getParameter());
     }
 
@@ -449,10 +451,10 @@ public class ParameterizedParticleTest {
         ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setVmax(parameter);
-        
+
         Assert.assertEquals(parameter.getParameter(), instance.getVmax().getParameter());
     }
-    
+
     /**
      * Test of setEntityLowerBound method, of class ParametizedParticle.
      */
@@ -462,7 +464,7 @@ public class ParameterizedParticleTest {
         ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setEntityLowerBound(parameter.getParameter());
-        
+
         Assert.assertEquals(parameter.getParameter(), instance.getEntityLowerBound().getParameter());
     }
 
@@ -475,10 +477,10 @@ public class ParameterizedParticleTest {
         ControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setEntityLowerBound(parameter.getParameter());
-        
+
         Assert.assertEquals(parameter.getParameter(), instance.getEntityLowerBound().getParameter());
     }
-    
+
     /**
      * Test of setEntityUpperBound method, of class ParametizedParticle.
      */
@@ -488,7 +490,7 @@ public class ParameterizedParticleTest {
         ControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setEntityUpperBound(parameter.getParameter());
-        
+
         Assert.assertEquals(parameter.getParameter(), instance.getEntityUpperBound().getParameter());
     }
 
@@ -501,8 +503,8 @@ public class ParameterizedParticleTest {
         ControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setEntityUpperBound(parameter.getParameter());
-        
+
         Assert.assertEquals(parameter.getParameter(), instance.getEntityUpperBound().getParameter());
     }
-    
+
 }
