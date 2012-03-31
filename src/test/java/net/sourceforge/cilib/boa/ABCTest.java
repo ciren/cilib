@@ -21,17 +21,16 @@
  */
 package net.sourceforge.cilib.boa;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.HashMap;
-
 import net.sourceforge.cilib.boa.bee.HoneyBee;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Ackley;
+import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
-import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
+import net.sourceforge.cilib.stoppingcondition.Maximum;
+import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.type.types.Type;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class ABCTest {
@@ -42,7 +41,7 @@ public class ABCTest {
         problem.setDomain("R(-32.768, 32.768)^30");
         problem.setFunction(new Ackley());
 
-        MaximumIterations condition = new MaximumIterations(1000);
+        MeasuredStoppingCondition condition = new MeasuredStoppingCondition(new Iterations(), new Maximum(), 100);
 
         ABC abc = new ABC();
         abc.addStoppingCondition(condition);

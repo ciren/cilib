@@ -26,12 +26,13 @@ import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 import net.sourceforge.cilib.math.random.generator.SeedSelectionStrategy;
 import net.sourceforge.cilib.math.random.generator.Seeder;
 import net.sourceforge.cilib.math.random.generator.ZeroSeederStrategy;
+import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
-import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
+import net.sourceforge.cilib.stoppingcondition.Maximum;
+import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
+import static org.hamcrest.CoreMatchers.is;
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.hamcrest.CoreMatchers.is;
 
 /**
  *
@@ -49,7 +50,7 @@ public class ECTest {
             problem.setFunction(new Spherical());
 
             EC ec = new EC();
-            ec.addStoppingCondition(new MaximumIterations(10));
+            ec.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 10));
             ec.setOptimisationProblem(problem);
             ec.initialise();
             ec.run();
@@ -72,7 +73,7 @@ public class ECTest {
 
             EC ec = new EC();
             ec.setIterationStrategy(new DifferentialEvolutionIterationStrategy());
-            ec.addStoppingCondition(new MaximumIterations(10));
+            ec.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 10));
             ec.setOptimisationProblem(problem);
             ec.initialise();
             ec.run();

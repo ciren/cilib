@@ -27,14 +27,15 @@ import net.sourceforge.cilib.boa.bee.HoneyBee;
 import net.sourceforge.cilib.boa.bee.WorkerBee;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Rastrigin;
+import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
-import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
+import net.sourceforge.cilib.stoppingcondition.Maximum;
+import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,7 +49,7 @@ public class VisualPositionUpdateStategyTest {
         problem.setFunction(new Rastrigin());
         problem.setDomain("R(-5.0, 5.0)^10");
 
-        StoppingCondition condition = new MaximumIterations(2);
+        StoppingCondition condition = new MeasuredStoppingCondition(new Iterations(), new Maximum(), 2);
 
         abc = new ABC();
         ClonedPopulationInitialisationStrategy initStrategy = new ClonedPopulationInitialisationStrategy();

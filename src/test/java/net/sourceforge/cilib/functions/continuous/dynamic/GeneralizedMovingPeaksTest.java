@@ -21,9 +21,11 @@
  */
 package net.sourceforge.cilib.functions.continuous.dynamic;
 
+import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.FunctionMaximisationProblem;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
+import net.sourceforge.cilib.stoppingcondition.Maximum;
+import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import org.junit.Test;
 
 /**
@@ -46,7 +48,7 @@ public class GeneralizedMovingPeaksTest {
 
         PSO pso = new PSO();
         pso.setOptimisationProblem(problem);
-        pso.addStoppingCondition(new MaximumIterations(100));
+        pso.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 100));
 
         pso.initialise();
         pso.run();

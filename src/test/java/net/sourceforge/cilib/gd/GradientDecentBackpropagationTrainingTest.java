@@ -22,9 +22,11 @@
 package net.sourceforge.cilib.gd;
 
 import net.sourceforge.cilib.io.ARFFFileReader;
+import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.problem.NNDataTrainingProblem;
-import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
+import net.sourceforge.cilib.stoppingcondition.Maximum;
+import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -55,7 +57,7 @@ public class GradientDecentBackpropagationTrainingTest {
     public void testGradientDecent() {
         GradientDescentBackpropagationTraining training = new GradientDescentBackpropagationTraining();
         training.setOptimisationProblem(problem);
-        StoppingCondition stoppingCondition = new MaximumIterations(10);
+        StoppingCondition stoppingCondition = new MeasuredStoppingCondition(new Iterations(), new Maximum(), 10);
         training.addStoppingCondition(stoppingCondition);
         training.performInitialisation();
 
