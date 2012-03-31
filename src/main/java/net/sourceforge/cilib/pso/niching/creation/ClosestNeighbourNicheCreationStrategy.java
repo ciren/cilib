@@ -39,6 +39,7 @@ import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.velocityprovider.ClampingVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.GCVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
+import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 
 /**
  * <p>
@@ -69,6 +70,7 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
     public ClosestNeighbourNicheCreationStrategy() {
         this.subSwarm = new PSO();
         ((SynchronousIterationStrategy) ((PSO) this.subSwarm).getIterationStrategy()).setBoundaryConstraint(new ClampingBoundaryConstraint());
+        this.subSwarm.addStoppingCondition(new MaximumIterations(500));
         
         LinearDecreasingControlParameter inertia = new LinearDecreasingControlParameter();
         inertia.setLowerBound(0.2);
