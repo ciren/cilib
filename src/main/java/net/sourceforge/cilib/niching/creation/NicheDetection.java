@@ -19,16 +19,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.niching.merging;
+package net.sourceforge.cilib.niching.creation;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import fj.F;
+import net.sourceforge.cilib.entity.Entity;
 
 /**
- * Returns a copy of the first sub-swarm.
+ * Identify any Entity instances that, based on the decision strategy,
+ * have found niches. These entities are returned, with the expectation
+ * that the callee will use them in some or other manner.
  */
-public class SingleSwarmMergeStrategy extends MergeStrategy {
-    @Override
-    public PopulationBasedAlgorithm f(PopulationBasedAlgorithm subSwarm1, PopulationBasedAlgorithm subSwarm2) {
-        return subSwarm1.getClone();
-    }
+public abstract class NicheDetection extends F<Entity, Boolean> {
 }

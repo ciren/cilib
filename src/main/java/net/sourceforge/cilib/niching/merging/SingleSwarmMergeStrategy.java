@@ -19,36 +19,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.niching;
+package net.sourceforge.cilib.niching.merging;
 
-import fj.P2;
-import fj.data.List;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 
 /**
- *
+ * Returns a copy of the first sub-swarm.
  */
-public class NichingSwarms extends P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> {
-    
-    final private PopulationBasedAlgorithm mainSwarm;
-    final private List<PopulationBasedAlgorithm> subswarms;
-    
-    public static NichingSwarms of(PopulationBasedAlgorithm ms, List<PopulationBasedAlgorithm> ss) {
-        return new NichingSwarms(ms, ss);
-    }
-    
-    private NichingSwarms(PopulationBasedAlgorithm ms, List<PopulationBasedAlgorithm> ss) {
-        this.mainSwarm = ms;
-        this.subswarms = ss;
-    }
-
+public class SingleSwarmMergeStrategy extends MergeStrategy {
     @Override
-    public PopulationBasedAlgorithm _1() {
-        return mainSwarm;
-    }
-
-    @Override
-    public List<PopulationBasedAlgorithm> _2() {
-        return subswarms;
+    public PopulationBasedAlgorithm f(PopulationBasedAlgorithm subSwarm1, PopulationBasedAlgorithm subSwarm2) {
+        return subSwarm1.getClone();
     }
 }

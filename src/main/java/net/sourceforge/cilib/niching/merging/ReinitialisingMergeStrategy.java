@@ -19,32 +19,22 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.niching.merging;
+package net.sourceforge.cilib.niching.merging;
 
-import java.util.Collection;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 
 /**
- * Takes all the entities of the second sub-swarm, puts them in the first sub-swarm
- * and returns a copy of the combined sub-swarms.
+ * Takes all the entities of the second sub-swarm, reinitializes those entities
+ * in the first sub-swarm and returns the merged sub-swarm.
  */
-public class StandardMergeStrategy extends MergeStrategy {
-    private static final long serialVersionUID = 6790307057694598017L;
-    
+public class ReinitialisingMergeStrategy extends MergeStrategy {    
     @Override
     public PopulationBasedAlgorithm f(PopulationBasedAlgorithm subSwarm1, PopulationBasedAlgorithm subSwarm2) {
-        PopulationBasedAlgorithm newSwarm = subSwarm1.getClone();
-        newSwarm.getTopology().addAll((Collection) subSwarm2.getClone().getTopology());
+        PopulationBasedAlgorithm newSwarm = new StandardMergeStrategy().f(subSwarm1, subSwarm2);
 
-        Particle p;
-        if (!newSwarm.getTopology().isEmpty() && (p = (Particle) newSwarm.getTopology().get(0)) instanceof Particle) {
-            ParticleBehavior pb = p.getParticleBehavior();
-            for (Entity e : newSwarm.getTopology()) {
-                ((Particle) e).setParticleBehavior(pb);
-            }
+        for (int i = subSwarm1.getTopology().size(); i < newSwarm.getTopology().size(); i++) {
+            newSwarm.getTopology().get(i).reinitialise();
+            newSwarm.getTopology().get(i).calculateFitness();
         }
 
         return newSwarm;

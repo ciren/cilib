@@ -6,39 +6,39 @@
 ]>
 <simulator>
     <algorithms>
-        <algorithm id="gbest" class="pso.niching.derating.DeratingNichePSO">
+        <algorithm id="gbest" class="niching.derating.DeratingNichePSO">
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="10"/>
         </algorithm>
     </algorithms>
     <problems>
-        <problem id="f1" class="problem.FunctionMaximisationProblem" domain="R(0.0:1.0)">
+        <problem id="f1" class="problem.DeratingOptimisationProblem" domain="R(0.0:1.0)">
             <function class="functions.continuous.MultimodalFunction1"/>
         </problem>
-        <problem id="f2" class="problem.FunctionMaximisationProblem" domain="R(0.0:1.0)">
+        <problem id="f2" class="problem.DeratingOptimisationProblem" domain="R(0.0:1.0)">
             <function class="functions.continuous.MultimodalFunction2"/>
         </problem>
-        <problem id="f3" class="problem.FunctionMaximisationProblem" domain="R(0.0:1.0)">
+        <problem id="f3" class="problem.DeratingOptimisationProblem" domain="R(0.0:1.0)">
             <function class="functions.continuous.MultimodalFunction3"/>
         </problem>
-        <problem id="f4" class="problem.FunctionMaximisationProblem" domain="R(0.0:1.0)">
+        <problem id="f4" class="problem.DeratingOptimisationProblem" domain="R(0.0:1.0)">
             <function class="functions.continuous.MultimodalFunction4"/>
         </problem>
-	<problem id="f5" class="problem.FunctionMaximisationProblem" domain="R(-6.0:6.0)^2">
+	<problem id="f5" class="problem.DeratingOptimisationProblem" domain="R(-6.0:6.0)^2">
             <function class="functions.continuous.MultimodalFunction5"/>
         </problem>
     </problems>
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
         <addMeasurement class="measurement.multiple.MultipleSolutions"/>
-	<addMeasurement class="measurement.multiple.MultipleFitness"/>
+	    <addMeasurement class="measurement.multiple.MultipleFitness"/>
     </measurements>
     <simulations>
-        <simulation samples="30">
+        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="f1"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/der-f1.txt"/>
         </simulation>
-	<simulation samples="30">
+	<!--simulation samples="30">
             <algorithm idref="gbest"/>
             <problem idref="f2"/>
             <measurements idref="fitness" />
@@ -61,6 +61,6 @@
             <problem idref="f5"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/der-f5.txt"/>
-        </simulation>
+        </simulation-->
     </simulations>
 </simulator>

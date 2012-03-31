@@ -19,13 +19,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.niching.merging;
+package net.sourceforge.cilib.niching.merging;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
+import net.sourceforge.cilib.niching.NichingTest;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.niching.NichingTest;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
@@ -34,10 +34,10 @@ import org.junit.Test;
  *
  * @author filipe
  */
-public class StandardMergeStrategyTest {
-
+public class SingleSwarmMergeStrategyTest {
+    
     @Test
-    public void testStandardMerge() {
+    public void testSingleSwarmMerge() {
         PSO pso1 = new PSO();
         PSO pso2 = new PSO();
 
@@ -52,9 +52,9 @@ public class StandardMergeStrategyTest {
         pso1.getTopology().add(p1); pso2.getTopology().add(p2);
         pso2.getTopology().add(p3); pso2.getTopology().add(p4);
 
-        StandardMergeStrategy merge = new StandardMergeStrategy();
+        SingleSwarmMergeStrategy merge = new SingleSwarmMergeStrategy();
 
-        Assert.assertEquals(4, merge.f(pso1, pso2).getTopology().size());
-        Assert.assertEquals(merge.f(pso1, pso2).getBestSolution().getPosition(), pso2.getBestSolution().getPosition());
+        Assert.assertEquals(3, merge.f(pso2, pso1).getTopology().size());
+        Assert.assertEquals(merge.f(pso2, pso1).getTopology().getBestEntity().getCandidateSolution(), pso2.getTopology().getBestEntity().getCandidateSolution());
     }
 }

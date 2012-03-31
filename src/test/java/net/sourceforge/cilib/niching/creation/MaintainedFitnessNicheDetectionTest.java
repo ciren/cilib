@@ -19,12 +19,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.niching.creation;
+package net.sourceforge.cilib.niching.creation;
 
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.niching.NichingTest;
 import net.sourceforge.cilib.problem.MinimisationFitness;
-import net.sourceforge.cilib.pso.niching.NichingTest;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;

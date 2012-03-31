@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.niching.creation;
+package net.sourceforge.cilib.niching.creation;
 
 import fj.P;
 import fj.P2;
@@ -34,7 +34,7 @@ import net.sourceforge.cilib.entity.visitor.ClosestEntityVisitor;
 import net.sourceforge.cilib.problem.boundaryconstraint.ClampingBoundaryConstraint;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
-import net.sourceforge.cilib.pso.niching.merging.SingleSwarmMergeStrategy;
+import net.sourceforge.cilib.niching.merging.SingleSwarmMergeStrategy;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.velocityprovider.ClampingVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.GCVelocityProvider;

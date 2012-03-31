@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.niching;
+package net.sourceforge.cilib.niching;
 
 import fj.P;
 import fj.P2;
@@ -32,18 +32,18 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.math.Maths;
+import net.sourceforge.cilib.niching.creation.ClosestNeighbourNicheCreationStrategy;
+import net.sourceforge.cilib.niching.creation.MaintainedFitnessNicheDetection;
+import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
+import net.sourceforge.cilib.niching.creation.NicheDetection;
+import net.sourceforge.cilib.niching.merging.MergeStrategy;
+import net.sourceforge.cilib.niching.merging.RadiusOverlapMergeDetection;
+import net.sourceforge.cilib.niching.merging.SingleSwarmMergeStrategy;
+import net.sourceforge.cilib.niching.merging.StandardMergeStrategy;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.dynamic.QuantumVelocityProvider;
-import net.sourceforge.cilib.pso.niching.creation.ClosestNeighbourNicheCreationStrategy;
-import net.sourceforge.cilib.pso.niching.creation.MaintainedFitnessNicheDetection;
-import net.sourceforge.cilib.pso.niching.creation.NicheCreationStrategy;
-import net.sourceforge.cilib.pso.niching.creation.NicheDetection;
-import net.sourceforge.cilib.pso.niching.merging.MergeStrategy;
-import net.sourceforge.cilib.pso.niching.merging.RadiusOverlapMergeDetection;
-import net.sourceforge.cilib.pso.niching.merging.SingleSwarmMergeStrategy;
-import net.sourceforge.cilib.pso.niching.merging.StandardMergeStrategy;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;

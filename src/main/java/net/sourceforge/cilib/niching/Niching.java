@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU Lesser General Public License along with this library; if not, see
  * <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.niching;
+package net.sourceforge.cilib.niching;
 
 import fj.*;
 import fj.data.List;
@@ -23,11 +23,11 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.pso.niching.creation.NicheCreationStrategy;
-import net.sourceforge.cilib.pso.niching.creation.NicheDetection;
-import net.sourceforge.cilib.pso.niching.merging.MergeDetection;
-import net.sourceforge.cilib.pso.niching.merging.MergeStrategy;
-import net.sourceforge.cilib.pso.niching.merging.StandardMergeStrategy;
+import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
+import net.sourceforge.cilib.niching.creation.NicheDetection;
+import net.sourceforge.cilib.niching.merging.MergeDetection;
+import net.sourceforge.cilib.niching.merging.MergeStrategy;
+import net.sourceforge.cilib.niching.merging.StandardMergeStrategy;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.type.types.container.Vector;
 

@@ -19,17 +19,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.niching.creation;
+package net.sourceforge.cilib.niching.merging;
 
 import fj.F2;
-import fj.P2;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Entity;
 
 /**
- * Create new niching populations for the provided Niche. The newly found niche
- * points are provided and are then used to create new niching populations for
- * the provided Niche algorithm.
+ * Merge detection strategies for Niching.
+ * 
+ * Used to merge two swarms into one.
  */
-public abstract class NicheCreationStrategy extends F2<PopulationBasedAlgorithm, Entity, P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm>> {
+public abstract class MergeDetection extends F2<PopulationBasedAlgorithm, PopulationBasedAlgorithm, Boolean> {
 }
