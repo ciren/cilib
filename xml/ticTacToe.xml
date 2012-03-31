@@ -61,7 +61,7 @@
     </problems>
     <algorithms>
         <algorithm id="lbest" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="20">
                 <entityType class="pso.particle.StandardParticle">
                     <FitnessCalculator class = "util.calculator.PropertyBasedFitnessCalculator"/>

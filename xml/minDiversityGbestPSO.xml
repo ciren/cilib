@@ -11,7 +11,7 @@
                 <minimumDiversity class="controlparameter.ConstantControlParameter" parameter="0.001"/>
                 <diversity class="measurement.single.diversity.AverageEntropyDiversityMeasure" intervals="10"/>
             </addStoppingCondition>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
     </algorithms>
     <problems>

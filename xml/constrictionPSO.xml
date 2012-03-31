@@ -17,7 +17,7 @@
                 </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.GBestTopology"/>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="2000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
         </algorithm>
     </algorithms>
     <problems>

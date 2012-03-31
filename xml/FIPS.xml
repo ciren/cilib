@@ -8,8 +8,7 @@
 <simulator>
     <algorithms>
         <algorithm id="gbest" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="10000">
-            </addStoppingCondition>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="40"/>
                 <entityType class="pso.particle.StandardParticle">

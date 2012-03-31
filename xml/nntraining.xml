@@ -25,13 +25,13 @@
             <topology class="entity.topologies.LBestTopology">
                 <neighbourhoodSize class="controlparameter.ConstantControlParameter" parameter="5" />
             </topology>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000" />
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
 
         <algorithm id="gradientdecent" class="gd.GradientDescentBackpropagationTraining">
             <learningRate class="controlparameter.ConstantControlParameter" parameter="0.2" />
             <momentum class="controlparameter.ConstantControlParameter" parameter="0.8" />
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000" />
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
     </algorithms>
 

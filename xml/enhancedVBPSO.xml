@@ -7,10 +7,10 @@
 <simulator>
     <algorithms>
         <algorithm id="gbest" class="pso.vectorbased.EnhancedParallelVBPSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="500"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="500"/>
         </algorithm>
 	<algorithm id="gbest2" class="pso.vectorbased.EnhancedParallelVBPSO" granularity="0.5">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="500"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="500"/>
         </algorithm>
     </algorithms>
     <problems>

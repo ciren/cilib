@@ -55,7 +55,7 @@
                 </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.VonNeumannTopology" />
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000" />
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
     </algorithms>
 

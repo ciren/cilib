@@ -10,16 +10,14 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="40">
                 <entityType class="boa.bee.WorkerBee"/>
             </initialisationStrategy>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000">
-            </addStoppingCondition>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
             <dancingSelectionStrategy class="util.selection.recipes.RouletteWheelSelector"/>
             <workerBeePercentage class="controlparameter.ConstantControlParameter" parameter="0.5"/>
             <forageLimit class="controlparameter.ConstantControlParameter" parameter="500"/>
             <explorerBeeUpdateLimit class="controlparameter.ConstantControlParameter" parameter="1"/>
         </algorithm>
         <algorithm id="pso" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000">
-            </addStoppingCondition>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
     </algorithms>
     <problems>

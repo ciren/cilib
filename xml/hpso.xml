@@ -8,7 +8,7 @@
     <algorithms>
         <!-- Dynamic HPSO -->
         <algorithm id="dynamic-hpso" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
             <initialisationStrategy class="algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy">
                 <entityNumber value="50"/>
                 <entityType class="pso.particle.StandardParticle"/>
@@ -123,7 +123,7 @@
 
 	<!-- Adaptive HPSO -->
         <algorithm id="adaptive-hpso" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
             <initialisationStrategy class="algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy">
                 <entityNumber value="50"/>
                 <entityType class="pso.particle.StandardParticle"/>

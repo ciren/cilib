@@ -28,7 +28,7 @@
         </algorithm>
 
         <algorithm id="vepso" class="algorithm.population.MultiPopulationCriterionBasedAlgorithm">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="250"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="250"/>
             <objectiveAssignmentStrategy class="moo.criterion.objectiveassignmentstrategies.SequentialObjectiveAssignmentStrategy"/>
             <addPopulationBasedAlgorithm idref="pso"/>
             <addPopulationBasedAlgorithm idref="pso"/>

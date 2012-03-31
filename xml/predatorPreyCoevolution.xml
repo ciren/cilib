@@ -74,7 +74,7 @@
         </algorithm>
 
         <algorithm id="compcoevol" class="coevolution.CoevolutionAlgorithm">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
             <coevolutionIterationStrategy class="coevolution.CompetitiveCoevolutionIterationStrategy">
                 <opponentSelectionStrategy class="coevolution.selection.SelectNOpponentSelectionStrategy" numberOfOpponents="40">
                     <addPoolSelectionStrategy class = "coevolution.selection.SelectpBestSolutionsPoolSelectionStrategy"/>

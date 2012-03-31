@@ -7,7 +7,7 @@
 <simulator>
     <algorithms>
         <algorithm id="gbest" class="pso.niching.Niche">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="2000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="20000"/>
         </algorithm>
     </algorithms>
     <problems>
