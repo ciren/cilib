@@ -87,8 +87,9 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
      * @param copy The instance to copy.
      */
     protected AbstractAlgorithm(AbstractAlgorithm copy) {
-        stoppingConditions = Lists.newArrayList(copy.stoppingConditions);
+        stoppingConditions = Lists.newArrayList();
         algorithmListeners = Lists.newArrayList();
+        
         for (AlgorithmListener listen : copy.algorithmListeners) {
             algorithmListeners.add(listen.getClone());
         }
@@ -96,9 +97,14 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
         if (copy.optimisationProblem != null) {
             optimisationProblem = copy.optimisationProblem.getClone();
         }
+        
+        for (StoppingCondition sc : copy.stoppingConditions) {
+            addStoppingCondition(sc);
+        }
 
         running = false;
         initialised = false;
+        iteration = copy.iteration;
     }
 
     /**
