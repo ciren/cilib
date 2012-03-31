@@ -22,7 +22,7 @@
 
     <measurements id="measurements" class="simulator.MeasurementSuite" resolution="1">
         <addMeasurement class="measurement.single.diversity.Diversity"/>
-        <addMeasurement class="measurement.single.dynamic.ErrorMeasurement"/>
+        <addMeasurement class="measurement.single.ErrorMeasurement"/>
         <addMeasurement class="measurement.single.dynamic.CollectiveMeanError"/>
     </measurements>
 

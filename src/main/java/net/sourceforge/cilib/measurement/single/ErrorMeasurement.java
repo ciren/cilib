@@ -19,11 +19,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.measurement.single.dynamic;
+package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.DynamicOptimizationProblem;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -43,7 +43,9 @@ public class ErrorMeasurement implements Measurement {
 
     @Override
     public Type getValue(Algorithm algorithm) {
-        return Real.valueOf(((DynamicOptimizationProblem) (algorithm.getOptimisationProblem())).getError(algorithm.getBestSolution().getPosition()));
+        FunctionOptimisationProblem problem = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
+        double error = problem.getError(algorithm.getBestSolution().getPosition());
+        return Real.valueOf(error);
     }
 
     @Override
