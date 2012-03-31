@@ -19,20 +19,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.derating;
+package net.sourceforge.cilib.niching.derating;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import fj.F;
 import fj.P;
 import fj.data.List;
-import java.util.Collection;
+import java.util.Collections;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.problem.DeratingOptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.niching.NichePSO;
 import net.sourceforge.cilib.pso.niching.Niching;
+import net.sourceforge.cilib.pso.niching.Niching.NichingFunction;
 import static net.sourceforge.cilib.pso.niching.Niching.*;
 import net.sourceforge.cilib.pso.niching.NichingSwarms;
 import net.sourceforge.cilib.pso.niching.creation.ClosestNeighbourNicheCreationStrategy;
@@ -42,19 +42,16 @@ import net.sourceforge.cilib.pso.niching.merging.MergeDetection;
 import net.sourceforge.cilib.pso.niching.merging.MergeStrategy;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
  */
 public class DeratingNichePSO extends NichePSO {
     protected java.util.List<OptimisationSolution> solutions;
-    protected List<PopulationBasedAlgorithm> pastSubswarms;
     
     public DeratingNichePSO() {
         super();
         this.solutions = Lists.<OptimisationSolution>newLinkedList();
-        this.pastSubswarms = List.<PopulationBasedAlgorithm>nil();
         this.mainSwarm.addStoppingCondition(new MaximumIterations(500));
         ((ClosestNeighbourNicheCreationStrategy) this.swarmCreationStrategy).setBehavior(new ParticleBehavior());
     }
@@ -62,45 +59,39 @@ public class DeratingNichePSO extends NichePSO {
     public DeratingNichePSO(DeratingNichePSO copy) {
         super(copy);
         this.solutions = Lists.<OptimisationSolution>newLinkedList(copy.solutions);
-        this.pastSubswarms = List.<PopulationBasedAlgorithm>iterableList(copy.pastSubswarms);
     }
     
     @Override
     public DeratingNichePSO getClone() {
         return new DeratingNichePSO(this);
     }
-    
+
     @Override
     public void performInitialisation() {
-        this.mainSwarm.setOptimisationProblem(optimisationProblem);
-        this.mainSwarm.performInitialisation();
+        mainSwarm.setOptimisationProblem(optimisationProblem);
     }
     
     @Override
     public void algorithmIteration() {
-        pastSubswarms = combineSwarms
+        DeratingOptimisationProblem problem = (DeratingOptimisationProblem) optimisationProblem;
+        
+        List<PopulationBasedAlgorithm> subswarms = List.<PopulationBasedAlgorithm>iterableList(subPopulationsAlgorithms);
+        subswarms = combineSwarms
             .andThen(initialiseMainSwarm)
             .andThen(phase1(nicheDetection, swarmCreationStrategy, mainSwarmPostCreation))
             .andThen(setSubswarmProblem(optimisationProblem))
             .andThen(phase2(nicheDetection, swarmCreationStrategy, mainSwarmPostCreation,
                 absorptionDetection, mainSwarmAbsorptionStrategy, subSwarmsAbsorptionStrategy))
-            .andThen(joinAndMerge(mergeDetection, mainSwarmMergeStrategy, subSwarmsMergeStrategy, pastSubswarms))
-            .f(P.p(mainSwarm, subPopulationsAlgorithms))._2();
-        
-        Collection<Vector> nBests = pastSubswarms.map(new F<PopulationBasedAlgorithm, Vector>() {
-            @Override
-            public Vector f(PopulationBasedAlgorithm a) {
-                return (Vector) a.getBestSolution().getPosition();
-            }            
-        }).toCollection();
-        
-        ((DeratingOptimisationProblem) optimisationProblem).clearSolutions();
-        ((DeratingOptimisationProblem) optimisationProblem).addSolutions(nBests);
+            .andThen(joinAndMerge(mergeDetection, mainSwarmMergeStrategy, subSwarmsMergeStrategy, subswarms))
+            .f(P.p(mainSwarm, Collections.<PopulationBasedAlgorithm>emptyList()))._2();
+
+        problem.clearSolutions();
+        problem.addSolutions(subswarms.map(getBestPosition).toCollection());
+        subPopulationsAlgorithms = Lists.newLinkedList(subswarms.toCollection());
     }
     
-    public static F<NichingSwarms, NichingSwarms>
-            setSubswarmProblem(final OptimisationProblem problem) {
-        return new F<NichingSwarms, NichingSwarms>() {
+    public static NichingFunction setSubswarmProblem(final OptimisationProblem problem) {
+        return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {
                 ((DeratingOptimisationProblem) problem).clearSolutions();
@@ -110,35 +101,33 @@ public class DeratingNichePSO extends NichePSO {
         };
     }
     
-    public static F<NichingSwarms, NichingSwarms>
-            joinAndMerge(final MergeDetection mergeDetection, final MergeStrategy mainSwarmMergeStrategy, final MergeStrategy subSwarmsMergeStrategy, final List<PopulationBasedAlgorithm> joiningList) {
-        return new F<NichingSwarms, NichingSwarms>() {
+    public static NichingFunction joinAndMerge(final MergeDetection mergeDetection, final MergeStrategy mainSwarmMergeStrategy, final MergeStrategy subSwarmsMergeStrategy, final List<PopulationBasedAlgorithm> joiningList) {
+        return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {
-                return merge(mergeDetection, mainSwarmMergeStrategy, subSwarmsMergeStrategy).f(NichingSwarms.of(a._1(), joiningList.append(a._2())));
+                return merge(mergeDetection, mainSwarmMergeStrategy, subSwarmsMergeStrategy)
+                        .f(NichingSwarms.of(a._1(), joiningList.append(a._2())));
             }        
         };
     }
     
-    public static F<NichingSwarms, NichingSwarms> 
-            phase1(final NicheDetection nicheDetection, final NicheCreationStrategy creationStrategy, final MergeStrategy mainSwarmCreationMergingStrategy) {
-        return new F<NichingSwarms, NichingSwarms>() {
+    public static NichingFunction phase1(final NicheDetection nicheDetection, final NicheCreationStrategy creationStrategy, final MergeStrategy mainSwarmCreationMergingStrategy) {
+        return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {
-                System.out.println(a._1().getIterations() + " " + isFinished.f(a._1()));
-                if (isFinished.f(a._1())) {
-                    System.out.println ("done");
+                if (isFinished.f(a._1()) || a._1().getTopology().isEmpty()) {
                     return a;
                 }
                 
-                return this.f(iterateMainSwarm.andThen(createNiches(nicheDetection, creationStrategy, mainSwarmCreationMergingStrategy)).f(a));
+                return this.f(iterateMainSwarm
+                        .andThen(createNiches(nicheDetection, creationStrategy, mainSwarmCreationMergingStrategy))
+                        .f(a));
             }        
         };
     }
     
-    public static F<NichingSwarms, NichingSwarms> 
-            phase2(final NicheDetection nicheDetection, final NicheCreationStrategy creationStrategy, final MergeStrategy mainSwarmCreationMergingStrategy, final MergeDetection absorptionDetection, final MergeStrategy mainSwarmAbsorptionStrategy, final MergeStrategy subSwarmsAbsorptionStrategy) {
-        return new F<NichingSwarms, NichingSwarms>() {
+    public static NichingFunction phase2(final NicheDetection nicheDetection, final NicheCreationStrategy creationStrategy, final MergeStrategy mainSwarmCreationMergingStrategy, final MergeDetection absorptionDetection, final MergeStrategy mainSwarmAbsorptionStrategy, final MergeStrategy subSwarmsAbsorptionStrategy) {
+        return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {
                 if (a._2().forall(isFinished)) {
@@ -158,6 +147,5 @@ public class DeratingNichePSO extends NichePSO {
         Preconditions.checkArgument(problem instanceof DeratingOptimisationProblem, 
                 "SequentialNiching can only be used with DeratingOptimisationProblem.");
         optimisationProblem = problem;
-        mainSwarm.setOptimisationProblem(problem);
     }
 }

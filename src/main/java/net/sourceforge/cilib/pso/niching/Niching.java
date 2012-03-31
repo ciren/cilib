@@ -29,12 +29,16 @@ import net.sourceforge.cilib.pso.niching.merging.MergeDetection;
 import net.sourceforge.cilib.pso.niching.merging.MergeStrategy;
 import net.sourceforge.cilib.pso.niching.merging.StandardMergeStrategy;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * These are generic functions used in Niching algorithms. e.g. Merging, absorption sub-population creation. They
  * use given strategies to accomplish a task and can be seen as higher order functions.
  */
 public final class Niching {
+    
+    public abstract static class NichingFunction extends F<NichingSwarms, NichingSwarms> {
+    }
 
     /**
      * Merges sub-swarms that satisfy given conditions. Also handles merging with the main swarm if applicable.
@@ -46,9 +50,9 @@ public final class Niching {
      *
      * @return A tuple containing the main swarm in the first element and the sub-swarms in the second element.
      */
-    public static F<NichingSwarms, NichingSwarms> merge(final MergeDetection mergeDetection,
+    public static NichingFunction merge(final MergeDetection mergeDetection,
             final MergeStrategy mainSwarmMergeStrategy, final MergeStrategy subSwarmsMergeStrategy) {
-        return new F<NichingSwarms, NichingSwarms>() {
+        return new NichingFunction() {
 
             @Override
             public NichingSwarms f(NichingSwarms swarms) {
@@ -119,9 +123,9 @@ public final class Niching {
      *
      * @return A tuple containing the main swarm in the first element and the sub-swarms in the second element.
      */
-    public static F<NichingSwarms, NichingSwarms> absorb(final MergeDetection absorptionDetection,
+    public static NichingFunction absorb(final MergeDetection absorptionDetection,
             final MergeStrategy mainSwarmAbsorptionStrategy, final MergeStrategy subSwarmsAbsorptionStrategy) {
-        return new F<NichingSwarms, NichingSwarms>() {
+        return new NichingFunction() {
 
             @Override
             public NichingSwarms f(NichingSwarms swarms) {
@@ -153,9 +157,9 @@ public final class Niching {
      *
      * @return A tuple containing the main swarm in the first element and the sub-swarms in the second element.
      */
-    public static F<NichingSwarms, NichingSwarms> createNiches(final NicheDetection nicheDetection,
+    public static NichingFunction createNiches(final NicheDetection nicheDetection,
             final NicheCreationStrategy creationStrategy, final MergeStrategy mainSwarmCreationMergingStrategy) {
-        return new F<NichingSwarms, NichingSwarms>() {
+        return new NichingFunction() {
 
             @Override
             public NichingSwarms f(NichingSwarms swarms) {
@@ -180,6 +184,7 @@ public final class Niching {
             }
         };
     }
+    
     /**
      * Converts a swarm into a list of single entity populations.
      */
@@ -190,6 +195,7 @@ public final class Niching {
             return entitiesToAlgorithms.f((Topology<Entity>) a.getTopology(), a);
         }
     };
+    
     /**
      * Converts a single entity to a population of the given type.
      */
@@ -204,6 +210,7 @@ public final class Niching {
             return (PopulationBasedAlgorithm) tmp;
         }
     };
+    
     /**
      * Converts a list of entities into single entity populations.
      */
@@ -214,6 +221,7 @@ public final class Niching {
             return List.<Entity>iterableList(a).map(entityToAlgorithm.flip().f(b));
         }
     };
+    
     /**
      * Returns an empty population of the given population type;
      */
@@ -260,8 +268,8 @@ public final class Niching {
      * @param pb The particle behavior to give each entity in the main swarm.
      * @return
      */
-    public static F<NichingSwarms, NichingSwarms> enforceMainSwarmTopology(final ParticleBehavior pb) {
-        return new F<NichingSwarms, NichingSwarms>() {
+    public static NichingFunction enforceMainSwarmTopology(final ParticleBehavior pb) {
+        return new NichingFunction() {
 
             @Override
             public NichingSwarms f(NichingSwarms a) {
@@ -269,6 +277,7 @@ public final class Niching {
             }
         };
     }
+    
     /**
      * Combines a given main swarm and list of sub-swarms into a tuple which can be used by these functions.
      */
@@ -279,7 +288,8 @@ public final class Niching {
             return NichingSwarms.of(a._1(), List.<PopulationBasedAlgorithm>iterableList(a._2()));
         }
     };
-    public static F<NichingSwarms, NichingSwarms> initialiseMainSwarm = new F<NichingSwarms, NichingSwarms>() {
+    
+    public static NichingFunction initialiseMainSwarm = new NichingFunction() {
 
         @Override
         public NichingSwarms f(NichingSwarms a) {
@@ -288,6 +298,7 @@ public final class Niching {
             return a;
         }
     };
+    
     public static F<PopulationBasedAlgorithm, Boolean> isFinished = new F<PopulationBasedAlgorithm, Boolean>() {
 
         @Override
@@ -295,6 +306,7 @@ public final class Niching {
             return b.isFinished();
         }
     };
+    
     public static Effect<PopulationBasedAlgorithm> iterateSwarm = new Effect<PopulationBasedAlgorithm>() {
 
         @Override
@@ -314,7 +326,8 @@ public final class Niching {
             }
         };
     }
-    public static F<NichingSwarms, NichingSwarms> iterateMainSwarm = new F<NichingSwarms, NichingSwarms>() {
+    
+    public static NichingFunction iterateMainSwarm = new NichingFunction() {
 
         @Override
         public NichingSwarms f(NichingSwarms a) {
@@ -322,12 +335,20 @@ public final class Niching {
             return a;
         }
     };
-    public static F<NichingSwarms, NichingSwarms> iterateSubswarms = new F<NichingSwarms, NichingSwarms>() {
+    
+    public static NichingFunction iterateSubswarms = new NichingFunction() {
 
         @Override
         public NichingSwarms f(NichingSwarms a) {
             a._2().foreach(iterateSwarm);
             return a;
+        }
+    };
+    
+    public static F<PopulationBasedAlgorithm, Vector> getBestPosition = new F<PopulationBasedAlgorithm, Vector>() {
+        @Override
+        public Vector f(PopulationBasedAlgorithm a) {
+            return (Vector) a.getBestSolution().getPosition();
         }
     };
 }
