@@ -21,17 +21,23 @@
  */
 package net.sourceforge.cilib.stoppingcondition;
 
+import com.google.common.base.Preconditions;
+
 public class Minimum implements StoppingPredicate {
     
     private double percentage;
+    private double maxValue;
     
     public Minimum() {
         this.percentage = 0.0;
+        this.maxValue = -Double.MAX_VALUE;
     }
 
     @Override
     public double getPercentage(double actualValue, double targetValue) {
-        percentage = Math.max(percentage, targetValue / actualValue);
+        maxValue = Math.max(actualValue, maxValue);
+        percentage = Math.max(percentage, 1.0 - actualValue / (maxValue -  targetValue));
+        
         return Math.max(Math.min(percentage, 1.0), 0.0);
     }
 

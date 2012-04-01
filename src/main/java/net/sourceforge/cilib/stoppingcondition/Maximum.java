@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.stoppingcondition;
 
+import com.google.common.base.Preconditions;
+
 public class Maximum implements StoppingPredicate {
     
     private double percentage;
@@ -31,6 +33,7 @@ public class Maximum implements StoppingPredicate {
 
     @Override
     public double getPercentage(double actualValue, double targetValue) {
+        Preconditions.checkArgument(targetValue != 0.0, "targetValue cannot be zero.");
         percentage = Math.max(percentage, actualValue / targetValue);
         return Math.max(Math.min(percentage, 1.0), 0.0);
     }
