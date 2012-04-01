@@ -28,10 +28,11 @@ import net.sourceforge.cilib.algorithm.AlgorithmListener;
 /**
  *
  */
-public class IterationUpdateControlParameter implements ControlParameter {
+public class UpdateOnIterationControlParameter implements ControlParameter {
     
     private double parameter;
     private ControlParameter delegate;
+    private boolean attached;
     private AlgorithmListener listener = new AlgorithmListener() {
 
         @Override
@@ -58,30 +59,44 @@ public class IterationUpdateControlParameter implements ControlParameter {
         }
     };
     
-    public IterationUpdateControlParameter() {
+    public UpdateOnIterationControlParameter() {
         this.parameter = 0.0;
         this.delegate = ConstantControlParameter.of(0.0);
-        AbstractAlgorithm.get().addAlgorithmListener(listener);
+        this.attached = false;
     }
     
-    public IterationUpdateControlParameter(IterationUpdateControlParameter copy) {
+    public UpdateOnIterationControlParameter(UpdateOnIterationControlParameter copy) {
         this.parameter = copy.parameter;
         this.delegate = copy.delegate.getClone();
+        this.attached = true;
         AbstractAlgorithm.get().addAlgorithmListener(listener);
     }
     
     @Override
-    public IterationUpdateControlParameter getClone() {
-        return new IterationUpdateControlParameter(this);
+    public UpdateOnIterationControlParameter getClone() {
+        return new UpdateOnIterationControlParameter(this);
     }
 
     @Override
     public double getParameter() {
+        if (!attached) {
+            AbstractAlgorithm.get().addAlgorithmListener(listener);
+            attached = true;
+        }
+        
         return parameter;
     }
 
     @Override
     public double getParameter(double min, double max) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void setDelegate(ControlParameter delegate) {
+        this.delegate = delegate;
+    }
+
+    public ControlParameter getDelegate() {
+        return delegate;
     }
 }
