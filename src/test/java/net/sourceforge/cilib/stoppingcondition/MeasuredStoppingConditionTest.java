@@ -27,22 +27,20 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-public class MaintainedStoppingConditionTest {
-
+public class MeasuredStoppingConditionTest {
     /**
-     * Test of getPercentageCompleted method, of class MaintainedStoppingCondition.
+     * Test of getPercentageCompleted method, of class MeasuredStoppingCondition.
      */
     @Test
-    public void test() {
+    public void testGetPercentageCompleted() {
         Algorithm algorithm = Mockito.mock(Algorithm.class);
-        Mockito.when(algorithm.getIterations()).thenReturn(0, 1, 0, 1, 2);
-        MaintainedStoppingCondition instance = new MaintainedStoppingCondition(
-                new MeasuredStoppingCondition(new Iterations(), new Maximum(), 1), 2);
+        Mockito.when(algorithm.getIterations()).thenReturn(0, 0, 1, 1, 0, 0, 1, 1, 2, 2);
+        MeasuredStoppingCondition instance = new MeasuredStoppingCondition(new Iterations(), new Maximum(), 2);
         
         assertFalse(instance.apply(algorithm));
         assertEquals(instance.getPercentageCompleted(algorithm), 0.0, 0.0);
         assertFalse(instance.apply(algorithm));
-        assertEquals(instance.getPercentageCompleted(algorithm), 0.5, 0.0);        
+        assertEquals(instance.getPercentageCompleted(algorithm), 0.5, 0.0);
         // if it gets reset percentage should not decrease
         assertFalse(instance.apply(algorithm));
         assertEquals(instance.getPercentageCompleted(algorithm), 0.5, 0.0);

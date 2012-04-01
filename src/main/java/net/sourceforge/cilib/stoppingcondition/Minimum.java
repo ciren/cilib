@@ -21,9 +21,7 @@
  */
 package net.sourceforge.cilib.stoppingcondition;
 
-import com.google.common.base.Preconditions;
-
-public class Minimum implements StoppingPredicate {
+public class Minimum implements CompletionCalculator {
     
     private double percentage;
     private double maxValue;
@@ -36,7 +34,7 @@ public class Minimum implements StoppingPredicate {
     @Override
     public double getPercentage(double actualValue, double targetValue) {
         maxValue = Math.max(actualValue, maxValue);
-        percentage = Math.max(percentage, 1.0 - actualValue / (maxValue -  targetValue));
+        percentage = Math.max(percentage, 1.0 - (actualValue - targetValue) / (maxValue -  targetValue));
         
         return Math.max(Math.min(percentage, 1.0), 0.0);
     }

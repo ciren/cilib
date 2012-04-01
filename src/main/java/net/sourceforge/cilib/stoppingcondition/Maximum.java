@@ -23,7 +23,7 @@ package net.sourceforge.cilib.stoppingcondition;
 
 import com.google.common.base.Preconditions;
 
-public class Maximum implements StoppingPredicate {
+public class Maximum implements CompletionCalculator {
     
     private double percentage;
     

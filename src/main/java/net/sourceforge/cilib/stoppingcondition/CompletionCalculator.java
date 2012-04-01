@@ -21,7 +21,8 @@
  */
 package net.sourceforge.cilib.stoppingcondition;
 
-public interface StoppingPredicate {
+public interface CompletionCalculator {
+    
     public double getPercentage(double actualValue, double targetValue);
     
     public boolean apply(double actualValue, double targetValue);

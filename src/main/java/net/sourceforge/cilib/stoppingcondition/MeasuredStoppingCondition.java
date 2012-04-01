@@ -28,7 +28,7 @@ import net.sourceforge.cilib.type.types.Numeric;
 
 public class MeasuredStoppingCondition implements StoppingCondition<Algorithm> {
     
-    private StoppingPredicate predicate;
+    private CompletionCalculator predicate;
     private double target;
     private Measurement<? extends Numeric> measurement;
     
@@ -36,7 +36,7 @@ public class MeasuredStoppingCondition implements StoppingCondition<Algorithm> {
         this(new Iterations(), new Maximum(), 1000);
     }
     
-    public MeasuredStoppingCondition(Measurement measurement, StoppingPredicate predicate, double target) {
+    public MeasuredStoppingCondition(Measurement measurement, CompletionCalculator predicate, double target) {
         this.measurement = measurement;
         this.predicate = predicate;
         this.target = target;
@@ -56,7 +56,7 @@ public class MeasuredStoppingCondition implements StoppingCondition<Algorithm> {
         return target;
     }
 
-    public StoppingPredicate getPredicate() {
+    public CompletionCalculator getPredicate() {
         return predicate;
     }
 
@@ -68,7 +68,7 @@ public class MeasuredStoppingCondition implements StoppingCondition<Algorithm> {
         this.target = target;
     }
 
-    public void setPredicate(StoppingPredicate predicate) {
+    public void setPredicate(CompletionCalculator predicate) {
         this.predicate = predicate;
     }
 

@@ -51,7 +51,7 @@ public class MaintainedStoppingCondition implements StoppingCondition<Algorithm>
     @Override
     public boolean apply(Algorithm algorithm) {
         count = condition.apply(algorithm) ? count + 1 : 0;
-        return getPercentageCompleted(algorithm) >= 1.0;
+        return count >= consecutiveIterations;
     }
 
     public StoppingCondition<Algorithm> getCondition() {
