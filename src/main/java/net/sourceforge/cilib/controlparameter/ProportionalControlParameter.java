@@ -30,10 +30,6 @@ public class ProportionalControlParameter implements ControlParameter {
     private static final long serialVersionUID = 8415953407107514281L;
     private double proportion;
 
-    /**
-     * Create a new {@code ProportionalControlParameter} instance. The default proportion
-     * value is defined to be 0.1 (10%).
-     */
     public ProportionalControlParameter() {
         this.proportion = 0.1;
     }
@@ -46,25 +42,16 @@ public class ProportionalControlParameter implements ControlParameter {
         this.proportion = copy.proportion;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ProportionalControlParameter getClone() {
         return new ProportionalControlParameter(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public double getParameter() {
         return this.proportion;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public double getParameter(double min, double max) {
         return this.proportion * (max - min);

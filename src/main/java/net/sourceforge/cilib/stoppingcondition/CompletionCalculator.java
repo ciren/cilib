@@ -21,6 +21,9 @@
  */
 package net.sourceforge.cilib.stoppingcondition;
 
+/**
+ * An interface defining the predicate to use with a MeasuredStoppingCondition.
+ */
 public interface CompletionCalculator {
     
     public double getPercentage(double actualValue, double targetValue);

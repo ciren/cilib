@@ -23,6 +23,9 @@ package net.sourceforge.cilib.stoppingcondition;
 
 import com.google.common.base.Preconditions;
 
+/**
+ * A stopping predicate used to stop an algorithm when a measurement is greater than or equal to a value.
+ */
 public class Maximum implements CompletionCalculator {
     
     private double percentage;

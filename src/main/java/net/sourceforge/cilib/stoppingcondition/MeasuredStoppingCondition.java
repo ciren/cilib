@@ -26,6 +26,12 @@ import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.type.types.Numeric;
 
+/**
+ * A stopping condition which uses measurements to determine if an algorithm has completed e.g.
+ * MeasuredStoppingCondition(new Iterations(), new Maximum(), 1000) will stop an algorithm once the number of
+ * iterations is greater than or equal to 1000, MeasuredStoppingCondition(new Diversity(), new Minimum(), 0.01)
+ * stops it when the population's diversity is less than or equal to 0.01, etc.
+ */
 public class MeasuredStoppingCondition implements StoppingCondition<Algorithm> {
     
     private CompletionCalculator predicate;

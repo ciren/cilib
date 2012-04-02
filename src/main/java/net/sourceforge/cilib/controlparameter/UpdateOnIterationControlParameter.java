@@ -26,7 +26,7 @@ import net.sourceforge.cilib.algorithm.AlgorithmEvent;
 import net.sourceforge.cilib.algorithm.AlgorithmListener;
 
 /**
- *
+ * A Control parameter that updates itself at the end of each iteration.
  */
 public class UpdateOnIterationControlParameter implements ControlParameter {
     

@@ -21,6 +21,9 @@
  */
 package net.sourceforge.cilib.stoppingcondition;
 
+/**
+ * A stopping predicate used to stop an algorithm when a measurement is less than or equal to a value.
+ */
 public class Minimum implements CompletionCalculator {
     
     private double percentage;

@@ -24,6 +24,10 @@ package net.sourceforge.cilib.stoppingcondition;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.single.diversity.Diversity;
 
+/**
+ * A stopping condition that defines an algorithm to be complete if a given stopping condition has been maintained
+ * for a number of consecutive iterations.
+ */
 public class MaintainedStoppingCondition implements StoppingCondition<Algorithm> {
     
     private int consecutiveIterations;

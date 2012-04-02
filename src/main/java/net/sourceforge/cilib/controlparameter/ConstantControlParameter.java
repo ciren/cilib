@@ -24,7 +24,6 @@ package net.sourceforge.cilib.controlparameter;
 /**
  * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}
  * to represent a constant value. The specified value will be maintained until it is altered.
- *
  */
 public class ConstantControlParameter implements ControlParameter {
     private static final long serialVersionUID = 8847038781478109426L;
@@ -51,7 +50,7 @@ public class ConstantControlParameter implements ControlParameter {
         this.parameter = value;
     }
 
-    /**IBS
+    /**
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */

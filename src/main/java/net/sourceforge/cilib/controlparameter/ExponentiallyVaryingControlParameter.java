@@ -24,8 +24,7 @@ package net.sourceforge.cilib.controlparameter;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 
 /**
- *
- * @author filipe
+ * A Control parameter that varies exponentially according to the completed percentage of the algorithm.
  */
 public class ExponentiallyVaryingControlParameter implements ControlParameter {
     

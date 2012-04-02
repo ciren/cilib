@@ -24,8 +24,7 @@ package net.sourceforge.cilib.controlparameter;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 
 /**
- *
- * @author filipe
+ * A Control parameter that varies linearly according to the completed percentage of the algorithm.
  */
 public class LinearlyVaryingControlParameter implements ControlParameter {
     

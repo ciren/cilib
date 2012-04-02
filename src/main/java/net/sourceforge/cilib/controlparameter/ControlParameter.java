@@ -27,7 +27,6 @@ import net.sourceforge.cilib.util.Cloneable;
  * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter} is a
  * parameter that is used within most {@linkplain net.sourceforge.cilib.algorithm.Algorithm algorithm}
  * types. These parameters are updatable and can be changed over time, if required.
- *
  */
 public interface ControlParameter extends Cloneable {
 
