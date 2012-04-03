@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.pso;
 
 import com.google.common.collect.Lists;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
@@ -155,7 +154,11 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
      */
     @Override
     public List<OptimisationSolution> getSolutions() {
-        return Arrays.asList(getBestSolution());
+        List<OptimisationSolution> solutions = Lists.newLinkedList();
+        for (Particle e : Topologies.getNeighbourhoodBestEntities(topology, new SocialBestFitnessComparator<Particle>())) {
+            solutions.add(new OptimisationSolution(e.getBestPosition(), e.getBestFitness()));
+        }
+        return solutions;
     }
 
     /**

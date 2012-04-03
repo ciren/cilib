@@ -6,7 +6,11 @@
 ]>
 <simulator>
     <algorithms>
-        <algorithm id="gbest" class="pso.speciation.SpeciationPSO">
+        <algorithm id="gbest" class="pso.PSO">
+            <iterationStrategy class="niching.Speciation"/>
+            <topology class="entity.topologies.SpeciesSeedTopology">
+                <radius class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+            </topology>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
         </algorithm>
     </algorithms>
@@ -32,31 +36,31 @@
 	<addMeasurement class="measurement.multiple.MultipleFitness"/>
     </measurements>
     <simulations>
-    <simulation samples="30">
+    <simulation samples="2">
             <algorithm idref="gbest"/>
             <problem idref="f1"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/enhanced2-f1.txt"/>
         </simulation>
-	<simulation samples="30">
+	<simulation samples="2">
             <algorithm idref="gbest"/>
             <problem idref="f2"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/enhanced2-f2.txt"/>
         </simulation>
-	<simulation samples="30">
+	<simulation samples="2">
             <algorithm idref="gbest"/>
             <problem idref="f3"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/enhanced2-f3.txt"/>
         </simulation>
-	<simulation samples="30">
+	<simulation samples="2">
             <algorithm idref="gbest"/>
             <problem idref="f4"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/enhanced2-f4.txt"/>
         </simulation>
-	<simulation samples="30">
+	<simulation samples="2">
             <algorithm idref="gbest"/>
             <problem idref="f5"/>
             <measurements idref="fitness" />
