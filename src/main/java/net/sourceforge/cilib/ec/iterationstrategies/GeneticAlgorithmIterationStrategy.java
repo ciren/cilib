@@ -80,7 +80,6 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
     @Override
     public void performIteration(EC ec) {
         Topology<Entity> population = (Topology<Entity>) ec.getTopology();
-        population.update();
 
         // Perform crossover: Allow each individual to create an offspring
         List<Entity> crossedOver = Lists.newArrayList();

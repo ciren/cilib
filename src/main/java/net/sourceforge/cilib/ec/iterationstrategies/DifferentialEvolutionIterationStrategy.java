@@ -81,7 +81,6 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
     public void performIteration(EC ec) {
         @SuppressWarnings("unchecked")
         Topology<Entity> topology = (Topology<Entity>) ec.getTopology();
-        topology.update();
 
         for (int i = 0; i < topology.size(); i++) {
             Entity current = topology.get(i);

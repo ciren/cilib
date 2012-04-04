@@ -25,6 +25,7 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
@@ -137,7 +138,7 @@ public class GCVelocityProvider implements VelocityProvider {
     @Override
     public Vector get(Particle particle) {
         PSO pso = (PSO) AbstractAlgorithm.get();
-        final Particle globalBest = pso.getTopology().getBestEntity(new SocialBestFitnessComparator<Particle>());
+        final Particle globalBest = Topologies.getBestEntity(pso.getTopology(), new SocialBestFitnessComparator<Particle>());
 
         if (particle == globalBest) {
             final Vector velocity = (Vector) particle.getVelocity();
@@ -169,7 +170,7 @@ public class GCVelocityProvider implements VelocityProvider {
         // Remember NOT to reset the rho value to 1.0
         PSO pso = (PSO) AbstractAlgorithm.get();
 
-        if (particle == pso.getTopology().getBestEntity(new SocialBestFitnessComparator<Particle>())) {
+        if (particle == Topologies.getBestEntity(pso.getTopology(), new SocialBestFitnessComparator<Particle>())) {
             Fitness newFitness = particle.getFitnessCalculator().getFitness(particle);
 
             if (!newFitness.equals(oldFitness)) {

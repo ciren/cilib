@@ -23,24 +23,30 @@ package net.sourceforge.cilib.entity.topologies;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.AbstractTopology;
 import net.sourceforge.cilib.entity.Entity;
 
 /**
  * @param <E> The {@linkplain Entity} type.
  */
-public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
+public class HypercubeTopology<E extends Entity> extends AbstractTopology<E> {
     private static final long serialVersionUID = -8328600903928335004L;
-    private int neighbourhoodSize;
 
+    /**
+     * Default constructor.
+     */
     public HypercubeTopology() {
         super();
-        neighbourhoodSize = 5;
+        this.neighbourhoodSize = ConstantControlParameter.of(5);
     }
 
+    /**
+     * Copy constructor.
+     */
     public HypercubeTopology(HypercubeTopology<E> copy) {
         super(copy);
-        this.neighbourhoodSize = copy.neighbourhoodSize;
     }
 
     /**
@@ -60,49 +66,30 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
     }
 
     /**
-     * Sets the number particles in the neighbourhood of each particle. The default is 5.
-     *
-     * @param neighbourhoodSize The size of the neighbourhood.
+     * {@inheritDoc}
      */
-    public void setNeighbourhoodSize(int neighbourhoodSize) {
+    @Override
+    public int getNeighbourhoodSize() {
+        return (int) Math.round(neighbourhoodSize.getParameter());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setNeighbourhoodSize(ControlParameter neighbourhoodSize) {
         this.neighbourhoodSize = neighbourhoodSize;
     }
 
     /**
-     * Accessor for the number of particles in a neighbourhood.
-     *
-     * @return The size of the neighbourhood.
+     * Iterator to traverse the hypercube topology.
      */
-    public int getNeighbourhoodSize() {
-           return neighbourhoodSize;
-    }
-
-    private class HypercubeNeighbourhoodIterator<T extends Entity> implements IndexedIterator<T> {
-        private HypercubeTopology<T> topology;
-        private int index;
+    private class HypercubeNeighbourhoodIterator<T extends Entity> extends NeighbourhoodIterator<T> {
         private int count;
 
-        public HypercubeNeighbourhoodIterator(HypercubeTopology<T> topology, IndexedIterator<T> iterator) {
-            if (iterator.getIndex() == -1) {
-                throw new IllegalStateException();
-            }
-            this.topology = topology;
-            index = iterator.getIndex();
-
-            if (index < 0)
-                index += topology.size();
-
-            count = 0;
-        }
-
-        @Override
-        public int getIndex() {
-            return index;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return (count < topology.getNeighbourhoodSize());
+        public HypercubeNeighbourhoodIterator(AbstractTopology<T> topology, IndexedIterator<T> iterator) {
+            super(topology, iterator);
+            this.count = 0;
         }
 
         @Override
@@ -110,19 +97,26 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
             if (count >= topology.getNeighbourhoodSize()) {
                 throw new NoSuchElementException();
             }
+            
             int i = index ^ Double.valueOf(Math.pow(2, count)).intValue();
             count++;
 
-            return topology.entities.get(i);
+            return topology.get(i);
         }
 
         @Override
         public void remove() {
-            topology.entities.remove(index);
+            topology.remove(index);
             index = index ^ Double.valueOf(Math.pow(2, count)).intValue();
+            
             if (index < 0) {
                 index += topology.size();
             }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return count < topology.getNeighbourhoodSize();
         }
     }
 }

@@ -62,7 +62,6 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<VBPS
     @Override
     public void performIteration(VBPSO pso) {
         Topology<VBParticle> topology = pso.getTopology();
-        topology.update();
 
         for (VBParticle current : topology) {
             current.updateVelocity();

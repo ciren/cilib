@@ -61,7 +61,6 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
      */
     public void performIteration(PSO pso) {
         Topology<Particle> topology = pso.getTopology();
-        topology.update();
 
         for (Particle current : topology) {
             current.updateVelocity();

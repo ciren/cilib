@@ -48,7 +48,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class SpeciationPSO extends MultiPopulationBasedAlgorithm {
     private PSO mainSwarm;
-    private ArrayList<Particle> sortedList;
+    private List<Particle> sortedList;
     private ArrayList<Particle> seedsList;
     private ControlParameter radius;
 
@@ -179,7 +179,7 @@ public class SpeciationPSO extends MultiPopulationBasedAlgorithm {
      * Sorts the particles in a decreasing order.
      */
     private void sortParticles(){
-        sortedList = (ArrayList<Particle>) this.mainSwarm.getTopology().asList();
+        sortedList = this.mainSwarm.getTopology();
         Particle p1,p2,temp;
         int end = sortedList.size();
         for(int i=0; i<end-1;i++){

@@ -27,6 +27,7 @@ import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
@@ -78,13 +79,13 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
             ZeroTransformation zt = new ZeroTransformation();
 
             //makes sure the charged particles are randomly positionned accross the topology
-            if (reinitCounter < Math.floor(populationSize * reinitialisationRatio) && randomiser.nextDouble() < reinitialisationRatio && current != (algorithm).getTopology().getBestEntity()) {
+            if (reinitCounter < Math.floor(populationSize * reinitialisationRatio) && randomiser.nextDouble() < reinitialisationRatio && current != Topologies.getBestEntity(algorithm.getTopology())) {
                 current.getPosition().randomize(this.randomiser);
                 current.getProperties().put(EntityType.Particle.VELOCITY, Vectors.transform(current.getVelocity(), zt));
                 current.getProperties().put(EntityType.Particle.BEST_POSITION, current.getPosition().getClone());
                 ++reinitCounter;
             }//if
-            else if (keepCounter > Math.floor(populationSize * (1.0 - reinitialisationRatio)) && current != (algorithm).getTopology().getBestEntity()) {
+            else if (keepCounter > Math.floor(populationSize * (1.0 - reinitialisationRatio)) && current != Topologies.getBestEntity(algorithm.getTopology())) {
                 current.getPosition().randomize(this.randomiser);
                 current.getProperties().put(EntityType.Particle.VELOCITY, Vectors.transform(current.getVelocity(), zt));
                 current.getProperties().put(EntityType.Particle.BEST_POSITION, current.getPosition().getClone());

@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.measurement.single.diversity.centerinitialisationstrategies;
 
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -36,6 +37,6 @@ public class GBestCenterInitialisationStrategy implements CenterInitialisationSt
      */
     @Override
     public Vector getCenter(Topology<? extends Entity> topology) {
-        return (Vector) topology.getBestEntity().getCandidateSolution();
+        return (Vector) Topologies.getBestEntity(topology).getCandidateSolution();
     }
 }
