@@ -24,6 +24,7 @@ package net.sourceforge.cilib.pso.niching;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
 import net.sourceforge.cilib.pso.velocityprovider.GCVelocityProvider;
@@ -62,11 +63,11 @@ public class StandardAbsorptionStrategy implements AbsorptionStrategy {
             Topology<? extends Entity> mainSwarmTopology = algorithm.getMainSwarm().getTopology();
             for (int i = 0; i < mainSwarmTopology.size(); i++) {
                 Entity entity = mainSwarmTopology.get(i);
-                double distance = distanceMeasure.distance(entity.getCandidateSolution(), pba.getTopology().getBestEntity().getCandidateSolution());
+                double distance = distanceMeasure.distance(entity.getCandidateSolution(), Topologies.getBestEntity(pba.getTopology()).getCandidateSolution());
                 if (distance <= radius) {
                     Particle p = (Particle) entity;
                     p.setVelocityProvider(new GCVelocityProvider());
-                    p.setNeighbourhoodBest((Particle) pba.getTopology().getBestEntity());
+                    p.setNeighbourhoodBest((Particle) Topologies.getBestEntity(pba.getTopology()));
                     Topology<Particle> topology = (Topology<Particle>) pba.getTopology();
                     topology.add(p);
                     algorithm.getMainSwarm().getTopology().remove(entity);

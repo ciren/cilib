@@ -66,7 +66,7 @@ public class ReinitializationReactionStrategy<E extends PopulationBasedAlgorithm
      */
     @Override
     public void performReaction(E algorithm) {
-        List<? extends Entity> entities = algorithm.getTopology().asList();
+        Topology<? extends Entity> entities = algorithm.getTopology();
         int reinitializeCount = (int) Math.floor(reinitializationRatio * entities.size());
 
         reinitialize(entities, reinitializeCount);

@@ -25,6 +25,7 @@ package net.sourceforge.cilib.pso.niching.enhanced;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
 import net.sourceforge.cilib.pso.niching.AbsorptionStrategy;
@@ -70,11 +71,11 @@ public class EuclideanDiversityAbsorptionStrategy implements AbsorptionStrategy 
             Topology<? extends Entity> mainSwarmTopology = algorithm.getMainSwarm().getTopology();
             for (int i = 0; i < mainSwarmTopology.size(); i++) {
                 Entity entity = mainSwarmTopology.get(i);
-                double distance = distanceMeasure.distance(entity.getCandidateSolution(), pba.getTopology().getBestEntity().getCandidateSolution());
+                double distance = distanceMeasure.distance(entity.getCandidateSolution(), Topologies.getBestEntity(pba.getTopology()).getCandidateSolution());
                 if ((distance <= radius) && (diversity < threshold)) {
                     Particle p = (Particle) entity;
                     p.setVelocityProvider(new LinearVelocityProvider());
-                    p.setNeighbourhoodBest((Particle) pba.getTopology().getBestEntity());
+                    p.setNeighbourhoodBest((Particle) Topologies.getBestEntity(pba.getTopology()));
                     Topology<Particle> topology = (Topology<Particle>) pba.getTopology();
                     topology.add(p);
                     algorithm.getMainSwarm().getTopology().remove(entity);
@@ -86,7 +87,7 @@ public class EuclideanDiversityAbsorptionStrategy implements AbsorptionStrategy 
     private double calculateDiversity(PopulationBasedAlgorithm pba){
         Topology<Particle> topology = (Topology<Particle>) pba.getTopology();
         double sum = 0.0;
-        Vector best = (Vector) topology.getBestEntity().getBestPosition();
+        Vector best = (Vector) Topologies.getBestEntity(topology).getBestPosition();
         for(Particle p: topology){
             sum += distanceMeasure.distance(p.getPosition(), best);
         }

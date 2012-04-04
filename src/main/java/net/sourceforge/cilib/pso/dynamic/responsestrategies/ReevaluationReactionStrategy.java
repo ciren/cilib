@@ -71,7 +71,7 @@ public class ReevaluationReactionStrategy<E extends PopulationBasedAlgorithm> ex
      */
     @Override
     public void performReaction(E algorithm) {
-        List<? extends Entity> entities = algorithm.getTopology().asList();
+        Topology<? extends Entity> entities = algorithm.getTopology();
         int reevaluateCount = (int) Math.floor(reevaluationRatio * entities.size());
 
         reevaluate(entities, reevaluateCount);

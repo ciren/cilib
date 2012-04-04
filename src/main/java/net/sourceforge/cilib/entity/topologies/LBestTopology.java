@@ -23,9 +23,9 @@ package net.sourceforge.cilib.entity.topologies;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.AbstractTopology;
 import net.sourceforge.cilib.entity.Entity;
 
 /**
@@ -40,28 +40,22 @@ import net.sourceforge.cilib.entity.Entity;
  *
  * @param <E> The {@linkplain Entity} type.
  */
-public class LBestTopology<E extends Entity> extends GBestTopology<E> {
+public class LBestTopology<E extends Entity> extends AbstractTopology<E> {
     private static final long serialVersionUID = 93039445052676571L;
 
-    private ControlParameter neighbourhoodSize;
-
     /**
-     * Creates a new instance of <code>LBestTopology</code>. The default
-     * {@link #neighbourhoodSize} is a {@linkplain ConstantControlParameter} with it's parameter set to
-     * 3.
+     * Default constructor. The default {@link #neighbourhoodSize} is 3.
      */
     public LBestTopology() {
         super();
-        neighbourhoodSize = ConstantControlParameter.of(3);
+        this.neighbourhoodSize = ConstantControlParameter.of(3);
     }
 
     /**
-     * Copy constructor. Copy the provided instance.
-     * @param copy The instance to copy.
+     * Copy constructor..
      */
     public LBestTopology(LBestTopology<E> copy) {
         super(copy);
-        this.neighbourhoodSize = copy.neighbourhoodSize;
     }
 
     /**
@@ -73,10 +67,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
     }
 
     /**
-     * Recalculate the {@link #neighbourhoodSize} by updating the
-     * {@link ControlParameter} and then construct a new iterator to be returned.
-     * @param iterator The {@linkplain Iterator} to wrap.
-     * @return a new iterator for this topology.
+     * {@inheritDoc}
      */
     @Override
     public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
@@ -85,45 +76,41 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
     }
 
     /**
-     * Sets the {@linkplain ControlParameter} that should be used to determine the
-     * number of particles in the neighbourhood of each particle. The default is a
-     * {@linkplain ConstantControlParameter} with the parameter set to 3.
-     * @param neighbourhoodSize The {@linkplain ControlParameter} to use.
+     * {@inheritDoc}
      */
+    @Override
     public void setNeighbourhoodSize(ControlParameter neighbourhoodSize) {
         this.neighbourhoodSize = neighbourhoodSize;
     }
 
     /**
-     * Accessor for the number of particles in a neighbourhood. NOTE: This method does not return the
-     * {@linkplain ControlParameter} but the parameter that is changed / updated by it
-     * rounded to the nearest integer.
-     * @return The size of the neighbourhood.
+     * {@inheritDoc}
      */
+    @Override
     public int getNeighbourhoodSize() {
         int rounded = Long.valueOf(Math.round(neighbourhoodSize.getParameter())).intValue();
 
-        if (super.size() == 0) // to show a sensible default value in CiClops
+        if (size() == 0) // to show a sensible default value in CiClops
             return rounded;
 
-        if (rounded > super.size())
-            return super.size();
-
-        return rounded;
+        return Math.min(rounded, size());
     }
+    
+    /**
+     * Iterator to traverse the lBest topology.
+     */
+    protected class LBestNeighbourhoodIterator<T extends Entity> extends NeighbourhoodIterator<T> {
+        protected int count;
 
-    private class LBestNeighbourhoodIterator<T extends Entity> implements IndexedIterator<T> {
-
-        public LBestNeighbourhoodIterator(LBestTopology<T> topology, IndexedIterator<T> iterator) {
-            if (iterator.getIndex() == -1) {
-                throw new IllegalStateException();
-            }
-            this.topology = topology;
-            index = iterator.getIndex() - (topology.getNeighbourhoodSize() / 2) - 1;
+        public LBestNeighbourhoodIterator(AbstractTopology<T> topology, IndexedIterator<T> iterator) {
+            super(topology, iterator);
+            
+            this.count = 0;
+            this.index = iterator.getIndex() - (topology.getNeighbourhoodSize() / 2) - 1;
+            
             if (index < 0) {
                 index += topology.size();
             }
-            count = 0;
         }
 
         @Override
@@ -146,20 +133,16 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
             if (index == topology.size()) {
                index = 0;
             }
-            return topology.entities.get(index);
+            return topology.get(index);
         }
 
         @Override
         public void remove() {
-            topology.entities.remove(index);
+            topology.remove(index);
             --index;
             if (index < 0) {
                 index += topology.size();
             }
         }
-
-        private LBestTopology<T> topology;
-        private int index;
-        private int count;
     }
 }

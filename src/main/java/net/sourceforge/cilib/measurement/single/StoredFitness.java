@@ -59,7 +59,7 @@ public class StoredFitness implements Measurement<Real> {
     public Real getValue(Algorithm algorithm) {
         Fitness best = null;
         PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm) algorithm;
-        for (Entity e : currentAlgorithm.getTopology().asList()) {
+        for (Entity e : currentAlgorithm.getTopology()) {
             if (best == null || ((Fitness) e.getProperties().get(EntityType.Particle.BEST_FITNESS)).compareTo(best) > 0) {
                 best = ((Fitness) e.getProperties().get(EntityType.Particle.BEST_FITNESS));
             }

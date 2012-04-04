@@ -24,6 +24,7 @@ package net.sourceforge.cilib.pso.niching.enhanced;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
 import net.sourceforge.cilib.pso.PSO;
@@ -78,8 +79,8 @@ public class ScatterMergeStrategy implements MergeStrategy {
 
                 k2.accept(radiusVisitor);
                 double k2Radius = radiusVisitor.getResult().doubleValue();
-                Vector vectorK1 = (Vector) k1.getTopology().getBestEntity().getCandidateSolution();
-                Vector vectorK2 = (Vector) k2.getTopology().getBestEntity().getCandidateSolution();
+                Vector vectorK1 = (Vector) Topologies.getBestEntity(k1.getTopology()).getCandidateSolution();
+                Vector vectorK2 = (Vector) Topologies.getBestEntity(k2.getTopology()).getCandidateSolution();
                 Vector normalK1 = vectorK1;
                 Vector normalK2 = vectorK2;
 
@@ -101,7 +102,7 @@ public class ScatterMergeStrategy implements MergeStrategy {
 
     private void mergeSwarms(final MultiPopulationBasedAlgorithm algorithm, final PopulationBasedAlgorithm k1, PopulationBasedAlgorithm k2) {
         Topology<Particle> topology = (Topology<Particle>) k1.getTopology();
-        Particle neighbourhoodBest = topology.getBestEntity();
+        Particle neighbourhoodBest = Topologies.getBestEntity(topology);
 
         for (int i = 0; i < k2.getTopology().size(); i++) {
             Particle p = (Particle) k2.getTopology().get(i).getClone();

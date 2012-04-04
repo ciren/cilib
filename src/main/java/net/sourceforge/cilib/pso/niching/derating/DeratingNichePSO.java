@@ -31,6 +31,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
 import net.sourceforge.cilib.functions.ContinuousFunction;
@@ -162,7 +163,7 @@ public class DeratingNichePSO extends Niche {
             stopPhase2--;
         }
         for (PopulationBasedAlgorithm subSwarm : this) {
-            x.add((Particle) subSwarm.getTopology().getBestEntity());
+            x.add((Particle) Topologies.getBestEntity(subSwarm.getTopology()));
         }
         this.dmergeStrategy.merge(x);
         calculateModifiedFunction();

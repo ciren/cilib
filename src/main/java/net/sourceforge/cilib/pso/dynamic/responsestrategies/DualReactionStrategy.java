@@ -75,7 +75,7 @@ public class DualReactionStrategy<E extends PopulationBasedAlgorithm> extends En
      */
     @Override
     public void performReaction(E algorithm) {
-        List<? extends Entity> entities = algorithm.getTopology().asList();
+        Topology<? extends Entity> entities = algorithm.getTopology();
         int reinitializeCount = (int) Math.floor(reinitialization.getReinitializationRatio() * entities.size());
         int reevaluateCount = (int) Math.floor(reevaluation.getReevaluationRatio() * entities.size());
 

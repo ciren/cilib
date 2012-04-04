@@ -29,6 +29,7 @@ import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
@@ -69,9 +70,9 @@ public class RandToBestCreationStrategy extends RandCreationStrategy {
      */
     public Entity create(Entity targetEntity, Entity current,
             Topology<? extends Entity> topology) {
-        Entity bestEntity = topology.getBestEntity();
+        Entity bestEntity = Topologies.getBestEntity(topology);
         RandomProvider random = new MersenneTwister();
-        List<Entity> participants = (List<Entity>) Selection.copyOf(topology.asList())
+        List<Entity> participants = (List<Entity>) Selection.copyOf(topology)
                 .exclude(targetEntity, bestEntity, current)
                 .orderBy(new RandomArrangement(random))
                 .select(Samples.first((int) numberOfDifferenceVectors.getParameter()).unique());

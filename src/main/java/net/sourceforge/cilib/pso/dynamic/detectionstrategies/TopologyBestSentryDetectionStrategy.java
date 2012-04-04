@@ -23,6 +23,7 @@ package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topologies;
 
 /**
  * @inproceedings{ 2002.Hu.may00, title = "Adaptive Particle Swarm Optimization: Detection
@@ -43,7 +44,7 @@ public class TopologyBestSentryDetectionStrategy<E extends PopulationBasedAlgori
     @Override
     public boolean detect(PopulationBasedAlgorithm algorithm) {
         if (algorithm.getIterations() % interval == 0) {
-            Entity sentry = algorithm.getTopology().getBestEntity();
+            Entity sentry = Topologies.getBestEntity(algorithm.getTopology());
             double previousFitness = sentry.getFitness().getValue();
             sentry.calculateFitness();
             double currentFitness = sentry.getFitness().getValue();

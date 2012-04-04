@@ -32,6 +32,7 @@ import net.sourceforge.cilib.coevolution.cooperative.contributionselection.Contr
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ZeroContributionSelectionStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
@@ -132,7 +133,7 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        Particle bestEntity = topology.getBestEntity(new SocialBestFitnessComparator<Particle>());
+        Particle bestEntity = Topologies.getBestEntity(topology, new SocialBestFitnessComparator<Particle>());
         return new OptimisationSolution(bestEntity.getBestPosition(), bestEntity.getBestFitness());
     }
 

@@ -25,6 +25,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -34,54 +35,13 @@ import net.sourceforge.cilib.util.Cloneable;
  *
  * @param <E> All types derived from {@linkplain Entity}.
  */
-public interface Topology<E> extends Iterable<E>, List<E>, Cloneable {
+public interface Topology<E extends Entity> extends List<E>, Cloneable {
 
     /**
      * {@inheritDoc}
      */
     @Override
     Topology<E> getClone();
-
-    /**
-     * Get the <code>id</code> associated with this {@linkplain Topology}, if
-     * an id is defined.
-     * @return The <code>id</code> for this {@linkplain Topology}.
-     */
-    String getId();
-
-    /**
-     * Set the <code>id</code> for this {@linkplain Topology}.
-     * @param id The value to set.
-     */
-    void setId(String id);
-
-    /**
-     * Get all the entities within the topology.
-     * @return Collection. Data collection of all the entities
-     */
-    List<E> asList();
-
-    /**
-     * Obtain the current best entity within the {@code Topology}.
-     * @return The best {@code Entity}.
-     */
-    E getBestEntity();
-
-    /**
-     * Obtain the current best entity within the {@code Topology}, based
-     * on the provided {@code Comparator}.
-     * @param comparator The {@code Comparator} to use.
-     * @return The best {@code Entity} based on the defined comparison.
-     */
-    E getBestEntity(Comparator<? super E> comparator);
-
-    /**
-     * Accept a vistitor and perform the visitor actions on this
-     * <tt>Topology</tt>.
-     *
-     * @param visitor The {@see net.sourceforge.cilib.container.visitor.Visitor} to accept
-     */
-    void accept(Visitor<E> visitor);
 
     /**
      * Accept a {@code TopologyVisitor} into the {@code Topology} to perform the actions
@@ -91,14 +51,7 @@ public interface Topology<E> extends Iterable<E>, List<E>, Cloneable {
     void accept(TopologyVisitor visitor);
 
     /**
-     * Perform any required updates to the {@linkplain Topology} instance.
-     * The method in has an empty implementation and needs to be overridden
-     * within the required subclass.
-     */
-    void update();
-
-    /**
-     * Returns an <code>Iterator</code> over all particles in the neighbourhood of
+     * Returns an <code>Iterator</code> over all entites in the neighbourhood of
      * the particle referred to by the given <code>Iterator</code>.
      *
      * @param iterator An iterator that refers to a particle in this topology.
@@ -106,4 +59,19 @@ public interface Topology<E> extends Iterable<E>, List<E>, Cloneable {
      */
     Iterator<E> neighbourhood(Iterator<? extends Entity> iterator);
 
+    /**
+     * Accessor for the number of entities in a neighbourhood. NOTE: This method should
+     * return the value of the {@linkplain ControlParameter} rounded to the nearest integer.
+     * 
+     * @return The size of the neighbourhood.
+     */
+    int getNeighbourhoodSize();
+
+    /**
+     * Sets the {@linkplain ControlParameter} that should be used to determine the
+     * number of entities in the neighbourhood of each entity.
+     * 
+     * @param neighbourhoodSize The {@linkplain ControlParameter} to use.
+     */
+    void setNeighbourhoodSize(ControlParameter neighbourhoodSize);
 }
