@@ -32,8 +32,12 @@ public class LinearlyVaryingControlParameter implements ControlParameter {
     private double finalValue;
     
     public LinearlyVaryingControlParameter() {
-        this.initialValue = 0.0;
-        this.finalValue = Double.MAX_VALUE;
+        this(0.0, Double.MAX_VALUE);
+    }
+
+    public LinearlyVaryingControlParameter(double initialValue, double finalValue) {
+        this.initialValue = initialValue;
+        this.finalValue = finalValue;
     }
     
     public LinearlyVaryingControlParameter(LinearlyVaryingControlParameter copy) {
