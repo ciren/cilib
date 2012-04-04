@@ -81,14 +81,6 @@ public class CrossoverVelocityProvider implements VelocityProvider {
     }
 
     /**
-     * No control parameters to update
-     * @param particle 
-     */
-    @Override
-    public void updateControlParameters(Particle particle) {        
-    }
-
-    /**
      * Sets the crossover strategy to use.
      * 
      * @param crossoverStrategy 
