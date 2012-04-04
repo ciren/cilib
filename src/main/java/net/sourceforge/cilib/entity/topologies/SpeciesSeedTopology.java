@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.AbstractTopology;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.util.DistanceMeasure;
@@ -44,7 +45,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * }
  * </p>
  */
-public class SpeciesSeedTopology<E extends Entity> extends GBestTopology<E> {
+public class SpeciesSeedTopology<E extends Entity> extends AbstractTopology<E> {
 
     private DistanceMeasure distanceMeasure;
     private ControlParameter radius;
@@ -77,6 +78,7 @@ public class SpeciesSeedTopology<E extends Entity> extends GBestTopology<E> {
         this.radius = radius;
     }
 
+    @Override
     public void setNeighbourhoodSize(ControlParameter maxNeighbourhoodSize) {
         this.maxNeighbourhoodSize = maxNeighbourhoodSize;
     }
@@ -85,8 +87,9 @@ public class SpeciesSeedTopology<E extends Entity> extends GBestTopology<E> {
         this.distanceMeasure = distanceMeasure;
     }
 
-    public ControlParameter getNeighbourhoodSize() {
-        return maxNeighbourhoodSize;
+    @Override
+    public int getNeighbourhoodSize() {
+        return (int) maxNeighbourhoodSize.getParameter();
     }
 
     public DistanceMeasure getDistanceMeasure() {

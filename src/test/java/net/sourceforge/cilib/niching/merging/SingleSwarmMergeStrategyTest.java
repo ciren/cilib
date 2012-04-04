@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.niching.merging;
 
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.niching.NichingTest;
 import net.sourceforge.cilib.problem.MinimisationFitness;
@@ -55,6 +56,6 @@ public class SingleSwarmMergeStrategyTest {
         SingleSwarmMergeStrategy merge = new SingleSwarmMergeStrategy();
 
         Assert.assertEquals(3, merge.f(pso2, pso1).getTopology().size());
-        Assert.assertEquals(merge.f(pso2, pso1).getTopology().getBestEntity().getCandidateSolution(), pso2.getTopology().getBestEntity().getCandidateSolution());
+        Assert.assertEquals(Topologies.getBestEntity(merge.f(pso2, pso1).getTopology()).getCandidateSolution(), Topologies.getBestEntity(pso2.getTopology()).getCandidateSolution());
     }
 }

@@ -24,6 +24,8 @@ package net.sourceforge.cilib.niching.merging;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.Topologies;
+import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -69,8 +71,8 @@ public class RadiusOverlapMergeDetection extends MergeDetection {
         swarm2.accept(radiusVisitor);
         double swarm2Radius = radiusVisitor.getResult().doubleValue();
         
-        Vector swarm1GBest = (Vector) swarm1.getTopology().getBestEntity().getCandidateSolution();
-        Vector swarm2GBest = (Vector) swarm2.getTopology().getBestEntity().getCandidateSolution();
+        Vector swarm1GBest = (Vector) Topologies.getBestEntity(swarm1.getTopology(), new SocialBestFitnessComparator()).getCandidateSolution();
+        Vector swarm2GBest = (Vector) Topologies.getBestEntity(swarm2.getTopology(), new SocialBestFitnessComparator()).getCandidateSolution();
 
         double distance = distanceMeasure.distance(swarm1GBest, swarm2GBest);
         double normalizedDistance = distance / swarm1GBest.boundsOf(0).getRange();

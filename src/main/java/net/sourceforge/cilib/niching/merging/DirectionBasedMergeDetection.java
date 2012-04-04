@@ -23,6 +23,7 @@ package net.sourceforge.cilib.niching.merging;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -55,8 +56,8 @@ public class DirectionBasedMergeDetection extends MergeDetection {
      */
     @Override
     public Boolean f(PopulationBasedAlgorithm swarm1, PopulationBasedAlgorithm swarm2) {
-        Particle swarm1Best = (Particle) swarm1.getTopology().getBestEntity(new SocialBestFitnessComparator());
-        Particle swarm2Best = (Particle) swarm2.getTopology().getBestEntity(new SocialBestFitnessComparator());
+        Particle swarm1Best = (Particle) Topologies.getBestEntity(swarm1.getTopology(), new SocialBestFitnessComparator());
+        Particle swarm2Best = (Particle) Topologies.getBestEntity(swarm2.getTopology(), new SocialBestFitnessComparator());
         
         Vector velocity1 = ((Vector) swarm1Best.getVelocity()).normalize();
         Vector velocity2 = ((Vector) swarm2Best.getVelocity()).normalize();
