@@ -23,6 +23,8 @@ package net.sourceforge.cilib.type.types.container;
 
 import com.google.common.base.Predicate;
 import static java.lang.Math.sqrt;
+import java.util.Arrays;
+import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -33,6 +35,7 @@ import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.util.Vectors;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -398,5 +401,32 @@ public class VectorTest {
         }).doubleValue();
 
         Assert.assertEquals(4.0, result, 0.0001);
+    }
+    
+    @Test
+    public void testIsZero() {
+        Vector zero = Vector.of(0.0, 0.0, 0.0, 0.0, 0.0);
+        Vector notZero = Vector.of(0.0, 0.0, 1.0, 0.0, 0.0);
+        
+        assertFalse(notZero.isZero());
+        assertTrue(zero.isZero());
+    }
+    
+    @Test
+    public void testProject() {
+        Vector u = Vector.of(2.0, 1.0);
+        Vector v = Vector.of(-3.0, 4.0);
+        
+        assertEquals(u.project(v), Vector.of(6.0 / 25.0, -8.0 / 25.0));
+    }
+    
+    @Test
+    public void testOrthogonalize() {
+        Vector v1 = Vector.of(3.0, 1.0);
+        Vector v2 = Vector.of(2.0, 2.0);
+        Vector ortho = v1.orthogonalize(Arrays.asList(v2));
+
+        assertEquals(ortho.doubleValueOf(0), 1.0, 0.0);
+        assertEquals(ortho.doubleValueOf(1), -1.0, 0.0);
     }
 }

@@ -22,6 +22,9 @@
 package net.sourceforge.cilib.util;
 
 import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import java.util.Arrays;
+import java.util.List;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -70,24 +73,86 @@ public final class Vectors {
     }
 
     /**
-     * Determine the sum of a list of {@code Vector} instances.
+     * Determine the sum of a list of {@code Vector} instances. Convenience method for
+     * an array of vectors.
      * @param vectors The {@code Vector} instances to sum.
      * @return The resultant {@code Vector}.
      */
     public static Vector sumOf(Vector... vectors) {
-        Vector result = null;//vectors[0].getClone();
-
-        for (Vector vector : vectors) {
-            if (result == null) {
-                result = vector;
-                continue;
-            }
-            result = result.plus(vector);
+        return sumOf(Arrays.asList(vectors));
+    }
+    
+    /**
+     * Determine the sum of a list of {@code Vector} instances.
+     * @param vectors The {@code Vector} instances to sum.
+     * @return The resultant {@code Vector}.
+     */
+    public static Vector sumOf(List<Vector> vectors) {
+        if (vectors.isEmpty()) {
+            return null;
         }
-
+        
+        Vector result = vectors.get(0);
+        
+        if (vectors.size() > 1) {
+            for(int i = 1; i < vectors.size(); i++) {
+                result = result.plus(vectors.get(i));
+            }
+        }
+        
         return result;
     }
-
+    
+    /**
+     * Determine the mean of a list of {@code Vector} instances. Convenience method for
+     * an array of vectors.
+     * @param vectors The {@code Vector} instances to sum.
+     * @return The resultant {@code Vector}.
+     */
+    public static Vector mean(Vector... vectors) {
+        return mean(Arrays.asList(vectors));
+    }
+    
+    /**
+     * Determine the sum of a list of {@code Vector} instances.
+     * @param vectors The {@code Vector} instances to sum.
+     * @return The resultant {@code Vector}.
+     */
+    public static Vector mean(List<Vector> vectors) {
+        return sumOf(vectors).divide(vectors.size());
+    }
+    
+    /**
+     * Uses the Gram-Schmidt process to orthonormalize a list of vectors.
+     * @param vectors
+     * @return 
+     */
+    public static List<Vector> orthonormalize(List<Vector> vectors) {
+        List<Vector> orthonormalBases = Lists.newArrayList();
+        List<Vector> result = Lists.newArrayList();
+        
+        Vector u1 = Vector.copyOf(vectors.get(0));
+        orthonormalBases.add(u1);
+        
+        for (int i = 1; i < vectors.size(); i++) {
+            Vector ui = vectors.get(i);
+            
+            for (int j = 0; j < orthonormalBases.size(); j++) {
+                ui = ui.subtract(vectors.get(i).project(orthonormalBases.get(j)));
+            }
+		
+            if (!ui.isZero()) {
+                orthonormalBases.add(ui);
+            }
+        }
+        
+        for (Vector v : orthonormalBases) {
+            result.add(v.normalize());
+        }
+        
+        return result;
+    }
+    
     public static <T extends Number> Vector transform(Vector vector, Function<Numeric, T> function) {
         Vector.Builder builder = Vector.newBuilder();
         for (Numeric n : vector) {

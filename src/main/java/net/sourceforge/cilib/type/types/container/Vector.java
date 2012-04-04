@@ -602,6 +602,50 @@ public class Vector implements StructuredType<Numeric>,
         n[2] = Real.valueOf(this.doubleValueOf(0) * vector.doubleValueOf(1) - this.doubleValueOf(1) * vector.doubleValueOf(0));
         return new Vector(n);
     }
+    
+    /**
+     * Determines if this vector is a zero vector
+     * 
+     * @param v The vector to check
+     * @return True if the vector is a zero vector, false otherwise
+     */
+    public boolean isZero() {
+        for (Numeric n : this) {
+            if (Double.compare(n.doubleValue(), 0.0) != 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    
+    /**
+     * Calculates a vector that is orthogonal to a number of other vectors.
+     * 
+     * @param u the vector
+     * @param vs list of vectors
+     * @return the orthogonal vector
+     */
+    public Vector orthogonalize(Iterable<Vector> vs) {
+        Vector u = copyOf(this);
+        
+        for (Vector v : vs) {
+            u = u.subtract(u.project(v));
+        }
+
+        return u;
+    }
+    
+    /**
+     * Projects this vector onto another vector
+     * 
+     * @param u the first vector
+     * @param v the second vector
+     * @return the projected vector 
+     */
+    public Vector project(Vector v) {
+        return v.multiply(this.dot(v) / v.dot(v));
+    }
 
     /**
      * Randomize all the elements contained within the {@code Vector}.
