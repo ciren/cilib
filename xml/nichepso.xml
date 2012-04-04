@@ -6,8 +6,8 @@
 ]>
 <simulator>
     <algorithms>
-        <algorithm id="gbest" class="pso.niching.Niche">
-            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="20000"/>
+        <algorithm id="gbest" class="niching.NichePSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
         </algorithm>
     </algorithms>
     <problems>
