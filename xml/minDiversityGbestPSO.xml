@@ -7,11 +7,15 @@
 <simulator>
     <algorithms>
         <algorithm id="gbest" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MinimumDiversity">
-                <minimumDiversity class="controlparameter.ConstantControlParameter" parameter="0.001"/>
-                <diversity class="measurement.single.diversity.AverageEntropyDiversityMeasure" intervals="10"/>
+            <addStoppingCondition class="stoppingcondition.MaintainedStoppingCondition">
+                <condition class="stoppingcondition.MeasuredStoppingCondition">
+                    <measurement class="measurement.single.diversity.AverageEntropyDiversityMeasure" intervals="10"/>
+                    <predicate class="stoppingcondition.Minimum"/>
+                    <target value="0.001"/>
+                </condition>
+                <consecutiveIterations value="10"/>
             </addStoppingCondition>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
     </algorithms>
     <problems>

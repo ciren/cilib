@@ -8,7 +8,7 @@
     <algorithms>
         <algorithm id="gbest" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.ASynchronousIterationStrategy"/>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <neighbourhoodBestUpdateStrategy class="pso.positionprovider.IterationNeighbourhoodBestUpdateStrategy"/>

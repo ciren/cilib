@@ -33,7 +33,6 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
-
 import static org.mockito.Mockito.mock;
 
 /**
@@ -42,7 +41,7 @@ import static org.mockito.Mockito.mock;
 public class ConstrictionVelocityProviderTest {
 
     /**
-     * Test cloning and implicetly the copy constructor.
+     * Test cloning and implicitly the copy constructor.
      */
     @Test
     public void getClone() {
@@ -56,8 +55,7 @@ public class ConstrictionVelocityProviderTest {
 
         copy.setKappa(ConstantControlParameter.of(0.7));
         //copy.setVMax(ConstantControlParameter.of(0.7));
-        ControlParameter controlParameter = ConstantControlParameter.of(0.0);
-        controlParameter.setParameter(4.0);
+        ControlParameter controlParameter = ConstantControlParameter.of(4.0);
         copy.setSocialAcceleration(controlParameter.getClone());
         copy.setCognitiveAcceleration(controlParameter.getClone());
 

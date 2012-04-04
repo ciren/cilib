@@ -23,7 +23,6 @@ package net.sourceforge.cilib.pso.velocityprovider;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -149,13 +148,6 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
         }
 
         return parents;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateControlParameters(Particle particle) {
     }
 
     /**

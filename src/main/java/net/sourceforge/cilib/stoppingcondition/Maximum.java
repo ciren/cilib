@@ -21,37 +21,28 @@
  */
 package net.sourceforge.cilib.stoppingcondition;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import com.google.common.base.Preconditions;
 
 /**
+ * A stopping predicate used to stop an algorithm when a measurement is greater than or equal to a value.
  */
-public class MaximumIterations implements StoppingCondition<Algorithm> {
-    private static final long serialVersionUID = -6344490201879962979L;
-    private int maximumIterations;
-
-    public MaximumIterations() {
-        maximumIterations = 10000;
-    }
-
-    /**
-     * Create an instance, with the given number of iterations.
-     * @param maximumIterations The maximum number of iterations.
-     */
-    public MaximumIterations(int maximumIterations) {
-        this.maximumIterations = maximumIterations;
+public class Maximum implements CompletionCalculator {
+    
+    private double percentage;
+    
+    public Maximum() {
+        this.percentage = 0.0;
     }
 
     @Override
-    public double getPercentageCompleted(Algorithm algorithm) {
-        return Integer.valueOf(algorithm.getIterations()).doubleValue() / Integer.valueOf(maximumIterations).doubleValue();
+    public double getPercentage(double actualValue, double targetValue) {
+        Preconditions.checkArgument(targetValue != 0.0, "targetValue cannot be zero.");
+        percentage = Math.max(percentage, actualValue / targetValue);
+        return Math.max(Math.min(percentage, 1.0), 0.0);
     }
 
     @Override
-    public boolean apply(Algorithm input) {
-        return input.getIterations() >= maximumIterations;
-    }
-
-    public void setMaximumIterations(int maximumIterations) {
-        this.maximumIterations = maximumIterations;
+    public boolean apply(double actualValue, double targetValue) {
+        return actualValue >= targetValue;
     }
 }

@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.pso.hpso.detectionstrategies;
 
 import static com.google.common.base.Preconditions.checkArgument;
-
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
@@ -87,7 +86,7 @@ public class PersonalBestStagnationDetectionStrategy implements BehaviorChangeTr
         return false;
     }
 
-    public void setWindowSize(double value) {
-        windowSize.setParameter(value);
+    public void setWindowSize(ControlParameter windowSize) {
+        this.windowSize = windowSize;
     }
 }

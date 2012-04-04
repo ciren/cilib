@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.pso.particle;
 
-import net.sourceforge.cilib.pso.pbestupdate.StandardPersonalBestUpdateStrategy;
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
@@ -32,6 +31,7 @@ import net.sourceforge.cilib.entity.initialization.StandardPBestPositionInitiali
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
 import net.sourceforge.cilib.pso.pbestupdate.PersonalBestUpdateStrategy;
+import net.sourceforge.cilib.pso.pbestupdate.StandardPersonalBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionprovider.MemoryNeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionprovider.NeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionprovider.PositionProvider;
@@ -200,12 +200,6 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      */
     @Override
     public abstract void updateVelocity();
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract void updateControlParameters();
 
     /**
      * Get the current <tt>PositionProvider</tt> associated with this <tt>Particle</tt>.

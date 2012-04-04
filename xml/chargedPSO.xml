@@ -7,22 +7,22 @@
 <simulator>
     <algorithms>
         <algorithm id="chargedPSO" class="pso.PSO">
-	    <iterationStrategy class="pso.dynamic.DynamicIterationStrategy">
-		<detectionStrategy class="pso.dynamic.detectionstrategies.PeriodicChangeDetectionStrategy">
-		    <period value="100"/>
-		</detectionStrategy>
-		<responseStrategy class="pso.dynamic.responsestrategies.ParticleReevaluationResponseStrategy"/>
-	    </iterationStrategy>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <iterationStrategy class="pso.dynamic.DynamicIterationStrategy">
+                <detectionStrategy class="pso.dynamic.detectionstrategies.PeriodicChangeDetectionStrategy">
+                    <period value="100"/>
+                </detectionStrategy>
+                <responseStrategy class="pso.dynamic.responsestrategies.ParticleReevaluationResponseStrategy"/>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
             <initialisationStrategy class="algorithm.initialisation.ChargedPopulationInitialisationStrategy">
                 <entityType class="pso.dynamic.ChargedParticle"/>
             </initialisationStrategy>
-	</algorithm>
+        </algorithm>
     </algorithms>
 
     <measurements id="measurements" class="simulator.MeasurementSuite" resolution="1">
         <addMeasurement class="measurement.single.diversity.Diversity"/>
-        <addMeasurement class="measurement.single.dynamic.ErrorMeasurement"/>
+        <addMeasurement class="measurement.single.ErrorMeasurement"/>
         <addMeasurement class="measurement.single.dynamic.CollectiveMeanError"/>
     </measurements>
 

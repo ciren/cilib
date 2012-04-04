@@ -7,7 +7,7 @@
 <simulator>
     <algorithms>
         <algorithm id="gbest" class="pso.speciation.SpeciationPSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="2000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
         </algorithm>
     </algorithms>
     <problems>

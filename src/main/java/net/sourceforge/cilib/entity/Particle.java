@@ -80,12 +80,6 @@ public interface Particle extends Entity, SocialEntity, MemoryBasedEntity {
     void updateVelocity();
 
     /**
-     * Update all the {@linkplain ControlParameter}s that are maintained within the
-     * {@linkplain Particle}.
-     */
-    void updateControlParameters();
-
-    /**
      * Get the strategy that will be used to update the velocity.
      * @return The current {@linkplain VelocityProvider}.
      */

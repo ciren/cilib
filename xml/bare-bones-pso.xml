@@ -15,7 +15,7 @@
                     <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
                 </entityType>
             </initialisationStrategy>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
         </algorithm>
     </algorithms>
     <problems>

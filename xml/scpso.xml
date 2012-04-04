@@ -27,7 +27,9 @@
             <addPopulationBasedAlgorithm idref="gcpso"/>
             <addPopulationBasedAlgorithm idref="gcpso"/>
             <addPopulationBasedAlgorithm idref="gcpso"/>
-            <addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations" maximumFitnessEvaluations="200000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="200000">
+                <measurement class="measurement.single.FitnessEvaluations"/>
+            </addStoppingCondition>
         </algorithm>
 
         <problem class="problem.FunctionMinimisationProblem" domain="R(-512.03, 511.97)^30">

@@ -12,7 +12,7 @@
                 <entityNumber value="50"/>
                 <entityType class="ec.Individual"/>
             </initialisationStrategy>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="5000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="5000"/>
         </algorithm>
     </algorithms>
     <problems>

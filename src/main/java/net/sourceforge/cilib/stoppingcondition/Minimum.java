@@ -19,35 +19,31 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.measurement.single.dynamic;
-
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.DynamicOptimizationProblem;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
+package net.sourceforge.cilib.stoppingcondition;
 
 /**
- * Calculate the error between the current best value of the swarm and the
- * global optimum of the function.
- *
+ * A stopping predicate used to stop an algorithm when a measurement is less than or equal to a value.
  */
-public class ErrorMeasurement implements Measurement {
-
-    private static final long serialVersionUID = 2632671785674388015L;
-
-    @Override
-    public String getDomain() {
-        return "R";
+public class Minimum implements CompletionCalculator {
+    
+    private double percentage;
+    private double maxValue;
+    
+    public Minimum() {
+        this.percentage = 0.0;
+        this.maxValue = -Double.MAX_VALUE;
     }
 
     @Override
-    public Type getValue(Algorithm algorithm) {
-        return Real.valueOf(((DynamicOptimizationProblem) (algorithm.getOptimisationProblem())).getError(algorithm.getBestSolution().getPosition()));
+    public double getPercentage(double actualValue, double targetValue) {
+        maxValue = Math.max(actualValue, maxValue);
+        percentage = Math.max(percentage, 1.0 - (actualValue - targetValue) / (maxValue -  targetValue));
+        
+        return Math.max(Math.min(percentage, 1.0), 0.0);
     }
 
     @Override
-    public Measurement getClone() {
-        return this;
+    public boolean apply(double actualValue, double targetValue) {
+        return actualValue <= targetValue;
     }
 }

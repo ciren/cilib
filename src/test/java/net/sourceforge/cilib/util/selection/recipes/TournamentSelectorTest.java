@@ -24,16 +24,16 @@ package net.sourceforge.cilib.util.selection.recipes;
 import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomAdaptor;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import org.junit.Assert;
-import org.junit.Test;
-
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.hamcrest.Matchers.hasItem;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  *
@@ -74,7 +74,7 @@ public class TournamentSelectorTest {
     public void partialTournament() {
         List<Integer> list = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
         TournamentSelector<Integer> selection = new TournamentSelector<Integer>();
-        selection.getTournamentSize().setParameter(0.5);
+        selection.setTournamentSize(ConstantControlParameter.of(0.5));
         selection.setRandom(new ConstantRandomNumber());
         int selected = selection.on(list).select();
 

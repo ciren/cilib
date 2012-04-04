@@ -7,13 +7,13 @@
 <simulator>
     <algorithms>
         <algorithm id="pso" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000" />
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
         <algorithm id="ga" class="ec.EC">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
         <algorithm id="coop-pso" class="coevolution.cooperative.CooperativeCoevolutionAlgorithm">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="2000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
             <contributionSelectionStrategy class="coevolution.cooperative.contributionselection.SocialFitnessContributionSelectionStrategy"/>
             <addPopulationBasedAlgorithm idref="pso"/>
             <addPopulationBasedAlgorithm idref="pso"/>
@@ -23,7 +23,7 @@
             <addPopulationBasedAlgorithm idref="pso"/>
         </algorithm>
         <algorithm id="coop-ga" class="coevolution.cooperative.CooperativeCoevolutionAlgorithm">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="2000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
             <addPopulationBasedAlgorithm idref="ga"/>
             <addPopulationBasedAlgorithm idref="ga"/>
             <addPopulationBasedAlgorithm idref="ga"/>

@@ -7,7 +7,7 @@
 <simulator>
     <algorithms>
         <algorithm id="gbest" class="pso.vectorbased.SequentialVBPSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="100"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100"/>
         </algorithm>
     </algorithms>
     <problems>

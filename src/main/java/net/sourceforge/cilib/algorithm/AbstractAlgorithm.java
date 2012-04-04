@@ -155,10 +155,10 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     @Override
     public void run() {
         Preconditions.checkState(initialised, "Algorithm not initialised");
-
-        fireAlgorithmStarted();
-
+        
         currentAlgorithmStack.get().push(this);
+        
+        fireAlgorithmStarted();
 
         while (running && (!isFinished())) {
             performIteration();

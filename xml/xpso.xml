@@ -11,7 +11,7 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverStrategy class="entity.operators.crossover.UnimodalNormalDistributionCrossoverStrategy"/>
             </iterationStrategy>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
         
         <!--Crossover velocity provider UNDX-->
@@ -28,7 +28,7 @@
                     </particleBehavior>
                 </entityType>
             </initialisationStrategy>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
         
         <!--Crossover gBest guide provider UNDX-->
@@ -42,7 +42,7 @@
                     </particleBehavior>
                 </entityType>
             </initialisationStrategy>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
         
         <!--Crossover iteration strategy PCX-->
@@ -50,7 +50,7 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverStrategy class="entity.operators.crossover.ParentCentricCrossoverStrategy"/>
             </iterationStrategy>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
         
         <!--Crossover velocity provider PCX-->
@@ -65,7 +65,7 @@
                     </particleBehavior>
                 </entityType>
             </initialisationStrategy>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
         
         <!--Crossover gBest guide provider PCX-->
@@ -79,7 +79,7 @@
                     </particleBehavior>
                 </entityType>
             </initialisationStrategy>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
         
         <!--Crossover iteration strategy SPX-->
@@ -87,7 +87,7 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverStrategy class="entity.operators.crossover.SimplexCrossoverStrategy"/>
             </iterationStrategy>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
         
         <!--Crossover velocity provider SPX-->
@@ -102,7 +102,7 @@
                     </particleBehavior>
                 </entityType>
             </initialisationStrategy>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
         
         <!--Crossover gBest guide provider SPX-->
@@ -116,7 +116,7 @@
                     </particleBehavior>
                 </entityType>
             </initialisationStrategy>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
     </algorithms>
     

@@ -13,7 +13,9 @@
                 </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.GBestTopology"/>
-            <addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100000">
+                <measurement class="measurement.single.FitnessEvaluations"/>
+            </addStoppingCondition>
         </algorithm>
         <algorithm id="gcpso-lbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
@@ -22,7 +24,9 @@
                 </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.LBestTopology"/>
-            <addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100000">
+                <measurement class="measurement.single.FitnessEvaluations"/>
+            </addStoppingCondition>
         </algorithm>
         <algorithm id="gcpso-vn" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
@@ -31,19 +35,27 @@
                 </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.VonNeumannTopology"/>
-            <addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100000">
+                <measurement class="measurement.single.FitnessEvaluations"/>
+            </addStoppingCondition>
         </algorithm>
         <algorithm id="pso-gbest" class="pso.PSO">
             <topology class="entity.topologies.GBestTopology"/>
-            <addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100000">
+                <measurement class="measurement.single.FitnessEvaluations"/>
+            </addStoppingCondition>
         </algorithm>
         <algorithm id="pso-lbest" class="pso.PSO">
             <topology class="entity.topologies.LBestTopology"/>
-            <addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100000">
+                <measurement class="measurement.single.FitnessEvaluations"/>
+            </addStoppingCondition>
         </algorithm>
         <algorithm id="pso-vn" class="pso.PSO">
             <topology class="entity.topologies.VonNeumannTopology"/>
-            <addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100000">
+                <measurement class="measurement.single.FitnessEvaluations"/>
+            </addStoppingCondition>
         </algorithm>
     </algorithms>
     <problems>

@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.stoppingcondition;
 
 import com.google.common.base.Predicate;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
 
 /**
@@ -44,5 +43,4 @@ public interface StoppingCondition<T extends Algorithm> extends Predicate<T> {
      * @returns The percentage completed as a fraction {@literal (0 <= i <= 1.0)}.
      */
     public double getPercentageCompleted(T algorithm);
-
 }

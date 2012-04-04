@@ -24,7 +24,7 @@ package net.sourceforge.cilib.problem;
 import net.sourceforge.cilib.io.ARFFFileReader;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
+import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -63,7 +63,7 @@ public class NNDataTrainingProblemTest {
     @Test
     public void testCalculateFitness() {
         PSO pso = new PSO();
-        pso.addStoppingCondition(new MaximumIterations(1000));
+        pso.addStoppingCondition(new MeasuredStoppingCondition());
         pso.setOptimisationProblem(problem);
         pso.performInitialisation();
         pso.performIteration();

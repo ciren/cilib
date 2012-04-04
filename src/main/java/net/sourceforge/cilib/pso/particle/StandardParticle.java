@@ -185,14 +185,6 @@ public class StandardParticle extends AbstractParticle {
      * {@inheritDoc}
      */
     @Override
-    public void updateControlParameters() {
-        this.behavior.getVelocityProvider().updateControlParameters(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void reinitialise() {
         this.positionInitialisationStrategy.initialize(EntityType.CANDIDATE_SOLUTION, this);
         this.personalBestInitialisationStrategy.initialize(EntityType.Particle.BEST_POSITION, this);

@@ -24,7 +24,6 @@ package net.sourceforge.cilib.controlparameter;
 /**
  * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}
  * to represent a constant value. The specified value will be maintained until it is altered.
- *
  */
 public class ConstantControlParameter implements ControlParameter {
     private static final long serialVersionUID = 8847038781478109426L;
@@ -51,7 +50,7 @@ public class ConstantControlParameter implements ControlParameter {
         this.parameter = value;
     }
 
-    /**IBS
+    /**
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
@@ -62,6 +61,7 @@ public class ConstantControlParameter implements ControlParameter {
     /**
      * {@inheritDoc}
      */
+    @Override
     public ConstantControlParameter getClone() {
         return new ConstantControlParameter(this);
     }
@@ -69,28 +69,25 @@ public class ConstantControlParameter implements ControlParameter {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getParameter() {
         return parameter;
     }
-
+    
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getParameter(double min, double max) {
-        throw new UnsupportedOperationException("This method is not supported");
+        throw new UnsupportedOperationException("ConstantControlParameter has no bounds. Use a BoundedControlParameter instead.");
     }
 
     /**
-     * {@inheritDoc}
+     * Sets the constant parameter.
+     * 
+     * @param value The new constant parameter.
      */
     public void setParameter(double value) {
         this.parameter = value;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void updateParameter() {
-        // Nothing to update - This paramter is constant.
     }
 }

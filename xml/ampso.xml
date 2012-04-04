@@ -2,12 +2,15 @@
 <simulator>
     <simulation  samples="1">
         <algorithm class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="4000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="4000"/>
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="40"/>
                 <entityType class="pso.particle.StandardParticle">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <inertiaWeight class="controlparameter.LinearDecreasingControlParameter" />
+                        <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter">
+                            <initialValue value="0.9"/>
+                            <finalValue value="0.4"/>
+                        </inertiaWeight>
                     </velocityProvider>
                 </entityType>
             </initialisationStrategy>

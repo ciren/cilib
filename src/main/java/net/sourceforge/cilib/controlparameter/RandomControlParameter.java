@@ -28,34 +28,32 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
  * A control parameter that provides random parameter values, distributed
  * according to a specified probability distribution function. By default,
  * the distribution is uniform.
- * 
  */
-public class RandomControlParameter implements BoundedControlParameter {
-    protected ProbabilityDistributionFuction distribution;
-    protected double lower, upper;
+public class RandomControlParameter implements ControlParameter {
+    private ProbabilityDistributionFuction distribution;
+    private double lowerBound;
+    private double upperBound;
 
     public RandomControlParameter() {
-        this.distribution = new UniformDistribution();
-        this.lower = 0.0;
-        this.upper = 1.0;
+        this(new UniformDistribution());
     }
 
     public RandomControlParameter(ProbabilityDistributionFuction distribution) {
         this.distribution = distribution;
-        this.lower = 0.0;
-        this.upper = 1.0;
+        this.lowerBound = 0.0;
+        this.upperBound = 1.0;
     }
 
     @Override
-    public ControlParameter getClone() {
+    public RandomControlParameter getClone() {
         return new RandomControlParameter();
     }
 
     @Override
     public double getParameter() {
-        return distribution.getRandomNumber(lower, upper);
+        return getParameter(lowerBound, upperBound);
     }
-
+    
     @Override
     public double getParameter(double min, double max) {
         return distribution.getRandomNumber(min, max);
@@ -63,7 +61,7 @@ public class RandomControlParameter implements BoundedControlParameter {
 
     /**
      * This method overrides getParamter() to allow the use of distributions
-     * that reuquire more parameters than min and max.
+     * that require more parameters than min and max.
      * @param parameters The parameters required by the ProbabilityDistributionFunction.
      * @return A random number.
      */
@@ -71,39 +69,20 @@ public class RandomControlParameter implements BoundedControlParameter {
         return distribution.getRandomNumber(parameters);
     }
 
-    @Override
-    public void setParameter(double value) {
-        throw new UnsupportedOperationException("Not supported.");
-    }
-
-    @Override
-    public void updateParameter() {
-        throw new UnsupportedOperationException("Not supported.");
-    }
-
-    @Override
     public double getLowerBound() {
-        return lower;
+        return lowerBound;
     }
 
-    @Override
     public double getUpperBound() {
-        return upper;
+        return upperBound;
     }
 
-    @Override
     public void setLowerBound(double lower) {
-        this.lower = lower;
+        this.lowerBound = lower;
     }
 
-    @Override
-    public void setRange(String range) {
-        throw new UnsupportedOperationException("Not supported.");
-    }
-
-    @Override
     public void setUpperBound(double upper) {
-        this.upper = upper;
+        this.upperBound = upper;
     }
 
     public ProbabilityDistributionFuction getDistribution() {

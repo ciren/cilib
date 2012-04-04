@@ -21,14 +21,13 @@
  */
 package net.sourceforge.cilib.pso;
 
-import static org.hamcrest.CoreMatchers.is;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 import net.sourceforge.cilib.math.random.generator.SeedSelectionStrategy;
 import net.sourceforge.cilib.math.random.generator.Seeder;
 import net.sourceforge.cilib.math.random.generator.ZeroSeederStrategy;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
-import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
-
+import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
+import static org.hamcrest.CoreMatchers.is;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -65,7 +64,7 @@ public class PSOTest {
 
             PSO pso = new PSO();
             pso.setOptimisationProblem(problem);
-            pso.addStoppingCondition(new MaximumIterations(1000));
+            pso.addStoppingCondition(new MeasuredStoppingCondition());
 
             pso.initialise();
             pso.run();

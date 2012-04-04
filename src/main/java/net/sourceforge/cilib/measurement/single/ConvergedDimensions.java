@@ -49,8 +49,7 @@ public class ConvergedDimensions implements Measurement<Real> {
 
     /** Creates a new instance of ConvergedDimensions. */
     public ConvergedDimensions() {
-        errorThreshold = new ConstantControlParameter();
-        errorThreshold.setParameter(0.0);
+        errorThreshold = ConstantControlParameter.of(0.0);
     }
 
     /**
@@ -87,8 +86,8 @@ public class ConvergedDimensions implements Measurement<Real> {
      * Set the error threshold
      * @param error
      */
-    public void setErrorThreshold(double error) {
-        this.errorThreshold.setParameter(error);
+    public void setErrorThreshold(ControlParameter error) {
+        this.errorThreshold = error;
     }
 
     /**
@@ -116,14 +115,13 @@ public class ConvergedDimensions implements Measurement<Real> {
         int populationSize = populationBasedAlgorithm.getTopology().size();
 
         int dimensions = 0;
-        int numberConvergedDimensions = 0;
         double sumOfAverageConvergedDimensions = 0.0;
 
         for (Entity populationEntity : populationBasedAlgorithm.getTopology()) {
             dimensions = populationEntity.getDimension();
 
             int dimension = 0;
-            numberConvergedDimensions = 0;
+            int numberConvergedDimensions = 0;
             for (Numeric position : (Vector) populationEntity.getCandidateSolution()) {
                 double lowerBound = targetSolution.doubleValueOf(dimension) - this.errorThreshold.getParameter();
                 double upperBound = targetSolution.doubleValueOf(dimension) + this.errorThreshold.getParameter();
