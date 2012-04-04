@@ -22,6 +22,8 @@
 package net.sourceforge.cilib.niching.creation;
 
 import fj.F;
+import fj.F2;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 
 /**
@@ -29,5 +31,5 @@ import net.sourceforge.cilib.entity.Entity;
  * have found niches. These entities are returned, with the expectation
  * that the callee will use them in some or other manner.
  */
-public abstract class NicheDetection extends F<Entity, Boolean> {
+public abstract class NicheDetection extends F2<PopulationBasedAlgorithm, Entity, Boolean> {
 }

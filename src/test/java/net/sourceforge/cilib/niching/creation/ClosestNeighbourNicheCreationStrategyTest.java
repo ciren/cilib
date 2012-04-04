@@ -28,6 +28,7 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.niching.NichingTest;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
@@ -48,6 +49,7 @@ public class ClosestNeighbourNicheCreationStrategyTest {
         pso.getTopology().addAll(Arrays.asList(p1, p2, p3));
         
         ClosestNeighbourNicheCreationStrategy creator = new ClosestNeighbourNicheCreationStrategy();
+        creator.setBehavior(new ParticleBehavior());
         P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> swarms = creator.f(pso, p1);
         
         Assert.assertEquals(1, swarms._1().getTopology().size());

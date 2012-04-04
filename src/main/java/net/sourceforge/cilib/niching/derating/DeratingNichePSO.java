@@ -27,12 +27,9 @@ import fj.P;
 import fj.data.List;
 import java.util.Collections;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.problem.DeratingOptimisationProblem;
-import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.niching.NichePSO;
 import net.sourceforge.cilib.niching.Niching;
-import net.sourceforge.cilib.niching.Niching.NichingFunction;
 import static net.sourceforge.cilib.niching.Niching.*;
 import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.niching.creation.ClosestNeighbourNicheCreationStrategy;
@@ -40,8 +37,12 @@ import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
 import net.sourceforge.cilib.niching.creation.NicheDetection;
 import net.sourceforge.cilib.niching.merging.MergeDetection;
 import net.sourceforge.cilib.niching.merging.MergeStrategy;
+import net.sourceforge.cilib.problem.DeratingOptimisationProblem;
+import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
-import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
+import net.sourceforge.cilib.stoppingcondition.Maximum;
+import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 
 /**
  *
@@ -52,7 +53,7 @@ public class DeratingNichePSO extends NichePSO {
     public DeratingNichePSO() {
         super();
         this.solutions = Lists.<OptimisationSolution>newLinkedList();
-        this.mainSwarm.addStoppingCondition(new MaximumIterations(500));
+        this.mainSwarm.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 500));
         ((ClosestNeighbourNicheCreationStrategy) this.swarmCreationStrategy).setBehavior(new ParticleBehavior());
     }
     

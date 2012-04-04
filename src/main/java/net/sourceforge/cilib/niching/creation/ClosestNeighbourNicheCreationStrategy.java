@@ -26,20 +26,24 @@ import fj.P2;
 import java.util.Arrays;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.LinearDecreasingControlParameter;
+import net.sourceforge.cilib.controlparameter.LinearlyVaryingControlParameter;
+import net.sourceforge.cilib.controlparameter.UpdateOnIterationControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.ClosestEntityVisitor;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.measurement.generic.Iterations;
+import net.sourceforge.cilib.niching.merging.SingleSwarmMergeStrategy;
 import net.sourceforge.cilib.problem.boundaryconstraint.ClampingBoundaryConstraint;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
-import net.sourceforge.cilib.niching.merging.SingleSwarmMergeStrategy;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.velocityprovider.ClampingVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.GCVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
-import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
+import net.sourceforge.cilib.stoppingcondition.Maximum;
+import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 
 /**
  * <p>
@@ -70,18 +74,11 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
     public ClosestNeighbourNicheCreationStrategy() {
         this.subSwarm = new PSO();
         ((SynchronousIterationStrategy) ((PSO) this.subSwarm).getIterationStrategy()).setBoundaryConstraint(new ClampingBoundaryConstraint());
-        this.subSwarm.addStoppingCondition(new MaximumIterations(500));
-        
-        LinearDecreasingControlParameter inertia = new LinearDecreasingControlParameter();
-        inertia.setLowerBound(0.2);
-        inertia.setUpperBound(0.7);
-        inertia.setParameter(0.7);
-        
-        ClampingVelocityProvider delegate = new ClampingVelocityProvider();
-        ((StandardVelocityProvider) delegate.getDelegate()).setCognitiveAcceleration(ConstantControlParameter.of(1.2));
-        ((StandardVelocityProvider) delegate.getDelegate()).setSocialAcceleration(ConstantControlParameter.of(1.2));
-        ((StandardVelocityProvider) delegate.getDelegate()).setInertiaWeight(inertia);
-        delegate.setVMax(ConstantControlParameter.of(1.0));
+        this.subSwarm.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 500));
+
+        ClampingVelocityProvider delegate = new ClampingVelocityProvider(ConstantControlParameter.of(1.0),
+                new StandardVelocityProvider(new UpdateOnIterationControlParameter(new LinearlyVaryingControlParameter(0.7, 0.2)),
+                    ConstantControlParameter.of(1.2), ConstantControlParameter.of(1.2), new MersenneTwister(), new MersenneTwister()));
         
         GCVelocityProvider gcVelocityProvider = new GCVelocityProvider();
         gcVelocityProvider.setDelegate(delegate);

@@ -42,23 +42,23 @@ public class MaintainedFitnessNicheDetectionTest {
         Particle p2 = NichingTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
         
         MaintainedFitnessNicheDetection detection = new MaintainedFitnessNicheDetection();
-        Assert.assertFalse(detection.f(p1));
+        Assert.assertFalse(detection.f(null, p1));
         p1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.999999));
         p1 = p1.getClone();
-        Assert.assertFalse(detection.f(p1));
+        Assert.assertFalse(detection.f(null, p1));
         p1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.999998));
         p1 = p1.getClone();
-        Assert.assertTrue(detection.f(p1));
+        Assert.assertTrue(detection.f(null, p1));
         
-        Assert.assertFalse(detection.f(p2));
+        Assert.assertFalse(detection.f(null, p2));
         p2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.999999));
         p2 = p2.getClone();
-        Assert.assertFalse(detection.f(p2));
+        Assert.assertFalse(detection.f(null, p2));
         p2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.999998));
         p2 = p2.getClone();
-        Assert.assertTrue(detection.f(p2));
+        Assert.assertTrue(detection.f(null, p2));
         p2 = p2.getClone();
-        detection.f(p2);
+        detection.f(null, p2);
         Assert.assertEquals(3, ((TypeList) p2.getProperties().get(MaintainedFitnessNicheDetection.NicheEnum.NICHE_DETECTION_FITNESSES)).size());
     }
 

@@ -22,12 +22,12 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
 import net.sourceforge.cilib.niching.creation.NicheDetection;
 import net.sourceforge.cilib.niching.merging.MergeDetection;
 import net.sourceforge.cilib.niching.merging.MergeStrategy;
 import net.sourceforge.cilib.niching.merging.StandardMergeStrategy;
+import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -164,7 +164,7 @@ public final class Niching {
             @Override
             public NichingSwarms f(NichingSwarms swarms) {
                 List<Entity> entities = List.<Entity>iterableList((Topology<Entity>) swarms._1().getTopology());
-                List<Entity> filteredEntities = entities.filter(nicheDetection);
+                List<Entity> filteredEntities = entities.filter(nicheDetection.f(swarms._1()));
 
                 // make sure there are enough entities to put into a new swarm
                 if (filteredEntities.isEmpty() || entities.length() == 1) {

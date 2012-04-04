@@ -165,7 +165,14 @@ public class SpeciesSeedTopology<E extends Entity> extends AbstractTopology<E> {
                         @Override
                         public Ordering f(P2<Entity, Integer> a, P2<Entity, Integer> b) {
                             int result = a._1().getFitness().compareTo(a._1().getFitness()) + 1;
-                            return Ordering.values()[result];
+                            switch(result) {
+                                case -1:
+                                    return Ordering.LT;
+                                case 1:
+                                    return Ordering.GT;
+                                default:
+                                    return Ordering.EQ;
+                            }
                         }
                     }.curry()));
             neighbours = getNeighbourhood(distanceMeasure, radius, maxNeighbourhoodSize, iterator.getIndex()).f(newTopology);
