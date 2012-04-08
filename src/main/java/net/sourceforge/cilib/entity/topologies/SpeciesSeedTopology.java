@@ -49,19 +49,18 @@ public class SpeciesSeedTopology<E extends Entity> extends AbstractTopology<E> {
 
     private DistanceMeasure distanceMeasure;
     private ControlParameter radius;
-    private ControlParameter maxNeighbourhoodSize;
 
     public SpeciesSeedTopology() {
         this.distanceMeasure = new EuclideanDistanceMeasure();
         this.radius = ConstantControlParameter.of(100);
-        this.maxNeighbourhoodSize = ConstantControlParameter.of(20);
+        this.neighbourhoodSize = ConstantControlParameter.of(20);
     }
 
     public SpeciesSeedTopology(SpeciesSeedTopology copy) {
         super(copy);
         this.distanceMeasure = copy.distanceMeasure;
         this.radius = copy.radius.getClone();
-        this.maxNeighbourhoodSize = copy.maxNeighbourhoodSize.getClone();
+        this.neighbourhoodSize = copy.neighbourhoodSize.getClone();
     }
 
     @Override
@@ -80,7 +79,7 @@ public class SpeciesSeedTopology<E extends Entity> extends AbstractTopology<E> {
 
     @Override
     public void setNeighbourhoodSize(ControlParameter maxNeighbourhoodSize) {
-        this.maxNeighbourhoodSize = maxNeighbourhoodSize;
+        this.neighbourhoodSize = maxNeighbourhoodSize;
     }
 
     public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
@@ -89,7 +88,7 @@ public class SpeciesSeedTopology<E extends Entity> extends AbstractTopology<E> {
 
     @Override
     public int getNeighbourhoodSize() {
-        return (int) maxNeighbourhoodSize.getParameter();
+        return Math.min((int) neighbourhoodSize.getParameter(), entities.size());
     }
 
     public DistanceMeasure getDistanceMeasure() {
@@ -131,20 +130,32 @@ public class SpeciesSeedTopology<E extends Entity> extends AbstractTopology<E> {
         return new F<List<P2<Entity, Integer>>, List<Integer>>() {
             @Override
             public List<Integer> f(List<P2<Entity, Integer>> a) {
-                if (a.length() == 1) {
-                    return List.single(a.head()._2());
+                if (a.isEmpty()) {
+                    return List.<Integer>nil();
                 }
                 
-                List<P2<Entity, Integer>> sorted = a;
-                List<P2<Entity, Integer>> filtered = sorted.tail().filter(inRadius(distance, radius, sorted.head()._1()));
+                List<P2<Entity, Integer>> sorted = a.sort(Ord.<P2<Entity, Integer>>ord(new F2<P2<Entity, Integer>, P2<Entity, Integer>, Ordering>() {
+                        @Override
+                        public Ordering f(P2<Entity, Integer> a, P2<Entity, Integer> b) {
+                            int result = -a._1().getFitness().compareTo(b._1().getFitness()) + 1;
+                            return Ordering.values()[result];
+                        }
+                    }.curry()));
+                List<P2<Entity, Integer>> filtered = sorted.filter(inRadius(distance, radius, sorted.head()._1()));
                 List<P2<Entity, Integer>> neighbours = filtered.take((int) size.getParameter());
-                List<P2<Entity, Integer>> extras = filtered.drop(Math.max(0, filtered.length() - (int) size.getParameter()));
                 
                 if(neighbours.exists(exists(index))) {
                     return neighbours.map(P2.<Entity, Integer>__2());
                 }
                 
-                return this.f(sorted.tail().removeAll(inRadius(distance, radius, sorted.head()._1())).append(extras));
+                List<P2<Entity, Integer>> remainder = sorted.minus(Equal.<P2<Entity, Integer>>equal(
+                    new F2<P2<Entity, Integer>, P2<Entity, Integer>, Boolean>() {
+                        @Override
+                        public Boolean f(P2<Entity, Integer> a, P2<Entity, Integer> b) {
+                            return a._2() == b._2();
+                        }
+                    }.curry()), neighbours);
+                return this.f(remainder);
             }
         };
     }
@@ -160,25 +171,10 @@ public class SpeciesSeedTopology<E extends Entity> extends AbstractTopology<E> {
                 throw new IllegalStateException();
             }
 
-            List<P2<Entity, Integer>> newTopology = List.<Entity>iterableList((Topology<Entity>) topology.getClone())
-                    .zipIndex().sort(Ord.<P2<Entity, Integer>>ord(new F2<P2<Entity, Integer>, P2<Entity, Integer>, Ordering>() {
-                        @Override
-                        public Ordering f(P2<Entity, Integer> a, P2<Entity, Integer> b) {
-                            int result = a._1().getFitness().compareTo(a._1().getFitness()) + 1;
-                            switch(result) {
-                                case -1:
-                                    return Ordering.LT;
-                                case 1:
-                                    return Ordering.GT;
-                                default:
-                                    return Ordering.EQ;
-                            }
-                        }
-                    }.curry()));
-            neighbours = getNeighbourhood(distanceMeasure, radius, maxNeighbourhoodSize, iterator.getIndex()).f(newTopology);
+            List<P2<Entity, Integer>> newTopology = List.<Entity>iterableList((Topology<Entity>) topology.getClone()).zipIndex();
+            this.neighbours = getNeighbourhood(distanceMeasure, radius, neighbourhoodSize, iterator.getIndex()).f(newTopology);
             this.topology = topology;
-            index = neighbours.head();
-            neighbours = neighbours.orTail(P.p(List.<Integer>nil()));
+            this.index = -1;
         }
 
         @Override
@@ -188,7 +184,7 @@ public class SpeciesSeedTopology<E extends Entity> extends AbstractTopology<E> {
 
         @Override
         public boolean hasNext() {
-            return neighbours.orTail(P.p(List.<Integer>nil())).isNotEmpty();
+            return neighbours.isNotEmpty();
         }
 
         @Override
@@ -204,6 +200,10 @@ public class SpeciesSeedTopology<E extends Entity> extends AbstractTopology<E> {
 
         @Override
         public void remove() {
+            if (index == -1) {
+                throw new NoSuchElementException();
+            }
+            
             topology.entities.remove(index);
         }
     }
