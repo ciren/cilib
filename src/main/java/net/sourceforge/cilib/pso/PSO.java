@@ -93,18 +93,8 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
         
         for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
             Particle current = i.next();
-            Particle nBest = current;
-            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
-                Particle other = j.next();
-                if (nBest.getSocialFitness().compareTo(other.getSocialFitness()) > 0) {
-                    nBest = other;
-                }
-            }
-            
-            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
-                Particle other = j.next();
-                other.setNeighbourhoodBest(nBest);
-            }
+            Particle nBest = Topologies.getNeighbourhoodBest(topology, current, new SocialBestFitnessComparator());
+            current.setNeighbourhoodBest(nBest);
         }
     }
 
