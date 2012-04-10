@@ -30,15 +30,16 @@ import net.sourceforge.cilib.controlparameter.ParameterAdaptingPSOControlParamet
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
+import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
+import net.sourceforge.cilib.stoppingcondition.Maximum;
+import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -86,7 +87,7 @@ public class IndexBasedAverageDiversityAroundAllEntitiesTest {
         pso = new PSO();
         
         pso.setOptimisationProblem(problem);
-        pso.addStoppingCondition(new MaximumIterations(1));
+        pso.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 100));
         //pso.setInitialisationStrategy(newStrategy);
         pso.initialise();
         

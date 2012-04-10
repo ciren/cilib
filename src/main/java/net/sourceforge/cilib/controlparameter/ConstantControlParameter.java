@@ -104,14 +104,6 @@ public class ConstantControlParameter implements ParameterAdaptingPSOControlPara
     public boolean wasSetByUser() {
         return true;
     }
-
-    /**
-     * Not applicable to this class as it is constant
-     */
-    @Override
-    public void updateParameter() {
-        // Nothing to update - This paramter is constant.
-    }
     
     /*
      * Not applicable to this class as it is constant

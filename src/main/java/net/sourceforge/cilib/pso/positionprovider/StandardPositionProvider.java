@@ -121,18 +121,4 @@ public class StandardPositionProvider implements PositionProvider {
             return value;
         //return position;
     }
-    
-    public boolean isWithinBounds(double value, ControlParameter parameter) {
-        if(parameter instanceof BoundedModifiableControlParameter) {
-            BoundedModifiableControlParameter newParameter = (BoundedModifiableControlParameter) parameter;
-            
-            if((value > newParameter.getLowerBound()) && (value < newParameter.getUpperBound())) {
-                return true;
-            }
-        } else {
-            return true;
-        }
-        
-        return false;
-    }
 }

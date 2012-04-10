@@ -105,7 +105,7 @@ public class BoundedPersonalBestUpdateStrategyTest {
         BoundedPersonalBestUpdateStrategy strategy = new BoundedPersonalBestUpdateStrategy();
         strategy.updateParametizedPersonalBest(particle);
 
-        Assert.assertThat(particle.getBestFitness(), is(particle.getFitness()));
+        Assert.assertThat(particle.getBestFitness().getValue(), is(particle.getFitness().getValue()));
         Assert.assertThat(particle.getBestPosition(), is(particle.getPosition()));
         Assert.assertThat(particle.getBestInertia().getParameter(), is(particle.getInertia().getParameter()));
         Assert.assertThat(particle.getBestSocialAcceleration().getParameter(), is(particle.getSocialAcceleration().getParameter()));

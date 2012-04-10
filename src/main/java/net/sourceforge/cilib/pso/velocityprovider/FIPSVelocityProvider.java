@@ -104,15 +104,7 @@ public class FIPSVelocityProvider implements VelocityProvider {
 
         return builder.build();
     }
-    
-    @Override
-    public void updateControlParameters(Particle particle) {
-        this.inertiaWeight.updateParameter();
-        this.socialAcceleration.updateParameter();
-        this.cognitiveAcceleration.updateParameter();
-    }
-    
-    
+
     /*
      * {@inheritDoc}
      */

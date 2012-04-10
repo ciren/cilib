@@ -75,4 +75,14 @@ public class BoundedControlParameter implements ControlParameter {
     public void setControlParameter(ControlParameter controlParameter) {
         this.controlParameter = controlParameter;
     }
+
+    @Override
+    public void setParameter(double value) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void updateParameter(double value) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

@@ -127,13 +127,6 @@ public class LinearVelocityProvider implements VelocityProvider {
         this.socialRandomGenerator = socialRandomGenerator;
     }
 
-    @Override
-    public void updateControlParameters(Particle particle) {
-        this.inertiaWeight.updateParameter();
-        this.socialAcceleration.updateParameter();
-        this.cognitiveAcceleration.updateParameter();
-    }
-    
     /*
      * {@inheritDoc}
      */

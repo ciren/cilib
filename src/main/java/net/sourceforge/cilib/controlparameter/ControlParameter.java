@@ -45,12 +45,6 @@ public interface ControlParameter extends Cloneable {
     ControlParameter getClone();
 
     void setParameter(double value);
-
-    /**
-     * Update the required and needed parameters contained within this
-     * {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter parameter}.
-     */
-    void updateParameter();
     
     /**
      * Update the parameter to the value provided. Only applicable to modifiable non-constant parameters

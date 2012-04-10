@@ -103,4 +103,14 @@ public class UpdateOnIterationControlParameter implements ControlParameter {
     public ControlParameter getDelegate() {
         return delegate;
     }
+
+    @Override
+    public void setParameter(double value) {
+        //not applicable
+    }
+
+    @Override
+    public void updateParameter(double value) {
+        //not applicable
+    }
 }

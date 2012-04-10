@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.pso.particle;
 
 import java.util.HashMap;
+import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ParameterAdaptingPSOControlParameter;
@@ -30,7 +31,6 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.initialization.ParameterInclusiveInitializationStrategy;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
-import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.pso.dynamic.ChargedParticle;
 import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
@@ -41,7 +41,6 @@ import net.sourceforge.cilib.pso.positionprovider.StandardPositionProvider;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -233,6 +232,27 @@ public class ParameterizedParticle extends ChargedParticle{
         parameterInclusiveInitializationStrategy.setLowerBound(entityLowerBound);
         parameterInclusiveInitializationStrategy.setUpperBound(entityUpperBound);
         
+        if(inertia instanceof BoundedModifiableControlParameter) {
+            parameterInclusiveInitializationStrategy.setLowerBoundInertia(ConstantControlParameter.of(((BoundedModifiableControlParameter) inertia).getLowerBound()));
+            parameterInclusiveInitializationStrategy.setUpperBoundInertia(ConstantControlParameter.of(((BoundedModifiableControlParameter) inertia).getUpperBound()));
+        }
+        
+        if(socialAcceleration instanceof BoundedModifiableControlParameter) {
+            parameterInclusiveInitializationStrategy.setLowerBoundSocialAcceleration(ConstantControlParameter.of(((BoundedModifiableControlParameter) socialAcceleration).getLowerBound()));
+            parameterInclusiveInitializationStrategy.setUpperBoundSocialAcceleration(ConstantControlParameter.of(((BoundedModifiableControlParameter) socialAcceleration).getUpperBound()));
+        }
+        
+        if(cognitiveAcceleration instanceof BoundedModifiableControlParameter) {
+            parameterInclusiveInitializationStrategy.setLowerBoundCognitiveAcceleration(ConstantControlParameter.of(((BoundedModifiableControlParameter) cognitiveAcceleration).getLowerBound()));
+            parameterInclusiveInitializationStrategy.setUpperBoundCognitiveAcceleration(ConstantControlParameter.of(((BoundedModifiableControlParameter) cognitiveAcceleration).getUpperBound()));
+        }
+        
+        if(vmax instanceof BoundedModifiableControlParameter) {
+            parameterInclusiveInitializationStrategy.setLowerBoundVmax(ConstantControlParameter.of(((BoundedModifiableControlParameter) vmax).getLowerBound()));
+            parameterInclusiveInitializationStrategy.setUpperBoundVmax(ConstantControlParameter.of(((BoundedModifiableControlParameter) vmax).getUpperBound()));
+        }
+        
+        
         this.getProperties().put(EntityType.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresenation().getClone());
         this.getProperties().put(EntityType.Particle.BEST_POSITION, getPosition().getClone());
         this.getProperties().put(EntityType.Particle.VELOCITY, getPosition().getClone());
@@ -307,15 +327,6 @@ public class ParameterizedParticle extends ChargedParticle{
         cognitiveAcceleration.setVelocity(parameterVelocity.get("CognitiveAccelerationVelocity"));
         vmax.setVelocity(parameterVelocity.get("VmaxVelocity"));
         
-    }
-
-    /**
-     * This method is not applicable as the control parameter update is performed differently for a parametized particle.
-     */
-    @Override
-    public void updateControlParameters() {
-        
-       // this.behavior.getVelocityProvider().updateControlParameters(this);
     }
 
     /**

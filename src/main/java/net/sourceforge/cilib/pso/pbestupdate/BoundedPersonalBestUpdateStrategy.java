@@ -92,6 +92,7 @@ public class BoundedPersonalBestUpdateStrategy extends StandardPersonalBestUpdat
             return true;
         } else {
             BoundedModifiableControlParameter newParameter = (BoundedModifiableControlParameter) parameter;
+           
             
             if((newParameter.getParameter() < newParameter.getUpperBound()) && (newParameter.getParameter() > newParameter.getLowerBound())) {
                 return true;

@@ -145,13 +145,6 @@ public class ChargedVelocityProvider implements VelocityProvider {
     public void setP(ControlParameter p) {
         this.p = p;
     }
-
-    @Override
-    public void updateControlParameters(Particle particle) {
-        this.delegate.updateControlParameters(particle);
-        this.pCore.updateParameter();
-        this.p.updateParameter();
-    }
     
     /*
      * Not applicable

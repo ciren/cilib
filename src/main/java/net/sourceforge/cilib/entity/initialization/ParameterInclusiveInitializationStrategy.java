@@ -141,14 +141,24 @@ public class ParameterInclusiveInitializationStrategy<P extends ParameterizedPar
       
       entityInitializationStrategy.initialize(key, particle);
       
-     
-      
       initializeParameters();
       
-      particle.setInertia(inertia);
-      particle.setSocialAcceleration(socialAcceleration);
-      particle.setCognitiveAcceleration(cognitiveAcceleration);
-      particle.setVmax(vmax);
+      if(key.name().equals("CANDIDATE_SOLUTION")) {
+          particle.setInertia(inertia);
+          particle.setSocialAcceleration(socialAcceleration);
+          particle.setCognitiveAcceleration(cognitiveAcceleration);
+          particle.setVmax(vmax);
+      } else if (key.name().equals("BEST_POSITION")) {
+          particle.getInertia().setBestValue(inertia.getParameter());
+          particle.getSocialAcceleration().setBestValue(socialAcceleration.getParameter());
+          particle.getCognitiveAcceleration().setBestValue(cognitiveAcceleration.getParameter());
+          particle.getVmax().setBestValue(vmax.getParameter());
+      } else if (key.name().equals("VELOCITY")) {
+          particle.getInertia().setVelocity(inertia.getParameter());
+          particle.getSocialAcceleration().setVelocity(socialAcceleration.getParameter());
+          particle.getCognitiveAcceleration().setVelocity(cognitiveAcceleration.getParameter());
+          particle.getVmax().setVelocity(vmax.getParameter());
+      }
       
     }
     
@@ -414,4 +424,5 @@ public class ParameterInclusiveInitializationStrategy<P extends ParameterizedPar
      public void setUpperBoundVmax(ControlParameter bound) {
          this.upperBoundVmax = bound;
      }
+    
 }

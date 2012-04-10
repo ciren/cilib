@@ -178,11 +178,6 @@ public class CoherenceVelocityProvider implements VelocityProvider {
     }
     
     @Override
-    public void updateControlParameters(Particle particle) {
-        this.delegate.updateControlParameters(particle);
-    }
-    
-    @Override
     public void setControlParameters(ParameterizedParticle particle) {
         //do nothing
     }
