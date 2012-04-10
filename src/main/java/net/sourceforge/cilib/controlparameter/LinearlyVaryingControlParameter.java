@@ -75,4 +75,14 @@ public class LinearlyVaryingControlParameter implements ControlParameter {
     public double getFinalValue() {
         return finalValue;
     }
+
+    @Override
+    public void setParameter(double value) {
+        //not applicable
+    }
+
+    @Override
+    public void updateParameter(double value) {
+        //not applicable
+    }
 }

@@ -71,7 +71,7 @@ public class LinearPositionProvider implements PositionProvider {
     @Override
     public double getInertia(ParameterizedParticle particle) {
         double velocity =  particle.getInertia().getVelocity();
-        BoundedControlParameter position =  (BoundedControlParameter) particle.getInertia();
+        BoundedModifiableControlParameter position =  (BoundedModifiableControlParameter) particle.getInertia();
         Bounds bounds = new Bounds(position.getLowerBound(), position.getUpperBound());
         double value =  Real.valueOf(velocity, bounds).doubleValue();
         //if(isWithinBounds(value, particle.getInertia()))
@@ -85,7 +85,7 @@ public class LinearPositionProvider implements PositionProvider {
     @Override
     public double getSocialAcceleration(ParameterizedParticle particle) {
         double velocity =  particle.getSocialAcceleration().getVelocity();
-        BoundedControlParameter position =  (BoundedControlParameter) particle.getSocialAcceleration();
+        BoundedModifiableControlParameter position =  (BoundedModifiableControlParameter) particle.getSocialAcceleration();
         Bounds bounds = new Bounds(position.getLowerBound(), position.getUpperBound());
         double value =  Real.valueOf(velocity, bounds).doubleValue();
         //if(isWithinBounds(value, particle.getSocialAcceleration()))
@@ -99,7 +99,7 @@ public class LinearPositionProvider implements PositionProvider {
     @Override
     public double getCognitiveAcceleration(ParameterizedParticle particle) {
         double velocity =  particle.getCognitiveAcceleration().getVelocity();
-        BoundedControlParameter position =  (BoundedControlParameter) particle.getCognitiveAcceleration();
+        BoundedModifiableControlParameter position =  (BoundedModifiableControlParameter) particle.getCognitiveAcceleration();
         Bounds bounds = new Bounds(position.getLowerBound(), position.getUpperBound());
         double value =  Real.valueOf(velocity, bounds).doubleValue();
         //if(isWithinBounds(value, particle.getCognitiveAcceleration()))
@@ -113,25 +113,11 @@ public class LinearPositionProvider implements PositionProvider {
     @Override
     public double getVmax(ParameterizedParticle particle) {
         double velocity =  particle.getVmax().getVelocity();
-        BoundedControlParameter position =  (BoundedControlParameter) particle.getVmax();
+        BoundedModifiableControlParameter position =  (BoundedModifiableControlParameter) particle.getVmax();
         Bounds bounds = new Bounds(position.getLowerBound(), position.getUpperBound());
         double value =  Real.valueOf(velocity, bounds).doubleValue();
         //if(isWithinBounds(value, particle.getVmax()))
             return value;
         //return position.getParameter();
-    }
-    
-     public boolean isWithinBounds(double value, ControlParameter parameter) {
-        if(parameter instanceof BoundedModifiableControlParameter) {
-            BoundedModifiableControlParameter newParameter = (BoundedModifiableControlParameter) parameter;
-            
-            if((value > newParameter.getLowerBound()) && (value < newParameter.getUpperBound())) {
-                return true;
-            }
-        } else {
-            return true;
-        }
-        
-        return false;
     }
 }

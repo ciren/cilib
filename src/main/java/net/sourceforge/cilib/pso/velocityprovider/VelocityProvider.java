@@ -47,13 +47,6 @@ public interface VelocityProvider extends Cloneable {
      */
     Vector get(Particle particle);
 
-    /**
-     * Update the needed control parameters for the <tt>VelocityProvider</tt>,
-     * if needed.
-     * @param particle The particle for whom the VelocityProvider parameters need to be updated.
-     */
-    void updateControlParameters(Particle particle);
-
     /*
      * Set the values of the control parameters to those held by a parametized particle
      * @param particle The aprticle holding the parameter values

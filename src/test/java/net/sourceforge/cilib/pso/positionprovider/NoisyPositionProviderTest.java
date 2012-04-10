@@ -211,24 +211,5 @@ public class NoisyPositionProviderTest {
         Assert.assertNotSame(result, parameter.getParameter());
     }
     
-    /*
-     * Test isWithinBounds, of class NoisyPositionProvider
-     */
-    public void testIsWithinBounds() {
-       BoundedModifiableControlParameter parameter = new BoundedModifiableControlParameter();
-       parameter.setLowerBound(0.3);
-       parameter.setUpperBound(0.6);
-       parameter.setParameter(0.44);
-       
-       NoisyPositionProvider instance = new NoisyPositionProvider();
-       
-       Assert.assertTrue(instance.isWithinBounds(parameter.getParameter(), parameter));
-       
-       parameter = new BoundedModifiableControlParameter();
-       parameter.setLowerBound(0.3);
-       parameter.setUpperBound(0.6);
-       parameter.setParameter(0.9);
-       
-       Assert.assertFalse(instance.isWithinBounds(parameter.getParameter(), parameter));
-    }
+   
 }

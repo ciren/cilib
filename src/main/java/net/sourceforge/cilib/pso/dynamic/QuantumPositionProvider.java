@@ -29,6 +29,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
@@ -165,7 +166,7 @@ public class QuantumPositionProvider implements PositionProvider {
             return this.delegate.get(particle);
         } else { // the particle is charged
            
-            this.nucleus = (Vector) ((StandardParticle) topology.getBestEntity()).getCandidateSolution();
+            this.nucleus = (Vector) ((StandardParticle) Topologies.getBestEntity(topology)).getCandidateSolution();
 
             double distance = Math.pow(this.radius.getParameter(), 2); //square of the radius
             int dimensions = particle.getDimension();

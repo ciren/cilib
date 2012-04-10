@@ -343,7 +343,7 @@ public class GCVelocityProvider implements VelocityProvider {
         HashMap<String, Double> result = new HashMap<String, Double>();
         
         PSO pso = (PSO) AbstractAlgorithm.get();
-        final ParameterizedParticle globalBest = (ParameterizedParticle) pso.getTopology().getBestEntity(new SocialBestFitnessComparator<Particle>());
+        final ParameterizedParticle globalBest = (ParameterizedParticle) Topologies.getBestEntity(pso.getTopology(), new SocialBestFitnessComparator<Particle>());
 
         if (particle == globalBest) {
             double velocity = particle.getInertia().getVelocity();

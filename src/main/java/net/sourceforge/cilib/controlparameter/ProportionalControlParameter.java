@@ -67,7 +67,12 @@ public class ProportionalControlParameter implements ControlParameter {
     
     @Override
     public void updateParameter(double value) {
-        
+        //not applicable
+    }
+
+    @Override
+    public void setParameter(double value) {
+        //not applicable
     }
     
 }

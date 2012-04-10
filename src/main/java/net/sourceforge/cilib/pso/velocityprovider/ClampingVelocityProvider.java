@@ -83,12 +83,6 @@ public class ClampingVelocityProvider implements VelocityProvider {
     public VelocityProvider getDelegate() {
         return this.delegate;
     }
-
-    @Override
-    public void updateControlParameters(Particle particle) {
-        this.delegate.updateControlParameters(particle);
-        this.vMax.updateParameter();
-    }
     
     /*
      * {@inheritDoc}

@@ -28,21 +28,20 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
-import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
-import java.util.HashMap;
 import junit.framework.Assert;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
+import net.sourceforge.cilib.stoppingcondition.Maximum;
+import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * Unfortunately all that can be tested is whether the velocity values actually change.
@@ -104,7 +103,7 @@ public class GCVelocityProviderTest {
         PopulationInitialisationStrategy newStrategy = new ClonedPopulationInitialisationStrategy();
         newStrategy.setEntityNumber(1);
         
-        pso.addStoppingCondition(new MaximumIterations(1));
+        pso.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 100));
         pso.initialise();
         particle.setVelocityProvider(instance);
         Topology<ParameterizedParticle> topology = new GBestTopology();
@@ -337,7 +336,7 @@ public class GCVelocityProviderTest {
         PopulationInitialisationStrategy newStrategy = new ClonedPopulationInitialisationStrategy();
         newStrategy.setEntityNumber(1);
         
-        pso.addStoppingCondition(new MaximumIterations(1));
+        pso.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 100));
         pso.initialise();
         particle.setVelocityProvider(instance);
         Topology<ParameterizedParticle> topology = new GBestTopology();

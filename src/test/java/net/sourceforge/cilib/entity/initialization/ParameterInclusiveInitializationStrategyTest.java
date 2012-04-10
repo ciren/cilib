@@ -253,7 +253,7 @@ public class ParameterInclusiveInitializationStrategyTest {
         instance.setVmax(parameter);
         Assert.assertEquals(instance.getVmax().getParameter(), parameter.getParameter());
     }
-
+   
     /**
      * Test of getLowerBoundInertia method, of class ParameterInclusiveInitializationStrategy.
      */
@@ -545,4 +545,6 @@ public class ParameterInclusiveInitializationStrategyTest {
         
         Assert.assertEquals(instance.getUpperBound().getParameter(), bound.getParameter());
     }
+
+    
 }

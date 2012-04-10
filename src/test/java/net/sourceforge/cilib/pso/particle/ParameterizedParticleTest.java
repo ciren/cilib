@@ -21,32 +21,27 @@
  */
 package net.sourceforge.cilib.pso.particle;
 
-import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
+import net.sourceforge.cilib.measurement.generic.Iterations;
+import net.sourceforge.cilib.stoppingcondition.Maximum;
+import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 import junit.framework.Assert;
-import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
-import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
 import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ParameterAdaptingPSOControlParameter;
-import net.sourceforge.cilib.entity.CandidateSolution;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.problem.MaximisationFitness;
-import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.velocityprovider.ClampingVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
-import net.sourceforge.cilib.util.calculator.EntityBasedFitnessCalculator;
-import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -255,7 +250,7 @@ public class ParameterizedParticleTest {
         newStrategy.setEntityNumber(1);*/
 
         pso.setOptimisationProblem(problem);
-        pso.addStoppingCondition(new MaximumIterations(1));
+        pso.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 100));
         //pso.setInitialisationStrategy(newStrategy);
         pso.initialise();
         Topology<ParameterizedParticle> topology = new GBestTopology();

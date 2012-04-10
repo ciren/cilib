@@ -23,13 +23,18 @@ package net.sourceforge.cilib.pso.guideprovider;
 
 import fj.P3;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.pso.PSO;
+
 import net.sourceforge.cilib.pso.crossover.CrossoverSelection;
 import net.sourceforge.cilib.pso.crossover.NBestParticleProvider;
 import net.sourceforge.cilib.pso.crossover.RepeatingCrossoverSelection;
+
+import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
+
 
 /**
  * This guide provider generates an offspring particle from random parents.
@@ -43,6 +48,26 @@ public class CrossoverGuideProvider implements GuideProvider {
     private GuideProvider delegate;
     private CrossoverSelection crossoverSelection;
     private NBestParticleProvider particleProvider;
+
+    @Override
+    public ControlParameter getInertia(ParameterizedParticle particle) {
+        return delegate.getInertia(particle);
+    }
+
+    @Override
+    public ControlParameter getSocialAcceleration(ParameterizedParticle particle) {
+        return delegate.getSocialAcceleration(particle);
+    }
+
+    @Override
+    public ControlParameter getCognitiveAcceleration(ParameterizedParticle particle) {
+        return delegate.getCognitiveAcceleration(particle);
+    }
+
+    @Override
+    public ControlParameter getVmax(ParameterizedParticle particle) {
+        return delegate.getVmax(particle);
+    }
 
     private enum TempEnums {
         TEMP

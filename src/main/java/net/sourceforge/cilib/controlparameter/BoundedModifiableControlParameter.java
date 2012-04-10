@@ -21,10 +21,7 @@
  */
 package net.sourceforge.cilib.controlparameter;
 
-import net.sourceforge.cilib.type.parser.DomainParser;
-import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This class represents a control parameter which can be changed by a ParametizedParticle when
@@ -32,11 +29,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * update.
  * 
  */
-public class BoundedModifiableControlParameter implements ParameterAdaptingPSOControlParameter, BoundedControlParameter {
+public class BoundedModifiableControlParameter implements ParameterAdaptingPSOControlParameter {
     private Real parameter;
     private double velocity;
     private boolean wasInitialySetByUser;
     private ParameterAdaptingPSOControlParameter bestValue;
+    private double lowerBound;
+    private double upperBound;
 
     /**
      * Create an instance of {@code LinearDecreasingControlParameter}.
@@ -46,6 +45,8 @@ public class BoundedModifiableControlParameter implements ParameterAdaptingPSOCo
         velocity = 0;
         wasInitialySetByUser = false;
         bestValue = new BoundedModifiableControlParameter(this);
+        lowerBound = 0.1;
+        upperBound = 0.9;
     }
 
     /**
@@ -57,6 +58,8 @@ public class BoundedModifiableControlParameter implements ParameterAdaptingPSOCo
         velocity = copy.velocity;
         wasInitialySetByUser = copy.wasInitialySetByUser;
         bestValue = copy.bestValue;
+        lowerBound = copy.lowerBound;
+        upperBound = copy.upperBound;
     }
 
     /**
@@ -66,16 +69,6 @@ public class BoundedModifiableControlParameter implements ParameterAdaptingPSOCo
     public BoundedModifiableControlParameter getClone() {
         return new BoundedModifiableControlParameter(this);
     }
-
-    /**
-     * Update the parameter linearly based on the current percentage complete of the running
-     * {@linkplain net.sourceforge.cilib.algorithm.Algorithm algorithm}.
-     * The update is done in an increasing manner.
-     */
-    @Override
-    public void updateParameter() {
-       
-    }
     
     /*
      * Update the current parameter to the value provided
@@ -84,17 +77,6 @@ public class BoundedModifiableControlParameter implements ParameterAdaptingPSOCo
     @Override
     public void updateParameter(double value) {
         parameter = Real.valueOf(value, parameter.getBounds());
-    }
-
-    /**
-     * Set the lower bound of the parameter
-     * @param lower The lower bound
-     */
-    @Override
-    public void setLowerBound(double lower) {
-        Bounds current = parameter.getBounds();
-        double parameterValue= this.parameter.doubleValue();
-        this.parameter = Real.valueOf(parameterValue, new Bounds(lower, current.getUpperBound()));
     }
 
     /**
@@ -126,49 +108,6 @@ public class BoundedModifiableControlParameter implements ParameterAdaptingPSOCo
         return wasInitialySetByUser;
     }
     
-    /**
-     * Get the lower bund of the parameter
-     * @return The lower bound
-     */
-    @Override
-    public double getLowerBound() {
-        return parameter.getBounds().getLowerBound();
-    }
-
-    /**
-     * Get the upper bund of the parameter
-     * @return The upper bound
-     */
-    @Override
-    public double getUpperBound() {
-        return parameter.getBounds().getUpperBound();
-    }
-
-    /**
-     * Set the upper bound of the parameter to the value provided
-     * @param value The new value of the upper bound
-     */
-    @Override
-    public void setUpperBound(double value) {
-        double parameterValue= this.parameter.doubleValue();
-        this.parameter = Real.valueOf(parameterValue, new Bounds(parameter.getBounds().getLowerBound(), value));
-    }
-
-    /**
-     * Set the value of the range to the one in the string provided
-     * @param range The new range
-     */
-    @Override
-    public void setRange(String range) {
-        Vector v = (Vector) DomainParser.parse(range);
-
-        if (v.size() != 1) {
-            throw new RuntimeException("Range incorrect in BoundedUpdateStrategy! Please correct");
-        } else {
-            this.parameter = (Real) v.get(0);
-        }
-    }
-    
     /*
      * Get the current velocity of the parameter
      * @return The current velocity of the parameter
@@ -194,5 +133,21 @@ public class BoundedModifiableControlParameter implements ParameterAdaptingPSOCo
     @Override
     public ParameterAdaptingPSOControlParameter getBestValue() {
         return bestValue;
+    }
+    
+    public double getLowerBound() {
+        return lowerBound;
+    }
+    
+    public double getUpperBound() {
+        return upperBound;
+    }
+    
+    public void setLowerBound(double bound) {
+        lowerBound = bound;
+    }
+    
+    public void setUpperBound(double bound) {
+        upperBound = bound;
     }
 }

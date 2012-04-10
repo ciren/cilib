@@ -22,10 +22,12 @@
 package net.sourceforge.cilib.pso.velocityprovider;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.ParentCentricCrossoverStrategy;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -87,5 +89,60 @@ public class CrossoverVelocityProvider implements VelocityProvider {
      */
     public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {
         this.crossoverStrategy = crossoverStrategy;
+    }
+
+    @Override
+    public void setControlParameters(ParameterizedParticle particle) {
+        //not applicable
+    }
+
+    @Override
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
+        HashMap<String, Double> parameterVelocities = new HashMap<String, Double>();
+        Entity parent1 = particle.getClone();
+        Entity parent2 = particle.getClone();
+        Entity parent3 = particle.getClone();
+        
+        parent1.setCandidateSolution(Vector.of(((ParameterizedParticle) parent1).getInertia().getParameter()));
+        parent2.setCandidateSolution(Vector.of(((ParameterizedParticle)particle).getInertia().getBestValue().getParameter()));
+        parent3.setCandidateSolution(Vector.of(((ParameterizedParticle)particle).getNeighbourhoodBest().getInertia().getBestValue().getParameter()));
+        
+        Vector resultingInertia = (Vector) crossoverStrategy.crossover(Arrays.asList(parent1, parent2, parent3)).get(0).getCandidateSolution();
+        parameterVelocities.put("InertiaVelocity", resultingInertia.get(0).doubleValue());
+        
+        parent1 = particle.getClone();
+        parent2 = particle.getClone();
+        parent3 = particle.getClone();
+        
+        parent1.setCandidateSolution(Vector.of(((ParameterizedParticle) parent1).getSocialAcceleration().getParameter()));
+        parent2.setCandidateSolution(Vector.of(((ParameterizedParticle)particle).getSocialAcceleration().getBestValue().getParameter()));
+        parent3.setCandidateSolution(Vector.of(((ParameterizedParticle)particle).getNeighbourhoodBest().getSocialAcceleration().getBestValue().getParameter()));
+        
+        Vector resultingSocialAcceleration = (Vector) crossoverStrategy.crossover(Arrays.asList(parent1, parent2, parent3)).get(0).getCandidateSolution();
+        parameterVelocities.put("SocialAccelerationVelocity", resultingSocialAcceleration.get(0).doubleValue());
+        
+        parent1 = particle.getClone();
+        parent2 = particle.getClone();
+        parent3 = particle.getClone();
+        
+        parent1.setCandidateSolution(Vector.of(((ParameterizedParticle) parent1).getCognitiveAcceleration().getParameter()));
+        parent2.setCandidateSolution(Vector.of(((ParameterizedParticle)particle).getCognitiveAcceleration().getBestValue().getParameter()));
+        parent3.setCandidateSolution(Vector.of(((ParameterizedParticle)particle).getNeighbourhoodBest().getCognitiveAcceleration().getBestValue().getParameter()));
+        
+        Vector resultingCognitiveAcceleration = (Vector) crossoverStrategy.crossover(Arrays.asList(parent1, parent2, parent3)).get(0).getCandidateSolution();
+        parameterVelocities.put("CognitiveAccelerationVelocity", resultingCognitiveAcceleration.get(0).doubleValue());
+        
+        parent1 = particle.getClone();
+        parent2 = particle.getClone();
+        parent3 = particle.getClone();
+        
+        parent1.setCandidateSolution(Vector.of(((ParameterizedParticle) parent1).getVmax().getParameter()));
+        parent2.setCandidateSolution(Vector.of(((ParameterizedParticle)particle).getVmax().getBestValue().getParameter()));
+        parent3.setCandidateSolution(Vector.of(((ParameterizedParticle)particle).getNeighbourhoodBest().getVmax().getBestValue().getParameter()));
+        
+        Vector resultingVmax = (Vector) crossoverStrategy.crossover(Arrays.asList(parent1, parent2, parent3)).get(0).getCandidateSolution();
+        parameterVelocities.put("VmaxVelocity", resultingVmax.get(0).doubleValue());
+        
+        return parameterVelocities;
     }
 }
