@@ -28,7 +28,7 @@ import fj.data.List;
 import java.util.Collections;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.measurement.generic.Iterations;
-import net.sourceforge.cilib.niching.NichePSO;
+import net.sourceforge.cilib.niching.NicheAlgorithm;
 import net.sourceforge.cilib.niching.Niching;
 import static net.sourceforge.cilib.niching.Niching.*;
 import net.sourceforge.cilib.niching.NichingSwarms;
@@ -47,7 +47,7 @@ import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 /**
  *
  */
-public class DeratingNichePSO extends NichePSO {
+public class DeratingNichePSO extends NicheAlgorithm {
     protected java.util.List<OptimisationSolution> solutions;
     
     public DeratingNichePSO() {

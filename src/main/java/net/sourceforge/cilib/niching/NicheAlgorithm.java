@@ -52,14 +52,14 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 
 /**
  * <p>
- * Generalized NichePSO algorithm.
+ * Generalized NicheAlgorithm algorithm.
  * </p>
  * <p>
  * This class is intended to be the base class (or even the only class) for all
  * algorithms implementing a form of niching.
  * </p>
  * <p>
- * Currently the main implementation is the NichePSO, however, any implementation
+ * Currently the main implementation is the NicheAlgorithm, however, any implementation
  * can be achieved by correctly applying the different setter methods with the appropriate
  * instances.
  * </p>
@@ -67,7 +67,7 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
  * {@literal @}inproceedings{}
  * </pre>
  */
-public class NichePSO extends MultiPopulationBasedAlgorithm {
+public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
     private static final long serialVersionUID = 3575627467034673738L;
 
     protected PopulationBasedAlgorithm mainSwarm;
@@ -112,7 +112,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
      * </ul>
      * </p>
      */
-    public NichePSO() {
+    public NicheAlgorithm() {
         this.mainSwarm = new PSO();
         ((SynchronousIterationStrategy) ((PSO) this.mainSwarm).getIterationStrategy()).setBoundaryConstraint(new ReinitialisationBoundary());
 
@@ -146,7 +146,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
     /**
      * Copy constructor.
      */
-    public NichePSO(NichePSO copy) {
+    public NicheAlgorithm(NicheAlgorithm copy) {
         super(copy);
         
         this.mainSwarm = copy.mainSwarm.getClone();
@@ -170,7 +170,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
      */
     @Override
     public PopulationBasedAlgorithm getClone() {
-        return new NichePSO(this);
+        return new NicheAlgorithm(this);
     }
 
     /**
@@ -220,7 +220,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
     }
 
     /**
-     * There is no best solution associated with a top level NichePSO algorithm.
+     * There is no best solution associated with a top level NicheAlgorithm algorithm.
      * 
      * @see #getSolutions()
      */
