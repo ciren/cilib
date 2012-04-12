@@ -89,6 +89,11 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
 
     @Override
     public NichingSwarms f(NichingSwarms a, Entity b) {
+        //There should be at least two particles
+        if (a._1().getTopology().size() <= 1) {
+            return a;
+        }
+
         ClosestEntityVisitor closestEntityVisitor = new ClosestEntityVisitor();
         closestEntityVisitor.setTargetEntity(b);
         a._1().accept(closestEntityVisitor);

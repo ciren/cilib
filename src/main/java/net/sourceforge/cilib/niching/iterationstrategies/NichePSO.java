@@ -28,20 +28,37 @@ import fj.data.List;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.niching.NicheAlgorithm;
-import static net.sourceforge.cilib.niching.utils.Niching.*;
+import static net.sourceforge.cilib.niching.Niching.*;
+import net.sourceforge.cilib.util.lift.Algorithms;
 
-public class NichePSOIterationStrategy extends AbstractIterationStrategy<NicheAlgorithm> {
+public class NichePSO extends AbstractIterationStrategy<NicheAlgorithm> {
 
     @Override
-    public NichePSOIterationStrategy getClone() {
+    public NichePSO getClone() {
         return this;
     }
 
+    /**
+     * <p>
+     * Perform the iteration of the algorithm.
+     * </p>
+     * <p>
+     * The general format of this method would be the following steps:
+     * <ol>
+     *   <li>Perform an iteration of the main swarm.</li>
+     *   <li>Perform an iteration for each of the contained sub-swarms.</li>
+     *   <li>Merge any sub-swarms as defined my the associated {@link MergeStrategy}.</li>
+     *   <li>Perform an absorption step defined by a {@link AbsorptionStrategy}.</li>
+     *   <li>Identify any new potential niches using a {@link NicheDetection}.</li>
+     *   <li>Create new sub-swarms via a {@link NicheCreationStrategy} for the identified niches.</li>
+     * </ol>
+     * </p>
+     */
     @Override
     public void performIteration(NicheAlgorithm alg) {
         P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> newSwarms = combineSwarms
-                .andThen(iterateMainSwarm)
-                .andThen(iterateSubswarms)
+                .andThen(onMainSwarm(Algorithms.<PopulationBasedAlgorithm>iterateUnlessDone()))
+                .andThen(onSubswarms(Algorithms.<PopulationBasedAlgorithm>iterateUnlessDone()))
                 .andThen(merge(alg.getMergeDetection(), 
                     alg.getMainSwarmMergeStrategy(), 
                     alg.getSubSwarmsMergeStrategy()))
@@ -50,7 +67,7 @@ public class NichePSOIterationStrategy extends AbstractIterationStrategy<NicheAl
                     alg.getSubSwarmsAbsorptionStrategy()))
                 .andThen(enforceMainSwarmTopology(alg.getMainSwarmParticle().getParticleBehavior()))
                 .andThen(createNiches(alg.getNicheDetection(), 
-                    alg.getSwarmCreationStrategy(), 
+                    alg.getNicheCreationStrategy(),
                     alg.getMainSwarmPostCreation()))
                 .f(P.p(alg.getMainSwarm(), alg.getPopulations()));
 

@@ -21,31 +21,24 @@
  */
 package net.sourceforge.cilib.niching;
 
-import net.sourceforge.cilib.niching.merging.SingleSwarmMergeStrategy;
-import net.sourceforge.cilib.niching.merging.MergeDetection;
-import net.sourceforge.cilib.niching.merging.StandardMergeStrategy;
-import net.sourceforge.cilib.niching.merging.RadiusOverlapMergeDetection;
-import net.sourceforge.cilib.niching.merging.MergeStrategy;
 import com.google.common.collect.Lists;
-import fj.P;
-import fj.P2;
-import fj.data.List;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
-import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
+import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
+import net.sourceforge.cilib.niching.creation.ClosestNeighbourNicheCreationStrategy;
+import net.sourceforge.cilib.niching.creation.MaintainedFitnessNicheDetection;
+import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
+import net.sourceforge.cilib.niching.creation.NicheDetection;
+import net.sourceforge.cilib.niching.iterationstrategies.NichePSO;
+import net.sourceforge.cilib.niching.merging.*;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
-import static net.sourceforge.cilib.niching.utils.Niching.*;
-import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
-import net.sourceforge.cilib.niching.creation.NicheDetection;
-import net.sourceforge.cilib.niching.creation.ClosestNeighbourNicheCreationStrategy;
-import net.sourceforge.cilib.niching.creation.MaintainedFitnessNicheDetection;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
@@ -70,11 +63,12 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
     private static final long serialVersionUID = 3575627467034673738L;
 
+    protected IterationStrategy<NicheAlgorithm> iterationStrategy;
     protected PopulationBasedAlgorithm mainSwarm;
     protected Particle mainSwarmParticle;
 
     protected NicheDetection nicheDetection;
-    protected NicheCreationStrategy swarmCreationStrategy;
+    protected NicheCreationStrategy nicheCreationStrategy;
     protected MergeStrategy mainSwarmPostCreation;
 
     protected MergeStrategy subSwarmsMergeStrategy;
@@ -114,8 +108,6 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
      */
     public NicheAlgorithm() {
         this.mainSwarm = new PSO();
-        ((SynchronousIterationStrategy) ((PSO) this.mainSwarm).getIterationStrategy()).setBoundaryConstraint(new ReinitialisationBoundary());
-
         StandardVelocityProvider velocityUpdateStrategy = new StandardVelocityProvider();
         velocityUpdateStrategy.setSocialAcceleration(ConstantControlParameter.of(0.0));
         velocityUpdateStrategy.setCognitiveAcceleration(ConstantControlParameter.of(1.2));
@@ -124,14 +116,11 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
         this.mainSwarmParticle.setVelocityInitializationStrategy(new RandomInitializationStrategy());
         this.mainSwarmParticle.setVelocityProvider(velocityUpdateStrategy);
 
-        PopulationInitialisationStrategy mainSwarmInitialisationStrategy = new ClonedPopulationInitialisationStrategy();
-        mainSwarmInitialisationStrategy.setEntityType(this.mainSwarmParticle);
-        mainSwarmInitialisationStrategy.setEntityNumber(20);
-
-        this.mainSwarm.setInitialisationStrategy(mainSwarmInitialisationStrategy);
+        ((ClonedPopulationInitialisationStrategy) ((PSO) this.mainSwarm).getInitialisationStrategy()).setEntityType(mainSwarmParticle);
+        ((SynchronousIterationStrategy) ((PSO) this.mainSwarm).getIterationStrategy()).setBoundaryConstraint(new ReinitialisationBoundary());
 
         this.nicheDetection = new MaintainedFitnessNicheDetection();
-        this.swarmCreationStrategy = new ClosestNeighbourNicheCreationStrategy();
+        this.nicheCreationStrategy = new ClosestNeighbourNicheCreationStrategy();
         this.mainSwarmPostCreation = new SingleSwarmMergeStrategy();
 
         this.mainSwarmAbsorptionStrategy = new SingleSwarmMergeStrategy();
@@ -141,6 +130,8 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
         this.subSwarmsMergeStrategy = new StandardMergeStrategy();
         this.mainSwarmMergeStrategy = new SingleSwarmMergeStrategy();
         this.mergeDetection = new RadiusOverlapMergeDetection();
+
+        this.iterationStrategy = new NichePSO();
     }
     
     /**
@@ -148,12 +139,13 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
      */
     public NicheAlgorithm(NicheAlgorithm copy) {
         super(copy);
-        
+
+        this.iterationStrategy = copy.iterationStrategy.getClone();
         this.mainSwarm = copy.mainSwarm.getClone();
         this.mainSwarmParticle = copy.mainSwarmParticle.getClone();
         
         this.nicheDetection = copy.nicheDetection;
-        this.swarmCreationStrategy = copy.swarmCreationStrategy;
+        this.nicheCreationStrategy = copy.nicheCreationStrategy;
         this.mainSwarmPostCreation = copy.mainSwarmPostCreation;
 
         this.mainSwarmAbsorptionStrategy = copy.mainSwarmAbsorptionStrategy;
@@ -188,35 +180,9 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
         this.mainSwarm.performInitialisation();
     }
 
-    /**
-     * <p>
-     * Perform the iteration of the algorithm.
-     * </p>
-     * <p>
-     * The general format of this method would be the following steps:
-     * <ol>
-     *   <li>Perform an iteration of the main swarm.</li>
-     *   <li>Perform an iteration for each of the contained sub-swarms.</li>
-     *   <li>Merge any sub-swarms as defined my the associated {@link MergeStrategy}.</li>
-     *   <li>Perform an absorption step defined by a {@link AbsorptionStrategy}.</li>
-     *   <li>Identify any new potential niches using a {@link NicheDetection}.</li>
-     *   <li>Create new sub-swarms via a {@link NicheCreationStrategy} for the identified niches.</li>
-     * </ol>
-     * </p>
-     */
     @Override
     protected void algorithmIteration() {
-        P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> newSwarms = combineSwarms
-                .andThen(iterateMainSwarm)
-                .andThen(iterateSubswarms)
-                .andThen(merge(mergeDetection, mainSwarmMergeStrategy, subSwarmsMergeStrategy))
-                .andThen(absorb(absorptionDetection, mainSwarmAbsorptionStrategy, subSwarmsAbsorptionStrategy))
-                .andThen(enforceMainSwarmTopology(mainSwarmParticle.getParticleBehavior()))
-                .andThen(createNiches(nicheDetection, swarmCreationStrategy, mainSwarmPostCreation))
-                .f(P.p(mainSwarm, subPopulationsAlgorithms));
-
-        subPopulationsAlgorithms = Lists.newArrayList(newSwarms._2().toCollection());
-        mainSwarm = newSwarms._1();
+        iterationStrategy.performIteration(this);
     }
 
     /**
@@ -319,12 +285,12 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
         this.nicheDetection = nicheDetection;
     }
 
-    public NicheCreationStrategy getSwarmCreationStrategy() {
-        return swarmCreationStrategy;
+    public NicheCreationStrategy getNicheCreationStrategy() {
+        return nicheCreationStrategy;
     }
 
-    public void setSwarmCreationStrategy(NicheCreationStrategy swarmCreationStrategy) {
-        this.swarmCreationStrategy = swarmCreationStrategy;
+    public void setNicheCreationStrategy(NicheCreationStrategy swarmCreationStrategy) {
+        this.nicheCreationStrategy = swarmCreationStrategy;
     }
 
     public MergeStrategy getMainSwarmPostCreation() {
@@ -333,5 +299,13 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
 
     public void setMainSwarmPostCreation(MergeStrategy mainSwarmPostCreation) {
         this.mainSwarmPostCreation = mainSwarmPostCreation;
+    }
+
+    public void setIterationStrategy(IterationStrategy<NicheAlgorithm> iterationStrategy) {
+        this.iterationStrategy = iterationStrategy;
+    }
+
+    public IterationStrategy<NicheAlgorithm> getIterationStrategy() {
+        return iterationStrategy;
     }
 }

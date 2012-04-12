@@ -6,10 +6,20 @@
 ]>
 <simulator>
     <algorithms>
-        <algorithm id="gbest" class="niching.derating.DeratingNichePSO">
+        <algorithm id="deratingNichePSO" class="niching.NicheAlgorithm">
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="10"/>
+            <iterationStrategy class="niching.derating.DeratingNichePSO"/>
+
+            <!-- need a regular pso -->
+            <mainSwarm class="pso.PSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="500"/>
+                <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
+                    <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+                </iterationStrategy>
+            </mainSwarm>
         </algorithm>
     </algorithms>
+
     <problems>
         <problem id="f1" class="problem.DeratingOptimisationProblem" domain="R(0.0:1.0)">
             <function class="functions.continuous.MultimodalFunction1"/>
@@ -23,44 +33,46 @@
         <problem id="f4" class="problem.DeratingOptimisationProblem" domain="R(0.0:1.0)">
             <function class="functions.continuous.MultimodalFunction4"/>
         </problem>
-	<problem id="f5" class="problem.DeratingOptimisationProblem" domain="R(-6.0:6.0)^2">
+        <problem id="f5" class="problem.DeratingOptimisationProblem" domain="R(-5.0:5.0)^2">
             <function class="functions.continuous.MultimodalFunction5"/>
         </problem>
     </problems>
+
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
         <addMeasurement class="measurement.multiple.MultipleSolutions"/>
-	    <addMeasurement class="measurement.multiple.MultipleFitness"/>
+        <addMeasurement class="measurement.multiple.MultipleFitness"/>
     </measurements>
+
     <simulations>
         <simulation samples="1">
-            <algorithm idref="gbest"/>
+            <algorithm idref="deratingNichePSO"/>
             <problem idref="f1"/>
             <measurements idref="fitness" />
-            <output format="TXT" file="data/der-f1.txt"/>
+            <output format="TXT" file="data/deratingNichePSO-f1.txt"/>
         </simulation>
-	<!--simulation samples="30">
+        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="f2"/>
             <measurements idref="fitness" />
-            <output format="TXT" file="data/der-f2.txt"/>
+            <output format="TXT" file="data/deratingNichePSO-f2.txt"/>
         </simulation>
-	<simulation samples="30">
+        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="f3"/>
             <measurements idref="fitness" />
-            <output format="TXT" file="data/der-f3.txt"/>
+            <output format="TXT" file="data/deratingNichePSO-f3.txt"/>
         </simulation>
-	<simulation samples="30">
+        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="f4"/>
             <measurements idref="fitness" />
-            <output format="TXT" file="data/der-f4.txt"/>
+            <output format="TXT" file="data/deratingNichePSO-f4.txt"/>
         </simulation>
-	<simulation samples="30">
+        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="f5"/>
             <measurements idref="fitness" />
-            <output format="TXT" file="data/der-f5.txt"/>
-        </simulation-->
+            <output format="TXT" file="data/deratingNichePSO-f5.txt"/>
+        </simulation>
     </simulations>
 </simulator>

@@ -6,27 +6,81 @@
 ]>
 <simulator>
     <algorithms>
-        <algorithm id="gbest" class="niching.NichePSO">
+        <algorithm id="nichePSO" class="niching.NicheAlgorithm">
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
+            <nicheCreationStrategy class="niching.creation.ClosestNeighbourNicheCreationStrategy">
+                <behavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.GCVelocityProvider">
+                        <rho class="controlparameter.ConstantControlParameter" parameter="0.01"/>
+                        <delegate class="pso.velocityprovider.ClampingVelocityProvider">
+                            <vMax class="controlparameter.ConstantControlParameter" parameter="1.0"/>
+                            <delegate class="pso.velocityprovider.StandardVelocityProvider">
+                                <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.2"/>
+                                <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="1.2"/>
+                                <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.7" finalValue="0.2"/>
+                            </delegate>
+                        </delegate>
+                    </velocityProvider>
+                </behavior>
+            </nicheCreationStrategy>
         </algorithm>
     </algorithms>
+
     <problems>
-        <problem id="spherical" class="problem.FunctionMaximisationProblem" domain="R(0:1)^1">
+        <problem id="f1" class="problem.FunctionMaximisationProblem" domain="R(0.0:1.0)">
             <function class="functions.continuous.MultimodalFunction1"/>
         </problem>
+        <problem id="f2" class="problem.FunctionMaximisationProblem" domain="R(0.0,1.0)">
+            <function class="functions.continuous.MultimodalFunction2"/>
+        </problem>
+        <problem id="f3" class="problem.FunctionMaximisationProblem" domain="R(0.0,1.0)">
+            <function class="functions.continuous.MultimodalFunction3"/>
+        </problem>
+        <problem id="f4" class="problem.FunctionMaximisationProblem" domain="R(0.0,1.0)">
+            <function class="functions.continuous.MultimodalFunction4"/>
+        </problem>
+        <problem id="f5" class="problem.FunctionMaximisationProblem" domain="R(-5.0,5.0)^2">
+            <function class="functions.continuous.MultimodalFunction5"/>
+        </problem>
     </problems>
+
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
         <addMeasurement class="measurement.multiple.CompositeMeasurement">
             <addMeasurement class="measurement.single.Solution"/>
             <!--addMeasurement class="measurement.single.Fitness"/-->
         </addMeasurement>
     </measurements>
+
     <simulations>
         <simulation samples="1">
-            <algorithm idref="gbest"/>
-            <problem idref="spherical"/>
+            <algorithm idref="nichePSO"/>
+            <problem idref="f1"/>
             <measurements idref="fitness" />
-            <output format="TXT" file="data/nichepso-f1.txt"/>
+            <output format="TXT" file="data/nichePSO-f1.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="nichePSO"/>
+            <problem idref="f2"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/nichePSO-f2.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="nichePSO"/>
+            <problem idref="f3"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/nichePSO-f3.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="nichePSO"/>
+            <problem idref="f4"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/nichePSO-f4.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="nichePSO"/>
+            <problem idref="f5"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/nichePSO-f5.txt"/>
         </simulation>
     </simulations>
 </simulator>

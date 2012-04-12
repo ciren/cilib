@@ -48,6 +48,7 @@ import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.lift.Algorithms;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -351,7 +352,8 @@ public class NichingTest {
         pso1.getTopology().addAll(Arrays.asList(p1_1, p1_2));
         pso2.getTopology().addAll(Arrays.asList(p2_1, p2_2));
         
-        NichingSwarms swarms = Niching.iterateMainSwarm.andThen(Niching.iterateSubswarms)
+        NichingSwarms swarms = Niching.onMainSwarm(Algorithms.<PopulationBasedAlgorithm>iterateUnlessDone())
+                .andThen(Niching.onMainSwarm(Algorithms.<PopulationBasedAlgorithm>iterateUnlessDone()))
                 .f(NichingSwarms.of((PopulationBasedAlgorithm) mainSwarm, List.list((PopulationBasedAlgorithm) pso1, pso2)));
         
         

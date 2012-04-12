@@ -22,9 +22,11 @@
 package net.sourceforge.cilib.niching.creation;
 
 import fj.P2;
+import fj.data.List;
 import java.util.Arrays;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.niching.NichingTest;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
@@ -50,12 +52,12 @@ public class ClosestNeighbourNicheCreationStrategyTest {
         
         ClosestNeighbourNicheCreationStrategy creator = new ClosestNeighbourNicheCreationStrategy();
         creator.setBehavior(new ParticleBehavior());
-        P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> swarms = creator.f(pso, p1);
+        NichingSwarms swarms = creator.f(NichingSwarms.of(pso, List.<PopulationBasedAlgorithm>nil()), p1);
         
         Assert.assertEquals(1, swarms._1().getTopology().size());
         Assert.assertEquals(Vector.of(2.0, 2.0), swarms._1().getTopology().get(0).getCandidateSolution());
-        Assert.assertEquals(2, swarms._2().getTopology().size());
-        Assert.assertEquals(Vector.of(0.0, 1.0), swarms._2().getTopology().get(0).getCandidateSolution());
-        Assert.assertEquals(Vector.of(1.0, 1.0), swarms._2().getTopology().get(1).getCandidateSolution());
+        Assert.assertEquals(2, swarms._2().head().getTopology().size());
+        Assert.assertEquals(Vector.of(0.0, 1.0), swarms._2().head().getTopology().get(0).getCandidateSolution());
+        Assert.assertEquals(Vector.of(1.0, 1.0), swarms._2().head().getTopology().get(1).getCandidateSolution());
     }
 }
