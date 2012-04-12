@@ -19,16 +19,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.niching.creation;
+package net.sourceforge.cilib.niching.utils;
 
-import fj.F2;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import fj.F;
+import fj.data.List;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.niching.NichingSwarms;
 
-/**
- * Identify any Entity instances that, based on the decision strategy,
- * have found niches. These entities are returned, with the expectation
- * that the callee will use them in some or other manner.
- */
-public abstract class NicheDetection extends F2<PopulationBasedAlgorithm, Entity, Boolean> {
+public class JoinedTopologyProvider extends TopologyProvider {
+    @Override
+    public List<? extends Entity> f(NichingSwarms a) {
+        return List.join(
+            List.cons(a._1(), a._2())
+                .map(Niching.algorithmToTopology)
+                .map(new F<Topology<? extends Entity>, List<Entity>>() {
+                    @Override
+                    public List<Entity> f(Topology<? extends Entity> a) {
+                        return List.iterableList((Topology<Entity>) a);
+                    }
+                })
+            );
+    }
 }

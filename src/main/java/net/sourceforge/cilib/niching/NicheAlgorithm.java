@@ -41,7 +41,7 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
-import static net.sourceforge.cilib.niching.Niching.*;
+import static net.sourceforge.cilib.niching.utils.Niching.*;
 import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
 import net.sourceforge.cilib.niching.creation.NicheDetection;
 import net.sourceforge.cilib.niching.creation.ClosestNeighbourNicheCreationStrategy;

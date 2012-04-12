@@ -24,20 +24,28 @@ package net.sourceforge.cilib.niching.creation;
 import fj.*;
 import fj.data.List;
 import fj.function.Integers;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
+import net.sourceforge.cilib.niching.NichingSwarms;
+import net.sourceforge.cilib.niching.utils.JoinedTopologyProvider;
+import net.sourceforge.cilib.niching.utils.TopologyProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
+import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  *
  */
-public class VectorBasedNicheDetection extends NicheDetection {
+public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
     private DistanceMeasure distanceMeasure;
+    private TopologyProvider topologyProvider;
+
+    public VectorBasedNicheCreationStrategy() {
+        distanceMeasure = new EuclideanDistanceMeasure();
+        topologyProvider = new JoinedTopologyProvider();
+    }
 
     public static F<Particle, Integer> dot(final Particle nBest) {
         return new F<Particle, Integer>() {
@@ -82,16 +90,19 @@ public class VectorBasedNicheDetection extends NicheDetection {
     }.curry());
     
     @Override
-    public Boolean f(PopulationBasedAlgorithm a, Entity b) {
+    public NichingSwarms f(NichingSwarms a, Entity b) {
         Particle p = (Particle) b;
-        Particle nBest = (Particle) Topologies.getBestEntity(a.getTopology(), new SocialBestFitnessComparator());
+        Particle nBest = (Particle) Topologies.getBestEntity(a._1().getTopology(), new SocialBestFitnessComparator());
         double pRadius = distanceMeasure.distance(p.getCandidateSolution(), nBest.getBestPosition());
-        Particle closest = List.iterableList((Topology<Particle>) a.getTopology())
+
+        List<Particle> swarm = (List<Particle>) topologyProvider.f(a);
+
+        Particle closest = swarm
                 .filter(dot(nBest).andThen(Integers.ltZero))
                 .delete(nBest, equalParticle)
                 .minimum(Ord.ord(sortByDistance(nBest, distanceMeasure).curry()));
         double nRadius = distanceMeasure.distance(closest.getCandidateSolution(), nBest.getBestPosition());
 
-        return pRadius < nRadius && dot(nBest).f(p) > 0;
+        return null;//pRadius < nRadius && dot(nBest).f(p) > 0;
     }
 }

@@ -22,14 +22,13 @@
 package net.sourceforge.cilib.niching.creation;
 
 import fj.F2;
-import fj.P2;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.niching.NichingSwarms;
 
 /**
  * Create new niching populations for the provided Niche. The newly found niche
  * points are provided and are then used to create new niching populations for
  * the provided Niche algorithm.
  */
-public abstract class NicheCreationStrategy extends F2<PopulationBasedAlgorithm, Entity, P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm>> {
+public abstract class NicheCreationStrategy extends F2<NichingSwarms, Entity, NichingSwarms> {
 }

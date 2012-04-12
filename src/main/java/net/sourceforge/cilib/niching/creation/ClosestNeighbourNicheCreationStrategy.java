@@ -21,8 +21,6 @@
  */
 package net.sourceforge.cilib.niching.creation;
 
-import fj.P;
-import fj.P2;
 import java.util.Arrays;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -34,6 +32,7 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.ClosestEntityVisitor;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.measurement.generic.Iterations;
+import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.niching.merging.SingleSwarmMergeStrategy;
 import net.sourceforge.cilib.problem.boundaryconstraint.ClampingBoundaryConstraint;
 import net.sourceforge.cilib.pso.PSO;
@@ -89,10 +88,10 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
     }
 
     @Override
-    public P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> f(PopulationBasedAlgorithm a, Entity b) {
+    public NichingSwarms f(NichingSwarms a, Entity b) {
         ClosestEntityVisitor closestEntityVisitor = new ClosestEntityVisitor();
         closestEntityVisitor.setTargetEntity(b);
-        a.accept(closestEntityVisitor);
+        a._1().accept(closestEntityVisitor);
         
         Particle nicheMainParticle = (Particle) b.getClone();
         Particle nicheClosestParticle = (Particle) closestEntityVisitor.getResult().getClone();
@@ -104,19 +103,19 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
         nicheClosestParticle.setParticleBehavior(behavior.getClone());
         
         PopulationBasedAlgorithm newSubSwarm = subSwarm.getClone();
-        newSubSwarm.setOptimisationProblem(a.getOptimisationProblem());
+        newSubSwarm.setOptimisationProblem(a._1().getOptimisationProblem());
         newSubSwarm.getTopology().clear();
         ((Topology<Particle>) newSubSwarm.getTopology()).addAll(Arrays.asList(nicheMainParticle, nicheClosestParticle));
         
-        PopulationBasedAlgorithm newMainSwarm = a.getClone();
+        PopulationBasedAlgorithm newMainSwarm = a._1().getClone();
         newMainSwarm.getTopology().clear();
-        for(Entity e : a.getTopology()) {
+        for(Entity e : a._1().getTopology()) {
             if (!e.equals(b) && !e.equals(closestEntityVisitor.getResult())) {
                 ((Topology<Entity>) newMainSwarm.getTopology()).add(e.getClone());
             }
         }
         
-        return P.p(new SingleSwarmMergeStrategy().f(newMainSwarm, null), newSubSwarm);
+        return NichingSwarms.of(new SingleSwarmMergeStrategy().f(newMainSwarm, null), a._2().cons(newSubSwarm));
     }
 
     public void setSubSwarm(PopulationBasedAlgorithm subSwarm) {

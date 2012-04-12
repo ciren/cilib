@@ -28,7 +28,7 @@ import fj.data.List;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.niching.NicheAlgorithm;
-import static net.sourceforge.cilib.niching.Niching.*;
+import static net.sourceforge.cilib.niching.utils.Niching.*;
 
 public class NichePSOIterationStrategy extends AbstractIterationStrategy<NicheAlgorithm> {
 

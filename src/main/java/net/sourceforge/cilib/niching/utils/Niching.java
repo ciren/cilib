@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU Lesser General Public License along with this library; if not, see
  * <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.niching;
+package net.sourceforge.cilib.niching.utils;
 
 import fj.*;
 import fj.data.List;
@@ -22,6 +22,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
 import net.sourceforge.cilib.niching.creation.NicheDetection;
 import net.sourceforge.cilib.niching.merging.MergeDetection;
@@ -32,7 +33,7 @@ import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * These are generic functions used in Niching algorithms. e.g. Merging, absorption sub-population creation. They
+ * These are generic functions used in Niching algorithms. e.g. Merging, absorption, sub-population creation. They
  * use given strategies to accomplish a task and can be seen as higher order functions.
  */
 public final class Niching {
@@ -337,7 +338,6 @@ public final class Niching {
     };
     
     public static NichingFunction iterateSubswarms = new NichingFunction() {
-
         @Override
         public NichingSwarms f(NichingSwarms a) {
             a._2().foreach(iterateSwarm);
@@ -349,6 +349,13 @@ public final class Niching {
         @Override
         public Vector f(PopulationBasedAlgorithm a) {
             return (Vector) a.getBestSolution().getPosition();
+        }
+    };
+
+    public static F<PopulationBasedAlgorithm, Topology<? extends Entity>> algorithmToTopology = new F<PopulationBasedAlgorithm, Topology<? extends Entity>>() {
+        @Override
+        public Topology<? extends Entity> f(PopulationBasedAlgorithm a) {
+            return a.getTopology();
         }
     };
 }
