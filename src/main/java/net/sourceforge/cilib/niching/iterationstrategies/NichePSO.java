@@ -29,7 +29,7 @@ import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.niching.NicheAlgorithm;
 import static net.sourceforge.cilib.niching.Niching.*;
-import net.sourceforge.cilib.util.lift.Algorithms;
+import net.sourceforge.cilib.util.functions.Algorithms;
 
 public class NichePSO extends AbstractIterationStrategy<NicheAlgorithm> {
 

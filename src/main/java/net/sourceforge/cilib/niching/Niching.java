@@ -1,21 +1,30 @@
 /**
- * Computational Intelligence Library (CIlib) Copyright (C) 2003 - 2010 Computational Intelligence Research Group
- * (CIRG@UP) Department of Computer Science University of Pretoria South Africa
+ * Computational Intelligence Library (CIlib)
+ * Copyright (C) 2003 - 2010
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
  *
- * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser
- * General Public License as published by the Free Software Foundation; either version 3 of the License, or (at
- * your option) any later version.
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
  *
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
- * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
- * License for more details.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License along with this library; if not, see
- * <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
 package net.sourceforge.cilib.niching;
 
-import fj.*;
+import fj.F;
+import fj.F2;
+import fj.P;
+import fj.P2;
 import fj.data.List;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
@@ -23,9 +32,9 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
 import net.sourceforge.cilib.niching.creation.NicheDetection;
-import net.sourceforge.cilib.niching.merging.MergeDetection;
 import net.sourceforge.cilib.niching.merging.MergeStrategy;
 import net.sourceforge.cilib.niching.merging.StandardMergeStrategy;
+import net.sourceforge.cilib.niching.merging.detection.MergeDetection;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 
 /**
@@ -287,12 +296,11 @@ public final class Niching {
     /**
      * Performs an action only on the main swarm.
      */
-    public static NichingFunction onMainSwarm(final F<PopulationBasedAlgorithm, Unit> f) {
+    public static NichingFunction onMainSwarm(final F<PopulationBasedAlgorithm, PopulationBasedAlgorithm> f) {
         return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {
-                f.f(a._1());
-                return NichingSwarms.of(a._1(), a._2());
+                return NichingSwarms.of(f.f(a._1()), a._2());
             }
         };
     }
@@ -300,12 +308,15 @@ public final class Niching {
     /**
      * Performs an action only on the first sub-swarm.
      */
-    public static NichingFunction onFirstSubSwarm(final F<PopulationBasedAlgorithm, Unit> f) {
+    public static NichingFunction onFirstSubSwarm(final F<PopulationBasedAlgorithm, PopulationBasedAlgorithm> f) {
         return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {
-                f.f(a._2().head());
-                return NichingSwarms.of(a._1(), a._2());
+                if (a._2().isEmpty()) {
+                    return a;
+                }
+                
+                return NichingSwarms.of(a._1(), List.cons(f.f(a._2().head()), a._2().orTail(P.p(List.<PopulationBasedAlgorithm>nil()))));
             }
         };
     }
@@ -313,12 +324,11 @@ public final class Niching {
     /**
      * Performs an action all of the sub-swarms.
      */
-    public static NichingFunction onSubswarms(final F<PopulationBasedAlgorithm, Unit> f) {
+    public static NichingFunction onSubswarms(final F<PopulationBasedAlgorithm, PopulationBasedAlgorithm> f) {
         return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {
-                a._2().foreach(f);
-                return NichingSwarms.of(a._1(), a._2());
+                return NichingSwarms.of(a._1(), a._2().map(f));
             }
         };
     }

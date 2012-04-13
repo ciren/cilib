@@ -32,15 +32,15 @@ import net.sourceforge.cilib.niching.NicheAlgorithm;
 import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
 import net.sourceforge.cilib.niching.creation.NicheDetection;
-import net.sourceforge.cilib.niching.merging.MergeDetection;
+import net.sourceforge.cilib.niching.merging.detection.MergeDetection;
 import net.sourceforge.cilib.niching.merging.MergeStrategy;
 import net.sourceforge.cilib.niching.Niching.NichingFunction;
 import static net.sourceforge.cilib.niching.Niching.*;
 import net.sourceforge.cilib.problem.DeratingOptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.util.lift.Algorithms;
-import net.sourceforge.cilib.util.lift.Solutions;
+import net.sourceforge.cilib.util.functions.Algorithms;
+import net.sourceforge.cilib.util.functions.Solutions;
 
 /**
  *

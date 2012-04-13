@@ -19,32 +19,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.lift;
+package net.sourceforge.cilib.niching.merging.detection;
 
-import fj.F;
-import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 
 /**
- *
+ * 
  */
-public final class Solutions {
-    public static <S extends OptimisationSolution> F<S, Vector> getPosition() {
-        return new F<S, Vector>() {
-            @Override
-            public Vector f(S a) {
-                return (Vector) a.getPosition();
-            }
-        };
-    }
+public class AlwaysTrueMergeDetection extends MergeDetection {
 
-    public static <S extends OptimisationSolution> F<S, Fitness> getFitness() {
-        return new F<S, Fitness>() {
-            @Override
-            public Fitness f(S a) {
-                return a.getFitness();
-            }
-        };
+    @Override
+    public Boolean f(PopulationBasedAlgorithm a, PopulationBasedAlgorithm b) {
+        return true;
     }
 }

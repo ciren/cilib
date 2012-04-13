@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.niching;
 
+import net.sourceforge.cilib.niching.merging.detection.RadiusOverlapMergeDetection;
+import net.sourceforge.cilib.niching.merging.detection.MergeDetection;
 import com.google.common.collect.Lists;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;

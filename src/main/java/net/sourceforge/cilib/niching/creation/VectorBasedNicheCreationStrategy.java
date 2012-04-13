@@ -24,27 +24,36 @@ package net.sourceforge.cilib.niching.creation;
 import fj.*;
 import fj.data.List;
 import fj.function.Integers;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
-import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.niching.JoinedTopologyProvider;
+import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.niching.TopologyProvider;
+import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
-/**
- *
- */
 public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
     private DistanceMeasure distanceMeasure;
     private TopologyProvider topologyProvider;
+    private ControlParameter minSwarmSize;
+    private PopulationBasedAlgorithm subSwarm;
+    private ParticleBehavior behavior;
 
     public VectorBasedNicheCreationStrategy() {
         distanceMeasure = new EuclideanDistanceMeasure();
         topologyProvider = new JoinedTopologyProvider();
+        minSwarmSize = ConstantControlParameter.of(3.0);
+        behavior = new ParticleBehavior();
+        subSwarm = new PSO();
     }
 
     public static F<Particle, Integer> dot(final Particle nBest) {
@@ -79,7 +88,7 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
         };
     }
 
-    public static Equal<Particle> equalParticle = Equal.equal(new F2<Particle, Particle, Boolean>() {
+    public static F2<Particle, Particle, Boolean> equalParticle = new F2<Particle, Particle, Boolean>() {
         @Override
         public Boolean f(Particle a, Particle b) {
             return a.getBestPosition().equals(b.getBestPosition())
@@ -87,22 +96,86 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
                     && a.getCandidateSolution().equals(b.getCandidateSolution())
                     && a.getFitness().equals(b.getFitness());
         }
-    }.curry());
+    };
+
+    public static F<Particle, Boolean> filter(final DistanceMeasure distanceMeasure, final Particle nBest, final double nRadius) {
+        return new F<Particle, Boolean>() {
+            @Override
+            public Boolean f(Particle p) {                
+                double pRadius = distanceMeasure.distance(p.getCandidateSolution(), nBest.getBestPosition());                
+
+                return pRadius < nRadius && dot(nBest).f(p) > 0;
+            }
+        };
+    }
     
     @Override
     public NichingSwarms f(NichingSwarms a, Entity b) {
-        Particle p = (Particle) b;
         Particle nBest = (Particle) Topologies.getBestEntity(a._1().getTopology(), new SocialBestFitnessComparator());
-        double pRadius = distanceMeasure.distance(p.getCandidateSolution(), nBest.getBestPosition());
-
         List<Particle> swarm = (List<Particle>) topologyProvider.f(a);
 
         Particle closest = swarm
                 .filter(dot(nBest).andThen(Integers.ltZero))
-                .delete(nBest, equalParticle)
+                .delete(nBest, Equal.equal(equalParticle.curry()))
                 .minimum(Ord.ord(sortByDistance(nBest, distanceMeasure).curry()));
+
         double nRadius = distanceMeasure.distance(closest.getCandidateSolution(), nBest.getBestPosition());
 
-        return null;//pRadius < nRadius && dot(nBest).f(p) > 0;
+        List<Particle> newTopology = swarm.filter(filter(distanceMeasure, nBest, nRadius));
+
+        if (newTopology.length() < 3) {
+            for (int i = 0; i < minSwarmSize.getParameter(); i++) {
+                Particle newP = nBest.getClone();
+                newP.reinitialise();
+                newTopology.cons(newP);
+            }
+        }
+
+        PopulationBasedAlgorithm newSubswarm = subSwarm.getClone();
+        newSubswarm.getTopology().clear();
+        ((Topology<Particle>) newSubswarm.getTopology()).addAll(newTopology.toCollection());
+
+        PopulationBasedAlgorithm newMainSwarm = a._1().getClone();
+        newMainSwarm.getTopology().clear();
+        for(Entity e : a._1().getTopology()) {
+            Particle p = (Particle) e;
+            if (!newTopology.exists(equalParticle.f(p))) {
+                ((Topology<Entity>) newMainSwarm.getTopology()).add(e.getClone());
+            }
+        }
+
+        return NichingSwarms.of(newMainSwarm, a._2().cons(newSubswarm));
+   }
+
+    public DistanceMeasure getDistanceMeasure() {
+        return distanceMeasure;
+    }
+
+    public void setMinSwarmSize(ControlParameter minSwarmSize) {
+        this.minSwarmSize = minSwarmSize;
+    }
+
+    public void setTopologyProvider(TopologyProvider topologyProvider) {
+        this.topologyProvider = topologyProvider;
+    }
+
+    public TopologyProvider getTopologyProvider() {
+        return topologyProvider;
+    }
+
+    public PopulationBasedAlgorithm getSubSwarm() {
+        return subSwarm;
+    }
+
+    public void setSubSwarm(PopulationBasedAlgorithm subSwarm) {
+        this.subSwarm = subSwarm;
+    }
+
+    public ParticleBehavior getBehavior() {
+        return behavior;
+    }
+
+    public void setBehavior(ParticleBehavior behavior) {
+        this.behavior = behavior;
     }
 }

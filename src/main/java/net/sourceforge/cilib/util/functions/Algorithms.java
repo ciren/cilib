@@ -19,11 +19,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.lift;
+package net.sourceforge.cilib.util.functions;
 
 import fj.F;
 import fj.F2;
-import fj.Unit;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
@@ -52,35 +51,35 @@ public final class Algorithms {
         };
     }
 
-    public static <A extends Algorithm> F<A, Unit> performIteration() {
-        return new F<A, Unit>() {
+    public static <A extends Algorithm> F<A, A> performIteration() {
+        return new F<A, A>() {
             @Override
-            public Unit f(A a) {
+            public A f(A a) {
                 a.performIteration();
-                return Unit.unit();
+                return a;
             }
         };
     }
 
-    public static <A extends Algorithm> F<A, Unit> iterateUnlessDone() {
-        return new F<A, Unit>() {
+    public static <A extends Algorithm> F<A, A> iterateUnlessDone() {
+        return new F<A, A>() {
             @Override
-            public Unit f(A a) {
+            public A f(A a) {
                 if (!a.isFinished()) {
                     a.performIteration();
                 }
 
-                return Unit.unit();
+                return a;
             }
         };
     }
 
-    public static <A extends Algorithm> F<A, Unit> performInitialisation() {
-        return new F<A, Unit>() {
+    public static <A extends Algorithm> F<A, A> performInitialisation() {
+        return new F<A, A>() {
             @Override
-            public Unit f(A a) {
+            public A f(A a) {
                 a.performInitialisation();
-                return Unit.unit();
+                return a;
             }
         };
     }
@@ -94,12 +93,12 @@ public final class Algorithms {
         };
     }
 
-    public static <A extends Algorithm> F2<OptimisationProblem, A, Unit> setOptimisationProblem() {
-        return new F2<OptimisationProblem, A, Unit>() {
+    public static <A extends Algorithm> F2<OptimisationProblem, A, A> setOptimisationProblem() {
+        return new F2<OptimisationProblem, A, A>() {
             @Override
-            public Unit f(OptimisationProblem a, A b) {
+            public A f(OptimisationProblem a, A b) {
                 b.setOptimisationProblem(a);
-                return Unit.unit();
+                return b;
             }
         };
     }
@@ -122,22 +121,22 @@ public final class Algorithms {
         };
     }
 
-    public static <A extends AbstractAlgorithm> F<A, Unit> run() {
-        return new F<A, Unit>() {
+    public static <A extends AbstractAlgorithm> F<A, A> run() {
+        return new F<A, A>() {
             @Override
-            public Unit f(A a) {
+            public A f(A a) {
                 a.run();
-                return Unit.unit();
+                return a;
             }
         };
     }
 
-    public static <A extends Algorithm> F<A, Unit> initialise() {
-        return new F<A, Unit>() {
+    public static <A extends Algorithm> F<A, A> initialise() {
+        return new F<A, A>() {
             @Override
-            public Unit f(A a) {
+            public A f(A a) {
                 ((AbstractAlgorithm) a).initialise();
-                return Unit.unit();
+                return a;
             }
         };
     }
@@ -151,12 +150,12 @@ public final class Algorithms {
         };
     }
 
-    public static <A extends SinglePopulationBasedAlgorithm> F2<Topology<? extends Entity>, ? extends A, Unit> setTopology() {
-        return new F2<Topology<? extends Entity>, A, Unit>() {
+    public static <A extends SinglePopulationBasedAlgorithm> F2<Topology<? extends Entity>, ? extends A, A> setTopology() {
+        return new F2<Topology<? extends Entity>, A, A>() {
             @Override
-            public Unit f(Topology<? extends Entity> a, A b) {
+            public A f(Topology<? extends Entity> a, A b) {
                 b.setTopology(a);
-                return Unit.unit();
+                return b;
             }
         };
     }

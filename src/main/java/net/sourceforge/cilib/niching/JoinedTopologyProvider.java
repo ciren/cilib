@@ -26,7 +26,7 @@ import fj.data.List;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.niching.NichingSwarms;
-import net.sourceforge.cilib.util.lift.Algorithms;
+import net.sourceforge.cilib.util.functions.Algorithms;
 
 public class JoinedTopologyProvider extends TopologyProvider {
     @Override

@@ -25,9 +25,6 @@ import fj.P2;
 import fj.data.List;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 
-/**
- *
- */
 public class NichingSwarms extends P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> {
     
     final private PopulationBasedAlgorithm mainSwarm;
