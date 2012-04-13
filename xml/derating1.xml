@@ -51,25 +51,25 @@
             <output format="TXT" file="data/deratingNichePSO-f1.txt"/>
         </simulation>
         <simulation samples="1">
-            <algorithm idref="gbest"/>
+            <algorithm idref="deratingNichePSO"/>
             <problem idref="f2"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/deratingNichePSO-f2.txt"/>
         </simulation>
         <simulation samples="1">
-            <algorithm idref="gbest"/>
+            <algorithm idref="deratingNichePSO"/>
             <problem idref="f3"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/deratingNichePSO-f3.txt"/>
         </simulation>
         <simulation samples="1">
-            <algorithm idref="gbest"/>
+            <algorithm idref="deratingNichePSO"/>
             <problem idref="f4"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/deratingNichePSO-f4.txt"/>
         </simulation>
         <simulation samples="1">
-            <algorithm idref="gbest"/>
+            <algorithm idref="deratingNichePSO"/>
             <problem idref="f5"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/deratingNichePSO-f5.txt"/>

@@ -23,19 +23,20 @@ package net.sourceforge.cilib.niching.derating;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import fj.P;
 import fj.data.List;
 import java.util.Collections;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.niching.NicheAlgorithm;
-import net.sourceforge.cilib.niching.NichingSwarms;
-import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
-import net.sourceforge.cilib.niching.creation.NicheDetection;
-import net.sourceforge.cilib.niching.merging.detection.MergeDetection;
-import net.sourceforge.cilib.niching.merging.MergeStrategy;
 import net.sourceforge.cilib.niching.Niching.NichingFunction;
 import static net.sourceforge.cilib.niching.Niching.*;
+import net.sourceforge.cilib.niching.NichingSwarms;
+import static net.sourceforge.cilib.niching.NichingSwarms.onMainSwarm;
+import static net.sourceforge.cilib.niching.NichingSwarms.onSubswarms;
+import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
+import net.sourceforge.cilib.niching.creation.NicheDetection;
+import net.sourceforge.cilib.niching.merging.MergeStrategy;
+import net.sourceforge.cilib.niching.merging.detection.MergeDetection;
 import net.sourceforge.cilib.problem.DeratingOptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
@@ -69,8 +70,7 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NicheAlgorithm> 
         DeratingOptimisationProblem problem = (DeratingOptimisationProblem) alg.getOptimisationProblem();
         
         List<PopulationBasedAlgorithm> subswarms = List.<PopulationBasedAlgorithm>iterableList(alg.getPopulations());
-        subswarms = combineSwarms
-            .andThen(onMainSwarm(Algorithms.<PopulationBasedAlgorithm>initialise()))
+        subswarms = onMainSwarm(Algorithms.<PopulationBasedAlgorithm>initialise())
             .andThen(phase1(alg.getNicheDetection(), 
                 alg.getNicheCreationStrategy(),
                 alg.getMainSwarmPostCreation()))
@@ -85,7 +85,7 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NicheAlgorithm> 
                 alg.getMainSwarmMergeStrategy(),
                 alg.getSubSwarmsMergeStrategy(),
                 subswarms))
-            .f(P.p(alg.getMainSwarm(), Collections.<PopulationBasedAlgorithm>emptyList()))._2();
+            .f(NichingSwarms.of(alg.getMainSwarm(), Collections.<PopulationBasedAlgorithm>emptyList()))._2();
 
         problem.clearSolutions();
         problem.addSolutions(subswarms.map(Solutions.getPosition().o(Algorithms.<PopulationBasedAlgorithm>getBestSolution())).toCollection());

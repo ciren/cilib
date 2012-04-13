@@ -22,14 +22,17 @@
 package net.sourceforge.cilib.niching.iterationstrategies;
 
 import com.google.common.collect.Lists;
-import fj.P;
 import fj.P2;
 import fj.data.List;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.niching.NicheAlgorithm;
 import static net.sourceforge.cilib.niching.Niching.*;
+import net.sourceforge.cilib.niching.NichingSwarms;
+import static net.sourceforge.cilib.niching.NichingSwarms.onMainSwarm;
+import static net.sourceforge.cilib.niching.NichingSwarms.onSubswarms;
 import net.sourceforge.cilib.util.functions.Algorithms;
+import static net.sourceforge.cilib.util.functions.Populations.enforceTopology;
 
 public class NichePSO extends AbstractIterationStrategy<NicheAlgorithm> {
 
@@ -56,8 +59,8 @@ public class NichePSO extends AbstractIterationStrategy<NicheAlgorithm> {
      */
     @Override
     public void performIteration(NicheAlgorithm alg) {
-        P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> newSwarms = combineSwarms
-                .andThen(onMainSwarm(Algorithms.<PopulationBasedAlgorithm>iterateUnlessDone()))
+        P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> newSwarms =
+                    onMainSwarm(Algorithms.<PopulationBasedAlgorithm>iterateUnlessDone())
                 .andThen(onSubswarms(Algorithms.<PopulationBasedAlgorithm>iterateUnlessDone()))
                 .andThen(merge(alg.getMergeDetection(), 
                     alg.getMainSwarmMergeStrategy(), 
@@ -65,11 +68,11 @@ public class NichePSO extends AbstractIterationStrategy<NicheAlgorithm> {
                 .andThen(absorb(alg.getAbsorptionDetection(), 
                     alg.getMainSwarmAbsorptionStrategy(), 
                     alg.getSubSwarmsAbsorptionStrategy()))
-                .andThen(enforceMainSwarmTopology(alg.getMainSwarmParticle().getParticleBehavior()))
+                .andThen(onMainSwarm(enforceTopology(alg.getMainSwarmParticle().getParticleBehavior())))
                 .andThen(createNiches(alg.getNicheDetection(), 
                     alg.getNicheCreationStrategy(),
                     alg.getMainSwarmPostCreation()))
-                .f(P.p(alg.getMainSwarm(), alg.getPopulations()));
+                .f(NichingSwarms.of(alg.getMainSwarm(), alg.getPopulations()));
 
         alg.setPopulations(Lists.newArrayList(newSwarms._2().toCollection()));
         alg.setMainSwarm(newSwarms._1());
