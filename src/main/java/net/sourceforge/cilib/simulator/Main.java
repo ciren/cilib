@@ -21,8 +21,6 @@
  */
 package net.sourceforge.cilib.simulator;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import java.io.File;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.ProgressListener;
@@ -47,8 +45,7 @@ public final class Main {
             throw new IllegalArgumentException("Please provide the correct arguments.\nUsage: Simulator <simulation-config.xml> [-textprogress|-guiprogress]");
         }
 
-        Injector injector = Guice.createInjector(new SimulatorModule());
-        SimulatorShell shell = injector.getInstance(SimulatorShell.class);
+        SimulatorShell shell = new SimulatorShell(new XMLObjectBuilder(), new SimulatorCreator(), new MeasurementCombinerBuilder());
         final List<Simulator> simulators = shell.prepare(new File(args[0]));
 
         ProgressListener progress = null;
