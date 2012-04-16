@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.simulator;
 
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
 import java.io.File;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
@@ -47,7 +46,6 @@ class SimulatorShell {
     private final SimulatorCreator creator;
     private final MeasurementCombinerBuilder combinerBuilder;
 
-    @Inject
     SimulatorShell(XMLObjectBuilder objectBuilder,
             SimulatorCreator creator,
             MeasurementCombinerBuilder combinerBuilder) {

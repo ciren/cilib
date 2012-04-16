@@ -21,26 +21,19 @@
  */
 package net.sourceforge.cilib.simulator;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  *
  */
-class SimulatorCreator implements Provider<Simulator> {
+class SimulatorCreator {
 
-    private final Provider<ExecutorService> service;
     private XMLObjectFactory algorithmFactory;
     private XMLObjectFactory problemFactory;
     private XMLObjectFactory measurementFactory;
     private int samples;
     private MeasurementCombiner combiner;
-
-    @Inject
-    SimulatorCreator(Provider<ExecutorService> service) {
-        this.service = service;
-    }
 
     SimulatorCreator algorithm(XMLObjectFactory algorithmFactory) {
         this.algorithmFactory = algorithmFactory;
@@ -62,9 +55,9 @@ class SimulatorCreator implements Provider<Simulator> {
         return this;
     }
 
-    @Override
     public Simulator get() {
-        Simulator simulator = new Simulator(service.get(), algorithmFactory, problemFactory, measurementFactory, combiner, samples);
+        Simulator simulator = new Simulator(Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()),
+                algorithmFactory, problemFactory, measurementFactory, combiner, samples);
         this.algorithmFactory = null;
         this.problemFactory = null;
         this.measurementFactory = null;
