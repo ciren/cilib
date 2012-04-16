@@ -281,7 +281,7 @@ public class NichingTest {
         
         NicheDetection detector = new MaintainedFitnessNicheDetection();
         NicheCreationStrategy creator = new ClosestNeighbourNicheCreationStrategy();
-        ((ClosestNeighbourNicheCreationStrategy) creator).setBehavior(new ParticleBehavior());
+        ((ClosestNeighbourNicheCreationStrategy) creator).setSwarmBehavior(new ParticleBehavior());
         MergeStrategy merger = new SingleSwarmMergeStrategy();
         
         NichingSwarms merged = Niching.createNiches(detector, creator, merger)

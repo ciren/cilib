@@ -51,7 +51,7 @@ public class ClosestNeighbourNicheCreationStrategyTest {
         pso.getTopology().addAll(Arrays.asList(p1, p2, p3));
         
         ClosestNeighbourNicheCreationStrategy creator = new ClosestNeighbourNicheCreationStrategy();
-        creator.setBehavior(new ParticleBehavior());
+        creator.setSwarmBehavior(new ParticleBehavior());
         NichingSwarms swarms = creator.f(NichingSwarms.of(pso, List.<PopulationBasedAlgorithm>nil()), p1);
         
         Assert.assertEquals(1, swarms._1().getTopology().size());

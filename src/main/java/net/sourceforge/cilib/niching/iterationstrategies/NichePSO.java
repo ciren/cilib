@@ -61,16 +61,16 @@ public class NichePSO extends AbstractIterationStrategy<NicheAlgorithm> {
         P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> newSwarms =
                     onMainSwarm(alg.getMainSwarmIterator())
                 .andThen(onSubswarms(alg.getSubSwarmIterator()))
-                .andThen(merge(alg.getMergeDetection(), 
-                    alg.getMainSwarmMergeStrategy(), 
-                    alg.getSubSwarmsMergeStrategy()))
-                .andThen(absorb(alg.getAbsorptionDetection(), 
-                    alg.getMainSwarmAbsorptionStrategy(), 
-                    alg.getSubSwarmsAbsorptionStrategy()))
-                .andThen(onMainSwarm(enforceTopology(alg.getMainSwarmParticle().getParticleBehavior())))
-                .andThen(createNiches(alg.getNicheDetection(), 
-                    alg.getNicheCreationStrategy(),
-                    alg.getMainSwarmPostCreation()))
+                .andThen(merge(alg.getMergeDetector(),
+                    alg.getMainSwarmMerger(),
+                    alg.getSubSwarmMerger()))
+                .andThen(absorb(alg.getAbsorptionDetector(),
+                    alg.getMainSwarmAbsorber(),
+                    alg.getSubSwarmAbsorber()))
+                .andThen(onMainSwarm(enforceTopology(alg.getMainSwarmBehavior().getParticleBehavior())))
+                .andThen(createNiches(alg.getNicheDetector(),
+                    alg.getNicheCreator(),
+                    alg.getMainSwarmCreationMerger()))
                 .f(NichingSwarms.of(alg.getMainSwarm(), alg.getPopulations()));
 
         alg.setPopulations(Lists.newArrayList(newSwarms._2().toCollection()));

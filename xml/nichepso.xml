@@ -8,8 +8,8 @@
     <algorithms>
         <algorithm id="nichePSO" class="niching.NicheAlgorithm">
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
-            <nicheCreationStrategy class="niching.creation.ClosestNeighbourNicheCreationStrategy">
-                <behavior class="pso.particle.ParticleBehavior">
+            <nicheCreator class="niching.creation.ClosestNeighbourNicheCreationStrategy">
+                <swarmBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.GCVelocityProvider">
                         <rho class="controlparameter.ConstantControlParameter" parameter="0.01"/>
                         <delegate class="pso.velocityprovider.ClampingVelocityProvider">
@@ -21,8 +21,8 @@
                             </delegate>
                         </delegate>
                     </velocityProvider>
-                </behavior>
-            </nicheCreationStrategy>
+                </swarmBehavior>
+            </nicheCreator>
         </algorithm>
     </algorithms>
 

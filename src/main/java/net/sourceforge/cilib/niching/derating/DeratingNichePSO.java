@@ -90,7 +90,7 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NicheAlgorithm> 
         return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {
-                return merge(alg.getMergeDetection(), alg.getMainSwarmMergeStrategy(), alg.getSubSwarmsMergeStrategy())
+                return merge(alg.getMergeDetector(), alg.getMainSwarmMerger(), alg.getSubSwarmMerger())
                         .f(NichingSwarms.of(a._1(), joiningList.append(a._2())));
             }
         };
@@ -105,7 +105,7 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NicheAlgorithm> 
                 }
 
                 return this.f(onMainSwarm(alg.getMainSwarmIterator())
-                        .andThen(createNiches(alg.getNicheDetection(), alg.getNicheCreationStrategy(), alg.getMainSwarmPostCreation()))
+                        .andThen(createNiches(alg.getNicheDetector(), alg.getNicheCreator(), alg.getMainSwarmCreationMerger()))
                         .f(a));
             }
         };
@@ -120,8 +120,8 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NicheAlgorithm> 
                 }
 
                 return this.f(onSubswarms(Algorithms.<PopulationBasedAlgorithm>iterateUnlessDone())
-                        .andThen(absorb(alg.getAbsorptionDetection(), alg.getMainSwarmAbsorptionStrategy(), alg.getSubSwarmsAbsorptionStrategy()))
-                        .andThen(createNiches(alg.getNicheDetection(), alg.getNicheCreationStrategy(), alg.getMainSwarmPostCreation()))
+                        .andThen(absorb(alg.getAbsorptionDetector(), alg.getMainSwarmAbsorber(), alg.getSubSwarmAbsorber()))
+                        .andThen(createNiches(alg.getNicheDetector(), alg.getNicheCreator(), alg.getMainSwarmCreationMerger()))
                         .andThen(clearDeratingSolutions(a._1().getOptimisationProblem())).f(a));
             }
         };

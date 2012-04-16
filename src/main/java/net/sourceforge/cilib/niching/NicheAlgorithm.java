@@ -71,22 +71,22 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
 
     protected IterationStrategy<NicheAlgorithm> iterationStrategy;
     protected PopulationBasedAlgorithm mainSwarm;
-    protected Particle mainSwarmParticle;
+    protected Particle mainSwarmBehavior;
 
     protected NicheIteration mainSwarmIterator;
     protected NicheIteration subSwarmIterator;
 
-    protected NicheDetection nicheDetection;
-    protected NicheCreationStrategy nicheCreationStrategy;
-    protected MergeStrategy mainSwarmPostCreation;
+    protected NicheDetection nicheDetector;
+    protected NicheCreationStrategy nicheCreator;
+    protected MergeStrategy mainSwarmCreationMerger;
 
-    protected MergeStrategy subSwarmsMergeStrategy;
-    protected MergeStrategy mainSwarmMergeStrategy;
-    protected MergeDetection mergeDetection;
+    protected MergeStrategy subSwarmMerger;
+    protected MergeStrategy mainSwarmMerger;
+    protected MergeDetection mergeDetector;
 
-    protected MergeStrategy mainSwarmAbsorptionStrategy;
-    protected MergeStrategy subSwarmsAbsorptionStrategy;
-    protected MergeDetection absorptionDetection;
+    protected MergeStrategy mainSwarmAbsorber;
+    protected MergeStrategy subSwarmAbsorber;
+    protected MergeDetection absorptionDetector;
 
     /**
      * Default constructor. The defaults are:
@@ -121,24 +121,24 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
         velocityUpdateStrategy.setSocialAcceleration(ConstantControlParameter.of(0.0));
         velocityUpdateStrategy.setCognitiveAcceleration(ConstantControlParameter.of(1.2));
         
-        this.mainSwarmParticle = new StandardParticle();
-        this.mainSwarmParticle.setVelocityInitializationStrategy(new RandomInitializationStrategy());
-        this.mainSwarmParticle.setVelocityProvider(velocityUpdateStrategy);
+        this.mainSwarmBehavior = new StandardParticle();
+        this.mainSwarmBehavior.setVelocityInitializationStrategy(new RandomInitializationStrategy());
+        this.mainSwarmBehavior.setVelocityProvider(velocityUpdateStrategy);
 
-        ((ClonedPopulationInitialisationStrategy) ((PSO) this.mainSwarm).getInitialisationStrategy()).setEntityType(mainSwarmParticle);
+        ((ClonedPopulationInitialisationStrategy) ((PSO) this.mainSwarm).getInitialisationStrategy()).setEntityType(mainSwarmBehavior);
         ((SynchronousIterationStrategy) ((PSO) this.mainSwarm).getIterationStrategy()).setBoundaryConstraint(new ReinitialisationBoundary());
 
-        this.nicheDetection = new MaintainedFitnessNicheDetection();
-        this.nicheCreationStrategy = new ClosestNeighbourNicheCreationStrategy();
-        this.mainSwarmPostCreation = new SingleSwarmMergeStrategy();
+        this.nicheDetector = new MaintainedFitnessNicheDetection();
+        this.nicheCreator = new ClosestNeighbourNicheCreationStrategy();
+        this.mainSwarmCreationMerger = new SingleSwarmMergeStrategy();
 
-        this.mainSwarmAbsorptionStrategy = new SingleSwarmMergeStrategy();
-        this.subSwarmsAbsorptionStrategy = new StandardMergeStrategy();
-        this.absorptionDetection = new RadiusOverlapMergeDetection();
+        this.mainSwarmAbsorber = new SingleSwarmMergeStrategy();
+        this.subSwarmAbsorber = new StandardMergeStrategy();
+        this.absorptionDetector = new RadiusOverlapMergeDetection();
 
-        this.subSwarmsMergeStrategy = new StandardMergeStrategy();
-        this.mainSwarmMergeStrategy = new SingleSwarmMergeStrategy();
-        this.mergeDetection = new RadiusOverlapMergeDetection();
+        this.subSwarmMerger = new StandardMergeStrategy();
+        this.mainSwarmMerger = new SingleSwarmMergeStrategy();
+        this.mergeDetector = new RadiusOverlapMergeDetection();
 
         this.iterationStrategy = new NichePSO();
         this.mainSwarmIterator = new SingleNicheIteration();
@@ -153,19 +153,19 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
 
         this.iterationStrategy = copy.iterationStrategy.getClone();
         this.mainSwarm = copy.mainSwarm.getClone();
-        this.mainSwarmParticle = copy.mainSwarmParticle.getClone();
+        this.mainSwarmBehavior = copy.mainSwarmBehavior.getClone();
         
-        this.nicheDetection = copy.nicheDetection;
-        this.nicheCreationStrategy = copy.nicheCreationStrategy;
-        this.mainSwarmPostCreation = copy.mainSwarmPostCreation;
+        this.nicheDetector = copy.nicheDetector;
+        this.nicheCreator = copy.nicheCreator;
+        this.mainSwarmCreationMerger = copy.mainSwarmCreationMerger;
 
-        this.mainSwarmAbsorptionStrategy = copy.mainSwarmAbsorptionStrategy;
-        this.subSwarmsAbsorptionStrategy = copy.subSwarmsAbsorptionStrategy;
-        this.absorptionDetection = copy.absorptionDetection;
+        this.mainSwarmAbsorber = copy.mainSwarmAbsorber;
+        this.subSwarmAbsorber = copy.subSwarmAbsorber;
+        this.absorptionDetector = copy.absorptionDetector;
 
-        this.subSwarmsMergeStrategy = copy.subSwarmsMergeStrategy;
-        this.mainSwarmMergeStrategy = copy.mainSwarmMergeStrategy;
-        this.mergeDetection = copy.mergeDetection;
+        this.subSwarmMerger = copy.subSwarmMerger;
+        this.mainSwarmMerger = copy.mainSwarmMerger;
+        this.mergeDetector = copy.mergeDetector;
     }
 
     /**
@@ -232,84 +232,84 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
         this.mainSwarm = mainSwarm;
     }
 
-    public Particle getMainSwarmParticle() {
-        return mainSwarmParticle;
+    public Particle getMainSwarmBehavior() {
+        return mainSwarmBehavior;
     }
 
-    public void setMainSwarmParticle(Particle mainSwarmParticle) {
-        this.mainSwarmParticle = mainSwarmParticle;
+    public void setMainSwarmBehavior(Particle mainSwarmBehavior) {
+        this.mainSwarmBehavior = mainSwarmBehavior;
     }
 
-    public MergeDetection getMergeDetection() {
-        return mergeDetection;
+    public MergeDetection getMergeDetector() {
+        return mergeDetector;
     }
 
-    public void setMergeDetection(MergeDetection mergeDetection) {
-        this.mergeDetection = mergeDetection;
+    public void setMergeDetector(MergeDetection mergeDetector) {
+        this.mergeDetector = mergeDetector;
     }
 
-    public MergeStrategy getMainSwarmMergeStrategy() {
-        return mainSwarmMergeStrategy;
+    public MergeStrategy getMainSwarmMerger() {
+        return mainSwarmMerger;
     }
 
-    public void setMainSwarmMergeStrategy(MergeStrategy mainSwarmMergeStrategy) {
-        this.mainSwarmMergeStrategy = mainSwarmMergeStrategy;
+    public void setMainSwarmMerger(MergeStrategy mainSwarmMerger) {
+        this.mainSwarmMerger = mainSwarmMerger;
     }
 
-    public MergeStrategy getSubSwarmsMergeStrategy() {
-        return subSwarmsMergeStrategy;
+    public MergeStrategy getSubSwarmMerger() {
+        return subSwarmMerger;
     }
 
-    public void setSubSwarmsMergeStrategy(MergeStrategy subSwarmsMergeStrategy) {
-        this.subSwarmsMergeStrategy = subSwarmsMergeStrategy;
+    public void setSubSwarmMerger(MergeStrategy subSwarmMerger) {
+        this.subSwarmMerger = subSwarmMerger;
     }
 
-    public MergeDetection getAbsorptionDetection() {
-        return absorptionDetection;
+    public MergeDetection getAbsorptionDetector() {
+        return absorptionDetector;
     }
 
-    public void setAbsorptionDetection(MergeDetection absorptionDetection) {
-        this.absorptionDetection = absorptionDetection;
+    public void setAbsorptionDetector(MergeDetection absorptionDetector) {
+        this.absorptionDetector = absorptionDetector;
     }
 
-    public MergeStrategy getMainSwarmAbsorptionStrategy() {
-        return mainSwarmAbsorptionStrategy;
+    public MergeStrategy getMainSwarmAbsorber() {
+        return mainSwarmAbsorber;
     }
 
-    public void setMainSwarmAbsorptionStrategy(MergeStrategy mainSwarmAbsorptionStrategy) {
-        this.mainSwarmAbsorptionStrategy = mainSwarmAbsorptionStrategy;
+    public void setMainSwarmAbsorber(MergeStrategy mainSwarmAbsorber) {
+        this.mainSwarmAbsorber = mainSwarmAbsorber;
     }
 
-    public MergeStrategy getSubSwarmsAbsorptionStrategy() {
-        return subSwarmsAbsorptionStrategy;
+    public MergeStrategy getSubSwarmAbsorber() {
+        return subSwarmAbsorber;
     }
 
-    public void setSubSwarmsAbsorptionStrategy(MergeStrategy subSwarmsAbsorptionStrategy) {
-        this.subSwarmsAbsorptionStrategy = subSwarmsAbsorptionStrategy;
+    public void setSubSwarmAbsorber(MergeStrategy subSwarmAbsorber) {
+        this.subSwarmAbsorber = subSwarmAbsorber;
     }
 
-    public NicheDetection getNicheDetection() {
-        return nicheDetection;
+    public NicheDetection getNicheDetector() {
+        return nicheDetector;
     }
 
-    public void setNicheDetection(NicheDetection nicheDetection) {
-        this.nicheDetection = nicheDetection;
+    public void setNicheDetector(NicheDetection nicheDetector) {
+        this.nicheDetector = nicheDetector;
     }
 
-    public NicheCreationStrategy getNicheCreationStrategy() {
-        return nicheCreationStrategy;
+    public NicheCreationStrategy getNicheCreator() {
+        return nicheCreator;
     }
 
-    public void setNicheCreationStrategy(NicheCreationStrategy swarmCreationStrategy) {
-        this.nicheCreationStrategy = swarmCreationStrategy;
+    public void setNicheCreator(NicheCreationStrategy swarmCreationStrategy) {
+        this.nicheCreator = swarmCreationStrategy;
     }
 
-    public MergeStrategy getMainSwarmPostCreation() {
-        return mainSwarmPostCreation;
+    public MergeStrategy getMainSwarmCreationMerger() {
+        return mainSwarmCreationMerger;
     }
 
-    public void setMainSwarmPostCreation(MergeStrategy mainSwarmPostCreation) {
-        this.mainSwarmPostCreation = mainSwarmPostCreation;
+    public void setMainSwarmCreationMerger(MergeStrategy mainSwarmCreationMerger) {
+        this.mainSwarmCreationMerger = mainSwarmCreationMerger;
     }
 
     public void setIterationStrategy(IterationStrategy<NicheAlgorithm> iterationStrategy) {
