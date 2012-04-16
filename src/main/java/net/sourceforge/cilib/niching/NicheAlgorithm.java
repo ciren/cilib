@@ -21,8 +21,6 @@
  */
 package net.sourceforge.cilib.niching;
 
-import net.sourceforge.cilib.niching.merging.detection.RadiusOverlapMergeDetection;
-import net.sourceforge.cilib.niching.merging.detection.MergeDetection;
 import com.google.common.collect.Lists;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
@@ -36,7 +34,13 @@ import net.sourceforge.cilib.niching.creation.MaintainedFitnessNicheDetection;
 import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
 import net.sourceforge.cilib.niching.creation.NicheDetection;
 import net.sourceforge.cilib.niching.iterationstrategies.NichePSO;
-import net.sourceforge.cilib.niching.merging.*;
+import net.sourceforge.cilib.niching.merging.MergeStrategy;
+import net.sourceforge.cilib.niching.merging.SingleSwarmMergeStrategy;
+import net.sourceforge.cilib.niching.merging.StandardMergeStrategy;
+import net.sourceforge.cilib.niching.merging.detection.MergeDetection;
+import net.sourceforge.cilib.niching.merging.detection.RadiusOverlapMergeDetection;
+import net.sourceforge.cilib.niching.utils.NicheIteration;
+import net.sourceforge.cilib.niching.utils.SingleNicheIteration;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.pso.PSO;
@@ -68,6 +72,9 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
     protected IterationStrategy<NicheAlgorithm> iterationStrategy;
     protected PopulationBasedAlgorithm mainSwarm;
     protected Particle mainSwarmParticle;
+
+    protected NicheIteration mainSwarmIterator;
+    protected NicheIteration subSwarmIterator;
 
     protected NicheDetection nicheDetection;
     protected NicheCreationStrategy nicheCreationStrategy;
@@ -134,6 +141,8 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
         this.mergeDetection = new RadiusOverlapMergeDetection();
 
         this.iterationStrategy = new NichePSO();
+        this.mainSwarmIterator = new SingleNicheIteration();
+        this.subSwarmIterator = new SingleNicheIteration();
     }
     
     /**
@@ -309,5 +318,21 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
 
     public IterationStrategy<NicheAlgorithm> getIterationStrategy() {
         return iterationStrategy;
+    }
+
+    public NicheIteration getMainSwarmIterator() {
+        return mainSwarmIterator;
+    }
+
+    public void setMainSwarmIterator(NicheIteration mainSwarmIterator) {
+        this.mainSwarmIterator = mainSwarmIterator;
+    }
+
+    public NicheIteration getSubSwarmIterator() {
+        return subSwarmIterator;
+    }
+
+    public void setSubSwarmIterator(NicheIteration subSwarmIterator) {
+        this.subSwarmIterator = subSwarmIterator;
     }
 }
