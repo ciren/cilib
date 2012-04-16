@@ -24,7 +24,7 @@ package net.sourceforge.cilib.pso.positionprovider;
 import junit.framework.Assert;
 import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.controlparameter.ParameterAdaptingPSOControlParameter;
+import net.sourceforge.cilib.controlparameter.ParameterAdaptingControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.ExponentialDistribution;
@@ -142,7 +142,7 @@ public class NoisyPositionProviderTest {
         System.out.println("getInertia");
         NoisyPositionProvider noisyProvider = new NoisyPositionProvider();
         ParameterizedParticle particle = new ParameterizedParticle();
-        ParameterAdaptingPSOControlParameter parameter = new BoundedModifiableControlParameter();
+        ParameterAdaptingControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(0.5);
         particle.setInertia(parameter);
         particle.getInertia().setVelocity(0.1);
@@ -162,7 +162,7 @@ public class NoisyPositionProviderTest {
         System.out.println("getSocial");
         NoisyPositionProvider noisyProvider = new NoisyPositionProvider();
         ParameterizedParticle particle = new ParameterizedParticle();
-        ParameterAdaptingPSOControlParameter parameter = new BoundedModifiableControlParameter();
+        ParameterAdaptingControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(0.5);
         particle.setSocialAcceleration(parameter);
         particle.getSocialAcceleration().setVelocity(0.1);
@@ -181,7 +181,7 @@ public class NoisyPositionProviderTest {
         System.out.println("getPersonal");
         NoisyPositionProvider noisyProvider = new NoisyPositionProvider();
         ParameterizedParticle particle = new ParameterizedParticle();
-        ParameterAdaptingPSOControlParameter parameter = new BoundedModifiableControlParameter();
+        ParameterAdaptingControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(0.5);
         particle.setCognitiveAcceleration(parameter);
         particle.getCognitiveAcceleration().setVelocity(0.1);
@@ -200,7 +200,7 @@ public class NoisyPositionProviderTest {
         System.out.println("getVmax");
         NoisyPositionProvider noisyProvider = new NoisyPositionProvider();
         ParameterizedParticle particle = new ParameterizedParticle();
-        ParameterAdaptingPSOControlParameter parameter = new BoundedModifiableControlParameter();
+        ParameterAdaptingControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(0.5);
         particle.setVmax(parameter);
         particle.getVmax().setVelocity(0.1);

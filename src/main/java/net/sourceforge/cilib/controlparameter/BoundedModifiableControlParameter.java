@@ -29,11 +29,11 @@ import net.sourceforge.cilib.type.types.Real;
  * update.
  * 
  */
-public class BoundedModifiableControlParameter implements ParameterAdaptingPSOControlParameter {
+public class BoundedModifiableControlParameter implements ParameterAdaptingControlParameter {
     private Real parameter;
     private double velocity;
     private boolean wasInitialySetByUser;
-    private ParameterAdaptingPSOControlParameter bestValue;
+    private ParameterAdaptingControlParameter bestValue;
     private double lowerBound;
     private double upperBound;
 
@@ -47,6 +47,15 @@ public class BoundedModifiableControlParameter implements ParameterAdaptingPSOCo
         bestValue = new BoundedModifiableControlParameter(this);
         lowerBound = 0.1;
         upperBound = 0.9;
+    }
+    
+    public BoundedModifiableControlParameter(double value, double lowerBoundIn, double upperBoundIn) {
+        parameter = Real.valueOf(value);
+        velocity = 0;
+        wasInitialySetByUser = false;
+        bestValue = new BoundedModifiableControlParameter(this);
+        lowerBound = lowerBoundIn;
+        upperBound = upperBoundIn;
     }
 
     /**
@@ -131,7 +140,7 @@ public class BoundedModifiableControlParameter implements ParameterAdaptingPSOCo
     }
     
     @Override
-    public ParameterAdaptingPSOControlParameter getBestValue() {
+    public ParameterAdaptingControlParameter getBestValue() {
         return bestValue;
     }
     

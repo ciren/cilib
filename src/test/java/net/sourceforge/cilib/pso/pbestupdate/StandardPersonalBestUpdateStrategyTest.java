@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.pso.pbestupdate;
 
-import net.sourceforge.cilib.controlparameter.ParameterAdaptingPSOControlParameter;
+import net.sourceforge.cilib.controlparameter.ParameterAdaptingControlParameter;
 import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
@@ -96,8 +96,8 @@ public class StandardPersonalBestUpdateStrategyTest {
         particle.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(300.0));
         particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(0.0));
         particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
-        ParameterAdaptingPSOControlParameter parameter = new BoundedModifiableControlParameter();
-        ParameterAdaptingPSOControlParameter bestParameter = new BoundedModifiableControlParameter();
+        ParameterAdaptingControlParameter parameter = new BoundedModifiableControlParameter();
+        ParameterAdaptingControlParameter bestParameter = new BoundedModifiableControlParameter();
         bestParameter.setParameter(0.6);
         parameter.setParameter(0.55);
         particle.setInertia(parameter);

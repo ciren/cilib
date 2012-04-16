@@ -23,7 +23,7 @@ package net.sourceforge.cilib.entity.initialization;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.controlparameter.ParameterAdaptingPSOControlParameter;
+import net.sourceforge.cilib.controlparameter.ParameterAdaptingControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
@@ -45,10 +45,10 @@ public class ParameterInclusiveInitializationStrategy<P extends ParameterizedPar
     
     private InitializationStrategy entityInitializationStrategy;
     
-    private ParameterAdaptingPSOControlParameter inertia;
-    private ParameterAdaptingPSOControlParameter socialAcceleration;
-    private ParameterAdaptingPSOControlParameter cognitiveAcceleration;
-    private ParameterAdaptingPSOControlParameter vmax;
+    private ParameterAdaptingControlParameter inertia;
+    private ParameterAdaptingControlParameter socialAcceleration;
+    private ParameterAdaptingControlParameter cognitiveAcceleration;
+    private ParameterAdaptingControlParameter vmax;
     
     private ControlParameter lowerBoundInertia;
     private ControlParameter upperBoundInertia;
@@ -149,15 +149,15 @@ public class ParameterInclusiveInitializationStrategy<P extends ParameterizedPar
           particle.setCognitiveAcceleration(cognitiveAcceleration);
           particle.setVmax(vmax);
       } else if (key.name().equals("BEST_POSITION")) {
-          particle.getInertia().setBestValue(inertia.getParameter());
-          particle.getSocialAcceleration().setBestValue(socialAcceleration.getParameter());
-          particle.getCognitiveAcceleration().setBestValue(cognitiveAcceleration.getParameter());
-          particle.getVmax().setBestValue(vmax.getParameter());
+          particle.getInertia().setBestValue(particle.getInertia().getParameter());
+          particle.getSocialAcceleration().setBestValue(particle.getSocialAcceleration().getParameter());
+          particle.getCognitiveAcceleration().setBestValue(particle.getCognitiveAcceleration().getParameter());
+          particle.getVmax().setBestValue(particle.getVmax().getParameter());
       } else if (key.name().equals("VELOCITY")) {
-          particle.getInertia().setVelocity(inertia.getParameter());
-          particle.getSocialAcceleration().setVelocity(socialAcceleration.getParameter());
-          particle.getCognitiveAcceleration().setVelocity(cognitiveAcceleration.getParameter());
-          particle.getVmax().setVelocity(vmax.getParameter());
+          particle.getInertia().setVelocity(0);
+          particle.getSocialAcceleration().setVelocity(0);
+          particle.getCognitiveAcceleration().setVelocity(0);
+          particle.getVmax().setVelocity(0);
       }
       
     }
@@ -166,8 +166,9 @@ public class ParameterInclusiveInitializationStrategy<P extends ParameterizedPar
      * Initialize the particle's parameters
      */
     private void initializeParameters() {
-        if(!inertia.wasSetByUser())
+        if(!inertia.wasSetByUser()) {
            inertia.updateParameter(random.getRandomNumber(lowerBoundInertia.getParameter(), upperBoundInertia.getParameter()));
+        }
         
         if(!socialAcceleration.wasSetByUser())
            socialAcceleration.updateParameter(random.getRandomNumber(lowerBoundSocial.getParameter(), upperBoundSocial.getParameter()));
@@ -203,7 +204,7 @@ public class ParameterInclusiveInitializationStrategy<P extends ParameterizedPar
      * @param parameter The parameter inertia mst be set to
      */
     public void setInertia(ControlParameter parameter) {
-        this.inertia = (ParameterAdaptingPSOControlParameter) parameter.getClone();
+        this.inertia = (ParameterAdaptingControlParameter) parameter.getClone();
     }
     
     /*
@@ -220,7 +221,7 @@ public class ParameterInclusiveInitializationStrategy<P extends ParameterizedPar
      * @param parameter The parameter social acceleration mst be set to
      */
     public void setSocialAcceleration(ControlParameter parameter) {
-        this.socialAcceleration = (ParameterAdaptingPSOControlParameter) parameter.getClone();
+        this.socialAcceleration = (ParameterAdaptingControlParameter) parameter.getClone();
     }
     
     /*
@@ -237,7 +238,7 @@ public class ParameterInclusiveInitializationStrategy<P extends ParameterizedPar
      * @param parameter The parameter cognitive acceleration mst be set to
      */
     public void setCognitiveAcceleration(ControlParameter parameter) {
-        this.cognitiveAcceleration = (ParameterAdaptingPSOControlParameter) parameter.getClone();
+        this.cognitiveAcceleration = (ParameterAdaptingControlParameter) parameter.getClone();
     }
     
     /*
@@ -254,7 +255,7 @@ public class ParameterInclusiveInitializationStrategy<P extends ParameterizedPar
      * @param parameter The parameter vmax mst be set to
      */
     public void setVmax(ControlParameter parameter) {
-        this.vmax = (ParameterAdaptingPSOControlParameter) parameter.getClone();
+        this.vmax = (ParameterAdaptingControlParameter) parameter.getClone();
     }
     
     /*

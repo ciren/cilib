@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.pso.velocityprovider;
 
-import net.sourceforge.cilib.controlparameter.ParameterAdaptingPSOControlParameter;
+import net.sourceforge.cilib.controlparameter.ParameterAdaptingControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -259,9 +259,9 @@ public class ConstrictionVelocityProviderTest {
     public void testSetControlParameters() {
         System.out.println("setControlParameters");
         ParameterizedParticle particle = new ParameterizedParticle();
-        ParameterAdaptingPSOControlParameter socialParameter = ConstantControlParameter.of(0.55);
+        ParameterAdaptingControlParameter socialParameter = ConstantControlParameter.of(0.55);
         particle.setSocialAcceleration(socialParameter);
-        ParameterAdaptingPSOControlParameter cognitiveParameter = ConstantControlParameter.of(0.55);
+        ParameterAdaptingControlParameter cognitiveParameter = ConstantControlParameter.of(0.55);
         particle.setCognitiveAcceleration(cognitiveParameter);
         ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
         instance.setControlParameters(particle);
@@ -277,9 +277,9 @@ public class ConstrictionVelocityProviderTest {
     public void testGetControlParameterVelocity() {
         System.out.println("getControlParameterVelocity");
         ParameterizedParticle particle = new ParameterizedParticle();
-        ParameterAdaptingPSOControlParameter socialParameter = ConstantControlParameter.of(0.55);
+        ParameterAdaptingControlParameter socialParameter = ConstantControlParameter.of(0.55);
         particle.setSocialAcceleration(socialParameter);
-        ParameterAdaptingPSOControlParameter cognitiveParameter = ConstantControlParameter.of(0.55);
+        ParameterAdaptingControlParameter cognitiveParameter = ConstantControlParameter.of(0.55);
         particle.setCognitiveAcceleration(cognitiveParameter);
         ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
         instance.setControlParameters(particle);

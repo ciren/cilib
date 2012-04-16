@@ -25,7 +25,7 @@ import java.util.HashMap;
 import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.controlparameter.ParameterAdaptingPSOControlParameter;
+import net.sourceforge.cilib.controlparameter.ParameterAdaptingControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.initialization.ParameterInclusiveInitializationStrategy;
@@ -60,10 +60,10 @@ public class ParameterizedParticle extends ChargedParticle{
     private ControlParameter bestCognitiveAcceleration;
     private ControlParameter bestVmax;*/
     
-    private ParameterAdaptingPSOControlParameter inertia;
-    private ParameterAdaptingPSOControlParameter socialAcceleration;
-    private ParameterAdaptingPSOControlParameter cognitiveAcceleration;
-    private ParameterAdaptingPSOControlParameter vmax;
+    private ParameterAdaptingControlParameter inertia;
+    private ParameterAdaptingControlParameter socialAcceleration;
+    private ParameterAdaptingControlParameter cognitiveAcceleration;
+    private ParameterAdaptingControlParameter vmax;
     
     private ParameterInclusiveInitializationStrategy parameterInclusiveInitializationStrategy;
     private OptimisationProblem optimizationProblem;
@@ -252,7 +252,6 @@ public class ParameterizedParticle extends ChargedParticle{
             parameterInclusiveInitializationStrategy.setUpperBoundVmax(ConstantControlParameter.of(((BoundedModifiableControlParameter) vmax).getUpperBound()));
         }
         
-        
         this.getProperties().put(EntityType.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresenation().getClone());
         this.getProperties().put(EntityType.Particle.BEST_POSITION, getPosition().getClone());
         this.getProperties().put(EntityType.Particle.VELOCITY, getPosition().getClone());
@@ -280,7 +279,6 @@ public class ParameterizedParticle extends ChargedParticle{
     @Override
     public void updatePosition() {
         getProperties().put(EntityType.CANDIDATE_SOLUTION, this.behavior.getPositionProvider().get(this));
-        
         inertia.updateParameter(parameterPositionProvider.getInertia(this));
         socialAcceleration.updateParameter(parameterPositionProvider.getSocialAcceleration(this));
         cognitiveAcceleration.updateParameter(parameterPositionProvider.getCognitiveAcceleration(this));
@@ -417,15 +415,15 @@ public class ParameterizedParticle extends ChargedParticle{
      * Sets the value for the inertia parameter
      * @param parameter The parameter that inertia must be set to
      */
-    public void setInertia(ParameterAdaptingPSOControlParameter parameter) {
-        this.inertia = (ParameterAdaptingPSOControlParameter) parameter.getClone();
+    public void setInertia(ParameterAdaptingControlParameter parameter) {
+        this.inertia = (ParameterAdaptingControlParameter) parameter.getClone();
     }
     
     /*
      * Get the inertia control parameter for the particle
      * @return The inertia parameter
      */
-    public ParameterAdaptingPSOControlParameter getInertia() {
+    public ParameterAdaptingControlParameter getInertia() {
         return inertia;
     }
     
@@ -433,15 +431,15 @@ public class ParameterizedParticle extends ChargedParticle{
      * Sets the value for the social acceleration parameter
      * @param parameter The parameter that social acceleration must be set to
      */
-    public void setSocialAcceleration(ParameterAdaptingPSOControlParameter parameter) {
-        this.socialAcceleration = (ParameterAdaptingPSOControlParameter) parameter.getClone();
+    public void setSocialAcceleration(ParameterAdaptingControlParameter parameter) {
+        this.socialAcceleration = (ParameterAdaptingControlParameter) parameter.getClone();
     }
     
      /*
      * Get the social acceleration control parameter for the particle
      * @return The social acceleration parameter
      */
-    public ParameterAdaptingPSOControlParameter getSocialAcceleration() {
+    public ParameterAdaptingControlParameter getSocialAcceleration() {
         return socialAcceleration;
     }
     
@@ -449,15 +447,15 @@ public class ParameterizedParticle extends ChargedParticle{
      * Sets the value for the cognitive acceleration parameter
      * @param parameter The parameter that cognitive acceleration must be set to
      */
-    public void setCognitiveAcceleration(ParameterAdaptingPSOControlParameter parameter) {
-        this.cognitiveAcceleration = (ParameterAdaptingPSOControlParameter) parameter.getClone();
+    public void setCognitiveAcceleration(ParameterAdaptingControlParameter parameter) {
+        this.cognitiveAcceleration = (ParameterAdaptingControlParameter) parameter.getClone();
     }
     
      /*
      * Get the cognitive acceleration control parameter for the particle
      * @return The cognitive acceleration parameter
      */
-    public ParameterAdaptingPSOControlParameter getCognitiveAcceleration() {
+    public ParameterAdaptingControlParameter getCognitiveAcceleration() {
         return cognitiveAcceleration;
     }
     
@@ -465,15 +463,15 @@ public class ParameterizedParticle extends ChargedParticle{
      * Sets the value for the vmax parameter
      * @param parameter The parameter that vmax must be set to
      */
-    public void setVmax(ParameterAdaptingPSOControlParameter parameter) {
-        this.vmax = (ParameterAdaptingPSOControlParameter) parameter.getClone();
+    public void setVmax(ParameterAdaptingControlParameter parameter) {
+        this.vmax = (ParameterAdaptingControlParameter) parameter.getClone();
     }
     
      /*
      * Get the vmax control parameter for the particle
      * @return The vmax parameter
      */
-    public ParameterAdaptingPSOControlParameter getVmax() {
+    public ParameterAdaptingControlParameter getVmax() {
         return vmax;
     }
     
@@ -481,7 +479,7 @@ public class ParameterizedParticle extends ChargedParticle{
      * Get the best inertia control parameter so far for the particle
      * @return The best inertia parameter
      */
-    public ParameterAdaptingPSOControlParameter getBestInertia() {
+    public ParameterAdaptingControlParameter getBestInertia() {
         return inertia.getBestValue();
     }
     
@@ -489,7 +487,7 @@ public class ParameterizedParticle extends ChargedParticle{
      * Get the best social acceleration control parameter so far for the particle
      * @return The best social acceleration parameter
      */
-    public ParameterAdaptingPSOControlParameter getBestSocialAcceleration() {
+    public ParameterAdaptingControlParameter getBestSocialAcceleration() {
         return socialAcceleration.getBestValue();
     }
     
@@ -497,7 +495,7 @@ public class ParameterizedParticle extends ChargedParticle{
      * Get the best cognitive acceleration control parameter so far for the particle
      * @return The best cognitive acceleration parameter
      */
-    public ParameterAdaptingPSOControlParameter getBestCognitiveAcceleration() {
+    public ParameterAdaptingControlParameter getBestCognitiveAcceleration() {
         return cognitiveAcceleration.getBestValue();
     }
     
@@ -505,7 +503,7 @@ public class ParameterizedParticle extends ChargedParticle{
      * Get the best vmax control parameter so far for the particle
      * @return The best vmax parameter
      */
-    public ParameterAdaptingPSOControlParameter getBestVmax() {
+    public ParameterAdaptingControlParameter getBestVmax() {
         return vmax.getBestValue();
     }
     
@@ -513,7 +511,7 @@ public class ParameterizedParticle extends ChargedParticle{
      * Sets the best value so far for the inertia parameter
      * @param parameter The parameter that best inertia must be set to
      */
-    public void setBestInertia(ParameterAdaptingPSOControlParameter parameter) {
+    public void setBestInertia(ParameterAdaptingControlParameter parameter) {
         inertia.setBestValue(parameter.getParameter());
     }
     
@@ -521,7 +519,7 @@ public class ParameterizedParticle extends ChargedParticle{
      * Sets the best value so far for the social acceleration parameter
      * @param parameter The parameter that best social acceleration must be set to
      */
-    public void setBestSocialAcceleration(ParameterAdaptingPSOControlParameter parameter) {
+    public void setBestSocialAcceleration(ParameterAdaptingControlParameter parameter) {
         socialAcceleration.setBestValue(parameter.getParameter());
     }
     
@@ -529,7 +527,7 @@ public class ParameterizedParticle extends ChargedParticle{
      * Sets the best value so far for the cognitive acceleration parameter
      * @param parameter The parameter that best cognitive acceleration must be set to
      */
-    public void setBestCognitiveAcceleration(ParameterAdaptingPSOControlParameter parameter) {
+    public void setBestCognitiveAcceleration(ParameterAdaptingControlParameter parameter) {
         cognitiveAcceleration.setBestValue(parameter.getParameter());
     }
     
@@ -537,7 +535,7 @@ public class ParameterizedParticle extends ChargedParticle{
      * Sets the best value so far for the vmax parameter
      * @param parameter The parameter that best vmax must be set to
      */
-    public void setBestVmax(ParameterAdaptingPSOControlParameter parameter) {
+    public void setBestVmax(ParameterAdaptingControlParameter parameter) {
         vmax.setBestValue(parameter.getParameter());
     }
     

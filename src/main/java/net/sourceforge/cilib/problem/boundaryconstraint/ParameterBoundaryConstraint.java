@@ -25,7 +25,9 @@ import java.util.ArrayList;
 import javax.lang.model.element.Parameterizable;
 import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.controlparameter.ParameterAdaptingPSOControlParameter;
+import net.sourceforge.cilib.controlparameter.ParameterAdaptingControlParameter;
+import net.sourceforge.cilib.ec.ParameterizedDEIndividual;
+import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
@@ -65,9 +67,8 @@ public class ParameterBoundaryConstraint implements BoundaryConstraint{
      */
     @Override
     public Entity enforce(Entity entity) {
-        ParameterizedParticle receivedEntity = (ParameterizedParticle) entity.getClone();
-        ParameterizedParticle parameterEntity = new ParameterizedParticle();
-        
+        Entity receivedEntity = new ParameterizedParticle();
+        Entity parameterEntity = new ParameterizedParticle();
         Bounds bounds;
         BoundedModifiableControlParameter parameter;
         Real value;
@@ -76,10 +77,19 @@ public class ParameterBoundaryConstraint implements BoundaryConstraint{
         Vector.Builder velocityParameter = Vector.newBuilder();
         ArrayList<ControlParameter> parameterList = new ArrayList<ControlParameter>();
         
-        parameterList.add(receivedEntity.getInertia());
-        parameterList.add(receivedEntity.getSocialAcceleration());
-        parameterList.add(receivedEntity.getCognitiveAcceleration());
-        parameterList.add(receivedEntity.getVmax());
+        if(entity instanceof ParameterizedParticle) {
+            receivedEntity = (ParameterizedParticle) entity.getClone();
+            parameterEntity = new ParameterizedParticle();
+            parameterList.add(((ParameterizedParticle) receivedEntity).getInertia());
+            parameterList.add(((ParameterizedParticle) receivedEntity).getSocialAcceleration());
+            parameterList.add(((ParameterizedParticle) receivedEntity).getCognitiveAcceleration());
+            parameterList.add(((ParameterizedParticle) receivedEntity).getVmax());
+        } else if (entity instanceof ParameterizedDEIndividual) {
+            receivedEntity = (ParameterizedDEIndividual) entity.getClone();
+            parameterEntity = new ParameterizedDEIndividual();
+            parameterList.add(((ParameterizedDEIndividual) receivedEntity).getScalingFactor());
+            parameterList.add(((ParameterizedDEIndividual) receivedEntity).getRecombinationProbability());
+        }
         
         // Set the parameters and bounds of the candidate solution. Set the best 
         // position as well as the velocity
@@ -115,28 +125,42 @@ public class ParameterBoundaryConstraint implements BoundaryConstraint{
         Vector bestSolution = (Vector) resultingEntity.getBestPosition();
         Vector velocity = (Vector) resultingEntity.getVelocity();
         
-        //set the resulting values of the entity to be returned,
-        if(receivedEntity.getInertia() instanceof BoundedModifiableControlParameter) {
-           receivedEntity.getInertia().setParameter((candidateSolution.get(0).doubleValue()));
-           receivedEntity.getInertia().setBestValue(bestSolution.get(0).doubleValue());
-           receivedEntity.getInertia().setVelocity(velocity.get(0).doubleValue());
+        if(receivedEntity instanceof ParameterizedParticle) {
+            //set the resulting values of the entity to be returned,
+            ParameterizedParticle receivedEntityParameterized = (ParameterizedParticle) receivedEntity;
+            if(receivedEntityParameterized.getInertia() instanceof BoundedModifiableControlParameter) {
+               receivedEntityParameterized.getInertia().setParameter((candidateSolution.get(0).doubleValue()));
+               receivedEntityParameterized.getInertia().setBestValue(bestSolution.get(0).doubleValue());
+               receivedEntityParameterized.getInertia().setVelocity(velocity.get(0).doubleValue());
+            }
+            if(receivedEntityParameterized.getSocialAcceleration() instanceof BoundedModifiableControlParameter) {
+               receivedEntityParameterized.getSocialAcceleration().setParameter((candidateSolution.get(1).doubleValue()));
+               receivedEntityParameterized.getSocialAcceleration().setBestValue(bestSolution.get(1).doubleValue());
+               receivedEntityParameterized.getSocialAcceleration().setVelocity(velocity.get(1).doubleValue());
+            }
+            if(receivedEntityParameterized.getCognitiveAcceleration() instanceof BoundedModifiableControlParameter) {
+               receivedEntityParameterized.getCognitiveAcceleration().setParameter((candidateSolution.get(2).doubleValue()));
+               receivedEntityParameterized.getCognitiveAcceleration().setBestValue(bestSolution.get(2).doubleValue());
+               receivedEntityParameterized.getCognitiveAcceleration().setVelocity(velocity.get(2).doubleValue());
+            }
+            if(receivedEntityParameterized.getVmax() instanceof BoundedModifiableControlParameter) {
+               receivedEntityParameterized.getVmax().setParameter((candidateSolution.get(3).doubleValue()));
+               receivedEntityParameterized.getVmax().setBestValue(bestSolution.get(3).doubleValue());
+               receivedEntityParameterized.getVmax().setVelocity(velocity.get(3).doubleValue());
+            }
+            
+            receivedEntity = receivedEntityParameterized.getClone();
+        } else if(receivedEntity instanceof ParameterizedDEIndividual) {
+             ParameterizedDEIndividual receivedEntityParameterized = (ParameterizedDEIndividual) receivedEntity;
+            if(receivedEntityParameterized.getScalingFactor() instanceof BoundedModifiableControlParameter) {
+               receivedEntityParameterized.getScalingFactor().setParameter((candidateSolution.get(0).doubleValue()));
+            }
+            if(receivedEntityParameterized.getRecombinationProbability() instanceof BoundedModifiableControlParameter) {
+               receivedEntityParameterized.getRecombinationProbability().setParameter((candidateSolution.get(1).doubleValue()));
+            }
+            
+            receivedEntity = receivedEntityParameterized.getClone();
         }
-        if(receivedEntity.getSocialAcceleration() instanceof BoundedModifiableControlParameter) {
-           receivedEntity.getSocialAcceleration().setParameter((candidateSolution.get(1).doubleValue()));
-           receivedEntity.getSocialAcceleration().setBestValue(bestSolution.get(1).doubleValue());
-           receivedEntity.getSocialAcceleration().setVelocity(velocity.get(1).doubleValue());
-        }
-        if(receivedEntity.getCognitiveAcceleration() instanceof BoundedModifiableControlParameter) {
-           receivedEntity.getCognitiveAcceleration().setParameter((candidateSolution.get(2).doubleValue()));
-           receivedEntity.getCognitiveAcceleration().setBestValue(bestSolution.get(2).doubleValue());
-           receivedEntity.getCognitiveAcceleration().setVelocity(velocity.get(2).doubleValue());
-        }
-        if(receivedEntity.getVmax() instanceof BoundedModifiableControlParameter) {
-           receivedEntity.getVmax().setParameter((candidateSolution.get(3).doubleValue()));
-           receivedEntity.getVmax().setBestValue(bestSolution.get(3).doubleValue());
-           receivedEntity.getVmax().setVelocity(velocity.get(3).doubleValue());
-        }
-        
         
         return receivedEntity;
     }

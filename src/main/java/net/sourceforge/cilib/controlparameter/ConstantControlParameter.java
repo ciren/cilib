@@ -25,12 +25,12 @@ package net.sourceforge.cilib.controlparameter;
  * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}
  * to represent a constant value. The specified value will be maintained until it is altered.
  */
-public class ConstantControlParameter implements ParameterAdaptingPSOControlParameter{
+public class ConstantControlParameter implements ParameterAdaptingControlParameter{
     private static final long serialVersionUID = 8847038781478109426L;
     protected double parameter;
-    private ParameterAdaptingPSOControlParameter bestValue;
+    private ParameterAdaptingControlParameter bestValue;
     
-    public static ParameterAdaptingPSOControlParameter of(double value) {
+    public static ParameterAdaptingControlParameter of(double value) {
         return new ConstantControlParameter(value);
     }
 
@@ -138,7 +138,7 @@ public class ConstantControlParameter implements ParameterAdaptingPSOControlPara
     }
     
     @Override
-    public ParameterAdaptingPSOControlParameter getBestValue() {
+    public ParameterAdaptingControlParameter getBestValue() {
         return bestValue;
     }
 }

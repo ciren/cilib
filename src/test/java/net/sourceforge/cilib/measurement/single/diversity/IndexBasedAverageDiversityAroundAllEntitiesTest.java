@@ -26,7 +26,7 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import junit.framework.Assert;
-import net.sourceforge.cilib.controlparameter.ParameterAdaptingPSOControlParameter;
+import net.sourceforge.cilib.controlparameter.ParameterAdaptingControlParameter;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
@@ -49,7 +49,7 @@ public class IndexBasedAverageDiversityAroundAllEntitiesTest {
     
     PSO pso;
     FunctionMinimisationProblem problem;
-    ParameterAdaptingPSOControlParameter parameter;
+    ParameterAdaptingControlParameter parameter;
     Topology<ParameterizedParticle> topology;
     IndexBasedAverageDiversityAroundAllEntities diversityMeasure;
     
