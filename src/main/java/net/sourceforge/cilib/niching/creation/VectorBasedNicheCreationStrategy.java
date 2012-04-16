@@ -32,9 +32,9 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
-import net.sourceforge.cilib.niching.JoinedTopologyProvider;
 import net.sourceforge.cilib.niching.NichingSwarms;
-import net.sourceforge.cilib.niching.TopologyProvider;
+import net.sourceforge.cilib.niching.utils.JoinedTopologyProvider;
+import net.sourceforge.cilib.niching.utils.TopologyProvider;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -45,15 +45,13 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
     private DistanceMeasure distanceMeasure;
     private TopologyProvider topologyProvider;
     private ControlParameter minSwarmSize;
-    private PopulationBasedAlgorithm subSwarm;
-    private ParticleBehavior behavior;
 
     public VectorBasedNicheCreationStrategy() {
         distanceMeasure = new EuclideanDistanceMeasure();
         topologyProvider = new JoinedTopologyProvider();
         minSwarmSize = ConstantControlParameter.of(3.0);
-        behavior = new ParticleBehavior();
-        subSwarm = new PSO();
+        swarmBehavior = new ParticleBehavior();
+        swarmType = new PSO();
     }
 
     public static F<Particle, Integer> dot(final Particle nBest) {
@@ -131,7 +129,7 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
             }
         }
 
-        PopulationBasedAlgorithm newSubswarm = subSwarm.getClone();
+        PopulationBasedAlgorithm newSubswarm = swarmType.getClone();
         newSubswarm.getTopology().clear();
         ((Topology<Particle>) newSubswarm.getTopology()).addAll(newTopology.toCollection());
 
@@ -161,21 +159,5 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
 
     public TopologyProvider getTopologyProvider() {
         return topologyProvider;
-    }
-
-    public PopulationBasedAlgorithm getSubSwarm() {
-        return subSwarm;
-    }
-
-    public void setSubSwarm(PopulationBasedAlgorithm subSwarm) {
-        this.subSwarm = subSwarm;
-    }
-
-    public ParticleBehavior getBehavior() {
-        return behavior;
-    }
-
-    public void setBehavior(ParticleBehavior behavior) {
-        this.behavior = behavior;
     }
 }

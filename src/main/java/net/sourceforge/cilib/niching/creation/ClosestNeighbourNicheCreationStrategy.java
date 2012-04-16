@@ -50,7 +50,7 @@ import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
  * niching entities.
  * </p>
  * <p>
- * For each newly discovered niching location, a new sub-swarm is creates that will
+ * For each newly discovered niching location, a new sub-swarmType is creates that will
  * maintain the niche. For the case of the PSO, the niching particle and the closest
  * particle to the identified particle are gropuped into a niche. Sub-swarms will always
  * then have at least two particles.
@@ -58,22 +58,19 @@ import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
  * <p>
  * The rational for two particles is that a particle is a social entity and as a result
  * needs to share information. Ensuring that there are at least two particles within
- * a sub-swarm will enable the velocity update equation associated with the particle
+ * a sub-swarmType will enable the velocity update equation associated with the particle
  * to still operate.
  * </p>
  */
 public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy {
     
-    private PopulationBasedAlgorithm subSwarm;
-    private ParticleBehavior behavior;
-    
     /**
      * Default constructor.
      */
     public ClosestNeighbourNicheCreationStrategy() {
-        this.subSwarm = new PSO();
-        ((SynchronousIterationStrategy) ((PSO) this.subSwarm).getIterationStrategy()).setBoundaryConstraint(new ClampingBoundaryConstraint());
-        this.subSwarm.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 500));
+        this.swarmType = new PSO();
+        ((SynchronousIterationStrategy) ((PSO) this.swarmType).getIterationStrategy()).setBoundaryConstraint(new ClampingBoundaryConstraint());
+        this.swarmType.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 500));
 
         ClampingVelocityProvider delegate = new ClampingVelocityProvider(ConstantControlParameter.of(1.0),
                 new StandardVelocityProvider(new UpdateOnIterationControlParameter(new LinearlyVaryingControlParameter(0.7, 0.2)),
@@ -83,8 +80,8 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
         gcVelocityProvider.setDelegate(delegate);
         gcVelocityProvider.setRho(ConstantControlParameter.of(0.01));
         
-        this.behavior = new ParticleBehavior();
-        this.behavior.setVelocityProvider(gcVelocityProvider);
+        this.swarmBehavior = new ParticleBehavior();
+        this.swarmBehavior.setVelocityProvider(gcVelocityProvider);
     }
 
     @Override
@@ -104,10 +101,10 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
         nicheMainParticle.setNeighbourhoodBest(nicheMainParticle);
         nicheClosestParticle.setNeighbourhoodBest(nicheMainParticle);
         
-        nicheMainParticle.setParticleBehavior(behavior.getClone());
-        nicheClosestParticle.setParticleBehavior(behavior.getClone());
+        nicheMainParticle.setParticleBehavior(swarmBehavior.getClone());
+        nicheClosestParticle.setParticleBehavior(swarmBehavior.getClone());
         
-        PopulationBasedAlgorithm newSubSwarm = subSwarm.getClone();
+        PopulationBasedAlgorithm newSubSwarm = swarmType.getClone();
         newSubSwarm.setOptimisationProblem(a._1().getOptimisationProblem());
         newSubSwarm.getTopology().clear();
         ((Topology<Particle>) newSubSwarm.getTopology()).addAll(Arrays.asList(nicheMainParticle, nicheClosestParticle));
@@ -121,21 +118,5 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
         }
         
         return NichingSwarms.of(new SingleSwarmMergeStrategy().f(newMainSwarm, null), a._2().cons(newSubSwarm));
-    }
-
-    public void setSubSwarm(PopulationBasedAlgorithm subSwarm) {
-        this.subSwarm = subSwarm;
-    }
-
-    public PopulationBasedAlgorithm getSubSwarm() {
-        return subSwarm;
-    }
-
-    public void setBehavior(ParticleBehavior behavior) {
-        this.behavior = behavior;
-    }
-
-    public ParticleBehavior getBehavior() {
-        return behavior;
     }
 }
