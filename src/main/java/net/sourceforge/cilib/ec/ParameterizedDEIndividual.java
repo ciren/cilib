@@ -23,7 +23,7 @@ package net.sourceforge.cilib.ec;
 
 import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.ParameterAdaptingPSOControlParameter;
+import net.sourceforge.cilib.controlparameter.ParameterAdaptingControlParameter;
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
@@ -39,8 +39,8 @@ import net.sourceforge.cilib.util.Sequence;
  */
 public class ParameterizedDEIndividual extends AbstractEntity{
 
-    private ParameterAdaptingPSOControlParameter scalingFactor;
-    private ParameterAdaptingPSOControlParameter recombinationProbability;
+    private ParameterAdaptingControlParameter scalingFactor;
+    private ParameterAdaptingControlParameter recombinationProbability;
     private ProbabilityDistributionFuction random;
     
     public ParameterizedDEIndividual() {
@@ -160,12 +160,19 @@ public class ParameterizedDEIndividual extends AbstractEntity{
         return str.toString();
     }
     
-    public void setScalingFactor(ParameterAdaptingPSOControlParameter parameter) {
-        scalingFactor = (ParameterAdaptingPSOControlParameter) parameter.getClone();
+    public void setScalingFactor(ParameterAdaptingControlParameter parameter) {
+        scalingFactor = (ParameterAdaptingControlParameter) parameter.getClone();
     }
     
-    public void setRecombinationProbability(ParameterAdaptingPSOControlParameter parameter) {
-        recombinationProbability = (ParameterAdaptingPSOControlParameter) parameter.getClone();
+    public void setRecombinationProbability(ParameterAdaptingControlParameter parameter) {
+        recombinationProbability = (ParameterAdaptingControlParameter) parameter.getClone();
     }
     
+    public ParameterAdaptingControlParameter getScalingFactor() {
+        return scalingFactor;
+    }
+    
+    public ParameterAdaptingControlParameter getRecombinationProbability() {
+        return recombinationProbability;
+    }
 }

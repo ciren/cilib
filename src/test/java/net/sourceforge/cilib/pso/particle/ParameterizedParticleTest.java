@@ -30,7 +30,7 @@ import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.controlparameter.ParameterAdaptingPSOControlParameter;
+import net.sourceforge.cilib.controlparameter.ParameterAdaptingControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
@@ -232,7 +232,7 @@ public class ParameterizedParticleTest {
         PSO pso = new PSO();
 
         ParameterizedParticle instance = new ParameterizedParticle();
-        ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0);
+        ParameterAdaptingControlParameter parameter = ConstantControlParameter.of(0);
         instance.setInertia(parameter);
         instance.setSocialAcceleration(parameter);
         instance.setCognitiveAcceleration(parameter);
@@ -352,7 +352,7 @@ public class ParameterizedParticleTest {
     @Test
     public void testSetInertia() {
         System.out.println("setInertia");
-        ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0.55);
+        ParameterAdaptingControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setInertia(parameter);
 
@@ -365,7 +365,7 @@ public class ParameterizedParticleTest {
     @Test
     public void testGetInertia() {
         System.out.println("getInertia");
-        ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0.55);
+        ParameterAdaptingControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setInertia(parameter);
 
@@ -378,7 +378,7 @@ public class ParameterizedParticleTest {
     @Test
     public void testSetSocial() {
         System.out.println("setSocial");
-        ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0.55);
+        ParameterAdaptingControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setSocialAcceleration(parameter);
 
@@ -391,7 +391,7 @@ public class ParameterizedParticleTest {
     @Test
     public void testGetSocial() {
         System.out.println("getSocial");
-        ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0.55);
+        ParameterAdaptingControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setSocialAcceleration(parameter);
 
@@ -404,7 +404,7 @@ public class ParameterizedParticleTest {
     @Test
     public void testSetPersonal() {
         System.out.println("setPersonal");
-        ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0.55);
+        ParameterAdaptingControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setCognitiveAcceleration(parameter);
 
@@ -417,7 +417,7 @@ public class ParameterizedParticleTest {
     @Test
     public void testGetPersonal() {
         System.out.println("getPersonal");
-        ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0.55);
+        ParameterAdaptingControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setSocialAcceleration(parameter);
 
@@ -430,7 +430,7 @@ public class ParameterizedParticleTest {
     @Test
     public void testSetVmax() {
         System.out.println("setVmax");
-        ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0.55);
+        ParameterAdaptingControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setVmax(parameter);
 
@@ -443,7 +443,7 @@ public class ParameterizedParticleTest {
     @Test
     public void testGetVmax() {
         System.out.println("getVmax");
-        ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0.55);
+        ParameterAdaptingControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setVmax(parameter);
 
@@ -456,7 +456,7 @@ public class ParameterizedParticleTest {
     @Test
     public void testSetEntityLowerBound() {
         System.out.println("setEntityLowerBound");
-        ParameterAdaptingPSOControlParameter parameter = ConstantControlParameter.of(0.55);
+        ParameterAdaptingControlParameter parameter = ConstantControlParameter.of(0.55);
         ParameterizedParticle instance = new ParameterizedParticle();
         instance.setEntityLowerBound(parameter.getParameter());
 

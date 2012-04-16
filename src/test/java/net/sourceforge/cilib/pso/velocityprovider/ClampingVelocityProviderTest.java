@@ -25,7 +25,7 @@ import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.controlparameter.ParameterAdaptingPSOControlParameter;
+import net.sourceforge.cilib.controlparameter.ParameterAdaptingControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
@@ -136,7 +136,7 @@ public class ClampingVelocityProviderTest {
     public void testSetControlParameters() {
         System.out.println("setControlParameters");
         ClampingVelocityProvider instance = new ClampingVelocityProvider();
-        ParameterAdaptingPSOControlParameter parameter = new BoundedModifiableControlParameter();
+        ParameterAdaptingControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(0.55);
         ParameterizedParticle particle = new ParameterizedParticle();
         particle.setVmax(parameter);
@@ -158,7 +158,7 @@ public class ClampingVelocityProviderTest {
             
         ParameterizedParticle particle = new ParameterizedParticle();
         particle.initialise(problem);
-        ParameterAdaptingPSOControlParameter parameter = new BoundedModifiableControlParameter();
+        ParameterAdaptingControlParameter parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(0.5);
         parameter.setVelocity(0);
         particle.setVmax(parameter);

@@ -45,5 +45,7 @@ public interface CreationStrategy extends Operator {
      * @return
      */
     Entity create(Entity targetEntity, Entity current, Topology<? extends Entity> topology);
+    
+    void setControlParameters(Entity entity);
 
 }

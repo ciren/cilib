@@ -25,7 +25,7 @@ package net.sourceforge.cilib.controlparameter;
  *
  * @author Kristina
  */
-public interface ParameterAdaptingPSOControlParameter extends ControlParameter{
+public interface ParameterAdaptingControlParameter extends ControlParameter{
     public double getVelocity();
     
     /*
@@ -36,7 +36,7 @@ public interface ParameterAdaptingPSOControlParameter extends ControlParameter{
     
     public void setBestValue(double value);
     
-    public ParameterAdaptingPSOControlParameter getBestValue();
+    public ParameterAdaptingControlParameter getBestValue();
     
     public boolean wasSetByUser();
     
