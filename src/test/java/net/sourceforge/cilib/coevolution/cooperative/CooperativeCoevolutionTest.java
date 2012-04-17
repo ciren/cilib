@@ -57,7 +57,7 @@ public class CooperativeCoevolutionTest {
         when(strategy.getContribution(any(PopulationBasedAlgorithm.class))).thenReturn(pop1Result, pop2Result);
 
         final DomainRegistry problemDomain = new StringBasedDomainRegistry();
-        problemDomain.setDomainString("R(0.0, 4.0)^2");
+        problemDomain.setDomainString("R(0.0:4.0)^2");
 
         //Mock problem
         final OptimisationProblem problem = mock(OptimisationProblem.class);

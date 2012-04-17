@@ -44,7 +44,7 @@ public class ExplorerBeeTest {
     @Before
     public void setUp() throws Exception {
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.0, 5.0)^5");
+        problem.setDomain("R(-5.0:5.0)^5");
         problem.setFunction(new Rastrigin());
 
         StoppingCondition condition = new MeasuredStoppingCondition(new Iterations(), new Maximum(), 2);

@@ -1,0 +1,23 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.6
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile 'com.google.guava:guava:11.0.1'
+  compile 'org.parboiled:parboiled-core:0.11.0'
+  compile 'org.parboiled:parboiled-java:0.11.0'
+  compile 'org.functionaljava:functionaljava:3.0'
+
+  testCompile 'junit:junit:4.10'
+  testCompile 'org.mockito:mockito-all:1.9.0'
+  testCompile 'org.hamcrest:hamcrest-all:1.1'
+}
+
+test {
+  jvmArgs '-Xms128m', '-Xmx1024m'
+}

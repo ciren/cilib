@@ -52,7 +52,7 @@ public class ClusteringUtilsTest {
         dataSetBuilder = new AssociatedPairDataSetBuilder();
         dataSetBuilder.addDataSet(new MockClusteringStringDataSet());
         problem = new ClusteringProblem();
-        problem.setDomain("Z(0, 37),Z(0, 51)");
+        problem.setDomain("Z(0:37),Z(0:51)");
         problem.setNumberOfClusters(7);
         problem.setDataSetBuilder(dataSetBuilder);
 

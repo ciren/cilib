@@ -39,7 +39,7 @@ public class PrototypeFullyConnectedLayerBuilderTest {
         LayerConfiguration configuration2 = new LayerConfiguration(layerSize, false);
 
         PrototypeFullyConnectedLayerBuilder builder = new PrototypeFullyConnectedLayerBuilder();
-        builder.setDomain("R(-3,3)");
+        builder.setDomain("R(-3:3)");
         Layer layer = builder.buildLayer(configuration1, previousLayerSize);
 
         Assert.assertEquals(layerSize + 1, layer.size());

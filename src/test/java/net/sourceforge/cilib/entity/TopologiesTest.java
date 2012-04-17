@@ -143,12 +143,11 @@ public class TopologiesTest {
         topology.add(i3);
         topology.add(i4);
 
-        System.out.println("asdasdasd");
         Set<Particle> socialBest = Topologies.getNeighbourhoodBestEntities(topology, new SocialBestFitnessComparator<Particle>());
         Set<Particle> mostFit = Topologies.getNeighbourhoodBestEntities(topology, new AscendingFitnessComparator<Particle>());
         Set<Particle> leastFit = Topologies.getNeighbourhoodBestEntities(topology, new DescendingFitnessComparator<Particle>());
         Set<Particle> other = Topologies.getNeighbourhoodBestEntities(topology);
-        System.out.println(((Particle)other.toArray()[0]).getFitness().getValue());
+//        System.out.println(((Particle)other.toArray()[0]).getFitness().getValue());
 
         Assert.assertTrue(socialBest.containsAll(Arrays.asList(i3, i4)));
         Assert.assertTrue(mostFit.containsAll(Arrays.asList(i3, i4)));

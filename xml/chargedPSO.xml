@@ -28,7 +28,7 @@
 
     <problems>
         <problem id="MovingPeaks" class="problem.DynamicOptimizationProblem">
-            <domain value="R(0.0, 100.0)^5"/>
+            <domain value="R(0.0:100.0)^5"/>
             <function class="functions.continuous.dynamic.GeneralizedMovingPeaks">
 		<peaks value = "1"/>
 		<frequency value = "100"/>

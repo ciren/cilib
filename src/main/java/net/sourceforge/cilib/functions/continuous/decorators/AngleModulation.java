@@ -57,7 +57,7 @@ public class AngleModulation extends OptimisationProblemAdapter {
         bitsPerDimension = 0;
         domainRegistry = new StringBasedDomainRegistry();
 
-        domainRegistry.setDomainString("R(-1.0, 1.0)^4");
+        domainRegistry.setDomainString("R(-1.0:1.0)^4");
     }
 
     public AngleModulation(AngleModulation copy) {
@@ -131,7 +131,7 @@ public class AngleModulation extends OptimisationProblemAdapter {
     }
 
     /**
-     *
+     * @TODO: This needs to use an API for domain string manipulation
      * @param domain
      * @return
      */
@@ -145,7 +145,7 @@ public class AngleModulation extends OptimisationProblemAdapter {
             range = range.substring(range.indexOf('(') + 1);
             range = range.substring(0, range.indexOf(')'));
 
-            String[] bounds = range.split(",");
+            String[] bounds = range.split(":");
             lowerBound = Double.valueOf(bounds[0]).doubleValue();
             upperBound = Double.valueOf(bounds[1]).doubleValue();
 

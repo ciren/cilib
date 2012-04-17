@@ -21,7 +21,9 @@
  */
 package net.sourceforge.cilib.type.parser;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import java.util.List;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -32,14 +34,15 @@ import org.parboiled.errors.ParseError;
 import org.parboiled.parserunners.ReportingParseRunner;
 import org.parboiled.support.ParsingResult;
 
-import java.util.List;
-
 /**
  * The domain parser converts a provided domain string representation into
  * a {@code StructuredType}. If the domain string defines a simple {@code Vector}
- * based representaton of {@code Numeric} types, then a {@code Vector} is returned.
+ * based representation of {@code Numeric} types, then a {@code Vector} is returned.
  */
 public final class DomainParser {
+    
+    private final static DomainParserGrammar.ExpandingParser EXPANDING_PARSER = Parboiled.createParser(DomainParserGrammar.ExpandingParser.class);
+    private final static DomainParserGrammar.DomainGrammar DOMAIN_PARSER = Parboiled.createParser(DomainParserGrammar.DomainGrammar.class);
 
     private DomainParser() {
     }
@@ -52,15 +55,25 @@ public final class DomainParser {
      *         to consist of {@code Numeric} types, a {@code Vector} instance is returned.
      */
     public static <E extends StructuredType<? extends Type>> E parse(String domain) {
-        final DomainParserGrammar.Parser parser = Parboiled.createParser(DomainParserGrammar.Parser.class);
-        final ReportingParseRunner<?> runner = new ReportingParseRunner(parser.Domain());
-        final ParsingResult<Type> result = (ParsingResult<Type>) runner.run(domain.replaceAll(" ", ""));
+        final ReportingParseRunner<String> expander = new ReportingParseRunner<String>(EXPANDING_PARSER.Expansion());
+        final ParsingResult<String> d = expander.run(domain.replaceAll(" ", ""));
+        
+        if (d.hasErrors()) {
+            for (ParseError e : d.parseErrors) {
+                System.out.println(e.getErrorMessage());
+            }
+            throw new RuntimeException("Error in expanding domain: " + domain);
+        }
+        
+        final String expanded = Joiner.on(",").join(d.valueStack);
+        final ReportingParseRunner<?> runner = new ReportingParseRunner(DOMAIN_PARSER.Domain());
+        final ParsingResult<Type> result = (ParsingResult<Type>) runner.run(expanded);
 
         if (result.hasErrors()) {
             for (ParseError e : result.parseErrors) {
                 System.out.println(e.getErrorMessage());
             }
-            throw new RuntimeException("Error in parsing domain: " + domain);
+            throw new RuntimeException("Error in parsing domain: " + expanded + ". Ensure that the domain is a valid domain string and contains no whitespace.");
         }
 
         List<Type> l = Lists.newArrayList(result.valueStack);

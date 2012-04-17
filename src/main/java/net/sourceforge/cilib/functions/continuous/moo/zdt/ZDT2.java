@@ -56,7 +56,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public final class ZDT2 extends MOOptimisationProblem {
 
     private static final long serialVersionUID = -2949170760033824427L;
-    private static final String DOMAIN = "R(0, 1)^30";
+    private static final String DOMAIN = "R(0:1)^30";
 
     private static class ZDT2_h implements ContinuousFunction {
 

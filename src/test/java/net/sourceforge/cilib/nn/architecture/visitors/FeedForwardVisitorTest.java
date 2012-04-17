@@ -48,7 +48,7 @@ public class FeedForwardVisitorTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(5,true));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3,true));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1));
-        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3,3)");
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
         network.initialize();
 
         network.setWeights(topology.getWeights());

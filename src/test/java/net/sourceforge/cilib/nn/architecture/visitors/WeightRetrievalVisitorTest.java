@@ -40,7 +40,7 @@ public class WeightRetrievalVisitorTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(5,true));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3,true));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
-        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3,3)");
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
         network.initialize();
 
         Vector.Builder referenceWeightsBuilder = Vector.newBuilder();

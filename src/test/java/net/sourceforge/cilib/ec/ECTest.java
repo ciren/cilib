@@ -46,7 +46,7 @@ public class ECTest {
 
         try {
             FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-            problem.setDomain("R(-5.12, 5.12)^30");
+            problem.setDomain("R(-5.12:5.12)^30");
             problem.setFunction(new Spherical());
 
             EC ec = new EC();
@@ -68,7 +68,7 @@ public class ECTest {
 
         try {
             FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-            problem.setDomain("R(-5.12, 5.12)^30");
+            problem.setDomain("R(-5.12:5.12)^30");
             problem.setFunction(new Spherical());
 
             EC ec = new EC();

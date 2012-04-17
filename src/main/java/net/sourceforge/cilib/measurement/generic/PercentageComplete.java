@@ -39,7 +39,7 @@ public class PercentageComplete implements Measurement<Real> {
 
     @Override
     public String getDomain() {
-        return "R(0,1)";
+        return "R(0:1)";
     }
 
     @Override
