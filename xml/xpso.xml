@@ -7,9 +7,26 @@
 <simulator>
     <algorithms>
         <!--Crossover iteration strategy UNDX-->
-        <algorithm id="xpso-undx-1" class="pso.PSO">
+        <algorithm id="xpso-undx-iteration-repeating" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverStrategy class="entity.operators.crossover.UnimodalNormalDistributionCrossoverStrategy"/>
+                <crossoverSelection class="pso.crossover.RepeatingCrossoverSelection">
+                    <crossoverStrategy class="entity.operators.crossover.UnimodalNormalDistributionCrossoverStrategy"/>
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10"/>
+                    <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
+                </crossoverSelection>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+        
+        <algorithm id="xpso-undx-iteration-boltzman" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverSelection class="pso.crossover.BoltzmannCrossoverSelection">
+                    <crossoverStrategy class="entity.operators.crossover.UnimodalNormalDistributionCrossoverStrategy"/>
+                    <!--This is problem dependent I think-->
+                    <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1"/>
+                    <distribution class="math.random.UniformDistribution"/>
+                    <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
+                </crossoverSelection>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
@@ -38,6 +55,7 @@
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                             <crossoverStrategy class="entity.operators.crossover.UnimodalNormalDistributionCrossoverStrategy"/>
+                            <retries class="controlparameter.ConstantControlParameter" parameter="10"/>
                         </globalGuideProvider>
                     </particleBehavior>
                 </entityType>
@@ -46,9 +64,26 @@
         </algorithm>
         
         <!--Crossover iteration strategy PCX-->
-        <algorithm id="xpso-pcx-1" class="pso.PSO">
+        <algorithm id="xpso-pcx-iteration-repeating" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverStrategy class="entity.operators.crossover.ParentCentricCrossoverStrategy"/>
+                <crossoverSelection class="pso.crossover.RepeatingCrossoverSelection">
+                    <crossoverStrategy class="entity.operators.crossover.ParentCentricCrossoverStrategy"/>
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10"/>
+                    <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
+                </crossoverSelection>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+        
+        <algorithm id="xpso-pcx-iteration-boltzman" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverSelection class="pso.crossover.BoltzmannCrossoverSelection">
+                    <crossoverStrategy class="entity.operators.crossover.ParentCentricCrossoverStrategy"/>
+                    <!--This is problem dependent I think-->
+                    <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1"/>
+                    <distribution class="math.random.UniformDistribution"/>
+                    <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
+                </crossoverSelection>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
@@ -75,6 +110,7 @@
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                             <crossoverStrategy class="entity.operators.crossover.ParentCentricCrossoverStrategy"/>
+                            <retries class="controlparameter.ConstantControlParameter" parameter="10"/>
                         </globalGuideProvider>
                     </particleBehavior>
                 </entityType>
@@ -83,9 +119,26 @@
         </algorithm>
         
         <!--Crossover iteration strategy SPX-->
-        <algorithm id="xpso-spx-1" class="pso.PSO">
+        <algorithm id="xpso-spx-iteration-repeating" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverStrategy class="entity.operators.crossover.SimplexCrossoverStrategy"/>
+                <crossoverSelection class="pso.crossover.RepeatingCrossoverSelection">
+                    <crossoverStrategy class="entity.operators.crossover.SimplexCrossoverStrategy"/>
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10"/>
+                    <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
+                </crossoverSelection>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+        
+        <algorithm id="xpso-spx-iteration-boltzman" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverSelection class="pso.crossover.BoltzmannCrossoverSelection">
+                    <crossoverStrategy class="entity.operators.crossover.SimplexCrossoverStrategy"/>
+                    <!--This is problem dependent I think-->
+                    <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1"/>
+                    <distribution class="math.random.UniformDistribution"/>
+                    <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
+                </crossoverSelection>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
@@ -112,6 +165,7 @@
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                             <crossoverStrategy class="entity.operators.crossover.SimplexCrossoverStrategy"/>
+                            <retries class="controlparameter.ConstantControlParameter" parameter="10"/>
                         </globalGuideProvider>
                     </particleBehavior>
                 </entityType>
@@ -132,10 +186,16 @@
     
     <simulations>
         <simulation samples="5">
-            <algorithm idref="xpso-undx-1"/>
+            <algorithm idref="xpso-undx-iteration-repeating"/>
             <problem idref="spherical"/>
             <measurements idref="fitness" />
-	        <output format="TXT" file="data/xpso-undx-1-spherical.txt" />
+	        <output format="TXT" file="data/xpso-undx-repeating-spherical.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-undx-iteration-boltzman"/>
+            <problem idref="spherical"/>
+            <measurements idref="fitness" />
+	        <output format="TXT" file="data/xpso-undx-boltzman-spherical.txt" />
         </simulation>
         <simulation samples="5">
             <algorithm idref="xpso-undx-2"/>
@@ -150,10 +210,16 @@
 	        <output format="TXT" file="data/xpso-undx-3-spherical.txt" />
         </simulation>
         <simulation samples="5">
-            <algorithm idref="xpso-pcx-1"/>
+            <algorithm idref="xpso-pcx-iteration-repeating"/>
             <problem idref="spherical"/>
             <measurements idref="fitness" />
-	        <output format="TXT" file="data/xpso-pcx-1-spherical.txt" />
+	        <output format="TXT" file="data/xpso-pcx-repeating-spherical.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-boltzman"/>
+            <problem idref="spherical"/>
+            <measurements idref="fitness" />
+	        <output format="TXT" file="data/xpso-pcx-boltzman-spherical.txt" />
         </simulation>
         <simulation samples="5">
             <algorithm idref="xpso-pcx-2"/>
@@ -168,10 +234,16 @@
 	        <output format="TXT" file="data/xpso-pcx-3-spherical.txt" />
         </simulation>
         <simulation samples="5">
-            <algorithm idref="xpso-spx-1"/>
+            <algorithm idref="xpso-spx-iteration-repeating"/>
             <problem idref="spherical"/>
             <measurements idref="fitness" />
-	        <output format="TXT" file="data/xpso-spx-1-spherical.txt" />
+	        <output format="TXT" file="data/xpso-spx-repeating-spherical.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-spx-iteration-boltzman"/>
+            <problem idref="spherical"/>
+            <measurements idref="fitness" />
+	        <output format="TXT" file="data/xpso-spx-boltzman-spherical.txt" />
         </simulation>
         <simulation samples="5">
             <algorithm idref="xpso-spx-2"/>

@@ -21,17 +21,11 @@
  */
 package net.sourceforge.cilib.pso.iterationstrategies;
 
-import java.util.List;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
-import net.sourceforge.cilib.entity.operators.crossover.ParentCentricCrossoverStrategy;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.util.selection.Samples;
-import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
-import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
+import net.sourceforge.cilib.pso.crossover.BoltzmannCrossoverSelection;
+import net.sourceforge.cilib.pso.crossover.CrossoverSelection;
 
 /**
  * An iteration strategy that uses crossover to replace particles if the
@@ -40,18 +34,14 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO> {
     
     private IterationStrategy delegate;
-    private CrossoverStrategy crossoverStrategy;
-    private int retries;
-    private RandomSelector selector;
+    private CrossoverSelection crossoverSelection;
     
     /**
      * Default constructor
      */
     public PSOCrossoverIterationStrategy() {
         this.delegate = new SynchronousIterationStrategy();
-        this.crossoverStrategy = new ParentCentricCrossoverStrategy();
-        this.retries = 10;
-        this.selector = new RandomSelector();
+        this.crossoverSelection = new BoltzmannCrossoverSelection();
     }
     
     /**
@@ -61,9 +51,7 @@ public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO
      */
     public PSOCrossoverIterationStrategy(PSOCrossoverIterationStrategy copy) {
         this.delegate = copy.delegate.getClone();
-        this.crossoverStrategy = copy.crossoverStrategy.getClone();
-        this.retries = copy.retries;
-        this.selector = copy.selector;
+        this.crossoverSelection = copy.crossoverSelection.getClone();
     }
 
     /**
@@ -88,35 +76,7 @@ public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO
     public void performIteration(PSO algorithm) {
         delegate.performIteration(algorithm);
         
-        int counter = 0;
-        boolean isBetter = false;
-        
-        do {
-            // get 3 random particles
-            List<Entity> parents = selector.on(algorithm.getTopology()).select(Samples.all().unique()).subList(0, 3);
-            
-            //perform crossover and compute offspring's fitness
-            Particle offspring = (Particle) crossoverStrategy.crossover(parents).get(0);
-            offspring.calculateFitness();
-            
-            //get worst parent
-            Particle worstParent = (Particle) new ElitistSelector().on(parents).select(Samples.all()).get(2);
-            
-            //replace worst parent with offspring if offspring is better
-            if (offspring.getFitness().compareTo(worstParent.getFitness()) > 0) {
-                isBetter = true;
-                worstParent = offspring;
-            }            
-        } while(++counter < retries && !isBetter);
-    }
-
-    /**
-     * Sets the crossover strategy to use.
-     * 
-     * @param crossoverStrategy 
-     */
-    public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {
-        this.crossoverStrategy = crossoverStrategy;
+        crossoverSelection.doAction(algorithm);
     }
 
     /**
@@ -128,12 +88,7 @@ public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO
         this.delegate = delegate;
     }
 
-    /**
-     * Sets the number of times to retry the crossover process.
-     * 
-     * @param retries 
-     */
-    public void setRetries(int retries) {
-        this.retries = retries;
+    public void setCrossoverSelection(CrossoverSelection crossoverSelection) {
+        this.crossoverSelection = crossoverSelection;
     }
 }
