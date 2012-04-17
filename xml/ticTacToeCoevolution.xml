@@ -18,7 +18,7 @@
                                     <addLayer class="nn.architecture.builder.LayerConfiguration"/> <!-- size is specified by neural input strategy-->
                                     <addLayer class="nn.architecture.builder.LayerConfiguration" size="2"/>
                                     <addLayer class="nn.architecture.builder.LayerConfiguration"/> <!-- size is specified by output interpretation strategy-->
-                                    <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-1,1)" />
+                                    <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-1:1)" />
                                 </architectureBuilder>
                             </architecture>
                         </neuralNetwork>
@@ -35,7 +35,7 @@
                                     <addLayer class="nn.architecture.builder.LayerConfiguration"/> <!-- size is specified by neural input strategy-->
                                     <addLayer class="nn.architecture.builder.LayerConfiguration" size="2"/>
                                     <addLayer class="nn.architecture.builder.LayerConfiguration"/> <!-- size is specified by output interpretation strategy-->
-                                    <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-1,1)" />
+                                    <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-1:1)" />
                                 </architectureBuilder>
                             </architecture>
                         </neuralNetwork>

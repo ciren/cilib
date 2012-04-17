@@ -47,7 +47,7 @@
     </algorithms>
 
     <problems>
-        <problem id="FDA1_f1" class="problem.FunctionMinimisationProblem"  domain="R(0, 1)">
+        <problem id="FDA1_f1" class="problem.FunctionMinimisationProblem"  domain="R(0:1)">
             <function class="functions.continuous.dynamic.moo.fda1.FDA1_f1"/>
         </problem>
         <problem id="FDA1_g" class="problem.FunctionMinimisationProblem">

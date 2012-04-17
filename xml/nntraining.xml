@@ -48,7 +48,7 @@
                             <activationFunction class="functions.activation.Sigmoid" />
                         </addLayer>
                         <addLayer class="nn.architecture.builder.LayerConfiguration" size="1"/>
-                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-3,3)" />
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-3:3)" />
                     </architectureBuilder>
                 </architecture>
             </neuralNetwork>
@@ -65,7 +65,7 @@
                             <activationFunction class="functions.activation.Linear" />
                         </addLayer>
                         <addLayer class="nn.architecture.builder.LayerConfiguration" size="1"/>
-                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-3,3)" />
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-3:3)" />
                     </architectureBuilder>
                 </architecture>
             </neuralNetwork>

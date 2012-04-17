@@ -149,7 +149,7 @@ public class NeuralAgent extends Agent {
     public DomainRegistry getAgentDomain() {
         DomainRegistry agentDomain = new StringBasedDomainRegistry();
         double activationRange = 1.0;//1 / Math.sqrt(inputStrategy.amountInputs());
-        String representation = "R(-" + activationRange + ", " + activationRange + ")^" + neuralNetwork.getWeights().size(); //need to get min and max as well?!?
+        String representation = "R(-" + activationRange + ":" + activationRange + ")^" + neuralNetwork.getWeights().size(); //need to get min and max as well?!?
         agentDomain.setDomainString(representation);
         return agentDomain;
     }

@@ -38,7 +38,7 @@ public class ABCTest {
     @Test
     public void testPerformInitialisation() {
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-32.768, 32.768)^30");
+        problem.setDomain("R(-32.768:32.768)^30");
         problem.setFunction(new Ackley());
 
         MeasuredStoppingCondition condition = new MeasuredStoppingCondition(new Iterations(), new Maximum(), 100);

@@ -12,28 +12,28 @@
     </algorithms>
     <problems>
         <problem id="spherical" class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.decorators.AngleModulation" precision="2" domain="R(-1.0,1.0)^4">
-            <function class="functions.continuous.unconstrained.Spherical" domain="R(-5.12,5.12)^30"/>
+            <function class="functions.continuous.decorators.AngleModulation" precision="2" domain="R(-1.0:1.0)^4">
+            <function class="functions.continuous.unconstrained.Spherical" domain="R(-5.12:5.12)^30"/>
             </function>
         </problem>
         <problem id="rosenbrock" class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.decorators.AngleModulation" precision="3" domain="R(-1.0,1.0)^4">
-            <function class="functions.continuous.unconstrained.Rosenbrock" domain="R(-2.048,2.048)^30"/>
+            <function class="functions.continuous.decorators.AngleModulation" precision="3" domain="R(-1.0:1.0)^4">
+            <function class="functions.continuous.unconstrained.Rosenbrock" domain="R(-2.048:2.048)^30"/>
             </function>
         </problem>
         <problem id="griewank" class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.decorators.AngleModulation" precision="3" domain="R(-1.0,1.0)^4">
-            <function class="functions.continuous.unconstrained.Griewank" domain="R(-300.0,300.0)^30"/>
+            <function class="functions.continuous.decorators.AngleModulation" precision="3" domain="R(-1.0:1.0)^4">
+            <function class="functions.continuous.unconstrained.Griewank" domain="R(-300.0:300.0)^30"/>
             </function>
         </problem>
         <problem id="ackley" class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.decorators.AngleModulation" precision="2" domain="R(-1.0,1.0)^4">
-            <function class="functions.continuous.unconstrained.Ackley" domain="R(-30.0,30.0)^30"/>
+            <function class="functions.continuous.decorators.AngleModulation" precision="2" domain="R(-1.0:1.0)^4">
+            <function class="functions.continuous.unconstrained.Ackley" domain="R(-30.0:30.0)^30"/>
             </function>
         </problem>
         <problem id="rastrigin" class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.decorators.AngleModulation" precision="2" domain="R(-1.0,1.0)^4">
-            <function class="functions.continuous.unconstrained.Rastrigin" domain="R(-5.12,5.12)^30"/>
+            <function class="functions.continuous.decorators.AngleModulation" precision="2" domain="R(-1.0:1.0)^4">
+            <function class="functions.continuous.unconstrained.Rastrigin" domain="R(-5.12:5.12)^30"/>
             </function>
         </problem>
     </problems>

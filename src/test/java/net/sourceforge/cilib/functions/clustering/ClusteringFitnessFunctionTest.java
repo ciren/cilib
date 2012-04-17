@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.functions.clustering;
 
-import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
@@ -29,8 +28,8 @@ import net.sourceforge.cilib.problem.dataset.AssociatedPairDataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.MockClusteringStringDataSet;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
-
 import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -50,7 +49,7 @@ public class ClusteringFitnessFunctionTest {
         innerProblem = new FunctionMinimisationProblem();
         innerProblem.setFunction(function);
         problem = new ClusteringProblem();
-        problem.setDomain("Z(0, 37),Z(0, 51)");
+        problem.setDomain("Z(0:37),Z(0:51)");
         problem.setInnerProblem(innerProblem);
         problem.setNumberOfClusters(7);
         problem.setDataSetBuilder(dataSetBuilder);

@@ -23,10 +23,10 @@ package net.sourceforge.cilib.type.parser;
 
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
+import static org.hamcrest.CoreMatchers.is;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import static org.hamcrest.CoreMatchers.is;
 
 /**
  * Tests related to the parsing of domain strings.
@@ -48,7 +48,7 @@ public class DomainParserTest {
      */
     @Test
     public void dimensionRange() {
-        Vector vector = (Vector) DomainParser.parse("R(-9.0, 9.0)^6");
+        Vector vector = (Vector) DomainParser.parse("R(-9.0:9.0)^6");
 
         Assert.assertEquals(6, vector.size());
     }
@@ -90,7 +90,7 @@ public class DomainParserTest {
     @Test
     @Ignore("Who even uses this feature?")
     public void complex() {
-        Vector vector = (Vector) DomainParser.parse("R(-9.0, 9.0),R^6,R(9.0),B,Z");
+        Vector vector = (Vector) DomainParser.parse("R(-9.0:9.0),R^6,R(9.0),B,Z");
 
         Assert.assertEquals(10, vector.size());
     }
@@ -117,24 +117,24 @@ public class DomainParserTest {
 
     @Test
     public void integerBounds() {
-        DomainParser.parse("R(1,3)");
-        DomainParser.parse("R(-1,3)");
-        DomainParser.parse("R(-3,-1)");
-        DomainParser.parse("R(-3,-1)^9");
+        DomainParser.parse("R(1:3)");
+        DomainParser.parse("R(-1:3)");
+        DomainParser.parse("R(-3:-1)");
+        DomainParser.parse("R(-3:-1)^9");
     }
 
     @Test(expected=RuntimeException.class)
     public void incorrectBoundsOrder() {
-        DomainParser.parse("R(3, 2)"); // Lower bound > Upper bound = WRONG!
+        DomainParser.parse("R(3:2)"); // Lower bound > Upper bound = WRONG!
     }
 
      @Test
     public void testParseReal() {
-        DomainParser.parse("R(0.0,9.0)");
+        DomainParser.parse("R(0.0:9.0)");
         DomainParser.parse("R");
         DomainParser.parse("R^6");
-        DomainParser.parse("R(-9.0,9.0)");
-        DomainParser.parse("R(-30.0,30.0)^6");
+        DomainParser.parse("R(-9.0:9.0)");
+        DomainParser.parse("R(-30.0:30.0)^6");
     }
 
 
@@ -148,12 +148,12 @@ public class DomainParserTest {
     @Test
     public void testParseInteger() {
         DomainParser.parse("Z");
-        DomainParser.parse("Z(-1,0)");
+        DomainParser.parse("Z(-1:0)");
 //        Parser.parse("Z(1)");
-        DomainParser.parse("Z(0,1)");
-        DomainParser.parse("Z(-999,999)");
+        DomainParser.parse("Z(0:1)");
+        DomainParser.parse("Z(-999:999)");
         DomainParser.parse("Z^8");
-        DomainParser.parse("Z(0,1)^10");
+        DomainParser.parse("Z(0:1)^10");
     }
 
 

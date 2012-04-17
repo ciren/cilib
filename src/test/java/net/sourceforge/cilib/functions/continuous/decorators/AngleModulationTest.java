@@ -62,7 +62,7 @@ public class AngleModulationTest {
         AngleModulation angle = new AngleModulation();
 
         DomainRegistry registry = new StringBasedDomainRegistry();
-        registry.setDomainString("R(-5.12,-5.12)^30");
+        registry.setDomainString("R(-5.12:5.12)^30");
 
         angle.setPrecision(3);
         assertEquals(14, angle.getRequiredNumberOfBits(registry));
@@ -75,7 +75,7 @@ public class AngleModulationTest {
     public void testSetDecoratedFunctionDomain() {
         AngleModulation angle = new AngleModulation();
         FunctionMinimisationProblem delegate = new FunctionMinimisationProblem();
-        delegate.setDomain("R(-5.12, 5.12)^30");
+        delegate.setDomain("R(-5.12:5.12)^30");
         delegate.setFunction(new Rastrigin());
         angle.setProblem(delegate);
         Assert.assertTrue(angle.getProblem().getFunction() instanceof Rastrigin);
@@ -90,7 +90,7 @@ public class AngleModulationTest {
     public void testConversionToBitRepresentationLength() {
         AngleModulation angle = new AngleModulation();
         FunctionMinimisationProblem delegate = new FunctionMinimisationProblem();
-        delegate.setDomain("R(-5.12, 5.12)^30");
+        delegate.setDomain("R(-5.12:5.12)^30");
         delegate.setFunction(new Rastrigin());
         angle.setProblem(delegate);
 
