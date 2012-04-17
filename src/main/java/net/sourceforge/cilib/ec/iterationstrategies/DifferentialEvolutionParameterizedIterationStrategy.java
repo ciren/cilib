@@ -98,18 +98,19 @@ public class DifferentialEvolutionParameterizedIterationStrategy extends Abstrac
         Topology<Entity> topology = (Topology<Entity>) ec.getTopology();
 
         for (int i = 0; i < topology.size(); i++) {
-            ParameterizedDEIndividual current = (ParameterizedDEIndividual) topology.get(i);
-            Entity parameterCurrent = buildParameterEntity(current);
+            Entity current = topology.get(i);
+            Entity parameterCurrent = buildParameterEntity((ParameterizedDEIndividual) current);
             current.calculateFitness();
 
             // Create the trial vector by applying mutation
-            ParameterizedDEIndividual targetEntity = (ParameterizedDEIndividual) targetVectorSelectionStrategy.on(topology).exclude(current).select();
+            Entity targetEntity = (Entity) targetVectorSelectionStrategy.on(topology).exclude(current).select();
             Entity targetParameterEntity = buildParameterEntity((ParameterizedDEIndividual) targetVectorSelectionStrategy.on(topology).exclude(current).select());
 
             // Create the trial vector / entity
             trialVectorCreationStrategy.setControlParameters(targetEntity);
             parameterTrialVectorCreationStrategy.setControlParameters(targetEntity);
-            Entity trialEntity = trialVectorCreationStrategy.create(targetEntity, current, topology);
+            
+            Entity trialEntity = trialVectorCreationStrategy.create( targetEntity, current, topology);
             Entity parameterTrialEntity = parameterTrialVectorCreationStrategy.create(targetParameterEntity, parameterCurrent, buildParameterTopology(topology));
             
             // Create the offspring by applying cross-over
@@ -117,14 +118,22 @@ public class DifferentialEvolutionParameterizedIterationStrategy extends Abstrac
             parameterCrossoverStrategy.setControlParameters(trialEntity);
             List<Entity> offspring = this.crossoverStrategy.crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
             List<Entity> parameterOffspring = this.parameterCrossoverStrategy.crossover(Arrays.asList(parameterCurrent, parameterTrialEntity));
-
+            
             // Replace the parent (current) if the offspring is better
-            Entity offspringEntity = offspring.get(0);
-            Entity parameterOffspringEntity = parameterOffspring.get(0);
+            Entity offspringEntity;
+            Entity parameterOffspringEntity;
+            if(!offspring.isEmpty()) {
+                offspringEntity = offspring.get(0);
+                parameterOffspringEntity = parameterOffspring.get(0);
+            } else {
+                offspringEntity = targetEntity.getClone();
+                parameterOffspringEntity = targetParameterEntity.getClone();
+            }
+            
             ParameterBoundaryConstraint parameterBoundaryConstraint = new ParameterBoundaryConstraint();
             parameterBoundaryConstraint.setBoundaryConstraint(boundaryConstraint);
             
-            ParameterizedDEIndividual resultingIndividual = buildResultingEntity(offspringEntity, targetEntity, parameterOffspringEntity);
+            ParameterizedDEIndividual resultingIndividual = buildResultingEntity(offspringEntity, (ParameterizedDEIndividual) targetEntity, parameterOffspringEntity);
             
             boundaryConstraint.enforce(offspringEntity);
             parameterBoundaryConstraint.enforce(resultingIndividual);
@@ -170,8 +179,10 @@ public class DifferentialEvolutionParameterizedIterationStrategy extends Abstrac
         Entity individual = new Individual();
         
         for (Entity entity : topology) {
+            individual = new Individual();
             ParameterizedDEIndividual parameterizedEntity = (ParameterizedDEIndividual) entity;
             individual.setCandidateSolution(Vector.of(parameterizedEntity.getScalingFactor().getParameter(), parameterizedEntity.getRecombinationProbability().getParameter()));
+              
             parameterTopology.add(individual);
         }
         
@@ -181,6 +192,7 @@ public class DifferentialEvolutionParameterizedIterationStrategy extends Abstrac
     private Entity buildParameterEntity(ParameterizedDEIndividual individual) {
         Entity entity = new Individual();
         entity.setCandidateSolution(Vector.of(individual.getScalingFactor().getParameter(), individual.getRecombinationProbability().getParameter()));
+        
         return entity;
     }
 

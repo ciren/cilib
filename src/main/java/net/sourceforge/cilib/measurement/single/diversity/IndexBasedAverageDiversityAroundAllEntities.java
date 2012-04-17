@@ -24,6 +24,7 @@ package net.sourceforge.cilib.measurement.single.diversity;
 import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.ec.ParameterizedDEIndividual;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
@@ -81,32 +82,45 @@ public class IndexBasedAverageDiversityAroundAllEntities extends Diversity {
     }
     
     /*
-     * Get the value at the index specified. If it is a parameter return the
+     * Get the value at the index ispecified. If it is a parameter return the
      * parameter value, if it is a position return the position value
      */
     private double get(int index, Entity entity) {
         final int PARTICLE_DIMENSIONS = entity.getDimension();
         double result = 0;
         
-        if(index < PARTICLE_DIMENSIONS) {
-            Vector candidateSolution = (Vector) entity.getCandidateSolution();
-            result = candidateSolution.get(index).doubleValue();
-        } else if ((index >= PARTICLE_DIMENSIONS) && (index < PARTICLE_DIMENSIONS + 4)) {
-            if(index == PARTICLE_DIMENSIONS + 3) {
+        if(entity instanceof ParameterizedParticle) {
+            if(index < PARTICLE_DIMENSIONS) {
+                Vector candidateSolution = (Vector) entity.getCandidateSolution();
+                result = candidateSolution.get(index).doubleValue();
+            } else if ((index >= PARTICLE_DIMENSIONS) && (index < PARTICLE_DIMENSIONS + 4)) {
                 ParameterizedParticle parameterizeParticle = (ParameterizedParticle) entity;
-                result = parameterizeParticle.getVmax().getParameter();
-            } else if(index == PARTICLE_DIMENSIONS + 2) {
-                ParameterizedParticle parameterizeParticle = (ParameterizedParticle) entity;
-                result = parameterizeParticle.getCognitiveAcceleration().getParameter();
-            } else if(index == PARTICLE_DIMENSIONS + 1) {
-                ParameterizedParticle parameterizeParticle = (ParameterizedParticle) entity;
-                result = parameterizeParticle.getSocialAcceleration().getParameter();
-            } else if(index == PARTICLE_DIMENSIONS) {
-                ParameterizedParticle parameterizeParticle = (ParameterizedParticle) entity;
-                result = parameterizeParticle.getInertia().getParameter();
+                
+                if(index == PARTICLE_DIMENSIONS + 3)
+                    result = parameterizeParticle.getVmax().getParameter();
+                else if(index == PARTICLE_DIMENSIONS + 2)
+                    result = parameterizeParticle.getCognitiveAcceleration().getParameter();
+                else if(index == PARTICLE_DIMENSIONS + 1)
+                    result = parameterizeParticle.getSocialAcceleration().getParameter();
+                else if(index == PARTICLE_DIMENSIONS)
+                    result = parameterizeParticle.getInertia().getParameter();
+                
+            } else {
+                throw(new IndexOutOfBoundsException("The maximum index can only be DIMENSIONS -1 or DIMENSIONS + 3 if a ParameterizedParticle is used"));
             }
-        } else {
-            throw(new IndexOutOfBoundsException("The maximum index can only be DIMENSIONS -1 or DIMENSIONS + 3 if a ParameterizedParticle is used"));
+        } else if(entity instanceof ParameterizedDEIndividual) {
+            if(index < PARTICLE_DIMENSIONS) {
+                Vector candidateSolution = (Vector) entity.getCandidateSolution();
+                result = candidateSolution.get(index).doubleValue();
+            } else if ((index >= PARTICLE_DIMENSIONS) && (index < PARTICLE_DIMENSIONS + 2)) {
+                ParameterizedDEIndividual parameterizedIndividual = (ParameterizedDEIndividual) entity;
+                
+                if(index == PARTICLE_DIMENSIONS) 
+                    result = parameterizedIndividual.getScalingFactor().getParameter();
+                else if(index == PARTICLE_DIMENSIONS + 1)
+                    result = parameterizedIndividual.getScalingFactor().getParameter();
+                
+            }
         }
         
         return result;

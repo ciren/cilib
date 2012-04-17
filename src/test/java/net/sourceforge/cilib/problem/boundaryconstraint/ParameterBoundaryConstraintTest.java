@@ -85,23 +85,26 @@ public class ParameterBoundaryConstraintTest {
         parameter.setLowerBound(1.0);
         parameter.setUpperBound(4.0);
         particle.setInertia(parameter);
+        particle.getInertia().setBestValue(parameter.getParameter());
         
         parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(2.0);
         parameter.setLowerBound(1.0);
         parameter.setUpperBound(4.0);
         particle.setSocialAcceleration(parameter);
+        particle.getSocialAcceleration().setBestValue(parameter.getParameter());
         
         parameter = new BoundedModifiableControlParameter();
         parameter.setParameter(-1.0);
         parameter.setLowerBound(1.0);
         parameter.setUpperBound(4.0);
         particle.setCognitiveAcceleration(parameter);
+        particle.getCognitiveAcceleration().setBestValue(parameter.getParameter());
         
         ConstantControlParameter constParameter = new ConstantControlParameter();
         constParameter.setParameter(2.0);
         particle.setVmax(constParameter);
-        
+        particle.getVmax().setBestValue(parameter.getParameter());
 
         ClampingBoundaryConstraint clampingBoundaryConstraint = new ClampingBoundaryConstraint();
         instance.setBoundaryConstraint(clampingBoundaryConstraint);
