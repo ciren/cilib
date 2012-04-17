@@ -28,7 +28,13 @@ import org.parboiled.Rule;
 public final class DomainParserGrammar {
 
     private static final BoundsFactory bf = new BoundsFactory();
-    private static final Map<String, TypeCreator> creators = ImmutableMap.<String, TypeCreator>builder().put("R", new R()).put("Z", new Z()).put("B", new B()).put("T", new T()).build();
+    private static final Map<String, TypeCreator> creators =
+            ImmutableMap.<String, TypeCreator>builder()
+            .put("R", new R())
+            .put("Z", new Z())
+            .put("B", new B())
+            .put("T", new T())
+            .build();
 
     public static class ExpandingParser extends BaseParser<String> {
 
@@ -76,6 +82,7 @@ public final class DomainParserGrammar {
 
         Rule Numeric() {
             return Sequence(Type(), push(creators.get(match())), Optional(Bounds()), new Action<TypeCreator>() {
+
                 @Override
                 public boolean run(Context<TypeCreator> context) {
                     Object o = peek();
@@ -92,37 +99,16 @@ public final class DomainParserGrammar {
                     } else { // we have a TypeCreator
                         push(((TypeCreator) pop()).create());
                     }
-                    
+
                     return true;
                 }
-            },
-                    FirstOf(Optional(Sequence(",", Numeric())), EOI));
+            }, FirstOf(Optional(Sequence(",", Numeric())), EOI));
         }
 
         Rule Bounds() {
             return Sequence('(', Decimal(), push(matchOrDefault("INF")),
                     ":",
-                    Decimal(), push(matchOrDefault("INF")), ')');// new Action<Object>() {
-//
-//                @Override
-//                public boolean run(Context<Object> context) {
-//                    if (!(peek() instanceof TypeCreator)) {
-//                        swap3();
-//                        TypeCreator creator = (TypeCreator) pop();
-//                        String lStr = (String) pop();
-//                        String rStr = (String) pop();
-//
-//                        if (lStr.equals("INF") || rStr.equals("INF")) {
-//                            push(creator.create());
-//                        } else {
-//                            push(creator.create(bf.create(Double.parseDouble(lStr), Double.parseDouble(rStr))));
-//                        }
-//                    } else {
-//                        push(((TypeCreator) pop()).create());
-//                    }
-//                    return true;
-//                }
-//            });
+                    Decimal(), push(matchOrDefault("INF")), ')');
         }
 
         Rule Type() {

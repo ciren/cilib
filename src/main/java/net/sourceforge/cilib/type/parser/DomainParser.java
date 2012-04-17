@@ -37,7 +37,7 @@ import org.parboiled.support.ParsingResult;
 /**
  * The domain parser converts a provided domain string representation into
  * a {@code StructuredType}. If the domain string defines a simple {@code Vector}
- * based representaton of {@code Numeric} types, then a {@code Vector} is returned.
+ * based representation of {@code Numeric} types, then a {@code Vector} is returned.
  */
 public final class DomainParser {
     
@@ -62,11 +62,10 @@ public final class DomainParser {
             for (ParseError e : d.parseErrors) {
                 System.out.println(e.getErrorMessage());
             }
-            throw new RuntimeException("Error in parsing domain: " + domain);
+            throw new RuntimeException("Error in expanding domain: " + domain);
         }
         
         final String expanded = Joiner.on(",").join(d.valueStack);
-        
         final ReportingParseRunner<?> runner = new ReportingParseRunner(DOMAIN_PARSER.Domain());
         final ParsingResult<Type> result = (ParsingResult<Type>) runner.run(expanded);
 
@@ -74,7 +73,7 @@ public final class DomainParser {
             for (ParseError e : result.parseErrors) {
                 System.out.println(e.getErrorMessage());
             }
-            throw new RuntimeException("Error in parsing domain: " + expanded);
+            throw new RuntimeException("Error in parsing domain: " + expanded + ". Ensure that the domain is a valid domain string and contains no whitespace.");
         }
 
         List<Type> l = Lists.newArrayList(result.valueStack);
