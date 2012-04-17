@@ -96,7 +96,13 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
             List<Entity> offspring = this.crossoverStrategy.crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
 
             // Replace the parent (current) if the offspring is better
-            Entity offspringEntity = offspring.get(0);
+            Entity offspringEntity;
+            if(!offspring.isEmpty()) {
+                offspringEntity = offspring.get(0);
+            } else {
+                offspringEntity = targetEntity.getClone();
+            }
+                
             boundaryConstraint.enforce(offspringEntity);
             offspringEntity.calculateFitness();
 

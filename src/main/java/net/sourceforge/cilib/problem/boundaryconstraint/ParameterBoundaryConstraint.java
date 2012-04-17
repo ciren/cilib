@@ -116,18 +116,18 @@ public class ParameterBoundaryConstraint implements BoundaryConstraint{
         parameterEntity.getProperties().put(EntityType.Particle.BEST_POSITION, bestParameterSolution.build());
         
         //enforce boundary constraints
-        ParameterizedParticle resultingEntity = (ParameterizedParticle) constraint.enforce(parameterEntity);
-        ParameterizedParticle newEntity = (ParameterizedParticle) constraint.enforce(receivedEntity);
+        Entity resultingEntity = constraint.enforce(parameterEntity);
+        Entity newEntity = constraint.enforce(receivedEntity);
         
         receivedEntity = newEntity.getClone();
         
         Vector candidateSolution = (Vector) resultingEntity.getCandidateSolution();
-        Vector bestSolution = (Vector) resultingEntity.getBestPosition();
-        Vector velocity = (Vector) resultingEntity.getVelocity();
         
         if(receivedEntity instanceof ParameterizedParticle) {
             //set the resulting values of the entity to be returned,
             ParameterizedParticle receivedEntityParameterized = (ParameterizedParticle) receivedEntity;
+            Vector bestSolution = (Vector) ((ParameterizedParticle) resultingEntity).getBestPosition();
+            Vector velocity = (Vector) ((ParameterizedParticle) resultingEntity).getVelocity();
             if(receivedEntityParameterized.getInertia() instanceof BoundedModifiableControlParameter) {
                receivedEntityParameterized.getInertia().setParameter((candidateSolution.get(0).doubleValue()));
                receivedEntityParameterized.getInertia().setBestValue(bestSolution.get(0).doubleValue());

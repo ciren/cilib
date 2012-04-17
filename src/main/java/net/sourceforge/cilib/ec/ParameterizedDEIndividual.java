@@ -37,14 +37,14 @@ import net.sourceforge.cilib.util.Sequence;
 
 /**
  */
-public class ParameterizedDEIndividual extends AbstractEntity{
+public class ParameterizedDEIndividual extends Individual{
 
     private ParameterAdaptingControlParameter scalingFactor;
     private ParameterAdaptingControlParameter recombinationProbability;
     private ProbabilityDistributionFuction random;
     
     public ParameterizedDEIndividual() {
-        setCandidateSolution(new Vector());
+        this.setCandidateSolution(new Vector());
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
         scalingFactor = ConstantControlParameter.of(0.5);
         recombinationProbability = ConstantControlParameter.of(0.5);
@@ -59,19 +59,19 @@ public class ParameterizedDEIndividual extends AbstractEntity{
     }
     
     @Override
-    public Entity getClone() {
+    public Individual getClone() {
         return new ParameterizedDEIndividual(this);
     }
-
+/*
     @Override
     public void calculateFitness() {
         this.getProperties().put(EntityType.FITNESS, this.getFitnessCalculator().getFitness(this));
     }
-
+*/
     /**
      * {@inheritDoc}
      */
-    @Override
+    /*@Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -81,26 +81,27 @@ public class ParameterizedDEIndividual extends AbstractEntity{
             return false;
         }
 
-        Individual other = (Individual) object;
+        ParameterizedDEIndividual other = (ParameterizedDEIndividual) object;
         return super.equals(other);
-    }
+    }*/
     
     /**
      * {@inheritDoc}
      */
-    @Override
+    /*@Override
     public int hashCode() {
         int hash = 7;
         hash = 31 * hash + super.hashCode();
         return hash;
-    }
+    }*/
     
     /**
      * Resets the fitness to <code>InferiorFitness</code>.
      */
+    /*@Override
     public void resetFitness() {
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
-    }
+    }*/
     
     @Override
     public void initialise(OptimisationProblem problem) {
@@ -123,7 +124,7 @@ public class ParameterizedDEIndividual extends AbstractEntity{
         
     }
 
-    @Override
+    /*@Override
     public int getDimension() {
         return getCandidateSolution().size();
     }
@@ -131,12 +132,12 @@ public class ParameterizedDEIndividual extends AbstractEntity{
     @Override
     public void reinitialise() {
         throw new UnsupportedOperationException("Not supported yet. Not implemented in individual");
-    }
+    }*/
     
     /**
      * {@inheritDoc}
      */
-    @Override
+    /*@Override
     public void setCandidateSolution(StructuredType type) {
         super.setCandidateSolution(type);
     }
@@ -144,7 +145,7 @@ public class ParameterizedDEIndividual extends AbstractEntity{
     @Override
     public int compareTo(Entity o) {
         return this.getFitness().compareTo(o.getFitness());
-    }
+    }*/
     
     /**
      * Create a textual representation of the current {@linkplain ParameterizedDEIndividual}. The
@@ -156,7 +157,8 @@ public class ParameterizedDEIndividual extends AbstractEntity{
     public String toString() {
         StringBuilder str = new StringBuilder();
         str.append(getCandidateSolution().toString());
-        str.append(getProperties().get(EntityType.STRATEGY_PARAMETERS));
+        str.append(scalingFactor);
+        str.append(recombinationProbability);
         return str.toString();
     }
     
