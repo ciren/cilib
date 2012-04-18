@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.niching.derating;
+package net.sourceforge.cilib.niching;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -39,29 +39,26 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-/**
- *
- */
-public class SequentialNiching extends AbstractAlgorithm implements PopulationBasedAlgorithm {
+public class SequentialNichingTechnique extends AbstractAlgorithm implements PopulationBasedAlgorithm {
     private PopulationBasedAlgorithm algorithm;
     private ControlParameter threshold;
     protected List<OptimisationSolution> solutions;
     
-    public SequentialNiching() {
+    public SequentialNichingTechnique() {
         this.algorithm = new EC();
         this.threshold = ConstantControlParameter.of(0);
         this.solutions = Lists.<OptimisationSolution>newLinkedList();
     }
     
-    public SequentialNiching(SequentialNiching copy) {
+    public SequentialNichingTechnique(SequentialNichingTechnique copy) {
         this.algorithm = copy.algorithm.getClone();
         this.threshold = copy.threshold.getClone();
         this.solutions = Lists.<OptimisationSolution>newLinkedList(copy.solutions);
     }
     
     @Override
-    public SequentialNiching getClone() {
-        return new SequentialNiching(this);
+    public SequentialNichingTechnique getClone() {
+        return new SequentialNichingTechnique(this);
     }
     
     @Override

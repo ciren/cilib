@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.niching.derating;
+package net.sourceforge.cilib.niching.iterationstrategies;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -27,9 +27,9 @@ import fj.data.List;
 import java.util.Collections;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.niching.NicheAlgorithm;
-import net.sourceforge.cilib.niching.Niching.NichingFunction;
-import static net.sourceforge.cilib.niching.Niching.*;
+import net.sourceforge.cilib.niching.NichingAlgorithm;
+import net.sourceforge.cilib.niching.NichingFunctions.NichingFunction;
+import static net.sourceforge.cilib.niching.NichingFunctions.*;
 import net.sourceforge.cilib.niching.NichingSwarms;
 import static net.sourceforge.cilib.niching.NichingSwarms.onMainSwarm;
 import static net.sourceforge.cilib.niching.NichingSwarms.onSubswarms;
@@ -39,7 +39,7 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.util.functions.Algorithms;
 import net.sourceforge.cilib.util.functions.Solutions;
 
-public class DeratingNichePSO extends AbstractIterationStrategy<NicheAlgorithm> {
+public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm> {
 
     protected java.util.List<OptimisationSolution> solutions;
     
@@ -57,7 +57,7 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NicheAlgorithm> 
     }
     
     @Override
-    public void performIteration(NicheAlgorithm alg) {
+    public void performIteration(NichingAlgorithm alg) {
         Preconditions.checkState(alg.getOptimisationProblem() instanceof DeratingOptimisationProblem,
                 "DeratingNichePSOIterationStrategy can only be used with DeratingOptimisationProblem.");
         DeratingOptimisationProblem problem = (DeratingOptimisationProblem) alg.getOptimisationProblem();
@@ -86,7 +86,7 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NicheAlgorithm> 
         };
     }
 
-    public static NichingFunction joinAndMerge(final NicheAlgorithm alg, final List<PopulationBasedAlgorithm> joiningList) {
+    public static NichingFunction joinAndMerge(final NichingAlgorithm alg, final List<PopulationBasedAlgorithm> joiningList) {
         return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {
@@ -96,7 +96,7 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NicheAlgorithm> 
         };
     }
 
-    public static NichingFunction phase1(final NicheAlgorithm alg) {
+    public static NichingFunction phase1(final NichingAlgorithm alg) {
         return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {
@@ -111,7 +111,7 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NicheAlgorithm> 
         };
     }
 
-    public static NichingFunction phase2(final NicheAlgorithm alg) {
+    public static NichingFunction phase2(final NichingAlgorithm alg) {
         return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {

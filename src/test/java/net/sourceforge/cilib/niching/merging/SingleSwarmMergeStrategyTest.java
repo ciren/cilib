@@ -24,7 +24,7 @@ package net.sourceforge.cilib.niching.merging;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.niching.NichingTest;
+import net.sourceforge.cilib.niching.NichingFunctionsTest;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -45,10 +45,10 @@ public class SingleSwarmMergeStrategyTest {
         pso1.setTopology(new GBestTopology<Particle>());
         pso2.setTopology(new GBestTopology<Particle>());
 
-        Particle p1 = NichingTest.createParticle(new MinimisationFitness(1.0), Vector.of(0.0, 0.0));
-        Particle p2 = NichingTest.createParticle(new MinimisationFitness(0.0), Vector.of(Math.sqrt(0.6), Math.sqrt(0.6)));
-        Particle p3 = NichingTest.createParticle(new MinimisationFitness(2.0), Vector.of(Math.sqrt(0.3), Math.sqrt(0.3)));
-        Particle p4 = NichingTest.createParticle(new MinimisationFitness(3.0), Vector.of(1.0, 1.0));
+        Particle p1 = NichingFunctionsTest.createParticle(new MinimisationFitness(1.0), Vector.of(0.0, 0.0));
+        Particle p2 = NichingFunctionsTest.createParticle(new MinimisationFitness(0.0), Vector.of(Math.sqrt(0.6), Math.sqrt(0.6)));
+        Particle p3 = NichingFunctionsTest.createParticle(new MinimisationFitness(2.0), Vector.of(Math.sqrt(0.3), Math.sqrt(0.3)));
+        Particle p4 = NichingFunctionsTest.createParticle(new MinimisationFitness(3.0), Vector.of(1.0, 1.0));
 
         pso1.getTopology().add(p1); pso2.getTopology().add(p2);
         pso2.getTopology().add(p3); pso2.getTopology().add(p4);

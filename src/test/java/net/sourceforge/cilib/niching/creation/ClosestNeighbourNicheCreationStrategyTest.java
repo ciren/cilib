@@ -27,7 +27,7 @@ import java.util.Arrays;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.niching.NichingSwarms;
-import net.sourceforge.cilib.niching.NichingTest;
+import net.sourceforge.cilib.niching.NichingFunctionsTest;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
@@ -43,9 +43,9 @@ public class ClosestNeighbourNicheCreationStrategyTest {
     
     @Test
     public void testCreation() {
-        Particle p1 = NichingTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
-        Particle p2 = NichingTest.createParticle(new MinimisationFitness(2.0), Vector.of(1.0, 1.0));
-        Particle p3 = NichingTest.createParticle(new MinimisationFitness(1.0), Vector.of(2.0, 2.0));
+        Particle p1 = NichingFunctionsTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
+        Particle p2 = NichingFunctionsTest.createParticle(new MinimisationFitness(2.0), Vector.of(1.0, 1.0));
+        Particle p3 = NichingFunctionsTest.createParticle(new MinimisationFitness(1.0), Vector.of(2.0, 2.0));
         
         PSO pso = new PSO();        
         pso.getTopology().addAll(Arrays.asList(p1, p2, p3));

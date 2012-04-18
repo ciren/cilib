@@ -51,25 +51,20 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 
 /**
  * <p>
- * Generalized NicheAlgorithm algorithm.
+ * Generalized NichingAlgorithm algorithm.
  * </p>
  * <p>
  * This class is intended to be the base class (or even the only class) for all
  * algorithms implementing a form of niching.
  * </p>
- * <p>
- * Currently the main implementation is the NicheAlgorithm, however, any implementation
- * can be achieved by correctly applying the different setter methods with the appropriate
- * instances.
- * </p>
  * <pre>
  * {@literal @}inproceedings{}
  * </pre>
  */
-public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
+public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
     private static final long serialVersionUID = 3575627467034673738L;
 
-    protected IterationStrategy<NicheAlgorithm> iterationStrategy;
+    protected IterationStrategy<NichingAlgorithm> iterationStrategy;
     protected PopulationBasedAlgorithm mainSwarm;
     protected Particle mainSwarmBehavior;
 
@@ -115,7 +110,7 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
      * </ul>
      * </p>
      */
-    public NicheAlgorithm() {
+    public NichingAlgorithm() {
         this.mainSwarm = new PSO();
         StandardVelocityProvider velocityUpdateStrategy = new StandardVelocityProvider();
         velocityUpdateStrategy.setSocialAcceleration(ConstantControlParameter.of(0.0));
@@ -148,7 +143,7 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
     /**
      * Copy constructor.
      */
-    public NicheAlgorithm(NicheAlgorithm copy) {
+    public NichingAlgorithm(NichingAlgorithm copy) {
         super(copy);
 
         this.iterationStrategy = copy.iterationStrategy.getClone();
@@ -173,7 +168,7 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
      */
     @Override
     public PopulationBasedAlgorithm getClone() {
-        return new NicheAlgorithm(this);
+        return new NichingAlgorithm(this);
     }
 
     /**
@@ -197,7 +192,7 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
     }
 
     /**
-     * There is no best solution associated with a top level NicheAlgorithm algorithm.
+     * There is no best solution associated with a top level NichingAlgorithm algorithm.
      * 
      * @see #getSolutions()
      */
@@ -312,11 +307,11 @@ public class NicheAlgorithm extends MultiPopulationBasedAlgorithm {
         this.mainSwarmCreationMerger = mainSwarmCreationMerger;
     }
 
-    public void setIterationStrategy(IterationStrategy<NicheAlgorithm> iterationStrategy) {
+    public void setIterationStrategy(IterationStrategy<NichingAlgorithm> iterationStrategy) {
         this.iterationStrategy = iterationStrategy;
     }
 
-    public IterationStrategy<NicheAlgorithm> getIterationStrategy() {
+    public IterationStrategy<NichingAlgorithm> getIterationStrategy() {
         return iterationStrategy;
     }
 

@@ -38,10 +38,10 @@ import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.util.functions.Populations;
 
 /**
- * These are generic functions used in Niching algorithms. e.g. Merging, absorption, sub-population creation. They
+ * These are generic functions used in NichingFunctions algorithms. e.g. Merging, absorption, sub-population creation. They
  * use given strategies to accomplish a task and can be seen as higher order functions.
  */
-public final class Niching {
+public final class NichingFunctions {
     
     public abstract static class NichingFunction extends F<NichingSwarms, NichingSwarms> {
     }

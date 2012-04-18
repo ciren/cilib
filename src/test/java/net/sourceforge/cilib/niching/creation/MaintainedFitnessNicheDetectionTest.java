@@ -23,7 +23,7 @@ package net.sourceforge.cilib.niching.creation;
 
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.niching.NichingTest;
+import net.sourceforge.cilib.niching.NichingFunctionsTest;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -38,8 +38,8 @@ public class MaintainedFitnessNicheDetectionTest {
     
     @Test
     public void testDetection() {
-        Particle p1 = NichingTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
-        Particle p2 = NichingTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
+        Particle p1 = NichingFunctionsTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
+        Particle p2 = NichingFunctionsTest.createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 1.0));
         
         MaintainedFitnessNicheDetection detection = new MaintainedFitnessNicheDetection();
         Assert.assertFalse(detection.f(null, p1));

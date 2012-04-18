@@ -6,9 +6,9 @@
 ]>
 <simulator>
     <algorithms>
-        <algorithm id="deratingNichePSO" class="niching.NicheAlgorithm">
+        <algorithm id="deratingNichePSO" class="niching.NichingAlgorithm">
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="10"/>
-            <iterationStrategy class="niching.derating.DeratingNichePSO"/>
+            <iterationStrategy class="niching.iterationstrategies.DeratingNichePSO"/>
 
             <!-- need a regular pso -->
             <mainSwarm class="pso.PSO">
@@ -17,6 +17,18 @@
                     <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
                 </iterationStrategy>
             </mainSwarm>
+        </algorithm>
+
+        <algorithm id="SNT-PSO" class="niching.SequentialNichingTechnique">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="10"/>
+
+            <algorithm class="pso.PSO"/>
+        </algorithm>
+
+        <algorithm id="SNT-GA" class="niching.SequentialNichingTechnique">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="10"/>
+
+            <algorithm class="ec.EC"/>
         </algorithm>
     </algorithms>
 
@@ -73,6 +85,68 @@
             <problem idref="f5"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/deratingNichePSO-f5.txt"/>
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="SNT-PSO"/>
+            <problem idref="f1"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/SNT-PSO-f1.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="SNT-PSO"/>
+            <problem idref="f2"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/SNT-PSO-f2.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="SNT-PSO"/>
+            <problem idref="f3"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/SNT-PSO-f3.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="SNT-PSO"/>
+            <problem idref="f4"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/SNT-PSO-f4.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="SNT-PSO"/>
+            <problem idref="f5"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/SNT-PSO-f5.txt"/>
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="SNT-GA"/>
+            <problem idref="f1"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/SNT-GA-f1.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="SNT-GA"/>
+            <problem idref="f2"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/SNT-GA-f2.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="SNT-GA"/>
+            <problem idref="f3"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/SNT-GA-f3.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="SNT-GA"/>
+            <problem idref="f4"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/SNT-GA-f4.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="SNT-GA"/>
+            <problem idref="f5"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/SNT-GA-f5.txt"/>
         </simulation>
     </simulations>
 </simulator>

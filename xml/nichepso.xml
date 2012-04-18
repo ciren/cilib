@@ -6,8 +6,9 @@
 ]>
 <simulator>
     <algorithms>
-        <algorithm id="nichePSO" class="niching.NicheAlgorithm">
+        <algorithm id="nichePSO" class="niching.NichingAlgorithm">
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
+
             <nicheCreator class="niching.creation.ClosestNeighbourNicheCreationStrategy">
                 <swarmBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.GCVelocityProvider">

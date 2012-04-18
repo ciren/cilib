@@ -26,14 +26,14 @@ import fj.P2;
 import fj.data.List;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.niching.NicheAlgorithm;
-import static net.sourceforge.cilib.niching.Niching.*;
+import net.sourceforge.cilib.niching.NichingAlgorithm;
+import static net.sourceforge.cilib.niching.NichingFunctions.*;
 import net.sourceforge.cilib.niching.NichingSwarms;
 import static net.sourceforge.cilib.niching.NichingSwarms.onMainSwarm;
 import static net.sourceforge.cilib.niching.NichingSwarms.onSubswarms;
 import static net.sourceforge.cilib.util.functions.Populations.enforceTopology;
 
-public class NichePSO extends AbstractIterationStrategy<NicheAlgorithm> {
+public class NichePSO extends AbstractIterationStrategy<NichingAlgorithm> {
 
     @Override
     public NichePSO getClone() {
@@ -57,7 +57,7 @@ public class NichePSO extends AbstractIterationStrategy<NicheAlgorithm> {
      * </p>
      */
     @Override
-    public void performIteration(NicheAlgorithm alg) {
+    public void performIteration(NichingAlgorithm alg) {
         P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> newSwarms =
                     onMainSwarm(alg.getMainSwarmIterator())
                 .andThen(onSubswarms(alg.getSubSwarmIterator()))
