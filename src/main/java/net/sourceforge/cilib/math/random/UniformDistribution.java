@@ -22,6 +22,8 @@
 package net.sourceforge.cilib.math.random;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
@@ -31,16 +33,22 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 public class UniformDistribution implements ProbabilityDistributionFuction {
 
     private RandomProvider provider;
+    private ControlParameter lowerBound;
+    private ControlParameter upperBound;
 
     /**
      * Default Constructor
      */
     public UniformDistribution() {
         this.provider = new MersenneTwister();
+        lowerBound = ConstantControlParameter.of(0.0);
+        upperBound = ConstantControlParameter.of(1.0);
     }
 
     public UniformDistribution(long seed) {
         this.provider = new MersenneTwister(seed);
+        lowerBound = ConstantControlParameter.of(0.0);
+        upperBound = ConstantControlParameter.of(1.0);
     }
 
     /**
@@ -50,7 +58,7 @@ public class UniformDistribution implements ProbabilityDistributionFuction {
      */
     @Override
     public double getRandomNumber() {
-        return getRandomNumber(0.0, 1.0);
+        return getRandomNumber(lowerBound.getParameter(), upperBound.getParameter());
     }
 
     /**
@@ -73,19 +81,13 @@ public class UniformDistribution implements ProbabilityDistributionFuction {
         return ((bounds[1] - bounds[0]) * r + bounds[0]);
     }
 
-    public RandomProvider getProvider() {
+    @Override
+    public RandomProvider getRandomProvider() {
         return provider;
     }
 
-    public void setProvider(RandomProvider provider) {
-        this.provider = provider;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public RandomProvider getRandomProvider() {
-        return this.provider;
+    public void setRandomProvider(RandomProvider provider) {
+        this.provider = provider;
     }
 }

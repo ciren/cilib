@@ -22,6 +22,8 @@
 package net.sourceforge.cilib.math.random;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
@@ -31,13 +33,19 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 public class GammaDistribution implements ProbabilityDistributionFuction {
 
     private RandomProvider provider;
+    private ControlParameter shape;
+    private ControlParameter scale;
 
     public GammaDistribution() {
         provider = new MersenneTwister();
+        shape = ConstantControlParameter.of(2.0);
+        scale = ConstantControlParameter.of(2.0);
     }
 
     public GammaDistribution(long seed) {
         provider = new MersenneTwister(seed);
+        shape = ConstantControlParameter.of(2.0);
+        scale = ConstantControlParameter.of(2.0);
     }
 
     /**
@@ -46,7 +54,7 @@ public class GammaDistribution implements ProbabilityDistributionFuction {
      */
     @Override
     public double getRandomNumber() {
-        return getRandomNumber(2, 2.0);
+        return getRandomNumber(shape.getParameter(), scale.getParameter());
     }
 
     /**
@@ -80,9 +88,27 @@ public class GammaDistribution implements ProbabilityDistributionFuction {
         return sum;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    public void setShape(ControlParameter shape) {
+        this.shape = shape;
+    }
+
+    public ControlParameter getShape() {
+        return shape;
+    }
+
+    public void setScale(ControlParameter scale) {
+        this.scale = scale;
+    }
+
+    public ControlParameter getScale() {
+        return scale;
+    }
+
+    @Override
+    public void setRandomProvider(RandomProvider provider) {
+        this.provider = provider;
+    }
+
     @Override
     public RandomProvider getRandomProvider() {
         return provider;

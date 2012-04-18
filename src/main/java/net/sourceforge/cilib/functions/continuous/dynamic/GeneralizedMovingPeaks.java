@@ -354,6 +354,6 @@ public class GeneralizedMovingPeaks implements ContinuousFunction, DynamicFuncti
     }
 
     public void setSeed(long seed) {
-        ((UniformDistribution)uniform).setProvider(new MersenneTwister(seed));
+        uniform.setRandomProvider(new MersenneTwister(seed));
     }
 }

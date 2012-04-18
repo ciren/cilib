@@ -22,6 +22,8 @@
 package net.sourceforge.cilib.math.random;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
@@ -31,13 +33,16 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 public class ExponentialDistribution implements ProbabilityDistributionFuction {
 
     private RandomProvider provider;
+    private ControlParameter rate;
 
     public ExponentialDistribution() {
         provider = new MersenneTwister();
+        rate = ConstantControlParameter.of(1.0);
     }
 
     public ExponentialDistribution(long seed) {
         provider = new MersenneTwister(seed);
+        rate = ConstantControlParameter.of(1.0);
     }
 
     /**
@@ -46,7 +51,7 @@ public class ExponentialDistribution implements ProbabilityDistributionFuction {
      */
     @Override
     public double getRandomNumber() {
-        return getRandomNumber(1);
+        return getRandomNumber(rate.getParameter());
     }
 
     /**
@@ -65,11 +70,23 @@ public class ExponentialDistribution implements ProbabilityDistributionFuction {
         return -Math.log(1 - r) / rate[0];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public RandomProvider getRandomProvider() {
         return provider;
     }
+
+    @Override
+    public void setRandomProvider(RandomProvider provider) {
+        this.provider = provider;
+    }
+
+    public ControlParameter getRate() {
+        return rate;
+    }
+
+    public void setRate(ControlParameter rate) {
+        this.rate = rate;
+    }
+
+
 }
