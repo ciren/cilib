@@ -22,6 +22,8 @@
 package net.sourceforge.cilib.math.random;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
@@ -31,16 +33,22 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 public class CauchyDistribution implements ProbabilityDistributionFuction {
 
     private RandomProvider provider;
+    private ControlParameter location;
+    private ControlParameter scale;
 
     /**
      * Default Constructor
      */
     public CauchyDistribution() {
         this.provider = new MersenneTwister();
+        this.location = ConstantControlParameter.of(0.0);
+        this.scale = ConstantControlParameter.of(1.0);
     }
 
     public CauchyDistribution(long seed) {
         this.provider = new MersenneTwister(seed);
+        this.location = ConstantControlParameter.of(0.0);
+        this.scale = ConstantControlParameter.of(1.0);
     }
 
     /**
@@ -50,7 +58,7 @@ public class CauchyDistribution implements ProbabilityDistributionFuction {
      */
     @Override
     public double getRandomNumber() {
-        return getRandomNumber(0.0, 1.0);
+        return getRandomNumber(location.getParameter(), scale.getParameter());
     }
 
     /**
@@ -72,19 +80,29 @@ public class CauchyDistribution implements ProbabilityDistributionFuction {
         return locationScale[0] + locationScale[1] * Math.tan(Math.PI * (x - 0.5));
     }
 
-    public RandomProvider getProvider() {
-        return provider;
-    }
-
-    public void setProvider(RandomProvider provider) {
-        this.provider = provider;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public RandomProvider getRandomProvider() {
         return provider;
+    }
+
+    @Override
+    public void setRandomProvider(RandomProvider provider) {
+        this.provider = provider;
+    }
+
+    public void setScale(ControlParameter scale) {
+        this.scale = scale;
+    }
+
+    public ControlParameter getScale() {
+        return scale;
+    }
+
+    public void setLocation(ControlParameter location) {
+        this.location = location;
+    }
+
+    public ControlParameter getLocation() {
+        return location;
     }
 }
