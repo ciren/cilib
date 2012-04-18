@@ -39,7 +39,7 @@ public class RandomArrangementTest {
         
         Iterable<Integer> iterable = arrangement.arrange(ints);
         for (Integer i : iterable) {
-            System.out.println(i);
+//            System.out.println(i);
         }
     }
 }

@@ -34,7 +34,7 @@ public class StringBasedDomainRegistryTest {
     @Test
     public void structureExists() {
         DomainRegistry registry = new StringBasedDomainRegistry();
-        registry.setDomainString("R(-30.0, 30)^30");
+        registry.setDomainString("R(-30.0:30)^30");
 
         Vector vector = (Vector) registry.getBuiltRepresenation();
         Assert.assertEquals(30, vector.size());

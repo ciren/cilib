@@ -85,7 +85,7 @@ public class RealTest {
     public void representation() {
         Real r = Real.valueOf(0.0, new Bounds(-30.0, 30.0));
 
-        assertEquals("R(-30.0,30.0)", r.getRepresentation());
+        assertEquals("R(-30.0:30.0)", r.getRepresentation());
     }
 
     @Test

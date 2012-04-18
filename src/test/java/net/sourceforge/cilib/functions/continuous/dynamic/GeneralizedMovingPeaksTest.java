@@ -43,7 +43,7 @@ public class GeneralizedMovingPeaksTest {
         double lambda = 1.0;
 
         FunctionMaximisationProblem problem = new FunctionMaximisationProblem();
-        problem.setDomain("R(0.0, 100.0)^2");
+        problem.setDomain("R(0.0:100.0)^2");
         problem.setFunction(new GeneralizedMovingPeaks(frequency, peaks, widthSeverity, heightSeverity, shiftSeverity, lambda));
 
         PSO pso = new PSO();

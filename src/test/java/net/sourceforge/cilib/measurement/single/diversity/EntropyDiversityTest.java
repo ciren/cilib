@@ -47,7 +47,7 @@ public class EntropyDiversityTest {
     @Before
     public void initialise() {
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12, 5.12)^30");
+        problem.setDomain("R(-5.12:5.12)^30");
         problem.setFunction(new Spherical());
 
         pso = new PSO();

@@ -49,7 +49,7 @@ public class RandomAlgorithmImperfectSplitDistributionTest {
         Seeder.setSeederStrategy(new ZeroSeederStrategy());
         try {
             final DomainRegistry problemDomain = new StringBasedDomainRegistry();
-            problemDomain.setDomainString("R(0.0, 4.0)^5");
+            problemDomain.setDomainString("R(0.0:4.0)^5");
             Bounds bounds = new Bounds(0.0, 4.0);
             Vector data = new Vector();
             data.add(Real.valueOf(0.0, bounds));

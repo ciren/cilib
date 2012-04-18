@@ -21,13 +21,12 @@
  */
 package net.sourceforge.cilib.measurement.multiple;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.container.TypeList;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**

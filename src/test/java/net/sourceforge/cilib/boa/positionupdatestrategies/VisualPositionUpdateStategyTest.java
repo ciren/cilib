@@ -47,7 +47,7 @@ public class VisualPositionUpdateStategyTest {
     public void setUp() throws Exception {
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
         problem.setFunction(new Rastrigin());
-        problem.setDomain("R(-5.0, 5.0)^10");
+        problem.setDomain("R(-5.0:5.0)^10");
 
         StoppingCondition condition = new MeasuredStoppingCondition(new Iterations(), new Maximum(), 2);
 

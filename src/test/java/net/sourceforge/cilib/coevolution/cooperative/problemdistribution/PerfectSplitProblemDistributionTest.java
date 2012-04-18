@@ -41,7 +41,7 @@ public class PerfectSplitProblemDistributionTest {
     @Test
     public void PerfectSplitTest(){
         final DomainRegistry problemDomain = new StringBasedDomainRegistry();
-        problemDomain.setDomainString("R(0.0, 4.0)^4");
+        problemDomain.setDomainString("R(0.0:4.0)^4");
         Bounds bounds = new Bounds(0.0, 4.0);
         Vector data = new Vector();
         data.add(Real.valueOf(0.0, bounds));

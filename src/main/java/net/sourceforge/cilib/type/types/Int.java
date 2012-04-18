@@ -21,8 +21,8 @@
  */
 package net.sourceforge.cilib.type.types;
 
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import static com.google.common.base.Preconditions.checkNotNull;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  *
@@ -181,8 +181,7 @@ public class Int implements Numeric {
      */
     @Override
     public String getRepresentation() {
-        return "Z(" + Double.valueOf(getBounds().getLowerBound()).intValue() + ","
-                + Double.valueOf(getBounds().getUpperBound()).intValue() + ")";
+        return "Z" + this.bounds.toString();
     }
 
     @Override

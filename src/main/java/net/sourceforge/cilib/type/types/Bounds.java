@@ -87,7 +87,7 @@ public final class Bounds {
     @Override
     public String toString() {
         return new StringBuilder()
-            .append("(").append(lowerBound).append(",").append(upperBound).append(")")
+            .append("(").append(lowerBound).append(":").append(upperBound).append(")")
             .toString();
     }
 
