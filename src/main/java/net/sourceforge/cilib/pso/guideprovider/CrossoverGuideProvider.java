@@ -23,6 +23,8 @@ package net.sourceforge.cilib.pso.guideprovider;
 
 import java.util.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
@@ -45,8 +47,9 @@ public class CrossoverGuideProvider implements GuideProvider {
     
     private GuideProvider delegate;
     private CrossoverStrategy crossoverStrategy;
-    private int retries;
+    private ControlParameter retries;
     private RandomSelector selector;
+    private ControlParameter numberOfParents;
 
     private enum TempEnums {
         TEMP
@@ -58,8 +61,9 @@ public class CrossoverGuideProvider implements GuideProvider {
     public CrossoverGuideProvider() {
         this.delegate = new NBestGuideProvider();
         this.crossoverStrategy = new ParentCentricCrossoverStrategy();
-        this.retries = 10;
+        this.retries = ConstantControlParameter.of(10);
         this.selector = new RandomSelector();
+        this.numberOfParents = ConstantControlParameter.of(10);
     }
     
     /**
@@ -72,6 +76,7 @@ public class CrossoverGuideProvider implements GuideProvider {
         this.crossoverStrategy = copy.crossoverStrategy.getClone();
         this.retries = copy.retries;
         this.selector = copy.selector;
+        this.numberOfParents = copy.numberOfParents.getClone();
     }
     
     /**
@@ -93,7 +98,7 @@ public class CrossoverGuideProvider implements GuideProvider {
        
         do {
             // get 3 random particles
-            List<Entity> parents = selector.on(topology).select(Samples.all().unique()).subList(0, 3);
+            List<Entity> parents = selector.on(topology).select(Samples.first((int) numberOfParents.getParameter()).unique());
             
             //put pbest as candidate solution for the crossover
             for (Entity e : parents) {
@@ -119,7 +124,7 @@ public class CrossoverGuideProvider implements GuideProvider {
             for (Entity e : parents) {
                 e.getProperties().put(EntityType.CANDIDATE_SOLUTION, e.getProperties().get(TempEnums.TEMP));
             }
-        } while(++counter < retries && !isBetter);
+        } while(++counter < retries.getParameter() && !isBetter);
         
         return delegate.get(particle);
     }
@@ -138,7 +143,15 @@ public class CrossoverGuideProvider implements GuideProvider {
      * 
      * @param retries 
      */
-    public void setRetries(int retries) {
+    public void setRetries(ControlParameter retries) {
         this.retries = retries;
+    }
+
+    public void setNumberOfParents(ControlParameter numberOfParents) {
+        this.numberOfParents = numberOfParents;
+    }
+
+    public ControlParameter getNumberOfParents() {
+        return numberOfParents;
     }
 }
