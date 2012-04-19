@@ -22,6 +22,8 @@
 package net.sourceforge.cilib.math.random;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
@@ -30,16 +32,22 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 public class GaussianDistribution implements ProbabilityDistributionFuction {
 
     private RandomProvider provider;
+    private ControlParameter mean;
+    private ControlParameter deviation;
 
     /**
      * Default constructor.
      */
     public GaussianDistribution() {
         provider = new MersenneTwister();
+        mean = ConstantControlParameter.of(0.0);
+        deviation = ConstantControlParameter.of(1.0);
     }
 
     public GaussianDistribution(long seed) {
         provider = new MersenneTwister(seed);
+        mean = ConstantControlParameter.of(0.0);
+        deviation = ConstantControlParameter.of(1.0);
     }
 
     /**
@@ -48,7 +56,7 @@ public class GaussianDistribution implements ProbabilityDistributionFuction {
      */
     @Override
     public double getRandomNumber() {
-        return getRandomNumber(0.0, 1.0);
+        return getRandomNumber(mean.getParameter(), deviation.getParameter());
     }
 
     /**
@@ -111,16 +119,29 @@ public class GaussianDistribution implements ProbabilityDistributionFuction {
         return (locationScale[0] + locationScale[1] * v / u);
     }
 
-    public RandomProvider getProvider() {
+    @Override
+    public RandomProvider getRandomProvider() {
         return provider;
     }
 
-    public void setProvider(RandomProvider provider) {
+    @Override
+    public void setRandomProvider(RandomProvider provider) {
         this.provider = provider;
     }
 
-    @Override
-    public RandomProvider getRandomProvider() {
-        return this.provider;
+    public void setDeviation(ControlParameter deviation) {
+        this.deviation = deviation;
+    }
+
+    public ControlParameter getDeviation() {
+        return deviation;
+    }
+
+    public void setMean(ControlParameter mean) {
+        this.mean = mean;
+    }
+
+    public ControlParameter getMean() {
+        return mean;
     }
 }

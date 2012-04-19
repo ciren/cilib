@@ -49,13 +49,7 @@ public interface ProbabilityDistributionFuction {
      */
     double getRandomNumber(double... parameters);
 
-    /**
-     * Obtain the internal Pseudo-random number generator.
-     *
-     * <p><b>IMPORTANT:</b> this method is highly suspect... It should probably
-     * not exist and the RandomProvider should be either used otherwise and
-     * not be obtained by "reaching" into this object.
-     * @return
-     */
     RandomProvider getRandomProvider();
+
+    void setRandomProvider(RandomProvider provider);
 }
