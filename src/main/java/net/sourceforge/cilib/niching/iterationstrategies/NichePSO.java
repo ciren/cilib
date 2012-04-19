@@ -30,7 +30,6 @@ import net.sourceforge.cilib.niching.NichingAlgorithm;
 import static net.sourceforge.cilib.niching.NichingFunctions.*;
 import net.sourceforge.cilib.niching.NichingSwarms;
 import static net.sourceforge.cilib.niching.NichingSwarms.onMainSwarm;
-import static net.sourceforge.cilib.niching.NichingSwarms.onSubswarms;
 import static net.sourceforge.cilib.util.functions.Populations.enforceTopology;
 
 public class NichePSO extends AbstractIterationStrategy<NichingAlgorithm> {
@@ -60,7 +59,7 @@ public class NichePSO extends AbstractIterationStrategy<NichingAlgorithm> {
     public void performIteration(NichingAlgorithm alg) {
         P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> newSwarms =
                     onMainSwarm(alg.getMainSwarmIterator())
-                .andThen(onSubswarms(alg.getSubSwarmIterator()))
+                .andThen(alg.getSubSwarmIterator())
                 .andThen(merge(alg.getMergeDetector(),
                     alg.getMainSwarmMerger(),
                     alg.getSubSwarmMerger()))

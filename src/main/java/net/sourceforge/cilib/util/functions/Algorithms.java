@@ -121,11 +121,11 @@ public final class Algorithms {
         };
     }
 
-    public static <A extends AbstractAlgorithm> F<A, A> run() {
+    public static <A extends Algorithm> F<A, A> run() {
         return new F<A, A>() {
             @Override
             public A f(A a) {
-                a.run();
+                ((AbstractAlgorithm) a).run();
                 return a;
             }
         };

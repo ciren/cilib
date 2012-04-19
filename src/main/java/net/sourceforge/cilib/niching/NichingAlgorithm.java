@@ -39,8 +39,10 @@ import net.sourceforge.cilib.niching.merging.SingleSwarmMergeStrategy;
 import net.sourceforge.cilib.niching.merging.StandardMergeStrategy;
 import net.sourceforge.cilib.niching.merging.detection.MergeDetection;
 import net.sourceforge.cilib.niching.merging.detection.RadiusOverlapMergeDetection;
+import net.sourceforge.cilib.niching.utils.AllSwarmsIterator;
 import net.sourceforge.cilib.niching.utils.NicheIteration;
 import net.sourceforge.cilib.niching.utils.SingleNicheIteration;
+import net.sourceforge.cilib.niching.utils.SubswarmIterator;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.pso.PSO;
@@ -69,7 +71,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
     protected Particle mainSwarmBehavior;
 
     protected NicheIteration mainSwarmIterator;
-    protected NicheIteration subSwarmIterator;
+    protected SubswarmIterator subSwarmIterator;
 
     protected NicheDetection nicheDetector;
     protected NicheCreationStrategy nicheCreator;
@@ -137,7 +139,8 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
 
         this.iterationStrategy = new NichePSO();
         this.mainSwarmIterator = new SingleNicheIteration();
-        this.subSwarmIterator = new SingleNicheIteration();
+        this.subSwarmIterator = new AllSwarmsIterator();
+        this.subSwarmIterator.setIterator(new SingleNicheIteration());
     }
     
     /**
@@ -323,11 +326,11 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
         this.mainSwarmIterator = mainSwarmIterator;
     }
 
-    public NicheIteration getSubSwarmIterator() {
-        return subSwarmIterator;
+    public void setSubSwarmIterator(SubswarmIterator subSwarmIterator) {
+        this.subSwarmIterator = subSwarmIterator;
     }
 
-    public void setSubSwarmIterator(NicheIteration subSwarmIterator) {
-        this.subSwarmIterator = subSwarmIterator;
+    public SubswarmIterator getSubSwarmIterator() {
+        return subSwarmIterator;
     }
 }
