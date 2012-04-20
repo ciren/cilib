@@ -112,10 +112,10 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
     }
     
     @Override
-    public NichingSwarms f(NichingSwarms a, Entity b) {
-        Particle gBest = (Particle) Topologies.getBestEntity(a._1().getTopology(), new SocialBestFitnessComparator());
+    public NichingSwarms f(NichingSwarms swarms, Entity b) {
+        Particle gBest = (Particle) Topologies.getBestEntity(swarms.getMainSwarm().getTopology(), new SocialBestFitnessComparator());
         List<Particle> newTopology = List.list(gBest);
-        List<Particle> swarm = ((List<Particle>) topologyProvider.f(a)).delete(gBest, Equal.equal(equalParticle.curry()));
+        List<Particle> swarm = ((List<Particle>) topologyProvider.f(swarms)).delete(gBest, Equal.equal(equalParticle.curry()));
 
         List<Particle> filteredSwarm = swarm.filter(dot(gBest).andThen(ltZero));
         if(!filteredSwarm.isEmpty()) {
@@ -133,14 +133,14 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
 
         // Create the new subswarm, set its optimisation problem, add the particles to it
         PopulationBasedAlgorithm newSubswarm = swarmType;
-        newSubswarm.setOptimisationProblem(a._1().getOptimisationProblem());
+        newSubswarm.setOptimisationProblem(swarms.getMainSwarm().getOptimisationProblem());
         newSubswarm.getTopology().clear();
         ((Topology<Particle>) newSubswarm.getTopology()).addAll(newTopology.toCollection());
 
         // Remove the subswarms particles from the main swarm
-        PopulationBasedAlgorithm newMainSwarm = a._1().getClone();
+        PopulationBasedAlgorithm newMainSwarm = swarms.getMainSwarm().getClone();
         newMainSwarm.getTopology().clear();
-        for(Entity e : a._1().getTopology()) {
+        for(Entity e : swarms.getMainSwarm().getTopology()) {
             Particle p = (Particle) e;
 
             if (!newTopology.exists(equalParticle.f(p))) {
@@ -149,7 +149,7 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
         }
 
         // Set the subswarm's behavior and return the new swarms
-        return NichingSwarms.of(newMainSwarm, a._2().cons(Populations.enforceTopology(swarmBehavior).f(newSubswarm.getClone())));
+        return NichingSwarms.of(newMainSwarm, swarms.getSubswarms().cons(Populations.enforceTopology(swarmBehavior).f(newSubswarm.getClone())));
    }
 
     public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
