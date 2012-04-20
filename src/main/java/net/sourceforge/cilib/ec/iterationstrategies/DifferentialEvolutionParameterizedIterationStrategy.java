@@ -90,6 +90,8 @@ public class DifferentialEvolutionParameterizedIterationStrategy extends Abstrac
 
     /**
      * Perform an iteration of the DE algorithm defined as the DE/x/y/z implementation.
+     * This implementation is specific to ParameterizedDEIndividuals and updates the 
+     * parameters as well as the candidate solutions.
      * @param ec The {@linkplain EC} on which to perform this iteration.
      */
     @Override
@@ -103,8 +105,8 @@ public class DifferentialEvolutionParameterizedIterationStrategy extends Abstrac
             current.calculateFitness();
 
             // Create the trial vector by applying mutation
-            Entity targetEntity = (Entity) targetVectorSelectionStrategy.on(topology).exclude(current).select();
-            Entity targetParameterEntity = buildParameterEntity((ParameterizedDEIndividual) targetVectorSelectionStrategy.on(topology).exclude(current).select());
+            Entity targetEntity = (Entity) targetVectorSelectionStrategy.on(topology.getClone()).exclude(current).select();
+            Entity targetParameterEntity = buildParameterEntity((ParameterizedDEIndividual) targetVectorSelectionStrategy.on(topology.getClone()).exclude(current).select());
 
             // Create the trial vector / entity
             trialVectorCreationStrategy.setControlParameters(targetEntity);
@@ -122,13 +124,18 @@ public class DifferentialEvolutionParameterizedIterationStrategy extends Abstrac
             // Replace the parent (current) if the offspring is better
             Entity offspringEntity;
             Entity parameterOffspringEntity;
-            if(!offspring.isEmpty()) {
+            
+            if(!offspring.isEmpty())
                 offspringEntity = offspring.get(0);
-                parameterOffspringEntity = parameterOffspring.get(0);
-            } else {
+            else 
                 offspringEntity = targetEntity.getClone();
+            
+            
+            if(!parameterOffspring.isEmpty())
+                parameterOffspringEntity = parameterOffspring.get(0);
+            else 
                 parameterOffspringEntity = targetParameterEntity.getClone();
-            }
+           
             
             ParameterBoundaryConstraint parameterBoundaryConstraint = new ParameterBoundaryConstraint();
             parameterBoundaryConstraint.setBoundaryConstraint(boundaryConstraint);
@@ -146,6 +153,13 @@ public class DifferentialEvolutionParameterizedIterationStrategy extends Abstrac
         }
     }
     
+    /*
+     * Creates the final entity by combining the candidate solution offspring with the parameter offspring.
+     * @param offspringEntity The offspring resulting from the candidate solutions
+     * @param targetEntity The current target individual
+     * @param parameterOffspringEntity The offspring resulting from the parameter vector
+     * @return resultingIndividual The complete ParameterizedDEIndividual.
+     */
     private ParameterizedDEIndividual buildResultingEntity(Entity offspringEntity,ParameterizedDEIndividual targetEntity, Entity parameterOffspringEntity) {
         ParameterizedDEIndividual resultingIndividual = new ParameterizedDEIndividual();
         resultingIndividual.setCandidateSolution(offspringEntity.getCandidateSolution());
@@ -173,6 +187,11 @@ public class DifferentialEvolutionParameterizedIterationStrategy extends Abstrac
         return resultingIndividual;
     }
     
+    /*
+     * Creates a topology of individuals which contain the parameters as their candidate solutions.
+     * @param topology The current individual topology
+     * @return parameterTopology The new topology consisting of parameters
+     */
     private Topology buildParameterTopology(Topology<Entity> topology) {
         Topology parameterTopology = topology.getClone();
         parameterTopology.clear();
@@ -189,6 +208,9 @@ public class DifferentialEvolutionParameterizedIterationStrategy extends Abstrac
         return parameterTopology;
     }
     
+    /*
+     * 
+     */
     private Entity buildParameterEntity(ParameterizedDEIndividual individual) {
         Entity entity = new Individual();
         entity.setCandidateSolution(Vector.of(individual.getScalingFactor().getParameter(), individual.getRecombinationProbability().getParameter()));
@@ -243,5 +265,50 @@ public class DifferentialEvolutionParameterizedIterationStrategy extends Abstrac
      */
     public void setTrialVectorCreationStrategy(CreationStrategy trialVectorCreationStrategy) {
         this.trialVectorCreationStrategy = trialVectorCreationStrategy;
+    }
+    
+    public Selector getParameterTargetVectorSelectionStrategy() {
+        return parameterTargetVectorSelectionStrategy;
+    }
+
+    /**
+     * Set the {@linkplain SelectionStrategy} used to select the target vector within the DE.
+     * @param targetVectorSelectionStrategy The {@linkplain SelectionStrategy} to use for the
+     *        selection of the target vector.
+     */
+    public void setParameterTargetVectorSelectionStrategy(Selector targetVectorSelectionStrategy) {
+        this.parameterTargetVectorSelectionStrategy = targetVectorSelectionStrategy;
+    }
+
+    /**
+     * Get the {@linkplain CrossoverStrategy} used to create offspring entities.
+     * @return The {@linkplain CrossoverStrategy} used to create offspring.
+     */
+    public CrossoverStrategy getParameterCrossoverStrategy() {
+        return parameterCrossoverStrategy;
+    }
+
+    /**
+     * Set the {@linkplain CrossoverStrategy} used to create offspring entities.
+     * @param crossoverStrategy The {@linkplain CrossoverStrategy} to create entities.
+     */
+    public void setParameterCrossoverStrategy(CrossoverStrategy crossoverStrategy) {
+        this.parameterCrossoverStrategy = crossoverStrategy;
+    }
+
+    /**
+     * Get the current strategy for creation of the trial vector.
+     * @return The {@linkplain CreationStrategy}.
+     */
+    public CreationStrategy getParameterTrialVectorCreationStrategy() {
+        return parameterTrialVectorCreationStrategy;
+    }
+
+    /**
+     * Set the strategy to create trial vectors.
+     * @param trialVectorCreationStrategy The value to set.
+     */
+    public void setParameterTrialVectorCreationStrategy(CreationStrategy trialVectorCreationStrategy) {
+        this.parameterTrialVectorCreationStrategy = trialVectorCreationStrategy;
     }
 }
