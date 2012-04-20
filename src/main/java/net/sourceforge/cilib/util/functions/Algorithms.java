@@ -74,6 +74,19 @@ public final class Algorithms {
         };
     }
 
+    public static <A extends Algorithm> F<A, A> iterateUntilDone() {
+        return new F<A, A>() {
+            @Override
+            public A f(A a) {
+                while (!a.isFinished()) {
+                    a.performIteration();
+                }
+
+                return a;
+            }
+        };
+    }
+
     public static <A extends Algorithm> F<A, A> performInitialisation() {
         return new F<A, A>() {
             @Override

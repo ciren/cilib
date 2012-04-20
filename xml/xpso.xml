@@ -208,7 +208,7 @@
             <problem idref="spherical"/>
             <measurements idref="fitness" />
 	        <output format="TXT" file="data/xpso-undx-3-spherical.txt" />
-        </simulation-->
+        </simulation>
         <simulation samples="5">
             <algorithm idref="xpso-pcx-iteration-repeating"/>
             <problem idref="spherical"/>

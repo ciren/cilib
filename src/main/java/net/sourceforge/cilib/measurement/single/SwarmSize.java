@@ -19,14 +19,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.niching.utils;
+package net.sourceforge.cilib.measurement.single;
 
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.util.functions.Algorithms;
+import net.sourceforge.cilib.measurement.Measurement;
+import net.sourceforge.cilib.type.types.Int;
 
-public class CompleteNicheIteration extends NicheIteration {
+public class SwarmSize implements Measurement<Int> {
+
     @Override
-    public PopulationBasedAlgorithm f(PopulationBasedAlgorithm a) {
-        return Algorithms.<PopulationBasedAlgorithm>iterateUntilDone().f(a);
+    public Measurement<Int> getClone() {
+        return this;
+    }
+
+    @Override
+    public String getDomain() {
+        return "Z";
+    }
+
+    @Override
+    public Int getValue(Algorithm algorithm) {
+        return Int.valueOf(((PopulationBasedAlgorithm) algorithm).getTopology().size());
     }
 }

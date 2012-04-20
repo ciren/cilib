@@ -7,7 +7,10 @@
 <simulator>
     <algorithms>
         <algorithm id="sequentialVBPSO" class="niching.NichingAlgorithm">
-            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="0">
+                <predicate class="stoppingcondition.Minimum"/>
+                <measurement class="measurement.single.SwarmSize"/>
+            </addStoppingCondition>
 
             <nicheCreator class="niching.creation.VectorBasedNicheCreationStrategy"/>
             <nicheDetector class="niching.creation.NPerIterationNicheDetection"/>
@@ -49,31 +52,31 @@
             <algorithm idref="sequentialVBPSO"/>
             <problem idref="f1"/>
             <measurements idref="fitness" />
-            <output format="TXT" file="data/nichePSO-f1.txt"/>
+            <output format="TXT" file="data/sequentialVBPSO-f1.txt"/>
         </simulation>
         <simulation samples="1">
             <algorithm idref="sequentialVBPSO"/>
             <problem idref="f2"/>
             <measurements idref="fitness" />
-            <output format="TXT" file="data/nichePSO-f2.txt"/>
+            <output format="TXT" file="data/sequentialVBPSO-f2.txt"/>
         </simulation>
         <simulation samples="1">
             <algorithm idref="sequentialVBPSO"/>
             <problem idref="f3"/>
             <measurements idref="fitness" />
-            <output format="TXT" file="data/nichePSO-f3.txt"/>
+            <output format="TXT" file="data/sequentialVBPSO-f3.txt"/>
         </simulation>
         <simulation samples="1">
             <algorithm idref="sequentialVBPSO"/>
             <problem idref="f4"/>
             <measurements idref="fitness" />
-            <output format="TXT" file="data/nichePSO-f4.txt"/>
+            <output format="TXT" file="data/sequentialVBPSO-f4.txt"/>
         </simulation>
         <simulation samples="1">
             <algorithm idref="sequentialVBPSO"/>
             <problem idref="f5"/>
             <measurements idref="fitness" />
-            <output format="TXT" file="data/nichePSO-f5.txt"/>
+            <output format="TXT" file="data/sequentialVBPSO-f5.txt"/>
         </simulation>
     </simulations>
 </simulator>

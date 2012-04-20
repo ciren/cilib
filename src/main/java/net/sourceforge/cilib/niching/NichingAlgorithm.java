@@ -27,7 +27,9 @@ import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
 import net.sourceforge.cilib.niching.creation.ClosestNeighbourNicheCreationStrategy;
 import net.sourceforge.cilib.niching.creation.MaintainedFitnessNicheDetection;
@@ -192,6 +194,11 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
     @Override
     protected void algorithmIteration() {
         iterationStrategy.performIteration(this);
+    }
+
+    @Override
+    public Topology<? extends Entity> getTopology() {
+        return mainSwarm.getTopology();
     }
 
     /**
