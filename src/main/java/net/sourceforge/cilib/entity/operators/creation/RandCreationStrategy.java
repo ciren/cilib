@@ -147,6 +147,9 @@ public class RandCreationStrategy implements CreationStrategy {
         this.scaleParameter = scaleParameter;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setControlParameters(Entity entity) {
         if(entity instanceof ParameterizedDEIndividual) {

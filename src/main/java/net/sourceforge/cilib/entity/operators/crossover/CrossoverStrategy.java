@@ -94,6 +94,10 @@ public abstract class CrossoverStrategy implements Operator {
         this.selectionStrategy = selectionStrategy;
     }
     
+    /* 
+     * Sets the recombination probability to the value held by the individual
+     * @param entity The individual holding the new parameter
+     */
     public void setControlParameters(Entity entity) {
         if(entity instanceof ParameterizedDEIndividual) {
             crossoverProbability = ((ParameterizedDEIndividual) entity).getRecombinationProbability();

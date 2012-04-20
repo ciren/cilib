@@ -36,6 +36,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Sequence;
 
 /**
+ * This class extends the standard individual, allowing for an 
+ * individual to hold the two parameters: scaling factor and 
+ * recombination probability.
  */
 public class ParameterizedDEIndividual extends Individual{
 
@@ -58,51 +61,19 @@ public class ParameterizedDEIndividual extends Individual{
         random = copy.random;
     }
     
+    /*
+     * {@inheritDoc}
+     */
     @Override
     public Individual getClone() {
         return new ParameterizedDEIndividual(this);
     }
-/*
-    @Override
-    public void calculateFitness() {
-        this.getProperties().put(EntityType.FITNESS, this.getFitnessCalculator().getFitness(this));
-    }
-*/
-    /**
-     * {@inheritDoc}
-     */
-    /*@Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
 
-        if ((object == null) || (this.getClass() != object.getClass())) {
-            return false;
-        }
-
-        ParameterizedDEIndividual other = (ParameterizedDEIndividual) object;
-        return super.equals(other);
-    }*/
-    
-    /**
-     * {@inheritDoc}
+    /*
+     * This method initializes the individual's candidate solution randomly as 
+     * well as the two parameters it holds.
+     * @param optimizationProblem The problem that is being optimized.
      */
-    /*@Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 31 * hash + super.hashCode();
-        return hash;
-    }*/
-    
-    /**
-     * Resets the fitness to <code>InferiorFitness</code>.
-     */
-    /*@Override
-    public void resetFitness() {
-        this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
-    }*/
-    
     @Override
     public void initialise(OptimisationProblem problem) {
         Vector candidate = Vector.newBuilder().copyOf(problem.getDomain().getBuiltRepresenation()).buildRandom();
@@ -123,29 +94,6 @@ public class ParameterizedDEIndividual extends Individual{
         }
         
     }
-
-    /*@Override
-    public int getDimension() {
-        return getCandidateSolution().size();
-    }
-
-    @Override
-    public void reinitialise() {
-        throw new UnsupportedOperationException("Not supported yet. Not implemented in individual");
-    }*/
-    
-    /**
-     * {@inheritDoc}
-     */
-    /*@Override
-    public void setCandidateSolution(StructuredType type) {
-        super.setCandidateSolution(type);
-    }
-
-    @Override
-    public int compareTo(Entity o) {
-        return this.getFitness().compareTo(o.getFitness());
-    }*/
     
     /**
      * Create a textual representation of the current {@linkplain ParameterizedDEIndividual}. The
@@ -162,18 +110,34 @@ public class ParameterizedDEIndividual extends Individual{
         return str.toString();
     }
     
+    /* 
+     * Sets the scaling factor to the value received as a parameter.
+     * @param parameter The new parameter value for the scaling factor
+     */
     public void setScalingFactor(ParameterAdaptingControlParameter parameter) {
         scalingFactor = (ParameterAdaptingControlParameter) parameter.getClone();
     }
     
+    /* 
+     * Sets the recombination probability to the value received as a parameter.
+     * @param parameter The new parameter value for the recombination probability
+     */
     public void setRecombinationProbability(ParameterAdaptingControlParameter parameter) {
         recombinationProbability = (ParameterAdaptingControlParameter) parameter.getClone();
     }
     
+    /*
+     * Gets the current scaling factor.
+     * @return scalingFactor The scaling factor
+     */
     public ParameterAdaptingControlParameter getScalingFactor() {
         return scalingFactor;
     }
     
+    /*
+     * Gets the current recombination probability.
+     * @return recombinationProbability The recombination probability
+     */
     public ParameterAdaptingControlParameter getRecombinationProbability() {
         return recombinationProbability;
     }
