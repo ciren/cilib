@@ -41,7 +41,6 @@ public class ExplorerBee implements Cloneable {
     private RandomProvider random;            //generates a random position
     private int previousUpdatedIteration;    //used to check whether the algorithm has entered a new iteration
     private int numberOfUpdates;            //how many have occured in current iteration
-    private ControlParameter explorerBeeUpdateLimit;
 
     /**
      * Default constructor. Creates a new instance of {@code ExplorerBee} with reasonable
@@ -51,7 +50,6 @@ public class ExplorerBee implements Cloneable {
         random = new MersenneTwister();
         previousUpdatedIteration = -1;
         numberOfUpdates = 0;
-        explorerBeeUpdateLimit = ConstantControlParameter.of(1.0);
     }
 
     /**
@@ -62,7 +60,6 @@ public class ExplorerBee implements Cloneable {
         this.random = copy.random;
         this.previousUpdatedIteration = copy.previousUpdatedIteration;
         this.numberOfUpdates = copy.numberOfUpdates;
-        this.explorerBeeUpdateLimit = copy.explorerBeeUpdateLimit;
     }
 
     /**
@@ -78,7 +75,7 @@ public class ExplorerBee implements Cloneable {
      * @param currentIteration the current iteration of the algorithm on the stack.
      * @return whether the search is allowed.
      */
-    public boolean searchAllowed(int currentIteration) {
+    public boolean searchAllowed(int currentIteration, ControlParameter explorerBeeUpdateLimit) {
         if (previousUpdatedIteration == currentIteration) {
             //TODO: Add variable number of updates allowed
             if (Double.compare(numberOfUpdates, explorerBeeUpdateLimit.getParameter()) < 0) {
@@ -103,22 +100,6 @@ public class ExplorerBee implements Cloneable {
         numberOfUpdates++;
 
         return Vector.newBuilder().copyOf(position).buildRandom();
-    }
-
-    /**
-     * Gets the explorer bee update limit.
-     * @return the explorer bee update limit.
-     */
-    public ControlParameter getExplorerBeeUpdateLimit() {
-        return explorerBeeUpdateLimit;
-    }
-
-    /**
-     * Sets the explorer bee update limit.
-     * @param explorerBeeUpdateLimit the new explorer bee update limit.
-     */
-    public void setExplorerBeeUpdateLimit(ControlParameter explorerBeeUpdateLimit) {
-        this.explorerBeeUpdateLimit = explorerBeeUpdateLimit;
     }
 
     /**

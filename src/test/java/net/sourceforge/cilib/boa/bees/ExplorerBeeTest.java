@@ -69,12 +69,12 @@ public class ExplorerBeeTest {
 
         //update position with explorer bee
         ExplorerBee explorerBee = abc.getExplorerBee();
-        Assert.assertTrue(explorerBee.searchAllowed(1));
+        Assert.assertTrue(explorerBee.searchAllowed(1, ConstantControlParameter.of(1.0)));
         explorerBee.getNewPosition(1, oldPosition);
         //only one update is allowed for the same iteration, this must therefore be false...
-        Assert.assertTrue(!explorerBee.searchAllowed(1));
+        Assert.assertTrue(!explorerBee.searchAllowed(1, ConstantControlParameter.of(1.0)));
         //and this true.
-        Assert.assertTrue(explorerBee.searchAllowed(2));
+        Assert.assertTrue(explorerBee.searchAllowed(2, ConstantControlParameter.of(1.0)));
     }
 
     @Test
