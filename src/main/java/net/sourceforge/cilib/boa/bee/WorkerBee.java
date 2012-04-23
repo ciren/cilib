@@ -32,8 +32,9 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 public class WorkerBee extends AbstractBee {
 
     private static final long serialVersionUID = 3657591650621784765L;
-    private ControlParameter forageLimit;
-    private int failureCount;
+    protected ControlParameter forageLimit;
+    protected int failureCount;
+    protected ControlParameter explorerBeeUpdateLimit;
 
     /**
      * Create a new instance with reasonable defaults set.
@@ -41,6 +42,7 @@ public class WorkerBee extends AbstractBee {
     public WorkerBee() {
         failureCount = 0;
         this.forageLimit = ConstantControlParameter.of(500);
+        explorerBeeUpdateLimit = ConstantControlParameter.of(1.0);
     }
 
     /**
@@ -51,6 +53,7 @@ public class WorkerBee extends AbstractBee {
         super(copy);
         failureCount = copy.failureCount;
         this.forageLimit = copy.forageLimit.getClone();
+        explorerBeeUpdateLimit = copy.explorerBeeUpdateLimit;
     }
 
     /**
@@ -79,11 +82,12 @@ public class WorkerBee extends AbstractBee {
             if (failureCount >= forageLimit.getParameter()) {
                 failureCount = 0;
                 ExplorerBee explorerBee = algorithm.getExplorerBee();
-                if (explorerBee.searchAllowed(algorithm.getIterations())) {
+                if (explorerBee.searchAllowed(algorithm.getIterations(), explorerBeeUpdateLimit)) {
                     this.setPosition(explorerBee.getNewPosition(algorithm.getIterations(), this.getPosition()));
                 }
             }
         }
+        
     }
 
     /**
@@ -116,5 +120,21 @@ public class WorkerBee extends AbstractBee {
      */
     public void setFailureCount(int failureCount) {
         this.failureCount = failureCount;
+    }
+    
+    /**
+     * Gets the explorer bee update limit
+     * @return the new explorer bee update limit.
+     */
+    public ControlParameter getExplorerBeeUpdateLimit() {
+        return explorerBeeUpdateLimit;
+    }
+
+    /**
+     * Sets the failure count.
+     * @param failureCount the new number of times the bee has failed to find a better position.
+     */
+    public void setExplorerBeeUpdateLimit(ControlParameter explorerBeeUpdateLimit) {
+        this.explorerBeeUpdateLimit = explorerBeeUpdateLimit;
     }
 }
