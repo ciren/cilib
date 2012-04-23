@@ -22,13 +22,17 @@
         <algorithm id="SNT-PSO" class="niching.SequentialNichingTechnique">
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="10"/>
 
-            <algorithm class="pso.PSO"/>
+            <algorithm class="pso.PSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="500"/>
+            </algorithm>
         </algorithm>
 
         <algorithm id="SNT-GA" class="niching.SequentialNichingTechnique">
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="10"/>
 
-            <algorithm class="ec.EC"/>
+            <algorithm class="ec.EC">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="500"/>
+            </algorithm>
         </algorithm>
     </algorithms>
 

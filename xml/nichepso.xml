@@ -12,7 +12,7 @@
             <nicheCreator class="niching.creation.ClosestNeighbourNicheCreationStrategy">
                 <swarmBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.GCVelocityProvider">
-                        <rho class="controlparameter.ConstantControlParameter" parameter="0.01"/>
+                        <rho class="controlparameter.ConstantControlParameter" parameter="0.001"/>
                         <delegate class="pso.velocityprovider.ClampingVelocityProvider">
                             <vMax class="controlparameter.ConstantControlParameter" parameter="1.0"/>
                             <delegate class="pso.velocityprovider.StandardVelocityProvider">

@@ -175,21 +175,19 @@ public final class NichingFunctions {
                 List<Entity> entities = List.<Entity>iterableList((Topology<Entity>) swarms.getMainSwarm().getTopology());
                 List<Entity> filteredEntities = entities.filter(nicheDetection.f(swarms.getMainSwarm()));
 
-                // make sure there are entities to put into a new swarm
-                // TODO: if (filteredEntities.isEmpty()) {
-                if (filteredEntities.isEmpty() || entities.length() == 1) {
-                    return swarms;
+                NichingSwarms createdSwarms = swarms;
+                for (Entity e : filteredEntities) {
+                    createdSwarms = creationStrategy.f(createdSwarms, e);
                 }
 
-                NichingSwarms createdSwarms = creationStrategy.f(swarms, filteredEntities.head());
+                PopulationBasedAlgorithm newMainSwarm = createdSwarms.getMainSwarm();
+                List<PopulationBasedAlgorithm> currentSubswarm = createdSwarms.getSubswarms();
+                for (int i = 0; i < createdSwarms.getSubswarms().length() - swarms.getSubswarms().length(); i++) {
+                    newMainSwarm = mainSwarmCreationMergingStrategy.f(newMainSwarm, currentSubswarm.head());
+                    currentSubswarm = currentSubswarm.tail();
+                }
 
-                NichingSwarms s = this.f(NichingSwarms.of(createdSwarms.getMainSwarm(),
-                        swarms.getSubswarms().cons(createdSwarms.getSubswarms().head())));
-
-                PopulationBasedAlgorithm newMainSwarm = mainSwarmCreationMergingStrategy.f(s.getMainSwarm(),
-                        createdSwarms.getSubswarms().head());
-
-                return NichingSwarms.of(newMainSwarm, s.getSubswarms());
+                return NichingSwarms.of(newMainSwarm, createdSwarms.getSubswarms());
             }
         };
     }
