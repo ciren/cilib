@@ -63,20 +63,25 @@ public class SequentialNichingTechnique extends AbstractAlgorithm implements Pop
     
     @Override
     public void performInitialisation() {
-        algorithm.setOptimisationProblem(optimisationProblem);
+        //algorithm.setOptimisationProblem(optimisationProblem);
     }
 
     @Override
     protected void algorithmIteration() {
-        ((AbstractAlgorithm) algorithm).initialise();
-        algorithm.run();
+        AbstractAlgorithm alg = (AbstractAlgorithm) algorithm.getClone();
+        alg.setOptimisationProblem(optimisationProblem);
+        alg.initialise();
+
+        while (!alg.isFinished()) {
+            alg.performIteration();
+        }
         
-        OptimisationSolution best = algorithm.getBestSolution();
+        OptimisationSolution best = alg.getBestSolution();
         ((DeratingOptimisationProblem) optimisationProblem).addSolution((Vector) best.getPosition());
         
         if (best.getFitness().getValue() > threshold.getParameter()) {
             solutions.add(best);
-        }        
+        }
     }
 
     @Override
@@ -115,7 +120,6 @@ public class SequentialNichingTechnique extends AbstractAlgorithm implements Pop
         Preconditions.checkArgument(problem instanceof DeratingOptimisationProblem, 
                 "SequentialNiching can only be used with DeratingOptimisationProblem.");
         optimisationProblem = problem;
-        algorithm.setOptimisationProblem(problem);
     }
 
     public void setAlgorithm(PopulationBasedAlgorithm algorithm) {
