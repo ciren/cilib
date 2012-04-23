@@ -31,12 +31,14 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.niching.utils.JoinedTopologyProvider;
 import net.sourceforge.cilib.niching.utils.TopologyProvider;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
+import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -54,6 +56,8 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
         topologyProvider = new JoinedTopologyProvider();
         minSwarmSize = ConstantControlParameter.of(3.0);
         swarmBehavior = new ParticleBehavior();
+        swarmBehavior.setVelocityProvider(new StandardVelocityProvider(ConstantControlParameter.of(0.8), ConstantControlParameter.of(1.0), ConstantControlParameter.of(1.0),
+                new MersenneTwister(), new MersenneTwister()));
         swarmType = new PSO();
         swarmType.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 500));
     }
@@ -120,9 +124,9 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
         List<Particle> filteredSwarm = swarm.filter(dot(gBest).andThen(ltZero));
         if(!filteredSwarm.isEmpty()) {
             Particle closest = filteredSwarm.minimum(Ord.ord(sortByDistance(gBest, distanceMeasure).curry()));
-            double nRadius = distanceMeasure.distance(closest.getCandidateSolution(), gBest.getBestPosition());
+            double nRadius = distanceMeasure.distance(closest.getCandidateSolution(), gBest.getCandidateSolution());
             newTopology = newTopology.append(swarm.filter(filter(distanceMeasure, gBest, nRadius)));
-        }        
+        }
 
         // Add particles until the swarm has at least 3 particles
         for (int i = 0; i < minSwarmSize.getParameter() - newTopology.length(); i++) {

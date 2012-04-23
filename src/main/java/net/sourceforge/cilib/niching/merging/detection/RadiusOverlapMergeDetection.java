@@ -71,8 +71,8 @@ public class RadiusOverlapMergeDetection extends MergeDetection {
         swarm2.accept(radiusVisitor);
         double swarm2Radius = radiusVisitor.getResult().doubleValue();
         
-        Vector swarm1GBest = (Vector) Topologies.getBestEntity(swarm1.getTopology(), new SocialBestFitnessComparator()).getCandidateSolution();
-        Vector swarm2GBest = (Vector) Topologies.getBestEntity(swarm2.getTopology(), new SocialBestFitnessComparator()).getCandidateSolution();
+        Vector swarm1GBest = (Vector) Topologies.getBestEntity(swarm1.getTopology()).getCandidateSolution();
+        Vector swarm2GBest = (Vector) Topologies.getBestEntity(swarm2.getTopology()).getCandidateSolution();
 
         double distance = distanceMeasure.distance(swarm1GBest, swarm2GBest);
         double normalizedDistance = distance / swarm1GBest.boundsOf(0).getRange();

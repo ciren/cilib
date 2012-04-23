@@ -100,10 +100,11 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
         return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {
-                if (Algorithms.isFinished().f(a._1()) || a._1().getTopology().isEmpty()) {
+                if (a._1().isFinished() || a._1().getTopology().isEmpty()) {
                     return a;
                 }
 
+                //recursive
                 return this.f(onMainSwarm(alg.getMainSwarmIterator())
                         .andThen(createNiches(alg.getNicheDetector(), alg.getNicheCreator(), alg.getMainSwarmCreationMerger()))
                         .f(a));
@@ -119,7 +120,8 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
                     return a;
                 }
 
-                return this.f(onSubswarms(Algorithms.<PopulationBasedAlgorithm>iterateUnlessDone())
+                //recursive
+                return this.f(alg.getSubSwarmIterator()
                         .andThen(absorb(alg.getAbsorptionDetector(), alg.getMainSwarmAbsorber(), alg.getSubSwarmAbsorber()))
                         .andThen(createNiches(alg.getNicheDetector(), alg.getNicheCreator(), alg.getMainSwarmCreationMerger()))
                         .andThen(clearDeratingSolutions(a._1().getOptimisationProblem())).f(a));

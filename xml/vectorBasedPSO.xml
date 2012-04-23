@@ -12,7 +12,15 @@
                 <measurement class="measurement.single.SwarmSize"/>
             </addStoppingCondition>
 
-            <nicheCreator class="niching.creation.VectorBasedNicheCreationStrategy"/>
+            <nicheCreator class="niching.creation.VectorBasedNicheCreationStrategy">
+                <swarmBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.8"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="1.0"/>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.0"/>
+                    </velocityProvider>
+                </swarmBehavior>
+            </nicheCreator>
             <nicheDetector class="niching.creation.NPerIterationNicheDetection"/>
             <mergeDetector class="niching.merging.detection.NeverMergeDetection"/>
             <absorptionDetector class="niching.merging.detection.NeverMergeDetection"/>
@@ -43,7 +51,6 @@
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
         <addMeasurement class="measurement.multiple.CompositeMeasurement">
             <addMeasurement class="measurement.single.Solution"/>
-            <!--addMeasurement class="measurement.single.Fitness"/-->
         </addMeasurement>
     </measurements>
 

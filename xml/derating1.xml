@@ -56,38 +56,43 @@
 
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
         <addMeasurement class="measurement.multiple.MultipleSolutions"/>
-        <addMeasurement class="measurement.multiple.MultipleFitness"/>
+    </measurements>
+
+    <measurements id="composite" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.multiple.CompositeMeasurement">
+            <addMeasurement class="measurement.single.Solution"/>
+        </addMeasurement>
     </measurements>
 
     <simulations>
         <simulation samples="1">
             <algorithm idref="deratingNichePSO"/>
             <problem idref="f1"/>
-            <measurements idref="fitness" />
+            <measurements idref="composite" />
             <output format="TXT" file="data/deratingNichePSO-f1.txt"/>
         </simulation>
         <simulation samples="1">
             <algorithm idref="deratingNichePSO"/>
             <problem idref="f2"/>
-            <measurements idref="fitness" />
+            <measurements idref="composite" />
             <output format="TXT" file="data/deratingNichePSO-f2.txt"/>
         </simulation>
         <simulation samples="1">
             <algorithm idref="deratingNichePSO"/>
             <problem idref="f3"/>
-            <measurements idref="fitness" />
+            <measurements idref="composite" />
             <output format="TXT" file="data/deratingNichePSO-f3.txt"/>
         </simulation>
         <simulation samples="1">
             <algorithm idref="deratingNichePSO"/>
             <problem idref="f4"/>
-            <measurements idref="fitness" />
+            <measurements idref="composite" />
             <output format="TXT" file="data/deratingNichePSO-f4.txt"/>
         </simulation>
         <simulation samples="1">
             <algorithm idref="deratingNichePSO"/>
             <problem idref="f5"/>
-            <measurements idref="fitness" />
+            <measurements idref="composite" />
             <output format="TXT" file="data/deratingNichePSO-f5.txt"/>
         </simulation>
 
