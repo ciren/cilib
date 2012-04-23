@@ -50,6 +50,7 @@ public abstract class CrossoverStrategy implements Operator {
     public CrossoverStrategy(CrossoverStrategy copy) {
         this.crossoverProbability = copy.crossoverProbability.getClone();
         this.randomDistribution = copy.randomDistribution;
+        this.selectionStrategy = copy.selectionStrategy;
     }
 
     /**
