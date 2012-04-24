@@ -70,7 +70,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
 
     protected IterationStrategy<NichingAlgorithm> iterationStrategy;
     protected PopulationBasedAlgorithm mainSwarm;
-    protected Particle mainSwarmBehavior;
+    protected Entity entityType;
 
     protected NicheIteration mainSwarmIterator;
     protected SubswarmIterator subSwarmIterator;
@@ -120,11 +120,12 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
         velocityUpdateStrategy.setSocialAcceleration(ConstantControlParameter.of(0.0));
         velocityUpdateStrategy.setCognitiveAcceleration(ConstantControlParameter.of(1.2));
         
-        this.mainSwarmBehavior = new StandardParticle();
-        this.mainSwarmBehavior.setVelocityInitializationStrategy(new RandomInitializationStrategy());
-        this.mainSwarmBehavior.setVelocityProvider(velocityUpdateStrategy);
+        Particle particle = new StandardParticle();
+        particle.setVelocityInitializationStrategy(new RandomInitializationStrategy());
+        particle.setVelocityProvider(velocityUpdateStrategy);
+        this.entityType = particle;
 
-        ((ClonedPopulationInitialisationStrategy) ((PSO) this.mainSwarm).getInitialisationStrategy()).setEntityType(mainSwarmBehavior);
+        ((ClonedPopulationInitialisationStrategy) ((PSO) this.mainSwarm).getInitialisationStrategy()).setEntityType(entityType);
         ((SynchronousIterationStrategy) ((PSO) this.mainSwarm).getIterationStrategy()).setBoundaryConstraint(new ReinitialisationBoundary());
 
         this.nicheDetector = new MaintainedFitnessNicheDetection();
@@ -153,7 +154,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
 
         this.iterationStrategy = copy.iterationStrategy.getClone();
         this.mainSwarm = copy.mainSwarm.getClone();
-        this.mainSwarmBehavior = copy.mainSwarmBehavior.getClone();
+        this.entityType = copy.entityType.getClone();
         
         this.nicheDetector = copy.nicheDetector;
         this.nicheCreator = copy.nicheCreator;
@@ -189,6 +190,8 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
         this.mainSwarm.setOptimisationProblem(getOptimisationProblem());
 
         this.mainSwarm.performInitialisation();
+
+        this.entityType = this.mainSwarm.getTopology().get(0);
     }
 
     @Override
@@ -237,12 +240,8 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
         this.mainSwarm = mainSwarm;
     }
 
-    public Particle getMainSwarmBehavior() {
-        return mainSwarmBehavior;
-    }
-
-    public void setMainSwarmBehavior(Particle mainSwarmBehavior) {
-        this.mainSwarmBehavior = mainSwarmBehavior;
+    public Entity getEntityType() {
+        return entityType;
     }
 
     public MergeDetection getMergeDetector() {

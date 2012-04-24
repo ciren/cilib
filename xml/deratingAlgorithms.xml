@@ -13,10 +13,46 @@
             <!-- need a regular pso -->
             <mainSwarm class="pso.PSO">
                 <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="500"/>
+
                 <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
-                    <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+                    <boundaryConstraint class="problem.boundaryconstraint.ReinitialisationBoundary"/>
                 </iterationStrategy>
             </mainSwarm>
+
+            <!-- Set the subswarm type and behavior here -->
+            <nicheCreator class="niching.creation.ClosestNeighbourNicheCreationStrategy">
+                <swarmType class="pso.PSO">
+                    <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
+                        <boundaryConstraint class="problem.boundaryconstraint.ReinitialisationBoundary"/>
+                    </iterationStrategy>
+                </swarmType>
+            </nicheCreator>
+
+            <nicheDetector class="niching.creation.MaintainedFitnessNicheDetection">
+                <threshold class="controlparameter.ConstantControlParameter" parameter="1.0E-12"/>
+                <stationaryCounter class="controlparameter.ConstantControlParameter" parameter="3.0"/>
+            </nicheDetector>
+
+            <mergeDetector class="niching.merging.detection.RadiusOverlapMergeDetection">
+                <threshold class="controlparameter.ConstantControlParameter" parameter="1.0E-3"/>
+            </mergeDetector>
+
+            <absorptionDetector class="niching.merging.detection.RadiusOverlapMergeDetection">
+                <threshold class="controlparameter.ConstantControlParameter" parameter="1.0E-6"/>
+            </absorptionDetector>
+
+            <mainSwarmMerger class="niching.merging.SingleSwarmMergeStrategy"/>
+            <mainSwarmAbsorber class="niching.merging.SingleSwarmMergeStrategy"/>
+            <mainSwarmCreationMerger class="niching.merging.SingleSwarmMergeStrategy"/>
+
+            <subSwarmMerger class="niching.merging.StandardMergeStrategy"/>
+            <subSwarmMerger class="niching.merging.StandardMergeStrategy"/>
+
+            <subSwarmIterator class="niching.utils.AllSwarmsIterator">
+                <iterator class="niching.utils.SingleNicheIteration"/>
+            </subSwarmIterator>
+
+            <mainSwarmIterator class="niching.utils.SingleNicheIteration"/>
         </algorithm>
 
         <algorithm id="SNT-PSO" class="niching.SequentialNichingTechnique">
@@ -59,7 +95,9 @@
     </measurements>
 
     <measurements id="composite" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.SwarmSize"/>
         <addMeasurement class="measurement.multiple.CompositeMeasurement">
+            <addMeasurement class="measurement.single.SwarmSize"/>
             <addMeasurement class="measurement.single.Solution"/>
         </addMeasurement>
     </measurements>

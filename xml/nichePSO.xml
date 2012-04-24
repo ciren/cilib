@@ -9,7 +9,31 @@
         <algorithm id="nichePSO" class="niching.NichingAlgorithm">
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
 
+            <!-- Set the main swarm type and the main swarm entity type -->
+            <mainSwarm class="pso.PSO">
+                <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                    <entityType class="pso.particle.StandardParticle">
+                        <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                            <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.2"/>
+                        </velocityProvider>
+                        <velocityInitializationStrategy class="entity.initialization.RandomInitializationStrategy"/>
+                    </entityType>
+                </initialisationStrategy>
+
+                <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
+                    <boundaryConstraint class="problem.boundaryconstraint.ReinitialisationBoundary"/>
+                </iterationStrategy>
+            </mainSwarm>
+
+            <!-- Set the subswarm type and behavior here -->
             <nicheCreator class="niching.creation.ClosestNeighbourNicheCreationStrategy">
+                <swarmType class="pso.PSO">
+                    <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
+                        <boundaryConstraint class="problem.boundaryconstraint.ReinitialisationBoundary"/>
+                    </iterationStrategy>
+                </swarmType>
+
                 <swarmBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.GCVelocityProvider">
                         <rho class="controlparameter.ConstantControlParameter" parameter="0.001"/>
@@ -24,6 +48,34 @@
                     </velocityProvider>
                 </swarmBehavior>
             </nicheCreator>
+
+            <nicheDetector class="niching.creation.MaintainedFitnessNicheDetection">
+                <threshold class="controlparameter.ConstantControlParameter" parameter="1.0E-12"/>
+                <stationaryCounter class="controlparameter.ConstantControlParameter" parameter="3.0"/>
+            </nicheDetector>
+
+            <mergeDetector class="niching.merging.detection.RadiusOverlapMergeDetection">
+                <threshold class="controlparameter.ConstantControlParameter" parameter="1.0E-12"/>
+            </mergeDetector>
+
+            <absorptionDetector class="niching.merging.detection.RadiusOverlapMergeDetection">
+                <threshold class="controlparameter.ConstantControlParameter" parameter="1.0E-12"/>
+            </absorptionDetector>
+
+            <mainSwarmMerger class="niching.merging.SingleSwarmMergeStrategy"/>
+            <mainSwarmAbsorber class="niching.merging.SingleSwarmMergeStrategy"/>
+            <mainSwarmCreationMerger class="niching.merging.SingleSwarmMergeStrategy"/>
+
+            <subSwarmMerger class="niching.merging.StandardMergeStrategy"/>
+            <subSwarmMerger class="niching.merging.StandardMergeStrategy"/>
+
+            <subSwarmIterator class="niching.utils.AllSwarmsIterator">
+                <iterator class="niching.utils.SingleNicheIteration"/>
+            </subSwarmIterator>
+
+            <mainSwarmIterator class="niching.utils.SingleNicheIteration"/>
+
+            <iterationStrategy class="niching.iterationstrategies.NichePSO"/>
         </algorithm>
     </algorithms>
 
@@ -46,7 +98,9 @@
     </problems>
 
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.SwarmSize"/>
         <addMeasurement class="measurement.multiple.CompositeMeasurement">
+            <addMeasurement class="measurement.single.SwarmSize"/>
             <addMeasurement class="measurement.single.Solution"/>
         </addMeasurement>
     </measurements>

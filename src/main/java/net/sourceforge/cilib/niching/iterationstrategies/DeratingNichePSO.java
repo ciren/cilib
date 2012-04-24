@@ -91,7 +91,7 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
             @Override
             public NichingSwarms f(NichingSwarms a) {
                 return merge(alg.getMergeDetector(), alg.getMainSwarmMerger(), alg.getSubSwarmMerger())
-                        .f(NichingSwarms.of(a._1(), joiningList.append(a._2())));
+                        .f(NichingSwarms.of(a.getMainSwarm(), joiningList.append(a.getSubswarms())));
             }
         };
     }
@@ -100,7 +100,7 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
         return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {
-                if (a._1().isFinished() || a._1().getTopology().isEmpty()) {
+                if (a.getMainSwarm().isFinished() || a.getMainSwarm().getTopology().isEmpty()) {
                     return a;
                 }
 
@@ -116,7 +116,7 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
         return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {
-                if (!a._2().exists(Algorithms.<PopulationBasedAlgorithm>isFinished())) {
+                if (!a.getSubswarms().exists(Algorithms.<PopulationBasedAlgorithm>isFinished())) {
                     return a;
                 }
 
@@ -124,7 +124,7 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
                 return this.f(alg.getSubSwarmIterator()
                         .andThen(absorb(alg.getAbsorptionDetector(), alg.getMainSwarmAbsorber(), alg.getSubSwarmAbsorber()))
                         .andThen(createNiches(alg.getNicheDetector(), alg.getNicheCreator(), alg.getMainSwarmCreationMerger()))
-                        .andThen(clearDeratingSolutions(a._1().getOptimisationProblem())).f(a));
+                        .andThen(clearDeratingSolutions(a.getMainSwarm().getOptimisationProblem())).f(a));
             }
         };
     }

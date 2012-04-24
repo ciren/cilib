@@ -23,12 +23,9 @@ package net.sourceforge.cilib.niching.iterationstrategies;
 
 import com.google.common.collect.Lists;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.niching.NichingAlgorithm;
 import static net.sourceforge.cilib.niching.NichingFunctions.createNiches;
 import net.sourceforge.cilib.niching.NichingSwarms;
-import static net.sourceforge.cilib.niching.NichingSwarms.onFirstSubSwarm;
-import net.sourceforge.cilib.util.functions.Algorithms;
 
 /**
  *
@@ -42,9 +39,11 @@ public class VectorBasedPSO extends AbstractIterationStrategy<NichingAlgorithm> 
 
     @Override
     public void performIteration(NichingAlgorithm alg) {
-        NichingSwarms newSwarms = createNiches(alg.getNicheDetector(), alg.getNicheCreator(), alg.getMainSwarmCreationMerger())
-        .andThen(onFirstSubSwarm(Algorithms.<PopulationBasedAlgorithm>run()))
-        .f(NichingSwarms.of(alg.getMainSwarm(), alg.getPopulations()));
+        NichingSwarms newSwarms = createNiches(alg.getNicheDetector(), 
+                alg.getNicheCreator(),
+                alg.getMainSwarmCreationMerger())
+            .andThen(alg.getSubSwarmIterator())
+            .f(NichingSwarms.of(alg.getMainSwarm(), alg.getPopulations()));
 
         alg.setPopulations(Lists.newArrayList(newSwarms._2().toCollection()));
         alg.setMainSwarm(newSwarms._1());

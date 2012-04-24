@@ -27,7 +27,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
  * Takes all the entities of the second sub-swarm, reinitializes those entities
  * in the first sub-swarm and returns the merged sub-swarm.
  */
-public class ReinitialisingMergeStrategy extends MergeStrategy {    
+public class ScatterMergeStrategy extends MergeStrategy {
     @Override
     public PopulationBasedAlgorithm f(PopulationBasedAlgorithm subSwarm1, PopulationBasedAlgorithm subSwarm2) {
         PopulationBasedAlgorithm newSwarm = new StandardMergeStrategy().f(subSwarm1, subSwarm2);
