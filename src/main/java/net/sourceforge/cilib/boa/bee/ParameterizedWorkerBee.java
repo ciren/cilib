@@ -42,6 +42,9 @@ public class ParameterizedWorkerBee extends WorkerBee{
     private BeePositionUpdateStrategy parameterPositionUpdateStrategy;
     private ProbabilityDistributionFuction random;
     
+    /*
+     * Default constructor. Initializes variables.
+     */
     public ParameterizedWorkerBee() {
         failureCount = 0;
         this.forageLimit = ConstantControlParameter.of(500);
@@ -52,7 +55,7 @@ public class ParameterizedWorkerBee extends WorkerBee{
 
     /**
      * Copy constructor. Create a copy of the provided instance.
-     * @param copy The isntance to copy.
+     * @param copy The instance to copy.
      */
     public ParameterizedWorkerBee(ParameterizedWorkerBee copy) {
         super(copy);
@@ -71,6 +74,11 @@ public class ParameterizedWorkerBee extends WorkerBee{
         return new ParameterizedWorkerBee(this);
     }
     
+    /*
+     * {@inheritDoc}
+     * This method does not only update the position, but also updates the parameter values
+     * held by the bee.
+     */
     @Override
     public void updatePosition() {
         ABC algorithm = (ABC) AbstractAlgorithm.get();
@@ -101,6 +109,11 @@ public class ParameterizedWorkerBee extends WorkerBee{
         
     }
     
+    /*
+     * Returns a HoneyBee holding the parameters as its position
+     * @param workerBee The bee olding the parameters separately
+     * @return The bee whose position consists of the parameter values.
+     */
     private HoneyBee getParameterEntity(ParameterizedWorkerBee workerBee) {
         WorkerBee bee = new WorkerBee();
         bee.setPosition(Vector.of(workerBee.getForageLimit().getParameter(), workerBee.getExplorerBeeUpdateLimit().getParameter()));
@@ -109,6 +122,14 @@ public class ParameterizedWorkerBee extends WorkerBee{
         return bee;
     }
     
+    /*
+     * Returns the control parameter at the index given, which is held by 
+     * the vector provided.
+     * @param parameterPosition The vector holding the parameter values
+     * @param index The index of the aprameter required
+     * @return The control parameter which must be assigned to the parameter 
+     * requestiong thios value
+     */
     private ControlParameter getControlParameter(Vector parameterPosition, int index) {
         ControlParameter newControlParameter;
         
@@ -125,22 +146,44 @@ public class ParameterizedWorkerBee extends WorkerBee{
         return parameter;
     }
     
+    /*
+     * Set the position update strategy that must be used for the parameters
+     * @param strategy The strategy to be used
+     */
     public void setParameterPositionUpdateStrategy(BeePositionUpdateStrategy strategy) {
         parameterPositionUpdateStrategy = strategy;
     }
     
+    /*
+     * Returns the position update strategy being used for updating the parameters
+     * @return The position update strategy used to update the parameters
+     */
     public BeePositionUpdateStrategy getParameterPositionUpdateStrategy() {
         return parameterPositionUpdateStrategy;
     }
     
+    /*
+     * Set the probability distribution function to be used to initialize 
+     * non-initialized parameters.
+     * @param random The probability distribution function
+     */
     public void setRandom(ProbabilityDistributionFuction random) {
         this.random = random;
     }
     
+    /*
+     * Returns the random generator used to initialize parameters
+     * @return The random generator
+     */
     public ProbabilityDistributionFuction getRandom() {
         return random;
     }
     
+    /*
+     * Sets the forage limit to the one provided if the one provided was set by the user.
+     * Otherwise, it randomly initializes it.
+     * @param forageLimit The forage limit provided by the ABC class
+     */
     @Override
     public void setForageLimit(ControlParameter forageLimit){
         if(((ParameterAdaptingControlParameter) forageLimit).wasSetByUser()) {
@@ -152,6 +195,11 @@ public class ParameterizedWorkerBee extends WorkerBee{
         }
     }
     
+    /*
+     * Sets the explorer bee update limit to the one provided if the one provided was set by the user.
+     * Otherwise, it randomly initializes it.
+     * @param explorerBeeUpdateLimit The explorer bee update limit provided by the ABC class
+     */
     @Override
     public void setExplorerBeeUpdateLimit(ControlParameter explorerBeeUpdateLimit){
         if(((ParameterAdaptingControlParameter) explorerBeeUpdateLimit).wasSetByUser()) {
