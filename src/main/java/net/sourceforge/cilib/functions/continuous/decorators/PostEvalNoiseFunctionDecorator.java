@@ -56,9 +56,9 @@ public class PostEvalNoiseFunctionDecorator implements ContinuousFunction {
      */
     public PostEvalNoiseFunctionDecorator() {
         this.randomNumber = new GaussianDistribution();
-        this.variance = new ConstantControlParameter(1.0);
-        this.scale = new ConstantControlParameter(0.4);
-        this.offset = new ConstantControlParameter(1.0);
+        this.variance = ConstantControlParameter.of(1.0);
+        this.scale = ConstantControlParameter.of(0.4);
+        this.offset = ConstantControlParameter.of(1.0);
     }
 
     /**

@@ -55,8 +55,8 @@ public class ShiftedFunctionDecorator implements ContinuousFunction {
     private ControlParameter horizontalShift;
 
     public ShiftedFunctionDecorator() {
-        this.verticalShift = new ConstantControlParameter(0.0);
-        this.horizontalShift = new ConstantControlParameter(0.0);
+        this.verticalShift = ConstantControlParameter.of(0.0);
+        this.horizontalShift = ConstantControlParameter.of(0.0);
     }
 
     /**

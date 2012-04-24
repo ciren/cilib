@@ -6,14 +6,14 @@
 ]>
 <simulator>
     <algorithms>
-    <!-- Dynamic HPSO -->
-        <algorithm id="pso" class="pso.PSO">
+        <!-- Dynamic HPSO -->
+        <algorithm id="dhpso" class="pso.PSO">
             <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
             <initialisationStrategy class="algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy">
                 <entityNumber value="50"/>
                 <entityType class="pso.particle.StandardParticle"/>
-                
-		<!-- initial behaviors -->
+
+                <!-- initial behaviors -->
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
@@ -63,11 +63,11 @@
                     <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
                     <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
-		<!-- end initial behaviors -->
+                <!-- end initial behaviors -->
             </initialisationStrategy>
 
             <iterationStrategy class="pso.hpso.DynamicHeterogeneousIterationStrategy">
-		<!-- behavior pool -->
+                <!-- behavior pool -->
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
@@ -121,14 +121,14 @@
             </iterationStrategy>
         </algorithm>
 
-	<!-- Adaptive HPSO -->
-        <algorithm id="adaptive-hpso" class="pso.PSO">
+        <!-- Adaptive HPSO -->
+        <algorithm id="ahpso" class="pso.PSO">
             <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
             <initialisationStrategy class="algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy">
                 <entityNumber value="50"/>
                 <entityType class="pso.particle.StandardParticle"/>
-                
-		<!-- initial behaviors -->
+
+                <!-- initial behaviors -->
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
@@ -178,10 +178,11 @@
                     <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
                     <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
-		<!-- end initial behaviors -->
+                <!-- end initial behaviors -->
             </initialisationStrategy>
+
             <iterationStrategy class="pso.hpso.AdaptiveHeterogeneousIterationStrategy">
-		<!-- behavior pool -->
+                <!-- behavior pool -->
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
@@ -231,70 +232,69 @@
                     <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
                     <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
-		<!-- end behavior pool -->
+            <!-- end behavior pool -->
             </iterationStrategy>
         </algorithm>
-        
-        <algorithm id="pso1" class="pso.PSO">
+
+        <algorithm id="pso" class="pso.PSO">
             <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
         </algorithm>
     </algorithms>
-    
+
     <problems>
         <problem id="f1" class="problem.FunctionMinimisationProblem" domain="R(-100, 100)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.unconstrained.Spherical"/>
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="-450"/-->
-                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="5"/>
+                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="20"/>
             </function>
         </problem>
-        
+
         <problem id="f2" class="problem.FunctionMinimisationProblem" domain="R(-100, 100)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.SchwefelProblem1_2"/>
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="-450"/-->
-                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="5"/>
+                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="20"/>
             </function>
         </problem>
-        
+
         <problem id="f3" class="problem.FunctionMinimisationProblem" domain="R(-100, 100)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.RotatedFunctionDecorator">
                     <function class="functions.continuous.unconstrained.Elliptic"/>
                     <matrixType value="orthonormal"/>
                 </function>
-                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="5"/>
+                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="20"/>
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="-450"/-->
             </function>
         </problem>
-        
+
         <problem id="f4" class="problem.FunctionMinimisationProblem" domain="R(-100, 100)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.PostEvalNoiseFunctionDecorator">
-                    <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
-                        <function class="functions.continuous.SchwefelProblem1_2"/>
-                        <horizontalShift class="controlparameter.ConstantControlParameter" parameter="5"/>
-                    </function>
+                    <function class="functions.continuous.SchwefelProblem1_2"/>
                 </function>
+                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="20"/>
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="-450"/-->
             </function>
         </problem>
-        
+
+        <!-- The optimum is shifted to the bounds but is set in the function itself -->
         <problem id="f5" class="problem.FunctionMinimisationProblem" domain="R(-100, 100)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.unconstrained.SchwefelProblem2_6"/>
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="-310"/-->
             </function>
         </problem>
-        
+
         <problem id="f6" class="problem.FunctionMinimisationProblem" domain="R(-100, 100)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.unconstrained.Rosenbrock"/>
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="390"/-->
-                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="5"/>
+                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="20"/>
             </function>
         </problem>
-        
+
         <!-- TODO: add the noise to rotation matrix-->
         <problem id="f7" class="problem.FunctionMinimisationProblem" domain="R(0, 600)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
@@ -303,15 +303,15 @@
                     <matrixType value="linear_transformation"/>
                     <condition value="3"/>
                 </function>
-                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="-5"/>
+                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="-60"/>
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="-180"/-->
             </function>
         </problem>
-        
+
         <problem id="f8" class="problem.FunctionMinimisationProblem" domain="R(-32, 32)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.RotatedFunctionDecorator">
-                    <function class="functions.continuous.unconstrained.Griewank"/>
+                    <function class="functions.continuous.unconstrained.Ackley"/>
                     <matrixType value="linear_transformation"/>
                     <condition value="100"/>
                 </function>
@@ -319,7 +319,7 @@
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="-140"/-->
             </function>
         </problem>
-        
+
         <problem id="f9" class="problem.FunctionMinimisationProblem" domain="R(-5, 5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.unconstrained.Rastrigin"/>
@@ -327,7 +327,7 @@
                 <horizontalShift class="controlparameter.ConstantControlParameter" parameter="1"/>
             </function>
         </problem>
-        
+
         <problem id="f10" class="problem.FunctionMinimisationProblem" domain="R(-5, 5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.RotatedFunctionDecorator">
@@ -339,7 +339,8 @@
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="-330"/-->
             </function>
         </problem>
-        
+
+        <!-- Algorithms should be constrained for this function since better fitnesses are available out of the bounds -->
         <problem id="f11" class="problem.FunctionMinimisationProblem" domain="R(-0.5, 0.5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.RotatedFunctionDecorator">
@@ -351,14 +352,15 @@
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="90"/-->
             </function>
         </problem>
-        
+
+        <!-- This functions optimum is zero at a random position in [-pi, pi]^n -->
         <problem id="f12" class="problem.FunctionMinimisationProblem" domain="R(-3.14, 3.14)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.unconstrained.SchwefelProblem2_13"/>
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="-460"/-->
             </function>
         </problem>
-        
+
         <problem id="f13" class="problem.FunctionMinimisationProblem" domain="R(-5, 5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.ExpandedFunctionDecorator">
@@ -371,7 +373,7 @@
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="-130"/-->
             </function>
         </problem>
-        
+
         <problem id="f14" class="problem.FunctionMinimisationProblem" domain="R(-100, 100)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.RotatedFunctionDecorator">
@@ -381,11 +383,11 @@
                     <matrixType value="linear_transformation"/>
                     <condition value="3"/>
                 </function>
-                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="5"/>
+                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="20"/>
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="-300"/-->
             </function>
         </problem>
-        
+
         <problem id="f15" class="problem.FunctionMinimisationProblem" domain="R(-5, 5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
@@ -433,7 +435,7 @@
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="120"/-->
             </function>
         </problem>
-        
+
         <problem id="f16" class="problem.FunctionMinimisationProblem" domain="R(-5, 5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
@@ -481,7 +483,7 @@
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="120"/-->
             </function>
         </problem>
-        
+
         <problem id="f17" class="problem.FunctionMinimisationProblem" domain="R(-5, 5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.PostEvalNoiseFunctionDecorator">
@@ -532,7 +534,7 @@
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="120"/-->
             </function>
         </problem>
-        
+
         <problem id="f18" class="problem.FunctionMinimisationProblem" domain="R(-5, 5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
@@ -580,7 +582,7 @@
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="10"/-->
             </function>
         </problem>
-        
+
         <problem id="f19" class="problem.FunctionMinimisationProblem" domain="R(-5, 5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
@@ -628,7 +630,7 @@
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="10"/-->
             </function>
         </problem>
-        
+
         <problem id="f20" class="problem.FunctionMinimisationProblem" domain="R(-5, 5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
@@ -676,7 +678,7 @@
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="10"/-->
             </function>
         </problem>
-        
+
         <problem id="f21" class="problem.FunctionMinimisationProblem" domain="R(-5, 5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
@@ -738,7 +740,7 @@
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="360"/-->
             </function>
         </problem>
-        
+
         <problem id="f22" class="problem.FunctionMinimisationProblem" domain="R(-5, 5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
@@ -800,7 +802,7 @@
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="360"/-->
             </function>
         </problem>
-        
+
         <problem id="f23" class="problem.FunctionMinimisationProblem" domain="R(-5, 5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
@@ -882,7 +884,7 @@
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="360"/-->
             </function>
         </problem>
-        
+
         <problem id="f24" class="problem.FunctionMinimisationProblem" domain="R(-5, 5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
@@ -946,22 +948,22 @@
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="260"/-->
             </function>
         </problem>
-        
+
         <problem id="f25" class="problem.FunctionMinimisationProblem" domain="R(2, 5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
-                        sigma="2" lambda="10" matrixType="linear_transformation" condition="100" bias="0" horizontalShift="1">
+                        sigma="2" lambda="10" matrixType="linear_transformation" condition="100" bias="0" horizontalShift="-1">
                         <function class="functions.continuous.Weierstrass"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
-                        sigma="2" lambda="0.25" matrixType="linear_transformation" condition="50" bias="100" horizontalShift="1">
+                        sigma="2" lambda="0.25" matrixType="linear_transformation" condition="50" bias="100" horizontalShift="-1">
                         <function class="functions.continuous.decorators.ExpandedFunctionDecorator">
                             <function class="functions.continuous.unconstrained.Schaffer6"/>
                         </function>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
-                        sigma="2" lambda="1" matrixType="linear_transformation" condition="30" bias="200" horizontalShift="1">
+                        sigma="2" lambda="1" matrixType="linear_transformation" condition="30" bias="200" horizontalShift="-1">
                         <function class="functions.continuous.decorators.ExpandedFunctionDecorator">
                             <function class="functions.continuous.decorators.CompositeFunctionDecorator">
                                 <innerFunction class="functions.continuous.unconstrained.Rosenbrock"/>
@@ -970,19 +972,19 @@
                         </function>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
-                        sigma="2" lambda="0.15625" matrixType="linear_transformation" condition="10" bias="300" horizontalShift="1">
+                        sigma="2" lambda="0.15625" matrixType="linear_transformation" condition="10" bias="300" horizontalShift="-1">
                         <function class="functions.continuous.unconstrained.Ackley"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
-                        sigma="2" lambda="1" matrixType="linear_transformation" condition="5" bias="400" horizontalShift="1">
+                        sigma="2" lambda="1" matrixType="linear_transformation" condition="5" bias="400" horizontalShift="-1">
                         <function class="functions.continuous.unconstrained.Rastrigin"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
-                        sigma="2" lambda="0.05" matrixType="linear_transformation" condition="5" bias="500" horizontalShift="1">
+                        sigma="2" lambda="0.05" matrixType="linear_transformation" condition="5" bias="500" horizontalShift="-1">
                         <function class="functions.continuous.unconstrained.Griewank"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
-                        sigma="2" lambda="0.1" matrixType="linear_transformation" condition="4" bias="600" horizontalShift="1">
+                        sigma="2" lambda="0.1" matrixType="linear_transformation" condition="4" bias="600" horizontalShift="-1">
                         <function class="functions.continuous.decorators.RoundingFunctionDecorator">
                             <function class="functions.continuous.decorators.ExpandedFunctionDecorator">
                                 <function class="functions.continuous.unconstrained.Schaffer6"/>
@@ -990,17 +992,17 @@
                         </function>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
-                        sigma="2" lambda="1" matrixType="linear_transformation" condition="3" bias="700" horizontalShift="1">
+                        sigma="2" lambda="1" matrixType="linear_transformation" condition="3" bias="700" horizontalShift="-1">
                         <function class="functions.continuous.decorators.RoundingFunctionDecorator">
                             <function class="functions.continuous.unconstrained.Rastrigin"/>
                         </function>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
-                        sigma="2" lambda="0.05" matrixType="linear_transformation" condition="2" bias="800" horizontalShift="1">
+                        sigma="2" lambda="0.05" matrixType="linear_transformation" condition="2" bias="800" horizontalShift="-1">
                         <function class="functions.continuous.unconstrained.Elliptic"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
-                        sigma="2" lambda="0.05" matrixType="linear_transformation" condition="2" bias="900" horizontalShift="1">
+                        sigma="2" lambda="0.05" matrixType="linear_transformation" condition="2" bias="900" horizontalShift="-1">
                         <function class="functions.continuous.decorators.PostEvalNoiseFunctionDecorator">
                             <function class="functions.continuous.unconstrained.Spherical"/>
                             <scale class="controlparameter.ConstantControlParameter" parameter="0.1"/>
@@ -1011,11 +1013,11 @@
             </function>
         </problem>
     </problems>
-    
+
     <measurements id="measurements" class="simulator.MeasurementSuite" resolution="100">
         <addMeasurement class="measurement.single.Fitness"/>
     </measurements>
-    
+
     <simulations>
         <simulation samples="5">
             <algorithm idref="pso"/>
@@ -1167,10 +1169,7 @@
             <measurements idref="measurements" />
             <output format="TXT" file="data/pso-f25.txt"/>
         </simulation>
-        
-        
-        
-        
+
         <simulation samples="5">
             <algorithm idref="pso1"/>
             <problem idref="f1"/>
