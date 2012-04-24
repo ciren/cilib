@@ -63,7 +63,7 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
         ProbabilityDistributionFuction rotateOrNot = new UniformDistribution();
 
         if (rotationMatrix == null || rotateOrNot.getRandomNumber() < rotationProbability.getParameter()) {
-            setRotationMatrix();
+            setRotationMatrix(input.size());
         }
 
         Vector rotatedX = Vector.copyOf(Sequence.repeat(0.0, input.size()));
@@ -94,12 +94,10 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
      * 3) column_i = column_i/|column_i|
      *
      */
-    private void initializeMatrix() {
+    private void initializeMatrix(int dimension) {
         /*
          * set up a spanning set of gaussian random numbers
          */
-//        throw new UnsupportedOperationException();
-        int dimension = 0; //function.getDimension();
         rotationMatrix = new double[dimension][dimension];
         ProbabilityDistributionFuction initializer = new GaussianDistribution();
 
@@ -206,8 +204,8 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
     /**
      * @param rotationMatrix the rotationMatrix to set
      */
-    public void setRotationMatrix() {
-        initializeMatrix();
+    public void setRotationMatrix(int dimension) {
+        initializeMatrix(dimension);
     }
 
     /**
