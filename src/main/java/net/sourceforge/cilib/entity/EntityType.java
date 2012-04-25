@@ -26,6 +26,7 @@ package net.sourceforge.cilib.entity;
  */
 public enum EntityType {
     CANDIDATE_SOLUTION,
+    PREVIOUS_SOLUTION,
     FITNESS,
     STRATEGY_PARAMETERS;
 
