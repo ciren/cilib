@@ -38,8 +38,12 @@ public class ClampingVelocityProvider implements VelocityProvider {
     private VelocityProvider delegate;
 
     public ClampingVelocityProvider() {
-        this.vMax = ConstantControlParameter.of(Double.MAX_VALUE);
-        this.delegate = new StandardVelocityProvider();
+        this(ConstantControlParameter.of(Double.MAX_VALUE), new StandardVelocityProvider());
+    }
+
+    public ClampingVelocityProvider(ControlParameter vMax, VelocityProvider delegate) {
+        this.vMax = vMax;
+        this.delegate = delegate;
     }
 
     public ClampingVelocityProvider(ClampingVelocityProvider copy) {
@@ -57,13 +61,7 @@ public class ClampingVelocityProvider implements VelocityProvider {
         Vector velocity = this.delegate.get(particle);
         Vector.Builder builder = Vector.newBuilder();
         for (Numeric value : velocity) {
-            if (value.doubleValue() < -vMax.getParameter()) {
-                builder.add(-vMax.getParameter());
-            } else if (value.doubleValue() > vMax.getParameter()) {
-                builder.add(vMax.getParameter());
-            } else {
-                builder.add(value.doubleValue());
-            }
+            builder.add(Math.min(Math.max(-vMax.getParameter(), value.doubleValue()), vMax.getParameter()));
         }
         return builder.build();
     }

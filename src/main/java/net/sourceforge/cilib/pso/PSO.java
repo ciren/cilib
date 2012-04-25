@@ -21,7 +21,8 @@
  */
 package net.sourceforge.cilib.pso;
 
-import java.util.Arrays;
+import com.google.common.collect.Lists;
+import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
@@ -29,7 +30,6 @@ import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm
 import net.sourceforge.cilib.coevolution.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ZeroContributionSelectionStrategy;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
@@ -90,6 +90,12 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
         this.iterationStrategy = copy.iterationStrategy; // need to clone?
         this.initialisationStrategy = copy.initialisationStrategy; // need to clone?
         this.contributionSelection = copy.contributionSelection.getClone();
+        
+        for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
+            Particle current = i.next();
+            Particle nBest = Topologies.getNeighbourhoodBest(topology, current, new SocialBestFitnessComparator());
+            current.setNeighbourhoodBest(nBest);
+        }
     }
 
     /**
@@ -106,10 +112,9 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
      */
     @Override
     public void performInitialisation() {
-        Iterable<? extends Entity> particles = this.initialisationStrategy.initialise(this.getOptimisationProblem());
-        //Iterables.addAll(getTopology(), particles); // Use this instead?
-        for (Entity particle : particles)
-            topology.add((Particle) particle);
+        Iterable<Particle> particles = (Iterable<Particle>) this.initialisationStrategy.initialise(this.getOptimisationProblem());
+        topology.clear();
+        topology.addAll(Lists.<Particle>newLinkedList(particles));
     }
 
     /**
@@ -139,7 +144,11 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
      */
     @Override
     public List<OptimisationSolution> getSolutions() {
-        return Arrays.asList(getBestSolution());
+        List<OptimisationSolution> solutions = Lists.newLinkedList();
+        for (Particle e : Topologies.getNeighbourhoodBestEntities(topology, new SocialBestFitnessComparator<Particle>())) {
+            solutions.add(new OptimisationSolution(e.getBestPosition(), e.getBestFitness()));
+        }
+        return solutions;
     }
 
     /**

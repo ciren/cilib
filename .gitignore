@@ -5,3 +5,4 @@ simulator.bat
 build*
 project
 .ensime*
+/.gradle/

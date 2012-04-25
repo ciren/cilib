@@ -60,8 +60,12 @@ public class UpdateOnIterationControlParameter implements ControlParameter {
     };
     
     public UpdateOnIterationControlParameter() {
+        this(ConstantControlParameter.of(0.0));
+    }
+
+    public UpdateOnIterationControlParameter(ControlParameter delegate) {
         this.parameter = 0.0;
-        this.delegate = ConstantControlParameter.of(0.0);
+        this.delegate = delegate;
         this.attached = false;
     }
     
