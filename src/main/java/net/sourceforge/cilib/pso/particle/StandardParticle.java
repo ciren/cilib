@@ -144,6 +144,7 @@ public class StandardParticle extends AbstractParticle {
         this.neighbourhoodBest = this;
 
         this.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
+        this.getProperties().put(EntityType.PREVIOUS_SOLUTION, getCandidateSolution());
     }
 
     /**
@@ -151,6 +152,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void updatePosition() {
+        getProperties().put(EntityType.PREVIOUS_SOLUTION, getCandidateSolution());
         getProperties().put(EntityType.CANDIDATE_SOLUTION, this.behavior.getPositionProvider().get(this));
     }
 
