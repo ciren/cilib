@@ -47,7 +47,7 @@
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
-        
+
         <!--Crossover gBest guide provider UNDX-->
         <algorithm id="xpso-undx-3" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
@@ -89,7 +89,7 @@
         </algorithm>
         
         <!--Crossover velocity provider PCX-->
-        <algorithm id="xpso-pcx-2" class="pso.PSO">
+        <algorithm id="xpso-pcx-velocity" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <particleBehavior class="pso.particle.ParticleBehavior">
@@ -102,7 +102,26 @@
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
-        
+
+        <algorithm id="xpso-pcx-velocity-alternative" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <!--PBest cant be same as position for UNDX because of orthonormalize function-->
+                    <personalBestInitialisationStrategy class="entity.initialization.RandomInitializationStrategy"/>
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
+                        <velocityProvider class="pso.velocityprovider.DistinctCrossoverVelocityProvider">
+                            <mainCrossover class="entity.operators.crossover.ParentCentricCrossoverStrategy"/>
+                            <alternateCrossover class="entity.operators.crossover.ParentCentricCrossoverStrategy">
+                                <sigma2 class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                            </alternateCrossover>
+                        </velocityProvider>
+                    </particleBehavior>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
         <!--Crossover gBest guide provider PCX-->
         <algorithm id="xpso-pcx-3" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
@@ -222,10 +241,16 @@
 	        <output format="TXT" file="data/xpso-pcx-boltzman-spherical.txt" />
         </simulation>
         <simulation samples="5">
-            <algorithm idref="xpso-pcx-2"/>
+            <algorithm idref="xpso-pcx-velocity"/>
             <problem idref="spherical"/>
             <measurements idref="fitness" />
-	        <output format="TXT" file="data/xpso-pcx-2-spherical.txt" />
+	        <output format="TXT" file="data/xpso-pcx-velocity-spherical.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-velocity-alternative"/>
+            <problem idref="spherical"/>
+            <measurements idref="fitness" />
+	        <output format="TXT" file="data/xpso-pcx-velocity-alternative-spherical.txt" />
         </simulation>
         <simulation samples="5">
             <algorithm idref="xpso-pcx-3"/>
