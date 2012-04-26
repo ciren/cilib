@@ -126,8 +126,8 @@ public class SingleFunction implements ContinuousFunction {
         this.bias = bias;
     }
 
-    public void setfMax(Vector input) {
-        this.fmax = function.apply(input);
+    public void setfMax(double fmax) {
+        this.fmax = fmax;
     }
 
     public double getfMax() {
@@ -173,10 +173,10 @@ public class SingleFunction implements ContinuousFunction {
     public Double apply(Vector input) {
         //need to get input's size to set fMax
         if (!initialized) {
-            setfMax(Vector.copyOf(Sequence.repeat(5.0, input.size())).divide(lambda));
+            setfMax(rotationFunction.apply(Vector.copyOf(Sequence.repeat(5.0, input.size())).divide(lambda)));
             initialized = true;
         }
 
-        return rotationFunction.apply(input.subtract(Vector.copyOf(Sequence.repeat(horizontalShift, input.size()))).divide(lambda));
+        return rotationFunction.apply(shifted.divide(lambda)) / getfMax();
     }
 }

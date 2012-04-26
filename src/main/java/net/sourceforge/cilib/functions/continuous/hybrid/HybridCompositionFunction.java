@@ -42,6 +42,7 @@ public class HybridCompositionFunction implements ContinuousFunction {
     
     private List<SingleFunction> functions;
     private double scaleConstant;
+    private boolean done = false;
     
     public HybridCompositionFunction() {
         this.functions = Lists.<SingleFunction>newArrayList();
@@ -50,10 +51,12 @@ public class HybridCompositionFunction implements ContinuousFunction {
 
     @Override
     public Double apply(Vector input) {
+        input = Vector.of(1,1,1,1,1);
         int nDims = input.size();
 
         // Get the raw weights
         double wMax = Double.NEGATIVE_INFINITY;
+        double wSum = 0.0;
         for (SingleFunction f : functions) {
             f.shift(input);
             double sumSqr = Math.pow(f.getShifted().norm(), 2);
@@ -62,27 +65,30 @@ public class HybridCompositionFunction implements ContinuousFunction {
             
             if (wMax < f.getWeight())
                 wMax = f.getWeight();
+
+            wSum += f.getWeight();
         }
 
         // Modify the weights
-        double wSum = 0.0;
         double w1mMaxPow = 1.0 - Math.pow(wMax, 10.0);
         for (SingleFunction f : functions) {
             if (f.getWeight() != wMax) {
                 f.setWeight(f.getWeight() * w1mMaxPow);
             }
-            
-            wSum += f.getWeight();
-        }
 
-        // Normalize the weights
-        for (SingleFunction f : functions) {
             f.setWeight(f.getWeight() / wSum);
         }
 
         double sumF = 0.0;
         for (SingleFunction f : functions) {
-            sumF += f.getWeight() * (scaleConstant * f.apply(input) / f.getfMax() + f.getBias());
+            sumF += f.getWeight() * (scaleConstant * f.apply(input) + f.getBias());
+        }
+
+        if (!done) {
+            done = true;
+            for (SingleFunction f : functions) {
+                System.out.println("w " + f.getWeight() + " sc " + scaleConstant + " fm " + f.getfMax() + " b " + f.getBias() + " af " + f.apply(input));
+            }
         }
         
         return sumF;
