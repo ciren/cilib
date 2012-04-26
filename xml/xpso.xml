@@ -18,7 +18,7 @@
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
         
-        <algorithm id="xpso-undx-iteration-boltzman" class="pso.PSO">
+        <algorithm id="xpso-undx-iteration-boltzmann" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverSelection class="pso.crossover.BoltzmannCrossoverSelection">
                     <crossoverStrategy class="entity.operators.crossover.UnimodalNormalDistributionCrossoverStrategy"/>
@@ -32,7 +32,7 @@
         </algorithm>
         
         <!--Crossover velocity provider UNDX-->
-        <algorithm id="xpso-undx-2" class="pso.PSO">
+        <algorithm id="xpso-undx-velocity" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <!--PBest cant be same as position for UNDX because of orthonormalize function-->
@@ -49,20 +49,40 @@
         </algorithm>
 
         <!--Crossover gBest guide provider UNDX-->
-        <algorithm id="xpso-undx-3" class="pso.PSO">
+        <algorithm id="xpso-undx-guide-repeating" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
-                            <crossoverStrategy class="entity.operators.crossover.UnimodalNormalDistributionCrossoverStrategy"/>
-                            <retries class="controlparameter.ConstantControlParameter" parameter="10"/>
+                            <crossoverSelection class="pso.crossover.RepeatingCrossoverSelection">
+                                <crossoverStrategy class="entity.operators.crossover.UnimodalNormalDistributionCrossoverStrategy"/>
+                                <retries class="controlparameter.ConstantControlParameter" parameter="10"/>
+                            </crossoverSelection>
                         </globalGuideProvider>
                     </particleBehavior>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
-        
+
+        <algorithm id="xpso-undx-guide-boltzmann" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
+                            <crossoverSelection class="pso.crossover.BoltzmannCrossoverSelection">
+                                <crossoverStrategy class="entity.operators.crossover.UnimodalNormalDistributionCrossoverStrategy"/>
+                                <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1"/>
+                                <distribution class="math.random.UniformDistribution"/>
+                                <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
+                            </crossoverSelection>
+                        </globalGuideProvider>
+                    </particleBehavior>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
         <!--Crossover iteration strategy PCX-->
         <algorithm id="xpso-pcx-iteration-repeating" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -75,7 +95,7 @@
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
         
-        <algorithm id="xpso-pcx-iteration-boltzman" class="pso.PSO">
+        <algorithm id="xpso-pcx-iteration-boltzmann" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverSelection class="pso.crossover.BoltzmannCrossoverSelection">
                     <crossoverStrategy class="entity.operators.crossover.ParentCentricCrossoverStrategy"/>
@@ -123,20 +143,40 @@
         </algorithm>
 
         <!--Crossover gBest guide provider PCX-->
-        <algorithm id="xpso-pcx-3" class="pso.PSO">
+        <algorithm id="xpso-pcx-guide-repeating" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
-                            <crossoverStrategy class="entity.operators.crossover.ParentCentricCrossoverStrategy"/>
-                            <retries class="controlparameter.ConstantControlParameter" parameter="10"/>
+                            <crossoverSelection class="pso.crossover.RepeatingCrossoverSelection">
+                                <crossoverStrategy class="entity.operators.crossover.ParentCentricCrossoverStrategy"/>
+                                <retries class="controlparameter.ConstantControlParameter" parameter="10"/>
+                            </crossoverSelection>
                         </globalGuideProvider>
                     </particleBehavior>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
-        
+
+        <algorithm id="xpso-pcx-guide-boltzmann" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
+                            <crossoverSelection class="pso.crossover.BoltzmannCrossoverSelection">
+                                <crossoverStrategy class="entity.operators.crossover.ParentCentricCrossoverStrategy"/>
+                                <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1"/>
+                                <distribution class="math.random.UniformDistribution"/>
+                                <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
+                            </crossoverSelection>
+                        </globalGuideProvider>
+                    </particleBehavior>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
         <!--Crossover iteration strategy SPX-->
         <algorithm id="xpso-spx-iteration-repeating" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -149,7 +189,7 @@
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
         
-        <algorithm id="xpso-spx-iteration-boltzman" class="pso.PSO">
+        <algorithm id="xpso-spx-iteration-boltzmann" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverSelection class="pso.crossover.BoltzmannCrossoverSelection">
                     <crossoverStrategy class="entity.operators.crossover.SimplexCrossoverStrategy"/>
@@ -163,7 +203,7 @@
         </algorithm>
         
         <!--Crossover velocity provider SPX-->
-        <algorithm id="xpso-spx-2" class="pso.PSO">
+        <algorithm id="xpso-spx-velocity" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <particleBehavior class="pso.particle.ParticleBehavior">
@@ -178,13 +218,33 @@
         </algorithm>
         
         <!--Crossover gBest guide provider SPX-->
-        <algorithm id="xpso-spx-3" class="pso.PSO">
+        <algorithm id="xpso-spx-guide-repeating" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
-                            <crossoverStrategy class="entity.operators.crossover.SimplexCrossoverStrategy"/>
-                            <retries class="controlparameter.ConstantControlParameter" parameter="10"/>
+                            <crossoverSelection class="pso.crossover.RepeatingCrossoverSelection">
+                                <crossoverStrategy class="entity.operators.crossover.SimplexCrossoverStrategy"/>
+                                <retries class="controlparameter.ConstantControlParameter" parameter="10"/>
+                            </crossoverSelection>
+                        </globalGuideProvider>
+                    </particleBehavior>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
+        <algorithm id="xpso-spx-guide-boltzmann" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
+                            <crossoverSelection class="pso.crossover.BoltzmannCrossoverSelection">
+                                <crossoverStrategy class="entity.operators.crossover.SimplexCrossoverStrategy"/>
+                                <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1"/>
+                                <distribution class="math.random.UniformDistribution"/>
+                                <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
+                            </crossoverSelection>
                         </globalGuideProvider>
                     </particleBehavior>
                 </entityType>
@@ -208,37 +268,44 @@
             <algorithm idref="xpso-undx-iteration-repeating"/>
             <problem idref="spherical"/>
             <measurements idref="fitness" />
-	        <output format="TXT" file="data/xpso-undx-repeating-spherical.txt" />
+	        <output format="TXT" file="data/xpso-undx-iteration-repeating-spherical.txt" />
         </simulation>
         <simulation samples="5">
-            <algorithm idref="xpso-undx-iteration-boltzman"/>
+            <algorithm idref="xpso-undx-iteration-boltzmann"/>
             <problem idref="spherical"/>
             <measurements idref="fitness" />
-	        <output format="TXT" file="data/xpso-undx-boltzman-spherical.txt" />
+	        <output format="TXT" file="data/xpso-undx-iteration-boltzmann-spherical.txt" />
         </simulation>
         <simulation samples="5">
-            <algorithm idref="xpso-undx-2"/>
+            <algorithm idref="xpso-undx-velocity"/>
             <problem idref="spherical"/>
             <measurements idref="fitness" />
-	        <output format="TXT" file="data/xpso-undx-2-spherical.txt" />
+	        <output format="TXT" file="data/xpso-undx-velocity-spherical.txt" />
         </simulation>
         <simulation samples="5">
-            <algorithm idref="xpso-undx-3"/>
+            <algorithm idref="xpso-undx-guide-repeating"/>
             <problem idref="spherical"/>
             <measurements idref="fitness" />
-	        <output format="TXT" file="data/xpso-undx-3-spherical.txt" />
+	        <output format="TXT" file="data/xpso-undx-guide-repeating-spherical.txt" />
         </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-undx-guide-boltzmann"/>
+            <problem idref="spherical"/>
+            <measurements idref="fitness" />
+	        <output format="TXT" file="data/xpso-undx-guide-boltzmann-spherical.txt" />
+        </simulation>
+
         <simulation samples="5">
             <algorithm idref="xpso-pcx-iteration-repeating"/>
             <problem idref="spherical"/>
             <measurements idref="fitness" />
-	        <output format="TXT" file="data/xpso-pcx-repeating-spherical.txt" />
+	        <output format="TXT" file="data/xpso-pcx-iteration-repeating-spherical.txt" />
         </simulation>
         <simulation samples="5">
-            <algorithm idref="xpso-pcx-iteration-boltzman"/>
+            <algorithm idref="xpso-pcx-iteration-boltzmann"/>
             <problem idref="spherical"/>
             <measurements idref="fitness" />
-	        <output format="TXT" file="data/xpso-pcx-boltzman-spherical.txt" />
+	        <output format="TXT" file="data/xpso-pcx-iteration-boltzmann-spherical.txt" />
         </simulation>
         <simulation samples="5">
             <algorithm idref="xpso-pcx-velocity"/>
@@ -253,34 +320,47 @@
 	        <output format="TXT" file="data/xpso-pcx-velocity-alternative-spherical.txt" />
         </simulation>
         <simulation samples="5">
-            <algorithm idref="xpso-pcx-3"/>
+            <algorithm idref="xpso-pcx-guide-repeating"/>
             <problem idref="spherical"/>
             <measurements idref="fitness" />
-	        <output format="TXT" file="data/xpso-pcx-3-spherical.txt" />
+	        <output format="TXT" file="data/xpso-pcx-guide-repeating-spherical.txt" />
         </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-guide-boltzmann"/>
+            <problem idref="spherical"/>
+            <measurements idref="fitness" />
+	        <output format="TXT" file="data/xpso-pcx-guide-boltzmann-spherical.txt" />
+        </simulation>
+
         <simulation samples="5">
             <algorithm idref="xpso-spx-iteration-repeating"/>
             <problem idref="spherical"/>
             <measurements idref="fitness" />
-	        <output format="TXT" file="data/xpso-spx-repeating-spherical.txt" />
+	        <output format="TXT" file="data/xpso-spx-iteration-repeating-spherical.txt" />
         </simulation>
         <simulation samples="5">
-            <algorithm idref="xpso-spx-iteration-boltzman"/>
+            <algorithm idref="xpso-spx-iteration-boltzmann"/>
             <problem idref="spherical"/>
             <measurements idref="fitness" />
-	        <output format="TXT" file="data/xpso-spx-boltzman-spherical.txt" />
+	        <output format="TXT" file="data/xpso-spx-iteration-boltzmann-spherical.txt" />
         </simulation>
         <simulation samples="5">
-            <algorithm idref="xpso-spx-2"/>
+            <algorithm idref="xpso-spx-velocity"/>
             <problem idref="spherical"/>
             <measurements idref="fitness" />
-	        <output format="TXT" file="data/xpso-spx-2-spherical.txt" />
+	        <output format="TXT" file="data/xpso-spx-velocity-spherical.txt" />
         </simulation>
         <simulation samples="5">
-            <algorithm idref="xpso-spx-3"/>
+            <algorithm idref="xpso-spx-guide-repeating"/>
             <problem idref="spherical"/>
             <measurements idref="fitness" />
-	        <output format="TXT" file="data/xpso-spx-3-spherical.txt" />
+	        <output format="TXT" file="data/xpso-spx-guide-repeating-spherical.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-spx-guide-boltzmann"/>
+            <problem idref="spherical"/>
+            <measurements idref="fitness" />
+	        <output format="TXT" file="data/xpso-spx-guide-boltzmann-spherical.txt" />
         </simulation>
     </simulations>
 </simulator>
