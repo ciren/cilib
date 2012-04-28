@@ -21,20 +21,26 @@
  */
 package net.sourceforge.cilib.pso.crossover;
 
+import com.google.common.collect.Maps;
 import fj.P;
 import fj.P3;
 import java.util.List;
+import java.util.Map;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.ParentCentricCrossoverStrategy;
+import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.Cloneable;
 import net.sourceforge.cilib.util.selection.Samples;
-import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
+import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
  * An operation used in the PSOCrossoverIterationStrategy which is responsible for performing the crossover and
@@ -43,43 +49,55 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 public abstract class CrossoverSelection implements Cloneable {
 
     private CrossoverStrategy crossoverStrategy;
-    private RandomSelector selector;
+    private Selector selector;
     private ControlParameter numberOfParents;
+    private ParticleProvider particleProvider;
 
     public CrossoverSelection() {
         this.crossoverStrategy = new ParentCentricCrossoverStrategy();
         this.selector = new RandomSelector();
         this.numberOfParents = ConstantControlParameter.of(3);
+        this.particleProvider = new WorstParentParticleProvider();
     }
 
     public CrossoverSelection(CrossoverSelection copy) {
         this.crossoverStrategy = copy.crossoverStrategy.getClone();
         this.selector = copy.selector;
         this.numberOfParents = copy.numberOfParents.getClone();
+        this.particleProvider = copy.particleProvider;
     }
 
-    public P3<Boolean, Particle, Particle> select(PSO algorithm) {
+    public P3<Boolean, Particle, Particle> select(PSO algorithm, Enum solutionType, Enum fitnessType) {
         boolean isBetter = false;
+        Topology<Particle> topology = algorithm.getTopology();
+	Map<Entity, StructuredType> tmp = Maps.newHashMap();
 
-        // get 3 random particles
-        List<Entity> parents = selector.on(algorithm.getTopology()).select(Samples.first((int) numberOfParents.getParameter()).unique());
+        // get random particles
+        List<Entity> parents = selector.on(topology).select(Samples.first((int) numberOfParents.getParameter()).unique());
+
+        //put pbest as candidate solution for the crossover
+        for (Entity e : parents) {
+            tmp.put(e, e.getCandidateSolution());
+            e.getProperties().put(EntityType.CANDIDATE_SOLUTION, e.getProperties().get(solutionType));
+        }
 
         //perform crossover and compute offspring's fitness
         Particle offspring = (Particle) crossoverStrategy.crossover(parents).get(0);
         offspring.calculateFitness();
 
-        //get worst parent
-        Particle worstParent = (Particle) new ElitistSelector().on(parents).select(Samples.all()).get((int) numberOfParents.getParameter() - 1);
+        Particle selectedParticle = particleProvider.get(parents);
 
-        //replace worst parent with offspring if offspring is better
-        if (offspring.getFitness().compareTo(worstParent.getFitness()) > 0) {
+        //replace selectedEntity if offspring is better
+        if (((Fitness) offspring.getProperties().get(fitnessType)).compareTo((Fitness) selectedParticle.getProperties().get(fitnessType)) > 0) {
             isBetter = true;
-            int i = algorithm.getTopology().indexOf(worstParent);
-            algorithm.getTopology().set(i, offspring);
-            offspring.setNeighbourhoodBest(worstParent.getNeighbourhoodBest());
         }
 
-        return P.p(isBetter, worstParent, offspring);
+        // revert solutions
+        for (Entity e : parents) {
+	    e.setCandidateSolution(tmp.get(e));
+        }
+
+        return P.p(isBetter, selectedParticle, offspring);
     }
 
     public void setNumberOfParents(ControlParameter numberOfParents) {
@@ -94,7 +112,27 @@ public abstract class CrossoverSelection implements Cloneable {
         this.crossoverStrategy = crossoverStrategy;
     }
 
-    public abstract void doAction(PSO algorithm);
+    public CrossoverStrategy getCrossoverStrategy() {
+        return crossoverStrategy;
+    }
+
+    public void setParticleProvider(ParticleProvider particleProvider) {
+        this.particleProvider = particleProvider;
+    }
+
+    public ParticleProvider getParticleProvider() {
+        return particleProvider;
+    }
+
+    public Selector getSelector() {
+        return selector;
+    }
+
+    public void setSelector(Selector selector) {
+        this.selector = selector;
+    }
+
+    public abstract P3<Boolean, Particle, Particle> doAction(PSO algorithm, Enum solutionType, Enum fitnessType);
 
     @Override
     public abstract CrossoverSelection getClone();
