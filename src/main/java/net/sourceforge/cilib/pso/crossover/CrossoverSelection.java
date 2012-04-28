@@ -21,9 +21,11 @@
  */
 package net.sourceforge.cilib.pso.crossover;
 
+import com.google.common.collect.Maps;
 import fj.P;
 import fj.P3;
 import java.util.List;
+import java.util.Map;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
@@ -34,6 +36,7 @@ import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.ParentCentricCrossoverStrategy;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.Cloneable;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
@@ -49,10 +52,6 @@ public abstract class CrossoverSelection implements Cloneable {
     private Selector selector;
     private ControlParameter numberOfParents;
     private ParticleProvider particleProvider;
-
-    private enum TempEnums {
-        TEMP
-    };
 
     public CrossoverSelection() {
         this.crossoverStrategy = new ParentCentricCrossoverStrategy();
@@ -71,14 +70,14 @@ public abstract class CrossoverSelection implements Cloneable {
     public P3<Boolean, Particle, Particle> select(PSO algorithm, Enum solutionType, Enum fitnessType) {
         boolean isBetter = false;
         Topology<Particle> topology = algorithm.getTopology();
+	Map<Entity, StructuredType> tmp = Maps.newHashMap();
 
         // get random particles
         List<Entity> parents = selector.on(topology).select(Samples.first((int) numberOfParents.getParameter()).unique());
 
         //put pbest as candidate solution for the crossover
         for (Entity e : parents) {
-            Particle p = (Particle) e;
-            e.getProperties().put(TempEnums.TEMP, p.getCandidateSolution());
+            tmp.put(e, e.getCandidateSolution());
             e.getProperties().put(EntityType.CANDIDATE_SOLUTION, e.getProperties().get(solutionType));
         }
 
@@ -95,7 +94,7 @@ public abstract class CrossoverSelection implements Cloneable {
 
         // revert solutions
         for (Entity e : parents) {
-            e.getProperties().put(EntityType.CANDIDATE_SOLUTION, e.getProperties().get(TempEnums.TEMP));
+	    e.setCandidateSolution(tmp.get(e));
         }
 
         return P.p(isBetter, selectedParticle, offspring);
