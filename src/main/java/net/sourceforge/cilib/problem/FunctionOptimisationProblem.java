@@ -57,6 +57,7 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
     public FunctionOptimisationProblem(FunctionOptimisationProblem copy) {
         super(copy);
         function = copy.function;
+        domainRegistry = copy.domainRegistry.getClone();
     }
 
     /**

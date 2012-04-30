@@ -177,7 +177,10 @@ public final class NichingFunctions {
 
                 NichingSwarms createdSwarms = swarms;
                 for (Entity e : filteredEntities) {
-                    createdSwarms = creationStrategy.f(createdSwarms, e);
+                    // check if it got removed
+                    if (createdSwarms.getMainSwarm().getTopology().contains(e)) {
+                        createdSwarms = creationStrategy.f(createdSwarms, e);
+                    }
                 }
 
                 PopulationBasedAlgorithm newMainSwarm = createdSwarms.getMainSwarm();

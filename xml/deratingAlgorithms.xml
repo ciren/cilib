@@ -34,11 +34,11 @@
             </nicheDetector>
 
             <mergeDetector class="niching.merging.detection.RadiusOverlapMergeDetection">
-                <threshold class="controlparameter.ConstantControlParameter" parameter="1.0E-3"/>
+                <threshold class="controlparameter.ConstantControlParameter" parameter="1.0E-12"/>
             </mergeDetector>
 
             <absorptionDetector class="niching.merging.detection.RadiusOverlapMergeDetection">
-                <threshold class="controlparameter.ConstantControlParameter" parameter="1.0E-6"/>
+                <threshold class="controlparameter.ConstantControlParameter" parameter="1.0E-12"/>
             </absorptionDetector>
 
             <mainSwarmMerger class="niching.merging.SingleSwarmMergeStrategy"/>

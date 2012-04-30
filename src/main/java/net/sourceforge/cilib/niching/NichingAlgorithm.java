@@ -28,6 +28,7 @@ import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
@@ -52,6 +53,7 @@ import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrateg
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
+import net.sourceforge.cilib.type.types.Int;
 
 /**
  * <p>
@@ -190,6 +192,10 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
         this.mainSwarm.setOptimisationProblem(getOptimisationProblem());
 
         this.mainSwarm.performInitialisation();
+        
+        for (Entity e : mainSwarm.getTopology()) {
+            e.getProperties().put(EntityType.Coevolution.POPULATION_ID, Int.valueOf(0));
+        }
 
         this.entityType = this.mainSwarm.getTopology().get(0);
     }
