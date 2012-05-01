@@ -146,10 +146,12 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
         // Add particles until the swarm has at least 3 particles
         final double nicheRadius = nRadius;
         final UniformDistribution uniform = new UniformDistribution();
+        int extras = (int) minSwarmSize.getParameter() - newTopology.length();
         
-        for (int i = 0; i < minSwarmSize.getParameter() - newTopology.length(); i++) {
+        for (int i = 0; i < extras; i++) {
             Particle newP = gBest.getClone();
             
+            // new position within the niche
             Vector solution = (Vector) newP.getCandidateSolution();
             solution = solution.multiply(new Supplier<Number>() {
                 @Override
@@ -164,7 +166,7 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
         }
 
         // Create the new subswarm, set its optimisation problem, add the particles to it
-        PopulationBasedAlgorithm newSubswarm = swarmType;
+        PopulationBasedAlgorithm newSubswarm = swarmType.getClone();
         newSubswarm.setOptimisationProblem(swarms.getMainSwarm().getOptimisationProblem());
         newSubswarm.getTopology().clear();
         ((Topology<Particle>) newSubswarm.getTopology()).addAll(newTopology.toCollection());

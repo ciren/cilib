@@ -19,27 +19,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.niching.utils;
+package net.sourceforge.cilib.niching.iterators;
 
-import net.sourceforge.cilib.niching.NichingFunctions;
-import net.sourceforge.cilib.util.Cloneable;
+import net.sourceforge.cilib.niching.NichingSwarms;
+import static net.sourceforge.cilib.niching.NichingSwarms.onSubswarms;
 
-public abstract class SubswarmIterator extends NichingFunctions.NichingFunction implements Cloneable {
-
-    protected NicheIteration iterator;
-
-    public SubswarmIterator() {
-        this.iterator = new CompleteNicheIteration();
-    }
-
-    public void setIterator(NicheIteration iterator) {
-        this.iterator = iterator;
-    }
-
-    public NicheIteration getIterator() {
-        return iterator;
+public class AllSwarmsIterator extends SubswarmIterator {
+    @Override
+    public NichingSwarms f(NichingSwarms a) {
+        return onSubswarms(iterator).f(a);
     }
 
     @Override
-    public abstract SubswarmIterator getClone();
+    public AllSwarmsIterator getClone() {
+        AllSwarmsIterator i = new AllSwarmsIterator();
+        i.setIterator(iterator);
+        return i;
+    }
 }

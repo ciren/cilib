@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.cilib.entity.EntityIdFactory;
 import net.sourceforge.cilib.moo.archive.Archive;
-import net.sourceforge.cilib.problem.DeratingOptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;

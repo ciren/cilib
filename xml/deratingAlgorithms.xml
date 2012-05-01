@@ -48,11 +48,11 @@
             <subSwarmMerger class="niching.merging.StandardMergeStrategy"/>
             <subSwarmMerger class="niching.merging.StandardMergeStrategy"/>
 
-            <subSwarmIterator class="niching.utils.AllSwarmsIterator">
-                <iterator class="niching.utils.SingleNicheIteration"/>
+            <subSwarmIterator class="niching.iterators.AllSwarmsIterator">
+                <iterator class="niching.iterators.SingleNicheIteration"/>
             </subSwarmIterator>
 
-            <mainSwarmIterator class="niching.utils.SingleNicheIteration"/>
+            <mainSwarmIterator class="niching.iterators.SingleNicheIteration"/>
         </algorithm>
 
         <algorithm id="SNT-PSO" class="niching.SequentialNichingTechnique">

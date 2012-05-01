@@ -19,21 +19,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.niching.utils;
+package net.sourceforge.cilib.niching.creation;
 
-import net.sourceforge.cilib.niching.NichingSwarms;
-import static net.sourceforge.cilib.niching.NichingSwarms.onSubswarms;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
 
-public class AllSwarmsIterator extends SubswarmIterator {
+public class AlwaysTrueNicheDetection extends NicheDetection {
     @Override
-    public NichingSwarms f(NichingSwarms a) {
-        return onSubswarms(iterator).f(a);
-    }
-
-    @Override
-    public AllSwarmsIterator getClone() {
-        AllSwarmsIterator i = new AllSwarmsIterator();
-        i.setIterator(iterator);
-        return i;
+    public Boolean f(PopulationBasedAlgorithm a, Entity b) {
+        return true;
     }
 }

@@ -86,28 +86,33 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
     @Override
     public NichingSwarms f(NichingSwarms a, Entity b) {
         //There should be at least two particles
-        if (a.getMainSwarm().getTopology().size() <= 1) {
+        if (a.getMainSwarm().getTopology().size() <= 1 || !a.getMainSwarm().getTopology().contains(b)) {
             return a;
         }
         
+        // Get closest particle
         ClosestEntityVisitor closestEntityVisitor = new ClosestEntityVisitor();
         closestEntityVisitor.setTargetEntity(b);
-        a._1().accept(closestEntityVisitor);
+        a.getMainSwarm().accept(closestEntityVisitor);
         
+        // Clone particles
         Particle nicheMainParticle = (Particle) b.getClone();
         Particle nicheClosestParticle = (Particle) closestEntityVisitor.getResult().getClone();
         
+        // Set behavior and nBest
         nicheMainParticle.setNeighbourhoodBest(nicheMainParticle);
         nicheClosestParticle.setNeighbourhoodBest(nicheMainParticle);
         
         nicheMainParticle.setParticleBehavior(swarmBehavior.getClone());
         nicheClosestParticle.setParticleBehavior(swarmBehavior.getClone());
         
+        // Create new subswarm
         PopulationBasedAlgorithm newSubSwarm = swarmType.getClone();
         newSubSwarm.setOptimisationProblem(a.getMainSwarm().getOptimisationProblem());
         newSubSwarm.getTopology().clear();
-        ((Topology<Particle>) newSubSwarm.getTopology()).addAll(Arrays.asList(nicheMainParticle, nicheClosestParticle));
+        ((Topology<Particle>) newSubSwarm.getTopology()).addAll(Arrays.asList(nicheMainParticle, nicheClosestParticle));        
         
+        // Create new mainswarm
         PopulationBasedAlgorithm newMainSwarm = a.getMainSwarm().getClone();
         newMainSwarm.getTopology().clear();
         for(Entity e : a.getMainSwarm().getTopology()) {
