@@ -66,6 +66,40 @@
 
             <iterationStrategy class="niching.iterationstrategies.VectorBasedPSO"/>
         </algorithm>
+
+        <algorithm id="enhancedVBPSO" class="niching.NichingAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="10">
+                <predicate class="stoppingcondition.Maximum"/>
+                <measurement class="measurement.generic.Iterations"/>
+            </addStoppingCondition>
+
+            <nicheCreator class="niching.creation.VectorBasedNicheCreationStrategy">
+                <swarmBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.8"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="1.0"/>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.0"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.VectorBasedPositionProvider">
+                        <granularity class="controlparameter.ConstantControlParameter" parameter="0.01"/>
+                    </positionProvider>
+                </swarmBehavior>
+
+                <swarmType class="pso.PSO">
+                    <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+                </swarmType>
+            </nicheCreator>
+
+            <nicheDetector class="niching.creation.AlwaysTrueNicheDetection"/>
+
+            <subSwarmIterator class="niching.iterators.MergingSubswarmIterator">
+                <iterator class="niching.iterators.SingleNicheIteration"/>
+                <granularity class="controlparameter.ConstantControlParameter" parameter="0.01"/>
+                <iterations class="controlparameter.ConstantControlParameter" parameter="10"/>
+            </subSwarmIterator>
+
+            <iterationStrategy class="niching.iterationstrategies.VectorBasedPSO"/>
+        </algorithm>
     </algorithms>
 
     <problems>
@@ -155,6 +189,37 @@
             <problem idref="f5"/>
             <measurements idref="solution" />
             <output format="TXT" file="data/parallelVBPSO-f5.txt"/>
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="enhancedVBPSO"/>
+            <problem idref="f1"/>
+            <measurements idref="solution" />
+            <output format="TXT" file="data/enhancedVBPSO-f1.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="enhancedVBPSO"/>
+            <problem idref="f2"/>
+            <measurements idref="solution" />
+            <output format="TXT" file="data/enhancedVBPSO-f2.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="enhancedVBPSO"/>
+            <problem idref="f3"/>
+            <measurements idref="solution" />
+            <output format="TXT" file="data/enhancedVBPSO-f3.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="enhancedVBPSO"/>
+            <problem idref="f4"/>
+            <measurements idref="solution" />
+            <output format="TXT" file="data/enhancedVBPSO-f4.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="enhancedVBPSO"/>
+            <problem idref="f5"/>
+            <measurements idref="solution" />
+            <output format="TXT" file="data/enhancedVBPSO-f5.txt"/>
         </simulation>
     </simulations>
 </simulator>

@@ -14,7 +14,7 @@
         </algorithm>
 
         <algorithm id="speciationWithRedundantParticleReinitialization" class="pso.PSO">
-            <iterationStrategy class="niching.iterationstrategies.Speciation"/>
+            <iterationStrategy class="niching.iterationstrategies.EnhancedSpeciation"/>
             <topology class="entity.topologies.SpeciesSeedTopology">
                 <radius class="controlparameter.ConstantControlParameter" parameter="0.1"/>
             </topology>
