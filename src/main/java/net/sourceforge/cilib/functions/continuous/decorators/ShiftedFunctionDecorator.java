@@ -37,9 +37,9 @@ import net.sourceforge.cilib.type.types.container.Vector.Function;
  * Let c be a fixed positive number, then:
  *
  * Horizontal Shift:
- * If g(x) = f(x+c), then
- *             (c > 0) means that g(x) is f(x) shifted c units to the left
- *             (c < 0) means that g(x) is f(x) shifted c units to the right
+ * If g(x) = f(x-c), then
+ *             (c > 0) means that g(x) is f(x) shifted c units to the right
+ *             (c < 0) means that g(x) is f(x) shifted c units to the left
  *
  * Vertical Shift:
  * If g(x) = f(x) + c, then
