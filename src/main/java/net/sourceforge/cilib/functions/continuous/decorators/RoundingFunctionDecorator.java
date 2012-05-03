@@ -46,7 +46,6 @@ import net.sourceforge.cilib.type.types.container.Vector.Function;
  * Problem Definitions and Evaluation Criteria for the CEC 2005 Special Session on Real-Parameter Optimization.
  * Natural Computing, 1-50. Available at: http://vg.perso.eisti.fr/These/Papiers/Bibli2/CEC05.pdf.
  * </p>
- * @author filipe
  */
 public class RoundingFunctionDecorator implements ContinuousFunction {
     private ContinuousFunction function;

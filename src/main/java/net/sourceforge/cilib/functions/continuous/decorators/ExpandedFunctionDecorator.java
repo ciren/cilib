@@ -33,7 +33,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Using an n-D function F(x1, x2,..., x_n) as a starting function, corresponding expanded function is:<br/>
  * EF(x1, x2,..., x_D) = F(x1, x2) + F(x2, x3) + ... + F(x_D - 1, x_D) + F(x_D , x1)
  * </p>
- * @author filipe
  */
 public class ExpandedFunctionDecorator implements ContinuousFunction {
     private ContinuousFunction function;

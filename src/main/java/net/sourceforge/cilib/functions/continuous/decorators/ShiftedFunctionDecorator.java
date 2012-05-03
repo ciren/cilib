@@ -67,7 +67,7 @@ public class ShiftedFunctionDecorator implements ContinuousFunction {
         Vector tmp = horizontalShift.getParameter() == 0.0 ? input : input.map(new Function<Numeric, Numeric>() {
             @Override
             public Numeric apply(Numeric x) {
-                return Real.valueOf(x.doubleValue() + horizontalShift.getParameter());
+                return Real.valueOf(x.doubleValue() - horizontalShift.getParameter());
             }
         });
 

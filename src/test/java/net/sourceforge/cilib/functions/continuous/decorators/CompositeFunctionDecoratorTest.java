@@ -27,10 +27,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
-/**
- *
- * @author filipe
- */
 public class CompositeFunctionDecoratorTest {
 
     @Test

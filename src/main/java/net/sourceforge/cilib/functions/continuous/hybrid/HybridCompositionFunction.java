@@ -36,13 +36,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Problem Definitions and Evaluation Criteria for the CEC 2005 Special Session on Real-Parameter Optimization.
  * Natural Computing, 1-50. Available at: http://vg.perso.eisti.fr/These/Papiers/Bibli2/CEC05.pdf.
  * </p>
- * @author filipe
  */
 public class HybridCompositionFunction implements ContinuousFunction {
     
     private List<SingleFunction> functions;
     private double scaleConstant;
-    private boolean done = false;
     
     public HybridCompositionFunction() {
         this.functions = Lists.<SingleFunction>newArrayList();
@@ -51,7 +49,6 @@ public class HybridCompositionFunction implements ContinuousFunction {
 
     @Override
     public Double apply(Vector input) {
-        input = Vector.of(1,1,1,1,1);
         int nDims = input.size();
 
         // Get the raw weights
@@ -82,13 +79,6 @@ public class HybridCompositionFunction implements ContinuousFunction {
         double sumF = 0.0;
         for (SingleFunction f : functions) {
             sumF += f.getWeight() * (scaleConstant * f.apply(input) + f.getBias());
-        }
-
-        if (!done) {
-            done = true;
-            for (SingleFunction f : functions) {
-                System.out.println("w " + f.getWeight() + " sc " + scaleConstant + " fm " + f.getfMax() + " b " + f.getBias() + " af " + f.apply(input));
-            }
         }
         
         return sumF;

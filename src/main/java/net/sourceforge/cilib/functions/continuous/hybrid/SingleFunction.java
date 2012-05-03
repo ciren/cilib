@@ -41,6 +41,9 @@ import net.sourceforge.cilib.util.Sequence;
  * <li>function: the optimization function that makes up the overall function</li>
  * </ul>
  * <p>
+ * When adding functions to the HybridCompositionFunction make sure the horizontalShift
+ * </p>
+ * <p>
  * Reference:
  * </p>
  * <p>
@@ -48,7 +51,6 @@ import net.sourceforge.cilib.util.Sequence;
  * Problem Definitions and Evaluation Criteria for the CEC 2005 Special Session on Real-Parameter Optimization.
  * Natural Computing, 1-50. Available at: http://vg.perso.eisti.fr/These/Papiers/Bibli2/CEC05.pdf.
  * </p>
- * @author filipe
  */
 public class SingleFunction implements ContinuousFunction {
     private ContinuousFunction function;
@@ -173,7 +175,7 @@ public class SingleFunction implements ContinuousFunction {
     public Double apply(Vector input) {
         //need to get input's size to set fMax
         if (!initialized) {
-            setfMax(rotationFunction.apply(Vector.copyOf(Sequence.repeat(5.0, input.size())).divide(lambda)));
+            setfMax(Math.abs(rotationFunction.apply(Vector.copyOf(Sequence.repeat(5.0, input.size())).divide(lambda))));
             initialized = true;
         }
 

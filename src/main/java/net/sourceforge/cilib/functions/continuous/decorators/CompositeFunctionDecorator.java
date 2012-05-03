@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p>
  * returns F_outer(F_inner(input))
  * </p>
- * @author filipe
  */
 public class CompositeFunctionDecorator implements ContinuousFunction {
     private ContinuousFunction innerFunction;

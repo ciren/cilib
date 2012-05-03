@@ -33,8 +33,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Utility functions pertaining to Matrices.
- * 
- * @author filipe
  */
 public class Matrices {
     
