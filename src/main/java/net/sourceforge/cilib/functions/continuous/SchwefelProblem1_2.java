@@ -37,6 +37,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * x e [-100,100]
  *
  * R(-100,100)^30
+ * <p>
+ * Implementation: 
+ * http://web.mysites.ntu.edu.sg/epnsugan/PublicSite/Shared%20Documents/Forms/AllItems.aspx?RootFolder=%2fepnsugan%2fPublicSite%2fShared%20Documents%2fCEC2005&FolderCTID=&View=%7bDAF31868%2d97D8%2d4779%2dAE49%2d9CEC4DC3F310%7
+ * </p>
  *
  */
 public class SchwefelProblem1_2 implements ContinuousFunction {
@@ -48,19 +52,16 @@ public class SchwefelProblem1_2 implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
-        double sumsq = 0.0;
-        double sum = 0.0;
+        double prevSum;
+        double currSum = 0.0;
+        double outerSum = 0.0;
 
-        for (int i = 0; i < input.size(); i++) {
-            sum = 0.0;
-
-            for (int j = 0; j < i; j++) {
-                sum += input.doubleValueOf(j);
-            }
-
-            sumsq += sum * sum;
+        for (int i = 0; i < input.size(); i ++) {
+            prevSum = currSum;
+            currSum = prevSum + input.doubleValueOf(i);
+            outerSum += currSum * currSum;
         }
 
-        return sumsq;
+        return outerSum;
     }
 }
