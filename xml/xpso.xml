@@ -9,24 +9,26 @@
         <!--Crossover iteration strategy UNDX-->
         <algorithm id="xpso-undx-iteration-repeating" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverSelection class="pso.crossover.RepeatingCrossoverSelection">
+                <crossoverOperation class="pso.crossover.RepeatingCrossoverSelection">
                     <crossoverStrategy class="entity.operators.crossover.UnimodalNormalDistributionCrossoverStrategy"/>
                     <retries class="controlparameter.ConstantControlParameter" parameter="10"/>
                     <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
-                </crossoverSelection>
+                </crossoverOperation>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
         
         <algorithm id="xpso-undx-iteration-boltzmann" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverSelection class="pso.crossover.BoltzmannCrossoverSelection">
+                <crossoverOperation class="pso.crossover.BoltzmannCrossoverSelection">
                     <crossoverStrategy class="entity.operators.crossover.UnimodalNormalDistributionCrossoverStrategy"/>
                     <!--This is problem dependent I think-->
-                    <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1"/>
-                    <distribution class="math.random.UniformDistribution"/>
+                    <comparator class="entity.comparator.BoltzmannComparator">
+                        <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1"/>
+                        <distribution class="math.random.UniformDistribution"/>
+                    </comparator>
                     <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
-                </crossoverSelection>
+                </crossoverOperation>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
@@ -86,24 +88,26 @@
         <!--Crossover iteration strategy PCX-->
         <algorithm id="xpso-pcx-iteration-repeating" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverSelection class="pso.crossover.RepeatingCrossoverSelection">
+                <crossoverOperation class="pso.crossover.RepeatingCrossoverSelection">
                     <crossoverStrategy class="entity.operators.crossover.ParentCentricCrossoverStrategy"/>
                     <retries class="controlparameter.ConstantControlParameter" parameter="10"/>
                     <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
-                </crossoverSelection>
+                </crossoverOperation>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
         
         <algorithm id="xpso-pcx-iteration-boltzmann" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverSelection class="pso.crossover.BoltzmannCrossoverSelection">
+                <crossoverOperation class="pso.crossover.BoltzmannCrossoverSelection">
                     <crossoverStrategy class="entity.operators.crossover.ParentCentricCrossoverStrategy"/>
                     <!--This is problem dependent I think-->
-                    <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1"/>
-                    <distribution class="math.random.UniformDistribution"/>
+                    <comparator class="entity.comparator.BoltzmannComparator">
+                        <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1"/>
+                        <distribution class="math.random.UniformDistribution"/>
+                    </comparator>
                     <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
-                </crossoverSelection>
+                </crossoverOperation>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
@@ -180,24 +184,26 @@
         <!--Crossover iteration strategy SPX-->
         <algorithm id="xpso-spx-iteration-repeating" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverSelection class="pso.crossover.RepeatingCrossoverSelection">
+                <crossoverOperation class="pso.crossover.RepeatingCrossoverSelection">
                     <crossoverStrategy class="entity.operators.crossover.SimplexCrossoverStrategy"/>
                     <retries class="controlparameter.ConstantControlParameter" parameter="10"/>
                     <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
-                </crossoverSelection>
+                </crossoverOperation>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
         
         <algorithm id="xpso-spx-iteration-boltzmann" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverSelection class="pso.crossover.BoltzmannCrossoverSelection">
+                <crossoverOperation class="pso.crossover.BoltzmannCrossoverSelection">
                     <crossoverStrategy class="entity.operators.crossover.SimplexCrossoverStrategy"/>
                     <!--This is problem dependent I think-->
-                    <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1"/>
-                    <distribution class="math.random.UniformDistribution"/>
+                    <comparator class="entity.comparator.BoltzmannComparator">
+                        <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1"/>
+                        <distribution class="math.random.UniformDistribution"/>
+                    </comparator>
                     <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
-                </crossoverSelection>
+                </crossoverOperation>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>

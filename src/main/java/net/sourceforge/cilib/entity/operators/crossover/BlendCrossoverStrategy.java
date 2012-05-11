@@ -95,7 +95,7 @@ public class BlendCrossoverStrategy extends CrossoverStrategy {
     }
 
     @Override
-    public List<Entity> crossover(List<Entity> parentCollection) {
+    public List<? extends Entity> crossover(List<? extends Entity> parentCollection) {
         List<Entity> offspring = new ArrayList<Entity>(parentCollection.size());
 
         // How do we handle variable sizes? Resizing the entities?

@@ -24,12 +24,16 @@ package net.sourceforge.cilib.pso.crossover;
 import fj.P3;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
 
 /**
- * A CrossoverSelection strategy that performs crossover on random parents until an offspring better than the worst
- * parent is found or n times.
+ * Performs a standard iteration then selects three random parents and performs
+ * crossover with them (default crossover strategy is PCX). If the offspring is
+ * better than the worst parent then the worst parent is replaced by the offspring.
+ * If not, the process is repeated a number of times (default 10).
  */
 public class RepeatingCrossoverSelection extends CrossoverSelection {
 

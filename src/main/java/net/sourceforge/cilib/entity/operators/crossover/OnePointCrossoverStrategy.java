@@ -48,7 +48,7 @@ public class OnePointCrossoverStrategy extends CrossoverStrategy {
         return new OnePointCrossoverStrategy(this);
     }
 
-    public List<Entity> crossover(List<Entity> parentCollection) {
+    public List<? extends Entity> crossover(List<? extends Entity> parentCollection) {
         ArrayList<Entity> offspring = new ArrayList<Entity>();
         offspring.ensureCapacity(parentCollection.size());
 

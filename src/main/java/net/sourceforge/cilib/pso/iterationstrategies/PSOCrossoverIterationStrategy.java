@@ -21,30 +21,28 @@
  */
 package net.sourceforge.cilib.pso.iterationstrategies;
 
-import fj.P3;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
-import net.sourceforge.cilib.algorithm.population.IterationStrategy;
-import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topologies;
+import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.crossover.BoltzmannCrossoverSelection;
-import net.sourceforge.cilib.pso.crossover.CrossoverSelection;
+import net.sourceforge.cilib.pso.crossover.PSOCrossoverOperation;
 
 /**
- * An iteration strategy that uses crossover to replace particles if the
- * offspring is better than the worst parent.
+ * An iteration strategy that uses different PSOCrossoverOperations to affect the 
+ * swarm of particles.
  */
 public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO> {
     
-    private IterationStrategy delegate;
-    private CrossoverSelection crossoverSelection;
+    private PSOCrossoverOperation crossoverOperation;
     
     /**
      * Default constructor
      */
     public PSOCrossoverIterationStrategy() {
-        this.delegate = new SynchronousIterationStrategy();
-        this.crossoverSelection = new BoltzmannCrossoverSelection();
+        this.crossoverOperation = new BoltzmannCrossoverSelection();
     }
     
     /**
@@ -53,8 +51,7 @@ public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO
      * @param copy 
      */
     public PSOCrossoverIterationStrategy(PSOCrossoverIterationStrategy copy) {
-        this.delegate = copy.delegate.getClone();
-        this.crossoverSelection = copy.crossoverSelection.getClone();
+        this.crossoverOperation = copy.crossoverOperation.getClone();
     }
 
     /**
@@ -68,38 +65,32 @@ public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO
     }
 
     /**
-     * Performs a standard iteration then selects three random parents and performs
-     * crossover with them (default crossover strategy is PCX). If the offspring is
-     * better than the worst parent then the worst parent is replaced by the offspring.
-     * If not, the process is repeated a number of times (default 10).
+     * 
      * 
      * @param algorithm 
      */
     @Override
     public void performIteration(PSO algorithm) {
-        delegate.performIteration(algorithm);
+        Topology<Particle> topology = algorithm.getTopology();
         
-        P3<Boolean, Particle, Particle> result = 
-                crossoverSelection.doAction(algorithm, EntityType.CANDIDATE_SOLUTION, EntityType.FITNESS);
-
-        // if offspring is better replace the selected particle
-        if (result._1()) {
-            int i = algorithm.getTopology().indexOf(result._2());
-            algorithm.getTopology().set(i, result._3());
-            result._3().setNeighbourhoodBest(result._2().getNeighbourhoodBest());
+        for (Particle p : topology) {
+            p.calculateFitness();
+        
+            Particle nBest = Topologies.getNeighbourhoodBest(topology, p, new SocialBestFitnessComparator());
+            p.setNeighbourhoodBest(nBest);
         }
+
+        for (Particle current : topology) {
+            current.updateVelocity();
+            current.updatePosition();
+
+            boundaryConstraint.enforce(current);
+        }
+        
+        algorithm.setTopology(crossoverOperation.performCrossoverOpertation(algorithm));
     }
 
-    /**
-     * Sets the standard iteration strategy to use.
-     * 
-     * @param delegate 
-     */
-    public void setDelegate(IterationStrategy delegate) {
-        this.delegate = delegate;
-    }
-
-    public void setCrossoverSelection(CrossoverSelection crossoverSelection) {
-        this.crossoverSelection = crossoverSelection;
+    public void setCrossoverOperation(PSOCrossoverOperation crossoverOperation) {
+        this.crossoverOperation = crossoverOperation;
     }
 }

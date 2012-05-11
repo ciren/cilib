@@ -58,7 +58,7 @@ public abstract class CrossoverStrategy implements Operator {
      */
     public abstract CrossoverStrategy getClone();
 
-    public abstract List<Entity> crossover(List<Entity> parentCollection);
+    public abstract List<? extends Entity> crossover(List<? extends Entity> parentCollection);
 
     /**
      *
