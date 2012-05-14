@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.pso.crossover;
 
+import fj.P;
 import fj.P3;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.LinearlyVaryingControlParameter;
@@ -28,6 +29,7 @@ import net.sourceforge.cilib.controlparameter.UpdateOnIterationControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.PSO;
 
 /**
@@ -58,22 +60,25 @@ public class BoltzmannCrossoverSelection extends CrossoverSelection {
     }
 
     @Override
-    public void doAction(PSO algorithm) {
-        P3<Boolean, Particle, Particle> result = select(algorithm);
-        Particle worstParent = result._2();
+    public P3<Boolean, Particle, Particle> doAction(PSO algorithm, Enum solutionType, Enum fitnessType) {
+        P3<Boolean, Particle, Particle> result = select(algorithm, solutionType, fitnessType);
+        Particle selectedParticle = result._2();
         Particle offspring = result._3();
 
         if (!result._1()) {
-            int sign = -worstParent.getFitness().compareTo(offspring.getFitness());
-            double diff = Math.abs(worstParent.getFitness().getValue() - offspring.getFitness().getValue());
+            Fitness selectedFitness = (Fitness) selectedParticle.getProperties().get(fitnessType);
+            Fitness offspringFitness = (Fitness) offspring.getProperties().get(fitnessType);
+            
+            int sign = -selectedFitness.compareTo(offspringFitness);
+            double diff = Math.abs(selectedFitness.getValue() - offspringFitness.getValue());
             double probability = 1 / (1 + Math.exp(sign * diff / tempSchedule.getParameter()));
 
             if (distribution.getRandomNumber() > probability) {
-                int i = algorithm.getTopology().indexOf(worstParent);
-                algorithm.getTopology().set(i, offspring);
-                offspring.setNeighbourhoodBest(worstParent.getNeighbourhoodBest());
+                return P.p(true, result._2(), result._3());
             }
         }
+
+        return result;
     }
 
     @Override

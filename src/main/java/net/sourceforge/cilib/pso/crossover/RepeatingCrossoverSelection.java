@@ -46,14 +46,17 @@ public class RepeatingCrossoverSelection extends CrossoverSelection {
     }
 
     @Override
-    public void doAction(PSO algorithm) {
+    public P3<Boolean, Particle, Particle> doAction(PSO algorithm, Enum solutionType, Enum fitnessType) {
         int counter = 0;
         boolean isBetter;
+        P3<Boolean, Particle, Particle> result;
 
         do {
-            P3<Boolean, Particle, Particle> result = select(algorithm);
+            result = select(algorithm, solutionType, fitnessType);
             isBetter = result._1();
         } while(++counter < retries.getParameter() && !isBetter);
+
+        return result;
     }
 
     public void setRetries(ControlParameter retries) {

@@ -21,8 +21,11 @@
  */
 package net.sourceforge.cilib.pso.iterationstrategies;
 
+import fj.P3;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
+import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.crossover.BoltzmannCrossoverSelection;
 import net.sourceforge.cilib.pso.crossover.CrossoverSelection;
@@ -76,7 +79,15 @@ public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO
     public void performIteration(PSO algorithm) {
         delegate.performIteration(algorithm);
         
-        crossoverSelection.doAction(algorithm);
+        P3<Boolean, Particle, Particle> result = 
+                crossoverSelection.doAction(algorithm, EntityType.CANDIDATE_SOLUTION, EntityType.FITNESS);
+
+        // if offspring is better replace the selected particle
+        if (result._1()) {
+            int i = algorithm.getTopology().indexOf(result._2());
+            algorithm.getTopology().set(i, result._3());
+            result._3().setNeighbourhoodBest(result._2().getNeighbourhoodBest());
+        }
     }
 
     /**

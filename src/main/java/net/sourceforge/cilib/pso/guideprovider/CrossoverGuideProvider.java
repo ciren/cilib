@@ -21,20 +21,15 @@
  */
 package net.sourceforge.cilib.pso.guideprovider;
 
-import java.util.List;
+import fj.P3;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
-import net.sourceforge.cilib.entity.operators.crossover.ParentCentricCrossoverStrategy;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.crossover.CrossoverSelection;
+import net.sourceforge.cilib.pso.crossover.NBestParticleProvider;
+import net.sourceforge.cilib.pso.crossover.RepeatingCrossoverSelection;
 import net.sourceforge.cilib.type.types.container.StructuredType;
-import net.sourceforge.cilib.util.selection.Samples;
-import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 
 /**
  * This guide provider generates an offspring particle from random parents.
@@ -46,10 +41,8 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 public class CrossoverGuideProvider implements GuideProvider {
     
     private GuideProvider delegate;
-    private CrossoverStrategy crossoverStrategy;
-    private ControlParameter retries;
-    private RandomSelector selector;
-    private ControlParameter numberOfParents;
+    private CrossoverSelection crossoverSelection;
+    private NBestParticleProvider particleProvider;
 
     private enum TempEnums {
         TEMP
@@ -60,10 +53,8 @@ public class CrossoverGuideProvider implements GuideProvider {
      */
     public CrossoverGuideProvider() {
         this.delegate = new NBestGuideProvider();
-        this.crossoverStrategy = new ParentCentricCrossoverStrategy();
-        this.retries = ConstantControlParameter.of(10);
-        this.selector = new RandomSelector();
-        this.numberOfParents = ConstantControlParameter.of(10);
+        this.crossoverSelection = new RepeatingCrossoverSelection();
+        this.particleProvider = new NBestParticleProvider();
     }
     
     /**
@@ -73,10 +64,8 @@ public class CrossoverGuideProvider implements GuideProvider {
      */
     public CrossoverGuideProvider(CrossoverGuideProvider copy) {
         this.delegate = copy.delegate.getClone();
-        this.crossoverStrategy = copy.crossoverStrategy.getClone();
-        this.retries = copy.retries;
-        this.selector = copy.selector;
-        this.numberOfParents = copy.numberOfParents.getClone();
+        this.crossoverSelection = copy.crossoverSelection.getClone();
+        this.particleProvider = copy.particleProvider;
     }
     
     /**
@@ -92,66 +81,42 @@ public class CrossoverGuideProvider implements GuideProvider {
      */
     @Override
     public StructuredType get(Particle particle) {
-        int counter = 0;
-        boolean isBetter = false;
-        Topology<Particle> topology = ((PSO)AbstractAlgorithm.get()).getTopology();
-       
-        do {
-            // get 3 random particles
-            List<Entity> parents = selector.on(topology).select(Samples.first((int) numberOfParents.getParameter()).unique());
-            
-            //put pbest as candidate solution for the crossover
-            for (Entity e : parents) {
-                Particle p = (Particle) e;
-                e.getProperties().put(TempEnums.TEMP, p.getCandidateSolution());
-                e.getProperties().put(EntityType.CANDIDATE_SOLUTION, p.getBestPosition());              
-            }
-            
-            //perform crossover and compute offspring's fitness
-            Particle offspring = (Particle) crossoverStrategy.crossover(parents).get(0);
-            offspring.calculateFitness();
-            
-            Particle gBest = particle.getNeighbourhoodBest();
+        PSO pso = (PSO) AbstractAlgorithm.get();
+        particleProvider.setParticle(particle);
+        crossoverSelection.setParticleProvider(particleProvider);
 
-            //replace gBest if offspring is better (we dont replace the gbest particle,
-            //we only update it's best position)
-            if (offspring.getFitness().compareTo(gBest.getBestFitness()) > 0) {
-                isBetter = true;
-                gBest.getProperties().put(EntityType.Particle.BEST_POSITION, offspring.getCandidateSolution());
-                gBest.getProperties().put(EntityType.Particle.BEST_FITNESS, offspring.getFitness());
-            }
-            
-            for (Entity e : parents) {
-                e.getProperties().put(EntityType.CANDIDATE_SOLUTION, e.getProperties().get(TempEnums.TEMP));
-            }
-        } while(++counter < retries.getParameter() && !isBetter);
-        
+        P3<Boolean, Particle, Particle> result = crossoverSelection.doAction(pso, EntityType.Particle.BEST_POSITION, EntityType.Particle.BEST_FITNESS);
+        Particle gBest = particle.getNeighbourhoodBest();
+
+        if (result._1()) {
+            gBest.getProperties().put(EntityType.Particle.BEST_POSITION, result._3().getCandidateSolution());
+            gBest.getProperties().put(EntityType.Particle.BEST_FITNESS, result._3().getFitness());
+        }
+
         return delegate.get(particle);
     }
 
-    /**
-     * Sets the crossover strategy to use.
-     * 
-     * @param crossoverStrategy 
-     */
-    public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {
-        this.crossoverStrategy = crossoverStrategy;
+    public void setParticleProvider(NBestParticleProvider particleProvider) {
+        this.particleProvider = particleProvider;
     }
 
-    /**
-     * Sets the number times to retry before returning the gBest.
-     * 
-     * @param retries 
-     */
-    public void setRetries(ControlParameter retries) {
-        this.retries = retries;
+    public NBestParticleProvider getParticleProvider() {
+        return particleProvider;
     }
 
-    public void setNumberOfParents(ControlParameter numberOfParents) {
-        this.numberOfParents = numberOfParents;
+    public void setCrossoverSelection(CrossoverSelection crossoverSelector) {
+        this.crossoverSelection = crossoverSelector;
     }
 
-    public ControlParameter getNumberOfParents() {
-        return numberOfParents;
+    public CrossoverSelection getCrossoverSelection() {
+        return crossoverSelection;
+    }
+
+    public void setDelegate(GuideProvider delegate) {
+        this.delegate = delegate;
+    }
+
+    public GuideProvider getDelegate() {
+        return delegate;
     }
 }
