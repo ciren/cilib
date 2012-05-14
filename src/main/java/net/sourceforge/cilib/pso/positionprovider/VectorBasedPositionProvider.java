@@ -27,6 +27,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 public class VectorBasedPositionProvider implements PositionProvider {
@@ -97,5 +98,25 @@ public class VectorBasedPositionProvider implements PositionProvider {
 
     public ControlParameter getGranularity() {
         return granularity;
+    }
+
+    @Override
+    public double getInertia(ParameterizedParticle particle) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public double getSocialAcceleration(ParameterizedParticle particle) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public double getCognitiveAcceleration(ParameterizedParticle particle) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public double getVmax(ParameterizedParticle particle) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
