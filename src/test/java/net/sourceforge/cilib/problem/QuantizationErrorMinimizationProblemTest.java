@@ -19,13 +19,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util.calculator;
+package net.sourceforge.cilib.problem;
 
 import junit.framework.Assert;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import org.junit.After;
@@ -38,9 +36,9 @@ import org.junit.Test;
  *
  * @author Kristina
  */
-public class QuantizationErrorBasedFitnessCalculationTest {
+public class QuantizationErrorMinimizationProblemTest {
     
-    public QuantizationErrorBasedFitnessCalculationTest() {
+    public QuantizationErrorMinimizationProblemTest() {
     }
 
     @BeforeClass
@@ -60,11 +58,11 @@ public class QuantizationErrorBasedFitnessCalculationTest {
     }
 
     /**
-     * Test of getFitness method, of class QuantizationErrorBasedFitnessCalculation.
+     * Test of calculateFitness method, of class QuantizationErrorMinimizationProblem.
      */
     @Test
-    public void testGetFitness() {
-        System.out.println("getFitness");
+    public void testCalculateFitness() {
+        System.out.println("calculateFitness");
         ClusterParticle particle = new ClusterParticle();
         CentroidHolder holder = new CentroidHolder();
         particle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(12.0));
@@ -77,9 +75,11 @@ public class QuantizationErrorBasedFitnessCalculationTest {
         particle.setCandidateSolution(holder);
         
         
-        QuantizationErrorBasedFitnessCalculation instance = new QuantizationErrorBasedFitnessCalculation();
-        Fitness fitness =instance.getFitness(particle);
+        QuantizationErrorMinimizationProblem instance = new QuantizationErrorMinimizationProblem();
+        Fitness fitness = instance.getFitness(particle.getCandidateSolution());
         
         Assert.assertEquals(fitness.getValue(), 2.5);
     }
+
+    
 }

@@ -23,20 +23,25 @@ package net.sourceforge.cilib.clustering.entity;
 
 import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 import junit.framework.Assert;
+import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
+import net.sourceforge.cilib.clustering.PSOClusteringAlgorithm;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
+import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.topologies.GBestTopology;
+import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.problem.MinimisationFitness;
+import net.sourceforge.cilib.problem.QuantizationErrorMinimizationProblem;
+import net.sourceforge.cilib.stoppingcondition.Maximum;
+import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
-import net.sourceforge.cilib.type.types.container.StructuredType;
+import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -107,15 +112,42 @@ public class ClusterParticleTest {
         CentroidHolder holder = new CentroidHolder();
         instance.getProperties().put(EntityType.FITNESS, new MinimisationFitness(12.0));
         instance.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(12.0));
-        ClusterCentroid centroid = ClusterCentroid.of(1,2,3,4,5,6);
-        centroid.setDataItemDistances(new double[]{1,2,3,4});
+        ClusterCentroid centroid = ClusterCentroid.of(1,2,3,4);
+        centroid.setDataItemDistances(new double[]{2,2,4});
         holder.add(centroid);
         holder.add(centroid);
         holder.add(centroid);
         instance.setCandidateSolution(holder);
-        instance.calculateFitness();
+        CentroidHolder clearHolder =  new CentroidHolder();
+        ClusterCentroid clearCentroid = ClusterCentroid.of(0,0,0,0);
+        clearHolder.add(clearCentroid);
+        clearHolder.add(clearCentroid);
+        clearHolder.add(clearCentroid);
+        instance.getProperties().put(EntityType.Particle.VELOCITY, clearHolder);
         
-        Assert.assertEquals(instance.getFitness().getValue(), 2.5);
+        instance.setNeighbourhoodBest(instance);
+        instance.getProperties().put(EntityType.Particle.BEST_POSITION, instance.getCandidateSolution());
+        
+        PSOClusteringAlgorithm pso = new PSOClusteringAlgorithm();
+        QuantizationErrorMinimizationProblem problem = new QuantizationErrorMinimizationProblem();
+        problem.setDomain("R(-5.12:5.12)");
+        pso.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        
+        pso.setOptimisationProblem(problem);
+        pso.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 1));
+        
+        ClonedPopulationInitialisationStrategy init = new ClonedPopulationInitialisationStrategy();
+        init.setEntityNumber(1);
+        init.setEntityType(new ClusterParticle());
+        pso.setInitialisationStrategy(init);
+        
+        pso.initialise();
+        Topology topology = new GBestTopology<ClusterParticle>();
+        topology.add(instance);
+        pso.setTopology(topology);
+        pso.run();
+        
+        Assert.assertEquals(Math.round(instance.getFitness().getValue()),  Math.round(3.1291362326128439920284548286519));
     }
 
     /**
@@ -286,7 +318,8 @@ public class ClusterParticleTest {
         
         Assert.assertEquals(instance.getDimension(), 2);
         Assert.assertTrue(((CentroidHolder) instance.getCandidateSolution()).get(0).size() == 5);
-        
+        Assert.assertEquals(instance.getBestPosition().size(), 2);
+        Assert.assertTrue(((CentroidHolder) instance.getBestPosition()).get(0).size() == 5);
     }
 
     /**

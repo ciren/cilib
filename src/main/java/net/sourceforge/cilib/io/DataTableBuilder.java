@@ -25,6 +25,8 @@ import net.sourceforge.cilib.io.exception.CIlibIOException;
 import net.sourceforge.cilib.io.transform.DataOperator;
 import java.util.LinkedList;
 import java.util.List;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * A class that builds a new instance of a DataTable object. By changing the type
@@ -75,6 +77,7 @@ public class DataTableBuilder {
         for (DataOperator operator : operatorPipeline) {
             this.setDataTable(operator.operate(this.getDataTable()));
         }
+        
         return (DataTable) this.dataTable.getClone();
     }
 

@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.clustering;
 
 import com.google.common.collect.Lists;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,13 +33,14 @@ import net.sourceforge.cilib.coevolution.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ZeroContributionSelectionStrategy;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
+import net.sourceforge.cilib.io.ARFFFileReader;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.DataTableBuilder;
-import net.sourceforge.cilib.io.DelimitedTextFileReader;
 import net.sourceforge.cilib.io.StandardDataTable;
 import net.sourceforge.cilib.io.exception.CIlibIOException;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
@@ -46,6 +48,9 @@ import net.sourceforge.cilib.io.transform.DataOperator;
 import net.sourceforge.cilib.io.transform.PatternConversionOperator;
 import net.sourceforge.cilib.io.transform.TypeConversionOperator;
 import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.QuantizationErrorMinimizationProblem;
+import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
+import net.sourceforge.cilib.problem.boundaryconstraint.CentroidBoundaryConstraint;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -63,16 +68,18 @@ public class PSOClusteringAlgorithm extends SinglePopulationBasedAlgorithm imple
     private DataTableBuilder tableBuilder;
     private DataOperator patternConverstionOperator;
     private EuclideanDistanceMeasure distanceMeasure;
+    private CentroidBoundaryConstraint boundaryConstraint;
     
     public PSOClusteringAlgorithm() {
         super();
         topology = new GBestTopology<ClusterParticle>();
         contributionSelection = new ZeroContributionSelectionStrategy();
         dataset = new StandardDataTable();
-        tableBuilder = new DataTableBuilder(new DelimitedTextFileReader());
+        tableBuilder = new DataTableBuilder(new ARFFFileReader());
         patternConverstionOperator = new PatternConversionOperator();
         distanceMeasure = new EuclideanDistanceMeasure();
         initialisationStrategy = new ClonedPopulationInitialisationStrategy<ClusterParticle>();
+        boundaryConstraint = new CentroidBoundaryConstraint();
     }
 
     public PSOClusteringAlgorithm(PSOClusteringAlgorithm copy) {
@@ -84,6 +91,7 @@ public class PSOClusteringAlgorithm extends SinglePopulationBasedAlgorithm imple
         patternConverstionOperator = copy.patternConverstionOperator;
         distanceMeasure = copy.distanceMeasure;
         initialisationStrategy = copy.initialisationStrategy;
+        boundaryConstraint = copy.boundaryConstraint;
     }
     
     @Override
@@ -93,26 +101,62 @@ public class PSOClusteringAlgorithm extends SinglePopulationBasedAlgorithm imple
 
     @Override
     protected void algorithmIteration() {
-        double euclideanDistance = Double.POSITIVE_INFINITY;
+        double euclideanDistance;
+        clearCentroidDistanceValues();
         for(ClusterParticle particle : topology) {
             CentroidHolder candidateSolution = (CentroidHolder) particle.getCandidateSolution();
             for(int i = 0; i < dataset.size(); i++) {
+                euclideanDistance = Double.POSITIVE_INFINITY;
                 Vector pattern = ((StandardPattern) dataset.getRow(i)).getVector();
                 int centroidIndex = 0;
                 int patternIndex = 0;
+                //System.out.println("Pattern: " + pattern.toString());
                 for(ClusterCentroid centroid : candidateSolution) {
+                    //System.out.println("Centroid: " + centroid.toString());
                     if(distanceMeasure.distance(centroid.toVector(), pattern) < euclideanDistance) {
                         euclideanDistance = distanceMeasure.distance(centroid.toVector(), pattern);
                         patternIndex = centroidIndex;
                     }
                     centroidIndex++;
                 }
+                //System.out.println("Selected Centroid: " + candidateSolution.get(patternIndex).toString() + "\n");
+                
                 candidateSolution.get(patternIndex).addDataItemDistance(euclideanDistance);
             }
+           
             particle.calculateFitness();
-            
             particle.updateVelocity();
             particle.updatePosition();
+            
+            boundaryConstraint.enforce(particle);
+            
+        }
+        
+        for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
+            Particle current = i.next();
+            //current.calculateFitness();
+
+            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
+                Particle other = j.next();
+                if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
+                    other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?
+                }
+            }
+            
+            System.out.println("Clusters: " + current.getCandidateSolution().toString());
+        }
+        
+        System.out.println("\n\n");
+        
+    }
+    
+    private void clearCentroidDistanceValues() {
+        for(ClusterParticle particle : topology) {
+            CentroidHolder candidateSolution = (CentroidHolder) particle.getCandidateSolution();
+            
+            for(ClusterCentroid centroid : candidateSolution) {
+                centroid.clearDataItemDistances();
+            }
         }
     }
 
@@ -128,18 +172,23 @@ public class PSOClusteringAlgorithm extends SinglePopulationBasedAlgorithm imple
     
     @Override
     public void performInitialisation() {
-        Iterable<ClusterParticle> particles = (Iterable<ClusterParticle>) this.initialisationStrategy.initialise(this.getOptimisationProblem());
-        topology.clear();
-        topology.addAll(Lists.<ClusterParticle>newLinkedList(particles));
-        
         tableBuilder.addDataOperator(new TypeConversionOperator());
         tableBuilder.addDataOperator(patternConverstionOperator);
         try {
             tableBuilder.buildDataTable();
+            
         } catch (CIlibIOException ex) {
             Logger.getLogger(PSOClusteringAlgorithm.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         dataset = tableBuilder.getDataTable();
+        
+        Vector pattern = ((StandardPattern) dataset.getRow(0)).getVector();
+        ((QuantizationErrorMinimizationProblem) this.optimisationProblem).setDimension(pattern.size());
+        Iterable<ClusterParticle> particles = (Iterable<ClusterParticle>) this.initialisationStrategy.initialise(this.getOptimisationProblem());
+        topology.clear();
+        topology.addAll(Lists.<ClusterParticle>newLinkedList(particles));
+        
     }
 
     @Override
@@ -229,6 +278,10 @@ public class PSOClusteringAlgorithm extends SinglePopulationBasedAlgorithm imple
      */
     public DataTable getDataset() {
         return dataset;
+    }
+    
+    public void setBoundaryConstraint(BoundaryConstraint constraint) {
+        boundaryConstraint.setDelegate(constraint);
     }
 
 }

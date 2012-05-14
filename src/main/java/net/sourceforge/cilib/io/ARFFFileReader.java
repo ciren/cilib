@@ -74,6 +74,7 @@ public class ARFFFileReader extends FileReader<List<Type>> {
     public List<Type> nextRow() {
         String line = this.nextLine();
         String[] tokens = line.split(dataDelimiter);
+        
         if (tokens.length != columnTypePrototypes.size()) {
             throw new UnsupportedOperationException("Error: Not all attributes specified." +
                     "Expected @attribute decleration for each column");
@@ -83,6 +84,7 @@ public class ARFFFileReader extends FileReader<List<Type>> {
             String data = tokens[i];
             row.add(this.mapTokenToType(i, data));
         }
+        
         return row;
     }
 

@@ -63,6 +63,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
     
     private ClusterCentroid(Numeric[] elements) {
         this.components = elements;
+        dataItemDistances = new double[]{};
     }
     
     public ClusterCentroid(ClusterCentroid copy) {
@@ -78,7 +79,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
     }
     
     @Override
-    public StructuredType<Numeric> getClone() {
+    public ClusterCentroid getClone() {
         return new ClusterCentroid(this);
     }
 
@@ -263,4 +264,17 @@ public class ClusterCentroid implements StructuredType<Numeric>{
         return builder.build();
     }
     
+    public void clearDataItemDistances() {
+        dataItemDistances = new double[]{};
+    }
+    
+    @Override
+    public String toString() {
+        String result = "[";
+        for(Numeric number : components) {
+            result += number + ", ";
+        }
+        
+        return result + "]";
+    }
 }

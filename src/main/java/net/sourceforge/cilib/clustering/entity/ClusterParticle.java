@@ -21,14 +21,9 @@
  */
 package net.sourceforge.cilib.clustering.entity;
 
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.initialization.CentroidInitializationStrategy;
-import net.sourceforge.cilib.io.DataTable;
-import net.sourceforge.cilib.io.DataTableBuilder;
-import net.sourceforge.cilib.io.DelimitedTextFileReader;
-import net.sourceforge.cilib.io.StandardDataTable;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -38,7 +33,7 @@ import net.sourceforge.cilib.pso.pbestupdate.StandardPersonalBestUpdateStrategy;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
-import net.sourceforge.cilib.util.calculator.QuantizationErrorBasedFitnessCalculation;
+import net.sourceforge.cilib.util.calculator.EntityBasedFitnessCalculator;
 
 /**
  *
@@ -89,10 +84,16 @@ public class ClusterParticle extends AbstractParticle {
    
     @Override
     public void calculateFitness() {
-        QuantizationErrorBasedFitnessCalculation fitnessCalculator = new QuantizationErrorBasedFitnessCalculation();
+        /*QuantizationErrorBasedFitnessCalculation fitnessCalculator = new QuantizationErrorBasedFitnessCalculation();
         Fitness newFitness = fitnessCalculator.getFitness((Entity) this);
         this.getProperties().put(EntityType.FITNESS, newFitness);
         
+        this.personalBestUpdateStrategy.updatePersonalBest(this);*/
+        
+        EntityBasedFitnessCalculator f = new EntityBasedFitnessCalculator();
+        Fitness fitness = f.getFitness(this);
+        this.getProperties().put(EntityType.FITNESS, fitness);
+
         this.personalBestUpdateStrategy.updatePersonalBest(this);
     }
 
@@ -194,8 +195,8 @@ public class ClusterParticle extends AbstractParticle {
     @Override
     public void initialise(OptimisationProblem problem) {
         this.getProperties().put(EntityType.CANDIDATE_SOLUTION, new CentroidHolder(numberOfClusters, problem.getDomain().getDimension()));
-        this.getProperties().put(EntityType.Particle.BEST_POSITION, getPosition().getClone());
-        this.getProperties().put(EntityType.Particle.VELOCITY, getPosition().getClone());
+        this.getProperties().put(EntityType.Particle.BEST_POSITION,  new CentroidHolder(numberOfClusters, problem.getDomain().getDimension()));
+        this.getProperties().put(EntityType.Particle.VELOCITY,  new CentroidHolder(numberOfClusters, problem.getDomain().getDimension()));
         
         centroidInitialisationStrategyCandidate.setInitialisationStrategy(positionInitialisationStrategy);
         centroidInitialisationStrategyCandidate.initialize(EntityType.CANDIDATE_SOLUTION, this);

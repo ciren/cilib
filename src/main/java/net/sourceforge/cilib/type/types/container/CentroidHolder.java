@@ -47,7 +47,12 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
     }
     
     public CentroidHolder(CentroidHolder copy) {
-        components = copy.components.clone();
+        int index = 0;
+        components = new ClusterCentroid[copy.size()];
+        for(ClusterCentroid centroid : copy) {
+            components[index] = centroid.getClone();
+            index++;
+        }
     }
     
     @Override
@@ -206,6 +211,15 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
     
     public ClusterCentroid get(int index) {
         return components[index];
+    }
+    
+    @Override
+    public String toString() {
+        String result = "{ ";
+        for(ClusterCentroid centroid : components) {
+            result += centroid.toString() + ", ";
+        }
+        return result + " }";
     }
     
 }

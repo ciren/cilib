@@ -21,34 +21,30 @@
  */
 package net.sourceforge.cilib.clustering;
 
-import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import junit.framework.Assert;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
-import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.TopologyBestContributionSelectionStrategy;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.io.DataTableBuilder;
-import net.sourceforge.cilib.io.transform.DataOperator;
 import net.sourceforge.cilib.io.transform.TypeConversionOperator;
-import net.sourceforge.cilib.problem.MinimisationFitness;
+import net.sourceforge.cilib.measurement.generic.Iterations;
+import net.sourceforge.cilib.problem.QuantizationErrorMinimizationProblem;
+import net.sourceforge.cilib.stoppingcondition.Maximum;
+import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
-import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -82,21 +78,25 @@ public class PSOClusteringAlgorithmTest {
     public void testAlgorithmIteration() {
         System.out.println("algorithmIteration");
         PSOClusteringAlgorithm instance = new PSOClusteringAlgorithm();
-        FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12:5.12)^4");
-        problem.setFunction(new Spherical());
+        QuantizationErrorMinimizationProblem problem = new QuantizationErrorMinimizationProblem();
+        problem.setDomain("R(-5.12:5.12)");
+        
         instance.setOptimisationProblem(problem);
         PopulationInitialisationStrategy init = new ClonedPopulationInitialisationStrategy<ClusterParticle>();
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
         instance.setInitialisationStrategy(init);
         instance.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
-        instance.performInitialisation();
+        
+        instance.setOptimisationProblem(problem);
+        instance.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 1));
+        
+        instance.initialise();
         
         ClusterParticle previousParticle1 = (ClusterParticle) instance.getTopology().get(0).getClone();
         ClusterParticle previousParticle2 = (ClusterParticle) instance.getTopology().get(1).getClone();
         
-        instance.algorithmIteration();
+        instance.run();
         
          ClusterParticle laterParticle1 = (ClusterParticle) instance.getTopology().get(0).getClone();
          ClusterParticle laterParticle2 = (ClusterParticle) instance.getTopology().get(1).getClone();
@@ -153,15 +153,15 @@ public class PSOClusteringAlgorithmTest {
     public void testPerformInitialisation() {
         System.out.println("performInitialisation");
         PSOClusteringAlgorithm instance = new PSOClusteringAlgorithm();
-        FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12:5.12)^30");
-        problem.setFunction(new Spherical());
+        QuantizationErrorMinimizationProblem problem = new QuantizationErrorMinimizationProblem();
+        problem.setDomain("R(-5.12:5.12)");
         instance.setOptimisationProblem(problem);
+        instance.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 1));
         PopulationInitialisationStrategy init = new ClonedPopulationInitialisationStrategy<ClusterParticle>();
         init.setEntityType(new ClusterParticle());
         instance.setInitialisationStrategy(init);
-        instance.setSourceURL("src\\test\\resources\\datasets\\iris.arff");
-        instance.performInitialisation();
+        instance.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        instance.initialise();
         
         Assert.assertTrue(instance.getDataset().size() > 0);
         Assert.assertTrue(!instance.getTopology().isEmpty());

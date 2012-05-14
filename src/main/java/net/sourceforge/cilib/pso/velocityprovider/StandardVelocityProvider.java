@@ -93,6 +93,11 @@ public final class StandardVelocityProvider implements VelocityProvider {
         Vector position = (Vector) particle.getPosition();
         Vector localGuide = (Vector) particle.getLocalGuide();
         Vector globalGuide = (Vector) particle.getGlobalGuide();
+        
+//        System.out.println("Velocity: " + velocity.toString());
+//        System.out.println("Position: " + position.toString());
+//        System.out.println("LocalGuide: " + localGuide.toString());
+//        System.out.println("GlobalGuide: " + globalGuide.toString());
 
         Vector dampenedVelocity = Vector.copyOf(velocity).multiply(ControlParameters.supplierOf(this.inertiaWeight));
         Vector cognitiveComponent = Vector.copyOf(localGuide).subtract(position).multiply(ControlParameters.supplierOf(this.cognitiveAcceleration)).multiply(RandomProviders.supplierOf(this.r1));
