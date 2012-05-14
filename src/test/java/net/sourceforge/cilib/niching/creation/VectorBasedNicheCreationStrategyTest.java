@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.niching.creation;
 
+import fj.Ord;
 import fj.Ordering;
 import fj.data.List;
 import java.util.Arrays;
@@ -29,6 +30,7 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
@@ -90,8 +92,9 @@ public class VectorBasedNicheCreationStrategyTest {
         Particle p3 = createParticle(new MinimisationFitness(0.0), Vector.of(0.5, 1.0), Vector.of(2.0, 1.0));
 
         assertEquals(Ordering.EQ, VectorBasedNicheCreationStrategy.sortByDistance(nBest, distanceMeasure).f(p1, p2));
-        assertEquals(Ordering.GT, VectorBasedNicheCreationStrategy.sortByDistance(nBest, distanceMeasure).f(p1, p3));
-        assertEquals(Ordering.LT, VectorBasedNicheCreationStrategy.sortByDistance(nBest, distanceMeasure).f(p3, p1));
+        assertEquals(Ordering.LT, VectorBasedNicheCreationStrategy.sortByDistance(nBest, distanceMeasure).f(p1, p3));
+        assertEquals(Ordering.GT, VectorBasedNicheCreationStrategy.sortByDistance(nBest, distanceMeasure).f(p3, p1));
+        assertEquals(List.list(p2, p3).minimum(Ord.ord(VectorBasedNicheCreationStrategy.sortByDistance(nBest, distanceMeasure).curry())).getCandidateSolution(), Vector.of(1.0, -1.0));
     }
 
     @Test
@@ -106,23 +109,6 @@ public class VectorBasedNicheCreationStrategyTest {
         assertFalse(VectorBasedNicheCreationStrategy.equalParticle.f(p1, p3));
         assertFalse(VectorBasedNicheCreationStrategy.equalParticle.f(p1, p4));
         assertFalse(VectorBasedNicheCreationStrategy.equalParticle.f(p1, p5));
-    }
-
-    @Test
-    public void testF() {
-        VectorBasedNicheCreationStrategy creator = new VectorBasedNicheCreationStrategy();
-        PSO p = new PSO();
-        p.getTopology().clear();
-
-        Particle p1 = createParticle(new MinimisationFitness(0.0), Vector.of(0.0, 0.0), Vector.of(10.0, 0.0));
-        Particle p2 = createParticle(new MinimisationFitness(1.0), Vector.of(0.0, 0.0), Vector.of(0.0, 0.0));
-        Particle p3 = createParticle(new MinimisationFitness(2.0), Vector.of(0.0, 0.0), Vector.of(0.0, 0.0));
-        Particle p4 = createParticle(new MinimisationFitness(3.0), Vector.of(0.0, 0.0), Vector.of(0.0, 0.0));
-        Particle p5 = createParticle(new MinimisationFitness(4.0), Vector.of(0.0, 0.0), Vector.of(0.0, 0.0));
-
-        p.getTopology().addAll(Arrays.asList(p1, p2, p3, p4, p5));
-
-        NichingSwarms swarms = creator.f(NichingSwarms.of(p, List.<PopulationBasedAlgorithm>nil()), null);
     }
 
     public static Particle createParticle(Fitness fitness, Vector position, Vector pBest) {

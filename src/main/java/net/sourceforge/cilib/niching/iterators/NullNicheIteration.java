@@ -19,16 +19,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.niching.utils;
+package net.sourceforge.cilib.niching.iterators;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.util.functions.Algorithms;
 
-public class SingleNicheIteration extends NicheIteration {
-
+public class NullNicheIteration extends NicheIteration {
     @Override
     public PopulationBasedAlgorithm f(PopulationBasedAlgorithm a) {
-        return Algorithms.<PopulationBasedAlgorithm>iterateUnlessDone().f(a);
+        return a;
     }
-
 }

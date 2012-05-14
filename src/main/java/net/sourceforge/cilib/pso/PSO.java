@@ -115,6 +115,13 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
         Iterable<Particle> particles = (Iterable<Particle>) this.initialisationStrategy.initialise(this.getOptimisationProblem());
         topology.clear();
         topology.addAll(Lists.<Particle>newLinkedList(particles));
+        
+        try {
+            for (Particle p : topology) {
+                p.calculateFitness();
+            }
+        } catch(Exception e) {            
+        }
     }
 
     /**

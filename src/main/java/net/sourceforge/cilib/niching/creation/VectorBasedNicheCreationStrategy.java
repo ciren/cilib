@@ -21,16 +21,20 @@
  */
 package net.sourceforge.cilib.niching.creation;
 
+import com.google.common.base.Supplier;
 import fj.*;
 import fj.data.List;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
+import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.niching.NichingSwarms;
@@ -41,6 +45,7 @@ import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
+import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -89,7 +94,7 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
                 double aDist = distance.distance(a.getCandidateSolution(), nBest.getBestPosition());
                 double bDist = distance.distance(b.getCandidateSolution(), nBest.getBestPosition());
 
-                return Ordering.values()[-Double.compare(aDist, bDist) + 1];
+                return Ordering.values()[Double.compare(aDist, bDist) + 1];
             }
         };
     }
@@ -120,23 +125,48 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
         Particle gBest = (Particle) Topologies.getBestEntity(swarms.getMainSwarm().getTopology(), new SocialBestFitnessComparator());
         List<Particle> newTopology = List.list(gBest);
         List<Particle> swarm = ((List<Particle>) topologyProvider.f(swarms)).delete(gBest, Equal.equal(equalParticle.curry()));
+        
+        RadiusVisitor visitor = new RadiusVisitor();
+        visitor.visit(swarms.getMainSwarm().getTopology());
+        double nRadius = visitor.getResult();
 
+        // get closest particle with dot < 0
         List<Particle> filteredSwarm = swarm.filter(dot(gBest).andThen(ltZero));
         if(!filteredSwarm.isEmpty()) {
             Particle closest = filteredSwarm.minimum(Ord.ord(sortByDistance(gBest, distanceMeasure).curry()));
-            double nRadius = distanceMeasure.distance(closest.getCandidateSolution(), gBest.getCandidateSolution());
+            nRadius = distanceMeasure.distance(closest.getCandidateSolution(), gBest.getCandidateSolution());
             newTopology = newTopology.append(swarm.filter(filter(distanceMeasure, gBest, nRadius)));
+        }
+        
+        // to prevent new particles from having the same position as the gBest
+        if (nRadius == 0) {
+            nRadius = ((Vector) gBest.getCandidateSolution()).get(0).getBounds().getUpperBound();
         }
 
         // Add particles until the swarm has at least 3 particles
-        for (int i = 0; i < minSwarmSize.getParameter() - newTopology.length(); i++) {
+        final double nicheRadius = nRadius;
+        final UniformDistribution uniform = new UniformDistribution();
+        int extras = (int) minSwarmSize.getParameter() - newTopology.length();
+        
+        for (int i = 0; i < extras; i++) {
             Particle newP = gBest.getClone();
-            newP.reinitialise();
+            
+            // new position within the niche
+            Vector solution = (Vector) newP.getCandidateSolution();
+            solution = solution.multiply(new Supplier<Number>() {
+                @Override
+                public Number get() {
+                    return uniform.getRandomNumber(-nicheRadius, nicheRadius);
+                }
+            }).plus((Vector) gBest.getCandidateSolution());
+            
+            newP.setCandidateSolution(solution);
+            newP.getProperties().put(EntityType.Coevolution.POPULATION_ID, Int.valueOf(swarms.getSubswarms().length() + 1));
             newTopology = newTopology.cons(newP);
         }
 
         // Create the new subswarm, set its optimisation problem, add the particles to it
-        PopulationBasedAlgorithm newSubswarm = swarmType;
+        PopulationBasedAlgorithm newSubswarm = swarmType.getClone();
         newSubswarm.setOptimisationProblem(swarms.getMainSwarm().getOptimisationProblem());
         newSubswarm.getTopology().clear();
         ((Topology<Particle>) newSubswarm.getTopology()).addAll(newTopology.toCollection());

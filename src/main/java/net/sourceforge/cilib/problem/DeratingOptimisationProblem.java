@@ -66,6 +66,7 @@ public class DeratingOptimisationProblem extends FunctionOptimisationProblem {
      * Copy constructor.
      */
     public DeratingOptimisationProblem(DeratingOptimisationProblem copy) {
+        super(copy);
         this.problem = copy.problem.getClone();
         this.distanceMeasure = copy.distanceMeasure;
         this.deratingFunction = copy.deratingFunction;
@@ -122,5 +123,11 @@ public class DeratingOptimisationProblem extends FunctionOptimisationProblem {
     public void setFunction(Function<Vector, ? extends Number> function) {
         this.function = function;
         this.problem.setFunction(function);
+    }
+
+    @Override
+    public void setDomain(String representation) {
+        super.setDomain(representation);
+        this.problem.setDomain(representation);
     }
 }

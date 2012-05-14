@@ -32,22 +32,24 @@ import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 
-
-public class Speciation extends AbstractIterationStrategy<PSO> {
+/**
+ * Reinitialises redundant particles but leaves the neighbourhood bests intact.
+ */
+public class EnhancedSpeciation extends AbstractIterationStrategy<PSO> {
 
     private IterationStrategy<PSO> delegate;
 
-    public Speciation() {
+    public EnhancedSpeciation() {
         this.delegate = (IterationStrategy) new SynchronousIterationStrategy();
     }
 
-    public Speciation(Speciation copy) {
+    public EnhancedSpeciation(EnhancedSpeciation copy) {
         this.delegate = copy.delegate.getClone();
     }
 
     @Override
-    public Speciation getClone() {
-        return new Speciation(this);
+    public EnhancedSpeciation getClone() {
+        return new EnhancedSpeciation(this);
     }
 
     @Override

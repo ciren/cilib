@@ -23,18 +23,16 @@ package net.sourceforge.cilib.niching.iterationstrategies;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import fj.F;
 import fj.data.List;
 import java.util.Collections;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.niching.NichingAlgorithm;
-import net.sourceforge.cilib.niching.NichingFunctions.NichingFunction;
 import static net.sourceforge.cilib.niching.NichingFunctions.*;
 import net.sourceforge.cilib.niching.NichingSwarms;
-import static net.sourceforge.cilib.niching.NichingSwarms.onMainSwarm;
-import static net.sourceforge.cilib.niching.NichingSwarms.onSubswarms;
+import static net.sourceforge.cilib.niching.NichingSwarms.*;
 import net.sourceforge.cilib.problem.DeratingOptimisationProblem;
-import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.util.functions.Algorithms;
 import net.sourceforge.cilib.util.functions.Solutions;
@@ -59,13 +57,13 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
     @Override
     public void performIteration(NichingAlgorithm alg) {
         Preconditions.checkState(alg.getOptimisationProblem() instanceof DeratingOptimisationProblem,
-                "DeratingNichePSOIterationStrategy can only be used with DeratingOptimisationProblem.");
+                "DeratingNichePSO can only be used with DeratingOptimisationProblem.");
         DeratingOptimisationProblem problem = (DeratingOptimisationProblem) alg.getOptimisationProblem();
         
         List<PopulationBasedAlgorithm> subswarms = List.<PopulationBasedAlgorithm>iterableList(alg.getPopulations());
         subswarms = onMainSwarm(Algorithms.<PopulationBasedAlgorithm>initialise())
             .andThen(phase1(alg))
-            .andThen(clearDeratingSolutions(alg.getOptimisationProblem()))
+            .andThen(onSubswarms(clearDeratingSolutions(problem)))
             .andThen(phase2(alg))
             .andThen(joinAndMerge(alg, subswarms))
             .f(NichingSwarms.of(alg.getMainSwarm(), Collections.<PopulationBasedAlgorithm>emptyList()))._2();
@@ -73,19 +71,28 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
         problem.clearSolutions();
         problem.addSolutions(subswarms.map(Solutions.getPosition().o(Algorithms.<PopulationBasedAlgorithm>getBestSolution())).toCollection());
         alg.setPopulations(Lists.newLinkedList(subswarms.toCollection()));
+        alg.getMainSwarm().setOptimisationProblem(problem);
         // dont need to set the main swarm because it gets reinitialised
     }
     
-    public static NichingFunction clearDeratingSolutions(final OptimisationProblem problem) {
-        return new NichingFunction() {
+    /**
+     * Clear solutions so subswarms can optimize in original search space
+     */
+    public static F<PopulationBasedAlgorithm, PopulationBasedAlgorithm> 
+            clearDeratingSolutions(final DeratingOptimisationProblem problem) {
+        return new F<PopulationBasedAlgorithm, PopulationBasedAlgorithm>() {
             @Override
-            public NichingSwarms f(NichingSwarms a) {
-                ((DeratingOptimisationProblem) problem).clearSolutions();
-                return onSubswarms(Algorithms.<PopulationBasedAlgorithm>setOptimisationProblem().f(problem)).f(a);
+            public PopulationBasedAlgorithm f(PopulationBasedAlgorithm a) {
+                problem.clearSolutions();
+                a.setOptimisationProblem(problem);
+                return a;
             }        
         };
     }
 
+    /**
+     * Add new swarms to subswarms list and merge swarms if possible
+     */
     public static NichingFunction joinAndMerge(final NichingAlgorithm alg, final List<PopulationBasedAlgorithm> joiningList) {
         return new NichingFunction() {
             @Override
@@ -96,6 +103,10 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
         };
     }
 
+    /**
+     * Recursive function which iterates the main swarm and creates niches until
+     * the main swarm's stopping conditions are met
+     */
     public static NichingFunction phase1(final NichingAlgorithm alg) {
         return new NichingFunction() {
             @Override
@@ -104,7 +115,6 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
                     return a;
                 }
 
-                //recursive
                 return this.f(onMainSwarm(alg.getMainSwarmIterator())
                         .andThen(createNiches(alg.getNicheDetector(), alg.getNicheCreator(), alg.getMainSwarmCreationMerger()))
                         .f(a));
@@ -112,6 +122,11 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
         };
     }
 
+    /**
+     * Recursive function iterates each new subswarm individually, absorbs 
+     * particles from the main swarm and creates niches until all the subswarm's
+     * stopping conditions are met.
+     */
     public static NichingFunction phase2(final NichingAlgorithm alg) {
         return new NichingFunction() {
             @Override
@@ -120,11 +135,10 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
                     return a;
                 }
 
-                //recursive
                 return this.f(alg.getSubSwarmIterator()
                         .andThen(absorb(alg.getAbsorptionDetector(), alg.getMainSwarmAbsorber(), alg.getSubSwarmAbsorber()))
                         .andThen(createNiches(alg.getNicheDetector(), alg.getNicheCreator(), alg.getMainSwarmCreationMerger()))
-                        .andThen(clearDeratingSolutions(a.getMainSwarm().getOptimisationProblem())).f(a));
+                        .andThen(onSubswarms(clearDeratingSolutions((DeratingOptimisationProblem) a.getMainSwarm().getOptimisationProblem()))).f(a));
             }
         };
     }
