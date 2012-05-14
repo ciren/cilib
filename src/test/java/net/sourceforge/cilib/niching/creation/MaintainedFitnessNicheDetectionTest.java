@@ -30,10 +30,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- *
- * @author filipe
- */
 public class MaintainedFitnessNicheDetectionTest {
     
     @Test

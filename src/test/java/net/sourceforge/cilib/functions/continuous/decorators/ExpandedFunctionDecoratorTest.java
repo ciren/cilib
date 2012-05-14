@@ -19,43 +19,36 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.functions.continuous.unconstrained;
+package net.sourceforge.cilib.functions.continuous.decorators;
 
+import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
+import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.container.Vector;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertEquals;
-import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- */
-public class RastriginTest {
+public class ExpandedFunctionDecoratorTest {
 
-    private Rastrigin function;
-
-    @Before
-    public void instantiate() {
-        this.function = new Rastrigin();
-    }
-
-    /** Test of evaluate method, of class cilib.functions.unconstrained.Rastrigin. */
     @Test
     public void testEvaluate() {
-        Vector x = Vector.of(0.0, 0.0);
+        ExpandedFunctionDecorator expander = new ExpandedFunctionDecorator();
+        Spherical function = new Spherical();
+        
+        expander.setFunction(function);
 
-        assertEquals(0.0, function.apply(x), 0.0);
-
-        x.setReal(0, Math.PI / 2);
-        x.setReal(1, Math.PI / 2);
-
-        assertEquals(42.9885094392, function.apply(x), 0.0000000001);
+        assertEquals(0.0, expander.apply(Vector.of(0.0, 0.0)), Maths.EPSILON);
+        assertEquals(4.0, expander.apply(Vector.of(1.0, 1.0)), Maths.EPSILON);
+        assertEquals(28.0, expander.apply(Vector.of(1.0, 2.0, 3.0)), Maths.EPSILON);
     }
     
-    @Test
-    public void testGradient() {
-        Vector x = Vector.of(1.0);
+    @Test(expected = IllegalStateException.class)
+    public void testError() {
+        ExpandedFunctionDecorator expander = new ExpandedFunctionDecorator();
+        Spherical function = new Spherical();
+        
+        expander.setFunction(function);
+        expander.setSplitSize(3);
 
-        assertEquals(Vector.of(2.0).length(), function.getGradient(x).length(), 0.0000000001);
+        assertEquals(0.0, expander.apply(Vector.of(0.0, 0.0)), Maths.EPSILON);
     }
 }

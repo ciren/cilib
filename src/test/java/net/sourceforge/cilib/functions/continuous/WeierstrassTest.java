@@ -19,40 +19,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.functions.continuous.unconstrained;
+package net.sourceforge.cilib.functions.continuous;
 
-import static org.junit.Assert.assertEquals;
-import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.container.Vector;
-
-import org.junit.Before;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
-/**
- *
- */
-public class SphericalTest {
-
-    private Spherical function = new Spherical();
-
-    @Before
-    public void instantiate() {
-        this.function = new Spherical();
-    }
-
-    /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Spherical. */
+public class WeierstrassTest {
+    
+    private Weierstrass func = new Weierstrass();
+    
     @Test
-    public void testEvaluate() {
-        Vector x = Vector.of(1.0, 2.0, 3.0);
-
-        assertEquals(14.0, function.apply(x), 0.0);
+    public void testFunction() {
+        assertEquals(0.0, func.apply(Vector.of(0.0, 0.0, 0.0, 0.0, 0.0)), Maths.EPSILON);
+        
+        func.setkMax(2);
+        assertEquals(1.786474508, func.apply(Vector.of(0.1, 0.1)), 0.01);
     }
-
-    @Test
-    public void testGradient() {
-        Vector x = Vector.of(1.0, 2.0, 3.0);
-
-        assertEquals(Vector.of(2.0, 4.0, 6.0), function.getGradient(x));
-    }
+    
 }
