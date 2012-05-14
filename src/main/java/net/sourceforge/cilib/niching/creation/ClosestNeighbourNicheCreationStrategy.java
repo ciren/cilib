@@ -33,7 +33,6 @@ import net.sourceforge.cilib.entity.visitor.ClosestEntityVisitor;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.niching.NichingSwarms;
-import net.sourceforge.cilib.niching.merging.SingleSwarmMergeStrategy;
 import net.sourceforge.cilib.problem.boundaryconstraint.ClampingBoundaryConstraint;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
@@ -87,36 +86,41 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
     @Override
     public NichingSwarms f(NichingSwarms a, Entity b) {
         //There should be at least two particles
-        if (a._1().getTopology().size() <= 1) {
+        if (a.getMainSwarm().getTopology().size() <= 1 || !a.getMainSwarm().getTopology().contains(b)) {
             return a;
         }
-
+        
+        // Get closest particle
         ClosestEntityVisitor closestEntityVisitor = new ClosestEntityVisitor();
         closestEntityVisitor.setTargetEntity(b);
-        a._1().accept(closestEntityVisitor);
+        a.getMainSwarm().accept(closestEntityVisitor);
         
+        // Clone particles
         Particle nicheMainParticle = (Particle) b.getClone();
         Particle nicheClosestParticle = (Particle) closestEntityVisitor.getResult().getClone();
         
+        // Set behavior and nBest
         nicheMainParticle.setNeighbourhoodBest(nicheMainParticle);
         nicheClosestParticle.setNeighbourhoodBest(nicheMainParticle);
         
         nicheMainParticle.setParticleBehavior(swarmBehavior.getClone());
         nicheClosestParticle.setParticleBehavior(swarmBehavior.getClone());
         
+        // Create new subswarm
         PopulationBasedAlgorithm newSubSwarm = swarmType.getClone();
-        newSubSwarm.setOptimisationProblem(a._1().getOptimisationProblem());
+        newSubSwarm.setOptimisationProblem(a.getMainSwarm().getOptimisationProblem());
         newSubSwarm.getTopology().clear();
-        ((Topology<Particle>) newSubSwarm.getTopology()).addAll(Arrays.asList(nicheMainParticle, nicheClosestParticle));
+        ((Topology<Particle>) newSubSwarm.getTopology()).addAll(Arrays.asList(nicheMainParticle, nicheClosestParticle));        
         
-        PopulationBasedAlgorithm newMainSwarm = a._1().getClone();
+        // Create new mainswarm
+        PopulationBasedAlgorithm newMainSwarm = a.getMainSwarm().getClone();
         newMainSwarm.getTopology().clear();
-        for(Entity e : a._1().getTopology()) {
+        for(Entity e : a.getMainSwarm().getTopology()) {
             if (!e.equals(b) && !e.equals(closestEntityVisitor.getResult())) {
                 ((Topology<Entity>) newMainSwarm.getTopology()).add(e.getClone());
             }
         }
         
-        return NichingSwarms.of(new SingleSwarmMergeStrategy().f(newMainSwarm, null), a._2().cons(newSubSwarm));
+        return NichingSwarms.of(newMainSwarm, a.getSubswarms().cons(newSubSwarm));
     }
 }

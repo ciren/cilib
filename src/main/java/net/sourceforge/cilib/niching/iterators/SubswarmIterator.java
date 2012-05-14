@@ -19,13 +19,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.niching.utils;
+package net.sourceforge.cilib.niching.iterators;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.niching.NichingFunctions;
+import net.sourceforge.cilib.util.Cloneable;
 
-public class NullNicheIteration extends NicheIteration {
-    @Override
-    public PopulationBasedAlgorithm f(PopulationBasedAlgorithm a) {
-        return a;
+public abstract class SubswarmIterator extends NichingFunctions.NichingFunction implements Cloneable {
+
+    protected NicheIteration iterator;
+
+    public SubswarmIterator() {
+        this.iterator = new CompleteNicheIteration();
     }
+
+    public void setIterator(NicheIteration iterator) {
+        this.iterator = iterator;
+    }
+
+    public NicheIteration getIterator() {
+        return iterator;
+    }
+
+    @Override
+    public abstract SubswarmIterator getClone();
 }
