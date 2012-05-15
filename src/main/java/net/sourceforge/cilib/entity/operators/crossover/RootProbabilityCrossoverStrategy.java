@@ -31,22 +31,22 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.selection.Samples;
 
-public class RootProbabilityCrossover extends CrossoverStrategy {
+public class RootProbabilityCrossoverStrategy extends CrossoverStrategy {
     
     private ControlParameter lambda;
     
-    public RootProbabilityCrossover() {
+    public RootProbabilityCrossoverStrategy() {
         this.lambda = new RandomControlParameter(new UniformDistribution());
     }
     
-    public RootProbabilityCrossover(RootProbabilityCrossover copy) {
+    public RootProbabilityCrossoverStrategy(RootProbabilityCrossoverStrategy copy) {
         super(copy);
         this.lambda = copy.lambda.getClone();
     }
 
     @Override
-    public RootProbabilityCrossover getClone() {
-        return new RootProbabilityCrossover(this);
+    public RootProbabilityCrossoverStrategy getClone() {
+        return new RootProbabilityCrossoverStrategy(this);
     }
 
     @Override
@@ -55,19 +55,18 @@ public class RootProbabilityCrossover extends CrossoverStrategy {
         
         List<Entity> offspring = Lists.newLinkedList();
         List<Entity> parents = getSelectionStrategy().on(parentCollection).select(Samples.first(2));
-        if (getCrossoverProbability().getParameter() > getRandomDistribution().getRandomNumber()) {
-            Entity o1 = parents.get(0).getClone();
-            Entity o2 = parents.get(1).getClone();
-            Vector o1Vec = (Vector) o1.getCandidateSolution();
-            Vector o2Vec = (Vector) o2.getCandidateSolution();
-            double value = Math.sqrt(lambda.getParameter());
-            
-            o1.setCandidateSolution(o1Vec.multiply(value).plus(o2Vec.multiply(1.0 - value)));
-            o2.setCandidateSolution(o2Vec.multiply(value).plus(o1Vec.multiply(1.0 - value)));
-            
-            offspring.add(o1);
-            offspring.add(o2);
-        }
+
+        Entity o1 = parents.get(0).getClone();
+        Entity o2 = parents.get(1).getClone();
+        Vector o1Vec = (Vector) o1.getCandidateSolution();
+        Vector o2Vec = (Vector) o2.getCandidateSolution();
+        double value = Math.sqrt(lambda.getParameter());
+
+        o1.setCandidateSolution(o1Vec.multiply(value).plus(o2Vec.multiply(1.0 - value)));
+        o2.setCandidateSolution(o2Vec.multiply(value).plus(o1Vec.multiply(1.0 - value)));
+
+        offspring.add(o1);
+        offspring.add(o2);
         
         return offspring;
     }

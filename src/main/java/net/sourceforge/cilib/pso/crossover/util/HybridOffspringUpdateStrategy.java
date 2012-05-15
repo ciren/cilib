@@ -63,9 +63,6 @@ public class HybridOffspringUpdateStrategy implements OffspringUpdateStrategy {
 
         o1.getProperties().put(EntityType.Particle.BEST_FITNESS, o1.getFitness());
         o2.getProperties().put(EntityType.Particle.BEST_FITNESS, o2.getFitness());
-
-        o1.setNeighbourhoodBest(p1.getNeighbourhoodBest());
-        o2.setNeighbourhoodBest(p2.getNeighbourhoodBest());
         
         return Arrays.asList(o1, o2);
     }    

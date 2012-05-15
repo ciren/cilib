@@ -99,9 +99,9 @@ public class GlobalLocalBestVelocityProvider implements VelocityProvider {
         
         Vector vel = (Vector) particle.getVelocity();
         Vector pBest = (Vector) particle.getBestPosition();
-        Vector pos = (Vector) particle.getBestPosition();
+        Vector pos = (Vector) particle.getCandidateSolution();
         Vector gBest = (Vector) gBestParticle.getBestPosition();
-
+        
         return vel.multiply(inertiaValue).plus(pBest.plus(gBest).plus(pos.multiply(-2.0)).multiply(accValue * random.getParameter()));
     }
 

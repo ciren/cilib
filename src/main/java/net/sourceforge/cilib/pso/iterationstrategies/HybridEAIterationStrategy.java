@@ -59,13 +59,13 @@ import net.sourceforge.cilib.util.selection.weighting.EntityWeighting;
  *  year = {2010}
  *  }
  */
-public class HEAIterationStrategy extends AbstractIterationStrategy<PSO> {
+public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
     
     private CrossoverStrategy crossoverStrategy;
     private ControlParameter numberOfOffspring;
     private Selector selector;
     
-    public HEAIterationStrategy() {
+    public HybridEAIterationStrategy() {
         BlendCrossoverStrategy cs = new BlendCrossoverStrategy();
         cs.setSelectionStrategy(new RouletteWheelSelector(new EntityWeighting(new CurrentFitness<Entity>())));
         cs.setCrossoverProbability(ConstantControlParameter.of(0.1));
@@ -76,15 +76,15 @@ public class HEAIterationStrategy extends AbstractIterationStrategy<PSO> {
         this.selector = new ElitistSelector();
     }
     
-    public HEAIterationStrategy(HEAIterationStrategy copy) {
+    public HybridEAIterationStrategy(HybridEAIterationStrategy copy) {
         this.crossoverStrategy = copy.crossoverStrategy.getClone();
         this.numberOfOffspring = copy.numberOfOffspring.getClone();
         this.selector = copy.selector;
     }
 
     @Override
-    public HEAIterationStrategy getClone() {
-        return new HEAIterationStrategy(this);
+    public HybridEAIterationStrategy getClone() {
+        return new HybridEAIterationStrategy(this);
     }
 
     @Override

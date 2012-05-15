@@ -266,8 +266,11 @@
     </algorithms>
     
     <problems>
-        <problem id="spherical" class="problem.FunctionMinimisationProblem" domain="R(-5.12:5.12)^30">
-            <function class="functions.continuous.unconstrained.Spherical"/>
+        <problem id="spherical" class="problem.FunctionMinimisationProblem" domain="R(300:600)^30">
+            <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
+                <function class="functions.continuous.unconstrained.Griewank"/>
+                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="500"/>
+            </function>
         </problem>
     </problems>
     
@@ -276,7 +279,7 @@
     </measurements>
     
     <simulations>
-        <simulation samples="1">
+        <!--simulation samples="1">
             <algorithm idref="xpso-undx-iteration-repeating"/>
             <problem idref="spherical"/>
             <measurements idref="fitness" />
@@ -318,7 +321,7 @@
             <problem idref="spherical"/>
             <measurements idref="fitness" />
 	        <output format="TXT" file="data/xpso-pcx-iteration-boltzmann-spherical.txt" />
-        </simulation>
+        </simulation-->
         <simulation samples="1">
             <algorithm idref="xpso-pcx-velocity"/>
             <problem idref="spherical"/>
@@ -331,7 +334,7 @@
             <measurements idref="fitness" />
 	        <output format="TXT" file="data/xpso-pcx-velocity-alternative-spherical.txt" />
         </simulation>
-        <simulation samples="1">
+        <!--simulation samples="1">
             <algorithm idref="xpso-pcx-guide-repeating"/>
             <problem idref="spherical"/>
             <measurements idref="fitness" />
@@ -373,6 +376,6 @@
             <problem idref="spherical"/>
             <measurements idref="fitness" />
 	        <output format="TXT" file="data/xpso-spx-guide-boltzmann-spherical.txt" />
-        </simulation>
+        </simulation-->
     </simulations>
 </simulator>

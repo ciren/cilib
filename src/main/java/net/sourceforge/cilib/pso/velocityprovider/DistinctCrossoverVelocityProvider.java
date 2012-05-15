@@ -121,7 +121,7 @@ public class DistinctCrossoverVelocityProvider implements VelocityProvider {
         if (solutions.size() == 2) {
             return applyCrossover(particle, Lists.newLinkedList(solutions), alternateCrossover);
         }
-
+        
         return delegate.get(particle);
     }
 
