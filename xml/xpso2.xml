@@ -32,11 +32,13 @@
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
         </algorithm>
 
-        <!--  -->
+        <!-- Global Local Best PSO with GLbestIW and GLbestAC -->
         <algorithm id="xpso-gliw-glac-arithmetic" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.GlobalLocalBestVelocityProvider"/>
+                    <velocityProvider class="pso.velocityprovider.GlobalLocalBestVelocityProvider">
+                        <!-- Do not set acceleration and inertia to use the default GLbestIW and GLbestAC -->
+                    </velocityProvider>
                 </entityType>
             </initialisationStrategy>
 
@@ -51,6 +53,7 @@
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
         </algorithm>
 
+        <!-- Global Local Best PSO with GLbestIW and Fixed AC -->
         <algorithm id="xpso-gliw-fac-arithmetic" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
