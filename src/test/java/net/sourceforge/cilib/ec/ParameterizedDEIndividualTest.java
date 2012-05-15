@@ -83,7 +83,7 @@ public class ParameterizedDEIndividualTest {
     public void testCalculateFitness() {
         System.out.println("calculateFitness");
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12, 5.12)^5");
+        problem.setDomain("R(-5.12:5.12)^5");
         problem.setFunction(new Spherical());
 
         ParameterizedDEIndividual instance = new ParameterizedDEIndividual();
@@ -163,7 +163,7 @@ public class ParameterizedDEIndividualTest {
     public void testInitialise() {
         System.out.println("initialise");
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12, 5.12)^5");
+        problem.setDomain("R(-5.12:5.12)^5");
         problem.setFunction(new Spherical());
         
         ParameterizedDEIndividual individual =  new ParameterizedDEIndividual();
@@ -182,7 +182,7 @@ public class ParameterizedDEIndividualTest {
         System.out.println("getDimension");
         ParameterizedDEIndividual individual = new ParameterizedDEIndividual();
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12, 5.12)^5");
+        problem.setDomain("R(-5.12:5.12)^5");
         problem.setFunction(new Spherical());
         individual.initialise(problem);
         

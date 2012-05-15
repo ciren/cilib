@@ -78,7 +78,7 @@ public class FDRVelocityProviderTest {
     public void testGet() {
         System.out.println("get");
          FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12, 5.12)^5");
+        problem.setDomain("R(-5.12:5.12)^5");
         problem.setFunction(new Spherical());
                 
         PSO pso = new PSO();
@@ -148,7 +148,7 @@ public class FDRVelocityProviderTest {
         System.out.println("getControlParameterVelocity");
         
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12, 5.12)^5");
+        problem.setDomain("R(-5.12:5.12)^5");
         problem.setFunction(new Spherical());
                 
         PSO pso = new PSO();

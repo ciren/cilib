@@ -71,7 +71,7 @@ public class StandardVelocityProviderTest {
     public void testGet() {
         System.out.println("get");
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12, 5.12)^5");
+        problem.setDomain("R(-5.12:5.12)^5");
         problem.setFunction(new Spherical());
         
         Particle particle = new ParameterizedParticle();
@@ -243,7 +243,7 @@ public class StandardVelocityProviderTest {
     public void testGetControlParameterVelocity() {
         System.out.println("getControlParameterVelocity");
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12, 5.12)^5");
+        problem.setDomain("R(-5.12:5.12)^5");
         problem.setFunction(new Spherical());
         
         ParameterizedParticle particle = new ParameterizedParticle();
