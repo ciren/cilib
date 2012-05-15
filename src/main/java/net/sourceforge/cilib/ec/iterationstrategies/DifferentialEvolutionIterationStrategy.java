@@ -93,7 +93,7 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
             Entity trialEntity = trialVectorCreationStrategy.create(targetEntity, current, topology);
 
             // Create the offspring by applying cross-over
-            List<Entity> offspring = this.crossoverStrategy.crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
+            List<Entity> offspring = (List<Entity>) this.crossoverStrategy.crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
 
             // Replace the parent (current) if the offspring is better
             Entity offspringEntity = offspring.get(0);

@@ -56,7 +56,7 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
      * {@inheritDoc}
      */
     @Override
-    public List<Entity> crossover(final List<Entity> parentCollection) {
+    public List<? extends Entity> crossover(final List<? extends Entity> parentCollection) {
         // Create a topology for the purposes of selection.
         // This is a code smell indicating that the crossover
         // API is not well defined.

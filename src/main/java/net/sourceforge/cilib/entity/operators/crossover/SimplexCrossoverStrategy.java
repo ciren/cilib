@@ -80,7 +80,7 @@ public class SimplexCrossoverStrategy extends CrossoverStrategy {
      * {@inheritDoc}
      */
     @Override
-    public List<Entity> crossover(List<Entity> parentCollection) {
+    public List<? extends Entity> crossover(List<? extends Entity> parentCollection) {
         checkState(parentCollection.size() >= 3, "There must be a minimum of three parents to perform UNDX crossover.");
         checkState(numberOfOffspring > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
 
