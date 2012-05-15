@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.problem.boundaryconstraint;
 
 import net.sourceforge.cilib.ec.Individual;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
@@ -47,9 +48,9 @@ public class ClampingBoundaryConstraintTest {
         i.setCandidateSolution(candidateSolutionBuilder.build());
 
         ClampingBoundaryConstraint clampingBoundaryConstraint = new ClampingBoundaryConstraint();
-        clampingBoundaryConstraint.enforce(i);
+        Entity enforcedEntity = clampingBoundaryConstraint.enforce(i);
 
-        Vector solution = (Vector) i.getCandidateSolution();
+        Vector solution = (Vector) enforcedEntity.getCandidateSolution();
         Assert.assertThat(solution.doubleValueOf(0), is(-5.0));
         Assert.assertThat(solution.doubleValueOf(1), is(3.0));
         Assert.assertThat(solution.doubleValueOf(2), is(5.0 - Maths.EPSILON));
@@ -61,8 +62,8 @@ public class ClampingBoundaryConstraintTest {
         individual.setCandidateSolution(Vector.newBuilder().addWithin(5, new Bounds(0, 4)).build());
 
         ClampingBoundaryConstraint clampingBoundaryConstraint = new ClampingBoundaryConstraint();
-        clampingBoundaryConstraint.enforce(individual);
+        Entity enforcedEntity = clampingBoundaryConstraint.enforce(individual);
 
-        Assert.assertThat(((Vector) individual.getCandidateSolution()).intValueOf(0), is(4));
+        Assert.assertThat(((Vector) enforcedEntity.getCandidateSolution()).intValueOf(0), is(4));
     }
 }

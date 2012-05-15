@@ -25,20 +25,23 @@ package net.sourceforge.cilib.controlparameter;
  * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}
  * to represent a constant value. The specified value will be maintained until it is altered.
  */
-public class ConstantControlParameter implements ControlParameter {
+public class ConstantControlParameter implements ParameterAdaptingControlParameter{
     private static final long serialVersionUID = 8847038781478109426L;
     protected double parameter;
-
-
-    public static ControlParameter of(double value) {
+    private ParameterAdaptingControlParameter bestValue;
+    
+    public static ParameterAdaptingControlParameter of(double value) {
         return new ConstantControlParameter(value);
     }
+
+    private double velocity;
 
     /**
      * Create a new instance of {@code ConstantControlParameter}.
      */
     public ConstantControlParameter() {
-
+        velocity = 0;
+        bestValue = new ConstantControlParameter(this);
     }
 
     /**
@@ -48,6 +51,9 @@ public class ConstantControlParameter implements ControlParameter {
      */
     protected ConstantControlParameter(double value) {
         this.parameter = value;
+        velocity = 0;
+        bestValue = new ConstantControlParameter();
+        bestValue.setParameter(value);
     }
 
     /**
@@ -56,6 +62,7 @@ public class ConstantControlParameter implements ControlParameter {
      */
     public ConstantControlParameter(ConstantControlParameter copy) {
         this.parameter = copy.parameter;
+        this.bestValue = copy.bestValue;
     }
 
     /**
@@ -67,7 +74,8 @@ public class ConstantControlParameter implements ControlParameter {
     }
 
     /**
-     * {@inheritDoc}
+     * Get the parameter value
+     * @return The parameter value
      */
     @Override
     public double getParameter() {
@@ -75,7 +83,8 @@ public class ConstantControlParameter implements ControlParameter {
     }
     
     /**
-     * {@inheritDoc}
+     * Get the parameter value
+     * @return The parameter value
      */
     @Override
     public double getParameter(double min, double max) {
@@ -83,11 +92,53 @@ public class ConstantControlParameter implements ControlParameter {
     }
 
     /**
-     * Sets the constant parameter.
-     * 
-     * @param value The new constant parameter.
+     * Set the value of the parameter to the value provided
+     * @param value The new value of the parameter
      */
+    @Override
     public void setParameter(double value) {
         this.parameter = value;
+    }
+    
+    @Override
+    public boolean wasSetByUser() {
+        return true;
+    }
+    
+    /*
+     * Not applicable to this class as it is constant
+     * @param value The value to update the parameter to
+     */
+    @Override
+    public void updateParameter(double value) {
+        //Nothing to update
+    }
+    
+    /*
+     * Get the current velocity of the parameter
+     * @return The current velocity of the parameter
+     */
+    @Override
+    public double getVelocity() {
+        return velocity;
+    }
+    
+    /*
+     * Set the current velocity of the parameter to the value provided. Nothing happens as it is a constant class
+     * @param value The new velocity value
+     */
+    @Override
+    public void setVelocity(double value) {
+        //Nothing to change
+    }
+    
+    @Override
+    public void setBestValue(double value) {
+        bestValue.setParameter(value);
+    }
+    
+    @Override
+    public ParameterAdaptingControlParameter getBestValue() {
+        return bestValue;
     }
 }

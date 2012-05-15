@@ -109,7 +109,7 @@ public abstract class AbstractTopology<E extends Entity> implements Topology<E> 
     public boolean addAll(Collection<? extends E> set) {
         return this.entities.addAll(set);
     }
-
+    
     @Override
     public int size() {
         return entities.size();

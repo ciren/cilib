@@ -21,7 +21,9 @@
  */
 package net.sourceforge.cilib.pso.dynamic;
 
+import java.util.HashMap;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -81,5 +83,43 @@ public class QuantumVelocityProvider implements VelocityProvider {
 
     public VelocityProvider getDelegate() {
         return this.delegate;
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public void setControlParameters(ParameterizedParticle particle) {
+        //Not applicable
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
+        HashMap<String, Double> parameterVelocity = new HashMap<String, Double> ();
+        ChargedParticle checkChargeParticle = (ChargedParticle) particle;
+        if (checkChargeParticle.getCharge() < EPSILON) {    
+            parameterVelocity.put("InertiaVelocity", this.delegate.getControlParameterVelocity(particle).get("InertiaVelocity"));
+        }
+        parameterVelocity.put("InertiaVelocity", particle.getInertia().getVelocity());
+        
+        if (checkChargeParticle.getCharge() < EPSILON) {    
+            parameterVelocity.put("SocialAccelerationVelocity", this.delegate.getControlParameterVelocity(particle).get("SocialAccelerationVelocity"));
+        }
+        parameterVelocity.put("SocialAccelerationVelocity", particle.getSocialAcceleration().getVelocity());
+        
+        if (checkChargeParticle.getCharge() < EPSILON) {    
+            parameterVelocity.put("CognitiveAccelerationVelocity", this.delegate.getControlParameterVelocity(particle).get("CognitiveAccelerationVelocity"));
+        }
+        parameterVelocity.put("CognitiveAccelerationVelocity", particle.getCognitiveAcceleration().getVelocity());
+        
+        if (checkChargeParticle.getCharge() < EPSILON) {   
+            parameterVelocity.put("VmaxVelocity", this.delegate.getControlParameterVelocity(particle).get("VmaxVelocity"));
+        }
+        parameterVelocity.put("VmaxVelocity", particle.getVmax().getVelocity());
+        
+        return parameterVelocity;
     }
 }

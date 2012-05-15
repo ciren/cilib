@@ -48,7 +48,7 @@ public class AverageDiversityAroundAllEntities extends Diversity {
     public Real getValue(Algorithm algorithm) {
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
         int numberOfEntities = populationBasedAlgorithm.getTopology().size();
-
+        
         Iterator<? extends Entity> populationCenterIterator = populationBasedAlgorithm.getTopology().iterator();
 
         double totalDistanceSum = 0.0;
@@ -71,4 +71,5 @@ public class AverageDiversityAroundAllEntities extends Diversity {
 
         return Real.valueOf(totalDistanceSum);
     }
+   
 }

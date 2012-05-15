@@ -112,6 +112,7 @@ public class ABC extends SinglePopulationBasedAlgorithm {
         forageLimit = copy.forageLimit.getClone();
         workerBeePercentage = copy.workerBeePercentage.getClone();
         explorerBeeUpdateLimit = copy.explorerBeeUpdateLimit.getClone();
+        initialisationStrategy = copy.initialisationStrategy;
     }
 
     /**
@@ -135,20 +136,23 @@ public class ABC extends SinglePopulationBasedAlgorithm {
 
         int i;
         int numWorkerBees = (int) (workerBeePercentage.getParameter() * hive.size());
-        for (i = 0; i < numWorkerBees; i++) {
+        for (i = 0; i < numWorkerBees; i++) { 
             WorkerBee bee = (WorkerBee) hive.get(i);
             bee.setForageLimit(this.forageLimit.getClone());
+            bee.setExplorerBeeUpdateLimit(explorerBeeUpdateLimit);
             this.workerBees.add(hive.get(i));
         }
 
         for (int j = 0; j < initialisationStrategy.getEntityNumber() - numWorkerBees; j++) {
             WorkerBee worker = (WorkerBee) hive.get(i);
             OnlookerBee onlooker = new OnlookerBee(worker);
-            hive.remove(i);
-            hive.add(onlooker);
+            //hive.remove(i);
+            //hive.add(onlooker);
+            hive.set(i, onlooker);
             onlookerBees.add(onlooker);
+            i++;
         }
-        explorerBee.setExplorerBeeUpdateLimit(this.explorerBeeUpdateLimit);
+        
     }
 
     /**
@@ -207,7 +211,10 @@ public class ABC extends SinglePopulationBasedAlgorithm {
      */
     @Override
     public void setTopology(Topology<? extends Entity> topology) {
-        throw new UnsupportedOperationException("Method not implemented");
+        hive.clear();
+        for(Entity bee : topology) {
+            hive.add((HoneyBee) bee);
+        }
     }
 
     /**
@@ -361,4 +368,6 @@ public class ABC extends SinglePopulationBasedAlgorithm {
     public void setWorkerBees(Topology<HoneyBee> workerBees) {
         this.workerBees = workerBees;
     }
+    
+    
 }

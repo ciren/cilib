@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.pso.velocityprovider;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -30,6 +31,7 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -101,5 +103,84 @@ public class FIPSVelocityProvider implements VelocityProvider {
         }
 
         return builder.build();
+    }
+
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public void setControlParameters(ParameterizedParticle particle) {
+        inertiaWeight = particle.getInertia();
+        socialAcceleration = particle.getSocialAcceleration();
+        cognitiveAcceleration = particle.getCognitiveAcceleration();
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
+        HashMap<String, Double> parameterVelocity = new HashMap<String, Double>();
+        
+        //Inertia
+        double inertiaVelocity = particle.getInertia().getVelocity();
+        double inertiaPosition = particle.getInertia().getParameter();
+        double socialVelocity = particle.getSocialAcceleration().getVelocity();
+        double socialPosition = particle.getSocialAcceleration().getParameter();
+        double personalVelocity = particle.getCognitiveAcceleration().getVelocity();
+        double personalPosition = particle.getCognitiveAcceleration().getParameter();
+        double vmaxVelocity = particle.getVmax().getVelocity();
+        double vmaxPosition = particle.getVmax().getParameter();
+        
+        Topology<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
+        Iterator<Particle> swarmIterator = topology.iterator();
+
+        while (swarmIterator.hasNext()) {
+            Particle currentTarget = swarmIterator.next();
+            if (currentTarget.getId() == particle.getId()) {
+                break;
+            }
+        }
+
+        double inertiaInformationSum = 0.0;
+        int numberOfNeighbours = 0;
+        double socialInformationSum = 0.0;
+        double personalInformationSum = 0.0;
+        double vmaxInformationSum = 0.0;
+
+        Iterator<Particle> neighborhoodIterator = topology.neighbourhood(swarmIterator);
+
+        while (neighborhoodIterator.hasNext()) {
+            ParameterizedParticle currentTarget = (ParameterizedParticle) neighborhoodIterator.next();
+            double inertiaCurrentTargetPosition = currentTarget.getBestInertia().getParameter();
+            double socialCurrentTargetPosition = currentTarget.getBestSocialAcceleration().getParameter();
+            double personalCurrentTargetPosition = currentTarget.getBestCognitiveAcceleration().getParameter();
+            double vmaxCurrentTargetPosition = currentTarget.getBestVmax().getParameter();
+
+            double inertiaRandomComponent = (this.cognitiveAcceleration.getParameter() + this.socialAcceleration.getParameter()) * this.randomProvider.nextDouble();
+            double socialRandomComponent = (this.cognitiveAcceleration.getParameter() + this.socialAcceleration.getParameter()) * this.randomProvider.nextDouble();
+            double personalRandomComponent = (this.cognitiveAcceleration.getParameter() + this.socialAcceleration.getParameter()) * this.randomProvider.nextDouble();
+            double vmaxRandomComponent = (this.cognitiveAcceleration.getParameter() + this.socialAcceleration.getParameter()) * this.randomProvider.nextDouble();
+
+            inertiaInformationSum += inertiaRandomComponent * (inertiaCurrentTargetPosition - inertiaPosition);
+            personalInformationSum += personalRandomComponent * (personalCurrentTargetPosition - personalPosition);
+            socialInformationSum += socialRandomComponent * (socialCurrentTargetPosition - socialPosition);
+            vmaxInformationSum += vmaxRandomComponent * (vmaxCurrentTargetPosition - vmaxPosition);
+
+            numberOfNeighbours++;
+        }
+
+        double inertiaValue = this.inertiaWeight.getParameter() * (inertiaVelocity + (inertiaInformationSum / numberOfNeighbours));
+        double socialValue = this.inertiaWeight.getParameter() * (socialVelocity + (socialInformationSum / numberOfNeighbours));
+        double personalValue = this.inertiaWeight.getParameter() * (personalVelocity + (personalInformationSum / numberOfNeighbours));
+        double vmaxValue = this.inertiaWeight.getParameter() * (vmaxVelocity + (vmaxInformationSum / numberOfNeighbours));
+
+        parameterVelocity.put("InertiaVelocity", inertiaValue);
+        parameterVelocity.put("SocialAccelerationVelocity", socialValue);
+        parameterVelocity.put("CognitiveAccelerationVelocity", personalValue);
+        parameterVelocity.put("VmaxVelocity", vmaxValue);
+        
+        return parameterVelocity;
+       
     }
 }

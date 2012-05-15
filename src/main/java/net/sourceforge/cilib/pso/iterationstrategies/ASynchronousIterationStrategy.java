@@ -24,6 +24,7 @@ package net.sourceforge.cilib.pso.iterationstrategies;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
@@ -68,7 +69,8 @@ public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO
             current.updateVelocity();       // TODO: replace with visitor (will simplify particle interface)
             current.updatePosition();       // TODO: replace with visitor (will simplify particle interface)
 
-            boundaryConstraint.enforce(current);
+            Entity enforcedEntity = boundaryConstraint.enforce(current);
+            current = (Particle) enforcedEntity.getClone();
 
             current.calculateFitness();
 

@@ -23,6 +23,7 @@ package net.sourceforge.cilib.pso.pbestupdate;
 
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Numeric;
 
@@ -62,6 +63,36 @@ public class StandardPersonalBestUpdateStrategy implements PersonalBestUpdateStr
             return;
         }
 
+        //PBest didn't change. Increment stagnation counter.
+        int count = ((Int)particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER)).intValue();
+        particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER,  Int.valueOf(++count));
+    }
+    
+    /**
+     * If the current fitness is better than the current best fitness, update
+     * the best fitness of the particle to equal the current fitness and make
+     * the personal best position a clone of the current particle position and
+     * control parameter positions.
+     * 
+     * If the current fitness is not better than the current best fitness,
+     * increase the particle's pbest stagnation counter.
+     * 
+     * @param particle The particle to update.
+     */
+     @Override
+    public void updateParametizedPersonalBest(ParameterizedParticle particle) {
+        if (particle.getFitness().compareTo(particle.getBestFitness()) > 0) {
+            particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
+            particle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getFitness());
+            particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition().getClone());
+               
+            particle.setBestInertia(particle.getInertia());
+            particle.setBestSocialAcceleration(particle.getSocialAcceleration());
+            particle.setBestCognitiveAcceleration(particle.getCognitiveAcceleration());
+            particle.setBestVmax(particle.getVmax());
+            return;
+        }
+        
         //PBest didn't change. Increment stagnation counter.
         int count = ((Int)particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER)).intValue();
         particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER,  Int.valueOf(++count));

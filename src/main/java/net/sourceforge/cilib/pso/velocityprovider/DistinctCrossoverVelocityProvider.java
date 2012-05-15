@@ -23,6 +23,7 @@ package net.sourceforge.cilib.pso.velocityprovider;
 
 import com.google.common.collect.Lists;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,7 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.ParentCentricCrossoverStrategy;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -147,5 +149,15 @@ public class DistinctCrossoverVelocityProvider implements VelocityProvider {
 
     public void setAlternateCrossover(CrossoverStrategy alternateCrossover) {
         this.alternateCrossover = alternateCrossover;
+    }
+
+    @Override
+    public void setControlParameters(ParameterizedParticle particle) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

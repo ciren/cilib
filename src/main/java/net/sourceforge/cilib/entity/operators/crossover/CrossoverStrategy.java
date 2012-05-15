@@ -25,6 +25,8 @@ import java.util.List;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.controlparameter.ParameterAdaptingControlParameter;
+import net.sourceforge.cilib.ec.ParameterizedDEIndividual;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.Operator;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
@@ -90,5 +92,15 @@ public abstract class CrossoverStrategy implements Operator {
 
     public void setSelectionStrategy(Selector selectionStrategy) {
         this.selectionStrategy = selectionStrategy;
+    }
+    
+    /* 
+     * Sets the recombination probability to the value held by the individual
+     * @param entity The individual holding the new parameter
+     */
+    public void setControlParameters(Entity entity) {
+        if(entity instanceof ParameterizedDEIndividual) {
+            crossoverProbability = ((ParameterizedDEIndividual) entity).getRecombinationProbability();
+        }
     }
 }

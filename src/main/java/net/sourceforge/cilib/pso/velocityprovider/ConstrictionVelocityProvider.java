@@ -21,11 +21,13 @@
  */
 package net.sourceforge.cilib.pso.velocityprovider;
 
+import java.util.HashMap;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -103,6 +105,7 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
 
     private ControlParameter kappa;
     private ControlParameter constrictionCoefficient;
+    private boolean hasOutputWarning;
 
     /**
      * Default constructor. The values given to the control parameters attempt to
@@ -117,6 +120,7 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
 
         this.kappa = ConstantControlParameter.of(1.0);
         this.constrictionCoefficient = null;
+        this.hasOutputWarning = false;
     }
 
     /**
@@ -129,6 +133,7 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
         this.r1 = copy.r1;
         this.r2 = copy.r2;
         this.kappa = copy.kappa.getClone();
+        this.hasOutputWarning = copy.hasOutputWarning;
     }
 
     /**
@@ -175,9 +180,13 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
 
         double phi = c1 + c2;
         if (phi < 4.0) {
-            throw new UnsupportedOperationException("Parameter constraint violation: "
-                + "The sum of the Cognitive (" + c1 + ") and Social (" + c2 + ") acceleration parameters "
-                + "has to be greater than or equal to 4.");
+            if(!hasOutputWarning) {
+                System.err.println("\rWARNING: Parameters social acceleration and cognitive acceleration do not comply with the rules of Constriction "
+                        + "Velocity calculation. The results may not be as expected. If you are using a ParameterizedParticle this is due to changes in "
+                        + "the parameters and this warning may be ignored, otherwise, it is advised for the values of the social and "
+                        + "cognitive acceleration parameters to be changed");
+                hasOutputWarning = true;
+            }
         }
         double chi;
         chi = (2 * this.kappa.getParameter()) / Math.abs(2 - phi - Math.sqrt(phi * (phi - 4.0)));
@@ -247,5 +256,72 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
      */
     public void setConstrictionCoefficient(ControlParameter constrictionCoefficient) {
         this.constrictionCoefficient = constrictionCoefficient;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public void setControlParameters(ParameterizedParticle particle) {
+        socialAcceleration = particle.getSocialAcceleration();
+        cognitiveAcceleration = particle.getCognitiveAcceleration();
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
+        HashMap<String, Double> parameterVelocity = new HashMap<String, Double>();
+        
+        if (this.constrictionCoefficient == null) {
+            calculateConstrictionCoefficient();
+        }
+
+        double velocity = particle.getSocialAcceleration().getVelocity();
+        double position =  particle.getSocialAcceleration().getParameter();
+        ControlParameter localGuide = particle.getLocalGuideSocial();
+        ControlParameter globalGuide = particle.getGlobalGuideSocial();
+
+        double value = this.constrictionCoefficient.getParameter() * (velocity
+                + (localGuide.getParameter() - position) * this.cognitiveAcceleration.getParameter() * this.r1.nextDouble()
+                + (globalGuide.getParameter() - position) * this.socialAcceleration.getParameter() * this.r2.nextDouble());
+        
+        parameterVelocity.put("SocialAccelerationVelocity", value);
+        
+        velocity = particle.getCognitiveAcceleration().getVelocity();
+        position =  particle.getCognitiveAcceleration().getParameter();
+        localGuide = particle.getLocalGuidePersonal();
+        globalGuide = particle.getGlobalGuidePersonal();
+
+        value = this.constrictionCoefficient.getParameter() * (velocity
+                + (localGuide.getParameter() - position) * this.cognitiveAcceleration.getParameter() * this.r1.nextDouble()
+                + (globalGuide.getParameter() - position) * this.socialAcceleration.getParameter() * this.r2.nextDouble());
+        
+        parameterVelocity.put("CognitiveAccelerationVelocity", value);
+        
+        velocity = particle.getInertia().getVelocity();
+        position =  particle.getInertia().getParameter();
+        localGuide = particle.getLocalGuideInertia();
+        globalGuide = particle.getGlobalGuideInertia();
+
+        value = this.constrictionCoefficient.getParameter() * (velocity
+                + (localGuide.getParameter() - position) * this.cognitiveAcceleration.getParameter() * this.r1.nextDouble()
+                + (globalGuide.getParameter() - position) * this.socialAcceleration.getParameter() * this.r2.nextDouble());
+        
+        parameterVelocity.put("InertiaVelocity", value);
+        
+        velocity = particle.getVmax().getVelocity();
+        position =  particle.getVmax().getParameter();
+        localGuide = particle.getLocalGuideVmax();
+        globalGuide = particle.getGlobalGuideVmax();
+
+        value = this.constrictionCoefficient.getParameter() * (velocity
+                + (localGuide.getParameter() - position) * this.cognitiveAcceleration.getParameter() * this.r1.nextDouble()
+                + (globalGuide.getParameter() - position) * this.socialAcceleration.getParameter() * this.r2.nextDouble());
+        
+        parameterVelocity.put("VmaxVelocity", value);
+        
+        return parameterVelocity;
     }
 }

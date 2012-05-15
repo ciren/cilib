@@ -22,11 +22,13 @@
 package net.sourceforge.cilib.pso.velocityprovider;
 
 
+import java.util.HashMap;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.KnuthSubtractive;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
@@ -123,5 +125,77 @@ public class LinearVelocityProvider implements VelocityProvider {
      */
     public void setSocialRandomGenerator(RandomProvider socialRandomGenerator) {
         this.socialRandomGenerator = socialRandomGenerator;
+    }
+
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public void setControlParameters(ParameterizedParticle particle) {
+        inertiaWeight = particle.getInertia();
+        socialAcceleration = particle.getSocialAcceleration();
+        cognitiveAcceleration = particle.getCognitiveAcceleration();
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
+        HashMap<String, Double> parameterVelocity = new HashMap<String, Double>();
+        
+        double velocity = particle.getInertia().getVelocity();
+        double position = particle.getInertia().getParameter();
+        ControlParameter localGuide = particle.getLocalGuideInertia();
+        ControlParameter globalGuide = particle.getGlobalGuideInertia();
+
+        float social = this.socialRandomGenerator.nextFloat();
+        float cognitive = this.cognitiveRandomGenerator.nextFloat();
+        
+        double value = this.inertiaWeight.getParameter() * velocity +
+            cognitive  * this.cognitiveAcceleration.getParameter() * (localGuide.getParameter() - position) +
+            social * this.socialAcceleration.getParameter() * (globalGuide.getParameter() - position);
+        parameterVelocity.put("InertiaVelocity", value);
+        
+        velocity = particle.getSocialAcceleration().getVelocity();
+        position = particle.getSocialAcceleration().getParameter();
+        localGuide = particle.getLocalGuideSocial();
+        globalGuide = particle.getGlobalGuideSocial();
+
+        social = this.socialRandomGenerator.nextFloat();
+        cognitive = this.cognitiveRandomGenerator.nextFloat();
+        
+        value = this.inertiaWeight.getParameter() * velocity +
+            cognitive  * this.cognitiveAcceleration.getParameter() * (localGuide.getParameter() - position) +
+            social * this.socialAcceleration.getParameter() * (globalGuide.getParameter() - position);
+        parameterVelocity.put("SocialAccelerationVelocity", value);
+        
+        velocity = particle.getCognitiveAcceleration().getVelocity();
+        position = particle.getCognitiveAcceleration().getParameter();
+        localGuide = particle.getLocalGuidePersonal();
+        globalGuide = particle.getGlobalGuidePersonal();
+
+        social = this.socialRandomGenerator.nextFloat();
+        cognitive = this.cognitiveRandomGenerator.nextFloat();
+        
+        value = this.inertiaWeight.getParameter() * velocity +
+            cognitive  * this.cognitiveAcceleration.getParameter() * (localGuide.getParameter() - position) +
+            social * this.socialAcceleration.getParameter() * (globalGuide.getParameter() - position);
+        parameterVelocity.put("CognitiveAccelerationVelocity", value);
+        
+        velocity = particle.getVmax().getVelocity();
+        position = particle.getVmax().getParameter();
+        localGuide = particle.getLocalGuideVmax();
+        globalGuide = particle.getGlobalGuideVmax();
+
+        social = this.socialRandomGenerator.nextFloat();
+        cognitive = this.cognitiveRandomGenerator.nextFloat();
+        
+        value = this.inertiaWeight.getParameter() * velocity +
+            cognitive  * this.cognitiveAcceleration.getParameter() * (localGuide.getParameter() - position) +
+            social * this.socialAcceleration.getParameter() * (globalGuide.getParameter() - position);
+        parameterVelocity.put("VmaxVelocity", value);
+        
+        return parameterVelocity;
     }
 }

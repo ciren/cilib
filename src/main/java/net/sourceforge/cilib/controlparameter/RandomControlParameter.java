@@ -92,4 +92,15 @@ public class RandomControlParameter implements ControlParameter {
     public void setDistribution(ProbabilityDistributionFuction distribution) {
         this.distribution = distribution;
     }
+    
+    @Override
+    public void updateParameter(double value) {
+        //not applicable
+    }
+
+    @Override
+    public void setParameter(double value) {
+        //not applicable
+    }
+    
 }

@@ -51,13 +51,16 @@ public class ClampingBoundaryConstraint implements BoundaryConstraint {
      * {@inheritDoc}
      */
     @Override
-    public void enforce(Entity entity) {
-        StructuredType<?> candidateSolution = entity.getCandidateSolution();
+    public Entity enforce(Entity entity) {
+        Entity newEntity = entity.getClone();
+        StructuredType<?> candidateSolution = newEntity.getCandidateSolution();
         Vector result = Vectors.transform((Vector) candidateSolution, new Function<Numeric, Double>() {
-
+            
             @Override
             public Double apply(Numeric from) {
+                
                 Bounds bounds = from.getBounds();
+                
                 if (Double.compare(from.doubleValue(), bounds.getLowerBound()) < 0) {
                     return bounds.getLowerBound();
                 } else if (Double.compare(from.doubleValue(), bounds.getUpperBound()) > 0) { // number > upper bound
@@ -66,6 +69,8 @@ public class ClampingBoundaryConstraint implements BoundaryConstraint {
                 return from.doubleValue();
             }
         });
-        entity.setCandidateSolution(result);
+        newEntity.setCandidateSolution(result);
+        
+        return newEntity;
     }
 }

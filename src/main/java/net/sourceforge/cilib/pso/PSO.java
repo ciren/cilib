@@ -122,6 +122,7 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
             }
         } catch(Exception e) {            
         }
+
     }
 
     /**

@@ -21,11 +21,14 @@
  */
 package net.sourceforge.cilib.pso.velocityprovider;
 
+import java.util.HashMap;
+import java.util.Hashtable;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ControlParameters;
 import net.sourceforge.cilib.util.RandomProviders;
@@ -166,5 +169,69 @@ public final class StandardVelocityProvider implements VelocityProvider {
 
     public void setR2(RandomProvider r2) {
         this.r2 = r2;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public void setControlParameters(ParameterizedParticle particle) {
+        inertiaWeight  = particle.getInertia();
+        socialAcceleration = particle.getSocialAcceleration();
+        cognitiveAcceleration = particle.getCognitiveAcceleration();
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
+        HashMap<String, Double> parameterVelocity = new HashMap<String, Double> ();
+        
+        double velocity = particle.getInertia().getVelocity();
+        double position = particle.getInertia().getParameter();
+        ControlParameter localGuide = particle.getLocalGuideInertia();
+        ControlParameter globalGuide = particle.getGlobalGuideInertia();
+        
+        double dampenedVelocity = velocity * inertiaWeight.getParameter();
+        double cognitiveComponent = localGuide.getParameter() - position * cognitiveAcceleration.getParameter() * this.r1.nextDouble();
+        double socialComponent = globalGuide.getParameter() - position * socialAcceleration.getParameter() * this.r2.nextDouble();
+        double newVelocity = dampenedVelocity + cognitiveComponent + socialComponent;
+        parameterVelocity.put("InertiaVelocity", newVelocity);
+        
+        velocity = particle.getSocialAcceleration().getVelocity();
+        position = particle.getSocialAcceleration().getParameter();
+        localGuide = particle.getLocalGuideSocial();
+        globalGuide = particle.getGlobalGuideSocial();
+
+        dampenedVelocity = velocity * inertiaWeight.getParameter();
+        cognitiveComponent = localGuide.getParameter() - position * cognitiveAcceleration.getParameter() * this.r1.nextDouble();
+        socialComponent = globalGuide.getParameter() - position * socialAcceleration.getParameter() * this.r2.nextDouble();
+        newVelocity = dampenedVelocity + cognitiveComponent + socialComponent;
+        parameterVelocity.put("SocialAccelerationVelocity", newVelocity);
+        
+        velocity = particle.getCognitiveAcceleration().getVelocity();
+        position = particle.getCognitiveAcceleration().getParameter();
+        localGuide = particle.getLocalGuidePersonal();
+        globalGuide = particle.getGlobalGuidePersonal();
+
+        dampenedVelocity = velocity * inertiaWeight.getParameter();
+        cognitiveComponent = localGuide.getParameter() - position * cognitiveAcceleration.getParameter() * this.r1.nextDouble();
+        socialComponent = globalGuide.getParameter() - position * socialAcceleration.getParameter() * this.r2.nextDouble();
+        newVelocity = dampenedVelocity + cognitiveComponent + socialComponent;
+        parameterVelocity.put("CognitiveAccelerationVelocity", newVelocity);
+        
+        velocity = particle.getVmax().getVelocity();
+        position = particle.getVmax().getParameter();
+        localGuide = particle.getLocalGuidePersonal();
+        globalGuide = particle.getGlobalGuidePersonal();
+
+        dampenedVelocity = velocity * inertiaWeight.getParameter();
+        cognitiveComponent = localGuide.getParameter() - position * cognitiveAcceleration.getParameter() * this.r1.nextDouble();
+        socialComponent = globalGuide.getParameter() - position * socialAcceleration.getParameter() * this.r2.nextDouble();
+        newVelocity = dampenedVelocity + cognitiveComponent + socialComponent;
+        parameterVelocity.put("VmaxVelocity", newVelocity);
+        
+        return parameterVelocity;
     }
 }

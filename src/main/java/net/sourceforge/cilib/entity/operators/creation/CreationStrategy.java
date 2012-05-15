@@ -45,5 +45,12 @@ public interface CreationStrategy extends Operator {
      * @return
      */
     Entity create(Entity targetEntity, Entity current, Topology<? extends Entity> topology);
+    
+    /*
+     * Sets the scaling factor to that held by the individual
+     * @param entity The individual holding the new parameter
+     */
+    void setControlParameters(Entity entity);
+    
 
 }

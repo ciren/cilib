@@ -81,13 +81,14 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
     public void performIteration(EC ec) {
         @SuppressWarnings("unchecked")
         Topology<Entity> topology = (Topology<Entity>) ec.getTopology();
+        
 
         for (int i = 0; i < topology.size(); i++) {
             Entity current = topology.get(i);
             current.calculateFitness();
 
             // Create the trial vector by applying mutation
-            Entity targetEntity = (Entity) targetVectorSelectionStrategy.on(topology).exclude(current).select();
+            Entity targetEntity = (Entity) targetVectorSelectionStrategy.on(topology.getClone()).exclude(current).select();
 
             // Create the trial vector / entity
             Entity trialEntity = trialVectorCreationStrategy.create(targetEntity, current, topology);
@@ -96,7 +97,13 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
             List<Entity> offspring = this.crossoverStrategy.crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
 
             // Replace the parent (current) if the offspring is better
-            Entity offspringEntity = offspring.get(0);
+            Entity offspringEntity;
+            if(!offspring.isEmpty()) {
+                offspringEntity = offspring.get(0);
+            } else {
+                offspringEntity = targetEntity.getClone();
+            }
+                
             boundaryConstraint.enforce(offspringEntity);
             offspringEntity.calculateFitness();
 

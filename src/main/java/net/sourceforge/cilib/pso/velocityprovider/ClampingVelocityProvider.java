@@ -21,9 +21,11 @@
  */
 package net.sourceforge.cilib.pso.velocityprovider;
 
+import java.util.HashMap;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -80,5 +82,62 @@ public class ClampingVelocityProvider implements VelocityProvider {
 
     public VelocityProvider getDelegate() {
         return this.delegate;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public void setControlParameters(ParameterizedParticle particle) {
+        vMax = particle.getVmax();
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle) {
+        HashMap<String, Double> parameterVelocity = new HashMap<String, Double>();
+        double velocity = this.delegate.getControlParameterVelocity(particle).get("VmaxVelocity");
+        
+        if (velocity < -vMax.getParameter()) {
+            parameterVelocity.put("VmaxVelocity", -vMax.getParameter());
+        } else if (velocity > vMax.getParameter()) {
+            parameterVelocity.put("VmaxVelocity", vMax.getParameter());
+        } else {
+            parameterVelocity.put("VmaxVelocity", velocity);
+        }
+        
+        velocity = this.delegate.getControlParameterVelocity(particle).get("InertiaVelocity");
+        
+        if (velocity < -particle.getInertia().getParameter()) {
+            parameterVelocity.put("InertiaVelocity", -particle.getInertia().getParameter());
+        } else if (velocity > particle.getInertia().getParameter()) {
+            parameterVelocity.put("InertiaVelocity", particle.getInertia().getParameter());
+        } else {
+            parameterVelocity.put("InertiaVelocity", velocity);
+        }
+        
+        velocity = this.delegate.getControlParameterVelocity(particle).get("SocialAccelerationVelocity");
+        
+        if (velocity < -particle.getSocialAcceleration().getParameter()) {
+            parameterVelocity.put("SocialAccelerationVelocity", -particle.getSocialAcceleration().getParameter());
+        } else if (velocity > particle.getSocialAcceleration().getParameter()) {
+            parameterVelocity.put("SocialAccelerationVelocity", particle.getSocialAcceleration().getParameter());
+        } else {
+            parameterVelocity.put("SocialAccelerationVelocity", velocity);
+        }
+        
+        velocity = this.delegate.getControlParameterVelocity(particle).get("CognitiveAccelerationVelocity");
+        
+        if (velocity < -particle.getCognitiveAcceleration().getParameter()) {
+            parameterVelocity.put("CognitiveAccelerationVelocity", -particle.getCognitiveAcceleration().getParameter());
+        } else if (velocity > particle.getCognitiveAcceleration().getParameter()) {
+            parameterVelocity.put("CognitiveAccelerationVelocity", particle.getCognitiveAcceleration().getParameter());
+        } else {
+            parameterVelocity.put("CognitiveAccelerationVelocity", velocity);
+        }
+        
+        return parameterVelocity;
     }
 }

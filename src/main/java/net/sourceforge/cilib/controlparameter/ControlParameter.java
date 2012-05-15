@@ -43,4 +43,12 @@ public interface ControlParameter extends Cloneable {
      */
     @Override
     ControlParameter getClone();
+
+    void setParameter(double value);
+    
+    /**
+     * Update the parameter to the value provided. Only applicable to modifiable non-constant parameters
+     * @param value The value the parameter must change to
+     */
+    void updateParameter(double value);
 }

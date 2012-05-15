@@ -26,6 +26,7 @@ import java.util.List;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.ec.ParameterizedDEIndividual;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
@@ -161,5 +162,15 @@ public class RandPerDimensionCreationStrategy implements CreationStrategy {
      */
     public void setScaleParameter(ControlParameter scaleParameter) {
         this.scaleParameter = scaleParameter;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setControlParameters(Entity entity) {
+        if(entity instanceof ParameterizedDEIndividual) {
+            scaleParameter = ((ParameterizedDEIndividual) entity).getScalingFactor();
+        }
     }
 }

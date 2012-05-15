@@ -21,6 +21,9 @@
  */
 package net.sourceforge.cilib.pso.velocityprovider;
 
+import net.sourceforge.cilib.controlparameter.ParameterAdaptingControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
@@ -137,15 +140,152 @@ public class ConstrictionVelocityProviderTest {
         return particle;
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void illegalVelocityProvision() {
-        final Particle particle = mock(Particle.class);
-
-        ControlParameter controlParameter = ConstantControlParameter.of(0.0);
-        ConstrictionVelocityProvider velocityProvider = new ConstrictionVelocityProvider();
-        velocityProvider.setCognitiveAcceleration(controlParameter);
-        velocityProvider.setSocialAcceleration(controlParameter);
-
-        velocityProvider.get(particle);
+    /**
+     * Test of getKappa method, of class ConstrictionVelocityProvider.
+     */
+    @Test
+    public void testGetKappa() {
+        System.out.println("getKappa");
+        ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
+        ControlParameter expectedResult = ConstantControlParameter.of(0.55);
+        instance.setKappa(expectedResult);
+        ControlParameter result = instance.getKappa();
+        
+        Assert.assertTrue(expectedResult.getParameter() - result.getParameter() == 0);
     }
+
+    /**
+     * Test of setKappa method, of class ConstrictionVelocityProvider.
+     */
+    @Test
+    public void testSetKappa() {
+        System.out.println("setKappa");
+        ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
+        ControlParameter expectedResult = ConstantControlParameter.of(0.55);
+        instance.setKappa(expectedResult);
+        ControlParameter result = instance.getKappa();
+        
+        Assert.assertTrue(expectedResult.getParameter() - result.getParameter() == 0);
+    }
+
+    /**
+     * Test of getCognitiveAcceleration method, of class ConstrictionVelocityProvider.
+     */
+    @Test
+    public void testGetCognitiveAcceleration() {
+        System.out.println("getCognitiveAcceleration");
+        ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
+        ControlParameter expectedResult = ConstantControlParameter.of(0.55);
+        instance.setCognitiveAcceleration(expectedResult);
+        ControlParameter result = instance.getCognitiveAcceleration();
+        
+        Assert.assertTrue(expectedResult.getParameter() - result.getParameter() == 0);
+    }
+
+    /**
+     * Test of setCognitiveAcceleration method, of class ConstrictionVelocityProvider.
+     */
+    @Test
+    public void testSetCognitiveAcceleration() {
+        System.out.println("setCognitiveAcceleration");
+        ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
+        ControlParameter expectedResult = ConstantControlParameter.of(0.55);
+        instance.setCognitiveAcceleration(expectedResult);
+        ControlParameter result = instance.getCognitiveAcceleration();
+        
+        Assert.assertTrue(expectedResult.getParameter() - result.getParameter() == 0);
+    }
+
+    /**
+     * Test of getSocialAcceleration method, of class ConstrictionVelocityProvider.
+     */
+    @Test
+    public void testGetSocialAcceleration() {
+        System.out.println("getSocialAcceleration");
+        ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
+        ControlParameter expectedResult = ConstantControlParameter.of(0.55);
+        instance.setSocialAcceleration(expectedResult);
+        ControlParameter result = instance.getSocialAcceleration();
+        
+        Assert.assertTrue(expectedResult.getParameter() - result.getParameter() == 0);
+    }
+
+    /**
+     * Test of setSocialAcceleration method, of class ConstrictionVelocityProvider.
+     */
+    @Test
+    public void testSetSocialAcceleration() {
+        System.out.println("setSocialAcceleration");
+        ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
+        ControlParameter expectedResult = ConstantControlParameter.of(0.55);
+        instance.setSocialAcceleration(expectedResult);
+        ControlParameter result = instance.getSocialAcceleration();
+        
+        Assert.assertTrue(expectedResult.getParameter() - result.getParameter() == 0);
+    }
+
+    /**
+     * Test of getConstrictionCoefficient method, of class ConstrictionVelocityProvider.
+     */
+    @Test
+    public void testGetConstrictionCoefficient() {
+        System.out.println("getConstrictionCoefficient");
+        ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
+        ControlParameter expectedResult = ConstantControlParameter.of(0.55);
+        instance.setConstrictionCoefficient(expectedResult);
+        ControlParameter result = instance.getConstrictionCoefficient();
+        
+        Assert.assertTrue(expectedResult.getParameter() - result.getParameter() == 0);
+    }
+
+    /**
+     * Test of setConstrictionCoefficient method, of class ConstrictionVelocityProvider.
+     */
+    @Test
+    public void testSetConstrictionCoefficient() {
+        System.out.println("setConstrictionCoefficient");
+        ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
+        ControlParameter expectedResult = ConstantControlParameter.of(0.55);
+        instance.setConstrictionCoefficient(expectedResult);
+        ControlParameter result = instance.getConstrictionCoefficient();
+        
+        Assert.assertTrue(expectedResult.getParameter() - result.getParameter() == 0);
+    }
+
+    /**
+     * Test of setControlParameters method, of class ConstrictionVelocityProvider.
+     */
+    @Test
+    public void testSetControlParameters() {
+        System.out.println("setControlParameters");
+        ParameterizedParticle particle = new ParameterizedParticle();
+        ParameterAdaptingControlParameter socialParameter = ConstantControlParameter.of(0.55);
+        particle.setSocialAcceleration(socialParameter);
+        ParameterAdaptingControlParameter cognitiveParameter = ConstantControlParameter.of(0.55);
+        particle.setCognitiveAcceleration(cognitiveParameter);
+        ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
+        instance.setControlParameters(particle);
+        
+        Assert.assertTrue(socialParameter.getParameter() - instance.getSocialAcceleration().getParameter() == 0);
+        Assert.assertTrue(cognitiveParameter.getParameter() - instance.getCognitiveAcceleration().getParameter() == 0);
+    }
+
+    /**
+     * Test of getControlParameterVelocity method, of class ConstrictionVelocityProvider.
+     */
+    @Test
+    public void testGetControlParameterVelocity() {
+        System.out.println("getControlParameterVelocity");
+        ParameterizedParticle particle = new ParameterizedParticle();
+        ParameterAdaptingControlParameter socialParameter = ConstantControlParameter.of(0.55);
+        particle.setSocialAcceleration(socialParameter);
+        ParameterAdaptingControlParameter cognitiveParameter = ConstantControlParameter.of(0.55);
+        particle.setCognitiveAcceleration(cognitiveParameter);
+        ConstrictionVelocityProvider instance = new ConstrictionVelocityProvider();
+        instance.setControlParameters(particle);
+        
+        Assert.assertTrue(socialParameter.getParameter() - instance.getSocialAcceleration().getParameter() == 0);
+        Assert.assertTrue(cognitiveParameter.getParameter() - instance.getCognitiveAcceleration().getParameter() == 0);
+    }
+    
 }

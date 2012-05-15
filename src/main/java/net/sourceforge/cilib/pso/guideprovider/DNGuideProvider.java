@@ -21,7 +21,9 @@
  */
 package net.sourceforge.cilib.pso.guideprovider;
 
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -50,6 +52,38 @@ public class DNGuideProvider implements GuideProvider {
 
     @Override
     public Vector get(Particle particle) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public ControlParameter getInertia(ParameterizedParticle particle) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public ControlParameter getSocialAcceleration(ParameterizedParticle particle) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public ControlParameter getCognitiveAcceleration(ParameterizedParticle particle) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public ControlParameter getVmax(ParameterizedParticle particle) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

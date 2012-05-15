@@ -84,4 +84,14 @@ public class ExponentiallyVaryingControlParameter implements ControlParameter {
     public double getCurve() {
         return curve;
     }
+
+    @Override
+    public void setParameter(double value) {
+        //not applicable
+    }
+
+    @Override
+    public void updateParameter(double value) {
+        //not applicable
+    }
 }

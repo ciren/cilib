@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.pso.velocityprovider;
 
+import java.util.HashMap;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -32,6 +33,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -322,5 +324,74 @@ public class GCVelocityProvider implements VelocityProvider {
      */
     public void setRhoContractCoefficient(ControlParameter rhoContractCoefficient) {
         this.rhoContractCoefficient = rhoContractCoefficient;
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public void setControlParameters(ParameterizedParticle particle) {
+        this.inertiaWeight = particle.getInertia();
+        this.delegate.setControlParameters(particle);
+    }
+    
+    /*
+     * Not applicable
+     */
+    @Override
+    public HashMap<String, Double> getControlParameterVelocity(ParameterizedParticle particle){
+        HashMap<String, Double> result = new HashMap<String, Double>();
+        
+        PSO pso = (PSO) AbstractAlgorithm.get();
+        final ParameterizedParticle globalBest = (ParameterizedParticle) Topologies.getBestEntity(pso.getTopology(), new SocialBestFitnessComparator<Particle>());
+
+        if (particle == globalBest) {
+            double velocity = particle.getInertia().getVelocity();
+            double position = particle.getInertia().getParameter();
+            double globalGuide = particle.getGlobalGuideInertia().getParameter();
+
+            double component = -position + globalGuide
+                    + this.inertiaWeight.getParameter() * velocity
+                    + this.rho.getParameter() * (1 - 2 * this.randomProvider.nextDouble());
+            
+            this.oldFitness = particle.getFitness().getClone(); // Keep a copy of the old Fitness object - particle.calculateFitness() within the IterationStrategy resets the fitness value
+            result.put("InertiaVelocity", component);
+            
+            velocity = particle.getSocialAcceleration().getVelocity();
+            position = particle.getSocialAcceleration().getParameter();
+            globalGuide = particle.getGlobalGuideSocial().getParameter();
+
+            component = -position + globalGuide
+                    + this.inertiaWeight.getParameter() * velocity
+                    + this.rho.getParameter() * (1 - 2 * this.randomProvider.nextDouble());
+            
+            this.oldFitness = particle.getFitness().getClone(); // Keep a copy of the old Fitness object - particle.calculateFitness() within the IterationStrategy resets the fitness value
+            result.put("SocialAccelerationVelocity", component);
+            
+            velocity = particle.getCognitiveAcceleration().getVelocity();
+            position = particle.getCognitiveAcceleration().getParameter();
+            globalGuide = particle.getGlobalGuidePersonal().getParameter();
+
+            component = -position + globalGuide
+                    + this.inertiaWeight.getParameter() * velocity
+                    + this.rho.getParameter() * (1 - 2 * this.randomProvider.nextDouble());
+            
+            this.oldFitness = particle.getFitness().getClone(); // Keep a copy of the old Fitness object - particle.calculateFitness() within the IterationStrategy resets the fitness value
+            result.put("CognitiveAccelerationVelocity", component);
+            
+            velocity = particle.getVmax().getVelocity();
+            position = particle.getVmax().getParameter();
+            globalGuide = particle.getGlobalGuideVmax().getParameter();
+
+            component = -position + globalGuide
+                    + this.inertiaWeight.getParameter() * velocity
+                    + this.rho.getParameter() * (1 - 2 * this.randomProvider.nextDouble());
+            
+            this.oldFitness = particle.getFitness().getClone(); // Keep a copy of the old Fitness object - particle.calculateFitness() within the IterationStrategy resets the fitness value
+            result.put("VmaxVelocity", component);
+        }
+        
+        return this.delegate.getControlParameterVelocity(particle);
+        
     }
 }

@@ -21,7 +21,10 @@
  */
 package net.sourceforge.cilib.pso.positionprovider;
 
+import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.ParameterizedParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
@@ -64,5 +67,58 @@ public class StandardPositionProvider implements PositionProvider {
         Vector position = (Vector) particle.getPosition();
         Vector velocity = (Vector) particle.getVelocity();
         return Vectors.sumOf(position, velocity);
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getInertia(ParameterizedParticle particle) {
+        double position = particle.getInertia().getParameter();
+        double velocity = particle.getInertia().getVelocity();
+        double value = position + velocity;
+        
+        //if(isWithinBounds(value, particle.getInertia()))
+            return value;
+        //return position;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getSocialAcceleration(ParameterizedParticle particle) {
+        double position = particle.getSocialAcceleration().getParameter();
+        double velocity = particle.getSocialAcceleration().getVelocity();
+        double value = position + velocity;
+        //if(isWithinBounds(value, particle.getSocialAcceleration()))
+            return value;
+        //return position;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getCognitiveAcceleration(ParameterizedParticle particle) {
+        double position = particle.getCognitiveAcceleration().getParameter();
+        double velocity = particle.getCognitiveAcceleration().getVelocity();
+        double value = position + velocity;
+        //if(isWithinBounds(value, particle.getCognitiveAcceleration()))
+            return value;
+        //return position;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    public double getVmax(ParameterizedParticle particle) {
+        double position = particle.getVmax().getParameter();
+        double velocity = particle.getVmax().getVelocity();
+        double value = position + velocity;
+        //if(isWithinBounds(value, particle.getVmax()))
+            return value;
+        //return position;
     }
 }
