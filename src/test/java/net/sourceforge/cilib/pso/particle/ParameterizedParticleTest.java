@@ -162,7 +162,7 @@ public class ParameterizedParticleTest {
     public void testInitialise() {
         System.out.println("initialise");
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12, 5.12)^30");
+        problem.setDomain("R(-5.12:5.12)^30");
         problem.setFunction(new Spherical());
 
         ParameterizedParticle instance = new ParameterizedParticle();
@@ -173,7 +173,7 @@ public class ParameterizedParticleTest {
         Assert.assertEquals(instance.getInertia().getParameter(), 0.1);
 
         problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12, 5.12)^30");
+        problem.setDomain("R(-5.12:5.12)^30");
         problem.setFunction(new Spherical());
 
         instance = new ParameterizedParticle();
@@ -226,7 +226,7 @@ public class ParameterizedParticleTest {
         System.out.println("calculateFitness");
 
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12, 5.12)^5");
+        problem.setDomain("R(-5.12:5.12)^5");
         problem.setFunction(new Spherical());
 
         PSO pso = new PSO();
@@ -288,7 +288,7 @@ public class ParameterizedParticleTest {
         ParameterizedParticle instance = new ParameterizedParticle();
 
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12, 5.12)^5");
+        problem.setDomain("R(-5.12:5.12)^5");
         problem.setFunction(new Spherical());
 
         instance.initialise(problem);
@@ -327,7 +327,7 @@ public class ParameterizedParticleTest {
         ParameterizedParticle instance = new ParameterizedParticle();
 
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12, 5.12)^5");
+        problem.setDomain("R(-5.12:5.12)^5");
         problem.setFunction(new Spherical());
 
         instance.initialise(problem);

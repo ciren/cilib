@@ -81,7 +81,7 @@ public class IndexBasedAverageDiversityAroundAllEntitiesTest {
         System.out.println("getValue");
          
         problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12, 5.12)^5");
+        problem.setDomain("R(-5.12:5.12)^5");
         problem.setFunction(new Spherical());
                 
         pso = new PSO();

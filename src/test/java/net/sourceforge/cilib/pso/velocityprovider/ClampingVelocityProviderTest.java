@@ -153,7 +153,7 @@ public class ClampingVelocityProviderTest {
     public void testGetControlParameterVelocity() {
         System.out.println("getControlParameterVelocity");
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12, 5.12)^30");
+        problem.setDomain("R(-5.12:5.12)^30");
         problem.setFunction(new Spherical());
             
         ParameterizedParticle particle = new ParameterizedParticle();

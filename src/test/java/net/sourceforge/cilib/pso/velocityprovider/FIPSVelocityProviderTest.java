@@ -73,7 +73,7 @@ public class FIPSVelocityProviderTest {
      */
     private void checkSettingReturnCorrectResult() {
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12, 5.12)^5");
+        problem.setDomain("R(-5.12:5.12)^5");
         problem.setFunction(new Spherical());
                 
         PSO pso = new PSO();

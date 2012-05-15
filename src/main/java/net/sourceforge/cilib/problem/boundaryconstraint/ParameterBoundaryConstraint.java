@@ -22,12 +22,9 @@
 package net.sourceforge.cilib.problem.boundaryconstraint;
 
 import java.util.ArrayList;
-import javax.lang.model.element.Parameterizable;
 import net.sourceforge.cilib.controlparameter.BoundedModifiableControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.controlparameter.ParameterAdaptingControlParameter;
 import net.sourceforge.cilib.ec.ParameterizedDEIndividual;
-import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.pso.particle.ParameterizedParticle;

@@ -73,7 +73,7 @@ public class ParameterInclusiveInitializationStrategyTest {
         
         //Set up test
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12, 5.12)^10");
+        problem.setDomain("R(-5.12:5.12)^10");
         problem.setFunction(new Spherical());
         
         Vector vector = Vector.of(1.0, 1.0, 1.0,1.0, 1.0, 1.0,1.0, 1.0, 1.0,1.0);
@@ -113,7 +113,7 @@ public class ParameterInclusiveInitializationStrategyTest {
         
         //Set up test
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12, 5.12)^10");
+        problem.setDomain("R(-5.12:5.12)^10");
         problem.setFunction(new Spherical());
         
         Vector vector = Vector.of(1.0, 1.0, 1.0,1.0, 1.0, 1.0,1.0, 1.0, 1.0,1.0);
