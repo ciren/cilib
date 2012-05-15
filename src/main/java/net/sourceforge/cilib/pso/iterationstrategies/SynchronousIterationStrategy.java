@@ -35,8 +35,6 @@ import net.sourceforge.cilib.pso.PSO;
 public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO> {
 
     private static final long serialVersionUID = 6617737228912852220L;
-    
-    private boolean initialized = false;
 
     /**
      * {@inheritDoc}
@@ -44,14 +42,6 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
     @Override
     public SynchronousIterationStrategy getClone() {
         return this;
-    }
-    
-    public void initialise(Topology<Particle> topology) {
-        for (Particle p : topology) {
-            p.calculateFitness();
-        }
-        
-        initialized = true;
     }
 
     /**
@@ -72,21 +62,17 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
     @Override
     public void performIteration(PSO pso) {
         Topology<Particle> topology = pso.getTopology();
-        
-        if (!initialized) {
-            initialise(topology);
-        }
 
         for (Particle current : topology) {
             current.updateVelocity();
             current.updatePosition(); // TODO: replace with visitor (will simplify particle interface)
 
             boundaryConstraint.enforce(current);
-            current.calculateFitness();
         }
 
         for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
-            Particle current = i.next();            
+            Particle current = i.next();
+            current.calculateFitness();
 
             for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
                 Particle other = j.next();

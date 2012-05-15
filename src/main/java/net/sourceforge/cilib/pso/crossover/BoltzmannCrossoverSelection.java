@@ -24,9 +24,7 @@ package net.sourceforge.cilib.pso.crossover;
 import fj.P;
 import fj.P3;
 import java.util.Comparator;
-import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.BoltzmannComparator;
 import net.sourceforge.cilib.pso.PSO;
 

@@ -32,22 +32,22 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  */
-public class ArithmeticCrossover extends CrossoverStrategy {
+public class ArithmeticCrossoverStrategy extends CrossoverStrategy {
     
     private ControlParameter lambda;
     
-    public ArithmeticCrossover() {
+    public ArithmeticCrossoverStrategy() {
         this.lambda = new RandomControlParameter(new UniformDistribution());
     }
     
-    public ArithmeticCrossover(ArithmeticCrossover copy) {
+    public ArithmeticCrossoverStrategy(ArithmeticCrossoverStrategy copy) {
         super(copy);
         this.lambda = copy.lambda.getClone();
     }
 
     @Override
     public CrossoverStrategy getClone() {
-        return new ArithmeticCrossover(this);
+        return new ArithmeticCrossoverStrategy(this);
     }
 
     @Override

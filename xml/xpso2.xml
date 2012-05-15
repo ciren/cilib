@@ -6,12 +6,25 @@
 ]>
 <simulator>
     <algorithms>
-        <!--Lovberg XPSO-->
+        <!--Lovbjerg Hybrid XPSO-->
         <algorithm id="xpso-lovbjerg-hybrid" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                        <vMax class="controlparameter.ConstantControlParameter" parameter="600"/>
+                        <delegate class="pso.velocityprovider.StandardVelocityProvider">
+                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.0"/>
+                            <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.0"/>
+                            <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.7" finalValue="0.4"/>
+                        </delegate>
+                    </velocityProvider>
+                </entityType>
+            </initialisationStrategy>
+
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.HybridCrossoverOperation">
-                    <offspringUpdate class="pso.crossover.HybridOffspringUpdateStrategy"/>
-                    <crossoverStrategy class="entity.operators.crossover.ArithmeticCrossover">
+                    <offspringUpdate class="pso.crossover.util.HybridOffspringUpdateStrategy"/>
+                    <crossoverStrategy class="entity.operators.crossover.ArithmeticCrossoverStrategy">
                         <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.2"/>
                     </crossoverStrategy>
                 </crossoverOperation>
@@ -19,6 +32,7 @@
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
         </algorithm>
 
+        <!--  -->
         <algorithm id="xpso-gliw-glac-arithmetic" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
@@ -28,8 +42,8 @@
 
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.HybridCrossoverOperation">
-                    <offspringUpdate class="pso.crossover.NullOffspringUpdateStrategy"/>
-                    <crossoverStrategy class="entity.operators.crossover.ArithmeticCrossover">
+                    <offspringUpdate class="pso.crossover.util.NullOffspringUpdateStrategy"/>
+                    <crossoverStrategy class="entity.operators.crossover.ArithmeticCrossoverStrategy">
                         <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="1.0"/>
                     </crossoverStrategy>
                 </crossoverOperation>
@@ -48,8 +62,8 @@
 
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.HybridCrossoverOperation">
-                    <offspringUpdate class="pso.crossover.NullOffspringUpdateStrategy"/>
-                    <crossoverStrategy class="entity.operators.crossover.ArithmeticCrossover">
+                    <offspringUpdate class="pso.crossover.util.NullOffspringUpdateStrategy"/>
+                    <crossoverStrategy class="entity.operators.crossover.ArithmeticCrossoverStrategy">
                         <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="1.0"/>
                     </crossoverStrategy>
                 </crossoverOperation>
@@ -57,14 +71,53 @@
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
         </algorithm>
 
+        <!-- Novel Multi Parent Crossover Operator PSO -->
         <algorithm id="xpso-nmpco" class="pso.PSO">
-            <iterationStrategy class="pso.iterationstrategies.NMPCOIterationStrategy"/>
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle"/>
+                <entityNumber value="100"/>
+            </initialisationStrategy>
+
+            <iterationStrategy class="pso.iterationstrategies.MultiParentCrossoverIterationStrategy">
+                <vMax class="controlparameter.ConstantControlParameter" parameter="1.0"/>
+                <crossoverStrategy class="entity.operators.crossover.MultiParentCrossoverStrategy">
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
+                </crossoverStrategy>
+                <distribution class="math.random.CauchyDistribution"/>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
+        </algorithm>
+
+        <!-- Hybrid Evolutionary Algorithm PSO -->
+        <algorithm id="xpso-hea" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="1.0"/>
+                        <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.6"/>
+                    </velocityProvider>
+                </entityType>
+            </initialisationStrategy>
+
+            <iterationStrategy class="pso.iterationstrategies.HEAIterationStrategy">
+                <crossoverStrategy class="entity.operators.crossover.BlendCrossoverStrategy">
+                    <alpha class="controlparameter.ConstantControlParameter" parameter="1.6"/>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.1"/>
+                    <selectionStrategy class="util.selection.recipes.RouletteWheelSelector">
+                        <weighing class="util.selection.weighting.EntityWeighting"/>
+                    </selectionStrategy>
+                </crossoverStrategy>
+                <selector class="util.selection.recipes.ElitistSelector"/>
+                <numberOfOffspring class="controlparameter.ConstantControlParameter" parameter="20"/>
+            </iterationStrategy>
+
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
         </algorithm>
     </algorithms>
 
     <problems>
-        <problem id="spherical" class="problem.FunctionMinimisationProblem" domain="R(15:30)^30">
+        <problem id="spherical" class="problem.FunctionMinimisationProblem" domain="R(-600:600)^30">
             <function class="functions.continuous.unconstrained.Griewank"/>
         </problem>
     </problems>
@@ -74,6 +127,12 @@
     </measurements>
 
     <simulations>
+        <simulation samples="1">
+            <algorithm idref="xpso-hea"/>
+            <problem idref="spherical"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-hea.txt" />
+        </simulation>
         <simulation samples="1">
             <algorithm idref="xpso-nmpco"/>
             <problem idref="spherical"/>

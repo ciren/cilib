@@ -21,13 +21,16 @@
  */
 package net.sourceforge.cilib.pso.crossover;
 
+import net.sourceforge.cilib.pso.crossover.util.HybridOffspringUpdateStrategy;
+import net.sourceforge.cilib.pso.crossover.util.OffspringUpdateStrategy;
 import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.operators.crossover.ArithmeticCrossover;
+import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
+import net.sourceforge.cilib.entity.operators.crossover.ArithmeticCrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.pso.PSO;
@@ -55,7 +58,7 @@ public class HybridCrossoverOperation implements PSOCrossoverOperation {
     
     public HybridCrossoverOperation() {
         this.offspringUpdate = new HybridOffspringUpdateStrategy();
-        this.crossoverStrategy = new ArithmeticCrossover();
+        this.crossoverStrategy = new ArithmeticCrossoverStrategy();
         this.crossoverStrategy.setCrossoverProbability(ConstantControlParameter.of(0.2));
     }
     
@@ -101,6 +104,11 @@ public class HybridCrossoverOperation implements PSOCrossoverOperation {
             parents.removeAll(selectedParents);
             
             newTopology.addAll(offspringUpdate.updateOffspring(selectedParents, offspring));
+        }
+        
+        for (Particle p : newTopology) {
+            Particle nBest = Topologies.getNeighbourhoodBest(newTopology, p, new SocialBestFitnessComparator());
+            p.setNeighbourhoodBest(nBest);
         }
 
         return newTopology;

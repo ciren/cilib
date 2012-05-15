@@ -19,31 +19,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.crossover;
+package net.sourceforge.cilib.pso.crossover.util;
 
-import com.google.common.base.Preconditions;
 import java.util.List;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 
-/**
- *
- */
-public class NBestParticleProvider implements ParticleProvider {
-
-    private Particle particle;
-
+public class NullOffspringUpdateStrategy implements OffspringUpdateStrategy {
     @Override
-    public Particle get(List<Entity> parents) {
-        Preconditions.checkNotNull(particle);
-        return particle.getNeighbourhoodBest();
-    }
-
-    public void setParticle(Particle particle) {
-        this.particle = particle;
-    }
-
-    public Particle getParticle() {
-        return particle;
-    }
+    public List<Particle> updateOffspring(List<Particle> parents, List<Particle> offspring) {
+        return offspring;
+    }    
 }

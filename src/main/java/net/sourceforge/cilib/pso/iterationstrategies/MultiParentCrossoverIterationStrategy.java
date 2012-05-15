@@ -42,29 +42,43 @@ import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.selection.Samples;
 
-public class NMPCOIterationStrategy extends AbstractIterationStrategy<PSO> {
+/**
+ * 
+ * @INPROCEEDINGS{4668059,
+ * author={Hui Wang and Zhijian Wu and Yong Liu and Sanyou Zeng},
+ * booktitle={Natural Computation, 2008. ICNC '08. Fourth International Conference on}, title={Particle Swarm Optimization with a Novel Multi-Parent Crossover Operator},
+ * year={2008},
+ * month={oct.},
+ * volume={7},
+ * number={},
+ * pages={664 -668},
+ * keywords={advanced evolutionary computation techniques;evolutionary algorithms;hybrid PSO algorithm;multi-parent crossover operator;multimodal optimization problems;particle swarm optimization;self-adaptive Cauchy mutation operator;evolutionary computation;particle swarm optimisation;},
+ * doi={10.1109/ICNC.2008.643},
+ * ISSN={},}
+ */
+public class MultiParentCrossoverIterationStrategy extends AbstractIterationStrategy<PSO> {
     
-    private CrossoverStrategy crossover;
+    private CrossoverStrategy crossoverStrategy;
     private ControlParameter vMax;
     private ProbabilityDistributionFuction distribution;
     
-    public NMPCOIterationStrategy() {
-        this.crossover = new MultiParentCrossoverStrategy();
-        this.crossover.setCrossoverProbability(ConstantControlParameter.of(0.8));
+    public MultiParentCrossoverIterationStrategy() {
+        this.crossoverStrategy = new MultiParentCrossoverStrategy();
+        this.crossoverStrategy.setCrossoverProbability(ConstantControlParameter.of(0.8));
         
         this.vMax = ConstantControlParameter.of(1.0);        
         this.distribution = new CauchyDistribution();
     }
     
-    public NMPCOIterationStrategy(NMPCOIterationStrategy copy) {
-        this.crossover = copy.crossover.getClone();
+    public MultiParentCrossoverIterationStrategy(MultiParentCrossoverIterationStrategy copy) {
+        this.crossoverStrategy = copy.crossoverStrategy.getClone();
         this.distribution = copy.distribution;
         this.vMax = copy.vMax.getClone();
     }
 
     @Override
     public AbstractIterationStrategy<PSO> getClone() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new MultiParentCrossoverIterationStrategy(this);
     }
 
     @Override
@@ -84,11 +98,11 @@ public class NMPCOIterationStrategy extends AbstractIterationStrategy<PSO> {
         // crossover
         for (int i = 0; i < topology.size(); i++) {
             Particle p = topology.get(i);
-            if (crossover.getRandomDistribution().getRandomNumber() < crossover.getCrossoverProbability().getParameter()) {
-                List<Particle> parents = crossover.getSelectionStrategy().on(topology).select(Samples.first(3));
+            if (crossoverStrategy.getRandomDistribution().getRandomNumber() < crossoverStrategy.getCrossoverProbability().getParameter()) {
+                List<Particle> parents = crossoverStrategy.getSelectionStrategy().on(topology).select(Samples.first(3));
                 parents.add(p);
                 parents = Lists.reverse(parents);
-                Particle offspring = (Particle) crossover.crossover(parents).get(0);
+                Particle offspring = (Particle) crossoverStrategy.crossover(parents).get(0);
                 offspring.calculateFitness();
                 offspring.setNeighbourhoodBest(p.getNeighbourhoodBest());
                 
@@ -100,8 +114,6 @@ public class NMPCOIterationStrategy extends AbstractIterationStrategy<PSO> {
         
         // update neighbourhood
         for (Particle p : topology) {
-            p.calculateFitness();
-        
             Particle nBest = Topologies.getNeighbourhoodBest(topology, p, new SocialBestFitnessComparator());
             p.setNeighbourhoodBest(nBest);
         }
@@ -147,5 +159,28 @@ public class NMPCOIterationStrategy extends AbstractIterationStrategy<PSO> {
             gBest.getProperties().put(EntityType.Particle.BEST_POSITION, mutated.getBestPosition());
         }
     }
-    
+
+    public void setVMax(ControlParameter vMax) {
+        this.vMax = vMax;
+    }
+
+    public ControlParameter getVMax() {
+        return vMax;
+    }
+
+    public void setDistribution(ProbabilityDistributionFuction distribution) {
+        this.distribution = distribution;
+    }
+
+    public ProbabilityDistributionFuction getDistribution() {
+        return distribution;
+    }
+
+    public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {
+        this.crossoverStrategy = crossoverStrategy;
+    }
+
+    public CrossoverStrategy getCrossoverStrategy() {
+        return crossoverStrategy;
+    }    
 }

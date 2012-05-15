@@ -21,11 +21,10 @@
  */
 package net.sourceforge.cilib.pso.iterationstrategies;
 
+import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.crossover.BoltzmannCrossoverSelection;
 import net.sourceforge.cilib.pso.crossover.PSOCrossoverOperation;
@@ -72,14 +71,7 @@ public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO
     @Override
     public void performIteration(PSO algorithm) {
         Topology<Particle> topology = algorithm.getTopology();
-        
-        for (Particle p : topology) {
-            p.calculateFitness();
-        
-            Particle nBest = Topologies.getNeighbourhoodBest(topology, p, new SocialBestFitnessComparator());
-            p.setNeighbourhoodBest(nBest);
-        }
-
+ 
         for (Particle current : topology) {
             current.updateVelocity();
             current.updatePosition();
@@ -88,6 +80,18 @@ public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO
         }
         
         algorithm.setTopology(crossoverOperation.performCrossoverOpertation(algorithm));
+        
+        for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
+            Particle current = i.next();
+            current.calculateFitness();
+
+            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
+                Particle other = j.next();
+                if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
+                    other.setNeighbourhoodBest(current);
+                }
+            }
+        }
     }
 
     public void setCrossoverOperation(PSOCrossoverOperation crossoverOperation) {

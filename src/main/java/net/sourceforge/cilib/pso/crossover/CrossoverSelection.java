@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.pso.crossover;
 
+import net.sourceforge.cilib.pso.crossover.util.ParticleProvider;
+import net.sourceforge.cilib.pso.crossover.util.WorstParentParticleProvider;
 import com.google.common.collect.Maps;
 import fj.P;
 import fj.P3;
@@ -139,8 +141,8 @@ public abstract class CrossoverSelection implements PSOCrossoverOperation {
         
         if (result._1()) {
             int i = algorithm.getTopology().indexOf(result._2());
-            algorithm.getTopology().set(i, result._3());
             result._3().setNeighbourhoodBest(result._2().getNeighbourhoodBest());
+            algorithm.getTopology().set(i, result._3());
         }
 
         return algorithm.getTopology();
