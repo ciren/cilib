@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.pso.crossover;
 
+import net.sourceforge.cilib.pso.crossover.util.ParticleProvider;
+import net.sourceforge.cilib.pso.crossover.util.WorstParentParticleProvider;
 import com.google.common.collect.Maps;
 import fj.P;
 import fj.P3;
@@ -37,7 +39,6 @@ import net.sourceforge.cilib.entity.operators.crossover.ParentCentricCrossoverSt
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.StructuredType;
-import net.sourceforge.cilib.util.Cloneable;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
@@ -46,7 +47,7 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
  * An operation used in the PSOCrossoverIterationStrategy which is responsible for performing the crossover and
  * performing other actions depending on the outcome of the crossover.
  */
-public abstract class CrossoverSelection implements Cloneable {
+public abstract class CrossoverSelection implements PSOCrossoverOperation {
 
     private CrossoverStrategy crossoverStrategy;
     private Selector selector;
@@ -133,6 +134,19 @@ public abstract class CrossoverSelection implements Cloneable {
     }
 
     public abstract P3<Boolean, Particle, Particle> doAction(PSO algorithm, Enum solutionType, Enum fitnessType);
+
+    @Override
+    public Topology<Particle> performCrossoverOpertation(PSO algorithm) {
+        P3<Boolean, Particle, Particle> result = doAction(algorithm, EntityType.CANDIDATE_SOLUTION, EntityType.FITNESS);
+        
+        if (result._1()) {
+            int i = algorithm.getTopology().indexOf(result._2());
+            result._3().setNeighbourhoodBest(result._2().getNeighbourhoodBest());
+            algorithm.getTopology().set(i, result._3());
+        }
+
+        return algorithm.getTopology();
+    }
 
     @Override
     public abstract CrossoverSelection getClone();

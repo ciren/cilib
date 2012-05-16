@@ -93,7 +93,7 @@ public class ParentCentricCrossoverStrategy extends CrossoverStrategy {
      * @return List of offspring calculated using this crossover strategy
      */
     @Override
-    public List<Entity> crossover(List<Entity> parentCollection) {
+    public List<? extends Entity> crossover(List<? extends Entity> parentCollection) {
         checkState(parentCollection.size() >= 2, "A minimum of two parents is needed to perform parent-centric crossover.");
         checkState(numberOfOffspring > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
 

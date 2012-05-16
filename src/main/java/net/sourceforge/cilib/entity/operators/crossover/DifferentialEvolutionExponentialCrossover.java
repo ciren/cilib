@@ -56,7 +56,7 @@ public class DifferentialEvolutionExponentialCrossover extends CrossoverStrategy
      * @throws UnsupportedOperationException if the number of parents does not equal the size value of 2.
      * @return A list consisting of the offspring. This operator only returns a single offspring {@linkplain Entity}.
      */
-    public List<Entity> crossover(List<Entity> parentCollection) {
+    public List<? extends Entity> crossover(List<? extends Entity> parentCollection) {
         if (parentCollection.size() != 2) {
             throw new UnsupportedOperationException("Cannot use exponential recomination on a parent entity grouping not consisting of 2 entities");
         }

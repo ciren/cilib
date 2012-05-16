@@ -23,40 +23,25 @@ package net.sourceforge.cilib.pso.crossover;
 
 import fj.P;
 import fj.P3;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.controlparameter.LinearlyVaryingControlParameter;
-import net.sourceforge.cilib.controlparameter.UpdateOnIterationControlParameter;
+import java.util.Comparator;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
-import net.sourceforge.cilib.math.random.UniformDistribution;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.entity.comparator.BoltzmannComparator;
 import net.sourceforge.cilib.pso.PSO;
 
 /**
- * A CrossoverSelection strategy that performs Boltzmann selection on the worst parent and the offspring if the
- * offspring is worse than the worst parent
+ * A CrossoverSelection strategy that performs Boltzmann selection on the worst 
+ * parent and the offspring if the offspring is worse than the worst parent
  */
 public class BoltzmannCrossoverSelection extends CrossoverSelection {
 
-    private ProbabilityDistributionFuction distribution;
-    private ControlParameter tempSchedule;
+    private Comparator comparator;
 
     public BoltzmannCrossoverSelection() {
-        this.distribution = new UniformDistribution();
-
-        LinearlyVaryingControlParameter cp = new LinearlyVaryingControlParameter();
-        cp.setInitialValue(100);
-        cp.setFinalValue(1);
-
-        UpdateOnIterationControlParameter outerCP = new UpdateOnIterationControlParameter();
-        outerCP.setDelegate(cp);
-        
-        this.tempSchedule = outerCP;
+        this.comparator = new BoltzmannComparator();
     }
 
     public BoltzmannCrossoverSelection(BoltzmannCrossoverSelection copy) {
-        this.distribution = copy.distribution;
-        this.tempSchedule = copy.tempSchedule.getClone();
+        this.comparator = copy.comparator;
     }
 
     @Override
@@ -66,14 +51,7 @@ public class BoltzmannCrossoverSelection extends CrossoverSelection {
         Particle offspring = result._3();
 
         if (!result._1()) {
-            Fitness selectedFitness = (Fitness) selectedParticle.getProperties().get(fitnessType);
-            Fitness offspringFitness = (Fitness) offspring.getProperties().get(fitnessType);
-            
-            int sign = -selectedFitness.compareTo(offspringFitness);
-            double diff = Math.abs(selectedFitness.getValue() - offspringFitness.getValue());
-            double probability = 1 / (1 + Math.exp(sign * diff / tempSchedule.getParameter()));
-
-            if (distribution.getRandomNumber() > probability) {
+            if (comparator.compare(selectedParticle, offspring) < 0) {
                 return P.p(true, result._2(), result._3());
             }
         }
@@ -86,11 +64,11 @@ public class BoltzmannCrossoverSelection extends CrossoverSelection {
         return new BoltzmannCrossoverSelection(this);
     }
 
-    public void setTempSchedule(ControlParameter tSchedule) {
-        this.tempSchedule = tSchedule;
+    public void setComparator(Comparator comparator) {
+        this.comparator = comparator;
     }
 
-    public void setDistribution(ProbabilityDistributionFuction distribution) {
-        this.distribution = distribution;
+    public Comparator getComparator() {
+        return comparator;
     }
 }

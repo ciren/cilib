@@ -56,7 +56,7 @@ public class BlendCrossoverStrategyTest {
 
         BlendCrossoverStrategy crossoverStrategy = new BlendCrossoverStrategy();
         crossoverStrategy.setCrossoverProbability(ConstantControlParameter.of(1.0));
-        List<Entity> children = crossoverStrategy.crossover(parents);
+        List<Entity> children = (List<Entity>) crossoverStrategy.crossover(parents);
 
         Vector child1 = (Vector) children.get(0).getCandidateSolution();
         Vector child2 = (Vector) children.get(1).getCandidateSolution();

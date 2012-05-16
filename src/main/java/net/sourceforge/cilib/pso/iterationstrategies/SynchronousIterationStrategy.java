@@ -59,6 +59,7 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
      * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration(net.sourceforge.cilib.PSO.PSO)
      * @param pso The {@link PSO} to have an iteration applied.
      */
+    @Override
     public void performIteration(PSO pso) {
         Topology<Particle> topology = pso.getTopology();
 

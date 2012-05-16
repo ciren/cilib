@@ -19,25 +19,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.positionprovider;
+package net.sourceforge.cilib.pso.crossover.util;
 
+import java.util.List;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.type.types.container.Vector;
 
-/**
- * TODO: Complete this javadoc.
- */
-public class GaussianPositionProvider implements PositionProvider {
-
-    private static final long serialVersionUID = 1888395118987536803L;
-
+public class NullOffspringUpdateStrategy implements OffspringUpdateStrategy {
     @Override
-    public GaussianPositionProvider getClone() {
-        throw new UnsupportedOperationException("Implementation is required.");
-    }
-
-    @Override
-    public Vector get(Particle particle) {
-        throw new UnsupportedOperationException("Implementation is required.");
-    }
+    public List<Particle> updateOffspring(List<Particle> parents, List<Particle> offspring) {
+        return offspring;
+    }    
 }
