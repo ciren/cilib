@@ -102,28 +102,35 @@ public class PSOClusteringAlgorithm extends SinglePopulationBasedAlgorithm imple
     @Override
     protected void algorithmIteration() {
         double euclideanDistance;
+        Vector addedPattern;
         clearCentroidDistanceValues();
+        
         for(ClusterParticle particle : topology) {
             CentroidHolder candidateSolution = (CentroidHolder) particle.getCandidateSolution();
             for(int i = 0; i < dataset.size(); i++) {
                 euclideanDistance = Double.POSITIVE_INFINITY;
+                addedPattern = Vector.of();
                 Vector pattern = ((StandardPattern) dataset.getRow(i)).getVector();
                 int centroidIndex = 0;
                 int patternIndex = 0;
                 //System.out.println("Pattern: " + pattern.toString());
                 for(ClusterCentroid centroid : candidateSolution) {
-                    //System.out.println("Centroid: " + centroid.toString());
                     if(distanceMeasure.distance(centroid.toVector(), pattern) < euclideanDistance) {
                         euclideanDistance = distanceMeasure.distance(centroid.toVector(), pattern);
+                        addedPattern = Vector.copyOf(pattern);
                         patternIndex = centroidIndex;
                     }
                     centroidIndex++;
                 }
+                
+                //System.out.println("--------------\n");
                 //System.out.println("Selected Centroid: " + candidateSolution.get(patternIndex).toString() + "\n");
                 
-                candidateSolution.get(patternIndex).addDataItemDistance(euclideanDistance);
+                candidateSolution.get(patternIndex).addDataItem(euclideanDistance, addedPattern);
             }
-           
+            
+            particle.setCandidateSolution(candidateSolution);
+            
             particle.calculateFitness();
             particle.updateVelocity();
             particle.updatePosition();
@@ -155,7 +162,7 @@ public class PSOClusteringAlgorithm extends SinglePopulationBasedAlgorithm imple
             CentroidHolder candidateSolution = (CentroidHolder) particle.getCandidateSolution();
             
             for(ClusterCentroid centroid : candidateSolution) {
-                centroid.clearDataItemDistances();
+                centroid.clearDataItems();
             }
         }
     }

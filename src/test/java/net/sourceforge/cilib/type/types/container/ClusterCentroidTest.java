@@ -21,13 +21,10 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
-import java.util.Collection;
-import java.util.Iterator;
 import junit.framework.Assert;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.Numeric;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -233,8 +230,10 @@ public class ClusterCentroidTest {
     public void testAddDataItemDistance() {
         System.out.println("addDataItemDistance");
         ClusterCentroid instance = new ClusterCentroid();
-        instance.addDataItemDistance(5.0);
+        Vector pattern = Vector.of(1,2,3,4);
+        instance.addDataItem(5.0, pattern);
         
         Assert.assertEquals(5.0, instance.getDataItemDistances()[0]);
+        Assert.assertEquals(instance.getDataItems().get(0), pattern);
     }
 }

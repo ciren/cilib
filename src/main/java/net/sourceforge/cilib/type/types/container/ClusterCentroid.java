@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.type.types.container;
 
 import com.google.common.collect.UnmodifiableIterator;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -37,16 +38,19 @@ import net.sourceforge.cilib.type.types.Real;
  */
 public class ClusterCentroid implements StructuredType<Numeric>{
     private double[] dataItemDistances;
+    private ArrayList<Vector> dataItems;
     private Numeric[] components;
 
     public ClusterCentroid() {
         dataItemDistances = new double[]{};
         components = new Numeric[]{};
+        dataItems = new ArrayList<Vector>();
     }
     
     public ClusterCentroid(int size) {
         dataItemDistances = new double[]{};
         components = new Numeric[size];
+        dataItems = new ArrayList<Vector>();
         for(int i = 0; i < size; i++) {
             components[i] = Int.valueOf(0);
         }
@@ -64,11 +68,13 @@ public class ClusterCentroid implements StructuredType<Numeric>{
     private ClusterCentroid(Numeric[] elements) {
         this.components = elements;
         dataItemDistances = new double[]{};
+        dataItems = new ArrayList<Vector>();
     }
     
     public ClusterCentroid(ClusterCentroid copy) {
-        dataItemDistances = copy.dataItemDistances.clone();
+        dataItemDistances = copy.dataItemDistances;
         components = copy.components.clone();
+        dataItems = copy.dataItems;
     }
     
     public void copy(Vector input) {
@@ -239,6 +245,10 @@ public class ClusterCentroid implements StructuredType<Numeric>{
         }
     }
     
+    public ArrayList<Vector> getDataItems() {
+        return dataItems;
+    }
+    
     public double[] getDataItemDistances() {
         return dataItemDistances;
     }
@@ -247,11 +257,12 @@ public class ClusterCentroid implements StructuredType<Numeric>{
         dataItemDistances = newDataItemDistances;
     }
     
-    public boolean addDataItemDistance(double distance) {
+    public boolean addDataItem(double distance, Vector item) {
         double[] array = new double[dataItemDistances.length + 1];
         System.arraycopy(dataItemDistances, 0, array, 0, dataItemDistances.length);
         array[array.length - 1] = distance;
         dataItemDistances = array;
+        dataItems.add(item);
         return true;
     }
     
@@ -264,8 +275,9 @@ public class ClusterCentroid implements StructuredType<Numeric>{
         return builder.build();
     }
     
-    public void clearDataItemDistances() {
+    public void clearDataItems() {
         dataItemDistances = new double[]{};
+        dataItems.clear();
     }
     
     @Override

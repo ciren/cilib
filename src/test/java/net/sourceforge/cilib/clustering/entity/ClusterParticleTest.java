@@ -147,7 +147,7 @@ public class ClusterParticleTest {
         pso.setTopology(topology);
         pso.run();
         
-        Assert.assertEquals(Math.round(instance.getFitness().getValue()),  Math.round(3.1291362326128439920284548286519));
+        Assert.assertEquals(Math.round(instance.getFitness().getValue() * 1e10) / 1e10,  Math.round(3.1291362326128439920284548286519 * 1e10) / 1e10);
     }
 
     /**

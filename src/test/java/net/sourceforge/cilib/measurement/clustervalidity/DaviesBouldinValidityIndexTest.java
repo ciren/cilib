@@ -19,11 +19,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.problem;
+package net.sourceforge.cilib.measurement.clustervalidity;
 
 import junit.framework.Assert;
-import net.sourceforge.cilib.clustering.entity.ClusterParticle;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import org.junit.After;
@@ -31,14 +32,15 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
  * @author Kristina
  */
-public class QuantizationErrorMinimizationProblemTest {
+public class DaviesBouldinValidityIndexTest {
     
-    public QuantizationErrorMinimizationProblemTest() {
+    public DaviesBouldinValidityIndexTest() {
     }
 
     @BeforeClass
@@ -56,29 +58,24 @@ public class QuantizationErrorMinimizationProblemTest {
     @After
     public void tearDown() {
     }
-
+    
     /**
-     * Test of calculateFitness method, of class QuantizationErrorMinimizationProblem.
+     * Test of getMaximumInterclusterDistance method, of class DaviesBouldinValidityIndex.
      */
     @Test
-    public void testCalculateFitness() {
-        System.out.println("calculateFitness");
-        ClusterParticle particle = new ClusterParticle();
-        CentroidHolder holder = new CentroidHolder();
-        particle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(12.0));
-        particle.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(12.0));
-        ClusterCentroid centroid = ClusterCentroid.of(1,2,3,4,5,6);
-        centroid.setDataItemDistances(new double[]{1,2,3,4});
-        holder.add(centroid);
-        holder.add(centroid);
-        holder.add(centroid);
-        particle.setCandidateSolution(holder);
+    public void testGetMaximumInterclusterDistance() {
+        System.out.println("getMaximumInterclusterDistance");
+        ClusterCentroid cluster1 = ClusterCentroid.of(1,5);
+        cluster1.addDataItem(0, Vector.of(0.5,7));
+        cluster1.addDataItem(0, Vector.of(1.5,6));
+        cluster1.addDataItem(0, Vector.of(1.4,4));
+        ClusterCentroid cluster2 = ClusterCentroid.of(3,2);
+        cluster2.addDataItem(0, Vector.of(2,2.5));
+        cluster2.addDataItem(0, Vector.of(4,1.5));
+        DunnValidityIndex instance = new DunnValidityIndex();
         
-        QuantizationErrorMinimizationProblem instance = new QuantizationErrorMinimizationProblem();
-        Fitness fitness = instance.getFitness(particle.getCandidateSolution());
+        double distance = instance.getMaximumInterclusterDistance(cluster1);
         
-        Assert.assertEquals(fitness.getValue(), 2.5);
+        Assert.assertEquals(Math.round(3.1320919526731650539273262067644 * 1e10) / 1e10, Math.round(distance * 1e10) / 1e10);
     }
-
-    
 }

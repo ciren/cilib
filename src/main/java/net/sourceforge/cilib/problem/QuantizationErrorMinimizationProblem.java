@@ -21,11 +21,15 @@
  */
 package net.sourceforge.cilib.problem;
 
+import java.util.ArrayList;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
+import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
+import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  *
@@ -52,16 +56,20 @@ public class QuantizationErrorMinimizationProblem extends OptimisationProblemAda
     protected Fitness calculateFitness(Type solution) {
         CentroidHolder candidateSolution = (CentroidHolder) solution;
         double quantizationError = 0;
-        
+        double temp;
         for(ClusterCentroid centroid : (CentroidHolder) candidateSolution) {
+            temp = 0;
             for(double distance : centroid.getDataItemDistances()) {
-                quantizationError += distance / (double) centroid.getDataItemDistances().length;
+                temp += distance;
             }
+            
+            quantizationError += temp / (double) centroid.getDataItemDistances().length;
         }
         
         quantizationError /= (double) candidateSolution.size();
         
         return new MinimisationFitness(quantizationError);
+        
     }
     
     /**

@@ -141,7 +141,7 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
     @Override
     public boolean remove(Object o) {
         for (int i = 0; i < components.length; i++) {
-            if (components[i].equals(o)) {
+            if (components[i].containsAll((ClusterCentroid) o)) {
                 return remove(i);
             }
         }
