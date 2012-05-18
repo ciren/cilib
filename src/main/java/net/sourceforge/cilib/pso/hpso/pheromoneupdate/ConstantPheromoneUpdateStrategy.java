@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.pso.hpso.pheromoneupdate;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
@@ -30,22 +31,20 @@ import net.sourceforge.cilib.problem.Fitness;
  * Calculates the change in pheromone level for a particular particle's behavior
  * using three constants for whether the particle did better, the same or worse
  * than the previous iteration.
- *
- * @author filipe
  */
 public class ConstantPheromoneUpdateStrategy implements PheromoneUpdateStrategy{
-    private ConstantControlParameter better;
-    private ConstantControlParameter same;
-    private ConstantControlParameter worse;
+    private ControlParameter better;
+    private ControlParameter same;
+    private ControlParameter worse;
 
     /**
      * Initializes the controlparameters to 1.0, 0.5 and 0.0 for whether the
      * particle did better, the same or worse respectively.
      */
     public ConstantPheromoneUpdateStrategy() {
-        this.better = new ConstantControlParameter(1.0);
-        this.same = new ConstantControlParameter(0.5);
-        this.worse = new ConstantControlParameter(0.0);
+        this.better = ConstantControlParameter.of(1.0);
+        this.same = ConstantControlParameter.of(0.5);
+        this.worse = ConstantControlParameter.of(0.0);
     }
 
     /**
@@ -75,9 +74,33 @@ public class ConstantPheromoneUpdateStrategy implements PheromoneUpdateStrategy{
      */
     @Override
     public double updatePheromone(Particle e) {
-        int compResult = ((Fitness)e.getProperties().get(EntityType.Particle.PREV_FITNESS)).compareTo(e.getFitness());
+        int compResult = ((Fitness)e.getProperties().get(EntityType.PREVIOUS_FITNESS)).compareTo(e.getFitness());
         double result = compResult < 0 ? this.better.getParameter() :
             (compResult == 0 ? this.same.getParameter() : this.worse.getParameter());
         return result;
+    }
+
+    public void setWorse(ControlParameter worse) {
+        this.worse = worse;
+    }
+
+    public void setSame(ControlParameter same) {
+        this.same = same;
+    }
+
+    public void setBetter(ControlParameter better) {
+        this.better = better;
+    }
+
+    public ControlParameter getWorse() {
+        return worse;
+    }
+
+    public ControlParameter getSame() {
+        return same;
+    }
+
+    public ControlParameter getBetter() {
+        return better;
     }
 }

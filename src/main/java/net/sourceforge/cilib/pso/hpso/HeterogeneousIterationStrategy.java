@@ -22,13 +22,12 @@
 package net.sourceforge.cilib.pso.hpso;
 
 import java.util.List;
+import net.sourceforge.cilib.measurement.multiple.AdaptiveHPSOBehaviorProfileMeasurement;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 
 /**
  * Interface that heterogeneous iteration strategies should implement so they can be measured
  * using {@link AdaptiveHPSOBehaviorProfileMeasurement}
- * 
- * @author filipe
  */
 public interface HeterogeneousIterationStrategy {
     /**

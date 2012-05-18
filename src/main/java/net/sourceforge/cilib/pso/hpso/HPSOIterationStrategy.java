@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+import net.sourceforge.cilib.algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
@@ -57,7 +58,7 @@ import net.sourceforge.cilib.util.selection.recipes.TournamentSelector;
  *  <li>behaviorSelectionRecipe = RandomSelector</li>
  * </ul><br>
  * 
- * <i>Adaptive</i> HPSO (aHPSO): Similar to dHPSO but particles probabilistically 
+ * <i>Frequency based</i> HPSO (fk-HPSO-1000): Similar to dHPSO but particles probabilistically 
  * choose new behaviors from the behavior pool, rather than randomly. In this way, 
  * behaviors that perform well in early iterations are favored over the other behaviors 
  * in subsequent iterations.
@@ -68,7 +69,7 @@ import net.sourceforge.cilib.util.selection.recipes.TournamentSelector;
  * with a ParticleBehaviorWeighting</li>
  * </ul><br>
  * 
- * <i>Iteration best</i> aHPSO (aHPSO-IB): Similar to aHPSO but only the previous iterations'
+ * <i>Iteration best</i> HPSO (fk-HPSO-1): Similar to fk-HPSO but only the previous iterations'
  * successes contribute to behavior selection.
  * Parameters to use:
  * <ul>
@@ -77,7 +78,7 @@ import net.sourceforge.cilib.util.selection.recipes.TournamentSelector;
  * with a ParticleBehaviorWeighting</li>
  * </ul><br>
  * 
- * <i>Moving window</i> aHPSO (aHPSO-SW-windowSize): This is a generalization of aHPSO and aHPSO-IB.
+ * <i>Moving window</i> HPSO (fk-HPSO-10): This is a generalization of aHPSO and aHPSO-IB.
  * It uses the previous windowSize iterations' successes to choose a behavior.
  * Parameters to use:
  * <ul>
@@ -98,12 +99,10 @@ import net.sourceforge.cilib.util.selection.recipes.TournamentSelector;
  * with a regular iteration strategy.<br>
  *
  * TODO: add reference
- *
- * @author Bennie Leonard, filipe
  */
 public class HPSOIterationStrategy implements IterationStrategy<PSO>, HeterogeneousIterationStrategy {
     private IterationStrategy<PSO> iterationStrategy;
-    private BehaviorChangeTriggerDetectionStrategy<Particle> detectionStrategy;
+    private BehaviorChangeTriggerDetectionStrategy detectionStrategy;
     private Selector<ParticleBehavior> behaviorSelectionRecipe;
     private List<ParticleBehavior> behaviorPool;
     private Map<ParticleBehavior, List<Integer>> successCounters;
@@ -120,7 +119,7 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
         this.windowSize = 10;
         this.successCounters = new HashMap<ParticleBehavior, List<Integer>>();
 
-        ((TournamentSelector<ParticleBehavior>) this.behaviorSelectionRecipe).setTournamentSize(new ConstantControlParameter(0.4));
+        ((TournamentSelector<ParticleBehavior>) this.behaviorSelectionRecipe).setTournamentSize(ConstantControlParameter.of(0.4));
     }
 
     /**
@@ -216,7 +215,7 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
      * Get the currently defined {@linkplain StagnationDetectionStrategy}.
      * @return The current {@linkplain StagnationDetectionStrategy}.
      */
-    public BehaviorChangeTriggerDetectionStrategy<Particle> getDetectionStrategy() {
+    public BehaviorChangeTriggerDetectionStrategy getDetectionStrategy() {
         return detectionStrategy;
     }
 
@@ -224,7 +223,7 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
      * Set the {@linkplain StagnationDetectionStrategy} to be used.
      * @param strategy The {@linkplain StagnationDetectionStrategy} to set.
      */
-    public void setDetectionStrategy(BehaviorChangeTriggerDetectionStrategy<Particle> strategy) {
+    public void setDetectionStrategy(BehaviorChangeTriggerDetectionStrategy strategy) {
         this.detectionStrategy = strategy;
     }
 

@@ -26,8 +26,6 @@ import net.sourceforge.cilib.entity.Particle;
 /**
  * Interface to calculate the change in pheromone level for the adaptive HPSO using
  * pheromones
- *
- * @author filipe
  */
 public interface PheromoneUpdateStrategy {
 

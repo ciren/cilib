@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.pso.hpso.pheromoneupdate;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
@@ -30,17 +31,15 @@ import net.sourceforge.cilib.problem.Fitness;
  * Calculates the change in pheromone level for a particular particle's behavior
  * in direct proportion to the change in the particle's fitness from one
  * iteration to the next.
- *
- * @author filipe
  */
 public class LinearPheromoneUpdateStrategy implements PheromoneUpdateStrategy{
-    private ConstantControlParameter gradient;
+    private ControlParameter gradient;
 
     /**
      * Creates a new instance of LinearPheromoneUpdateStrategy
      */
     public LinearPheromoneUpdateStrategy() {
-        this.gradient = new ConstantControlParameter(0.1);
+        this.gradient = ConstantControlParameter.of(0.1);
     }
 
     /**
@@ -68,10 +67,16 @@ public class LinearPheromoneUpdateStrategy implements PheromoneUpdateStrategy{
      */
     @Override
     public double updatePheromone(Particle e) {
-        Fitness prevFitness = ((Fitness)e.getProperties().get(EntityType.Particle.PREV_FITNESS));
+        Fitness prevFitness = ((Fitness)e.getProperties().get(EntityType.PREVIOUS_FITNESS));
         double diff = e.getFitness().getValue() - (prevFitness.getValue().isNaN() ? 0 : prevFitness.getValue());
         return Math.abs(diff) * this.gradient.getParameter() * (e.getFitness().compareTo(prevFitness));
     }
 
+    public void setGradient(ControlParameter gradient) {
+        this.gradient = gradient;
+    }
 
+    public ControlParameter getGradient() {
+        return gradient;
+    }
 }

@@ -31,9 +31,10 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.problem.boundaryconstraint.UnconstrainedBoundary;
@@ -55,8 +56,6 @@ import net.sourceforge.cilib.util.selection.weighting.SpecializedRatio;
  * Changhe Li; Shengxiang Yang; , "Adaptive learning particle swarm optimizer-II for global optimization,"
  * Evolutionary Computation (CEC), 2010 IEEE Congress on , pp.1-8, 2010.
  * </li></ul>
- * 
- * @author filipe
  */
 public class AdaptiveLearningIterationStrategy implements IterationStrategy<PSO>, HeterogeneousIterationStrategy {
     private BoundaryConstraint boundaryConstraint;
@@ -81,7 +80,7 @@ public class AdaptiveLearningIterationStrategy implements IterationStrategy<PSO>
     
     private SpecializedRatio weighting;
     private ControlParameter minRatio;
-    private RandomProvider random;
+    private ProbabilityDistributionFuction random;
     
     private Particle aBest;
     private boolean initialized;
@@ -103,8 +102,8 @@ public class AdaptiveLearningIterationStrategy implements IterationStrategy<PSO>
         this.learningProbability = new HashMap<Particle, Double>();
         this.improvRatio = new HashMap<Particle, Double>();
         
-        this.minRatio = new ConstantControlParameter(0.01);
-        this.random = new MersenneTwister();
+        this.minRatio = ConstantControlParameter.of(0.01);
+        this.random = new UniformDistribution();
 
         this.behaviorPool = new ArrayList<ParticleBehavior>();
         this.weighting = new SpecializedRatio();
@@ -152,7 +151,6 @@ public class AdaptiveLearningIterationStrategy implements IterationStrategy<PSO>
         initialize(algorithm);
         
         Topology<Particle> topology = algorithm.getTopology();
-        topology.update();
         
         for(int k = 0; k < topology.size(); k++) {
             Particle particle = topology.get(k);
@@ -187,7 +185,7 @@ public class AdaptiveLearningIterationStrategy implements IterationStrategy<PSO>
                 
                 //do this?
                 double progressSum = sumList(progress.get(particle));
-                double alpha = random.nextDouble();
+                double alpha = random.getRandomNumber();
                 double penalty = success.get(particle).get(i) == 0
                         && selectionRatio.get(particle).get(i) == Collections.max(selectionRatio.get(particle))
                         ? 0.9 : 1.0;
@@ -204,7 +202,7 @@ public class AdaptiveLearningIterationStrategy implements IterationStrategy<PSO>
                 
                 //gbestupdate with abest
                 for(int j = 0; j < particle.getPosition().size(); j++) {
-                    if(random.nextDouble() < learningProbability.get(particle)) {
+                    if(random.getRandomNumber() < learningProbability.get(particle)) {
                         Particle aBestClone = aBest.getClone();
                         Vector aBestVector = (Vector) aBestClone.getBestPosition();
 
@@ -235,7 +233,7 @@ public class AdaptiveLearningIterationStrategy implements IterationStrategy<PSO>
                 
                 //do this?
                 double progressSum = sumList(progressPrime.get(particle));
-                double alpha = random.nextDouble();
+                double alpha = random.getRandomNumber();
                 double penalty = successPrime.get(particle).get(i) == 0
                         && selectionRatioPrime.get(particle).get(i) == Collections.max(selectionRatioPrime.get(particle))
                         ? 0.9 : 1.0;
@@ -316,7 +314,7 @@ public class AdaptiveLearningIterationStrategy implements IterationStrategy<PSO>
         }
             
         for(Particle p : topology) {
-            if(random.nextDouble() <= improvRatio.get(topology.get(bestImprov))/(improvRatio.get(topology.get(bestImprov))+ improvRatio.get(p))) {
+            if(random.getRandomNumber() <= improvRatio.get(topology.get(bestImprov))/(improvRatio.get(topology.get(bestImprov))+ improvRatio.get(p))) {
                 learningProbability.put(p, learningProbability.get(topology.get(bestImprov)));
             } else {
                 learningProbability.put(p, Math.max(1-Math.exp(-Math.pow(1.6*topology.indexOf(p)/topology.size(), 4)), 0.05));
@@ -328,7 +326,7 @@ public class AdaptiveLearningIterationStrategy implements IterationStrategy<PSO>
         if(!initialized) {
             Topology<Particle> topology = algorithm.getTopology();
             
-            aBest = topology.getBestEntity().getClone();
+            aBest = Topologies.getBestEntity(topology).getClone();
             
             ArrayList<Double> list = new ArrayList<Double>();
             ArrayList<Double> srList = new ArrayList<Double>();
@@ -423,7 +421,7 @@ public class AdaptiveLearningIterationStrategy implements IterationStrategy<PSO>
         this.minRatio = minRatio;
     }
 
-    public void setRandom(RandomProvider random) {
+    public void setRandom(ProbabilityDistributionFuction random) {
         this.random = random;
     }
 

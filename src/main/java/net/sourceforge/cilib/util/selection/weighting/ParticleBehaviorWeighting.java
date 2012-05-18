@@ -30,8 +30,6 @@ import net.sourceforge.cilib.util.selection.WeightedObject;
 
 /**
  * Weighs ParticleBehaviors mainly for HPSO.
- * 
- * @author filipe
  */
 public class ParticleBehaviorWeighting implements Weighting {
 

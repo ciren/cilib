@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.pso.hpso.pheromoneupdate;
 
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
@@ -29,15 +31,16 @@ import net.sourceforge.cilib.problem.Fitness;
  * Calculates the change in pheromone level for a particular particle's behavior
  * using exponential change:
  * <br>change = sign(diffInFitnessChange) * exp(abs(diffInFitnessChange)) - 1
- *
- * @author filipe
  */
 public class ExponentialPheromoneUpdateStrategy implements PheromoneUpdateStrategy{
+    
+    private ControlParameter scale;
 
     /**
      * Creates a new instance of ExponentialPheromoneUpdateStrategy
      */
     public ExponentialPheromoneUpdateStrategy() {
+        this.scale = ConstantControlParameter.of(0.001);
     }
 
     /**
@@ -64,11 +67,17 @@ public class ExponentialPheromoneUpdateStrategy implements PheromoneUpdateStrate
      */
     @Override
     public double updatePheromone(Particle e) {
-        Fitness prevFitness = ((Fitness)e.getProperties().get(EntityType.Particle.PREV_FITNESS));
+        Fitness prevFitness = ((Fitness)e.getProperties().get(EntityType.PREVIOUS_FITNESS));
         double diff = e.getFitness().getValue() - (prevFitness.getValue().isNaN() ? 0 : prevFitness.getValue());
-        double sign = e.getFitness().compareTo(prevFitness) < 0 ? -1 : 1;
-        return Math.pow(Math.E, sign * Math.abs(diff));
+        double sign = e.getFitness().compareTo(prevFitness);
+        return Math.exp(sign * Math.abs(diff) * scale.getParameter());
     }
 
+    public void setScale(ControlParameter scale) {
+        this.scale = scale;
+    }
 
+    public ControlParameter getScale() {
+        return scale;
+    }
 }

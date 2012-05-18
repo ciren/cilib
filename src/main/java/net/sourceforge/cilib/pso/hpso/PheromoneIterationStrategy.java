@@ -47,8 +47,6 @@ import net.sourceforge.cilib.util.selection.weighting.SpecializedRatio;
  * Each behavior has an associated pheromoneConcentration level which gets updated using
  * {@linkplain PheromoneUpdateStrategy}. A behavior is then chosen in proportion
  * to the pheromoneConcentration level for that behavior.
- *
- * @author filipe
  */
 public class PheromoneIterationStrategy implements IterationStrategy<PSO>, HeterogeneousIterationStrategy {
     private List<Double> pheromoneConcentration;
@@ -57,7 +55,7 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
     private List<ParticleBehavior> behaviorPool;
     private Selector<ParticleBehavior> behaviorSelectionRecipe;
     private IterationStrategy<PSO> iterationStrategy;
-    private BehaviorChangeTriggerDetectionStrategy<Particle> detectionStrategy;
+    private BehaviorChangeTriggerDetectionStrategy detectionStrategy;
 
     /**
      * Create a new instance of {@linkplain PheromoneAdaptiveHeterogeneousIterationStrategy}.
@@ -203,5 +201,41 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
     @Override
     public void setBoundaryConstraint(BoundaryConstraint boundaryConstraint) {
         this.iterationStrategy.setBoundaryConstraint(boundaryConstraint);
+    }
+
+    public void setPheromoneConcentration(List<Double> pheromoneConcentration) {
+        this.pheromoneConcentration = pheromoneConcentration;
+    }
+
+    public void setIterationStrategy(IterationStrategy<PSO> iterationStrategy) {
+        this.iterationStrategy = iterationStrategy;
+    }
+
+    public void setDetectionStrategy(BehaviorChangeTriggerDetectionStrategy detectionStrategy) {
+        this.detectionStrategy = detectionStrategy;
+    }
+
+    public void setBehaviorSelectionRecipe(Selector<ParticleBehavior> behaviorSelectionRecipe) {
+        this.behaviorSelectionRecipe = behaviorSelectionRecipe;
+    }
+
+    public PheromoneUpdateStrategy getPheromoneUpdateStrategy() {
+        return pheromoneUpdateStrategy;
+    }
+
+    public List<Double> getPheromoneConcentration() {
+        return pheromoneConcentration;
+    }
+
+    public IterationStrategy<PSO> getIterationStrategy() {
+        return iterationStrategy;
+    }
+
+    public BehaviorChangeTriggerDetectionStrategy getDetectionStrategy() {
+        return detectionStrategy;
+    }
+
+    public Selector<ParticleBehavior> getBehaviorSelectionRecipe() {
+        return behaviorSelectionRecipe;
     }
 }

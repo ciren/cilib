@@ -28,6 +28,7 @@ public enum EntityType {
     CANDIDATE_SOLUTION,
     PREVIOUS_SOLUTION,
     FITNESS,
+    PREVIOUS_FITNESS,
     STRATEGY_PARAMETERS;
 
     /**
@@ -36,7 +37,6 @@ public enum EntityType {
     public enum Particle {
         BEST_POSITION,
         BEST_FITNESS,
-        PREV_FITNESS,
         VELOCITY;
 
         public enum Count {

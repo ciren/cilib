@@ -26,8 +26,8 @@ package net.sourceforge.cilib.measurement.multiple;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy;
-import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.hpso.HeterogeneousIterationStrategy;
@@ -69,32 +69,22 @@ public class AdaptiveHPSOBehaviorProfileMeasurement implements Measurement<Vecto
      */
     @Override
     public Vector getValue(Algorithm algorithm) {
-        IterationStrategy<PSO> strategy = ((PSO)algorithm).getIterationStrategy();
-
-        //checkState(strategy instanceof AdaptiveHeterogeneousIterationStrategy, "This measurement is only defined for PSO using the AdaptiveHeterogeneousIterationStrategy class.");
-
-        //this is better than checkState(), because a single measurement suite
-        //can be used for a range of algorithms without causing an exception.
-        if(!(strategy instanceof HeterogeneousIterationStrategy)) {
-            return null;
-        }
-
-        Vector profile = Vector.of();
-
-        List<ParticleBehavior> initialBehaviorPool = ((HeterogeneousPopulationInitialisationStrategy)((PSO)algorithm).getInitialisationStrategy()).getBehaviorPool();
-        List<ParticleBehavior> behaviorPool;
-
-        behaviorPool = ((HeterogeneousIterationStrategy)strategy).getBehaviorPool();
+        PSO pso = (PSO) algorithm;
+        Topology<Particle> topology = pso.getTopology();        
+        HeterogeneousIterationStrategy strategy = (HeterogeneousIterationStrategy) pso.getIterationStrategy();
+        HeterogeneousPopulationInitialisationStrategy initStrategy = (HeterogeneousPopulationInitialisationStrategy) pso.getInitialisationStrategy();
+        List<ParticleBehavior> initialBehaviorPool = initStrategy.getBehaviorPool();
+        List<ParticleBehavior> behaviorPool = strategy.getBehaviorPool();
         
+        Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < behaviorPool.size(); i++) {
-            profile.add(Int.valueOf(0));
+            builder.add(Int.valueOf(0));
         }
 
-        for (Particle p : ((PSO)algorithm).getTopology()) {
-            
+        Vector profile = builder.build();
+        for (Particle p : topology) {            
             for (int i = 0; i < profile.size(); i++) {
-                if (p.getParticleBehavior() == behaviorPool.get(i)
-                        || p.getParticleBehavior() == initialBehaviorPool.get(i)) {
+                if (p.getParticleBehavior() == behaviorPool.get(i) || p.getParticleBehavior() == initialBehaviorPool.get(i)) {
                     profile.setInt(i, profile.get(i).intValue() + 1);
                 }
             }

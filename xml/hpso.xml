@@ -7,47 +7,34 @@
 <simulator>
     <algorithms>
         <!-- Dynamic HPSO -->
-        <algorithm id="dynamic-hpso" class="pso.PSO">
+        <algorithm id="dhpso" class="pso.PSO">
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+
             <initialisationStrategy class="algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy">
-                <entityNumber value="50"/>
+                <entityNumber value="30"/>
                 <entityType class="pso.particle.StandardParticle"/>
-                
-				<!-- initial behaviors -->
+
+                <!-- initial behaviors -->
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearlyVaryingControlParameter">
-                                <initialValue value="2.5"/>
-                                <finalValue value="0.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearlyVaryingControlParameter">
-                                <initialValue value="0.5"/>
-                                <finalValue value="2.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="2.5" finalValue="0.5"/>
+                        <socialAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.5" finalValue="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
@@ -61,45 +48,31 @@
                     <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
                     <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
-				<!-- end initial behaviors -->
+                <!-- end initial behaviors -->
             </initialisationStrategy>
 
             <iterationStrategy class="pso.hpso.HPSOIterationStrategy">
-				<!-- behavior pool -->
+                <!-- behavior pool -->
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearlyVaryingControlParameter">
-                                <initialValue value="2.5"/>
-                                <finalValue value="0.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearlyVaryingControlParameter">
-                                <initialValue value="0.5"/>
-                                <finalValue value="2.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="2.5" finalValue="0.5"/>
+                        <socialAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.5" finalValue="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
@@ -115,55 +88,54 @@
                 </addBehavior>
                 <!-- end behavior pool -->
 
-				<windowSize value="1000"/>
-				<selectionRecipe class="util.selection.recipes.RandomSelector"/>
+                <windowSize value="1000"/>
+                <selectionRecipe class="util.selection.recipes.RandomSelector"/>
             </iterationStrategy>
         </algorithm>
 
-		<!-- Adaptive HPSO -->
-        <algorithm id="ahpso" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+        <!-- Frequency-based HPSO -->
+        <algorithm id="fk-hpso-1000" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+
             <initialisationStrategy class="algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy">
-                <entityNumber value="50"/>
-                <entityType class="pso.particle.StandardParticle"/>
-                
-				<!-- initial behaviors -->
+                <delegate class="algorithm.initialisation.ChargedPopulationInitialisationStrategy">
+                    <entityNumber value="30"/>
+                    <entityType class="pso.dynamic.ChargedParticle"/>
+                </delegate>
+
+                <!-- initial behaviors -->
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
-                                <upperBound value="2.5"/>
-                                <lowerBound value="0.5"/>
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
-                                <lowerBound value="0.5"/>
-                                <upperBound value="2.5"/>
-                                <parameter value="0.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="2.5" finalValue="0.0"/>
+                        <socialAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.0" finalValue="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
+                        <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
@@ -177,47 +149,48 @@
                     <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
                     <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
-			<!-- end initial behaviors -->
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.dynamic.QuantumVelocityProvider"/>
+                    <positionProvider class="pso.dynamic.QuantumPositionProvider"/>
+                </addBehavior>
+                <!-- end initial behaviors -->
             </initialisationStrategy>
 
             <iterationStrategy class="pso.hpso.HPSOIterationStrategy">
-				<!-- behavior pool -->
+                <!-- behavior pool -->
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
-                                <upperBound value="2.5"/>
-                                <lowerBound value="0.5"/>
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
-                                <lowerBound value="0.5"/>
-                                <upperBound value="2.5"/>
-                                <parameter value="0.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="2.5" finalValue="0.0"/>
+                        <socialAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.0" finalValue="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
+                        <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
@@ -231,55 +204,60 @@
                     <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
                     <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
-				<!-- end behavior pool -->
-				<windowSize value="1000"/>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.dynamic.QuantumVelocityProvider"/>
+                    <positionProvider class="pso.dynamic.QuantumPositionProvider"/>
+                </addBehavior>
+                <!-- end behavior pool -->
+
+                <windowSize value="1000"/>
             </iterationStrategy>
         </algorithm>
 
-		<!-- Adaptive HPSO Moving Window -->
-        <algorithm id="ahpso-mw" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+        <!-- Frequency-based HPSO Moving Window -->
+        <algorithm id="fk-hpso-10" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+
             <initialisationStrategy class="algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy">
-                <entityNumber value="50"/>
-                <entityType class="pso.particle.StandardParticle"/>
-                
-				<!-- initial behaviors -->
+                <delegate class="algorithm.initialisation.ChargedPopulationInitialisationStrategy">
+                    <entityNumber value="30"/>
+                    <entityType class="pso.dynamic.ChargedParticle"/>
+                </delegate>
+
+                <!-- initial behaviors -->
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
-                                <upperBound value="2.5"/>
-                                <lowerBound value="0.5"/>
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
-                                <lowerBound value="0.5"/>
-                                <upperBound value="2.5"/>
-                                <parameter value="0.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="2.5" finalValue="0.0"/>
+                        <socialAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.0" finalValue="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
+                        <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
@@ -293,47 +271,48 @@
                     <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
                     <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
-			<!-- end initial behaviors -->
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.dynamic.QuantumVelocityProvider"/>
+                    <positionProvider class="pso.dynamic.QuantumPositionProvider"/>
+                </addBehavior>
+                <!-- end initial behaviors -->
             </initialisationStrategy>
 
             <iterationStrategy class="pso.hpso.HPSOIterationStrategy">
-				<!-- behavior pool -->
+                <!-- behavior pool -->
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
-                                <upperBound value="2.5"/>
-                                <lowerBound value="0.5"/>
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
-                                <lowerBound value="0.5"/>
-                                <upperBound value="2.5"/>
-                                <parameter value="0.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="2.5" finalValue="0.0"/>
+                        <socialAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.0" finalValue="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
+                        <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
@@ -347,54 +326,60 @@
                     <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
                     <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
-				<!-- end behavior pool -->
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.dynamic.QuantumVelocityProvider"/>
+                    <positionProvider class="pso.dynamic.QuantumPositionProvider"/>
+                </addBehavior>
+                <!-- end behavior pool -->
+
+                <windowSize value="10"/>
             </iterationStrategy>
         </algorithm>
 
-		<!-- Adaptive HPSO Iteration Best-->
-        <algorithm id="ahpso-ib" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+        <!-- Frequency-based HPSO iteration best -->
+        <algorithm id="fk-hpso-1" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+
             <initialisationStrategy class="algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy">
-                <entityNumber value="50"/>
-                <entityType class="pso.particle.StandardParticle"/>
-                
-				<!-- initial behaviors -->
+                <delegate class="algorithm.initialisation.ChargedPopulationInitialisationStrategy">
+                    <entityNumber value="30"/>
+                    <entityType class="pso.dynamic.ChargedParticle"/>
+                </delegate>
+
+                <!-- initial behaviors -->
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
-                                <upperBound value="2.5"/>
-                                <lowerBound value="0.5"/>
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
-                                <lowerBound value="0.5"/>
-                                <upperBound value="2.5"/>
-                                <parameter value="0.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="2.5" finalValue="0.0"/>
+                        <socialAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.0" finalValue="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
+                        <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
@@ -408,47 +393,48 @@
                     <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
                     <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
-			<!-- end initial behaviors -->
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.dynamic.QuantumVelocityProvider"/>
+                    <positionProvider class="pso.dynamic.QuantumPositionProvider"/>
+                </addBehavior>
+                <!-- end initial behaviors -->
             </initialisationStrategy>
 
             <iterationStrategy class="pso.hpso.HPSOIterationStrategy">
-				<!-- behavior pool -->
+                <!-- behavior pool -->
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
-                                <upperBound value="2.5"/>
-                                <lowerBound value="0.5"/>
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
-                                <lowerBound value="0.5"/>
-                                <upperBound value="2.5"/>
-                                <parameter value="0.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="2.5" finalValue="0.0"/>
+                        <socialAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.0" finalValue="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
+                        <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
@@ -462,631 +448,170 @@
                     <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
                     <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
-				<!-- end behavior pool -->
-				<windowSize value="1"/>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.dynamic.QuantumVelocityProvider"/>
+                    <positionProvider class="pso.dynamic.QuantumPositionProvider"/>
+                </addBehavior>
+                <!-- end behavior pool -->
+
+                <windowSize value="1"/>
             </iterationStrategy>
         </algorithm>
 
-		<!-- Adaptive HPSO Rank-Based-->
-        <algorithm id="ahpso-rank-based" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
-            <initialisationStrategy class="algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy">
-                <entityNumber value="50"/>
-                <entityType class="pso.particle.StandardParticle"/>
-                
-				<!-- initial behaviors -->
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
-                                <upperBound value="2.5"/>
-                                <lowerBound value="0.5"/>
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
-                                <lowerBound value="0.5"/>
-                                <upperBound value="2.5"/>
-                                <parameter value="0.5"/>
-                            </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-			<!-- end initial behaviors -->
-            </initialisationStrategy>
-
-            <iterationStrategy class="pso.hpso.HPSOIterationStrategy">
-				<!-- behavior pool -->
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
-                                <upperBound value="2.5"/>
-                                <lowerBound value="0.5"/>
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
-                                <lowerBound value="0.5"/>
-                                <upperBound value="2.5"/>
-                                <parameter value="0.5"/>
-                            </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-				<!-- end behavior pool -->
-				<windowSize value="1000"/>
-				<selectionRecipe class="util.selection.recipes.RankBasedSelector"/>
-            </iterationStrategy>
-        </algorithm>
-
-		<!-- Difference Proportional Probability PSO -->
+        <!-- Difference Proportional Probability PSO -->
         <algorithm id="dpp-pso" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+
             <initialisationStrategy class="algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy">
-                <entityNumber value="50"/>
-                <entityType class="pso.particle.StandardParticle"/>
-                
-				<!-- initial behaviors -->
+                <entityNumber value="30"/>
+                <entityType class="pso.dynamic.ChargedParticle"/>
+
+                <!-- initial behaviors -->
                 <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
-                                <upperBound value="2.5"/>
-                                <lowerBound value="0.5"/>
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
-                                <lowerBound value="0.5"/>
-                                <upperBound value="2.5"/>
-                                <parameter value="0.5"/>
-                            </socialAcceleration>
-                    </velocityProvider>
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider"/>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                    <velocityProvider class="pso.velocityprovider.FIPSVelocityProvider"/>
                 </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-			<!-- end initial behaviors -->
+                <!-- end initial behaviors -->
             </initialisationStrategy>
 
             <iterationStrategy class="pso.hpso.DifferenceProportionalProbabilityIterationStrategy">
-				<!-- behavior pool -->
+                <!-- behavior pool -->
                 <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
-                                <upperBound value="2.5"/>
-                                <lowerBound value="0.5"/>
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
-                                <lowerBound value="0.5"/>
-                                <upperBound value="2.5"/>
-                                <parameter value="0.5"/>
-                            </socialAcceleration>
-                    </velocityProvider>
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider"/>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                    <velocityProvider class="pso.velocityprovider.FIPSVelocityProvider"/>
                 </addBehavior>
+                <!-- end behavior pool -->
 
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-				<!-- end behavior pool -->
+                <rigidCountPerBehavior value="5"/>
             </iterationStrategy>
         </algorithm>
 
-		<!-- alpso-ii -->
+        <!-- Adaptive Learning PSO-ii -->
         <algorithm id="alpso-ii" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+
             <initialisationStrategy class="algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy">
-                <entityNumber value="50"/>
+                <entityNumber value="30"/>
                 <entityType class="pso.particle.StandardParticle"/>
-                
-				<!-- initial behaviors -->
+
+                <!-- initial behaviors -->
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
-                                <upperBound value="2.5"/>
-                                <lowerBound value="0.5"/>
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
-                                <lowerBound value="0.5"/>
-                                <upperBound value="2.5"/>
-                                <parameter value="0.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
                     </velocityProvider>
+                    <globalGuideProvider class="pso.guideprovider.RandomGuideProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.RandomNearbyVelocityProvider"/>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-			<!-- end initial behaviors -->
+                <!-- end initial behaviors -->
             </initialisationStrategy>
 
             <iterationStrategy class="pso.hpso.AdaptiveLearningIterationStrategy">
-				<!-- behavior pool -->
+                <!-- behavior pool -->
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
-                                <upperBound value="2.5"/>
-                                <lowerBound value="0.5"/>
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
-                                <lowerBound value="0.5"/>
-                                <upperBound value="2.5"/>
-                                <parameter value="0.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
                     </velocityProvider>
+                    <globalGuideProvider class="pso.guideprovider.RandomGuideProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.RandomNearbyVelocityProvider"/>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-				<!-- end behavior pool -->
+                <!-- end behavior pool -->
             </iterationStrategy>
         </algorithm>
 
-		<!-- pher-const -->
+        <!-- Pheromone based HPSO Constant Strategy -->
         <algorithm id="pher-const" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
-            <initialisationStrategy class="algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy">
-                <entityNumber value="50"/>
-                <entityType class="pso.particle.StandardParticle"/>
-                
-				<!-- initial behaviors -->
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
-                                <upperBound value="2.5"/>
-                                <lowerBound value="0.5"/>
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
-                                <lowerBound value="0.5"/>
-                                <upperBound value="2.5"/>
-                                <parameter value="0.5"/>
-                            </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-			<!-- end initial behaviors -->
-            </initialisationStrategy>
-
-            <iterationStrategy class="pso.hpso.PheromoneIterationStrategy">
-				<!-- behavior pool -->
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
-                                <upperBound value="2.5"/>
-                                <lowerBound value="0.5"/>
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
-                                <lowerBound value="0.5"/>
-                                <upperBound value="2.5"/>
-                                <parameter value="0.5"/>
-                            </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-				<!-- end behavior pool -->
-            </iterationStrategy>
-        </algorithm>
-
-		<!-- pher-lin -->
-        <algorithm id="pher-lin" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
-            <initialisationStrategy class="algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy">
-                <entityNumber value="50"/>
-                <entityType class="pso.particle.StandardParticle"/>
-                
-				<!-- initial behaviors -->
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
-                                <upperBound value="2.5"/>
-                                <lowerBound value="0.5"/>
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
-                                <lowerBound value="0.5"/>
-                                <upperBound value="2.5"/>
-                                <parameter value="0.5"/>
-                            </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-			<!-- end initial behaviors -->
-            </initialisationStrategy>
-
-            <iterationStrategy class="pso.hpso.PheromoneIterationStrategy">
-				<!-- behavior pool -->
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearDecreasingControlParameter">
-                                <upperBound value="2.5"/>
-                                <lowerBound value="0.5"/>
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearIncreasingControlParameter">
-                                <lowerBound value="0.5"/>
-                                <upperBound value="2.5"/>
-                                <parameter value="0.5"/>
-                            </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
-                    </velocityProvider>
-                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-
-                <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                </addBehavior>
-				<!-- end behavior pool -->
-
-				<pheromoneUpdateStrategy class="pso.hpso.pheromoneupdate.LinearPheromoneUpdateStrategy"/>
-            </iterationStrategy>
-        </algorithm>
-
-        <algorithm id="adaptive-hpso" class="pso.PSO">
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+
             <initialisationStrategy class="algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy">
-                <entityNumber value="50"/>
-                <entityType class="pso.particle.StandardParticle"/>
-                
-				<!-- initial behaviors -->
+                <delegate class="algorithm.initialisation.ChargedPopulationInitialisationStrategy">
+                    <entityNumber value="30"/>
+                    <entityType class="pso.dynamic.ChargedParticle"/>
+                </delegate>
+
+                <!-- initial behaviors -->
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearlyVaryingControlParameter">
-                                <initialValue value="2.5"/>
-                                <finalValue value="0.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearlyVaryingControlParameter">
-                                <initialValue value="0.5"/>
-                                <finalValue value="2.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="2.5" finalValue="0.0"/>
+                        <socialAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.0" finalValue="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
+                        <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
@@ -1100,45 +625,48 @@
                     <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
                     <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
-			<!-- end initial behaviors -->
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.dynamic.QuantumVelocityProvider"/>
+                    <positionProvider class="pso.dynamic.QuantumPositionProvider"/>
+                </addBehavior>
+                <!-- end initial behaviors -->
             </initialisationStrategy>
 
             <iterationStrategy class="pso.hpso.PheromoneIterationStrategy">
-				<!-- behavior pool -->
+                <!-- behavior pool -->
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.LinearlyVaryingControlParameter">
-                                <initialValue value="2.5"/>
-                                <finalValue value="0.5"/>
-                            </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.LinearlyVaryingControlParameter">
-                                <initialValue value="0.5"/>
-                                <finalValue value="2.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="2.5" finalValue="0.0"/>
+                        <socialAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.0" finalValue="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </cognitiveAcceleration>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </socialAcceleration>
+                        <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter">
-                            <parameter value="0.0"/>
-                        </cognitiveAcceleration>
-                            <socialAcceleration class="controlparameter.ConstantControlParameter">
-                                <parameter value="2.5"/>
-                            </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
@@ -1152,17 +680,286 @@
                     <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
                     <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
                 </addBehavior>
-				<!-- end behavior pool -->
 
-				<pheromoneUpdateStrategy class="pso.hpso.pheromoneupdate.ExponentialPheromoneUpdateStrategy"/>
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.dynamic.QuantumVelocityProvider"/>
+                    <positionProvider class="pso.dynamic.QuantumPositionProvider"/>
+                </addBehavior>
+                <!-- end behavior pool -->
+
+                <pheromoneUpdateStrategy class="pso.hpso.pheromoneupdate.ConstantPheromoneUpdateStrategy">
+                    <better class="controlparameter.ConstantControlParameter" parameter="1.0"/>
+                    <same class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <worse class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                </pheromoneUpdateStrategy>
+
+                <detectionStrategy class="pso.hpso.detectionstrategies.PersonalBestStagnationDetectionStrategy">
+                    <windowSize class="controlparameter.ConstantControlParameter" parameter="10.0"/>
+                </detectionStrategy>
+            </iterationStrategy>
+        </algorithm>
+
+        <!-- Pheromone based HPSO Linear Strategy -->
+        <algorithm id="pher-lin" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+
+            <initialisationStrategy class="algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy">
+                <delegate class="algorithm.initialisation.ChargedPopulationInitialisationStrategy">
+                    <entityNumber value="30"/>
+                    <entityType class="pso.dynamic.ChargedParticle"/>
+                </delegate>
+
+                <!-- initial behaviors -->
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="2.5" finalValue="0.0"/>
+                        <socialAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.0" finalValue="2.5"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.dynamic.QuantumVelocityProvider"/>
+                    <positionProvider class="pso.dynamic.QuantumPositionProvider"/>
+                </addBehavior>
+                <!-- end initial behaviors -->
+            </initialisationStrategy>
+
+            <iterationStrategy class="pso.hpso.PheromoneIterationStrategy">
+                <!-- behavior pool -->
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="2.5" finalValue="0.0"/>
+                        <socialAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.0" finalValue="2.5"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.dynamic.QuantumVelocityProvider"/>
+                    <positionProvider class="pso.dynamic.QuantumPositionProvider"/>
+                </addBehavior>
+                <!-- end behavior pool -->
+
+                <pheromoneUpdateStrategy class="pso.hpso.pheromoneupdate.LinearPheromoneUpdateStrategy">
+                    <gradient class="controlparameter.ConstantControlParameter" parameter="0.1"/>
+                </pheromoneUpdateStrategy>
+
+                <detectionStrategy class="pso.hpso.detectionstrategies.PersonalBestStagnationDetectionStrategy">
+                    <windowSize class="controlparameter.ConstantControlParameter" parameter="10.0"/>
+                </detectionStrategy>
+            </iterationStrategy>
+        </algorithm>
+
+        <!-- Pheromone based HPSO Exponential Strategy -->
+        <algorithm id="pher-exp" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+
+            <initialisationStrategy class="algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy">
+                <delegate class="algorithm.initialisation.ChargedPopulationInitialisationStrategy">
+                    <entityNumber value="30"/>
+                    <entityType class="pso.dynamic.ChargedParticle"/>
+                </delegate>
+
+                <!-- initial behaviors -->
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="2.5" finalValue="0.0"/>
+                        <socialAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.0" finalValue="2.5"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.dynamic.QuantumVelocityProvider"/>
+                    <positionProvider class="pso.dynamic.QuantumPositionProvider"/>
+                </addBehavior>
+                <!-- end initial behaviors -->
+            </initialisationStrategy>
+
+            <iterationStrategy class="pso.hpso.PheromoneIterationStrategy">
+                <!-- behavior pool -->
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="2.5" finalValue="0.0"/>
+                        <socialAcceleration class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.0" finalValue="2.5"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                    </velocityProvider>
+                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.BareBonesExploitVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
+                </addBehavior>
+
+                <addBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.dynamic.QuantumVelocityProvider"/>
+                    <positionProvider class="pso.dynamic.QuantumPositionProvider"/>
+                </addBehavior>
+                <!-- end behavior pool -->
+
+                <pheromoneUpdateStrategy class="pso.hpso.pheromoneupdate.ExponentialPheromoneUpdateStrategy">
+                    <scale class="controlparameter.ConstantControlParameter" parameter="0.001"/>
+                </pheromoneUpdateStrategy>
+
+                <detectionStrategy class="pso.hpso.detectionstrategies.PersonalBestStagnationDetectionStrategy">
+                    <windowSize class="controlparameter.ConstantControlParameter" parameter="10.0"/>
+                </detectionStrategy>
             </iterationStrategy>
         </algorithm>
     </algorithms>
 
     <measurements id="measurements" class="simulator.MeasurementSuite" resolution="5">
         <addMeasurement class="measurement.single.Fitness"/>
-        <addMeasurement class="measurement.single.diversity.Diversity"/>
-        <!--addMeasurement class="measurement.multiple.AdaptiveHPSOBehaviorProfileMeasurement"/-->
+        <addMeasurement class="measurement.single.FitnessEvaluations"/>
+        <addMeasurement class="measurement.multiple.AdaptiveHPSOBehaviorProfileMeasurement"/>
     </measurements>
 
     <problems>
@@ -1171,65 +968,59 @@
             <function class="functions.continuous.unconstrained.Rastrigin"/>
         </problem>
 
-        <simulation samples="30">
+        <simulation samples="5">
             <algorithm idref="dhpso"/>
             <problem idref="Rastrigin"/>
             <measurements idref="measurements"/>
-	     <output format="TXT" file="data/dhpso_Rastrigin_30_Dimensions.txt"/>
+             <output format="TXT" file="data/dhpso_Rastrigin_30_Dimensions.txt"/>
         </simulation>
-        <simulation samples="30">
-            <algorithm idref="ahpso"/>
+        <simulation samples="5">
+            <algorithm idref="fk-hpso-1000"/>
             <problem idref="Rastrigin"/>
             <measurements idref="measurements"/>
-	     <output format="TXT" file="data/ahpso_Rastrigin_30_Dimensions.txt"/>
+             <output format="TXT" file="data/fk-hpso-1000_Rastrigin_30_Dimensions.txt"/>
         </simulation>
-		<simulation samples="30">
-            <algorithm idref="ahpso-ib"/>
+        <simulation samples="5">
+            <algorithm idref="fk-hpso-1"/>
             <problem idref="Rastrigin"/>
             <measurements idref="measurements"/>
-	     <output format="TXT" file="data/ahpso-ib_Rastrigin_30_Dimensions.txt"/>
+            <output format="TXT" file="data/fk-hpso-1_Rastrigin_30_Dimensions.txt"/>
         </simulation>
-		<simulation samples="30">
-            <algorithm idref="ahpso-mw"/>
+        <simulation samples="5">
+            <algorithm idref="fk-hpso-10"/>
             <problem idref="Rastrigin"/>
             <measurements idref="measurements"/>
-	     <output format="TXT" file="data/ahpso-mw_Rastrigin_30_Dimensions.txt"/>
+            <output format="TXT" file="data/fk-hpso-10_Rastrigin_30_Dimensions.txt"/>
         </simulation>
-		<simulation samples="30">
-            <algorithm idref="ahpso-rank-based"/>
-            <problem idref="Rastrigin"/>
-            <measurements idref="measurements"/>
-	     <output format="TXT" file="data/ahpso-rb_Rastrigin_30_Dimensions.txt"/>
-        </simulation>
-		<simulation samples="30">
+        <simulation samples="5">
             <algorithm idref="dpp-pso"/>
             <problem idref="Rastrigin"/>
             <measurements idref="measurements"/>
-	     <output format="TXT" file="data/dpppso_Rastrigin_30_Dimensions.txt"/>
+            <output format="TXT" file="data/dpppso_Rastrigin_30_Dimensions.txt"/>
         </simulation>
-		<simulation samples="30">
+        <simulation samples="5">
             <algorithm idref="alpso-ii"/>
             <problem idref="Rastrigin"/>
             <measurements idref="measurements"/>
-	     <output format="TXT" file="data/alpso-ii_Rastrigin_30_Dimensions.txt"/>
+            <output format="TXT" file="data/alpso-ii_Rastrigin_30_Dimensions.txt"/>
         </simulation>
-		<simulation samples="30">
+        <simulation samples="5">
             <algorithm idref="pher-const"/>
             <problem idref="Rastrigin"/>
             <measurements idref="measurements"/>
-	     <output format="TXT" file="data/pher-const_Rastrigin_30_Dimensions.txt"/>
+            <output format="TXT" file="data/pher-const_Rastrigin_30_Dimensions.txt"/>
         </simulation>
-		<simulation samples="30">
+        <simulation samples="5">
             <algorithm idref="pher-lin"/>
             <problem idref="Rastrigin"/>
             <measurements idref="measurements"/>
-	     <output format="TXT" file="data/pher-lin_Rastrigin_30_Dimensions.txt"/>
+           <output format="TXT" file="data/pher-lin_Rastrigin_30_Dimensions.txt"/>
         </simulation>
-		<simulation samples="30">
+        <simulation samples="5">
             <algorithm idref="pher-exp"/>
             <problem idref="Rastrigin"/>
             <measurements idref="measurements"/>
-	     <output format="TXT" file="data/pher-exp_Rastrigin_30_Dimensions.txt"/>
+             <output format="TXT" file="data/pher-exp_Rastrigin_30_Dimensions.txt"/>
         </simulation>
     </problems>
 </simulator>

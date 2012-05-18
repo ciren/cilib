@@ -24,26 +24,21 @@ package net.sourceforge.cilib.pso.guideprovider;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
- * <p>
  * A concrete implementation of {@link GuideProvider} where the neighbourhood
- * best position of a particle gets selected as a guide (usually global guide).
- * </p>
- *
- * @author Wiehann Matthysen
+ * best position of a random particle gets selected as a guide.
  */
 public class RandomGuideProvider implements GuideProvider {
 
-    private static final long serialVersionUID = 6770044000445220658L;
-    private RandomProvider random;
+    private ProbabilityDistributionFuction random;
 
     public RandomGuideProvider() {
-        this.random = new MersenneTwister();
+        this.random = new UniformDistribution();
     }
 
     public RandomGuideProvider(RandomGuideProvider copy) {
@@ -58,7 +53,7 @@ public class RandomGuideProvider implements GuideProvider {
     @Override
     public StructuredType get(Particle particle) {
         Topology<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
-        Particle other = topology.get(random.nextInt(topology.size()));
+        Particle other = topology.get((int) random.getRandomNumber(0, topology.size()));
         
         return other.getBestPosition();
     }

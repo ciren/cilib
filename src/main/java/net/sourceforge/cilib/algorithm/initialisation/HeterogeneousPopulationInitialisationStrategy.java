@@ -29,7 +29,6 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
-import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
@@ -43,39 +42,37 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
  *
  * @param <E> The {@code Entity} type.
  */
-public class HeterogeneousPopulationInitialisationStrategy<E extends Entity> implements PopulationInitialisationStrategy<E> {
+public class HeterogeneousPopulationInitialisationStrategy implements PopulationInitialisationStrategy<Particle> {
 
-    private Entity prototypeEntity;
-    private int entityNumber;
     private List<ParticleBehavior> behaviorPool;
     private Selector<ParticleBehavior> selectionRecipe;
+    private PopulationInitialisationStrategy<Particle> delegate;
 
     /**
      * Create an instance of the {@code ChargedPopulationInitialisationStrategy}.
      */
     public HeterogeneousPopulationInitialisationStrategy() {
-        entityNumber = 20;
-        prototypeEntity = null; // This has to be manually set as Individuals are used in PSO etc...
         behaviorPool = new ArrayList<ParticleBehavior>();
         selectionRecipe = new RandomSelector<ParticleBehavior>();
+        delegate = new ClonedPopulationInitialisationStrategy<Particle>();
     }
 
     /**
      * Copy constructor. Create a copy of the given instance.
      * @param copy The instance to copy.
      */
-    public HeterogeneousPopulationInitialisationStrategy(HeterogeneousPopulationInitialisationStrategy<E> copy) {
-        this.entityNumber = copy.entityNumber;
-        this.prototypeEntity = copy.prototypeEntity.getClone();
+    public HeterogeneousPopulationInitialisationStrategy(HeterogeneousPopulationInitialisationStrategy copy) {
         this.behaviorPool = new ArrayList<ParticleBehavior>(copy.behaviorPool);
+        this.selectionRecipe = copy.selectionRecipe;
+        this.delegate = copy.delegate.getClone();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public HeterogeneousPopulationInitialisationStrategy<E> getClone() {
-        return new HeterogeneousPopulationInitialisationStrategy<E>(this);
+    public HeterogeneousPopulationInitialisationStrategy getClone() {
+        return new HeterogeneousPopulationInitialisationStrategy(this);
     }
 
     /**
@@ -86,20 +83,14 @@ public class HeterogeneousPopulationInitialisationStrategy<E extends Entity> imp
      * @throws InitialisationException if the initialization cannot take place.
      */
     @Override
-    public Iterable<E> initialise(OptimisationProblem problem) {
+    public Iterable<Particle> initialise(OptimisationProblem problem) {
         Preconditions.checkNotNull(problem, "No problem has been specified");
-        Preconditions.checkNotNull(prototypeEntity, "No prototype Entity object has been defined for the clone operation in the entity constrution process.");
         Preconditions.checkState(behaviorPool.size() > 0, "No particle behaviors have been added to the behavior pool.");
 
-        List<E> clones = new ArrayList<E>();
+        Iterable<Particle> clones = delegate.initialise(problem);
 
-        for (int i = 0; i < entityNumber; ++i) {
-            E entity = (E) prototypeEntity.getClone();
-
-            entity.initialise(problem);
-            ((Particle)entity).setParticleBehavior(selectionRecipe.on(behaviorPool).select());
-
-            clones.add(entity);
+        for (Particle p : clones) {
+            p.setParticleBehavior(selectionRecipe.on(behaviorPool).select());
         }
 
         return clones;
@@ -135,8 +126,8 @@ public class HeterogeneousPopulationInitialisationStrategy<E extends Entity> imp
      */
     @Override
     public void setEntityType(Entity entityType) {
-        Preconditions.checkArgument(entityType instanceof StandardParticle, "The entityType of a HeterogeneousPopulationInitialisationStrategy must be a Particle");
-        this.prototypeEntity = entityType;
+        Preconditions.checkArgument(entityType instanceof Particle, "The entityType of a HeterogeneousPopulationInitialisationStrategy must be a Particle");
+        delegate.setEntityType(entityType);
     }
 
     /**
@@ -147,7 +138,7 @@ public class HeterogeneousPopulationInitialisationStrategy<E extends Entity> imp
      */
     @Override
     public Entity getEntityType() {
-        return this.prototypeEntity;
+        return delegate.getEntityType();
     }
 
     /**
@@ -156,7 +147,7 @@ public class HeterogeneousPopulationInitialisationStrategy<E extends Entity> imp
      */
     @Override
     public int getEntityNumber() {
-        return this.entityNumber;
+        return delegate.getEntityNumber();
     }
 
     /**
@@ -165,6 +156,22 @@ public class HeterogeneousPopulationInitialisationStrategy<E extends Entity> imp
      */
     @Override
     public void setEntityNumber(int entityNumber) {
-        this.entityNumber = entityNumber;
+        delegate.setEntityNumber(entityNumber);
+    }
+
+    public void setDelegate(PopulationInitialisationStrategy<Particle> delegate) {
+        this.delegate = delegate;
+    }
+
+    public PopulationInitialisationStrategy<Particle> getDelegate() {
+        return delegate;
+    }
+
+    public void setSelectionRecipe(Selector<ParticleBehavior> selectionRecipe) {
+        this.selectionRecipe = selectionRecipe;
+    }
+
+    public Selector<ParticleBehavior> getSelectionRecipe() {
+        return selectionRecipe;
     }
 }

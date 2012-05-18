@@ -21,13 +21,12 @@
  */
 package net.sourceforge.cilib.pso.hpso.detectionstrategies;
 
-import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Particle;
 
 /**
  * An interface to detect when an {@link Entity} should change its behavior.
- * 
  */
-public interface BehaviorChangeTriggerDetectionStrategy<E extends Entity> {
+public interface BehaviorChangeTriggerDetectionStrategy {
     /**
      * Detect whether some condition holds that should prompt an entity to
      * change its behavior.
@@ -35,12 +34,12 @@ public interface BehaviorChangeTriggerDetectionStrategy<E extends Entity> {
      * @param entity The entity to inspect.
      * @return True if the entity should change its behavior. False otherwise.
      */
-    boolean detect(E entity);
+    boolean detect(Particle entity);
 
     /**
      * Clone the current {@link BehaviorChangeTriggerDetectionStrategy}.
      *
      * @return A clone of this {@link BehaviorChangeTriggerDetectionStrategy}.
      */
-    BehaviorChangeTriggerDetectionStrategy<E> getClone();
+    BehaviorChangeTriggerDetectionStrategy getClone();
 }

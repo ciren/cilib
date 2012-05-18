@@ -22,22 +22,16 @@
 package net.sourceforge.cilib.pso.hpso.detectionstrategies;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import static com.google.common.base.Preconditions.checkArgument;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 
-/**
- *
- * @author Filipe
- */
 public class PeriodicDetectionStrategy implements BehaviorChangeTriggerDetectionStrategy {
     private ControlParameter period;
 
     public PeriodicDetectionStrategy() {
-        period = new ConstantControlParameter(10.0);
+        period = ConstantControlParameter.of(10.0);
     }
 
     /**
@@ -58,9 +52,7 @@ public class PeriodicDetectionStrategy implements BehaviorChangeTriggerDetection
     }
 
     @Override
-    public boolean detect(Entity entity) {
-        checkArgument(entity instanceof Particle, "PeriodicDetectionStrategy can only be used with a Particle entity.");
-
+    public boolean detect(Particle entity) {
         int iters = AbstractAlgorithm.get().getIterations();
 
         if (iters % period.getParameter() == 0) {
@@ -70,7 +62,11 @@ public class PeriodicDetectionStrategy implements BehaviorChangeTriggerDetection
         return false;
     }
 
-    public void setPeriod(double value) {
-        period.setParameter(value);
+    public ControlParameter getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(ControlParameter period) {
+        this.period = period;
     }
 }

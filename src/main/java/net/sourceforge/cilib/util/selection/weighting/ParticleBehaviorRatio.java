@@ -25,8 +25,6 @@ import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 
 /**
  * Obtain the ratio of a ParticleBehavior.
- * 
- * @author filipe
  */
 public interface ParticleBehaviorRatio {
 

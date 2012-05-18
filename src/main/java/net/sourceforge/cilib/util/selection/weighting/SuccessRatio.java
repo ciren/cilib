@@ -25,13 +25,10 @@ import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 
 /**
  * Obtains the ratio of the ParticleBehavior based on how often it a Particle's personal best improves.
- * 
- * @author filipe
  */
 public class SuccessRatio implements ParticleBehaviorRatio {
     @Override
     public double getRatio(ParticleBehavior particleBehavior) {
         return particleBehavior.getSuccessCounter();
     }
-
 }

@@ -21,10 +21,8 @@
  */
 package net.sourceforge.cilib.pso.hpso.detectionstrategies;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.Int;
@@ -34,7 +32,6 @@ import net.sourceforge.cilib.type.types.Int;
  * {@link Particle}'s personal best fitness. If it has not change over a
  * recent window of iterations, the particle is assumed to have stagnated
  * and should therefore change its behavior.
- *
  */
 public class PersonalBestStagnationDetectionStrategy implements BehaviorChangeTriggerDetectionStrategy {
     private ControlParameter windowSize;
@@ -74,9 +71,7 @@ public class PersonalBestStagnationDetectionStrategy implements BehaviorChangeTr
      * @return True if the {@link Particle} is stagnating. False otherwise.
      */
     @Override
-    public boolean detect(Entity entity) {
-        checkArgument(entity instanceof Particle, "PersonalBestStagnationDetectionStrategy can only be used with a Particle entity.");
-
+    public boolean detect(Particle entity) {
         int counter = ((Int)entity.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER)).intValue();
 
         if (counter > windowSize.getParameter()) {

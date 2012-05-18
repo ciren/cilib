@@ -21,25 +21,19 @@
  */
 package net.sourceforge.cilib.pso.hpso.detectionstrategies;
 
-import static com.google.common.base.Preconditions.checkArgument;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
-/**
- *
- * @author Filipe
- */
 public class RandomDetectionStrategy implements BehaviorChangeTriggerDetectionStrategy {
     private ControlParameter probability;
     private RandomProvider random;
 
     public RandomDetectionStrategy() {
-        probability = new ConstantControlParameter(75.0);
+        probability = ConstantControlParameter.of(75.0);
         random = new MersenneTwister();
     }
 
@@ -62,9 +56,7 @@ public class RandomDetectionStrategy implements BehaviorChangeTriggerDetectionSt
     }
 
     @Override
-    public boolean detect(Entity entity) {
-        checkArgument(entity instanceof Particle, "RandomDetectionStrategy can only be used with a Particle entity.");
-
+    public boolean detect(Particle entity) {
         double rNum = random.nextDouble();
 
         if (rNum < probability.getParameter()) {
@@ -74,7 +66,11 @@ public class RandomDetectionStrategy implements BehaviorChangeTriggerDetectionSt
         return false;
     }
 
-    public void setProbability(double value) {
-        probability.setParameter(value);
+    public ControlParameter getProbability() {
+        return probability;
+    }
+
+    public void setProbability(ControlParameter probability) {
+        this.probability = probability;
     }
 }

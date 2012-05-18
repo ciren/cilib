@@ -25,8 +25,6 @@ import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 
 /**
  * Obtains the ratio of the ParticleBehavior based on how often it gets selected.
- *
- * @author filipe
  */
 public class SelectedRatio implements ParticleBehaviorRatio {
     @Override

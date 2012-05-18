@@ -21,20 +21,16 @@
  */
 package net.sourceforge.cilib.pso.velocityprovider;
 
+import com.google.common.base.Supplier;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Sequence;
 
-/**
- * Implementation of the standard / default velocity update equation.
- *
- * @author  Edwin Peer
- */
 public final class RandomNearbyVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = 8204479765311251730L;
@@ -69,11 +65,7 @@ public final class RandomNearbyVelocityProvider implements VelocityProvider {
     @Override
     public Vector get(Particle particle) {
         Topology<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
-        Vector average = Vector.of();
-        
-        for (int i = 0; i < particle.getVelocity().size(); i++) {
-            average.add(Int.valueOf(0));
-        }
+        Vector average = Vector.copyOf(Sequence.repeat(0.0, particle.getDimension()));
         
         for(Particle p : topology) {
             average = average.plus((Vector) p.getVelocity());
@@ -81,14 +73,21 @@ public final class RandomNearbyVelocityProvider implements VelocityProvider {
         
         average = average.divide(topology.size());
         
-        for (int i = 0; i < average.size(); i++) {
-            average.setReal(i, average.get(i).doubleValue()*random.getRandomNumber());
-        }        
+        average.multiply(new Supplier<Number>() {
+            @Override
+            public Number get() {
+                return random.getRandomNumber();
+            }
+        });     
         
         return average;
     }
 
-    @Override
-    public void updateControlParameters(Particle particle) {
+    public void setRandom(ProbabilityDistributionFuction random) {
+        this.random = random;
+    }
+
+    public ProbabilityDistributionFuction getRandom() {
+        return random;
     }
 }

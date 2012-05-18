@@ -26,10 +26,6 @@ import static com.google.common.base.Preconditions.checkState;
 import java.util.List;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 
-/**
- *
- * @author filipe
- */
 public class SpecializedRatio implements ParticleBehaviorRatio {
     private List<ParticleBehavior> behaviors;
     private List<Double> weights;

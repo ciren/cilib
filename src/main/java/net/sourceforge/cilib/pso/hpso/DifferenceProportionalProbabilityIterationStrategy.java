@@ -33,8 +33,8 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.hpso.detectionstrategies.PersonalBestStagnationDetectionStrategy;
@@ -52,17 +52,15 @@ import net.sourceforge.cilib.pso.particle.ParticleBehavior;
  * <ul><li>Spanevello, Paolo, and Montes De Oca, Marco A. “Experiments on Adaptive Heterogeneous PSO Algorithms.”
  * Proceedings of SLSDS 2009 Doctoral Symposium on Engineering Stochastic Local Search Algorithms.
  * IRIDIA, Université Libre de Bruxelles, 2009. 36-40.</li></ul>
- *
- * @author filipe
  */
 public class DifferenceProportionalProbabilityIterationStrategy implements IterationStrategy<PSO>, HeterogeneousIterationStrategy {
     private IterationStrategy<PSO> iterationStrategy;
-    private BehaviorChangeTriggerDetectionStrategy<Particle> detectionStrategy;
+    private BehaviorChangeTriggerDetectionStrategy detectionStrategy;
     private List<ParticleBehavior> behaviorPool;
     private Map<ParticleBehavior, List<Particle>> rigidParticles;
     private int rigidCountPerBehavior;
     private ControlParameter beta;
-    private RandomProvider random;
+    private ProbabilityDistributionFuction random;
     private boolean initialized;
 
     /**
@@ -73,8 +71,8 @@ public class DifferenceProportionalProbabilityIterationStrategy implements Itera
         this.detectionStrategy = new PersonalBestStagnationDetectionStrategy();
         this.behaviorPool = new ArrayList<ParticleBehavior>();
         this.rigidParticles = new HashMap<ParticleBehavior, List<Particle>>();
-        this.beta = new ConstantControlParameter(5.0);
-        this.random = new MersenneTwister();
+        this.beta = ConstantControlParameter.of(5.0);
+        this.random = new UniformDistribution();
         this.rigidCountPerBehavior = 1;
         this.initialized = false;
     }
@@ -119,7 +117,7 @@ public class DifferenceProportionalProbabilityIterationStrategy implements Itera
                 Particle other = p.getNeighbourhoodBest();
                 double diff = p.getBestFitness().getValue() - other.getBestFitness().getValue();
 
-                if(random.nextDouble() < 1 / (1 + Math.exp(-beta.getParameter() * (diff / Math.abs(other.getBestFitness().getValue()))))) {
+                if(random.getRandomNumber() < 1.0 / (1 + Math.exp(-beta.getParameter() * (diff / Math.abs(other.getBestFitness().getValue()))))) {
                     behavior = other.getParticleBehavior();
                     behavior.incrementSelectedCounter();
                     p.setParticleBehavior(behavior);
@@ -140,7 +138,7 @@ public class DifferenceProportionalProbabilityIterationStrategy implements Itera
 
             //assuming the behaviors in the intializationstrategy are the same as the behaviors in behaviorpool
             setBehaviorPool(((HeterogeneousPopulationInitialisationStrategy) algorithm.getInitialisationStrategy()).getBehaviorPool());
-            List<Particle> top = algorithm.getTopology().asList();
+            List<Particle> top = algorithm.getTopology();
             
             for(int j = 0; j < behaviorPool.size(); j++) {
                 List<Particle> rigidParticleList = new ArrayList<Particle>();
@@ -177,7 +175,7 @@ public class DifferenceProportionalProbabilityIterationStrategy implements Itera
      * Get the currently defined {@linkplain StagnationDetectionStrategy}.
      * @return The current {@linkplain StagnationDetectionStrategy}.
      */
-    public BehaviorChangeTriggerDetectionStrategy<Particle> getDetectionStrategy() {
+    public BehaviorChangeTriggerDetectionStrategy getDetectionStrategy() {
         return detectionStrategy;
     }
 
@@ -185,7 +183,7 @@ public class DifferenceProportionalProbabilityIterationStrategy implements Itera
      * Set the {@linkplain StagnationDetectionStrategy} to be used.
      * @param strategy The {@linkplain StagnationDetectionStrategy} to set.
      */
-    public void setDetectionStrategy(BehaviorChangeTriggerDetectionStrategy<Particle> strategy) {
+    public void setDetectionStrategy(BehaviorChangeTriggerDetectionStrategy strategy) {
         this.detectionStrategy = strategy;
     }
 
