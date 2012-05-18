@@ -156,25 +156,6 @@ public class CentroidHolderTest {
     }
 
     /**
-     * Test of removeAll method, of class CentroidHolder.
-     */
-    @Test
-    public void testRemoveAll() {
-        System.out.println("removeAll");
-        CentroidHolder instance = new CentroidHolder();
-        CentroidHolder centroids = new CentroidHolder();
-        CentroidHolder temp = new CentroidHolder();
-        ClusterCentroid c = ClusterCentroid.of(5,8,9,3);
-        temp.add(c);
-        centroids.add(c);
-        centroids.add(ClusterCentroid.of(2,8,0,5));
-        instance.addAll(centroids);
-        assertTrue(instance.containsAll(centroids));
-        instance.removeAll(ClusterCentroid.of(2,8,0,5));
-        Assert.assertFalse(instance.containsAll(temp));
-    }
-
-    /**
      * Test of clear method, of class CentroidHolder.
      */
     @Test

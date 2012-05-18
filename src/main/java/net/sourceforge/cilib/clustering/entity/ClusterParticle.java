@@ -67,15 +67,6 @@ public class ClusterParticle extends AbstractParticle {
         numberOfClusters = copy.numberOfClusters;
     }
     
-    /*@Override
-    public CentroidHolder getCandidateSolution() {
-        return candidateSolution;
-    }
-    
-    public void setCandidateSolution(CentroidHolder solution) {
-        candidateSolution = solution;
-    }*/
-    
     @Override
     public ClusterParticle getClone() {
         return new ClusterParticle(this);

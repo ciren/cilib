@@ -98,32 +98,4 @@ public class DunnValidityIndexTest {
         Assert.assertEquals(Math.round(3.1320919526731650539273262067644 * 1e10) / 1e10, Math.round(distance * 1e10) / 1e10);
     }
 
-    /**
-     * Test of getClone method, of class DunnValidityIndex.
-     */
-    @Test
-    public void testGetClone() {
-        System.out.println("getClone");
-        DunnValidityIndex instance = new DunnValidityIndex();
-        DunnValidityIndex expResult = null;
-        DunnValidityIndex result = instance.getClone();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getValue method, of class DunnValidityIndex.
-     */
-    @Test
-    public void testGetValue() {
-        System.out.println("getValue");
-        Algorithm algorithm = null;
-        DunnValidityIndex instance = new DunnValidityIndex();
-        Real expResult = null;
-        Real result = instance.getValue(algorithm);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 }

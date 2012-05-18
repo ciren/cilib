@@ -86,7 +86,8 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
     @Override
     public boolean contains(Object o) {
         for(ClusterCentroid value : components) {
-            if(o.equals(value)) {
+            ClusterCentroid other = (ClusterCentroid) o;
+            if(value.containsAll(other)) {
                 return true;
             }
         }
@@ -188,8 +189,7 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        components = new ClusterCentroid[components.length - 1];
-        return true;
+        throw new UnsupportedOperationException();
     }
 
     @Override
