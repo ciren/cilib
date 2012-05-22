@@ -25,6 +25,7 @@ import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 import junit.framework.Assert;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.clustering.PSOClusteringAlgorithm;
+import net.sourceforge.cilib.clustering.SlidingWindow;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
@@ -130,8 +131,11 @@ public class ClusterParticleTest {
         
         PSOClusteringAlgorithm pso = new PSOClusteringAlgorithm();
         QuantizationErrorMinimizationProblem problem = new QuantizationErrorMinimizationProblem();
-        problem.setDomain("R(-5.12:5.12)");
+        SlidingWindow window = new SlidingWindow();
         pso.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        window.setWindowSize(3);
+        pso.setWindow(window);
+        problem.setDomain("R(-5.12:5.12)");
         
         pso.setOptimisationProblem(problem);
         pso.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 1));

@@ -62,7 +62,7 @@ public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
     protected double getStandardDeviation() {
         double sum = 0;
         for(ClusterCentroid centroid : centroidHolder) {
-            sum += getVariance(centroid.getDataItems(), centroid.toVector());
+            sum += (centroid.getDataItems().size() > 0) ? getVariance(centroid.getDataItems(), centroid.toVector()) : 0;
         }
         
         return sum / (double) centroidHolder.size();

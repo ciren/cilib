@@ -22,10 +22,9 @@
 package net.sourceforge.cilib.clustering;
 
 import com.google.common.collect.Lists;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
@@ -38,15 +37,11 @@ import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.io.ARFFFileReader;
 import net.sourceforge.cilib.io.DataTable;
-import net.sourceforge.cilib.io.DataTableBuilder;
-import net.sourceforge.cilib.io.StandardDataTable;
-import net.sourceforge.cilib.io.exception.CIlibIOException;
+import net.sourceforge.cilib.io.StandardPatternDataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.io.transform.DataOperator;
 import net.sourceforge.cilib.io.transform.PatternConversionOperator;
-import net.sourceforge.cilib.io.transform.TypeConversionOperator;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.QuantizationErrorMinimizationProblem;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
@@ -65,21 +60,21 @@ public class PSOClusteringAlgorithm extends SinglePopulationBasedAlgorithm imple
     private Topology<ClusterParticle> topology;
     private ContributionSelectionStrategy contributionSelection;
     private DataTable dataset;
-    private DataTableBuilder tableBuilder;
     private DataOperator patternConverstionOperator;
     private EuclideanDistanceMeasure distanceMeasure;
     private CentroidBoundaryConstraint boundaryConstraint;
+    private SlidingWindow window;
     
     public PSOClusteringAlgorithm() {
         super();
         topology = new GBestTopology<ClusterParticle>();
         contributionSelection = new ZeroContributionSelectionStrategy();
-        dataset = new StandardDataTable();
-        tableBuilder = new DataTableBuilder(new ARFFFileReader());
+        dataset = new StandardPatternDataTable();
         patternConverstionOperator = new PatternConversionOperator();
         distanceMeasure = new EuclideanDistanceMeasure();
         initialisationStrategy = new ClonedPopulationInitialisationStrategy<ClusterParticle>();
         boundaryConstraint = new CentroidBoundaryConstraint();
+        window = new SlidingWindow();
     }
 
     public PSOClusteringAlgorithm(PSOClusteringAlgorithm copy) {
@@ -87,11 +82,11 @@ public class PSOClusteringAlgorithm extends SinglePopulationBasedAlgorithm imple
         topology = copy.topology;
         contributionSelection = copy.contributionSelection;
         dataset = copy.dataset;
-        tableBuilder = copy.tableBuilder;
         patternConverstionOperator = copy.patternConverstionOperator;
         distanceMeasure = copy.distanceMeasure;
         initialisationStrategy = copy.initialisationStrategy;
         boundaryConstraint = copy.boundaryConstraint;
+        window = copy.window;
     }
     
     @Override
@@ -136,7 +131,6 @@ public class PSOClusteringAlgorithm extends SinglePopulationBasedAlgorithm imple
             particle.updatePosition();
             
             boundaryConstraint.enforce(particle);
-            
         }
         
         for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
@@ -150,10 +144,12 @@ public class PSOClusteringAlgorithm extends SinglePopulationBasedAlgorithm imple
                 }
             }
             
-            System.out.println("Clusters: " + current.getCandidateSolution().toString());
+            //System.out.println("Clusters: " + current.getCandidateSolution().toString());
         }
         
-        System.out.println("\n\n");
+        //System.out.println("\n\n");
+        
+        dataset = window.slideWindow(getIterations(), getPercentageComplete());
         
     }
     
@@ -179,17 +175,7 @@ public class PSOClusteringAlgorithm extends SinglePopulationBasedAlgorithm imple
     
     @Override
     public void performInitialisation() {
-        tableBuilder.addDataOperator(new TypeConversionOperator());
-        tableBuilder.addDataOperator(patternConverstionOperator);
-        try {
-            tableBuilder.buildDataTable();
-            
-        } catch (CIlibIOException ex) {
-            Logger.getLogger(PSOClusteringAlgorithm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        dataset = tableBuilder.getDataTable();
-        
+        dataset = window.initializeWindow();
         Vector pattern = ((StandardPattern) dataset.getRow(0)).getVector();
         ((QuantizationErrorMinimizationProblem) this.optimisationProblem).setDimension(pattern.size());
         Iterable<ClusterParticle> particles = (Iterable<ClusterParticle>) this.initialisationStrategy.initialise(this.getOptimisationProblem());
@@ -224,38 +210,6 @@ public class PSOClusteringAlgorithm extends SinglePopulationBasedAlgorithm imple
     }
     
     /**
-     * Gets the datatable builder.
-     * @return the datatable builder.
-     */
-    public DataTableBuilder getDataTableBuilder() {
-        return tableBuilder;
-    }
-
-    /**
-     * Sets the data table builder.
-     * @param dataTableBuilder the new data table builder.
-     */
-    public void setDataTableBuilder(DataTableBuilder dataTableBuilder) {
-        this.tableBuilder = dataTableBuilder;
-    }
-
-    /**
-     * Gets the source URL of the the data table builder.
-     * @return the source URL of the the data table builder.
-     */
-    public String getSourceURL() {
-        return tableBuilder.getSourceURL();
-    }
-
-    /**
-     * Sets the source URL of the the data table builder.
-     * @param sourceURL the new source URL of the the data table builder.
-     */
-    public void setSourceURL(String sourceURL) {
-        tableBuilder.setSourceURL(sourceURL);
-    }
-
-    /**
      * Get the { @link PatternConversionOperator}
      * @return the pattern conversion operator
      */
@@ -289,6 +243,20 @@ public class PSOClusteringAlgorithm extends SinglePopulationBasedAlgorithm imple
     
     public void setBoundaryConstraint(BoundaryConstraint constraint) {
         boundaryConstraint.setDelegate(constraint);
+    }
+    
+    /**
+     * Sets the source URL of the the data table builder.
+     * @param sourceURL the new source URL of the the data table builder.
+     */
+    public void setSourceURL(String sourceURL) {
+        window.setSourceURL(sourceURL);
+    }
+    
+    public void setWindow(SlidingWindow slidingWindow) {
+        String url = window.getSourceURL();
+        window = slidingWindow;
+        window.setSourceURL(url);
     }
 
 }

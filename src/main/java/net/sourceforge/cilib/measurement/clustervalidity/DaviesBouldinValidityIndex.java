@@ -43,7 +43,9 @@ public class DaviesBouldinValidityIndex extends ValidityIndex{
             holder2.remove(centroid1);
             for(ClusterCentroid centroid2 : holder2) {
                 double euclideanDistance = distanceMeasure.distance(centroid1, centroid2);
-                double result = ((0.5 * getMaximumInterclusterDistance(centroid1)) + (0.5 * getMaximumInterclusterDistance(centroid2))) / (double) euclideanDistance;
+                double maxInterClusterDistanceC1 = (centroid1.getDataItemDistances().length > 0) ? getMaximumInterclusterDistance(centroid1) : 0;
+                double maxInterClusterDistanceC2 = (centroid2.getDataItemDistances().length > 0) ? getMaximumInterclusterDistance(centroid2) : 0;
+                double result = ((0.5 * maxInterClusterDistanceC1) + (0.5 * maxInterClusterDistanceC2)) / (double) euclideanDistance;
                 
                 if(result > maximum) {
                     maximum = result;

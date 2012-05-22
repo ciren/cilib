@@ -190,55 +190,6 @@ public class PSOClusteringAlgorithmTest {
     }
 
     /**
-     * Test of getDataTableBuilder method, of class PSOClusteringAlgorithm.
-     */
-    @Test
-    public void testGetDataTableBuilder() {
-        System.out.println("getDataTableBuilder");
-        PSOClusteringAlgorithm instance = new PSOClusteringAlgorithm();
-        instance.setDataTableBuilder(new DataTableBuilder());
-       
-        Assert.assertTrue(instance.getDataTableBuilder() instanceof DataTableBuilder);
-    }
-
-    /**
-     * Test of setDataTableBuilder method, of class PSOClusteringAlgorithm.
-     */
-    @Test
-    public void testSetDataTableBuilder() {
-        System.out.println("setDataTableBuilder");
-        DataTableBuilder dataTableBuilder = null;
-        PSOClusteringAlgorithm instance = new PSOClusteringAlgorithm();
-        instance.setDataTableBuilder(new DataTableBuilder());
-       
-        Assert.assertTrue(instance.getDataTableBuilder() instanceof DataTableBuilder);
-    }
-
-    /**
-     * Test of getSourceURL method, of class PSOClusteringAlgorithm.
-     */
-    @Test
-    public void testGetSourceURL() {
-        System.out.println("getSourceURL");
-        PSOClusteringAlgorithm instance = new PSOClusteringAlgorithm();
-        instance.setSourceURL("c:\\sbc");
-       
-        Assert.assertEquals(instance.getSourceURL(), "c:\\sbc");
-    }
-
-    /**
-     * Test of setSourceURL method, of class PSOClusteringAlgorithm.
-     */
-    @Test
-    public void testSetSourceURL() {
-        System.out.println("setSourceURL");
-        PSOClusteringAlgorithm instance = new PSOClusteringAlgorithm();
-        instance.setSourceURL("c:\\sbc");
-       
-        Assert.assertEquals(instance.getSourceURL(), "c:\\sbc");
-    }
-
-    /**
      * Test of getPatternConversionOperator method, of class PSOClusteringAlgorithm.
      */
     @Test

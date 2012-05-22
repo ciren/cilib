@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.entity.initialization;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
@@ -40,17 +42,20 @@ public class RandomBoundedInitializationStrategy<E extends Entity> implements
     private ControlParameter lowerBound;
     private ControlParameter upperBound;
     private ProbabilityDistributionFuction random;
+    private ArrayList<ControlParameter[]> boundsPerDimension;
 
     public RandomBoundedInitializationStrategy() {
         this.lowerBound = ConstantControlParameter.of(0.1);
         this.upperBound = ConstantControlParameter.of(0.1);
         this.random = new UniformDistribution();
+        boundsPerDimension = new ArrayList<ControlParameter[]>();
     }
 
     public RandomBoundedInitializationStrategy(RandomBoundedInitializationStrategy copy) {
         this.lowerBound = copy.lowerBound;
         this.upperBound = copy.upperBound;
         this.random = copy.random;
+        boundsPerDimension = copy.boundsPerDimension;
     }
 
     @Override
@@ -64,10 +69,24 @@ public class RandomBoundedInitializationStrategy<E extends Entity> implements
         Vector velocity = (Vector) type;
 
         for (int i = 0; i < velocity.size(); i++) {
+            changeBoundsForNextDimension(i);
             velocity.setReal(i, random.getRandomNumber(lowerBound.getParameter(), upperBound.getParameter()));
         }
     }
-
+    
+    private void changeBoundsForNextDimension(int index) {
+        if(boundsPerDimension.size() > 0) {
+            lowerBound = boundsPerDimension.get(index)[0];
+            upperBound = boundsPerDimension.get(index)[1];
+        }
+        
+        //do nothing otherwise
+    }
+    
+    public void setBoundsPerDimension(ArrayList<ControlParameter[]> bounds) {
+        boundsPerDimension = bounds;
+    }
+    
     public ControlParameter getLowerBound() {
         return lowerBound;
     }

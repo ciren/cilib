@@ -21,7 +21,20 @@
  */
 package net.sourceforge.cilib.entity.initialization;
 
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.sourceforge.cilib.clustering.PSOClusteringAlgorithm;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.io.ARFFFileReader;
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.DataTableBuilder;
+import net.sourceforge.cilib.io.exception.CIlibIOException;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.io.transform.PatternConversionOperator;
+import net.sourceforge.cilib.io.transform.TypeConversionOperator;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
@@ -34,18 +47,21 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class CentroidInitializationStrategy <E extends Entity> implements InitializationStrategy<E>{
 
+    private DataTableBuilder tableBuilder;
     private InitializationStrategy<E> initialisationStrategy;
     
     public CentroidInitializationStrategy() {
         initialisationStrategy = new RandomInitializationStrategy<E>();
+        tableBuilder = new DataTableBuilder(new ARFFFileReader());
     }
     
     public CentroidInitializationStrategy(CentroidInitializationStrategy copy) {
         initialisationStrategy = copy.initialisationStrategy;
+        tableBuilder = copy.tableBuilder;
     }
     
     @Override
-    public InitializationStrategy getClone() {
+    public CentroidInitializationStrategy getClone() {
         return new CentroidInitializationStrategy(this);
     }
 
@@ -53,6 +69,10 @@ public class CentroidInitializationStrategy <E extends Entity> implements Initia
     public void initialize(Enum<?> key, E entity) {
         CentroidHolder centroidHolder = (CentroidHolder) entity.getProperties().get(key);
         Entity particle;
+        
+        if(initialisationStrategy instanceof RandomBoundedInitializationStrategy) {
+            setBounds();
+        }
         
         for(ClusterCentroid centroid : centroidHolder) {
             particle = new StandardParticle();
@@ -67,12 +87,58 @@ public class CentroidInitializationStrategy <E extends Entity> implements Initia
         
     }
     
+    public void setBounds() {
+        tableBuilder = new DataTableBuilder(tableBuilder.getDataReader());
+        tableBuilder.addDataOperator(new TypeConversionOperator());
+        tableBuilder.addDataOperator(new PatternConversionOperator());
+        try {
+            tableBuilder.buildDataTable();
+            
+        } catch (CIlibIOException ex) {
+            Logger.getLogger(PSOClusteringAlgorithm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        DataTable dataset = tableBuilder.getDataTable();
+        
+        RandomBoundedInitializationStrategy initializationStrategy = (RandomBoundedInitializationStrategy) initialisationStrategy;
+        ArrayList<ControlParameter[]> bounds  = new ArrayList<ControlParameter[]>();
+        
+        int size = ((StandardPattern) dataset.getRow(0)).getVector().size();
+        for(int j = 0; j < size; j++) {
+            double minValue = Double.POSITIVE_INFINITY;
+            double maxValue = Double.NEGATIVE_INFINITY;
+            for(int i = 0; i < dataset.size(); i++) {
+                Vector row = ((StandardPattern) dataset.getRow(i)).getVector();
+                if(row.get(j).doubleValue() > maxValue) {
+                    maxValue = row.get(j).doubleValue();
+                }
+                
+                if(row.get(j).doubleValue() < minValue) {
+                    minValue = row.get(j).doubleValue();
+                }
+            }
+            
+            ControlParameter[] array = {ConstantControlParameter.of(minValue), ConstantControlParameter.of(maxValue)};
+            bounds.add(array);
+        }
+        
+        initializationStrategy.setBoundsPerDimension(bounds);
+    }
+    
     public void setInitialisationStrategy(InitializationStrategy strategy) {
         initialisationStrategy = strategy;
     }
     
     public InitializationStrategy getInitialisationStrategy() {
         return initialisationStrategy;
+    }
+    
+    public void setDataTableBuilder(DataTableBuilder builder) {
+        tableBuilder = builder;
+    }
+    
+    public DataTableBuilder getDataTableBuilder() {
+        return tableBuilder;
     }
     
 }

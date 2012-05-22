@@ -96,6 +96,6 @@ public class DunnValidityIndex extends ValidityIndex{
             }
         }
         
-        return maximumDistance;
+        return maximumDistance + Double.MIN_VALUE;
     }
 }

@@ -235,4 +235,9 @@ public class ClusterParticle extends AbstractParticle {
         this.getProperties().put(EntityType.Particle.VELOCITY, holder);
     }
     
+    public void setCentroidInitialisationStrategy(CentroidInitializationStrategy initializationStrategy) {
+        centroidInitialisationStrategyBest = initializationStrategy.getClone();
+        centroidInitialisationStrategyCandidate = initializationStrategy.getClone();
+        centroidInitialisationStrategyVelocity = initializationStrategy.getClone();
+    }
 }
