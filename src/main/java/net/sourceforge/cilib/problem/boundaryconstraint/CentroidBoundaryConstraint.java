@@ -26,7 +26,6 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
-import net.sourceforge.cilib.util.selection.PartialSelection;
 
 /**
  *
@@ -51,6 +50,7 @@ public class CentroidBoundaryConstraint implements BoundaryConstraint{
 
     @Override
     public void enforce(Entity entity) {
+        //System.out.println("Class: " + entity.getCandidateSolution().getClass().toString() + ", " + entity.getCandidateSolution());
         CentroidHolder holder = (CentroidHolder) entity.getCandidateSolution().getClone();
         CentroidHolder velocity = (CentroidHolder) entity.getProperties().get(EntityType.Particle.VELOCITY).getClone();
         CentroidHolder bestPosition = (CentroidHolder) entity.getProperties().get(EntityType.Particle.BEST_POSITION).getClone();
@@ -59,9 +59,9 @@ public class CentroidBoundaryConstraint implements BoundaryConstraint{
         int index = 0;
         for(ClusterCentroid centroid : holder) {
             StandardParticle newParticle = new StandardParticle();
-            newParticle.setCandidateSolution(centroid);
-            newParticle.getProperties().put(EntityType.Particle.VELOCITY, velocity.get(index));
-            newParticle.getProperties().put(EntityType.Particle.BEST_POSITION, bestPosition.get(index));
+            newParticle.setCandidateSolution(centroid.toVector());
+            newParticle.getProperties().put(EntityType.Particle.VELOCITY, velocity.get(index).toVector());
+            newParticle.getProperties().put(EntityType.Particle.BEST_POSITION, bestPosition.get(index).toVector());
             
             delegate.enforce(newParticle);
             newSolution.add(centroid);

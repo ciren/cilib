@@ -27,6 +27,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.Real;
 
 /**
  *
@@ -65,6 +67,14 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
         for (ClusterCentroid centroid : this.components) {
             if (!visitor.isDone()) {
                 visitor.visit(centroid);
+            }
+        }
+    }
+    
+    public void reinitialize() {
+        for(ClusterCentroid centroid : components) {
+            for(Numeric n : centroid) {
+                n = Real.valueOf(0.0);
             }
         }
     }
@@ -220,6 +230,10 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
             result += centroid.toString() + ", ";
         }
         return result + " }";
+    }
+    
+    public void set(int index, ClusterCentroid centroid) {
+        components[index] = centroid.getClone();
     }
     
 }

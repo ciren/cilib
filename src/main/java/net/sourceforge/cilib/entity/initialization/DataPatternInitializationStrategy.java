@@ -23,7 +23,7 @@ package net.sourceforge.cilib.entity.initialization;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.sourceforge.cilib.clustering.PSOClusteringAlgorithm;
+import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.io.ARFFFileReader;
 import net.sourceforge.cilib.io.DataTable;
@@ -80,7 +80,7 @@ public class DataPatternInitializationStrategy<E extends Entity> implements Init
             tableBuilder.buildDataTable();
             
         } catch (CIlibIOException ex) {
-            Logger.getLogger(PSOClusteringAlgorithm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataClusteringPSO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         dataset = tableBuilder.getDataTable();

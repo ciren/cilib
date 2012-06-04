@@ -21,15 +21,11 @@
  */
 package net.sourceforge.cilib.problem;
 
-import java.util.ArrayList;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.DistanceMeasure;
-import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  *
@@ -57,16 +53,28 @@ public class QuantizationErrorMinimizationProblem extends OptimisationProblemAda
         CentroidHolder candidateSolution = (CentroidHolder) solution;
         double quantizationError = 0;
         double temp;
+        //System.out.println("Solution: " + solution.toString());
         for(ClusterCentroid centroid : (CentroidHolder) candidateSolution) {
             temp = 0;
             for(double distance : centroid.getDataItemDistances()) {
                 temp += distance;
             }
             
-            quantizationError += temp / (double) centroid.getDataItemDistances().length;
+            //System.out.println(quantizationError + "+=" + temp + "/" + centroid.getDataItemDistances().length + "+" + 1);
+            //quantizationError += (centroid.getDataItemDistances().length != 0) ? temp / ((double) centroid.getDataItemDistances().length) : Double.POSITIVE_INFINITY;
+            quantizationError += temp / ((double) centroid.getDataItemDistances().length);
+            //System.out.println("Size: " + centroid.getDataItemDistances().length);
         }
+       
+//        if(Double.isNaN(quantizationError)) {
+//            quantizationError = Double.POSITIVE_INFINITY;
+//        }
+//                
+        quantizationError /= ((double) candidateSolution.size());
         
-        quantizationError /= (double) candidateSolution.size();
+        if(Double.isNaN(quantizationError)){
+            quantizationError = Double.POSITIVE_INFINITY;
+        }
         
         return new MinimisationFitness(quantizationError);
         
@@ -93,7 +101,7 @@ public class QuantizationErrorMinimizationProblem extends OptimisationProblemAda
     }
     
     public void setDimension(int dimension) {
-        this.domainRegistry.setDomainString(domainRegistry.getDomainString() + "^" + dimension);
+        this.domainRegistry.setDomainString(domainRegistry.getDomainString().substring(0, domainRegistry.getDomainString().indexOf(")") + 1) + "^" + dimension);
     }
     
 }

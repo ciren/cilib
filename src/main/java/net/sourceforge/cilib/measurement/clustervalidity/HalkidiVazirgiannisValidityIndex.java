@@ -55,14 +55,13 @@ public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
     public Real getValue(Algorithm algorithm) {
         centroidHolder = (CentroidHolder) algorithm.getBestSolution().getPosition();
         double result = getScattering() + getDensityAmongClusters();
-        
         return Real.valueOf(result);
     }
     
     protected double getStandardDeviation() {
         double sum = 0;
         for(ClusterCentroid centroid : centroidHolder) {
-            sum += (centroid.getDataItems().size() > 0) ? getVariance(centroid.getDataItems(), centroid.toVector()) : 0;
+            sum += getVariance(centroid.getDataItems(), centroid.toVector());
         }
         
         return sum / (double) centroidHolder.size();
@@ -70,14 +69,13 @@ public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
     
     protected double getVariance(ArrayList<Vector> patternList, Vector pattern) {
         double finalSum = 0;
-        
         for(int i = 0; i < pattern.size(); i++) {
             double sum = 0;
             for(Vector otherPattern : patternList) {
                 sum += Math.pow(otherPattern.get(i).doubleValue() - pattern.get(i).doubleValue(), 2);
             }
-
-            sum = Math.pow(sum / patternList.size(), 2);
+            
+            sum = (!patternList.isEmpty()) ? Math.pow(sum / patternList.size(), 2) : 0;
             finalSum += sum;
         }
         
@@ -127,7 +125,6 @@ public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
         for(ClusterCentroid centroid : centroidHolder) {
             allPatterns.addAll(centroid.getDataItems());
         }
-        
         return allPatterns;
     }
     

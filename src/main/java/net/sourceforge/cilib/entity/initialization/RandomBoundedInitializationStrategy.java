@@ -22,12 +22,13 @@
 package net.sourceforge.cilib.entity.initialization;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.type.types.Bounds;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -67,7 +68,7 @@ public class RandomBoundedInitializationStrategy<E extends Entity> implements
     public void initialize(Enum<?> key, E entity) {
         Type type = entity.getProperties().get(key);
         Vector velocity = (Vector) type;
-
+        
         for (int i = 0; i < velocity.size(); i++) {
             changeBoundsForNextDimension(i);
             velocity.setReal(i, random.getRandomNumber(lowerBound.getParameter(), upperBound.getParameter()));

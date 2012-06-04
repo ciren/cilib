@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import junit.framework.Assert;
-import net.sourceforge.cilib.clustering.PSOClusteringAlgorithm;
+import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.io.ARFFFileReader;
 import net.sourceforge.cilib.io.DataTable;
@@ -97,7 +97,7 @@ public class DataPatternInitializationStrategyTest {
             tableBuilder.buildDataTable();
             
         } catch (CIlibIOException ex) {
-            Logger.getLogger(PSOClusteringAlgorithm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataClusteringPSO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         DataTable dataset = tableBuilder.getDataTable();

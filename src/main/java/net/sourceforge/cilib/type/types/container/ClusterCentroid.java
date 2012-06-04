@@ -289,4 +289,12 @@ public class ClusterCentroid implements StructuredType<Numeric>{
         
         return result + "]";
     }
+    
+    public Numeric get(int index) {
+        return components[index];
+    }
+    
+    public void set(int index, Numeric value) {
+        components[index] = value;
+    }
 }

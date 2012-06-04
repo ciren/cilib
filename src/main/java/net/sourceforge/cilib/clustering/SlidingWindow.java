@@ -44,10 +44,11 @@ public class SlidingWindow {
     private int windowSize;
     private DataOperator patternConverstionOperator;
     private int currentIndex;
-    private double slidingTime;
+    private int slidingTime;
+    private boolean isTemporal;
+    private int frequency;
     
     public SlidingWindow() {
-        
         completeDataset = new StandardPatternDataTable();
         currentDataset = new StandardPatternDataTable();
         tableBuilder = new DataTableBuilder(new ARFFFileReader());
@@ -55,6 +56,8 @@ public class SlidingWindow {
         patternConverstionOperator = new PatternConversionOperator();
         currentIndex = 0;
         slidingTime = 0;
+        isTemporal = true;
+        frequency = 0;
     }
     
     public SlidingWindow(SlidingWindow copy) {
@@ -65,6 +68,8 @@ public class SlidingWindow {
         patternConverstionOperator = copy.patternConverstionOperator;
         currentIndex = copy.currentIndex;
         slidingTime = copy.slidingTime;
+        isTemporal = copy.isTemporal;
+        frequency = copy.frequency;
     }
     
     public SlidingWindow getClone() {
@@ -72,22 +77,29 @@ public class SlidingWindow {
     }
     
     private boolean hasNotFinished() {
-        return currentIndex < completeDataset.size() - windowSize;
+            return currentIndex <= completeDataset.size();
     }
     
-    public DataTable slideWindow(int iterations, double percentageComplete) {
+    public DataTable slideWindow(int iterations) {
         if(hasNotFinished()) {
-            if(slidingTime == getIterationToChange(iterations, percentageComplete)) {
+            //System.out.println(getIterationToChange());
+            if(slidingTime == getIterationToChange()) {
                 currentDataset = new StandardPatternDataTable();
-                for(int i = currentIndex; i < currentIndex + windowSize; i++) {
+                
+                int upTo = currentIndex + windowSize;
+                if(currentIndex + windowSize > completeDataset.size()) {
+                    upTo = completeDataset.size();
+                }
+                
+                for(int i = currentIndex; i < upTo; i++) {
                     currentDataset.addRow((StandardPattern) completeDataset.getRow(i));
                 }
-
-                currentIndex++;
+                
+                currentIndex = upTo;
                 slidingTime = 0;
+            } else {
+                slidingTime++;
             }
-
-            slidingTime++;
         }
         return currentDataset;
     }
@@ -99,12 +111,14 @@ public class SlidingWindow {
             tableBuilder.buildDataTable();
             
         } catch (CIlibIOException ex) {
-            Logger.getLogger(PSOClusteringAlgorithm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataClusteringPSO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         completeDataset = tableBuilder.getDataTable();
+        
         if(windowSize == 0) {
-            windowSize = completeDataset.size() - 1;
+            windowSize = completeDataset.size();
+            isTemporal = false;
         } else if(windowSize > completeDataset.size()) {
             throw new UnsupportedOperationException("The window size provided is larger than the size of the dataset");
         }
@@ -113,7 +127,7 @@ public class SlidingWindow {
             currentDataset.addRow((StandardPattern) completeDataset.getRow(i));
         }
         
-        currentIndex++;
+        currentIndex+= windowSize;
         slidingTime++;
         return currentDataset;
     }
@@ -190,10 +204,23 @@ public class SlidingWindow {
         return completeDataset;
     }
     
-    private int getIterationToChange(int iterations, double percentageComplete) {
-        double totalIterations = (100.0 * iterations) / (double) percentageComplete;
-        double denominator = (double) completeDataset.size() - windowSize + 1;
-        return (int) (totalIterations / denominator);
+    private int getIterationToChange() {
+        //double denominator = ((double) (completeDataset.size()) / (double) windowSize);
+        //return (int) (iterations / (double) denominator);
+        
+        return frequency;
+    }
+    
+    public int getFrequency() {
+        return frequency;
+    }
+    
+    public void setFrequency(int newFrequency) {
+        frequency = newFrequency;
+    }
+    
+    public boolean hasSlid() {
+        return isTemporal && slidingTime == 0;
     }
     
 }

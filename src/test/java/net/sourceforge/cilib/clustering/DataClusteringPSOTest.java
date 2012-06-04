@@ -23,14 +23,15 @@ package net.sourceforge.cilib.clustering;
 
 import junit.framework.Assert;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
+import net.sourceforge.cilib.algorithm.initialisation.DataDependantPopulationInitializationStrategy;
 import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
+import net.sourceforge.cilib.clustering.iterationstrategies.SinglePopulationDataClusteringIterationStrategy;
+import net.sourceforge.cilib.clustering.iterationstrategies.StandardDataClusteringIterationStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.TopologyBestContributionSelectionStrategy;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.io.DataTableBuilder;
-import net.sourceforge.cilib.io.transform.TypeConversionOperator;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.QuantizationErrorMinimizationProblem;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
@@ -48,9 +49,9 @@ import org.junit.Test;
  *
  * @author Kristina
  */
-public class PSOClusteringAlgorithmTest {
+public class DataClusteringPSOTest {
     
-    public PSOClusteringAlgorithmTest() {
+    public DataClusteringPSOTest() {
     }
 
     @BeforeClass
@@ -70,17 +71,18 @@ public class PSOClusteringAlgorithmTest {
     }
 
     /**
-     * Test of algorithmIteration method, of class PSOClusteringAlgorithm.
+     * Test of algorithmIteration method, of class DataClusteringPSO.
      */
     @Test
     public void testAlgorithmIteration() {
         System.out.println("algorithmIteration");
-        PSOClusteringAlgorithm instance = new PSOClusteringAlgorithm();
+        DataClusteringPSO instance = new DataClusteringPSO();
         QuantizationErrorMinimizationProblem problem = new QuantizationErrorMinimizationProblem();
         problem.setDomain("R(-5.12:5.12)");
         
         instance.setOptimisationProblem(problem);
-        PopulationInitialisationStrategy init = new ClonedPopulationInitialisationStrategy<ClusterParticle>();
+        DataDependantPopulationInitializationStrategy init = new DataDependantPopulationInitializationStrategy<ClusterParticle>();
+        init.setDelegate(new ClonedPopulationInitialisationStrategy());
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
         instance.setInitialisationStrategy(init);
@@ -91,13 +93,13 @@ public class PSOClusteringAlgorithmTest {
         
         instance.initialise();
         
-        ClusterParticle previousParticle1 = (ClusterParticle) instance.getTopology().get(0).getClone();
-        ClusterParticle previousParticle2 = (ClusterParticle) instance.getTopology().get(1).getClone();
+        ClusterParticle previousParticle1 = (ClusterParticle) ((Topology<ClusterParticle>) instance.getTopology()).get(0).getClone();
+        ClusterParticle previousParticle2 = (ClusterParticle) ((Topology<ClusterParticle>) instance.getTopology()).get(1).getClone();
         
         instance.run();
         
-         ClusterParticle laterParticle1 = (ClusterParticle) instance.getTopology().get(0).getClone();
-         ClusterParticle laterParticle2 = (ClusterParticle) instance.getTopology().get(1).getClone();
+         ClusterParticle laterParticle1 = (ClusterParticle) ((Topology<ClusterParticle>) instance.getTopology()).get(0).getClone();
+         ClusterParticle laterParticle2 = (ClusterParticle) ((Topology<ClusterParticle>) instance.getTopology()).get(1).getClone();
          
          ///Assert.assertFalse(laterParticle1.getCandidateSolution().containsAll(previousParticle1.getCandidateSolution()));
          Assert.assertNotSame(previousParticle1, laterParticle1);
@@ -106,12 +108,12 @@ public class PSOClusteringAlgorithmTest {
     }
 
     /**
-     * Test of getTopology method, of class PSOClusteringAlgorithm.
+     * Test of getTopology method, of class DataClusteringPSO.
      */
     @Test
     public void testGetTopology() {
         System.out.println("getTopology");
-        PSOClusteringAlgorithm instance = new PSOClusteringAlgorithm();
+        DataClusteringPSO instance = new DataClusteringPSO();
         Particle p = new ClusterParticle();
         CentroidHolder holder = new CentroidHolder();
         holder.add(ClusterCentroid.of(1,2,3,4,5));
@@ -126,12 +128,12 @@ public class PSOClusteringAlgorithmTest {
     }
 
     /**
-     * Test of setTopology method, of class PSOClusteringAlgorithm.
+     * Test of setTopology method, of class DataClusteringPSO.
      */
     @Test
     public void testSetTopology() {
         System.out.println("setTopology");
-        PSOClusteringAlgorithm instance = new PSOClusteringAlgorithm();
+        DataClusteringPSO instance = new DataClusteringPSO();
         Particle p = new ClusterParticle();
         CentroidHolder holder = new CentroidHolder();
         holder.add(ClusterCentroid.of(1,2,3,4,5));
@@ -145,82 +147,58 @@ public class PSOClusteringAlgorithmTest {
     }
 
     /**
-     * Test of performInitialisation method, of class PSOClusteringAlgorithm.
+     * Test of performInitialisation method, of class DataClusteringPSO.
      */
     @Test
     public void testPerformInitialisation() {
         System.out.println("performInitialisation");
-        PSOClusteringAlgorithm instance = new PSOClusteringAlgorithm();
+        DataClusteringPSO instance = new DataClusteringPSO();
         QuantizationErrorMinimizationProblem problem = new QuantizationErrorMinimizationProblem();
         problem.setDomain("R(-5.12:5.12)");
         instance.setOptimisationProblem(problem);
         instance.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 1));
-        PopulationInitialisationStrategy init = new ClonedPopulationInitialisationStrategy<ClusterParticle>();
+        PopulationInitialisationStrategy init = new DataDependantPopulationInitializationStrategy<ClusterParticle>();
         init.setEntityType(new ClusterParticle());
         instance.setInitialisationStrategy(init);
         instance.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
         instance.initialise();
         
-        Assert.assertTrue(instance.getDataset().size() > 0);
+        Assert.assertTrue(((SinglePopulationDataClusteringIterationStrategy) instance.getIterationStrategy()).getDataset().size() > 0);
         Assert.assertTrue(!instance.getTopology().isEmpty());
     }
 
     /**
-     * Test of getContributionSelectionStrategy method, of class PSOClusteringAlgorithm.
+     * Test of getContributionSelectionStrategy method, of class DataClusteringPSO.
      */
     @Test
     public void testGetContributionSelectionStrategy() {
        System.out.println("getContributionSelectionStrategy");
-       PSOClusteringAlgorithm instance = new PSOClusteringAlgorithm();
+       DataClusteringPSO instance = new DataClusteringPSO();
        instance.setContributionSelectionStrategy(new TopologyBestContributionSelectionStrategy());
        
        Assert.assertTrue(instance.getContributionSelectionStrategy() instanceof TopologyBestContributionSelectionStrategy);
     }
 
     /**
-     * Test of setContributionSelectionStrategy method, of class PSOClusteringAlgorithm.
+     * Test of setContributionSelectionStrategy method, of class DataClusteringPSO.
      */
     @Test
     public void testSetContributionSelectionStrategy() {
         System.out.println("setContributionSelectionStrategy");
-        PSOClusteringAlgorithm instance = new PSOClusteringAlgorithm();
+        DataClusteringPSO instance = new DataClusteringPSO();
        instance.setContributionSelectionStrategy(new TopologyBestContributionSelectionStrategy());
        
        Assert.assertTrue(instance.getContributionSelectionStrategy() instanceof TopologyBestContributionSelectionStrategy);
     }
 
     /**
-     * Test of getPatternConversionOperator method, of class PSOClusteringAlgorithm.
-     */
-    @Test
-    public void testGetPatternConversionOperator() {
-        System.out.println("getPatternConversionOperator");
-        PSOClusteringAlgorithm instance = new PSOClusteringAlgorithm();
-        instance.setPatternConversionOperator(new TypeConversionOperator());
-       
-        Assert.assertTrue(instance.getPatternConversionOperator() instanceof TypeConversionOperator);
-    }
-
-    /**
-     * Test of setPatternConversionOperator method, of class PSOClusteringAlgorithm.
-     */
-    @Test
-    public void testSetPatternConversionOperator() {
-        System.out.println("setPatternConversionOperator");
-        PSOClusteringAlgorithm instance = new PSOClusteringAlgorithm();
-        instance.setPatternConversionOperator(new TypeConversionOperator());
-       
-        Assert.assertTrue(instance.getPatternConversionOperator() instanceof TypeConversionOperator);
-    }
-
-    /**
-     * Test of getDistanceMeasure method, of class PSOClusteringAlgorithm.
+     * Test of getDistanceMeasure method, of class DataClusteringPSO.
      */
     @Test
     public void testGetDistanceMeasure() {
         System.out.println("getDistanceMeasure");
-        PSOClusteringAlgorithm instance = new PSOClusteringAlgorithm();
+        DataClusteringPSO instance = new DataClusteringPSO();
         
-        Assert.assertTrue(instance.getDistanceMeasure() instanceof EuclideanDistanceMeasure);
+        Assert.assertTrue(((StandardDataClusteringIterationStrategy) instance.getIterationStrategy()).getDistanceMeasure() instanceof EuclideanDistanceMeasure);
     }
 }
