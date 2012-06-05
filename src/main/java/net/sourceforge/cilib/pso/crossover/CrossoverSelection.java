@@ -28,14 +28,12 @@ import fj.P;
 import fj.P3;
 import java.util.List;
 import java.util.Map;
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
-import net.sourceforge.cilib.entity.operators.crossover.ParentCentricCrossoverStrategy;
+import net.sourceforge.cilib.entity.operators.crossover.real.ParentCentricCrossoverStrategy;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -51,20 +49,17 @@ public abstract class CrossoverSelection implements PSOCrossoverOperation {
 
     private CrossoverStrategy crossoverStrategy;
     private Selector selector;
-    private ControlParameter numberOfParents;
     private ParticleProvider particleProvider;
 
     public CrossoverSelection() {
         this.crossoverStrategy = new ParentCentricCrossoverStrategy();
         this.selector = new RandomSelector();
-        this.numberOfParents = ConstantControlParameter.of(3);
         this.particleProvider = new WorstParentParticleProvider();
     }
 
     public CrossoverSelection(CrossoverSelection copy) {
         this.crossoverStrategy = copy.crossoverStrategy.getClone();
         this.selector = copy.selector;
-        this.numberOfParents = copy.numberOfParents.getClone();
         this.particleProvider = copy.particleProvider;
     }
 
@@ -74,7 +69,7 @@ public abstract class CrossoverSelection implements PSOCrossoverOperation {
 	Map<Entity, StructuredType> tmp = Maps.newHashMap();
 
         // get random particles
-        List<Entity> parents = selector.on(topology).select(Samples.first((int) numberOfParents.getParameter()).unique());
+        List<Entity> parents = selector.on(topology).select(Samples.first((int) crossoverStrategy.getNumberOfParents()).unique());
 
         //put pbest as candidate solution for the crossover
         for (Entity e : parents) {
@@ -99,14 +94,6 @@ public abstract class CrossoverSelection implements PSOCrossoverOperation {
         }
 
         return P.p(isBetter, selectedParticle, offspring);
-    }
-
-    public void setNumberOfParents(ControlParameter numberOfParents) {
-        this.numberOfParents = numberOfParents;
-    }
-
-    public ControlParameter getNumberOfParents() {
-        return numberOfParents;
     }
 
     public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {

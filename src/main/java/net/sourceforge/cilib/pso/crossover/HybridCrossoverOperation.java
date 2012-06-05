@@ -26,15 +26,18 @@ import net.sourceforge.cilib.pso.crossover.util.OffspringUpdateStrategy;
 import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
-import net.sourceforge.cilib.entity.operators.crossover.ArithmeticCrossoverStrategy;
+import net.sourceforge.cilib.entity.operators.crossover.real.ArithmeticCrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.util.selection.Samples;
+import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
+import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
  * A crossover operation for PSOs that selects particles for crossover and updates 
@@ -55,17 +58,21 @@ public class HybridCrossoverOperation implements PSOCrossoverOperation {
     
     private CrossoverStrategy crossoverStrategy;
     private OffspringUpdateStrategy offspringUpdate;
+    private ControlParameter crossoverProbability;
+    private Selector selector;
     
     public HybridCrossoverOperation() {
         this.offspringUpdate = new HybridOffspringUpdateStrategy();
         this.crossoverStrategy = new ArithmeticCrossoverStrategy();
-        this.crossoverStrategy.setCrossoverProbability(ConstantControlParameter.of(0.2));
+        this.crossoverProbability = ConstantControlParameter.of(0.2);
+        this.selector = new RandomSelector();
     }
     
     public HybridCrossoverOperation(HybridCrossoverOperation copy) {
         this.offspringUpdate = copy.offspringUpdate;
         this.crossoverStrategy = copy.crossoverStrategy.getClone();
-        this.crossoverStrategy.setCrossoverProbability(ConstantControlParameter.of(0.2));
+        this.crossoverProbability = copy.crossoverProbability.getClone();
+        this.selector = copy.selector;
     }
     
     @Override
@@ -84,7 +91,7 @@ public class HybridCrossoverOperation implements PSOCrossoverOperation {
         newTopology.clear();
         
         for (Particle p : topology) {
-            if (uniform.getRandomNumber() < crossoverStrategy.getCrossoverProbability().getParameter()) {
+            if (uniform.getRandomNumber() < crossoverProbability.getParameter()) {
                 parents.add(p);
             } else {
                 newTopology.add(p);
@@ -98,7 +105,7 @@ public class HybridCrossoverOperation implements PSOCrossoverOperation {
                 break;
             }
             
-            List<Particle> selectedParents = crossoverStrategy.getSelectionStrategy().on(parents).select(Samples.first(2));
+            List<Particle> selectedParents = selector.on(parents).select(Samples.first(crossoverStrategy.getNumberOfParents()));
             offspring = (List<Particle>) crossoverStrategy.crossover(selectedParents);
             
             parents.removeAll(selectedParents);
@@ -128,5 +135,13 @@ public class HybridCrossoverOperation implements PSOCrossoverOperation {
 
     public OffspringUpdateStrategy getOffspringUpdate() {
         return offspringUpdate;
+    }
+
+    public void setCrossoverProbability(ControlParameter crossoverProbability) {
+        this.crossoverProbability = crossoverProbability;
+    }
+
+    public ControlParameter getCrossoverProbability() {
+        return crossoverProbability;
     }
 }

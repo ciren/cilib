@@ -19,20 +19,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.entity.operators.crossover;
+package net.sourceforge.cilib.entity.operators.crossover.real;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
+import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.RandomControlParameter;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-/**
- */
-public class ArithmeticCrossoverStrategy extends CrossoverStrategy {
+public class ArithmeticCrossoverStrategy implements CrossoverStrategy {
     
     private ControlParameter lambda;
     
@@ -41,34 +40,30 @@ public class ArithmeticCrossoverStrategy extends CrossoverStrategy {
     }
     
     public ArithmeticCrossoverStrategy(ArithmeticCrossoverStrategy copy) {
-        super(copy);
         this.lambda = copy.lambda.getClone();
     }
 
     @Override
-    public CrossoverStrategy getClone() {
+    public ArithmeticCrossoverStrategy getClone() {
         return new ArithmeticCrossoverStrategy(this);
     }
 
     @Override
-    public List<? extends Entity> crossover(List<? extends Entity> parentCollection) {
-        Preconditions.checkArgument(parentCollection.size() >= 2, "There must be at least two parents to perform arithmetic crossover.");
-        
-        List<Entity> offspring = Lists.newLinkedList();
+    public <E extends Entity> List<E> crossover(List<E> parentCollection) {
+        Preconditions.checkArgument(parentCollection.size() == 2, "ArithmeticCrossoverStrategy requires 2 parents.");
 
-        Entity o1 = parentCollection.get(0).getClone();
-        Entity o2 = parentCollection.get(1).getClone();
+        E o1 = (E) parentCollection.get(0).getClone();
+        E o2 = (E) parentCollection.get(1).getClone();
+        
         Vector o1Vec = (Vector) o1.getCandidateSolution();
         Vector o2Vec = (Vector) o2.getCandidateSolution();
+        
         double value = lambda.getParameter();
 
         o1.setCandidateSolution(o1Vec.multiply(value).plus(o2Vec.multiply(1.0 - value)));
         o2.setCandidateSolution(o2Vec.multiply(value).plus(o1Vec.multiply(1.0 - value)));
 
-        offspring.add(o1);
-        offspring.add(o2);
-        
-        return offspring;
+        return Arrays.asList(o1, o2);
     }
 
     public ControlParameter getLambda() {
@@ -77,5 +72,10 @@ public class ArithmeticCrossoverStrategy extends CrossoverStrategy {
 
     public void setLambda(ControlParameter lambda) {
         this.lambda = lambda;
+    }
+
+    @Override
+    public int getNumberOfParents() {
+        return 2;
     }
 }

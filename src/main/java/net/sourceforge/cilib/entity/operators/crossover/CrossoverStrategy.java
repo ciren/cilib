@@ -23,72 +23,14 @@ package net.sourceforge.cilib.entity.operators.crossover;
 
 import java.util.List;
 
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.Operator;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
-import net.sourceforge.cilib.math.random.UniformDistribution;
-import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
-import net.sourceforge.cilib.util.selection.recipes.Selector;
 
-/**
- */
-public abstract class CrossoverStrategy implements Operator {
+public interface CrossoverStrategy extends Operator {
+    @Override
+    public CrossoverStrategy getClone();
 
-    private static final long serialVersionUID = -5058325193277909244L;
-    private ControlParameter crossoverProbability;
-    private ProbabilityDistributionFuction randomDistribution;
-    private Selector selectionStrategy;
-
-    public CrossoverStrategy() {
-        crossoverProbability = ConstantControlParameter.of(0.5);
-        randomDistribution = new UniformDistribution();
-        selectionStrategy = new RandomSelector();
-    }
-
-    public CrossoverStrategy(CrossoverStrategy copy) {
-        this.crossoverProbability = copy.crossoverProbability.getClone();
-        this.randomDistribution = copy.randomDistribution;
-        this.selectionStrategy = copy.selectionStrategy;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public abstract CrossoverStrategy getClone();
-
-    public abstract List<? extends Entity> crossover(List<? extends Entity> parentCollection);
-
-    /**
-     *
-     * @return
-     */
-    public ControlParameter getCrossoverProbability() {
-        return crossoverProbability;
-    }
-
-    /**
-     *
-     * @param crossoverProbability
-     */
-    public void setCrossoverProbability(ControlParameter crossoverProbability) {
-        this.crossoverProbability = crossoverProbability;
-    }
-
-    public ProbabilityDistributionFuction getRandomDistribution() {
-        return randomDistribution;
-    }
-
-    public void setRandomDistribution(ProbabilityDistributionFuction randomNumber) {
-        this.randomDistribution = randomNumber;
-    }
-
-    public Selector getSelectionStrategy() {
-        return selectionStrategy;
-    }
-
-    public void setSelectionStrategy(Selector selectionStrategy) {
-        this.selectionStrategy = selectionStrategy;
-    }
+    public <E extends Entity> List<E> crossover(List<E> parentCollection);
+    
+    public int getNumberOfParents();
 }

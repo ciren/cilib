@@ -32,8 +32,8 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
-import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
-import net.sourceforge.cilib.entity.operators.crossover.MultiParentCrossoverStrategy;
+import net.sourceforge.cilib.entity.operators.Crossover;
+import net.sourceforge.cilib.entity.operators.crossover.real.MultiParentCrossoverStrategy;
 import net.sourceforge.cilib.math.random.CauchyDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.pso.PSO;
@@ -58,20 +58,21 @@ import net.sourceforge.cilib.util.selection.Samples;
  */
 public class MultiParentCrossoverIterationStrategy extends AbstractIterationStrategy<PSO> {
     
-    private CrossoverStrategy crossoverStrategy;
+    private Crossover crossover;
     private ControlParameter vMax;
     private ProbabilityDistributionFuction distribution;
     
     public MultiParentCrossoverIterationStrategy() {
-        this.crossoverStrategy = new MultiParentCrossoverStrategy();
-        this.crossoverStrategy.setCrossoverProbability(ConstantControlParameter.of(0.8));
+        this.crossover = new Crossover();
+        this.crossover.setCrossoverStrategy(new MultiParentCrossoverStrategy());
+        this.crossover.setCrossoverProbability(ConstantControlParameter.of(0.8));
         
         this.vMax = ConstantControlParameter.of(1.0);        
         this.distribution = new CauchyDistribution();
     }
     
     public MultiParentCrossoverIterationStrategy(MultiParentCrossoverIterationStrategy copy) {
-        this.crossoverStrategy = copy.crossoverStrategy.getClone();
+        this.crossover = copy.crossover.getClone();
         this.distribution = copy.distribution;
         this.vMax = copy.vMax.getClone();
     }
@@ -98,11 +99,11 @@ public class MultiParentCrossoverIterationStrategy extends AbstractIterationStra
         // crossover
         for (int i = 0; i < topology.size(); i++) {
             Particle p = topology.get(i);
-            if (crossoverStrategy.getRandomDistribution().getRandomNumber() < crossoverStrategy.getCrossoverProbability().getParameter()) {
-                List<Particle> parents = crossoverStrategy.getSelectionStrategy().on(topology).select(Samples.first(3));
+            if (crossover.getRandomDistribution().getRandomNumber() < crossover.getCrossoverProbability().getParameter()) {
+                List<Particle> parents = crossover.getSelectionStrategy().on(topology).select(Samples.first(3));
                 parents.add(p);
                 parents = Lists.reverse(parents);
-                Particle offspring = (Particle) crossoverStrategy.crossover(parents).get(0);
+                Particle offspring = (Particle) crossover.crossover(parents).get(0);
                 offspring.calculateFitness();
                 offspring.setNeighbourhoodBest(p.getNeighbourhoodBest());
                 
@@ -176,11 +177,11 @@ public class MultiParentCrossoverIterationStrategy extends AbstractIterationStra
         return distribution;
     }
 
-    public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {
-        this.crossoverStrategy = crossoverStrategy;
+    public void setCrossover(Crossover crossoverStrategy) {
+        this.crossover = crossoverStrategy;
     }
 
-    public CrossoverStrategy getCrossoverStrategy() {
-        return crossoverStrategy;
+    public Crossover getCrossover() {
+        return crossover;
     }    
 }

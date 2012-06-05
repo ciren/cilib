@@ -32,8 +32,8 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
-import net.sourceforge.cilib.entity.operators.crossover.BlendCrossoverStrategy;
-import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
+import net.sourceforge.cilib.entity.operators.Crossover;
+import net.sourceforge.cilib.entity.operators.crossover.real.BlendCrossoverStrategy;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
@@ -61,17 +61,19 @@ import net.sourceforge.cilib.util.selection.weighting.EntityWeighting;
  */
 public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
     
-    private CrossoverStrategy crossoverStrategy;
+    private Crossover crossoverStrategy;
     private ControlParameter numberOfOffspring;
     private Selector selector;
     
     public HybridEAIterationStrategy() {
         BlendCrossoverStrategy cs = new BlendCrossoverStrategy();
-        cs.setSelectionStrategy(new RouletteWheelSelector(new EntityWeighting(new CurrentFitness<Entity>())));
-        cs.setCrossoverProbability(ConstantControlParameter.of(0.1));
         cs.setAlpha(ConstantControlParameter.of(0.4));
         
-        this.crossoverStrategy = cs;
+        this.crossoverStrategy = new Crossover();
+        this.crossoverStrategy.setSelectionStrategy(new RouletteWheelSelector(new EntityWeighting(new CurrentFitness<Entity>())));
+        this.crossoverStrategy.setCrossoverProbability(ConstantControlParameter.of(0.1));
+        this.crossoverStrategy.setCrossoverStrategy(cs);
+        
         this.numberOfOffspring = ConstantControlParameter.of(20);
         this.selector = new ElitistSelector();
     }
@@ -104,11 +106,7 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
         // crossover
         List<Entity> offspring = Lists.newArrayList();
         for (int i = 0; i < numberOfOffspring.getParameter(); i++) {
-             offspring.addAll(
-                     crossoverStrategy.crossover(
-                        crossoverStrategy.getSelectionStrategy().on(topology).select(Samples.first(2).unique())
-                     )
-                 );
+             offspring.addAll(crossoverStrategy.crossover(topology));
         }
         
         for (Entity e : offspring) {
@@ -153,11 +151,11 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
         return numberOfOffspring;
     }
 
-    public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {
+    public void setCrossoverStrategy(Crossover crossoverStrategy) {
         this.crossoverStrategy = crossoverStrategy;
     }
 
-    public CrossoverStrategy getCrossoverStrategy() {
+    public Crossover getCrossoverStrategy() {
         return crossoverStrategy;
     }    
 }

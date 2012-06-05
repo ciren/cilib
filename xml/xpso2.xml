@@ -24,9 +24,8 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.HybridCrossoverOperation">
                     <offspringUpdate class="pso.crossover.util.HybridOffspringUpdateStrategy"/>
-                    <crossoverStrategy class="entity.operators.crossover.ArithmeticCrossoverStrategy">
-                        <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.2"/>
-                    </crossoverStrategy>
+                    <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy"/>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.2"/>
                 </crossoverOperation>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
@@ -47,10 +46,10 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.HybridCrossoverOperation">
                     <offspringUpdate class="pso.crossover.util.NullOffspringUpdateStrategy"/>
-                    <crossoverStrategy class="entity.operators.crossover.ArithmeticCrossoverStrategy">
-                        <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
+                    <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy">
                         <lambda class="controlparameter.RandomControlParameter"/>
                     </crossoverStrategy>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
                 </crossoverOperation>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
@@ -72,10 +71,10 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.HybridCrossoverOperation">
                     <offspringUpdate class="pso.crossover.util.NullOffspringUpdateStrategy"/>
-                    <crossoverStrategy class="entity.operators.crossover.ArithmeticCrossoverStrategy">
-                        <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
+                    <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy">
                         <lambda class="controlparameter.RandomControlParameter"/>
                     </crossoverStrategy>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
                 </crossoverOperation>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
@@ -96,10 +95,10 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.HybridCrossoverOperation">
                     <offspringUpdate class="pso.crossover.util.NullOffspringUpdateStrategy"/>
-                    <crossoverStrategy class="entity.operators.crossover.ArithmeticCrossoverStrategy">
-                        <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
+                    <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy">
                         <lambda class="controlparameter.ConstantControlParameter" parameter="0.5"/>
                     </crossoverStrategy>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
                 </crossoverOperation>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
@@ -121,10 +120,10 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.HybridCrossoverOperation">
                     <offspringUpdate class="pso.crossover.util.NullOffspringUpdateStrategy"/>
-                    <crossoverStrategy class="entity.operators.crossover.ArithmeticCrossoverStrategy">
-                        <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
+                    <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy">
                         <lambda class="controlparameter.ConstantControlParameter" parameter="0.5"/>
                     </crossoverStrategy>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
                 </crossoverOperation>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
@@ -145,10 +144,10 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.HybridCrossoverOperation">
                     <offspringUpdate class="pso.crossover.util.NullOffspringUpdateStrategy"/>
-                    <crossoverStrategy class="entity.operators.crossover.RootProbabilityCrossoverStrategy">
-                        <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
+                    <crossoverStrategy class="entity.operators.crossover.real.RootProbabilityCrossoverStrategy">
                         <lambda class="controlparameter.RandomControlParameter"/>
                     </crossoverStrategy>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
                 </crossoverOperation>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
@@ -170,10 +169,10 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.HybridCrossoverOperation">
                     <offspringUpdate class="pso.crossover.util.NullOffspringUpdateStrategy"/>
-                    <crossoverStrategy class="entity.operators.crossover.RootProbabilityCrossoverStrategy">
-                        <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
+                    <crossoverStrategy class="entity.operators.crossover.real.RootProbabilityCrossoverStrategy">
                         <lambda class="controlparameter.RandomControlParameter"/>
                     </crossoverStrategy>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
                 </crossoverOperation>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
@@ -188,9 +187,10 @@
 
             <iterationStrategy class="pso.iterationstrategies.MultiParentCrossoverIterationStrategy">
                 <vMax class="controlparameter.ConstantControlParameter" parameter="1.0"/>
-                <crossoverStrategy class="entity.operators.crossover.MultiParentCrossoverStrategy">
+                <crossover class="entity.operators.Crossover">
+                    <crossoverStrategy class="entity.operators.crossover.real.MultiParentCrossoverStrategy"/>
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
-                </crossoverStrategy>
+                </crossover>
                 <distribution class="math.random.CauchyDistribution"/>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
@@ -209,11 +209,15 @@
             </initialisationStrategy>
 
             <iterationStrategy class="pso.iterationstrategies.HybridEAIterationStrategy">
-                <crossoverStrategy class="entity.operators.crossover.BlendCrossoverStrategy">
-                    <alpha class="controlparameter.ConstantControlParameter" parameter="1.6"/>
+                <crossoverStrategy class="entity.operators.Crossover">
+                    <crossoverStrategy class="entity.operators.crossover.real.BlendCrossoverStrategy">
+                        <alpha class="controlparameter.ConstantControlParameter" parameter="1.6"/>
+                    </crossoverStrategy>
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.1"/>
                     <selectionStrategy class="util.selection.recipes.RouletteWheelSelector">
-                        <weighing class="util.selection.weighting.EntityWeighting"/>
+                        <weighing class="util.selection.weighting.EntityWeighting">
+                            <entityFitness class="util.selection.weighting.CurrentFitness"/>
+                        </weighing>
                     </selectionStrategy>
                 </crossoverStrategy>
                 <selector class="util.selection.recipes.ElitistSelector"/>

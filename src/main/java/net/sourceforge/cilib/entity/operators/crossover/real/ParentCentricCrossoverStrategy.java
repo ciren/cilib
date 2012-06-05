@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.entity.operators.crossover;
+package net.sourceforge.cilib.entity.operators.crossover.real;
 
-import static com.google.common.base.Preconditions.checkState;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;
 import java.util.ArrayList;
@@ -27,6 +27,7 @@ import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -36,139 +37,126 @@ import net.sourceforge.cilib.util.Vectors;
 /**
  * <p> Parent Centric Crossover Strategy </p>
  *
- * <p> References: </p> * <p> Ono, I. & Kobayashi, S. A Real-coded Genetic
- * Algorithm for Function Optimization Using Unimodal Normal Distribution
- * Crossover. Proceedings of the Seventh International Conference on Genetic
- * Algorithms ICGA97 14, 246-253 (1997). </p> <p> The code is based on the MOEA
+ * <p> References: </p>
+ *
+ * <p> Deb, K.; Joshi, D.; Anand, A.; , "Real-coded evolutionary algorithms with
+ * parent-centric recombination," Evolutionary Computation, 2002. CEC '02.
+ * Proceedings of the 2002 Congress on , vol.1, no., pp.61-66, 12-17 May 2002
+ * doi: 10.1109/CEC.2002.1006210 </p> <p> The code is based on the MOEA
  * Framework under the LGPL license: http://www.moeaframework.org </p>
  */
-public class UnimodalNormalDistributionCrossoverStrategy extends CrossoverStrategy {
+public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
 
     private int numberOfOffspring;
     private ControlParameter sigma1;
     private ControlParameter sigma2;
     private GaussianDistribution random;
     private boolean useIndividualProviders;
+    private int numberOfParents;
 
-    /**
-     * Default constructor.
-     */
-    public UnimodalNormalDistributionCrossoverStrategy() {
+    public ParentCentricCrossoverStrategy() {
         this.numberOfOffspring = 1;
         this.sigma1 = ConstantControlParameter.of(0.1);
         this.sigma2 = ConstantControlParameter.of(0.1);
         this.random = new GaussianDistribution();
         this.useIndividualProviders = true;
+        this.numberOfParents = 3;
     }
 
-    /**
-     * Copy constructor.
-     *
-     * @param copy
-     */
-    public UnimodalNormalDistributionCrossoverStrategy(UnimodalNormalDistributionCrossoverStrategy copy) {
+    public ParentCentricCrossoverStrategy(ParentCentricCrossoverStrategy copy) {
         this.numberOfOffspring = copy.numberOfOffspring;
         this.sigma1 = copy.sigma1.getClone();
         this.sigma2 = copy.sigma2.getClone();
         this.random = copy.random;
         this.useIndividualProviders = copy.useIndividualProviders;
+        this.numberOfParents = copy.numberOfParents;
+    }
+
+    @Override
+    public CrossoverStrategy getClone() {
+        return new ParentCentricCrossoverStrategy(this);
     }
 
     /**
-     * {@inheritDoc}
+     * Performs the parent centric crossover strategy<br/> Note: The selected
+     * parent is placed at the end of the parent list
+     *
+     * @param parentCollection List of parents to use to perform crossover
+     * @return List of offspring calculated using this crossover strategy
      */
     @Override
-    public UnimodalNormalDistributionCrossoverStrategy getClone() {
-        return new UnimodalNormalDistributionCrossoverStrategy(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<? extends Entity> crossover(List<? extends Entity> parentCollection) {
-        checkState(parentCollection.size() >= 3, "There must be a minimum of three parents to perform UNDX crossover.");
-        checkState(numberOfOffspring > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
+    public <E extends Entity> List<E> crossover(List<E> parentCollection) {
+        Preconditions.checkArgument(parentCollection.size() >= 2, "ParentCentricCrossoverStrategy requires at least 2 parents.");
+        Preconditions.checkState(numberOfOffspring > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
 
         List<Vector> solutions = Entities.<Vector>getCandidateSolutions(parentCollection);
-        List<Entity> offspring = new ArrayList<Entity>();
         UniformDistribution randomParent = new UniformDistribution();
-        final int k = solutions.size();
-        final int n = solutions.get(0).size();
+        List<E> offspring = Lists.newArrayList();
+        int k = solutions.size();
 
+        //calculate mean of parents
+        Vector g = Vectors.mean(solutions);
+
+        //get each offspring
         for (int os = 0; os < numberOfOffspring; os++) {
-            //get index of main parent and put its solution at the end of the list
             int parent = (int) randomParent.getRandomNumber(0.0, k);
             Collections.swap(solutions, parent, k - 1);
 
-            List<Vector> e_zeta = new ArrayList<Vector>();
+            List<Vector> e_eta = new ArrayList<Vector>();
+            e_eta.add(solutions.get(k - 1).subtract(g));
 
-            //calculate mean of parents except main parent
-            Vector g = Vectors.mean(solutions.subList(0, k - 1));
+            double D = 0.0;
 
             // basis vectors defined by parents
             for (int i = 0; i < k - 1; i++) {
                 Vector d = solutions.get(i).subtract(g);
 
                 if (!d.isZero()) {
-                    double dbar = d.length();
-                    Vector e = d.orthogonalize(e_zeta);
+                    Vector e = d.orthogonalize(e_eta);
 
                     if (!e.isZero()) {
-                        e_zeta.add(e.normalize().multiply(dbar));
+                        D += e.length();
+                        e_eta.add(e.normalize());
                     }
                 }
             }
 
-            final double D = solutions.get(k - 1).subtract(g).length();
-
-            // create the remaining basis vectors
-            List<Vector> e_eta = Lists.newArrayList();
-            e_eta.add(solutions.get(k - 1).subtract(g));
-
-            for (int i = 0; i < n - e_zeta.size() - 1; i++) {
-                Vector d = Vector.newBuilder().copyOf(g).buildRandom();
-                e_eta.add(d);
-            }
-
-            e_eta = Vectors.orthonormalize(e_eta);
+            D /= k - 1;
 
             // construct the offspring
-            Vector variables = Vector.copyOf(g);
+            Vector child = Vector.copyOf(solutions.get(k - 1));
 
-            if (!useIndividualProviders) {
-                for (int i = 0; i < e_zeta.size(); i++) {
-                    variables = variables.plus(e_zeta.get(i).multiply(random.getRandomNumber(0.0, sigma1.getParameter())));
-                }
+            if (useIndividualProviders) {
+                child = child.plus(e_eta.get(0).multiply(new Supplier<Number>() {
 
-                for (int i = 0; i < e_eta.size(); i++) {
-                    variables = variables.plus(e_eta.get(i).multiply(D * random.getRandomNumber(0.0, sigma2.getParameter() / Math.sqrt(n))));
+                    @Override
+                    public Number get() {
+                        return random.getRandomNumber(0.0, sigma1.getParameter());
+                    }
+                }));
+
+                for (int i = 1; i < e_eta.size(); i++) {
+                    child = child.plus(e_eta.get(i).multiply(D).multiply(new Supplier<Number>() {
+
+                        @Override
+                        public Number get() {
+                            return random.getRandomNumber(0.0, sigma2.getParameter());
+                        }
+                    }));
                 }
             } else {
-                for (int i = 0; i < e_zeta.size(); i++) {
-                    variables = variables.plus(e_zeta.get(i).multiply(new Supplier<Number>() {
+                child = child.plus(e_eta.get(0).multiply(random.getRandomNumber(0.0, sigma1.getParameter())));
 
-                        @Override
-                        public Number get() {
-                            return random.getRandomNumber(0.0, sigma1.getParameter());
-                        }
-                    }));
-                }
-
-                for (int i = 0; i < e_eta.size(); i++) {
-                    variables = variables.plus(e_eta.get(i).multiply(new Supplier<Number>() {
-
-                        @Override
-                        public Number get() {
-                            return D * random.getRandomNumber(0.0, sigma2.getParameter() / Math.sqrt(n));
-                        }
-                    }));
+                double eta = random.getRandomNumber(0.0, this.sigma2.getParameter());
+                for (int i = 1; i < e_eta.size(); i++) {
+                    child = child.plus(e_eta.get(i).multiply(eta * D));
                 }
             }
 
-            Entity child = parentCollection.get(parent).getClone();
-            child.setCandidateSolution(variables);
-            offspring.add(child);
+            E result = (E) parentCollection.get(parent).getClone();
+            result.setCandidateSolution(child);
+            
+            offspring.add(result);
         }
 
         return offspring;
@@ -208,5 +196,14 @@ public class UnimodalNormalDistributionCrossoverStrategy extends CrossoverStrate
      */
     public void setUseIndividualProviders(boolean useIndividualProviders) {
         this.useIndividualProviders = useIndividualProviders;
+    }
+
+    @Override
+    public int getNumberOfParents() {
+        return numberOfParents;
+    }
+
+    public void setNumberOfParents(int numberOfParents) {
+        this.numberOfParents = numberOfParents;
     }
 }

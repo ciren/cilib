@@ -19,26 +19,43 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.entity.operators.crossover;
+package net.sourceforge.cilib.entity.operators.crossover.de;
 
+import com.google.common.base.Preconditions;
 import java.util.Arrays;
 import java.util.List;
 
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Binomial crossover operator.
  */
-public class DifferentialEvolutionBinomialCrossover extends CrossoverStrategy {
+public class DifferentialEvolutionBinomialCrossover implements CrossoverStrategy {
 
     private static final long serialVersionUID = -2939023704055943968L;
+    
+    private ProbabilityDistributionFuction random;
+    private ControlParameter crossoverPointProbability;
+    
+    public DifferentialEvolutionBinomialCrossover() {
+        this.random = new UniformDistribution();
+        this.crossoverPointProbability = ConstantControlParameter.of(0.5);
+    }
+    
+    public DifferentialEvolutionBinomialCrossover(DifferentialEvolutionBinomialCrossover copy) {
+        this.random = copy.random;
+        this.crossoverPointProbability = copy.crossoverPointProbability.getClone();
+    }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public DifferentialEvolutionBinomialCrossover getClone() {
-        return new DifferentialEvolutionBinomialCrossover();
+        return new DifferentialEvolutionBinomialCrossover(this);
     }
 
     /**
@@ -65,25 +82,49 @@ public class DifferentialEvolutionBinomialCrossover extends CrossoverStrategy {
      * @throws UnsupportedOperationException if the number of parents does not equal the size value of 2.
      * @return A list consisting of the offspring. This operator only returns a single offspring {@linkplain Entity}.
      */
-    public List<? extends Entity> crossover(List<? extends Entity> parentCollection) {
-        if (parentCollection.size() != 2) {
-            throw new UnsupportedOperationException("Cannot use exponential recomination on a parent entity grouping not consisting of 2 entities");
-        }
+    @Override
+    public <E extends Entity> List<E> crossover(List<E> parentCollection) {
+        Preconditions.checkArgument(parentCollection.size() == 2, "DifferentialEvolutionBinomialCrossover requires 2 parents.");
 
         Vector parentVector = (Vector) parentCollection.get(0).getCandidateSolution();
         Vector trialVector = (Vector) parentCollection.get(1).getCandidateSolution();
-        Vector offspringVector = parentVector.getClone(); // Make the offspring look like the parent vector
+        Vector.Builder offspringVector = Vector.newBuilder();
 
-        int i = Double.valueOf(this.getRandomDistribution().getRandomNumber(0, parentVector.size())).intValue();
+        //this is the index of the dimension that will always be included
+        int i = Double.valueOf(random.getRandomNumber(0, parentVector.size())).intValue();
 
         for (int j = 0; j < parentVector.size(); j++) {
-            if ((getRandomDistribution().getRandomNumber() < this.getCrossoverProbability().getParameter()) || (j == i)) {
-                offspringVector.setReal(j, trialVector.doubleValueOf(j));
+            if (random.getRandomNumber() < crossoverPointProbability.getParameter() || j == i) {
+                offspringVector.add(trialVector.get(j));
+            } else {
+                offspringVector.add(parentVector.get(j));
             }
         }
 
-        Entity offspring = parentCollection.get(0).getClone();
-        offspring.setCandidateSolution(offspringVector);
+        E offspring = (E) parentCollection.get(0).getClone();
+        offspring.setCandidateSolution(offspringVector.build());
+        
         return Arrays.asList(offspring);
+    }
+
+    public void setRandom(ProbabilityDistributionFuction random) {
+        this.random = random;
+    }
+
+    public ProbabilityDistributionFuction getRandom() {
+        return random;
+    }
+
+    public void setCrossoverPointProbability(ControlParameter crossoverPointProbability) {
+        this.crossoverPointProbability = crossoverPointProbability;
+    }
+
+    public ControlParameter getCrossoverPointProbability() {
+        return crossoverPointProbability;
+    }
+
+    @Override
+    public int getNumberOfParents() {
+        return 2;
     }
 }
