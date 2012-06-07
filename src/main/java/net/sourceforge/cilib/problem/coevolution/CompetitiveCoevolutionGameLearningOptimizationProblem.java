@@ -37,6 +37,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.games.game.Game;
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Int;
@@ -104,7 +105,7 @@ public class CompetitiveCoevolutionGameLearningOptimizationProblem extends
 	 */
 	@Override
 	protected Fitness calculateFitness(Type solution) {
-		throw new RuntimeException("This method should not be called for this class");
+            return InferiorFitness.instance();
 	}
 
 	/**

@@ -116,11 +116,8 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
         topology.clear();
         topology.addAll(Lists.<Particle>newLinkedList(particles));
         
-        try {
-            for (Particle p : topology) {
-                p.calculateFitness();
-            }
-        } catch(Exception e) {            
+        for (Particle p : topology) {
+            p.calculateFitness();
         }
     }
 
