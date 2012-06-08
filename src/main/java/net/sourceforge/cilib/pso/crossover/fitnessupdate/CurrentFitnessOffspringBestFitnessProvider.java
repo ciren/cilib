@@ -19,15 +19,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.crossover.util;
+package net.sourceforge.cilib.pso.crossover.fitnessupdate;
 
 import java.util.List;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.problem.Fitness;
 
-/**
- * Used with the HybridCrossoverOperation to modify the offspring's other attributes
- * (besides the candidate solution).
- */
-public interface OffspringUpdateStrategy {
-    public List<Particle> updateOffspring(List<Particle> parents, List<Particle> offspring);
+public class CurrentFitnessOffspringBestFitnessProvider extends OffspringBestFitnessProvider {
+    @Override
+    public Fitness f(List<Particle> parents, Particle offspring) {
+        return offspring.getFitness();
+    }    
 }

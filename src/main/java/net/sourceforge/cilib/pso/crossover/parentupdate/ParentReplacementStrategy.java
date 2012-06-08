@@ -21,9 +21,11 @@
  */
 package net.sourceforge.cilib.pso.crossover.parentupdate;
 
+import fj.F2;
 import java.util.List;
 import net.sourceforge.cilib.entity.Particle;
 
-public interface ParentReplacementStrategy {    
-    public List<Particle> replace(List<Particle> parents, List<Particle> offspring);    
+public abstract class ParentReplacementStrategy extends F2<List<Particle>, List<Particle>, List<Particle>> {    
+    @Override
+    public abstract List<Particle> f(List<Particle> parents, List<Particle> offspring);    
 }

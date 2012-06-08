@@ -21,10 +21,11 @@
  */
 package net.sourceforge.cilib.pso.iterationstrategies;
 
+import com.google.common.base.Function;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;
-import java.util.List;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
+import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
@@ -32,101 +33,53 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
-import net.sourceforge.cilib.entity.operators.Crossover;
-import net.sourceforge.cilib.entity.operators.crossover.real.MultiParentCrossoverStrategy;
 import net.sourceforge.cilib.math.random.CauchyDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.crossover.operations.MultiParentCrossoverOperation;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.selection.Samples;
+import net.sourceforge.cilib.util.Vectors;
 
-/**
- * 
- * @INPROCEEDINGS{4668059,
- * author={Hui Wang and Zhijian Wu and Yong Liu and Sanyou Zeng},
- * booktitle={Natural Computation, 2008. ICNC '08. Fourth International Conference on}, title={Particle Swarm Optimization with a Novel Multi-Parent Crossover Operator},
- * year={2008},
- * month={oct.},
- * volume={7},
- * number={},
- * pages={664 -668},
- * keywords={advanced evolutionary computation techniques;evolutionary algorithms;hybrid PSO algorithm;multi-parent crossover operator;multimodal optimization problems;particle swarm optimization;self-adaptive Cauchy mutation operator;evolutionary computation;particle swarm optimisation;},
- * doi={10.1109/ICNC.2008.643},
- * ISSN={},}
- */
-public class MultiParentCrossoverIterationStrategy extends AbstractIterationStrategy<PSO> {
+public class GBestMutationIterationStrategy extends AbstractIterationStrategy<PSO> {
     
-    private Crossover crossover;
     private ControlParameter vMax;
+    private IterationStrategy<PSO> delegate;
     private ProbabilityDistributionFuction distribution;
     
-    public MultiParentCrossoverIterationStrategy() {
-        this.crossover = new Crossover();
-        this.crossover.setCrossoverStrategy(new MultiParentCrossoverStrategy());
-        this.crossover.setCrossoverProbability(ConstantControlParameter.of(0.8));
+    public GBestMutationIterationStrategy() {
+        PSOCrossoverIterationStrategy del = new PSOCrossoverIterationStrategy();
+        del.setCrossoverOperation(new MultiParentCrossoverOperation());
+        this.delegate = del;
         
-        this.vMax = ConstantControlParameter.of(1.0);        
+        this.vMax = ConstantControlParameter.of(1.0);
         this.distribution = new CauchyDistribution();
     }
     
-    public MultiParentCrossoverIterationStrategy(MultiParentCrossoverIterationStrategy copy) {
-        this.crossover = copy.crossover.getClone();
+    public GBestMutationIterationStrategy(GBestMutationIterationStrategy copy) {
+        this.vMax = copy.vMax.getClone(); 
+        this.delegate = copy.delegate.getClone();
         this.distribution = copy.distribution;
-        this.vMax = copy.vMax.getClone();
     }
 
     @Override
     public AbstractIterationStrategy<PSO> getClone() {
-        return new MultiParentCrossoverIterationStrategy(this);
+        return new GBestMutationIterationStrategy(this);
     }
 
     @Override
     public void performIteration(PSO algorithm) {
+        delegate.performIteration(algorithm);
         Topology<Particle> topology = algorithm.getTopology();
         
-        // pos/vel update
-        for (Particle current : topology) {
-            current.updateVelocity();
-            current.updatePosition();
-
-            boundaryConstraint.enforce(current);
-            
-            current.calculateFitness();
-        }
-
-        // crossover
-        for (int i = 0; i < topology.size(); i++) {
-            Particle p = topology.get(i);
-            if (crossover.getRandomDistribution().getRandomNumber() < crossover.getCrossoverProbability().getParameter()) {
-                List<Particle> parents = crossover.getSelectionStrategy().on(topology).select(Samples.first(3));
-                parents.add(p);
-                parents = Lists.reverse(parents);
-                Particle offspring = (Particle) crossover.crossover(parents).get(0);
-                offspring.calculateFitness();
-                offspring.setNeighbourhoodBest(p.getNeighbourhoodBest());
-                
-                if (offspring.compareTo(p) > 0) {
-                    topology.set(i, offspring);
-                }
-            }
-        }
-        
-        // update neighbourhood
-        for (Particle p : topology) {
-            Particle nBest = Topologies.getNeighbourhoodBest(topology, p, new SocialBestFitnessComparator());
-            p.setNeighbourhoodBest(nBest);
-        }
-        
         // calculate vAvg
-        Vector avgV = (Vector) topology.get(0).getVelocity();
-        for (int i = 1; i < topology.size(); i++) {
-            Vector v = (Vector) topology.get(1).getVelocity();
-            avgV.plus(v);
-        }
-        
-        avgV.divide(topology.size());
+        Vector avgV = Vectors.mean(Lists.transform(topology, new Function<Particle, Vector>() {
+            @Override
+            public Vector apply(Particle f) {
+                return (Vector) f.getVelocity();
+            }            
+        }));
         
         Vector.Builder builder = Vector.newBuilder();
         for (Numeric n : avgV) {
@@ -160,7 +113,7 @@ public class MultiParentCrossoverIterationStrategy extends AbstractIterationStra
             gBest.getProperties().put(EntityType.Particle.BEST_POSITION, mutated.getBestPosition());
         }
     }
-
+    
     public void setVMax(ControlParameter vMax) {
         this.vMax = vMax;
     }
@@ -168,7 +121,7 @@ public class MultiParentCrossoverIterationStrategy extends AbstractIterationStra
     public ControlParameter getVMax() {
         return vMax;
     }
-
+    
     public void setDistribution(ProbabilityDistributionFuction distribution) {
         this.distribution = distribution;
     }
@@ -177,11 +130,11 @@ public class MultiParentCrossoverIterationStrategy extends AbstractIterationStra
         return distribution;
     }
 
-    public void setCrossover(Crossover crossoverStrategy) {
-        this.crossover = crossoverStrategy;
+    public IterationStrategy<PSO> getDelegate() {
+        return delegate;
     }
 
-    public Crossover getCrossover() {
-        return crossover;
-    }    
+    public void setDelegate(IterationStrategy<PSO> delegate) {
+        this.delegate = delegate;
+    }
 }

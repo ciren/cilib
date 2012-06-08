@@ -9,7 +9,7 @@
         <!--Crossover iteration strategy UNDX-->
         <algorithm id="xpso-undx-iteration-repeating" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverOperation class="pso.crossover.RepeatingCrossoverSelection">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
                     <crossoverStrategy class="entity.operators.crossover.real.UnimodalNormalDistributionCrossoverStrategy">
                         <numberOfParents value="10"/>
                     </crossoverStrategy>
@@ -21,7 +21,7 @@
         
         <algorithm id="xpso-undx-iteration-boltzmann" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverOperation class="pso.crossover.BoltzmannCrossoverSelection">
+                <crossoverOperation class="pso.crossover.operations.BoltzmannCrossoverSelection">
                     <crossoverStrategy class="entity.operators.crossover.real.UnimodalNormalDistributionCrossoverStrategy">
                         <numberOfParents value="10"/>
                     </crossoverStrategy>
@@ -58,7 +58,7 @@
                 <entityType class="pso.particle.StandardParticle">
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
-                            <crossoverSelection class="pso.crossover.RepeatingCrossoverSelection">
+                            <crossoverSelection class="pso.crossover.operations.RepeatingCrossoverSelection">
                                 <crossoverStrategy class="entity.operators.crossover.real.UnimodalNormalDistributionCrossoverStrategy"/>
                                 <retries class="controlparameter.ConstantControlParameter" parameter="10"/>
                             </crossoverSelection>
@@ -74,7 +74,7 @@
                 <entityType class="pso.particle.StandardParticle">
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
-                            <crossoverSelection class="pso.crossover.BoltzmannCrossoverSelection">
+                            <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
                                 <crossoverStrategy class="entity.operators.crossover.real.UnimodalNormalDistributionCrossoverStrategy">
                                     <numberOfParents value="10"/>
                                 </crossoverStrategy>
@@ -93,7 +93,7 @@
         <!--Crossover iteration strategy PCX-->
         <algorithm id="xpso-pcx-iteration-repeating" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverOperation class="pso.crossover.RepeatingCrossoverSelection">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
                     <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
                         <numberOfParents value="10"/>
                     </crossoverStrategy>
@@ -105,7 +105,7 @@
         
         <algorithm id="xpso-pcx-iteration-boltzmann" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverOperation class="pso.crossover.BoltzmannCrossoverSelection">
+                <crossoverOperation class="pso.crossover.operations.BoltzmannCrossoverSelection">
                     <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
                         <numberOfParents value="10"/>
                     </crossoverStrategy>
@@ -159,7 +159,7 @@
                 <entityType class="pso.particle.StandardParticle">
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
-                            <crossoverSelection class="pso.crossover.RepeatingCrossoverSelection">
+                            <crossoverSelection class="pso.crossover.operations.RepeatingCrossoverSelection">
                                 <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy"/>
                                 <retries class="controlparameter.ConstantControlParameter" parameter="10"/>
                             </crossoverSelection>
@@ -175,7 +175,7 @@
                 <entityType class="pso.particle.StandardParticle">
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
-                            <crossoverSelection class="pso.crossover.BoltzmannCrossoverSelection">
+                            <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
                                 <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
                                     <numberOfParents value="10"/>
                                 </crossoverStrategy>
@@ -194,7 +194,7 @@
         <!--Crossover iteration strategy SPX-->
         <algorithm id="xpso-spx-iteration-repeating" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverOperation class="pso.crossover.RepeatingCrossoverSelection">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
                     <crossoverStrategy class="entity.operators.crossover.real.SimplexCrossoverStrategy">
                         <numberOfParents value="10"/>
                     </crossoverStrategy>
@@ -206,7 +206,7 @@
         
         <algorithm id="xpso-spx-iteration-boltzmann" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverOperation class="pso.crossover.BoltzmannCrossoverSelection">
+                <crossoverOperation class="pso.crossover.operations.BoltzmannCrossoverSelection">
                     <crossoverStrategy class="entity.operators.crossover.real.SimplexCrossoverStrategy">
                         <numberOfParents value="10"/>
                     </crossoverStrategy>
@@ -241,7 +241,7 @@
                 <entityType class="pso.particle.StandardParticle">
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
-                            <crossoverSelection class="pso.crossover.RepeatingCrossoverSelection">
+                            <crossoverSelection class="pso.crossover.operations.RepeatingCrossoverSelection">
                                 <crossoverStrategy class="entity.operators.crossover.real.SimplexCrossoverStrategy"/>
                                 <retries class="controlparameter.ConstantControlParameter" parameter="10"/>
                             </crossoverSelection>
@@ -257,7 +257,7 @@
                 <entityType class="pso.particle.StandardParticle">
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
-                            <crossoverSelection class="pso.crossover.BoltzmannCrossoverSelection">
+                            <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
                                 <crossoverStrategy class="entity.operators.crossover.real.SimplexCrossoverStrategy">
                                     <numberOfParents value="10"/>
                                 </crossoverStrategy>

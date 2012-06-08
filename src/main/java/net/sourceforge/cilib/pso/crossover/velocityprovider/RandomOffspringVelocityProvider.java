@@ -26,9 +26,9 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-public class RandomOffspringVelocityProvider implements OffspringVelocityProvider {
+public class RandomOffspringVelocityProvider extends OffspringVelocityProvider {
     @Override
-    public StructuredType get(List<Particle> parent, Particle offspring) {
+    public StructuredType f(List<Particle> parent, Particle offspring) {
         return Vector.newBuilder().copyOf(offspring.getVelocity()).buildRandom();
     }
 }

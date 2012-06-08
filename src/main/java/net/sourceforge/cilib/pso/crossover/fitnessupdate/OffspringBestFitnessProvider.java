@@ -19,16 +19,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.crossover.velocityprovider;
+package net.sourceforge.cilib.pso.crossover.fitnessupdate;
 
+import fj.F2;
 import java.util.List;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.type.types.container.StructuredType;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.problem.Fitness;
 
-public class ZeroOffspringVelocityProvider extends OffspringVelocityProvider {
+public abstract class OffspringBestFitnessProvider extends F2<List<Particle>, Particle, Fitness> {
     @Override
-    public StructuredType f(List<Particle> parent, Particle offspring) {
-        return ((Vector) offspring.getVelocity()).multiply(0);
-    }
+    public abstract Fitness f(List<Particle> parents, Particle offspring);
 }

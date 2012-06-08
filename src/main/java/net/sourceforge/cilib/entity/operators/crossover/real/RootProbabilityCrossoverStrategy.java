@@ -50,7 +50,7 @@ public class RootProbabilityCrossoverStrategy implements CrossoverStrategy {
 
     @Override
     public <E extends Entity> List<E> crossover(List<E> parentCollection) {
-        Preconditions.checkArgument(parentCollection.size() == 4, "RootProbabilityCrossoverStrategy requires 2 parents.");
+        Preconditions.checkArgument(parentCollection.size() == 2, "RootProbabilityCrossoverStrategy requires 2 parents.");
 
         E o1 = (E) parentCollection.get(0).getClone();
         E o2 = (E) parentCollection.get(1).getClone();

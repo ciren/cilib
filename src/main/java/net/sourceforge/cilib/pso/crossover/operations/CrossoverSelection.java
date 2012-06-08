@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.crossover;
+package net.sourceforge.cilib.pso.crossover.operations;
 
 import net.sourceforge.cilib.pso.crossover.util.ParticleProvider;
 import net.sourceforge.cilib.pso.crossover.util.WorstParentParticleProvider;
@@ -69,7 +69,7 @@ public abstract class CrossoverSelection implements PSOCrossoverOperation {
 	Map<Entity, StructuredType> tmp = Maps.newHashMap();
 
         // get random particles
-        List<Entity> parents = selector.on(topology).select(Samples.first((int) crossoverStrategy.getNumberOfParents()).unique());
+        List<Entity> parents = selector.on(topology).select(Samples.first(crossoverStrategy.getNumberOfParents()).unique());
 
         //put pbest as candidate solution for the crossover
         for (Entity e : parents) {

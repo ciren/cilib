@@ -29,7 +29,7 @@ import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-public class NoisyPositionOffspringPBestProvider implements OffspringPBestProvider {    
+public class NoisyPositionOffspringPBestProvider extends OffspringPBestProvider {    
     private ProbabilityDistributionFuction random;
     private OffspringPBestProvider delegate;
 
@@ -39,8 +39,8 @@ public class NoisyPositionOffspringPBestProvider implements OffspringPBestProvid
     }
 
     @Override
-    public StructuredType get(List<Particle> parents, Particle offspring) {
-        return ((Vector) delegate.get(parents, offspring)).multiply(new Supplier<Number>(){
+    public StructuredType f(List<Particle> parents, Particle offspring) {
+        return ((Vector) delegate.f(parents, offspring)).multiply(new Supplier<Number>(){
             @Override
             public Number get() {
                 return random.getRandomNumber();

@@ -26,9 +26,9 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.crossover.CrossoverSelection;
+import net.sourceforge.cilib.pso.crossover.operations.CrossoverSelection;
 import net.sourceforge.cilib.pso.crossover.util.NBestParticleProvider;
-import net.sourceforge.cilib.pso.crossover.RepeatingCrossoverSelection;
+import net.sourceforge.cilib.pso.crossover.operations.RepeatingCrossoverSelection;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**

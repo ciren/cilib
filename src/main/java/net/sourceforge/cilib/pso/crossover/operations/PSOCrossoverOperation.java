@@ -19,14 +19,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.pso.crossover.util;
+package net.sourceforge.cilib.pso.crossover.operations;
 
-import java.util.List;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.util.Cloneable;
 
-public class NullOffspringUpdateStrategy implements OffspringUpdateStrategy {
+public interface PSOCrossoverOperation extends Cloneable {
+    public Topology<Particle> performCrossoverOpertation(PSO pso);
+    
     @Override
-    public List<Particle> updateOffspring(List<Particle> parents, List<Particle> offspring) {
-        return offspring;
-    }    
+    public PSOCrossoverOperation getClone();
 }

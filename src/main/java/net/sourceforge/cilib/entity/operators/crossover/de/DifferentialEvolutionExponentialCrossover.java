@@ -102,7 +102,7 @@ public class DifferentialEvolutionExponentialCrossover implements CrossoverStrat
         int j = Double.valueOf(random.getRandomNumber(0, dimension)).intValue();
 
         do {
-            points.add(j + 1);
+            points.add(j);
             j = (j + 1) % dimension;
         } while (random.getRandomNumber() < crossoverPointProbability.getParameter() && (points.size() < dimension));
 

@@ -21,10 +21,12 @@
  */
 package net.sourceforge.cilib.pso.crossover.velocityprovider;
 
+import fj.F2;
 import java.util.List;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
-public interface OffspringVelocityProvider {
-    public StructuredType get(List<Particle> parent, Particle offspring);
+public abstract class OffspringVelocityProvider extends F2<List<Particle>, Particle, StructuredType> {
+    @Override
+    public abstract StructuredType f(List<Particle> parent, Particle offspring);
 }

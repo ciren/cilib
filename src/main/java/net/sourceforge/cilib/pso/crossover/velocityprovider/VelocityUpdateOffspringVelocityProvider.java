@@ -35,7 +35,7 @@ import net.sourceforge.cilib.util.RandomProviders;
 import net.sourceforge.cilib.util.Vectors;
 import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
 
-public class VelocityUpdateOffspringVelocityProvider implements OffspringVelocityProvider {
+public class VelocityUpdateOffspringVelocityProvider extends OffspringVelocityProvider {
     
     protected ControlParameter socialAcceleration;
     protected ControlParameter cognitiveAcceleration;
@@ -51,7 +51,7 @@ public class VelocityUpdateOffspringVelocityProvider implements OffspringVelocit
     }
 
     @Override
-    public StructuredType get(List<Particle> parents, Particle offspring) {
+    public StructuredType f(List<Particle> parents, Particle offspring) {
         Vector position = (Vector) offspring.getPosition();
         Vector localGuide = (Vector) new ElitistSelector<Particle>().on(parents).select().getBestPosition();
         Vector globalGuide = (Vector) AbstractAlgorithm.get().getBestSolution().getPosition();

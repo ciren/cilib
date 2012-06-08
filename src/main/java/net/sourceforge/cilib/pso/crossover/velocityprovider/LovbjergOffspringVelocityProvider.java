@@ -29,9 +29,9 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
-public class LovbjergOffspringVelocityProvider implements OffspringVelocityProvider {
+public class LovbjergOffspringVelocityProvider extends OffspringVelocityProvider {
     @Override
-    public StructuredType get(List<Particle> parent, Particle offspring) {
+    public StructuredType f(List<Particle> parent, Particle offspring) {
         Vector velocity = (Vector) offspring.getVelocity();
         
         return Vectors.sumOf(Lists.transform(parent, new Function<Particle, Vector>() {

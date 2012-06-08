@@ -26,9 +26,9 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
 
-public class BestParentOffspringPBestProvider implements OffspringPBestProvider {
+public class BestParentOffspringPBestProvider extends OffspringPBestProvider {
     @Override
-    public StructuredType get(List<Particle> parents, Particle offspring) {
+    public StructuredType f(List<Particle> parents, Particle offspring) {
         return new ElitistSelector<Particle>().on(parents).select().getBestPosition();
     }
 }

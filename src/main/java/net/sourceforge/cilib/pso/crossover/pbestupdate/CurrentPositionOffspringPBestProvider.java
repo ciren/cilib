@@ -25,9 +25,9 @@ import java.util.List;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
-public class CurrentPositionOffspringPBestProvider implements OffspringPBestProvider {
+public class CurrentPositionOffspringPBestProvider extends OffspringPBestProvider {
     @Override
-    public StructuredType get(List<Particle> parent, Particle offspring) {
+    public StructuredType f(List<Particle> parent, Particle offspring) {
         return offspring.getPosition();
     }    
 }

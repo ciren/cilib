@@ -22,9 +22,16 @@
             </initialisationStrategy>
 
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverOperation class="pso.crossover.HybridCrossoverOperation">
-                    <offspringUpdate class="pso.crossover.util.HybridOffspringUpdateStrategy"/>
-                    <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy"/>
+                <crossoverOperation class="pso.crossover.operations.HybridCrossoverOperation">
+                    <particleCrossover class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy"/>
+                        <pbestProvider class="pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider"/>
+                        <velocityProvider class="pso.crossover.velocityprovider.LovbjergOffspringVelocityProvider"/>
+                        <fitnessProvider class="pso.crossover.fitnessupdate.CurrentFitnessOffspringBestFitnessProvider"/>
+                    </particleCrossover>
+
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
+                    <selector class="util.selection.recipes.RandomSelector"/>
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.2"/>
                 </crossoverOperation>
             </iterationStrategy>
@@ -44,11 +51,16 @@
             </initialisationStrategy>
 
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverOperation class="pso.crossover.HybridCrossoverOperation">
-                    <offspringUpdate class="pso.crossover.util.NullOffspringUpdateStrategy"/>
-                    <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy">
-                        <lambda class="controlparameter.RandomControlParameter"/>
-                    </crossoverStrategy>
+                <crossoverOperation class="pso.crossover.operations.HybridCrossoverOperation">
+                    <particleCrossover class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy">
+                            <lambda class="controlparameter.RandomControlParameter"/>
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider"/>
+                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider"/>
+                        <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider"/>
+                    </particleCrossover>
+
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
                 </crossoverOperation>
             </iterationStrategy>
@@ -68,12 +80,18 @@
                 </entityType>
             </initialisationStrategy>
 
+
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverOperation class="pso.crossover.HybridCrossoverOperation">
-                    <offspringUpdate class="pso.crossover.util.NullOffspringUpdateStrategy"/>
-                    <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy">
-                        <lambda class="controlparameter.RandomControlParameter"/>
-                    </crossoverStrategy>
+                <crossoverOperation class="pso.crossover.operations.HybridCrossoverOperation">
+                    <particleCrossover class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy">
+                            <lambda class="controlparameter.RandomControlParameter"/>
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider"/>
+                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider"/>
+                        <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider"/>
+                    </particleCrossover>
+
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
                 </crossoverOperation>
             </iterationStrategy>
@@ -93,11 +111,16 @@
             </initialisationStrategy>
 
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverOperation class="pso.crossover.HybridCrossoverOperation">
-                    <offspringUpdate class="pso.crossover.util.NullOffspringUpdateStrategy"/>
-                    <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy">
-                        <lambda class="controlparameter.ConstantControlParameter" parameter="0.5"/>
-                    </crossoverStrategy>
+                <crossoverOperation class="pso.crossover.operations.HybridCrossoverOperation">
+                    <particleCrossover class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy">
+                            <lambda class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider"/>
+                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider"/>
+                        <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider"/>
+                    </particleCrossover>
+
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
                 </crossoverOperation>
             </iterationStrategy>
@@ -118,11 +141,16 @@
             </initialisationStrategy>
 
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverOperation class="pso.crossover.HybridCrossoverOperation">
-                    <offspringUpdate class="pso.crossover.util.NullOffspringUpdateStrategy"/>
-                    <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy">
-                        <lambda class="controlparameter.ConstantControlParameter" parameter="0.5"/>
-                    </crossoverStrategy>
+                <crossoverOperation class="pso.crossover.operations.HybridCrossoverOperation">
+                    <particleCrossover class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy">
+                            <lambda class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider"/>
+                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider"/>
+                        <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider"/>
+                    </particleCrossover>
+
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
                 </crossoverOperation>
             </iterationStrategy>
@@ -142,11 +170,16 @@
             </initialisationStrategy>
 
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverOperation class="pso.crossover.HybridCrossoverOperation">
-                    <offspringUpdate class="pso.crossover.util.NullOffspringUpdateStrategy"/>
-                    <crossoverStrategy class="entity.operators.crossover.real.RootProbabilityCrossoverStrategy">
-                        <lambda class="controlparameter.RandomControlParameter"/>
-                    </crossoverStrategy>
+                <crossoverOperation class="pso.crossover.operations.HybridCrossoverOperation">
+                    <particleCrossover class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.RootProbabilityCrossoverStrategy">
+                            <lambda class="controlparameter.RandomControlParameter"/>
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider"/>
+                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider"/>
+                        <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider"/>
+                    </particleCrossover>
+
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
                 </crossoverOperation>
             </iterationStrategy>
@@ -167,11 +200,16 @@
             </initialisationStrategy>
 
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
-                <crossoverOperation class="pso.crossover.HybridCrossoverOperation">
-                    <offspringUpdate class="pso.crossover.util.NullOffspringUpdateStrategy"/>
-                    <crossoverStrategy class="entity.operators.crossover.real.RootProbabilityCrossoverStrategy">
-                        <lambda class="controlparameter.RandomControlParameter"/>
-                    </crossoverStrategy>
+                <crossoverOperation class="pso.crossover.operations.HybridCrossoverOperation">
+                    <particleCrossover class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.RootProbabilityCrossoverStrategy">
+                            <lambda class="controlparameter.RandomControlParameter"/>
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider"/>
+                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider"/>
+                        <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider"/>
+                    </particleCrossover>
+
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
                 </crossoverOperation>
             </iterationStrategy>
@@ -185,13 +223,44 @@
                 <entityNumber value="100"/>
             </initialisationStrategy>
 
-            <iterationStrategy class="pso.iterationstrategies.MultiParentCrossoverIterationStrategy">
+            <iterationStrategy class="pso.iterationstrategies.GBestMutationIterationStrategy">
+                <delegate class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                    <crossoverOperation class="pso.crossover.operations.MultiParentCrossoverOperation">
+                        <crossover class="pso.crossover.ParticleCrossoverStrategy">
+                            <crossoverStrategy class="entity.operators.crossover.real.MultiParentCrossoverStrategy"/>
+                        </crossover>
+
+                        <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
+                        <parentReplacementStrategy class="pso.crossover.parentupdate.ElitistParentReplacementStrategy"/>
+                        <selector class="util.selection.recipes.RandomSelector"/>
+                        <random class="math.random.UniformDistribution"/>
+                    </crossoverOperation>
+                </delegate>
+
                 <vMax class="controlparameter.ConstantControlParameter" parameter="1.0"/>
-                <crossover class="entity.operators.Crossover">
-                    <crossoverStrategy class="entity.operators.crossover.real.MultiParentCrossoverStrategy"/>
-                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
-                </crossover>
                 <distribution class="math.random.CauchyDistribution"/>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
+        </algorithm>
+
+        <!-- Novel Multi Parent Crossover Operator PSO without Cauchy Mutation -->
+        <algorithm id="xpso-nmpco-without-cauchy" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle"/>
+                <entityNumber value="100"/>
+            </initialisationStrategy>
+
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.MultiParentCrossoverOperation">
+                    <crossover class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.MultiParentCrossoverStrategy"/>
+                    </crossover>
+
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.ElitistParentReplacementStrategy"/>
+                    <selector class="util.selection.recipes.RandomSelector"/>
+                    <random class="math.random.UniformDistribution"/>
+                </crossoverOperation>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
         </algorithm>
@@ -250,6 +319,12 @@
             <problem idref="spherical"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-nmpco.txt" />
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="xpso-nmpco-without-cauchy"/>
+            <problem idref="spherical"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-nmpco-without-cauchy.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="xpso-lovbjerg-hybrid"/>
