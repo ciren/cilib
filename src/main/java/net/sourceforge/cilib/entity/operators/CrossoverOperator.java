@@ -35,7 +35,7 @@ import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
-public class Crossover implements Operator {
+public class CrossoverOperator implements Operator {
 
     private static final long serialVersionUID = -5058325193277909244L;
     
@@ -44,12 +44,12 @@ public class Crossover implements Operator {
     private ProbabilityDistributionFuction randomDistribution;
     private Selector selectionStrategy;
 
-    public Crossover() {
+    public CrossoverOperator() {
         this(new OnePointCrossoverStrategy(), ConstantControlParameter.of(0.5), 
                 new RandomSelector(), new UniformDistribution());
     }
     
-    public Crossover(CrossoverStrategy strategy, ControlParameter probability, 
+    public CrossoverOperator(CrossoverStrategy strategy, ControlParameter probability, 
             Selector selector, ProbabilityDistributionFuction random) {
         this.crossoverProbability = probability;
         this.randomDistribution = random;
@@ -57,7 +57,7 @@ public class Crossover implements Operator {
         this.crossoverStrategy = strategy;
     }
 
-    public Crossover(Crossover copy) {
+    public CrossoverOperator(CrossoverOperator copy) {
         this.crossoverProbability = copy.crossoverProbability.getClone();
         this.randomDistribution = copy.randomDistribution;
         this.selectionStrategy = copy.selectionStrategy;
@@ -65,8 +65,8 @@ public class Crossover implements Operator {
     }
 
     @Override
-    public Crossover getClone() {
-        return new Crossover(this);
+    public CrossoverOperator getClone() {
+        return new CrossoverOperator(this);
     }
 
     public <E extends Entity> List<E> crossover(List<E> parentCollection) {

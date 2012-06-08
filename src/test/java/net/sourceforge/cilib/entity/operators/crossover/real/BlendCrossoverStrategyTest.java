@@ -27,7 +27,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.operators.Crossover;
+import net.sourceforge.cilib.entity.operators.CrossoverOperator;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -55,7 +55,7 @@ public class BlendCrossoverStrategyTest {
         parents.add(i1);
         parents.add(i2);
 
-        Crossover crossoverStrategy = new Crossover();
+        CrossoverOperator crossoverStrategy = new CrossoverOperator();
         crossoverStrategy.setCrossoverStrategy(new BlendCrossoverStrategy());
         crossoverStrategy.setCrossoverProbability(ConstantControlParameter.of(1.0));
         List<Entity> children = (List<Entity>) crossoverStrategy.crossover(parents);

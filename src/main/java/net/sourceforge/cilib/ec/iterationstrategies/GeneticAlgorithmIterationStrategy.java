@@ -31,7 +31,7 @@ import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.operators.Crossover;
+import net.sourceforge.cilib.entity.operators.CrossoverOperator;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.UniformCrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.mutation.GaussianMutationStrategy;
@@ -43,7 +43,7 @@ import net.sourceforge.cilib.entity.operators.mutation.MutationStrategy;
 public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy<EC> {
 
     private static final long serialVersionUID = -2429984051022079804L;
-    private Crossover crossover;
+    private CrossoverOperator crossover;
     private MutationStrategy mutationStrategy;
 
     /**
@@ -52,7 +52,7 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
      * {@linkplain GaussianMutationStrategy} respectively.
      */
     public GeneticAlgorithmIterationStrategy() {
-        this.crossover = new Crossover();
+        this.crossover = new CrossoverOperator();
         this.crossover.setCrossoverStrategy(new UniformCrossoverStrategy());
         this.mutationStrategy = new GaussianMutationStrategy();
     }
@@ -121,7 +121,7 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
      * Get the currently specified {@linkplain CrossoverStrategy}.
      * @return The current {@linkplain CrossoverStrategy}.
      */
-    public Crossover getCrossover() {
+    public CrossoverOperator getCrossover() {
         return crossover;
     }
 
@@ -129,7 +129,7 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
      * Set the current {@linkplain CrossoverStrategy} and reinitialise the operator pipeline.
      * @param crossoverStrategy The {@linkplain CrossoverStrategy} to use.
      */
-    public void setCrossover(Crossover crossoverStrategy) {
+    public void setCrossover(CrossoverOperator crossoverStrategy) {
         this.crossover = crossoverStrategy;
     }
 
