@@ -26,6 +26,10 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * This OffspringVelocityProvider sets an offspring's velocity to a random value
+ * within the search space.
+ */
 public class RandomOffspringVelocityProvider extends OffspringVelocityProvider {
     @Override
     public StructuredType f(List<Particle> parent, Particle offspring) {

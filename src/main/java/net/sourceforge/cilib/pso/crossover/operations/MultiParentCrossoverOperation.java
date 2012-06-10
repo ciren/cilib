@@ -38,7 +38,15 @@ import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
-public class MultiParentCrossoverOperation implements PSOCrossoverOperation {
+/**
+ * The crossover portion of the Novel Multi-Parent Crossover PSO.
+ * <p>
+ * H Wang, Z Wu, Y Liu and S. Zeng, "Particle Swarm Optimization with a Novel 
+ * Multi-Parent Crossover operator", Fourth International Conference on Natural 
+ * Computation, pp 664--668, 2008, doi:10.1109/ICNC.2008.643
+ * </p>
+ */
+public class MultiParentCrossoverOperation extends PSOCrossoverOperation {
     
     private ParentReplacementStrategy parentReplacementStrategy;
     private ParticleCrossoverStrategy crossover;
@@ -70,18 +78,17 @@ public class MultiParentCrossoverOperation implements PSOCrossoverOperation {
     }
 
     @Override
-    public Topology<Particle> performCrossoverOpertation(PSO pso) {
+    public Topology<Particle> f(PSO pso) {
         Topology<Particle> topology = pso.getTopology();
         
         for (int i = 0; i < topology.size(); i++) {
             Particle p = topology.get(i);
             
             if (random.getRandomNumber() < crossoverProbability.getParameter()) {
-                List<Particle> parents = selector.on(topology).select(Samples.first(3));
+                List<Particle> parents = selector.on(topology).select(Samples.first(crossover.getNumberOfParents() - 1));
                 parents.add(0, p);
                 
-                Particle offspring = (Particle) crossover.crossover(parents).get(0);
-                offspring.calculateFitness();
+                Particle offspring = crossover.crossover(parents).get(0);
                 offspring.setNeighbourhoodBest(offspring);
                 
                 topology.set(i, parentReplacementStrategy.f(Arrays.asList(p), Arrays.asList(offspring)).get(0));

@@ -29,6 +29,10 @@ import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * This OffspringPBestProvider sets an offspring's pBest using another 
+ * OffspringPBestProvider and adding some noise to the resulting pbest.
+ */
 public class NoisyPositionOffspringPBestProvider extends OffspringPBestProvider {    
     private ProbabilityDistributionFuction random;
     private OffspringPBestProvider delegate;

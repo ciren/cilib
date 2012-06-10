@@ -33,9 +33,9 @@ import net.sourceforge.cilib.entity.operators.crossover.real.ArithmeticCrossover
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.crossover.ParticleCrossoverStrategy;
+import net.sourceforge.cilib.pso.crossover.fitnessupdate.CurrentFitnessOffspringBestFitnessProvider;
 import net.sourceforge.cilib.pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy;
 import net.sourceforge.cilib.pso.crossover.parentupdate.ParentReplacementStrategy;
-import net.sourceforge.cilib.pso.crossover.fitnessupdate.CurrentFitnessOffspringBestFitnessProvider;
 import net.sourceforge.cilib.pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider;
 import net.sourceforge.cilib.pso.crossover.velocityprovider.LovbjergOffspringVelocityProvider;
 import net.sourceforge.cilib.util.selection.Samples;
@@ -43,9 +43,10 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
- * A crossover operation for PSOs that selects particles for crossover and updates 
- * the offspring using a given OffspringUpdateStrategy.
+ * A crossover operation for PSOs that selects particles according to Lovbjerg 
+ * et al's hybrid PSO.
  * 
+ * <p>Defined in:</p>
  * <p>
  * @INPROCEEDINGS{Løvbjerg01hybridparticle,
  *   author = {Morten Løvbjerg and Thomas Kiel Rasmussen and Thiemo Krink},
@@ -56,8 +57,9 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
  *   publisher = {Morgan Kaufmann}
  * }
  * </p>
+ * <p>Also used in:</p>
  */
-public class HybridCrossoverOperation implements PSOCrossoverOperation {
+public class HybridCrossoverOperation extends PSOCrossoverOperation {
     
     private ParticleCrossoverStrategy particleCrossover;
     private ParentReplacementStrategy parentReplacementStrategy;
@@ -88,7 +90,7 @@ public class HybridCrossoverOperation implements PSOCrossoverOperation {
     }
 
     @Override
-    public Topology<Particle> performCrossoverOpertation(PSO pso) {
+    public Topology<Particle> f(PSO pso) {
         Topology<Particle> topology = pso.getTopology();
         UniformDistribution uniform = new UniformDistribution();        
         List<Particle> parents = Lists.newArrayList();

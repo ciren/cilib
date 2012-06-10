@@ -26,6 +26,11 @@ import java.util.List;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
 
+/**
+ * These classes are responsible for setting the best fitness of an offspring
+ * particle. This is required because the offspring particle has only been in
+ * one position since it was created.
+ */
 public abstract class OffspringBestFitnessProvider extends F2<List<Particle>, Particle, Fitness> {
     @Override
     public abstract Fitness f(List<Particle> parents, Particle offspring);

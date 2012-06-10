@@ -27,6 +27,9 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
 
+/**
+ * This ParentReplacementStrategy always selects the offspring over the parents.
+ */
 public class AlwaysReplaceParentReplacementStrategy extends ParentReplacementStrategy {
     @Override
     public List<Particle> f(List<Particle> parents, List<Particle> offspring) {

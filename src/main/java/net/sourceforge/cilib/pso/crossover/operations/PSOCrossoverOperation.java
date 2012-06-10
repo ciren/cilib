@@ -21,14 +21,19 @@
  */
 package net.sourceforge.cilib.pso.crossover.operations;
 
+import fj.F;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.util.Cloneable;
 
-public interface PSOCrossoverOperation extends Cloneable {
-    public Topology<Particle> performCrossoverOpertation(PSO pso);
-    
+/**
+ * These classes perform different functions used with the PSOCrossoverIterationStrategy.
+ */
+public abstract class PSOCrossoverOperation extends F<PSO, Topology<Particle>> implements Cloneable {
     @Override
-    public PSOCrossoverOperation getClone();
+    public abstract Topology<Particle> f(PSO pso);
+
+    @Override
+    public abstract PSOCrossoverOperation getClone();
 }

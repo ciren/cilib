@@ -25,6 +25,10 @@ import java.util.List;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
+/**
+ * This OffspringVelocityProvider sets an offspring's velocity to its parent's
+ * velocity.
+ */
 public class IdentityOffspringVelocityProvider extends OffspringVelocityProvider {
     @Override
     public StructuredType f(List<Particle> parent, Particle offspring) {

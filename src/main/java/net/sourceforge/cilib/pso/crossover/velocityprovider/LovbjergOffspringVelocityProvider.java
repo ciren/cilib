@@ -29,6 +29,20 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
+/**
+ * This OffspringVelocityProvider calculates an offspring's velocity according to
+ * Lovbjerg et al's hybrid PSO:
+ * <p>
+ * @INPROCEEDINGS{Løvbjerg01hybridparticle,
+ *   author = {Morten Løvbjerg and Thomas Kiel Rasmussen and Thiemo Krink},
+ *   title = {Hybrid Particle Swarm Optimiser with Breeding and Subpopulations},
+ *   booktitle = {Proceedings of the Genetic and Evolutionary Computation Conference (GECCO-2001},
+ *   year = {2001},
+ *   pages = {469--476},
+ *   publisher = {Morgan Kaufmann}
+ * }
+ * </p>
+ */
 public class LovbjergOffspringVelocityProvider extends OffspringVelocityProvider {
     @Override
     public StructuredType f(List<Particle> parent, Particle offspring) {

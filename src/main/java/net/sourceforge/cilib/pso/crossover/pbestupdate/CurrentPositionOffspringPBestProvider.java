@@ -25,6 +25,9 @@ import java.util.List;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
+/**
+ * This OffspringPBestProvider sets an offspring's pBest to its current position.
+ */
 public class CurrentPositionOffspringPBestProvider extends OffspringPBestProvider {
     @Override
     public StructuredType f(List<Particle> parent, Particle offspring) {

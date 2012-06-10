@@ -29,6 +29,10 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
+/**
+ * This OffspringVelocityProvider sets an offspring's velocity to the average 
+ * velocity of its parents.
+ */
 public class AverageParentsOffspringVelocityProvider extends OffspringVelocityProvider {
     @Override
     public StructuredType f(List<Particle> parent, Particle offspring) {

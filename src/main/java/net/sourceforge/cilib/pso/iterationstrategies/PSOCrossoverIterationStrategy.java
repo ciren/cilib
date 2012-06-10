@@ -80,7 +80,7 @@ public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO
             boundaryConstraint.enforce(current);
         }
         
-        algorithm.setTopology(crossoverOperation.performCrossoverOpertation(algorithm));
+        algorithm.setTopology(crossoverOperation.f(algorithm));
         
         for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
             Particle current = i.next();

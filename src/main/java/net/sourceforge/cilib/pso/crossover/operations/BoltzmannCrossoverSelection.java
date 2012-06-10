@@ -30,7 +30,9 @@ import net.sourceforge.cilib.pso.PSO;
 
 /**
  * A CrossoverSelection strategy that performs Boltzmann selection on the worst 
- * parent and the offspring if the offspring is worse than the worst parent
+ * parent and the offspring if the offspring is worse than the worst parent.
+ * This class is also used in the CrossoverGuideProvider using the nBest instead
+ * of the worst parent.
  */
 public class BoltzmannCrossoverSelection extends CrossoverSelection {
 

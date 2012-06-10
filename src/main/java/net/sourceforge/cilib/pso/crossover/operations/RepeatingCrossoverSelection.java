@@ -31,7 +31,8 @@ import net.sourceforge.cilib.pso.PSO;
  * Performs a standard iteration then selects three random parents and performs
  * crossover with them (default crossover strategy is PCX). If the offspring is
  * better than the worst parent then the worst parent is replaced by the offspring.
- * If not, the process is repeated a number of times (default 10).
+ * If not, the process is repeated a number of times (default 10). This class is
+ * also used with the CrossoverGuideProvider using the nBest instead of worst parent.
  */
 public class RepeatingCrossoverSelection extends CrossoverSelection {
 

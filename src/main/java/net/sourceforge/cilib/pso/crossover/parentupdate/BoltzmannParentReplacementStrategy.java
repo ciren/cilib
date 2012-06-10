@@ -27,6 +27,10 @@ import java.util.List;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.util.selection.recipes.BoltzmannSelector;
 
+/**
+ * This ParentReplacementStrategy uses Boltzmann selection to determine if an 
+ * offspring replaces a parent.
+ */
 public class BoltzmannParentReplacementStrategy extends ParentReplacementStrategy {
     private BoltzmannSelector<Particle> selector;
     

@@ -35,6 +35,11 @@ import net.sourceforge.cilib.util.RandomProviders;
 import net.sourceforge.cilib.util.Vectors;
 import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
 
+/**
+ * This OffspringVelocityProvider sets an offspring's velocity according to a 
+ * modification to a the basic velocity update equation: 
+ * c1*r1*(bestParent_pBest - x') + c2*r2*(gBest - x').
+ */
 public class VelocityUpdateOffspringVelocityProvider extends OffspringVelocityProvider {
     
     protected ControlParameter socialAcceleration;
@@ -42,7 +47,6 @@ public class VelocityUpdateOffspringVelocityProvider extends OffspringVelocityPr
     protected RandomProvider r1;
     protected RandomProvider r2;
 
-    /** Creates a new instance of StandardVelocityUpdate. */
     public VelocityUpdateOffspringVelocityProvider() {
         this.socialAcceleration = ConstantControlParameter.of(1.496180);
         this.cognitiveAcceleration = ConstantControlParameter.of(1.496180);

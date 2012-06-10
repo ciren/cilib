@@ -27,6 +27,10 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
 
+/**
+ * This ParentReplacementStrategy selects the best particles from both the parents
+ * and the offspring.
+ */
 public class ElitistParentReplacementStrategy extends ParentReplacementStrategy {
     @Override
     public List<Particle> f(List<Particle> parents, List<Particle> offspring) {

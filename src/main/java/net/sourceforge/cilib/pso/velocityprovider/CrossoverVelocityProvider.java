@@ -77,7 +77,8 @@ public class CrossoverVelocityProvider implements VelocityProvider {
         parent2.setCandidateSolution(particle.getBestPosition());
         parent3.setCandidateSolution(particle.getNeighbourhoodBest().getBestPosition());
         
-        return (Vector) crossoverStrategy.crossover(Arrays.asList(parent1, parent2, parent3)).get(0).getCandidateSolution();
+        return (Vector) crossoverStrategy.crossover(Arrays.asList(parent1, parent2, parent3))
+                .get(0).getCandidateSolution();
     }
 
     /**

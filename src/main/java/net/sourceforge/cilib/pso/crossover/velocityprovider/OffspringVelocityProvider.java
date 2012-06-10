@@ -26,6 +26,9 @@ import java.util.List;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
+/**
+ * These classes determine what an offspring's velocity becomes after creation.
+ */
 public abstract class OffspringVelocityProvider extends F2<List<Particle>, Particle, StructuredType> {
     @Override
     public abstract StructuredType f(List<Particle> parent, Particle offspring);

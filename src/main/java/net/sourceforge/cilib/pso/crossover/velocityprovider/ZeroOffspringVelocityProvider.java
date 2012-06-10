@@ -26,6 +26,9 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * This OffspringVelocityProvider sets an offspring's velocity to zero.
+ */
 public class ZeroOffspringVelocityProvider extends OffspringVelocityProvider {
     @Override
     public StructuredType f(List<Particle> parent, Particle offspring) {

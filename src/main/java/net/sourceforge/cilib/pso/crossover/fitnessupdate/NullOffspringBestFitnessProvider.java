@@ -25,6 +25,10 @@ import java.util.List;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
 
+/**
+ * This OffspringBestFitnessProvider sets the offspring's best fitness to its
+ * parents best fitness.
+ */
 public class NullOffspringBestFitnessProvider extends OffspringBestFitnessProvider {
     @Override
     public Fitness f(List<Particle> parents, Particle offspring) {
