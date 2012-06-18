@@ -25,11 +25,11 @@ import com.google.common.collect.Lists;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,13 +56,12 @@ import net.sourceforge.cilib.problem.Problem;
  * record the performace.
  * </p>
  */
-class Simulator {
+public class Simulator {
 
     private static final long serialVersionUID = 8987667794610802908L;
     private final Simulation[] simulations;
-    private final Vector<ProgressListener> progressListeners;
+    private final List<ProgressListener> progressListeners;
     private final HashMap<Simulation, Double> progress;
-    private final ExecutorService executor;
     private final XMLObjectFactory algorithmFactory;
     private final XMLObjectFactory problemFactory;
     private final XMLObjectFactory measurementFactory;
@@ -77,14 +76,13 @@ class Simulator {
      * @param problemFactory The problem factory.
      * @param measurementFactory The measurement suite.
      */
-    Simulator(ExecutorService executor, XMLObjectFactory algorithmFactory, XMLObjectFactory problemFactory, XMLObjectFactory measurementFactory, MeasurementCombiner combiner, int samples) {
-        this.executor = executor;
+    public Simulator(XMLObjectFactory algorithmFactory, XMLObjectFactory problemFactory, XMLObjectFactory measurementFactory, MeasurementCombiner combiner, int samples) {
         this.algorithmFactory = algorithmFactory;
         this.problemFactory = problemFactory;
         this.measurementFactory = measurementFactory;
         this.combiner = combiner;
         this.samples = samples;
-        this.progressListeners = new Vector<ProgressListener>();
+        this.progressListeners = Lists.newArrayList();
         this.progress = new HashMap<Simulation, Double>();
         this.simulations = new Simulation[samples];
     }
@@ -93,7 +91,7 @@ class Simulator {
      * Perform the initialization of the {@code Simulator} by creating the required
      * {@code Simulation} instances and executing the threads.
      */
-    void init() {
+    public void init() {
         for (int i = 0; i < samples; ++i) {
             simulations[i] = new Simulation(this, (Algorithm) algorithmFactory.newObject(), (Problem) problemFactory.newObject(), (MeasurementSuite) measurementFactory.newObject());
             simulations[i].init(); // Prepare the simulation for execution
@@ -105,7 +103,8 @@ class Simulator {
      * Executes all the experiments for this simulation. The measurement suite will
      * be closed once this method completes.
      */
-    void execute() {
+    public void execute() {
+        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         CompletionService<Simulation> completionService = new ExecutorCompletionService<Simulation>(executor);
         for (int i = 0; i < samples; ++i) {
             completionService.submit(simulations[i], simulations[i]); // The return value is explicitly null.
@@ -138,7 +137,7 @@ class Simulator {
     /**
      * Terminates all the experiments.
      */
-    void terminate() {
+    public void terminate() {
         for (int i = 0; i < samples; ++i) {
             simulations[i].terminate();
         }
@@ -149,7 +148,7 @@ class Simulator {
      * of the measurements. {@see ProgressEvent} {@see ProgressListener}
      * @param listener The event listener
      */
-    void addProgressListener(ProgressListener listener) {
+    public void addProgressListener(ProgressListener listener) {
         progressListeners.add(listener);
     }
 
@@ -157,7 +156,7 @@ class Simulator {
      * Removes a listener for progress events.
      * @param listener The event listener
      */
-    void removeProgressListener(ProgressListener listener) {
+    public void removeProgressListener(ProgressListener listener) {
         progressListeners.remove(listener);
     }
 

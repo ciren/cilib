@@ -45,7 +45,7 @@ public final class Main {
             throw new IllegalArgumentException("Please provide the correct arguments.\nUsage: Simulator <simulation-config.xml> [-textprogress|-guiprogress]");
         }
 
-        SimulatorShell shell = new SimulatorShell(new XMLObjectBuilder(), new SimulatorCreator(), new MeasurementCombinerBuilder());
+        SimulatorShell shell = new SimulatorShell();
         final List<Simulator> simulators = shell.prepare(new File(args[0]));
 
         ProgressListener progress = null;

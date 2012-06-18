@@ -59,7 +59,7 @@ public class SimulatorTest {
     @Test
     public void simulationConstruction() {
         System.out.println("Constructing specification: " + filename);
-        SimulatorShell shell = new SimulatorShell(new XMLObjectBuilder(), new SimulatorCreator(), new MeasurementCombinerBuilder());
+        SimulatorShell shell = new SimulatorShell();
         shell.prepare(new File("xml", filename));
     }
 
