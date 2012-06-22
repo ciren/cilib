@@ -60,7 +60,7 @@ public class QuantizationErrorMinimizationProblem extends OptimisationProblemAda
                 temp += distance;
             }
             
-            //System.out.println(quantizationError + "+=" + temp + "/" + centroid.getDataItemDistances().length + "+" + 1);
+           // System.out.println("Length: " + centroid.getDataItemDistances().length);
             //quantizationError += (centroid.getDataItemDistances().length != 0) ? temp / ((double) centroid.getDataItemDistances().length) : Double.POSITIVE_INFINITY;
             quantizationError += temp / ((double) centroid.getDataItemDistances().length);
             //System.out.println("Size: " + centroid.getDataItemDistances().length);

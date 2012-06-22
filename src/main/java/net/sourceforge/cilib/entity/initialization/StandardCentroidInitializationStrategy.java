@@ -41,7 +41,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Kristina
  */
-public class CentroidInitializationStrategy <E extends Entity> implements InitializationStrategy<E>{
+public class StandardCentroidInitializationStrategy <E extends Entity> implements InitializationStrategy<E>{
 
     private DataTableBuilder tableBuilder;
     private InitializationStrategy<E> initialisationStrategy;
@@ -49,7 +49,7 @@ public class CentroidInitializationStrategy <E extends Entity> implements Initia
     int windowSize;
     ArrayList<ControlParameter[]> bounds;
     
-    public CentroidInitializationStrategy() {
+    public StandardCentroidInitializationStrategy() {
         initialisationStrategy = new RandomInitializationStrategy<E>();
         tableBuilder = new DataTableBuilder(new ARFFFileReader());
         dataset = new StandardDataTable();
@@ -57,7 +57,7 @@ public class CentroidInitializationStrategy <E extends Entity> implements Initia
         bounds = new ArrayList<ControlParameter[]>();
     }
     
-    public CentroidInitializationStrategy(CentroidInitializationStrategy copy) {
+    public StandardCentroidInitializationStrategy(StandardCentroidInitializationStrategy copy) {
         initialisationStrategy = copy.initialisationStrategy;
         tableBuilder = copy.tableBuilder;
         dataset = copy.dataset;
@@ -66,8 +66,8 @@ public class CentroidInitializationStrategy <E extends Entity> implements Initia
     }
     
     @Override
-    public CentroidInitializationStrategy getClone() {
-        return new CentroidInitializationStrategy(this);
+    public StandardCentroidInitializationStrategy getClone() {
+        return new StandardCentroidInitializationStrategy(this);
     }
 
     @Override
@@ -121,42 +121,7 @@ public class CentroidInitializationStrategy <E extends Entity> implements Initia
     
     public void setBounds(ArrayList<ControlParameter[]> newBounds) {
         bounds = newBounds;
-//        tableBuilder = new DataTableBuilder(tableBuilder.getDataReader());
-//        tableBuilder.addDataOperator(new TypeConversionOperator());
-//        tableBuilder.addDataOperator(new PatternConversionOperator());
-//        try {
-//            tableBuilder.buildDataTable();
-//            
-//        } catch (CIlibIOException ex) {
-//            Logger.getLogger(DataClusteringPSO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//        dataset = tableBuilder.getDataTable();
-//
-//        RandomBoundedInitializationStrategy copiedStrategy = (RandomBoundedInitializationStrategy) initialisationStrategy.getClone();
-//        bounds  = new ArrayList<ControlParameter[]>();
-//        
-//        int size = ((StandardPattern) dataset.getRow(0)).getVector().size();
-//        for(int j = 0; j < size; j++) {
-//            double minValue = Double.POSITIVE_INFINITY;
-//            double maxValue = Double.NEGATIVE_INFINITY;
-//            for(int i = 0; i < dataset.size(); i++) {
-//                Vector row = ((StandardPattern) dataset.getRow(i)).getVector();
-//                if(row.get(j).doubleValue() > maxValue) {
-//                    maxValue = row.get(j).doubleValue();
-//                }
-//                
-//                if(row.get(j).doubleValue() < minValue) {
-//                    minValue = row.get(j).doubleValue();
-//                }
-//            }
-//            
-//            ControlParameter[] array = {ConstantControlParameter.of(minValue), ConstantControlParameter.of(maxValue)};
-//            bounds.add(array);
-//        }
-//        
-//        copiedStrategy.setBoundsPerDimension(bounds);
-//        initialisationStrategy = copiedStrategy;
+
     }
     
     public void setInitialisationStrategy(InitializationStrategy strategy) {

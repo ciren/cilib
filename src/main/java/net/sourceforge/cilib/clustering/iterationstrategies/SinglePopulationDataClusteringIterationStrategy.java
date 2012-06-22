@@ -81,12 +81,12 @@ public abstract class SinglePopulationDataClusteringIterationStrategy extends Ab
     
     @Override
     public AbstractIterationStrategy<DataClusteringPSO> getClone() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Performed on lower level");
     }
 
     @Override
     public void performIteration(DataClusteringPSO algorithm) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Performed on lower level");
     }
     
     /**

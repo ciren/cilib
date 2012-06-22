@@ -52,6 +52,7 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
     private SlidingWindow window;
     IterationStrategy<DataClusteringPSO> iterationStrategy;
     private ContributionSelectionStrategy contributionSelection;
+    private boolean isExplorer;
     
     
     public DataClusteringPSO() {
@@ -61,6 +62,7 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
         initialisationStrategy = new DataDependantPopulationInitializationStrategy<ClusterParticle>();
         window = new SlidingWindow();
         iterationStrategy = new StandardDataClusteringIterationStrategy();
+        isExplorer = false;
     }
 
     public DataClusteringPSO(DataClusteringPSO copy) {
@@ -70,6 +72,7 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
         window = copy.window;
         iterationStrategy = copy.iterationStrategy;
         contributionSelection = copy.contributionSelection;
+        isExplorer = copy.isExplorer;
     }
     
     @Override
@@ -81,20 +84,7 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
     protected void algorithmIteration() {
         iterationStrategy.performIteration(this);
         
-        if(getIterations() == 2999) {
-            System.out.println("\n" + getBestSolution().getPosition().toString());
-        }
     }
-    
-    /*@Override
-    public Topology getTopology() {
-        return topology;
-    }
-
-    @Override
-    public void setTopology(Topology receivedTopology) {
-        topology = (Topology<ClusterParticle>) receivedTopology;
-    }*/
     
     @Override
     public Topology<ClusterParticle> getTopology() {
@@ -113,13 +103,14 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
         Vector pattern = ((StandardPattern) dataset.getRow(0)).getVector();
             
         ((QuantizationErrorMinimizationProblem) this.optimisationProblem).setDimension((int) pattern.size());
+        
         ((DataDependantPopulationInitializationStrategy) initialisationStrategy).setDataset(window.getCompleteDataset());
         Iterable<ClusterParticle> particles = (Iterable<ClusterParticle>) this.initialisationStrategy.initialise(this.getOptimisationProblem());
         
         topology.clear();
         topology.addAll(Lists.<ClusterParticle>newLinkedList(particles));
         
-        ((SinglePopulationDataClusteringIterationStrategy) iterationStrategy).setWindow(window.getClone());
+        ((SinglePopulationDataClusteringIterationStrategy) iterationStrategy).setWindow(window);
 //        System.out.println("Old: " + window.getFrequency());
 //        System.out.println("New: " + ((SinglePopulationDataClusteringIterationStrategy) iterationStrategy).getWindow().getFrequency());
     }
@@ -172,4 +163,13 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
     public IterationStrategy getIterationStrategy() {
         return iterationStrategy;
     }
+    
+    public void setIsExplorer(boolean value) {
+        isExplorer = value;
+    }
+    
+    public boolean isExplorer() {
+        return isExplorer;
+    }
+    
 }

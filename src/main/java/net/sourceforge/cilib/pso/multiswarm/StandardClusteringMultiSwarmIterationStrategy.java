@@ -21,8 +21,8 @@
  */
 package net.sourceforge.cilib.pso.multiswarm;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
+import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
@@ -36,22 +36,22 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  *
  * @author Kristina
  */
-public class ClusteringMultiSwarmIterationStrategy extends AbstractIterationStrategy<MultiSwarm> {
+public class StandardClusteringMultiSwarmIterationStrategy extends AbstractIterationStrategy<MultiPopulationBasedAlgorithm> {
 
-    private double exclusionRadius = 2.0;
+    private double exclusionRadius = 1.0;
 
-    public ClusteringMultiSwarmIterationStrategy() {
+    public StandardClusteringMultiSwarmIterationStrategy() {
         super();
     }
 
-    public ClusteringMultiSwarmIterationStrategy(ClusteringMultiSwarmIterationStrategy copy) {
+    public StandardClusteringMultiSwarmIterationStrategy(StandardClusteringMultiSwarmIterationStrategy copy) {
         super();
         this.exclusionRadius = copy.exclusionRadius;
     }
 
     @Override
-    public ClusteringMultiSwarmIterationStrategy getClone() {
-        return new ClusteringMultiSwarmIterationStrategy(this);
+    public StandardClusteringMultiSwarmIterationStrategy getClone() {
+        return new StandardClusteringMultiSwarmIterationStrategy(this);
     }
 
     public double getExclusionRadius() {
@@ -62,23 +62,20 @@ public class ClusteringMultiSwarmIterationStrategy extends AbstractIterationStra
         this.exclusionRadius = exlusionRadius;
     }
 
-    double calculateRadius() {
-        double dimensions = AbstractAlgorithm.get().getOptimisationProblem().getDomain().getDimension();
-        //    double X = ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).getNumeric(0).getBounds().getUpperBound()
-        //            - ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).getNumeric(0).getBounds().getLowerBound();
-        double X = ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getUpperBound()
-                - ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getLowerBound();
-        double populationSize = ((MultiSwarm) (AbstractAlgorithm.get())).getPopulations().size();
+    double calculateRadius(MultiPopulationBasedAlgorithm algorithm) {
+        double dimensions = algorithm.getOptimisationProblem().getDomain().getDimension();
+        double X = ((Vector) algorithm.getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getUpperBound()
+                - ((Vector) algorithm.getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getLowerBound();
+        double populationSize = ((MultiSwarm) algorithm).getPopulations().size();
         return X / (2 * Math.pow(populationSize, 1 / dimensions));
     }
 
-    boolean isConverged(PopulationBasedAlgorithm algorithm) {
-        double r = calculateRadius();
+    boolean isConverged(PopulationBasedAlgorithm algorithm, MultiPopulationBasedAlgorithm ca) {
+        double r = calculateRadius(ca);
         int converged = 0;
         
         DistanceMeasure dm = new EuclideanDistanceMeasure();
         
-        // Some other form of convergence check
         for(ClusterParticle particle : ((DataClusteringPSO) algorithm).getTopology()) {
             for(ClusterParticle particle2 : ((DataClusteringPSO) algorithm).getTopology()) {
                 ClusterParticle particleCopy = particle2.getClone();
@@ -87,9 +84,6 @@ public class ClusteringMultiSwarmIterationStrategy extends AbstractIterationStra
                         ClusterCentroid closestCentroid = getClosestCentroid((((CentroidHolder) particle.getCandidateSolution()).get(i)),
                                 ((CentroidHolder) particleCopy.getCandidateSolution()));
                         particleCopy.getCandidateSolution().remove(closestCentroid);
-//                        System.out.println("Centroid 1: " + ((CentroidHolder) particle.getCandidateSolution()).get(i).toString());
-//                        System.out.println("Centroid 2: " + closestCentroid.toString());
-                       // System.out.println(dm.distance(((CentroidHolder) particle.getCandidateSolution()).get(i), closestCentroid) + " < " + r);
                         if(dm.distance(((CentroidHolder) particle.getCandidateSolution()).get(i), closestCentroid) > r) {
                             return false;
                         }
@@ -97,9 +91,6 @@ public class ClusteringMultiSwarmIterationStrategy extends AbstractIterationStra
                 }
             }
         }
-        
-        //if(converged >= algorithm.getTopology().size() * 90 / 100)
-            //return false;
         
         return true;
     }
@@ -120,19 +111,21 @@ public class ClusteringMultiSwarmIterationStrategy extends AbstractIterationStra
     }
 
     @Override
-    public void performIteration(MultiSwarm ca) {
+    public void performIteration(MultiPopulationBasedAlgorithm ca) {
         int converged = 0;
         for (PopulationBasedAlgorithm current : ca.getPopulations()) {
-            if (isConverged(current)) {
+            if (isConverged(current, ca)) {
                 converged++;
             }
         }
-        //all swarms have converged-> must re-initialise worst swarm
+        
         if (converged == ca.getPopulations().size()) {
             PopulationBasedAlgorithm weakest = null;
             for (PopulationBasedAlgorithm current : ca.getPopulations()) {
+                ((DataClusteringPSO) current).setIsExplorer(false);
                 if (weakest == null || weakest.getBestSolution().compareTo(current.getBestSolution()) > 0) {
                     weakest = current;
+                    ((DataClusteringPSO) weakest).setIsExplorer(true);
                 }
             }
             reInitialise((DataClusteringPSO) weakest);
@@ -161,10 +154,10 @@ public class ClusteringMultiSwarmIterationStrategy extends AbstractIterationStra
             }
         }
         
-        if((ca.getIterations() == 2999)) {
-            System.out.println("Clusters: " + AbstractAlgorithm.get().getBestSolution().getPosition().toString());
-            System.out.println("\n\n");
-        }
+//        if((ca.getIterations() == 5999)) {
+//            System.out.println("Clusters: " + ca.getBestSolution().getPosition().toString());
+//            System.out.println("\n\n");
+//        }
         
     }
     

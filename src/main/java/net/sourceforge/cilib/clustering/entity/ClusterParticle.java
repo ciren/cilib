@@ -23,7 +23,8 @@ package net.sourceforge.cilib.clustering.entity;
 
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.initialization.CentroidInitializationStrategy;
+import net.sourceforge.cilib.entity.initialization.StandardCentroidInitializationStrategy;
+import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -44,18 +45,18 @@ public class ClusterParticle extends AbstractParticle{
     //private CentroidHolder candidateSolution;
     private ClusterParticle neighbourhoodBest;
     private int numberOfClusters;
-    private CentroidInitializationStrategy centroidInitialisationStrategyCandidate;
-    private CentroidInitializationStrategy centroidInitialisationStrategyBest;
-    private CentroidInitializationStrategy centroidInitialisationStrategyVelocity;
+    private InitializationStrategy centroidInitialisationStrategyCandidate;
+    private InitializationStrategy centroidInitialisationStrategyBest;
+    private InitializationStrategy centroidInitialisationStrategyVelocity;
     private boolean isCharged;
     
 
     public ClusterParticle() {
         super();
         personalBestUpdateStrategy = new StandardPersonalBestUpdateStrategy();
-        centroidInitialisationStrategyCandidate = new CentroidInitializationStrategy();
-        centroidInitialisationStrategyBest = new CentroidInitializationStrategy();
-        centroidInitialisationStrategyVelocity = new CentroidInitializationStrategy();
+        centroidInitialisationStrategyCandidate = new StandardCentroidInitializationStrategy();
+        centroidInitialisationStrategyBest = new StandardCentroidInitializationStrategy();
+        centroidInitialisationStrategyVelocity = new StandardCentroidInitializationStrategy();
         numberOfClusters = 1;
         isCharged = false;
     }
@@ -63,9 +64,9 @@ public class ClusterParticle extends AbstractParticle{
     public ClusterParticle(ClusterParticle copy) {
         super(copy);
         personalBestUpdateStrategy = copy.personalBestUpdateStrategy.getClone();
-        centroidInitialisationStrategyCandidate = copy.centroidInitialisationStrategyCandidate;
-        centroidInitialisationStrategyBest = copy.centroidInitialisationStrategyBest;
-        centroidInitialisationStrategyVelocity = copy.centroidInitialisationStrategyVelocity;
+        centroidInitialisationStrategyCandidate = copy.centroidInitialisationStrategyCandidate.getClone();
+        centroidInitialisationStrategyBest = copy.centroidInitialisationStrategyBest.getClone();
+        centroidInitialisationStrategyVelocity = copy.centroidInitialisationStrategyVelocity.getClone();
         numberOfClusters = copy.numberOfClusters;
         isCharged = copy.isCharged;
     }
@@ -186,14 +187,16 @@ public class ClusterParticle extends AbstractParticle{
         this.getProperties().put(EntityType.Particle.BEST_POSITION,  new CentroidHolder(numberOfClusters, problem.getDomain().getDimension()));
         this.getProperties().put(EntityType.Particle.VELOCITY,  new CentroidHolder(numberOfClusters, problem.getDomain().getDimension()));
         
-        centroidInitialisationStrategyCandidate.setInitialisationStrategy(positionInitialisationStrategy);
+        if(centroidInitialisationStrategyCandidate instanceof StandardCentroidInitializationStrategy)
+            ((StandardCentroidInitializationStrategy) centroidInitialisationStrategyCandidate).setInitialisationStrategy(positionInitialisationStrategy);
         centroidInitialisationStrategyCandidate.initialize(EntityType.CANDIDATE_SOLUTION, this);
         
         //centroidInitialisationStrategyBest.setInitialisationStrategy(personalBestInitialisationStrategy);
         //centroidInitialisationStrategyBest.initialize(EntityType.Particle.BEST_POSITION, this);
         getProperties().put(EntityType.Particle.BEST_POSITION, getCandidateSolution());
         
-        centroidInitialisationStrategyVelocity.setInitialisationStrategy(velocityInitializationStrategy);
+        if(centroidInitialisationStrategyVelocity instanceof StandardCentroidInitializationStrategy)
+            ((StandardCentroidInitializationStrategy) centroidInitialisationStrategyVelocity).setInitialisationStrategy(velocityInitializationStrategy);
         centroidInitialisationStrategyVelocity.initialize(EntityType.Particle.VELOCITY, this);
 
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
@@ -208,10 +211,14 @@ public class ClusterParticle extends AbstractParticle{
 
     @Override
     public void reinitialise() {
-        this.centroidInitialisationStrategyCandidate.reinitialize(EntityType.CANDIDATE_SOLUTION, this);
+        if(centroidInitialisationStrategyCandidate instanceof StandardCentroidInitializationStrategy)
+            ((StandardCentroidInitializationStrategy) this.centroidInitialisationStrategyCandidate).reinitialize(EntityType.CANDIDATE_SOLUTION, this);
         //this.centroidInitialisationStrategyBest.reinitialize(EntityType.Particle.BEST_POSITION, this);
         this.getProperties().put(EntityType.Particle.BEST_POSITION, getCandidateSolution());
-        this.centroidInitialisationStrategyVelocity.reinitialize(EntityType.Particle.VELOCITY, this);
+        
+        if(centroidInitialisationStrategyVelocity instanceof StandardCentroidInitializationStrategy)
+            ((StandardCentroidInitializationStrategy) this.centroidInitialisationStrategyVelocity).reinitialize(EntityType.Particle.VELOCITY, this);
+        
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
         this.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
         this.neighbourhoodBest = this;
@@ -237,14 +244,22 @@ public class ClusterParticle extends AbstractParticle{
         this.getProperties().put(EntityType.Particle.VELOCITY, holder);
     }
     
-    public void setCentroidInitialisationStrategy(CentroidInitializationStrategy initializationStrategy) {
+    public void setCentroidInitialisationStrategy(InitializationStrategy initializationStrategy) {
         centroidInitialisationStrategyBest = initializationStrategy.getClone();
         centroidInitialisationStrategyCandidate = initializationStrategy.getClone();
         centroidInitialisationStrategyVelocity = initializationStrategy.getClone();
     }
     
-    public CentroidInitializationStrategy getCentroidInitializationStrategy() {
+    public InitializationStrategy getCentroidInitializationStrategyCandidate() {
         return centroidInitialisationStrategyCandidate;
+    }
+    
+    public InitializationStrategy getCentroidInitializationStrategyVelocity() {
+        return centroidInitialisationStrategyVelocity;
+    }
+    
+    public InitializationStrategy getCentroidInitializationStrategyBest() {
+        return centroidInitialisationStrategyBest;
     }
     
     public void setCharge(boolean charge) {

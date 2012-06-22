@@ -24,8 +24,7 @@ package net.sourceforge.cilib.clustering.iterationstrategies;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
-import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 
 /**
  *
@@ -53,9 +52,13 @@ public class ReinitializingDataClusteringIterationStrategy extends SinglePopulat
         delegate.performIteration(algorithm);
         
         if(delegate.getWindow().hasSlid()) {
-            System.out.println("\n" + algorithm.getBestSolution().getPosition().toString());
+            //System.out.println("\n" + algorithm.getBestSolution().getPosition().toString());
             reinitializePosition(algorithm.getTopology());
+            reinitialized = true;
         }
+//        
+//        if(algorithm.getIterations() == ((MeasuredStoppingCondition) algorithm.getStoppingConditions().get(0)).getTarget() - 1)
+//            System.out.println("\n" + algorithm.getBestSolution().getPosition().toString());
         
     }
     

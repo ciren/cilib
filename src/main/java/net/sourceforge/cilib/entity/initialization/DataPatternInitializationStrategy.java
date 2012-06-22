@@ -21,20 +21,17 @@
  */
 package net.sourceforge.cilib.entity.initialization;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.io.ARFFFileReader;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.DataTableBuilder;
 import net.sourceforge.cilib.io.StandardDataTable;
-import net.sourceforge.cilib.io.exception.CIlibIOException;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.io.transform.PatternConversionOperator;
-import net.sourceforge.cilib.io.transform.TypeConversionOperator;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.type.types.container.CentroidHolder;
+import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 
 /**
  *
@@ -68,42 +65,22 @@ public class DataPatternInitializationStrategy<E extends Entity> implements Init
     @Override
     public void initialize(Enum<?> key, E entity) {
         int index = (int) random.getRandomNumber(0, dataset.size());
-        entity.getProperties().put(key, ((StandardPattern) dataset.getRow(index)).getVector());
-    }
-    
-    public void setDataTableBuilder(DataTableBuilder newDataset) {
-        tableBuilder = newDataset;
+        CentroidHolder holder = new CentroidHolder();
         
-        tableBuilder.addDataOperator(new TypeConversionOperator());
-        tableBuilder.addDataOperator(patternConversionOperator);
-        try {
-            tableBuilder.buildDataTable();
-            
-        } catch (CIlibIOException ex) {
-            Logger.getLogger(DataClusteringPSO.class.getName()).log(Level.SEVERE, null, ex);
+        for(int i=0; i< ((CentroidHolder) entity.getProperties().get(key)).size(); i++) {
+            ClusterCentroid centroid = new ClusterCentroid();
+            centroid.copy(((StandardPattern) dataset.getRow(index)).getVector());
+            holder.add(centroid);
         }
         
-        dataset = tableBuilder.getDataTable();
+        entity.getProperties().put(key, holder);
     }
     
-    public DataTableBuilder getDataTableBuilder() {
-        return tableBuilder;
+    public void setDataset(DataTable table) {
+        dataset = table;
     }
-    
-    public void setProbabilityDistribution(ProbabilityDistributionFuction distribution) {
-        random = distribution;
+  
+    public DataTable getDataset() {
+        return dataset;
     }
-    
-    public ProbabilityDistributionFuction getProbabilityDistribution() {
-        return random;
-    }
-    
-    public void setPatternConversionOperator(PatternConversionOperator operator) {
-        patternConversionOperator = operator;
-    }
-    
-    public PatternConversionOperator getPatternConversionOperator() {
-        return patternConversionOperator;
-    }
-    
 }

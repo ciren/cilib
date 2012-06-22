@@ -77,13 +77,12 @@ public class SlidingWindow {
     }
     
     private boolean hasNotFinished() {
-            return currentIndex <= completeDataset.size();
+            return currentIndex < completeDataset.size();
     }
     
     public DataTable slideWindow(int iterations) {
         if(hasNotFinished()) {
-            //System.out.println(getIterationToChange());
-            if(slidingTime == getIterationToChange()) {
+            if(slidingTime == getIterationToChange(iterations)) {
                 currentDataset = new StandardPatternDataTable();
                 
                 int upTo = currentIndex + windowSize;
@@ -116,7 +115,7 @@ public class SlidingWindow {
         
         completeDataset = tableBuilder.getDataTable();
         
-        if(windowSize == 0) {
+        if((windowSize == 0) || windowSize == completeDataset.size()) {
             windowSize = completeDataset.size();
             isTemporal = false;
         } else if(windowSize > completeDataset.size()) {
@@ -204,10 +203,11 @@ public class SlidingWindow {
         return completeDataset;
     }
     
-    private int getIterationToChange() {
-        //double denominator = ((double) (completeDataset.size()) / (double) windowSize);
-        //return (int) (iterations / (double) denominator);
-        
+    private int getIterationToChange(int iterations) {
+        if(frequency == 0) {
+            double denominator = ((double) (completeDataset.size()) / (double) windowSize);
+            frequency = (int) (iterations / (double) denominator);
+        }
         return frequency;
     }
     

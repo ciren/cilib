@@ -23,15 +23,17 @@ package net.sourceforge.cilib.clustering;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.sourceforge.cilib.algorithm.population.AbstractCooperativeIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.clustering.iterationstrategies.CooperativeDataClusteringPSOIterationStrategy;
-import net.sourceforge.cilib.clustering.iterationstrategies.StandardDataClusteringIterationStrategy;
+import net.sourceforge.cilib.clustering.iterationstrategies.SinglePopulationDataClusteringIterationStrategy;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -64,18 +66,15 @@ public class CooperativePSO extends MultiPopulationBasedAlgorithm{
     @Override
     protected void algorithmIteration() {
         iterationStrategy.performIteration(this);
-        ClusterParticle particle = ((CooperativeDataClusteringPSOIterationStrategy) iterationStrategy).getContextParticle();
+        ClusterParticle particle = ((AbstractCooperativeIterationStrategy) iterationStrategy).getContextParticle();
         bestSolution = new OptimisationSolution(particle.getPosition(), particle.getFitness());
         
-        if(((StandardDataClusteringIterationStrategy) ((DataClusteringPSO) subPopulationsAlgorithms.get(0)).getIterationStrategy()).reinitialized()) {
-           System.out.println("\nClusters: " + getBestSolution().getPosition().toString());
-           System.out.println("\n\n");
+        if(((SinglePopulationDataClusteringIterationStrategy) ((DataClusteringPSO) subPopulationsAlgorithms.get(0)).getIterationStrategy()).getWindow().hasSlid()) {
+            System.out.println("\n" + getBestSolution().getPosition().toString());
         }
         
-        if(getIterations() == 5999) {
-            System.out.println("\nClusters: " + getBestSolution().getPosition().toString());
-            System.out.println("\n\n");
-        }
+        if(getIterations() == ((MeasuredStoppingCondition) getStoppingConditions().get(0)).getTarget() - 1)
+            System.out.println("\n" + getBestSolution().getPosition().toString());
     }
 
     @Override
@@ -102,9 +101,6 @@ public class CooperativePSO extends MultiPopulationBasedAlgorithm{
             currentAlgorithm.setOptimisationProblem(problem);
             currentAlgorithm.performInitialisation();
             
-            for(int i = 0; i < currentAlgorithm.getTopology().size(); i+=2) {
-                ((ClusterParticle) currentAlgorithm.getTopology().get(i)).setCharge(true);
-            }
         }
         
     }

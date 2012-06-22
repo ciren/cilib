@@ -24,7 +24,9 @@ package net.sourceforge.cilib.algorithm.initialisation;
 import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.List;
+import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.initialization.DataPatternInitializationStrategy;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
 /**
@@ -80,11 +82,9 @@ public class ClonedPopulationInitialisationStrategy<E extends Entity> implements
 
         for (int i = 0; i < entityNumber; ++i) {
             E entity = (E) prototypeEntity.getClone();
-
             entity.initialise(problem);
             clones.add(entity);
         }
-
         return clones;
     }
 
