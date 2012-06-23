@@ -145,13 +145,18 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     public void performInitialisation() {
         // subclasses can override the behaviour for this method
     }
-
+    
     /**
-     * {@inheritDoc}
+     * Executes the algorithm without cleaning up afterwards.
+     * Useful for running algorithms within algorithms.
      */
-    @Override
-    public void performUninitialisation() {
-        // subclasses can override the behaviour for this method
+    public void runAlgorithm() {
+        Preconditions.checkState(initialised, "Algorithm not initialised");
+        
+        while (running && (!isFinished())) {
+            performIteration();
+            fireIterationCompleted();
+        }
     }
 
     /**
@@ -160,27 +165,25 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
      */
     @Override
     public void run() {
-        Preconditions.checkState(initialised, "Algorithm not initialised");
+        if (!initialised) {
+            initialise();
+        }
         
         currentAlgorithmStack.get().push(this);
-        
         fireAlgorithmStarted();
-
-        while (running && (!isFinished())) {
-            performIteration();
-            fireIterationCompleted();
-        }
-
-        if (running) {
-            fireAlgorithmFinished();
-        } else {
-            fireAlgorithmTerminated();
-        }
-
-        performUninitialisation();
-
         currentAlgorithmStack.get().pop();
 
+        // performIteration puts the algorithm back on the stack
+        runAlgorithm();
+
+        currentAlgorithmStack.get().push(this);
+        fireAlgorithmFinished();
+        currentAlgorithmStack.get().pop();
+        
+        cleanUp();
+    }
+    
+    public void cleanUp() {
         // Cleanup thread-local variables -- very ugly hack!!!
         currentAlgorithmStack.remove();
         EntityIdFactory.remove();
@@ -314,16 +317,6 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     private void fireAlgorithmFinished() {
         for (AlgorithmListener listener : algorithmListeners) {
             listener.algorithmFinished(new AlgorithmEvent(this));
-        }
-    }
-
-    /**
-     * Fire the {@linkplain AlgorithmEvent} to indicate that the {@linkplain Algorithm}
-     * has been terminated.
-     */
-    private void fireAlgorithmTerminated() {
-        for (AlgorithmListener listener : algorithmListeners) {
-            listener.algorithmTerminated(new AlgorithmEvent(this));
         }
     }
 

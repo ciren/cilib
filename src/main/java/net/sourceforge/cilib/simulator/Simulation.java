@@ -107,13 +107,6 @@ class Simulation implements AlgorithmListener, Runnable {
      * {@inheritDoc}
      */
     @Override
-    public void algorithmTerminated(AlgorithmEvent event) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void iterationCompleted(AlgorithmEvent event) {
         Algorithm alg = event.getSource();
         if (alg.getIterations() % measurementSuite.getResolution() == 0) {

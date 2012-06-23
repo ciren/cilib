@@ -87,13 +87,6 @@ public class MultiPopulationCriterionBasedAlgorithm extends MultiPopulationBased
     }
 
     @Override
-    public void performUninitialisation() {
-        for (Algorithm algorithm : this) {
-            algorithm.performUninitialisation();
-        }
-    }
-
-    @Override
     public OptimisationSolution getBestSolution() {
         throw new UnsupportedOperationException("This algorithm is only applicable to multi-objective problems," +
                 "and thus only returns a Paretto optimal set.");

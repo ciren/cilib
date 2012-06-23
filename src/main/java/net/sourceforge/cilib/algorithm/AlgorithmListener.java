@@ -42,12 +42,6 @@ public interface AlgorithmListener extends Cloneable {
     void algorithmFinished(AlgorithmEvent e);
 
     /**
-     * This event is fired when the algorithm is terminated abnormally.
-     * @param e an event containing a reference to the source algorithm.
-     */
-    void algorithmTerminated(AlgorithmEvent e);
-
-    /**
      * This event is fired after each iteration of the mail loop of the algorithm.
      * @param e an event containing a reference to the source algorithm.
      */
@@ -56,5 +50,6 @@ public interface AlgorithmListener extends Cloneable {
     /**
      * {@inheritDoc}
      */
+    @Override
     AlgorithmListener getClone();
 }
