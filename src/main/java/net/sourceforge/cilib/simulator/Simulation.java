@@ -62,7 +62,7 @@ class Simulation implements AlgorithmListener, Runnable {
         AbstractAlgorithm alg = (AbstractAlgorithm) algorithm;
         alg.addAlgorithmListener(this);
         alg.setOptimisationProblem((OptimisationProblem) problem);
-        alg.initialise();
+        alg.performInitialisation();
     }
 
     /**

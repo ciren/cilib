@@ -23,7 +23,7 @@ package net.sourceforge.cilib.measurement.multiple;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.coevolution.CoevolutionAlgorithm;
+import net.sourceforge.cilib.coevolution.competitive.CompetitiveCoevolutionAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.measurement.Measurement;
@@ -62,7 +62,7 @@ public class MultiPopulationFitness implements Measurement<Vector> {
     @Override
     public Vector getValue(Algorithm algorithm) {
         Vector fitness = new Vector();
-        CoevolutionAlgorithm ca = (CoevolutionAlgorithm) algorithm;
+        CompetitiveCoevolutionAlgorithm ca = (CompetitiveCoevolutionAlgorithm) algorithm;
         for (PopulationBasedAlgorithm currentAlgorithm : ca) {
             Fitness best = null;
             for (Entity e : currentAlgorithm.getTopology()) {

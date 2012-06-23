@@ -65,7 +65,7 @@ public class NNDataTrainingProblemTest {
         PSO pso = new PSO();
         pso.addStoppingCondition(new MeasuredStoppingCondition());
         pso.setOptimisationProblem(problem);
-        pso.initialise();
+        pso.performInitialisation();
         pso.performIteration();
     }
 }

@@ -66,7 +66,7 @@ public class PSOTest {
             pso.setOptimisationProblem(problem);
             pso.addStoppingCondition(new MeasuredStoppingCondition());
 
-            pso.initialise();
+            pso.performInitialisation();
             pso.run();
 
             Assert.assertThat(pso.getBestSolution().getFitness().getValue(), is(400.5332366469983));

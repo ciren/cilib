@@ -61,7 +61,7 @@ public class VisualPositionUpdateStategyTest {
         abc.setForageLimit(ConstantControlParameter.of(Integer.MAX_VALUE));
         abc.addStoppingCondition(condition);
         abc.setOptimisationProblem(problem);
-        abc.initialise();
+        abc.performInitialisation();
     }
 
     @Test

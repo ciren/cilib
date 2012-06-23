@@ -23,11 +23,10 @@ package net.sourceforge.cilib.coevolution.selection;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.coevolution.competitors.CoevolutionCompetitorList;
-import net.sourceforge.cilib.coevolution.competitors.Competitor;
+import net.sourceforge.cilib.coevolution.competitive.Competitor;
+import net.sourceforge.cilib.coevolution.competitive.CompetitorList;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.pso.particle.AbstractParticle;
@@ -37,45 +36,44 @@ import net.sourceforge.cilib.type.types.Int;
  * Add all the populations personal best vectors to the opponent pool, this can only be used on {@linkplain Algorithm}s that optimise {@linkplain Particle}s
  *
  */
-public class SelectpBestSolutionsPoolSelectionStrategy extends
-		OpponentPoolSelectionStrategy {
-	private static final long serialVersionUID = 8353244137335633101L;
+public class SelectpBestSolutionsPoolSelectionStrategy extends OpponentPoolSelectionStrategy {
 
-	public SelectpBestSolutionsPoolSelectionStrategy() {
+    private static final long serialVersionUID = 8353244137335633101L;
 
-	}
+    public SelectpBestSolutionsPoolSelectionStrategy() {
+    }
 
-	public SelectpBestSolutionsPoolSelectionStrategy(SelectpBestSolutionsPoolSelectionStrategy other) {
+    public SelectpBestSolutionsPoolSelectionStrategy(SelectpBestSolutionsPoolSelectionStrategy other) {
+    }
 
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addToCompetitorPool(CompetitorList pool, List<PopulationBasedAlgorithm> populations) {
+        for (PopulationBasedAlgorithm algorithm : populations) {
+            int populationID = -1;
+            List<Competitor> competitors = new ArrayList<Competitor>();
+            for (Entity e : algorithm.getTopology()) {
+                if (populationID == -1) {
+                    populationID = ((Int) e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).intValue();
+                }
+                if (!(e instanceof AbstractParticle)) {
+                    break;
+                }
+                competitors.add(new Competitor(((AbstractParticle) e).getBestPosition(), e.getBestFitness(), populationID));
+            }
+            if (competitors.size() > 0) {
+                pool.addCompetitorList(populationID, competitors);
+            }
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void addToCompetitorPool(CoevolutionCompetitorList pool,
-		List<PopulationBasedAlgorithm> populations) {
-		for(PopulationBasedAlgorithm algorithm: populations){
-			int populationID = -1;
-			List<Competitor> competitors = new ArrayList<Competitor>();
-			for(Entity e: algorithm.getTopology()){
-				if(populationID == -1){
-					populationID = ((Int)e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).intValue();
-				}
-				if(!(e instanceof AbstractParticle))
-					break;
-				competitors.add(new Competitor(((AbstractParticle)e).getBestPosition(), e.getBestFitness(), populationID));
-			}
-			if(competitors.size() > 0)
-				pool.addCompetitorList(populationID, competitors);
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public SelectpBestSolutionsPoolSelectionStrategy getClone() {
-		return new SelectpBestSolutionsPoolSelectionStrategy(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SelectpBestSolutionsPoolSelectionStrategy getClone() {
+        return new SelectpBestSolutionsPoolSelectionStrategy(this);
+    }
 }

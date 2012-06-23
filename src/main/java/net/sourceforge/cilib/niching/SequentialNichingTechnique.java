@@ -62,7 +62,7 @@ public class SequentialNichingTechnique extends AbstractAlgorithm implements Pop
     }
     
     @Override
-    public void performInitialisation() {
+    public void algorithmInitialisation() {
         //algorithm.setOptimisationProblem(optimisationProblem);
     }
 
@@ -70,7 +70,7 @@ public class SequentialNichingTechnique extends AbstractAlgorithm implements Pop
     protected void algorithmIteration() {
         AbstractAlgorithm alg = (AbstractAlgorithm) algorithm.getClone();
         alg.setOptimisationProblem(optimisationProblem);
-        alg.initialise();
+        alg.performInitialisation();
 
         while (!alg.isFinished()) {
             alg.performIteration();

@@ -23,13 +23,13 @@ package net.sourceforge.cilib.coevolution.selection;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.sourceforge.cilib.coevolution.competitors.CoevolutionCompetitorList;
-import net.sourceforge.cilib.coevolution.competitors.Competitor;
+import net.sourceforge.cilib.coevolution.competitive.Competitor;
+import net.sourceforge.cilib.coevolution.competitive.CompetitorList;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 
 /**
- * Select N random opponents from the pool of competitors
+ * Select N random opponents from the pool of competitors.
  */
 public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy {
 
@@ -59,21 +59,25 @@ public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy 
      * {@inheritDoc}
      */
     @Override
-    public CoevolutionCompetitorList selectCompetitors(CoevolutionCompetitorList pool) {
-        CoevolutionCompetitorList opponents = new CoevolutionCompetitorList(numberOfOpponents);
+    public CompetitorList selectCompetitors(CompetitorList pool) {
+        CompetitorList opponents = new CompetitorList(numberOfOpponents);
 
         for (int i = 0; i < pool.getNumberOfLists(); ++i) {
             List<Competitor> selectedOpponents = new ArrayList<Competitor>();
             int pID = -1;
+
             for (int o = 0; o < numberOfOpponents; o++) {
                 int selected = (int) random.getRandomNumber(0, pool.getNumberOfCompetitors(i));
                 Competitor sel = pool.getCompetitor(i, selected);
+
                 if (pID == -1) {
                     pID = sel.getPopulationID();
                 }
+
                 selectedOpponents.add(new Competitor(sel.getEntityData(), sel.getPopulationID()));
                 pool.removeCompetitor(i, selected);
             }
+
             if (selectedOpponents.size() > 0) {
                 opponents.addCompetitorList(pID, selectedOpponents);
             }

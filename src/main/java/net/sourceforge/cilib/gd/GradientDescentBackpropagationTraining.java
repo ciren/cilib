@@ -67,7 +67,7 @@ public class GradientDescentBackpropagationTraining extends AbstractAlgorithm im
      * {@inheritDoc}
      */
     @Override
-    public void performInitialisation() {
+    public void algorithmInitialisation() {
         NNDataTrainingProblem problem = (NNDataTrainingProblem) getOptimisationProblem();
         problem.initialise();
     }

@@ -148,7 +148,7 @@ public final class Algorithms {
         return new F<A, A>() {
             @Override
             public A f(A a) {
-                ((AbstractAlgorithm) a).initialise();
+                ((AbstractAlgorithm) a).performInitialisation();
                 return a;
             }
         };

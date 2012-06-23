@@ -50,7 +50,7 @@ public class GeneralizedMovingPeaksTest {
         pso.setOptimisationProblem(problem);
         pso.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 100));
 
-        pso.initialise();
+        //pso.initialise();
         pso.run();
     }
 }

@@ -110,14 +110,14 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     /**
      * Initializes the algorithm. Must be called before {@link #run()} is called.
      */
-    public final void initialise() {
-        Preconditions.checkState(!stoppingConditions.isEmpty(), "No stopping conditions specified");
+    @Override
+    public final void performInitialisation() {
         iteration = 0;
         running = true;
         initialised = true;
 
         currentAlgorithmStack.get().push(this);
-        performInitialisation();
+        algorithmInitialisation();
         currentAlgorithmStack.get().pop();
     }
 
@@ -141,8 +141,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public void performInitialisation() {
+    public void algorithmInitialisation() {
         // subclasses can override the behaviour for this method
     }
     
@@ -151,6 +150,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
      * Useful for running algorithms within algorithms.
      */
     public void runAlgorithm() {
+        Preconditions.checkState(!stoppingConditions.isEmpty(), "No stopping conditions specified");
         Preconditions.checkState(initialised, "Algorithm not initialised");
         
         while (running && (!isFinished())) {
@@ -166,17 +166,14 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     @Override
     public void run() {
         if (!initialised) {
-            initialise();
+            performInitialisation();
         }
         
         currentAlgorithmStack.get().push(this);
         fireAlgorithmStarted();
-        currentAlgorithmStack.get().pop();
 
-        // performIteration puts the algorithm back on the stack
         runAlgorithm();
 
-        currentAlgorithmStack.get().push(this);
         fireAlgorithmFinished();
         currentAlgorithmStack.get().pop();
         

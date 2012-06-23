@@ -33,95 +33,93 @@ import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * Optimize either a single player game or a game against hand coded opponents
+ * Optimize either a single player game or a game against hand coded opponents.
  */
-public class GameLearningOptimizationProblem extends
-		PerformanceEvaluationOptimizationProblem {
+public class GameLearningOptimizationProblem extends PerformanceEvaluationOptimizationProblem {
 
-	private static final long serialVersionUID = -5779885760175795987L;
-	protected Game game;
+    private static final long serialVersionUID = -5779885760175795987L;
+    protected Game game;
 
-	public GameLearningOptimizationProblem() {
+    public GameLearningOptimizationProblem() {
+    }
 
-	}
+    /**
+     * Copy constructor
+     * @param copy
+     */
+    public GameLearningOptimizationProblem(
+            GameLearningOptimizationProblem copy) {
+        super(copy);
+        game = copy.game.getClone();
+    }
 
-	/**
-	 * Copy constructor
-	 * @param copy
-	 */
-	public GameLearningOptimizationProblem(
-			GameLearningOptimizationProblem copy) {
-		super(copy);
-		game = copy.game.getClone();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public OptimisationProblemAdapter getClone() {
+        return new GameLearningOptimizationProblem(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OptimisationProblemAdapter getClone() {
-		return new GameLearningOptimizationProblem(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DomainRegistry getDomain() {
+        return game.getDomainForPlayer(1); //player one is the player being optimized
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public DomainRegistry getDomain() {
-		return game.getDomainForPlayer(1); //player one is the player being optimized
-	}
-	/**
-	 * This method should be called after all the players have been initialized for this game
-	 * the required amount of games are played and the scores are stored
-	 * @param currentPlayerID the id of the player being optimized
-	 * @param currentScore the score's
-	 */
-	public void playGame(int currentPlayerID, EntityScore currentScore){
-		//currentScore.getRound(); //check if this is a new round of competitions. If so, reset the seed?!?!
-		int[] playerList = game.getPlayerIDList(currentPlayerID);
-		game.setStartPlayer(currentPlayerID);
-		int amPlayers = game.getPlayerCount();
-		boolean turnBasedGame = !(game instanceof RealTimeGame);
-		int switchCounter = 1;
-		for(int i = 0; i < numberOfEvaluations; ++i){
-			if(turnBasedGame && i >= ((numberOfEvaluations / amPlayers) * switchCounter)){
-				game.setStartPlayer(playerList[switchCounter]);
-				++switchCounter;
-			}
-			game.clearMeasurementData(); //Not too confident about this, what if you want to measure across multiple games
-			game.playGame();
-			game.setEntityScore(currentPlayerID, currentScore);
-		}
-	}
+    /**
+     * This method should be called after all the players have been initialized for this game
+     * the required amount of games are played and the scores are stored
+     * @param currentPlayerID the id of the player being optimized
+     * @param currentScore the score's
+     */
+    public void playGame(int currentPlayerID, EntityScore currentScore) {
+        //currentScore.getRound(); //check if this is a new round of competitions. If so, reset the seed?!?!
+        int[] playerList = game.getPlayerIDList(currentPlayerID);
+        game.setStartPlayer(currentPlayerID);
+        int amPlayers = game.getPlayerCount();
+        boolean turnBasedGame = !(game instanceof RealTimeGame);
+        int switchCounter = 1;
+        for (int i = 0; i < numberOfEvaluations; ++i) {
+            if (turnBasedGame && i >= ((numberOfEvaluations / amPlayers) * switchCounter)) {
+                game.setStartPlayer(playerList[switchCounter]);
+                ++switchCounter;
+            }
+            game.clearMeasurementData(); //Not too confident about this, what if you want to measure across multiple games
+            game.playGame();
+            game.setEntityScore(currentPlayerID, currentScore);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Fitness calculateFitness(Type solution) {
-		//one fixed set of competitors
-		if(!(solution instanceof Blackboard))
-			throw new RuntimeException("Please use the PropertyBasedFitnessCalculator with the entity optimizing the game, current type is: " + solution.getClass().getSimpleName());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Fitness calculateFitness(Type solution) {
+        //one fixed set of competitors
+        if (!(solution instanceof Blackboard)) {
+            throw new RuntimeException("Please use the PropertyBasedFitnessCalculator with the entity optimizing the game, current type is: " + solution.getClass().getSimpleName());
+        }
 
-		//for each game, add the score {win/lose/tie : score} to a scoreboard. then use the scoring strategy to assign a score to the player
-		EntityScore score = new EntityScore(1,1); //in the case of optimizing against static opponents the opponent id is not so important, or is it?!?
-		// initialize the first player, which is the one being optimized, to the contents of solution
-		@SuppressWarnings("unchecked")
-		Blackboard<Enum<?>, Type> blackboard = (Blackboard<Enum<?>, Type>) solution;
-		game.initializeAgent(1, blackboard.get(EntityType.CANDIDATE_SOLUTION));
-		playGame(1, score);
-		EntityScoreboard board = new EntityScoreboard();//(EntityScoreboard)((Blackboard<Enum<?>, Type>)solution).get(EntityType.Coevolution.BOARD);
-		board.mergeEntityScore(score);
-		//need to store the entityscoreboard and current competition round in blackboard. should I put them in the blackboard here, or somewhere else?
-		return fitnessCalculation.calculateFitnessFromScoreBoard(board, 1);
-	}
+        //for each game, add the score {win/lose/tie : score} to a scoreboard. then use the scoring strategy to assign a score to the player
+        EntityScore score = new EntityScore(1, 1); //in the case of optimizing against static opponents the opponent id is not so important, or is it?!?
+        // initialize the first player, which is the one being optimized, to the contents of solution
+        Blackboard<Enum<?>, Type> blackboard = (Blackboard<Enum<?>, Type>) solution;
+        game.initializeAgent(1, blackboard.get(EntityType.CANDIDATE_SOLUTION));
+        playGame(1, score);
+        EntityScoreboard board = new EntityScoreboard();//(EntityScoreboard)((Blackboard<Enum<?>, Type>)solution).get(EntityType.Coevolution.BOARD);
+        board.mergeEntityScore(score);
+        //need to store the entityscoreboard and current competition round in blackboard. should I put them in the blackboard here, or somewhere else?
+        return fitnessCalculation.calculateFitnessFromScoreBoard(board, 1);
+    }
 
-	public void setGame(Game game) {
-		this.game = game;
-	}
+    public void setGame(Game game) {
+        this.game = game;
+    }
 
-	public Game getGame() {
-		return game;
-	}
-
+    public Game getGame() {
+        return game;
+    }
 }

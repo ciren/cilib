@@ -54,7 +54,7 @@ public class EntropyDiversityTest {
         pso.setOptimisationProblem(problem);
         pso.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 1));
         
-        pso.initialise();
+        pso.performInitialisation();
 
         dimensions = pso.getOptimisationProblem().getDomain().getDimension();
     }
