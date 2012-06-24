@@ -78,7 +78,7 @@
         </algorithm>
 
         <algorithm id="compcoevol" class="coevolution.competitive.CompetitiveCoevolutionAlgorithm">
-            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100"/>
             <addPopulationBasedAlgorithm idref="lbest"/>
             <addPopulationBasedAlgorithm idref="lbest"/>
         </algorithm>
@@ -89,7 +89,7 @@
     </measurements>
 
     <simulations>
-        <simulation samples="2">
+        <simulation samples="1">
             <algorithm idref="compcoevol"/>
             <problem idref="PredatorPrey"/>
             <measurements idref="fitness" />

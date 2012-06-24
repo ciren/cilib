@@ -27,22 +27,20 @@ import net.sourceforge.cilib.games.game.Game;
 import net.sourceforge.cilib.games.items.GameToken;
 import net.sourceforge.cilib.games.items.GridLocation;
 import net.sourceforge.cilib.games.states.ListGameState;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * This is the neural input strategr for a Predator or Prey agent. It determins how the game is described to the {@linkplain NeuralAgent}
+ * This is the neural input strategy for a Predator or Prey agent. 
+ * It determines how the game is described to the {@linkplain NeuralAgent}
  */
 public class PredatorPreyNeuralInputStrategy extends NeuralStateInputStrategy {
 
-    /**
-     *
-     */
     public PredatorPreyNeuralInputStrategy() {
     }
 
     /**
-     * This {@linkplain NeuralStateInputStrategy} requires 4 input units. The first two is the position of the Predator agent, and the 2nd two is the position of the Prey agent.
+     * This {@linkplain NeuralStateInputStrategy} requires 4 input units. 
+     * The first two is the position of the Predator agent, and the 2nd two is the position of the Prey agent.
      */
     @Override
     public int amountInputs() {
@@ -54,12 +52,13 @@ public class PredatorPreyNeuralInputStrategy extends NeuralStateInputStrategy {
      */
     @Override
     public Vector getNeuralInputArray(NeuralAgent currentPlayer, Game state) {
-//        try{
         if (!(state instanceof PredatorPreyGame)) {
             throw new RuntimeException("Invalid game for this agent");
         }
+        
         ListGameState lstate = (ListGameState) state.getDecisionState();
         Vector predPos = null, preyPos = null;
+        
         for (int i = 0; i < lstate.getSize(); i++) {
             if (lstate.getItem(i).getToken().equals(GameToken.PredatorPrey.PREDATOR)) {
                 predPos = ((GridLocation) lstate.getItem(i).getLocation());
@@ -67,16 +66,13 @@ public class PredatorPreyNeuralInputStrategy extends NeuralStateInputStrategy {
                 preyPos = ((GridLocation) lstate.getItem(i).getLocation());
             }
         }
-        Vector inputvector = new Vector(4);
-        inputvector.add(Real.valueOf(currentPlayer.getScaledInput((double) predPos.intValueOf(0), 0, ((PredatorPreyGame) state).getBoardWidth())));
-        inputvector.add(Real.valueOf(currentPlayer.getScaledInput((double) predPos.intValueOf(1), 0, ((PredatorPreyGame) state).getBoardHeight())));
-        inputvector.add(Real.valueOf(currentPlayer.getScaledInput((double) preyPos.intValueOf(0), 0, ((PredatorPreyGame) state).getBoardWidth())));
-        inputvector.add(Real.valueOf(currentPlayer.getScaledInput((double) preyPos.intValueOf(1), 0, ((PredatorPreyGame) state).getBoardHeight())));
-        return inputvector;
-//        }
-//        catch(Exception e)
-//        {
-//            throw new InitialisationException("Game not initialized, predator and prey items do not exist");
-//        }
+        
+        Vector.Builder inputvector = Vector.newBuilder();
+        inputvector.add(currentPlayer.getScaledInput((double) predPos.intValueOf(0), 0, ((PredatorPreyGame) state).getBoardWidth()));
+        inputvector.add(currentPlayer.getScaledInput((double) predPos.intValueOf(1), 0, ((PredatorPreyGame) state).getBoardHeight()));
+        inputvector.add(currentPlayer.getScaledInput((double) preyPos.intValueOf(0), 0, ((PredatorPreyGame) state).getBoardWidth()));
+        inputvector.add(currentPlayer.getScaledInput((double) preyPos.intValueOf(1), 0, ((PredatorPreyGame) state).getBoardHeight()));
+        
+        return inputvector.build();
     }
 }
