@@ -159,19 +159,6 @@ public class Vector implements StructuredType<Numeric>,
     }
 
     /**
-     * Create a new {@code Vector} which is a copy of the provided instance.
-     * @param copy The {@code Vector} to copy.
-     * @deprecated Use {@link Vector#copyOf(java.lang.Iterable)} instead.
-     */
-    @Deprecated
-    public Vector(Vector copy) {
-        this.components = new Numeric[copy.components.length];
-        for (int i = 0, n = components.length; i < n; i++) {
-            this.components[i] = copy.components[i].getClone();
-        }
-    }
-
-    /**
      * {@inheritDoc}
      * @deprecated Use {@link Vector#copyOf(java.lang.Iterable)} instead.
      */
