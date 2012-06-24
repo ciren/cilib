@@ -159,21 +159,6 @@ public class Vector implements StructuredType<Numeric>,
     }
 
     /**
-     * Create a new {@code Vector} instance of the provided {@code size}, with
-     * cloned copies of {@code numeric}.
-     * @param size The initial size of the {@code Vector}.
-     * @param numeric The {@code Numeric} to copy.
-     * @deprecated This constructor has been deprecated in favor of the {@code Vector.Builder}.
-     */
-    @Deprecated
-    public Vector(int size, Numeric numeric) {
-        this.components = new Numeric[size];
-        for (int i = 0; i < size; i++) {
-            this.components[i] = numeric.getClone();
-        }
-    }
-
-    /**
      * Create a new {@code Vector} which is a copy of the provided instance.
      * @param copy The {@code Vector} to copy.
      * @deprecated Use {@link Vector#copyOf(java.lang.Iterable)} instead.
@@ -942,6 +927,13 @@ public class Vector implements StructuredType<Numeric>,
 
         private Builder() {
             this.elements = Lists.newArrayList();
+        }
+        
+        public Builder repeat(int n, Numeric numeric) {
+            for (int i = 0; i < n; i++) {
+                elements.add(numeric);
+            }
+            return this;
         }
 
         public Builder prepend(Numeric n) {
