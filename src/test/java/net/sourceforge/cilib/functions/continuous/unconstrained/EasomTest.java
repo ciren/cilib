@@ -21,16 +21,13 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- */
 public class EasomTest {
 
     private ContinuousFunction function;
@@ -43,9 +40,8 @@ public class EasomTest {
     /** Test of evaluate method, of class cilib.functions.unconstrained.Easom. */
     @Test
     public void testEvaluate() {
-        Vector x = new Vector();
-        x.add(Real.valueOf(Math.PI));
-        x.add(Real.valueOf(Math.PI));
+        Vector x = Vector.of(Real.valueOf(Math.PI),
+                Real.valueOf(Math.PI));
         assertEquals(-1.0, function.apply(x), 0.0);
 
         x.setReal(0, Math.PI/2.0);

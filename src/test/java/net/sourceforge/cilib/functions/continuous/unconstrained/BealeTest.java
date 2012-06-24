@@ -21,17 +21,12 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- */
 public class BealeTest {
 
     private ContinuousFunction function;
@@ -46,9 +41,7 @@ public class BealeTest {
     public void testEvaluate() {
         function = new Beale();
 
-        Vector x = new Vector();
-        x.add(Real.valueOf(1.0));
-        x.add(Real.valueOf(2.0));
+        Vector x = Vector.of(1.0, 2.0);
         assertEquals(126.4531250, function.apply(x), 0.0);
 
         x.setReal(0, 3.0);

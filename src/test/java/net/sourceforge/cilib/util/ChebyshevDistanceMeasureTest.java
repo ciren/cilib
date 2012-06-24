@@ -21,39 +21,22 @@
  */
 package net.sourceforge.cilib.util;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
-/**
- */
 public class ChebyshevDistanceMeasureTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void testVectorDistance() {
         DistanceMeasure distanceMeasure = new ChebyshevDistanceMeasure();
 
-        Vector v1 = new Vector();
-        Vector v2 = new Vector();
-
-        v1.add(Real.valueOf(5.0));
-        v1.add(Real.valueOf(3.0));
-        v1.add(Real.valueOf(1.0));
-
-        v2.add(Real.valueOf(1.0));
-        v2.add(Real.valueOf(3.0));
-        v2.add(Real.valueOf(5.5));
-
+        Vector v1 = Vector.of(5,3,1);
+        Vector v2 = Vector.of(1,3,5.5);
         assertEquals(4.5, distanceMeasure.distance(v1, v2), Double.MIN_NORMAL);
 
         v1.add(Real.valueOf(22.0));
-
         distanceMeasure.distance(v1, v2);
     }
 

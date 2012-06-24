@@ -39,22 +39,23 @@ public class RecordItemLocationMeasure extends SingleAgentMeasure {
     private Vector locations;
 
     public RecordItemLocationMeasure() {
-        locations = new Vector();
+        locations = Vector.of();
     }
 
     public RecordItemLocationMeasure(Enum itemToken) {
         super(itemToken);
-        locations = new Vector();
+        locations = Vector.of();
     }
 
     public RecordItemLocationMeasure(RecordItemLocationMeasure other) {
         super(other);
-        locations = other.locations.getClone();
+        locations = Vector.copyOf(locations);
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void clearData() {
         locations.clear();
     }
@@ -62,6 +63,7 @@ public class RecordItemLocationMeasure extends SingleAgentMeasure {
     /**
      * {@inheritDoc}
      */
+    @Override
     public RecordItemLocationMeasure getClone() {
         return new RecordItemLocationMeasure(this);
     }
@@ -69,6 +71,7 @@ public class RecordItemLocationMeasure extends SingleAgentMeasure {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Type getMeasuredData() {
         return locations;
     }
@@ -76,6 +79,7 @@ public class RecordItemLocationMeasure extends SingleAgentMeasure {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void measure(Game<GameState> game) {
         GameState state = game.getCurrentState();
         if(!(state instanceof ListGameState))

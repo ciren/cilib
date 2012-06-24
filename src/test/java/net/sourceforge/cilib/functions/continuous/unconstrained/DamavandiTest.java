@@ -21,16 +21,13 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- */
 public class DamavandiTest {
 
     private ContinuousFunction function;
@@ -43,9 +40,8 @@ public class DamavandiTest {
     /** Test of evaluate method, of class cilib.functions.unconstrained.Damavandi. */
     @Test
     public void testEvaluate() {
-        Vector x = new Vector();
-        x.add(Real.valueOf(2.0000001));
-        x.add(Real.valueOf(2.0000001));
+        Vector x = Vector.of(Real.valueOf(2.0000001),
+                Real.valueOf(2.0000001));
         assertEquals(0.0, function.apply(x), 0.000000001);
 
         x.setReal(0, 7.0);

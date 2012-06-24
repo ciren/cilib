@@ -54,11 +54,11 @@ public class OutputErrorVisitorTest {
         visitor.visit(network.getArchitecture());
         Vector outputError = visitor.getOutput();
 
-        Vector referenceError = new Vector();
+        Vector.Builder referenceError = Vector.newBuilder();
         for (int i = 0; i < output.size(); i++) {
             referenceError.add(Real.valueOf(target.doubleValueOf(i) - output.doubleValueOf(i)));
         }
 
-        Assert.assertEquals(referenceError, outputError);
+        Assert.assertEquals(referenceError.build(), outputError);
     }
 }

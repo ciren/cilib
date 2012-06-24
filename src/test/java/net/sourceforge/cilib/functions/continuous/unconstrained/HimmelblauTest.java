@@ -22,10 +22,8 @@
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -47,13 +45,7 @@ public class HimmelblauTest {
      */
     @Test
     public void testEvaluate() {
-//        function.setDomain("R(-6, 6)^2");
-
-        Vector x = new Vector();
-
-        //test the four global minima
-        x.add(Real.valueOf(3.0));
-        x.add(Real.valueOf(2.0));
+        Vector x = Vector.of(3,2);
         Assert.assertEquals(0.0, function.apply(x), EPSILON);
 
         x.setReal(0, -2.805118);

@@ -21,16 +21,12 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
-*/
 public class AbsoluteValueTest {
 
     private ContinuousFunction function;
@@ -43,10 +39,7 @@ public class AbsoluteValueTest {
     /** Test of evaluate method, of class cilib.functions.unconstrained.AbsoluteValue. */
     @Test
     public void testEvaluate() {
-        Vector x = new Vector();
-        x.add(Real.valueOf(-1.0));
-        x.add(Real.valueOf(2.0));
-        x.add(Real.valueOf(-3.0));
+        Vector x = Vector.of(-1, 2, -3);
         assertEquals(6.0, function.apply(x), 0.0);
 
         x.setReal(0, 0.0);

@@ -49,14 +49,13 @@ public class MultipleSolutions implements Measurement<Vector> {
 
     @Override
     public Vector getValue(Algorithm algorithm) {
-        Vector v = new Vector();
-        Iterable<OptimisationSolution> solutions = algorithm.getSolutions();
+        Vector.Builder v = Vector.newBuilder();
 
-        for (OptimisationSolution solution : solutions) {
-            v.addAll((Vector) solution.getPosition());
+        for (OptimisationSolution solution : algorithm.getSolutions()) {
+            v.copyOf((Vector) solution.getPosition());
         }
 
-        return v;
+        return v.build();
     }
 
 }

@@ -61,9 +61,9 @@ public class PredatorPreyNeuralInputStrategy extends NeuralStateInputStrategy {
         
         for (int i = 0; i < lstate.getSize(); i++) {
             if (lstate.getItem(i).getToken().equals(GameToken.PredatorPrey.PREDATOR)) {
-                predPos = ((GridLocation) lstate.getItem(i).getLocation());
+                predPos = ((GridLocation) lstate.getItem(i).getLocation()).getLocation();
             } else {
-                preyPos = ((GridLocation) lstate.getItem(i).getLocation());
+                preyPos = ((GridLocation) lstate.getItem(i).getLocation()).getLocation();
             }
         }
         

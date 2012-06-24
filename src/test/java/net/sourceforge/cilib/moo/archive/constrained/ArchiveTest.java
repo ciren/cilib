@@ -21,34 +21,20 @@
  */
 package net.sourceforge.cilib.moo.archive.constrained;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
+import java.util.*;
 import net.sourceforge.cilib.moo.archive.Archive;
-import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.problem.MOFitness;
-import net.sourceforge.cilib.problem.MOOptimisationProblem;
-import net.sourceforge.cilib.problem.MinimisationFitness;
-import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.*;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-/**
- */
 public class ArchiveTest {
 
     private static Archive archive;
@@ -190,11 +176,11 @@ public class ArchiveTest {
         // Create 3 test vectors with values (1,2,3,4,5); (2,3,4,5,6) and (3,4,5,6,7).
         List<Vector> testVectors = new ArrayList<Vector>();
         for (int i = 1; i <= 3; ++i) {
-            Vector vector = new Vector();
+            Vector.Builder vector = Vector.newBuilder();
             for (int j = i; j < i + 5; ++j) {
                 vector.add(Real.valueOf(j));
             }
-            testVectors.add(vector);
+            testVectors.add(vector.build());
         }
         return testVectors;
     }

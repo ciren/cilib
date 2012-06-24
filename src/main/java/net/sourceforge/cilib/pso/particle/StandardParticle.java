@@ -40,8 +40,8 @@ public class StandardParticle extends AbstractParticle {
     /** Creates a new instance of StandardParticle. */
     public StandardParticle() {
         super();
-        this.getProperties().put(EntityType.Particle.BEST_POSITION, new Vector());
-        this.getProperties().put(EntityType.Particle.VELOCITY, new Vector());
+        this.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.of());
+        this.getProperties().put(EntityType.Particle.VELOCITY, Vector.of());
     }
 
     /**

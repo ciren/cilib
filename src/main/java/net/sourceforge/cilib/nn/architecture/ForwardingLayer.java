@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.nn.architecture;
 
 import net.sourceforge.cilib.nn.components.PatternInputSource;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -57,12 +56,13 @@ public class ForwardingLayer extends Layer {
      */
     @Override
     public Vector getActivations() {
-        Vector activations = new Vector();
-        int size = this.size();
-        for (int i = 0; i < size; i++) {
-            activations.add(Real.valueOf(getNeuralInput(i)));
+        Vector.Builder activations = Vector.newBuilder();
+        
+        for (int i = 0; i < this.size(); i++) {
+            activations.add(getNeuralInput(i));
         }
-        return activations;
+        
+        return activations.build();
     }
 
     /**

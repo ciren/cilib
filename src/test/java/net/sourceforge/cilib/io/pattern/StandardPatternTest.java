@@ -41,12 +41,7 @@ public class StandardPatternTest {
 
     @Before
     public void setup() {
-        feature = new Vector();
-        feature.add(Real.valueOf(0.1));
-        feature.add(Real.valueOf(0.2));
-        feature.add(Real.valueOf(0.3));
-        feature.add(Real.valueOf(0.4));
-        feature.add(Real.valueOf(0.5));
+        feature = Vector.of(0.1, 0.2, 0.3, 0.4, 0.5);
         klas = new StringType("class1");
 
         pattern1 = new StandardPattern();

@@ -23,15 +23,11 @@ package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- */
 public class Bohachevsky1Test {
 
     private ContinuousFunction function;
@@ -47,10 +43,7 @@ public class Bohachevsky1Test {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bohachevsky1. */
     @Test
     public void testEvaluate() {
-        Vector x = new Vector();
-        x.add(Real.valueOf(1.0));
-        x.add(Real.valueOf(2.0));
-
+        Vector x = Vector.of(1.0, 2.0);
         assertEquals(9.6, function.apply(x), 0.0);
 
         x.setReal(0, 0.0);

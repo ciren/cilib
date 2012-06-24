@@ -21,17 +21,12 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- */
 public class BirdTest {
 
     private ContinuousFunction function;
@@ -44,10 +39,7 @@ public class BirdTest {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bird. */
     @Test
     public void testEvaluate() {
-        Vector x = new Vector();
-        x.add(Real.valueOf(1.0));
-        x.add(Real.valueOf(2.0));
-
+        Vector x = Vector.of(1,2);
         assertEquals(6.8250541015507, function.apply(x), 0.00000000001);
     }
 }

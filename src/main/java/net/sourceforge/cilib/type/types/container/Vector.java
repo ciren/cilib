@@ -159,16 +159,6 @@ public class Vector implements StructuredType<Numeric>,
     }
 
     /**
-     * Create a new empty {@code Vector}.
-     * @deprecated This constructor has been deprecated in favor of the static
-     * factory methods {@code of()} and {@code copyOf()}.
-     */
-    @Deprecated
-    public Vector() {
-        this.components = new Numeric[]{};
-    }
-
-    /**
      * Create a new {@code Vector} instance of the provided {@code size}, with
      * cloned copies of {@code numeric}.
      * @param size The initial size of the {@code Vector}.

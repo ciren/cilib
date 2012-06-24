@@ -39,7 +39,7 @@ public class StandardPattern implements Cloneable {
      * Default constructor.
      */
     public StandardPattern() {
-        vector = new Vector();
+        vector = Vector.of();
     }
 
     /**

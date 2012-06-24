@@ -21,33 +21,20 @@
  */
 package net.sourceforge.cilib.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
-/**
- */
 public class CosineDistanceMeasureTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testVectorDistance() {
         DistanceMeasure distanceMeasure = new CosineDistanceMeasure();
 
-        Vector v1 = new Vector();
-        Vector v2 = new Vector();
-
-        v1.add(Real.valueOf(4.0));
-        v1.add(Real.valueOf(3.0));
-        v1.add(Real.valueOf(2.0));
-
-        v2.add(Real.valueOf(2.0));
-        v2.add(Real.valueOf(3.0));
-        v2.add(Real.valueOf(4.0));
+        Vector v1 = Vector.of(4,3,2);
+        Vector v2 = Vector.of(2,3,4);
 
         double distance = distanceMeasure.distance(v1, v2);
         assertTrue(distance >= -1 && distance <= 1);

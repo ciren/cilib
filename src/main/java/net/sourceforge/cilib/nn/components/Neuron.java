@@ -46,7 +46,7 @@ public class Neuron implements Cloneable {
     public Neuron() {
         activation = 0.0;
         activationFunction = new Sigmoid();
-        weights = new Vector();
+        weights = Vector.of();
     }
 
     /**
