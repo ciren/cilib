@@ -59,8 +59,7 @@ public class SimulatorTest {
     @Test
     public void simulationConstruction() {
         System.out.println("Constructing specification: " + filename);
-        SimulatorShell shell = new SimulatorShell();
-        shell.prepare(new File("xml", filename));
+        SimulatorShell.prepare(new File("xml", filename));
     }
 
     @Parameterized.Parameters

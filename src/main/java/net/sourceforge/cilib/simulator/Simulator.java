@@ -93,10 +93,16 @@ public class Simulator {
      */
     public void init() {
         for (int i = 0; i < samples; ++i) {
-            simulations[i] = new Simulation(this, (Algorithm) algorithmFactory.newObject(), (Problem) problemFactory.newObject(), (MeasurementSuite) measurementFactory.newObject());
+            simulations[i] = createSimulation();
             simulations[i].init(); // Prepare the simulation for execution
             progress.put(simulations[i], 0.0);
         }
+    }
+    
+    public Simulation createSimulation() {
+        return new Simulation(this, (Algorithm) algorithmFactory.newObject(), 
+                (Problem) problemFactory.newObject(), 
+                (MeasurementSuite) measurementFactory.newObject());
     }
 
     /**
@@ -182,5 +188,9 @@ public class Simulator {
     void updateProgress(Simulation simulation, double percentageComplete) {
         progress.put(simulation, percentageComplete);
         notifyProgress();
+    }
+
+    public int getSamples() {
+        return samples;
     }
 }

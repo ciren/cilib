@@ -41,12 +41,13 @@ import org.w3c.dom.NodeList;
  *
  */
 public class SimulatorShell {
+    private SimulatorShell() {}
     /**
      * Prepare a list of {@code Simulator} instances for execution.
      * @param specification to be read defining the simulations.
      * @return the list of instacnes to execute.
      */
-    public List<Simulator> prepare(File specification) {
+    public static List<Simulator> prepare(File specification) {
         try {
             List<Simulator> simulators = Lists.newArrayList();
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -77,7 +78,7 @@ public class SimulatorShell {
      * @param listener reposible to monitor progress.
      * TODO: This listener idea is not fresh - one listener per simulation should be the case.
      */
-    public void execute(Iterable<Simulator> simulators, ProgressListener listener) {
+    public static void execute(Iterable<Simulator> simulators, ProgressListener listener) {
         int index = 0;
         for (Simulator simulator : simulators) {
             simulator.init(); // Prepare the simulator by initializing the simulations
@@ -87,7 +88,7 @@ public class SimulatorShell {
         }
     }
 
-    private MeasurementCombiner createCombiner(Element item) {
+    private static MeasurementCombiner createCombiner(Element item) {
         return new MeasurementCombiner(new File(item.getAttribute("file")));
     }
 }
