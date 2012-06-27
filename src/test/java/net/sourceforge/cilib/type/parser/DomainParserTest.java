@@ -23,6 +23,9 @@ package net.sourceforge.cilib.type.parser;
 
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
+import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.StringType;
 import static org.hamcrest.CoreMatchers.is;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -168,4 +171,22 @@ public class DomainParserTest {
         Assert.assertThat(type, is(Vector.class));
     }
 
+    @Test
+    public void boundsNotSwappedVector() {
+        Vector vector = (Vector) DomainParser.parse("R(0:100),R(100:200)");
+
+        Assert.assertThat(vector.boundsOf(0).toString(), is("(0.0:100.0)"));
+        Assert.assertThat(vector.boundsOf(1).toString(), is("(100.0:200.0)"));
+    }
+
+    @Test
+    public void boundsNotSwappedTypeList() {
+        TypeList vector = (TypeList) DomainParser.parse("T, T, T");
+
+        Assert.assertThat(vector.size(), is(3));
+
+        Assert.assertTrue(vector.get(0) instanceof StringType);
+        Assert.assertTrue(vector.get(1) instanceof StringType);
+        Assert.assertTrue(vector.get(2) instanceof StringType);
+    }
 }

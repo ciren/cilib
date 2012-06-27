@@ -40,7 +40,7 @@ import org.parboiled.support.ParsingResult;
  * based representation of {@code Numeric} types, then a {@code Vector} is returned.
  */
 public final class DomainParser {
-    
+
     private final static DomainParserGrammar.ExpandingParser EXPANDING_PARSER = Parboiled.createParser(DomainParserGrammar.ExpandingParser.class);
     private final static DomainParserGrammar.DomainGrammar DOMAIN_PARSER = Parboiled.createParser(DomainParserGrammar.DomainGrammar.class);
 
@@ -57,23 +57,26 @@ public final class DomainParser {
     public static <E extends StructuredType<? extends Type>> E parse(String domain) {
         final ReportingParseRunner<String> expander = new ReportingParseRunner<String>(EXPANDING_PARSER.Expansion());
         final ParsingResult<String> d = expander.run(domain.replaceAll(" ", ""));
-        
+
         if (d.hasErrors()) {
+            StringBuilder strBuilder = new StringBuilder();
             for (ParseError e : d.parseErrors) {
-                System.out.println(e.getErrorMessage());
+                strBuilder.append(e.getInputBuffer().extract(e.getStartIndex(), e.getEndIndex()));
             }
-            throw new RuntimeException("Error in expanding domain: " + domain);
+            throw new RuntimeException("Error in expanding domain: " + domain + " near: " + strBuilder.toString());
         }
-        
+
         final String expanded = Joiner.on(",").join(d.valueStack);
         final ReportingParseRunner<?> runner = new ReportingParseRunner(DOMAIN_PARSER.Domain());
         final ParsingResult<Type> result = (ParsingResult<Type>) runner.run(expanded);
 
         if (result.hasErrors()) {
+            StringBuilder strBuilder = new StringBuilder();
             for (ParseError e : result.parseErrors) {
-                System.out.println(e.getErrorMessage());
+                strBuilder.append(e.getInputBuffer().extract(e.getStartIndex(), e.getEndIndex()));
             }
-            throw new RuntimeException("Error in parsing domain: " + expanded + ". Ensure that the domain is a valid domain string and contains no whitespace.");
+            throw new RuntimeException("Error in parsing domain: " + expanded +
+                    ". Ensure that the domain is a valid domain string and contains no whitespace.\nError occured near: " + strBuilder.toString());
         }
 
         List<Type> l = Lists.newArrayList(result.valueStack);
@@ -90,7 +93,7 @@ public final class DomainParser {
     private static TypeList toTypeList(List<Type> l) {
         TypeList list = new TypeList();
         for (Type t : l) {
-            list.prepend(t);
+            list.add(t);
         }
         return list;
     }
@@ -124,7 +127,7 @@ public final class DomainParser {
         Vector.Builder vector = Vector.newBuilder();
 
         for (Type type : representation) {
-            vector.prepend((Numeric) type);
+            vector.add((Numeric) type);
         }
 
         return vector.build();
