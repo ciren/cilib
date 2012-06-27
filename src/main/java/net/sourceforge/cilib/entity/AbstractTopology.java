@@ -21,9 +21,11 @@
  */
 package net.sourceforge.cilib.entity;
 
+import com.google.common.collect.ForwardingList;
 import com.google.common.collect.Lists;
-import java.util.*;
-import net.sourceforge.cilib.container.visitor.Visitor;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 
@@ -34,7 +36,7 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
  *
  * @param <E> The {@code Entity} type.
  */
-public abstract class AbstractTopology<E extends Entity> implements Topology<E> {
+public abstract class AbstractTopology<E extends Entity> extends ForwardingList<E> implements Topology<E> {
     private static final long serialVersionUID = -9117512234439769226L;
     
     protected List<E> entities;
@@ -80,13 +82,16 @@ public abstract class AbstractTopology<E extends Entity> implements Topology<E> 
         if (obj == null) {
             return false;
         }
+        
         if (getClass() != obj.getClass()) {
             return false;
         }
+        
         final AbstractTopology<E> other = (AbstractTopology<E>) obj;
         if (this.entities != other.entities && (this.entities == null || !this.entities.equals(other.entities))) {
             return false;
         }
+        
         return true;
     }
 
@@ -96,119 +101,10 @@ public abstract class AbstractTopology<E extends Entity> implements Topology<E> 
         hash = 43 * hash + (this.entities != null ? this.entities.hashCode() : 0);
         return hash;
     }
-    
-    /**
-     * List interface methods
-     */
-    @Override
-    public boolean add(E element) {
-        return entities.add(element);
-    }
 
     @Override
-    public boolean addAll(Collection<? extends E> set) {
-        return this.entities.addAll(set);
-    }
-
-    @Override
-    public int size() {
-        return entities.size();
-    }
-
-    @Override
-    public E get(int index) {
-        return entities.get(index);
-    }
-
-    @Override
-    public E set(int index, E entity) {
-        entities.set(index, entity);
-        return entity;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return this.entities.isEmpty();
-    }
-
-    @Override
-    public void clear() {
-        this.entities.clear();
-    }
-
-    @Override
-    public boolean contains(Object entity) {
-        return this.entities.contains(entity);
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        return this.entities.removeAll(c);
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        return this.entities.retainAll(c);
-    }
-
-    @Override
-    public Object[] toArray() {
-        return this.entities.toArray();
-    }
-
-    @Override
-    public <T> T[] toArray(T[] a) {
-        return this.entities.toArray(a);
-    }
-
-    @Override
-    public boolean addAll(int index, Collection<? extends E> c) {
-        return this.entities.addAll(index, c);
-    }
-
-    @Override
-    public void add(int index, E element) {
-        this.entities.add(index, element);
-    }
-
-    @Override
-    public int indexOf(Object o) {
-        return this.entities.indexOf(o);
-    }
-
-    @Override
-    public int lastIndexOf(Object o) {
-        return this.entities.lastIndexOf(o);
-    }
-
-    @Override
-    public ListIterator<E> listIterator() {
-        return this.entities.listIterator();
-    }
-
-    @Override
-    public ListIterator<E> listIterator(int index) {
-        return this.entities.listIterator(index);
-    }
-
-    @Override
-    public List<E> subList(int fromIndex, int toIndex) {
-        return this.entities.subList(toIndex, toIndex);
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        return this.entities.remove(o);
-    }
-
-    @Override
-    public E remove(int index) {
-        return this.entities.remove(index);
-    }
-
-    @Override
-    public boolean containsAll(Collection<?> c) {
-        return this.entities.containsAll(c);
+    protected List<E> delegate() {
+        return this.entities;
     }
     
     /**
