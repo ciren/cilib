@@ -42,14 +42,16 @@ public class OutputErrorVisitor extends ArchitectureOperationVisitor {
     public void visit(Architecture architecture) {
         Layer outputLayer = architecture.getLayers().get(architecture.getNumLayers() - 1);
         int layerSize = outputLayer.size();
-        output = new Vector();
+        Vector.Builder outputBuilder = Vector.newBuilder();
         for (int k = 0; k < layerSize; k++) {
             Neuron currentNeuron = outputLayer.get(k);
             double t_k = layerSize > 1 ? ((Vector) input.getTarget()).doubleValueOf(k) : ((Real)input.getTarget()).doubleValue();
             double o_k = currentNeuron.getActivation();
             double tmp = (t_k - o_k);
-            output.add(Real.valueOf(tmp));
+            outputBuilder.add(tmp);
         }
+        
+        output = outputBuilder.build();
     }
 
     /**

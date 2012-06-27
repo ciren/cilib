@@ -21,37 +21,36 @@
  */
 package net.sourceforge.cilib.coevolution.selection;
 
-import net.sourceforge.cilib.coevolution.competitors.CoevolutionCompetitorList;
+import net.sourceforge.cilib.coevolution.competitive.CompetitorList;
 
 /**
- * example of implementation of an OpponentSelectionStrategy, selects all the opponents in the pool
- *
+ * Selects all the opponents in the pool.
  */
-public class SelectAllOpponentSelectionStrategy extends OpponentSelectionStrategy{
+public class SelectAllOpponentSelectionStrategy extends OpponentSelectionStrategy {
 
-	private static final long serialVersionUID = -7695834817656232972L;
+    private static final long serialVersionUID = -7695834817656232972L;
 
-	public SelectAllOpponentSelectionStrategy(){
-		super();
-	}
+    public SelectAllOpponentSelectionStrategy() {
+        super();
+    }
 
-	public SelectAllOpponentSelectionStrategy(SelectAllOpponentSelectionStrategy copy){
+    public SelectAllOpponentSelectionStrategy(SelectAllOpponentSelectionStrategy copy) {
+    }
 
-	}
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public SelectAllOpponentSelectionStrategy getClone() {
-		return new SelectAllOpponentSelectionStrategy(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SelectAllOpponentSelectionStrategy getClone() {
+        return new SelectAllOpponentSelectionStrategy(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public  CoevolutionCompetitorList selectCompetitors(CoevolutionCompetitorList pool){
-		pool.setNumberofEntitiesPerList();
-		return pool;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CompetitorList selectCompetitors(CompetitorList pool) {
+        pool.updateNumberofEntitiesPerList();
+        return pool;
+    }
 }

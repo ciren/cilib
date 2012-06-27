@@ -153,13 +153,13 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
      * {@inheritDoc}
      */
     @Override
-    public void performInitialisation() {
+    public void algorithmInitialisation() {
         if (problem != null) {
             optimisationAlgorithm.setOptimisationProblem(problem);
         }
         fitness = InferiorFitness.instance();
         restarts = 0;
-        algorithm.initialise();
+        algorithm.performInitialisation();
         solution = optimisationAlgorithm.getBestSolution();
     }
 
@@ -180,7 +180,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
 
         if (algorithm.isFinished()) {
             problem.resetFitnessCounter();
-            algorithm.initialise();
+            algorithm.performInitialisation();
             ++restarts;
         }
     }

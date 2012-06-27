@@ -59,7 +59,7 @@ public class ExplorerBeeTest {
         abc.setWorkerBeePercentage(ConstantControlParameter.of(0.5));
         abc.addStoppingCondition(condition);
         abc.setOptimisationProblem(problem);
-        abc.initialise();
+        abc.performInitialisation();
     }
 
     @Test

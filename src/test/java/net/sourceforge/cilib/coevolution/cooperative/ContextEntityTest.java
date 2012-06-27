@@ -21,27 +21,18 @@
  */
 package net.sourceforge.cilib.coevolution.cooperative;
 
-
-
 import net.sourceforge.cilib.coevolution.cooperative.problem.SequencialDimensionAllocation;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
 public class ContextEntityTest {
     @Test
     public void CopyFromTest(){
         ContextEntity testEntity = new ContextEntity();
-        Vector context = new Vector();
-        context.add(Real.valueOf(0));
-        context.add(Real.valueOf(0));
-        context.add(Real.valueOf(0));
-        context.add(Real.valueOf(0));
+        Vector context = Vector.of(0.0, 0.0, 0.0, 0.0);
         testEntity.setCandidateSolution(context);
-        Vector data = new Vector();
-        data.add(Real.valueOf(1));
-        data.add(Real.valueOf(2));
+        Vector data = Vector.of(1, 2);
 
         SequencialDimensionAllocation allocation = new SequencialDimensionAllocation(1, 2);
 

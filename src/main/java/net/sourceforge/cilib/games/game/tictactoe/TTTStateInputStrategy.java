@@ -28,7 +28,6 @@ import net.sourceforge.cilib.games.game.GridGame;
 import net.sourceforge.cilib.games.items.GameItem;
 import net.sourceforge.cilib.games.items.PlayerItem;
 import net.sourceforge.cilib.games.states.GridGameState;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -55,7 +54,7 @@ public class TTTStateInputStrategy extends NeuralStateInputStrategy {
      */
     @Override
     public Vector getNeuralInputArray(NeuralAgent currentPlayer, Game state) {
-        Vector input = new Vector();
+        Vector.Builder input = Vector.newBuilder();
         int Width = ((GridGame)state).getWidth();
         int Height = ((GridGame)state).getHeight();
         GridGameState gstate = (GridGameState)state.getDecisionState();
@@ -65,15 +64,15 @@ public class TTTStateInputStrategy extends NeuralStateInputStrategy {
                 GameItem item =gstate.getItem(i, j);
                 if(item != null){
                     if(((PlayerItem)item).getPlayerID() == currentPlayer.getPlayerID())
-                        input.add(Real.valueOf(currentPlayer.getScaledInput(1, -1, 1))); //it is me
+                        input.add(currentPlayer.getScaledInput(1, -1, 1)); //it is me
                     else
-                        input.add(Real.valueOf(currentPlayer.getScaledInput(-1, -1, 1))); //it is not me
+                        input.add(currentPlayer.getScaledInput(-1, -1, 1)); //it is not me
                 }
                 else
-                    input.add(Real.valueOf(currentPlayer.getScaledInput(0, -1, 1))); //it is nobody
+                    input.add(currentPlayer.getScaledInput(0, -1, 1)); //it is nobody
             }
         }
-        return input;
+        return input.build();
     }
 
 }

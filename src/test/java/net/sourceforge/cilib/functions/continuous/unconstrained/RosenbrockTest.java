@@ -21,17 +21,11 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
+import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.type.types.container.Vector;
 import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
-import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
-
-/**
- *
- */
 public class RosenbrockTest {
 
     public RosenbrockTest() {
@@ -42,28 +36,14 @@ public class RosenbrockTest {
     @Test
     public void testEvaluate() {
         ContinuousFunction function = new Rosenbrock();
-//        function.setDomain("R(-2.048, 2.048)^3");
-
-        Vector x = new Vector();
-        x.add(Real.valueOf(1.0));
-        x.add(Real.valueOf(2.0));
-        x.add(Real.valueOf(3.0));
-
-        Vector y = new Vector();
-        y.add(Real.valueOf(3.0));
-        y.add(Real.valueOf(2.0));
-        y.add(Real.valueOf(1.0));
+        Vector x = Vector.of(1,2,3);
+        Vector y = Vector.of(3,2,1);
 
         assertEquals(201.0, function.apply(x), 0.0);
         assertEquals(5805.0, function.apply(y), 0.0);
 
         function = new Rosenbrock();
-//        function.setDomain("R(-2.048, 2.048)^4");
-        Vector z = new Vector();
-        z.add(Real.valueOf(1.0));
-        z.add(Real.valueOf(2.0));
-        z.add(Real.valueOf(3.0));
-        z.add(Real.valueOf(4.0));
+        Vector z = Vector.of(1,2,3,4);
         assertEquals(2705.0, function.apply(z), 0.0);
     }
 

@@ -26,35 +26,37 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * Defines how fitness values stored in the scoreboard are combined to get a single fitness value
+ * Defines how fitness values stored in the scoreboard are combined to get a single fitness value.
  */
 public abstract class FitnessCalculationStrategy implements Cloneable {
-	private static final long serialVersionUID = -3708525082727758222L;
-	/**
-	 * The number of historic games to keep dictates how many previous competitions should be stored
-	 */
-	int amountHistoricGames;
-	public FitnessCalculationStrategy() {
-		amountHistoricGames = 0;
-	}
 
-	public FitnessCalculationStrategy(FitnessCalculationStrategy other){
-		amountHistoricGames = other.amountHistoricGames;
-	}
+    private static final long serialVersionUID = -3708525082727758222L;
+    /**
+     * The number of historic games to keep dictates how many previous competitions should be stored
+     */
+    int amountHistoricGames;
 
-	/**
-	 * Calculate the fitness from the scoreboard
-	 * @param score the scoreboard
-	 * @param currentRound current round of competition
-	 * @return new fitness
-	 */
-	public abstract Fitness calculateFitnessFromScoreBoard(EntityScoreboard score, int currentRound);
+    public FitnessCalculationStrategy() {
+        amountHistoricGames = 0;
+    }
 
-	public int getAmountHistoricGames() {
-		return amountHistoricGames;
-	}
+    public FitnessCalculationStrategy(FitnessCalculationStrategy other) {
+        amountHistoricGames = other.amountHistoricGames;
+    }
 
-	public void setAmountHistoricGames(int amountHistoricGames) {
-		this.amountHistoricGames = amountHistoricGames;
-	}
+    /**
+     * Calculate the fitness from the scoreboard
+     * @param score the scoreboard
+     * @param currentRound current round of competition
+     * @return new fitness
+     */
+    public abstract Fitness calculateFitnessFromScoreBoard(EntityScoreboard score, int currentRound);
+
+    public int getAmountHistoricGames() {
+        return amountHistoricGames;
+    }
+
+    public void setAmountHistoricGames(int amountHistoricGames) {
+        this.amountHistoricGames = amountHistoricGames;
+    }
 }

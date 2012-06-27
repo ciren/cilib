@@ -22,14 +22,10 @@
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- *
- */
 public class EggHolderTest {
 
     public EggHolderTest() {
@@ -39,24 +35,14 @@ public class EggHolderTest {
     @Test
     public void testEvaluate() {
         ContinuousFunction function = new EggHolder();
-//        function.setDomain("R(-512,512)^2");
-
-        Vector vector = new Vector();
-        vector.add(Real.valueOf(200));
-        vector.add(Real.valueOf(100));
-
+        Vector vector = Vector.of(200,100);
         Assert.assertEquals(-166.745338888944,function.apply(vector),0.00000000001);
     }
 
     @Test
     public void testMinimum() {
         ContinuousFunction function = new EggHolder();
-//        function.setDomain("R(-512,512)^2");
-
-        Vector vector = new Vector();
-        vector.add(Real.valueOf(512));
-        vector.add(Real.valueOf(404.2319));
-
+        Vector vector = Vector.of(512,404.2319);
         Assert.assertEquals(-959.640662710616,function.apply(vector),0.00000000001);
     }
 }

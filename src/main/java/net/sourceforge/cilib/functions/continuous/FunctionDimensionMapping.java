@@ -24,7 +24,6 @@ package net.sourceforge.cilib.functions.continuous;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -76,16 +75,13 @@ public class FunctionDimensionMapping implements ContinuousFunction {
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                Vector v1 = new Vector();
-                Vector v2 = new Vector();
-                v1.add(Real.valueOf(generatedPoints[i * this.dataDimension]));
-                v1.add(Real.valueOf(generatedPoints[i * this.dataDimension + 1]));
+                Vector v1 = Vector.of(generatedPoints[i * this.dataDimension],
+                        generatedPoints[i * this.dataDimension + 1]);
+                Vector v2 = Vector.of(generatedPoints[j * this.dataDimension],
+                        generatedPoints[j * this.dataDimension + 1]);
 
-                v2.add(Real.valueOf(generatedPoints[j * this.dataDimension]));
-                v2.add(Real.valueOf(generatedPoints[j * this.dataDimension + 1]));
                 double distance = measure.distance(v1, v2);
                 generatedDistanceMatrix[i][j] = distance;
-                //        System.out.println("generated[" + i + "][" + j + "]: " + generatedDistanceMatrix[i][j]);
             }
         }
 
@@ -111,8 +107,6 @@ public class FunctionDimensionMapping implements ContinuousFunction {
     }
 
     private long convert(Vector vector) {
-        long result = 0;
-
         String s = vector.toString();
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
@@ -121,8 +115,7 @@ public class FunctionDimensionMapping implements ContinuousFunction {
             }
         }
 
-        result = Long.parseLong(builder.toString(), 2);
-        return result;
+        return Long.parseLong(builder.toString(), 2);
     }
 
     /**

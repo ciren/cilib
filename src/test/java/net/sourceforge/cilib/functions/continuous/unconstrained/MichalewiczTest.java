@@ -45,10 +45,7 @@ public class MichalewiczTest {
     public void testEvaluate() {
 //        function.setDomain("R(0, 3.141592653589793)^2");
 
-        Vector x = new Vector();
-
-        x.add(Real.valueOf(1.5));
-        x.add(Real.valueOf(1.3));
+        Vector x = Vector.of(1.5, 1.3);
         assertEquals(-0.07497735029244701, function.apply(x), 0.00000000000000001);
 
         x.setReal(0, 0.0);

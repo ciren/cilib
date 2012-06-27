@@ -23,19 +23,18 @@ package net.sourceforge.cilib.games.agent;
 
 
 import java.util.List;
-
+import net.sourceforge.cilib.functions.activation.ActivationFunction;
 import net.sourceforge.cilib.games.agent.neural.NeuralOutputInterpretationStrategy;
 import net.sourceforge.cilib.games.agent.neural.NeuralStateInputStrategy;
 import net.sourceforge.cilib.games.game.Game;
 import net.sourceforge.cilib.games.states.GameState;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.nn.NeuralNetwork;
+import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
-import net.sourceforge.cilib.functions.activation.ActivationFunction;
 
 /**
  * An agent that uses a Neural Network to make decisions
@@ -126,7 +125,7 @@ public class NeuralAgent extends Agent {
     public void move(Game<GameState> game) {
         //set the input of the neural network to
         Vector input = stateInputStrategy.getNeuralInputArray(this, game);
-        StandardPattern pattern = new StandardPattern(input, new Vector());
+        StandardPattern pattern = new StandardPattern(input, Vector.of());
         //get the output vector
         Vector NNOutput = neuralNetwork.evaluatePattern(pattern);//perform NN iteration, get output
         outputInterpretationStrategy.applyOutputToState(NNOutput, this, game);

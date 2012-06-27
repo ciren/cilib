@@ -29,23 +29,19 @@ import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import org.junit.Assert;
 import org.junit.Test;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 
-/**
- *
- */
 public class RandomBoundedInitializationStrategyTest {
 
     @Test
     public void initialize() {
-        Vector vector = new Vector();
-        vector.add(Real.valueOf(5.0));
-        vector.add(Real.valueOf(10.0));
-        vector.add(Int.valueOf(7));
+        Vector vector = Vector.of(Real.valueOf(5.0),
+                Real.valueOf(10.0),
+                Int.valueOf(7));
 
         Particle particle = new StandardParticle();
         particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, vector);

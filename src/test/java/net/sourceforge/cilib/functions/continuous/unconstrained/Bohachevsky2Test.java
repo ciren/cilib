@@ -21,17 +21,11 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
-
-/**
- *
- */
 
 public class Bohachevsky2Test {
 
@@ -49,12 +43,7 @@ public class Bohachevsky2Test {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bohachevsky2. */
     @Test
     public void testEvaluate() {
-//        function.setDomain("R(-100,100)^2");
-
-        Vector x = new Vector();
-        x.add(Real.valueOf(1.0));
-        x.add(Real.valueOf(2.0));
-
+        Vector x = Vector.of(1,2);
         assertEquals(9.6, function.apply(x), 0.00000000000001);
 
         x.setReal(0, 0.0);

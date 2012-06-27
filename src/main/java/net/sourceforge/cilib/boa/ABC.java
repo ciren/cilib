@@ -126,7 +126,7 @@ public class ABC extends SinglePopulationBasedAlgorithm {
      * {@inheritDoc}
      */
     @Override
-    public void performInitialisation() {
+    public void algorithmInitialisation() {
         Iterable<? extends Entity> bees = this.initialisationStrategy.initialise(this.optimisationProblem);
         //Iterables.addAll(getTopology(), particles); // Use this instead?
         for (Entity bee : bees) {

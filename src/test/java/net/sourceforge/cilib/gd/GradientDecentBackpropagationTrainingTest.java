@@ -25,7 +25,6 @@ import net.sourceforge.cilib.problem.NNDataTrainingProblem;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,10 +57,13 @@ public class GradientDecentBackpropagationTrainingTest {
         training.addStoppingCondition(stoppingCondition);
         training.performInitialisation();
 
-        Vector errors = new Vector();
+        Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < 10; i++) {
             training.algorithmIteration();
-            errors.add(Real.valueOf(training.getBestSolution().getFitness().getValue()));
+            builder.add(training.getBestSolution().getFitness().getValue());
         }
+        
+        Vector errors = builder.build();
+        // asserts?
     }
 }

@@ -21,52 +21,51 @@
  */
 package net.sourceforge.cilib.coevolution.score.fitnesscalculation;
 
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
-
 import net.sourceforge.cilib.coevolution.score.EntityScoreboard;
 import net.sourceforge.cilib.problem.Fitness;
 
 /**
- * This Fitness calulation strategy simply gets the average score attained regardless of win/lose or draw as the Fitness value.
- *
+ * This Fitness calculation strategy simply gets the average score attained regardless 
+ * of win/lose or draw as the Fitness value.
  */
 public class AveFitnessCalculationStrategy extends FitnessCalculationStrategy {
-	private static final long serialVersionUID = 7573830125196829386L;
 
-	public AveFitnessCalculationStrategy() {
-	}
+    private static final long serialVersionUID = 7573830125196829386L;
 
+    public AveFitnessCalculationStrategy() {
+    }
 
-	public AveFitnessCalculationStrategy(FitnessCalculationStrategy other) {
-		super(other);
+    public AveFitnessCalculationStrategy(FitnessCalculationStrategy other) {
+        super(other);
 
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Fitness calculateFitnessFromScoreBoard(EntityScoreboard score,
-			int currentRound) {
-		ArrayList<Fitness> values = new ArrayList<Fitness>();
-		values.addAll(score.getScores(currentRound));
-		//get the ave
-		double ave = 0.0;
-		for(Fitness val: values){
-			ave += val.getValue().doubleValue();
-		}
-		ave /= values.size();
-		//set the value to the new fitness
-		return values.get(0).newInstance(new Double(ave));
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Fitness calculateFitnessFromScoreBoard(EntityScoreboard score, int currentRound) {
+        ArrayList<Fitness> values = Lists.newArrayList();
+        values.addAll(score.getScores(currentRound));
+        
+        //get the ave
+        double ave = 0.0;
+        for (Fitness val : values) {
+            ave += val.getValue().doubleValue();
+        }
+        
+        ave /= values.size();
+        //set the value to the new fitness
+        return values.get(0).newInstance(new Double(ave));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Object getClone() {
-		// TODO Auto-generated method stub
-		return new AveFitnessCalculationStrategy(this);
-	}
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AveFitnessCalculationStrategy getClone() {
+        return new AveFitnessCalculationStrategy(this);
+    }
 }

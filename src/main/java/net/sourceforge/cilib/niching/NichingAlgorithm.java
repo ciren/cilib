@@ -37,15 +37,15 @@ import net.sourceforge.cilib.niching.creation.MaintainedFitnessNicheDetection;
 import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
 import net.sourceforge.cilib.niching.creation.NicheDetection;
 import net.sourceforge.cilib.niching.iterationstrategies.NichePSO;
+import net.sourceforge.cilib.niching.iterators.AllSwarmsIterator;
+import net.sourceforge.cilib.niching.iterators.NicheIteration;
+import net.sourceforge.cilib.niching.iterators.SingleNicheIteration;
+import net.sourceforge.cilib.niching.iterators.SubswarmIterator;
 import net.sourceforge.cilib.niching.merging.MergeStrategy;
 import net.sourceforge.cilib.niching.merging.SingleSwarmMergeStrategy;
 import net.sourceforge.cilib.niching.merging.StandardMergeStrategy;
 import net.sourceforge.cilib.niching.merging.detection.MergeDetection;
 import net.sourceforge.cilib.niching.merging.detection.RadiusOverlapMergeDetection;
-import net.sourceforge.cilib.niching.iterators.AllSwarmsIterator;
-import net.sourceforge.cilib.niching.iterators.NicheIteration;
-import net.sourceforge.cilib.niching.iterators.SingleNicheIteration;
-import net.sourceforge.cilib.niching.iterators.SubswarmIterator;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.pso.PSO;
@@ -185,7 +185,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
      * @see MultiPopulationBasedAlgorithm#performInitialisation()
      */
     @Override
-    public void performInitialisation() {
+    public void algorithmInitialisation() {
         for (StoppingCondition stoppingCondition : getStoppingConditions())
             this.mainSwarm.addStoppingCondition(stoppingCondition);
 

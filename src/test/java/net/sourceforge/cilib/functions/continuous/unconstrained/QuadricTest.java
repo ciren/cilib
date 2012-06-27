@@ -45,12 +45,7 @@ public class QuadricTest {
     /** Test of the evaluate method of  the {@link Quadric} class */
     @Test
     public void testEvaluate() {
-        Vector x = new Vector();
-
-        //test global minimum
-        x.add(Real.valueOf(0.0));
-        x.add(Real.valueOf(0.0));
-        x.add(Real.valueOf(0.0));
+        Vector x = Vector.of(0, 0, 0);
         Assert.assertEquals(0.0, function.apply(x), EPSILON);
 
         x.setReal(0, 1.0);

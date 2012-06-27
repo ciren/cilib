@@ -21,11 +21,8 @@
  */
 package net.sourceforge.cilib.coevolution.cooperative.problemdistribution;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.Arrays;
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
 import net.sourceforge.cilib.math.random.generator.SeedSelectionStrategy;
@@ -38,9 +35,10 @@ import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class RandomAlgorithmImperfectSplitDistributionTest {
     @Test
@@ -51,12 +49,11 @@ public class RandomAlgorithmImperfectSplitDistributionTest {
             final DomainRegistry problemDomain = new StringBasedDomainRegistry();
             problemDomain.setDomainString("R(0.0:4.0)^5");
             Bounds bounds = new Bounds(0.0, 4.0);
-            Vector data = new Vector();
-            data.add(Real.valueOf(0.0, bounds));
-            data.add(Real.valueOf(0.0, bounds));
-            data.add(Real.valueOf(0.0, bounds));
-            data.add(Real.valueOf(0.0, bounds));
-            data.add(Real.valueOf(0.0, bounds));
+            Vector data = Vector.of(Real.valueOf(0.0, bounds),
+                Real.valueOf(0.0, bounds),
+                Real.valueOf(0.0, bounds),
+                Real.valueOf(0.0, bounds),
+                Real.valueOf(0.0, bounds));
 
             List<PopulationBasedAlgorithm> populations = Arrays.asList((PopulationBasedAlgorithm)new PSO(), (PopulationBasedAlgorithm)new PSO());
 

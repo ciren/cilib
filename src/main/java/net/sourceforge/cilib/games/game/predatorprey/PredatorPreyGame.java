@@ -104,9 +104,7 @@ public class PredatorPreyGame extends Game<ListGameState> {
      */
     public void movePlayer(int playerID, int x, int y) {
 //        try{
-        Vector moveVector = new Vector(2);
-        moveVector.add(Int.valueOf(x));
-        moveVector.add(Int.valueOf(y));
+        Vector moveVector = Vector.of(Int.valueOf(x), Int.valueOf(y));
         for (int i = 0; i < getCurrentState().getSize(); ++i) {
             if (((PlayerItem) getCurrentState().getItem(i)).getPlayerID() == playerID) {
                 //move the item by the specified coords

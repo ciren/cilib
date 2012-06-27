@@ -21,8 +21,6 @@
  */
 package net.sourceforge.cilib.coevolution.cooperative.contributionselection;
 
-import org.junit.Test;
-
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
@@ -30,9 +28,9 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class TopologyBestContributionSelectionStrategyTest {
 
@@ -53,16 +51,13 @@ public class TopologyBestContributionSelectionStrategyTest {
         e2.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(1.0));
         e3.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(0.5));
 
-        Vector v1 = new Vector();
-        v1.add(Real.valueOf(1.0));
+        Vector v1 = Vector.of(1);
         e1.getProperties().put(EntityType.CANDIDATE_SOLUTION, v1);
 
-        Vector v2 = new Vector();
-        v2.add(Real.valueOf(2.0));
+        Vector v2 = Vector.of(2);
         e2.getProperties().put(EntityType.CANDIDATE_SOLUTION, v2);
 
-        Vector v3 = new Vector();
-        v3.add(Real.valueOf(3.0));
+        Vector v3 = Vector.of(3);
         e3.getProperties().put(EntityType.CANDIDATE_SOLUTION, v3);
 
 

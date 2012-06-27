@@ -21,17 +21,9 @@
  */
 package net.sourceforge.cilib.problem.dataset;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
-
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -68,7 +60,7 @@ public class LocalDataSet extends DataSet {
 
     public LocalDataSet(LocalDataSet rhs) {
         super(rhs);
-        fileName = new String(rhs.fileName);
+        fileName = rhs.fileName;
     }
 
     @Override
@@ -99,13 +91,14 @@ public class LocalDataSet extends DataSet {
      *
      * @return the contents of the file on disk as an array of bytes
      */
+    @Override
     public byte[] getData() {
         try {
             InputStream is = getInputStream();
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
             byte[] buffer = new byte[1024];
-            int len = 0;
+            int len;
             while ((len = is.read(buffer, 0, buffer.length)) != -1) {
                 bos.write(buffer, 0, len);
             }
@@ -123,6 +116,7 @@ public class LocalDataSet extends DataSet {
      *
      * @return the contents of the file on disk as an {@link InputStream}
      */
+    @Override
     public InputStream getInputStream() {
         try {
             InputStream is = new BufferedInputStream(new FileInputStream(fileName));
@@ -176,22 +170,21 @@ public class LocalDataSet extends DataSet {
         // split the line using the 'delimiter' regular expression
         String[] elements = line.split(delimiter);
         // the elements of the split are stored inside a vector that will form the pattern
-        Vector pattern = new Vector();
+        Vector.Builder pattern = Vector.newBuilder();
 
         for (int i = beginIndex; i <= endIndex; i++) {
-            pattern.add(Real.valueOf(Double.valueOf(elements[i])));
+            pattern.add(Double.valueOf(elements[i]));
         }
 
-        String clazz = "";
+        String clazz;
 
         if (classIndex == -1) {
             clazz = fileName.substring(fileName.lastIndexOf("/") + 1);
-        }
-        else {
+        } else {
             clazz = elements[classIndex];
         }
 
-        return new Pattern(clazz, pattern);
+        return new Pattern(clazz, pattern.build());
     }
 
     /**

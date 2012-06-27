@@ -111,7 +111,7 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
      * the specified topology.
      */
     @Override
-    public void performInitialisation() {
+    public void algorithmInitialisation() {
         Iterable<Particle> particles = (Iterable<Particle>) this.initialisationStrategy.initialise(this.getOptimisationProblem());
         topology.clear();
         topology.addAll(Lists.<Particle>newLinkedList(particles));

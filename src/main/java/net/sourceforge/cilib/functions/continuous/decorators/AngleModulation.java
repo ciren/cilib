@@ -26,7 +26,6 @@ import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -193,17 +192,17 @@ public class AngleModulation extends OptimisationProblemAdapter {
      * @return
      */
     public Vector decodeBitString(String bits, int dimensionBits) {
-        Vector vector = new Vector();
+        Vector.Builder vector = Vector.newBuilder();
 
         for (int i = 0; i < bits.length();) {
             double tmp = valueOf(bits, i, i + dimensionBits);
             tmp = transform(tmp);
 
-            vector.add(Real.valueOf(tmp));
+            vector.add(tmp);
             i += dimensionBits;
         }
 
-        return vector;
+        return vector.build();
     }
 
     /**
@@ -217,12 +216,9 @@ public class AngleModulation extends OptimisationProblemAdapter {
      * @return The value of the bitstring
      */
     public double valueOf(String bitString, int startIndex, int endIndex) {
-        double result = 0.0;
-
         String substring = bitString.substring(startIndex, endIndex);
-        result = Integer.valueOf(substring, 2).intValue();
 
-        return result;
+        return Integer.valueOf(substring, 2).intValue();
     }
 
     public double valueOf(String bitString, int index) {

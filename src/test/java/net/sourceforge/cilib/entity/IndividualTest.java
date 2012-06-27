@@ -21,26 +21,16 @@
  */
 package net.sourceforge.cilib.entity;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class IndividualTest {
 
     @Test
     public void testClone() {
-        Vector genes = new Vector();
-        genes.add(Real.valueOf(1.0));
-        genes.add(Real.valueOf(2.0));
-        genes.add(Real.valueOf(3.0));
-        genes.add(Real.valueOf(4.0));
-        genes.add(Real.valueOf(5.0));
-
+        Vector genes = Vector.of(1,2,3,4,5);
         Individual i = new Individual();
         i.setCandidateSolution(genes);
 

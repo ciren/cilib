@@ -52,7 +52,7 @@ public class ECTest {
             EC ec = new EC();
             ec.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 10));
             ec.setOptimisationProblem(problem);
-            ec.initialise();
+            ec.performInitialisation();
             ec.run();
 
             Assert.assertThat(ec.getBestSolution().getFitness().getValue(), is(247.1330178942291));
@@ -75,7 +75,7 @@ public class ECTest {
             ec.setIterationStrategy(new DifferentialEvolutionIterationStrategy());
             ec.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 10));
             ec.setOptimisationProblem(problem);
-            ec.initialise();
+            ec.performInitialisation();
             ec.run();
 
             Assert.assertThat(ec.getBestSolution().getFitness().getValue(), is(400.5332366469983));

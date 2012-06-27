@@ -22,16 +22,11 @@
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- */
 public class SixHumpCamelBackTest {
 
     private static final double EPSILON = 1.0E-4;
@@ -45,11 +40,7 @@ public class SixHumpCamelBackTest {
     /** Test of the evaluate method of the {@link SixHumpCamelBack} class */
     @Test
     public void testEvaluate() {
-        Vector x = new Vector();
-
-        //test the two global minima
-        x.add(Real.valueOf(-0.0898));
-        x.add(Real.valueOf(0.7126));
+        Vector x = Vector.of(-0.0898,0.7126);
         Assert.assertEquals(-1.0316, function.apply(x), EPSILON);
 
         x.setReal(0, 0.0898);

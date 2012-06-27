@@ -45,10 +45,6 @@ public class UpdateOnIterationControlParameter implements ControlParameter {
         }
 
         @Override
-        public void algorithmTerminated(AlgorithmEvent e) {
-        }
-
-        @Override
         public void iterationCompleted(AlgorithmEvent e) {
             parameter = delegate.getParameter();
         }

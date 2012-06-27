@@ -21,8 +21,9 @@
  */
 package net.sourceforge.cilib.coevolution.score;
 
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
-
+import java.util.List;
 import net.sourceforge.cilib.coevolution.CoevolutionAlgorithm;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.Type;
@@ -32,222 +33,237 @@ import net.sourceforge.cilib.type.types.Type;
  * history of one specific entity within a {@linkplain CoevolutionAlgorithm}.
  */
 public class EntityScoreboard implements Type {
-	private static final long serialVersionUID = -2524835257237678625L;
-	private ArrayList<EntityScore> scores;
-	/**
-	 * Create a default score board.
-	 */
-	public EntityScoreboard() {
-		this.scores = new ArrayList<EntityScore>();
-	}
-	/**
-	 * Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public EntityScoreboard(EntityScoreboard copy) {
-		this.scores = new ArrayList<EntityScore>();
-		for (EntityScore score : copy.scores) {
-			this.scores.add(score);
-		}
-	}
-	/**
-	 * {@inheritDoc}
-	 */
-	public EntityScoreboard getClone(){
-		return new EntityScoreboard(this);
-	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		return super.equals(obj);
-	}
+    private static final long serialVersionUID = -2524835257237678625L;
+    private List<EntityScore> scores;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		hash = 31 * hash + (this.scores == null ? 0 : this.scores.hashCode());
-		return hash;
-	}
+    /**
+     * Create a default score board.
+     */
+    public EntityScoreboard() {
+        this.scores = Lists.newArrayList();
+    }
 
-	/**
-	 * Get a list of all the Scores for this entity
-	 * @return A list of score histories.
-	 */
-	public ArrayList<EntityScore> getScores() {
-		return this.scores;
-	}
+    /**
+     * Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public EntityScoreboard(EntityScoreboard copy) {
+        this.scores = new ArrayList<EntityScore>();
+        for (EntityScore score : copy.scores) {
+            this.scores.add(score);
+        }
+    }
 
-	/**
-	 * Get the number of times the entity this score board is
-	 * used for has won.
-	 *
-	 * @return The number of wins in the score board.
-	 */
-	public int getWinCount() {
-		int wins = 0;
-		for (EntityScore score : this.scores) {
-			wins += score.getWinCount();
-		}	//endFor
-		return wins;
-	}
-	public int getWinCount(int round) {
-		int wins = 0;
-		for (EntityScore score : this.scores) {
-			if(score.getRound() == round){
-				wins += score.getWinCount();
-			}
-		}	//endFor
-		return wins;
-	}
-	/**
-	 * Get the number of times the entity this score board is
-	 * used for has lost.
-	 *
-	 * @return The number of loses in the score board.
-	 */
-	public int getLoseCount() {
-		int lose = 0;
-		for (EntityScore score : this.scores) {
-			lose += score.getLoseCount();
-		}
-		return lose;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public EntityScoreboard getClone() {
+        return new EntityScoreboard(this);
+    }
 
-	/**
-	 * Get the number of times the entity this score board is
-	 * used for has drawn.
-	 *
-	 * @return The number of draws in the score board.
-	 */
-	public int getDrawCount() {
-		int draw = 0;
-		for (EntityScore score : this.scores) {
-			draw += score.getDrawCount();
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 
-		return draw;
-	}
-	/**
-	 * Get the number of times the entity assosiated with this
-	 * score board has competed.
-	 *
-	 * @return The number of sum of the wins, loses and draws.
-	 */
-	public int getCompeteCount() {
-		int count = 0;
-		for (EntityScore score : this.scores) {
-			count += score.getWinCount() + score.getLoseCount() + score.getDrawCount();
-		}
-		return count;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + (this.scores == null ? 0 : this.scores.hashCode());
+        return hash;
+    }
 
-	public int getCompeteCount(int round){
-		int count = 0;
-		for (EntityScore entityScore : this.scores) {
-			if(entityScore.getRound() == round){
-				count += entityScore.getPlayCount();
-			}
-		}
-		return count;
-	}
-	/**
-	 * Merge the given {@linkplain EntityScore} into this scoreboard
-	 * @param scoreBoard
-	 */
-	public void mergeEntityScore(EntityScore scoreBoard){
-		for (EntityScore entityScore : this.scores) {
-			if (scoreBoard.getCompetitorGroup() == entityScore.getCompetitorGroup() &&
-					scoreBoard.getRound() == entityScore.getRound()) {
-						entityScore.mergeScoreBoard(scoreBoard);
-						return;
-			}
-		}
-		this.scores.add(scoreBoard);
-	}
-	/**
-	 * Get all the Fitness values for games Won by this entity for the specified round
-	 * @param round
-	 * @return the list of Fitness values
-	 */
-	public ArrayList<Fitness> getWinScores(int round){
-		ArrayList<Fitness> values = new ArrayList<Fitness>();
-		for (EntityScore entityScore : this.scores) {
-			if(entityScore.getRound() == round){
-				values.addAll(entityScore.getRoundsWon());
-			}
-		}
-		return values;
-	}
-	/**
-	 * Get all the Fitness values for games drawn by this entity for the specified round
-	 * @param round
-	 * @return the list of Fitness values
-	 */
-	public ArrayList<Fitness> getDrawScores(int round){
-		ArrayList<Fitness> values = new ArrayList<Fitness>();
-		for (EntityScore entityScore : this.scores) {
-			if(entityScore.getRound() == round){
-				values.addAll(entityScore.getRoundsDrawn());
-			}
-		}
-		return values;
-	}
-	/**
-	 * Get all the Fitness values for games lost by this entity for the specified round
-	 * @param round
-	 * @return the list of Fitness values
-	 */
-	public ArrayList<Fitness> getLoseScores(int round){
-		ArrayList<Fitness> values = new ArrayList<Fitness>();
-		for (EntityScore entityScore : this.scores) {
-			if(entityScore.getRound() == round){
-				values.addAll(entityScore.getRoundsLost());
-			}
-		}
-		return values;
-	}
-	/**
-	 * Get all the Fitness values for all games played by this entity for the specified round
-	 * @param round
-	 * @return the list of Fitness values
-	 */
-	public ArrayList<Fitness> getScores(int round){
-		ArrayList<Fitness> values = new ArrayList<Fitness>();
-		for (EntityScore entityScore : this.scores) {
-			if(entityScore.getRound() == round){
-				values.addAll(entityScore.getRoundsWon());
-				values.addAll(entityScore.getRoundsDrawn());
-				values.addAll(entityScore.getRoundsLost());
-			}
-		}
-		return values;
-	}
-	/**
-	 * Get the percentage of games won from the total games played
-	 * @return the percentage games won
-	 */
-	public double getPercentageWon(){
-		return (getWinCount() / (double)getCompeteCount()) * 100.0;
-	}
+    /**
+     * Get a list of all the Scores for this entity
+     * @return A list of score histories.
+     */
+    public List<EntityScore> getScores() {
+        return this.scores;
+    }
 
-	public void clearScoreBoard(){
-		scores.clear();
-	}
-	/**
-	 * Remove all the scores from a specified round
-	 * @param round
-	 */
-	public void removeScores(int round){
-		for(int i = scores.size() - 1; i >= 0; --i){
-			if(scores.get(i).getRound() == round){
-				scores.remove(i);
-			}
-		}
-	}
+    /**
+     * Get the number of times the entity this score board is
+     * used for has won.
+     *
+     * @return The number of wins in the score board.
+     */
+    public int getWinCount() {
+        int wins = 0;
+        for (EntityScore score : this.scores) {
+            wins += score.getWinCount();
+        }
+        return wins;
+    }
+
+    public int getWinCount(int round) {
+        int wins = 0;
+        for (EntityScore score : this.scores) {
+            if (score.getRound() == round) {
+                wins += score.getWinCount();
+            }
+        }
+        return wins;
+    }
+
+    /**
+     * Get the number of times the entity this score board is
+     * used for has lost.
+     *
+     * @return The number of loses in the score board.
+     */
+    public int getLoseCount() {
+        int lose = 0;
+        for (EntityScore score : this.scores) {
+            lose += score.getLoseCount();
+        }
+        return lose;
+    }
+
+    /**
+     * Get the number of times the entity this score board is
+     * used for has drawn.
+     *
+     * @return The number of draws in the score board.
+     */
+    public int getDrawCount() {
+        int draw = 0;
+        for (EntityScore score : this.scores) {
+            draw += score.getDrawCount();
+        }
+
+        return draw;
+    }
+
+    /**
+     * Get the number of times the entity associated with this
+     * score board has competed.
+     *
+     * @return The number of sum of the wins, loses and draws.
+     */
+    public int getCompeteCount() {
+        int count = 0;
+        for (EntityScore score : this.scores) {
+            count += score.getWinCount() + score.getLoseCount() + score.getDrawCount();
+        }
+        return count;
+    }
+
+    public int getCompeteCount(int round) {
+        int count = 0;
+        for (EntityScore entityScore : this.scores) {
+            if (entityScore.getRound() == round) {
+                count += entityScore.getPlayCount();
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Merge the given {@linkplain EntityScore} into this scoreboard
+     * @param scoreBoard
+     */
+    public void mergeEntityScore(EntityScore scoreBoard) {
+        for (EntityScore entityScore : this.scores) {
+            if (scoreBoard.getCompetitorGroup() == entityScore.getCompetitorGroup()
+                    && scoreBoard.getRound() == entityScore.getRound()) {
+                entityScore.mergeScoreBoard(scoreBoard);
+                return;
+            }
+        }
+        this.scores.add(scoreBoard);
+    }
+
+    /**
+     * Get all the Fitness values for games Won by this entity for the specified round
+     * @param round
+     * @return the list of Fitness values
+     */
+    public ArrayList<Fitness> getWinScores(int round) {
+        ArrayList<Fitness> values = new ArrayList<Fitness>();
+        for (EntityScore entityScore : this.scores) {
+            if (entityScore.getRound() == round) {
+                values.addAll(entityScore.getRoundsWon());
+            }
+        }
+        return values;
+    }
+
+    /**
+     * Get all the Fitness values for games drawn by this entity for the specified round
+     * @param round
+     * @return the list of Fitness values
+     */
+    public ArrayList<Fitness> getDrawScores(int round) {
+        ArrayList<Fitness> values = new ArrayList<Fitness>();
+        for (EntityScore entityScore : this.scores) {
+            if (entityScore.getRound() == round) {
+                values.addAll(entityScore.getRoundsDrawn());
+            }
+        }
+        return values;
+    }
+
+    /**
+     * Get all the Fitness values for games lost by this entity for the specified round
+     * @param round
+     * @return the list of Fitness values
+     */
+    public ArrayList<Fitness> getLoseScores(int round) {
+        ArrayList<Fitness> values = new ArrayList<Fitness>();
+        for (EntityScore entityScore : this.scores) {
+            if (entityScore.getRound() == round) {
+                values.addAll(entityScore.getRoundsLost());
+            }
+        }
+        return values;
+    }
+
+    /**
+     * Get all the Fitness values for all games played by this entity for the specified round
+     * @param round
+     * @return the list of Fitness values
+     */
+    public ArrayList<Fitness> getScores(int round) {
+        ArrayList<Fitness> values = new ArrayList<Fitness>();
+        for (EntityScore entityScore : this.scores) {
+            if (entityScore.getRound() == round) {
+                values.addAll(entityScore.getRoundsWon());
+                values.addAll(entityScore.getRoundsDrawn());
+                values.addAll(entityScore.getRoundsLost());
+            }
+        }
+        return values;
+    }
+
+    /**
+     * Get the percentage of games won from the total games played
+     * @return the percentage games won
+     */
+    public double getPercentageWon() {
+        return (getWinCount() / (double) getCompeteCount()) * 100.0;
+    }
+
+    public void clearScoreBoard() {
+        scores.clear();
+    }
+
+    /**
+     * Remove all the scores from a specified round
+     * @param round
+     */
+    public void removeScores(int round) {
+        for (int i = scores.size() - 1; i >= 0; --i) {
+            if (scores.get(i).getRound() == round) {
+                scores.remove(i);
+            }
+        }
+    }
 }

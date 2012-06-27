@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.clustering.kmeans;
 
 import java.util.ArrayList;
-
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.problem.ClusteringProblem;
@@ -50,6 +49,7 @@ public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsIni
     /**
      * {@inheritDoc}
      */
+    @Override
     public DataSetBasedCentroidsInitialisationStrategy getClone() {
         return new DataSetBasedCentroidsInitialisationStrategy();
     }
@@ -62,15 +62,17 @@ public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsIni
      * @param dataset the {@link ClusterableDataSet} currently being clustered
      * @return a {@link Vector} that represents all the centroids
      */
+    @Override
     public Vector initialise(ClusteringProblem problem, ClusterableDataSet dataset) {
         ArrayList<Pattern> patterns = dataset.getPatterns();
         int numberOfCentroids = problem.getNumberOfClusters();
-        Vector centroids = new Vector();
+        Vector.Builder centroids = Vector.newBuilder();
 
         for (int i = 0; i < numberOfCentroids; i++) {
             Vector centroid = patterns.get(Math.round(random.nextInt(patterns.size()))).data;
-            centroids.addAll(centroid.getClone());
+            centroids.copyOf(centroid);
         }
-        return centroids;
+        
+        return centroids.build();
     }
 }

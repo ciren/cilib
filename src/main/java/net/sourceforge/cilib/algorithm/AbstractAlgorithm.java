@@ -110,14 +110,14 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     /**
      * Initializes the algorithm. Must be called before {@link #run()} is called.
      */
-    public final void initialise() {
-        Preconditions.checkState(!stoppingConditions.isEmpty(), "No stopping conditions specified");
+    @Override
+    public final void performInitialisation() {
         iteration = 0;
         running = true;
         initialised = true;
 
         currentAlgorithmStack.get().push(this);
-        performInitialisation();
+        algorithmInitialisation();
         currentAlgorithmStack.get().pop();
     }
 
@@ -141,17 +141,22 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public void performInitialisation() {
+    public void algorithmInitialisation() {
         // subclasses can override the behaviour for this method
     }
-
+    
     /**
-     * {@inheritDoc}
+     * Executes the algorithm without cleaning up afterwards.
+     * Useful for running algorithms within algorithms.
      */
-    @Override
-    public void performUninitialisation() {
-        // subclasses can override the behaviour for this method
+    public void runAlgorithm() {
+        Preconditions.checkState(!stoppingConditions.isEmpty(), "No stopping conditions specified");
+        Preconditions.checkState(initialised, "Algorithm not initialised");
+        
+        while (running && (!isFinished())) {
+            performIteration();
+            fireIterationCompleted();
+        }
     }
 
     /**
@@ -160,27 +165,22 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
      */
     @Override
     public void run() {
-        Preconditions.checkState(initialised, "Algorithm not initialised");
+        if (!initialised) {
+            performInitialisation();
+        }
         
         currentAlgorithmStack.get().push(this);
-        
         fireAlgorithmStarted();
 
-        while (running && (!isFinished())) {
-            performIteration();
-            fireIterationCompleted();
-        }
+        runAlgorithm();
 
-        if (running) {
-            fireAlgorithmFinished();
-        } else {
-            fireAlgorithmTerminated();
-        }
-
-        performUninitialisation();
-
+        fireAlgorithmFinished();
         currentAlgorithmStack.get().pop();
-
+        
+        cleanUp();
+    }
+    
+    public void cleanUp() {
         // Cleanup thread-local variables -- very ugly hack!!!
         currentAlgorithmStack.remove();
         EntityIdFactory.remove();
@@ -314,16 +314,6 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     private void fireAlgorithmFinished() {
         for (AlgorithmListener listener : algorithmListeners) {
             listener.algorithmFinished(new AlgorithmEvent(this));
-        }
-    }
-
-    /**
-     * Fire the {@linkplain AlgorithmEvent} to indicate that the {@linkplain Algorithm}
-     * has been terminated.
-     */
-    private void fireAlgorithmTerminated() {
-        for (AlgorithmListener listener : algorithmListeners) {
-            listener.algorithmTerminated(new AlgorithmEvent(this));
         }
     }
 

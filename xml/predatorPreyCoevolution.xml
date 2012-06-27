@@ -47,6 +47,10 @@
             </agent>
             <scoringStrategy class="games.game.predatorprey.PredatorPreyGameScoringStrategy"/>
         </game>
+        <opponentSelectionStrategy class="coevolution.selection.SelectNOpponentSelectionStrategy" numberOfOpponents="40">
+            <addPoolSelectionStrategy class = "coevolution.selection.SelectpBestSolutionsPoolSelectionStrategy"/>
+            <addPoolSelectionStrategy class = "coevolution.selection.SelectHOFPoolSelectionStrategy" HOFSize = "15" AddToHOFEpoch="50"/>
+        </opponentSelectionStrategy>
     </problem>
 
     <algorithms>
@@ -73,14 +77,10 @@
             </topology>
         </algorithm>
 
-        <algorithm id="compcoevol" class="coevolution.CoevolutionAlgorithm">
-            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
-            <coevolutionIterationStrategy class="coevolution.CompetitiveCoevolutionIterationStrategy">
-                <opponentSelectionStrategy class="coevolution.selection.SelectNOpponentSelectionStrategy" numberOfOpponents="40">
-                    <addPoolSelectionStrategy class = "coevolution.selection.SelectpBestSolutionsPoolSelectionStrategy"/>
-                    <addPoolSelectionStrategy class = "coevolution.selection.SelectHOFPoolSelectionStrategy" HOFSize = "15" AddToHOFEpoch="50"/>
-                </opponentSelectionStrategy>
-            </coevolutionIterationStrategy>
+        <algorithm id="compcoevol" class="coevolution.competitive.CompetitiveCoevolutionAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100"/>
+            <addPopulationBasedAlgorithm idref="lbest"/>
+            <addPopulationBasedAlgorithm idref="lbest"/>
         </algorithm>
     </algorithms>
 
@@ -89,11 +89,8 @@
     </measurements>
 
     <simulations>
-        <simulation samples="2">
-            <algorithm idref="compcoevol">
-            <algorithm idref="lbest"/>
-            <algorithm idref="lbest"/>
-            </algorithm>
+        <simulation samples="1">
+            <algorithm idref="compcoevol"/>
             <problem idref="PredatorPrey"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/PredatorPreyCoevolutionPSO.txt"/>

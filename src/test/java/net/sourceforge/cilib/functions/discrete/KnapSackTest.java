@@ -21,15 +21,10 @@
  */
 package net.sourceforge.cilib.functions.discrete;
 
-import static org.junit.Assert.assertEquals;
-import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
-/**
- *
- */
 public class KnapSackTest {
 
     @Test
@@ -40,13 +35,12 @@ public class KnapSackTest {
         k.setWeight("1,1,1,1,1");
         k.setValue("1,1,1,1,1");
 
-        Vector x = new Vector();
-        x.add(Bit.valueOf(true));
-        x.add(Bit.valueOf(true));
-        x.add(Bit.valueOf(true));
-        x.add(Bit.valueOf(true));
-        x.add(Bit.valueOf(true));
-
-        assertEquals(5, Double.valueOf(k.apply(x)).intValue());
+        Vector.Builder x = Vector.newBuilder();
+        x.add(true);
+        x.add(true);
+        x.add(true);
+        x.add(true);
+        x.add(true);
+        assertEquals(5, Double.valueOf(k.apply(x.build())).intValue());
     }
 }

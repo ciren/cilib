@@ -93,7 +93,7 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
      * {@link CentroidsInitialisationStrategy}.
      */
     @Override
-    public void performInitialisation() {
+    public void algorithmInitialisation() {
         ClusteringUtils helper = ClusteringUtils.get();
 
         centroids = centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getClusterableDataSet());

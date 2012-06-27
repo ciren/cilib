@@ -74,28 +74,28 @@ public class StandardPatternDataTableTest {
     public void setRawData() {
         stringTargetPatterns = new StandardPatternDataTable();
         vectorTargetPatterns = new StandardPatternDataTable();
-        Vector feature;
+        Vector.Builder feature;
         Type classification;
         for (int i = 0; i < typedData.size() / 2; i++) {
-            feature = new Vector();
+            feature = Vector.newBuilder();
             List<Type> row = typedData.getRow(i);
             for (int j = 0; j < row.size() - 1; j++) {
                 feature.add((Numeric)row.get(j));
             }
             classification = row.get(row.size() - 1).getClone();
-            stringTargetPatterns.addRow(new StandardPattern(feature, classification));
+            stringTargetPatterns.addRow(new StandardPattern(feature.build(), classification));
         }
         for (int i = typedData.size() / 2; i < typedData.size(); i++) {
-            feature = new Vector();
-            classification = new Vector();
+            feature = Vector.newBuilder();
+            Vector.Builder classificationB = Vector.newBuilder();
             List<Type> row = typedData.getRow(i);
             for (int j = 0; j < row.size() - 3; j++) {
                 feature.add((Numeric)row.get(j));
             }
             for (int j = row.size() - 3; j < row.size(); j++) {
-                ((Vector) classification).add((Numeric)row.get(j));
+                classificationB.add((Numeric)row.get(j));
             }
-            vectorTargetPatterns.addRow(new StandardPattern(feature, classification));
+            vectorTargetPatterns.addRow(new StandardPattern(feature.build(), classificationB.build()));
         }
     }
 
@@ -180,15 +180,9 @@ public class StandardPatternDataTableTest {
         Assert.assertEquals(expected, column);
 
         expected = new TypeList();
-        Vector target = new Vector();
-        target.add(Real.valueOf(1.0));
-        target.add(Real.valueOf(1.0));
-        target.add(Real.valueOf(0.0));
+        Vector target = Vector.of(1,1,0);
         expected.add(target);
-        target = new Vector();
-        target.add(Real.valueOf(0.0));
-        target.add(Real.valueOf(0.0));
-        target.add(Real.valueOf(1.0));
+        target = Vector.of(0,0,1);
         expected.add(target);
         column = vectorTargetPatterns.getColumn(5);
         Assert.assertEquals(expected, column);
@@ -205,15 +199,9 @@ public class StandardPatternDataTableTest {
         Assert.assertEquals(newColumn, stringTargetPatterns.getColumn(0));
 
         newColumn = new TypeList();
-        Vector target = new Vector();
-        target.add(Real.valueOf(1.0));
-        target.add(Real.valueOf(1.0));
-        target.add(Real.valueOf(0.0));
+        Vector target = Vector.of(1,1,0);
         newColumn.add(target);
-        target = new Vector();
-        target.add(Real.valueOf(0.0));
-        target.add(Real.valueOf(0.0));
-        target.add(Real.valueOf(1.0));
+        target = Vector.of(0,0,1);
         newColumn.add(target);
         newColumn = vectorTargetPatterns.getColumn(5);
         Assert.assertEquals(newColumn, vectorTargetPatterns.getColumn(5));

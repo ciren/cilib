@@ -26,7 +26,6 @@ import net.sourceforge.cilib.coevolution.cooperative.problem.DimensionAllocation
 import net.sourceforge.cilib.coevolution.cooperative.problem.SequencialDimensionAllocation;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.MinimisationFitness;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 import static org.junit.Assert.assertEquals;
@@ -44,16 +43,13 @@ public class StandardContextUpdateStrategyTest {
          final FitnessCalculator<Entity> test = mock(FitnessCalculator.class);
          when(test.getFitness(any(ContextEntity.class))).thenReturn(new MinimisationFitness(1.0));
 
-         Vector testContext = new Vector();
-         testContext.add(Real.valueOf(1.0));
-         testContext.add(Real.valueOf(1.0));
+         Vector testContext = Vector.of(1, 1);
 
          contextEntity.setCandidateSolution(testContext);
          contextEntity.setFitnessCalculator(test);
          contextEntity.setFitness(new MinimisationFitness(0.0));
 
-         Vector solution = new Vector();
-         solution.add(Real.valueOf(0.0));
+         Vector solution = Vector.of(0);
          DimensionAllocation allocation = new SequencialDimensionAllocation(0, 1);
 
          StandardContextUpdateStrategy strategy = new StandardContextUpdateStrategy();

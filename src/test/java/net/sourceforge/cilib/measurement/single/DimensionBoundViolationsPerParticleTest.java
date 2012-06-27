@@ -68,10 +68,10 @@ public class DimensionBoundViolationsPerParticleTest {
     }
 
     private Vector vectorOf(Bounds bounds, double... values) {
-        Vector vector = new Vector();
+        Vector.Builder vector = Vector.newBuilder();
         for (int i = 0; i < values.length; i++) {
             vector.add(Real.valueOf(values[i], bounds));
         }
-        return vector;
+        return vector.build();
     }
 }

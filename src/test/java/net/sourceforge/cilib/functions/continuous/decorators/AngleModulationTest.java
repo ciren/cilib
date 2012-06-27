@@ -23,18 +23,14 @@ package net.sourceforge.cilib.functions.continuous.decorators;
 
 import net.sourceforge.cilib.functions.continuous.unconstrained.Rastrigin;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
-import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
-/**
- *
- */
 public class AngleModulationTest {
 
     @Test
@@ -94,14 +90,8 @@ public class AngleModulationTest {
         delegate.setFunction(new Rastrigin());
         angle.setProblem(delegate);
 
-        Vector testVector = new Vector();
-        testVector.add(Real.valueOf(0.0));
-        testVector.add(Real.valueOf(1.0));
-        testVector.add(Real.valueOf(1.0));
-        testVector.add(Real.valueOf(0.0));
-
+        Vector testVector = Vector.of(0,1,1,0);
         String converted = angle.generateBitString(testVector, 14);
-
         assertEquals(420, converted.length());
     }
 

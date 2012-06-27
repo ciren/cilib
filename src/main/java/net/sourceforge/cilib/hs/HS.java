@@ -109,7 +109,7 @@ public class HS extends AbstractAlgorithm implements SingularAlgorithm {
      * {@inheritDoc}
      */
     @Override
-    public void performInitialisation() {
+    public void algorithmInitialisation() {
         for (int i = 0; i < harmonyMemorySize.getParameter(); i++) {
             Harmony harmony = new Harmony();
             harmony.initialise(getOptimisationProblem());

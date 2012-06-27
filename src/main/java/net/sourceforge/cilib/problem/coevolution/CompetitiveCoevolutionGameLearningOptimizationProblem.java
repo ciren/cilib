@@ -21,17 +21,16 @@
  */
 package net.sourceforge.cilib.problem.coevolution;
 
-
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.coevolution.CoevolutionAlgorithm;
-import net.sourceforge.cilib.coevolution.CompetitiveCoevolutionIterationStrategy;
-import net.sourceforge.cilib.coevolution.competitors.CoevolutionCompetitorList;
-import net.sourceforge.cilib.coevolution.competitors.Competitor;
+import net.sourceforge.cilib.coevolution.competitive.CompetitiveCoevolutionAlgorithm;
+import net.sourceforge.cilib.coevolution.competitive.Competitor;
+import net.sourceforge.cilib.coevolution.competitive.CompetitorList;
 import net.sourceforge.cilib.coevolution.score.EntityScore;
 import net.sourceforge.cilib.coevolution.score.EntityScoreboard;
+import net.sourceforge.cilib.coevolution.selection.OpponentSelectionStrategy;
+import net.sourceforge.cilib.coevolution.selection.SelectAllOpponentSelectionStrategy;
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
@@ -47,106 +46,120 @@ import net.sourceforge.cilib.util.calculator.PropertyBasedFitnessCalculator;
 /**
  * This class is used by {@linkplain CoevolutionAlgorithm} to optimize a {@linkplain Game}.
  */
-public class CompetitiveCoevolutionGameLearningOptimizationProblem extends
-		GameLearningOptimizationProblem implements
-		CoevolutionOptimisationProblem {
-	private static final long serialVersionUID = 8633162433294415179L;
+public class CompetitiveCoevolutionGameLearningOptimizationProblem extends GameLearningOptimizationProblem implements
+        CoevolutionOptimisationProblem {
 
-	public CompetitiveCoevolutionGameLearningOptimizationProblem() {
-	}
+    private static final long serialVersionUID = 8633162433294415179L;
+    protected OpponentSelectionStrategy opponentSelectionStrategy;
 
-	/**
-	 * Copy constructor
-	 * @param copy
-	 */
-	public CompetitiveCoevolutionGameLearningOptimizationProblem(
-			CompetitiveCoevolutionGameLearningOptimizationProblem copy) {
-		super(copy);		// TODO Auto-generated constructor stub
-	}
+    public CompetitiveCoevolutionGameLearningOptimizationProblem() {
+        opponentSelectionStrategy = new SelectAllOpponentSelectionStrategy();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Fitness evaluateEntity(int populationID, int evaluationRound, Blackboard<Enum<?>, Type> entityData) {
-		//need to determine the amount of players required for the game
-		//select an opponent from each pool of opponents
-		//play!
-		game.initializeAgent(populationID, entityData.get(EntityType.CANDIDATE_SOLUTION));
-		int competitorGroup = 1;
-		EntityScoreboard scoreBoard = (EntityScoreboard)entityData.get(EntityType.Coevolution.BOARD);
-		if(fitnessCalculation.getAmountHistoricGames() == 0){ // dont keep a history
-			scoreBoard.clearScoreBoard();
-		}
-		else if(evaluationRound > fitnessCalculation.getAmountHistoricGames()){
-			scoreBoard.removeScores(evaluationRound - fitnessCalculation.getAmountHistoricGames());
-		}
-		CoevolutionAlgorithm ca = (CoevolutionAlgorithm)AbstractAlgorithm.getAlgorithmList().get(0);
-		CoevolutionCompetitorList entities = ((CompetitiveCoevolutionIterationStrategy)ca.getCoevolutionIterationStrategy()).selectOpponents(populationID, ca);
-		for(int i = 0; i < entities.getNumberOfEntitesPerList(); ++i)
-		{
-			List<Competitor> competitors = entities.getCompetitorsFromSubList(i); //get the current opponents for this round
-			EntityScore gameScores = new EntityScore(evaluationRound, competitorGroup);
-			//initialize each opponent in the game. set the contents of the entitiy to the contents of the agent it represents
-			for(Competitor e: competitors)
-			{
-				game.initializeAgent(e.getPopulationID(), e.getEntityData());
-			}
-			playGame(populationID, gameScores); //play the game a number of times. save the scores in gameScores
-			scoreBoard.mergeEntityScore(gameScores); //put these scores in the scoreboard
-			++competitorGroup;
-		}
-		//fitness assignment.calculateFitness(scoreBoard, currentEvalutionRound);
-		return fitnessCalculation.calculateFitnessFromScoreBoard(scoreBoard, evaluationRound);
-	}
+    /**
+     * Copy constructor
+     * @param copy
+     */
+    public CompetitiveCoevolutionGameLearningOptimizationProblem(
+            CompetitiveCoevolutionGameLearningOptimizationProblem copy) {
+        super(copy);
+        opponentSelectionStrategy = copy.opponentSelectionStrategy;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Fitness calculateFitness(Type solution) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Fitness evaluateEntity(int populationID, int evaluationRound, Blackboard<Enum<?>, Type> entityData) {
+        //need to determine the amount of players required for the game
+        //select an opponent from each pool of opponents
+        //play!
+        game.initializeAgent(populationID, entityData.get(EntityType.CANDIDATE_SOLUTION));
+        int competitorGroup = 1;
+        EntityScoreboard scoreBoard = (EntityScoreboard) entityData.get(EntityType.Coevolution.BOARD);
+
+        if (fitnessCalculation.getAmountHistoricGames() == 0) { // dont keep a history
+            scoreBoard.clearScoreBoard();
+        } else if (evaluationRound > fitnessCalculation.getAmountHistoricGames()) {
+            scoreBoard.removeScores(evaluationRound - fitnessCalculation.getAmountHistoricGames());
+        }
+
+        CompetitiveCoevolutionAlgorithm ca = (CompetitiveCoevolutionAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
+        
+        // This is to allow the PSO to calculate the fitness of particles prior to algorithm execution
+        if (ca.getIterations() == 0) {
             return InferiorFitness.instance();
-	}
+        }
+        
+        CompetitorList entities = opponentSelectionStrategy.setCompetitors(populationID, ca.getPopulations());
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void initializeEntities(PopulationBasedAlgorithm pba,
-			int populationID) {
+        for (int i = 0; i < entities.getNumberOfEntitesPerList(); ++i) {
+            List<Competitor> competitors = entities.getCompetitorsFromSubList(i); //get the current opponents for this round
+            EntityScore gameScores = new EntityScore(evaluationRound, competitorGroup);
+            //initialize each opponent in the game. set the contents of the entitiy to the contents of the agent it represents
+            for (Competitor e : competitors) {
+                game.initializeAgent(e.getPopulationID(), e.getEntityData());
+            }
+            playGame(populationID, gameScores); //play the game a number of times. save the scores in gameScores
+            scoreBoard.mergeEntityScore(gameScores); //put these scores in the scoreboard
+            ++competitorGroup;
+        }
+        //fitness assignment.calculateFitness(scoreBoard, currentEvalutionRound);
+        return fitnessCalculation.calculateFitnessFromScoreBoard(scoreBoard, evaluationRound);
+    }
 
-		//if before algorithm.initialize then this
-		Entity sp = pba.getInitialisationStrategy().getEntityType().getClone();
-		sp.getProperties().put(EntityType.Coevolution.BOARD, new EntityScoreboard());
-		sp.getProperties().put(EntityType.Coevolution.POPULATION_ID, Int.valueOf(populationID));
-		//sp.getProperties().put(EntityType.Coevolution.COMPETITOR_LIST, new CoevolutionCompetitorList());
-		/*change the fitness calculator to be of type property based and not vector based
-		if the fitness calculator object can be generic to these entity types then this code can be generic, otherwise we are limited to what is
-		specified here
-		*/
-		if(sp instanceof AbstractEntity)
-			((AbstractEntity)sp).setFitnessCalculator(new PropertyBasedFitnessCalculator());
-		else
-			throw new RuntimeException("Invalid entity type, entity must inherit from Abstract Entity to support Fitness Calculator");
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Fitness calculateFitness(Type solution) {
+        return InferiorFitness.instance();
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void initializeEntities(PopulationBasedAlgorithm pba, int populationID) {
+        //if before algorithm.initialize then this
+        Entity sp = pba.getInitialisationStrategy().getEntityType().getClone();
+        sp.getProperties().put(EntityType.Coevolution.BOARD, new EntityScoreboard());
+        sp.getProperties().put(EntityType.Coevolution.POPULATION_ID, Int.valueOf(populationID));
+        
+        /* Change the fitness calculator to be of type property based and not vector based
+         if the fitness calculator object can be generic to these entity types then this code can be generic, 
+         otherwise we are limited to what is specified here.*/
+        
+        if (sp instanceof AbstractEntity) {
+            ((AbstractEntity) sp).setFitnessCalculator(new PropertyBasedFitnessCalculator());
+        } else {
+            throw new RuntimeException("Invalid entity type, entity must inherit from Abstract Entity to support Fitness Calculator");
+        }
 
-		pba.getInitialisationStrategy().setEntityType(sp.getClone());
-	}
+        pba.getInitialisationStrategy().setEntityType(sp.getClone());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getAmountSubPopulations() {
-		return game.getPlayerCount();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getAmountSubPopulations() {
+        return game.getPlayerCount();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public DomainRegistry getSubPopulationDomain(int populationNo) {
-		return game.getDomainForPlayer(populationNo);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DomainRegistry getSubPopulationDomain(int populationNo) {
+        return game.getDomainForPlayer(populationNo);
+    }
 
+    public OpponentSelectionStrategy getOpponentSelectionStrategy() {
+        return opponentSelectionStrategy;
+    }
+
+    public void setOpponentSelectionStrategy(OpponentSelectionStrategy opponentSelectionStrategy) {
+        this.opponentSelectionStrategy = opponentSelectionStrategy;
+    }
 }

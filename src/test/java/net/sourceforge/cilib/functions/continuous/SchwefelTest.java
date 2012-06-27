@@ -21,16 +21,11 @@
  */
 package net.sourceforge.cilib.functions.continuous;
 
-import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
-/**
- *
- */
 public class SchwefelTest {
 
     public SchwefelTest() {
@@ -41,15 +36,8 @@ public class SchwefelTest {
     public void testEvaluate() {
         ContinuousFunction function = new Schwefel();
 
-        Vector x = new Vector();
-        x.add(Real.valueOf(1.0));
-        x.add(Real.valueOf(2.0));
-        x.add(Real.valueOf(3.0));
-
-        Vector y = new Vector();
-        y.add(Real.valueOf(-1.0));
-        y.add(Real.valueOf(-2.0));
-        y.add(Real.valueOf(-3.0));
+        Vector x = Vector.of(1.0, 2.0, 3.0);
+        Vector y = Vector.of(-1.0, -2.0, -3.0);
 
         assertEquals(1262.726744, function.apply(x), 0.0000009);
         assertEquals(1251.170579, function.apply(y), 0.0000009);
