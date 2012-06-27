@@ -47,9 +47,7 @@ public class BraninTest {
     /** Test of evaluate method, of class za.ac.u.cs.ailib.Functions.Branin. */
     @Test
     public void testEvaluate() {
-        Vector x = new Vector();
-        x.add(Real.valueOf(1.0));
-        x.add(Real.valueOf(2.0));
+        Vector x = Vector.of(1,2);
 
         assertEquals(21.62763539206238, function.apply(x), 0.00000000000001);
 

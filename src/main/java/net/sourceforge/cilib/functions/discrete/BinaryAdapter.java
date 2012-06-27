@@ -23,7 +23,6 @@ package net.sourceforge.cilib.functions.discrete;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.Function;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -138,17 +137,17 @@ public class BinaryAdapter implements ContinuousFunction {
      * @return
      */
     public Vector decodeBitString(Vector bits) {
-        Vector vector = new Vector();
+        Vector.Builder vector = Vector.newBuilder();
 
         for (int i = 0; i < bits.size();) {
             double tmp = valueOf(bits, i, i+this.bitsPerDimension);
             tmp = transform(tmp);
 
-            vector.add(Real.valueOf(tmp));
+            vector.add(tmp);
             i += this.bitsPerDimension;
         }
 
-        return vector;
+        return vector.build();
     }
 
 

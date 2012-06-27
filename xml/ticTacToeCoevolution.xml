@@ -45,6 +45,10 @@
             </agent>
             <scoringStrategy class="games.game.scoring.WinLoseDrawValueScoringStrategy"/>
         </game>
+        <opponentSelectionStrategy class="coevolution.selection.SelectNOpponentSelectionStrategy" numberOfOpponents="20">
+            <addPoolSelectionStrategy class = "coevolution.selection.SelectpBestSolutionsPoolSelectionStrategy"/>
+            <addPoolSelectionStrategy class = "coevolution.selection.SelectHOFPoolSelectionStrategy" HOFSize = "20" AddToHOFEpoch="20"/>
+        </opponentSelectionStrategy>
     </problem>
 
     <algorithms>
@@ -64,27 +68,21 @@
             </topology>
         </algorithm>
 
-        <algorithm id="compcoevol" class="coevolution.CoevolutionAlgorithm">
+        <algorithm id="compcoevol" class="coevolution.competitive.CompetitiveCoevolutionAlgorithm">
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
-            <coevolutionIterationStrategy class="coevolution.CompetitiveCoevolutionIterationStrategy">
-                <opponentSelectionStrategy class="coevolution.selection.SelectNOpponentSelectionStrategy" numberOfOpponents="20">
-                    <addPoolSelectionStrategy class = "coevolution.selection.SelectpBestSolutionsPoolSelectionStrategy"/>
-                    <addPoolSelectionStrategy class = "coevolution.selection.SelectHOFPoolSelectionStrategy" HOFSize = "20" AddToHOFEpoch="20"/>
-                </opponentSelectionStrategy>
-            </coevolutionIterationStrategy>
+            <addPopulationBasedAlgorithm idref="lbest"/>
+            <addPopulationBasedAlgorithm idref="lbest"/>
         </algorithm>
     </algorithms>
 
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">
         <addMeasurement class="measurement.multiple.MultiPopulationFitness"/>
+        <addMeasurement class="measurement.single.Solution"/>
     </measurements>
 
     <simulations>
         <simulation samples="1">
-            <algorithm idref="compcoevol">
-            <algorithm idref="lbest"/>
-            <algorithm idref="lbest"/>
-            </algorithm>
+            <algorithm idref="compcoevol"/>
             <problem idref="ttt"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/TTTCoEvolution.txt"/>

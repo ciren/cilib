@@ -44,7 +44,7 @@ public class TypesTest {
 
     @Test
     public void structureDimension() {
-        Vector vector = new Vector();
+        Vector vector = Vector.of();
         Assert.assertEquals(0, Types.dimensionOf(vector));
 
         vector.add(Real.valueOf(0.0));
@@ -60,11 +60,10 @@ public class TypesTest {
 
     @Test
     public void structureIsNotInsideBounds() {
-        Vector vector = new Vector();
+        Vector vector = Vector.of();
         Real r = Real.valueOf(-7.0, new Bounds(-5.0, 5.0));
 
         vector.add(r);
-
         Assert.assertFalse(Types.isInsideBounds(vector));
     }
 
@@ -74,9 +73,7 @@ public class TypesTest {
         Real r1 = Real.valueOf(-5.0, bounds);
         Real r2 = Real.valueOf(5.0, bounds);
 
-        Vector vector = new Vector();
-        vector.add(r1);
-        vector.add(r2);
+        Vector vector = Vector.of(r1,r2);
 
         Assert.assertTrue(Types.isInsideBounds(vector));
     }

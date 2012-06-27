@@ -42,12 +42,6 @@ public interface Algorithm extends Runnable, Cloneable {
     void performInitialisation();
 
     /**
-     * Perform the needed unintialisation steps after the algorithm completes it's
-     * execution.
-     */
-    void performUninitialisation();
-
-    /**
      * Obtain the best current solution.
      * @return The {@code OptimisationSolution} representing the best solution.
      * @see net.sourceforge.cilib.entity.Topology#getBestEntity()

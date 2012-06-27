@@ -151,6 +151,6 @@ public class MultiSwarmIterationStrategy extends AbstractIterationStrategy<Multi
 
     public void reInitialise(PSO algorithm) {
         algorithm.getTopology().clear();
-        algorithm.performInitialisation();
+        algorithm.algorithmInitialisation();
     }
 }

@@ -25,7 +25,6 @@ package net.sourceforge.cilib.measurement.multiple;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -65,23 +64,14 @@ public class MultipleFitness implements Measurement<Vector> {
      */
     @Override
     public Vector getValue(Algorithm algorithm) {
-        /*Vector<Comparable> fitnessValues = new Vector<Comparable>();
-        Collection<OptimisationSolution> solutions = ((OptimisationAlgorithm) Algorithm.get()).getSolutions();
-        for (Iterator i=solutions.iterator(); i.hasNext(); ) {
-            Comparable fitness = ((OptimisationSolution)i.next()).getFitness().getValue();
+        Vector.Builder fitnessValues = Vector.newBuilder();
+
+        for (OptimisationSolution solution : algorithm.getSolutions()) {
+            Double fitness = solution.getFitness().getValue();
             fitnessValues.add(fitness);
         }
-        return fitnessValues.toArray();*/
 
-        Vector fitnessValues = new Vector();
-        Iterable<OptimisationSolution> solutions = algorithm.getSolutions();
-
-        for (OptimisationSolution solution : solutions) {
-            Double fitness = solution.getFitness().getValue();
-            fitnessValues.add(Real.valueOf(fitness));
-        }
-
-        return fitnessValues;
+        return fitnessValues.build();
     }
 
 }

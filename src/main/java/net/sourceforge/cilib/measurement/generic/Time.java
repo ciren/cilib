@@ -58,6 +58,7 @@ public class Time implements Measurement<Int>, AlgorithmListener {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Time getClone() {
         return new Time(this);
     }
@@ -85,6 +86,7 @@ public class Time implements Measurement<Int>, AlgorithmListener {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void algorithmStarted(AlgorithmEvent e) {
         running = true;
         startTime = System.currentTimeMillis();
@@ -93,6 +95,7 @@ public class Time implements Measurement<Int>, AlgorithmListener {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void algorithmFinished(AlgorithmEvent e) {
         endTime = System.currentTimeMillis();
         running = false;
@@ -101,14 +104,7 @@ public class Time implements Measurement<Int>, AlgorithmListener {
     /**
      * {@inheritDoc}
      */
-    public void algorithmTerminated(AlgorithmEvent e) {
-        endTime = System.currentTimeMillis();
-        running = false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public void iterationCompleted(AlgorithmEvent e) {
     }
 }

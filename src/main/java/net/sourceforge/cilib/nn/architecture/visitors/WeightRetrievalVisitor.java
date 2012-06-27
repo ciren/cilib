@@ -41,14 +41,16 @@ public class WeightRetrievalVisitor extends ArchitectureOperationVisitor {
     public void visit(Architecture architecture) {
         List<Layer> layers = architecture.getLayers();
 
-        output = new Vector();
+        Vector.Builder outputBuilder = Vector.newBuilder();
         int numLayers = layers.size();
         for (int i = 1; i < numLayers; i++) {
             Layer layer = layers.get(i);
             for (Neuron neuron : layer) {
-                output.addAll(neuron.getWeights());
+                outputBuilder.copyOf(neuron.getWeights());
             }
         }
+        
+        output = outputBuilder.build();
     }
 
     /**

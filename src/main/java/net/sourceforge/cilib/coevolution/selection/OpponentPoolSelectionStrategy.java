@@ -22,10 +22,10 @@
 package net.sourceforge.cilib.coevolution.selection;
 
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.coevolution.competitors.CoevolutionCompetitorList;
+import net.sourceforge.cilib.coevolution.competitive.CompetitorList;
 import net.sourceforge.cilib.util.Cloneable;
+
 /**
  * This strategy is used to select the pool of potential opponents for a competitive coevolution algorithm.
  * When opponents is selected for an {@linkplain Entity} the algorithm uses an arbitrary number of
@@ -33,22 +33,24 @@ import net.sourceforge.cilib.util.Cloneable;
  * selected with the {@linkplain OpponentSelectionStrategy}
  *
  */
-public abstract class OpponentPoolSelectionStrategy implements Cloneable
-{
-	public OpponentPoolSelectionStrategy(){
+public abstract class OpponentPoolSelectionStrategy implements Cloneable {
 
-	}
-	public OpponentPoolSelectionStrategy(OpponentPoolSelectionStrategy other){
+    public OpponentPoolSelectionStrategy() {
+    }
 
-	}
-	/**
-	 * {@inheritDoc}
-	 */
-	public abstract OpponentPoolSelectionStrategy getClone();
-	/**
-	 * Add {@linkplain Competitor}s to the {@linkplain CoevolutionCompetitorList} pool from the sub populations
-	 * @param pool the pool of competitors
-	 * @param populations the list of sub populations
-	 */
-	public abstract void addToCompetitorPool(CoevolutionCompetitorList pool, List<PopulationBasedAlgorithm> populations);
+    public OpponentPoolSelectionStrategy(OpponentPoolSelectionStrategy other) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract OpponentPoolSelectionStrategy getClone();
+
+    /**
+     * Add {@linkplain Competitor}s to the {@linkplain CoevolutionCompetitorList} pool from the sub populations
+     * @param pool the pool of competitors
+     * @param populations the list of sub populations
+     */
+    public abstract void addToCompetitorPool(CompetitorList pool, List<PopulationBasedAlgorithm> populations);
 }

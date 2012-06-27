@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.coevolution.CoevolutionAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.contextupdate.ContextUpdateStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.contextupdate.SelectiveContextUpdateStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
@@ -67,7 +68,7 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * @TODO: test this class.
  *
  */
-public class CooperativeCoevolutionAlgorithm extends MultiPopulationBasedAlgorithm implements ParticipatingAlgorithm {
+public class CooperativeCoevolutionAlgorithm extends MultiPopulationBasedAlgorithm implements ParticipatingAlgorithm, CoevolutionAlgorithm {
 
     private static final long serialVersionUID = 3351497412601778L;
     protected ContextEntity context;
@@ -101,7 +102,7 @@ public class CooperativeCoevolutionAlgorithm extends MultiPopulationBasedAlgorit
      * {@inheritDoc}
      */
     @Override
-    public void performInitialisation() {
+    public void algorithmInitialisation() {
         /*use the problem distribution class to allocate segments of the problem to the different algorithms, this class gives each sub population
         a wrapped problem, which contains the original problem and the current context vector*/
         context.initialise(optimisationProblem);

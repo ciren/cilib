@@ -31,39 +31,39 @@ import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
  * For example when a game player is optimized the fitness is determined by playing the game a number of times and a score
  * is assigned based on the entitie's performance in the game.
  */
-public abstract class PerformanceEvaluationOptimizationProblem extends
-		OptimisationProblemAdapter {
-	private static final long serialVersionUID = -736481594565770996L;
+public abstract class PerformanceEvaluationOptimizationProblem extends OptimisationProblemAdapter {
 
-	protected int numberOfEvaluations;
-	//this class determines how the fitness values from each evaluation will be combined
-	protected FitnessCalculationStrategy fitnessCalculation;
-	//scoring strategy
-	public PerformanceEvaluationOptimizationProblem() {
-		numberOfEvaluations = 1;
-		fitnessCalculation = new TotalFitnessCalculationStrategy();
-	}
+    private static final long serialVersionUID = -736481594565770996L;
+    protected int numberOfEvaluations;
+    //this class determines how the fitness values from each evaluation will be combined
+    protected FitnessCalculationStrategy fitnessCalculation;
+    //scoring strategy
 
-	/**
-	 * Copy constructor
-	 * @param copy
-	 */
-	public PerformanceEvaluationOptimizationProblem(
-			PerformanceEvaluationOptimizationProblem copy) {
-		super(copy);
-		numberOfEvaluations = copy.numberOfEvaluations;
-		fitnessCalculation = copy.fitnessCalculation;
-	}
+    public PerformanceEvaluationOptimizationProblem() {
+        numberOfEvaluations = 1;
+        fitnessCalculation = new TotalFitnessCalculationStrategy();
+    }
 
-	public void setFitnessCalculation(FitnessCalculationStrategy fitnessCalculation) {
-		this.fitnessCalculation = fitnessCalculation;
-	}
+    /**
+     * Copy constructor
+     * @param copy
+     */
+    public PerformanceEvaluationOptimizationProblem(
+            PerformanceEvaluationOptimizationProblem copy) {
+        super(copy);
+        numberOfEvaluations = copy.numberOfEvaluations;
+        fitnessCalculation = copy.fitnessCalculation;
+    }
 
-	public int getNumberOfEvaluations() {
-		return numberOfEvaluations;
-	}
+    public void setFitnessCalculation(FitnessCalculationStrategy fitnessCalculation) {
+        this.fitnessCalculation = fitnessCalculation;
+    }
 
-	public void setNumberOfEvaluations(int amountEvaluations) {
-		this.numberOfEvaluations = amountEvaluations;
-	}
+    public int getNumberOfEvaluations() {
+        return numberOfEvaluations;
+    }
+
+    public void setNumberOfEvaluations(int amountEvaluations) {
+        this.numberOfEvaluations = amountEvaluations;
+    }
 }

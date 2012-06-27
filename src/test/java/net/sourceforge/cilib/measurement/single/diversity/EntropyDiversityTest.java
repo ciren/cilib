@@ -54,7 +54,7 @@ public class EntropyDiversityTest {
         pso.setOptimisationProblem(problem);
         pso.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 1));
         
-        pso.initialise();
+        pso.performInitialisation();
 
         dimensions = pso.getOptimisationProblem().getDomain().getDimension();
     }
@@ -70,7 +70,7 @@ public class EntropyDiversityTest {
         assertEquals(0.0, diversity.doubleValue(), 0.0);
 
         //move a single particle to the edge of the search space in one dimension
-        Vector position = new Vector(30, Real.valueOf(0.0));
+        Vector position = Vector.newBuilder().repeat(30, Real.valueOf(0.0)).build();
         position.setReal(0, -5.12);
         pso.getTopology().get(0).getProperties().put(EntityType.CANDIDATE_SOLUTION, position);
 
@@ -110,7 +110,7 @@ public class EntropyDiversityTest {
         assertEquals(0.0, diversity.doubleValue(), 0.0);
 
         //move a single particle to the edge of the search space in one dimension
-        Vector position = new Vector(30, Real.valueOf(0.0));
+        Vector position = Vector.newBuilder().repeat(30, Real.valueOf(0.0)).build();
         position.setReal(0, -5.12);
         pso.getTopology().get(0).getProperties().put(EntityType.CANDIDATE_SOLUTION, position);
 
@@ -143,7 +143,7 @@ public class EntropyDiversityTest {
         Real position = Real.valueOf(0.0);
 
         for(Entity e : algorithm.getTopology()) {
-            e.getProperties().put(EntityType.CANDIDATE_SOLUTION, new Vector(dimensions, position));
+            e.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.newBuilder().repeat(dimensions, position).build());
         }
     }
 }

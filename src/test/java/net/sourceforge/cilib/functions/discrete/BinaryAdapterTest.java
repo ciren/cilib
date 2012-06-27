@@ -21,22 +21,16 @@
  */
 package net.sourceforge.cilib.functions.discrete;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Rastrigin;
 import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
-
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-/**
- *
- *
- */
 public class BinaryAdapterTest {
 
     private static BinaryAdapter adapter;
@@ -78,10 +72,12 @@ public class BinaryAdapterTest {
         adapter.setBitsPerDimension(4);
         adapter.setPrecision(0);
 
-        Vector bitVector = new Vector();
+        Vector.Builder bitVectorB = Vector.newBuilder();
         for (int i = 0; i < 4; i++) {
-            bitVector.add(Bit.valueOf(true));
+            bitVectorB.add(Bit.valueOf(true));
         }
+        
+        Vector bitVector = bitVectorB.build();
 
         assertEquals(4, bitVector.size());
 
@@ -119,10 +115,12 @@ public class BinaryAdapterTest {
     public void testSimpleDoubleDecoding() {
         adapter.setBitsPerDimension(4);
 
-        Vector bitVector = new Vector();
+        Vector.Builder bitVectorB = Vector.newBuilder();
         for (int i = 0; i < 8; i++) {
-            bitVector.add(Bit.valueOf(true));
+            bitVectorB.add(Bit.valueOf(true));
         }
+        
+        Vector bitVector = bitVectorB.build();
 
         assertEquals(8, bitVector.size());
 
@@ -159,10 +157,12 @@ public class BinaryAdapterTest {
     public void testComplex() {
         adapter.setBitsPerDimension(8);
 
-        Vector bitVector = new Vector();
+        Vector.Builder bitVectorB = Vector.newBuilder();
         for (int i = 0; i < 8; i++) {
-            bitVector.add(Bit.valueOf(true));
+            bitVectorB.add(Bit.valueOf(true));
         }
+        
+        Vector bitVector = bitVectorB.build();
 
         assertEquals(8, bitVector.size());
 

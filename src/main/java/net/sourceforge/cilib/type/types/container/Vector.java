@@ -21,30 +21,22 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
-import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.RandomAccess;
+import java.util.*;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.math.VectorMath;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import net.sourceforge.cilib.type.types.Bit;
-import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.*;
 import net.sourceforge.cilib.util.Sequence;
 
 /**
  * Mathematical vector implementation. This class represents a vector within
- * a predefiend vector space.
+ * a predefined vector space.
  *
  * <p>The intention of the class is that instances of the {@code Vector} are
  * generally speaking immutable instances. Modifications on the current
@@ -164,56 +156,6 @@ public class Vector implements StructuredType<Numeric>,
 
     private Vector(Numeric[] elements) {
         this.components = elements;
-    }
-
-    /**
-     * Create a new empty {@code Vector}.
-     * @deprecated This constructor has been deprecated in favor of the static
-     * factory methods {@code of()} and {@code copyOf()}.
-     */
-    @Deprecated
-    public Vector() {
-        this.components = new Numeric[]{};
-    }
-
-    /**
-     * Create a new empty {@code Vector} with {@code size} as the initial
-     * capacity.
-     * @param size The initial capacity.
-     * @deprecated This constructor has been deprecated in order to improve the performance
-     *  of the {@code Vector}.
-     */
-    @Deprecated
-    public Vector(int size) {
-        this.components = new Numeric[size];
-    }
-
-    /**
-     * Create a new {@code Vector} instance of the provided {@code size}, with
-     * cloned copies of {@code numeric}.
-     * @param size The initial size of the {@code Vector}.
-     * @param numeric The {@code Numeric} to copy.
-     * @deprecated This constructor has been deprecated in favor of the {@code Vector.Builder}.
-     */
-    @Deprecated
-    public Vector(int size, Numeric numeric) {
-        this.components = new Numeric[size];
-        for (int i = 0; i < size; i++) {
-            this.components[i] = numeric.getClone();
-        }
-    }
-
-    /**
-     * Create a new {@code Vector} which is a copy of the provided instance.
-     * @param copy The {@code Vector} to copy.
-     * @deprecated Use {@link Vector#copyOf(java.lang.Iterable)} instead.
-     */
-    @Deprecated
-    public Vector(Vector copy) {
-        this.components = new Numeric[copy.components.length];
-        for (int i = 0, n = components.length; i < n; i++) {
-            this.components[i] = copy.components[i].getClone();
-        }
     }
 
     /**
@@ -972,6 +914,13 @@ public class Vector implements StructuredType<Numeric>,
 
         private Builder() {
             this.elements = Lists.newArrayList();
+        }
+        
+        public Builder repeat(int n, Numeric numeric) {
+            for (int i = 0; i < n; i++) {
+                elements.add(numeric);
+            }
+            return this;
         }
 
         public Builder prepend(Numeric n) {

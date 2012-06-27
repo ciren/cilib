@@ -21,17 +21,12 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- */
 public class GriewankTest {
 
     private ContinuousFunction function;
@@ -44,15 +39,11 @@ public class GriewankTest {
     /** Test of evaluate method, of class cilib.functions.unconstrained.Griewank. */
     @Test
     public void testEvaluate() {
-        Vector x = new Vector();
-        x.add(Real.valueOf(0.0));
-        x.add(Real.valueOf(0.0));
-
+        Vector x = Vector.of(0,0);
         assertEquals(0.0, function.apply(x), 0.0);
 
         x.setReal(0, Math.PI / 2);
         x.setReal(1, Math.PI / 2);
-
         assertEquals(1.0012337, function.apply(x), 0.0000001);
     }
 }

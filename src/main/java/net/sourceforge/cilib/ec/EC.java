@@ -91,7 +91,7 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
      * {@inheritDoc}
      */
     @Override
-    public void performInitialisation() {
+    public void algorithmInitialisation() {
         Iterable<? extends Entity> individuals = this.initialisationStrategy.initialise(this.problem);
         //Iterables.addAll(getTopology(), particles); // Use this instead?
         for (Entity individual : individuals) {

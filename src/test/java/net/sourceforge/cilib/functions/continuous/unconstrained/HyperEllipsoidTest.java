@@ -22,16 +22,11 @@
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- */
 public class HyperEllipsoidTest {
 
     private static final double EPSILON = 1.0E-6;
@@ -45,12 +40,7 @@ public class HyperEllipsoidTest {
     /** Test of the evaluate method of the {@link HyperEllipsoid} class. */
     @Test
     public void testEvaluate() {
-        Vector x = new Vector();
-
-        //test the defined global minimum
-        x.add(Real.valueOf(0.0));
-        x.add(Real.valueOf(0.0));
-        x.add(Real.valueOf(0.0));
+        Vector x = Vector.of(0, 0, 0);
         Assert.assertEquals(0.0, function.apply(x), EPSILON);
 
         //test another point

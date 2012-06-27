@@ -41,7 +41,7 @@ public class Individual extends AbstractEntity {
      * Create an instance of {@linkplain Individual}.
      */
     public Individual() {
-        setCandidateSolution(new Vector());
+        this.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of());
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
     }
 

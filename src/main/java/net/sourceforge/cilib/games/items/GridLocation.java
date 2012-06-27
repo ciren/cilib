@@ -31,26 +31,27 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 /**
  * A location inside a grid
  */
-public class GridLocation extends Vector implements ItemLocation {
+public class GridLocation implements ItemLocation {
 
     private static final long serialVersionUID = 4974578979607886491L;
+    private Vector delegate;
 
     public GridLocation(int gridWidth, int gridHeight) {
-        this.add(Int.valueOf(0, new Bounds(0, gridWidth)));
-        this.add(Int.valueOf(0, new Bounds(0, gridHeight)));
+        delegate = Vector.of(Int.valueOf(0, new Bounds(0, gridWidth)), 
+                Int.valueOf(0, new Bounds(0, gridHeight)));
     }
 
     public GridLocation(int xMax, int yMax, int zMax) {
-        this.add(Int.valueOf(0, new Bounds(0, xMax)));
-        this.add(Int.valueOf(0, new Bounds(0, yMax)));
-        this.add(Int.valueOf(0, new Bounds(0, zMax)));
+        delegate = Vector.of(Int.valueOf(0, new Bounds(0, xMax)),
+                Int.valueOf(0, new Bounds(0, yMax)),
+                Int.valueOf(0, new Bounds(0, zMax)));
     }
 
     /**
      * @param Other
      */
     public GridLocation(GridLocation other) {
-        super(other);
+        this.delegate = Vector.copyOf(other.delegate);
     }
 
     /**
@@ -58,13 +59,15 @@ public class GridLocation extends Vector implements ItemLocation {
      * @param newPos the specified position
      */
     public void setPosition(Vector newPos) {
-        if (newPos.size() != this.size()) {
+        if (newPos.size() != delegate.size()) {
             throw new UnsupportedOperationException("Cannot set the postition to a vector with a different dimention");
         }
-        this.clear();
+        
+        Vector.Builder builder = Vector.newBuilder();
         for (Numeric t : newPos) {
-            this.add(t.getClone());
+            builder.add(t);
         }
+        delegate = builder.build();
     }
 
     /**
@@ -83,7 +86,7 @@ public class GridLocation extends Vector implements ItemLocation {
         if (!(other instanceof GridLocation)) {
             throw new RuntimeException("can only determine the distance between two gridlocation itemlocations");
         }
-        return measure.distance(this, ((GridLocation) other));
+        return measure.distance(delegate, ((GridLocation) other).delegate);
     }
 
     /**
@@ -96,13 +99,13 @@ public class GridLocation extends Vector implements ItemLocation {
         }
         for (int i = 0; i < ((Vector) amount).size(); ++i) {
 
-            int newVal = ((Vector) amount).intValueOf(i) + this.intValueOf(i);
-            if (newVal < this.get(i).getBounds().getLowerBound()) {
-                newVal = (int) this.get(i).getBounds().getLowerBound();
-            } else if (newVal >= this.get(i).getBounds().getUpperBound()) {
-                newVal = (int) this.get(i).getBounds().getUpperBound() - 1;
+            int newVal = ((Vector) amount).intValueOf(i) + delegate.intValueOf(i);
+            if (newVal < delegate.get(i).getBounds().getLowerBound()) {
+                newVal = (int) delegate.get(i).getBounds().getLowerBound();
+            } else if (newVal >= delegate.get(i).getBounds().getUpperBound()) {
+                newVal = (int) delegate.get(i).getBounds().getUpperBound() - 1;
             }
-            this.setInt(i, newVal);
+            delegate.setInt(i, newVal);
         }
     }
 
@@ -115,5 +118,17 @@ public class GridLocation extends Vector implements ItemLocation {
             return super.equals(((GridLocation) other));
         }
         return false;
+    }
+
+    public void setInt(int i, int i0) {
+        delegate.setInt(i, i0);
+    }
+
+    public int intValueOf(int i) {
+        return delegate.intValueOf(i);
+    }
+
+    public Vector getLocation() {
+        return delegate;
     }
 }

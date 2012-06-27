@@ -21,11 +21,11 @@
  */
 package net.sourceforge.cilib.games.game.tetris;
 
-import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.Long;
 import net.sourceforge.cilib.games.game.Game;
 import net.sourceforge.cilib.games.measurement.AgentMeasure;
 import net.sourceforge.cilib.games.states.GameState;
+import net.sourceforge.cilib.type.types.Int;
+import net.sourceforge.cilib.type.types.Long;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -33,151 +33,151 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * This is an {@linkplain AgentMeasure} that records certain Tetris features after every piece has been placed.
  */
 public class AveTetrisFeaturesMeasure extends AgentMeasure {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -6733754320928755214L;
-	int counter;
-	long holesCount;
-	long rowTransitionsCount;
-	long columntransitionsCount;
-	long heightCount;
-	/**
-	 *
-	 */
-	public AveTetrisFeaturesMeasure() {
-		/*holesCount = new ArrayList<Integer>();
-		rowTransitionsCount = new ArrayList<Integer>();
-		columntransitionsCount = new ArrayList<Integer>();
-		heightCount = new ArrayList<Integer>();*/
-		counter = 0;
-		holesCount = 0;
-		rowTransitionsCount = 0;
-		columntransitionsCount = 0;
-		heightCount = 0;
-	}
 
-	/**
-	 * Copy constructor
-	 * @param other
-	 */
-	public AveTetrisFeaturesMeasure(AveTetrisFeaturesMeasure other) {
-		super(other);
-		counter = other.counter;
-		holesCount = other.holesCount;
-		rowTransitionsCount = other.rowTransitionsCount;
-		columntransitionsCount = other.columntransitionsCount;
-		heightCount = other.heightCount;
-	}
+    private static final long serialVersionUID = -6733754320928755214L;
+    int counter;
+    long holesCount;
+    long rowTransitionsCount;
+    long columntransitionsCount;
+    long heightCount;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void clearData() {
-		counter = 0;
-		holesCount = 0;
-		rowTransitionsCount = 0;
-		columntransitionsCount = 0;
-		heightCount = 0;
-	}
+    public AveTetrisFeaturesMeasure() {
+        /*holesCount = new ArrayList<Integer>();
+         rowTransitionsCount = new ArrayList<Integer>();
+         columntransitionsCount = new ArrayList<Integer>();
+         heightCount = new ArrayList<Integer>();*/
+        counter = 0;
+        holesCount = 0;
+        rowTransitionsCount = 0;
+        columntransitionsCount = 0;
+        heightCount = 0;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public AgentMeasure getClone() {
-		return new AveTetrisFeaturesMeasure(this);
-	}
+    /**
+     * Copy constructor
+     * @param other
+     */
+    public AveTetrisFeaturesMeasure(AveTetrisFeaturesMeasure other) {
+        super(other);
+        counter = other.counter;
+        holesCount = other.holesCount;
+        rowTransitionsCount = other.rowTransitionsCount;
+        columntransitionsCount = other.columntransitionsCount;
+        heightCount = other.heightCount;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Type getMeasuredData() {
-		Vector data = new Vector();
-		data.add(Int.valueOf(counter));
-		data.add(Long.valueOf(holesCount));
-		data.add(Long.valueOf(rowTransitionsCount));
-		data.add(Long.valueOf(columntransitionsCount));
-		data.add(Long.valueOf(heightCount));
-		return data;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void clearData() {
+        counter = 0;
+        holesCount = 0;
+        rowTransitionsCount = 0;
+        columntransitionsCount = 0;
+        heightCount = 0;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void measure(Game<GameState> game) {
-		TetrisGameState state = null;
-		try{
-			state = (TetrisGameState)game.getCurrentState();
-		}catch(Exception e){
-			throw new RuntimeException("This measurement can only be used on Tetris");
-		}
-		int Width = state.getGridWidth();
-		int Height = state.getGridHeight();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AgentMeasure getClone() {
+        return new AveTetrisFeaturesMeasure(this);
+    }
 
-		 int highestYCell = Height; //low y is high cell
-         int amHoleCells = 0;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Type getMeasuredData() {
+        Vector.Builder data = Vector.newBuilder();
 
-         int rowTransitions = 0;
-         int columnTransitions = 0;
+        data.add(Int.valueOf(counter));
+        data.add(Long.valueOf(holesCount));
+        data.add(Long.valueOf(rowTransitionsCount));
+        data.add(Long.valueOf(columntransitionsCount));
+        data.add(Long.valueOf(heightCount));
 
-         boolean[] lastXOcc = new boolean[highestYCell];
+        return data.build();
+    }
 
-         for (int x = 0; x < Width; ++x)
-         {
-             int amEmpty = 0;
-             boolean lastYOccupied = true;
-             for (int y = Height - 1; y >= 0; --y)
-             {
-                 if (state.getItem(x, y) != null)
-                 {
-                     if (y < highestYCell)
-                         highestYCell = y;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void measure(Game<GameState> game) {
+        TetrisGameState state = null;
+        try {
+            state = (TetrisGameState) game.getCurrentState();
+        } catch (Exception e) {
+            throw new RuntimeException("This measurement can only be used on Tetris");
+        }
+        int Width = state.getGridWidth();
+        int Height = state.getGridHeight();
 
-                     amHoleCells += amEmpty;
-                     amEmpty = 0;
+        int highestYCell = Height; //low y is high cell
+        int amHoleCells = 0;
 
-                     if (!lastYOccupied) //this cell is occupied, if the precious one was not
-                         ++columnTransitions;
-                     lastYOccupied = true;
+        int rowTransitions = 0;
+        int columnTransitions = 0;
 
-                     if(x != 0 && !lastXOcc[y]){ //left and rightmost are occ
-                     	++rowTransitions;
-                     }
+        boolean[] lastXOcc = new boolean[highestYCell];
+
+        for (int x = 0; x < Width; ++x) {
+            int amEmpty = 0;
+            boolean lastYOccupied = true;
+            for (int y = Height - 1; y >= 0; --y) {
+                if (state.getItem(x, y) != null) {
+                    if (y < highestYCell) {
+                        highestYCell = y;
+                    }
+
+                    amHoleCells += amEmpty;
+                    amEmpty = 0;
+
+                    if (!lastYOccupied) //this cell is occupied, if the precious one was not
+                    {
+                        ++columnTransitions;
+                    }
+                    lastYOccupied = true;
+
+                    if (x != 0 && !lastXOcc[y]) { //left and rightmost are occ
+                        ++rowTransitions;
+                    }
 
 
-                     lastXOcc[y] = true;
-                 }
-                 else
-                 {
-                     ++amEmpty;
+                    lastXOcc[y] = true;
+                } else {
+                    ++amEmpty;
 
-                     if (lastYOccupied) //this cell is not occupied, if the precious one was
-                         ++columnTransitions;
+                    if (lastYOccupied) //this cell is not occupied, if the precious one was
+                    {
+                        ++columnTransitions;
+                    }
 
-                     lastYOccupied = false;
+                    lastYOccupied = false;
 
-                     if (x == 0 || x == Width - 1 || lastXOcc[y]){ //left and rightmost are occ
-                     	if(x == Width - 1 && lastXOcc[y])
-                     		rowTransitions += 2;
-                     	else
-                     		++rowTransitions;
-                     }
+                    if (x == 0 || x == Width - 1 || lastXOcc[y]) { //left and rightmost are occ
+                        if (x == Width - 1 && lastXOcc[y]) {
+                            rowTransitions += 2;
+                        } else {
+                            ++rowTransitions;
+                        }
+                    }
 
-                     lastXOcc[y] = false;
-                 }
-             }
-             //outside cell counts as not occupied
-             if (lastYOccupied)
-                 ++columnTransitions;
-         }
-         ++counter;
-         holesCount += amHoleCells;
-         rowTransitionsCount += rowTransitions;
-         columntransitionsCount += columnTransitions;
-         heightCount += (Height- highestYCell);
-	}
+                    lastXOcc[y] = false;
+                }
+            }
+            //outside cell counts as not occupied
+            if (lastYOccupied) {
+                ++columnTransitions;
+            }
+        }
+        ++counter;
+        holesCount += amHoleCells;
+        rowTransitionsCount += rowTransitions;
+        columntransitionsCount += columnTransitions;
+        heightCount += (Height - highestYCell);
+    }
 }

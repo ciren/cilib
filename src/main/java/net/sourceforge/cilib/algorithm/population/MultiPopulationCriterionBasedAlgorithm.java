@@ -71,7 +71,7 @@ public class MultiPopulationCriterionBasedAlgorithm extends MultiPopulationBased
     }
 
     @Override
-    public void performInitialisation() {
+    public void algorithmInitialisation() {
         this.objectiveAssignmentStrategy.assignObjectives((MOOptimisationProblem) this.getOptimisationProblem(),
                 this.subPopulationsAlgorithms);
         for (Algorithm algorithm : this) {
@@ -83,13 +83,6 @@ public class MultiPopulationCriterionBasedAlgorithm extends MultiPopulationBased
     protected void algorithmIteration() {
         for (Algorithm algorithm : this) {
             algorithm.performIteration();
-        }
-    }
-
-    @Override
-    public void performUninitialisation() {
-        for (Algorithm algorithm : this) {
-            algorithm.performUninitialisation();
         }
     }
 

@@ -24,36 +24,36 @@ package net.sourceforge.cilib.coevolution.score.fitnesscalculation;
 import net.sourceforge.cilib.coevolution.score.EntityScoreboard;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MaximisationFitness;
+
 /**
- * This class uses the percentage games won as the Fitness value
- *
+ * This class uses the percentage games won as the Fitness value.
  */
 public class PercentageWonFitnessCalculationStrategy extends FitnessCalculationStrategy {
-	private static final long serialVersionUID = 2550931405402015975L;
 
-	public PercentageWonFitnessCalculationStrategy(){
+    private static final long serialVersionUID = 2550931405402015975L;
 
-	}
+    public PercentageWonFitnessCalculationStrategy() {
+    }
 
-	public PercentageWonFitnessCalculationStrategy(PercentageWonFitnessCalculationStrategy other){
-		super(other);
-	}
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Fitness calculateFitnessFromScoreBoard(EntityScoreboard score, int currentRound) {
-		int amGames = score.getCompeteCount(currentRound);
-		int winCount = score.getWinCount(currentRound);
-		return new MaximisationFitness(((double)winCount / (double)amGames) * 100.0); //maximize the percentage of games won
-	}
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Object getClone() {
+    public PercentageWonFitnessCalculationStrategy(PercentageWonFitnessCalculationStrategy other) {
+        super(other);
+    }
 
-		return new PercentageWonFitnessCalculationStrategy(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Fitness calculateFitnessFromScoreBoard(EntityScoreboard score, int currentRound) {
+        int amGames = score.getCompeteCount(currentRound);
+        int winCount = score.getWinCount(currentRound);
+        return new MaximisationFitness(((double) winCount / (double) amGames) * 100.0); //maximize the percentage of games won
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public PercentageWonFitnessCalculationStrategy getClone() {
+        return this;
+    }
 }

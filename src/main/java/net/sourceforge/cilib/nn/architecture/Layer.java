@@ -23,7 +23,6 @@ package net.sourceforge.cilib.nn.architecture;
 
 import java.util.ArrayList;
 import net.sourceforge.cilib.nn.components.Neuron;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -51,11 +50,13 @@ public class Layer extends ArrayList<Neuron> implements NeuralInputSource {
      * @return the activations of the neurons in this layer.
      */
     public Vector getActivations() {
-        Vector v = new Vector();
+        Vector.Builder v = Vector.newBuilder();
+        
         for (Neuron neuron : this) {
-            v.add(Real.valueOf(neuron.getActivation()));
+            v.add(neuron.getActivation());
         }
-        return v;
+        
+        return v.build();
     }
 
     /**

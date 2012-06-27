@@ -23,12 +23,11 @@ package net.sourceforge.cilib.measurement.multiple;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.coevolution.CoevolutionAlgorithm;
+import net.sourceforge.cilib.coevolution.competitive.CompetitiveCoevolutionAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -61,8 +60,8 @@ public class MultiPopulationFitness implements Measurement<Vector> {
      */
     @Override
     public Vector getValue(Algorithm algorithm) {
-        Vector fitness = new Vector();
-        CoevolutionAlgorithm ca = (CoevolutionAlgorithm) algorithm;
+        Vector.Builder fitness = Vector.newBuilder();
+        CompetitiveCoevolutionAlgorithm ca = (CompetitiveCoevolutionAlgorithm) algorithm;
         for (PopulationBasedAlgorithm currentAlgorithm : ca) {
             Fitness best = null;
             for (Entity e : currentAlgorithm.getTopology()) {
@@ -70,8 +69,8 @@ public class MultiPopulationFitness implements Measurement<Vector> {
                     best = ((Fitness) e.getProperties().get(EntityType.Particle.BEST_FITNESS));
                 }
             }
-            fitness.add(Real.valueOf(best.getValue()));
+            fitness.add(best.getValue());
         }
-        return fitness;
+        return fitness.build();
     }
 }

@@ -23,12 +23,11 @@ package net.sourceforge.cilib.pso.multiswarm;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;//I
-import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
@@ -76,7 +75,7 @@ public class MultiSwarm extends MultiPopulationBasedAlgorithm {
      *
      */
     @Override
-    public void performInitialisation()    {
+    public void algorithmInitialisation()    {
         OptimisationProblem problem = getOptimisationProblem();//getCoevolutionOptimisationProblem();
         for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
             currentAlgorithm.setOptimisationProblem(problem);
@@ -161,6 +160,7 @@ public class MultiSwarm extends MultiPopulationBasedAlgorithm {
         throw new UnsupportedOperationException("setTopology() is not supported");
     }
 
+    @Override
     public Topology<? extends Entity> getTopology() {
         throw new UnsupportedOperationException("getTopology() is not supported");
     }
