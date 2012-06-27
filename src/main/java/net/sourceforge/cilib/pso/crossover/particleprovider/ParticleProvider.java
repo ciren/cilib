@@ -19,18 +19,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.entity.operators.crossover;
+package net.sourceforge.cilib.pso.crossover.particleprovider;
 
+import fj.F2;
 import java.util.List;
+import net.sourceforge.cilib.entity.Particle;
 
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.operators.Operator;
-
-public interface CrossoverStrategy extends Operator {
+/**
+ * These classes are used in CrossoverSelection to determine which candidate 
+ * particle can be replaced.
+ */
+public abstract class ParticleProvider extends F2<List<Particle>, Particle, Particle> {
     @Override
-    public CrossoverStrategy getClone();
-
-    public <E extends Entity> List<E> crossover(List<E> parentCollection);
-    
-    public int getNumberOfParents();
+    public abstract Particle f(List<Particle> parents, Particle offspring);
 }

@@ -21,67 +21,72 @@
  */
 package net.sourceforge.cilib.entity.operators.crossover;
 
-import java.util.ArrayList;
+import com.google.common.base.Preconditions;
+import java.util.Arrays;
 import java.util.List;
 
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-/**
- *
- */
-public class OnePointCrossoverStrategy extends CrossoverStrategy {
+public class OnePointCrossoverStrategy implements CrossoverStrategy {
 
     private static final long serialVersionUID = 7313531386910938748L;
+    
+    private ProbabilityDistributionFuction random;
 
     public OnePointCrossoverStrategy() {
+        this.random = new UniformDistribution();
     }
 
     public OnePointCrossoverStrategy(OnePointCrossoverStrategy copy) {
-        super(copy);
+        this.random = copy.random;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public OnePointCrossoverStrategy getClone() {
         return new OnePointCrossoverStrategy(this);
     }
 
-    public List<? extends Entity> crossover(List<? extends Entity> parentCollection) {
-        ArrayList<Entity> offspring = new ArrayList<Entity>();
-        offspring.ensureCapacity(parentCollection.size());
+    @Override
+    public <E extends Entity> List<E> crossover(List<E> parentCollection) {
+        Preconditions.checkArgument(parentCollection.size() == 2, "OnePointCrossoverStrategy requires 2 parents.");
+        
+        E offspring1 = (E) parentCollection.get(0).getClone();
+        E offspring2 = (E) parentCollection.get(1).getClone();
 
-        // This needs a selection strategy to select the parent individuals!!!!
-        Entity parent1 = parentCollection.get(0);
-        Entity parent2 = parentCollection.get(1);
+        // Select the pivot point where crossover will occour
+        int maxLength = Math.min(offspring1.getDimension(), offspring2.getDimension());
+        int crossoverPoint = Double.valueOf(random.getRandomNumber(0, maxLength + 1)).intValue();
 
-        if (this.getRandomDistribution().getRandomNumber() <= this.getCrossoverProbability().getParameter()) {
-            // Select the pivot point where crossover will occour
-            int maxLength = Math.min(parent1.getDimension(), parent2.getDimension());
-            int crossoverPoint = Double.valueOf(this.getRandomDistribution().getRandomNumber(0, maxLength + 1)).intValue();
+        Vector offspringVector1 = (Vector) offspring1.getCandidateSolution();
+        Vector offspringVector2 = (Vector) offspring2.getCandidateSolution();
 
-            Entity offspring1 = parent1.getClone();
-            Entity offspring2 = parent2.getClone();
+        Vector.Builder offspringVector1Builder = Vector.newBuilder();
+        Vector.Builder offspringVector2Builder = Vector.newBuilder();
 
-            Vector offspringVector1 = (Vector) offspring1.getCandidateSolution();
-            Vector offspringVector2 = (Vector) offspring2.getCandidateSolution();
+        offspringVector1Builder.copyOf(offspringVector1.copyOfRange(0, crossoverPoint));
+        offspringVector2Builder.copyOf(offspringVector2.copyOfRange(0, crossoverPoint));
+        offspringVector1Builder.copyOf(offspringVector2.copyOfRange(crossoverPoint, offspringVector2.size()));
+        offspringVector2Builder.copyOf(offspringVector1.copyOfRange(crossoverPoint, offspringVector1.size()));
+        
+        offspring1.setCandidateSolution(offspringVector1Builder.build());
+        offspring2.setCandidateSolution(offspringVector2Builder.build());
 
-            Vector.Builder offspringVector1Builder = Vector.newBuilder();
-            Vector.Builder offspringVector2Builder = Vector.newBuilder();
+        return Arrays.asList(offspring1, offspring2);
+    }
 
-            offspringVector1Builder.copyOf(offspringVector1.copyOfRange(0, crossoverPoint));
-            offspringVector2Builder.copyOf(offspringVector2.copyOfRange(0, crossoverPoint));
-            offspringVector1Builder.copyOf(offspringVector2.copyOfRange(crossoverPoint, offspringVector2.size()));
-            offspringVector2Builder.copyOf(offspringVector1.copyOfRange(crossoverPoint, offspringVector1.size()));
+    public void setRandom(ProbabilityDistributionFuction random) {
+        this.random = random;
+    }
 
-            offspring1.calculateFitness();
-            offspring2.calculateFitness();
+    public ProbabilityDistributionFuction getRandom() {
+        return random;
+    }
 
-            offspring.add(offspring1);
-            offspring.add(offspring2);
-        }
-
-        return offspring;
+    @Override
+    public int getNumberOfParents() {
+        return 2;
     }
 }

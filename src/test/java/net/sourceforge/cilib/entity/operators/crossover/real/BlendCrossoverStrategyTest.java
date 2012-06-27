@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.entity.operators.crossover;
+package net.sourceforge.cilib.entity.operators.crossover.real;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ import org.junit.Test;
 /**
  *
  */
-public class OnePointCrossoverStrategyTest {
+public class BlendCrossoverStrategyTest {
 
     @Test
     public void offspringCreation() {
@@ -56,7 +56,7 @@ public class OnePointCrossoverStrategyTest {
         parents.add(i2);
 
         CrossoverOperator crossoverStrategy = new CrossoverOperator();
-        crossoverStrategy.setCrossoverStrategy(new OnePointCrossoverStrategy());
+        crossoverStrategy.setCrossoverStrategy(new BlendCrossoverStrategy());
         crossoverStrategy.setCrossoverProbability(ConstantControlParameter.of(1.0));
         List<Entity> children = (List<Entity>) crossoverStrategy.crossover(parents);
 
@@ -78,6 +78,8 @@ public class OnePointCrossoverStrategyTest {
      * This kind of thing would be awesome to just imject with Guice.
      */
     private class MockFitnessCalculator implements FitnessCalculator<Individual> {
+
+        private static final long serialVersionUID = 9150587058200872989L;
 
         @Override
         public FitnessCalculator<Individual> getClone() {

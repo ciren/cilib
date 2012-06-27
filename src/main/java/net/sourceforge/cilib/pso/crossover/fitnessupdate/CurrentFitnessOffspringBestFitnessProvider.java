@@ -19,18 +19,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.entity.operators.crossover;
+package net.sourceforge.cilib.pso.crossover.fitnessupdate;
 
 import java.util.List;
+import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.problem.Fitness;
 
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.operators.Operator;
-
-public interface CrossoverStrategy extends Operator {
+/**
+ * This OffspringBestFitnessProvider sets the offspring's best fitness to its
+ * current fitness.
+ */
+public class CurrentFitnessOffspringBestFitnessProvider extends OffspringBestFitnessProvider {
     @Override
-    public CrossoverStrategy getClone();
-
-    public <E extends Entity> List<E> crossover(List<E> parentCollection);
-    
-    public int getNumberOfParents();
+    public Fitness f(List<Particle> parents, Particle offspring) {
+        return offspring.getFitness();
+    }    
 }
