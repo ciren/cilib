@@ -19,38 +19,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.entity;
+package net.sourceforge.cilib.util.selection.weighting;
+
+import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 
 /**
- * The defined types for all properties within {@linkplain Entity} objects.
+ * Obtain the ratio of a ParticleBehavior.
  */
-public enum EntityType {
-    CANDIDATE_SOLUTION,
-    PREVIOUS_SOLUTION,
-    FITNESS,
-    PREVIOUS_FITNESS,
-    STRATEGY_PARAMETERS;
+public interface ParticleBehaviorRatio {
 
     /**
-     * {@linkplain Particle} specific constants.
+     * Obtain the ratio of the provided ParticleBehavior.
+     * 
+     * @param particleBehavior The ParticleBehavior to query.
+     * @return The obtained ratio value.
      */
-    public enum Particle {
-        BEST_POSITION,
-        BEST_FITNESS,
-        VELOCITY;
-
-        public enum Count {
-            PBEST_STAGNATION_COUNTER;
-        }
-    }
-
-    /**
-     * Coevolution constants... This is probably going to be refactored to another location.
-     * TODO: Check this
-     */
-    public enum Coevolution { // Not sure about this... has a funky smell to it.
-        DISTANCE,
-        BOARD,
-        POPULATION_ID;
-    }
+    double getRatio(ParticleBehavior particleBehavior);
 }
