@@ -141,6 +141,7 @@ public class StandardParticle extends AbstractParticle {
 
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
         this.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
+        this.getProperties().put(EntityType.PREVIOUS_FITNESS, InferiorFitness.instance());
         this.neighbourhoodBest = this;
 
         this.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
@@ -162,6 +163,7 @@ public class StandardParticle extends AbstractParticle {
     @Override
     public void calculateFitness() {
         Fitness fitness = getFitnessCalculator().getFitness(this);
+        this.getProperties().put(EntityType.PREVIOUS_FITNESS, this.getFitness());
         this.getProperties().put(EntityType.FITNESS, fitness);
 
         this.personalBestUpdateStrategy.updatePersonalBest(this);
