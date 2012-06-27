@@ -21,97 +21,88 @@
  */
 package net.sourceforge.cilib.entity.operators.crossover;
 
-import com.google.common.collect.Lists;
+import com.google.common.base.Preconditions;
+import java.util.Arrays;
 import java.util.List;
 
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.selection.Samples;
 
-/**
- *
- */
-public class UniformCrossoverStrategy extends CrossoverStrategy {
+public class UniformCrossoverStrategy implements CrossoverStrategy {
 
     private static final long serialVersionUID = 8912494112973025634L;
+    
+    private ProbabilityDistributionFuction random;
+    private ControlParameter crossoverPointProbability;
 
     public UniformCrossoverStrategy() {
+        this.random = new UniformDistribution();
+        this.crossoverPointProbability = ConstantControlParameter.of(0.5);
     }
 
     public UniformCrossoverStrategy(UniformCrossoverStrategy copy) {
-        super(copy);
+        this.random = copy.random;
+        this.crossoverPointProbability = copy.crossoverPointProbability.getClone();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public UniformCrossoverStrategy getClone() {
         return new UniformCrossoverStrategy(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public List<? extends Entity> crossover(final List<? extends Entity> parentCollection) {
-        // Create a topology for the purposes of selection.
-        // This is a code smell indicating that the crossover
-        // API is not well defined.
-        Topology<Entity> parentTopology = new GBestTopology<Entity>();
-        parentTopology.addAll(parentCollection);
-        List<Entity> offspring = Lists.newArrayListWithCapacity(parentCollection.size());
-
-        // Select two parents, based on the selection strategy - this
-        // is not 100% solid, needs to be looked at.
-        List<Entity> selectedParents = Lists.newArrayList();
-        selectedParents.addAll(getSelectionStrategy().on(parentTopology).select(Samples.first(2)));
-
+    public <E extends Entity> List<E> crossover(List<E> parentCollection) {
+        Preconditions.checkArgument(parentCollection.size() == 2, "UniformCrossoverStrategy requires 2 parents.");
+        
         //How do we handle variable sizes? Resizing the entities?
-        Entity parent1 = selectedParents.get(0);
-        Entity parent2 = selectedParents.get(1);
+        E offspring1 = (E) parentCollection.get(0).getClone();
+        E offspring2 = (E) parentCollection.get(1).getClone();
 
-        if (this.getCrossoverProbability().getParameter() >= this.getRandomDistribution().getRandomNumber()) {
-            int minDimension = Math.min(parent1.getDimension(), parent2.getDimension());
+        int minDimension = Math.min(offspring1.getDimension(), offspring2.getDimension());
 
-            Entity offspring1 = parent1.getClone();
-            Entity offspring2 = parent2.getClone();
-
-            // Calculate the mask for the cross-over
-            boolean[] mask = new boolean[minDimension];
-            for (int i = 0; i < minDimension; i++) {
-                if (this.getRandomDistribution().getRandomNumber() <= 0.5) {
-                    mask[i] = true;
-                }
+        Vector parentChromosome1 = (Vector) offspring1.getCandidateSolution();
+        Vector parentChromosome2 = (Vector) offspring2.getCandidateSolution();
+        Vector.Builder offspringChromosome1Builder = Vector.newBuilder();
+        Vector.Builder offspringChromosome2Builder = Vector.newBuilder();
+        
+        for (int i = 0; i < minDimension; i++) {
+            if (random.getRandomNumber() < crossoverPointProbability.getParameter()) {
+                offspringChromosome1Builder.add(parentChromosome1.get(i));
+                offspringChromosome2Builder.add(parentChromosome2.get(i));
+            } else {
+                offspringChromosome1Builder.add(parentChromosome2.get(i));
+                offspringChromosome2Builder.add(parentChromosome1.get(i));
             }
-
-            // Now apply the mask
-            Vector parentChromosome1 = (Vector) parent1.getCandidateSolution();
-            Vector parentChromosome2 = (Vector) parent2.getCandidateSolution();
-            Vector.Builder offspringChromosome1Builder = Vector.newBuilder();
-            Vector.Builder offspringChromosome2Builder = Vector.newBuilder();
-            for (int i = 0; i < minDimension; i++) {
-                if (!mask[i]) {
-                    offspringChromosome1Builder.add(parentChromosome1.get(i).getClone());
-                    offspringChromosome2Builder.add(parentChromosome2.get(i).getClone());
-                } else {
-                    offspringChromosome1Builder.add(parentChromosome2.get(i).getClone());
-                    offspringChromosome2Builder.add(parentChromosome1.get(i).getClone());
-                }
-            }
-
-            offspring1.setCandidateSolution(offspringChromosome1Builder.build());
-            offspring2.setCandidateSolution(offspringChromosome2Builder.build());
-
-            offspring1.calculateFitness();
-            offspring2.calculateFitness();
-
-            offspring.add(offspring1);
-            offspring.add(offspring2);
         }
 
-        return offspring;
+        offspring1.setCandidateSolution(offspringChromosome1Builder.build());
+        offspring2.setCandidateSolution(offspringChromosome2Builder.build());
+
+        return Arrays.asList(offspring1, offspring2);
+    }
+
+    public void setCrossoverPointProbability(ControlParameter crossoverPointProbability) {
+        this.crossoverPointProbability = crossoverPointProbability;
+    }
+
+    public ControlParameter getCrossoverPointProbability() {
+        return crossoverPointProbability;
+    }
+
+    public void setRandom(ProbabilityDistributionFuction random) {
+        this.random = random;
+    }
+
+    public ProbabilityDistributionFuction getRandom() {
+        return random;
+    }
+
+    @Override
+    public int getNumberOfParents() {
+        return 2;
     }
 }

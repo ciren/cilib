@@ -26,8 +26,8 @@ import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.crossover.BoltzmannCrossoverSelection;
-import net.sourceforge.cilib.pso.crossover.PSOCrossoverOperation;
+import net.sourceforge.cilib.pso.crossover.operations.BoltzmannCrossoverSelection;
+import net.sourceforge.cilib.pso.crossover.operations.PSOCrossoverOperation;
 
 /**
  * An iteration strategy that uses different PSOCrossoverOperations to affect the 
@@ -76,14 +76,14 @@ public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO
             current.updateVelocity();
             current.updatePosition();
 
+            current.calculateFitness();
             boundaryConstraint.enforce(current);
         }
         
-        algorithm.setTopology(crossoverOperation.performCrossoverOpertation(algorithm));
+        algorithm.setTopology(crossoverOperation.f(algorithm));
         
         for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
             Particle current = i.next();
-            current.calculateFitness();
 
             for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
                 Particle other = j.next();

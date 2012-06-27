@@ -19,18 +19,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.entity.operators.crossover;
+package net.sourceforge.cilib.pso.crossover.pbestupdate;
 
 import java.util.List;
+import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.type.types.container.StructuredType;
+import net.sourceforge.cilib.type.types.container.Vector;
 
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.operators.Operator;
-
-public interface CrossoverStrategy extends Operator {
+/**
+ * This OffspringPBestProvider sets an offspring's pBest to a random position in 
+ * the search space.
+ */
+public class RandomOffspringPBestProvider extends OffspringPBestProvider {
     @Override
-    public CrossoverStrategy getClone();
-
-    public <E extends Entity> List<E> crossover(List<E> parentCollection);
-    
-    public int getNumberOfParents();
+    public StructuredType f(List<Particle> parent, Particle offspring) {
+        return Vector.newBuilder().copyOf(offspring.getPosition()).buildRandom();
+    }
 }

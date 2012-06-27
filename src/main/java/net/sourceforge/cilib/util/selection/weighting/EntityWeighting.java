@@ -66,6 +66,14 @@ public class EntityWeighting implements Weighting {
         return result;
     }
 
+    public void setEntityFitness(EntityFitness<Entity> entityFitness) {
+        this.entityFitness = entityFitness;
+    }
+
+    public EntityFitness<Entity> getEntityFitness() {
+        return entityFitness;
+    }
+
     private <T> MinMaxFitness getMinMaxFitness(List<T> entities) {
         MinMaxFitness minMaxFitness = new MinMaxFitness(InferiorFitness.instance(), InferiorFitness.instance());
         for (T entity : entities) {

@@ -32,8 +32,8 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
-import net.sourceforge.cilib.entity.operators.crossover.BlendCrossoverStrategy;
-import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
+import net.sourceforge.cilib.entity.operators.CrossoverOperator;
+import net.sourceforge.cilib.entity.operators.crossover.real.BlendCrossoverStrategy;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
@@ -61,23 +61,25 @@ import net.sourceforge.cilib.util.selection.weighting.EntityWeighting;
  */
 public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
     
-    private CrossoverStrategy crossoverStrategy;
+    private CrossoverOperator crossover;
     private ControlParameter numberOfOffspring;
     private Selector selector;
     
     public HybridEAIterationStrategy() {
         BlendCrossoverStrategy cs = new BlendCrossoverStrategy();
-        cs.setSelectionStrategy(new RouletteWheelSelector(new EntityWeighting(new CurrentFitness<Entity>())));
-        cs.setCrossoverProbability(ConstantControlParameter.of(0.1));
         cs.setAlpha(ConstantControlParameter.of(0.4));
         
-        this.crossoverStrategy = cs;
+        this.crossover = new CrossoverOperator();
+        this.crossover.setSelectionStrategy(new RouletteWheelSelector(new EntityWeighting(new CurrentFitness<Entity>())));
+        this.crossover.setCrossoverProbability(ConstantControlParameter.of(0.1));
+        this.crossover.setCrossoverStrategy(cs);
+        
         this.numberOfOffspring = ConstantControlParameter.of(20);
         this.selector = new ElitistSelector();
     }
     
     public HybridEAIterationStrategy(HybridEAIterationStrategy copy) {
-        this.crossoverStrategy = copy.crossoverStrategy.getClone();
+        this.crossover = copy.crossover.getClone();
         this.numberOfOffspring = copy.numberOfOffspring.getClone();
         this.selector = copy.selector;
     }
@@ -102,18 +104,12 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
         }
         
         // crossover
-        List<Entity> offspring = Lists.newArrayList();
+        List<Particle> offspring = Lists.newArrayList();
         for (int i = 0; i < numberOfOffspring.getParameter(); i++) {
-             offspring.addAll(
-                     crossoverStrategy.crossover(
-                        crossoverStrategy.getSelectionStrategy().on(topology).select(Samples.first(2).unique())
-                     )
-                 );
+             offspring.addAll(crossover.crossover(topology));
         }
         
-        for (Entity e : offspring) {
-            Particle p = (Particle) e;
-            
+        for (Particle p : offspring) {
             p.getProperties().put(EntityType.Particle.BEST_POSITION, p.getCandidateSolution());
             p.setNeighbourhoodBest(p);
             
@@ -153,11 +149,11 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
         return numberOfOffspring;
     }
 
-    public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {
-        this.crossoverStrategy = crossoverStrategy;
+    public void setCrossoverStrategy(CrossoverOperator crossoverStrategy) {
+        this.crossover = crossoverStrategy;
     }
 
-    public CrossoverStrategy getCrossoverStrategy() {
-        return crossoverStrategy;
+    public CrossoverOperator getCrossoverStrategy() {
+        return crossover;
     }    
 }

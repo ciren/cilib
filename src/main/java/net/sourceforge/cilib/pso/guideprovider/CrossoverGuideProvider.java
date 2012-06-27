@@ -26,9 +26,9 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.crossover.CrossoverSelection;
-import net.sourceforge.cilib.pso.crossover.util.NBestParticleProvider;
-import net.sourceforge.cilib.pso.crossover.RepeatingCrossoverSelection;
+import net.sourceforge.cilib.pso.crossover.operations.CrossoverSelection;
+import net.sourceforge.cilib.pso.crossover.operations.RepeatingCrossoverSelection;
+import net.sourceforge.cilib.pso.crossover.particleprovider.NBestParticleProvider;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
@@ -42,7 +42,6 @@ public class CrossoverGuideProvider implements GuideProvider {
     
     private GuideProvider delegate;
     private CrossoverSelection crossoverSelection;
-    private NBestParticleProvider particleProvider;
 
     private enum TempEnums {
         TEMP
@@ -54,7 +53,7 @@ public class CrossoverGuideProvider implements GuideProvider {
     public CrossoverGuideProvider() {
         this.delegate = new NBestGuideProvider();
         this.crossoverSelection = new RepeatingCrossoverSelection();
-        this.particleProvider = new NBestParticleProvider();
+        this.crossoverSelection.setParticleProvider(new NBestParticleProvider());
     }
     
     /**
@@ -65,7 +64,6 @@ public class CrossoverGuideProvider implements GuideProvider {
     public CrossoverGuideProvider(CrossoverGuideProvider copy) {
         this.delegate = copy.delegate.getClone();
         this.crossoverSelection = copy.crossoverSelection.getClone();
-        this.particleProvider = copy.particleProvider;
     }
     
     /**
@@ -82,9 +80,6 @@ public class CrossoverGuideProvider implements GuideProvider {
     @Override
     public StructuredType get(Particle particle) {
         PSO pso = (PSO) AbstractAlgorithm.get();
-        particleProvider.setParticle(particle);
-        crossoverSelection.setParticleProvider(particleProvider);
-
         P3<Boolean, Particle, Particle> result = crossoverSelection.doAction(pso, EntityType.Particle.BEST_POSITION, EntityType.Particle.BEST_FITNESS);
         Particle gBest = particle.getNeighbourhoodBest();
 
@@ -94,14 +89,6 @@ public class CrossoverGuideProvider implements GuideProvider {
         }
 
         return delegate.get(particle);
-    }
-
-    public void setParticleProvider(NBestParticleProvider particleProvider) {
-        this.particleProvider = particleProvider;
-    }
-
-    public NBestParticleProvider getParticleProvider() {
-        return particleProvider;
     }
 
     public void setCrossoverSelection(CrossoverSelection crossoverSelector) {
