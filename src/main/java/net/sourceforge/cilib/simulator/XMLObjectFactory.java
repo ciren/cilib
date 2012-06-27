@@ -68,8 +68,7 @@ import org.w3c.dom.*;
  * See: <a href="http://www.sourceforge.net/projects/cilib/">Factory Demo</a> for XML samples.
  *
  */
-// TODO: Rewrite to use SAX instead of maintaining a DOM tree.
-class XMLObjectFactory {
+public class XMLObjectFactory {
 
     private Document xmlDocument;
     private Element xmlObjectDescription;
@@ -81,7 +80,7 @@ class XMLObjectFactory {
      * @param xmlObjectDescription An XML element that describes the objects to be constructed by this factory.
      * @param xmlDocument The XML document to search for any idrefs.
      **/
-    XMLObjectFactory(Document xmlDocument, Element xmlObjectDescription) {
+    public XMLObjectFactory(Document xmlDocument, Element xmlObjectDescription) {
         this.xmlDocument = xmlDocument;
         this.xmlObjectDescription = xmlObjectDescription;
     }

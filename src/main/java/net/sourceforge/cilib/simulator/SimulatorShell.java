@@ -40,26 +40,14 @@ import org.w3c.dom.NodeList;
  * if required, based on the provided simulation file.
  *
  */
-class SimulatorShell {
-
-    private final XMLObjectBuilder objectBuilder;
-    private final SimulatorCreator creator;
-    private final MeasurementCombinerBuilder combinerBuilder;
-
-    SimulatorShell(XMLObjectBuilder objectBuilder,
-            SimulatorCreator creator,
-            MeasurementCombinerBuilder combinerBuilder) {
-        this.objectBuilder = objectBuilder;
-        this.creator = creator;
-        this.combinerBuilder = combinerBuilder;
-    }
-
+public class SimulatorShell {
+    private SimulatorShell() {}
     /**
      * Prepare a list of {@code Simulator} instances for execution.
      * @param specification to be read defining the simulations.
      * @return the list of instacnes to execute.
      */
-    List<Simulator> prepare(File specification) {
+    public static List<Simulator> prepare(File specification) {
         try {
             List<Simulator> simulators = Lists.newArrayList();
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -70,13 +58,12 @@ class SimulatorShell {
             for (int i = 0; i < simulations.getLength(); ++i) {
                 Element current = (Element) simulations.item(i);
                 int samples = current.hasAttribute("samples") ? Integer.valueOf(current.getAttribute("samples")) : 1;
-                XMLObjectFactory algorithmFactory = objectBuilder.config(config).element(current.getElementsByTagName("algorithm").item(0)).build();
-                XMLObjectFactory problemFactory = objectBuilder.config(config).element(current.getElementsByTagName("problem").item(0)).build();
-                XMLObjectFactory measurementsFactory = objectBuilder.config(config).element((Element) current.getElementsByTagName("measurements").item(0)).build();
+                XMLObjectFactory algorithmFactory = new XMLObjectFactory(config, (Element) current.getElementsByTagName("algorithm").item(0));
+                XMLObjectFactory problemFactory = new XMLObjectFactory(config, (Element) current.getElementsByTagName("problem").item(0));
+                XMLObjectFactory measurementsFactory = new XMLObjectFactory(config, (Element) current.getElementsByTagName("measurements").item(0));
                 MeasurementCombiner combiner = createCombiner((Element) current.getElementsByTagName("output").item(0));
 
-                Simulator simulator = creator.algorithm(algorithmFactory).problem(problemFactory).measurement(measurementsFactory).combiner(combiner).samples(samples).get();
-                simulator.init(); // Prepare the simulator by initializing the simulations
+                Simulator simulator = new Simulator(algorithmFactory, problemFactory, measurementsFactory, combiner, samples);
                 simulators.add(simulator);
             }
             return simulators;
@@ -91,21 +78,17 @@ class SimulatorShell {
      * @param listener reposible to monitor progress.
      * TODO: This listener idea is not fresh - one listener per simulation should be the case.
      */
-    void execute(Iterable<Simulator> simulators, ProgressListener listener) {
+    public static void execute(Iterable<Simulator> simulators, ProgressListener listener) {
         int index = 0;
         for (Simulator simulator : simulators) {
+            simulator.init(); // Prepare the simulator by initializing the simulations
             simulator.addProgressListener(listener);
             listener.setSimulation(index++);
             simulator.execute();
         }
     }
 
-    /*
-     * This shoud be a guice provider.... I don't like this
-     */
-    private MeasurementCombiner createCombiner(Element item) {
-        String file = item.getAttribute("file");
-        OutputType format = OutputType.valueOf(item.getAttribute("format").toUpperCase());
-        return this.combinerBuilder.build(format, file);
+    private static MeasurementCombiner createCombiner(Element item) {
+        return new MeasurementCombiner(new File(item.getAttribute("file")));
     }
 }

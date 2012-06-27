@@ -32,7 +32,7 @@ import net.sourceforge.cilib.problem.Problem;
 /**
  * A Simulation is a complete simulation that runs as a separate thread.
  */
-class Simulation implements AlgorithmListener, Runnable {
+public class Simulation implements AlgorithmListener, Runnable {
 
     private static final long serialVersionUID = -3733724215662398762L;
     private final Simulator simulator;
@@ -46,7 +46,7 @@ class Simulation implements AlgorithmListener, Runnable {
      * @param algorithmFactory The factory that creates {@code Algorithm} instances.
      * @param problemFactory The factory that creates {@code Problem} instances.
      */
-    Simulation(Simulator simulator, Algorithm algorithm, Problem problem, MeasurementSuite measurementSuite) {
+    public Simulation(Simulator simulator, Algorithm algorithm, Problem problem, MeasurementSuite measurementSuite) {
         this.simulator = simulator;
         this.algorithm = algorithm;
         this.problem = problem;
@@ -58,7 +58,7 @@ class Simulation implements AlgorithmListener, Runnable {
      * setting the provided {@code problem} on the current {@code algorithm},
      * followed by the required initialization for the {@code algorithm} itself.
      */
-    void init() {
+    public void init() {
         AbstractAlgorithm alg = (AbstractAlgorithm) algorithm;
         alg.addAlgorithmListener(this);
         alg.setOptimisationProblem((OptimisationProblem) problem);
@@ -76,7 +76,7 @@ class Simulation implements AlgorithmListener, Runnable {
     /**
      * Terminate the current simulation.
      */
-    void terminate() {
+    public void terminate() {
         ((AbstractAlgorithm) algorithm).terminate();
     }
 
@@ -130,7 +130,15 @@ class Simulation implements AlgorithmListener, Runnable {
         return this;
     }
 
-    MeasurementSuite getMeasurementSuite() {
+    public MeasurementSuite getMeasurementSuite() {
         return measurementSuite;
+    }
+
+    public Problem getProblem() {
+        return problem;
+    }
+
+    public Algorithm getAlgorithm() {
+        return algorithm;
     }
 }
