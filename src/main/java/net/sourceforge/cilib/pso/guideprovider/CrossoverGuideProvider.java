@@ -44,10 +44,6 @@ public class CrossoverGuideProvider implements GuideProvider {
     private Enum positionComponent;
     private Enum fitnessComponent;
 
-    private enum TempEnums {
-        TEMP
-    };
-    
     /**
      * Default constructor.
      */
@@ -112,7 +108,7 @@ public class CrossoverGuideProvider implements GuideProvider {
     }
     
     public void setComponent(String type) {
-        if ("pbest".equals(type)) {
+        if ("pbest".equalsIgnoreCase(type)) {
             fitnessComponent = EntityType.Particle.BEST_FITNESS;
             positionComponent = EntityType.Particle.BEST_POSITION;
         } else {

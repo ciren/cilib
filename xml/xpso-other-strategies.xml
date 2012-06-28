@@ -317,7 +317,7 @@
         </algorithm>
     </algorithms>
     <problems>
-        <problem id="spherical" class="problem.FunctionMinimisationProblem" domain="R(300:600)^30">
+        <problem id="griewank" class="problem.FunctionMinimisationProblem" domain="R(300:600)^30">
             <function class="functions.continuous.unconstrained.Griewank" />
         </problem>
     </problems>
@@ -327,61 +327,61 @@
     <simulations>
         <simulation samples="1">
             <algorithm idref="xpso-hea" />
-            <problem idref="spherical" />
+            <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-hea.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="xpso-nmpco" />
-            <problem idref="spherical" />
+            <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-nmpco.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="xpso-nmpco-without-cauchy" />
-            <problem idref="spherical" />
+            <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-nmpco-without-cauchy.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="xpso-lovbjerg-hybrid" />
-            <problem idref="spherical" />
+            <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-lovbjerg-hybrid.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="xpso-gliw-glac-arithmetic" />
-            <problem idref="spherical" />
+            <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-gliw-glac-arithmetic.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="xpso-gliw-fac-arithmetic" />
-            <problem idref="spherical" />
+            <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-gliw-fac-arithmetic.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="xpso-gliw-glac-averageConvex" />
-            <problem idref="spherical" />
+            <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-gliw-glac-averageConvex.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="xpso-gliw-fac-averageConvex" />
-            <problem idref="spherical" />
+            <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-gliw-fac-averageConvex.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="xpso-gliw-glac-rootProbability" />
-            <problem idref="spherical" />
+            <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-gliw-glac-rootProbability.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="xpso-gliw-fac-rootProbability" />
-            <problem idref="spherical" />
+            <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-gliw-fac-rootProbability.txt" />
         </simulation>

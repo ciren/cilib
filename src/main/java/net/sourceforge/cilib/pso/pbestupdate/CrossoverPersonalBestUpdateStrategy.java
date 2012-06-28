@@ -84,5 +84,13 @@ public class CrossoverPersonalBestUpdateStrategy implements PersonalBestUpdateSt
         int count = ((Int)particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER)).intValue();
         particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER,  Int.valueOf(++count));
     }
+
+    public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {
+        this.crossoverStrategy = crossoverStrategy;
+    }
+
+    public CrossoverStrategy getCrossoverStrategy() {
+        return crossoverStrategy;
+    }
     
 }
