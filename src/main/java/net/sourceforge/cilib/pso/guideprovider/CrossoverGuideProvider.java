@@ -28,7 +28,6 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.crossover.operations.CrossoverSelection;
 import net.sourceforge.cilib.pso.crossover.operations.RepeatingCrossoverSelection;
-import net.sourceforge.cilib.pso.crossover.particleprovider.NBestParticleProvider;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
@@ -42,18 +41,17 @@ public class CrossoverGuideProvider implements GuideProvider {
     
     private GuideProvider delegate;
     private CrossoverSelection crossoverSelection;
+    private Enum positionComponent;
+    private Enum fitnessComponent;
 
-    private enum TempEnums {
-        TEMP
-    };
-    
     /**
      * Default constructor.
      */
     public CrossoverGuideProvider() {
         this.delegate = new NBestGuideProvider();
         this.crossoverSelection = new RepeatingCrossoverSelection();
-        this.crossoverSelection.setParticleProvider(new NBestParticleProvider());
+        this.positionComponent = EntityType.Particle.BEST_POSITION;
+        this.fitnessComponent = EntityType.Particle.BEST_FITNESS;
     }
     
     /**
@@ -64,6 +62,8 @@ public class CrossoverGuideProvider implements GuideProvider {
     public CrossoverGuideProvider(CrossoverGuideProvider copy) {
         this.delegate = copy.delegate.getClone();
         this.crossoverSelection = copy.crossoverSelection.getClone();
+        this.positionComponent = copy.positionComponent;
+        this.fitnessComponent = copy.fitnessComponent;
     }
     
     /**
@@ -80,7 +80,7 @@ public class CrossoverGuideProvider implements GuideProvider {
     @Override
     public StructuredType get(Particle particle) {
         PSO pso = (PSO) AbstractAlgorithm.get();
-        P3<Boolean, Particle, Particle> result = crossoverSelection.doAction(pso, EntityType.Particle.BEST_POSITION, EntityType.Particle.BEST_FITNESS);
+        P3<Boolean, Particle, Particle> result = crossoverSelection.doAction(pso, positionComponent, fitnessComponent);
         Particle gBest = particle.getNeighbourhoodBest();
 
         if (result._1()) {
@@ -105,5 +105,15 @@ public class CrossoverGuideProvider implements GuideProvider {
 
     public GuideProvider getDelegate() {
         return delegate;
+    }
+    
+    public void setComponent(String type) {
+        if ("pbest".equalsIgnoreCase(type)) {
+            fitnessComponent = EntityType.Particle.BEST_FITNESS;
+            positionComponent = EntityType.Particle.BEST_POSITION;
+        } else {
+            fitnessComponent = EntityType.FITNESS;
+            positionComponent = EntityType.CANDIDATE_SOLUTION;
+        }
     }
 }

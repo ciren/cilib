@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator
+[
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>
+        <!--Crossover velocity provider UNDX-->
+        <algorithm id="xpso-undx-velocity" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <!--PBest cant be same as position for UNDX because of orthonormalize function-->
+                    <personalBestInitialisationStrategy class="entity.initialization.RandomInitializationStrategy" />
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <positionProvider class="pso.positionprovider.LinearPositionProvider" />
+                        <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
+                            <crossoverStrategy class="entity.operators.crossover.real.UnimodalNormalDistributionCrossoverStrategy" />
+                        </velocityProvider>
+                    </particleBehavior>
+                    <personalBestUpdateStrategy class="pso.pbestupdate.CrossoverPersonalBestUpdateStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.UnimodalNormalDistributionCrossoverStrategy" />
+                    </personalBestUpdateStrategy>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--Crossover velocity provider PCX-->
+        <algorithm id="xpso-pcx-velocity" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <positionProvider class="pso.positionprovider.LinearPositionProvider" />
+                        <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
+                            <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                        </velocityProvider>
+                    </particleBehavior>
+                    <personalBestUpdateStrategy class="pso.pbestupdate.CrossoverPersonalBestUpdateStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                    </personalBestUpdateStrategy>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--Crossover velocity provider PCX without crossover pbest update-->
+        <algorithm id="xpso-pcx-velocity-wo-xover-pbest" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <positionProvider class="pso.positionprovider.LinearPositionProvider" />
+                        <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
+                            <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                        </velocityProvider>
+                    </particleBehavior>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!-- Deb's alternative velocity update -->
+        <algorithm id="xpso-pcx-velocity-alternative" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <personalBestInitialisationStrategy class="entity.initialization.RandomInitializationStrategy" />
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <positionProvider class="pso.positionprovider.LinearPositionProvider" />
+                        <velocityProvider class="pso.velocityprovider.DistinctCrossoverVelocityProvider">
+                            <mainCrossover class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                            <alternateCrossover class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                                <sigma2 class="controlparameter.ConstantControlParameter" parameter="0.0" />
+                            </alternateCrossover>
+                        </velocityProvider>
+                    </particleBehavior>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--Crossover velocity provider SPX-->
+        <algorithm id="xpso-spx-velocity" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <positionProvider class="pso.positionprovider.LinearPositionProvider" />
+                        <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
+                            <crossoverStrategy class="entity.operators.crossover.real.SimplexCrossoverStrategy" />
+                        </velocityProvider>
+                    </particleBehavior>
+                    <personalBestUpdateStrategy class="pso.pbestupdate.CrossoverPersonalBestUpdateStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.SimplexCrossoverStrategy" />
+                    </personalBestUpdateStrategy>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+    </algorithms>
+
+    <problems>
+        <problem id="griewank" class="problem.FunctionMinimisationProblem" domain="R(300:600)^30">
+            <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
+                <function class="functions.continuous.unconstrained.Griewank" />
+                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="500" />
+            </function>
+        </problem>
+    </problems>
+
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.Fitness" />
+    </measurements>
+
+    <simulations>
+        <simulation samples="1">
+            <algorithm idref="xpso-undx-velocity" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-undx-velocity-griewank.txt" />
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="xpso-pcx-velocity" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-pcx-velocity-griewank.txt" />
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="xpso-pcx-velocity-wo-xover-pbest" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-pcx-velocity-wo-xover-pbest-griewank.txt" />
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="xpso-pcx-velocity-alternative" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-pcx-velocity-alternative-griewank.txt" />
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="xpso-spx-velocity" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-spx-velocity-griewank.txt" />
+        </simulation>
+    </simulations>
+</simulator>
+
