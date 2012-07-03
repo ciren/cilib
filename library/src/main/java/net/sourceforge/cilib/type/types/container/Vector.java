@@ -283,6 +283,22 @@ public class Vector implements StructuredType<Numeric>,
     }
 
     /**
+     * Add the {@code element} to the indicated index of the current {@code Vector}.
+     * @param element The instace to add to the current {@code Vector}.
+	 * @param index The index where the new {@code element} must be added.
+     * @return {@code true} if successful, {@false otherwise}.
+     * @deprecated Use the {@code Vector.Builder} instead.
+     */
+    public boolean insert(int index, Numeric element) {
+        Numeric[] array = new Numeric[components.length + 1];
+        System.arraycopy(components, 0, array, 0, index);
+        array[index] = element;
+		System.arraycopy(components, index, array, index+1, components.length-index);
+        components = array;
+        return true;
+    }
+
+    /**
      * Clear the {@code Vector}. Remove all elements within the vector.
      * @deprecated This method is no longer valid. Rather recreate the
      *             {@code Vector} instance and update the reference.
