@@ -23,7 +23,6 @@ package net.sourceforge.cilib.measurement.clustervalidity;
 
 import java.util.ArrayList;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;

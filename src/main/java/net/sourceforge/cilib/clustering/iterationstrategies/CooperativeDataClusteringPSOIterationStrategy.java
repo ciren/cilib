@@ -29,7 +29,6 @@ import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.io.StandardDataTable;
-import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 
 /**
@@ -121,7 +120,7 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
         contextParticle.reinitialise();
         assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);
         contextParticle.calculateFitness();
-        System.out.println("Reinitialized");
+        //System.out.println("Reinitialized");
     }
     
    

@@ -40,9 +40,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Kristina
  */
-public class StandardCentroidInitializationStrategy <E extends Entity> extends DataDependantInitializationStrategy<E>{
+public class SingleCentroidInitializationStrategy <E extends Entity> extends DataDependantInitializationStrategy<E>{
 
-    public StandardCentroidInitializationStrategy() {
+    public SingleCentroidInitializationStrategy() {
         initialisationStrategy = new RandomInitializationStrategy<E>();
         tableBuilder = new DataTableBuilder(new ARFFFileReader());
         dataset = new StandardDataTable();
@@ -50,7 +50,7 @@ public class StandardCentroidInitializationStrategy <E extends Entity> extends D
         bounds = new ArrayList<ControlParameter[]>();
     }
     
-    public StandardCentroidInitializationStrategy(StandardCentroidInitializationStrategy copy) {
+    public SingleCentroidInitializationStrategy(SingleCentroidInitializationStrategy copy) {
         initialisationStrategy = copy.initialisationStrategy;
         tableBuilder = copy.tableBuilder;
         dataset = copy.dataset;
@@ -59,57 +59,42 @@ public class StandardCentroidInitializationStrategy <E extends Entity> extends D
     }
     
     @Override
-    public StandardCentroidInitializationStrategy getClone() {
-        return new StandardCentroidInitializationStrategy(this);
-    }
-
-    @Override
     public void initialize(Enum<?> key, E entity) {
         CentroidHolder centroidHolder = (CentroidHolder) entity.getProperties().get(key);
-        Entity particle;
+        ClusterCentroid c = centroidHolder.get(0);
+        centroidHolder = new CentroidHolder();
+        centroidHolder.add(c);
         
+        Entity particle;
+        ClusterCentroid centroid = centroidHolder.get(0);
+         
         if(initialisationStrategy instanceof RandomBoundedInitializationStrategy) {
             //setBounds();
             ((RandomBoundedInitializationStrategy) initialisationStrategy).setBoundsPerDimension(bounds);
             
-            for(ClusterCentroid centroid : centroidHolder) {
-                int index = 0;
-                for(Numeric n : centroid) {
-                    Real r = Real.valueOf(n.doubleValue(), new Bounds(bounds.get(index)[0].getParameter(), bounds.get(index)[1].getParameter()));
-                    n = r.getClone();
-                    index++;
-                }
+            int index = 0;
+            for(Numeric n : centroid) {
+                Real r = Real.valueOf(n.doubleValue(), new Bounds(bounds.get(index)[0].getParameter(), bounds.get(index)[1].getParameter()));
+                n = r.getClone();
+                index++;
             }
+            
         }
         
-        for(ClusterCentroid centroid : centroidHolder) {
-            particle = new StandardParticle();
-            
-            particle.setCandidateSolution(centroid.toVector());
-            
-            initialisationStrategy.initialize(key, (E) particle);
-            
-            centroid.copy((Vector) particle.getCandidateSolution());
-        }
+        particle = new StandardParticle();
+
+        particle.setCandidateSolution(centroid.toVector());
+
+        initialisationStrategy.initialize(key, (E) particle);
+
+        centroid.copy((Vector) particle.getCandidateSolution());
         
         entity.getProperties().put(key, (Type) centroidHolder);
-        
     }
-    
-    public void reinitialize(Enum<?> key, E entity) {
-        CentroidHolder centroidHolder = (CentroidHolder) entity.getProperties().get(key);
-        Entity particle;
-        
-        for(ClusterCentroid centroid : centroidHolder) {
-            particle = new StandardParticle();
-            particle.setCandidateSolution(centroid.toVector());
-            
-            initialisationStrategy.initialize(key, (E) particle);
-            
-            centroid.copy((Vector) particle.getCandidateSolution());
-        }
-        
-        entity.getProperties().put(key, (Type) centroidHolder);
+
+    @Override
+    public InitializationStrategy getClone() {
+        return new SingleCentroidInitializationStrategy<E>(this);
     }
     
 }

@@ -104,11 +104,11 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
         dataset = window.slideWindow(totalIterations);
         
         if(window.hasSlid()) {
-            System.out.println("\n" + algorithm.getBestSolution().getPosition().toString());
+            //System.out.println("\n" + algorithm.getBestSolution().getPosition().toString());
         }
         
-        if(algorithm.getIterations() == ((MeasuredStoppingCondition) algorithm.getStoppingConditions().get(0)).getTarget() - 1)
-            System.out.println("\n" + algorithm.getBestSolution().getPosition().toString());
+       // if(algorithm.getIterations() == ((MeasuredStoppingCondition) algorithm.getStoppingConditions().get(0)).getTarget() - 1)
+            //System.out.println("\n" + algorithm.getBestSolution().getPosition().toString());
     }
     
     private void clearCentroidDistanceValues(Topology<ClusterParticle> topology) {

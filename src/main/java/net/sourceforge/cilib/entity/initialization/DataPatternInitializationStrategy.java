@@ -37,10 +37,8 @@ import net.sourceforge.cilib.type.types.container.ClusterCentroid;
  *
  * @author Kristina
  */
-public class DataPatternInitializationStrategy<E extends Entity> implements InitializationStrategy<E> {
-    private DataTableBuilder tableBuilder;
+public class DataPatternInitializationStrategy <E extends Entity> extends DataDependantInitializationStrategy<E> {
     private ProbabilityDistributionFuction random;
-    private DataTable dataset;
     private PatternConversionOperator patternConversionOperator;
     
     public DataPatternInitializationStrategy() {

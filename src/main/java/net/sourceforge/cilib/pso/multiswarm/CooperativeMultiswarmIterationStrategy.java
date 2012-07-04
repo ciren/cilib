@@ -105,16 +105,28 @@ public class CooperativeMultiswarmIterationStrategy extends AbstractCooperativeI
                 }
         }
         
+//        populationIndex = 0;
+//        for(PopulationBasedAlgorithm currentAlgorithm : algorithm.getPopulations()) {
+//            if(!((DataClusteringPSO) currentAlgorithm).isExplorer()) {
+//                 for(ClusterParticle particle : ((DataClusteringPSO) currentAlgorithm).getTopology()) {
+//                     CentroidHolder holder = (CentroidHolder) particle.getCandidateSolution();
+//                     particle.setCandidateSolution(contextParticle.getCandidateSolution());
+//                     ((CentroidHolder) particle.getCandidateSolution()).set(populationIndex, holder.get(populationIndex));
+//                 }
+//                 populationIndex++;
+//            }
+//        }
+        
         MultiSwarm multiswarm = convertCooperativePSOToMultiswarm(algorithm);
         delegate.performIteration(multiswarm);
         convertMultiswarmToCooperative(multiswarm, algorithm);
         
-        if(((SinglePopulationDataClusteringIterationStrategy) ((DataClusteringPSO) algorithm.getPopulations().get(0)).getIterationStrategy()).getWindow().hasSlid()) {
-            System.out.println("\n" + algorithm.getBestSolution().getPosition().toString());
-        }
-        
-        if(algorithm.getIterations() == ((MeasuredStoppingCondition) algorithm.getStoppingConditions().get(0)).getTarget() - 1)
-            System.out.println("\n" + algorithm.getBestSolution().getPosition().toString());
+//        if(((SinglePopulationDataClusteringIterationStrategy) ((DataClusteringPSO) algorithm.getPopulations().get(0)).getIterationStrategy()).getWindow().hasSlid()) {
+//            System.out.println("\n" + algorithm.getBestSolution().getPosition().toString());
+//        }
+//        
+//        if(algorithm.getIterations() == ((MeasuredStoppingCondition) algorithm.getStoppingConditions().get(0)).getTarget() - 1)
+//            System.out.println("\n" + algorithm.getBestSolution().getPosition().toString());
         
     }
    

@@ -33,7 +33,6 @@ import net.sourceforge.cilib.clustering.iterationstrategies.SinglePopulationData
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -70,11 +69,11 @@ public class CooperativePSO extends MultiPopulationBasedAlgorithm{
         bestSolution = new OptimisationSolution(particle.getPosition(), particle.getFitness());
         
         if(((SinglePopulationDataClusteringIterationStrategy) ((DataClusteringPSO) subPopulationsAlgorithms.get(0)).getIterationStrategy()).getWindow().hasSlid()) {
-            System.out.println("\n" + getBestSolution().getPosition().toString());
+           // System.out.println("\n" + getBestSolution().getPosition().toString());
         }
         
-        if(getIterations() == ((MeasuredStoppingCondition) getStoppingConditions().get(0)).getTarget() - 1)
-            System.out.println("\n" + getBestSolution().getPosition().toString());
+        //if(getIterations() == ((MeasuredStoppingCondition) getStoppingConditions().get(0)).getTarget() - 1)
+          //  System.out.println("\n" + getBestSolution().getPosition().toString());
     }
 
     @Override

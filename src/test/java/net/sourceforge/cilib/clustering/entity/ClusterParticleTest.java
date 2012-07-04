@@ -29,6 +29,7 @@ import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.SlidingWindow;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.initialization.StandardCentroidInitializationStrategy;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
@@ -319,6 +320,7 @@ public class ClusterParticleTest {
         problem.setFunction(new Spherical());
         
         ClusterParticle instance = new ClusterParticle();
+        instance.setCentroidInitialisationStrategy(new StandardCentroidInitializationStrategy());
         instance.setNumberOfCusters(2);
         instance.initialise(problem);
         

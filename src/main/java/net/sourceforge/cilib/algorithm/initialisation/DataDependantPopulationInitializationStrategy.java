@@ -28,6 +28,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.initialization.StandardCentroidInitializationStrategy;
 import net.sourceforge.cilib.entity.initialization.DataPatternInitializationStrategy;
+import net.sourceforge.cilib.entity.initialization.SingleCentroidInitializationStrategy;
 import net.sourceforge.cilib.io.ARFFFileReader;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.DataTableBuilder;
@@ -83,7 +84,10 @@ public class DataDependantPopulationInitializationStrategy <E extends Entity> im
         if(((ClusterParticle) prototypeEntity).getCentroidInitializationStrategyCandidate() instanceof StandardCentroidInitializationStrategy) {
             StandardCentroidInitializationStrategy strategy = (StandardCentroidInitializationStrategy) ((ClusterParticle) prototypeEntity).getCentroidInitializationStrategyCandidate();
             strategy.setBounds(getBounds());
-        } else{
+        } else if (((ClusterParticle) prototypeEntity).getCentroidInitializationStrategyCandidate() instanceof SingleCentroidInitializationStrategy) {
+            SingleCentroidInitializationStrategy strategy = (SingleCentroidInitializationStrategy) ((ClusterParticle) prototypeEntity).getCentroidInitializationStrategyCandidate();
+            strategy.setBounds(getBounds());
+        }else{
             DataPatternInitializationStrategy strategy = (DataPatternInitializationStrategy) ((ClusterParticle) prototypeEntity).getCentroidInitializationStrategyCandidate();
             strategy.setDataset(dataset);
             DataPatternInitializationStrategy strategy2 = (DataPatternInitializationStrategy) ((ClusterParticle) prototypeEntity).getCentroidInitializationStrategyVelocity();
