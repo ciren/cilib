@@ -25,7 +25,6 @@ import java.util.List;
 import net.sourceforge.cilib.nn.architecture.Architecture;
 import net.sourceforge.cilib.nn.architecture.ForwardingLayer;
 import net.sourceforge.cilib.nn.architecture.Layer;
-import net.sourceforge.cilib.nn.components.Neuron;
 import net.sourceforge.cilib.nn.components.PatternInputSource;
 
 /**

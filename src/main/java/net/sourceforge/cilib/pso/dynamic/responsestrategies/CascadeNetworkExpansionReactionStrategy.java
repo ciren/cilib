@@ -22,12 +22,8 @@
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.problem.NNDataTrainingProblem;
@@ -57,7 +53,8 @@ public class CascadeNetworkExpansionReactionStrategy<E extends PopulationBasedAl
     }
 
     /**
-     * Reinitialize the {@link Entity entities} inside the topology.
+     * Adds a single neuron to the cascade network and adds the new dimensions
+	 * to the particles, initialised as Double.NaN.
      *
      * {@inheritDoc}
      */
@@ -104,25 +101,5 @@ public class CascadeNetworkExpansionReactionStrategy<E extends PopulationBasedAl
 				curDynamicParticle.getVelocity().insert(addPosition, Real.valueOf(Double.NaN, bounds));
 			}
 		}
-
-        //reinitialize(entities, reinitializeCount);
-    }
-
-    /**
-     * Reinitialize a specified number of the given entities.
-     *
-     * @param entities a {@link List} of entities that should be considered for
-     *        reinitialization
-     * @param reinitializeCount an<code>int<code> specifying how many entities should be
-     *        reinitialized
-     */
-    protected void reinitialize(List<? extends Entity> entities, int reinitializeCount) {
-        /*for (int i = 0; i < reinitializeCount; i++) {
-            int random = randomGenerator.nextInt(entities.size());
-            Entity entity = entities.get(random);
-            entity.getCandidateSolution().randomize(randomGenerator);
-            // remove the selected element from the all list preventing it from being selected again
-            entities.remove(random);
-        }*/
     }
 }

@@ -23,7 +23,6 @@ package net.sourceforge.cilib.nn.architecture.builder;
 
 import net.sourceforge.cilib.functions.activation.ActivationFunction;
 import net.sourceforge.cilib.nn.architecture.Layer;
-import net.sourceforge.cilib.nn.components.BiasNeuron;
 import net.sourceforge.cilib.nn.components.Neuron;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;

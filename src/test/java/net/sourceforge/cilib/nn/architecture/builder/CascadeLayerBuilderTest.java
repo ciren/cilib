@@ -29,7 +29,6 @@ import net.sourceforge.cilib.nn.architecture.Layer;
 import net.sourceforge.cilib.nn.components.BiasNeuron;
 import net.sourceforge.cilib.nn.components.Neuron;
 import net.sourceforge.cilib.nn.components.PatternInputSource;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Before;

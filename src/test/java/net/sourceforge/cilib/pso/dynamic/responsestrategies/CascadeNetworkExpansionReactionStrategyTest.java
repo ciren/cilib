@@ -21,30 +21,19 @@
  */
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
-import static org.hamcrest.CoreMatchers.is;
-import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
-import net.sourceforge.cilib.math.random.generator.SeedSelectionStrategy;
-import net.sourceforge.cilib.math.random.generator.Seeder;
-import net.sourceforge.cilib.math.random.generator.ZeroSeederStrategy;
-import net.sourceforge.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
-import net.sourceforge.cilib.nn.architecture.visitors.CascadeVisitor;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
-import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
-import net.sourceforge.cilib.problem.NNDataTrainingProblem;
-import net.sourceforge.cilib.io.ARFFFileReader;
-import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
-import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
-import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
-import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.entity.Topologies;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
+import net.sourceforge.cilib.io.ARFFFileReader;
+import net.sourceforge.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
+import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
+import net.sourceforge.cilib.nn.architecture.visitors.CascadeVisitor;
+import net.sourceforge.cilib.problem.NNDataTrainingProblem;
+import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
+import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
+import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Bounds;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  *
