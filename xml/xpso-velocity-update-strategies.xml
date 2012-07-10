@@ -27,18 +27,25 @@
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
 
-        <!--Crossover velocity provider PCX-->
+        <!--Bounded Crossover velocity provider PCX-->
         <algorithm id="xpso-pcx-velocity" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
+                    <!--PBest cant be same as position for UNDX because of orthonormalize function-->
+                    <personalBestInitialisationStrategy class="entity.initialization.RandomInitializationStrategy" />
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
-                            <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                            <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                                <sigma1 class="controlparameter.ConstantControlParameter" parameter="20"/>
+                                <sigma2 class="controlparameter.ConstantControlParameter" parameter="20"/>
+                            </crossoverStrategy>
                         </velocityProvider>
                     </particleBehavior>
-                    <personalBestUpdateStrategy class="pso.pbestupdate.CrossoverPersonalBestUpdateStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                    <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy">
+                        <delegate class="pso.pbestupdate.CrossoverPersonalBestUpdateStrategy">
+                            <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                        </delegate>
                     </personalBestUpdateStrategy>
                 </entityType>
             </initialisationStrategy>
@@ -49,10 +56,15 @@
         <algorithm id="xpso-pcx-velocity-wo-xover-pbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
+                    <!--PBest cant be same as position for UNDX because of orthonormalize function-->
+                    <personalBestInitialisationStrategy class="entity.initialization.RandomInitializationStrategy" />
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
-                            <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                            <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                                <sigma1 class="controlparameter.ConstantControlParameter" parameter="20"/>
+                                <sigma2 class="controlparameter.ConstantControlParameter" parameter="20"/>
+                            </crossoverStrategy>
                         </velocityProvider>
                     </particleBehavior>
                 </entityType>
@@ -83,6 +95,8 @@
         <algorithm id="xpso-spx-velocity" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
+                    <!--PBest cant be same as position for UNDX because of orthonormalize function-->
+                    <personalBestInitialisationStrategy class="entity.initialization.RandomInitializationStrategy" />
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">

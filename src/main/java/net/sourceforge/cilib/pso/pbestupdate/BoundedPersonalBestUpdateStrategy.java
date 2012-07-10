@@ -33,16 +33,25 @@ import net.sourceforge.cilib.type.types.Types;
  * found will not allowed to become personal best positions.
  *
  */
-public class BoundedPersonalBestUpdateStrategy extends StandardPersonalBestUpdateStrategy {
+public class BoundedPersonalBestUpdateStrategy implements PersonalBestUpdateStrategy {
 
     private static final long serialVersionUID = -3574938411781908840L;
+    private PersonalBestUpdateStrategy delegate;
+    
+    public BoundedPersonalBestUpdateStrategy() {
+        this.delegate = new StandardPersonalBestUpdateStrategy();
+    }
+    
+    public BoundedPersonalBestUpdateStrategy(BoundedPersonalBestUpdateStrategy copy) {
+        this.delegate = copy.delegate.getClone();
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public PersonalBestUpdateStrategy getClone() {
-        return this;
+        return new BoundedPersonalBestUpdateStrategy(this);
     }
 
     /**
@@ -57,6 +66,14 @@ public class BoundedPersonalBestUpdateStrategy extends StandardPersonalBestUpdat
             return;
         }
 
-        super.updatePersonalBest(particle);
+        delegate.updatePersonalBest(particle);
+    }
+
+    public void setDelegate(PersonalBestUpdateStrategy delegate) {
+        this.delegate = delegate;
+    }
+
+    public PersonalBestUpdateStrategy getDelegate() {
+        return delegate;
     }
 }
