@@ -35,7 +35,7 @@ import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.nn.architecture.visitors.BackPropagationVisitor;
 import net.sourceforge.cilib.nn.architecture.visitors.OutputErrorVisitor;
 import net.sourceforge.cilib.problem.MinimisationFitness;
-import net.sourceforge.cilib.problem.NNDataTrainingProblem;
+import net.sourceforge.cilib.problem.NNTrainingProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -68,7 +68,7 @@ public class GradientDescentBackpropagationTraining extends AbstractAlgorithm im
      */
     @Override
     public void algorithmInitialisation() {
-        NNDataTrainingProblem problem = (NNDataTrainingProblem) getOptimisationProblem();
+        NNTrainingProblem problem = (NNTrainingProblem) getOptimisationProblem();
         problem.initialise();
     }
 
@@ -78,7 +78,7 @@ public class GradientDescentBackpropagationTraining extends AbstractAlgorithm im
     @Override
     public void algorithmIteration() {
         try {
-            NNDataTrainingProblem problem = (NNDataTrainingProblem) getOptimisationProblem();
+            NNTrainingProblem problem = (NNTrainingProblem) getOptimisationProblem();
             NeuralNetwork neuralNetwork = problem.getNeuralNetwork();
             StandardPatternDataTable trainingSet = problem.getTrainingSet();
             problem.getShuffler().operate(trainingSet);
@@ -124,7 +124,7 @@ public class GradientDescentBackpropagationTraining extends AbstractAlgorithm im
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        NNDataTrainingProblem problem = (NNDataTrainingProblem) getOptimisationProblem();
+        NNTrainingProblem problem = (NNTrainingProblem) getOptimisationProblem();
         NeuralNetwork neuralNetwork = problem.getNeuralNetwork();
         return new OptimisationSolution(neuralNetwork.getWeights(), new MinimisationFitness(errorTraining));
     }
@@ -135,7 +135,7 @@ public class GradientDescentBackpropagationTraining extends AbstractAlgorithm im
     @Override
     public List<OptimisationSolution> getSolutions() {
         ArrayList<OptimisationSolution> list = new ArrayList<OptimisationSolution>();
-        NNDataTrainingProblem problem = (NNDataTrainingProblem) getOptimisationProblem();
+        NNTrainingProblem problem = (NNTrainingProblem) getOptimisationProblem();
         NeuralNetwork neuralNetwork = problem.getNeuralNetwork();
         list.add(new OptimisationSolution(neuralNetwork.getWeights(), new MinimisationFitness(errorTraining)));
         return list;
