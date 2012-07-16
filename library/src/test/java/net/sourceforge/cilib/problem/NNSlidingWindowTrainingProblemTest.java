@@ -43,7 +43,7 @@ public class NNSlidingWindowTrainingProblemTest {
     public void setup() {
         problem = new NNSlidingWindowTrainingProblem();
         problem.getDataTableBuilder().setDataReader(new ARFFFileReader());
-        problem.getDataTableBuilder().setSourceURL("src/test/resources/datasets/iris.arff");
+        problem.getDataTableBuilder().setSourceURL("library/src/test/resources/datasets/iris.arff");
         problem.setTrainingSetPercentage(0.7);
         problem.setGeneralizationSetPercentage(0.3);
         problem.setStepSize(10);
