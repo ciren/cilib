@@ -27,8 +27,6 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.real.ParentCentricCrossoverStrategy;
-import net.sourceforge.cilib.pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider;
-import net.sourceforge.cilib.pso.crossover.fitnessupdate.OffspringBestFitnessProvider;
 import net.sourceforge.cilib.pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider;
 import net.sourceforge.cilib.pso.crossover.pbestupdate.OffspringPBestProvider;
 import net.sourceforge.cilib.pso.crossover.velocityprovider.IdentityOffspringVelocityProvider;
@@ -54,27 +52,24 @@ import net.sourceforge.cilib.pso.crossover.velocityprovider.OffspringVelocityPro
 public class ParticleCrossoverStrategy implements CrossoverStrategy {
     private OffspringVelocityProvider velocityProvider;
     private OffspringPBestProvider pbestProvider;
-    private OffspringBestFitnessProvider fitnessProvider;
     private CrossoverStrategy crossoverStrategy;
     
     public ParticleCrossoverStrategy() {
         this(new ParentCentricCrossoverStrategy(), new CurrentPositionOffspringPBestProvider(), 
-                new IdentityOffspringVelocityProvider(), new NullOffspringBestFitnessProvider());
+                new IdentityOffspringVelocityProvider());
     }
     
     public ParticleCrossoverStrategy(CrossoverStrategy strategy, OffspringPBestProvider pbestUpdate, 
-            OffspringVelocityProvider velUpdate, OffspringBestFitnessProvider fitnessUpdate) {
+            OffspringVelocityProvider velUpdate) {
         this.crossoverStrategy = strategy;
         this.pbestProvider = pbestUpdate;
         this.velocityProvider = velUpdate;
-        this.fitnessProvider = fitnessUpdate;
     }
     
     public ParticleCrossoverStrategy(ParticleCrossoverStrategy copy) {
         this.crossoverStrategy = copy.crossoverStrategy.getClone();
         this.pbestProvider = copy.pbestProvider;
         this.velocityProvider = copy.velocityProvider;
-        this.fitnessProvider = copy.fitnessProvider;
     }
     
     @Override
@@ -89,11 +84,15 @@ public class ParticleCrossoverStrategy implements CrossoverStrategy {
         
         for (Particle p : offspring) {
             p.getProperties().put(EntityType.Particle.BEST_POSITION, pbestProvider.f(parents, p));
+            
+            Particle pbCalc = p.getClone();
+            pbCalc.setCandidateSolution(p.getBestPosition());
+            pbCalc.calculateFitness();
+            
+            p.getProperties().put(EntityType.Particle.BEST_FITNESS, pbCalc.getFitness());
             p.getProperties().put(EntityType.Particle.VELOCITY, velocityProvider.f(parents, p));
             
             p.calculateFitness();
-            
-            p.getProperties().put(EntityType.Particle.BEST_FITNESS, fitnessProvider.f(parents, p));
         }
         
         return (List<E>) offspring;
@@ -121,14 +120,6 @@ public class ParticleCrossoverStrategy implements CrossoverStrategy {
 
     public CrossoverStrategy getCrossoverStrategy() {
         return crossoverStrategy;
-    }
-
-    public void setFitnessProvider(OffspringBestFitnessProvider fitnessProvider) {
-        this.fitnessProvider = fitnessProvider;
-    }
-
-    public OffspringBestFitnessProvider getFitnessProvider() {
-        return fitnessProvider;
     }
 
     @Override
