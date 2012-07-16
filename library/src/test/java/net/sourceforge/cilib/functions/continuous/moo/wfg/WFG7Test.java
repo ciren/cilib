@@ -42,7 +42,7 @@ public class WFG7Test {
 
     @Test
     public void testFitnessCalculation() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/wfg/WFG7.data"));
+        BufferedReader reader = new BufferedReader(new FileReader("library/src/test/resources/wfg/WFG7.data"));
         String line = "";
         while ((line = reader.readLine()) != null) {
             String[] components = line.split("\\s");

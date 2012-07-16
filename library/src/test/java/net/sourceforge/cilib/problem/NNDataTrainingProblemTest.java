@@ -41,7 +41,7 @@ public class NNDataTrainingProblemTest {
     public void setup() {
         problem = new NNDataTrainingProblem();
         problem.getDataTableBuilder().setDataReader(new ARFFFileReader());
-        problem.getDataTableBuilder().setSourceURL("src/test/resources/datasets/iris.arff");
+        problem.getDataTableBuilder().setSourceURL("library/src/test/resources/datasets/iris.arff");
         problem.setTrainingSetPercentage(0.7);
         problem.setGeneralizationSetPercentage(0.3);
 

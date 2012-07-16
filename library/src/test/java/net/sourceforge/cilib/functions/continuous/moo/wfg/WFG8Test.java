@@ -34,7 +34,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 /**
  *
  */
-public class WFG2Test {
+public class WFG8Test {
 
     private static final int M = 3;
     private static final int k = 2 * (M - 1);
@@ -42,7 +42,7 @@ public class WFG2Test {
 
     @Test
     public void testFitnessCalculation() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/wfg/WFG2.data"));
+        BufferedReader reader = new BufferedReader(new FileReader("library/src/test/resources/wfg/WFG8.data"));
         String line = "";
         while ((line = reader.readLine()) != null) {
             String[] components = line.split("\\s");
@@ -59,7 +59,7 @@ public class WFG2Test {
             }
             Vector y = builder.build();
 
-            Vector expected_y = Problems.WFG2(x, k, M);
+            Vector expected_y = Problems.WFG8(x, k, M);
 
             Assert.assertThat(y.size(), is(equalTo(expected_y.size())));
 

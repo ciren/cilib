@@ -21,8 +21,8 @@
  */
 package net.sourceforge.cilib.io;
 
-import java.io.File;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
 import net.sourceforge.cilib.io.exception.CIlibIOException;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -31,40 +31,38 @@ import org.junit.Test;
 /**
  *
  */
-public class CSVFileWriterTest {
+public class TextFileReaderTest {
 
     private static String testFilePath;
 
     @BeforeClass
     public static void setTestFilePath() {
-        testFilePath = "src/test/resources/datasets/iris.data";
+        testFilePath = "library/src/test/resources/datasets/iris.data";
     }
 
     @Test
-    public void testWrite() throws CIlibIOException {
-        DataTableBuilder dataTableBuilder = new DataTableBuilder(new DelimitedTextFileReader());
-        dataTableBuilder.getDataReader().setSourceURL(testFilePath);
-        dataTableBuilder.buildDataTable();
-        DataTable<List<String>,List<String>> dataTable = dataTableBuilder.getDataTable();
+    public void testReading() throws IOException, CIlibIOException {
+        //setup reference reader
+        BufferedReader reader = new BufferedReader(new java.io.FileReader(testFilePath));
 
-        CSVFileWriter writer = new CSVFileWriter();
-        writer.setDestinationURL("./test.csv");
-        writer.open();
-        writer.write(dataTable);
-        writer.close();
+        String delimiter = "\\,";
+        //setup test reader
+        TextFileReader textFileReader = new TextFileReader();
+        textFileReader.setSourceURL(testFilePath);
+        textFileReader.open();
 
-        File file = new File("./test.csv");
-        Assert.assertTrue(file.length() > 0);
+        String line = reader.readLine();
+        while (line != null) {
+            Assert.assertTrue(textFileReader.hasNextRow()); // as long as line is not null
+                //there has to be a next row.
+            String row = textFileReader.nextRow();
 
-        testFilePath = "./test.csv";
-        dataTableBuilder = new DataTableBuilder(new DelimitedTextFileReader());
-        dataTableBuilder.getDataReader().setSourceURL(testFilePath);
-        dataTableBuilder.buildDataTable();
-        dataTable = dataTableBuilder.getDataTable();
+            Assert.assertEquals(line, row);
+            line = reader.readLine();
+        }
 
-        Assert.assertEquals(150, dataTable.getNumRows());
-        Assert.assertEquals(5, dataTable.getNumColums());
-
-        file.delete();
+        textFileReader.close();
+        reader.close();
     }
+
 }

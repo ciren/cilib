@@ -43,7 +43,7 @@ public class DataTableBuilderTest {
 
     @BeforeClass
     public static void setTestFilePath() {
-        testFilePath = "src/test/resources/datasets/iris.data";
+        testFilePath = "library/src/test/resources/datasets/iris.data";
     }
 
     @Test
