@@ -59,12 +59,12 @@ public class SimulatorTest {
     @Test
     public void simulationConstruction() {
         System.out.println("Constructing specification: " + filename);
-        SimulatorShell.prepare(new File("xml", filename));
+        SimulatorShell.prepare(new File("simulator/xml", filename));
     }
 
     @Parameterized.Parameters
     public static List<Object[]> getXMLFiles() {
-        File file = new File("xml");
+        File file = new File("simulator/xml");
         List<String> files = Arrays.asList(file.list(new FilenameFilter() {
 
             @Override
