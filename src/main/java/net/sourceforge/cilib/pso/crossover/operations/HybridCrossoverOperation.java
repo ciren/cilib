@@ -33,7 +33,6 @@ import net.sourceforge.cilib.entity.operators.crossover.real.ArithmeticCrossover
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.crossover.ParticleCrossoverStrategy;
-import net.sourceforge.cilib.pso.crossover.fitnessupdate.CurrentFitnessOffspringBestFitnessProvider;
 import net.sourceforge.cilib.pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy;
 import net.sourceforge.cilib.pso.crossover.parentupdate.ParentReplacementStrategy;
 import net.sourceforge.cilib.pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider;
@@ -69,8 +68,7 @@ public class HybridCrossoverOperation extends PSOCrossoverOperation {
     public HybridCrossoverOperation() {
         this.particleCrossover = new ParticleCrossoverStrategy(new ArithmeticCrossoverStrategy(), 
                 new CurrentPositionOffspringPBestProvider(), 
-                new LovbjergOffspringVelocityProvider(),
-                new CurrentFitnessOffspringBestFitnessProvider());
+                new LovbjergOffspringVelocityProvider());
         
         this.parentReplacementStrategy = new AlwaysReplaceParentReplacementStrategy();
         this.crossoverProbability = ConstantControlParameter.of(0.2);

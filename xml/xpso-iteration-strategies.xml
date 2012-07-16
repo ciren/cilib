@@ -17,7 +17,6 @@
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                        <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                     </crossoverStrategy>
                     <retries class="controlparameter.ConstantControlParameter" parameter="10" />
                 </crossoverOperation>
@@ -34,7 +33,6 @@
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                        <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                     </crossoverStrategy>
                     <!--This is problem dependent I think-->
                     <comparator class="entity.comparator.BoltzmannComparator">
@@ -56,7 +54,6 @@
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                        <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                     </crossoverStrategy>
                     <retries class="controlparameter.ConstantControlParameter" parameter="10" />
                 </crossoverOperation>
@@ -73,7 +70,6 @@
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                        <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                     </crossoverStrategy>
                     <!--This is problem dependent I think-->
                     <comparator class="entity.comparator.BoltzmannComparator">
@@ -95,7 +91,6 @@
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                        <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                     </crossoverStrategy>
                     <retries class="controlparameter.ConstantControlParameter" parameter="10" />
                 </crossoverOperation>
@@ -112,7 +107,6 @@
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                        <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                     </crossoverStrategy>
                     <!--This is problem dependent I think-->
                     <comparator class="entity.comparator.BoltzmannComparator">

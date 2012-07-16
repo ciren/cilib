@@ -31,7 +31,6 @@
                         <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy" />
                         <pbestProvider class="pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.LovbjergOffspringVelocityProvider" />
-                        <fitnessProvider class="pso.crossover.fitnessupdate.CurrentFitnessOffspringBestFitnessProvider" />
                     </particleCrossover>
                     <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy" />
                     <selector class="util.selection.recipes.RandomSelector" />
@@ -63,7 +62,6 @@
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                        <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                     </particleCrossover>
                     <crossoverProbability class="controlparameter.ConstantControlParameter"
                     parameter="0.8" />
@@ -95,7 +93,6 @@
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                        <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                     </particleCrossover>
                     <crossoverProbability class="controlparameter.ConstantControlParameter"
                     parameter="0.8" />
@@ -126,7 +123,6 @@
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                        <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                     </particleCrossover>
                     <crossoverProbability class="controlparameter.ConstantControlParameter"
                     parameter="0.8" />
@@ -159,7 +155,6 @@
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                        <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                     </particleCrossover>
                     <crossoverProbability class="controlparameter.ConstantControlParameter"
                     parameter="0.8" />
@@ -189,7 +184,6 @@
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                        <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                     </particleCrossover>
                     <crossoverProbability class="controlparameter.ConstantControlParameter"
                     parameter="0.8" />
@@ -221,7 +215,6 @@
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                        <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                     </particleCrossover>
                     <crossoverProbability class="controlparameter.ConstantControlParameter"
                     parameter="0.8" />
