@@ -19,7 +19,6 @@
                                     <crossoverStrategy class="entity.operators.crossover.real.UnimodalNormalDistributionCrossoverStrategy" />
                                     <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                                     <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                                    <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                                 </crossoverStrategy>
                                 <retries class="controlparameter.ConstantControlParameter" parameter="10" />
                             </crossoverSelection>
@@ -43,7 +42,6 @@
                                     </crossoverStrategy>
                                     <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                                     <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                                    <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                                 </crossoverStrategy>
                                 <comparator class="entity.comparator.BoltzmannComparator">
                                     <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1" />
@@ -69,7 +67,6 @@
                                     <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
                                     <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                                     <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                                    <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                                 </crossoverStrategy>
                                 <retries class="controlparameter.ConstantControlParameter" parameter="10" />
                             </crossoverSelection>
@@ -93,7 +90,6 @@
                                     </crossoverStrategy>
                                     <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                                     <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                                    <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                                 </crossoverStrategy>
                                 <comparator class="entity.comparator.BoltzmannComparator">
                                     <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1" />
@@ -119,7 +115,6 @@
                                     <crossoverStrategy class="entity.operators.crossover.real.SimplexCrossoverStrategy" />
                                     <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                                     <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                                    <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                                 </crossoverStrategy>
                                 <retries class="controlparameter.ConstantControlParameter" parameter="10" />
                             </crossoverSelection>
@@ -143,7 +138,6 @@
                                     </crossoverStrategy>
                                     <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                                     <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                                    <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                                 </crossoverStrategy>
                                 <comparator class="entity.comparator.BoltzmannComparator">
                                     <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1" />
@@ -169,7 +163,6 @@
                                     <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
                                     <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                                     <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                                    <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                                 </crossoverStrategy>
                                 <retries class="controlparameter.ConstantControlParameter" parameter="10" />
                             </crossoverSelection>
@@ -193,7 +186,6 @@
                                     </crossoverStrategy>
                                     <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                                     <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                                    <fitnessProvider class="pso.crossover.fitnessupdate.NullOffspringBestFitnessProvider" />
                                 </crossoverStrategy>
                                 <comparator class="entity.comparator.BoltzmannComparator">
                                     <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1" />

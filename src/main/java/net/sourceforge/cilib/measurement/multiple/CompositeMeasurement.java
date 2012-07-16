@@ -51,8 +51,14 @@ public class CompositeMeasurement implements Measurement<TypeList> {
      * {@inheritDoc}
      */
     @Override
-    public Measurement getClone() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public CompositeMeasurement getClone() {
+        CompositeMeasurement newCM = new CompositeMeasurement();
+        
+        for(Measurement<? extends Type> m : this.measurements) {
+            newCM.addMeasurement(m.getClone());
+        }
+        
+        return newCM;
     }
 
     /**

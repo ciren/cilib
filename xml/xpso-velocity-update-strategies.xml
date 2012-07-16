@@ -37,8 +37,8 @@
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
                             <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                                <sigma1 class="controlparameter.ConstantControlParameter" parameter="20"/>
-                                <sigma2 class="controlparameter.ConstantControlParameter" parameter="20"/>
+                                <sigma1 class="controlparameter.ConstantControlParameter" parameter="1"/>
+                                <sigma2 class="controlparameter.ConstantControlParameter" parameter="1"/>
                             </crossoverStrategy>
                         </velocityProvider>
                     </particleBehavior>
@@ -62,8 +62,8 @@
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
                             <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                                <sigma1 class="controlparameter.ConstantControlParameter" parameter="20"/>
-                                <sigma2 class="controlparameter.ConstantControlParameter" parameter="20"/>
+                                <sigma1 class="controlparameter.ConstantControlParameter" parameter="1"/>
+                                <sigma2 class="controlparameter.ConstantControlParameter" parameter="1"/>
                             </crossoverStrategy>
                         </velocityProvider>
                     </particleBehavior>
