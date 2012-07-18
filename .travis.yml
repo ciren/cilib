@@ -1,4 +1,4 @@
-language: java
+language: scala
 jdk:
   - openjdk6
   # Needs work to get going

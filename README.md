@@ -6,9 +6,25 @@ Department of Computer Science
 University of Pretoria
 South Africa
 
-CIlib is a framework for implementing various computational intelligence
+CIlib is a library of various computational intelligence
 algorithms. The goal of the project is to create a library that can be used
 and referenced by individuals.
+
+[![Build Status](https://secure.travis-ci.org/cilib/cilib.png)](http://travis-ci.org/cilib/cilib)
+
+## Documentation
+Documentation is currently being compiled through an internal documentation
+process. The process might take a while, but feel free to aid us in our
+efforts by forking [cilib.github.com](https://github.com/cilib/cilib.github.com)
+and sending us a pull request.
+
+## Download
+TODO
+
+## Bugs and feature requests
+Please feel free to sumbit any bugs and / or feature requests using the
+[issue tracker](https://github.com/cilib/cilib/issues). Additionally,
+any pull requests are welcome - feel free to fork and send us some.
 
 ## Contact information
 
@@ -20,4 +36,3 @@ developer mailing list.
     http://groups.google.com/group/cilib-dev    (Developer mailing list)
     http://groups.google.com/group/cilib-user   (User mailing list)
 
-[![Build Status](https://secure.travis-ci.org/cilib/cilib.png)](http://travis-ci.org/cilib/cilib)
