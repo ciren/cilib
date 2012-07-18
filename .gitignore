@@ -2,7 +2,4 @@ data
 target
 simulator.sh
 simulator.bat
-build*
-project
 .ensime*
-/.gradle/
