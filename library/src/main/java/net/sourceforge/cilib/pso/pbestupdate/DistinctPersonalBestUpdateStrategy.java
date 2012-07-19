@@ -21,21 +21,28 @@
  */
 package net.sourceforge.cilib.pso.pbestupdate;
 
+import java.util.Arrays;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.pso.crossover.velocityprovider.IdentityOffspringVelocityProvider;
+import net.sourceforge.cilib.pso.crossover.velocityprovider.OffspringVelocityProvider;
 import net.sourceforge.cilib.type.types.Int;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 public class DistinctPersonalBestUpdateStrategy implements PersonalBestUpdateStrategy {
     
     private DistinctPositionProvider positionProvider;
+    private OffspringVelocityProvider velocityProvider;
     
     public DistinctPersonalBestUpdateStrategy() {
         this.positionProvider = new MutatedDistinctPositionProvider();
+        this.velocityProvider = new IdentityOffspringVelocityProvider();
     }
     
     public DistinctPersonalBestUpdateStrategy(DistinctPersonalBestUpdateStrategy copy) {
         this.positionProvider = copy.positionProvider.getClone();
+        this.velocityProvider = copy.velocityProvider;
     }
 
     @Override
@@ -63,6 +70,8 @@ public class DistinctPersonalBestUpdateStrategy implements PersonalBestUpdateStr
                 
                 particle.getProperties().put(EntityType.FITNESS, tempFitness);
                 particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, temp.getCandidateSolution());
+                
+                particle.getProperties().put(EntityType.Particle.VELOCITY, (Vector) velocityProvider.f(Arrays.asList(temp), particle));
             }
             
             return;
@@ -79,5 +88,13 @@ public class DistinctPersonalBestUpdateStrategy implements PersonalBestUpdateStr
 
     public void setPositionProvider(DistinctPositionProvider positionProvider) {
         this.positionProvider = positionProvider;
+    }
+
+    public void setVelocityProvider(OffspringVelocityProvider velocityProvider) {
+        this.velocityProvider = velocityProvider;
+    }
+
+    public OffspringVelocityProvider getVelocityProvider() {
+        return velocityProvider;
     }
 }

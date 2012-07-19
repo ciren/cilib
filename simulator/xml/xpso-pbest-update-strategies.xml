@@ -254,6 +254,263 @@
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
+
+        <!-- Zero velocity variants-->
+        <!--Crossover gBest guide provider PCX with crossover pBest update-->
+        <algorithm id="xpso-pcx-guide-repeating-xover-pbest-zero-vel" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
+                            <component value="pbest"/>
+                            <crossoverSelection class="pso.crossover.operations.RepeatingCrossoverSelection">
+                                <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                                    <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                                    <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                                    <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                                </crossoverStrategy>
+                                <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                            </crossoverSelection>
+                        </globalGuideProvider>
+                    </particleBehavior>
+                    <personalBestUpdateStrategy class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
+                        <positionProvider class="pso.pbestupdate.CrossoverDistinctPositionProvider">
+                            <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                        </positionProvider>
+                        <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider"/>
+                    </personalBestUpdateStrategy>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <algorithm id="xpso-pcx-guide-boltzmann-xover-pbest-zero-vel" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
+                            <component value="pbest"/>
+                            <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
+                                <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                                    <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                                        <numberOfParents value="10" />
+                                    </crossoverStrategy>
+                                    <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                                    <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                                </crossoverStrategy>
+                                <comparator class="entity.comparator.BoltzmannComparator">
+                                    <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1" />
+                                    <distribution class="math.random.UniformDistribution" />
+                                </comparator>
+                            </crossoverSelection>
+                        </globalGuideProvider>
+                    </particleBehavior>
+                    <personalBestUpdateStrategy class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
+                        <positionProvider class="pso.pbestupdate.CrossoverDistinctPositionProvider">
+                            <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                        </positionProvider>
+                        <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider"/>
+                    </personalBestUpdateStrategy>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--Crossover gBest guide provider PCX with bounded crossover pBest update-->
+        <algorithm id="xpso-pcx-guide-repeating-bounded-xover-pbest-zero-vel" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
+                            <component value="pbest"/>
+                            <crossoverSelection class="pso.crossover.operations.RepeatingCrossoverSelection">
+                                <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                                    <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                                    <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                                    <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                                </crossoverStrategy>
+                                <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                            </crossoverSelection>
+                        </globalGuideProvider>
+                    </particleBehavior>
+                    <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy">
+                        <delegate class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
+                            <positionProvider class="pso.pbestupdate.CrossoverDistinctPositionProvider">
+                                <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                            </positionProvider>
+                            <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider"/>
+                        </delegate>
+                    </personalBestUpdateStrategy>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <algorithm id="xpso-pcx-guide-boltzmann-bounded-xover-pbest-zero-vel" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
+                            <component value="pbest"/>
+                            <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
+                                <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                                    <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                                        <numberOfParents value="10" />
+                                    </crossoverStrategy>
+                                    <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                                    <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                                </crossoverStrategy>
+                                <comparator class="entity.comparator.BoltzmannComparator">
+                                    <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1" />
+                                    <distribution class="math.random.UniformDistribution" />
+                                </comparator>
+                            </crossoverSelection>
+                        </globalGuideProvider>
+                    </particleBehavior>
+                    <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy">
+                        <delegate class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
+                            <positionProvider class="pso.pbestupdate.CrossoverDistinctPositionProvider">
+                                <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                            </positionProvider>
+                            <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider"/>
+                        </delegate>
+                    </personalBestUpdateStrategy>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--Crossover gBest guide provider PCX with bounded mutation pBest update-->
+        <algorithm id="xpso-pcx-guide-repeating-mutation-pbest-zero-vel" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
+                            <component value="pbest"/>
+                            <crossoverSelection class="pso.crossover.operations.RepeatingCrossoverSelection">
+                                <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                                    <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                                    <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                                    <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                                </crossoverStrategy>
+                                <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                            </crossoverSelection>
+                        </globalGuideProvider>
+                    </particleBehavior>
+                    <personalBestUpdateStrategy class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
+                        <positionProvider class="pso.pbestupdate.MutatedDistinctPositionProvider">
+                            <distribution class="math.random.GaussianDistribution">
+                                <deviation class="controlparameter.LinearlyVaryingControlParameter" initialValue="20" finalValue="0"/>
+                            </distribution>
+                        </positionProvider>
+                        <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider"/>
+                    </personalBestUpdateStrategy>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <algorithm id="xpso-pcx-guide-boltzmann-mutation-pbest-zero-vel" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
+                            <component value="pbest"/>
+                            <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
+                                <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                                    <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                                        <numberOfParents value="10" />
+                                    </crossoverStrategy>
+                                    <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                                    <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                                </crossoverStrategy>
+                                <comparator class="entity.comparator.BoltzmannComparator">
+                                    <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1" />
+                                    <distribution class="math.random.UniformDistribution" />
+                                </comparator>
+                            </crossoverSelection>
+                        </globalGuideProvider>
+                    </particleBehavior>
+                    <personalBestUpdateStrategy class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
+                        <positionProvider class="pso.pbestupdate.MutatedDistinctPositionProvider">
+                            <distribution class="math.random.GaussianDistribution">
+                                <deviation class="controlparameter.LinearlyVaryingControlParameter" initialValue="20" finalValue="0"/>
+                            </distribution>
+                        </positionProvider>
+                        <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider"/>
+                    </personalBestUpdateStrategy>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--Crossover gBest guide provider PCX with bounded mutation pBest update-->
+        <algorithm id="xpso-pcx-guide-repeating-bounded-mutation-pbest-zero-vel" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
+                            <component value="pbest"/>
+                            <crossoverSelection class="pso.crossover.operations.RepeatingCrossoverSelection">
+                                <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                                    <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                                    <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                                    <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                                </crossoverStrategy>
+                                <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                            </crossoverSelection>
+                        </globalGuideProvider>
+                    </particleBehavior>
+                    <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy">
+                        <delegate class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
+                            <positionProvider class="pso.pbestupdate.MutatedDistinctPositionProvider">
+                                <distribution class="math.random.GaussianDistribution">
+                                    <deviation class="controlparameter.LinearlyVaryingControlParameter" initialValue="20" finalValue="0"/>
+                                </distribution>
+                            </positionProvider>
+                            <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider"/>
+                        </delegate>
+                    </personalBestUpdateStrategy>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <algorithm id="xpso-pcx-guide-boltzmann-bounded-mutation-pbest-zero-vel" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
+                            <component value="pbest"/>
+                            <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
+                                <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                                    <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                                        <numberOfParents value="10" />
+                                    </crossoverStrategy>
+                                    <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                                    <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                                </crossoverStrategy>
+                                <comparator class="entity.comparator.BoltzmannComparator">
+                                    <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1" />
+                                    <distribution class="math.random.UniformDistribution" />
+                                </comparator>
+                            </crossoverSelection>
+                        </globalGuideProvider>
+                    </particleBehavior>
+                    <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy">
+                        <delegate class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
+                            <positionProvider class="pso.pbestupdate.MutatedDistinctPositionProvider">
+                                <distribution class="math.random.GaussianDistribution">
+                                    <deviation class="controlparameter.LinearlyVaryingControlParameter" initialValue="20" finalValue="0"/>
+                                </distribution>
+                            </positionProvider>
+                            <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider"/>
+                        </delegate>
+                    </personalBestUpdateStrategy>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
     </algorithms>
 
     <problems>
@@ -317,6 +574,55 @@
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-pcx-guide-boltzmann-bounded-mutation-pbest-griewank.txt" />
+        </simulation>
+
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-guide-repeating-xover-pbest-zero-vel" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-pcx-guide-repeating-xover-pbest-zero-vel-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-guide-boltzmann-xover-pbest-zero-vel" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-pcx-guide-boltzmann-xover-pbest-zero-vel-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-guide-repeating-bounded-xover-pbest-zero-vel" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-pcx-guide-repeating-bounded-xover-pbest-zero-vel-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-guide-boltzmann-bounded-xover-pbest-zero-vel" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-pcx-guide-boltzmann-bounded-xover-pbest-zero-vel-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-guide-repeating-mutation-pbest-zero-vel" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-pcx-guide-repeating-mutation-pbest-zero-vel-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-guide-boltzmann-mutation-pbest-zero-vel" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-pcx-guide-boltzmann-mutation-pbest-zero-vel-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-guide-repeating-bounded-mutation-pbest-zero-vel" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-pcx-guide-repeating-bounded-mutation-pbest-zero-vel-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-guide-boltzmann-bounded-mutation-pbest-zero-vel" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-pcx-guide-boltzmann-bounded-mutation-pbest-zero-vel-griewank.txt" />
         </simulation>
     </simulations>
 </simulator>
