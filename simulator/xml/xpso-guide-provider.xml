@@ -204,60 +204,59 @@
         <problem id="griewank" class="problem.FunctionMinimisationProblem" domain="R(300:600)^30">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.unconstrained.Griewank" />
-                <horizontalShift class="controlparameter.ConstantControlParameter"
-                parameter="500" />
+                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="500" />
             </function>
         </problem>
     </problems>
 
-    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="100">
         <addMeasurement class="measurement.single.Fitness" />
     </measurements>
 
     <simulations>
-        <simulation samples="1">
+        <simulation samples="5">
             <algorithm idref="xpso-undx-guide-repeating" />
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-undx-guide-repeating-griewank.txt" />
         </simulation>
-        <simulation samples="1">
+        <simulation samples="5">
             <algorithm idref="xpso-undx-guide-boltzmann" />
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-undx-guide-boltzmann-griewank.txt" />
         </simulation>
-        <simulation samples="1">
+        <simulation samples="5">
             <algorithm idref="xpso-pcx-guide-repeating" />
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-pcx-guide-repeating-griewank.txt" />
         </simulation>
-        <simulation samples="1">
+        <simulation samples="5">
             <algorithm idref="xpso-pcx-guide-boltzmann" />
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-pcx-guide-boltzmann-griewank.txt" />
         </simulation>
-        <simulation samples="1">
+        <simulation samples="5">
             <algorithm idref="xpso-spx-guide-repeating" />
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-spx-guide-repeating-griewank.txt" />
         </simulation>
-        <simulation samples="1">
+        <simulation samples="5">
             <algorithm idref="xpso-spx-guide-boltzmann" />
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-spx-guide-boltzmann-griewank.txt" />
         </simulation>
-        <simulation samples="1">
+        <simulation samples="5">
             <algorithm idref="xpso-pcx-guide-repeating-particle-positions" />
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-pcx-guide-repeating-particle-positions-griewank.txt" />
         </simulation>
-        <simulation samples="1">
+        <simulation samples="5">
             <algorithm idref="xpso-pcx-guide-boltzmann-particle-positions" />
             <problem idref="griewank" />
             <measurements idref="fitness" />
