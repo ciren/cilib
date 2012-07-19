@@ -1,7 +1,7 @@
 import sbt._
 
 object CIlibBuild extends Build {
-  lazy val root = Project(".", file(".")) aggregate(library, simulator)
+  lazy val root = Project("cilib", file(".")) aggregate(library, simulator)
 
   lazy val library = Project("cilib-library", file("library"))
 
