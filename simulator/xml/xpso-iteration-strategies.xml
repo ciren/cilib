@@ -128,42 +128,42 @@
         </problem>
     </problems>
 
-    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="100">
         <addMeasurement class="measurement.single.Fitness" />
     </measurements>
 
     <simulations>
-        <simulation samples="1">
+        <simulation samples="5">
             <algorithm idref="xpso-undx-iteration-repeating" />
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-undx-iteration-repeating-griewank.txt" />
         </simulation>
-        <simulation samples="1">
+        <simulation samples="5">
             <algorithm idref="xpso-undx-iteration-boltzmann" />
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-undx-iteration-boltzmann-griewank.txt" />
         </simulation>
-        <simulation samples="1">
+        <simulation samples="5">
             <algorithm idref="xpso-pcx-iteration-repeating" />
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-pcx-iteration-repeating-griewank.txt" />
         </simulation>
-        <simulation samples="1">
+        <simulation samples="5">
             <algorithm idref="xpso-pcx-iteration-boltzmann" />
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-pcx-iteration-boltzmann-griewank.txt" />
         </simulation>
-        <simulation samples="1">
+        <simulation samples="5">
             <algorithm idref="xpso-spx-iteration-repeating" />
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-spx-iteration-repeating-griewank.txt" />
         </simulation>
-        <simulation samples="1">
+        <simulation samples="5">
             <algorithm idref="xpso-spx-iteration-boltzmann" />
             <problem idref="griewank" />
             <measurements idref="fitness" />
