@@ -79,11 +79,11 @@ public class ForwardingLayer extends Layer {
      * {@inheritDoc }
      */
 	@Override
-    public Neuron get(int index) {
+    public Neuron getNeuron(int index) {
         if (index < sourceSize) {
-            return this.source.get(index);
+            return this.source.getNeuron(index);
         }
-        return super.get(index - sourceSize);
+        return super.getNeuron(index - sourceSize);
     }
 
     /**

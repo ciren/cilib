@@ -64,7 +64,7 @@ public class NeuronTest {
                 return input;
             }
 
-			public Neuron get(int index) {
+			public Neuron getNeuron(int index) {
 				Neuron neuron = new Neuron();
 				neuron.setActivation(5);
 				return neuron;

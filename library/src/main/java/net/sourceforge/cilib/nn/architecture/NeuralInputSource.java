@@ -49,5 +49,5 @@ public interface NeuralInputSource {
      * @param index the index of the input to retrieve.
      * @return the neuron at the specified index.
 	 */
-	Neuron get(int index);
+	Neuron getNeuron(int index);
 }

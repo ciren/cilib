@@ -52,7 +52,7 @@ public class CascadeVisitor extends ArchitectureOperationVisitor {
 		Layer consolidatedLayer = new Layer();
 		for (Layer curLayer : layers) {
 			for (int curNeuron = 0; curNeuron < curLayer.size(); curNeuron++) {
-				consolidatedLayer.add(curLayer.get(curNeuron));
+				consolidatedLayer.add(curLayer.getNeuron(curNeuron));
 			}
 		}
 
@@ -61,7 +61,7 @@ public class CascadeVisitor extends ArchitectureOperationVisitor {
             currentLayer = layers.get(l);
             int layerSize = currentLayer.size();
             for (int n = 0; n < layerSize; n++) {
-                currentLayer.get(n).calculateActivation(consolidatedLayer);
+                currentLayer.getNeuron(n).calculateActivation(consolidatedLayer);
             }
         }
 
