@@ -35,20 +35,26 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
- *
- * @author Kristina
+ * This class holds the functionality that is common to a number of cooperative iteration strategies
  */
 public abstract class AbstractCooperativeIterationStrategy<E extends PopulationBasedAlgorithm> extends AbstractIterationStrategy<E> {
     protected ClusterParticle contextParticle;
     protected boolean contextinitialized;
     protected DataTable table;
     
+    /*
+     * Default constructor for AbstractCooperativeIterationStrategy
+     */
     public AbstractCooperativeIterationStrategy() {
         contextParticle = new ClusterParticle();
         contextinitialized = false;
         table = new StandardDataTable();
     }
     
+    /*
+     * Copy constructor for AbstractCooperativeIterationStrategy
+     * @param copy The AbstractCooperativeIterationStrategy to be copied
+     */
     public AbstractCooperativeIterationStrategy(AbstractCooperativeIterationStrategy copy) {
         contextParticle = copy.contextParticle;
         contextinitialized = copy.contextinitialized;
@@ -67,6 +73,11 @@ public abstract class AbstractCooperativeIterationStrategy<E extends PopulationB
     @Override
     public abstract void performIteration(E algorithm);
     
+    /*
+     * Adds the data patterns closest to a centrid to its data pattern list
+     * @param candidateSolution The solution holding all the centroids
+     * @param dataset The dataset holding all the data patterns
+     */
     public void assignDataPatternsToParticle(CentroidHolder candidateSolution, DataTable dataset) {
         double euclideanDistance;
         Vector addedPattern;
@@ -91,10 +102,18 @@ public abstract class AbstractCooperativeIterationStrategy<E extends PopulationB
             }
     }
     
+    /*
+     * Returns the context particle 
+     * @return contextParticle The context particle
+     */
     public ClusterParticle getContextParticle() {
         return contextParticle;
     }
     
+    /*
+     * Initializes the context particle for the first time
+     * @param algorithm The algorithm whose context particle needs to be initialized
+     */
     public void initializeContextParticle(MultiPopulationBasedAlgorithm algorithm) {
         int populationIndex = 0;
         CentroidHolder solution = new CentroidHolder();
@@ -121,4 +140,13 @@ public abstract class AbstractCooperativeIterationStrategy<E extends PopulationB
     }
     
     
+    /*
+     * Removes all data patterns held by cluster centroids held by the particle received
+     * @param particle The particle whose centrids must be cleared
+     */
+    public void clearDataPatterns(ClusterParticle particle) {
+        for(ClusterCentroid centroid : (CentroidHolder) particle.getCandidateSolution()) {
+            centroid.clearDataItems();
+        }
+    }
 }

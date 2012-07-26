@@ -21,12 +21,7 @@
  */
 package net.sourceforge.cilib.entity.initialization;
 
-import java.util.ArrayList;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.io.ARFFFileReader;
-import net.sourceforge.cilib.io.DataTableBuilder;
-import net.sourceforge.cilib.io.StandardDataTable;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
@@ -37,32 +32,39 @@ import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
- * @author Kristina
+ *This class initializes a ClusterParticle to contain a CentroidHolder as the candidate solution, velocity and best position
  */
 public class StandardCentroidInitializationStrategy <E extends Entity> extends DataDependantInitializationStrategy<E>{
 
+    /*
+     * Default constructor for the StandardCentroidInitializationStrategy
+     */
     public StandardCentroidInitializationStrategy() {
-        initialisationStrategy = new RandomInitializationStrategy<E>();
-        tableBuilder = new DataTableBuilder(new ARFFFileReader());
-        dataset = new StandardDataTable();
-        windowSize = 0;
-        bounds = new ArrayList<ControlParameter[]>();
+        super();
     }
     
+    /*
+     * Copy constructor for the StandardCentroidInitializationStrategy
+     * @param copy The StandardCentroidInitializationStrategy to be copied
+     */
     public StandardCentroidInitializationStrategy(StandardCentroidInitializationStrategy copy) {
-        initialisationStrategy = copy.initialisationStrategy;
-        tableBuilder = copy.tableBuilder;
-        dataset = copy.dataset;
-        windowSize = copy.windowSize;
-        bounds = copy.bounds;
+        super(copy);
     }
     
+    /*
+     * The clone method for the StandardCentroidInitializationStrategy
+     */
     @Override
     public StandardCentroidInitializationStrategy getClone() {
         return new StandardCentroidInitializationStrategy(this);
     }
 
+    /*
+     * Initializes the entity provided accordingly
+     * If the RandomBoundedInitializationStrategy is chosen as a delegate, the bounds are set to be thsoe of the dataset
+     * @param key The key stating which property of the entity must be initialized
+     * @param entity The entity to be initialized
+     */
     @Override
     public void initialize(Enum<?> key, E entity) {
         CentroidHolder centroidHolder = (CentroidHolder) entity.getProperties().get(key);
@@ -96,6 +98,11 @@ public class StandardCentroidInitializationStrategy <E extends Entity> extends D
         
     }
     
+    /*
+     * Reinitializes the entity using the same settings as the ones that originally initialized it
+     * @param key The key stating which property of the entity must be reinitialized
+     * @param entity The entity to be reinitialized
+     */
     public void reinitialize(Enum<?> key, E entity) {
         CentroidHolder centroidHolder = (CentroidHolder) entity.getProperties().get(key);
         Entity particle;

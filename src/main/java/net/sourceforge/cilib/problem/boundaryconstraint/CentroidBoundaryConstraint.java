@@ -26,28 +26,43 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
- * @author Kristina
+ * This is a wrapper class. It enforces the Boundary Constraint chosen by the user on each 
+ * ClusterCentroid held by a CentroidHolder
  */
 public class CentroidBoundaryConstraint implements BoundaryConstraint{
 
     BoundaryConstraint delegate;
     
+    /*
+     * Default constructor for CentroidBoundaryConstraint
+     */
     public CentroidBoundaryConstraint() {
         delegate = new UnconstrainedBoundary();
     }
     
+    /*
+     * Copy constructor for CentroidBoundaryConstraint
+     */
     public CentroidBoundaryConstraint(CentroidBoundaryConstraint copy) {
         delegate = copy.delegate;
     }
     
+    /*
+     * Clone method for CentroidBoundaryConstraint
+     * @return new instance of the CentroidBoundaryConstraint
+     */
     @Override
     public BoundaryConstraint getClone() {
         return new CentroidBoundaryConstraint(this);
     }
 
+    /*
+     * Enforces the delegate's boundary constraint on each ClusterCentroid held by the CentoifHolder of teh entity
+     * @param entity The entity to be bound constrainded
+     */
     @Override
     public void enforce(Entity entity) {
         //System.out.println("Class: " + entity.getCandidateSolution().getClass().toString() + ", " + entity.getCandidateSolution());
@@ -64,12 +79,18 @@ public class CentroidBoundaryConstraint implements BoundaryConstraint{
             newParticle.getProperties().put(EntityType.Particle.BEST_POSITION, bestPosition.get(index).toVector());
             
             delegate.enforce(newParticle);
-            newSolution.add(centroid);
+            ClusterCentroid centr = new ClusterCentroid();
+            centr.copy((Vector) newParticle.getCandidateSolution());
+            newSolution.add(centr);
             index++;
         }
         entity.setCandidateSolution(newSolution);
     }
     
+    /*
+     * Sets teh delagate BoundaryConstraint
+     * @param constraint The BoundaryConstraint to be enforced
+     */
     public void setDelegate(BoundaryConstraint constraint) {
         delegate = constraint;
     }

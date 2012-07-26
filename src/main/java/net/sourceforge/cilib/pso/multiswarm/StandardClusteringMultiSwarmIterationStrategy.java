@@ -26,6 +26,9 @@ import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
+import net.sourceforge.cilib.clustering.iterationstrategies.SinglePopulationDataClusteringIterationStrategy;
+import net.sourceforge.cilib.io.DataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -33,35 +36,68 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
- *
- * @author Kristina
+ * This class performs an iteration of a clustering multi-swarm iteration strategy where ClusterParticles are used.
+ * If all swarms have converged, the weakest is re-initialized.
+ * If two swarms are too lose together, one of them is re-initialized.
+ * It is based on the algorithm described in Blackwell, but some calculations have been adapted to handle ClusterParticles.
+ * 
+ * {@literal @}article{blackwell51pso,
+ *  title={{Particle swarm optimization in dynamic environments}},
+ *  author={Blackwell, T.},
+ *  journal={Evolutionary Computatation in Dynamic and Uncertain Environments},
+ *  volume={51},
+ *  pages={29--49}
+ * }
  */
 public class StandardClusteringMultiSwarmIterationStrategy extends AbstractIterationStrategy<MultiPopulationBasedAlgorithm> {
 
     private double exclusionRadius = 1.0;
 
+    /*
+     * Default constructor for StandardClusteringMultiSwarmIterationStrategy
+     */
     public StandardClusteringMultiSwarmIterationStrategy() {
         super();
     }
 
+    /*
+     * Copy constructor for StandardClusteringMultiSwarmIterationStrategy
+     * @param copy The StandardClusteringMultiSwarmIterationStrategy to be copied
+     */
     public StandardClusteringMultiSwarmIterationStrategy(StandardClusteringMultiSwarmIterationStrategy copy) {
         super();
         this.exclusionRadius = copy.exclusionRadius;
     }
 
+    /*
+     * Clone method for StandardClusteringMultiSwarmIterationStrategy
+     */
     @Override
     public StandardClusteringMultiSwarmIterationStrategy getClone() {
         return new StandardClusteringMultiSwarmIterationStrategy(this);
     }
 
+    /*
+     * Returns the value of the exclusion radius
+     * @return exclusionRadius The exclusion radius
+     */
     public double getExclusionRadius() {
         return exclusionRadius;
     }
 
+    /*
+     * Sets the value of the exclusion radius
+     * @param newRadius The new exclusion radius
+     */
     public void setExclusionRadius(double exlusionRadius) {
         this.exclusionRadius = exlusionRadius;
     }
 
+    /*
+     * Calculates the radius that is used to determine whether a swarm must be repelled from another swarm
+     * @param algorithm The current algorithm
+     * @return radius The radius
+     */
     double calculateRadius(MultiPopulationBasedAlgorithm algorithm) {
         double dimensions = algorithm.getOptimisationProblem().getDomain().getDimension();
         double X = ((Vector) algorithm.getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getUpperBound()
@@ -70,6 +106,12 @@ public class StandardClusteringMultiSwarmIterationStrategy extends AbstractItera
         return X / (2 * Math.pow(populationSize, 1 / dimensions));
     }
 
+    /*
+     * Checks if a swarm has converged
+     * @param algorithm The algorithm holding the swarm being checked
+     * @param ca The current multi-population algorithm 
+     * @return true if the swarm has converged, false otherwise
+     */
     boolean isConverged(PopulationBasedAlgorithm algorithm, MultiPopulationBasedAlgorithm ca) {
         double r = calculateRadius(ca);
         int converged = 0;
@@ -95,21 +137,34 @@ public class StandardClusteringMultiSwarmIterationStrategy extends AbstractItera
         return true;
     }
     
-    private ClusterCentroid getClosestCentroid(ClusterCentroid centroid, CentroidHolder holder2) {
+    /*
+     * Gets the closest centroid to the one received
+     * @param centroid The centroid received
+     * @param holder The centroid holder with all the other centroids
+     * @return closestCentroid The closest centroid to centroid
+     */
+    private ClusterCentroid getClosestCentroid(ClusterCentroid centroid, CentroidHolder holder) {
         DistanceMeasure dm = new EuclideanDistanceMeasure();
-        ClusterCentroid closestCentroid = holder2.get(0);
+        ClusterCentroid closestCentroid = holder.get(0);
         double distance = Double.POSITIVE_INFINITY;
         
-        for(int i = 0; i < holder2.size(); i++) {
-            if(distance > dm.distance(centroid.toVector(), holder2.get(i).toVector())) {
-                distance = dm.distance(centroid.toVector(), holder2.get(i).toVector());
-                closestCentroid = holder2.get(i);
+        for(int i = 0; i < holder.size(); i++) {
+            if(distance > dm.distance(centroid.toVector(), holder.get(i).toVector())) {
+                distance = dm.distance(centroid.toVector(), holder.get(i).toVector());
+                closestCentroid = holder.get(i);
             }
         }
         
         return closestCentroid;
     }
 
+    /*
+     * Performs an iteration of the Clustering Multi-swarm Iteration Strategy.
+     * If all swarms have converged, it re-initializes the weakest one.
+     * It performs an iteration of the algorithm holding each swarm.
+     * It re-initializes a swarm if two swarms get too close to each other.
+     * @param ca The multi-swarm algorithm
+     */
     @Override
     public void performIteration(MultiPopulationBasedAlgorithm ca) {
         int converged = 0;
@@ -154,13 +209,15 @@ public class StandardClusteringMultiSwarmIterationStrategy extends AbstractItera
             }
         }
         
-//        if((ca.getIterations() == 5999)) {
-//            System.out.println("Clusters: " + ca.getBestSolution().getPosition().toString());
-//            System.out.println("\n\n");
-//        }
-        
     }
     
+    /*
+     * Checks if the distance between two centroid holders is smaller than the radius.
+     * It does it by comparing each centroid of the current position to that of the other position
+     * @param currentPosition The current position being checked
+     * @param otherPosition The position that currentPosition needs to be checked against
+     * @return true if the swarms are too close, false otherwise
+     */
     private boolean aDistanceIsSmallerThanRadius(CentroidHolder currentPosition, CentroidHolder otherPosition) {
         DistanceMeasure dm = new EuclideanDistanceMeasure();
         
@@ -171,9 +228,44 @@ public class StandardClusteringMultiSwarmIterationStrategy extends AbstractItera
         return false;
     }
 
+    /*
+     * Reinitializes a swarm
+     * @param algorithm The algorithm holding the swarm
+     */
     public void reInitialise(DataClusteringPSO algorithm) {     
         for(ClusterParticle particle : algorithm.getTopology()) {
             particle.reinitialise();
+            assignDataPatternsToParticle((CentroidHolder) particle.getCandidateSolution(), 
+                    ((SinglePopulationDataClusteringIterationStrategy) algorithm.getIterationStrategy()).getWindow().getCurrentDataset());
         }
+    }
+    
+     /*
+     * Adds the data patterns closest to a centrid to its data pattern list
+     * @param candidateSolution The solution holding all the centroids
+     * @param dataset The dataset holding all the data patterns
+     */
+    public void assignDataPatternsToParticle(CentroidHolder candidateSolution, DataTable dataset) {
+        double euclideanDistance;
+        Vector addedPattern;
+        DistanceMeasure aDistanceMeasure = new EuclideanDistanceMeasure();
+        
+        for(int i = 0; i < dataset.size(); i++) {
+                euclideanDistance = Double.POSITIVE_INFINITY;
+                addedPattern = Vector.of();
+                Vector pattern = ((StandardPattern) dataset.getRow(i)).getVector();
+                int centroidIndex = 0;
+                int patternIndex = 0;
+                for(ClusterCentroid centroid : candidateSolution) {
+                    if(aDistanceMeasure.distance(centroid.toVector(), pattern) < euclideanDistance) {
+                        euclideanDistance = aDistanceMeasure.distance(centroid.toVector(), pattern);
+                        addedPattern = Vector.copyOf(pattern);
+                        patternIndex = centroidIndex;
+                    }
+                    centroidIndex++;
+                }
+                
+                candidateSolution.get(patternIndex).addDataItem(euclideanDistance, addedPattern);
+            }
     }
 }

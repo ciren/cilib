@@ -28,39 +28,60 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
- *
- * @author Kristina
+ * Abstract class for the cluster validity indexes
  */
-public class ValidityIndex implements Measurement<Real> {
+public abstract class ValidityIndex implements Measurement<Real> {
     protected DistanceMeasure distanceMeasure;
     
+    /*
+     * Default constructor for ValidityIndex
+     */
     public ValidityIndex() {
         distanceMeasure = new EuclideanDistanceMeasure();
     }
     
+    /*
+     * Copy constructor for ValidityIndex
+     * @param copy The ValidityIndex to be copied
+     */
     public ValidityIndex(ValidityIndex copy) {
         distanceMeasure = copy.distanceMeasure;
     }
     
+    /*
+     * Abstract Clone method of the ValidityIndex
+     */
     @Override
-    public Measurement<Real> getClone() {
-        return new ValidityIndex(this);
-    }
+    public abstract Measurement<Real> getClone();
 
+    /*
+     * Returns the domain fo the validity indexes "R"
+     * @return "R"
+     */
     @Override
     public String getDomain() {
         return "R";
     }
 
+    /*
+     * Abstract method to get value fo validity index
+     * @param algorithm The algorithm for which validity indexes are being calculated
+     */
     @Override
-    public Real getValue(Algorithm algorithm) {
-        return Real.valueOf(algorithm.getBestSolution().getFitness().getValue().doubleValue());
-    }
+    public abstract Real getValue(Algorithm algorithm);
 
+    /*
+     * Sets the distanceMeasure that will be used when calculating validity inexes
+     * @param distanceMeasure The new distance measure
+     */
     public void setDistanceMeasure(DistanceMeasure measure) {
         distanceMeasure = measure;
     }
     
+    /*
+     * Retruns the distanceMeasure that is being used when calculating validity inexes
+     * @return distanceMeasure The distance measure
+     */
     public DistanceMeasure getDistanceMeasure() {
         return distanceMeasure;
     }

@@ -21,33 +21,54 @@
  */
 package net.sourceforge.cilib.problem;
 
-import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 
 /**
- *
- * @author Kristina
+ *This class calculates the fitness of a solution according to the Quantization Error formula which can be found in:
+ * <pre>
+ * {@literal @}article{vanDerMerwe03,
+ *  title={{Data Clustering using Particle Swarm Optimization }},
+ *  author={van der Merwe, D.W.; Engelhrecht, A.P.},
+ *  year={2003},
+ *  journal={Congress on Evolutionary Computation},
+ *  volume={1},
+ *  pages={215-220}
+ * }
+ * </pre>
  */
-public class QuantizationErrorMinimizationProblem extends OptimisationProblemAdapter{
+public class QuantizationErrorMinimizationProblem extends ClusteringProblem{
 
-    private DomainRegistry domainRegistry;
-    
+    /*
+     * Default constructor of the QuantizationErrorMinimizationProblem
+     */
     public QuantizationErrorMinimizationProblem() {
-        domainRegistry = new StringBasedDomainRegistry();
+        super();
     }
     
+    /*
+     * Copy constructor of the QuantizationErrorMinimizationProblem
+     * @param copy the QuantizationErrorMinimizationProblem tp be copied
+     */
     public QuantizationErrorMinimizationProblem(QuantizationErrorMinimizationProblem copy) {
-        domainRegistry = copy.domainRegistry;
+        super(copy);
     }
     
+    /*
+     * The clone method of the QuantizationErrorMinimizationProblem
+     * @return The new instance of the QuantizationErrorMinimizationProblem
+     */
     @Override
     public OptimisationProblemAdapter getClone() {
         return new QuantizationErrorMinimizationProblem(this);
     }
 
+    /*
+     * Calculates the fitness of the provided solution according to the Quantization Error formula
+     * @param solution The solution whose fitness must be calculated
+     * @return fitness The resulting fitness value
+     */
     @Override
     protected Fitness calculateFitness(Type solution) {
         CentroidHolder candidateSolution = (CentroidHolder) solution;
@@ -59,17 +80,9 @@ public class QuantizationErrorMinimizationProblem extends OptimisationProblemAda
             for(double distance : centroid.getDataItemDistances()) {
                 temp += distance;
             }
-            
-           // System.out.println("Length: " + centroid.getDataItemDistances().length);
-            //quantizationError += (centroid.getDataItemDistances().length != 0) ? temp / ((double) centroid.getDataItemDistances().length) : Double.POSITIVE_INFINITY;
             quantizationError += temp / ((double) centroid.getDataItemDistances().length);
-            //System.out.println("Size: " + centroid.getDataItemDistances().length);
         }
        
-//        if(Double.isNaN(quantizationError)) {
-//            quantizationError = Double.POSITIVE_INFINITY;
-//        }
-//                
         quantizationError /= ((double) candidateSolution.size());
         
         if(Double.isNaN(quantizationError)){
@@ -80,28 +93,5 @@ public class QuantizationErrorMinimizationProblem extends OptimisationProblemAda
         
     }
     
-    /**
-     * Accessor for the domain of the function. See {@link net.sourceforge.cilib.Domain.Component}.
-     * @return The function domain.
-     */
-    @Override
-    public DomainRegistry getDomain() {
-        if (domainRegistry.getDomainString() == null) {
-            throw new IllegalStateException("Domain has not been defined. Please define domain for function optimization.");
-        }
-        return domainRegistry;
-    }
-
-    /**
-     * Sets the domain of the function.
-     * @param representation the string representation for the function domain.
-     */
-    public void setDomain(String representation) {
-        this.domainRegistry.setDomainString(representation);
-    }
-    
-    public void setDimension(int dimension) {
-        this.domainRegistry.setDomainString(domainRegistry.getDomainString().substring(0, domainRegistry.getDomainString().indexOf(")") + 1) + "^" + dimension);
-    }
     
 }

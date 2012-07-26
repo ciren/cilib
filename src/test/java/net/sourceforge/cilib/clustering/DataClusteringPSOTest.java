@@ -22,9 +22,9 @@
 package net.sourceforge.cilib.clustering;
 
 import junit.framework.Assert;
-import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.initialisation.DataDependantPopulationInitializationStrategy;
 import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
+import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.clustering.iterationstrategies.SinglePopulationDataClusteringIterationStrategy;
 import net.sourceforge.cilib.clustering.iterationstrategies.StandardDataClusteringIterationStrategy;
@@ -34,10 +34,13 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.QuantizationErrorMinimizationProblem;
+import net.sourceforge.cilib.problem.boundaryconstraint.CentroidBoundaryConstraint;
+import net.sourceforge.cilib.problem.boundaryconstraint.RandomBoundaryConstraint;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
+import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -69,7 +72,7 @@ public class DataClusteringPSOTest {
     @After
     public void tearDown() {
     }
-
+    
     /**
      * Test of algorithmIteration method, of class DataClusteringPSO.
      */
@@ -77,33 +80,34 @@ public class DataClusteringPSOTest {
     public void testAlgorithmIteration() {
         System.out.println("algorithmIteration");
         DataClusteringPSO instance = new DataClusteringPSO();
+        
         QuantizationErrorMinimizationProblem problem = new QuantizationErrorMinimizationProblem();
         problem.setDomain("R(-5.12:5.12)");
-        
+        problem.setNumberOfClusters(3);
+        IterationStrategy strategy = new StandardDataClusteringIterationStrategy();
+        CentroidBoundaryConstraint constraint = new CentroidBoundaryConstraint();
+        constraint.setDelegate(new RandomBoundaryConstraint());
+        strategy.setBoundaryConstraint(constraint);
         instance.setOptimisationProblem(problem);
         DataDependantPopulationInitializationStrategy init = new DataDependantPopulationInitializationStrategy<ClusterParticle>();
-        init.setDelegate(new ClonedPopulationInitialisationStrategy());
+      
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
         instance.setInitialisationStrategy(init);
         instance.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
         
         instance.setOptimisationProblem(problem);
-        instance.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 1));
+        instance.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 30));
         
         instance.initialise();
         
-        ClusterParticle previousParticle1 = (ClusterParticle) ((Topology<ClusterParticle>) instance.getTopology()).get(0).getClone();
-        ClusterParticle previousParticle2 = (ClusterParticle) ((Topology<ClusterParticle>) instance.getTopology()).get(1).getClone();
+        ClusterParticle particleBefore = instance.getTopology().get(0).getClone();
         
         instance.run();
         
-         ClusterParticle laterParticle1 = (ClusterParticle) ((Topology<ClusterParticle>) instance.getTopology()).get(0).getClone();
-         ClusterParticle laterParticle2 = (ClusterParticle) ((Topology<ClusterParticle>) instance.getTopology()).get(1).getClone();
-         
-         ///Assert.assertFalse(laterParticle1.getCandidateSolution().containsAll(previousParticle1.getCandidateSolution()));
-         Assert.assertNotSame(previousParticle1, laterParticle1);
-         Assert.assertNotSame(previousParticle2, laterParticle2);
+        ClusterParticle particleAfter = instance.getTopology().get(0).getClone();
+        
+        Assert.assertFalse(particleAfter.getCandidateSolution().containsAll(particleBefore.getCandidateSolution()));
         
     }
 

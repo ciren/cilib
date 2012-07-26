@@ -21,25 +21,26 @@
  */
 package net.sourceforge.cilib.clustering.entity;
 
-import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
+import java.util.ArrayList;
 import junit.framework.Assert;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.initialisation.DataDependantPopulationInitializationStrategy;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.SlidingWindow;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.initialization.StandardCentroidInitializationStrategy;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.measurement.generic.Iterations;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
+import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.QuantizationErrorMinimizationProblem;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
-import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -154,7 +155,7 @@ public class ClusterParticleTest {
         pso.setTopology(topology);
         pso.run();
         
-        //Assert.assertEquals(Math.round(instance.getFitness().getValue() * 1e10) / 1e10,  Math.round(3.1291362326128439920284548286519 * 1e10) / 1e10);
+        Assert.assertEquals(Math.round(instance.getFitness().getValue() * 1e10) / 1e10,  Math.round(3.1291362326128439920284548286519 * 1e10) / 1e10);
     }
 
     /**
@@ -315,13 +316,37 @@ public class ClusterParticleTest {
     @Test
     public void testInitialise() {
         System.out.println("initialise");
-        FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setDomain("R(-5.12:5.12)^5");
-        problem.setFunction(new Spherical());
+        ClusteringProblem problem = new QuantizationErrorMinimizationProblem();
+        problem.setDomain("R(-5.12:5.12)");
+        problem.setNumberOfClusters(2);
+        problem.setDimension(5);
         
         ClusterParticle instance = new ClusterParticle();
-        instance.setCentroidInitialisationStrategy(new StandardCentroidInitializationStrategy());
-        instance.setNumberOfCusters(2);
+        StandardCentroidInitializationStrategy strategy = new StandardCentroidInitializationStrategy();
+        ArrayList bounds = new ArrayList();
+        ControlParameter[] params = new ControlParameter[2];
+        params[0] = ConstantControlParameter.of(1.0);
+        params[1] = ConstantControlParameter.of(3.0);
+        bounds.add(params);
+        params = new ControlParameter[2];
+        params[0] = ConstantControlParameter.of(0.5);
+        params[1] = ConstantControlParameter.of(2.1);
+        bounds.add(params);       
+        params = new ControlParameter[2];
+        params[0] = ConstantControlParameter.of(1.0);
+        params[1] = ConstantControlParameter.of(3.0);
+        bounds.add(params);
+        params = new ControlParameter[2];
+        params[0] = ConstantControlParameter.of(0.5);
+        params[1] = ConstantControlParameter.of(2.1);
+        bounds.add(params);
+        params = new ControlParameter[2];
+        params[0] = ConstantControlParameter.of(0.5);
+        params[1] = ConstantControlParameter.of(2.1);
+        bounds.add(params);
+        strategy.setBounds(bounds);
+        
+        instance.setCentroidInitialisationStrategy(strategy);
         instance.initialise(problem);
         
         Assert.assertEquals(instance.getDimension(), 2);
@@ -335,21 +360,47 @@ public class ClusterParticleTest {
      */
     @Test
     public void testReinitialise() {
-//        System.out.println("reinitialise");
-//        ClusterParticle instance = new ClusterParticle();
-//        
-//        FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-//        problem.setDomain("R(-5.12:5.12)^5");
-//        problem.setFunction(new Spherical());
-//        
-//        instance.setNumberOfCusters(2);
-//        instance.initialise(problem);
-//        
-//        CentroidHolder holder = (CentroidHolder) instance.getCandidateSolution().getClone();
-//        
-//        instance.reinitialise();
+        System.out.println("reinitialise");
+        ClusterParticle instance = new ClusterParticle();
         
-        //Assert.assertNotSame(holder, (CentroidHolder) instance.getCandidateSolution());
+        ClusteringProblem problem = new QuantizationErrorMinimizationProblem();
+        problem.setDomain("R(-5.12:5.12)");
+        problem.setNumberOfClusters(2);
+        problem.setDimension(5);
+        
+        StandardCentroidInitializationStrategy strategy = new StandardCentroidInitializationStrategy();
+        ArrayList bounds = new ArrayList();
+        ControlParameter[] params = new ControlParameter[2];
+        params[0] = ConstantControlParameter.of(1.0);
+        params[1] = ConstantControlParameter.of(3.0);
+        bounds.add(params);
+        params = new ControlParameter[2];
+        params[0] = ConstantControlParameter.of(0.5);
+        params[1] = ConstantControlParameter.of(2.1);
+        bounds.add(params);       
+        params = new ControlParameter[2];
+        params[0] = ConstantControlParameter.of(1.0);
+        params[1] = ConstantControlParameter.of(3.0);
+        bounds.add(params);
+        params = new ControlParameter[2];
+        params[0] = ConstantControlParameter.of(0.5);
+        params[1] = ConstantControlParameter.of(2.1);
+        bounds.add(params);
+        params = new ControlParameter[2];
+        params[0] = ConstantControlParameter.of(0.5);
+        params[1] = ConstantControlParameter.of(2.1);
+        bounds.add(params);
+        strategy.setBounds(bounds);
+        
+        instance.setCentroidInitialisationStrategy(strategy);
+        
+        instance.initialise(problem);
+        
+        CentroidHolder holder = (CentroidHolder) instance.getCandidateSolution().getClone();
+        
+        instance.reinitialise();
+        
+        Assert.assertNotSame(holder, (CentroidHolder) instance.getCandidateSolution());
     }
 
     /**

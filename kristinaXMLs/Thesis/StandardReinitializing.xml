@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>
+        <algorithm id="clusteringPSO" class="clustering.DataClusteringPSO" sourceURL="src/test/resources/datasets/clusters.arff">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="6000"/>
+            <window class="clustering.SlidingWindow" windowSize="33" frequency="2000"/>
+            <iterationStrategy class="clustering.iterationstrategies.ReinitializingDataClusteringIterationStrategy">
+                <boundaryConstraint class="problem.boundaryconstraint.CentroidBoundaryConstraint">
+                    <delegate class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+                </boundaryConstraint>
+            </iterationStrategy>
+            <initialisationStrategy class="algorithm.initialisation.DataDependantPopulationInitializationStrategy">
+                <delegate class="algorithm.initialisation.ClonedPopulationInitialisationStrategy"/>
+                <entityNumber value="50"/>
+                <entityType class="clustering.entity.ClusterParticle">
+                    <velocityProvider class="pso.velocityprovider.NoisyVelocityProvider"/>
+                    <positionProvider class="pso.positionprovider.NoisyPositionProvider"/>
+                    <globalGuideProvider class="pso.guideprovider.NBestGuideProvider"/>
+                    <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy"/>
+                    <positionInitialisationStrategy class="entity.initialization.RandomBoundedInitializationStrategy"/>
+                    <centroidInitialisationStrategy class="entity.initialization.StandardCentroidInitializationStrategy"/>
+                </entityType>
+            </initialisationStrategy>
+        </algorithm>
+    </algorithms>
+    <problems>
+        <problem id="quantization" class="problem.QuantizationErrorMinimizationProblem" domain="R(-10:10)" numberOfCusters="3"/>
+    </problems>
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">
+        <!--<addMeasurement class="measurement.multiple.ClusterCentroids" dimension="1"/>-->
+        <addMeasurement class="measurement.clustervalidity.DunnValidityIndex"/>
+        <addMeasurement class="measurement.clustervalidity.DaviesBouldinValidityIndex"/>
+        <addMeasurement class="measurement.clustervalidity.HalkidiVazirgiannisValidityIndex"/>
+        <addMeasurement class="measurement.clustervalidity.RayTuriFavouringValidityIndex"/>
+        <addMeasurement class="measurement.clustervalidity.RayTuriValidityIndex"/>
+    </measurements>
+    <simulations>
+        <simulation samples="30">
+            <algorithm idref="clusteringPSO"/>
+            <problem idref="quantization"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/ReinitClustering.txt" />
+        </simulation>
+    </simulations>
+</simulator>

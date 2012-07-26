@@ -35,7 +35,6 @@ import net.sourceforge.cilib.io.StandardDataTable;
  * @author Kristina
  */
 public abstract class DataDependantInitializationStrategy <E extends Entity> implements InitializationStrategy<E>{
-    
     protected DataTableBuilder tableBuilder;
     protected InitializationStrategy<E> initialisationStrategy;
     protected DataTable dataset;
@@ -43,7 +42,7 @@ public abstract class DataDependantInitializationStrategy <E extends Entity> imp
     protected ArrayList<ControlParameter[]> bounds;
     
     public DataDependantInitializationStrategy() {
-        initialisationStrategy = new RandomInitializationStrategy<E>();
+        initialisationStrategy = new RandomBoundedInitializationStrategy<E>();
         tableBuilder = new DataTableBuilder(new ARFFFileReader());
         dataset = new StandardDataTable();
         windowSize = 0;

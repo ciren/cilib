@@ -67,21 +67,22 @@ public class SlidingWindowTest {
         SlidingWindow window = new SlidingWindow();
         window.setSourceURL("C:\\Users\\Kristina\\Work\\cilib_kgerogieva\\src\\test\\resources\\datasets\\iris2.arff");
         window.setWindowSize(1);
+        window.setFrequency(1);
         window.initializeWindow();
         
         Vector beforeSlide =  ((StandardPattern) window.getCurrentDataset().getRow(0)).getVector();
         Vector expectedBeforeSlide = Vector.of(1.0,1.0,1.0,2.0);
         
-        //Assert.assertTrue(beforeSlide.containsAll(expectedBeforeSlide));
+        Assert.assertTrue(beforeSlide.containsAll(expectedBeforeSlide));
         
-        window.slideWindow(3);
+        window.slideWindow();
         
         Vector afterSlide =  ((StandardPattern) window.getCurrentDataset().getRow(0)).getVector();
         Vector expectedAfterSlide = Vector.of(2.0,3.0,4.0,2.0);
         
         System.out.println(afterSlide.toString());
         System.out.println(expectedAfterSlide.toString());
-        //Assert.assertTrue(afterSlide.containsAll(expectedAfterSlide));
+        Assert.assertTrue(afterSlide.containsAll(expectedAfterSlide));
     }
 
     /**

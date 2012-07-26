@@ -27,8 +27,6 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
-import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -40,10 +38,10 @@ public class RandomBoundedInitializationStrategy<E extends Entity> implements
         InitializationStrategy<E> {
 
     private static final long serialVersionUID = -7926839076670354209L;
-    private ControlParameter lowerBound;
-    private ControlParameter upperBound;
+    protected ControlParameter lowerBound;
+    protected ControlParameter upperBound;
     private ProbabilityDistributionFuction random;
-    private ArrayList<ControlParameter[]> boundsPerDimension;
+    protected ArrayList<ControlParameter[]> boundsPerDimension;
 
     public RandomBoundedInitializationStrategy() {
         this.lowerBound = ConstantControlParameter.of(0.1);
@@ -75,6 +73,10 @@ public class RandomBoundedInitializationStrategy<E extends Entity> implements
         }
     }
     
+    /*
+     * Sets the upper and lower bounds being used to the appropriate ones for the current dimension
+     * @param index The dimension
+     */
     private void changeBoundsForNextDimension(int index) {
         if(boundsPerDimension.size() > 0) {
             lowerBound = boundsPerDimension.get(index)[0];
@@ -84,23 +86,12 @@ public class RandomBoundedInitializationStrategy<E extends Entity> implements
         //do nothing otherwise
     }
     
+    /*
+     * Set the list containing the upper and lower bounds to be used fro each dimension
+     * @param bounds The arraylist containing the bounds
+     */
     public void setBoundsPerDimension(ArrayList<ControlParameter[]> bounds) {
         boundsPerDimension = bounds;
     }
     
-    public ControlParameter getLowerBound() {
-        return lowerBound;
-    }
-
-    public void setLowerBound(ControlParameter lowerBound) {
-        this.lowerBound = lowerBound;
-    }
-
-    public ControlParameter getUpperBound() {
-        return upperBound;
-    }
-
-    public void setUpperBound(ControlParameter upperBound) {
-        this.upperBound = upperBound;
-    }
 }

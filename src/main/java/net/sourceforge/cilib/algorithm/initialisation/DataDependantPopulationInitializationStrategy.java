@@ -28,7 +28,6 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.initialization.StandardCentroidInitializationStrategy;
 import net.sourceforge.cilib.entity.initialization.DataPatternInitializationStrategy;
-import net.sourceforge.cilib.entity.initialization.SingleCentroidInitializationStrategy;
 import net.sourceforge.cilib.io.ARFFFileReader;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.DataTableBuilder;
@@ -38,8 +37,10 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
- * @author Kristina
+ * This class handles a dataset in order to initialize the population of the algorithm
+ * using this dataset depending on which initializationStrategy is being used. 
+ * It sets the bounds of the StandardCentroidInitializationStrategy and the dataset of the
+ * DataPatternInitializationStrategy and then initializes the population accordingly.
  */
 public class DataDependantPopulationInitializationStrategy <E extends Entity> implements PopulationInitialisationStrategy<E>{
     private PopulationInitialisationStrategy delegate;
@@ -48,6 +49,9 @@ public class DataDependantPopulationInitializationStrategy <E extends Entity> im
     private DataTableBuilder tableBuilder;
     DataTable dataset;
     
+    /*
+     * Default constructor for DataDependantPopulationInitializationStrategy
+     */
     public DataDependantPopulationInitializationStrategy() {
         delegate = new ClonedPopulationInitialisationStrategy();
         tableBuilder = new DataTableBuilder(new ARFFFileReader());
@@ -56,6 +60,10 @@ public class DataDependantPopulationInitializationStrategy <E extends Entity> im
         dataset = new StandardDataTable();
     }
     
+    /*
+     * Copy constructor for DataDependantPopulationInitializationStrategy
+     * @param copy The DataDependantPopulationInitializationStrategy to be copied
+     */
     public DataDependantPopulationInitializationStrategy(DataDependantPopulationInitializationStrategy copy) {
         delegate = copy.delegate;
         tableBuilder = copy.tableBuilder;
@@ -64,30 +72,51 @@ public class DataDependantPopulationInitializationStrategy <E extends Entity> im
         dataset = copy.dataset;
     }
     
+    /*
+     * Clone method of the DataDependantPopulationInitializationStrategy
+     * @return the new instance of the DataDependantPopulationInitializationStrategy
+     */
     @Override
     public DataDependantPopulationInitializationStrategy<E> getClone() {
         return new DataDependantPopulationInitializationStrategy<E>(this);
     }
 
+    /*
+     * Sets the value of the prototypeEntity in order to inform the initialization 
+     * algorithm about what type of entity one wants to use.
+     * @param entity The new prototype entity
+     */
     @Override
     public void setEntityType(Entity entity) {
         this.prototypeEntity = entity;
     }
 
+    /*
+     * Returns the prototype entity
+     * @return prototypeEntity The prototype entity
+     */
     @Override
     public net.sourceforge.cilib.entity.Entity getEntityType() {
        return prototypeEntity;
     }
 
+    /*
+     * Sets the bounds of a StandardCentroidInitializationStrategy or the dataset of the 
+     * DataPatternInitializationStrategy and calls the initialise method of the delegate
+     * strategy.
+     * @param problem The optimization problem of the algorithm
+     * @return The newly initialized population
+     */
     @Override
     public Iterable<E> initialise(OptimisationProblem problem) {
         if(((ClusterParticle) prototypeEntity).getCentroidInitializationStrategyCandidate() instanceof StandardCentroidInitializationStrategy) {
             StandardCentroidInitializationStrategy strategy = (StandardCentroidInitializationStrategy) ((ClusterParticle) prototypeEntity).getCentroidInitializationStrategyCandidate();
             strategy.setBounds(getBounds());
-        } else if (((ClusterParticle) prototypeEntity).getCentroidInitializationStrategyCandidate() instanceof SingleCentroidInitializationStrategy) {
-            SingleCentroidInitializationStrategy strategy = (SingleCentroidInitializationStrategy) ((ClusterParticle) prototypeEntity).getCentroidInitializationStrategyCandidate();
-            strategy.setBounds(getBounds());
-        }else{
+            StandardCentroidInitializationStrategy strategy2 = (StandardCentroidInitializationStrategy) ((ClusterParticle) prototypeEntity).getCentroidInitializationStrategyVelocity();
+            strategy2.setBounds(getBounds());
+            StandardCentroidInitializationStrategy strategy3 = (StandardCentroidInitializationStrategy) ((ClusterParticle) prototypeEntity).getCentroidInitializationStrategyBest();
+            strategy3.setBounds(getBounds());
+        } else{
             DataPatternInitializationStrategy strategy = (DataPatternInitializationStrategy) ((ClusterParticle) prototypeEntity).getCentroidInitializationStrategyCandidate();
             strategy.setDataset(dataset);
             DataPatternInitializationStrategy strategy2 = (DataPatternInitializationStrategy) ((ClusterParticle) prototypeEntity).getCentroidInitializationStrategyVelocity();
@@ -97,6 +126,7 @@ public class DataDependantPopulationInitializationStrategy <E extends Entity> im
         }
         
         delegate.setEntityType(prototypeEntity);
+        delegate.setEntityNumber(entityNumber);
         return delegate.initialise(problem);
     }
 
@@ -110,7 +140,7 @@ public class DataDependantPopulationInitializationStrategy <E extends Entity> im
     }
 
     /**
-     * Set the number of {@code Entity} instances to clone.
+     * Set the number of {@code Entity} instances to clone, i.e. the population size
      * @param entityNumber The number to clone.
      */
     @Override
@@ -118,35 +148,30 @@ public class DataDependantPopulationInitializationStrategy <E extends Entity> im
         this.entityNumber = entityNumber;
     }
     
+    /*
+     * Sets the delegate InitialzationStrategy to the one received as a parameter
+     * @param delegate The new delegate InitialzationStrategy 
+     */
     public void setDelegate(PopulationInitialisationStrategy newDelegate) {
         delegate = newDelegate;
     }
     
-    public PopulationInitialisationStrategy getDellegate() {
+    /*
+     * Returns the delegate InitialzationStrategy
+     * @return delegate The delegate InitialzationStrategy
+     */
+    public PopulationInitialisationStrategy getDelegate() {
         return delegate;
     }
     
-    public void setDataTableBuilder(DataTableBuilder builder) {
-        tableBuilder = builder;
-    }
     
-    public DataTableBuilder getDataTableBuilder() {
-        return tableBuilder;
-    }
-    
+    /*
+     * Determines the upper and lower bounds for each dimension of the dataset and
+     * returns an arraylist holding these.
+     * @return bounds An Arraylist containing the upper and lower bound for each 
+     * dimension of a data pattern
+     */
     public ArrayList<ControlParameter[]> getBounds() {
-//        tableBuilder = new DataTableBuilder(tableBuilder.getDataReader());
-//        tableBuilder.addDataOperator(new TypeConversionOperator());
-//        tableBuilder.addDataOperator(new PatternConversionOperator());
-//        try {
-//            tableBuilder.buildDataTable();
-//            
-//        } catch (CIlibIOException ex) {
-//            Logger.getLogger(DataClusteringPSO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//        dataset = tableBuilder.getDataTable();
-
         ArrayList<ControlParameter[]> bounds  = new ArrayList<ControlParameter[]>();
         
         int size = ((StandardPattern) dataset.getRow(0)).getVector().size();
@@ -171,6 +196,10 @@ public class DataDependantPopulationInitializationStrategy <E extends Entity> im
         return bounds;
     }
     
+    /*
+     * Sets the dataset to be used to initialize the entities
+     * @param table The dataset to be used
+     */
     public void setDataset(DataTable table) {
         dataset = table;
     }

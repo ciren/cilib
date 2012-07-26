@@ -34,20 +34,30 @@ import net.sourceforge.cilib.io.transform.PatternConversionOperator;
 import net.sourceforge.cilib.io.transform.TypeConversionOperator;
 
 /**
- *
- * @author Kristina
+ * This class is in charge of sliding a window across a dataset.
+ * By default, if a frequency of change and a window size are set
+ * the window will slide from one time-step to another, i.e. by the 
+ * window's size. If a slideSize is set, then the window will slide
+ * by this amount instead of the amount of windowSize.
+ * If no window size is set, the dataset is assumed to be static and 
+ * the window size becomes the size of the dataset and the value of
+ * isTemporal becomes false.
  */
 public class SlidingWindow {
     private DataTable completeDataset;
     private DataTable currentDataset;
     private DataTableBuilder tableBuilder;
     private int windowSize;
+    private int slideSize;
     private DataOperator patternConverstionOperator;
     private int currentIndex;
     private int slidingTime;
     private boolean isTemporal;
     private int frequency;
     
+    /*
+     * Default constructor for the SlidingWindow
+     */
     public SlidingWindow() {
         completeDataset = new StandardPatternDataTable();
         currentDataset = new StandardPatternDataTable();
@@ -58,8 +68,13 @@ public class SlidingWindow {
         slidingTime = 0;
         isTemporal = true;
         frequency = 0;
+        slideSize = 0;
     }
     
+    /*
+     * Copy constructor for the SlidingWindow
+     * @param copy The SlidingWindow to be copied
+     */
     public SlidingWindow(SlidingWindow copy) {
         completeDataset = copy.completeDataset;
         currentDataset = copy.currentDataset;
@@ -70,32 +85,46 @@ public class SlidingWindow {
         slidingTime = copy.slidingTime;
         isTemporal = copy.isTemporal;
         frequency = copy.frequency;
+        slideSize = copy.slideSize;
     }
     
+    /*
+     * Clone method for the SlidingWindow
+     */
     public SlidingWindow getClone() {
         return new SlidingWindow(this);
     }
     
+    /*
+     * Checks if the SlidingWindow has finished sliding (has reached the end of the dataset)
+     * @return true if it has not finished, false otherwise
+     */
     private boolean hasNotFinished() {
             return currentIndex < completeDataset.size();
     }
     
-    public DataTable slideWindow(int iterations) {
+    /*
+     * Slides the window to the next position
+     * @return currentDataset The current set of data patterns over which the 
+     * window is currently placed
+     */
+    public DataTable slideWindow() {
         if(hasNotFinished()) {
-            if(slidingTime == getIterationToChange(iterations)) {
+            if(slidingTime == getIterationToChange()) {
                 currentDataset = new StandardPatternDataTable();
                 
-                int upTo = currentIndex + windowSize;
-                if(currentIndex + windowSize > completeDataset.size()) {
+                int upTo = currentIndex + slideSize;
+                if(currentIndex + slideSize > completeDataset.size()) {
                     upTo = completeDataset.size();
                 }
-                
+                 
                 for(int i = currentIndex; i < upTo; i++) {
                     currentDataset.addRow((StandardPattern) completeDataset.getRow(i));
                 }
                 
                 currentIndex = upTo;
                 slidingTime = 0;
+                
             } else {
                 slidingTime++;
             }
@@ -103,6 +132,13 @@ public class SlidingWindow {
         return currentDataset;
     }
     
+    /*
+     * Initializes the SlidingWindow to hold the appropriate poriton of the dataset.
+     * Initializes the widow to be the size of the datset if it was never set.
+     * Initializes the slideSize to be the size of the window if it was never set.
+     * Sets the boolean isTemporal.
+     * Sets the counts.
+     */
     public DataTable initializeWindow() {
         tableBuilder.addDataOperator(new TypeConversionOperator());
         tableBuilder.addDataOperator(patternConverstionOperator);
@@ -122,19 +158,49 @@ public class SlidingWindow {
             throw new UnsupportedOperationException("The window size provided is larger than the size of the dataset");
         }
         
-        for(int i = 0; i < currentIndex + windowSize; i++) {
+        if(slideSize == 0) {
+            slideSize = windowSize;
+        }
+        
+        for(int i = 0; i < currentIndex + slideSize; i++) {
             currentDataset.addRow((StandardPattern) completeDataset.getRow(i));
         }
         
-        currentIndex+= windowSize;
+        currentIndex+= slideSize;
         slidingTime++;
         return currentDataset;
     }
     
+    /*
+     * Sets the slideSize, i.e. by how much the window will slide
+     * @param size The new size of the slide
+     */
+    public void setSlideSize(int size) {
+        slideSize = size;
+    }
+    
+    /*
+     * Returns the slideSize, i.e. by how much the window will slide
+     * @return slideSize The size of the slide
+     */
+    public int getSlideSize() {
+        return slideSize;
+    }
+    
+    /*
+     * Sets the size of the window, i.e. how man data patterns are being dealt 
+     * with by the algorithm at once.
+     * @param size The new window size
+     */
     public void setWindowSize(int size) {
         windowSize = size;
     }
     
+    /*
+     * Returns the size of the window, i.e. how man data patterns are being dealt 
+     * with by the algorithm at once
+     * @return windowSize The size of the window
+     */
     public int getWindowSize() {
         return windowSize;
     }
@@ -203,22 +269,36 @@ public class SlidingWindow {
         return completeDataset;
     }
     
-    private int getIterationToChange(int iterations) {
-        if(frequency == 0) {
-            double denominator = ((double) (completeDataset.size()) / (double) windowSize);
-            frequency = (int) (iterations / (double) denominator);
-        }
+    /*
+     * Gets the iteration at which the window should slide
+     * @return The iteration during which the window should slide
+     */
+    private int getIterationToChange() {
         return frequency;
     }
     
+    /*
+     * Returns the fequency of change.
+     * Note: currently this is the same as getIterationToChange, but the representation 
+     * of frequencies may be altered in future.
+     * @return The frequency of change
+     */
     public int getFrequency() {
         return frequency;
     }
     
+    /*
+     * Sets the frequency of change
+     * @param frequency The new frequency of change
+     */
     public void setFrequency(int newFrequency) {
         frequency = newFrequency;
     }
     
+    /*
+     * Checks if the window has slid to the next portion of the dataset
+     * @return true if it has slid, false otherwise
+     */
     public boolean hasSlid() {
         return isTemporal && slidingTime == 0;
     }

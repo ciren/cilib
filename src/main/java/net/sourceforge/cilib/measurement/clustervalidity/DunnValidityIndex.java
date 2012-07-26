@@ -29,23 +29,42 @@ import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
- * @author Kristina
+ * This class calculates the Dunn Validity Index that can be found in:
+ * {@literal@}{Graaff11,
+ *  author = {Graaff A. J. and Engelbrecht A. P.},
+ *  title = {A local network neighbourhood artificial immune system},
+ *  year = {2011},
+ *  }
  */
 public class DunnValidityIndex extends ValidityIndex{
+    /*
+     * Default constructor for DunnValidityIndex
+     */
     public DunnValidityIndex() {
-        
+        super();
     }
     
+    /*
+     * Copy Constructor for DunnValidityIndex
+     */
     public DunnValidityIndex(DunnValidityIndex copy) {
-        
+        super(copy);
     }
     
+    /*
+     * Clone method for DunnValidityIndex
+     * @return new instance of HalkidiVazirgiannisValidityIndex
+     */
     @Override
     public DunnValidityIndex getClone() {
         return new DunnValidityIndex(this);
     }
     
+    /*
+     * Calculates and returns the Dunn Validity Index
+     * @param algorithm The algorithm for which the validity index is being calculated
+     * @return result The result of the calculateion of the validity index
+     */
     @Override
     public Real getValue(Algorithm algorithm) {
         CentroidHolder holder = (CentroidHolder) algorithm.getBestSolution().getPosition();
@@ -70,6 +89,12 @@ public class DunnValidityIndex extends ValidityIndex{
         
     }
     
+    /*
+     * Calculates the smallest distance between two clusters
+     * @param cluster1 One of the clusters to be compared
+     * @param cluster2 The cluster cluster1 is compared against
+     * @return minimumDistance the minimum distance between the two clusters
+     */
     protected double getMinimumIntraclusterDistance(ClusterCentroid cluster1, ClusterCentroid cluster2) {
         double minimumDistance = Double.POSITIVE_INFINITY;
         for(Vector pattern1 : cluster1.getDataItems()) {
@@ -82,6 +107,10 @@ public class DunnValidityIndex extends ValidityIndex{
         return minimumDistance;
     }
     
+    /*
+     * Calculates the maximum distance between patterns within a cluster\
+     * @param centroid The cluster to be checked
+     */
     protected double getMaximumInterclusterDistance(ClusterCentroid centroid) {
         double maximumDistance = 0;
         

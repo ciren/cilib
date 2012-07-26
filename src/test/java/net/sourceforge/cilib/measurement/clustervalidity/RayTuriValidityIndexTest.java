@@ -30,7 +30,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -58,7 +57,7 @@ public class RayTuriValidityIndexTest {
     }
 
     /**
-     * Test of getIntraclusterDistance method, of class RayTuriValidityIndex.
+     * Test of getaverageClusterDistance method, of class RayTuriValidityIndex.
      */
     @Test
     public void testGetIntraclusterDistance() {
@@ -75,7 +74,7 @@ public class RayTuriValidityIndexTest {
         holder.add(cluster2);
         
         RayTuriValidityIndex instance = new RayTuriValidityIndex();
-        double result = instance.getIntraclusterDistance(holder);
+        double result = instance.getaverageClusterDistance(holder);
         
         Assert.assertEquals(Math.round(2.119677166154775 * 1e10) / 1e10, Math.round(result * 1e10) / 1e10);
     }

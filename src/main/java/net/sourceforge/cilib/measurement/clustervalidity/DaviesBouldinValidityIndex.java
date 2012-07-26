@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.measurement.clustervalidity;
 
-import java.util.ArrayList;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
@@ -29,11 +28,42 @@ import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
- * @author Kristina
+ * This class calculates the Davies Bouldin Validity Index that can be found in:
+ * {@literal@}{Graaff11,
+ *  author = {Graaff A. J. and Engelbrecht A. P.},
+ *  title = {A local network neighbourhood artificial immune system},
+ *  year = {2011},
+ *  }
  */
 public class DaviesBouldinValidityIndex extends ValidityIndex{
+    /*
+     * Default constructor for DaviesBouldinValidityIndex
+     */
+    public DaviesBouldinValidityIndex() {
+        super();
+    }
     
+    /*
+     * Copy constructor for DaviesBouldinValidityIndex
+     * @param copy The DaviesBouldinValidityIndex to be copied
+     */
+    public DaviesBouldinValidityIndex(DaviesBouldinValidityIndex copy) {
+        super(copy);
+    }
+    
+    /*
+     * Clone method for DaviesBouldinValidityIndex
+     * @return new instance of HalkidiVazirgiannisValidityIndex
+     */
+    @Override
+    public DaviesBouldinValidityIndex getClone() {
+        return new DaviesBouldinValidityIndex(this);
+    }
+    
+    /*
+     * Returns the result of the DaviesBouldinValidityIndex calculation
+     * 
+     */
     @Override
     public Real getValue(Algorithm algorithm) {
         CentroidHolder holder = (CentroidHolder) algorithm.getBestSolution().getPosition();
@@ -58,6 +88,11 @@ public class DaviesBouldinValidityIndex extends ValidityIndex{
         return Real.valueOf(maximum);
     }
     
+    /*
+     * Returns the maximum distance between 2 patterns within the same cluster
+     * @param centroid The cluster to be checked
+     * @return result The maximum distance
+     */
     protected double getMaximumInterclusterDistance(ClusterCentroid centroid) {
         double result = 0;
         for(Vector pattern : centroid.getDataItems()) { 

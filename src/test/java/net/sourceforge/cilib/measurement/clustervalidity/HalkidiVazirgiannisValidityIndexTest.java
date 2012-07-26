@@ -31,7 +31,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -76,7 +75,7 @@ public class HalkidiVazirgiannisValidityIndexTest {
         holder.add(cluster2);
         
         HalkidiVazirgiannisValidityIndex instance = new HalkidiVazirgiannisValidityIndex();
-        instance.setCentroidHolder(holder);
+        instance.centroidHolder = holder;
         
         double result = instance.getStandardDeviation();
         
@@ -102,7 +101,7 @@ public class HalkidiVazirgiannisValidityIndexTest {
         holder.add(cluster2);
         
         HalkidiVazirgiannisValidityIndex instance = new HalkidiVazirgiannisValidityIndex();
-        instance.setCentroidHolder(holder);
+        instance.centroidHolder = holder;
         
         double result = instance.getVariance(cluster1.getDataItems(), cluster1.toVector());
         
@@ -148,7 +147,7 @@ public class HalkidiVazirgiannisValidityIndexTest {
         holder.add(cluster2);
         
         HalkidiVazirgiannisValidityIndex instance = new HalkidiVazirgiannisValidityIndex();
-        instance.setCentroidHolder(holder);
+        instance.centroidHolder = holder;
         
         double result = instance.getNeighbourhoodValue(Vector.of(2,2), cluster1.toVector());
         
@@ -177,7 +176,7 @@ public class HalkidiVazirgiannisValidityIndexTest {
         holder.add(cluster2);
         
         HalkidiVazirgiannisValidityIndex instance = new HalkidiVazirgiannisValidityIndex();
-        instance.setCentroidHolder(holder);
+        instance.centroidHolder = holder;
         
         double result = instance.getDensity(Vector.of(2,3));
         
@@ -203,11 +202,11 @@ public class HalkidiVazirgiannisValidityIndexTest {
         holder.add(cluster2);
         
         HalkidiVazirgiannisValidityIndex instance = new HalkidiVazirgiannisValidityIndex();
-        instance.setCentroidHolder(holder);
+        instance.centroidHolder = holder;
         
         double result = instance.getDensityAmongClusters();
         
-        //Assert.assertEquals(1.0, result);
+        Assert.assertEquals(1.0, result);
     }
 
     /**
@@ -228,7 +227,7 @@ public class HalkidiVazirgiannisValidityIndexTest {
         holder.add(cluster2);
         
         HalkidiVazirgiannisValidityIndex instance = new HalkidiVazirgiannisValidityIndex();
-        instance.setCentroidHolder(holder);
+        instance.centroidHolder = holder;
         
         ArrayList<Vector> result = instance.getAllPatterns();
         ArrayList<Vector> expected = new ArrayList<Vector>();
@@ -256,7 +255,7 @@ public class HalkidiVazirgiannisValidityIndexTest {
         holder.add(cluster2);
         
         HalkidiVazirgiannisValidityIndex instance = new HalkidiVazirgiannisValidityIndex();
-        instance.setCentroidHolder(holder);
+        instance.centroidHolder = holder;
         
         Vector result = instance.getMiddlePointOfDataset();
         Vector expected = Vector.of(3.25,2);
@@ -284,7 +283,7 @@ public class HalkidiVazirgiannisValidityIndexTest {
         holder.add(cluster2);
         
         HalkidiVazirgiannisValidityIndex instance = new HalkidiVazirgiannisValidityIndex();
-        instance.setCentroidHolder(holder);
+        instance.centroidHolder = holder;
         
         double result = instance.getScattering();
         

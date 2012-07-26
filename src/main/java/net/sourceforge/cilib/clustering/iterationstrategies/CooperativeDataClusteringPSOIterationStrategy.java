@@ -32,11 +32,15 @@ import net.sourceforge.cilib.io.StandardDataTable;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 
 /**
- *
- * @author Kristina
+ * This class performs an iteration of the cooperative data clustering iteration strategy.
+ * It holds a context particle, adapts the swarms to hold the context particle
+ * with the appropriate dimension difference,updates the personal and global 
+ * bests and then updates the particles.
  */
 public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCooperativeIterationStrategy<CooperativePSO>{
-    
+    /*
+     * Default constructor for CooperativeDataClusteringPSOIterationStrategy
+     */
     public CooperativeDataClusteringPSOIterationStrategy() {
         super();
         contextParticle = new ClusterParticle();
@@ -44,6 +48,10 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
         table = new StandardDataTable();
     }
     
+    /*
+     * Copy cosntructor for CooperativeDataClusteringPSOIterationStrategy
+     * @param copy The CooperativeDataClusteringPSOIterationStrategy to be copied
+     */
     public CooperativeDataClusteringPSOIterationStrategy(CooperativeDataClusteringPSOIterationStrategy copy) {
         super(copy);
         contextParticle = copy.contextParticle;
@@ -51,11 +59,21 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
         table = copy.table;
     }
     
+    /*
+     * Clone method of the CooperativeDataClusteringPSOIterationStrategy
+     * @return new instance of the CooperativeDataClusteringPSOIterationStrategy
+     */
     @Override
     public CooperativeDataClusteringPSOIterationStrategy getClone() {
         return new CooperativeDataClusteringPSOIterationStrategy(this);
     }
 
+    /*
+     * Performs an iteration of the standard co-operative algorithm.
+     * It holds a context particle, adapts the swarms to hold the context particle
+     * with the appropriate dimension difference,updates the personal and global 
+     * bests and then updates the particles.
+     */
     @Override
     public void performIteration(CooperativePSO algorithm) {
         int populationIndex = 0;
@@ -74,6 +92,7 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
             newTopology.clear();
             
             for(ClusterParticle particle : ((DataClusteringPSO) currentAlgorithm).getTopology()) {
+                clearDataPatterns(contextParticle);
                 assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);
                 contextParticle.calculateFitness();
                     
@@ -87,6 +106,7 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
                 particleWithContext.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER).getClone());
                 particleWithContext.setCentroidInitialisationStrategy(particle.getCentroidInitializationStrategyCandidate().getClone());
                 
+                clearDataPatterns(particleWithContext);
                 assignDataPatternsToParticle((CentroidHolder) particleWithContext.getCandidateSolution(), table);
                 particleWithContext.calculateFitness();
                 
@@ -114,16 +134,6 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
         
         
     }
-    
-    public void reinitializeContext(CooperativePSO currentAlgorithm) {  
-        contextParticle = ((DataClusteringPSO) currentAlgorithm.getPopulations().get(0)).getTopology().get(0).getClone();
-        contextParticle.reinitialise();
-        assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);
-        contextParticle.calculateFitness();
-        //System.out.println("Reinitialized");
-    }
-    
-   
     
 
 }

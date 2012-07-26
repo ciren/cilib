@@ -23,16 +23,12 @@ package net.sourceforge.cilib.measurement.clustervalidity;
 
 import junit.framework.Assert;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *

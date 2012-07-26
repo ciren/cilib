@@ -77,7 +77,7 @@ public class QuantizationErrorMinimizationProblemTest {
         QuantizationErrorMinimizationProblem instance = new QuantizationErrorMinimizationProblem();
         Fitness fitness = instance.getFitness(particle.getCandidateSolution());
         
-        //Assert.assertEquals(fitness.getValue(), 2.5);
+        Assert.assertEquals(fitness.getValue(), 2.5);
     }
 
     
