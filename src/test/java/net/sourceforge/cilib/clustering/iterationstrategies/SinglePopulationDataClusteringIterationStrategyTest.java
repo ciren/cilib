@@ -81,7 +81,6 @@ public class SinglePopulationDataClusteringIterationStrategyTest {
         
         QuantizationErrorMinimizationProblem problem = new QuantizationErrorMinimizationProblem();
         problem.setDomain("R(-5.12:5.12)");
-        problem.setNumberOfClusters(3);
         IterationStrategy strategy = new StandardDataClusteringIterationStrategy();
         CentroidBoundaryConstraint constraint = new CentroidBoundaryConstraint();
         constraint.setDelegate(new RandomBoundaryConstraint());
@@ -96,7 +95,7 @@ public class SinglePopulationDataClusteringIterationStrategyTest {
         instance.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
         
         instance.setOptimisationProblem(problem);
-        instance.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 30));
+        instance.addStoppingCondition(new MeasuredStoppingCondition());
         
         instance.initialise();
         

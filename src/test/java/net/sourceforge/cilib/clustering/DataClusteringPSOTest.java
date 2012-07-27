@@ -40,7 +40,6 @@ import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
-import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -83,11 +82,11 @@ public class DataClusteringPSOTest {
         
         QuantizationErrorMinimizationProblem problem = new QuantizationErrorMinimizationProblem();
         problem.setDomain("R(-5.12:5.12)");
-        problem.setNumberOfClusters(3);
         IterationStrategy strategy = new StandardDataClusteringIterationStrategy();
         CentroidBoundaryConstraint constraint = new CentroidBoundaryConstraint();
         constraint.setDelegate(new RandomBoundaryConstraint());
         strategy.setBoundaryConstraint(constraint);
+        instance.setIterationStrategy(strategy);
         instance.setOptimisationProblem(problem);
         DataDependantPopulationInitializationStrategy init = new DataDependantPopulationInitializationStrategy<ClusterParticle>();
       
@@ -97,7 +96,7 @@ public class DataClusteringPSOTest {
         instance.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
         
         instance.setOptimisationProblem(problem);
-        instance.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 30));
+        instance.addStoppingCondition(new MeasuredStoppingCondition());
         
         instance.initialise();
         

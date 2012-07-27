@@ -247,6 +247,10 @@ public class ClusterParticle extends AbstractParticle{
         if(centroidInitialisationStrategyVelocity instanceof StandardCentroidInitializationStrategy)
             ((StandardCentroidInitializationStrategy) centroidInitialisationStrategyVelocity).setInitialisationStrategy(velocityInitializationStrategy);
         centroidInitialisationStrategyVelocity.initialize(EntityType.Particle.VELOCITY, this);
+        
+        if(centroidInitialisationStrategyBest instanceof StandardCentroidInitializationStrategy)
+            ((StandardCentroidInitializationStrategy) centroidInitialisationStrategyBest).setInitialisationStrategy(personalBestInitialisationStrategy);
+        centroidInitialisationStrategyBest.initialize(EntityType.Particle.BEST_POSITION, this);
 
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
         this.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
