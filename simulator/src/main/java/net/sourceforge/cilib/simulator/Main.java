@@ -46,17 +46,7 @@ public final class Main {
         }
 
         final List<Simulator> simulators = SimulatorShell.prepare(new File(args[0]));
-
-        ProgressListener progress = null;
-        if (args.length > 1 && args[1].equals("-textprogress")) {
-            progress = new ProgressText(simulators.size());
-        } else if (args.length > 1 && args[1].equals("-guiprogress")) {
-            ProgressFrame pf = new ProgressFrame(simulators.size());
-            pf.setVisible(true);
-            progress = pf;
-        } else {
-            progress = new NoProgress();
-        }
+        ProgressListener progress = new ProgressText(simulators.size());
 
         SimulatorShell.execute(simulators, progress);
     }
