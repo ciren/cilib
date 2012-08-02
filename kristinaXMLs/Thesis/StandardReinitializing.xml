@@ -18,10 +18,6 @@
                 <delegate class="algorithm.initialisation.ClonedPopulationInitialisationStrategy"/>
                 <entityNumber value="50"/>
                 <entityType class="clustering.entity.ClusterParticle">
-                    <velocityProvider class="pso.velocityprovider.NoisyVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.NoisyPositionProvider"/>
-                    <globalGuideProvider class="pso.guideprovider.NBestGuideProvider"/>
-                    <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy"/>
                     <positionInitialisationStrategy class="entity.initialization.RandomBoundedInitializationStrategy"/>
                     <centroidInitialisationStrategy class="entity.initialization.StandardCentroidInitializationStrategy"/>
                 </entityType>

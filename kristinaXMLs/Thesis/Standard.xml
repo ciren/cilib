@@ -6,9 +6,9 @@
 ]>
 <simulator>
     <algorithms>
-        <algorithm id="clusteringPSO" class="clustering.DataClusteringPSO" sourceURL="src/test/resources/datasets/clusters.arff">
+        <algorithm id="clusteringPSO1" class="clustering.DataClusteringPSO" sourceURL="src/test/resources/datasets/TemporalClustering/d3_s1.arff">
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="6000"/>
-            <window class="clustering.SlidingWindow"/>
+            <window class="clustering.SlidingWindow" windowSize="10" frequency="2000"/>
             <iterationStrategy class="clustering.iterationstrategies.StandardDataClusteringIterationStrategy">
                 <boundaryConstraint class="problem.boundaryconstraint.CentroidBoundaryConstraint">
                     <delegate class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
@@ -18,18 +18,161 @@
                 <delegate class="algorithm.initialisation.ClonedPopulationInitialisationStrategy"/>
                 <entityNumber value="50"/>
                 <entityType class="clustering.entity.ClusterParticle">
-                    <velocityProvider class="pso.velocityprovider.NoisyVelocityProvider"/>
-                    <positionProvider class="pso.positionprovider.NoisyPositionProvider"/>
-                    <globalGuideProvider class="pso.guideprovider.NBestGuideProvider"/>
-                    <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy"/>
                     <positionInitialisationStrategy class="entity.initialization.RandomBoundedInitializationStrategy"/>
                     <centroidInitialisationStrategy class="entity.initialization.StandardCentroidInitializationStrategy"/>
                 </entityType>
             </initialisationStrategy>
         </algorithm>
+        
+        <algorithm id="clusteringPSO2" class="clustering.DataClusteringPSO" sourceURL="src/test/resources/datasets/TemporalClustering/d3_s2.arff">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="6000"/>
+            <window class="clustering.SlidingWindow" windowSize="33" frequency="2000"/>
+            <iterationStrategy class="clustering.iterationstrategies.StandardDataClusteringIterationStrategy">
+                <boundaryConstraint class="problem.boundaryconstraint.CentroidBoundaryConstraint">
+                    <delegate class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+                </boundaryConstraint>
+            </iterationStrategy>
+            <initialisationStrategy class="algorithm.initialisation.DataDependantPopulationInitializationStrategy">
+                <delegate class="algorithm.initialisation.ClonedPopulationInitialisationStrategy"/>
+                <entityNumber value="50"/>
+                <entityType class="clustering.entity.ClusterParticle">
+                    <positionInitialisationStrategy class="entity.initialization.RandomBoundedInitializationStrategy"/>
+                    <centroidInitialisationStrategy class="entity.initialization.StandardCentroidInitializationStrategy"/>
+                </entityType>
+            </initialisationStrategy>
+        </algorithm>
+        
+        <algorithm id="clusteringPSO3" class="clustering.DataClusteringPSO" sourceURL="src/test/resources/datasets/TemporalClustering/d3_s3.arff">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="6000"/>
+            <window class="clustering.SlidingWindow" windowSize="33" frequency="2000"/>
+            <iterationStrategy class="clustering.iterationstrategies.StandardDataClusteringIterationStrategy">
+                <boundaryConstraint class="problem.boundaryconstraint.CentroidBoundaryConstraint">
+                    <delegate class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+                </boundaryConstraint>
+            </iterationStrategy>
+            <initialisationStrategy class="algorithm.initialisation.DataDependantPopulationInitializationStrategy">
+                <delegate class="algorithm.initialisation.ClonedPopulationInitialisationStrategy"/>
+                <entityNumber value="50"/>
+                <entityType class="clustering.entity.ClusterParticle">
+                    <positionInitialisationStrategy class="entity.initialization.RandomBoundedInitializationStrategy"/>
+                    <centroidInitialisationStrategy class="entity.initialization.StandardCentroidInitializationStrategy"/>
+                </entityType>
+            </initialisationStrategy>
+        </algorithm>
+        
+        <algorithm id="clusteringPSO4" class="clustering.DataClusteringPSO" sourceURL="src/test/resources/datasets/TemporalClustering/d8_s1.arff">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="6000"/>
+            <window class="clustering.SlidingWindow" windowSize="33" frequency="2000"/>
+            <iterationStrategy class="clustering.iterationstrategies.StandardDataClusteringIterationStrategy">
+                <boundaryConstraint class="problem.boundaryconstraint.CentroidBoundaryConstraint">
+                    <delegate class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+                </boundaryConstraint>
+            </iterationStrategy>
+            <initialisationStrategy class="algorithm.initialisation.DataDependantPopulationInitializationStrategy">
+                <delegate class="algorithm.initialisation.ClonedPopulationInitialisationStrategy"/>
+                <entityNumber value="50"/>
+                <entityType class="clustering.entity.ClusterParticle">
+                    <positionInitialisationStrategy class="entity.initialization.RandomBoundedInitializationStrategy"/>
+                    <centroidInitialisationStrategy class="entity.initialization.StandardCentroidInitializationStrategy"/>
+                </entityType>
+            </initialisationStrategy>
+        </algorithm>
+        
+        <algorithm id="clusteringPSO5" class="clustering.DataClusteringPSO" sourceURL="src/test/resources/datasets/TemporalClustering/d8_s2.arff">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="6000"/>
+            <window class="clustering.SlidingWindow" windowSize="33" frequency="2000"/>
+            <iterationStrategy class="clustering.iterationstrategies.StandardDataClusteringIterationStrategy">
+                <boundaryConstraint class="problem.boundaryconstraint.CentroidBoundaryConstraint">
+                    <delegate class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+                </boundaryConstraint>
+            </iterationStrategy>
+            <initialisationStrategy class="algorithm.initialisation.DataDependantPopulationInitializationStrategy">
+                <delegate class="algorithm.initialisation.ClonedPopulationInitialisationStrategy"/>
+                <entityNumber value="50"/>
+                <entityType class="clustering.entity.ClusterParticle">
+                    <positionInitialisationStrategy class="entity.initialization.RandomBoundedInitializationStrategy"/>
+                    <centroidInitialisationStrategy class="entity.initialization.StandardCentroidInitializationStrategy"/>
+                </entityType>
+            </initialisationStrategy>
+        </algorithm>
+        
+        <algorithm id="clusteringPSO6" class="clustering.DataClusteringPSO" sourceURL="src/test/resources/datasets/TemporalClustering/d8_s3.arff">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="6000"/>
+            <window class="clustering.SlidingWindow" windowSize="33" frequency="2000"/>
+            <iterationStrategy class="clustering.iterationstrategies.StandardDataClusteringIterationStrategy">
+                <boundaryConstraint class="problem.boundaryconstraint.CentroidBoundaryConstraint">
+                    <delegate class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+                </boundaryConstraint>
+            </iterationStrategy>
+            <initialisationStrategy class="algorithm.initialisation.DataDependantPopulationInitializationStrategy">
+                <delegate class="algorithm.initialisation.ClonedPopulationInitialisationStrategy"/>
+                <entityNumber value="50"/>
+                <entityType class="clustering.entity.ClusterParticle">
+                    <positionInitialisationStrategy class="entity.initialization.RandomBoundedInitializationStrategy"/>
+                    <centroidInitialisationStrategy class="entity.initialization.StandardCentroidInitializationStrategy"/>
+                </entityType>
+            </initialisationStrategy>
+        </algorithm>
+        
+        <algorithm id="clusteringPSO7" class="clustering.DataClusteringPSO" sourceURL="src/test/resources/datasets/TemporalClustering/d15_s1.arff">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="6000"/>
+            <window class="clustering.SlidingWindow" windowSize="33" frequency="2000"/>
+            <iterationStrategy class="clustering.iterationstrategies.StandardDataClusteringIterationStrategy">
+                <boundaryConstraint class="problem.boundaryconstraint.CentroidBoundaryConstraint">
+                    <delegate class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+                </boundaryConstraint>
+            </iterationStrategy>
+            <initialisationStrategy class="algorithm.initialisation.DataDependantPopulationInitializationStrategy">
+                <delegate class="algorithm.initialisation.ClonedPopulationInitialisationStrategy"/>
+                <entityNumber value="50"/>
+                <entityType class="clustering.entity.ClusterParticle">
+                    <positionInitialisationStrategy class="entity.initialization.RandomBoundedInitializationStrategy"/>
+                    <centroidInitialisationStrategy class="entity.initialization.StandardCentroidInitializationStrategy"/>
+                </entityType>
+            </initialisationStrategy>
+        </algorithm>
+        
+        <algorithm id="clusteringPSO8" class="clustering.DataClusteringPSO" sourceURL="src/test/resources/datasets/TemporalClustering/d15_s2.arff">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="6000"/>
+            <window class="clustering.SlidingWindow" windowSize="33" frequency="2000"/>
+            <iterationStrategy class="clustering.iterationstrategies.StandardDataClusteringIterationStrategy">
+                <boundaryConstraint class="problem.boundaryconstraint.CentroidBoundaryConstraint">
+                    <delegate class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+                </boundaryConstraint>
+            </iterationStrategy>
+            <initialisationStrategy class="algorithm.initialisation.DataDependantPopulationInitializationStrategy">
+                <delegate class="algorithm.initialisation.ClonedPopulationInitialisationStrategy"/>
+                <entityNumber value="50"/>
+                <entityType class="clustering.entity.ClusterParticle">
+                    <positionInitialisationStrategy class="entity.initialization.RandomBoundedInitializationStrategy"/>
+                    <centroidInitialisationStrategy class="entity.initialization.StandardCentroidInitializationStrategy"/>
+                </entityType>
+            </initialisationStrategy>
+        </algorithm>
+        
+        <algorithm id="clusteringPSO9" class="clustering.DataClusteringPSO" sourceURL="src/test/resources/datasets/TemporalClustering/d15_s3.arff">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="6000"/>
+            <window class="clustering.SlidingWindow" windowSize="33" frequency="2000"/>
+            <iterationStrategy class="clustering.iterationstrategies.StandardDataClusteringIterationStrategy">
+                <boundaryConstraint class="problem.boundaryconstraint.CentroidBoundaryConstraint">
+                    <delegate class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+                </boundaryConstraint>
+            </iterationStrategy>
+            <initialisationStrategy class="algorithm.initialisation.DataDependantPopulationInitializationStrategy">
+                <delegate class="algorithm.initialisation.ClonedPopulationInitialisationStrategy"/>
+                <entityNumber value="50"/>
+                <entityType class="clustering.entity.ClusterParticle">
+                    <positionInitialisationStrategy class="entity.initialization.RandomBoundedInitializationStrategy"/>
+                    <centroidInitialisationStrategy class="entity.initialization.StandardCentroidInitializationStrategy"/>
+                </entityType>
+            </initialisationStrategy>
+        </algorithm>
+        
     </algorithms>
+    
+    
     <problems>
-        <problem id="quantization" class="problem.QuantizationErrorMinimizationProblem" domain="R(-10:10)" numberOfCusters="3"/>
+        <problem id="quantization" class="problem.QuantizationErrorMinimizationProblem" domain="R(-10:10)" numberOfClusters="3"/>
     </problems>
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">
         <addMeasurement class="measurement.clustervalidity.DunnValidityIndex"/>
@@ -41,10 +184,58 @@
     </measurements>
     <simulations>
         <simulation samples="30">
-            <algorithm idref="clusteringPSO"/>
+            <algorithm idref="clusteringPSO1"/>
             <problem idref="quantization"/>
             <measurements idref="fitness" />
-	    <output format="TXT" file="data/StandardClustering.txt" />
+	    <output format="TXT" file="data/StandardClustering_d3_s1.txt" />
         </simulation>
+        <simulation samples="30">
+            <algorithm idref="clusteringPSO2"/>
+            <problem idref="quantization"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/StandardClustering2_d3_s2.txt" />
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="clusteringPSO3"/>
+            <problem idref="quantization"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/StandardClustering3_d3_s3.txt" />
+        </simulation>
+        <!--<simulation samples="30">
+            <algorithm idref="clusteringPSO4"/>
+            <problem idref="quantization"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/StandardClustering4_d8_s1.txt" />
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="clusteringPSO5"/>
+            <problem idref="quantization"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/StandardClustering_d8_s2.txt" />
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="clusteringPSO6"/>
+            <problem idref="quantization"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/StandardClustering_d8_s3.txt" />
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="clusteringPSO7"/>
+            <problem idref="quantization"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/StandardClustering_d15_s1.txt" />
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="clusteringPSO8"/>
+            <problem idref="quantization"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/StandardClustering_d15_s2.txt" />
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="clusteringPSO9"/>
+            <problem idref="quantization"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/StandardClustering_d15_s3.txt" />
+        </simulation>-->
     </simulations>
 </simulator>

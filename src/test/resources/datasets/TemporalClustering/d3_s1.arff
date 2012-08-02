@@ -1,7 +1,7 @@
 % 1. Title: Kristina Cluster Dataset
 %
 % 2. Sources:
-%      (a) Creator: Kris
+%      (a) Creator: Attie Graaff
 %      (b) Donor: None
 %      (c) Date: May,2012
 %
@@ -10,7 +10,7 @@
 @ATTRIBUTE x  NUMERIC
 @ATTRIBUTE y   NUMERIC
 @ATTRIBUTE z   NUMERIC
-@ATTRIBUTE class        {1,2,3,4,5,6,7,8}
+@ATTRIBUTE class    {1,2,3,4,5,6,7,8}
 
 @DATA
 15.1874564564618,2.7538471496542,-1.61319559303264,1
