@@ -49,9 +49,9 @@ import net.sourceforge.cilib.pso.particle.ParticleBehavior;
  * <p>
  * References:
  * </p>
- * <ul><li>Spanevello, Paolo, and Montes De Oca, Marco A. “Experiments on Adaptive Heterogeneous PSO Algorithms.”
+ * <ul><li>Spanevello, Paolo, and Montes De Oca, Marco A. "Experiments on Adaptive Heterogeneous PSO Algorithms."
  * Proceedings of SLSDS 2009 Doctoral Symposium on Engineering Stochastic Local Search Algorithms.
- * IRIDIA, Université Libre de Bruxelles, 2009. 36-40.</li></ul>
+ * IRIDIA, Universite Libre de Bruxelles, 2009. 36-40.</li></ul>
  */
 public class DifferenceProportionalProbabilityIterationStrategy implements IterationStrategy<PSO>, HeterogeneousIterationStrategy {
     private IterationStrategy<PSO> iterationStrategy;
