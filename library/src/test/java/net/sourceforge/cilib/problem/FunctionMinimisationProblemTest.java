@@ -29,7 +29,7 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Ackley;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -56,8 +56,8 @@ public class FunctionMinimisationProblemTest {
         return suite;
     }*/
 
-    @BeforeClass
-    public static void setUp() {
+    @Before
+    public void setUp() {
         function = new Spherical();
         problem = new FunctionMinimisationProblem();
         problem.setDomain("R^5");
