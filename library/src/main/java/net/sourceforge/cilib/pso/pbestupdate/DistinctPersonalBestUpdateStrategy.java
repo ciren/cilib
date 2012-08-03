@@ -22,48 +22,43 @@
 package net.sourceforge.cilib.pso.pbestupdate;
 
 import java.util.Arrays;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
-import net.sourceforge.cilib.entity.operators.crossover.real.ParentCentricCrossoverStrategy;
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.pso.crossover.velocityprovider.IdentityOffspringVelocityProvider;
+import net.sourceforge.cilib.pso.crossover.velocityprovider.OffspringVelocityProvider;
 import net.sourceforge.cilib.type.types.Int;
+import net.sourceforge.cilib.type.types.container.Vector;
 
-/**
- * A personal best update strategy which prevents a particle's position being the
- * same as its pBest.
- */
-public class CrossoverPersonalBestUpdateStrategy implements PersonalBestUpdateStrategy {
+public class DistinctPersonalBestUpdateStrategy implements PersonalBestUpdateStrategy {
     
-    private CrossoverStrategy crossoverStrategy;
+    private DistinctPositionProvider positionProvider;
+    private OffspringVelocityProvider velocityProvider;
     
-    public CrossoverPersonalBestUpdateStrategy() {
-        this.crossoverStrategy = new ParentCentricCrossoverStrategy();
+    public DistinctPersonalBestUpdateStrategy() {
+        this.positionProvider = new MutatedDistinctPositionProvider();
+        this.velocityProvider = new IdentityOffspringVelocityProvider();
     }
     
-    public CrossoverPersonalBestUpdateStrategy(CrossoverPersonalBestUpdateStrategy copy) {
-        this.crossoverStrategy = copy.crossoverStrategy.getClone();
+    public DistinctPersonalBestUpdateStrategy(DistinctPersonalBestUpdateStrategy copy) {
+        this.positionProvider = copy.positionProvider.getClone();
+        this.velocityProvider = copy.velocityProvider;
     }
 
     @Override
-    public PersonalBestUpdateStrategy getClone() {
-        return new CrossoverPersonalBestUpdateStrategy(this);
+    public DistinctPersonalBestUpdateStrategy getClone() {
+        return new DistinctPersonalBestUpdateStrategy(this);
     }
 
     @Override
     public void updatePersonalBest(Particle particle) {
         if (particle.getFitness().compareTo(particle.getBestFitness()) > 0) {
+            particle.getParticleBehavior().incrementSuccessCounter();
             particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
             
-            Particle p1 = particle.getClone();
-            Particle p2 = particle.getClone();
-            Particle p3 = particle.getClone();
-            p1.setCandidateSolution(particle.getCandidateSolution());
-            p2.setCandidateSolution(particle.getBestPosition());
-            p3.setCandidateSolution(particle.getNeighbourhoodBest().getBestPosition());
+            Particle temp = particle.getClone();
+            temp.setCandidateSolution(positionProvider.f(particle));
             
-            Entity temp = crossoverStrategy.crossover(Arrays.asList(p1, p2, p3)).get(0);
             Fitness tempFitness = particle.getFitnessCalculator().getFitness(temp);
             
             if (tempFitness.compareTo(particle.getFitness()) > 0) {
@@ -75,6 +70,8 @@ public class CrossoverPersonalBestUpdateStrategy implements PersonalBestUpdateSt
                 
                 particle.getProperties().put(EntityType.FITNESS, tempFitness);
                 particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, temp.getCandidateSolution());
+                
+                particle.getProperties().put(EntityType.Particle.VELOCITY, (Vector) velocityProvider.f(Arrays.asList(temp), particle));
             }
             
             return;
@@ -85,12 +82,19 @@ public class CrossoverPersonalBestUpdateStrategy implements PersonalBestUpdateSt
         particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER,  Int.valueOf(++count));
     }
 
-    public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {
-        this.crossoverStrategy = crossoverStrategy;
+    public DistinctPositionProvider getPositionProvider() {
+        return positionProvider;
     }
 
-    public CrossoverStrategy getCrossoverStrategy() {
-        return crossoverStrategy;
+    public void setPositionProvider(DistinctPositionProvider positionProvider) {
+        this.positionProvider = positionProvider;
     }
-    
+
+    public void setVelocityProvider(OffspringVelocityProvider velocityProvider) {
+        this.velocityProvider = velocityProvider;
+    }
+
+    public OffspringVelocityProvider getVelocityProvider() {
+        return velocityProvider;
+    }
 }

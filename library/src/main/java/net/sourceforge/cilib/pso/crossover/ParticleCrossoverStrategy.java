@@ -31,6 +31,7 @@ import net.sourceforge.cilib.pso.crossover.pbestupdate.CurrentPositionOffspringP
 import net.sourceforge.cilib.pso.crossover.pbestupdate.OffspringPBestProvider;
 import net.sourceforge.cilib.pso.crossover.velocityprovider.IdentityOffspringVelocityProvider;
 import net.sourceforge.cilib.pso.crossover.velocityprovider.OffspringVelocityProvider;
+import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
 
 /**
  * <p>
@@ -81,17 +82,20 @@ public class ParticleCrossoverStrategy implements CrossoverStrategy {
     public <E extends Entity> List<E> crossover(List<E> parentCollection) {
         List<Particle> parents = (List<Particle>) parentCollection;
         List<Particle> offspring = crossoverStrategy.crossover(parents);
+        Particle nBest = new ElitistSelector<Particle>().on(parents).select();
         
         for (Particle p : offspring) {
             p.getProperties().put(EntityType.Particle.BEST_POSITION, pbestProvider.f(parents, p));
             
             Particle pbCalc = p.getClone();
+            pbCalc.setNeighbourhoodBest(nBest);
             pbCalc.setCandidateSolution(p.getBestPosition());
             pbCalc.calculateFitness();
             
             p.getProperties().put(EntityType.Particle.BEST_FITNESS, pbCalc.getFitness());
             p.getProperties().put(EntityType.Particle.VELOCITY, velocityProvider.f(parents, p));
             
+            p.setNeighbourhoodBest(nBest);
             p.calculateFitness();
         }
         

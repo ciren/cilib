@@ -7,27 +7,7 @@
 ]>
 <simulator>
     <algorithms>
-        <!--Crossover velocity provider UNDX-->
-        <algorithm id="xpso-undx-velocity" class="pso.PSO">
-            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
-                <entityType class="pso.particle.StandardParticle">
-                    <!--PBest cant be same as position for UNDX because of orthonormalize function-->
-                    <personalBestInitialisationStrategy class="entity.initialization.RandomInitializationStrategy" />
-                    <particleBehavior class="pso.particle.ParticleBehavior">
-                        <positionProvider class="pso.positionprovider.LinearPositionProvider" />
-                        <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
-                            <crossoverStrategy class="entity.operators.crossover.real.UnimodalNormalDistributionCrossoverStrategy" />
-                        </velocityProvider>
-                    </particleBehavior>
-                    <personalBestUpdateStrategy class="pso.pbestupdate.CrossoverPersonalBestUpdateStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.real.UnimodalNormalDistributionCrossoverStrategy" />
-                    </personalBestUpdateStrategy>
-                </entityType>
-            </initialisationStrategy>
-            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
-        </algorithm>
-
-        <!--Bounded Crossover velocity provider PCX-->
+        <!--Crossover velocity provider PCX-->
         <algorithm id="xpso-pcx-velocity" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
@@ -42,18 +22,13 @@
                             </crossoverStrategy>
                         </velocityProvider>
                     </particleBehavior>
-                    <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy">
-                        <delegate class="pso.pbestupdate.CrossoverPersonalBestUpdateStrategy">
-                            <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
-                        </delegate>
-                    </personalBestUpdateStrategy>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
 
-        <!--Crossover velocity provider PCX without crossover pbest update-->
-        <algorithm id="xpso-pcx-velocity-wo-xover-pbest" class="pso.PSO">
+        <!--Crossover velocity provider PCX with Crossover pBest update-->
+        <algorithm id="xpso-pcx-velocity-xover-pbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <!--PBest cant be same as position for UNDX because of orthonormalize function-->
@@ -67,6 +42,38 @@
                             </crossoverStrategy>
                         </velocityProvider>
                     </particleBehavior>
+                    <personalBestUpdateStrategy class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
+                        <positionProvider class="pso.pbestupdate.CrossoverDistinctPositionProvider">
+                            <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                        </positionProvider>
+                    </personalBestUpdateStrategy>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--Crossover velocity provider PCX with Bounded Crossover pBest update-->
+        <algorithm id="xpso-pcx-velocity-bounded-xover-pbest" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <!--PBest cant be same as position for UNDX because of orthonormalize function-->
+                    <personalBestInitialisationStrategy class="entity.initialization.RandomInitializationStrategy" />
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <positionProvider class="pso.positionprovider.LinearPositionProvider" />
+                        <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
+                            <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                                <sigma1 class="controlparameter.ConstantControlParameter" parameter="1"/>
+                                <sigma2 class="controlparameter.ConstantControlParameter" parameter="1"/>
+                            </crossoverStrategy>
+                        </velocityProvider>
+                    </particleBehavior>
+                    <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy">
+                        <delegate class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
+                            <positionProvider class="pso.pbestupdate.CrossoverDistinctPositionProvider">
+                                <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                            </positionProvider>
+                        </delegate>
+                    </personalBestUpdateStrategy>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
@@ -91,8 +98,8 @@
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
 
-        <!--Crossover velocity provider SPX-->
-        <algorithm id="xpso-spx-velocity" class="pso.PSO">
+        <!--Crossover velocity provider PCX with Mutation pBest update-->
+        <algorithm id="xpso-pcx-velocity-mutation-pbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <!--PBest cant be same as position for UNDX because of orthonormalize function-->
@@ -100,11 +107,47 @@
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
-                            <crossoverStrategy class="entity.operators.crossover.real.SimplexCrossoverStrategy" />
+                            <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                                <sigma1 class="controlparameter.ConstantControlParameter" parameter="1"/>
+                                <sigma2 class="controlparameter.ConstantControlParameter" parameter="1"/>
+                            </crossoverStrategy>
                         </velocityProvider>
                     </particleBehavior>
-                    <personalBestUpdateStrategy class="pso.pbestupdate.CrossoverPersonalBestUpdateStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.real.SimplexCrossoverStrategy" />
+                    <personalBestUpdateStrategy class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
+                        <positionProvider class="pso.pbestupdate.MutatedDistinctPositionProvider">
+                            <distribution class="math.random.GaussianDistribution">
+                                <deviation class="controlparameter.LinearlyVaryingControlParameter" initialValue="20" finalValue="0"/>
+                            </distribution>
+                        </positionProvider>
+                    </personalBestUpdateStrategy>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--Crossover velocity provider PCX with Bounded Mutation pBest update-->
+        <algorithm id="xpso-pcx-velocity-bounded-mutation-pbest" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <!--PBest cant be same as position for UNDX because of orthonormalize function-->
+                    <personalBestInitialisationStrategy class="entity.initialization.RandomInitializationStrategy" />
+                    <particleBehavior class="pso.particle.ParticleBehavior">
+                        <positionProvider class="pso.positionprovider.LinearPositionProvider" />
+                        <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
+                            <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                                <sigma1 class="controlparameter.ConstantControlParameter" parameter="1"/>
+                                <sigma2 class="controlparameter.ConstantControlParameter" parameter="1"/>
+                            </crossoverStrategy>
+                        </velocityProvider>
+                    </particleBehavior>
+                    <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy">
+                        <delegate class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
+                            <positionProvider class="pso.pbestupdate.MutatedDistinctPositionProvider">
+                                <distribution class="math.random.GaussianDistribution">
+                                    <deviation class="controlparameter.LinearlyVaryingControlParameter" initialValue="20" finalValue="0"/>
+                                </distribution>
+                            </positionProvider>
+                        </delegate>
                     </personalBestUpdateStrategy>
                 </entityType>
             </initialisationStrategy>
@@ -121,40 +164,46 @@
         </problem>
     </problems>
 
-    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="100">
         <addMeasurement class="measurement.single.Fitness" />
     </measurements>
 
     <simulations>
-        <simulation samples="1">
-            <algorithm idref="xpso-undx-velocity" />
-            <problem idref="griewank" />
-            <measurements idref="fitness" />
-            <output format="TXT" file="data/xpso-undx-velocity-griewank.txt" />
-        </simulation>
-        <simulation samples="1">
+        <simulation samples="5">
             <algorithm idref="xpso-pcx-velocity" />
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-pcx-velocity-griewank.txt" />
         </simulation>
-        <simulation samples="1">
-            <algorithm idref="xpso-pcx-velocity-wo-xover-pbest" />
-            <problem idref="griewank" />
-            <measurements idref="fitness" />
-            <output format="TXT" file="data/xpso-pcx-velocity-wo-xover-pbest-griewank.txt" />
-        </simulation>
-        <simulation samples="1">
+        <simulation samples="5">
             <algorithm idref="xpso-pcx-velocity-alternative" />
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-pcx-velocity-alternative-griewank.txt" />
         </simulation>
-        <simulation samples="1">
-            <algorithm idref="xpso-spx-velocity" />
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-velocity-xover-pbest" />
             <problem idref="griewank" />
             <measurements idref="fitness" />
-            <output format="TXT" file="data/xpso-spx-velocity-griewank.txt" />
+            <output format="TXT" file="data/xpso-pcx-velocity-xover-pbest-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-velocity-bounded-xover-pbest" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-pcx-velocity-bounded-xover-pbest-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-velocity-mutation-pbest" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-pcx-velocity-mutation-pbest-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-velocity-bounded-mutation-pbest" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-pcx-velocity-bounded-mutation-pbest-griewank.txt" />
         </simulation>
     </simulations>
 </simulator>
