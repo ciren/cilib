@@ -4,8 +4,6 @@ name := "cilib"
 
 version := "0.8-SNAPSHOT"
 
-javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
-
 scalacOptions += "-deprecation"
 
 parallelExecution in Test := false
