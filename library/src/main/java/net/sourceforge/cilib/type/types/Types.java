@@ -23,6 +23,8 @@ package net.sourceforge.cilib.type.types;
 
 import java.util.Iterator;
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.type.types.container.CentroidHolder;
+import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
@@ -40,18 +42,28 @@ public final class Types {
      * @return {@literal true} if it is in the bounds, {@literal false} otherwise.
      */
     public static boolean isInsideBounds(Type candidateSolution) {
-        if (candidateSolution instanceof StructuredType) {
+        if(candidateSolution instanceof CentroidHolder) {
+            for(ClusterCentroid centroid : (CentroidHolder) candidateSolution) {
+                StructuredType structuredType = (StructuredType) centroid;
+                BoundsVerificationVisitor visitor = new BoundsVerificationVisitor();
+                structuredType.accept(visitor);
+                if(!visitor.isValid())
+                    return false;
+            }
+            
+            return true;
+        } else if (candidateSolution instanceof StructuredType) {
             StructuredType structuredType = (StructuredType) candidateSolution;
             BoundsVerificationVisitor visitor = new BoundsVerificationVisitor();
             structuredType.accept(visitor);
             return visitor.isValid();
-        }
-
-        if (candidateSolution instanceof Numeric) {
+        } else if (candidateSolution instanceof Numeric) {
             Numeric boundedType = (Numeric) candidateSolution;
             Bounds bounds = boundedType.getBounds();
             return bounds.isInsideBounds(boundedType.doubleValue());
         }
+        
+        
 
         return false;
     }

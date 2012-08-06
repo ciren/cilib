@@ -1,0 +1,12 @@
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.scala.project</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/scala-project/1">
+            <name>cilib</name>
+            <minimum-ant-version>1.6.5</minimum-ant-version>
+            <source-roots><root name="Java Source" id="src.java.dir"></root><root name="Resources" id="resources.dir"></root><root name="Configuration" id="sources.sbt.project"></root></source-roots>
+            <test-roots><root name="Java Test Sources" id="file.reference.test-java"></root><root name="Test Resources" id="test.resources.dir"></root></test-roots>
+        </data>
+        <references xmlns="http://www.netbeans.org/ns/ant-project-references/1"></references>
+    </configuration>
+</project>

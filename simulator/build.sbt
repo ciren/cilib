@@ -27,3 +27,6 @@ libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
 }
 
 resourceDirectory in Test <<= baseDirectory { _ / "simulator" }
+
+
+seq(netbeans.NetbeansTasks.netbeansSettings:_*)
