@@ -30,6 +30,8 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
+import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
+import net.sourceforge.cilib.util.selection.Samples;
 
 /**
  * This reaction strategy reevaluates the specified
@@ -85,13 +87,11 @@ public class ReevaluationReactionStrategy<E extends PopulationBasedAlgorithm> ex
      *        reevaluated
      */
     protected void reevaluate(List<? extends Entity> entities, int reevaluateCount) {
-        for (int i = 0; i < reevaluateCount; i++) {
-            int random = randomGenerator.nextInt(entities.size());
-            Entity entity = entities.get(random);
+		RandomSelector selector = new RandomSelector();
+		List<? extends Entity> subList = selector.on(entities).select(Samples.first(reevaluateCount));
+        for (Entity entity : subList) {
             // FIXME: does not reevaluate the _best_ positon.
             entity.calculateFitness();
-            // remove the selected element from the all list preventing it from being selected again
-            entities.remove(random);
         }
     }
 
