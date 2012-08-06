@@ -1,0 +1,19 @@
+% 1. Title: Iris Plants Database
+%
+% 2. Sources:
+%      (a) Creator: R.A. Fisher
+%      (b) Donor: Michael Marshall (MARSHALL%PLU@io.arc.nasa.gov)
+%      (c) Date: July, 1988
+%
+@RELATION iris
+
+@ATTRIBUTE sepallength  NUMERIC
+@ATTRIBUTE sepalwidth   NUMERIC
+@ATTRIBUTE petallength  NUMERIC
+@ATTRIBUTE petalwidth   NUMERIC
+@ATTRIBUTE class        {Iris-setosa,Iris-versicolor,Iris-virginica}
+
+@DATA
+1.0,1.0,1.0,2.0,Iris-setosa
+2.0,3.0,4.0,2.0,Iris-setosa
+1.0,1.0,1.0,1.0,Iris-setosa

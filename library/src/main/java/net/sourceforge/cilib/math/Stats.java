@@ -25,7 +25,6 @@ import com.google.common.base.Function;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Sequence;
@@ -60,36 +59,6 @@ public final class Stats {
         return xbar + (correction / vector.size());
     }
 
-    /**
-     * Calculates the mean {@linkplain Vector} of the given set/cluster/collection of
-     * {@link Pattern}s.
-     *
-     * This is illustrated in Equation 4.b of:<br/>
-     * @InProceedings{ 657864, author = "Maria Halkidi and Michalis Vazirgiannis", title =
-     *                 "Clustering Validity Assessment: Finding the Optimal Partitioning of a Data
-     *                 Set", booktitle = "Proceedings of the IEEE International Conference on Data
-     *                 Mining", year = "2001", isbn = "0-7695-1119-8", pages = "187--194", publisher =
-     *                 "IEEE Computer Society", address = "Washington, DC, USA" }
-     * @param set a set ({@link ArrayList}) of {@link Pattern}s
-     * @return a {@link Vector} that represents the mean/center of the given set
-     */
-    public static Vector meanVector(Collection<Pattern> set) {
-        if (set.isEmpty()) {
-            throw new IllegalArgumentException("Cannot calculate the mean for an empty set");
-        }
-
-        Vector mean = null;
-
-        for (Pattern pattern : set) {
-            if (mean == null) {
-                mean = Vector.copyOf(pattern.data);
-//                mean.reset();        // initialize the mean to be all zeroes
-                continue;
-            }
-            mean = mean.plus(pattern.data);
-        }
-        return mean.divide(set.size());
-    }
 
     /**
      *
@@ -105,39 +74,6 @@ public final class Stats {
         }
 
         return summation / vector.size();
-    }
-
-    /**
-     * Calculates the variance of the given set/cluster/collection of @{link Pattern}s.
-     *
-     * This is illustrated in Equation 4.c of:<br/>
-     * {@literal @}InProceedings{ 657864, author = "Maria Halkidi and Michalis Vazirgiannis", title =
-     *                 "Clustering Validity Assessment: Finding the Optimal Partitioning of a Data
-     *                 Set", booktitle = "Proceedings of the IEEE International Conference on Data
-     *                 Mining", year = "2001", isbn = "0-7695-1119-8", pages = "187--194", publisher =
-     *                 "IEEE Computer Society", address = "Washington, DC, USA" }
-     * @param set a set ({@link ArrayList}) of {@link Pattern}s
-     * @param center a {@link Vector} that represents the mean/center of the accompanied set
-     * @return a double representing the variance of the given set with the given center
-     */
-    public static double variance(Collection<Pattern> set, Vector center) {
-        if (set.isEmpty()) {
-            throw new IllegalArgumentException("Cannot calculate the variance for an empty set");
-        }
-
-        Vector variance = Vector.copyOf(Sequence.repeat(0.0, center.size()));
-
-        for (Pattern pattern : set) {
-            Vector diffSquare = Vectors.transform(pattern.data.subtract(center), new Function<Numeric, Double>() {
-
-                @Override
-                public Double apply(Numeric from) {
-                    return from.doubleValue() * from.doubleValue();
-                }
-            });
-            variance = variance.plus(diffSquare);
-        }
-        return variance.norm() / set.size();
     }
 
     /**
