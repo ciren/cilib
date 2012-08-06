@@ -17,7 +17,7 @@
 				<responseStrategy class="pso.dynamic.responsestrategies.MultiReactionStrategy">
 					<addResponseStrategy class="pso.dynamic.responsestrategies.CascadeNetworkExpansionReactionStrategy"/>
 					<addResponseStrategy class="pso.dynamic.responsestrategies.InitialiseNaNElementsReactionStrategy"/>
-					<addResponseStrategy class="pso.dynamic.responsestrategies.ReevaluationReactionStrategy" reevaluationRatio="0.9"/>
+					<addResponseStrategy class="pso.dynamic.responsestrategies.ReevaluationReactionStrategy" reevaluationRatio="1.0"/>
 				</responseStrategy>
 			</iterationStrategy>
 			<addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100"/>
@@ -27,7 +27,7 @@
 	<problems>
 		<problem id="nnProblem" class="problem.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3">
 			<dataTableBuilder class="io.DataTableBuilder">
-				<dataReader class="io.ARFFFileReader" sourceURL="src/test/resources/datasets/iris.arff"/>
+				<dataReader class="io.ARFFFileReader" sourceURL="library/src/test/resources/datasets/iris.arff"/>
 			</dataTableBuilder>
 			<neuralNetwork class="nn.NeuralNetwork">
 				<operationVisitor class="nn.architecture.visitors.CascadeVisitor"/>
