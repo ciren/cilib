@@ -106,15 +106,6 @@ public abstract class AbstractTopology<E extends Entity> extends ForwardingList<
     protected List<E> delegate() {
         return this.entities;
     }
-    
-    /**
-     * Interface to define the manner in which the iterator is to be constructed for Array types.
-     *
-     * @param <T> The {@linkplain Entity} type.
-     */
-    protected interface IndexedIterator<T extends Entity> extends Iterator<T> {
-        public int getIndex();
-    }
 
     /**
      * An iterator that iterates through the whole topology.

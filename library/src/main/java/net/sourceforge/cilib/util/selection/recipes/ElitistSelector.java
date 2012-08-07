@@ -39,7 +39,7 @@ import net.sourceforge.cilib.util.selection.arrangement.SortedArrangement;
  * </ol>
  * @param <E> The selection type.
  */
-public class ElitistSelector<E extends Comparable<? super E>> implements Selector<E> {
+public class ElitistSelector<E extends Comparable> implements Selector<E> {
 
     private static final long serialVersionUID = -5432603299031620114L;
     private Comparator<E> comparator;

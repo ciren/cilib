@@ -24,10 +24,10 @@ package net.sourceforge.cilib.measurement.single.dynamic;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 
 /**
  * AverageBestFitnessBeforeChange computes the average of the best fitness of
@@ -41,7 +41,7 @@ import net.sourceforge.cilib.type.types.Type;
  * the measurement.
  *
  */
-public class AverageBestFitnessBeforeChange extends DynamicMeasurement {
+public class AverageBestFitnessBeforeChange extends DynamicMeasurement<Real> {
 
     private static final long serialVersionUID = -2848258016113713942L;
     private int cycleSize = 50; //period between 2 changes in the environment
@@ -64,7 +64,7 @@ public class AverageBestFitnessBeforeChange extends DynamicMeasurement {
     }
 
     @Override
-    public Type getValue(Algorithm algorithm) {
+    public Real getValue(Algorithm algorithm) {
         if ((algorithm.getIterations() + 1) % cycleSize == 0) {
             OptimisationProblem function = algorithm.getOptimisationProblem();
             double fitness = function.getFitness(algorithm.getBestSolution().getPosition()).getValue();

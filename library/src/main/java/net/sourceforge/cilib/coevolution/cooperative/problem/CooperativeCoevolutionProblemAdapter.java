@@ -63,7 +63,7 @@ public class CooperativeCoevolutionProblemAdapter extends OptimisationProblemAda
     public CooperativeCoevolutionProblemAdapter(OptimisationProblem problem, DimensionAllocation problemAllocation, Vector context) {
         this.problem = problem;
         this.problemAllocation = problemAllocation;
-        this.context = context.getClone();
+        this.context = Vector.copyOf(context);
         problemDomain = new StringBasedDomainRegistry();
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < problemAllocation.getSize(); i++) {
@@ -81,7 +81,7 @@ public class CooperativeCoevolutionProblemAdapter extends OptimisationProblemAda
      */
     public CooperativeCoevolutionProblemAdapter(CooperativeCoevolutionProblemAdapter copy) {
         super(copy);
-        this.context = copy.context.getClone();
+        this.context = Vector.copyOf(copy.context);
         this.problem = copy.problem.getClone();
         this.problemAllocation = copy.problemAllocation.getClone();
     }

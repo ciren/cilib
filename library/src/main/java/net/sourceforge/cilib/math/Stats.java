@@ -82,7 +82,7 @@ public final class Stats {
 
         for (Pattern pattern : set) {
             if (mean == null) {
-                mean = pattern.data.getClone();
+                mean = Vector.copyOf(pattern.data);
 //                mean.reset();        // initialize the mean to be all zeroes
                 continue;
             }

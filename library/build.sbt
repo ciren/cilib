@@ -24,7 +24,7 @@ libraryDependencies ++= Seq(
     "org.scalacheck" %% "scalacheck" % "1.10.0" % "test"
 )
 
-javacOptions ++= Seq("-encoding", "UTF8")
+javacOptions ++= Seq("-encoding", "UTF8", "-Xlint:deprecation")
 
 scalacOptions += "-deprecation"
 

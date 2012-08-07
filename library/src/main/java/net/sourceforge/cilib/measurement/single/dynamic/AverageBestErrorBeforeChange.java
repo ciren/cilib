@@ -27,9 +27,7 @@ import java.io.ObjectOutput;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.problem.DynamicOptimizationProblem;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 
 /**
  * AverageBestErrorBeforeChange computes the average of the differences between
@@ -42,7 +40,7 @@ import net.sourceforge.cilib.type.types.Type;
  * NOTE: For this measurement to be used, a resolution of 1 has to be set for
  * the measurement
  */
-public class AverageBestErrorBeforeChange extends DynamicMeasurement {
+public class AverageBestErrorBeforeChange extends DynamicMeasurement<Real> {
 
     private static final long serialVersionUID = -2848258016113713942L;
     private int cycleSize = 50; //period between 2 changes in the environment
@@ -65,7 +63,7 @@ public class AverageBestErrorBeforeChange extends DynamicMeasurement {
     }
 
     @Override
-    public synchronized Type getValue(Algorithm algorithm) {
+    public synchronized Real getValue(Algorithm algorithm) {
         if ((algorithm.getIterations() + 1) % cycleSize == 0) {
             DynamicOptimizationProblem function = (DynamicOptimizationProblem) algorithm.getOptimisationProblem();
             double error = function.getError(algorithm.getBestSolution().getPosition());

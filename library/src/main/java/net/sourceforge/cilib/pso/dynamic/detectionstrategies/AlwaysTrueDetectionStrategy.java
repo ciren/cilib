@@ -27,7 +27,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 /**
  * Detection strategy that always return true. For environment that are constantly changing.
  */
-public class AlwaysTrueDetectionStrategy extends EnvironmentChangeDetectionStrategy {
+public class AlwaysTrueDetectionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
 
     /**
      *
@@ -37,12 +37,12 @@ public class AlwaysTrueDetectionStrategy extends EnvironmentChangeDetectionStrat
     public AlwaysTrueDetectionStrategy() {
     }
 
-    public AlwaysTrueDetectionStrategy(AlwaysTrueDetectionStrategy copy) {
+    public AlwaysTrueDetectionStrategy(AlwaysTrueDetectionStrategy<E> copy) {
     }
 
     @Override
-    public AlwaysTrueDetectionStrategy clone() {
-        return new AlwaysTrueDetectionStrategy(this);
+    public AlwaysTrueDetectionStrategy<E> clone() {
+        return new AlwaysTrueDetectionStrategy<E>(this);
     }
 
 

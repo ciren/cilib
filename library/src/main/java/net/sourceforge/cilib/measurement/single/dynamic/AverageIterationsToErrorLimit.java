@@ -28,8 +28,6 @@ import java.io.ObjectOutput;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.problem.DynamicOptimizationProblem;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 
 /**
  * AverageIterationsToErrorLimit computes the average number of iterations
@@ -39,7 +37,7 @@ import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
  * NOTE: For this measurement to be used, a resolution of 1 has to be set for
  * the measurement.
  */
-public class AverageIterationsToErrorLimit extends DynamicMeasurement {
+public class AverageIterationsToErrorLimit extends DynamicMeasurement<Real> {
 
     private static final long serialVersionUID = -2848258016113713942L;
     private int cycleSize = 50; //period between 2 changes in the environment
@@ -82,7 +80,7 @@ public class AverageIterationsToErrorLimit extends DynamicMeasurement {
     }
 
     @Override
-    public Type getValue(Algorithm algorithm) {
+    public Real getValue(Algorithm algorithm) {
         int iteration = algorithm.getIterations();
 
         DynamicOptimizationProblem function = (DynamicOptimizationProblem) algorithm.getOptimisationProblem();

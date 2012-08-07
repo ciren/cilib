@@ -38,7 +38,7 @@ import net.sourceforge.cilib.util.Cloneable;
  *
  * @param <E> The {@linkplain Comparable} type.
  */
-public class SortedList<E extends Comparable<? super E>> implements List<E>, Cloneable {
+public class SortedList<E> implements List<E>, Cloneable {
 
     private static final long serialVersionUID = 4170822549076470223L;
     private LinkedList<E> list;

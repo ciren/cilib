@@ -35,7 +35,7 @@ import net.sourceforge.cilib.type.types.Type;
  * the measurement.
  *
  */
-public class CollectiveMeanFitness extends DynamicMeasurement {
+public class CollectiveMeanFitness extends DynamicMeasurement<Real> {
 
     private static final long serialVersionUID = -2848258016113713942L;
 
@@ -54,7 +54,7 @@ public class CollectiveMeanFitness extends DynamicMeasurement {
     }
 
     @Override
-    public Type getValue(Algorithm algorithm) {
+    public Real getValue(Algorithm algorithm) {
         int iteration = algorithm.getIterations();
         OptimisationProblem function = algorithm.getOptimisationProblem();
         double fitness = function.getFitness(algorithm.getBestSolution().getPosition()).getValue();

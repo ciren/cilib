@@ -50,7 +50,7 @@ import net.sourceforge.cilib.util.selection.arrangement.SortedArrangement;
  *
  * @param <E> The selection type.
  */
-public class TournamentSelector<E extends Comparable<? super E>> implements Selector<E> {
+public class TournamentSelector<E extends Comparable> implements Selector<E> {
 
     private static final long serialVersionUID = -6689673224380247931L;
     private ControlParameter tournamentProportion;

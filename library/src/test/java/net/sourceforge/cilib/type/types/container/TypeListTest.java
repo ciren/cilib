@@ -34,12 +34,10 @@ public class TypeListTest {
     public void subList() {
         TypeList list = new TypeList();
         list.add(Vector.of());
-        list.add(new BinaryTree());
         list.add(Int.valueOf(0));
-        list.add(new NaryTree());
 
-        TypeList subList = list.subList(0, 3);
+        TypeList subList = list.subList(0, 1);
 
-        Assert.assertEquals(4, subList.size());
+        Assert.assertEquals(2, subList.size());
     }
 }

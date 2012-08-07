@@ -33,6 +33,7 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
 /**
@@ -82,13 +83,13 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
             if (reinitCounter < Math.floor(populationSize * reinitialisationRatio) && randomiser.nextDouble() < reinitialisationRatio && current != Topologies.getBestEntity(algorithm.getTopology())) {
                 current.getPosition().randomize(this.randomiser);
                 current.getProperties().put(EntityType.Particle.VELOCITY, Vectors.transform(current.getVelocity(), zt));
-                current.getProperties().put(EntityType.Particle.BEST_POSITION, current.getPosition().getClone());
+                current.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf(current.getPosition()));
                 ++reinitCounter;
             }//if
             else if (keepCounter > Math.floor(populationSize * (1.0 - reinitialisationRatio)) && current != Topologies.getBestEntity(algorithm.getTopology())) {
                 current.getPosition().randomize(this.randomiser);
                 current.getProperties().put(EntityType.Particle.VELOCITY, Vectors.transform(current.getVelocity(), zt));
-                current.getProperties().put(EntityType.Particle.BEST_POSITION, current.getPosition().getClone());
+                current.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf(current.getPosition()));
                 ++reinitCounter;
             }//else if
             else {

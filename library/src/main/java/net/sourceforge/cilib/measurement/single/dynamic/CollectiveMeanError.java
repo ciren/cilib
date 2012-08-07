@@ -36,7 +36,7 @@ import net.sourceforge.cilib.type.types.Type;
  * the measurement.
  *
  */
-public class CollectiveMeanError extends DynamicMeasurement {
+public class CollectiveMeanError extends DynamicMeasurement<Real> {
 
     private static final long serialVersionUID = -2848258016113713942L;
 
@@ -55,7 +55,7 @@ public class CollectiveMeanError extends DynamicMeasurement {
     }
 
     @Override
-    public Type getValue(Algorithm algorithm) {
+    public Real getValue(Algorithm algorithm) {
         int iteration = algorithm.getIterations();
         DynamicOptimizationProblem function = (DynamicOptimizationProblem) algorithm.getOptimisationProblem();
         double error = function.getError(algorithm.getBestSolution().getPosition());

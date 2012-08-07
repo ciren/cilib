@@ -27,6 +27,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.AbstractTopology;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.IndexedIterator;
 
 /**
  * <p>
@@ -69,7 +70,8 @@ public class LBestTopology<E extends Entity> extends AbstractTopology<E> {
     /**
      * {@inheritDoc}
      */
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
         return new LBestNeighbourhoodIterator<E>(this, (IndexedIterator<E>) iterator);
     }

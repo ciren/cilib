@@ -62,7 +62,7 @@ public class ContextEntity implements Entity {
     public ContextEntity(ContextEntity other){
         fitnessCalculator = other.fitnessCalculator.getClone();
         fitness = other.fitness.getClone();
-        context = other.context.getClone();
+        context = Vector.copyOf(other.context);
     }
 
     /**
@@ -133,7 +133,7 @@ public class ContextEntity implements Entity {
      * Clear the context vector
      */
     public void clear(){
-        context.clear();
+        context = Vector.of();
     }
 
     /**
@@ -164,6 +164,7 @@ public class ContextEntity implements Entity {
     public void copyFrom(Vector solution, DimensionAllocation allocation){
         if(solution.size() != allocation.getSize())
             throw new RuntimeException("Incompatible");
+        
         for(int i = 0; i < allocation.getSize(); ++i){
             context.set(allocation.getProblemIndex(i), solution.get(i).getClone());
         }

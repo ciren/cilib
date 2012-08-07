@@ -26,8 +26,9 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import net.sourceforge.cilib.measurement.StateAwareMeasurement;
+import net.sourceforge.cilib.type.types.Type;
 
-public abstract class DynamicMeasurement extends StateAwareMeasurement {
+public abstract class DynamicMeasurement<E extends Type> extends StateAwareMeasurement<E> {
 
     protected double avg;
 

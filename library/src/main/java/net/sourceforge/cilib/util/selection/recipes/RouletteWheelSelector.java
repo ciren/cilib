@@ -42,7 +42,7 @@ import net.sourceforge.cilib.util.selection.weighting.Weighting;
  * </ol>
  * @param <E> The selection type.
  */
-public class RouletteWheelSelector<E extends Comparable<? super E>> implements Selector<E> {
+public class RouletteWheelSelector<E extends Comparable> implements Selector<E> {
 
     private static final long serialVersionUID = 4194450350205390514L;
     private Weighting weighting;
