@@ -84,7 +84,7 @@ public class CascadeLayerBuilderTest {
 
 		Layer consolidatedLayer = new Layer();
 		for (int i = 0; i < inputLayer.size(); i++) {
-            consolidatedLayer.add(inputLayer.get(i));
+            consolidatedLayer.add(inputLayer.getNeuron(i));
         }
 		for (Neuron neuron : cascadeLayer) {
             consolidatedLayer.add(neuron);
@@ -93,7 +93,7 @@ public class CascadeLayerBuilderTest {
 		Assert.assertEquals(6, consolidatedLayer.size());
 
 		for (int n = 0; n < cascadeLayer.size(); n++) {
-            cascadeLayer.get(n).calculateActivation(consolidatedLayer);
+            cascadeLayer.getNeuron(n).calculateActivation(consolidatedLayer);
         }
 		
         Assert.assertEquals(0.1*0.1 + 0.2*0.2 - 0.3, cascadeLayer.getNeuralInput(0), Maths.EPSILON);
