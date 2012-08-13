@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.nn.architecture;
 
+import net.sourceforge.cilib.nn.components.Neuron;
+
 /**
  * An interface to a neural input source i.e. a source from which a neuron
  * can calculate its activations. This abstraction is necessary for avoiding
@@ -41,4 +43,11 @@ public interface NeuralInputSource {
      * @return the size of the neural input source.
      */
     int size();
+
+	/**
+	 * Gets the neuron at the specified index
+     * @param index the index of the input to retrieve.
+     * @return the neuron at the specified index.
+	 */
+	Neuron getNeuron(int index);
 }
