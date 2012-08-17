@@ -74,4 +74,12 @@ public class Layer extends ArrayList<Neuron> implements NeuralInputSource {
     public void setBias(boolean bias) {
         this.bias = bias;
     }
+
+	/**
+     * {@inheritDoc }
+     */
+    @Override
+	public Neuron getNeuron(int index) {
+		return this.get(index);
+    }
 }

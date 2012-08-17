@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+	<algorithms>
+		<algorithm id="pso" class="pso.PSO">
+			<initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+				<entityNumber value="10"/>
+				<entityType class="pso.dynamic.DynamicParticle"/>
+			</initialisationStrategy>
+			<iterationStrategy class="pso.dynamic.DynamicIterationStrategy">
+				<iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy"/>
+				<detectionStrategy class="pso.dynamic.detectionstrategies.PeriodicDetectionStrategy" iterationsModulus="10"/>
+				<responseStrategy class="pso.dynamic.responsestrategies.MultiReactionStrategy">
+					<addResponseStrategy class="pso.dynamic.responsestrategies.CascadeNetworkExpansionReactionStrategy"/>
+					<addResponseStrategy class="pso.dynamic.responsestrategies.InitialiseNaNElementsReactionStrategy"/>
+					<addResponseStrategy class="pso.dynamic.responsestrategies.ReevaluationReactionStrategy" reevaluationRatio="1.0"/>
+				</responseStrategy>
+			</iterationStrategy>
+			<addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100"/>
+		</algorithm>
+	</algorithms>
+	
+	<problems>
+		<problem id="nnProblem" class="problem.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3">
+			<dataTableBuilder class="io.DataTableBuilder">
+				<dataReader class="io.ARFFFileReader" sourceURL="library/src/test/resources/datasets/iris.arff"/>
+			</dataTableBuilder>
+			<neuralNetwork class="nn.NeuralNetwork">
+				<operationVisitor class="nn.architecture.visitors.CascadeVisitor"/>
+				<architecture class="nn.architecture.Architecture">
+					<architectureBuilder class="nn.architecture.builder.CascadeArchitectureBuilder">
+						<addLayer class="nn.architecture.builder.LayerConfiguration" size="4"/>
+						<addLayer class="nn.architecture.builder.LayerConfiguration" size="0">
+							<activationFunction class="functions.activation.Sigmoid" />
+						</addLayer>
+						<addLayer class="nn.architecture.builder.LayerConfiguration" size="1"/>
+						<layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-3:3)" />
+					</architectureBuilder>
+				</architecture>
+			</neuralNetwork>
+		</problem>
+	</problems>
+	
+	<measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
+		<addMeasurement class="measurement.single.MSEGeneralizationError"/>
+		<addMeasurement class="measurement.single.Solution"/>
+	</measurements>
+	
+	<simulations>
+		<simulation samples="1">
+			<algorithm idref="pso"/>
+			<problem idref="nnProblem"/>
+			<measurements idref="fitness" />
+			<output format="TXT" file="data/dynamicPSOCascadeNN.txt"/>
+		</simulation>
+	</simulations>
+</simulator>
