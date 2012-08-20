@@ -61,7 +61,7 @@ public class DeratingOptimisationProblem extends FunctionOptimisationProblem {
         this.deratingFunction = new PowerDeratingFunction();
         this.solutions = Lists.<Vector>newLinkedList();
     }
-    
+
     /**
      * Copy constructor.
      */
@@ -72,17 +72,17 @@ public class DeratingOptimisationProblem extends FunctionOptimisationProblem {
         this.deratingFunction = copy.deratingFunction;
         this.solutions = Lists.<Vector>newLinkedList(copy.solutions);
     }
-    
+
     @Override
     public DeratingOptimisationProblem getClone() {
         return new DeratingOptimisationProblem(this);
     }
-    
+
     @Override
     protected Fitness calculateFitness(Type solution) {
         Vector input = (Vector) solution;
         double fitness = problem.getFitness(input).getValue();
-        
+
         for (Vector v : solutions) {
             double distance = distanceMeasure.distance(input.normalize(), v.normalize());
 
@@ -90,18 +90,18 @@ public class DeratingOptimisationProblem extends FunctionOptimisationProblem {
                 fitness *= getDeratingFunction().apply(Vector.of(distance));
             }
         }
-        
+
         return new MaximisationFitness(fitness);
     }
-    
+
     public void addSolution(Vector solution) {
         solutions.add(solution);
     }
-    
+
     public void addSolutions(Collection<Vector> solutions) {
         this.solutions.addAll(solutions);
     }
-    
+
     public void clearSolutions() {
         solutions.clear();
     }
@@ -112,11 +112,6 @@ public class DeratingOptimisationProblem extends FunctionOptimisationProblem {
 
     public void setDeratingFunction(DeratingFunction deratingFunction) {
         this.deratingFunction = deratingFunction;
-    }
-
-    @Override
-    public double getError(Type solution) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

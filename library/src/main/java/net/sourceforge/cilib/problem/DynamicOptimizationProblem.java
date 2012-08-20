@@ -113,7 +113,6 @@ public class DynamicOptimizationProblem extends FunctionOptimisationProblem {
      * @param solution The solution for which an error is saught.
      * @return The error.
      */
-    @Override
     public double getError(Type solution) {
         return ((DynamicFunction) functionOptimisationProblem.function).getMaximum()
                 - functionOptimisationProblem.function.apply((Vector) solution).doubleValue();

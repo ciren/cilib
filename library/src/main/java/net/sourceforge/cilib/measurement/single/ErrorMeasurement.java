@@ -23,7 +23,7 @@ package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
+import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -35,16 +35,21 @@ import net.sourceforge.cilib.type.types.Type;
 public class ErrorMeasurement implements Measurement {
 
     private static final long serialVersionUID = 2632671785674388015L;
+    private double target;
 
     @Override
     public String getDomain() {
         return "R";
     }
 
+    public void setTarget(double value) {
+        this.target = value;
+    }
+
     @Override
     public Type getValue(Algorithm algorithm) {
-        FunctionOptimisationProblem problem = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
-        double error = problem.getError(algorithm.getBestSolution().getPosition());
+        OptimisationProblem problem = algorithm.getOptimisationProblem();
+        double error = problem.getFitness(algorithm.getBestSolution().getPosition()).getValue() - target;
         return Real.valueOf(error);
     }
 
