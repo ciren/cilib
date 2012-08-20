@@ -23,9 +23,9 @@ package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.DynamicOptimizationProblem;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -45,14 +45,16 @@ public class ErrorMeasurementTest {
     public void results() {
         final OptimisationSolution mockSolution = new OptimisationSolution(Vector.of(1.0), new MinimisationFitness(100.0));
         final Algorithm algorithm = mock(Algorithm.class);
-        final DynamicOptimizationProblem mockProblem = mock(DynamicOptimizationProblem.class);
+        final OptimisationProblem mockProblem = mock(OptimisationProblem.class);
 
         when(algorithm.getBestSolution()).thenReturn(mockSolution);
         when(algorithm.getOptimisationProblem()).thenReturn(mockProblem);
-        when(mockProblem.getError(Matchers.<Type>anyObject())).thenReturn(10.0);
+        when(mockProblem.getFitness(Matchers.<Type>anyObject())).thenReturn(new MinimisationFitness(10.0));
 
-        Measurement m = new ErrorMeasurement();
-        Assert.assertEquals(10.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
+        ErrorMeasurement m = new ErrorMeasurement();
+        m.setTarget(10.0);
+
+        Assert.assertEquals(0.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
     }
 
 }

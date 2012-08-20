@@ -20,7 +20,7 @@ libraryDependencies ++= Seq(
     "org.mockito" % "mockito-all" % "1.8.4" % "test",
     "org.hamcrest" % "hamcrest-all" % "1.1" % "test",
     "org.specs2" %% "specs2" % "1.9" % "test",
-    "com.novocode" % "junit-interface" % "0.5" % "test",
+    "com.novocode" % "junit-interface" % "0.9-RC3" % "test",
     "org.scalacheck" %% "scalacheck" % "1.10.0" % "test"
 )
 
