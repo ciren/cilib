@@ -54,23 +54,4 @@ public class FunctionMaximisationProblem extends FunctionOptimisationProblem {
     protected Fitness calculateFitness(Type solution) {
         return new MaximisationFitness(function.apply((Vector) solution).doubleValue());
     }
-
-    /**
-     * <p>
-     * Returns the error for the given solution. That is, a lower error value is returned if the
-     * given solution is a better maximiser for the function.
-     * </p>
-     * <p>
-     * The lowest possible error (corresponding to the best solution) should be 0. However, if the
-     * function incorrectly reports its maximum value then it is possible for error values to be
-     * negative.
-     * </p>
-     * @param solution The solution for which an error is saught.
-     * @return The error.
-     */
-    @Override
-    public double getError(Type solution) {
-//        return function.getMaximum().doubleValue() - function.evaluate((Vector) solution).doubleValue();
-        throw new UnsupportedOperationException("No implementation yet.");
-    }
 }

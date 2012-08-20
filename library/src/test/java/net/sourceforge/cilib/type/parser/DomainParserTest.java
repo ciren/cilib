@@ -70,34 +70,6 @@ public class DomainParserTest {
         Assert.assertEquals(1, vector.size());
     }
 
-    @Test
-    @Ignore("Who even uses this feature?")
-    public void value() {
-        Vector vector = (Vector) DomainParser.parse("R(8.0)^6");
-
-        Assert.assertEquals(6, vector.size());
-        for (int i = 0; i < vector.size(); i++) {
-            Assert.assertEquals(8.0, vector.doubleValueOf(0), 0.001);
-        }
-    }
-
-    @Test
-    @Ignore("Who even uses this feature?")
-    public void singleValue() {
-        Vector vector = (Vector) DomainParser.parse("R(8.0)");
-
-        Assert.assertEquals(1, vector.size());
-        Assert.assertEquals(8.0, vector.doubleValueOf(0), 0.001);
-    }
-
-    @Test
-    @Ignore("Who even uses this feature?")
-    public void complex() {
-        Vector vector = (Vector) DomainParser.parse("R(-9.0:9.0),R^6,R(9.0),B,Z");
-
-        Assert.assertEquals(10, vector.size());
-    }
-
     @Test(expected=RuntimeException.class)
     public void invalidDomain() {
         DomainParser.parse("Y");
