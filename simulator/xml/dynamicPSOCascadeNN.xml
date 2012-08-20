@@ -17,6 +17,7 @@
 				<responseStrategy class="pso.dynamic.responsestrategies.MultiReactionStrategy">
 					<addResponseStrategy class="pso.dynamic.responsestrategies.CascadeNetworkExpansionReactionStrategy"/>
 					<addResponseStrategy class="pso.dynamic.responsestrategies.InitialiseNaNElementsReactionStrategy"/>
+					<addResponseStrategy class="pso.dynamic.responsestrategies.ReinitialiseCascadeNetworkOutputWeightsReactionStrategy"/>
 					<addResponseStrategy class="pso.dynamic.responsestrategies.ReevaluationReactionStrategy" reevaluationRatio="1.0"/>
 				</responseStrategy>
 			</iterationStrategy>
