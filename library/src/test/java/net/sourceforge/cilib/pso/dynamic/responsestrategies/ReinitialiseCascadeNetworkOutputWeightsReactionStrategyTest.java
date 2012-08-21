@@ -71,9 +71,9 @@ public class ReinitialiseCascadeNetworkOutputWeightsReactionStrategyTest {
 		Assert.assertEquals(26, problem.getNeuralNetwork().getWeights().size());
 
 		for (int i = 0; i < Topologies.getBestEntity(pso.getTopology()).getDimension(); ++i) {
-			((Vector) Topologies.getBestEntity(pso.getTopology()).getPosition()).set(i, Real.valueOf(0.0));
-			((Vector) Topologies.getBestEntity(pso.getTopology()).getVelocity()).set(i, Real.valueOf(1.0));
-			((Vector) Topologies.getBestEntity(pso.getTopology()).getBestPosition()).set(i, Real.valueOf(0.0));
+			((Vector) Topologies.getBestEntity(pso.getTopology()).getPosition()).set(i, Real.valueOf(Double.NaN));
+			((Vector) Topologies.getBestEntity(pso.getTopology()).getVelocity()).set(i, Real.valueOf(Double.NaN));
+			((Vector) Topologies.getBestEntity(pso.getTopology()).getBestPosition()).set(i, Real.valueOf(Double.NaN));
 		}
 
 		reaction.performReaction(pso);
@@ -81,15 +81,15 @@ public class ReinitialiseCascadeNetworkOutputWeightsReactionStrategyTest {
 		Assert.assertEquals(26, problem.getNeuralNetwork().getWeights().size());
 
 		for (int i = 0; i < 18; ++i) {
-			Assert.assertTrue(((Vector) Topologies.getBestEntity(pso.getTopology()).getPosition()).getReal(i) == 0.0);
-			Assert.assertTrue(((Vector) Topologies.getBestEntity(pso.getTopology()).getVelocity()).getReal(i) == 1.0);
-			Assert.assertTrue(((Vector) Topologies.getBestEntity(pso.getTopology()).getBestPosition()).getReal(i) == 0.0);
+			Assert.assertTrue(Double.isNaN(((Vector) Topologies.getBestEntity(pso.getTopology()).getPosition()).getReal(i)));
+			Assert.assertTrue(Double.isNaN(((Vector) Topologies.getBestEntity(pso.getTopology()).getVelocity()).getReal(i)));
+			Assert.assertTrue(Double.isNaN(((Vector) Topologies.getBestEntity(pso.getTopology()).getBestPosition()).getReal(i)));
 		}
 
 		for (int i = 18; i < 26; ++i) {
 			Assert.assertTrue(((Vector) Topologies.getBestEntity(pso.getTopology()).getPosition()).getReal(i) != 0.0);
 			Assert.assertTrue(((Vector) Topologies.getBestEntity(pso.getTopology()).getVelocity()).getReal(i) == 0.0);
-			Assert.assertTrue(((Vector) Topologies.getBestEntity(pso.getTopology()).getBestPosition()).getReal(i) == 0.0);
+			Assert.assertTrue(Double.isNaN(((Vector) Topologies.getBestEntity(pso.getTopology()).getBestPosition()).getReal(i)));
 		}
     }
 }
