@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.entity.initialization;
 
+import java.util.ArrayList;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
@@ -37,20 +38,23 @@ public class RandomBoundedInitializationStrategy<E extends Entity> implements
         InitializationStrategy<E> {
 
     private static final long serialVersionUID = -7926839076670354209L;
-    private ControlParameter lowerBound;
-    private ControlParameter upperBound;
+    protected ControlParameter lowerBound;
+    protected ControlParameter upperBound;
     private ProbabilityDistributionFuction random;
+    protected ArrayList<ControlParameter[]> boundsPerDimension;
 
     public RandomBoundedInitializationStrategy() {
         this.lowerBound = ConstantControlParameter.of(0.1);
         this.upperBound = ConstantControlParameter.of(0.1);
         this.random = new UniformDistribution();
+        boundsPerDimension = new ArrayList<ControlParameter[]>();
     }
 
     public RandomBoundedInitializationStrategy(RandomBoundedInitializationStrategy copy) {
         this.lowerBound = copy.lowerBound;
         this.upperBound = copy.upperBound;
         this.random = copy.random;
+        boundsPerDimension = copy.boundsPerDimension;
     }
 
     @Override
@@ -62,25 +66,32 @@ public class RandomBoundedInitializationStrategy<E extends Entity> implements
     public void initialize(Enum<?> key, E entity) {
         Type type = entity.getProperties().get(key);
         Vector velocity = (Vector) type;
-
+        
         for (int i = 0; i < velocity.size(); i++) {
+            changeBoundsForNextDimension(i);
             velocity.setReal(i, random.getRandomNumber(lowerBound.getParameter(), upperBound.getParameter()));
         }
     }
-
-    public ControlParameter getLowerBound() {
-        return lowerBound;
+    
+    /*
+     * Sets the upper and lower bounds being used to the appropriate ones for the current dimension
+     * @param index The dimension
+     */
+    private void changeBoundsForNextDimension(int index) {
+        if(boundsPerDimension.size() > 0) {
+            lowerBound = boundsPerDimension.get(index)[0];
+            upperBound = boundsPerDimension.get(index)[1];
+        }
+        
+        //do nothing otherwise
     }
-
-    public void setLowerBound(ControlParameter lowerBound) {
-        this.lowerBound = lowerBound;
+    
+    /*
+     * Set the list containing the upper and lower bounds to be used fro each dimension
+     * @param bounds The arraylist containing the bounds
+     */
+    public void setBoundsPerDimension(ArrayList<ControlParameter[]> bounds) {
+        boundsPerDimension = bounds;
     }
-
-    public ControlParameter getUpperBound() {
-        return upperBound;
-    }
-
-    public void setUpperBound(ControlParameter upperBound) {
-        this.upperBound = upperBound;
-    }
+    
 }
