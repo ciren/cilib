@@ -3,31 +3,31 @@
     <import file="nbproject/build-impl.xml"></import>
 
     <target name="clean" description="Clean build products.">
-        <exec dir="C:\Users\Kristina\Work\cilib_kgerogieva" executable="sbt">
+        <exec dir="C:\Users\Kris\Work\cilib_kgeorgieva" executable="sbt">
             <arg value=";project cilib-library;clean"></arg>
         </exec>
     </target>
 
     <target name="jar" description="Build JAR.">
-        <exec dir="C:\Users\Kristina\Work\cilib_kgerogieva" executable="sbt">
+        <exec dir="C:\Users\Kris\Work\cilib_kgeorgieva" executable="sbt">
             <arg value=";project cilib-library;;package;package-src"></arg>
         </exec>
     </target>
 
     <target name="compile" description="Compile project.">
-        <exec dir="C:\Users\Kristina\Work\cilib_kgerogieva" executable="sbt">
+        <exec dir="C:\Users\Kris\Work\cilib_kgeorgieva" executable="sbt">
             <arg value=";project cilib-library;compile"></arg>
         </exec>
     </target>
 
     <target name="test" description="Run unit tests.">
-        <exec dir="C:\Users\Kristina\Work\cilib_kgerogieva" executable="sbt">
+        <exec dir="C:\Users\Kris\Work\cilib_kgeorgieva" executable="sbt">
             <arg value=";project cilib-library;test"></arg>
         </exec>
     </target>
     
     <target name="run-single">
-        <exec dir="C:\Users\Kristina\Work\cilib_kgerogieva" executable="sbt">
+        <exec dir="C:\Users\Kris\Work\cilib_kgeorgieva" executable="sbt">
             <arg value=";project cilib-library;run-main ${run.class}"></arg>
         </exec>        
     </target>
@@ -36,7 +36,7 @@
         <echo>You must set the main class for the main 'run' task. Change Compile to Test to set it for 'test:run': 
         mainClass in (Compile, run) := Some({main.class})
         </echo>
-        <exec dir="C:\Users\Kristina\Work\cilib_kgerogieva" executable="sbt">
+        <exec dir="C:\Users\Kris\Work\cilib_kgeorgieva" executable="sbt">
             <arg value=";project cilib-library;run"></arg>
         </exec>        
     </target>       
@@ -56,7 +56,7 @@
     </target>  
     
     <target name="-javadoc-build">
-        <exec dir="C:\Users\Kristina\Work\cilib_kgerogieva" executable="sbt">
+        <exec dir="C:\Users\Kris\Work\cilib_kgeorgieva" executable="sbt">
             <arg value=";project cilib-library;package-doc"></arg>
         </exec>        
     </target>        
