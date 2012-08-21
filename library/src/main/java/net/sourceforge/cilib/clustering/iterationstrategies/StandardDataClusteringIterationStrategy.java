@@ -125,10 +125,6 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
         
         dataset = window.slideWindow();
         
-        if(window.hasSlid()) {
-            System.out.println("Iteration: " + algorithm.getIterations());
-            
-        }
         
     }
     
