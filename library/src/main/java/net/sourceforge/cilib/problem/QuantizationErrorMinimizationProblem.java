@@ -74,6 +74,7 @@ public class QuantizationErrorMinimizationProblem extends ClusteringProblem{
         CentroidHolder candidateSolution = (CentroidHolder) solution;
         double quantizationError = 0;
         double temp;
+        //System.out.println("Solution: " + solution.toString());
         for(ClusterCentroid centroid : (CentroidHolder) candidateSolution) {
             temp = 0;
             for(double distance : centroid.getDataItemDistances()) {
