@@ -27,8 +27,8 @@ import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
- * @author Kristina
+ * A measurement that returns the positions of the centroids held by
+ * the best ClusterParticle
  */
 public class ClusterCentroids implements Measurement<Vector>{
     int dimension;
@@ -53,7 +53,6 @@ public class ClusterCentroids implements Measurement<Vector>{
 
     @Override
     public Vector getValue(Algorithm algorithm) {
-        //return (CentroidHolder) algorithm.getBestSolution().getPosition();
         CentroidHolder holder = (CentroidHolder) algorithm.getBestSolution().getPosition();
         
         return holder.get(dimension).toVector();

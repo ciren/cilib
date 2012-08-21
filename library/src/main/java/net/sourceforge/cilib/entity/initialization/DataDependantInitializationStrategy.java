@@ -30,10 +30,6 @@ import net.sourceforge.cilib.io.DataTableBuilder;
 import net.sourceforge.cilib.io.StandardDataTable;
 
 
-/**
- *
- * @author Kristina
- */
 public abstract class DataDependantInitializationStrategy <E extends Entity> implements InitializationStrategy<E>{
     protected DataTableBuilder tableBuilder;
     protected InitializationStrategy<E> initialisationStrategy;
