@@ -15,6 +15,7 @@ import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.operators.creation.SaDECreationStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.de.DifferentialEvolutionBinomialCrossover;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
@@ -27,9 +28,9 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
 public class DifferentialEvolutionIterationStrategy extends AbstractIterationStrategy<EC> {
 
     private static final long serialVersionUID = 8019668923312811974L;
-    private Selector targetVectorSelectionStrategy; // x
-    private CreationStrategy trialVectorCreationStrategy; // y
-    private CrossoverStrategy crossoverStrategy; // z
+    protected Selector targetVectorSelectionStrategy; // x
+    protected CreationStrategy trialVectorCreationStrategy; // y
+    protected CrossoverStrategy crossoverStrategy; // z
 
     /**
      * Create an instance of the {@linkplain DifferentialEvolutionIterationStrategy}.
@@ -88,6 +89,7 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
             if (offspringEntity.getFitness().compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent
                 topology.set(i, offspringEntity); // Replace the parent with the offspring individual
             }
+            
         }
     }
 

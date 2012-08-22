@@ -78,5 +78,21 @@ public class RandomBoundedInitializationStrategy<E extends Entity> implements
     public void setBoundsPerDimension(ArrayList<ControlParameter[]> bounds) {
         boundsPerDimension = bounds;
     }
+
+    public ControlParameter getLowerBound() {
+        return lowerBound;
+    }
+
+    public void setLowerBound(ControlParameter lowerBound) {
+        this.lowerBound = lowerBound;
+    }
+
+    public ControlParameter getUpperBound() {
+        return upperBound;
+    }
+
+    public void setUpperBound(ControlParameter upperBound) {
+        this.upperBound = upperBound;
+    }
     
 }

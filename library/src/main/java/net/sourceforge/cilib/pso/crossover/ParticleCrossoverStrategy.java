@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.pso.crossover;
 
 import java.util.List;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
@@ -114,5 +115,13 @@ public class ParticleCrossoverStrategy implements CrossoverStrategy {
     @Override
     public int getNumberOfParents() {
         return crossoverStrategy.getNumberOfParents();
+    }
+
+    public void setCrossoverPointProbability(double crossoverPointProbability) {
+        crossoverStrategy.setCrossoverPointProbability(crossoverPointProbability);
+    }
+
+    public ControlParameter getCrossoverPointProbability() {
+        return crossoverStrategy.getCrossoverPointProbability();
     }
 }

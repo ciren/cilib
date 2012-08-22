@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.controlparameter.SettableControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
@@ -24,7 +24,7 @@ public class DifferentialEvolutionExponentialCrossover implements CrossoverStrat
     private static final long serialVersionUID = -4811879014933329926L;
 
     private ProbabilityDistributionFunction random;
-    private ControlParameter crossoverPointProbability;
+    private SettableControlParameter crossoverPointProbability;
     
     public DifferentialEvolutionExponentialCrossover() {
         this.random = new UniformDistribution();
@@ -102,16 +102,20 @@ public class DifferentialEvolutionExponentialCrossover implements CrossoverStrat
         return random;
     }
 
-    public void setCrossoverPointProbability(ControlParameter crossoverPointProbability) {
+    public void setCrossoverPointProbability(SettableControlParameter crossoverPointProbability) {
         this.crossoverPointProbability = crossoverPointProbability;
     }
 
-    public ControlParameter getCrossoverPointProbability() {
+    public SettableControlParameter getCrossoverPointProbability() {
         return crossoverPointProbability;
     }
 
     @Override
     public int getNumberOfParents() {
         return 2;
+    }
+    
+    public void setCrossoverPointProbability(double crossoverPointProbability) {
+        this.crossoverPointProbability.setParameter(crossoverPointProbability);
     }
 }

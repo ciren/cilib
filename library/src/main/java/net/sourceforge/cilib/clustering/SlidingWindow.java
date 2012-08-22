@@ -154,6 +154,7 @@ public class SlidingWindow {
         
         currentIndex+= slideSize;
         slidingTime++;
+        
         return currentDataset;
     }
     

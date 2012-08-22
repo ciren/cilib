@@ -109,7 +109,8 @@ public class SlidingWindowTest {
     public void testGetSourceURL() {
         SlidingWindow window = new SlidingWindow();
         window.setSourceURL("library/src/test/resources/datasets");
-        Assert.assertTrue(window.getSourceURL().contains("library/src/test/resources/datasets"));
+        Assert.assertTrue(window.getSourceURL().contains("library/src/test/resources/datasets") || 
+                window.getSourceURL().contains("library\\src\\test\\resources\\datasets"));
     }
 
     /**
@@ -119,7 +120,8 @@ public class SlidingWindowTest {
     public void testSetSourceURL() {
         SlidingWindow window = new SlidingWindow();
         window.setSourceURL("library/src/test/resources/datasets");
-        Assert.assertTrue(window.getSourceURL().contains("library/src/test/resources/datasets"));
+        Assert.assertTrue(window.getSourceURL().contains("library/src/test/resources/datasets") || 
+                window.getSourceURL().contains("library\\src\\test\\resources\\datasets"));
     }
 
     /**
