@@ -87,7 +87,7 @@ public class ReinitialiseCascadeNetworkOutputWeightsReactionStrategyTest {
 		}
 
 		for (int i = 18; i < 26; ++i) {
-			Assert.assertTrue(((Vector) Topologies.getBestEntity(pso.getTopology()).getPosition()).getReal(i) != 0.0);
+			Assert.assertTrue(!Double.isNaN(((Vector) Topologies.getBestEntity(pso.getTopology()).getPosition()).getReal(i)));
 			Assert.assertTrue(((Vector) Topologies.getBestEntity(pso.getTopology()).getVelocity()).getReal(i) == 0.0);
 			Assert.assertTrue(Double.isNaN(((Vector) Topologies.getBestEntity(pso.getTopology()).getBestPosition()).getReal(i)));
 		}
