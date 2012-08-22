@@ -69,14 +69,17 @@ public class PrototypeFullyConnectedLayerBuilder extends LayerBuilder {
             }
 
             Real weight = Real.valueOf(domainReal.doubleValue(), domainReal.getBounds());
-            Vector weights = newNeuron.getWeights();
+            Vector.Builder weights = Vector.newBuilder().copyOf(newNeuron.getWeights());
             weights.add(weight);
+            
             for (int j = 1; j < previousLayerAbsoluteSize; j++) {
                 Real newWeight = weight.getClone();
                 weights.add(newWeight);
             }
 
-            this.getWeightInitializationStrategy().initialize(weights);
+            Vector builtWeights = weights.build();
+            this.getWeightInitializationStrategy().initialize(builtWeights);
+            newNeuron.setWeights(builtWeights);
             layer.add(newNeuron);
         }
         if (bias) {

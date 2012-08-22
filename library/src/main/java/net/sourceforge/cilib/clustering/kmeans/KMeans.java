@@ -76,7 +76,7 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
      */
     public KMeans(KMeans copy) {
         super(copy);
-        centroids = copy.centroids.getClone();
+        centroids = Vector.copyOf(copy.centroids);
         calculator = copy.calculator.getClone();
     }
 
@@ -162,7 +162,7 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        return new OptimisationSolution(centroids.getClone(), getOptimisationProblem().getFitness(centroids));
+        return new OptimisationSolution(Vector.copyOf(centroids), getOptimisationProblem().getFitness(centroids));
     }
 
     /**

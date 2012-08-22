@@ -23,6 +23,7 @@ package net.sourceforge.cilib.nn.components;
 
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -34,9 +35,13 @@ public class RandomWeightInitializationStrategyTest {
     @Test
     public void testInitialize() {
         Neuron neuron = new Neuron();
+        Vector.Builder v = Vector.newBuilder().copyOf(neuron.getWeights());
+        
         for (int i = 0; i < 10; i++) {
-            neuron.getWeights().add(Real.valueOf(0.0, new Bounds(-5, 5)));
+            v.add(Real.valueOf(0.0, new Bounds(-5, 5)));
         }
+        neuron.setWeights(v.build());
+        
         RandomWeightInitializationStrategy initializationStrategy = new RandomWeightInitializationStrategy();
         initializationStrategy.initialize(neuron.getWeights());
 

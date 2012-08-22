@@ -47,7 +47,7 @@ public class TypesTest {
         Vector vector = Vector.of();
         Assert.assertEquals(0, Types.dimensionOf(vector));
 
-        vector.add(Real.valueOf(0.0));
+        vector = Vector.newBuilder().copyOf(vector).add(Real.valueOf(0.0)).build();
         Assert.assertEquals(1, Types.dimensionOf(vector));
     }
 
@@ -63,7 +63,7 @@ public class TypesTest {
         Vector vector = Vector.of();
         Real r = Real.valueOf(-7.0, new Bounds(-5.0, 5.0));
 
-        vector.add(r);
+        vector = Vector.newBuilder().copyOf(vector).add(r).build();
         Assert.assertFalse(Types.isInsideBounds(vector));
     }
 

@@ -65,7 +65,7 @@ public class Sigmoid implements ActivationFunction {
 
     @Override
     public Vector getGradient(Vector x) {
-        return Vector.of(this.getGradient(x.getReal(0)));
+        return Vector.of(this.getGradient(x.doubleValueOf(0)));
     }
 
     /**

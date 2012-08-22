@@ -40,7 +40,7 @@ public class CosineDistanceMeasureTest {
         assertTrue(distance >= -1 && distance <= 1);
         assertEquals(1 - (25.0 / 29.0), distance, 0.000000000000001);
 
-        v1.add(Real.valueOf(22.0));
+        v1 = Vector.newBuilder().copyOf(v1).add(Real.valueOf(22.0)).build();
 
         distanceMeasure.distance(v1, v2);
     }

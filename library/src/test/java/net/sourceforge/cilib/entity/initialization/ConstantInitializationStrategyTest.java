@@ -49,7 +49,7 @@ public class ConstantInitializationStrategyTest {
     public void initialize() {
         Vector vector = Vector.of(1.0, 1.0, 1.0);
         Individual individual = new Individual();
-        individual.getProperties().put(EntityType.CANDIDATE_SOLUTION, vector.getClone());
+        individual.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.copyOf(vector));
 
         ConstantInitializationStrategy<Individual> initializationStrategy = new ConstantInitializationStrategy<Individual>();
         initializationStrategy.initialize(EntityType.CANDIDATE_SOLUTION, individual);

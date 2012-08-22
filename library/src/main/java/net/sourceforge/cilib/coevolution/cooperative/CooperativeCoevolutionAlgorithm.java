@@ -35,6 +35,7 @@ import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolut
 import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.PerfectSplitDistributionStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.ProblemDistributionStrategy;
 import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This class forms the basis for any co-operative coevolution optimization
@@ -140,7 +141,7 @@ public class CooperativeCoevolutionAlgorithm extends MultiPopulationBasedAlgorit
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        return new OptimisationSolution(context.getCandidateSolution().getClone(), context.getFitness());
+        return new OptimisationSolution(Vector.copyOf(context.getCandidateSolution()), context.getFitness());
     }
 
     /**
