@@ -36,7 +36,8 @@ public class ManhattanDistanceMeasureTest {
         Vector v2 = Vector.of(2,3,4);
         assertEquals(4.0, distanceMeasure.distance(v1, v2), Double.MIN_NORMAL);
 
-        v1.add(Real.valueOf(22.0));
+        v1 = Vector.newBuilder().copyOf(v1).add(Real.valueOf(22.0)).build();
+
         distanceMeasure.distance(v1, v2);
     }
 

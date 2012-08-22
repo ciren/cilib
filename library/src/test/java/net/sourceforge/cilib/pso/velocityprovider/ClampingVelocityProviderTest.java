@@ -39,7 +39,7 @@ public class ClampingVelocityProviderTest {
         Particle particle = new StandardParticle();
         particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, vector);
         particle.getProperties().put(EntityType.Particle.VELOCITY, Vector.of(0.0));
-        particle.getProperties().put(EntityType.Particle.BEST_POSITION, vector.getClone());
+        particle.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf(vector));
         return particle;
     }
 

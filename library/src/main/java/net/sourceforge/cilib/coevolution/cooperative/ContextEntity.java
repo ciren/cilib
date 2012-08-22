@@ -142,9 +142,9 @@ public class ContextEntity implements Entity {
      */
     public void append(Type value) {
         if(value instanceof Vector)
-            context.addAll((Vector) value.getClone());
+            context = Vector.newBuilder().copyOf(context).copyOf((Vector) value.getClone()).build();
         else
-            context.add((Numeric) value.getClone());
+            context = Vector.newBuilder().copyOf(context).add((Numeric) value.getClone()).build();
     }
 
     /**

@@ -36,7 +36,7 @@ public class ChebyshevDistanceMeasureTest {
         Vector v2 = Vector.of(1,3,5.5);
         assertEquals(4.5, distanceMeasure.distance(v1, v2), Double.MIN_NORMAL);
 
-        v1.add(Real.valueOf(22.0));
+        v1 = Vector.newBuilder().copyOf(v1).add(Real.valueOf(22.0)).build();
         distanceMeasure.distance(v1, v2);
     }
 

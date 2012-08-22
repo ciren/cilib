@@ -42,28 +42,22 @@ public class StatsTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        Vector tmp = Vector.of();
+        Vector.Builder tmp = Vector.newBuilder();
         set = new ArrayList<Pattern>();
 
         for (int i = 1; i <= SIZE; i++) {
             tmp.add(Real.valueOf(i));
         }
-        set.add(new Pattern("class0", tmp));
+        set.add(new Pattern("class0", tmp.build()));
 
-        tmp = Vector.of();
+        tmp = Vector.newBuilder();
         for (int i = SIZE; i > 0; i--) {
             tmp.add(Real.valueOf(i));
         }
-        set.add(new Pattern("class1", tmp));
-
-        tmp = Vector.of(1.0, 1.0, 1.0);
-        set.add(new Pattern("class2", tmp));
-
-        tmp = Vector.of(2.0, 2.0, 2.0);
-        set.add(new Pattern("class1", tmp));
-
-        tmp = Vector.of(3.0, 3.0, 3.0);
-        set.add(new Pattern("class0", tmp));
+        set.add(new Pattern("class1", tmp.build()));
+        set.add(new Pattern("class2", Vector.of(1.0, 1.0, 1.0)));
+        set.add(new Pattern("class1", Vector.of(2.0, 2.0, 2.0)));
+        set.add(new Pattern("class0", Vector.of(3.0, 3.0, 3.0)));
     }
 
     @AfterClass

@@ -54,7 +54,7 @@ public class ReflectedFunctionDecorator implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
-        Vector tmp = input.getClone();
+        Vector tmp = Vector.copyOf(input);
 
         if (horizontalReflection) {
             for (int i = 0; i < input.size(); i++) {

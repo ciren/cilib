@@ -25,7 +25,6 @@ import net.sourceforge.cilib.boa.bee.HoneyBee;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -54,7 +53,7 @@ public class VisualPositionUpdateStategy implements BeePositionUpdateStrategy {
         int j = twister.nextInt(bee.getDimension());
 
         Vector newPosition = bee.getPosition();
-        Vector oldPosition = bee.getPosition().getClone();
+        Vector oldPosition = Vector.copyOf(bee.getPosition());
         Vector otherPosition = otherBee.getPosition();
         double value = newPosition.doubleValueOf(j);
         double other = otherPosition.doubleValueOf(j);

@@ -25,6 +25,7 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Int;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Charged Particle used by charged PSO (ChargedVelocityProvider). The only
@@ -93,8 +94,8 @@ public class ChargedParticle extends DynamicParticle {
     @Override
     public void initialise(OptimisationProblem problem) {
         this.getProperties().put(EntityType.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresenation().getClone());
-        this.getProperties().put(EntityType.Particle.BEST_POSITION, getPosition().getClone());
-        this.getProperties().put(EntityType.Particle.VELOCITY, getPosition().getClone());
+        this.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf(getPosition()));
+        this.getProperties().put(EntityType.Particle.VELOCITY, Vector.copyOf(getPosition()));
 
         this.positionInitialisationStrategy.initialize(EntityType.CANDIDATE_SOLUTION, this);
         this.personalBestInitialisationStrategy.initialize(EntityType.Particle.BEST_POSITION, this);
