@@ -36,7 +36,7 @@ public class EuclideanDistanceMeasureTest {
         Vector v2 = Vector.of(2,3,4);
         assertEquals(Math.sqrt(8.0), distanceMeasure.distance(v1, v2), Double.MIN_NORMAL);
 
-        v1.add(Real.valueOf(22.0));
+        v1 = Vector.newBuilder().copyOf(v1).add(Real.valueOf(22.0)).build();
         distanceMeasure.distance(v1, v2);
     }
 //    @Test(expected=IllegalArgumentException.class)

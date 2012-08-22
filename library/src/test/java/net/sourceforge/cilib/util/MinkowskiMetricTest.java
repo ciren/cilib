@@ -37,7 +37,7 @@ public class MinkowskiMetricTest {
 
         assertEquals(Math.pow(16, 1/3.0), distanceMeasure.distance(v1, v2), Double.MIN_NORMAL);
 
-        v1.add(Real.valueOf(22.0));
+        v1 = Vector.newBuilder().copyOf(v1).add(Real.valueOf(22.0)).build();
 
         distanceMeasure.distance(v1, v2);
     }

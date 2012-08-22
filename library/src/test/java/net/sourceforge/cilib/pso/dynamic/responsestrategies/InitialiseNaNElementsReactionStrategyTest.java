@@ -94,15 +94,15 @@ public class InitialiseNaNElementsReactionStrategyTest {
 		Assert.assertEquals(11, problem.getNeuralNetwork().getWeights().size());
 		Vector position = (Vector)Topologies.getBestEntity(pso.getTopology()).getPosition();
 		for (int curElement = 0; curElement < position.size(); ++curElement) {
-			Assert.assertTrue(! Double.isNaN(position.getReal(curElement)));
+			Assert.assertTrue(! Double.isNaN(position.doubleValueOf(curElement)));
 		}
 		Vector bestPosition = (Vector)Topologies.getBestEntity(pso.getTopology()).getBestPosition();
 		for (int curElement = 0; curElement < bestPosition.size(); ++curElement) {
-			Assert.assertTrue(! Double.isNaN(bestPosition.getReal(curElement)));
+			Assert.assertTrue(! Double.isNaN(bestPosition.doubleValueOf(curElement)));
 		}
 		Vector velocity = (Vector)Topologies.getBestEntity(pso.getTopology()).getVelocity();
 		for (int curElement = 0; curElement < velocity.size(); ++curElement) {
-			Assert.assertTrue(! Double.isNaN(velocity.getReal(curElement)));
+			Assert.assertTrue(! Double.isNaN(velocity.doubleValueOf(curElement)));
 		}
     }
 }

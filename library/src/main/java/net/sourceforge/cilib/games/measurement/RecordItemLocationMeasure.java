@@ -57,7 +57,7 @@ public class RecordItemLocationMeasure extends SingleAgentMeasure {
      */
     @Override
     public void clearData() {
-        locations.clear();
+        locations = Vector.of();
     }
 
     /**
@@ -85,7 +85,7 @@ public class RecordItemLocationMeasure extends SingleAgentMeasure {
         if(!(state instanceof ListGameState))
             throw new RuntimeException("Impliment for other state types");
         GameItem item = ((ListGameState)state).getItem(itemToken);
-        locations.add((Numeric) item.getLocation().getClone());
+        locations = Vector.newBuilder().add((Numeric) item.getLocation().getClone()).build();
     }
 
 }

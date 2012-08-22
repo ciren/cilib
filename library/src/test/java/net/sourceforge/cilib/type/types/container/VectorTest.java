@@ -24,7 +24,6 @@ package net.sourceforge.cilib.type.types.container;
 import com.google.common.base.Predicate;
 import static java.lang.Math.sqrt;
 import java.util.Arrays;
-import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -32,10 +31,8 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.util.Vectors;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -122,14 +119,15 @@ public class VectorTest {
         assertFalse(vector.size() == 5);
     }
 
-    @Test
+    /*@Test
+    // Add is deprecated
     public void testAdd() {
         Vector m = Vector.of();
         assertEquals(0, m.size());
 
         m.add(Real.valueOf(1.0));
         assertEquals(1, m.size());
-    }
+    }*/
 
     @Test
     public void testGetReal() {
@@ -139,9 +137,10 @@ public class VectorTest {
 
     @Test
     public void testSetReal() {
-        Vector m = Vector.of();
-        m.add(Real.valueOf(10.0, new Bounds(-10.0, 10.0)));
-
+        Vector m = Vector.of(0);
+        assertEquals(0.0, m.doubleValueOf(0), 0.0);
+        
+        m.setReal(0, 10.0);
         assertEquals(10.0, m.doubleValueOf(0), 0.0);
     }
 
@@ -153,17 +152,16 @@ public class VectorTest {
 
     @Test
     public void testSetInt() {
-        Vector m = Vector.of();
-        m.add(Int.valueOf(2));
+        Vector m = Vector.of(2);
         assertEquals(2, m.intValueOf(0));
         m.setInt(0, 5);
         assertEquals(5, m.intValueOf(0));
 
-        m.add(Real.valueOf(-99.99));
+        m = Vector.newBuilder().copyOf(m).add(Real.valueOf(-99.99)).build();
         m.setInt(1, 1);
         assertEquals(1, m.intValueOf(1));
 
-        m.add(Bit.valueOf(true));
+        m = Vector.newBuilder().copyOf(m).add(Bit.valueOf(true)).build();
         assertTrue(m.booleanValueOf(2));
     }
 

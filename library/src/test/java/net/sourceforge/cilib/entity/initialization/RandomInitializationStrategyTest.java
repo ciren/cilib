@@ -44,7 +44,7 @@ public class RandomInitializationStrategyTest {
     public void testInitialize() {
         Vector expected = Vector.of(1.0, 1.0, 1.0);
         Particle particle = new StandardParticle();
-        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, expected.getClone());
+        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.copyOf(expected));
 
         RandomInitializationStrategy<Particle> strategy = new RandomInitializationStrategy<Particle>();
         strategy.initialize(EntityType.CANDIDATE_SOLUTION, particle);

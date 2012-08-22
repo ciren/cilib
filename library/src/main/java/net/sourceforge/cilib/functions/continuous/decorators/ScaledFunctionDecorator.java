@@ -67,7 +67,7 @@ public class ScaledFunctionDecorator implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
-        Vector tmp = input.getClone();
+        Vector tmp = Vector.copyOf(input);
 
         for (int i = 0; i < input.size(); i++) {
             tmp.setReal(i, (horizontalScale * input.doubleValueOf(i)));

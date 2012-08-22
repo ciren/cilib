@@ -57,7 +57,7 @@ public class StandardPattern implements Cloneable {
      * @param orig the pattern to be copied.
      */
     public StandardPattern(StandardPattern orig) {
-        this.vector = orig.vector.getClone();
+        this.vector = Vector.copyOf(orig.vector);
         this.target = orig.target.getClone();
     }
 
