@@ -24,15 +24,18 @@ package net.sourceforge.cilib.util.selection.weighting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import fj.F;
+import fj.F2;
+import fj.Ord;
+import fj.Ordering;
+import fj.P;
+import fj.P2;
 import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.util.selection.WeightedObject;
 
-/**
- *
- */
 public class EntityWeighting implements Weighting {
 
     private EntityFitness<Entity> entityFitness;
@@ -48,18 +51,24 @@ public class EntityWeighting implements Weighting {
     @Override
     public <T> Iterable<WeightedObject> weigh(Iterable<T> iterable) {
         Preconditions.checkArgument(Iterables.get(iterable, 0) instanceof Entity);
-        MinMaxFitness minMaxFitness = getMinMaxFitness(Lists.newArrayList(iterable));
+        
+        P2<Fitness, Fitness> minMaxFitness = getMinMaxFitness(Lists.newArrayList(iterable));
         List<WeightedObject> result = Lists.newArrayList();
 
-        if (minMaxFitness.getFirst() == InferiorFitness.instance()
-                || minMaxFitness.getSecond() == InferiorFitness.instance()) {
-            throw new UnsupportedOperationException("Cannot weigh entities where all entities have Inferior fitness.");
-        }
-
-        double minMaxDifference = minMaxFitness.getSecond().getValue() - minMaxFitness.getFirst().getValue();
+        double minMaxDifference = minMaxFitness._2().getValue() - minMaxFitness._1().getValue();
 
         for (T t : iterable) {
-            double weight = (this.entityFitness.getFitness((Entity) t).getValue() - minMaxFitness.getFirst().getValue()) / minMaxDifference;
+            double weight;
+            
+            if (minMaxDifference != 0.0) {
+                weight = (this.entityFitness.getFitness((Entity) t).getValue() - minMaxFitness._1().getValue()) / minMaxDifference;
+            } else {
+                // if minMaxDifference is zero it means that all entities have the same fitness
+                // which will make it the same as a constant weighting, so as long as the values
+                // are the same it works out the same
+                weight = this.entityFitness.getFitness((Entity) t).getValue();
+            }
+
             result.add(new WeightedObject(t, weight));
         }
 
@@ -73,37 +82,34 @@ public class EntityWeighting implements Weighting {
     public EntityFitness<Entity> getEntityFitness() {
         return entityFitness;
     }
-
-    private <T> MinMaxFitness getMinMaxFitness(List<T> entities) {
-        MinMaxFitness minMaxFitness = new MinMaxFitness(InferiorFitness.instance(), InferiorFitness.instance());
-        for (T entity : entities) {
-            Fitness fitness = this.entityFitness.getFitness((Entity) entity);
-            if (minMaxFitness.getFirst() == InferiorFitness.instance() || fitness.compareTo(minMaxFitness.getFirst()) < 0) {
-                minMaxFitness = new MinMaxFitness(fitness, minMaxFitness.getSecond());
+    
+    private static Ord<Entity> entityOrdering = Ord.ord(new F2<Entity, Entity, Ordering>() {
+        @Override
+        public Ordering f(Entity a, Entity b) {
+            return Ordering.values()[a.compareTo(b) + 1];
+        };
+    }.curry());
+    
+    private static F<Entity, Boolean> inferiorFilter(final EntityFitness<Entity> entityFitness) {
+        return new F<Entity, Boolean>() {
+            @Override
+            public Boolean f(Entity a) {
+                return entityFitness.getFitness(a) != InferiorFitness.instance();
             }
-            if (minMaxFitness.getSecond() == InferiorFitness.instance() || fitness.compareTo(minMaxFitness.getSecond()) > 0) {
-                minMaxFitness = new MinMaxFitness(minMaxFitness.getFirst(), fitness);
-            }
-        }
-        return minMaxFitness;
+        };
     }
 
-    private static final class MinMaxFitness {
-
-        private final Fitness f1;
-        private final Fitness f2;
-
-        MinMaxFitness(Fitness f1, Fitness f2) {
-            this.f1 = f1;
-            this.f2 = f2;
+    private <T> P2<Fitness, Fitness> getMinMaxFitness(List<T> entities) {
+        fj.data.List<Entity> e = ((fj.data.List<Entity>) fj.data.List.iterableList(entities))
+            .filter(inferiorFilter(entityFitness));
+        
+        if (e.isEmpty()) {
+            throw new UnsupportedOperationException("Cannot weigh entities where all entities have Inferior fitness.");
         }
-
-        Fitness getFirst() {
-            return f1;
-        }
-
-        Fitness getSecond() {
-            return f2;
-        }
+        
+        Fitness min = e.minimum(entityOrdering).getFitness();
+        Fitness max = e.maximum(entityOrdering).getFitness();
+        
+        return P.p(min, max);
     }
 }
