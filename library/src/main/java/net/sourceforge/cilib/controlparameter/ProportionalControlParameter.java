@@ -49,4 +49,8 @@ public class ProportionalControlParameter implements ControlParameter {
     public void setProportion(double proportion) {
         this.proportion = proportion;
     }
+    
+    public void setParameter(double newParameter) {
+        proportion = newParameter;
+    }
 }

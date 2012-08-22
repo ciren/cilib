@@ -63,4 +63,12 @@ public class ArithmeticCrossoverStrategy implements CrossoverStrategy {
     public int getNumberOfParents() {
         return 2;
     }
+    
+    public void setCrossoverPointProbability(double crossoverPointProbability) {
+        throw new UnsupportedOperationException("Not applicable");
+    }
+    
+    public ControlParameter getCrossoverPointProbability() {
+        throw new UnsupportedOperationException("Not applicable");
+    }
 }

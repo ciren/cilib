@@ -60,4 +60,8 @@ public class LinearlyVaryingControlParameter implements ControlParameter {
     public double getFinalValue() {
         return finalValue;
     }
+    
+    public void setParameter(double newParameter) {
+        finalValue = newParameter;
+    }
 }

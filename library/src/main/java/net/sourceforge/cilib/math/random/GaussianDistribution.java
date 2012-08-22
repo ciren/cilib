@@ -9,6 +9,7 @@ package net.sourceforge.cilib.math.random;
 import static com.google.common.base.Preconditions.checkArgument;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.controlparameter.SettableControlParameter;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
@@ -17,8 +18,8 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 public class GaussianDistribution implements ProbabilityDistributionFunction {
 
     private RandomProvider provider;
-    private ControlParameter mean;
-    private ControlParameter deviation;
+    private SettableControlParameter mean;
+    private SettableControlParameter deviation;
 
     /**
      * Default constructor.
@@ -114,19 +115,27 @@ public class GaussianDistribution implements ProbabilityDistributionFunction {
         this.provider = provider;
     }
 
-    public void setDeviation(ControlParameter deviation) {
+    public void setDeviation(SettableControlParameter deviation) {
         this.deviation = deviation;
     }
+    
+    public void setDeviation(double deviation) {
+        this.deviation.setParameter(deviation);
+    }
 
-    public ControlParameter getDeviation() {
+    public SettableControlParameter getDeviation() {
         return deviation;
     }
 
-    public void setMean(ControlParameter mean) {
+    public void setMean(SettableControlParameter mean) {
         this.mean = mean;
     }
+    
+    public void setMean(double mean) {
+        this.mean.setParameter(mean);
+    }
 
-    public ControlParameter getMean() {
+    public SettableControlParameter getMean() {
         return mean;
     }
 }

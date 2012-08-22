@@ -47,7 +47,7 @@ public class MeasurementSuite {
      */
     public void initialise() {
         try {
-            file = File.createTempFile("cilib_data", ".tmp");
+            file = File.createTempFile("cilib_data", ".tmp"); 
             writer = new BufferedWriter(new FileWriter(file));
         } catch (IOException ex) {
             ex.printStackTrace();

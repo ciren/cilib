@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.controlparameter.SettableControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
@@ -24,8 +24,8 @@ import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
 public class RandCreationStrategy implements CreationStrategy {
 
     private static final long serialVersionUID = 930740770470361009L;
-    protected ControlParameter scaleParameter;
-    protected ControlParameter numberOfDifferenceVectors;
+    protected SettableControlParameter scaleParameter;
+    protected SettableControlParameter numberOfDifferenceVectors;
 
     /**
      * Create a new instance of {@code CurrentToRandCreationStrategy}.
@@ -58,6 +58,7 @@ public class RandCreationStrategy implements CreationStrategy {
      */
     @Override
     public Entity create(Entity targetEntity, Entity current, Topology<? extends Entity> topology) {
+        
         RandomProvider random = new MersenneTwister();
         int number = Double.valueOf(this.numberOfDifferenceVectors.getParameter()).intValue();
         List<Entity> participants = (List<Entity>) Selection.copyOf(topology)
@@ -107,7 +108,7 @@ public class RandCreationStrategy implements CreationStrategy {
      * Get the number of difference vectors to create.
      * @return The {@code ControlParameter} describing the numberof difference vectors.
      */
-    public ControlParameter getNumberOfDifferenceVectors() {
+    public SettableControlParameter getNumberOfDifferenceVectors() {
         return numberOfDifferenceVectors;
     }
 
@@ -115,7 +116,7 @@ public class RandCreationStrategy implements CreationStrategy {
      * Set the number of difference vectors to create.
      * @param numberOfDifferenceVectors The value to set.
      */
-    public void setNumberOfDifferenceVectors(ControlParameter numberOfDifferenceVectors) {
+    public void setNumberOfDifferenceVectors(SettableControlParameter numberOfDifferenceVectors) {
         this.numberOfDifferenceVectors = numberOfDifferenceVectors;
     }
 
@@ -123,7 +124,7 @@ public class RandCreationStrategy implements CreationStrategy {
      * Get the current scale parameter, used within the creation.
      * @return The {@code ControlParameter} representing the scale parameter.
      */
-    public ControlParameter getScaleParameter() {
+    public SettableControlParameter getScaleParameter() {
         return scaleParameter;
     }
 
@@ -131,7 +132,12 @@ public class RandCreationStrategy implements CreationStrategy {
      * Set the scale parameter for the creation strategy.
      * @param scaleParameter The value to set.
      */
-    public void setScaleParameter(ControlParameter scaleParameter) {
+    public void setScaleParameter(SettableControlParameter scaleParameter) {
         this.scaleParameter = scaleParameter;
     }
+    
+    public void setScaleParameter(double scaleParameterValue) {
+        this.scaleParameter.setParameter(scaleParameterValue);
+    }
+
 }
