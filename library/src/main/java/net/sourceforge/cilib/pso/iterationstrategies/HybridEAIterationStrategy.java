@@ -25,7 +25,6 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
@@ -62,7 +61,6 @@ import net.sourceforge.cilib.util.selection.weighting.EntityWeighting;
 public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
     
     private CrossoverOperator crossover;
-    private ControlParameter numberOfOffspring;
     private Selector selector;
     
     public HybridEAIterationStrategy() {
@@ -74,13 +72,11 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
         this.crossover.setCrossoverProbability(ConstantControlParameter.of(0.1));
         this.crossover.setCrossoverStrategy(cs);
         
-        this.numberOfOffspring = ConstantControlParameter.of(20);
         this.selector = new ElitistSelector();
     }
     
     public HybridEAIterationStrategy(HybridEAIterationStrategy copy) {
         this.crossover = copy.crossover.getClone();
-        this.numberOfOffspring = copy.numberOfOffspring.getClone();
         this.selector = copy.selector;
     }
 
@@ -105,20 +101,16 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
         
         // crossover
         List<Particle> offspring = Lists.newArrayList();
-        for (int i = 0; i < numberOfOffspring.getParameter(); i++) {
+        for (Particle p : topology) {
              offspring.addAll(crossover.crossover(topology));
         }
         
         for (Particle p : offspring) {
             p.getProperties().put(EntityType.Particle.BEST_POSITION, p.getCandidateSolution());
             p.setNeighbourhoodBest(p);
+            p.calculateFitness();
             
             topology.add(p);
-        }
-        
-        // calculate fitness
-        for (Particle p : topology) {
-            p.calculateFitness();
         }
         
         // rank and eliminate
@@ -139,14 +131,6 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
 
     public Selector getSelector() {
         return selector;
-    }
-
-    public void setNumberOfOffspring(ControlParameter numberOfOffspring) {
-        this.numberOfOffspring = numberOfOffspring;
-    }
-
-    public ControlParameter getNumberOfOffspring() {
-        return numberOfOffspring;
     }
 
     public void setCrossoverStrategy(CrossoverOperator crossoverStrategy) {
