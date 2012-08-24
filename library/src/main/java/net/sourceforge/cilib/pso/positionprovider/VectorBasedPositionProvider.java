@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.pso.positionprovider;
 
-import com.google.common.base.Supplier;
+import fj.P1;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
@@ -58,9 +58,9 @@ public class VectorBasedPositionProvider implements PositionProvider {
         Fitness newFitness = particle.getFitnessCalculator().getFitness(tmp);
 
         final UniformDistribution uniform = new UniformDistribution();
-        Vector newPBest = newPos.multiply(new Supplier<Number>() {
+        Vector newPBest = newPos.multiply(new P1<Number>() {
             @Override
-            public Number get() {
+            public Number _1() {
                 return uniform.getRandomNumber(-granularity.getParameter(), granularity.getParameter());
             }
         }).plus(newPos);

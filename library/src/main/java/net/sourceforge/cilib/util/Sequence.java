@@ -21,17 +21,17 @@
  */
 package net.sourceforge.cilib.util;
 
-import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
+import fj.P1;
 import java.util.Iterator;
 import java.util.List;
 
 /**
  * A {@code Sequence} is defined as a grouping of numbers.
  */
-public final class Sequence implements Supplier<Number> {
+public final class Sequence extends P1<Number> {
 
     private final Iterator<Number> internalSequence;
 
@@ -102,7 +102,7 @@ public final class Sequence implements Supplier<Number> {
 //        return new Sequence(newList.build());
 //    }
     @Override
-    public Number get() {
+    public Number _1() {
         return internalSequence.next();
     }
 
@@ -130,7 +130,7 @@ public final class Sequence implements Supplier<Number> {
                 @Override
                 public Number next() {
                     current++;
-                    return sequence.get();
+                    return sequence._1();
                 }
             };
         }

@@ -22,8 +22,8 @@
 package net.sourceforge.cilib.type.types.container;
 
 import com.google.common.base.Preconditions;
-import com.google.common.base.Supplier;
 import com.google.common.collect.Iterables;
+import fj.P1;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -140,9 +140,9 @@ public final class Matrix implements Type {
      * @return The resultant matrix.
      */
     public Matrix multiply(final double scalar) {
-        return multiply(new Supplier<Double>() {
+        return multiply(new P1<Double>() {
             @Override
-            public Double get() {
+            public Double _1() {
                 return scalar;
             }            
         });
@@ -153,11 +153,11 @@ public final class Matrix implements Type {
      * @param supplier The supplier that supplies scalar values.
      * @return The resultant matrix.
      */
-    public Matrix multiply(Supplier<Double> supplier) {
+    public Matrix multiply(P1<Double> supplier) {
         Matrix result = new Matrix(this.getRows(), this.getColumns());
         for (int i = 0; i < getRows(); i++) {
             for (int j = 0; j < getColumns(); j++) {
-                result.contents[i][j] = this.contents[i][j] * supplier.get();
+                result.contents[i][j] = this.contents[i][j] * supplier._1();
             }
         }
         return result;

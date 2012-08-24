@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.niching.creation;
 
-import com.google.common.base.Supplier;
 import fj.*;
 import fj.data.List;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
@@ -153,9 +152,9 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
             
             // new position within the niche
             Vector solution = (Vector) newP.getCandidateSolution();
-            solution = solution.multiply(new Supplier<Number>() {
+            solution = solution.multiply(new P1<Number>() {
                 @Override
-                public Number get() {
+                public Number _1() {
                     return uniform.getRandomNumber(-nicheRadius, nicheRadius);
                 }
             }).plus((Vector) gBest.getCandidateSolution());
