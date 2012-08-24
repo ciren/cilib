@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.pso.crossover.pbestupdate;
 
-import com.google.common.base.Supplier;
+import fj.P1;
 import java.util.List;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
@@ -44,9 +44,9 @@ public class NoisyPositionOffspringPBestProvider extends OffspringPBestProvider 
 
     @Override
     public StructuredType f(List<Particle> parents, Particle offspring) {
-        return ((Vector) delegate.f(parents, offspring)).multiply(new Supplier<Number>(){
+        return ((Vector) delegate.f(parents, offspring)).multiply(new P1<Number>(){
             @Override
-            public Number get() {
+            public Number _1() {
                 return random.getRandomNumber();
             }            
         });

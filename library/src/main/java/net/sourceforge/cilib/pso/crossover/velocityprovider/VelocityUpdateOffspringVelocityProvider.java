@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.pso.crossover.velocityprovider;
 
+import fj.P1;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -51,6 +52,24 @@ public class VelocityUpdateOffspringVelocityProvider extends OffspringVelocityPr
         this.r1 = new MersenneTwister();
         this.r2 = new MersenneTwister();
     }
+    
+    private static P1<Number> random(final RandomProvider r) {
+        return new P1<Number>() {
+            @Override
+            public Number _1() {
+                return r.nextDouble();
+            }
+        };
+    }
+    
+    private static P1<Number> cp(final ControlParameter r) {
+        return new P1<Number>() {
+            @Override
+            public Number _1() {
+                return r.getParameter();
+            }
+        };
+    }
 
     @Override
     public StructuredType f(List<Particle> parents, Particle offspring) {
@@ -58,8 +77,8 @@ public class VelocityUpdateOffspringVelocityProvider extends OffspringVelocityPr
         Vector localGuide = (Vector) new ElitistSelector<Particle>().on(parents).select().getBestPosition();
         Vector globalGuide = (Vector) AbstractAlgorithm.get().getBestSolution().getPosition();
 
-        Vector cognitiveComponent = Vector.copyOf(localGuide).subtract(position).multiply(cognitiveAcceleration.getParameter()).multiply(r1.nextDouble());
-        Vector socialComponent = Vector.copyOf(globalGuide).subtract(position).multiply(socialAcceleration.getParameter()).multiply(r2.nextDouble());
+        Vector cognitiveComponent = Vector.copyOf(localGuide).subtract(position).multiply(cp(cognitiveAcceleration)).multiply(random(r1));        
+        Vector socialComponent = Vector.copyOf(globalGuide).subtract(position).multiply(cp(socialAcceleration)).multiply(random(r2));
         
         return Vectors.sumOf(cognitiveComponent, socialComponent);
     }

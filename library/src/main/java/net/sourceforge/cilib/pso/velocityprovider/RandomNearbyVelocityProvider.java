@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.pso.velocityprovider;
 
-import com.google.common.base.Supplier;
+import fj.P1;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
@@ -73,9 +73,9 @@ public final class RandomNearbyVelocityProvider implements VelocityProvider {
         
         average = average.divide(topology.size());
         
-        average.multiply(new Supplier<Number>() {
+        average.multiply(new P1<Number>() {
             @Override
-            public Number get() {
+            public Number _1() {
                 return random.getRandomNumber();
             }
         });     

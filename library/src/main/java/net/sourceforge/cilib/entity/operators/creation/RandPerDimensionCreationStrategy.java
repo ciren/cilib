@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.entity.operators.creation;
 
+import fj.P1;
 import java.util.Iterator;
 import java.util.List;
 
@@ -84,7 +85,12 @@ public class RandPerDimensionCreationStrategy implements CreationStrategy {
         Vector differenceVector = determineDistanceVector(participants);
 
         Vector targetVector = (Vector) targetEntity.getCandidateSolution();
-        Vector trialVector = targetVector.plus(differenceVector.multiply(scaleParameter.getParameter()));
+        Vector trialVector = targetVector.plus(differenceVector.multiply(new P1<Number>() {
+            @Override
+            public Number _1() {
+                return scaleParameter.getParameter();
+            }
+        }));
 
         Entity trialEntity = current.getClone();
         trialEntity.setCandidateSolution(trialVector);

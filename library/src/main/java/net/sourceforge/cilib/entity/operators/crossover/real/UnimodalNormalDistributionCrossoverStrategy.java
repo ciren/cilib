@@ -19,8 +19,8 @@
 package net.sourceforge.cilib.entity.operators.crossover.real;
 
 import static com.google.common.base.Preconditions.checkState;
-import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;
+import fj.P1;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -154,20 +154,18 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
                 }
             } else {
                 for (int i = 0; i < e_zeta.size(); i++) {
-                    variables = variables.plus(e_zeta.get(i).multiply(new Supplier<Number>() {
-
+                    variables = variables.plus(e_zeta.get(i).multiply(new P1<Number>() {
                         @Override
-                        public Number get() {
+                        public Number _1() {
                             return random.getRandomNumber(0.0, sigma1.getParameter());
                         }
                     }));
                 }
 
                 for (int i = 0; i < e_eta.size(); i++) {
-                    variables = variables.plus(e_eta.get(i).multiply(new Supplier<Number>() {
-
+                    variables = variables.plus(e_eta.get(i).multiply(new P1<Number>() {
                         @Override
-                        public Number get() {
+                        public Number _1() {
                             return D * random.getRandomNumber(0.0, sigma2.getParameter() / Math.sqrt(n));
                         }
                     }));

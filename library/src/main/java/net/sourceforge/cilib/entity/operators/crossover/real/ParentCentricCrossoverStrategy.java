@@ -19,8 +19,8 @@
 package net.sourceforge.cilib.entity.operators.crossover.real;
 
 import com.google.common.base.Preconditions;
-import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;
+import fj.P1;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -127,19 +127,18 @@ public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
             Vector child = Vector.copyOf(solutions.get(k - 1));
 
             if (useIndividualProviders) {
-                child = child.plus(e_eta.get(0).multiply(new Supplier<Number>() {
-
+                child = child.plus(e_eta.get(0).multiply(new P1<Number>() {
                     @Override
-                    public Number get() {
+                    public Number _1() {
                         return random.getRandomNumber(0.0, sigma1.getParameter());
                     }
                 }));
 
                 for (int i = 1; i < e_eta.size(); i++) {
-                    child = child.plus(e_eta.get(i).multiply(D).multiply(new Supplier<Number>() {
+                    child = child.plus(e_eta.get(i).multiply(D).multiply(new P1<Number>() {
 
                         @Override
-                        public Number get() {
+                        public Number _1() {
                             return random.getRandomNumber(0.0, sigma2.getParameter());
                         }
                     }));

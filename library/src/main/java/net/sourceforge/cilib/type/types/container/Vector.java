@@ -23,9 +23,9 @@ package net.sourceforge.cilib.type.types.container;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Predicate;
-import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
+import fj.P1;
 import java.util.*;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.math.VectorMath;
@@ -479,11 +479,11 @@ public class Vector implements StructuredType<Numeric>,
     public final Vector multiply(double scalar) {
         return multiply(Sequence.of(scalar));
     }
-
-    public final Vector multiply(Supplier<Number> supplier) {
+    
+    public final Vector multiply(P1<Number> supplier) {
         Numeric[] result = new Numeric[components.length];
         for (int i = 0, n = components.length; i < n; i++) {
-            result[i] = Real.valueOf(components[i].doubleValue() * supplier.get().doubleValue(), components[i].getBounds());
+            result[i] = Real.valueOf(components[i].doubleValue() * supplier._1().doubleValue(), components[i].getBounds());
         }
         return new Vector(result);
     }
