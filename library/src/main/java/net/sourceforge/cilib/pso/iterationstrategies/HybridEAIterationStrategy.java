@@ -102,7 +102,10 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
         // crossover
         List<Particle> offspring = Lists.newArrayList();
         for (Particle p : topology) {
-             offspring.addAll(crossover.crossover(topology));
+            List<Particle> o = crossover.crossover(topology);
+            if (!o.isEmpty()) {
+                offspring.add(o.get(0));
+            }
         }
         
         for (Particle p : offspring) {

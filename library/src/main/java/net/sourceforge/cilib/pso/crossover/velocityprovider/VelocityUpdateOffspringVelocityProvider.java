@@ -30,8 +30,6 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.ControlParameters;
-import net.sourceforge.cilib.util.RandomProviders;
 import net.sourceforge.cilib.util.Vectors;
 import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
 
@@ -60,8 +58,8 @@ public class VelocityUpdateOffspringVelocityProvider extends OffspringVelocityPr
         Vector localGuide = (Vector) new ElitistSelector<Particle>().on(parents).select().getBestPosition();
         Vector globalGuide = (Vector) AbstractAlgorithm.get().getBestSolution().getPosition();
 
-        Vector cognitiveComponent = Vector.copyOf(localGuide).subtract(position).multiply(ControlParameters.supplierOf(this.cognitiveAcceleration)).multiply(RandomProviders.supplierOf(this.r1));
-        Vector socialComponent = Vector.copyOf(globalGuide).subtract(position).multiply(ControlParameters.supplierOf(this.socialAcceleration)).multiply(RandomProviders.supplierOf(this.r2));
+        Vector cognitiveComponent = Vector.copyOf(localGuide).subtract(position).multiply(cognitiveAcceleration.getParameter()).multiply(r1.nextDouble());
+        Vector socialComponent = Vector.copyOf(globalGuide).subtract(position).multiply(socialAcceleration.getParameter()).multiply(r2.nextDouble());
         
         return Vectors.sumOf(cognitiveComponent, socialComponent);
     }
