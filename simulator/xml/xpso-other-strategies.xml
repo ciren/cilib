@@ -263,7 +263,6 @@
                     </selectionStrategy>
                 </crossoverStrategy>
                 <selector class="util.selection.recipes.ElitistSelector" />
-                <numberOfOffspring class="controlparameter.ConstantControlParameter" parameter="20" />
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000" />
         </algorithm>

@@ -22,8 +22,8 @@
 package net.sourceforge.cilib.pso.iterationstrategies;
 
 import com.google.common.base.Function;
-import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;
+import fj.P1;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -98,9 +98,9 @@ public class GBestMutationIterationStrategy extends AbstractIterationStrategy<PS
         Vector pos = (Vector) gBest.getBestPosition();
         final Bounds bounds = pos.boundsOf(0);
         
-        pos = pos.plus(avgV.multiply(new Supplier<Number>() {
+        pos = pos.plus(avgV.multiply(new P1<Number>() {
             @Override
-            public Number get() {
+            public Number _1() {
                 return distribution.getRandomNumber()*bounds.getRange() + bounds.getLowerBound();
             }
         }));
