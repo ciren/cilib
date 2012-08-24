@@ -264,7 +264,7 @@
                 </crossoverStrategy>
                 <selector class="util.selection.recipes.ElitistSelector" />
             </iterationStrategy>
-            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="20" />
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000" />
         </algorithm>
     </algorithms>
 
@@ -274,7 +274,7 @@
         </problem>
     </problems>
 
-    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="100">
         <addMeasurement class="measurement.single.Fitness" />
     </measurements>
 
@@ -285,7 +285,7 @@
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-hea.txt" />
         </simulation>
-        <!--simulation samples="5">
+        <simulation samples="5">
             <algorithm idref="xpso-nmpco" />
             <problem idref="griewank" />
             <measurements idref="fitness" />
@@ -338,7 +338,7 @@
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-gliw-fac-rootProbability.txt" />
-        </simulation-->
+        </simulation>
     </simulations>
 </simulator>
 
