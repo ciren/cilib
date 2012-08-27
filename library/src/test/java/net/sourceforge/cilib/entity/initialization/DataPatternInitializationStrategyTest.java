@@ -62,7 +62,7 @@ public class DataPatternInitializationStrategyTest {
     public void testInitialize() {
         SlidingWindow window = new SlidingWindow();
         window.setWindowSize(3);
-        window.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        window.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         window.initializeWindow();
         DataTable table = window.getCurrentDataset();
         
@@ -87,7 +87,7 @@ public class DataPatternInitializationStrategyTest {
     public void testSetDataset() {
         SlidingWindow window = new SlidingWindow();
         window.setWindowSize(3);
-        window.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        window.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         window.initializeWindow();
         DataTable table = window.getCurrentDataset();
         
@@ -104,7 +104,7 @@ public class DataPatternInitializationStrategyTest {
     public void testGetDataset() {
         SlidingWindow window = new SlidingWindow();
         window.setWindowSize(3);
-        window.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        window.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         window.initializeWindow();
         DataTable table = window.getCurrentDataset();
         

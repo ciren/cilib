@@ -131,7 +131,7 @@ public class ClusterParticleTest {
         DataClusteringPSO pso = new DataClusteringPSO();
         QuantizationErrorMinimizationProblem problem = new QuantizationErrorMinimizationProblem();
         SlidingWindow window = new SlidingWindow();
-        pso.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        pso.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         window.setWindowSize(3);
         pso.setWindow(window);
         problem.setDomain("R(-5.12:5.12)");

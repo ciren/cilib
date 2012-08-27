@@ -88,7 +88,7 @@ public class SinglePopulationDataClusteringIterationStrategyTest {
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
         instance.setInitialisationStrategy(init);
-        instance.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        instance.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         
         instance.setOptimisationProblem(problem);
         instance.addStoppingCondition(new MeasuredStoppingCondition());
@@ -122,7 +122,7 @@ public class SinglePopulationDataClusteringIterationStrategyTest {
         System.out.println("getDataset");
         SinglePopulationDataClusteringIterationStrategy instance = new StandardDataClusteringIterationStrategy();
         SlidingWindow window = new SlidingWindow();
-        window.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        window.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         window.setWindowSize(1);
         window.initializeWindow();
         instance.setWindow(window);
@@ -180,7 +180,7 @@ public class SinglePopulationDataClusteringIterationStrategyTest {
         System.out.println("setWindow");
         SinglePopulationDataClusteringIterationStrategy instance = new StandardDataClusteringIterationStrategy();
         SlidingWindow window = new SlidingWindow();
-        window.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        window.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         window.setWindowSize(1);
         instance.setWindow(window);
         
@@ -195,7 +195,7 @@ public class SinglePopulationDataClusteringIterationStrategyTest {
         System.out.println("getWindow");
         SinglePopulationDataClusteringIterationStrategy instance = new StandardDataClusteringIterationStrategy();
         SlidingWindow window = new SlidingWindow();
-        window.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        window.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         window.setWindowSize(1);
         instance.setWindow(window);
         
@@ -211,7 +211,7 @@ public class SinglePopulationDataClusteringIterationStrategyTest {
         SinglePopulationDataClusteringIterationStrategy instance = new StandardDataClusteringIterationStrategy();
         CentroidHolder candidateSolution = new CentroidHolder();
         SlidingWindow window = new SlidingWindow();
-        window.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        window.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         window.setWindowSize(3);
         instance.setWindow(window);
         instance.getWindow().initializeWindow();

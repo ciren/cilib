@@ -95,7 +95,7 @@ public class DataDependantPopulationInitializationStrategyTest {
         problem.setDimension(4);
         SlidingWindow window = new SlidingWindow();
         window.setWindowSize(3);
-        window.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        window.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         window.initializeWindow();
         DataTable table = window.getCurrentDataset();
         
@@ -183,7 +183,7 @@ public class DataDependantPopulationInitializationStrategyTest {
         System.out.println("getBounds");
         SlidingWindow window = new SlidingWindow();
         window.setWindowSize(3);
-        window.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        window.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         window.initializeWindow();
         DataTable table = window.getCurrentDataset();
         
@@ -213,7 +213,7 @@ public class DataDependantPopulationInitializationStrategyTest {
         System.out.println("setDataset");
         SlidingWindow window = new SlidingWindow();
         window.setWindowSize(3);
-        window.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        window.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         window.initializeWindow();
         DataTable table = window.getCurrentDataset();
         

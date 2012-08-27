@@ -24,6 +24,7 @@ package net.sourceforge.cilib.clustering.iterationstrategies;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 
 /**
@@ -104,6 +105,12 @@ public class ReinitializingDataClusteringIterationStrategy extends SinglePopulat
                 assignDataPatternsToParticle(((CentroidHolder)((ClusterParticle) topology.get(i)).getCandidateSolution()), dataset);
         }
         
+    }
+    
+    @Override
+    public void setBoundaryConstraint(BoundaryConstraint boundaryConstraint) {
+        this.boundaryConstraint = boundaryConstraint;
+        delegate.setBoundaryConstraint(boundaryConstraint);
     }
     
 }

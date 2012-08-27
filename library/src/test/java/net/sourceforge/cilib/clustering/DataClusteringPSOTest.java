@@ -89,7 +89,7 @@ public class DataClusteringPSOTest {
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
         instance.setInitialisationStrategy(init);
-        instance.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        instance.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         
         instance.setOptimisationProblem(problem);
         instance.addStoppingCondition(new MeasuredStoppingCondition());
@@ -159,7 +159,7 @@ public class DataClusteringPSOTest {
         PopulationInitialisationStrategy init = new DataDependantPopulationInitializationStrategy<ClusterParticle>();
         init.setEntityType(new ClusterParticle());
         instance.setInitialisationStrategy(init);
-        instance.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        instance.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         instance.performInitialisation();
         
         Assert.assertTrue(((SinglePopulationDataClusteringIterationStrategy) instance.getIterationStrategy()).getDataset().size() > 0);

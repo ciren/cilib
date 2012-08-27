@@ -69,8 +69,7 @@ public class ReinitializingDataClusteringIterationStrategyTest {
         
         QuantizationErrorMinimizationProblem problem = new QuantizationErrorMinimizationProblem();
         problem.setDomain("R(-5.12:5.12)");
-        problem.setNumberOfClusters(3);
-        IterationStrategy strategy = new StandardDataClusteringIterationStrategy();
+        IterationStrategy strategy = new ReinitializingDataClusteringIterationStrategy();
         CentroidBoundaryConstraint constraint = new CentroidBoundaryConstraint();
         constraint.setDelegate(new RandomBoundaryConstraint());
         strategy.setBoundaryConstraint(constraint);
@@ -81,10 +80,10 @@ public class ReinitializingDataClusteringIterationStrategyTest {
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
         instance.setInitialisationStrategy(init);
-        instance.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        instance.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         
         instance.setOptimisationProblem(problem);
-        instance.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 30));
+        instance.addStoppingCondition(new MeasuredStoppingCondition());
         
         instance.performInitialisation();
         

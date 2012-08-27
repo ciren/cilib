@@ -89,7 +89,7 @@ public class CooperativePSOTest {
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
         instance.setInitialisationStrategy(init);
-        instance.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        instance.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         
         instance.setOptimisationProblem(problem);
         instance.addStoppingCondition(new MeasuredStoppingCondition());
@@ -108,7 +108,7 @@ public class CooperativePSOTest {
         init2.setEntityType(new ClusterParticle());
         init2.setEntityNumber(2);
         instance2.setInitialisationStrategy(init2);
-        instance2.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        instance2.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         
         instance2.setOptimisationProblem(problem2);
         instance2.addStoppingCondition(new MeasuredStoppingCondition());
@@ -127,7 +127,7 @@ public class CooperativePSOTest {
         init3.setEntityType(new ClusterParticle());
         init3.setEntityNumber(2);
         instance3.setInitialisationStrategy(init3);
-        instance3.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        instance3.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         
         instance3.setOptimisationProblem(problem3);
         instance3.addStoppingCondition(new MeasuredStoppingCondition());
@@ -247,7 +247,7 @@ public class CooperativePSOTest {
         PopulationInitialisationStrategy init = new DataDependantPopulationInitializationStrategy<ClusterParticle>();
         init.setEntityType(new ClusterParticle());
         standard.setInitialisationStrategy(init);
-        standard.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        standard.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         standard.performInitialisation();
         
         CooperativePSO instance = new CooperativePSO();

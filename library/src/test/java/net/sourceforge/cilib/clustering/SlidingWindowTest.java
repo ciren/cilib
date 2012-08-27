@@ -61,7 +61,7 @@ public class SlidingWindowTest {
     public void testSlideWindow() {
         System.out.println("slideWindow");
         SlidingWindow window = new SlidingWindow();
-        window.setSourceURL("C:\\Users\\Kristina\\Work\\cilib_kgerogieva\\src\\test\\resources\\datasets\\iris2.arff");
+        window.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         window.setWindowSize(1);
         window.setFrequency(1);
         window.initializeWindow();
@@ -88,7 +88,7 @@ public class SlidingWindowTest {
     public void testInitializeWindow() {
         System.out.println("initializeWindow");
         SlidingWindow window = new SlidingWindow();
-        window.setSourceURL("C:\\Users\\Kristina\\Work\\cilib_kgerogieva\\src\\test\\resources\\datasets\\iris2.arff");
+        window.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         window.setWindowSize(2);
         window.initializeWindow();
         
@@ -155,8 +155,8 @@ public class SlidingWindowTest {
     public void testGetSourceURL() {
         System.out.println("getSourceURL");
         SlidingWindow window = new SlidingWindow();
-        window.setSourceURL("C:\\Users\\Kristina\\Work\\cilib_kgerogieva\\src\\test\\resources\\datasets");
-        Assert.assertEquals("C:\\Users\\Kristina\\Work\\cilib_kgerogieva\\src\\test\\resources\\datasets", window.getSourceURL());
+        window.setSourceURL("library\\src\\test\\resources\\datasets");
+        Assert.assertTrue(window.getSourceURL().contains("library\\src\\test\\resources\\datasets"));
     }
 
     /**
@@ -166,8 +166,8 @@ public class SlidingWindowTest {
     public void testSetSourceURL() {
         System.out.println("setSourceURL");
         SlidingWindow window = new SlidingWindow();
-        window.setSourceURL("C:\\Users\\Kristina\\Work\\cilib_kgerogieva\\src\\test\\resources\\datasets");
-        Assert.assertEquals("C:\\Users\\Kristina\\Work\\cilib_kgerogieva\\src\\test\\resources\\datasets", window.getSourceURL());
+        window.setSourceURL("library\\src\\test\\resources\\datasets");
+        Assert.assertTrue(window.getSourceURL().contains("library\\src\\test\\resources\\datasets"));
     }
 
     /**
@@ -201,7 +201,7 @@ public class SlidingWindowTest {
     public void testGetCurrentDataset() {
         System.out.println("getCurrentDataset");
         SlidingWindow window = new SlidingWindow();
-        window.setSourceURL("C:\\Users\\Kristina\\Work\\cilib_kgerogieva\\src\\test\\resources\\datasets\\iris2.arff");
+        window.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         window.setWindowSize(1);
         window.initializeWindow();
         
@@ -220,7 +220,7 @@ public class SlidingWindowTest {
     public void testGetCompleteDataset() {
         System.out.println("getCompleteDataset");
         SlidingWindow window = new SlidingWindow();
-        window.setSourceURL("C:\\Users\\Kristina\\Work\\cilib_kgerogieva\\src\\test\\resources\\datasets\\iris2.arff");
+        window.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         window.setWindowSize(1);
         window.initializeWindow();
         

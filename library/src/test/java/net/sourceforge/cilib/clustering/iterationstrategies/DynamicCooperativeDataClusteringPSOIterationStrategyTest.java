@@ -81,7 +81,7 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategyTest {
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
         instance.setInitialisationStrategy(init);
-        instance.setSourceURL("src\\test\\resources\\datasets\\iris2.arff");
+        instance.setSourceURL("library\\src\\test\\resources\\datasets\\iris2.arff");
         
         instance.setOptimisationProblem(problem);
         instance.addStoppingCondition(new MeasuredStoppingCondition());
