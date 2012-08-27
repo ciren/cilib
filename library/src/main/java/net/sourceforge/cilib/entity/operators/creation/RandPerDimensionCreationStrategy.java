@@ -32,7 +32,6 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Sequence;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
@@ -108,7 +107,7 @@ public class RandPerDimensionCreationStrategy implements CreationStrategy {
      */
     protected Vector determineDistanceVector(List<Entity> participants) {
         RandomProvider random = new MersenneTwister();
-        Vector distanceVector = Vector.copyOf(Sequence.repeat(0.0, participants.get(0).getCandidateSolution().size()));
+        Vector distanceVector = Vector.fill(0.0, participants.get(0).getCandidateSolution().size());
         Iterator<Entity> iterator;
         int number = Double.valueOf(this.numberOfDifferenceVectors.getParameter()).intValue();
         List<Entity> currentParticipants;

@@ -25,6 +25,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
+
+import fj.P;
 import fj.P1;
 import java.util.*;
 import net.sourceforge.cilib.container.visitor.Visitor;
@@ -32,7 +34,6 @@ import net.sourceforge.cilib.math.VectorMath;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.*;
-import net.sourceforge.cilib.util.Sequence;
 
 /**
  * Mathematical vector implementation. This class represents a vector within
@@ -142,6 +143,22 @@ public class Vector implements StructuredType<Numeric>,
      */
     public static Vector copyOf(Vector input) {
         return newBuilder().copyOf(input).build(); // this is a little weird :(
+    }
+
+    public static Vector fill(Numeric n, int size) {
+    	Numeric[] a = new Numeric[size];
+    	for (int i = 0; i < size; i++) {
+    		a[i] = n.getClone();
+    	}
+    	return new Vector(a);
+    }
+
+    public static Vector fill(Number n, int size) {
+    	Numeric[] a = new Numeric[size];
+    	for (int i = 0; i < size; i++) {
+    		a[i] = Real.valueOf(n.doubleValue());
+    	}
+    	return new Vector(a);
     }
 
     private static Vector copyOfInternal(Collection<? extends Number> collection) {
@@ -477,9 +494,9 @@ public class Vector implements StructuredType<Numeric>,
      */
     @Override
     public final Vector multiply(double scalar) {
-        return multiply(Sequence.of(scalar));
+        return multiply(P.<Number>p(scalar));
     }
-    
+
     public final Vector multiply(P1<Number> supplier) {
         Numeric[] result = new Numeric[components.length];
         for (int i = 0, n = components.length; i < n; i++) {
@@ -560,10 +577,10 @@ public class Vector implements StructuredType<Numeric>,
         n[2] = Real.valueOf(this.doubleValueOf(0) * vector.doubleValueOf(1) - this.doubleValueOf(1) * vector.doubleValueOf(0));
         return new Vector(n);
     }
-    
+
     /**
      * Determines if this vector is a zero vector
-     * 
+     *
      * @param v The vector to check
      * @return True if the vector is a zero vector, false otherwise
      */
@@ -576,30 +593,30 @@ public class Vector implements StructuredType<Numeric>,
 
         return true;
     }
-    
+
     /**
      * Calculates a vector that is orthogonal to a number of other vectors.
-     * 
+     *
      * @param u the vector
      * @param vs list of vectors
      * @return the orthogonal vector
      */
     public Vector orthogonalize(Iterable<Vector> vs) {
         Vector u = copyOf(this);
-        
+
         for (Vector v : vs) {
             u = u.subtract(u.project(v));
         }
 
         return u;
     }
-    
+
     /**
      * Projects this vector onto another vector
-     * 
+     *
      * @param u the first vector
      * @param v the second vector
-     * @return the projected vector 
+     * @return the projected vector
      */
     public Vector project(Vector v) {
         return v.multiply(this.dot(v) / v.dot(v));
@@ -931,7 +948,7 @@ public class Vector implements StructuredType<Numeric>,
         private Builder() {
             this.elements = Lists.newArrayList();
         }
-        
+
         public Builder repeat(int n, Numeric numeric) {
             for (int i = 0; i < n; i++) {
                 elements.add(numeric);

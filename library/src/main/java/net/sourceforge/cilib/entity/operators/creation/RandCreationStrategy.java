@@ -32,7 +32,6 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Sequence;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
@@ -105,7 +104,7 @@ public class RandCreationStrategy implements CreationStrategy {
      * @return A {@linkplain Vector} representing the resultant of all calculated difference vectors.
      */
     protected Vector determineDistanceVector(List<Entity> participants) {
-        Vector distanceVector = Vector.copyOf(Sequence.repeat(0.0, participants.get(0).getCandidateSolution().size()));
+        Vector distanceVector = Vector.fill(0.0, participants.get(0).getCandidateSolution().size());
         Iterator<Entity> iterator = participants.iterator();
 
         while (iterator.hasNext()) {

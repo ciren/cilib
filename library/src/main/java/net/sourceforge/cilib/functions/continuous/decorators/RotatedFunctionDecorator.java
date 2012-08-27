@@ -25,7 +25,6 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Matrix;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Matrices;
-import net.sourceforge.cilib.util.Sequence;
 
 /**
  * A function decorator that rotates a given function by a random orthonormal 
@@ -69,7 +68,7 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
             initialized = true;
         }
 
-        Vector rotatedX = Vector.copyOf(Sequence.repeat(0.0, input.size()));
+        Vector rotatedX = Vector.fill(0.0, input.size());
 
         for (int j = 0; j < input.size(); j++) {
             for (int i = 0; i < input.size(); i++) {

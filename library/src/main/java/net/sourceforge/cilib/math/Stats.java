@@ -27,7 +27,6 @@ import java.util.Collection;
 
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Sequence;
 import net.sourceforge.cilib.util.Vectors;
 
 /**
