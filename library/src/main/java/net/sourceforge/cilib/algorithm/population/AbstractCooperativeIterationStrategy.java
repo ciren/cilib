@@ -107,6 +107,8 @@ public abstract class AbstractCooperativeIterationStrategy<E extends PopulationB
      * @return contextParticle The context particle
      */
     public ClusterParticle getContextParticle() {
+        clearDataPatterns(contextParticle);
+        assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);
         return contextParticle;
     }
     

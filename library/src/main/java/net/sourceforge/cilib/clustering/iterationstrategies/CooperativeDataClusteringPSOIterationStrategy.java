@@ -83,8 +83,9 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
               
             table = ((SinglePopulationDataClusteringIterationStrategy) ((DataClusteringPSO) currentAlgorithm).getIterationStrategy()).getDataset();
             
-            if(!contextinitialized)
+            if(!contextinitialized) {
                 initializeContextParticle(algorithm);
+            }
             
             
             DataClusteringPSO pso = ((DataClusteringPSO) currentAlgorithm);

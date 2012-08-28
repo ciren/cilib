@@ -80,6 +80,7 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
 
                  for(int i = 0; i < topology.size(); i+=reinitializationInterval) {
                     ((ClusterParticle) topology.get(i)).reinitialise();
+                    clearDataPatterns((ClusterParticle) topology.get(i));
                     assignDataPatternsToParticle(((CentroidHolder)((ClusterParticle) topology.get(i)).getCandidateSolution()),
                             ((SinglePopulationDataClusteringIterationStrategy)(((DataClusteringPSO) currentAlgorithm).getIterationStrategy())).getDataset());
                 }

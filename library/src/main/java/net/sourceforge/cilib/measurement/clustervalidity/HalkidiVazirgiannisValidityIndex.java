@@ -141,7 +141,6 @@ public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
      */
     protected double getDensity(Vector middlePoint) {
         ArrayList<Vector> allPatterns = getAllPatterns();
-        
         double sum = 0;
         for(Vector pattern : allPatterns) {
             sum += getNeighbourhoodValue(pattern, middlePoint);

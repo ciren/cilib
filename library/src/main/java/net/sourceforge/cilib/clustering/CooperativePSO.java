@@ -103,8 +103,9 @@ public class CooperativePSO extends MultiPopulationBasedAlgorithm{
     public Iterable<OptimisationSolution> getSolutions() {
         List<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
         for (PopulationBasedAlgorithm currentAlgorithm : this.getPopulations()) {
-             for (OptimisationSolution solution : currentAlgorithm.getSolutions())
+             for (OptimisationSolution solution : currentAlgorithm.getSolutions()) {
                  solutions.add(solution);
+             }
         }
         return solutions;
     }
