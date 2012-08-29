@@ -23,6 +23,8 @@ package net.sourceforge.cilib.clustering.iterationstrategies;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
+import net.sourceforge.cilib.util.changeDetection.ChangeDetectionStrategy;
+import net.sourceforge.cilib.util.changeDetection.IterationBasedChangeDetectionStrategy;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
@@ -36,8 +38,7 @@ import net.sourceforge.cilib.type.types.container.CentroidHolder;
  */
 public class ReinitializingDataClusteringIterationStrategy extends SinglePopulationDataClusteringIterationStrategy{
     private SinglePopulationDataClusteringIterationStrategy delegate;
-    private int iterationOfChange;
-    int nextIterationOfChange;
+    ChangeDetectionStrategy changeDetectionStrategy;
     
     /*
      * Default constructor for ReinitializingDataClusteringIterationStrategy
@@ -45,8 +46,7 @@ public class ReinitializingDataClusteringIterationStrategy extends SinglePopulat
     public ReinitializingDataClusteringIterationStrategy() {
         super();
         delegate = new StandardDataClusteringIterationStrategy();
-        iterationOfChange = 1;
-        nextIterationOfChange = 1;
+        changeDetectionStrategy = new IterationBasedChangeDetectionStrategy();
     }
     
     /*
@@ -55,8 +55,7 @@ public class ReinitializingDataClusteringIterationStrategy extends SinglePopulat
     public ReinitializingDataClusteringIterationStrategy(ReinitializingDataClusteringIterationStrategy copy) {
         super(copy);
         delegate = copy.delegate;
-        iterationOfChange = copy.iterationOfChange;
-        nextIterationOfChange = copy.nextIterationOfChange;
+        changeDetectionStrategy = copy.changeDetectionStrategy;
     }
     
     /*
@@ -74,15 +73,13 @@ public class ReinitializingDataClusteringIterationStrategy extends SinglePopulat
      */
     @Override
     public void performIteration(DataClusteringPSO algorithm) {
-        delegate.setWindow(this.window);
-        delegate.performIteration(algorithm);
-        
-        if(nextIterationOfChange == AbstractAlgorithm.get().getIterations()) {
+        if(changeDetectionStrategy.detectChange()) {
             reinitializePosition(algorithm.getTopology());
             reinitialized = true;
-            nextIterationOfChange += iterationOfChange;
         }
         
+        delegate.setWindow(this.window);
+        delegate.performIteration(algorithm);
         
     }
     
@@ -126,22 +123,18 @@ public class ReinitializingDataClusteringIterationStrategy extends SinglePopulat
     }
     
     /*
-     * Returns the iteration of change: the iteration at which a change in the dataset occurs.
-     * This is until alternative methods of determining a change in the dataset are implemented
-     * @return iterationOfChange The Iteration when a change will occur
+     * Sets the change detection strategy to be used
+     * @param changeStrategy The new changeDetectionStrategy
      */
-    public int getIterationOfChange() {
-        return iterationOfChange;
+    public void setChangeDetectionStrategy(ChangeDetectionStrategy changeStrategy) {
+        changeDetectionStrategy = changeStrategy;
     }
     
     /*
-     * Sets the iteration of change: the iteration at which a change in the dataset occurs.
-     * This is until alternative methods of determining a change in the dataset are implemented
-     * @param changeIteration The new value for the iterationOfChange variable
+     * Returns the change detection strategy being used
+     * @return cahngeDetectionStrategy The current change detection strategy
      */
-    public void setIterationOfChange(int changeIteration) {
-        iterationOfChange = changeIteration;
-        nextIterationOfChange = iterationOfChange;
+    public ChangeDetectionStrategy getChangeDetectionStrategy() {
+        return changeDetectionStrategy;
     }
-    
 }

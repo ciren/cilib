@@ -25,6 +25,8 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.clustering.CooperativePSO;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
+import net.sourceforge.cilib.util.changeDetection.ChangeDetectionStrategy;
+import net.sourceforge.cilib.util.changeDetection.IterationBasedChangeDetectionStrategy;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
@@ -36,8 +38,7 @@ import net.sourceforge.cilib.type.types.container.CentroidHolder;
  */
 public class DynamicCooperativeDataClusteringPSOIterationStrategy extends CooperativeDataClusteringPSOIterationStrategy{
     int reinitializationInterval;
-    int iterationOfChange;
-    int nextIterationOfChange;
+    ChangeDetectionStrategy changeDetectionStrategy;
     
     /*
      * Default constructor for DynamicCooperativeDataClusteringPSOIterationStrategy
@@ -45,8 +46,7 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
     public DynamicCooperativeDataClusteringPSOIterationStrategy() {
         super();
         reinitializationInterval = 1;
-        iterationOfChange = 1;
-        nextIterationOfChange = 1;
+        changeDetectionStrategy = new IterationBasedChangeDetectionStrategy();
     }
     
     /*
@@ -55,8 +55,7 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
     public DynamicCooperativeDataClusteringPSOIterationStrategy(DynamicCooperativeDataClusteringPSOIterationStrategy copy) {
         super(copy);
         reinitializationInterval = copy.reinitializationInterval;
-        iterationOfChange = copy.iterationOfChange;
-        nextIterationOfChange = copy.nextIterationOfChange;
+        changeDetectionStrategy = copy.changeDetectionStrategy;
     }
     
     /*
@@ -76,10 +75,7 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
      */
     @Override
     public void performIteration(CooperativePSO algorithm) {
-        super.performIteration(algorithm);
-        
-        if(nextIterationOfChange == AbstractAlgorithm.get().getIterations()) {
-               nextIterationOfChange += iterationOfChange;
+        if(changeDetectionStrategy.detectChange()) {
                this.reinitializeContext(algorithm);
                for(PopulationBasedAlgorithm currentAlgorithm : algorithm.getPopulations()) {
                  Topology topology = currentAlgorithm.getTopology();
@@ -94,7 +90,7 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
                
         }
         
-        
+        super.performIteration(algorithm);
     }
     
     /*
@@ -107,25 +103,6 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
         clearDataPatterns(contextParticle);
         assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);
         contextParticle.calculateFitness();
-    }
-    
-    /*
-     * Returns the iteration of change: the iteration at which a change in the dataset occurs.
-     * This is until alternative methods of determining a change in the dataset are implemented
-     * @return iterationOfChange The Iteration when a change will occur
-     */
-    public int getIterationOfChange() {
-        return iterationOfChange;
-    }
-    
-    /*
-     * Sets the iteration of change: the iteration at which a change in the dataset occurs.
-     * This is until alternative methods of determining a change in the dataset are implemented
-     * @param changeIteration The new value for the iterationOfChange variable
-     */
-    public void setIterationOfChange(int changeIteration) {
-        iterationOfChange = changeIteration;
-        nextIterationOfChange = iterationOfChange;
     }
     
     /*
@@ -142,6 +119,22 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
      */
     public void setReinitializationInterval(int interval) {
         reinitializationInterval = interval;
+    }
+    
+    /*
+     * Sets the change detection strategy to be used
+     * @param changeStrategy The new changeDetectionStrategy
+     */
+    public void setChangeDetectionStrategy(ChangeDetectionStrategy changeStrategy) {
+        changeDetectionStrategy = changeStrategy;
+    }
+    
+    /*
+     * Returns the change detection strategy being used
+     * @return cahngeDetectionStrategy The current change detection strategy
+     */
+    public ChangeDetectionStrategy getChangeDetectionStrategy() {
+        return changeDetectionStrategy;
     }
     
 }
