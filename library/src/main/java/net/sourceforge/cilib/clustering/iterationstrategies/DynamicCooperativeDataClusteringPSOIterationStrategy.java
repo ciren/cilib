@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.clustering.iterationstrategies;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.clustering.CooperativePSO;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
@@ -35,6 +36,8 @@ import net.sourceforge.cilib.type.types.container.CentroidHolder;
  */
 public class DynamicCooperativeDataClusteringPSOIterationStrategy extends CooperativeDataClusteringPSOIterationStrategy{
     int reinitializationInterval;
+    int iterationOfChange;
+    int nextIterationOfChange;
     
     /*
      * Default constructor for DynamicCooperativeDataClusteringPSOIterationStrategy
@@ -42,6 +45,8 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
     public DynamicCooperativeDataClusteringPSOIterationStrategy() {
         super();
         reinitializationInterval = 1;
+        iterationOfChange = 1;
+        nextIterationOfChange = 1;
     }
     
     /*
@@ -50,6 +55,8 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
     public DynamicCooperativeDataClusteringPSOIterationStrategy(DynamicCooperativeDataClusteringPSOIterationStrategy copy) {
         super(copy);
         reinitializationInterval = copy.reinitializationInterval;
+        iterationOfChange = copy.iterationOfChange;
+        nextIterationOfChange = copy.nextIterationOfChange;
     }
     
     /*
@@ -71,10 +78,9 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
     public void performIteration(CooperativePSO algorithm) {
         super.performIteration(algorithm);
         
-        if(((SinglePopulationDataClusteringIterationStrategy)((DataClusteringPSO) algorithm.getPopulations().get(0)).getIterationStrategy()).getWindow().hasSlid()) {
+        if(nextIterationOfChange == AbstractAlgorithm.get().getIterations()) {
+               nextIterationOfChange += iterationOfChange;
                this.reinitializeContext(algorithm);
-               System.out.println("Reinitialized");
-               System.out.println("Iteration:" + algorithm.getIterations());
                for(PopulationBasedAlgorithm currentAlgorithm : algorithm.getPopulations()) {
                  Topology topology = currentAlgorithm.getTopology();
 
@@ -101,6 +107,41 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
         clearDataPatterns(contextParticle);
         assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);
         contextParticle.calculateFitness();
+    }
+    
+    /*
+     * Returns the iteration of change: the iteration at which a change in the dataset occurs.
+     * This is until alternative methods of determining a change in the dataset are implemented
+     * @return iterationOfChange The Iteration when a change will occur
+     */
+    public int getIterationOfChange() {
+        return iterationOfChange;
+    }
+    
+    /*
+     * Sets the iteration of change: the iteration at which a change in the dataset occurs.
+     * This is until alternative methods of determining a change in the dataset are implemented
+     * @param changeIteration The new value for the iterationOfChange variable
+     */
+    public void setIterationOfChange(int changeIteration) {
+        iterationOfChange = changeIteration;
+        nextIterationOfChange = iterationOfChange;
+    }
+    
+    /*
+     * Returns the interval at which entities are re-initialized
+     * @return reinitializationInterval The interval at which entities are re-initialized
+     */
+    public int getReinitializationInterval() {
+        return reinitializationInterval;
+    }
+    
+    /*
+     * Sets the interval at which entities must be re-initialized
+     * @param interval The interval at which entities must be
+     */
+    public void setReinitializationInterval(int interval) {
+        reinitializationInterval = interval;
     }
     
 }

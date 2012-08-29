@@ -53,7 +53,7 @@ public class SlidingWindow {
     private int currentIndex;
     private int slidingTime;
     private boolean isTemporal;
-    private int frequency;
+    private int slideFrequency;
     
     /*
      * Default constructor for the SlidingWindow
@@ -67,8 +67,9 @@ public class SlidingWindow {
         currentIndex = 0;
         slidingTime = 0;
         isTemporal = true;
-        frequency = 0;
+        slideFrequency = 0;
         slideSize = 0;
+        
     }
     
     /*
@@ -84,7 +85,7 @@ public class SlidingWindow {
         currentIndex = copy.currentIndex;
         slidingTime = copy.slidingTime;
         isTemporal = copy.isTemporal;
-        frequency = copy.frequency;
+        slideFrequency = copy.slideFrequency;
         slideSize = copy.slideSize;
     }
     
@@ -274,7 +275,7 @@ public class SlidingWindow {
      * @return The iteration during which the window should slide
      */
     private int getIterationToChange() {
-        return frequency;
+        return slideFrequency;
     }
     
     /*
@@ -283,16 +284,16 @@ public class SlidingWindow {
      * of frequencies may be altered in future.
      * @return The frequency of change
      */
-    public int getFrequency() {
-        return frequency;
+    public int getSlideFrequency() {
+        return slideFrequency;
     }
     
     /*
-     * Sets the frequency of change
+     * Sets the frequency at which the window slides
      * @param frequency The new frequency of change
      */
-    public void setFrequency(int newFrequency) {
-        frequency = newFrequency;
+    public void setSlideFrequency(int newFrequency) {
+        slideFrequency = newFrequency;
     }
     
     /*
@@ -302,5 +303,6 @@ public class SlidingWindow {
     public boolean hasSlid() {
         return isTemporal && slidingTime == 0;
     }
+    
     
 }

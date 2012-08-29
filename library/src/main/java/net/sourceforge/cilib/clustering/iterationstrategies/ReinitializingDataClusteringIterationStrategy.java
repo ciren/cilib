@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.clustering.iterationstrategies;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.entity.Topology;
@@ -35,6 +36,8 @@ import net.sourceforge.cilib.type.types.container.CentroidHolder;
  */
 public class ReinitializingDataClusteringIterationStrategy extends SinglePopulationDataClusteringIterationStrategy{
     private SinglePopulationDataClusteringIterationStrategy delegate;
+    private int iterationOfChange;
+    int nextIterationOfChange;
     
     /*
      * Default constructor for ReinitializingDataClusteringIterationStrategy
@@ -42,6 +45,8 @@ public class ReinitializingDataClusteringIterationStrategy extends SinglePopulat
     public ReinitializingDataClusteringIterationStrategy() {
         super();
         delegate = new StandardDataClusteringIterationStrategy();
+        iterationOfChange = 1;
+        nextIterationOfChange = 1;
     }
     
     /*
@@ -50,6 +55,8 @@ public class ReinitializingDataClusteringIterationStrategy extends SinglePopulat
     public ReinitializingDataClusteringIterationStrategy(ReinitializingDataClusteringIterationStrategy copy) {
         super(copy);
         delegate = copy.delegate;
+        iterationOfChange = copy.iterationOfChange;
+        nextIterationOfChange = copy.nextIterationOfChange;
     }
     
     /*
@@ -70,9 +77,10 @@ public class ReinitializingDataClusteringIterationStrategy extends SinglePopulat
         delegate.setWindow(this.window);
         delegate.performIteration(algorithm);
         
-        if(delegate.getWindow().hasSlid()) {
+        if(nextIterationOfChange == AbstractAlgorithm.get().getIterations()) {
             reinitializePosition(algorithm.getTopology());
             reinitialized = true;
+            nextIterationOfChange += iterationOfChange;
         }
         
         
@@ -107,10 +115,33 @@ public class ReinitializingDataClusteringIterationStrategy extends SinglePopulat
         
     }
     
+    /*
+     * Sets the boundary constraint of the re-initialization strategy as well as that of its delegate
+     * @param boundaryConstraint The constraint to be given to this strategy as well as its delegate
+     */
     @Override
     public void setBoundaryConstraint(BoundaryConstraint boundaryConstraint) {
         this.boundaryConstraint = boundaryConstraint;
         delegate.setBoundaryConstraint(boundaryConstraint);
+    }
+    
+    /*
+     * Returns the iteration of change: the iteration at which a change in the dataset occurs.
+     * This is until alternative methods of determining a change in the dataset are implemented
+     * @return iterationOfChange The Iteration when a change will occur
+     */
+    public int getIterationOfChange() {
+        return iterationOfChange;
+    }
+    
+    /*
+     * Sets the iteration of change: the iteration at which a change in the dataset occurs.
+     * This is until alternative methods of determining a change in the dataset are implemented
+     * @param changeIteration The new value for the iterationOfChange variable
+     */
+    public void setIterationOfChange(int changeIteration) {
+        iterationOfChange = changeIteration;
+        nextIterationOfChange = iterationOfChange;
     }
     
 }
