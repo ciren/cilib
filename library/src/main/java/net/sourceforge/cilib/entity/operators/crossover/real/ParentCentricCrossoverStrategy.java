@@ -28,11 +28,15 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
+import net.sourceforge.cilib.entity.operators.crossover.parentprovider.ParentProvider;
+import net.sourceforge.cilib.entity.operators.crossover.parentprovider.RandomParentProvider;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Entities;
 import net.sourceforge.cilib.util.Vectors;
+
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 
 /**
  * <p> Parent Centric Crossover Strategy </p>
@@ -53,6 +57,7 @@ public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
     private GaussianDistribution random;
     private boolean useIndividualProviders;
     private int numberOfParents;
+    private ParentProvider parentProvider;
 
     public ParentCentricCrossoverStrategy() {
         this.numberOfOffspring = 1;
@@ -61,6 +66,7 @@ public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
         this.random = new GaussianDistribution();
         this.useIndividualProviders = true;
         this.numberOfParents = 3;
+        this.parentProvider = new RandomParentProvider();
     }
 
     public ParentCentricCrossoverStrategy(ParentCentricCrossoverStrategy copy) {
@@ -70,6 +76,7 @@ public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
         this.random = copy.random;
         this.useIndividualProviders = copy.useIndividualProviders;
         this.numberOfParents = copy.numberOfParents;
+        this.parentProvider = copy.parentProvider.getClone();
     }
 
     @Override
@@ -99,7 +106,9 @@ public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
 
         //get each offspring
         for (int os = 0; os < numberOfOffspring; os++) {
-            int parent = (int) randomParent.getRandomNumber(0.0, k);
+            // to allow the same parent to be selected by the parentProvider
+            solutions = Entities.<Vector>getCandidateSolutions(parentCollection);
+            int parent = parentCollection.indexOf(parentProvider.f((List<Entity>) parentCollection));
             Collections.swap(solutions, parent, k - 1);
 
             List<Vector> e_eta = new ArrayList<Vector>();
@@ -204,5 +213,13 @@ public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
 
     public void setNumberOfParents(int numberOfParents) {
         this.numberOfParents = numberOfParents;
+    }
+
+    public ParentProvider getParentProvider() {
+        return parentProvider;
+    }
+
+    public void setParentProvider(ParentProvider parentProvider) {
+        this.parentProvider = parentProvider;
     }
 }
