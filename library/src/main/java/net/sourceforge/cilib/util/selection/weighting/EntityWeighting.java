@@ -51,22 +51,30 @@ public class EntityWeighting implements Weighting {
     @Override
     public <T> Iterable<WeightedObject> weigh(Iterable<T> iterable) {
         Preconditions.checkArgument(Iterables.get(iterable, 0) instanceof Entity);
-        
-        P2<Fitness, Fitness> minMaxFitness = getMinMaxFitness(Lists.newArrayList(iterable));
+
+        P2<Double, Double> minMaxFitness = getMinMaxFitness(Lists.newArrayList(iterable));
         List<WeightedObject> result = Lists.newArrayList();
 
-        double minMaxDifference = minMaxFitness._2().getValue() - minMaxFitness._1().getValue();
+        double minMaxDifference = minMaxFitness._2() - minMaxFitness._1();
 
         for (T t : iterable) {
             double weight;
-            
-            if (minMaxDifference != 0.0) {
-                weight = (this.entityFitness.getFitness((Entity) t).getValue() - minMaxFitness._1().getValue()) / minMaxDifference;
-            } else {
-                // if minMaxDifference is zero it means that all entities have the same fitness
-                // which will make it the same as a constant weighting, so as long as the values
-                // are the same it works out the same
-                weight = this.entityFitness.getFitness((Entity) t).getValue();
+
+            if (Double.isNaN(minMaxDifference)) { // all NaNs
+                weight = 1.0;
+            } else { // some NaNs
+                if (minMaxDifference != 0.0) {
+                    weight = (this.entityFitness.getFitness((Entity) t).getValue() - minMaxFitness._1()) / minMaxDifference;
+                } else { // some NaNs or all the same
+                    // if minMaxDifference is zero it means that all entities have the same fitness
+                    // which will make it the same as a constant weighting, so as long as the values
+                    // are the same it works out the same
+                    weight = 1.0;
+                }
+
+                if (Double.isNaN(this.entityFitness.getFitness((Entity) t).getValue())) {
+                    weight = 0.0;
+                }
             }
 
             result.add(new WeightedObject(t, weight));
@@ -82,14 +90,14 @@ public class EntityWeighting implements Weighting {
     public EntityFitness<Entity> getEntityFitness() {
         return entityFitness;
     }
-    
+
     private static Ord<Entity> entityOrdering = Ord.ord(new F2<Entity, Entity, Ordering>() {
         @Override
         public Ordering f(Entity a, Entity b) {
             return Ordering.values()[a.compareTo(b) + 1];
         };
     }.curry());
-    
+
     private static F<Entity, Boolean> inferiorFilter(final EntityFitness<Entity> entityFitness) {
         return new F<Entity, Boolean>() {
             @Override
@@ -99,17 +107,17 @@ public class EntityWeighting implements Weighting {
         };
     }
 
-    private <T> P2<Fitness, Fitness> getMinMaxFitness(List<T> entities) {
+    private <T> P2<Double, Double> getMinMaxFitness(List<T> entities) {
         fj.data.List<Entity> e = ((fj.data.List<Entity>) fj.data.List.iterableList(entities))
             .filter(inferiorFilter(entityFitness));
-        
+
         if (e.isEmpty()) {
-            throw new UnsupportedOperationException("Cannot weigh entities where all entities have Inferior fitness.");
+            return P.p(Double.NaN, Double.NaN);
         }
-        
+
         Fitness min = e.minimum(entityOrdering).getFitness();
         Fitness max = e.maximum(entityOrdering).getFitness();
-        
-        return P.p(min, max);
+
+        return P.p(min.getValue(), max.getValue());
     }
 }
