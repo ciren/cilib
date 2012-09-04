@@ -93,11 +93,6 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
         return domainRegistry.getDomainString();
     }
 
-    @Override
-    public void accept(ProblemVisitor visitor) {
-        visitor.visit(this);
-    }
-
     /**
      * Accessor for the domain of the function. See {@link net.sourceforge.cilib.Domain.Component}.
      * @return The function domain.

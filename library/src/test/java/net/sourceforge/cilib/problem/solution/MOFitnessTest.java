@@ -25,7 +25,6 @@ import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.problem.ProblemVisitor;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -105,11 +104,6 @@ public class MOFitnessTest {
 
         @Override
         public void setDataSetBuilder(DataSetBuilder dataSet) {
-            throw new UnsupportedOperationException("This method is not implemented");
-        }
-
-        @Override
-        public void accept(ProblemVisitor visitor) {
             throw new UnsupportedOperationException("This method is not implemented");
         }
 

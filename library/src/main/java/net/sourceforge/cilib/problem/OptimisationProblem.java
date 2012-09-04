@@ -85,11 +85,4 @@ public interface OptimisationProblem extends Problem, Cloneable {
      *                       to be set on the current {@link net.sourceforge.cilib.problem.OptimisationProblem}.
      */
     void setDataSetBuilder(DataSetBuilder dataSetBuilder);
-
-    /**
-     * Accept the provided {@link net.sourceforge.cilib.container.visitor.Visitor} and
-     * perform the {@link net.sourceforge.cilib.container.visitor.Visitor#visit(Object)} method.
-     * @param visitor The visitor which has operations to perform.
-     */
-    void accept(ProblemVisitor visitor);
 }

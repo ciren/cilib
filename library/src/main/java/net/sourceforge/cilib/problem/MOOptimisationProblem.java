@@ -94,11 +94,6 @@ public class MOOptimisationProblem extends ForwardingList<OptimisationProblem> i
     }
 
     @Override
-    public void accept(ProblemVisitor visitor) {
-        visitor.visit(this);
-    }
-
-    @Override
     public void changeEnvironment() {
         throw new UnsupportedOperationException("This method is not implemented");
     }

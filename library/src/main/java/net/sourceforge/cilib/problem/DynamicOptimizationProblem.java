@@ -49,11 +49,6 @@ public class DynamicOptimizationProblem extends FunctionOptimisationProblem {
     }
 
     @Override
-    public void accept(ProblemVisitor visitor) {
-        functionOptimisationProblem.accept(visitor);
-    }
-
-    @Override
     public int getDimension() {
         return functionOptimisationProblem.getDimension();
     }

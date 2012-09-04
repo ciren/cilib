@@ -114,14 +114,6 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
      * {@inheritDoc}
      */
     @Override
-    public void accept(ProblemVisitor visitor) {
-        throw new UnsupportedOperationException("This method is not implemented");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void changeEnvironment() {
         throw new UnsupportedOperationException("Problems are static by default. Dynamic problems should override this method");
     }

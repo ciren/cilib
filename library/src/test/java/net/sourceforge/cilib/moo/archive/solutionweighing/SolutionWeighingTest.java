@@ -34,7 +34,6 @@ import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
-import net.sourceforge.cilib.problem.ProblemVisitor;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
@@ -89,11 +88,6 @@ public class SolutionWeighingTest {
 
         @Override
         public void setDataSetBuilder(DataSetBuilder dataSet) {
-        }
-
-        @Override
-        public void accept(ProblemVisitor visitor) {
-            throw new UnsupportedOperationException("This method is not implemented.");
         }
 
         @Override
