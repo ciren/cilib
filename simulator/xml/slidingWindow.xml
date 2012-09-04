@@ -32,7 +32,7 @@
             <stepSize value="10" />
             <changeFrequency value="100" />
             <dataTableBuilder class="io.DataTableBuilder">
-                <dataReader class="io.ARFFFileReader" sourceURL="src/test/resources/datasets/iris.arff"/>
+                <dataReader class="io.ARFFFileReader" sourceURL="library/src/test/resources/datasets/iris.arff"/>
             </dataTableBuilder>
             <neuralNetwork class="nn.NeuralNetwork">
                 <architecture class="nn.architecture.Architecture">
