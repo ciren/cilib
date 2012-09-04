@@ -23,8 +23,8 @@ package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.InferiorFitness;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.InferiorFitness;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.container.TypeList;

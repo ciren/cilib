@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.entity;
 
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**

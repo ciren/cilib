@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.problem.coevolution;
 
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Blackboard;
@@ -29,7 +29,7 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.calculator.PropertyBasedFitnessCalculator;
 
 /**
- * This class is used by the sub populations of a competitive coevolution algorithm. 
+ * This class is used by the sub populations of a competitive coevolution algorithm.
  * It can only optimise {@linkplain Entitie}s using the {@linkplain PropertyBasedFitnessCalculator}
  */
 public class CompetitiveCoevolutionProblemAdapter extends OptimisationProblemAdapter {

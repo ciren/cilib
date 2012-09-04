@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.problem;
 
+import net.sourceforge.cilib.problem.solution.Fitness;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sourceforge.cilib.problem.changestrategy.ChangeStrategy;

@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.coevolution.score;
 
 import java.util.ArrayList;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 
 /**
  * This class is used to store history of competitions
@@ -34,7 +34,7 @@ import net.sourceforge.cilib.problem.Fitness;
 public class EntityScore {
 
     /**
-     * The current round and competitor group. A competitor group is a unique number 
+     * The current round and competitor group. A competitor group is a unique number
      * assigned to a group of opponents this entity competed against.
      */
     private int round;

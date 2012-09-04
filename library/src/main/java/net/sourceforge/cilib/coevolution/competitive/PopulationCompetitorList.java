@@ -24,7 +24,7 @@ package net.sourceforge.cilib.coevolution.competitive;
 import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -46,7 +46,7 @@ public class PopulationCompetitorList implements Cloneable {
 
     public PopulationCompetitorList(PopulationCompetitorList other) {
         competitors = Lists.newArrayListWithCapacity(other.size());
-        
+
         for (Competitor c : other.competitors) {
             competitors.add(c.getClone());
         }
@@ -79,7 +79,7 @@ public class PopulationCompetitorList implements Cloneable {
      */
     public void addCompetitor(Competitor competitor) {
         int populationID = getPopulationID();
-        
+
         if (populationID != -1 && populationID != competitor.getPopulationID()) {
             throw new RuntimeException("Invalid merge, populationID's do not match");
         }
@@ -95,14 +95,14 @@ public class PopulationCompetitorList implements Cloneable {
         //find the worst competitor
         Fitness worstFit = null;
         int worstIndex = 0;
-        
+
         for (int i = 0; i < competitors.size(); ++i) {
             if (worstFit == null || competitors.get(i).getEntityFitness().compareTo(worstFit) < 0) {
                 worstFit = competitors.get(i).getEntityFitness();
                 worstIndex = i;
             }
         }
-        
+
         if (newCompetitor.getEntityFitness().compareTo(competitors.get(worstIndex).getEntityFitness()) > 0) {
             competitors.remove(worstIndex);
             competitors.add(newCompetitor);
@@ -115,12 +115,12 @@ public class PopulationCompetitorList implements Cloneable {
      */
     public void addCompetitors(List<Competitor> competitors) {
         int populationID = getPopulationID();
-        
+
         for (Competitor competitor : competitors) {
             if (populationID != -1 && populationID != competitor.getPopulationID()) {
                 throw new RuntimeException("Invalid merge, populationID's do not match");
             }
-            
+
             this.competitors.add(competitor);
         }
     }
@@ -133,11 +133,11 @@ public class PopulationCompetitorList implements Cloneable {
      */
     public void changePopulationID(int oldPopulationID, int newPopulationID) {
         List<Competitor> tempCompetitors = new ArrayList<Competitor>();
-        
+
         for (Competitor c : competitors) {
             tempCompetitors.add(new Competitor(c.getEntityData(), c.getPopulationID()));
         }
-        
+
         competitors.clear();
         competitors = tempCompetitors;
     }

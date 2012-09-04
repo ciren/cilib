@@ -25,9 +25,9 @@ import com.google.common.collect.Lists;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.problem.MOFitness;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.problem.solution.MOFitness;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.util.selection.WeightedObject;
 
 /**

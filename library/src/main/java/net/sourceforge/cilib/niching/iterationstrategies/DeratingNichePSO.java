@@ -33,33 +33,33 @@ import static net.sourceforge.cilib.niching.NichingFunctions.*;
 import net.sourceforge.cilib.niching.NichingSwarms;
 import static net.sourceforge.cilib.niching.NichingSwarms.*;
 import net.sourceforge.cilib.problem.DeratingOptimisationProblem;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.util.functions.Algorithms;
 import net.sourceforge.cilib.util.functions.Solutions;
 
 public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm> {
 
     protected java.util.List<OptimisationSolution> solutions;
-    
+
     public DeratingNichePSO() {
         this.solutions = Lists.<OptimisationSolution>newLinkedList();
     }
-    
+
     public DeratingNichePSO(DeratingNichePSO copy) {
         this.solutions = Lists.<OptimisationSolution>newLinkedList(copy.solutions);
     }
-    
+
     @Override
     public DeratingNichePSO getClone() {
         return new DeratingNichePSO(this);
     }
-    
+
     @Override
     public void performIteration(NichingAlgorithm alg) {
         Preconditions.checkState(alg.getOptimisationProblem() instanceof DeratingOptimisationProblem,
                 "DeratingNichePSO can only be used with DeratingOptimisationProblem.");
         DeratingOptimisationProblem problem = (DeratingOptimisationProblem) alg.getOptimisationProblem();
-        
+
         List<PopulationBasedAlgorithm> subswarms = List.<PopulationBasedAlgorithm>iterableList(alg.getPopulations());
         subswarms = onMainSwarm(Algorithms.<PopulationBasedAlgorithm>initialise())
             .andThen(phase1(alg))
@@ -74,11 +74,11 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
         alg.getMainSwarm().setOptimisationProblem(problem);
         // dont need to set the main swarm because it gets reinitialised
     }
-    
+
     /**
      * Clear solutions so subswarms can optimize in original search space
      */
-    public static F<PopulationBasedAlgorithm, PopulationBasedAlgorithm> 
+    public static F<PopulationBasedAlgorithm, PopulationBasedAlgorithm>
             clearDeratingSolutions(final DeratingOptimisationProblem problem) {
         return new F<PopulationBasedAlgorithm, PopulationBasedAlgorithm>() {
             @Override
@@ -86,7 +86,7 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
                 problem.clearSolutions();
                 a.setOptimisationProblem(problem);
                 return a;
-            }        
+            }
         };
     }
 
@@ -123,7 +123,7 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
     }
 
     /**
-     * Recursive function iterates each new subswarm individually, absorbs 
+     * Recursive function iterates each new subswarm individually, absorbs
      * particles from the main swarm and creates niches until all the subswarm's
      * stopping conditions are met.
      */

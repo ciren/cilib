@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.pso.positionprovider;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 
 /**
  * This class.....

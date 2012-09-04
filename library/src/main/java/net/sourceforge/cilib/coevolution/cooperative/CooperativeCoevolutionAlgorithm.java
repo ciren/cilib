@@ -34,7 +34,7 @@ import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ZeroC
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
 import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.PerfectSplitDistributionStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.ProblemDistributionStrategy;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**

@@ -22,8 +22,8 @@
 package net.sourceforge.cilib.util.functions;
 
 import fj.F;
-import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**

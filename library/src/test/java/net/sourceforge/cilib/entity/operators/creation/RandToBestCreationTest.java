@@ -32,7 +32,7 @@ import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.math.random.generator.seeder.SeedSelectionStrategy;
 import net.sourceforge.cilib.math.random.generator.seeder.Seeder;
 import net.sourceforge.cilib.math.random.generator.seeder.ZeroSeederStrategy;
-import net.sourceforge.cilib.problem.MinimisationFitness;
+import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.Assert;

@@ -35,7 +35,7 @@ import net.sourceforge.cilib.entity.initialization.StandardCentroidInitializatio
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.ClusteringProblem;
-import net.sourceforge.cilib.problem.MinimisationFitness;
+import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.problem.QuantizationErrorMinimizationProblem;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;

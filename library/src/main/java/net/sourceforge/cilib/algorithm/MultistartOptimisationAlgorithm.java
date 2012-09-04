@@ -26,11 +26,11 @@ import java.util.List;
 
 import net.sourceforge.cilib.coevolution.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
-import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.problem.InferiorFitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;

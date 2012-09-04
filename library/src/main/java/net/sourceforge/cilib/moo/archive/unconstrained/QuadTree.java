@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.moo.archive.Archive;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 
 /**
  * Placeholder class for anybody interrested in implementing this datastructure.

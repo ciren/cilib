@@ -25,7 +25,7 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.niching.NichingFunctionsTest;
-import net.sourceforge.cilib.problem.MinimisationFitness;
+import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;

@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.problem;
 
+import net.sourceforge.cilib.problem.solution.MinimisationFitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.DataTableBuilder;
@@ -41,7 +43,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Class represents a {@link NNTrainingProblem} where the goal is to optimize
  * the set of weights of a neural network to best fit a given dynamic dataset (either
  * regression, classification etc.). Sliding window is used to simulate dynamic changes.
- * User-specified step size, frequency, and sliding window size control the dynamics 
+ * User-specified step size, frequency, and sliding window size control the dynamics
  * of the sliding window. Sliding window moves over the dataset and presents patterns
  * to the neural network in batches equal to the size of the window.
  */
@@ -166,7 +168,7 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
                     trainingSet.removeRow(0);
                     trainingSet.addRow(candidateSet.removeRow(0));
                 }
-          
+
                 for (int t = 0; t < generalizationStepSize; t++){
                     generalizationSet.removeRow(0);
                     generalizationSet.addRow(candidateSet.removeRow(0));
@@ -175,7 +177,7 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
                 exception.printStackTrace();
             }
         }
-   
+
         neuralNetwork.setWeights((Vector) solution);
 
         double errorTraining = 0.0;
@@ -241,7 +243,7 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
     public void setSourceURL(String sourceURL) {
         dataTableBuilder.setSourceURL(sourceURL);
     }
-    
+
     /**
      * Gets the change frequency value.
      * @return the change frequency value.

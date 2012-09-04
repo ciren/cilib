@@ -23,7 +23,7 @@ package net.sourceforge.cilib.util.selection.weighting;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.SocialEntity;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 
 /**
  * Obtain the social best fitness value from a {@link SocialEntity}.

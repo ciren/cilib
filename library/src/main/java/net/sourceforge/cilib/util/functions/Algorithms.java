@@ -30,7 +30,7 @@ import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 
 public final class Algorithms {
     public static <A extends Algorithm> F<A, OptimisationSolution> getBestSolution() {

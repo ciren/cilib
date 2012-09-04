@@ -31,8 +31,8 @@ import java.util.List;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.problem.MaximisationFitness;
-import net.sourceforge.cilib.problem.MinimisationFitness;
+import net.sourceforge.cilib.problem.solution.MaximisationFitness;
+import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 
 import org.junit.Test;
 

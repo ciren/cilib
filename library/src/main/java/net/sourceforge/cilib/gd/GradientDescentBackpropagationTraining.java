@@ -34,9 +34,9 @@ import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.nn.architecture.visitors.BackPropagationVisitor;
 import net.sourceforge.cilib.nn.architecture.visitors.OutputErrorVisitor;
-import net.sourceforge.cilib.problem.MinimisationFitness;
+import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.problem.NNTrainingProblem;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 

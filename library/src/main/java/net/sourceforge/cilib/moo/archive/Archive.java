@@ -24,7 +24,7 @@ package net.sourceforge.cilib.moo.archive;
 import java.util.Collection;
 
 import net.sourceforge.cilib.moo.archive.constrained.SetBasedConstrainedArchive;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 
 /**
  * <p>

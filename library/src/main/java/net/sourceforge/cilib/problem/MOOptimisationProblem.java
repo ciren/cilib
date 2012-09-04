@@ -21,6 +21,9 @@
  */
 package net.sourceforge.cilib.problem;
 
+import net.sourceforge.cilib.problem.solution.MOFitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitnesses;
 import com.google.common.collect.ForwardingList;
 import com.google.common.collect.Lists;
 import java.util.List;

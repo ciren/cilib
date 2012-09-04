@@ -24,8 +24,8 @@ package net.sourceforge.cilib.coevolution.cooperative;
 import net.sourceforge.cilib.coevolution.cooperative.problem.DimensionAllocation;
 import net.sourceforge.cilib.entity.CandidateSolution;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.problem.InferiorFitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Numeric;
@@ -164,7 +164,7 @@ public class ContextEntity implements Entity {
     public void copyFrom(Vector solution, DimensionAllocation allocation){
         if(solution.size() != allocation.getSize())
             throw new RuntimeException("Incompatible");
-        
+
         for(int i = 0; i < allocation.getSize(); ++i){
             context.set(allocation.getProblemIndex(i), solution.get(i).getClone());
         }

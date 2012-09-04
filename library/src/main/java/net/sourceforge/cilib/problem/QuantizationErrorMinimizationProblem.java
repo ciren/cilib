@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.problem;
 
+import net.sourceforge.cilib.problem.solution.MinimisationFitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
@@ -46,7 +48,7 @@ public class QuantizationErrorMinimizationProblem extends ClusteringProblem{
     public QuantizationErrorMinimizationProblem() {
         super();
     }
-    
+
     /*
      * Copy constructor of the QuantizationErrorMinimizationProblem
      * @param copy the QuantizationErrorMinimizationProblem tp be copied
@@ -54,7 +56,7 @@ public class QuantizationErrorMinimizationProblem extends ClusteringProblem{
     public QuantizationErrorMinimizationProblem(QuantizationErrorMinimizationProblem copy) {
         super(copy);
     }
-    
+
     /*
      * The clone method of the QuantizationErrorMinimizationProblem
      * @return The new instance of the QuantizationErrorMinimizationProblem
@@ -81,16 +83,16 @@ public class QuantizationErrorMinimizationProblem extends ClusteringProblem{
             }
             quantizationError += temp / ((double) centroid.getDataItemDistances().length);
         }
-       
+
         quantizationError /= ((double) candidateSolution.size());
-        
+
         if(Double.isNaN(quantizationError)){
             quantizationError = Double.POSITIVE_INFINITY;
         }
-        
+
         return new MinimisationFitness(quantizationError);
-        
+
     }
-    
-    
+
+
 }

@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.problem;
 
+import net.sourceforge.cilib.problem.solution.MaximisationFitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import com.google.common.collect.Lists;
 import java.util.Collection;
 import java.util.List;

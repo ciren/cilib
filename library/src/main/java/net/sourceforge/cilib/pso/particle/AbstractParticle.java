@@ -28,7 +28,7 @@ import net.sourceforge.cilib.entity.initialization.ConstantInitializationStrateg
 import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
 import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
 import net.sourceforge.cilib.entity.initialization.StandardPBestPositionInitializationStrategy;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
 import net.sourceforge.cilib.pso.pbestupdate.PersonalBestUpdateStrategy;
 import net.sourceforge.cilib.pso.pbestupdate.StandardPersonalBestUpdateStrategy;
@@ -51,7 +51,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     protected InitializationStrategy<Particle> velocityInitializationStrategy;
     protected InitializationStrategy<Particle> positionInitialisationStrategy;
     protected InitializationStrategy<Particle> personalBestInitialisationStrategy;
-    
+
     protected PersonalBestUpdateStrategy personalBestUpdateStrategy;
     protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;
 
@@ -76,7 +76,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public AbstractParticle(AbstractParticle copy) {
         super(copy);
         this.behavior = copy.behavior.getClone();
-        
+
         this.velocityInitializationStrategy = copy.velocityInitializationStrategy.getClone();
         this.positionInitialisationStrategy = copy.positionInitialisationStrategy.getClone();
         this.personalBestInitialisationStrategy = copy.personalBestInitialisationStrategy.getClone();

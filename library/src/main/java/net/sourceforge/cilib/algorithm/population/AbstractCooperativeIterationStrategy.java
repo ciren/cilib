@@ -27,7 +27,7 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.StandardDataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
-import net.sourceforge.cilib.problem.InferiorFitness;
+import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -41,7 +41,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends PopulationB
     protected ClusterParticle contextParticle;
     protected boolean contextinitialized;
     protected DataTable table;
-    
+
     /*
      * Default constructor for AbstractCooperativeIterationStrategy
      */
@@ -50,7 +50,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends PopulationB
         contextinitialized = false;
         table = new StandardDataTable();
     }
-    
+
     /*
      * Copy constructor for AbstractCooperativeIterationStrategy
      * @param copy The AbstractCooperativeIterationStrategy to be copied
@@ -60,7 +60,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends PopulationB
         contextinitialized = copy.contextinitialized;
         table = copy.table;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -72,7 +72,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends PopulationB
      */
     @Override
     public abstract void performIteration(E algorithm);
-    
+
     /*
      * Adds the data patterns closest to a centrid to its data pattern list
      * @param candidateSolution The solution holding all the centroids
@@ -82,7 +82,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends PopulationB
         double euclideanDistance;
         Vector addedPattern;
         DistanceMeasure distanceMeasure = new EuclideanDistanceMeasure();
-        
+
         for(int i = 0; i < dataset.size(); i++) {
                 euclideanDistance = Double.POSITIVE_INFINITY;
                 addedPattern = Vector.of();
@@ -97,13 +97,13 @@ public abstract class AbstractCooperativeIterationStrategy<E extends PopulationB
                     }
                     centroidIndex++;
                 }
-                
+
                 candidateSolution.get(patternIndex).addDataItem(euclideanDistance, addedPattern);
             }
     }
-    
+
     /*
-     * Returns the context particle 
+     * Returns the context particle
      * @return contextParticle The context particle
      */
     public ClusterParticle getContextParticle() {
@@ -111,7 +111,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends PopulationB
         assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);
         return contextParticle;
     }
-    
+
     /*
      * Initializes the context particle for the first time
      * @param algorithm The algorithm whose context particle needs to be initialized
@@ -121,27 +121,27 @@ public abstract class AbstractCooperativeIterationStrategy<E extends PopulationB
         CentroidHolder solution = new CentroidHolder();
         CentroidHolder velocity = new CentroidHolder();
         CentroidHolder bestPosition = new CentroidHolder();
-        
+
         for(PopulationBasedAlgorithm alg : algorithm.getPopulations()) {
             if(!((DataClusteringPSO) alg).isExplorer()) {
                 solution.add(((CentroidHolder) alg.getTopology().get(0).getCandidateSolution()).get(populationIndex).getClone());
                 velocity.add(((CentroidHolder) ((ClusterParticle) alg.getTopology().get(0)).getVelocity()).get(populationIndex).getClone());
                 bestPosition.add(((CentroidHolder) ((ClusterParticle) alg.getTopology().get(0)).getBestPosition()).get(populationIndex).getClone());
-            
+
                 populationIndex++;
             }
         }
-        
+
         contextParticle.setCandidateSolution(solution);
         contextParticle.getProperties().put(EntityType.Particle.VELOCITY, velocity);
         contextParticle.getProperties().put(EntityType.Particle.BEST_POSITION, bestPosition);
         contextParticle.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
         contextParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
-        
+
         contextinitialized = true;
     }
-    
-    
+
+
     /*
      * Removes all data patterns held by cluster centroids held by the particle received
      * @param particle The particle whose centrids must be cleared

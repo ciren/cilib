@@ -22,8 +22,8 @@
 package net.sourceforge.cilib.coevolution.score.fitnesscalculation;
 
 import net.sourceforge.cilib.coevolution.score.EntityScoreboard;
-import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.problem.MaximisationFitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.problem.solution.MaximisationFitness;
 
 /**
  * This class uses the percentage games won as the Fitness value.

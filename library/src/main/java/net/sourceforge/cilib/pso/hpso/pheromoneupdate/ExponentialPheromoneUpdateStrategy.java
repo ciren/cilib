@@ -25,7 +25,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 
 /**
  * Calculates the change in pheromone level for a particular particle's behavior
@@ -33,7 +33,7 @@ import net.sourceforge.cilib.problem.Fitness;
  * <br>change = sign(diffInFitnessChange) * exp(abs(diffInFitnessChange)) - 1
  */
 public class ExponentialPheromoneUpdateStrategy implements PheromoneUpdateStrategy{
-    
+
     private ControlParameter scale;
 
     /**

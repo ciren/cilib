@@ -27,7 +27,7 @@ import com.google.common.collect.ForwardingCollection;
 import java.util.Collection;
 
 import net.sourceforge.cilib.moo.archive.Archive;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 
 /**
  * <p>

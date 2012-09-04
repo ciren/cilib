@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.type.DomainRegistry;
@@ -161,7 +161,7 @@ public class AngleModulation extends OptimisationProblemAdapter {
      * @TODO: complete this method
      *
      * @param x
-     * @param dimensionBitNumber 
+     * @param dimensionBitNumber
      * @return
      */
     public String generateBitString(Vector x, int dimensionBitNumber) {

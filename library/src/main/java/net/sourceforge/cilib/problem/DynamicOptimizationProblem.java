@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.problem;
 
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.functions.DynamicFunction;
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.DomainRegistry;

@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.cilib.moo.archive.Archive;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 

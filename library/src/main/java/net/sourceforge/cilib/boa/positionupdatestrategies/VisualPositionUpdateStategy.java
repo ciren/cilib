@@ -24,7 +24,7 @@ package net.sourceforge.cilib.boa.positionupdatestrategies;
 import net.sourceforge.cilib.boa.bee.HoneyBee;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**

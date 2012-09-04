@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.problem;
 
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
@@ -28,17 +29,17 @@ import net.sourceforge.cilib.type.types.Type;
 public abstract class ClusteringProblem extends OptimisationProblemAdapter{
     private int numberOfClusters;
     private DomainRegistry domainRegistry;
-    
+
     public ClusteringProblem() {
         domainRegistry = new StringBasedDomainRegistry();
         numberOfClusters = 1;
     }
-    
+
     public ClusteringProblem(ClusteringProblem copy) {
         domainRegistry = copy.domainRegistry;
         numberOfClusters = copy.numberOfClusters;
     }
-    
+
     @Override
     protected abstract Fitness calculateFitness(Type solution);
 
@@ -61,17 +62,17 @@ public abstract class ClusteringProblem extends OptimisationProblemAdapter{
     public void setDomain(String representation) {
         this.domainRegistry.setDomainString(representation);
     }
-    
+
     public void setDimension(int dimension) {
         this.domainRegistry.setDomainString(domainRegistry.getDomainString().substring(0, domainRegistry.getDomainString().indexOf(")") + 1) + "^" + dimension);
     }
-    
+
     public void setNumberOfClusters(int newAmount) {
         numberOfClusters = newAmount;
     }
-    
+
     public int getNumberOfClusters() {
         return numberOfClusters;
     }
-    
+
 }

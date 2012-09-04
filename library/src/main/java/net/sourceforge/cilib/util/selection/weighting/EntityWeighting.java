@@ -32,8 +32,8 @@ import fj.P;
 import fj.P2;
 import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.problem.InferiorFitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.util.selection.WeightedObject;
 
 public class EntityWeighting implements Weighting {

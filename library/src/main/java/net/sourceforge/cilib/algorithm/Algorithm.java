@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.algorithm;
 
 import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**

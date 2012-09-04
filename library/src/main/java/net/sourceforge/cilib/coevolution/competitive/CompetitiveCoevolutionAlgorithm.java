@@ -28,14 +28,14 @@ import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.CoevolutionAlgorithm;
 import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.problem.coevolution.CoevolutionOptimisationProblem;
 import net.sourceforge.cilib.problem.coevolution.CompetitiveCoevolutionProblemAdapter;
 
 /**
  * Implements competitive algorithms.
  */
-public class CompetitiveCoevolutionAlgorithm extends MultiPopulationBasedAlgorithm 
+public class CompetitiveCoevolutionAlgorithm extends MultiPopulationBasedAlgorithm
 implements CoevolutionAlgorithm {
 
     private static final long serialVersionUID = -3859431217295779546L;
@@ -62,7 +62,7 @@ implements CoevolutionAlgorithm {
     @Override
     public void algorithmInitialisation() {
         CoevolutionOptimisationProblem problem = (CoevolutionOptimisationProblem) optimisationProblem;
-        
+
         if (problem.getAmountSubPopulations() != subPopulationsAlgorithms.size()) {
             throw new RuntimeException("The amount of sub populations specified do not match the amount required by the current problem");
         }
@@ -73,9 +73,9 @@ implements CoevolutionAlgorithm {
             currentAlgorithm.setOptimisationProblem(new CompetitiveCoevolutionProblemAdapter(populationID, problem.getSubPopulationDomain(populationID), problem));
             populationID++;
         }
-        
+
         for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
-            currentAlgorithm.performInitialisation();        
+            currentAlgorithm.performInitialisation();
         }
     }
 
@@ -85,13 +85,13 @@ implements CoevolutionAlgorithm {
     @Override
     public OptimisationSolution getBestSolution() {
         OptimisationSolution bestSolution = subPopulationsAlgorithms.get(0).getBestSolution();
-        
+
         for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
             if (bestSolution.compareTo(currentAlgorithm.getBestSolution()) < 0) {
                 bestSolution = currentAlgorithm.getBestSolution();
             }
         }
-        
+
         return bestSolution;
     }
 
@@ -102,13 +102,13 @@ implements CoevolutionAlgorithm {
     @Override
     public List<OptimisationSolution> getSolutions() {
         List<OptimisationSolution> solutions = Lists.newArrayList();
-        
+
         for (PopulationBasedAlgorithm currentAlgorithm : this.getPopulations()) {
             for (OptimisationSolution solution : currentAlgorithm.getSolutions()) {
                 solutions.add(solution);
             }
         }
-        
+
         return solutions;
     }
 

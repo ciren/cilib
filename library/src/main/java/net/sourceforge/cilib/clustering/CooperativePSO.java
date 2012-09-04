@@ -30,8 +30,8 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.clustering.iterationstrategies.CooperativeDataClusteringPSOIterationStrategy;
 import net.sourceforge.cilib.problem.ClusteringProblem;
-import net.sourceforge.cilib.problem.MinimisationFitness;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.MinimisationFitness;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -42,7 +42,7 @@ public class CooperativePSO extends MultiPopulationBasedAlgorithm{
     private IterationStrategy<CooperativePSO> iterationStrategy;
     private int interval;
     OptimisationSolution bestSolution;
-    
+
     /*
      * Default constructor for CooperativePSO
      */
@@ -51,9 +51,9 @@ public class CooperativePSO extends MultiPopulationBasedAlgorithm{
         iterationStrategy = new CooperativeDataClusteringPSOIterationStrategy();
         interval = 0;
         bestSolution = new OptimisationSolution(Vector.of(Double.POSITIVE_INFINITY), new MinimisationFitness(Double.POSITIVE_INFINITY));
-       
+
     }
-    
+
     /*
      * Copy constructor for CooperativePSO
      * @param copy The CooperativePSO to be copied
@@ -64,7 +64,7 @@ public class CooperativePSO extends MultiPopulationBasedAlgorithm{
         interval = copy.interval;
         bestSolution = copy.bestSolution;
     }
-    
+
     /*
      * Clone Method for CooperativePSO
      * @return new instance of CooperativePSO
@@ -83,7 +83,7 @@ public class CooperativePSO extends MultiPopulationBasedAlgorithm{
         iterationStrategy.performIteration(this);
         ClusterParticle particle = ((AbstractCooperativeIterationStrategy) iterationStrategy).getContextParticle();
         bestSolution = new OptimisationSolution(particle.getPosition(), particle.getFitness());
-        
+
     }
 
     /*
@@ -109,7 +109,7 @@ public class CooperativePSO extends MultiPopulationBasedAlgorithm{
         }
         return solutions;
     }
-    
+
     /*
      * Initializes the algorithm and its sub-populations
      */
@@ -117,14 +117,14 @@ public class CooperativePSO extends MultiPopulationBasedAlgorithm{
     public void algorithmInitialisation()    {
         ClusteringProblem problem = (ClusteringProblem) getOptimisationProblem().getClone();//getCoevolutionOptimisationProblem();
         problem.setNumberOfClusters(subPopulationsAlgorithms.size());
-       
+
         for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
             currentAlgorithm.setOptimisationProblem(problem);
             currentAlgorithm.performInitialisation();
         }
-        
+
     }
-    
+
     /*
      * Sets the iteration strategy to be used by the algorithm to the one received as a parameter
      * @param strategy The new iteration strategy
@@ -132,7 +132,7 @@ public class CooperativePSO extends MultiPopulationBasedAlgorithm{
     public void setIterationStrategy(IterationStrategy strategy) {
         iterationStrategy = strategy;
     }
-    
+
     /*
      * Returns the iteration strategy currently being sued by the algorithm
      * @return strategy The iteration strategy
@@ -140,5 +140,5 @@ public class CooperativePSO extends MultiPopulationBasedAlgorithm{
     public IterationStrategy getIterationStrategy() {
         return iterationStrategy;
     }
-    
+
 }

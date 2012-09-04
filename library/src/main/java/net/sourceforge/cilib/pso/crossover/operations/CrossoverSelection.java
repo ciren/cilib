@@ -30,7 +30,7 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.crossover.real.ParentCentricCrossoverStrategy;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.crossover.ParticleCrossoverStrategy;
 import net.sourceforge.cilib.pso.crossover.particleprovider.ParticleProvider;
@@ -41,8 +41,8 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
- * An operation used in the PSOCrossoverIterationStrategy which is responsible 
- * for performing the crossover and performing other actions depending on the 
+ * An operation used in the PSOCrossoverIterationStrategy which is responsible
+ * for performing the crossover and performing other actions depending on the
  * outcome of the crossover.
  */
 public abstract class CrossoverSelection extends PSOCrossoverOperation {
@@ -125,7 +125,7 @@ public abstract class CrossoverSelection extends PSOCrossoverOperation {
     @Override
     public Topology<Particle> f(PSO algorithm) {
         P3<Boolean, Particle, Particle> result = doAction(algorithm, EntityType.CANDIDATE_SOLUTION, EntityType.FITNESS);
-        
+
         if (result._1()) {
             int i = algorithm.getTopology().indexOf(result._2());
             result._3().setNeighbourhoodBest(result._2().getNeighbourhoodBest());

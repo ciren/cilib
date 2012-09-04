@@ -23,7 +23,7 @@ package net.sourceforge.cilib.util.calculator;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**

@@ -26,7 +26,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.UniformDistribution;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 public class VectorBasedPositionProvider implements PositionProvider {
@@ -54,7 +54,7 @@ public class VectorBasedPositionProvider implements PositionProvider {
         Vector newPos = delegate.get(particle);
 
         Particle tmp = particle.getClone();
-        tmp.setCandidateSolution(newPos);        
+        tmp.setCandidateSolution(newPos);
         Fitness newFitness = particle.getFitnessCalculator().getFitness(tmp);
 
         final UniformDistribution uniform = new UniformDistribution();

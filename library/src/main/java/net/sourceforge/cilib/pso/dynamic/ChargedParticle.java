@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.pso.dynamic;
 
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.problem.InferiorFitness;
+import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -37,7 +37,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class ChargedParticle extends DynamicParticle {
 
     private static final long serialVersionUID = 7872499872488908368L;
-    
+
     private double charge;
 
     public ChargedParticle() {

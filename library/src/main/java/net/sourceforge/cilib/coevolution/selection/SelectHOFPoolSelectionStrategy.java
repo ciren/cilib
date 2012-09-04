@@ -27,7 +27,7 @@ import net.sourceforge.cilib.coevolution.competitive.Competitor;
 import net.sourceforge.cilib.coevolution.competitive.CompetitorList;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Type;
 

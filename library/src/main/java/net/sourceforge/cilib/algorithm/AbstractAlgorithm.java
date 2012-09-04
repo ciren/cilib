@@ -30,7 +30,7 @@ import java.util.List;
 import net.sourceforge.cilib.entity.EntityIdFactory;
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 
 /**
@@ -89,7 +89,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     protected AbstractAlgorithm(AbstractAlgorithm copy) {
         stoppingConditions = Lists.newArrayList();
         algorithmListeners = Lists.newArrayList();
-        
+
         for (AlgorithmListener listen : copy.algorithmListeners) {
             algorithmListeners.add(listen.getClone());
         }
@@ -97,7 +97,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
         if (copy.optimisationProblem != null) {
             optimisationProblem = copy.optimisationProblem.getClone();
         }
-        
+
         for (StoppingCondition sc : copy.stoppingConditions) {
             addStoppingCondition(sc);
         }
@@ -144,7 +144,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     public void algorithmInitialisation() {
         // subclasses can override the behaviour for this method
     }
-    
+
     /**
      * Executes the algorithm without cleaning up afterwards.
      * Useful for running algorithms within algorithms.
@@ -152,7 +152,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     public void runAlgorithm() {
         Preconditions.checkState(!stoppingConditions.isEmpty(), "No stopping conditions specified");
         Preconditions.checkState(initialised, "Algorithm not initialised");
-        
+
         while (running && (!isFinished())) {
             performIteration();
             fireIterationCompleted();
@@ -168,7 +168,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
         if (!initialised) {
             performInitialisation();
         }
-        
+
         currentAlgorithmStack.get().push(this);
         fireAlgorithmStarted();
 
@@ -176,10 +176,10 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
 
         fireAlgorithmFinished();
         currentAlgorithmStack.get().pop();
-        
+
         cleanUp();
     }
-    
+
     public void cleanUp() {
         // Cleanup thread-local variables -- very ugly hack!!!
         currentAlgorithmStack.remove();

@@ -24,7 +24,7 @@ package net.sourceforge.cilib.coevolution.score.fitnesscalculation;
 import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import net.sourceforge.cilib.coevolution.score.EntityScoreboard;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 
 /**
  * The fitness is the total Fitness over all the fitness values attained in each round.
@@ -47,13 +47,13 @@ public class TotalFitnessCalculationStrategy extends FitnessCalculationStrategy 
     public Fitness calculateFitnessFromScoreBoard(EntityScoreboard score, int currentRound) {
         ArrayList<Fitness> values = Lists.newArrayList();
         values.addAll(score.getScores(currentRound));
-        
+
         //get the ave
         double total = 0.0;
         for (Fitness val : values) {
             total += val.getValue().doubleValue();
         }
-        
+
         //set the value to the new fitness
         return values.get(0).newInstance(new Double(total));
     }

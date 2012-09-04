@@ -29,8 +29,8 @@ import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.problem.InferiorFitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -110,10 +110,10 @@ public class GCVelocityProvider implements VelocityProvider {
         this.delegate = copy.delegate.getClone();
         this.inertiaWeight = copy.inertiaWeight.getClone();
         this.randomProvider = new MersenneTwister();
-        
+
         this.rho = copy.rho.getClone();
         this.rhoLowerBound = copy.rhoLowerBound.getClone();
-        
+
         this.successCount = copy.successCount;
         this.failureCount = copy.failureCount;
         this.successCountThreshold = copy.successCountThreshold;
@@ -161,14 +161,14 @@ public class GCVelocityProvider implements VelocityProvider {
         else {
             result =  this.delegate.get(particle);
         }
-        
+
         updateControlParameters(particle);
         return result;
     }
 
     /**
      * Updates certain control parameters for this velocity provider.
-     * @param particle 
+     * @param particle
      */
     public void updateControlParameters(Particle particle) {
         // Remember NOT to reset the rho value to 1.0

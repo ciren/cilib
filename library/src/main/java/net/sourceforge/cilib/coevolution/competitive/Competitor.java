@@ -21,12 +21,12 @@
  */
 package net.sourceforge.cilib.coevolution.competitive;
 
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * This class contains the entity data, fitness and population id of a competitor 
+ * This class contains the entity data, fitness and population id of a competitor
  * used in a coevolution algorithm.
  */
 public class Competitor implements Cloneable {

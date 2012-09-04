@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.stoppingcondition;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.ManhattanDistanceMeasure;

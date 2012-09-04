@@ -25,7 +25,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 
 /**
  * Calculates the change in pheromone level for a particular particle's behavior
@@ -50,7 +50,7 @@ public class ConstantPheromoneUpdateStrategy implements PheromoneUpdateStrategy{
     /**
      * Creates a ConstantPheromoneUpdateStrategy with the same attributes as another
      * ConstantPheromoneUpdateStrategy
-     * 
+     *
      * @param o the other instance ConstantPheromoneUpdateStrategy
      */
     public ConstantPheromoneUpdateStrategy(ConstantPheromoneUpdateStrategy o) {

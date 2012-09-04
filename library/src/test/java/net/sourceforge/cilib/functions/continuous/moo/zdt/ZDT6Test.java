@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.functions.continuous.moo.zdt;
 
-import net.sourceforge.cilib.problem.MOFitness;
+import net.sourceforge.cilib.problem.solution.MOFitness;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Test;

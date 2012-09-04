@@ -30,7 +30,7 @@ import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.moo.criterion.objectiveassignmentstrategies.ObjectiveAssignmentStrategy;
 import net.sourceforge.cilib.moo.criterion.objectiveassignmentstrategies.SequentialObjectiveAssignmentStrategy;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 
 /**
  * <p>

@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.coevolution.score.fitnesscalculation;
 
 import net.sourceforge.cilib.coevolution.score.EntityScoreboard;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**

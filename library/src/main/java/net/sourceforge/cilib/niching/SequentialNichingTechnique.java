@@ -36,31 +36,31 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.DeratingOptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 public class SequentialNichingTechnique extends AbstractAlgorithm implements PopulationBasedAlgorithm {
     private PopulationBasedAlgorithm algorithm;
     private ControlParameter threshold;
     protected List<OptimisationSolution> solutions;
-    
+
     public SequentialNichingTechnique() {
         this.algorithm = new EC();
         this.threshold = ConstantControlParameter.of(0);
         this.solutions = Lists.<OptimisationSolution>newLinkedList();
     }
-    
+
     public SequentialNichingTechnique(SequentialNichingTechnique copy) {
         this.algorithm = copy.algorithm.getClone();
         this.threshold = copy.threshold.getClone();
         this.solutions = Lists.<OptimisationSolution>newLinkedList(copy.solutions);
     }
-    
+
     @Override
     public SequentialNichingTechnique getClone() {
         return new SequentialNichingTechnique(this);
     }
-    
+
     @Override
     public void algorithmInitialisation() {
         //algorithm.setOptimisationProblem(optimisationProblem);
@@ -75,10 +75,10 @@ public class SequentialNichingTechnique extends AbstractAlgorithm implements Pop
         while (!alg.isFinished()) {
             alg.performIteration();
         }
-        
+
         OptimisationSolution best = alg.getBestSolution();
         ((DeratingOptimisationProblem) optimisationProblem).addSolution((Vector) best.getPosition());
-        
+
         if (best.getFitness().getValue() > threshold.getParameter()) {
             solutions.add(best);
         }
@@ -88,7 +88,7 @@ public class SequentialNichingTechnique extends AbstractAlgorithm implements Pop
     public Topology<? extends Entity> getTopology() {
         return algorithm.getTopology();
     }
-    
+
     @Override
     public OptimisationSolution getBestSolution() {
         return Collections.max(solutions);
@@ -117,7 +117,7 @@ public class SequentialNichingTechnique extends AbstractAlgorithm implements Pop
 
     @Override
     public void setOptimisationProblem(OptimisationProblem problem) {
-        Preconditions.checkArgument(problem instanceof DeratingOptimisationProblem, 
+        Preconditions.checkArgument(problem instanceof DeratingOptimisationProblem,
                 "SequentialNiching can only be used with DeratingOptimisationProblem.");
         optimisationProblem = problem;
     }

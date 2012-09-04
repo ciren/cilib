@@ -24,8 +24,8 @@ package net.sourceforge.cilib.problem.mappingproblem;
 import java.util.List;
 
 import net.sourceforge.cilib.functions.continuous.FunctionDimensionMapping;
-import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.problem.MinimisationFitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.problem.dataset.StringDataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;

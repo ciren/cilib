@@ -46,7 +46,7 @@ import net.sourceforge.cilib.niching.merging.SingleSwarmMergeStrategy;
 import net.sourceforge.cilib.niching.merging.StandardMergeStrategy;
 import net.sourceforge.cilib.niching.merging.detection.MergeDetection;
 import net.sourceforge.cilib.niching.merging.detection.RadiusOverlapMergeDetection;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
@@ -121,7 +121,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
         StandardVelocityProvider velocityUpdateStrategy = new StandardVelocityProvider();
         velocityUpdateStrategy.setSocialAcceleration(ConstantControlParameter.of(0.0));
         velocityUpdateStrategy.setCognitiveAcceleration(ConstantControlParameter.of(1.2));
-        
+
         Particle particle = new StandardParticle();
         particle.setVelocityInitializationStrategy(new RandomInitializationStrategy());
         particle.setVelocityProvider(velocityUpdateStrategy);
@@ -147,7 +147,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
         this.subSwarmIterator = new AllSwarmsIterator();
         this.subSwarmIterator.setIterator(new SingleNicheIteration());
     }
-    
+
     /**
      * Copy constructor.
      */
@@ -157,7 +157,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
         this.iterationStrategy = copy.iterationStrategy.getClone();
         this.mainSwarm = copy.mainSwarm.getClone();
         this.entityType = copy.entityType.getClone();
-        
+
         this.nicheDetector = copy.nicheDetector;
         this.nicheCreator = copy.nicheCreator;
         this.mainSwarmCreationMerger = copy.mainSwarmCreationMerger;
@@ -181,7 +181,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
 
     /**
      * Initialize the main swarm..
-     * 
+     *
      * @see MultiPopulationBasedAlgorithm#performInitialisation()
      */
     @Override
@@ -192,7 +192,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
         this.mainSwarm.setOptimisationProblem(getOptimisationProblem());
 
         this.mainSwarm.performInitialisation();
-        
+
         for (Entity e : mainSwarm.getTopology()) {
             e.getProperties().put(EntityType.Coevolution.POPULATION_ID, Int.valueOf(0));
         }
@@ -212,7 +212,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
 
     /**
      * There is no best solution associated with a top level NichingAlgorithm algorithm.
-     * 
+     *
      * @see #getSolutions()
      */
     @Override
@@ -223,7 +223,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
     /**
      * Get the solutions of the the optimization. The solutions are the best
      * entities within each identified niche.
-     * 
+     *
      * @return The list of best solutions for each niche.
      */
     @Override

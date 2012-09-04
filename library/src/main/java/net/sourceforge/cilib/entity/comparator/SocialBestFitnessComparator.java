@@ -24,7 +24,7 @@ package net.sourceforge.cilib.entity.comparator;
 import java.io.Serializable;
 import java.util.Comparator;
 import net.sourceforge.cilib.entity.SocialEntity;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 
 /**
  * Compare two {@link SocialEntity} instances, based on the available social best

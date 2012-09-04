@@ -23,7 +23,7 @@ package net.sourceforge.cilib.pso.pbestupdate;
 
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.problem.InferiorFitness;
+import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.type.types.Types;
 
 /**
@@ -37,11 +37,11 @@ public class BoundedPersonalBestUpdateStrategy implements PersonalBestUpdateStra
 
     private static final long serialVersionUID = -3574938411781908840L;
     private PersonalBestUpdateStrategy delegate;
-    
+
     public BoundedPersonalBestUpdateStrategy() {
         this.delegate = new StandardPersonalBestUpdateStrategy();
     }
-    
+
     public BoundedPersonalBestUpdateStrategy(BoundedPersonalBestUpdateStrategy copy) {
         this.delegate = copy.delegate.getClone();
     }

@@ -35,7 +35,7 @@ import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 
@@ -90,7 +90,7 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
         this.iterationStrategy = copy.iterationStrategy; // need to clone?
         this.initialisationStrategy = copy.initialisationStrategy; // need to clone?
         this.contributionSelection = copy.contributionSelection.getClone();
-        
+
         for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
             Particle current = i.next();
             Particle nBest = Topologies.getNeighbourhoodBest(topology, current, new SocialBestFitnessComparator());
@@ -115,7 +115,7 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
         Iterable<Particle> particles = (Iterable<Particle>) this.initialisationStrategy.initialise(this.getOptimisationProblem());
         topology.clear();
         topology.addAll(Lists.<Particle>newLinkedList(particles));
-        
+
         for (Particle p : topology) {
             p.calculateFitness();
         }

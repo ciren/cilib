@@ -25,7 +25,7 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 
 /**
  * Comparator to order {@linkplain Entity} instances based on fitness values.

@@ -23,7 +23,7 @@ package net.sourceforge.cilib.boa.bee;
 
 import net.sourceforge.cilib.boa.positionupdatestrategies.BeePositionUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**

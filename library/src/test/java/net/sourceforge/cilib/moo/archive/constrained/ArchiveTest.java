@@ -24,6 +24,7 @@ package net.sourceforge.cilib.moo.archive.constrained;
 import java.util.*;
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.*;
+import net.sourceforge.cilib.problem.solution.*;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;

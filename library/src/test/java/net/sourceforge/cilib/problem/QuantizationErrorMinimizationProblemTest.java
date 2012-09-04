@@ -26,6 +26,8 @@ import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
+import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -33,7 +35,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class QuantizationErrorMinimizationProblemTest {
-    
+
     public QuantizationErrorMinimizationProblemTest() {
     }
 
@@ -44,11 +46,11 @@ public class QuantizationErrorMinimizationProblemTest {
     @AfterClass
     public static void tearDownClass() throws Exception {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -68,12 +70,12 @@ public class QuantizationErrorMinimizationProblemTest {
         holder.add(centroid);
         holder.add(centroid);
         particle.setCandidateSolution(holder);
-        
+
         QuantizationErrorMinimizationProblem instance = new QuantizationErrorMinimizationProblem();
         Fitness fitness = instance.getFitness(particle.getCandidateSolution());
-        
+
         Assert.assertEquals(fitness.getValue(), 2.5);
     }
 
-    
+
 }

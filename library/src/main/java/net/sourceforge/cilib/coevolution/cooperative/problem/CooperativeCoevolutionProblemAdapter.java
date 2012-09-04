@@ -27,7 +27,7 @@ package net.sourceforge.cilib.coevolution.cooperative.problem;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.type.DomainRegistry;

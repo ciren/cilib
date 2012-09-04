@@ -40,9 +40,9 @@ import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.problem.ClusteringProblem;
-import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
- 
+
 /**
  * This class holds the functionality of the Standard Data Clustering PSO described in:
  * <pre>
@@ -55,9 +55,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *  pages={215-220}
  * }
  * </pre>
- * 
+ *
  * This is so if the StandardDataClusteringIterationStrategy is used. Variations of the algorithm
- * in the article above can then be tested by using other iteration strategies, such as the 
+ * in the article above can then be tested by using other iteration strategies, such as the
  * ReinitializingDataClusteringIterationStrategy
  */
 public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements ParticipatingAlgorithm {
@@ -67,7 +67,7 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
     private ContributionSelectionStrategy contributionSelection;
     private boolean isExplorer;
     private int numberOfCentroids;
-    
+
     /*
      * Default Constructor for DataClusteringPSO
      */
@@ -96,7 +96,7 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
         isExplorer = copy.isExplorer;
         numberOfCentroids = copy.numberOfCentroids;
     }
-    
+
     /*
      * Clone method for the DataClusteringPSO
      * @return new instance of the DataClusteringPSO
@@ -112,9 +112,9 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
     @Override
     protected void algorithmIteration() {
         iterationStrategy.performIteration(this);
-        
+
     }
-    
+
     /*
      * Returns the current topology of the algorithm
      * @return topology (population and arrangement of population) The topology of the algorithm
@@ -132,26 +132,26 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
     public void setTopology(Topology<? extends Entity> receivedTopology) {
         topology = (Topology<ClusterParticle>) receivedTopology;
     }
-    
+
     /*
      * Initializes the algorithm. This includes the SlidingWindow and topology
      */
     @Override
     public void algorithmInitialisation() {
         DataTable dataset = window.initializeWindow();
-        
+
         Vector pattern = ((StandardPattern) dataset.getRow(0)).getVector();
         ((ClusteringProblem) this.optimisationProblem).setDimension((int) pattern.size());
-        
+
         ((DataDependantPopulationInitializationStrategy) initialisationStrategy).setDataset(window.getCompleteDataset());
         Iterable<ClusterParticle> particles = (Iterable<ClusterParticle>) this.initialisationStrategy.initialise(this.getOptimisationProblem());
-        
+
         topology.clear();
         topology.addAll(Lists.<ClusterParticle>newLinkedList(particles));
-        
+
         ((SinglePopulationDataClusteringIterationStrategy) iterationStrategy).setWindow(window);
     }
-    
+
     /*
      * Returns the global best solution found by the algorithm so far
      * @return solution The global best solution
@@ -173,7 +173,7 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
             solutions.add(new OptimisationSolution(e.getBestPosition(), e.getBestFitness()));
         }
         return solutions;
-        
+
     }
 
     /*
@@ -193,16 +193,16 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
     public void setContributionSelectionStrategy(ContributionSelectionStrategy strategy) {
         contributionSelection = strategy;
     }
-    
+
     /*
-     * Sets the window's source URL. This source URL is the path to the file containing 
+     * Sets the window's source URL. This source URL is the path to the file containing
      * the dataset to be clsutered.
      * @param sourceURL The path to the dataset
      */
     public void setSourceURL(String sourceURL) {
         window.setSourceURL(sourceURL);
     }
-    
+
     /*
      * Sets the SlidingWindow to the one received as a parameter
      * @param slidingWindow The new sliding window
@@ -212,7 +212,7 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
         window = slidingWindow;
         window.setSourceURL(url);
     }
-    
+
     /*
      * Sets the iteration strategy to the one provided as a parameter
      * @param strategy The new iterations strategy
@@ -220,7 +220,7 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
     public void setIterationStrategy(IterationStrategy strategy) {
         iterationStrategy = strategy;
     }
-    
+
     /*
      * Returns the current iteration strategy
      * @return iterationStrategy The current iteration strategy
@@ -228,7 +228,7 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
     public IterationStrategy getIterationStrategy() {
         return iterationStrategy;
     }
-    
+
     /*
      * Sets the boolean value of isExplorer to the one provided as a parameter.
      * This is used in the co-operative multi-swarm as one of the swarms must be
@@ -238,7 +238,7 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
     public void setIsExplorer(boolean value) {
         isExplorer = value;
     }
-    
+
     /*
      * Returns the value of isExplorer, i.e. it checks if the algorithm is currently an explorer
      * @return isExplorer The value of isExplorer
@@ -246,5 +246,5 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
     public boolean isExplorer() {
         return isExplorer;
     }
-    
+
 }

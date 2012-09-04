@@ -24,10 +24,10 @@ package net.sourceforge.cilib.coevolution.score.fitnesscalculation;
 import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import net.sourceforge.cilib.coevolution.score.EntityScoreboard;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitness;
 
 /**
- * This Fitness calculation strategy simply gets the average score attained regardless 
+ * This Fitness calculation strategy simply gets the average score attained regardless
  * of win/lose or draw as the Fitness value.
  */
 public class AveFitnessCalculationStrategy extends FitnessCalculationStrategy {
@@ -49,13 +49,13 @@ public class AveFitnessCalculationStrategy extends FitnessCalculationStrategy {
     public Fitness calculateFitnessFromScoreBoard(EntityScoreboard score, int currentRound) {
         ArrayList<Fitness> values = Lists.newArrayList();
         values.addAll(score.getScores(currentRound));
-        
+
         //get the ave
         double ave = 0.0;
         for (Fitness val : values) {
             ave += val.getValue().doubleValue();
         }
-        
+
         ave /= values.size();
         //set the value to the new fitness
         return values.get(0).newInstance(new Double(ave));
