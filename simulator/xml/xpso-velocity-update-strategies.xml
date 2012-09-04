@@ -87,9 +87,15 @@
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.DistinctCrossoverVelocityProvider">
-                            <mainCrossover class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
+                            <mainCrossover class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                                <parentProvider class="entity.operators.crossover.parentprovider.BestParentProvider"/>
+                                <sigma1 class="controlparameter.ConstantControlParameter" parameter="0.17"/>
+                                <sigma2 class="controlparameter.ConstantControlParameter" parameter="0.17"/>
+                            </mainCrossover>
                             <alternateCrossover class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                                <sigma1 class="controlparameter.ConstantControlParameter" parameter="0.17"/>
                                 <sigma2 class="controlparameter.ConstantControlParameter" parameter="0.0" />
+                                <parentProvider class="entity.operators.crossover.parentprovider.BestParentProvider"/>
                             </alternateCrossover>
                         </velocityProvider>
                     </particleBehavior>
