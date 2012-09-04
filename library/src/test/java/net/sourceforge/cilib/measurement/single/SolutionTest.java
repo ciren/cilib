@@ -51,15 +51,4 @@ public class SolutionTest {
         Measurement m = new Solution();
         Assert.assertEquals(m.getValue(algorithm).toString(), mockSolution.getPosition().toString());
     }
-
-    @Test
-    public void testSolutionDomain() {
-        Measurement m = new Solution();
-
-        TypeList vector = (TypeList) DomainParser.parse(m.getDomain());
-
-        assertEquals(1, vector.size());
-        assertTrue(vector.get(0) instanceof StringType);
-    }
-
 }

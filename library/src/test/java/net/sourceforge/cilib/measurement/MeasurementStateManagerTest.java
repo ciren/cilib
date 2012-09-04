@@ -56,11 +56,6 @@ public class MeasurementStateManagerTest {
         }
 
         @Override
-        public String getDomain() {
-            return null;
-        }
-
-        @Override
         public Type getValue(Algorithm algorithm) {
             return null;
         }

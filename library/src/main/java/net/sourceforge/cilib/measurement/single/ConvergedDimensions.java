@@ -102,14 +102,6 @@ public class ConvergedDimensions implements Measurement<Real> {
      * {@inheritDoc}
      */
     @Override
-    public String getDomain() {
-        return "R";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Real getValue(Algorithm algorithm) {
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
         int populationSize = populationBasedAlgorithm.getTopology().size();

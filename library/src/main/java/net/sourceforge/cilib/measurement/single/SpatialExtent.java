@@ -56,11 +56,6 @@ public class SpatialExtent implements Measurement<Real> {
     }
 
     @Override
-    public String getDomain() {
-        return "R";
-    }
-
-    @Override
     public Real getValue(Algorithm algorithm) {
 
         /*PSO pso = (PSO) Algorithm.get();

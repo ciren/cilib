@@ -38,11 +38,6 @@ public class FitnessMeasurement implements Measurement {
     private static final long serialVersionUID = 2632671785674388015L;
 
     @Override
-    public String getDomain() {
-        return "R";
-    }
-
-    @Override
     public Type getValue(Algorithm algorithm) {
         return Real.valueOf(algorithm.getOptimisationProblem().getFitness(algorithm.getBestSolution().getPosition()).getValue());
     }

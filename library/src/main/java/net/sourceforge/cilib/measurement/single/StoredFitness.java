@@ -48,14 +48,6 @@ public class StoredFitness implements Measurement<Real> {
      * {@inheritDoc}
      */
     @Override
-    public String getDomain() {
-        return "R";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Real getValue(Algorithm algorithm) {
         Fitness best = null;
         PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm) algorithm;

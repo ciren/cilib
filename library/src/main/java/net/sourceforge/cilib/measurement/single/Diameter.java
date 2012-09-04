@@ -51,14 +51,6 @@ public class Diameter implements Measurement<Real> {
      * {@inheritDoc}
      */
     @Override
-    public String getDomain() {
-        return "R";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Real getValue(Algorithm algorithm) {
         PopulationBasedAlgorithm popAlg = (PopulationBasedAlgorithm) algorithm;
         Topology<? extends Entity> topology = popAlg.getTopology();

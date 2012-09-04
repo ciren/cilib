@@ -37,11 +37,6 @@ public class ErrorMeasurement implements Measurement {
     private static final long serialVersionUID = 2632671785674388015L;
     private double target;
 
-    @Override
-    public String getDomain() {
-        return "R";
-    }
-
     public void setTarget(double value) {
         this.target = value;
     }

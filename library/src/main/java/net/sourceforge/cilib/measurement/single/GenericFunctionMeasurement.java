@@ -64,14 +64,6 @@ public class GenericFunctionMeasurement<F, T> implements Measurement<Real> {
      * {@inheritDoc}
      */
     @Override
-    public String getDomain() {
-        return "R";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Real getValue(Algorithm algorithm) {
         Preconditions.checkNotNull(function, "The function that should be evaluated has not been set");
         Vector vector = (Vector) algorithm.getBestSolution().getPosition();

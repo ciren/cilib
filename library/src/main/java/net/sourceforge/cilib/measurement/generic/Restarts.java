@@ -44,15 +44,6 @@ public class Restarts implements Measurement<Int> {
      * {@inheritDoc}
      */
     @Override
-    public String getDomain() {
-        return "Z";
-        //return "T";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Int getValue(Algorithm algorithm) {
         MultistartOptimisationAlgorithm m = (MultistartOptimisationAlgorithm) algorithm;
 

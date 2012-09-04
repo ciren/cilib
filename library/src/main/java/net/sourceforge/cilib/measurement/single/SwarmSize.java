@@ -34,11 +34,6 @@ public class SwarmSize implements Measurement<Int> {
     }
 
     @Override
-    public String getDomain() {
-        return "Z";
-    }
-
-    @Override
     public Int getValue(Algorithm algorithm) {
         return Int.valueOf(((PopulationBasedAlgorithm) algorithm).getTopology().size());
     }

@@ -51,18 +51,4 @@ public class PercentageCompleteTest {
         Assert.assertEquals(0.1, percentageComplete.getValue(pso).doubleValue(), 0.001);
     }
 
-    @Test
-    public void testPercentageCompleteDomain() {
-        Measurement m = new PercentageComplete();
-
-        Vector vector = (Vector) DomainParser.parse(m.getDomain());
-
-        assertEquals(1, vector.size());
-        assertTrue(vector.get(0) instanceof Real);
-
-        Real r = (Real) vector.get(0);
-        assertEquals(0.0, r.getBounds().getLowerBound(), Double.MIN_NORMAL);
-        assertEquals(1.0, r.getBounds().getUpperBound(), Double.MIN_NORMAL);
-    }
-
 }

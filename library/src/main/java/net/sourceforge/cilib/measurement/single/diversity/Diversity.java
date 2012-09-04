@@ -65,11 +65,6 @@ public class Diversity implements Measurement<Real> {
     }
 
     @Override
-    public String getDomain() {
-        return "R";
-    }
-
-    @Override
     public Real getValue(Algorithm algorithm) {
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
         int numberOfEntities = populationBasedAlgorithm.getTopology().size();

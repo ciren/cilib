@@ -51,14 +51,6 @@ public class MultiPopulationFitness implements Measurement<Vector> {
      * {@inheritDoc}
      */
     @Override
-    public String getDomain() {
-        return "T";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Vector getValue(Algorithm algorithm) {
         Vector.Builder fitness = Vector.newBuilder();
         CompetitiveCoevolutionAlgorithm ca = (CompetitiveCoevolutionAlgorithm) algorithm;

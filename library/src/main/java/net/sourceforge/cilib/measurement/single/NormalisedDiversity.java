@@ -63,14 +63,6 @@ public class NormalisedDiversity implements Measurement<Real> {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public String getDomain() {
-        return "R";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public Real getValue(Algorithm algorithm) {
         PSO pso = (PSO) algorithm;
 

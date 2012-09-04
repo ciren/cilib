@@ -47,11 +47,6 @@ public class GlobalMaximum implements Measurement {
     }
 
     @Override
-    public String getDomain() {
-        return "R";
-    }
-
-    @Override
     public Type getValue(Algorithm algorithm) {
 //        FunctionOptimisationProblem problem = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
 //        double value = problem.getFunction().getMaximum().doubleValue();

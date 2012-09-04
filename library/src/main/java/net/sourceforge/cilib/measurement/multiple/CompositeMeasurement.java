@@ -53,20 +53,12 @@ public class CompositeMeasurement implements Measurement<TypeList> {
     @Override
     public CompositeMeasurement getClone() {
         CompositeMeasurement newCM = new CompositeMeasurement();
-        
+
         for(Measurement<? extends Type> m : this.measurements) {
             newCM.addMeasurement(m.getClone());
         }
-        
-        return newCM;
-    }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getDomain() {
-        return "T";
+        return newCM;
     }
 
     /**

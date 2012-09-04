@@ -53,11 +53,6 @@ public class ParetoFrontExtent implements Measurement {
     }
 
     @Override
-    public String getDomain() {
-        return "R";
-    }
-
-    @Override
     public Real getValue(Algorithm algorithm) {
         Archive archive = Archive.Provider.get();
 

@@ -48,14 +48,6 @@ public class BestPositionBoundViolations implements Measurement<Real> {
      * {@inheritDoc}
      */
     @Override
-    public String getDomain() {
-        return "R";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Real getValue(Algorithm algorithm) {
         Vector gbest = (Vector) algorithm.getBestSolution().getPosition();
 

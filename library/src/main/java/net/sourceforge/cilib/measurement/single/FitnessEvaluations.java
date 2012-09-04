@@ -43,14 +43,6 @@ public class FitnessEvaluations implements Measurement<Int> {
      * {@inheritDoc}
      */
     @Override
-    public String getDomain() {
-        return "Z";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Int getValue(Algorithm algorithm) {
         int evaluations = algorithm.getOptimisationProblem().getFitnessEvaluations();
         return Int.valueOf(evaluations);

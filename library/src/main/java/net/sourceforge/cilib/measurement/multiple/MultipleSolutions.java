@@ -43,11 +43,6 @@ public class MultipleSolutions implements Measurement<Vector> {
     }
 
     @Override
-    public String getDomain() {
-        return "T";
-    }
-
-    @Override
     public Vector getValue(Algorithm algorithm) {
         Vector.Builder v = Vector.newBuilder();
 

@@ -46,11 +46,6 @@ public class ParetoOptimalSet implements Measurement<TypeList> {
     }
 
     @Override
-    public String getDomain() {
-        return "T";
-    }
-
-    @Override
     public TypeList getValue(Algorithm algorithm) {
         TypeList allPositions = new TypeList();
         Collection<OptimisationSolution> solutions = Archive.Provider.get();

@@ -41,12 +41,6 @@ public class IterationsTest {
     }
 
     @Test
-    public void domain() {
-        Iterations iterations = new Iterations();
-        Assert.assertEquals(iterations.getDomain(), "Z");
-    }
-
-    @Test
     public void resultType() {
         final PopulationBasedAlgorithm algorithm = mock(PopulationBasedAlgorithm.class);
 

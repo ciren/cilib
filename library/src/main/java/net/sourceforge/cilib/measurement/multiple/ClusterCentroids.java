@@ -32,34 +32,29 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class ClusterCentroids implements Measurement<Vector>{
     int dimension;
-    
+
     public ClusterCentroids() {
         dimension = 0;
     }
-    
+
     public ClusterCentroids(ClusterCentroids copy) {
         dimension = copy.dimension;
     }
-    
+
     @Override
     public ClusterCentroids getClone() {
         return new ClusterCentroids(this);
-    }
-    
-    @Override
-    public String getDomain() {
-        return "T";
     }
 
     @Override
     public Vector getValue(Algorithm algorithm) {
         CentroidHolder holder = (CentroidHolder) algorithm.getBestSolution().getPosition();
-        
+
         return holder.get(dimension).toVector();
     }
-    
+
     public void setDimension(int dim) {
         dimension = dim;
     }
-    
+
 }

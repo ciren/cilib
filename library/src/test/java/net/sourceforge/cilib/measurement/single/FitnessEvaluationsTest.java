@@ -55,14 +55,4 @@ public class FitnessEvaluationsTest {
         Assert.assertThat(i1.intValue(), is(10));
         Assert.assertThat(i2.intValue(), is(20));
     }
-
-    @Test
-    public void testFitnessEvaluationsDomain() {
-        Measurement m = new FitnessEvaluations();
-        Vector vector = (Vector) DomainParser.parse(m.getDomain());
-
-        assertEquals(1, vector.size());
-        assertTrue(vector.get(0) instanceof Int);
-    }
-
 }

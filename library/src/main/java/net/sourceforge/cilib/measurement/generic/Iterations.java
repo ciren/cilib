@@ -43,14 +43,6 @@ public class Iterations implements Measurement<Int> {
      * {@inheritDoc}
      */
     @Override
-    public String getDomain() {
-        return "Z";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Int getValue(Algorithm algorithm) {
         return Int.valueOf(algorithm.getIterations());
     }

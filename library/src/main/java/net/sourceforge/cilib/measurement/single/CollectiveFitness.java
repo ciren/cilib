@@ -44,11 +44,6 @@ public class CollectiveFitness implements Measurement<Real> {
     }
 
     @Override
-    public String getDomain() {
-        return "R";
-    }
-
-    @Override
     public Real getValue(Algorithm algorithm) {
         PopulationBasedAlgorithm pba = (PopulationBasedAlgorithm) algorithm;
 

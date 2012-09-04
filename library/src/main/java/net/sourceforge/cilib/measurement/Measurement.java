@@ -41,13 +41,6 @@ public interface Measurement<E extends Type> extends Cloneable {
     Measurement<E> getClone();
 
     /**
-     * Get the domain string representing what this measurement's results will conform to.
-     * @return The Domain String representing the represenation of the measurement
-     */
-    String getDomain();
-
-
-    /**
      * Get the value of the measurement. The represenation of the measurement will be based
      * on the domain string defined {@see Measurement#getDomain()}
      * @param algorithm The algorithm to obtain the measurement from.

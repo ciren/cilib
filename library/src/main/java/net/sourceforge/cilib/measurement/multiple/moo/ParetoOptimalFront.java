@@ -48,11 +48,6 @@ public class ParetoOptimalFront implements Measurement<TypeList> {
     }
 
     @Override
-    public String getDomain() {
-        return "T";
-    }
-
-    @Override
     public TypeList getValue(Algorithm algorithm) {
         TypeList allFitnessValues = new TypeList();
         Collection<OptimisationSolution> solutions = Archive.Provider.get();

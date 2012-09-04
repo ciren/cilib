@@ -32,14 +32,14 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  */
 public abstract class ValidityIndex implements Measurement<Real> {
     protected DistanceMeasure distanceMeasure;
-    
+
     /*
      * Default constructor for ValidityIndex
      */
     public ValidityIndex() {
         distanceMeasure = new EuclideanDistanceMeasure();
     }
-    
+
     /*
      * Copy constructor for ValidityIndex
      * @param copy The ValidityIndex to be copied
@@ -47,21 +47,12 @@ public abstract class ValidityIndex implements Measurement<Real> {
     public ValidityIndex(ValidityIndex copy) {
         distanceMeasure = copy.distanceMeasure;
     }
-    
+
     /*
      * Abstract Clone method of the ValidityIndex
      */
     @Override
     public abstract Measurement<Real> getClone();
-
-    /*
-     * Returns the domain fo the validity indexes "R"
-     * @return "R"
-     */
-    @Override
-    public String getDomain() {
-        return "R";
-    }
 
     /*
      * Abstract method to get value fo validity index
@@ -77,7 +68,7 @@ public abstract class ValidityIndex implements Measurement<Real> {
     public void setDistanceMeasure(DistanceMeasure measure) {
         distanceMeasure = measure;
     }
-    
+
     /*
      * Retruns the distanceMeasure that is being used when calculating validity inexes
      * @return distanceMeasure The distance measure
@@ -85,5 +76,5 @@ public abstract class ValidityIndex implements Measurement<Real> {
     public DistanceMeasure getDistanceMeasure() {
         return distanceMeasure;
     }
-    
+
 }

@@ -53,14 +53,6 @@ public class MSETrainingError implements Measurement {
      * {@inheritDoc }
      */
     @Override
-    public String getDomain() {
-        return "R";
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
     public Type getValue(Algorithm algorithm) {
         Vector solution = (Vector) algorithm.getBestSolution().getPosition();
         NNTrainingProblem problem = (NNTrainingProblem) algorithm.getOptimisationProblem();

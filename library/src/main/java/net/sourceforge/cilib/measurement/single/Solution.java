@@ -43,14 +43,6 @@ public class Solution implements Measurement<StringType> {
      * {@inheritDoc}
      */
     @Override
-    public String getDomain() {
-        return "T";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public StringType getValue(Algorithm algorithm) {
         Vector solution = (Vector) algorithm.getBestSolution().getPosition();
         return new StringType(solution.toString());

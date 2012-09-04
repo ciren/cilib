@@ -59,11 +59,6 @@ public class StateAwareMeasurementTest {
         }
 
         @Override
-        public String getDomain() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
         public StringType getValue(Algorithm algorithm) {
             throw new UnsupportedOperationException("Not supported yet.");
         }

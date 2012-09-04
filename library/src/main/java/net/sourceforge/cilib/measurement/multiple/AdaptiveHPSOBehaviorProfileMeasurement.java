@@ -53,14 +53,6 @@ public class AdaptiveHPSOBehaviorProfileMeasurement implements Measurement<Vecto
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getDomain() {
-        return "T";
-    }
-
-    /**
      * Measure the behavior profile.
      * @param algorithm The algorithm
      * @return A {@link Vector} containing an integer values.
@@ -70,19 +62,19 @@ public class AdaptiveHPSOBehaviorProfileMeasurement implements Measurement<Vecto
     @Override
     public Vector getValue(Algorithm algorithm) {
         PSO pso = (PSO) algorithm;
-        Topology<Particle> topology = pso.getTopology();        
+        Topology<Particle> topology = pso.getTopology();
         HeterogeneousIterationStrategy strategy = (HeterogeneousIterationStrategy) pso.getIterationStrategy();
         HeterogeneousPopulationInitialisationStrategy initStrategy = (HeterogeneousPopulationInitialisationStrategy) pso.getInitialisationStrategy();
         List<ParticleBehavior> initialBehaviorPool = initStrategy.getBehaviorPool();
         List<ParticleBehavior> behaviorPool = strategy.getBehaviorPool();
-        
+
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < behaviorPool.size(); i++) {
             builder.add(Int.valueOf(0));
         }
 
         Vector profile = builder.build();
-        for (Particle p : topology) {            
+        for (Particle p : topology) {
             for (int i = 0; i < profile.size(); i++) {
                 if (p.getParticleBehavior() == behaviorPool.get(i) || p.getParticleBehavior() == initialBehaviorPool.get(i)) {
                     profile.setInt(i, profile.get(i).intValue() + 1);

@@ -67,14 +67,6 @@ public class Time implements Measurement<Int>, AlgorithmListener {
      * {@inheritDoc}
      */
     @Override
-    public String getDomain() {
-        return "Z";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Int getValue(Algorithm algorithm) {
         if (running) {
             return Int.valueOf(Long.valueOf(System.currentTimeMillis() - startTime).intValue());

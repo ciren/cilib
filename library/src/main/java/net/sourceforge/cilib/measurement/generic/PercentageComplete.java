@@ -38,11 +38,6 @@ public class PercentageComplete implements Measurement<Real> {
     }
 
     @Override
-    public String getDomain() {
-        return "R(0:1)";
-    }
-
-    @Override
     public Real getValue(Algorithm algorithm) {
         AbstractAlgorithm alg = (AbstractAlgorithm) algorithm;
         return Real.valueOf(alg.getPercentageComplete());

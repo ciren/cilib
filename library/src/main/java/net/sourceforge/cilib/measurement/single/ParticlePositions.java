@@ -47,14 +47,6 @@ public class ParticlePositions implements Measurement<StringType> {
      * {@inheritDoc}
      */
     @Override
-    public String getDomain() {
-        return "T";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public StringType getValue(Algorithm algorithm) {
         StringBuilder tmp = new StringBuilder();
 

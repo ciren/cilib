@@ -55,11 +55,6 @@ public class SolutionDistribution implements Measurement {
     }
 
     @Override
-    public String getDomain() {
-        return "R";
-    }
-
-    @Override
     public Real getValue(Algorithm algorithm) {
 
         List<Double> distances = Lists.newArrayList();

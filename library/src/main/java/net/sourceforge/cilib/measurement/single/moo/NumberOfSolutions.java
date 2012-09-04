@@ -48,11 +48,6 @@ public class NumberOfSolutions implements Measurement {
     }
 
     @Override
-    public String getDomain() {
-        return "Z";
-    }
-
-    @Override
     public Int getValue(Algorithm algorithm) {
         Archive archive = Archive.Provider.get();
         return Int.valueOf(archive.size());

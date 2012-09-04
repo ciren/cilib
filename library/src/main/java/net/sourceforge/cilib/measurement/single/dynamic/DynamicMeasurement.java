@@ -37,11 +37,6 @@ public abstract class DynamicMeasurement<E extends Type> extends StateAwareMeasu
     }
 
     @Override
-    public String getDomain() {
-        return "R";
-    }
-
-    @Override
     public void readExternal(ObjectInput in) throws IOException,
             ClassNotFoundException {
         this.avg = in.readDouble();
