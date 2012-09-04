@@ -11,7 +11,6 @@ parallelExecution in Test := false
 scalaVersion := "2.9.2"
 
 libraryDependencies ++= Seq(
-    "org.scalaz" %% "scalaz-core" % "6.0.4",
     "com.google.guava" % "guava" % "11.0.1",
     "org.parboiled" % "parboiled-core" % "0.11.0",
     "org.parboiled" % "parboiled-java" % "0.11.0",
@@ -19,9 +18,7 @@ libraryDependencies ++= Seq(
     "junit" % "junit" % "4.10" % "test",
     "org.mockito" % "mockito-all" % "1.8.4" % "test",
     "org.hamcrest" % "hamcrest-all" % "1.1" % "test",
-    "org.specs2" %% "specs2" % "1.9" % "test",
-    "com.novocode" % "junit-interface" % "0.9-RC3" % "test",
-    "org.scalacheck" %% "scalacheck" % "1.10.0" % "test"
+    "com.novocode" % "junit-interface" % "0.9-RC3" % "test"
 )
 
 javacOptions ++= Seq("-encoding", "UTF8", "-Xlint:deprecation")
