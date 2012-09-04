@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.math.random.generator;
 
+import net.sourceforge.cilib.math.random.generator.seeder.Seeder;
+
 /**
  * An implementation of Knuth's subtractive random number generator.
  * This generator is relatively fast but is not considered simulation quality.

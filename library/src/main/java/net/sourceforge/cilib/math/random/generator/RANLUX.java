@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.math.random.generator;
 
+import net.sourceforge.cilib.math.random.generator.seeder.Seeder;
+
 /**
  * <p>
  * This is an implementation of Martin Luescher's second generation

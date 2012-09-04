@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.math.random.generator;
+package net.sourceforge.cilib.math.random.generator.seeder;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -32,13 +32,11 @@ import java.util.Random;
 /**
  * Determine the initial seed value by manipulating the current network address.
  */
-public enum SeedSelectionType implements SeedSelectionStrategy {
-    NETWORK_BASED;
-    
+public class NetworkBasedSeedSelectionStrategy implements SeedSelectionStrategy {
     private Random random;
     private int address;
 
-    SeedSelectionType() {
+    public NetworkBasedSeedSelectionStrategy() {
         random = new SecureRandom();
         address = getNetworkAddress();
     }

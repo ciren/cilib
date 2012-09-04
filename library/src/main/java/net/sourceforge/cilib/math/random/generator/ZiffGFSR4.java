@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.math.random.generator;
 
+import net.sourceforge.cilib.math.random.generator.seeder.Seeder;
+
 /**
  * <p>
  * The GFSR4 generator is like a lagged-fibonacci generator, and

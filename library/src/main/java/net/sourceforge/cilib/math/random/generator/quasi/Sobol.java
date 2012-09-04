@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.math.random.generator.quasi;
 
-import net.sourceforge.cilib.math.random.generator.Seeder;
+import net.sourceforge.cilib.math.random.generator.seeder.Seeder;
 
 /**
  * Implementation adapted from <tt>http://people.scs.fsu.edu/~burkardt/f_src/sobol/sobol.html</tt>.
