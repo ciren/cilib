@@ -90,9 +90,9 @@ public class DimensionBoundViolationsPerParticle implements Measurement<Real> {
                     numberOfViolations++;
                 }
             }
-            sumOfAverageViolations += (double) numberOfViolations / (double) dimension;
+            sumOfAverageViolations += numberOfViolations;
         }
 
-        return Real.valueOf(sumOfAverageViolations / (double) populationSize * (double) dimension);
+        return Real.valueOf(sumOfAverageViolations / (double) populationSize);
     }
 }
