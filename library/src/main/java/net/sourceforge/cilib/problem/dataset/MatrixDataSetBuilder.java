@@ -32,7 +32,7 @@ import net.sourceforge.cilib.type.types.container.Matrix;
 /**
  * TODO: This needs to implement the reading of a matrix as needed by MappingProblem.
  */
-public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
+public class MatrixDataSetBuilder extends DataSetBuilder {
     private static final long serialVersionUID = 1141280214032774956L;
 
     private Matrix matrix;
