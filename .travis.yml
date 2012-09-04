@@ -1,7 +1,7 @@
 language: scala
 jdk:
   - openjdk6
-  - openjdk7
+#  - openjdk7
 notifications:
   email:
     on_success: never
