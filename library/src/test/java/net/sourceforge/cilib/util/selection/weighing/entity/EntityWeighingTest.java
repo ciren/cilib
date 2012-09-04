@@ -27,6 +27,7 @@ import java.util.List;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.util.selection.WeightedObject;
@@ -66,6 +67,38 @@ public class EntityWeighingTest {
         Assert.assertEquals(1.0, result.get(0).getWeight(), 0.0001);
         Assert.assertEquals(0.5, result.get(1).getWeight(), 0.0001);
         Assert.assertEquals(0.0, result.get(2).getWeight(), 0.0001);
+    }
+
+    @Test
+    public void entityWeighingAllNaN() {
+        Individual i1 = createIndividual(InferiorFitness.instance());
+        Individual i2 = createIndividual(InferiorFitness.instance());
+        Individual i3 = createIndividual(InferiorFitness.instance());
+
+        List<Individual> individuals = Arrays.asList(i1, i2, i3);
+        EntityWeighting weighing = new EntityWeighting();
+        List<WeightedObject> result = Lists.newArrayList(weighing.weigh(individuals));
+
+        Assert.assertEquals(1.0, result.get(0).getWeight(), 0.0001);
+        Assert.assertEquals(1.0, result.get(1).getWeight(), 0.0001);
+        Assert.assertEquals(1.0, result.get(2).getWeight(), 0.0001);
+    }
+
+    @Test
+    public void entityWeighingSomeNaN() {
+        Individual i1 = createIndividual(new MinimisationFitness(1.0));
+        Individual i2 = createIndividual(new MinimisationFitness(2.0));
+        Individual i3 = createIndividual(new MinimisationFitness(3.0));
+        Individual i4 = createIndividual(InferiorFitness.instance());
+
+        List<Individual> individuals = Arrays.asList(i1, i2, i3, i4);
+        EntityWeighting weighing = new EntityWeighting();
+        List<WeightedObject> result = Lists.newArrayList(weighing.weigh(individuals));
+
+        Assert.assertEquals(1.0, result.get(0).getWeight(), 0.0001);
+        Assert.assertEquals(0.5, result.get(1).getWeight(), 0.0001);
+        Assert.assertEquals(0.0, result.get(2).getWeight(), 0.0001);
+        Assert.assertEquals(0.0, result.get(3).getWeight(), 0.0001);
     }
 
     private Individual createIndividual(Fitness fitness) {

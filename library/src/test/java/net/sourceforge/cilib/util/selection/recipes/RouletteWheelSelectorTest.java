@@ -30,6 +30,7 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.util.selection.weighting.EntityWeighting;
@@ -74,12 +75,6 @@ public class RouletteWheelSelectorTest {
         return topology;
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void selectionWithInferiorFitness() {
-        RouletteWheelSelector<Entity> rouletteWheelSelection = new RouletteWheelSelector<Entity>(new EntityWeighting());
-        rouletteWheelSelection.on(new GBestTopology<Entity>()).select();
-    }
-
     @Test
     public void minimizationSelection() {
         Topology<Individual> topology = createDummyTopology();
@@ -88,7 +83,6 @@ public class RouletteWheelSelectorTest {
         topology.get(2).getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.00001)); // Should be the best entity
 
         RouletteWheelSelector<Individual> selection = new RouletteWheelSelector<Individual>(new EntityWeighting());
-        selection.setRandom(new ConstantRandomNumber());
         Individual selected = selection.on(topology).select();
 
         Assert.assertThat(selected, is(notNullValue()));
@@ -105,7 +99,6 @@ public class RouletteWheelSelectorTest {
         topology.get(2).getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
 
         RouletteWheelSelector<Individual> selection = new RouletteWheelSelector<Individual>(new EntityWeighting());
-        selection.setRandom(new ConstantRandomNumber());
         Individual selected = selection.on(topology).select();
 
         Assert.assertThat(selected, is(notNullValue()));
@@ -113,44 +106,32 @@ public class RouletteWheelSelectorTest {
         Assert.assertThat(selected, is(topology.get(1)));
     }
 
-    private static class ConstantRandomNumber implements RandomProvider {
+    @Test
+    public void someNaNSelection() {
+        Topology<Individual> topology = createDummyTopology();
+        topology.get(0).getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        topology.get(1).getProperties().put(EntityType.FITNESS, new MaximisationFitness(90000.0)); // Should be the best entity
+        topology.get(2).getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
 
-        private static final long serialVersionUID = 3019387660938987850L;
-        private RandomProvider randomNumber = new MersenneTwister(0);
+        RouletteWheelSelector<Individual> selection = new RouletteWheelSelector<Individual>(new EntityWeighting());
+        Individual selected = selection.on(topology).select();
 
-        @Override
-        public boolean nextBoolean() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
+        Assert.assertThat(selected, is(notNullValue()));
+        Assert.assertThat(topology, hasItem(selected));
+        Assert.assertThat(selected, is(topology.get(1)));
+    }
 
-        @Override
-        public int nextInt() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
+    @Test
+    public void allNaNSelection() {
+        Topology<Individual> topology = createDummyTopology();
+        topology.get(0).getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        topology.get(1).getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        topology.get(2).getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
 
-        @Override
-        public int nextInt(int n) {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
+        RouletteWheelSelector<Individual> selection = new RouletteWheelSelector<Individual>(new EntityWeighting());
+        Individual selected = selection.on(topology).select();
 
-        @Override
-        public long nextLong() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public float nextFloat() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public double nextDouble() {
-            return this.randomNumber.nextDouble();
-        }
-
-        @Override
-        public void nextBytes(byte[] bytes) {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
+        Assert.assertThat(selected, is(notNullValue()));
+        Assert.assertThat(topology, hasItem(selected));
     }
 }
