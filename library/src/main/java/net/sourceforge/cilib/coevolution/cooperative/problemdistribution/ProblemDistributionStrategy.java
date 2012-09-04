@@ -25,7 +25,7 @@ import java.util.List;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgorithm;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -40,5 +40,5 @@ public interface ProblemDistributionStrategy {
      * @param problem The problem that needs to be re-distributed.
      * @param context The context vector maintained by the {@linkplain CooperativeCoevolutionAlgorithm}.
      */
-    void performDistribution(List<PopulationBasedAlgorithm> populations, OptimisationProblem problem, Vector context);
+    void performDistribution(List<PopulationBasedAlgorithm> populations, Problem problem, Vector context);
 }

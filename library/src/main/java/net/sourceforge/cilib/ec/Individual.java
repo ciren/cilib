@@ -25,7 +25,7 @@ import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -98,7 +98,7 @@ public class Individual extends AbstractEntity {
      * {@inheritDoc}
      */
     @Override
-    public void initialise(OptimisationProblem problem) {
+    public void initialise(Problem problem) {
         // ID initialization is done in the clone method...
         // which is always enforced due to the semantics of the performInitialisation methods
         Vector candidate = Vector.newBuilder().copyOf(problem.getDomain().getBuiltRepresenation()).buildRandom();

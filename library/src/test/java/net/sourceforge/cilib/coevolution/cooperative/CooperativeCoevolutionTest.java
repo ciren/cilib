@@ -28,7 +28,7 @@ import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.Problem
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.DomainRegistry;
@@ -60,7 +60,7 @@ public class CooperativeCoevolutionTest {
         problemDomain.setDomainString("R(0.0:4.0)^2");
 
         //Mock problem
-        final OptimisationProblem problem = mock(OptimisationProblem.class);
+        final Problem problem = mock(Problem.class);
         when(problem.getClone()).thenReturn(problem);
         when(problem.getDomain()).thenReturn(problemDomain);
 
@@ -106,6 +106,6 @@ public class CooperativeCoevolutionTest {
         verify(subProb, atLeast(2)).updateContext(any(Vector.class));
         verify(subPopulation, atLeast(1)).performInitialisation();
         verify(subPopulation, atLeast(1)).performIteration();
-        verify(distribution, atLeast(1)).performDistribution(any(List.class), any(OptimisationProblem.class), any(Vector.class));
+        verify(distribution, atLeast(1)).performDistribution(any(List.class), any(Problem.class), any(Vector.class));
     }
 }

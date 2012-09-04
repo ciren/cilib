@@ -26,7 +26,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.Real;
 
 /**
@@ -66,7 +66,7 @@ public class AverageBestFitnessBeforeChange extends DynamicMeasurement<Real> {
     @Override
     public Real getValue(Algorithm algorithm) {
         if ((algorithm.getIterations() + 1) % cycleSize == 0) {
-            OptimisationProblem function = algorithm.getOptimisationProblem();
+            Problem function = algorithm.getOptimisationProblem();
             double fitness = function.getFitness(algorithm.getBestSolution().getPosition()).getValue();
             avg = (avg * cycleNr + fitness) / (cycleNr + 1);
             cycleNr++;

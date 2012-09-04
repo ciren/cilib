@@ -26,7 +26,6 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.AlgorithmEvent;
 import net.sourceforge.cilib.algorithm.AlgorithmListener;
-import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.Problem;
 
 /**
@@ -61,7 +60,7 @@ public class Simulation implements AlgorithmListener, Runnable {
     public void init() {
         AbstractAlgorithm alg = (AbstractAlgorithm) algorithm;
         alg.addAlgorithmListener(this);
-        alg.setOptimisationProblem((OptimisationProblem) problem);
+        alg.setOptimisationProblem(problem);
         alg.performInitialisation();
     }
 

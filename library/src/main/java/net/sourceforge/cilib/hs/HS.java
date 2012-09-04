@@ -32,7 +32,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Harmony;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -195,7 +195,7 @@ public class HS extends AbstractAlgorithm implements SingularAlgorithm {
         newHarmony.initialise(getOptimisationProblem());
         Vector newHarmonyVector = (Vector) newHarmony.getCandidateSolution();
 
-        OptimisationProblem problem = getOptimisationProblem();
+        Problem problem = getOptimisationProblem();
 //        Real newHarmonyValue;
         for (int i = 0; i < problem.getDomain().getDimension(); ++i) {
             if (uniform1.getRandomNumber() < harmonyMemoryConsideringRate.getParameter()) {

@@ -35,7 +35,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.DeratingOptimisationProblem;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -116,7 +116,7 @@ public class SequentialNichingTechnique extends AbstractAlgorithm implements Pop
     }
 
     @Override
-    public void setOptimisationProblem(OptimisationProblem problem) {
+    public void setOptimisationProblem(Problem problem) {
         Preconditions.checkArgument(problem instanceof DeratingOptimisationProblem,
                 "SequentialNiching can only be used with DeratingOptimisationProblem.");
         optimisationProblem = problem;

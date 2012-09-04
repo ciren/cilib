@@ -28,7 +28,7 @@ import net.sourceforge.cilib.algorithm.population.MultiPopulationCriterionBasedA
 import net.sourceforge.cilib.moo.criterion.objectiveassignmentstrategies.ObjectiveAssignmentStrategy;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
@@ -68,15 +68,15 @@ public class CriterionBasedMOProblemAdapter extends OptimisationProblemAdapter {
         return new CriterionBasedMOProblemAdapter(this);
     }
 
-    public OptimisationProblem getActiveOptimisationProblem() {
+    public Problem getActiveOptimisationProblem() {
         return this.problem.get(this.activeIndex);
     }
 
-    public void setActiveOptimisationProblem(OptimisationProblem problem) {
+    public void setActiveOptimisationProblem(Problem problem) {
         this.activeIndex = this.problem.indexOf(problem);
     }
 
-    public List<OptimisationProblem> getOptimisationProblems() {
+    public List<Problem> getOptimisationProblems() {
         return Collections.unmodifiableList(this.problem);
     }
 

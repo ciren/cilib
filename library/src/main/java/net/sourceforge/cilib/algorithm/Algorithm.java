@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.algorithm;
 
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -69,13 +69,13 @@ public interface Algorithm extends Runnable, Cloneable {
      * @param problem An implementation of the
      * {@link net.sourceforge.cilib.problem.OptimisationProblemAdapter} interface.
      */
-    void setOptimisationProblem(OptimisationProblem problem);
+    void setOptimisationProblem(Problem problem);
 
     /**
      * Get the specified {@linkplain OptimisationProblem}.
      * @return The specified {@linkplain OptimisationProblem}.
      */
-    OptimisationProblem getOptimisationProblem();
+    Problem getOptimisationProblem();
 
     boolean isFinished();
 }

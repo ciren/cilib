@@ -24,7 +24,7 @@ package net.sourceforge.cilib.functions.discrete;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.functions.DiscreteFunction;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.dataset.TextDataSetBuilder;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -67,7 +67,7 @@ public class LongestCommonSubsequence implements DiscreteFunction {
      */
     private String getShortestString() {
         PopulationBasedAlgorithm popAlgorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get();
-        OptimisationProblem problem = popAlgorithm.getOptimisationProblem();
+        Problem problem = popAlgorithm.getOptimisationProblem();
         TextDataSetBuilder dataSetBuilder = (TextDataSetBuilder) problem.getDataSetBuilder();
 
         return dataSetBuilder.getShortestString();
@@ -75,7 +75,7 @@ public class LongestCommonSubsequence implements DiscreteFunction {
 
     private int getDataSetSize() {
         PopulationBasedAlgorithm popAlgorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get();
-        OptimisationProblem problem = popAlgorithm.getOptimisationProblem();
+        Problem problem = popAlgorithm.getOptimisationProblem();
         TextDataSetBuilder dataSetBuilder = (TextDataSetBuilder) problem.getDataSetBuilder();
 
         return dataSetBuilder.size();
@@ -100,7 +100,7 @@ public class LongestCommonSubsequence implements DiscreteFunction {
 
     private int matches(Vector x) {
         PopulationBasedAlgorithm popAlgorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get();
-        OptimisationProblem problem = popAlgorithm.getOptimisationProblem();
+        Problem problem = popAlgorithm.getOptimisationProblem();
         TextDataSetBuilder dataSetBuilder = (TextDataSetBuilder) problem.getDataSetBuilder();
 
         int count = 0;

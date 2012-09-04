@@ -35,10 +35,10 @@ import net.sourceforge.cilib.type.types.Type;
 /**
  *
  */
-public class MOOptimisationProblem extends ForwardingList<OptimisationProblem> implements OptimisationProblem {
+public class MOOptimisationProblem extends ForwardingList<Problem> implements Problem {
 
     private static final long serialVersionUID = 4997914969290350571L;
-    protected final List<OptimisationProblem> problems;
+    protected final List<Problem> problems;
 
     public MOOptimisationProblem() {
         this.problems = Lists.newArrayList();
@@ -46,7 +46,7 @@ public class MOOptimisationProblem extends ForwardingList<OptimisationProblem> i
 
     public MOOptimisationProblem(MOOptimisationProblem copy) {
         this.problems = Lists.newArrayList();
-        for (OptimisationProblem optimisationProblem : copy.problems) {
+        for (Problem optimisationProblem : copy.problems) {
             this.problems.add(optimisationProblem.getClone());
         }
     }
@@ -72,7 +72,7 @@ public class MOOptimisationProblem extends ForwardingList<OptimisationProblem> i
     @Override
     public int getFitnessEvaluations() {
         int sum = 0;
-        for (OptimisationProblem problem : this.problems) {
+        for (Problem problem : this.problems) {
             sum += problem.getFitnessEvaluations();
         }
         return sum;
@@ -99,7 +99,7 @@ public class MOOptimisationProblem extends ForwardingList<OptimisationProblem> i
     }
 
     @Override
-    protected List<OptimisationProblem> delegate() {
+    protected List<Problem> delegate() {
         return this.problems;
     }
 }

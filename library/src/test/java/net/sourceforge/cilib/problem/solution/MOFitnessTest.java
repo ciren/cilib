@@ -24,7 +24,7 @@ package net.sourceforge.cilib.problem.solution;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -65,7 +65,7 @@ public class MOFitnessTest {
         assertTrue(f2.compareTo(f1) > 0);
     }
 
-    private static class DummyOptimisationProblem implements OptimisationProblem {
+    private static class DummyOptimisationProblem implements Problem {
         private static final long serialVersionUID = -2955989686805159033L;
 
         private int i;

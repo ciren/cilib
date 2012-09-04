@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.algorithm.initialisation;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -55,7 +55,7 @@ public interface PopulationInitialisationStrategy<E extends Entity> extends Clon
      * @param problem The Problem to based the initialisation on
      * @return An {@code Iterable<E>} of instances.
      */
-    Iterable<E> initialise(OptimisationProblem problem);
+    Iterable<E> initialise(Problem problem);
 
     /**
      * Get the number of entities specified to be created by the <code>InitialisationStrategy</code>.

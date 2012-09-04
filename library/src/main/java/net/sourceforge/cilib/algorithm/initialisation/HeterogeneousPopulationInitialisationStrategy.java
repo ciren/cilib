@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
@@ -83,7 +83,7 @@ public class HeterogeneousPopulationInitialisationStrategy implements Population
      * @throws InitialisationException if the initialization cannot take place.
      */
     @Override
-    public Iterable<Particle> initialise(OptimisationProblem problem) {
+    public Iterable<Particle> initialise(Problem problem) {
         Preconditions.checkNotNull(problem, "No problem has been specified");
         Preconditions.checkState(behaviorPool.size() > 0, "No particle behaviors have been added to the behavior pool.");
 

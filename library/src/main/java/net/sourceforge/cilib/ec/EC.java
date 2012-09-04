@@ -37,7 +37,7 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
 import net.sourceforge.cilib.entity.initialization.NullInitializationStrategy;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 
 /**
@@ -48,7 +48,7 @@ import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingAlgorithm {
 
     private static final long serialVersionUID = -4324446523858690744L;
-    private OptimisationProblem problem;
+    private Problem problem;
     private IterationStrategy<EC> iterationStrategy;
     private Topology<Individual> topology;
     private InitializationStrategy<Entity> strategyParameterInitialization;
@@ -135,7 +135,7 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
      * {@inheritDoc}
      */
     @Override
-    public void setOptimisationProblem(OptimisationProblem problem) {
+    public void setOptimisationProblem(Problem problem) {
         this.problem = problem;
     }
 
@@ -143,7 +143,7 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
      * {@inheritDoc}
      */
     @Override
-    public OptimisationProblem getOptimisationProblem() {
+    public Problem getOptimisationProblem() {
         return this.problem;
     }
 

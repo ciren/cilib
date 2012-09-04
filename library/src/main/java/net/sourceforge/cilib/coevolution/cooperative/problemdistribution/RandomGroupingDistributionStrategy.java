@@ -31,7 +31,7 @@ import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgor
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
 import net.sourceforge.cilib.coevolution.cooperative.problem.RandomDimensionAllocation;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
@@ -44,7 +44,7 @@ import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
  * {@linkplain PopulationBasedAlgorithm}. Defaults into a split of equal
  * sizes if possible. The order in which the algorithms are assigned
  * is generated randomly.
- * 
+ *
  */
 public class RandomGroupingDistributionStrategy implements
         ProblemDistributionStrategy {
@@ -59,7 +59,7 @@ public class RandomGroupingDistributionStrategy implements
      */
     @Override
     public void performDistribution(List<PopulationBasedAlgorithm> populations,
-            OptimisationProblem problem, Vector context) {
+            Problem problem, Vector context) {
         //need to do a completely random split depending on the number of sub populations
         Preconditions.checkArgument(populations.size() >= 2,
                 "There should at least be two Cooperating populations in a Cooperative Algorithm");

@@ -27,7 +27,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.ContextEntity;
 import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.ProblemDistributionStrategy;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -44,7 +44,7 @@ public interface ProblemRedistributionStrategy extends Cloneable {
      * @param distributionStrategy The {@link CooperativeCoevolutionAlgorithm}'s original {@link ProblemDistributionStrategy}, which may be used to recalculate the distribution.
      * @param context The current {@link ContextEntity} of the {@link CooperativeCoevolutionAlgorithm}.
      */
-    void redistributeProblem(List<PopulationBasedAlgorithm> populations, OptimisationProblem problem, ProblemDistributionStrategy distributionStrategy, Vector context);
+    void redistributeProblem(List<PopulationBasedAlgorithm> populations, Problem problem, ProblemDistributionStrategy distributionStrategy, Vector context);
 
     /**
      * {@inheritDoc}

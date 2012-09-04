@@ -28,7 +28,7 @@ import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolut
 import net.sourceforge.cilib.math.random.generator.seeder.SeedSelectionStrategy;
 import net.sourceforge.cilib.math.random.generator.seeder.Seeder;
 import net.sourceforge.cilib.math.random.generator.seeder.ZeroSeederStrategy;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
@@ -58,7 +58,7 @@ public class RandomGroupingProblemDistributionTest {
 
             List<PopulationBasedAlgorithm> populations = Arrays.asList((PopulationBasedAlgorithm) new PSO(), (PopulationBasedAlgorithm) new PSO());
 
-            final OptimisationProblem problem = mock(OptimisationProblem.class);
+            final Problem problem = mock(Problem.class);
             when(problem.getDomain()).thenReturn(problemDomain);
 
             RandomGroupingDistributionStrategy test = new RandomGroupingDistributionStrategy();

@@ -31,7 +31,7 @@ import java.util.NoSuchElementException;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.pso.particle.AbstractParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -199,7 +199,7 @@ public class VonNeumannTopologyTest {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
 
-        public void initialise(OptimisationProblem problem) {
+        public void initialise(Problem problem) {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
 

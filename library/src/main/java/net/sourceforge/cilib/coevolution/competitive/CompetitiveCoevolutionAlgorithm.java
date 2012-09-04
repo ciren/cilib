@@ -27,7 +27,7 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.CoevolutionAlgorithm;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.problem.coevolution.CoevolutionOptimisationProblem;
 import net.sourceforge.cilib.problem.coevolution.CompetitiveCoevolutionProblemAdapter;
@@ -126,7 +126,7 @@ implements CoevolutionAlgorithm {
      * {@inheritDoc}
      */
     @Override
-    public void setOptimisationProblem(OptimisationProblem problem) {
+    public void setOptimisationProblem(Problem problem) {
         Preconditions.checkArgument(problem instanceof CoevolutionOptimisationProblem, "Co-evolutionaty algorithms can only optimize problems that impliment the CoevolutionOptimisationProblem interface");
         super.setOptimisationProblem(problem);
     }

@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 
 /**
  * Initialize a specialized collection of
@@ -75,7 +75,7 @@ public class SpecializedPopluationInitialisationStrategy implements PopulationIn
      * {@inheritDoc}
      */
     @Override
-    public Iterable<Entity> initialise(OptimisationProblem problem) {
+    public Iterable<Entity> initialise(Problem problem) {
         Preconditions.checkNotNull(problem, "No problem has been specified");
         Preconditions.checkState(!entityList.isEmpty(), "No entities have been defined!");
 

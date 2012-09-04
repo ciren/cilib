@@ -28,7 +28,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.MemoryBasedEntity;
 import net.sourceforge.cilib.entity.SocialEntity;
 import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 public final class Entities {
@@ -89,10 +89,10 @@ public final class Entities {
         };
     }
 
-    public static <E extends Entity> F2<? extends OptimisationProblem, E, E> initialise() {
-        return new F2<OptimisationProblem, E, E>() {
+    public static <E extends Entity> F2<? extends Problem, E, E> initialise() {
+        return new F2<Problem, E, E>() {
             @Override
-            public E f(OptimisationProblem a, E b) {
+            public E f(Problem a, E b) {
                 b.initialise(a);
                 return b;
             }

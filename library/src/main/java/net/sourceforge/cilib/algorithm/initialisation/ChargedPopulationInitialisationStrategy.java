@@ -27,7 +27,7 @@ import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.pso.dynamic.ChargedParticle;
 
 /**
@@ -83,7 +83,7 @@ public class ChargedPopulationInitialisationStrategy<E extends Entity>
      * @throws InitialisationException if the initialization cannot take place.
      */
     @Override
-    public Iterable<E> initialise(OptimisationProblem problem) {
+    public Iterable<E> initialise(Problem problem) {
         Preconditions.checkNotNull(problem, "No problem has been specified");
         Preconditions.checkNotNull(prototypeEntity, "No prototype Entity object has been defined for the clone operation in the entity constrution process.");
 

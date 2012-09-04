@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.measurement.single.dynamic;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -56,7 +56,7 @@ public class CollectiveMeanFitness extends DynamicMeasurement<Real> {
     @Override
     public Real getValue(Algorithm algorithm) {
         int iteration = algorithm.getIterations();
-        OptimisationProblem function = algorithm.getOptimisationProblem();
+        Problem function = algorithm.getOptimisationProblem();
         double fitness = function.getFitness(algorithm.getBestSolution().getPosition()).getValue();
         avg = (avg * (iteration - 1) + fitness) / (iteration);
         return Real.valueOf(avg);

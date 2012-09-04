@@ -28,7 +28,7 @@ import net.sourceforge.cilib.algorithm.iterator.RandomAlgorithmIterator;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
 import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.ProblemDistributionStrategy;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -44,8 +44,8 @@ public class ShuffleProblemRedistributionStrategy implements
     /**
      * {@inheritDoc}
      */
-    public void redistributeProblem(List<PopulationBasedAlgorithm> populations, OptimisationProblem problem, ProblemDistributionStrategy distributionStrategy, Vector context) {
-        List<OptimisationProblem> problems = new ArrayList<OptimisationProblem>();
+    public void redistributeProblem(List<PopulationBasedAlgorithm> populations, Problem problem, ProblemDistributionStrategy distributionStrategy, Vector context) {
+        List<Problem> problems = new ArrayList<Problem>();
         for(PopulationBasedAlgorithm algorithm: populations){
             problems.add(algorithm.getOptimisationProblem().getClone());
         }

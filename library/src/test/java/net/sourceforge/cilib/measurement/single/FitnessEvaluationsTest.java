@@ -23,7 +23,7 @@ package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -43,7 +43,7 @@ public class FitnessEvaluationsTest {
     @Test
     public void result() {
         final PopulationBasedAlgorithm pba = mock(PopulationBasedAlgorithm.class);
-        final OptimisationProblem problem = mock(OptimisationProblem.class);
+        final Problem problem = mock(Problem.class);
 
         when(pba.getOptimisationProblem()).thenReturn(problem);
         when(problem.getFitnessEvaluations()).thenReturn(10, 20);

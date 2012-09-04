@@ -29,7 +29,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 
 public final class Algorithms {
@@ -106,20 +106,20 @@ public final class Algorithms {
         };
     }
 
-    public static <A extends Algorithm> F2<OptimisationProblem, A, A> setOptimisationProblem() {
-        return new F2<OptimisationProblem, A, A>() {
+    public static <A extends Algorithm> F2<Problem, A, A> setOptimisationProblem() {
+        return new F2<Problem, A, A>() {
             @Override
-            public A f(OptimisationProblem a, A b) {
+            public A f(Problem a, A b) {
                 b.setOptimisationProblem(a);
                 return b;
             }
         };
     }
 
-    public static <A extends Algorithm> F<A, OptimisationProblem> getOptimisationProblem() {
-        return new F<A, OptimisationProblem>() {
+    public static <A extends Algorithm> F<A, Problem> getOptimisationProblem() {
+        return new F<A, Problem>() {
             @Override
-            public OptimisationProblem f(A a) {
+            public Problem f(A a) {
                 return a.getOptimisationProblem();
             }
         };

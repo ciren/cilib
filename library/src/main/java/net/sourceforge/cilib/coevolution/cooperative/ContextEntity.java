@@ -26,7 +26,7 @@ import net.sourceforge.cilib.entity.CandidateSolution;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
@@ -174,7 +174,7 @@ public class ContextEntity implements Entity {
      * {@inheritDoc}
      */
     @Override
-    public void initialise(OptimisationProblem problem) {
+    public void initialise(Problem problem) {
         context = (Vector) problem.getDomain().getBuiltRepresenation().getClone();
     }
 

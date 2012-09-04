@@ -34,7 +34,7 @@ import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgor
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
 import net.sourceforge.cilib.coevolution.cooperative.problem.DimensionAllocation;
 import net.sourceforge.cilib.coevolution.cooperative.problem.SequencialDimensionAllocation;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -54,7 +54,7 @@ public class RandomAlgorithmImperfectSplitDistribution implements
      * @param context The context vector maintained by the {@linkplain CooperativeCoevolutionAlgorithm}.
      */
     public void performDistribution(List<PopulationBasedAlgorithm> populations,
-            OptimisationProblem problem, Vector context) {
+            Problem problem, Vector context) {
         Preconditions.checkArgument(populations.size() >= 2,
                 "There should at least be two Cooperating populations in a Cooperative Algorithm");
 

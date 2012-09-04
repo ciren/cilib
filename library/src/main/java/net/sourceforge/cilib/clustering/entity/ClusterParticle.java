@@ -29,7 +29,7 @@ import net.sourceforge.cilib.entity.initialization.RandomBoundedInitializationSt
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.pso.particle.AbstractParticle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.pbestupdate.StandardPersonalBestUpdateStrategy;
@@ -232,7 +232,7 @@ public class ClusterParticle extends AbstractParticle{
      * @param problem The optimization problem being dealt with
      */
     @Override
-    public void initialise(OptimisationProblem problem) {
+    public void initialise(Problem problem) {
         numberOfClusters = ((ClusteringProblem) problem).getNumberOfClusters();
         this.getProperties().put(EntityType.CANDIDATE_SOLUTION, new CentroidHolder(numberOfClusters, problem.getDomain().getDimension()));
         this.getProperties().put(EntityType.Particle.BEST_POSITION,  new CentroidHolder(numberOfClusters, problem.getDomain().getDimension()));

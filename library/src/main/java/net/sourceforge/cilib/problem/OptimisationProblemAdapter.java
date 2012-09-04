@@ -39,7 +39,7 @@ import net.sourceforge.cilib.type.types.Type;
  * solutions outside the problem search space is implemented by {@link #getFitness(Type, boolean)}
  * </p>
  */
-public abstract class OptimisationProblemAdapter implements OptimisationProblem {
+public abstract class OptimisationProblemAdapter implements Problem {
 
     private static final long serialVersionUID = -5008516277429476778L;
     private ChangeStrategy changeStrategy;

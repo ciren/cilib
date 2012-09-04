@@ -23,7 +23,7 @@ package net.sourceforge.cilib.measurement.single.dynamic;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -41,7 +41,7 @@ public class AverageBestFitnessBeforeChangeTest {
     public void results() {
         final Algorithm algorithm = mock(Algorithm.class);
         final OptimisationSolution mockSolution1 = new OptimisationSolution(Vector.of(1.0), new MinimisationFitness(0.0));
-        final OptimisationProblem mockProblem = mock(OptimisationProblem.class);
+        final Problem mockProblem = mock(Problem.class);
 
         when(algorithm.getBestSolution()).thenReturn(mockSolution1);
         when(algorithm.getOptimisationProblem()).thenReturn(mockProblem);

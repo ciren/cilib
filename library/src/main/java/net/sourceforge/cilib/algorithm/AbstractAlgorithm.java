@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.cilib.entity.EntityIdFactory;
 import net.sourceforge.cilib.moo.archive.Archive;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 
@@ -52,7 +52,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     private int iteration;
     private volatile boolean running;
     private boolean initialised;
-    protected OptimisationProblem optimisationProblem;
+    protected Problem optimisationProblem;
     /**
      * This {@linkplain ThreadLocal} variable maintains the stack of the currently
      * executing algorithm. It is defined as a static member and as a result is not
@@ -331,7 +331,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
      * {@inheritDoc}
      */
     @Override
-    public void setOptimisationProblem(OptimisationProblem problem) {
+    public void setOptimisationProblem(Problem problem) {
         this.optimisationProblem = problem;
     }
 
@@ -339,7 +339,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
      * {@inheritDoc}
      */
     @Override
-    public OptimisationProblem getOptimisationProblem() {
+    public Problem getOptimisationProblem() {
         return this.optimisationProblem;
     }
 

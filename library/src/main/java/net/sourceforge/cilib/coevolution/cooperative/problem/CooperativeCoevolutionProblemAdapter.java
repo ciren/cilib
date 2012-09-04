@@ -28,7 +28,7 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
@@ -47,7 +47,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class CooperativeCoevolutionProblemAdapter extends OptimisationProblemAdapter {
 
     private static final long serialVersionUID = 3764040830993620887L;
-    private OptimisationProblem problem;
+    private Problem problem;
     private DomainRegistry problemDomain;
     private Vector context;
     private DimensionAllocation problemAllocation;
@@ -60,7 +60,7 @@ public class CooperativeCoevolutionProblemAdapter extends OptimisationProblemAda
      *     of the {@linkplain Entity}'s that are optimizing this problem fits into the original problem.
      * @param context The current context soltution of the {@linkplain CooperativeCoevolutionAlgorithm}
      */
-    public CooperativeCoevolutionProblemAdapter(OptimisationProblem problem, DimensionAllocation problemAllocation, Vector context) {
+    public CooperativeCoevolutionProblemAdapter(Problem problem, DimensionAllocation problemAllocation, Vector context) {
         this.problem = problem;
         this.problemAllocation = problemAllocation;
         this.context = Vector.copyOf(context);

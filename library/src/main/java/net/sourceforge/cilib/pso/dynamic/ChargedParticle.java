@@ -23,7 +23,7 @@ package net.sourceforge.cilib.pso.dynamic;
 
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -92,7 +92,7 @@ public class ChargedParticle extends DynamicParticle {
     }
 
     @Override
-    public void initialise(OptimisationProblem problem) {
+    public void initialise(Problem problem) {
         this.getProperties().put(EntityType.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresenation().getClone());
         this.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf(getPosition()));
         this.getProperties().put(EntityType.Particle.VELOCITY, Vector.copyOf(getPosition()));

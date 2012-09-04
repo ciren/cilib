@@ -24,7 +24,7 @@ package net.sourceforge.cilib.entity;
 import java.io.Serializable;
 
 import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -91,7 +91,7 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
      *
      * @param problem The {@linkplain OptimisationProblem} to based the initialisation on.
      */
-    void initialise(OptimisationProblem problem);
+    void initialise(Problem problem);
 
     /**
      * Returns the dimension of the {@linkplain Entity}.

@@ -28,7 +28,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.moo.archive.Archive;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 
 /**
@@ -52,7 +52,7 @@ public class ArchiveReevaluationResponseStrategy extends EnvironmentChangeRespon
         }
 
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
-        OptimisationProblem problem = populationBasedAlgorithm.getOptimisationProblem();
+        Problem problem = populationBasedAlgorithm.getOptimisationProblem();
 
         List<OptimisationSolution> newList = new LinkedList<OptimisationSolution>();
         for (OptimisationSolution solution : Archive.Provider.get()) {

@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
@@ -49,7 +49,7 @@ public class ImperfectSplitDistributionStrategyTest {
 
         List<PopulationBasedAlgorithm> populations = Arrays.asList((PopulationBasedAlgorithm) new PSO(), (PopulationBasedAlgorithm) new PSO());
 
-        final OptimisationProblem problem = mock(OptimisationProblem.class);
+        final Problem problem = mock(Problem.class);
         when(problem.getDomain()).thenReturn(problemDomain);
 
         ImperfectSplitDistributionStrategy test = new ImperfectSplitDistributionStrategy();

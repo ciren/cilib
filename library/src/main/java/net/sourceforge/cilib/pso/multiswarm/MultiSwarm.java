@@ -28,7 +28,7 @@ import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
@@ -76,7 +76,7 @@ public class MultiSwarm extends MultiPopulationBasedAlgorithm {
      */
     @Override
     public void algorithmInitialisation()    {
-        OptimisationProblem problem = getOptimisationProblem();//getCoevolutionOptimisationProblem();
+        Problem problem = getOptimisationProblem();//getCoevolutionOptimisationProblem();
         for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
             currentAlgorithm.setOptimisationProblem(problem);
             currentAlgorithm.performInitialisation();

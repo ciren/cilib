@@ -28,7 +28,7 @@ import net.sourceforge.cilib.coevolution.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
-import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
@@ -90,7 +90,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
      * {@inheritDoc}
      */
     @Override
-    public OptimisationProblem getOptimisationProblem() {
+    public Problem getOptimisationProblem() {
         return problem.getTarget();
     }
 
@@ -107,7 +107,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
      * @param problem The problem to set.
      */
     @Override
-    public void setOptimisationProblem(OptimisationProblem problem) {
+    public void setOptimisationProblem(Problem problem) {
         this.problem = new MultistartProblemAdapter(problem);
     }
 
@@ -230,7 +230,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
 
         }
 
-        public MultistartProblemAdapter(OptimisationProblem target) {
+        public MultistartProblemAdapter(Problem target) {
             this.target = target;
         }
 
@@ -243,7 +243,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
             return new MultistartProblemAdapter(this);
         }
 
-        public OptimisationProblem getTarget() {
+        public Problem getTarget() {
             return target;
         }
 
@@ -265,7 +265,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
             throw new UnsupportedOperationException("Method not implemented");
         }
 
-        private OptimisationProblem target;
+        private Problem target;
 
     }
 
