@@ -41,7 +41,7 @@ public class ArchiveTest {
     private static Archive archive;
     private static final double EPSILON = 0.00000000001;
 
-    private class SubOptimisationProblem1 extends OptimisationProblemAdapter {
+    private class SubOptimisationProblem1 extends AbstractProblem {
 
         private static final long serialVersionUID = -6450436273476937541L;
 
@@ -56,7 +56,7 @@ public class ArchiveTest {
         }
 
         @Override
-        public OptimisationProblemAdapter getClone() {
+        public AbstractProblem getClone() {
             return null;
         }
 
@@ -66,7 +66,7 @@ public class ArchiveTest {
         }
     }
 
-    private class SubOptimisationProblem2 extends OptimisationProblemAdapter {
+    private class SubOptimisationProblem2 extends AbstractProblem {
 
         private static final long serialVersionUID = -1284888804119511449L;
 
@@ -81,7 +81,7 @@ public class ArchiveTest {
         }
 
         @Override
-        public OptimisationProblemAdapter getClone() {
+        public AbstractProblem getClone() {
             return null;
         }
 
@@ -91,7 +91,7 @@ public class ArchiveTest {
         }
     }
 
-    private class SubOptimisationProblem3 extends OptimisationProblemAdapter {
+    private class SubOptimisationProblem3 extends AbstractProblem {
 
         private static final long serialVersionUID = 2255106605755142990L;
 
@@ -106,7 +106,7 @@ public class ArchiveTest {
         }
 
         @Override
-        public OptimisationProblemAdapter getClone() {
+        public AbstractProblem getClone() {
             return null;
         }
 
@@ -116,7 +116,7 @@ public class ArchiveTest {
         }
     }
 
-    private class SubOptimisationProblem4 extends OptimisationProblemAdapter {
+    private class SubOptimisationProblem4 extends AbstractProblem {
 
         private static final long serialVersionUID = -1284888804119511449L;
 
@@ -131,7 +131,7 @@ public class ArchiveTest {
         }
 
         @Override
-        public OptimisationProblemAdapter getClone() {
+        public AbstractProblem getClone() {
             return null;
         }
 

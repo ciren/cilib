@@ -31,7 +31,7 @@ import java.util.List;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
+import net.sourceforge.cilib.problem.AbstractProblem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Real;
@@ -45,7 +45,7 @@ import org.junit.Test;
  */
 public class ConstrainedArchiveTest {
 
-    private class SubOptimisationProblem1 extends OptimisationProblemAdapter {
+    private class SubOptimisationProblem1 extends AbstractProblem {
 
         private static final long serialVersionUID = -6450436273476937541L;
 
@@ -60,7 +60,7 @@ public class ConstrainedArchiveTest {
         }
 
         @Override
-        public OptimisationProblemAdapter getClone() {
+        public AbstractProblem getClone() {
             return this;
         }
 
@@ -70,7 +70,7 @@ public class ConstrainedArchiveTest {
         }
     }
 
-    private class SubOptimisationProblem2 extends OptimisationProblemAdapter {
+    private class SubOptimisationProblem2 extends AbstractProblem {
 
         private static final long serialVersionUID = -1284888804119511449L;
 
@@ -85,7 +85,7 @@ public class ConstrainedArchiveTest {
         }
 
         @Override
-        public OptimisationProblemAdapter getClone() {
+        public AbstractProblem getClone() {
             return this;
         }
 
@@ -95,7 +95,7 @@ public class ConstrainedArchiveTest {
         }
     }
 
-    private class SubOptimisationProblem3 extends OptimisationProblemAdapter {
+    private class SubOptimisationProblem3 extends AbstractProblem {
 
         private static final long serialVersionUID = 2255106605755142990L;
 
@@ -110,7 +110,7 @@ public class ConstrainedArchiveTest {
         }
 
         @Override
-        public OptimisationProblemAdapter getClone() {
+        public AbstractProblem getClone() {
             return this;
         }
 
@@ -120,7 +120,7 @@ public class ConstrainedArchiveTest {
         }
     }
 
-    private class SubOptimisationProblem4 extends OptimisationProblemAdapter {
+    private class SubOptimisationProblem4 extends AbstractProblem {
 
         private static final long serialVersionUID = -1284888804119511449L;
 
@@ -135,7 +135,7 @@ public class ConstrainedArchiveTest {
         }
 
         @Override
-        public OptimisationProblemAdapter getClone() {
+        public AbstractProblem getClone() {
             return this;
         }
 

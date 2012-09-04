@@ -23,7 +23,7 @@ package net.sourceforge.cilib.functions.continuous.decorators;
 
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
-import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
+import net.sourceforge.cilib.problem.AbstractProblem;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
@@ -41,7 +41,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </p>
  *
  */
-public class AngleModulation extends OptimisationProblemAdapter {
+public class AngleModulation extends AbstractProblem {
 
     private static final long serialVersionUID = -3492262439415251355L;
     private int precision;

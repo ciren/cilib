@@ -26,7 +26,7 @@ import java.util.List;
 import net.sourceforge.cilib.functions.continuous.FunctionDimensionMapping;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
+import net.sourceforge.cilib.problem.AbstractProblem;
 import net.sourceforge.cilib.problem.dataset.StringDataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
@@ -39,7 +39,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 /**
  * TODO: Complete this javadoc.
  */
-public class FunctionDimensionMappingProblem extends OptimisationProblemAdapter {
+public class FunctionDimensionMappingProblem extends AbstractProblem {
 
     private static final long serialVersionUID = -5419400002196415792L;
     private DomainRegistry domainRegistry;

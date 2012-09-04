@@ -29,7 +29,7 @@ import net.sourceforge.cilib.moo.criterion.objectiveassignmentstrategies.Objecti
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
+import net.sourceforge.cilib.problem.AbstractProblem;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -47,7 +47,7 @@ import net.sourceforge.cilib.type.types.Type;
  * </p>
  *
  */
-public class CriterionBasedMOProblemAdapter extends OptimisationProblemAdapter {
+public class CriterionBasedMOProblemAdapter extends AbstractProblem {
 
     private static final long serialVersionUID = -3260431621464871352L;
     private MOOptimisationProblem problem;

@@ -32,7 +32,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * {@link net.sourceforge.cilib.functions.Function}.
  *
  */
-public abstract class FunctionOptimisationProblem extends OptimisationProblemAdapter {
+public abstract class FunctionOptimisationProblem extends AbstractProblem {
 
     private static final long serialVersionUID = 7944544624736580311L;
     protected Function<Vector, ? extends Number> function;

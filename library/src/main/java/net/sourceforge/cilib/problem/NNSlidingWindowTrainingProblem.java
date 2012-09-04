@@ -121,7 +121,7 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
      * {@inheritDoc}
      */
     @Override
-    public OptimisationProblemAdapter getClone() {
+    public AbstractProblem getClone() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

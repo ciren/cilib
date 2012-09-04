@@ -23,7 +23,7 @@ package net.sourceforge.cilib.problem.coevolution;
 
 import net.sourceforge.cilib.coevolution.score.fitnesscalculation.FitnessCalculationStrategy;
 import net.sourceforge.cilib.coevolution.score.fitnesscalculation.TotalFitnessCalculationStrategy;
-import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
+import net.sourceforge.cilib.problem.AbstractProblem;
 
 /**
  * This class represents all kinds of problems where an entity's fitness is determined by performing
@@ -31,7 +31,7 @@ import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
  * For example when a game player is optimized the fitness is determined by playing the game a number of times and a score
  * is assigned based on the entitie's performance in the game.
  */
-public abstract class PerformanceEvaluationOptimizationProblem extends OptimisationProblemAdapter {
+public abstract class PerformanceEvaluationOptimizationProblem extends AbstractProblem {
 
     private static final long serialVersionUID = -736481594565770996L;
     protected int numberOfEvaluations;

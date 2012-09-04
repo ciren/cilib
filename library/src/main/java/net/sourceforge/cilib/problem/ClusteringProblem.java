@@ -26,7 +26,7 @@ import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
-public abstract class ClusteringProblem extends OptimisationProblemAdapter{
+public abstract class ClusteringProblem extends AbstractProblem{
     private int numberOfClusters;
     private DomainRegistry domainRegistry;
 

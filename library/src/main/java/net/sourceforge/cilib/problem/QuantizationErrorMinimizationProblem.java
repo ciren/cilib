@@ -62,7 +62,7 @@ public class QuantizationErrorMinimizationProblem extends ClusteringProblem{
      * @return The new instance of the QuantizationErrorMinimizationProblem
      */
     @Override
-    public OptimisationProblemAdapter getClone() {
+    public AbstractProblem getClone() {
         return new QuantizationErrorMinimizationProblem(this);
     }
 

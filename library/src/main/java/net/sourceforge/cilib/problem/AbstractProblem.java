@@ -39,19 +39,19 @@ import net.sourceforge.cilib.type.types.Type;
  * solutions outside the problem search space is implemented by {@link #getFitness(Type, boolean)}
  * </p>
  */
-public abstract class OptimisationProblemAdapter implements Problem {
+public abstract class AbstractProblem implements Problem {
 
     private static final long serialVersionUID = -5008516277429476778L;
     private ChangeStrategy changeStrategy;
     protected AtomicInteger fitnessEvaluations;
     protected DataSetBuilder dataSetBuilder;
 
-    protected OptimisationProblemAdapter() {
+    protected AbstractProblem() {
         fitnessEvaluations = new AtomicInteger(0);
         changeStrategy = new NoChangeStrategy();
     }
 
-    protected OptimisationProblemAdapter(OptimisationProblemAdapter copy) {
+    protected AbstractProblem(AbstractProblem copy) {
         changeStrategy = copy.changeStrategy;
         fitnessEvaluations = new AtomicInteger(copy.fitnessEvaluations.get());
         if (copy.dataSetBuilder != null) {
@@ -60,7 +60,7 @@ public abstract class OptimisationProblemAdapter implements Problem {
     }
 
     @Override
-    public abstract OptimisationProblemAdapter getClone();
+    public abstract AbstractProblem getClone();
 
     /**
      * Determine the {@code Fitness} of the current {@link Problem} instance

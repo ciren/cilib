@@ -32,7 +32,7 @@ import net.sourceforge.cilib.nn.NeuralNetwork;
  * the set of weights of a neural network. Used as an interface to more specific training problems
  * such as training from a static dataset and sliding window training.
  */
-public abstract class NNTrainingProblem extends OptimisationProblemAdapter {
+public abstract class NNTrainingProblem extends AbstractProblem {
     protected NeuralNetwork neuralNetwork;
     protected StandardPatternDataTable trainingSet;
     protected StandardPatternDataTable generalizationSet;

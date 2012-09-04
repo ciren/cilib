@@ -29,7 +29,7 @@ import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgor
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
+import net.sourceforge.cilib.problem.AbstractProblem;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
@@ -44,7 +44,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * of the participating {@linkplain Algorithm}s.
  *
  */
-public class CooperativeCoevolutionProblemAdapter extends OptimisationProblemAdapter {
+public class CooperativeCoevolutionProblemAdapter extends AbstractProblem {
 
     private static final long serialVersionUID = 3764040830993620887L;
     private Problem problem;
@@ -101,7 +101,7 @@ public class CooperativeCoevolutionProblemAdapter extends OptimisationProblemAda
      * {@inheritDoc}
      */
     @Override
-    public OptimisationProblemAdapter getClone() {
+    public AbstractProblem getClone() {
         return new CooperativeCoevolutionProblemAdapter(this);
     }
 

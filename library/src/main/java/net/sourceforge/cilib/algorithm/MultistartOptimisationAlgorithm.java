@@ -29,7 +29,7 @@ import net.sourceforge.cilib.coevolution.cooperative.contributionselection.Contr
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
+import net.sourceforge.cilib.problem.AbstractProblem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 import net.sourceforge.cilib.type.DomainRegistry;
@@ -222,7 +222,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
     private OptimisationSolution solution;
     private Fitness fitness;
 
-    private class MultistartProblemAdapter extends OptimisationProblemAdapter {
+    private class MultistartProblemAdapter extends AbstractProblem {
 
         private static final long serialVersionUID = -3156973576101060294L;
 

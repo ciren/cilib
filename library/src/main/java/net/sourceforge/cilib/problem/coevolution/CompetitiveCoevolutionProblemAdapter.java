@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.problem.coevolution;
 
 import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
+import net.sourceforge.cilib.problem.AbstractProblem;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
@@ -32,7 +32,7 @@ import net.sourceforge.cilib.util.calculator.PropertyBasedFitnessCalculator;
  * This class is used by the sub populations of a competitive coevolution algorithm.
  * It can only optimise {@linkplain Entitie}s using the {@linkplain PropertyBasedFitnessCalculator}
  */
-public class CompetitiveCoevolutionProblemAdapter extends OptimisationProblemAdapter {
+public class CompetitiveCoevolutionProblemAdapter extends AbstractProblem {
 
     private static final long serialVersionUID = -6940622506198881027L;
     //Id of the poulation
@@ -74,7 +74,7 @@ public class CompetitiveCoevolutionProblemAdapter extends OptimisationProblemAda
      * {@inheritDoc}
      */
     @Override
-    public OptimisationProblemAdapter getClone() {
+    public AbstractProblem getClone() {
         return new CompetitiveCoevolutionProblemAdapter(this);
     }
 
