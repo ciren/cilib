@@ -63,7 +63,7 @@ public class FunctionMinimisationProblemTest {
         problem.setDomain("R^5");
         problem.setFunction(function);
         random = new Random();
-        x = new double[problem.getDimension()];
+        x = new double[5];
         for (int i = 0; i < x.length; ++i) {
             x[i] = random.nextDouble();
         }

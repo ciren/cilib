@@ -49,18 +49,8 @@ public class DynamicOptimizationProblem extends FunctionOptimisationProblem {
     }
 
     @Override
-    public int getDimension() {
-        return functionOptimisationProblem.getDimension();
-    }
-
-    @Override
     public DomainRegistry getDomain() {
         return functionOptimisationProblem.getDomain();
-    }
-
-    @Override
-    public String getDomainString() {
-        return functionOptimisationProblem.getDomainString();
     }
 
     @Override

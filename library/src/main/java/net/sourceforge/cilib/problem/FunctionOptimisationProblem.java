@@ -22,6 +22,9 @@
 package net.sourceforge.cilib.problem;
 
 import net.sourceforge.cilib.functions.Function;
+import net.sourceforge.cilib.problem.objective.Minimise;
+import net.sourceforge.cilib.problem.objective.Objective;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
@@ -32,11 +35,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * {@link net.sourceforge.cilib.functions.Function}.
  *
  */
-public abstract class FunctionOptimisationProblem extends AbstractProblem {
+public class FunctionOptimisationProblem extends AbstractProblem {
 
     private static final long serialVersionUID = 7944544624736580311L;
+
     protected Function<Vector, ? extends Number> function;
-    private DomainRegistry domainRegistry;
+    protected DomainRegistry domainRegistry;
+    protected Objective objective;
 
     /**
      * Creates a new instance of {@code FunctionOptimisationProblem} with {@code null} function.
@@ -46,8 +51,9 @@ public abstract class FunctionOptimisationProblem extends AbstractProblem {
      * @see #setFunction(net.sourceforge.cilib.functions.Function)
      */
     public FunctionOptimisationProblem() {
-        function = null;
-        domainRegistry = new StringBasedDomainRegistry();
+        this.function = null;
+        this.domainRegistry = new StringBasedDomainRegistry();
+        this.objective = new Minimise();
     }
 
     /**
@@ -56,15 +62,18 @@ public abstract class FunctionOptimisationProblem extends AbstractProblem {
      */
     public FunctionOptimisationProblem(FunctionOptimisationProblem copy) {
         super(copy);
-        function = copy.function;
-        domainRegistry = copy.domainRegistry.getClone();
+        this.function = copy.function;
+        this.domainRegistry = copy.domainRegistry.getClone();
+        this.objective = copy.objective;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract FunctionOptimisationProblem getClone();
+    public FunctionOptimisationProblem getClone() {
+        return new FunctionOptimisationProblem(this);
+    }
 
     /**
      * Sets the function that is to be optimised.
@@ -82,15 +91,6 @@ public abstract class FunctionOptimisationProblem extends AbstractProblem {
      */
     public Function<Vector, ? extends Number> getFunction() {
         return function;
-    }
-
-    /**
-     * Returns the component that describes the domain of the function.
-     *
-     * @return the domain component.
-     */
-    public String getDomainString() {
-        return domainRegistry.getDomainString();
     }
 
     /**
@@ -113,8 +113,8 @@ public abstract class FunctionOptimisationProblem extends AbstractProblem {
         this.domainRegistry.setDomainString(representation);
     }
 
-    // This method is questionable....!
-    public int getDimension() {
-        return domainRegistry.getDimension();
+    @Override
+    protected Fitness calculateFitness(Type solution) {
+        return objective.evaluate(function.apply((Vector) solution).doubleValue());
     }
 }
