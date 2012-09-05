@@ -25,14 +25,12 @@ import net.sourceforge.cilib.functions.DynamicFunction;
 import net.sourceforge.cilib.problem.changestrategy.ChangeStrategy;
 import net.sourceforge.cilib.problem.changestrategy.IterationBasedSingleChangeStrategy;
 import net.sourceforge.cilib.problem.objective.Maximise;
-import net.sourceforge.cilib.problem.objective.Objective;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.Type;
 
 public class DynamicOptimizationProblem extends AbstractProblem {
 
     protected DynamicFunction<Type, ? extends Number> function;
-    protected Objective objective;
     protected ChangeStrategy changeStrategy;
 
     public DynamicOptimizationProblem() {
@@ -43,7 +41,6 @@ public class DynamicOptimizationProblem extends AbstractProblem {
     public DynamicOptimizationProblem(DynamicOptimizationProblem copy) {
         super(copy);
         this.function = copy.function;
-        this.objective = copy.objective;
         this.changeStrategy = copy.changeStrategy;
     }
 

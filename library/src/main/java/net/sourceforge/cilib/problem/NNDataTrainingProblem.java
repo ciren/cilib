@@ -32,7 +32,6 @@ import net.sourceforge.cilib.io.transform.ShuffleOperator;
 import net.sourceforge.cilib.io.transform.TypeConversionOperator;
 import net.sourceforge.cilib.nn.architecture.visitors.OutputErrorVisitor;
 import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Numeric;
@@ -146,7 +145,7 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
         }
         errorTraining /= trainingSet.getNumRows() * error.size();
 
-        return new MinimisationFitness(errorTraining);
+        return objective.evaluate(errorTraining);
     }
 
     /**

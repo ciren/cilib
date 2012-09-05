@@ -66,7 +66,7 @@ public class FunctionDimensionMappingProblem extends AbstractProblem {
         //    System.out.println("sil: " + solutionVector);
         function.setHigherDimensionDistanceMatrix(higherDimensionDistanceMatrix);
 
-        return new MinimisationFitness(function.apply(solutionVector));
+        return objective.evaluate(function.apply(solutionVector));
     }
 
     /**

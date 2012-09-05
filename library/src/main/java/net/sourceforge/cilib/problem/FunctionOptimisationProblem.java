@@ -25,8 +25,6 @@ import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.problem.objective.Minimise;
 import net.sourceforge.cilib.problem.objective.Objective;
 import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -40,7 +38,6 @@ public class FunctionOptimisationProblem extends AbstractProblem {
     private static final long serialVersionUID = 7944544624736580311L;
 
     protected Function<Vector, ? extends Number> function;
-    protected Objective objective;
 
     /**
      * Creates a new instance of {@code FunctionOptimisationProblem} with {@code null} function.
@@ -51,7 +48,6 @@ public class FunctionOptimisationProblem extends AbstractProblem {
      */
     public FunctionOptimisationProblem() {
         this.function = null;
-        this.objective = new Minimise();
     }
 
     /**
@@ -93,13 +89,5 @@ public class FunctionOptimisationProblem extends AbstractProblem {
     @Override
     protected Fitness calculateFitness(Type solution) {
         return objective.evaluate(function.apply((Vector) solution).doubleValue());
-    }
-
-    public void setObjective(Objective objective) {
-        this.objective = objective;
-    }
-
-    public Objective getObjective() {
-        return objective;
     }
 }

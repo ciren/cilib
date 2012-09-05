@@ -24,12 +24,10 @@ package net.sourceforge.cilib.problem;
 import com.google.common.collect.Lists;
 import java.util.Collection;
 import java.util.List;
-import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.functions.continuous.derating.DeratingFunction;
 import net.sourceforge.cilib.functions.continuous.derating.PowerDeratingFunction;
 import net.sourceforge.cilib.problem.objective.Maximise;
 import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.solution.MaximisationFitness;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
@@ -50,7 +48,6 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  */
 public class DeratingOptimisationProblem extends FunctionOptimisationProblem {
 
-    private FunctionOptimisationProblem problem;
     private List<Vector> solutions;
     private DeratingFunction deratingFunction;
     private DistanceMeasure distanceMeasure;
@@ -59,9 +56,7 @@ public class DeratingOptimisationProblem extends FunctionOptimisationProblem {
      * The default constructor.
      */
     public DeratingOptimisationProblem() {
-        this.problem = new FunctionOptimisationProblem();
-        this.problem.setObjective(new Maximise());
-
+        this.objective = new Maximise();
         this.distanceMeasure = new EuclideanDistanceMeasure();
         this.deratingFunction = new PowerDeratingFunction();
         this.solutions = Lists.<Vector>newLinkedList();
@@ -72,7 +67,6 @@ public class DeratingOptimisationProblem extends FunctionOptimisationProblem {
      */
     public DeratingOptimisationProblem(DeratingOptimisationProblem copy) {
         super(copy);
-        this.problem = copy.problem.getClone();
         this.distanceMeasure = copy.distanceMeasure;
         this.deratingFunction = copy.deratingFunction;
         this.solutions = Lists.<Vector>newLinkedList(copy.solutions);
@@ -86,7 +80,7 @@ public class DeratingOptimisationProblem extends FunctionOptimisationProblem {
     @Override
     protected Fitness calculateFitness(Type solution) {
         Vector input = (Vector) solution;
-        double fitness = problem.getFitness(input).getValue();
+        double fitness = super.calculateFitness(input).getValue();
 
         for (Vector v : solutions) {
             double distance = distanceMeasure.distance(input.normalize(), v.normalize());
@@ -96,7 +90,7 @@ public class DeratingOptimisationProblem extends FunctionOptimisationProblem {
             }
         }
 
-        return new MaximisationFitness(fitness);
+        return objective.evaluate(fitness);
     }
 
     public void addSolution(Vector solution) {
@@ -105,6 +99,10 @@ public class DeratingOptimisationProblem extends FunctionOptimisationProblem {
 
     public void addSolutions(Collection<Vector> solutions) {
         this.solutions.addAll(solutions);
+    }
+
+    public List<Vector> getSolutions() {
+        return solutions;
     }
 
     public void clearSolutions() {
@@ -119,15 +117,11 @@ public class DeratingOptimisationProblem extends FunctionOptimisationProblem {
         this.deratingFunction = deratingFunction;
     }
 
-    @Override
-    public void setFunction(Function<Vector, ? extends Number> function) {
-        this.function = function;
-        this.problem.setFunction(function);
+    public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
+        this.distanceMeasure = distanceMeasure;
     }
 
-    @Override
-    public void setDomain(String representation) {
-        super.setDomain(representation);
-        this.problem.setDomain(representation);
+    public DistanceMeasure getDistanceMeasure() {
+        return distanceMeasure;
     }
 }

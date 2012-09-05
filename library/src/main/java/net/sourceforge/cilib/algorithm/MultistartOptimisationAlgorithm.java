@@ -23,16 +23,14 @@ package net.sourceforge.cilib.algorithm;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import net.sourceforge.cilib.coevolution.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
+import net.sourceforge.cilib.problem.AbstractProblem;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
-import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.problem.AbstractProblem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
-import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
 /**

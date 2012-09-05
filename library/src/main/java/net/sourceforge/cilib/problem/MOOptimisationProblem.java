@@ -21,20 +21,16 @@
  */
 package net.sourceforge.cilib.problem;
 
-import net.sourceforge.cilib.problem.solution.MOFitness;
-import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.solution.Fitnesses;
 import com.google.common.collect.ForwardingList;
 import com.google.common.collect.Lists;
 import java.util.List;
-
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
+import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.problem.solution.Fitnesses;
+import net.sourceforge.cilib.problem.solution.MOFitness;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
-/**
- *
- */
 public class MOOptimisationProblem extends ForwardingList<Problem> implements Problem {
 
     private static final long serialVersionUID = 4997914969290350571L;

@@ -23,6 +23,8 @@ package net.sourceforge.cilib.problem;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
+import net.sourceforge.cilib.problem.objective.Minimise;
+import net.sourceforge.cilib.problem.objective.Objective;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
@@ -45,15 +47,18 @@ public abstract class AbstractProblem implements Problem {
     protected AtomicInteger fitnessEvaluations;
     protected DataSetBuilder dataSetBuilder;
     protected DomainRegistry domainRegistry;
+    protected Objective objective;
 
     protected AbstractProblem() {
         this.fitnessEvaluations = new AtomicInteger(0);
         this.domainRegistry = new StringBasedDomainRegistry();
+        this.objective = new Minimise();
     }
 
     protected AbstractProblem(AbstractProblem copy) {
         this.fitnessEvaluations = new AtomicInteger(copy.fitnessEvaluations.get());
         this.domainRegistry = copy.domainRegistry.getClone();
+        this.objective = copy.objective;
 
         if (copy.dataSetBuilder != null) {
             this.dataSetBuilder = copy.dataSetBuilder.getClone();
@@ -118,5 +123,13 @@ public abstract class AbstractProblem implements Problem {
     @Override
     public void setDomain(String domain) {
         this.domainRegistry.setDomainString(domain);
+    }
+
+    public void setObjective(Objective objective) {
+        this.objective = objective;
+    }
+
+    public Objective getObjective() {
+        return objective;
     }
 }

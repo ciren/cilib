@@ -90,7 +90,7 @@ public class QuantizationErrorMinimizationProblem extends ClusteringProblem{
             quantizationError = Double.POSITIVE_INFINITY;
         }
 
-        return new MinimisationFitness(quantizationError);
+        return objective.evaluate(quantizationError);
 
     }
 
