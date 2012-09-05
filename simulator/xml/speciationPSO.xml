@@ -23,19 +23,24 @@
     </algorithms>
 
     <problems>
-        <problem id="f1" class="problem.FunctionMaximisationProblem" domain="R(0.0:1.0)">
+        <problem id="f1" class="problem.FunctionOptimisationProblem" domain="R(0.0:1.0)">
+            <objective class="problem.objective.Maximise"/>
             <function class="functions.continuous.MultimodalFunction1"/>
         </problem>
-        <problem id="f2" class="problem.FunctionMaximisationProblem" domain="R(0.0:1.0)">
+        <problem id="f2" class="problem.FunctionOptimisationProblem" domain="R(0.0:1.0)">
+            <objective class="problem.objective.Maximise"/>
             <function class="functions.continuous.MultimodalFunction2"/>
         </problem>
-        <problem id="f3" class="problem.FunctionMaximisationProblem" domain="R(0.0:1.0)">
+        <problem id="f3" class="problem.FunctionOptimisationProblem" domain="R(0.0:1.0)">
+            <objective class="problem.objective.Maximise"/>
             <function class="functions.continuous.MultimodalFunction3"/>
         </problem>
-        <problem id="f4" class="problem.FunctionMaximisationProblem" domain="R(0.0:1.0)">
+        <problem id="f4" class="problem.FunctionOptimisationProblem" domain="R(0.0:1.0)">
+            <objective class="problem.objective.Maximise"/>
             <function class="functions.continuous.MultimodalFunction4"/>
         </problem>
-	<problem id="f5" class="problem.FunctionMaximisationProblem" domain="R(-5.0:5.0)^2">
+        <problem id="f5" class="problem.FunctionOptimisationProblem" domain="R(-5.0:5.0)^2">
+            <objective class="problem.objective.Maximise"/>
             <function class="functions.continuous.MultimodalFunction5"/>
         </problem>
     </problems>

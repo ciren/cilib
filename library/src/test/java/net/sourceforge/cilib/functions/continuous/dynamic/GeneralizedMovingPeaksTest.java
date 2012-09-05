@@ -22,7 +22,8 @@
 package net.sourceforge.cilib.functions.continuous.dynamic;
 
 import net.sourceforge.cilib.measurement.generic.Iterations;
-import net.sourceforge.cilib.problem.FunctionMaximisationProblem;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
+import net.sourceforge.cilib.problem.objective.Maximise;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
@@ -42,7 +43,8 @@ public class GeneralizedMovingPeaksTest {
         double shiftSeverity = 2;
         double lambda = 1.0;
 
-        FunctionMaximisationProblem problem = new FunctionMaximisationProblem();
+        FunctionOptimisationProblem problem = new FunctionOptimisationProblem();
+        problem.setObjective(new Maximise());
         problem.setDomain("R(0.0:100.0)^2");
         problem.setFunction(new GeneralizedMovingPeaks(frequency, peaks, widthSeverity, heightSeverity, shiftSeverity, lambda));
 

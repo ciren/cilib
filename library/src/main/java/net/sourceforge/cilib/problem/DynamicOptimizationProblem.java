@@ -21,9 +21,10 @@
  */
 package net.sourceforge.cilib.problem;
 
-import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.functions.DynamicFunction;
 import net.sourceforge.cilib.functions.Function;
+import net.sourceforge.cilib.problem.objective.Maximise;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -36,7 +37,8 @@ public class DynamicOptimizationProblem extends FunctionOptimisationProblem {
     private FunctionOptimisationProblem functionOptimisationProblem;
 
     public DynamicOptimizationProblem() {
-        functionOptimisationProblem = new FunctionMaximisationProblem();
+        this.functionOptimisationProblem = new FunctionOptimisationProblem();
+        this.setObjective(new Maximise());
     }
 
     public DynamicOptimizationProblem(FunctionOptimisationProblem copy) {

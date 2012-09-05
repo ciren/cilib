@@ -21,14 +21,15 @@
  */
 package net.sourceforge.cilib.problem;
 
-import net.sourceforge.cilib.problem.solution.MaximisationFitness;
-import net.sourceforge.cilib.problem.solution.Fitness;
 import com.google.common.collect.Lists;
 import java.util.Collection;
 import java.util.List;
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.functions.continuous.derating.DeratingFunction;
 import net.sourceforge.cilib.functions.continuous.derating.PowerDeratingFunction;
+import net.sourceforge.cilib.problem.objective.Maximise;
+import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.problem.solution.MaximisationFitness;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
@@ -49,7 +50,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  */
 public class DeratingOptimisationProblem extends FunctionOptimisationProblem {
 
-    private FunctionMaximisationProblem problem;
+    private FunctionOptimisationProblem problem;
     private List<Vector> solutions;
     private DeratingFunction deratingFunction;
     private DistanceMeasure distanceMeasure;
@@ -58,7 +59,9 @@ public class DeratingOptimisationProblem extends FunctionOptimisationProblem {
      * The default constructor.
      */
     public DeratingOptimisationProblem() {
-        this.problem = new FunctionMaximisationProblem();
+        this.problem = new FunctionOptimisationProblem();
+        this.problem.setObjective(new Maximise());
+
         this.distanceMeasure = new EuclideanDistanceMeasure();
         this.deratingFunction = new PowerDeratingFunction();
         this.solutions = Lists.<Vector>newLinkedList();

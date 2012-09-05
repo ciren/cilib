@@ -117,4 +117,12 @@ public class FunctionOptimisationProblem extends AbstractProblem {
     protected Fitness calculateFitness(Type solution) {
         return objective.evaluate(function.apply((Vector) solution).doubleValue());
     }
+
+    public void setObjective(Objective objective) {
+        this.objective = objective;
+    }
+
+    public Objective getObjective() {
+        return objective;
+    }
 }
