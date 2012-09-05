@@ -60,10 +60,11 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
      */
     @Override
     public void performIteration(CooperativePSO algorithm) {
+        Topology topology;
         if(changeDetectionStrategy.detectChange()) {
                this.reinitializeContext(algorithm);
                for(PopulationBasedAlgorithm currentAlgorithm : algorithm.getPopulations()) {
-                 Topology topology = currentAlgorithm.getTopology();
+                 topology = currentAlgorithm.getTopology();
 
                  for(int i = 0; i < topology.size(); i+=reinitializationInterval) {
                     ((ClusterParticle) topology.get(i)).reinitialise();

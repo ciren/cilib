@@ -115,8 +115,9 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
      */
     @Override
     public boolean contains(Object o) {
+        ClusterCentroid other;
         for(ClusterCentroid value : components) {
-            ClusterCentroid other = (ClusterCentroid) o;
+            other = (ClusterCentroid) o;
             if(value.containsAll(other)) {
                 return true;
             }

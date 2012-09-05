@@ -147,11 +147,12 @@ public abstract class SinglePopulationDataClusteringIterationStrategy extends Ab
         double euclideanDistance;
         Vector addedPattern;
         DistanceMeasure aDistanceMeasure = new EuclideanDistanceMeasure();
+        Vector pattern;
         
         for(int i = 0; i < dataset.size(); i++) {
                 euclideanDistance = Double.POSITIVE_INFINITY;
                 addedPattern = Vector.of();
-                Vector pattern = ((StandardPattern) dataset.getRow(i)).getVector();
+                pattern = ((StandardPattern) dataset.getRow(i)).getVector();
                 int centroidIndex = 0;
                 int patternIndex = 0;
                 for(ClusterCentroid centroid : candidateSolution) {

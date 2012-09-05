@@ -54,15 +54,17 @@ public class StandardCentroidInitializationStrategy <E extends Entity> extends D
     public void initialize(Enum<?> key, E entity) {
         CentroidHolder centroidHolder = (CentroidHolder) entity.getProperties().get(key);
         Entity particle;
+        int index;
+        Real r;
         
         if(initialisationStrategy instanceof RandomBoundedInitializationStrategy) {
             //setBounds();
-            ((RandomBoundedInitializationStrategy) initialisationStrategy).setBoundsPerDimension(bounds);
             
+            ((RandomBoundedInitializationStrategy) initialisationStrategy).setBoundsPerDimension(bounds);
             for(ClusterCentroid centroid : centroidHolder) {
-                int index = 0;
+                index = 0;
                 for(Numeric n : centroid) {
-                    Real r = Real.valueOf(n.doubleValue(), new Bounds(bounds.get(index)[0].getParameter(), bounds.get(index)[1].getParameter()));
+                    r = Real.valueOf(n.doubleValue(), new Bounds(bounds.get(index)[0].getParameter(), bounds.get(index)[1].getParameter()));
                     n = r.getClone();
                     index++;
                 }

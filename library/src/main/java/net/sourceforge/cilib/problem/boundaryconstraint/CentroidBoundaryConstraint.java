@@ -55,16 +55,18 @@ public class CentroidBoundaryConstraint implements BoundaryConstraint{
         CentroidHolder velocity = (CentroidHolder) entity.getProperties().get(EntityType.Particle.VELOCITY).getClone();
         CentroidHolder bestPosition = (CentroidHolder) entity.getProperties().get(EntityType.Particle.BEST_POSITION).getClone();
         CentroidHolder newSolution = new CentroidHolder();
+        StandardParticle newParticle;
+        ClusterCentroid centr;
         
         int index = 0;
         for(ClusterCentroid centroid : holder) {
-            StandardParticle newParticle = new StandardParticle();
+            newParticle = new StandardParticle();
             newParticle.setCandidateSolution(centroid.toVector());
             newParticle.getProperties().put(EntityType.Particle.VELOCITY, velocity.get(index).toVector());
             newParticle.getProperties().put(EntityType.Particle.BEST_POSITION, bestPosition.get(index).toVector());
             
             delegate.enforce(newParticle);
-            ClusterCentroid centr = new ClusterCentroid();
+            centr = new ClusterCentroid();
             centr.copy((Vector) newParticle.getCandidateSolution());
             newSolution.add(centr);
             index++;

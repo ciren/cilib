@@ -63,6 +63,9 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
     public void performIteration(CooperativePSO algorithm) {
         int populationIndex = 0;
         table = new StandardDataTable();
+        DataClusteringPSO pso ;
+        Topology newTopology;
+        ClusterParticle particleWithContext;
         
         for(PopulationBasedAlgorithm currentAlgorithm : algorithm.getPopulations()) {
               
@@ -72,9 +75,8 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
                 initializeContextParticle(algorithm);
             }
             
-            
-            DataClusteringPSO pso = ((DataClusteringPSO) currentAlgorithm);
-            Topology newTopology = ((DataClusteringPSO) currentAlgorithm).getTopology().getClone();
+            pso = ((DataClusteringPSO) currentAlgorithm);
+            newTopology = ((DataClusteringPSO) currentAlgorithm).getTopology().getClone();
             newTopology.clear();
             
             for(ClusterParticle particle : ((DataClusteringPSO) currentAlgorithm).getTopology()) {
@@ -82,7 +84,7 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
                 assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);
                 contextParticle.calculateFitness();
                     
-                ClusterParticle particleWithContext = new ClusterParticle();
+                particleWithContext = new ClusterParticle();
                 particleWithContext.setCandidateSolution(contextParticle.getCandidateSolution().getClone());
                 particleWithContext.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getBestPosition().getClone());
                 particleWithContext.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getBestFitness().getClone());
@@ -97,7 +99,7 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
                 particleWithContext.calculateFitness();
                 
                 
-                if(particleWithContext.getFitness().getValue() < particleWithContext.getBestFitness().getValue()) {
+                if(particleWithContext.getFitness().compareTo(particleWithContext.getBestFitness()) > 0) {
                     particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition());
                     particle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getFitness());
                     
@@ -105,11 +107,21 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
                     particleWithContext.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getFitness());
                 }
                 
-                if(particleWithContext.getBestFitness().getValue() < contextParticle.getFitness().getValue()) {
+                if(particleWithContext.getBestFitness().compareTo(contextParticle.getFitness()) > 0) {
                        ((CentroidHolder) contextParticle.getCandidateSolution()).set(populationIndex, ((CentroidHolder) particle.getCandidateSolution()).get(populationIndex));
                 }
                 
+                if(contextParticle.getFitness().compareTo(contextParticle.getBestFitness()) > 0) {
+                    contextParticle.getProperties().put(EntityType.Particle.BEST_POSITION, contextParticle.getPosition()).getClone();
+                    contextParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, contextParticle.getFitness()).getClone();
+                }
+                
                 newTopology.add(particleWithContext);
+            }
+            
+            if(elitist) {
+                contextParticle.getProperties().put(EntityType.CANDIDATE_SOLUTION, contextParticle.getBestPosition().getClone());
+                contextParticle.getProperties().put(EntityType.FITNESS, contextParticle.getBestFitness().getClone());
             }
             
             pso.setTopology(newTopology);

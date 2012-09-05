@@ -160,11 +160,15 @@ public class DataDependantPopulationInitializationStrategy <E extends Entity> im
         ArrayList<ControlParameter[]> bounds  = new ArrayList<ControlParameter[]>();
 
         int size = ((StandardPattern) dataset.getRow(0)).getVector().size();
+        double minValue;
+        double maxValue;
+        Vector row;
+        
         for(int j = 0; j < size; j++) {
-            double minValue = Double.POSITIVE_INFINITY;
-            double maxValue = Double.NEGATIVE_INFINITY;
+            minValue = Double.POSITIVE_INFINITY;
+            maxValue = Double.NEGATIVE_INFINITY;
             for(int i = 0; i < dataset.size(); i++) {
-                Vector row = ((StandardPattern) dataset.getRow(i)).getVector();
+                row = ((StandardPattern) dataset.getRow(i)).getVector();
                 if(row.get(j).doubleValue() > maxValue) {
                     maxValue = row.get(j).doubleValue();
                 }
