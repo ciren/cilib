@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.functions.continuous.moo.zdt;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -38,7 +38,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * This function is representative of the nonconvex counterpart to T1.
  * The Pareto-optimal front is formed with g(x) = 1
  * </p>
- * 
+ *
  * <p>
  * References:
  * </p>
@@ -93,12 +93,12 @@ public final class ZDT2 extends MOOptimisationProblem {
     }
 
     public ZDT2() {
-        FunctionMinimisationProblem zdt2_f1 = new FunctionMinimisationProblem();
+        FunctionOptimisationProblem zdt2_f1 = new FunctionOptimisationProblem();
         zdt2_f1.setFunction(new ZDT_f1());
         zdt2_f1.setDomain(DOMAIN);
         add(zdt2_f1);
 
-        FunctionMinimisationProblem zdt2_f2 = new FunctionMinimisationProblem();
+        FunctionOptimisationProblem zdt2_f2 = new FunctionOptimisationProblem();
         zdt2_f2.setFunction(new ZDT2_f2());
         zdt2_f2.setDomain(DOMAIN);
         add(zdt2_f2);

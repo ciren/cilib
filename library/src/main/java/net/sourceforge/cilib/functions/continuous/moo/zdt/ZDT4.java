@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.functions.continuous.moo.zdt;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -114,12 +114,12 @@ public final class ZDT4 extends MOOptimisationProblem {
     }
 
     public ZDT4() {
-        FunctionMinimisationProblem zdt4_f1 = new FunctionMinimisationProblem();
+        FunctionOptimisationProblem zdt4_f1 = new FunctionOptimisationProblem();
         zdt4_f1.setFunction(new ZDT_f1());
         zdt4_f1.setDomain(DOMAIN);
         add(zdt4_f1);
 
-        FunctionMinimisationProblem zdt4_f2 = new FunctionMinimisationProblem();
+        FunctionOptimisationProblem zdt4_f2 = new FunctionOptimisationProblem();
         zdt4_f2.setFunction(new ZDT4_f2());
         zdt4_f2.setDomain(DOMAIN);
         add(zdt4_f2);

@@ -26,7 +26,7 @@ import net.sourceforge.cilib.boa.bee.HoneyBee;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Ackley;
 import net.sourceforge.cilib.measurement.generic.Iterations;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.type.types.Type;
@@ -37,7 +37,7 @@ public class ABCTest {
 
     @Test
     public void testPerformInitialisation() {
-        FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
+        FunctionOptimisationProblem problem = new FunctionOptimisationProblem();
         problem.setDomain("R(-32.768:32.768)^30");
         problem.setFunction(new Ackley());
 

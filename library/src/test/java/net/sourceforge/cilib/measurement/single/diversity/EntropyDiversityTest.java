@@ -25,7 +25,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 import net.sourceforge.cilib.measurement.generic.Iterations;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
@@ -46,14 +46,14 @@ public class EntropyDiversityTest {
 
     @Before
     public void initialise() {
-        FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
+        FunctionOptimisationProblem problem = new FunctionOptimisationProblem();
         problem.setDomain("R(-5.12:5.12)^30");
         problem.setFunction(new Spherical());
 
         pso = new PSO();
         pso.setOptimisationProblem(problem);
         pso.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 1));
-        
+
         pso.performInitialisation();
 
         dimensions = pso.getOptimisationProblem().getDomain().getDimension();

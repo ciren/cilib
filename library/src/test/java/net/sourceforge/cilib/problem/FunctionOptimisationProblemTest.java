@@ -35,31 +35,21 @@ import org.junit.Test;
 /**
  *
  */
-public class FunctionMinimisationProblemTest {
+public class FunctionOptimisationProblemTest {
 
     private static Random random;
     private static double[] x;
     private static ContinuousFunction function;
-    private static FunctionMinimisationProblem problem;
+    private static FunctionOptimisationProblem problem;
 
-    public FunctionMinimisationProblemTest() {
+    public FunctionOptimisationProblemTest() {
 
     }
-
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(FunctionMinimisationProblemTest.class);
-
-        return suite;
-    }*/
 
     @Before
     public void setUp() {
         function = new Spherical();
-        problem = new FunctionMinimisationProblem();
+        problem = new FunctionOptimisationProblem();
         problem.setDomain("R^5");
         problem.setFunction(function);
         random = new Random();
@@ -71,13 +61,13 @@ public class FunctionMinimisationProblemTest {
 
 
 
-    /** Test of getFunction method, of class za.ac.up.cs.ailib.Functions.FunctionMinimisationProblem. */
+    /** Test of getFunction method, of class za.ac.up.cs.ailib.Functions.FunctionOptimisationProblem. */
     @Test
     public void testGetFunction() {
         assertSame(function, problem.getFunction());
     }
 
-    /** Test of setFunction method, of class za.ac.up.cs.ailib.Functions.FunctionMinimisationProblem. */
+    /** Test of setFunction method, of class za.ac.up.cs.ailib.Functions.FunctionOptimisationProblem. */
     @Test
     public void testSetFunction() {
         ContinuousFunction f = new Ackley();

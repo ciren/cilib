@@ -30,7 +30,7 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
@@ -76,7 +76,7 @@ public class VectorBasedNicheCreationStrategyTest {
         Particle nBest = createParticle(new MinimisationFitness(0.0), Vector.of(0.0, 0.0), Vector.of(1.0, 1.0));
         Particle p1 = createParticle(new MinimisationFitness(0.0), Vector.of(1.0, 0.0), Vector.of(2.0, 1.0));
         Particle p6 = createParticle(new MinimisationFitness(0.0), Vector.of(1.0, 0.0), Vector.of(2.0, -2.0));
-        
+
         assertTrue(VectorBasedNicheCreationStrategy.filter(distanceMeasure, nBest, 10.0).f(p1));
         assertFalse(VectorBasedNicheCreationStrategy.filter(distanceMeasure, nBest, 10.0).f(p6));
         assertFalse(VectorBasedNicheCreationStrategy.filter(distanceMeasure, nBest, 0.5).f(p1));

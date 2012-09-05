@@ -12,7 +12,7 @@
     </algorithms>
 
     <problems>
-        <problem id="f1" class="problem.FunctionMinimisationProblem" domain="R(-100:100)^10">
+        <problem id="f1" class="problem.FunctionOptimisationProblem" domain="R(-100:100)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.unconstrained.Spherical"/>
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="-450"/-->
@@ -20,7 +20,7 @@
             </function>
         </problem>
 
-        <problem id="f2" class="problem.FunctionMinimisationProblem" domain="R(-100:100)^10">
+        <problem id="f2" class="problem.FunctionOptimisationProblem" domain="R(-100:100)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.SchwefelProblem1_2"/>
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="-450"/-->
@@ -28,7 +28,7 @@
             </function>
         </problem>
 
-        <problem id="f3" class="problem.FunctionMinimisationProblem" domain="R(-100:100)^10">
+        <problem id="f3" class="problem.FunctionOptimisationProblem" domain="R(-100:100)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.RotatedFunctionDecorator">
                     <function class="functions.continuous.unconstrained.Elliptic"/>
@@ -39,7 +39,7 @@
             </function>
         </problem>
 
-        <problem id="f4" class="problem.FunctionMinimisationProblem" domain="R(-100:100)^10">
+        <problem id="f4" class="problem.FunctionOptimisationProblem" domain="R(-100:100)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.PostEvalNoiseFunctionDecorator">
                     <function class="functions.continuous.SchwefelProblem1_2"/>
@@ -50,14 +50,14 @@
         </problem>
 
         <!-- The optimum is shifted to the bounds but is set in the function itself -->
-        <problem id="f5" class="problem.FunctionMinimisationProblem" domain="R(-100:100)^10">
+        <problem id="f5" class="problem.FunctionOptimisationProblem" domain="R(-100:100)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.unconstrained.SchwefelProblem2_6"/>
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="-310"/-->
             </function>
         </problem>
 
-        <problem id="f6" class="problem.FunctionMinimisationProblem" domain="R(-100:100)^10">
+        <problem id="f6" class="problem.FunctionOptimisationProblem" domain="R(-100:100)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.unconstrained.Rosenbrock"/>
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="390"/-->
@@ -66,7 +66,7 @@
         </problem>
 
         <!-- TODO: add the noise to rotation matrix-->
-        <problem id="f7" class="problem.FunctionMinimisationProblem" domain="R(0:600)^10">
+        <problem id="f7" class="problem.FunctionOptimisationProblem" domain="R(0:600)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.RotatedFunctionDecorator">
                     <function class="functions.continuous.unconstrained.Griewank"/>
@@ -78,7 +78,7 @@
             </function>
         </problem>
 
-        <problem id="f8" class="problem.FunctionMinimisationProblem" domain="R(-32:32)^10">
+        <problem id="f8" class="problem.FunctionOptimisationProblem" domain="R(-32:32)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.RotatedFunctionDecorator">
                     <function class="functions.continuous.unconstrained.Ackley"/>
@@ -90,7 +90,7 @@
             </function>
         </problem>
 
-        <problem id="f9" class="problem.FunctionMinimisationProblem" domain="R(-5:5)^10">
+        <problem id="f9" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.unconstrained.Rastrigin"/>
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="-330"/-->
@@ -98,7 +98,7 @@
             </function>
         </problem>
 
-        <problem id="f10" class="problem.FunctionMinimisationProblem" domain="R(-5:5)^10">
+        <problem id="f10" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.RotatedFunctionDecorator">
                     <function class="functions.continuous.unconstrained.Rastrigin"/>
@@ -111,7 +111,7 @@
         </problem>
 
         <!-- Algorithms should be constrained for this function since better fitnesses are available out of the bounds -->
-        <problem id="f11" class="problem.FunctionMinimisationProblem" domain="R(-0.5:0.5)^10">
+        <problem id="f11" class="problem.FunctionOptimisationProblem" domain="R(-0.5:0.5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.RotatedFunctionDecorator">
                     <function class="functions.continuous.Weierstrass"/>
@@ -124,14 +124,14 @@
         </problem>
 
         <!-- This functions optimum is zero at a random position in [-pi, pi]^n -->
-        <problem id="f12" class="problem.FunctionMinimisationProblem" domain="R(-3.14:3.14)^10">
+        <problem id="f12" class="problem.FunctionOptimisationProblem" domain="R(-3.14:3.14)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.unconstrained.SchwefelProblem2_13"/>
                 <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="-460"/-->
             </function>
         </problem>
 
-        <problem id="f13" class="problem.FunctionMinimisationProblem" domain="R(-5:5)^10">
+        <problem id="f13" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.ExpandedFunctionDecorator">
                     <function class="functions.continuous.decorators.CompositeFunctionDecorator">
@@ -144,7 +144,7 @@
             </function>
         </problem>
 
-        <problem id="f14" class="problem.FunctionMinimisationProblem" domain="R(-100:100)^10">
+        <problem id="f14" class="problem.FunctionOptimisationProblem" domain="R(-100:100)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.RotatedFunctionDecorator">
                     <function class="functions.continuous.decorators.ExpandedFunctionDecorator">
@@ -158,7 +158,7 @@
             </function>
         </problem>
 
-        <problem id="f15" class="problem.FunctionMinimisationProblem" domain="R(-5:5)^10">
+        <problem id="f15" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
@@ -206,7 +206,7 @@
             </function>
         </problem>
 
-        <problem id="f16" class="problem.FunctionMinimisationProblem" domain="R(-5:5)^10">
+        <problem id="f16" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
@@ -254,7 +254,7 @@
             </function>
         </problem>
 
-        <problem id="f17" class="problem.FunctionMinimisationProblem" domain="R(-5:5)^10">
+        <problem id="f17" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.PostEvalNoiseFunctionDecorator">
                     <function class="functions.continuous.hybrid.HybridCompositionFunction">
@@ -305,7 +305,7 @@
             </function>
         </problem>
 
-        <problem id="f18" class="problem.FunctionMinimisationProblem" domain="R(-5:5)^10">
+        <problem id="f18" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
@@ -353,7 +353,7 @@
             </function>
         </problem>
 
-        <problem id="f19" class="problem.FunctionMinimisationProblem" domain="R(-5:5)^10">
+        <problem id="f19" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
@@ -401,7 +401,7 @@
             </function>
         </problem>
 
-        <problem id="f20" class="problem.FunctionMinimisationProblem" domain="R(-5:5)^10">
+        <problem id="f20" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
@@ -449,7 +449,7 @@
             </function>
         </problem>
 
-        <problem id="f21" class="problem.FunctionMinimisationProblem" domain="R(-5:5)^10">
+        <problem id="f21" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
@@ -511,7 +511,7 @@
             </function>
         </problem>
 
-        <problem id="f22" class="problem.FunctionMinimisationProblem" domain="R(-5:5)^10">
+        <problem id="f22" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
@@ -573,7 +573,7 @@
             </function>
         </problem>
 
-        <problem id="f23" class="problem.FunctionMinimisationProblem" domain="R(-5:5)^10">
+        <problem id="f23" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.RoundingFunctionDecorator">
                     <function class="functions.continuous.hybrid.HybridCompositionFunction">
@@ -637,7 +637,7 @@
             </function>
         </problem>
 
-        <problem id="f24" class="problem.FunctionMinimisationProblem" domain="R(-5:5)^10">
+        <problem id="f24" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
@@ -701,7 +701,7 @@
             </function>
         </problem>
 
-        <problem id="f25" class="problem.FunctionMinimisationProblem" domain="R(2:5)^10">
+        <problem id="f25" class="problem.FunctionOptimisationProblem" domain="R(2:5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
                     <addFunction class="functions.continuous.hybrid.SingleFunction"

@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.functions.continuous.decorators;
 
 import net.sourceforge.cilib.functions.continuous.unconstrained.Rastrigin;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -70,7 +70,7 @@ public class AngleModulationTest {
     @Test
     public void testSetDecoratedFunctionDomain() {
         AngleModulation angle = new AngleModulation();
-        FunctionMinimisationProblem delegate = new FunctionMinimisationProblem();
+        FunctionOptimisationProblem delegate = new FunctionOptimisationProblem();
         delegate.setDomain("R(-5.12:5.12)^30");
         delegate.setFunction(new Rastrigin());
         angle.setProblem(delegate);
@@ -85,7 +85,7 @@ public class AngleModulationTest {
     @Test
     public void testConversionToBitRepresentationLength() {
         AngleModulation angle = new AngleModulation();
-        FunctionMinimisationProblem delegate = new FunctionMinimisationProblem();
+        FunctionOptimisationProblem delegate = new FunctionOptimisationProblem();
         delegate.setDomain("R(-5.12:5.12)^30");
         delegate.setFunction(new Rastrigin());
         angle.setProblem(delegate);

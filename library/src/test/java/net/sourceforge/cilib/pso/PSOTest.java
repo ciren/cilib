@@ -25,7 +25,7 @@ import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 import net.sourceforge.cilib.math.random.generator.seeder.SeedSelectionStrategy;
 import net.sourceforge.cilib.math.random.generator.seeder.Seeder;
 import net.sourceforge.cilib.math.random.generator.seeder.ZeroSeederStrategy;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import static org.hamcrest.CoreMatchers.is;
 import org.junit.Assert;
@@ -58,7 +58,7 @@ public class PSOTest {
         Seeder.setSeederStrategy(new ZeroSeederStrategy());
 
         try {
-            FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
+            FunctionOptimisationProblem problem = new FunctionOptimisationProblem();
             problem.setDomain("R(-5.12:5.12)^30");
             problem.setFunction(new Spherical());
 

@@ -15,22 +15,22 @@
         </algorithm>
     </algorithms>
     <problems>
-        <problem id="spherical" class="problem.FunctionMinimisationProblem" domain="R(-5.12:5.12)^30">
+        <problem id="spherical" class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
             <function class="functions.continuous.unconstrained.Spherical"/>
         </problem>
-        <problem id="rosenbrock" class="problem.FunctionMinimisationProblem" domain="R(-2.048:2.048)^30">
+        <problem id="rosenbrock" class="problem.FunctionOptimisationProblem" domain="R(-2.048:2.048)^30">
             <function class="functions.continuous.unconstrained.Rosenbrock"/>
         </problem>
-        <problem id="griewank" class="problem.FunctionMinimisationProblem" domain="R(-600:600)^30">
+        <problem id="griewank" class="problem.FunctionOptimisationProblem" domain="R(-600:600)^30">
             <function class="functions.continuous.unconstrained.Griewank"/>
         </problem>
-        <problem id="hyperellipsoid" class="problem.FunctionMinimisationProblem" domain="R(-5.12:5.12)^30">
+        <problem id="hyperellipsoid" class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
             <function class="functions.continuous.unconstrained.HyperEllipsoid"/>
         </problem>
-        <problem id="colville" class="problem.FunctionMinimisationProblem" domain="R(-10:10)^4">
+        <problem id="colville" class="problem.FunctionOptimisationProblem" domain="R(-10:10)^4">
             <function class="functions.continuous.Colville"/>
         </problem>
-        <problem id="ackley" class="problem.FunctionMinimisationProblem" domain="R(-32.768:32.768)^30">
+        <problem id="ackley" class="problem.FunctionOptimisationProblem" domain="R(-32.768:32.768)^30">
             <function class="functions.continuous.unconstrained.Ackley"/>
         </problem>
     </problems>

@@ -963,7 +963,7 @@
     </measurements>
 
     <problems>
-        <problem id="Rastrigin" class="problem.FunctionMinimisationProblem">
+        <problem id="Rastrigin" class="problem.FunctionOptimisationProblem">
             <domain value="R(-5.12:5.12)^30"/>
             <function class="functions.continuous.unconstrained.Rastrigin"/>
         </problem>

@@ -27,7 +27,7 @@ import net.sourceforge.cilib.math.random.generator.seeder.SeedSelectionStrategy;
 import net.sourceforge.cilib.math.random.generator.seeder.Seeder;
 import net.sourceforge.cilib.math.random.generator.seeder.ZeroSeederStrategy;
 import net.sourceforge.cilib.measurement.generic.Iterations;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import static org.hamcrest.CoreMatchers.is;
@@ -45,7 +45,7 @@ public class ECTest {
         Seeder.setSeederStrategy(new ZeroSeederStrategy());
 
         try {
-            FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
+            FunctionOptimisationProblem problem = new FunctionOptimisationProblem();
             problem.setDomain("R(-5.12:5.12)^30");
             problem.setFunction(new Spherical());
 
@@ -68,7 +68,7 @@ public class ECTest {
         Seeder.setSeederStrategy(new ZeroSeederStrategy());
 
         try {
-            FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
+            FunctionOptimisationProblem problem = new FunctionOptimisationProblem();
             problem.setDomain("R(-5.12:5.12)^30");
             problem.setFunction(new Spherical());
 

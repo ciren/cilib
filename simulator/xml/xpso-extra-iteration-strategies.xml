@@ -19,19 +19,19 @@
                         <!-- This is where you change the pbest and velocity strategies -->
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                        <!-- 
+                        <!--
                         Other options for velocityProvider:
                         - AverageParentsOffspringVelocityProvider: averages the velocities of the parents
-                        
-                        - LovbjergOffspringVelocityProvider: | v1 + v2 + ... vn | * vj where n is the number 
+
+                        - LovbjergOffspringVelocityProvider: | v1 + v2 + ... vn | * vj where n is the number
                         of parents and j is the cloned parent
-                        
+
                         Other options for pbestProvider:
                         - BestParentOffspringPBestProvider: uses the best parent as pbest
-                        
+
                         - GBestOffspringPBestProvider: uses the gbest as the pbest
-                        
-                        Also NosiyPositionOffspringPBestProvider can be used with any of the of the 
+
+                        Also NosiyPositionOffspringPBestProvider can be used with any of the of the
                         OffspringPBestProviders
                         -->
                     </crossoverStrategy>
@@ -60,7 +60,7 @@
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
-        
+
         <!--PBest: parent's | Velocity: random-->
         <algorithm id="xpso-pcx-iteration-repeating-pbest:parent-vel:random" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -79,7 +79,7 @@
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
-        
+
         <!--PBest: parent's | Velocity: worstParent-->
         <algorithm id="xpso-pcx-iteration-repeating-pbest:parent-vel:worstParent" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -98,7 +98,7 @@
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
-        
+
         <!--PBest: offspring position | Velocity: parent's-->
         <algorithm id="xpso-pcx-iteration-repeating-pbest:offspringPosition-vel:parent" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -136,7 +136,7 @@
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
-        
+
         <!--PBest: offspring position | Velocity: random-->
         <algorithm id="xpso-pcx-iteration-repeating-pbest:offspringPosition-vel:random" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -155,7 +155,7 @@
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
-        
+
         <!--PBest: offspring position | Velocity: worstParent-->
         <algorithm id="xpso-pcx-iteration-repeating-pbest:offspringPosition-vel:worstParent" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -174,7 +174,7 @@
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
-        
+
         <!--PBest: random | Velocity: parent's-->
         <algorithm id="xpso-pcx-iteration-repeating-pbest:random-vel:parent" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -212,7 +212,7 @@
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
-        
+
         <!--PBest: random | Velocity: random-->
         <algorithm id="xpso-pcx-iteration-repeating-pbest:random-vel:random" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -231,7 +231,7 @@
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
-        
+
         <!--PBest: random | Velocity: worstParent-->
         <algorithm id="xpso-pcx-iteration-repeating-pbest:random-vel:worstParent" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -250,7 +250,7 @@
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
-        
+
         <!--PBest: parent's + noise | Velocity: parent's-->
         <algorithm id="xpso-pcx-iteration-repeating-pbest:parent+noise-vel:parent" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -292,7 +292,7 @@
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
-        
+
         <!--PBest: parent's + noise | Velocity: random-->
         <algorithm id="xpso-pcx-iteration-repeating-pbest:parent+noise-vel:random" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -313,7 +313,7 @@
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
-        
+
         <!--PBest: parent's + noise | Velocity: worstParent-->
         <algorithm id="xpso-pcx-iteration-repeating-pbest:parent+noise-vel:worstParent" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -334,7 +334,7 @@
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
-        
+
         <!--PBest: pcx | Velocity: parent's-->
         <algorithm id="xpso-pcx-iteration-repeating-pbest:pcx-vel:parent" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -372,7 +372,7 @@
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
-        
+
         <!--PBest: pcx | Velocity: random-->
         <algorithm id="xpso-pcx-iteration-repeating-pbest:pcx-vel:random" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -391,7 +391,7 @@
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
-        
+
         <!--PBest: pcx | Velocity: worstParent-->
         <algorithm id="xpso-pcx-iteration-repeating-pbest:pcx-vel:worstParent" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -413,7 +413,7 @@
     </algorithms>
 
     <problems>
-        <problem id="griewank" class="problem.FunctionMinimisationProblem" domain="R(300:600)^30">
+        <problem id="griewank" class="problem.FunctionOptimisationProblem" domain="R(300:600)^30">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.unconstrained.Griewank" />
                 <horizontalShift class="controlparameter.ConstantControlParameter" parameter="500" />

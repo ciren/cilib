@@ -24,7 +24,6 @@ package net.sourceforge.cilib.functions.continuous.dynamic.moo.fda2;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 
 /**
  * This function is the h function of the FDA2 problem defined on page 429 in the following paper:
@@ -37,25 +36,17 @@ import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 public class FDA2_h implements ContinuousFunction {
 
     private static final long serialVersionUID = -637862405309737323L;
-    //members
-    ContinuousFunction fda2_f;
-    ContinuousFunction fda2_g;
-    FunctionMinimisationProblem fda2_f_problem;
-    FunctionMinimisationProblem fda2_g_problem;
-    //number of generations for which t remains fixed
-    private int tau_t;
-    //generation counter
-    private int tau;
-    //number of distinct steps in t
-    private int n_t;
+
+    private ContinuousFunction fda2_f;
+    private ContinuousFunction fda2_g;
+    private int tau_t; //number of generations for which t remains fixed
+    private int tau; //generation counter
+    private int n_t; //number of distinct steps in t
 
     /**
      * Default constructor
      */
     public FDA2_h() {
-        super();
-//        setDomain("R(-1, 1)^31"); //verander hier
-        //initialize the members
         this.tau_t = 5;
         this.tau = 1;
         this.n_t = 10;
@@ -70,27 +61,7 @@ public class FDA2_h implements ContinuousFunction {
         this.tau_t = copy.tau_t;
         this.n_t = copy.n_t;
         this.fda2_f = copy.fda2_f;
-        this.fda2_f_problem = copy.fda2_f_problem;
         this.fda2_g = copy.fda2_g;
-        this.fda2_g_problem = copy.fda2_g_problem;
-    }
-
-    /**
-     * Sets the f function used with FDA2 problem
-     * @param problem
-     */
-    public void setFDA2_f(FunctionMinimisationProblem problem) {
-        this.fda2_f_problem = problem;
-        this.fda2_f = (ContinuousFunction) problem.getFunction();
-//        this.setDomain(fda2_f.getDomainRegistry().getDomainString());
-    }
-
-    /**
-     * Returns the problem used to set the f function
-     * @return
-     */
-    public FunctionMinimisationProblem getFDA2_f_problem() {
-        return this.fda2_f_problem;
     }
 
     /**
@@ -99,7 +70,6 @@ public class FDA2_h implements ContinuousFunction {
      */
     public void setFDA2_f(ContinuousFunction fda2_f) {
         this.fda2_f = fda2_f;
-//        this.setDomain(fda2_f.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -111,30 +81,11 @@ public class FDA2_h implements ContinuousFunction {
     }
 
     /**
-     * Sets the g function used in FDA2 problem
-     * @param problem
-     */
-    public void setFDA2_g(FunctionMinimisationProblem problem) {
-        this.fda2_g_problem = problem;
-        this.fda2_g = (ContinuousFunction) problem.getFunction();
-//        this.setDomain(fda2_g.getDomainRegistry().getDomainString());
-    }
-
-    /**
-     * Returns function used to set g function
-     * @return
-     */
-    public FunctionMinimisationProblem getFDA2_g_problem() {
-        return this.fda2_g_problem;
-    }
-
-    /**
      * Sets the g function that is used in the FDA2 function
      * @param fda1_g
      */
     public void setFDA2_g(ContinuousFunction fda2_g) {
         this.fda2_g = fda2_g;
-//        this.setDomain(fda2_g.getDomainRegistry().getDomainString());
     }
 
     /**

@@ -120,7 +120,7 @@
     </algorithms>
 
     <problems>
-        <problem id="griewank" class="problem.FunctionMinimisationProblem" domain="R(300:600)^30">
+        <problem id="griewank" class="problem.FunctionOptimisationProblem" domain="R(300:600)^30">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.unconstrained.Griewank" />
                 <horizontalShift class="controlparameter.ConstantControlParameter" parameter="500" />

@@ -29,7 +29,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Rastrigin;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
@@ -45,7 +45,7 @@ public class VisualPositionUpdateStategyTest {
 
     @Before
     public void setUp() throws Exception {
-        FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
+        FunctionOptimisationProblem problem = new FunctionOptimisationProblem();
         problem.setFunction(new Rastrigin());
         problem.setDomain("R(-5.0:5.0)^10");
 

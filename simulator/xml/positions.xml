@@ -6,7 +6,7 @@
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
 
-        <problem class="problem.FunctionMinimisationProblem" domain="R(-5.12:5.12)^30">
+        <problem class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
             <function class="functions.continuous.unconstrained.Spherical" />
         </problem>
 

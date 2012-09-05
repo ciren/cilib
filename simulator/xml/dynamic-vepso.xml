@@ -47,16 +47,16 @@
     </algorithms>
 
     <problems>
-        <problem id="FDA1_f1" class="problem.FunctionMinimisationProblem"  domain="R(0:1)">
+        <problem id="FDA1_f1" class="problem.FunctionOptimisationProblem"  domain="R(0:1)">
             <function class="functions.continuous.dynamic.moo.fda1.FDA1_f1"/>
         </problem>
-        <problem id="FDA1_g" class="problem.FunctionMinimisationProblem">
+        <problem id="FDA1_g" class="problem.FunctionOptimisationProblem">
             <function class="functions.continuous.dynamic.moo.fda1.FDA1_g">
                 <n_t value="10"/>
                 <tau_t value="5"/>
             </function>
         </problem>
-        <problem id="fda_h" class="problem.FunctionMinimisationProblem">
+        <problem id="fda_h" class="problem.FunctionOptimisationProblem">
             <function id="fda1_h" class="functions.continuous.dynamic.moo.fda1.FDA1_h">
                 <setFDA1_g>
                     <problem idref="FDA1_g"/>
@@ -66,7 +66,7 @@
                 </setFDA1_f>
             </function>
         </problem>
-        <problem id="FDA1_g*h" class="problem.FunctionMinimisationProblem">
+        <problem id="FDA1_g*h" class="problem.FunctionOptimisationProblem">
             <function class="functions.continuous.dynamic.moo.fda1.FDA1_f2">
                 <setFDA1_g>
                     <problem idref="FDA1_g"/>

@@ -23,7 +23,6 @@ package net.sourceforge.cilib.functions.continuous.dynamic.moo.fda1;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 
 /**
  * This function is the h function of the FDA1 problem defined on page 428 in the following paper:
@@ -34,46 +33,22 @@ import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 public class FDA1_h implements ContinuousFunction {
 
     private static final long serialVersionUID = -539665464941830813L;
-    //members
+
     private ContinuousFunction fda1_g;
     private ContinuousFunction fda1_f1;
-    private FunctionMinimisationProblem fda1_f1_problem;
-    private FunctionMinimisationProblem fda1_g_problem;
 
     /**
      * Default constructor
      */
     public FDA1_h() {
-        super();
     }
 
     /**
      * Copy constructor
      */
     public FDA1_h(FDA1_h copy) {
-//        this.setDomain(copy.getDomain());
-        this.setFDA1_g(copy.getFDA1_g_problem());
-        this.setFDA1_g(copy.getFDA1_g());
-        this.setFDA1_f(copy.getFDA1_f_problem());
-        this.setFDA1_f(copy.getFDA1_f());
-    }
-
-    /**
-     * Sets the g function that is used in FDA1 problem
-     * @param problem
-     */
-    public void setFDA1_g(FunctionMinimisationProblem problem) {
-        this.fda1_g_problem = problem;
-        this.fda1_g = (ContinuousFunction) problem.getFunction();
-//        this.setDomain(fda1_g.getDomainRegistry().getDomainString());
-    }
-
-    /**
-     * returns the problem used to set the g function
-     * @return
-     */
-    public FunctionMinimisationProblem getFDA1_g_problem() {
-        return this.fda1_g_problem;
+        this.fda1_f1 = copy.fda1_f1;
+        this.fda1_g = copy.fda1_g;
     }
 
     /**
@@ -82,7 +57,6 @@ public class FDA1_h implements ContinuousFunction {
      */
     public void setFDA1_g(ContinuousFunction fda1_g) {
         this.fda1_g = fda1_g;
-//        this.setDomain(fda1_g.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -94,30 +68,11 @@ public class FDA1_h implements ContinuousFunction {
     }
 
     /**
-     * Sets the f1 function that is used in FDA1 problem
-     * @param problem
-     */
-    public void setFDA1_f(FunctionMinimisationProblem problem) {
-        this.fda1_f1_problem = problem;
-        this.fda1_f1 = (ContinuousFunction) problem.getFunction();
-//        this.setDomain(fda1_f1.getDomainRegistry().getDomainString());
-    }
-
-    /**
-     * returns the problem used to set the f1 function
-     * @return
-     */
-    public FunctionMinimisationProblem getFDA1_f_problem() {
-        return this.fda1_f1_problem;
-    }
-
-    /**
      * Sets the f1 function that is used in the FDA1 problem
      * @param fda1_f1
      */
     public void setFDA1_f(ContinuousFunction fda1_f1) {
         this.fda1_f1 = fda1_f1;
-//        this.setDomain(fda1_f1.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -134,19 +89,11 @@ public class FDA1_h implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
-
-        //only the first element
         Vector y = input.copyOfRange(0, 1);
-        //all the elements except the first element
         Vector z = input.copyOfRange(1, input.size());
-        //evaluate the fda1_g function
         double g = this.fda1_g.apply(z);
-        //evaluate the fda1_f1 function
         double f1 = this.fda1_f1.apply(y);
 
-        double value = 1.0;
-        value -= Math.sqrt(f1 / g);
-
-        return value;
+        return 1.0 - Math.sqrt(f1 / g);
     }
 }

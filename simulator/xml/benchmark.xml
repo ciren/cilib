@@ -24,7 +24,7 @@
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="10000"/>
         </algorithm>
 
-        <problem class="problem.FunctionMinimisationProblem" domain="R(-500:500)^30">
+        <problem class="problem.FunctionOptimisationProblem" domain="R(-500:500)^30">
             <function class="functions.continuous.NastyBenchmark"/>
         </problem>
 

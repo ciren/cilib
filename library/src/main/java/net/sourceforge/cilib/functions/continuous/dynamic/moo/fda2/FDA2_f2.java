@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.functions.continuous.dynamic.moo.fda2;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -34,18 +33,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class FDA2_f2 implements ContinuousFunction {
 
     private static final long serialVersionUID = 7814549850032093196L;
-    //member
+
     ContinuousFunction fda2_g;
     ContinuousFunction fda2_h;
-    FunctionMinimisationProblem fda2_g_problem;
-    FunctionMinimisationProblem fda2_h_problem;
 
     /**
      * Default constructor
      */
     public FDA2_f2() {
-        super();
-//        setDomain("R(-1, 1)^31"); //verander hier
     }
 
     /**
@@ -54,27 +49,7 @@ public class FDA2_f2 implements ContinuousFunction {
      */
     public FDA2_f2(FDA2_f2 copy) {
         this.fda2_g = copy.fda2_g;
-        this.fda2_g_problem = copy.fda2_g_problem;
         this.fda2_h = copy.fda2_h;
-        this.fda2_h_problem = copy.getFDA2_h_problem();
-    }
-
-    /**
-     * Sets the g function
-     * @param problem
-     */
-    public void setFDA2_g(FunctionMinimisationProblem problem) {
-        this.fda2_g_problem = problem;
-        this.fda2_g = (ContinuousFunction) problem.getFunction();
-//        this.fda2_g.setDomain(fda2_g.getDomainRegistry().getDomainString());
-    }
-
-    /**
-     * returns the problem used to set the g function
-     * @return
-     */
-    public FunctionMinimisationProblem getFDA2_g_problem() {
-        return this.fda2_g_problem;
     }
 
     /**
@@ -83,7 +58,6 @@ public class FDA2_f2 implements ContinuousFunction {
      */
     public void setFDA2_g(ContinuousFunction fda2_g) {
         this.fda2_g = fda2_g;
-//        this.setDomain(fda2_g.getDomainRegistry().getDomainString());
     }
 
     /**
@@ -95,30 +69,11 @@ public class FDA2_f2 implements ContinuousFunction {
     }
 
     /**
-     * Sets the h function
-     * @param problem
-     */
-    public void setFDA2_h(FunctionMinimisationProblem problem) {
-        this.fda2_h_problem = problem;
-        this.fda2_h = (ContinuousFunction) problem.getFunction();
-//        this.fda2_h.setDomain(fda2_h.getDomainRegistry().getDomainString());
-    }
-
-    /**
-     * returns the problem used to set the h function
-     * @return
-     */
-    public FunctionMinimisationProblem getFDA2_h_problem() {
-        return this.fda2_h_problem;
-    }
-
-    /**
      * Sets the f1 function that is used in the FDA2 problem
      * @param fda1_f1
      */
     public void setFDA2_h(ContinuousFunction fda2_h) {
         this.fda2_h = fda2_h;
-//        this.setDomain(fda2_h.getDomainRegistry().getDomainString());
     }
 
     /**

@@ -25,7 +25,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -52,7 +52,7 @@ public class WFG7 extends MOOptimisationProblem {
                     return y.doubleValueOf(index);
                 }
             };
-            FunctionMinimisationProblem wfg7_fm = new FunctionMinimisationProblem();
+            FunctionOptimisationProblem wfg7_fm = new FunctionOptimisationProblem();
             wfg7_fm.setFunction(function);
             List<String> domain = Lists.newArrayList();
             for (int j = 0; j < k + l; ++j) {
