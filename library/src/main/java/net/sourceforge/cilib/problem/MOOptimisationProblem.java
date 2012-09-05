@@ -79,16 +79,6 @@ public class MOOptimisationProblem extends ForwardingList<Problem> implements Pr
         throw new UnsupportedOperationException("This method is not implemented");
     }
 
-    @Override
-    public DataSetBuilder getDataSetBuilder() {
-        throw new UnsupportedOperationException("This method is not implemented");
-    }
-
-    @Override
-    public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
-        throw new UnsupportedOperationException("This method is not implemented");
-    }
-
     public void setDomain(String domain) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

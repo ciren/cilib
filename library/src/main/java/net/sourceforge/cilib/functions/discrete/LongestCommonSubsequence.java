@@ -21,32 +21,30 @@
  */
 package net.sourceforge.cilib.functions.discrete;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.DiscreteFunction;
-import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.dataset.TextDataSetBuilder;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Implementation of the Longest Common Subsequence problem.
- *
  */
 public class LongestCommonSubsequence implements DiscreteFunction {
 
     private static final long serialVersionUID = -3586259608521073084L;
 
+    private TextDataSetBuilder dataSetBuilder;
+
     @Override
     public Integer apply(Vector input) {
-        int v = 0;
+        Preconditions.checkNotNull(dataSetBuilder, "Dataset builder has not been set yet.");
         int l = length(input);
         int m = matches(input);
-        int k = this.getDataSetSize();
+        int k = dataSetBuilder.size();
+        int v = l + (30 * m);
 
-        v = l + (30 * m);
-
-        if (l == getShortestString().length()) {
+        if (l == dataSetBuilder.getShortestString().length()) {
             v += 50;
         }
 
@@ -57,28 +55,6 @@ public class LongestCommonSubsequence implements DiscreteFunction {
         }
 
         return v;
-    }
-
-    /**
-     * Returns the lengh of the shortest string or the length of the first
-     * string
-     *
-     * @return The shortest length
-     */
-    private String getShortestString() {
-        PopulationBasedAlgorithm popAlgorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get();
-        Problem problem = popAlgorithm.getOptimisationProblem();
-        TextDataSetBuilder dataSetBuilder = (TextDataSetBuilder) problem.getDataSetBuilder();
-
-        return dataSetBuilder.getShortestString();
-    }
-
-    private int getDataSetSize() {
-        PopulationBasedAlgorithm popAlgorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get();
-        Problem problem = popAlgorithm.getOptimisationProblem();
-        TextDataSetBuilder dataSetBuilder = (TextDataSetBuilder) problem.getDataSetBuilder();
-
-        return dataSetBuilder.size();
     }
 
     /**
@@ -99,13 +75,9 @@ public class LongestCommonSubsequence implements DiscreteFunction {
     }
 
     private int matches(Vector x) {
-        PopulationBasedAlgorithm popAlgorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get();
-        Problem problem = popAlgorithm.getOptimisationProblem();
-        TextDataSetBuilder dataSetBuilder = (TextDataSetBuilder) problem.getDataSetBuilder();
-
         int count = 0;
 
-        String targetSubSequence = this.getSubSequence(x, this.getShortestString());
+        String targetSubSequence = this.getSubSequence(x, dataSetBuilder.getShortestString());
 
         for (int i = 0; i < dataSetBuilder.size(); i++) {
             String tmp = this.getSubSequence(x, dataSetBuilder.get(i));
@@ -129,5 +101,13 @@ public class LongestCommonSubsequence implements DiscreteFunction {
         }
 
         return builder.toString();
+    }
+
+    public void setDataSetBuilder(TextDataSetBuilder dataSetBuilder) {
+        this.dataSetBuilder = dataSetBuilder;
+    }
+
+    public TextDataSetBuilder getDataSetBuilder() {
+        return dataSetBuilder;
     }
 }

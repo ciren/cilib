@@ -26,7 +26,6 @@ import net.sourceforge.cilib.functions.continuous.FunctionDimensionMapping;
 import net.sourceforge.cilib.problem.AbstractProblem;
 import net.sourceforge.cilib.problem.dataset.StringDataSetBuilder;
 import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -35,10 +34,13 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  * TODO: Complete this javadoc.
+ * TODO: Maybe this should be a function, not a problem;
  */
 public class FunctionDimensionMappingProblem extends AbstractProblem {
 
     private static final long serialVersionUID = -5419400002196415792L;
+
+    private StringDataSetBuilder dataSetBuilder;
     private FunctionDimensionMapping function;
     private double[][] higherDimensionDistanceMatrix;
 
@@ -48,6 +50,11 @@ public class FunctionDimensionMappingProblem extends AbstractProblem {
 
     public FunctionDimensionMappingProblem(FunctionDimensionMappingProblem copy) {
         super(copy);
+        this.function = copy.function;
+        this.higherDimensionDistanceMatrix = copy.higherDimensionDistanceMatrix;
+        if (copy.dataSetBuilder != null) {
+            this.dataSetBuilder = copy.dataSetBuilder;
+        }
     }
 
     public FunctionDimensionMappingProblem getClone() {
@@ -56,14 +63,11 @@ public class FunctionDimensionMappingProblem extends AbstractProblem {
 
     @Override
     protected Fitness calculateFitness(Type solution) {
-        //System.out.println(solution);
         if (higherDimensionDistanceMatrix == null) {
             intialiseMatrix();
         }
 
-        //System.out.println(solution);
         Vector solutionVector = (Vector) solution;
-        //    System.out.println("sil: " + solutionVector);
         function.setHigherDimensionDistanceMatrix(higherDimensionDistanceMatrix);
 
         return objective.evaluate(function.apply(solutionVector));
@@ -81,14 +85,11 @@ public class FunctionDimensionMappingProblem extends AbstractProblem {
      */
     public void setFunction(FunctionDimensionMapping function) {
         this.function = function;
-//        domainRegistry.setDomainString(function.getDomain());
     }
 
     private void intialiseMatrix() {
-        //System.out.println("intialiseMatrix()");
         DistanceMeasure measure = new EuclideanDistanceMeasure();
-        StringDataSetBuilder builder = (StringDataSetBuilder) getDataSetBuilder();
-        List<String> data = builder.getStrings();
+        List<String> data = dataSetBuilder.getStrings();
 
         higherDimensionDistanceMatrix = new double[data.size()][data.size()];
 
@@ -118,7 +119,11 @@ public class FunctionDimensionMappingProblem extends AbstractProblem {
         return v;
     }
 
-    public void setDataSetBuilder(StringDataSetBuilder builder) {
-        super.setDataSetBuilder(builder);
+    public StringDataSetBuilder getDataSetBuilder() {
+        return this.dataSetBuilder;
+    }
+
+    public void setDataSetBuilder(StringDataSetBuilder dsb) {
+        this.dataSetBuilder = dsb;
     }
 }

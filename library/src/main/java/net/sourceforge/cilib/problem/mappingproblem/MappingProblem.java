@@ -21,10 +21,10 @@
  */
 package net.sourceforge.cilib.problem.mappingproblem;
 
-import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.AbstractProblem;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.MatrixDataSetBuilder;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Matrix;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -36,7 +36,6 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * mapping high-dimensional data onto lower dimensions.  This class is abstract
  * and merely provides a nice skeleton, similar to the
  * OptimisationProblemAdapter.
- *
  *
  * TODO: change this to use the MatrixDataSetBuilder correctly
  */
@@ -70,7 +69,6 @@ public abstract class MappingProblem extends AbstractProblem {
      *
      * @param solution The solution to evaluate.  This must conform to the
      *        domain.
-     *
      */
     protected final Fitness calculateFitness(Type solution) {
         Vector matrix = (Vector) solution;
@@ -177,13 +175,9 @@ public abstract class MappingProblem extends AbstractProblem {
      *
      * @param dataset The dataset from which to retrieve the data.
      *
-     *
-     * TODO: Get this to work!!!
-     *
+     * TODO: Get this to work!!! :P
      */
     public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
-        super.setDataSetBuilder(dataSetBuilder);
-
         MatrixDataSetBuilder matrixDataSetBuilder = (MatrixDataSetBuilder) dataSetBuilder;
         inputs = matrixDataSetBuilder.getMatrix();
 

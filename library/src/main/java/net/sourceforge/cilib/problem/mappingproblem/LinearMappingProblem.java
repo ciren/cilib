@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.problem.mappingproblem;
 
-import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.container.Matrix;
 import net.sourceforge.cilib.type.types.container.Vector;
 

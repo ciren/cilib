@@ -74,18 +74,4 @@ public interface Problem extends Cloneable {
 
     void setDomain(String domain);
 
-    /**
-     * Get the associated {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder}.
-     * @return The currently associated {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder}.
-     */
-    DataSetBuilder getDataSetBuilder();
-
-    /**
-     * Set the {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder} for this
-     * {@link net.sourceforge.cilib.problem.OptimisationProblem optimistion problem}.
-     * @param dataSetBuilder The {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder}
-     *                       to be set on the current {@link net.sourceforge.cilib.problem.OptimisationProblem}.
-     */
-    void setDataSetBuilder(DataSetBuilder dataSetBuilder);
-
 }

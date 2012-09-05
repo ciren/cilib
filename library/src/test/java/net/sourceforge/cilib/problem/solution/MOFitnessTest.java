@@ -21,13 +21,11 @@
  */
 package net.sourceforge.cilib.problem.solution;
 
-import static org.junit.Assert.assertTrue;
-import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
-
+import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -99,16 +97,6 @@ public class MOFitnessTest {
 
         @Override
         public void setDomain(String domain) {
-            throw new UnsupportedOperationException("This method is not implemented");
-        }
-
-        @Override
-        public DataSetBuilder getDataSetBuilder() {
-            throw new UnsupportedOperationException("This method is not implemented");
-        }
-
-        @Override
-        public void setDataSetBuilder(DataSetBuilder dataSet) {
             throw new UnsupportedOperationException("This method is not implemented");
         }
     }

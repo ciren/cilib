@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.problem;
 
 import java.util.concurrent.atomic.AtomicInteger;
-import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.objective.Minimise;
 import net.sourceforge.cilib.problem.objective.Objective;
 import net.sourceforge.cilib.problem.solution.Fitness;
@@ -45,7 +44,6 @@ public abstract class AbstractProblem implements Problem {
     private static final long serialVersionUID = -5008516277429476778L;
 
     protected AtomicInteger fitnessEvaluations;
-    protected DataSetBuilder dataSetBuilder;
     protected DomainRegistry domainRegistry;
     protected Objective objective;
 
@@ -59,10 +57,6 @@ public abstract class AbstractProblem implements Problem {
         this.fitnessEvaluations = new AtomicInteger(copy.fitnessEvaluations.get());
         this.domainRegistry = copy.domainRegistry.getClone();
         this.objective = copy.objective;
-
-        if (copy.dataSetBuilder != null) {
-            this.dataSetBuilder = copy.dataSetBuilder.getClone();
-        }
     }
 
     @Override
@@ -93,23 +87,6 @@ public abstract class AbstractProblem implements Problem {
     @Override
     public final int getFitnessEvaluations() {
         return fitnessEvaluations.get();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public DataSetBuilder getDataSetBuilder() {
-        return this.dataSetBuilder;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @param dsb
-     */
-    @Override
-    public void setDataSetBuilder(DataSetBuilder dsb) {
-        dataSetBuilder = dsb;
     }
 
     @Override
