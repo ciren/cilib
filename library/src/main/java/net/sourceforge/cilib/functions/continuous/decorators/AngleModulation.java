@@ -21,10 +21,14 @@
  */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
-import net.sourceforge.cilib.problem.AbstractProblem;
+import com.google.common.base.Preconditions;
+import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
+import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -45,6 +49,7 @@ public class AngleModulation extends AbstractProblem {
     private static final long serialVersionUID = -3492262439415251355L;
     private int precision;
     private int bitsPerDimension;
+    private int numberOfGenerators;
     private double lowerBound;
     private double upperBound;
     private FunctionOptimisationProblem delegate;
@@ -52,6 +57,9 @@ public class AngleModulation extends AbstractProblem {
     public AngleModulation() {
         precision = 3;
         bitsPerDimension = 0;
+        numberOfGenerators = 1;
+        domainRegistry = new StringBasedDomainRegistry();
+
         domainRegistry.setDomainString("R(-1.0:1.0)^4");
     }
 
@@ -67,16 +75,6 @@ public class AngleModulation extends AbstractProblem {
     public AngleModulation getClone() {
         return new AngleModulation(this);
     }
-
-//    /**
-//     * {@inheritDoc}
-//     */
-//    @Override
-//    public Double evaluate(Vector input) {
-//        String solution = generateBitString(input, bitsPerDimension);
-//        Vector expandedVector = decodeBitString(solution, bitsPerDimension);
-//        return function.evaluate(expandedVector).doubleValue();
-//    }
 
     /**
      *
@@ -97,23 +95,6 @@ public class AngleModulation extends AbstractProblem {
 
         this.precision = precision;
     }
-
-    /**
-     *
-     * @return
-     */
-//    public Function getFunction() {
-//        return this.function;
-//    }
-
-    /**
-     *
-     * @param decoratedFunciton
-     */
-//    public void setFunction(Function<Vector, ? extends Number> decoratedFunciton) {
-//        this.function = decoratedFunciton;
-//        bitsPerDimension = getRequiredNumberOfBits(function.getDomainRegistry());
-//    }
 
     public void setProblem(FunctionOptimisationProblem problem) {
         this.delegate = problem;
@@ -160,20 +141,23 @@ public class AngleModulation extends AbstractProblem {
      * @return
      */
     public String generateBitString(Vector x, int dimensionBitNumber) {
-        double a = x.doubleValueOf(0);
-        double b = x.doubleValueOf(1);
-        double c = x.doubleValueOf(2);
-        double d = x.doubleValueOf(3);
-
         StringBuilder str = new StringBuilder();
+        double a, b, c, d, result;
+        
+        for (int g = 0; g < numberOfGenerators; g++) {
+            a = x.doubleValueOf(4 * g);
+            b = x.doubleValueOf((4 * g) + 1);
+            c = x.doubleValueOf((4 * g) + 2);
+            d = x.doubleValueOf((4 * g) + 3);
 
-        for (int i = 0; i < dimensionBitNumber * delegate.getDomain().getDimension(); i++) {
-            double result = Math.sin(2 * Math.PI * (i - a) * b * Math.cos(2 * Math.PI * c * (i - a))) + d;
+            for (int i = 0; i < dimensionBitNumber * delegate.getDomain().getDimension() / numberOfGenerators; i++) {
+                result = Math.sin(2 * Math.PI * (i - a) * b * Math.cos(2 * Math.PI * c * (i - a))) + d;
 
-            if (result > 0.0) {
-                str.append('1');
-            } else {
-                str.append('0');
+                if (result > 0.0) {
+                    str.append('1');
+                } else {
+                    str.append('0');
+                }
             }
         }
 
@@ -205,12 +189,16 @@ public class AngleModulation extends AbstractProblem {
      *
      * TODO: Move this into a class that will make sense.
      *
-     * @param bitString The bitsting as a string
+     * @param bitString The bitstring as a string
      * @param startIndex The starting index
      * @param endIndex The ending index
      * @return The value of the bitstring
      */
     public double valueOf(String bitString, int startIndex, int endIndex) {
+        Preconditions.checkState(bitsPerDimension * delegate.getDomain().getDimension() % bitString.length() == 0,
+                "A " + bitsPerDimension * delegate.getDomain().getDimension()
+                + "-dimensional problem cannot be equally split into " + numberOfGenerators + " parts.");
+        
         String substring = bitString.substring(startIndex, endIndex);
 
         return Integer.valueOf(substring, 2).intValue();
@@ -242,8 +230,20 @@ public class AngleModulation extends AbstractProblem {
     }
 
     @Override
+    public DomainRegistry getDomain() {
+        return domainRegistry;
+    }
+
+    public void setNumberOfGenerators(int numberOfGenerators) {
+        this.numberOfGenerators = numberOfGenerators;
+        
+        int dimensions = 4 * numberOfGenerators;
+        domainRegistry.setDomainString("R(-1.0:1.0)^" + String.valueOf(dimensions));
+    }
+
+    @Override
     protected Fitness calculateFitness(Type solution) {
-        String bitString = generateBitString((Vector) solution,bitsPerDimension);
+        String bitString = generateBitString((Vector) solution, bitsPerDimension);
         Vector expandedVector = decodeBitString(bitString, bitsPerDimension);
         return delegate.getFitness(expandedVector);
     }
