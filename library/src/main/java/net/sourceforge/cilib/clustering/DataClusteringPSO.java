@@ -135,6 +135,10 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
         topology.addAll(Lists.<ClusterParticle>newLinkedList(particles));
 
         ((SinglePopulationDataClusteringIterationStrategy) iterationStrategy).setWindow(window);
+        
+        for(ClusterParticle particle : topology) {
+            particle.calculateFitness();
+        }
     }
 
     /*

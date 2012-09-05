@@ -27,7 +27,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
     protected ClusterParticle contextParticle;
     protected boolean contextinitialized;
     protected DataTable table;
-
+    protected boolean elitist;
     /*
      * Default constructor for AbstractCooperativeIterationStrategy
      */
@@ -35,6 +35,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
         contextParticle = new ClusterParticle();
         contextinitialized = false;
         table = new StandardDataTable();
+        elitist = false;
     }
 
     /*
@@ -45,6 +46,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
         contextParticle = copy.contextParticle;
         contextinitialized = copy.contextinitialized;
         table = copy.table;
+        elitist = copy.elitist;
     }
 
     /**
@@ -68,13 +70,15 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
         double euclideanDistance;
         Vector addedPattern;
         DistanceMeasure distanceMeasure = new EuclideanDistanceMeasure();
-
+        int centroidIndex;
+        int patternIndex;
+        
         for(int i = 0; i < dataset.size(); i++) {
                 euclideanDistance = Double.POSITIVE_INFINITY;
                 addedPattern = Vector.of();
                 Vector pattern = ((StandardPattern) dataset.getRow(i)).getVector();
-                int centroidIndex = 0;
-                int patternIndex = 0;
+                centroidIndex = 0;
+                patternIndex = 0;
                 for(ClusterCentroid centroid : candidateSolution) {
                     if(distanceMeasure.distance(centroid.toVector(), pattern) < euclideanDistance) {
                         euclideanDistance = distanceMeasure.distance(centroid.toVector(), pattern);
@@ -95,6 +99,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
     public ClusterParticle getContextParticle() {
         clearDataPatterns(contextParticle);
         assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);
+        contextParticle.calculateFitness();
         return contextParticle;
     }
 
@@ -110,9 +115,9 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
 
         for(PopulationBasedAlgorithm alg : algorithm.getPopulations()) {
             if(!((DataClusteringPSO) alg).isExplorer()) {
-                solution.add(((CentroidHolder) alg.getTopology().get(0).getCandidateSolution()).get(populationIndex).getClone());
-                velocity.add(((CentroidHolder) ((ClusterParticle) alg.getTopology().get(0)).getVelocity()).get(populationIndex).getClone());
-                bestPosition.add(((CentroidHolder) ((ClusterParticle) alg.getTopology().get(0)).getBestPosition()).get(populationIndex).getClone());
+                solution.add(((CentroidHolder) alg.getBestSolution().getPosition()).get(populationIndex).getClone());
+                velocity.add(((CentroidHolder) alg.getBestSolution().getPosition()).get(populationIndex).getClone());
+                bestPosition.add(((CentroidHolder) alg.getBestSolution().getPosition()).get(populationIndex).getClone());
 
                 populationIndex++;
             }
@@ -123,7 +128,6 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
         contextParticle.getProperties().put(EntityType.Particle.BEST_POSITION, bestPosition);
         contextParticle.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
         contextParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
-
         contextinitialized = true;
     }
 
@@ -137,4 +141,13 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
             centroid.clearDataItems();
         }
     }
+
+    public boolean getIsElitist() {
+        return elitist;
+    }
+
+    public void setIsElitist(Boolean elitist) {
+        this.elitist = elitist; 
+    }
+    
 }

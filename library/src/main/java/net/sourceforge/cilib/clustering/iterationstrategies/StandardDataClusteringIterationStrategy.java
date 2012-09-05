@@ -66,13 +66,14 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
         Vector addedPattern;
         clearCentroidDistanceValues(topology);
         reinitialized = false;
+        Vector pattern;
         
         for(ClusterParticle particle : topology) {
             CentroidHolder candidateSolution = (CentroidHolder) particle.getCandidateSolution();
             for(int i = 0; i < dataset.size(); i++) {
                 euclideanDistance = Double.POSITIVE_INFINITY;
                 addedPattern = Vector.of();
-                Vector pattern = ((StandardPattern) dataset.getRow(i)).getVector();
+                pattern = ((StandardPattern) dataset.getRow(i)).getVector();
                 int centroidIndex = 0;
                 int patternIndex = 0;
                 for(ClusterCentroid centroid : candidateSolution) {
@@ -98,9 +99,10 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
         
         for (Iterator<? extends ClusterParticle> i = topology.iterator(); i.hasNext();) {
             ClusterParticle current = i.next();
+            ClusterParticle other;
 
             for (Iterator<? extends ClusterParticle> j = topology.neighbourhood(i); j.hasNext();) {
-                ClusterParticle other = j.next();
+                other = j.next();
                 if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
                     other.setNeighbourhoodBest(current);
                 }
@@ -117,8 +119,9 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
      * @param topology The topology whose centroids need to be cleaned
      */
     private void clearCentroidDistanceValues(Topology<ClusterParticle> topology) {
+        CentroidHolder candidateSolution;
         for(ClusterParticle particle : topology) {
-            CentroidHolder candidateSolution = (CentroidHolder) particle.getCandidateSolution();
+            candidateSolution = (CentroidHolder) particle.getCandidateSolution();
             
             for(ClusterCentroid centroid : candidateSolution) {
                 centroid.clearDataItems();

@@ -34,7 +34,6 @@ public class ClusterCentroids implements Measurement<Vector>{
     @Override
     public Vector getValue(Algorithm algorithm) {
         CentroidHolder holder = (CentroidHolder) algorithm.getBestSolution().getPosition();
-
         return holder.get(dimension).toVector();
     }
 

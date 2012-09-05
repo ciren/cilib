@@ -82,8 +82,9 @@ public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
      */
     protected double getVariance(ArrayList<Vector> patternList, Vector pattern) {
         double finalSum = 0;
+        double sum;
         for(int i = 0; i < pattern.size(); i++) {
-            double sum = 0;
+            sum = 0;
             for(Vector otherPattern : patternList) {
                 sum += Math.pow(otherPattern.get(i).doubleValue() - pattern.get(i).doubleValue(), 2);
             }
@@ -141,8 +142,9 @@ public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
     protected double getDensityAmongClusters() {
         double valueToMultiply = 1 / (double) ((centroidHolder.size() * (centroidHolder.size() - 1)));
         double sum = 0;
+        CentroidHolder centroidHolder2;
         for(ClusterCentroid centroid : centroidHolder) {
-            CentroidHolder centroidHolder2 = centroidHolder.getClone();
+            centroidHolder2 = centroidHolder.getClone();
             centroidHolder2.remove(centroid);
             
             for(ClusterCentroid centroid2 : centroidHolder2) {

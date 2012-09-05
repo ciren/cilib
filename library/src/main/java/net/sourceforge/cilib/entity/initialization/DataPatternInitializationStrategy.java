@@ -64,9 +64,10 @@ public class DataPatternInitializationStrategy <E extends Entity> extends DataDe
     public void initialize(Enum<?> key, E entity) {
         int index = (int) random.getRandomNumber(0, dataset.size());
         CentroidHolder holder = new CentroidHolder();
+        ClusterCentroid centroid;
         
         for(int i=0; i< ((CentroidHolder) entity.getProperties().get(key)).size(); i++) {
-            ClusterCentroid centroid = new ClusterCentroid();
+            centroid = new ClusterCentroid();
             centroid.copy(((StandardPattern) dataset.getRow(index)).getVector());
             holder.add(centroid);
         }

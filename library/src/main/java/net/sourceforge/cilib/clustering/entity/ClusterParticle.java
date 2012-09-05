@@ -219,6 +219,7 @@ public class ClusterParticle extends AbstractParticle{
     @Override
     public void initialise(Problem problem) {
         numberOfClusters = ((ClusteringProblem) problem).getNumberOfClusters();
+        
         this.getProperties().put(EntityType.CANDIDATE_SOLUTION, new CentroidHolder(numberOfClusters, problem.getDomain().getDimension()));
         this.getProperties().put(EntityType.Particle.BEST_POSITION,  new CentroidHolder(numberOfClusters, problem.getDomain().getDimension()));
         this.getProperties().put(EntityType.Particle.VELOCITY,  new CentroidHolder(numberOfClusters, problem.getDomain().getDimension()));

@@ -54,12 +54,16 @@ public class DunnValidityIndex extends ValidityIndex{
     public Real getValue(Algorithm algorithm) {
         CentroidHolder holder = (CentroidHolder) algorithm.getBestSolution().getPosition();
         double minimum = Double.POSITIVE_INFINITY;
+        CentroidHolder holder2;
+        double min;
+        double result;
+        
         for(ClusterCentroid centroid1 : holder) {
-            CentroidHolder holder2 = holder.getClone();
+            holder2 = holder.getClone();
             holder2.remove(centroid1);
-            double min = Double.POSITIVE_INFINITY;
+            min = Double.POSITIVE_INFINITY;
             for(ClusterCentroid centroid2 : holder2) {
-                double result = getMinimumIntraclusterDistance(centroid1, centroid2) / (double) getMaximumInterclusterDistance(centroid1);
+                result = getMinimumIntraclusterDistance(centroid1, centroid2) / (double) getMaximumInterclusterDistance(centroid1);
                 if(result < min) {
                     min = result;
                 }
@@ -98,9 +102,10 @@ public class DunnValidityIndex extends ValidityIndex{
      */
     protected double getMaximumInterclusterDistance(ClusterCentroid centroid) {
         double maximumDistance = 0;
+        ArrayList<Vector> patterns2;
         
         for(Vector pattern : centroid.getDataItems()) {
-            ArrayList<Vector> patterns2 = (ArrayList<Vector>) centroid.getDataItems().clone();
+            patterns2 = (ArrayList<Vector>) centroid.getDataItems().clone();
             patterns2.remove(pattern);
             
             for(Vector pattern2 : patterns2) {
