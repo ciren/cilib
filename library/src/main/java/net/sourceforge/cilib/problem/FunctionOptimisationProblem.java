@@ -40,7 +40,6 @@ public class FunctionOptimisationProblem extends AbstractProblem {
     private static final long serialVersionUID = 7944544624736580311L;
 
     protected Function<Vector, ? extends Number> function;
-    protected DomainRegistry domainRegistry;
     protected Objective objective;
 
     /**
@@ -52,7 +51,6 @@ public class FunctionOptimisationProblem extends AbstractProblem {
      */
     public FunctionOptimisationProblem() {
         this.function = null;
-        this.domainRegistry = new StringBasedDomainRegistry();
         this.objective = new Minimise();
     }
 
@@ -63,7 +61,6 @@ public class FunctionOptimisationProblem extends AbstractProblem {
     public FunctionOptimisationProblem(FunctionOptimisationProblem copy) {
         super(copy);
         this.function = copy.function;
-        this.domainRegistry = copy.domainRegistry.getClone();
         this.objective = copy.objective;
     }
 
@@ -91,26 +88,6 @@ public class FunctionOptimisationProblem extends AbstractProblem {
      */
     public Function<Vector, ? extends Number> getFunction() {
         return function;
-    }
-
-    /**
-     * Accessor for the domain of the function. See {@link net.sourceforge.cilib.Domain.Component}.
-     * @return The function domain.
-     */
-    @Override
-    public DomainRegistry getDomain() {
-        if (domainRegistry.getDomainString() == null) {
-            throw new IllegalStateException("Domain has not been defined. Please define domain for function optimization.");
-        }
-        return domainRegistry;
-    }
-
-    /**
-     * Sets the domain of the function.
-     * @param representation the string representation for the function domain.
-     */
-    public void setDomain(String representation) {
-        this.domainRegistry.setDomainString(representation);
     }
 
     @Override

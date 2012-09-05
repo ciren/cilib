@@ -21,16 +21,14 @@
  */
 package net.sourceforge.cilib.functions.continuous.dynamic;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.functions.DynamicFunction;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
-import net.sourceforge.cilib.type.parser.DomainParser;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.functions.DynamicFunction;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 
 /**
  * A generalized implementation of the Moving Peaks benchmark problem
@@ -52,7 +50,8 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
  * </pre>
  *
  */
-public class GeneralizedMovingPeaks implements ContinuousFunction, DynamicFunction {
+public class GeneralizedMovingPeaks implements ContinuousFunction, DynamicFunction<Vector, Double> {
+
     private ProbabilityDistributionFuction gaussian, uniform; //random providers.
     private int frequency; //the frequency (in iterations) with which the environment changes.
     private int peaks; //the number of peaks.
@@ -98,15 +97,8 @@ public class GeneralizedMovingPeaks implements ContinuousFunction, DynamicFuncti
     @Override
     public Double apply(Vector input) {
         //this is silly, but there's no way of knowing the dimensions of the problem until this method is called...
-        if (movementDirections == null) initializePeaks(input.size());
-
-        //change environment once at each change interval
-        int iteration = 1;//AbstractAlgorithm.get().getIterations();
-        if (iteration % frequency == 0 && lastChange != iteration) {
-            lastChange = iteration;
-            changeEnvironment();
-
-            //for (int p = 0; p < peaks; p++) System.out.println(iteration + " " + peakHeigths[p]);
+        if (movementDirections == null) {
+            initializePeaks(input.size());
         }
 
         //evaluate function
@@ -123,7 +115,9 @@ public class GeneralizedMovingPeaks implements ContinuousFunction, DynamicFuncti
             thisPeak = 1 + (peakWidths[p] * thisPeak);
             thisPeak = peakHeigths[p] / thisPeak;
 
-            if (thisPeak > maximum) maximum = thisPeak;
+            if (thisPeak > maximum) {
+                maximum = thisPeak;
+            }
         }
 
         return maximum;
@@ -133,6 +127,7 @@ public class GeneralizedMovingPeaks implements ContinuousFunction, DynamicFuncti
      * Changes the environment according to Branke's formal description of how
      * peak heights, widths and positions change at each change interval.
      */
+    @Override
     public void changeEnvironment() {
         //get problem domain boundaries
         //Vector bounds = (Vector) DomainParser.parse(AbstractAlgorithm.get().getOptimisationProblem().getDomain().getDomainString());
@@ -260,7 +255,7 @@ public class GeneralizedMovingPeaks implements ContinuousFunction, DynamicFuncti
     }
 
     @Override
-    public double getMaximum() {
+    public Double getOptimum() {
         double max = Double.MIN_VALUE;
 
         for (int p = 0; p < peaks; p++) {

@@ -21,9 +21,9 @@
  */
 package net.sourceforge.cilib.functions;
 
-/**
- *
- */
-public interface DynamicFunction {
-    double getMaximum();
+public interface DynamicFunction<F, T> extends Function<F, T> {
+
+    T getOptimum();
+
+    void changeEnvironment();
 }

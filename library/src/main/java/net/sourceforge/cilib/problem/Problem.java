@@ -21,8 +21,8 @@
  */
 package net.sourceforge.cilib.problem;
 
-import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
@@ -72,6 +72,8 @@ public interface Problem extends Cloneable {
      */
     DomainRegistry getDomain();
 
+    void setDomain(String domain);
+
     /**
      * Get the associated {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder}.
      * @return The currently associated {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder}.
@@ -86,8 +88,4 @@ public interface Problem extends Cloneable {
      */
     void setDataSetBuilder(DataSetBuilder dataSetBuilder);
 
-    /**
-     * Change the environment. TODO: this might need to be refactored.
-     */
-    void changeEnvironment();
 }

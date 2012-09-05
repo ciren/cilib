@@ -21,11 +21,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
-import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.AbstractProblem;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -49,18 +48,14 @@ public class AngleModulation extends AbstractProblem {
     private double lowerBound;
     private double upperBound;
     private FunctionOptimisationProblem delegate;
-    private DomainRegistry domainRegistry;
 
     public AngleModulation() {
         precision = 3;
         bitsPerDimension = 0;
-        domainRegistry = new StringBasedDomainRegistry();
-
         domainRegistry.setDomainString("R(-1.0:1.0)^4");
     }
 
     public AngleModulation(AngleModulation copy) {
-//        setDomain(copy.getDomain());
         this.precision = copy.precision;
         this.bitsPerDimension = copy.bitsPerDimension;
     }
@@ -244,11 +239,6 @@ public class AngleModulation extends AbstractProblem {
         result /= Math.pow(10, getPrecision());
 
         return result;
-    }
-
-    @Override
-    public DomainRegistry getDomain() {
-        return domainRegistry;
     }
 
     @Override

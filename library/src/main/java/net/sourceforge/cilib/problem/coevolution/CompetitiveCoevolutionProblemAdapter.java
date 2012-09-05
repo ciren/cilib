@@ -21,8 +21,8 @@
  */
 package net.sourceforge.cilib.problem.coevolution;
 
-import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.AbstractProblem;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
@@ -37,8 +37,6 @@ public class CompetitiveCoevolutionProblemAdapter extends AbstractProblem {
     private static final long serialVersionUID = -6940622506198881027L;
     //Id of the poulation
     int populationID;
-    //domainregistry for the population
-    DomainRegistry domain;
     //the coevolution problem
     CoevolutionOptimisationProblem coevolutionProblem;
     //the current evaluation round
@@ -46,14 +44,14 @@ public class CompetitiveCoevolutionProblemAdapter extends AbstractProblem {
 
     public CompetitiveCoevolutionProblemAdapter(int populationID, DomainRegistry domain, CoevolutionOptimisationProblem coevolutionProblem) {
         evaluationRound = 0;
+        this.domainRegistry = domain;
         this.populationID = populationID;
-        this.domain = domain;
         this.coevolutionProblem = coevolutionProblem;
     }
 
     public CompetitiveCoevolutionProblemAdapter(CompetitiveCoevolutionProblemAdapter other) {
+        super(other);
         populationID = other.populationID;
-        domain = other.domain;
         coevolutionProblem = other.coevolutionProblem;
         evaluationRound = other.evaluationRound;
     }
@@ -76,10 +74,5 @@ public class CompetitiveCoevolutionProblemAdapter extends AbstractProblem {
     @Override
     public AbstractProblem getClone() {
         return new CompetitiveCoevolutionProblemAdapter(this);
-    }
-
-    @Override
-    public DomainRegistry getDomain() {
-        return domain;
     }
 }

@@ -22,27 +22,29 @@
 package net.sourceforge.cilib.problem;
 
 import net.sourceforge.cilib.functions.DynamicFunction;
-import net.sourceforge.cilib.functions.Function;
+import net.sourceforge.cilib.problem.changestrategy.ChangeStrategy;
+import net.sourceforge.cilib.problem.changestrategy.IterationBasedSingleChangeStrategy;
 import net.sourceforge.cilib.problem.objective.Maximise;
+import net.sourceforge.cilib.problem.objective.Objective;
 import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
 
-/**
- * TODO: Dynamic optimization is currently only defined for maximization problems.
- *
- */
-public class DynamicOptimizationProblem extends FunctionOptimisationProblem {
-    private FunctionOptimisationProblem functionOptimisationProblem;
+public class DynamicOptimizationProblem extends AbstractProblem {
+
+    protected DynamicFunction<Type, ? extends Number> function;
+    protected Objective objective;
+    protected ChangeStrategy changeStrategy;
 
     public DynamicOptimizationProblem() {
-        this.functionOptimisationProblem = new FunctionOptimisationProblem();
-        this.setObjective(new Maximise());
+        this.objective = new Maximise();
+        this.changeStrategy = new IterationBasedSingleChangeStrategy(1);
     }
 
-    public DynamicOptimizationProblem(FunctionOptimisationProblem copy) {
-        this.functionOptimisationProblem = functionOptimisationProblem.getClone();
+    public DynamicOptimizationProblem(DynamicOptimizationProblem copy) {
+        super(copy);
+        this.function = copy.function;
+        this.objective = copy.objective;
+        this.changeStrategy = copy.changeStrategy;
     }
 
     @Override
@@ -50,40 +52,16 @@ public class DynamicOptimizationProblem extends FunctionOptimisationProblem {
         return new DynamicOptimizationProblem(this);
     }
 
-    @Override
-    public DomainRegistry getDomain() {
-        return functionOptimisationProblem.getDomain();
-    }
-
-    @Override
-    public Function<Vector, ? extends Number> getFunction() {
-        return functionOptimisationProblem.getFunction();
-    }
-
-    @Override
-    public void setDomain(String representation) {
-        functionOptimisationProblem.setDomain(representation);
-    }
-
-    @Override
-    public void setFunction(Function<Vector, ? extends Number> function) {
-        functionOptimisationProblem.setFunction(function);
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
     protected Fitness calculateFitness(Type solution) {
-        return functionOptimisationProblem.calculateFitness(solution);
-    }
+        if (changeStrategy.shouldApply(this)) {
+            function.changeEnvironment();
+        }
 
-    public void setFunctionOptimisationProblem(FunctionOptimisationProblem functionOptimisationProblem) {
-        this.functionOptimisationProblem = functionOptimisationProblem;
-    }
-
-    public FunctionOptimisationProblem getFunctionOptimisationProblem() {
-        return functionOptimisationProblem;
+        return objective.evaluate(function.apply(solution).doubleValue());
     }
 
     /**
@@ -98,11 +76,18 @@ public class DynamicOptimizationProblem extends FunctionOptimisationProblem {
      * negative.
      * </p>
      *
-     * @param solution The solution for which an error is saught.
+     * @param solution The solution for which an error is sought.
      * @return The error.
      */
     public double getError(Type solution) {
-        return ((DynamicFunction) functionOptimisationProblem.function).getMaximum()
-                - functionOptimisationProblem.function.apply((Vector) solution).doubleValue();
+        return function.getOptimum().doubleValue() - function.apply(solution).doubleValue();
+    }
+
+    public DynamicFunction<Type, ? extends Number> getFunction() {
+        return function;
+    }
+
+    public void setFunction(DynamicFunction<Type, ? extends Number> function) {
+        this.function = function;
     }
 }

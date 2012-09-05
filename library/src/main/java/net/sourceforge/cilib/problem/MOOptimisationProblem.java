@@ -93,9 +93,8 @@ public class MOOptimisationProblem extends ForwardingList<Problem> implements Pr
         throw new UnsupportedOperationException("This method is not implemented");
     }
 
-    @Override
-    public void changeEnvironment() {
-        throw new UnsupportedOperationException("This method is not implemented");
+    public void setDomain(String domain) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

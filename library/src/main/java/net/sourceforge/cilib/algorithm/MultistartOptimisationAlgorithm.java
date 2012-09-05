@@ -259,12 +259,6 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
             fitnessEvaluations.set(0);
         }
 
-
-        @Override
-        public DomainRegistry getDomain() {
-            throw new UnsupportedOperationException("Method not implemented");
-        }
-
         private Problem target;
 
     }

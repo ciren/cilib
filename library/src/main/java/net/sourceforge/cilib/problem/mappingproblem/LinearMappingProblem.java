@@ -42,7 +42,7 @@ public class LinearMappingProblem extends MappingProblem {
     }
 
     public LinearMappingProblem(LinearMappingProblem copy) {
-
+        super(copy);
     }
 
     public LinearMappingProblem getClone() {
@@ -101,10 +101,4 @@ public class LinearMappingProblem extends MappingProblem {
     public final int getMatrixSize() {
         return getInputDim() * getOutputDim();
     }
-
-    public DomainRegistry getDomain() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

@@ -98,17 +98,17 @@ public class MOFitnessTest {
         }
 
         @Override
+        public void setDomain(String domain) {
+            throw new UnsupportedOperationException("This method is not implemented");
+        }
+
+        @Override
         public DataSetBuilder getDataSetBuilder() {
             throw new UnsupportedOperationException("This method is not implemented");
         }
 
         @Override
         public void setDataSetBuilder(DataSetBuilder dataSet) {
-            throw new UnsupportedOperationException("This method is not implemented");
-        }
-
-        @Override
-        public void changeEnvironment() {
             throw new UnsupportedOperationException("This method is not implemented");
         }
     }

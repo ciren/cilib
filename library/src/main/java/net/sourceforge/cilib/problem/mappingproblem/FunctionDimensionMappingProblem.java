@@ -22,14 +22,11 @@
 package net.sourceforge.cilib.problem.mappingproblem;
 
 import java.util.List;
-
 import net.sourceforge.cilib.functions.continuous.FunctionDimensionMapping;
-import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.problem.AbstractProblem;
 import net.sourceforge.cilib.problem.dataset.StringDataSetBuilder;
-import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.StringBasedDomainRegistry;
+import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -42,16 +39,15 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 public class FunctionDimensionMappingProblem extends AbstractProblem {
 
     private static final long serialVersionUID = -5419400002196415792L;
-    private DomainRegistry domainRegistry;
     private FunctionDimensionMapping function;
     private double[][] higherDimensionDistanceMatrix;
 
     public FunctionDimensionMappingProblem() {
-        domainRegistry = new StringBasedDomainRegistry();
         function = new FunctionDimensionMapping();
     }
 
     public FunctionDimensionMappingProblem(FunctionDimensionMappingProblem copy) {
+        super(copy);
     }
 
     public FunctionDimensionMappingProblem getClone() {
@@ -71,10 +67,6 @@ public class FunctionDimensionMappingProblem extends AbstractProblem {
         function.setHigherDimensionDistanceMatrix(higherDimensionDistanceMatrix);
 
         return new MinimisationFitness(function.apply(solutionVector));
-    }
-
-    public DomainRegistry getDomain() {
-        return domainRegistry;
     }
 
     /**

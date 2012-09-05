@@ -21,12 +21,11 @@
  */
 package net.sourceforge.cilib.problem;
 
-import net.sourceforge.cilib.problem.solution.Fitness;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import net.sourceforge.cilib.problem.changestrategy.ChangeStrategy;
-import net.sourceforge.cilib.problem.changestrategy.NoChangeStrategy;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
+import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
@@ -42,20 +41,22 @@ import net.sourceforge.cilib.type.types.Type;
 public abstract class AbstractProblem implements Problem {
 
     private static final long serialVersionUID = -5008516277429476778L;
-    private ChangeStrategy changeStrategy;
+
     protected AtomicInteger fitnessEvaluations;
     protected DataSetBuilder dataSetBuilder;
+    protected DomainRegistry domainRegistry;
 
     protected AbstractProblem() {
-        fitnessEvaluations = new AtomicInteger(0);
-        changeStrategy = new NoChangeStrategy();
+        this.fitnessEvaluations = new AtomicInteger(0);
+        this.domainRegistry = new StringBasedDomainRegistry();
     }
 
     protected AbstractProblem(AbstractProblem copy) {
-        changeStrategy = copy.changeStrategy;
-        fitnessEvaluations = new AtomicInteger(copy.fitnessEvaluations.get());
+        this.fitnessEvaluations = new AtomicInteger(copy.fitnessEvaluations.get());
+        this.domainRegistry = copy.domainRegistry.getClone();
+
         if (copy.dataSetBuilder != null) {
-            dataSetBuilder = copy.dataSetBuilder.getClone();
+            this.dataSetBuilder = copy.dataSetBuilder.getClone();
         }
     }
 
@@ -77,10 +78,6 @@ public abstract class AbstractProblem implements Problem {
     @Override
     public final Fitness getFitness(Type solution) {
         fitnessEvaluations.incrementAndGet();
-
-        if (this.changeStrategy.shouldApply(this)) {
-            changeEnvironment();
-        }
 
         return calculateFitness(solution);
     }
@@ -110,27 +107,16 @@ public abstract class AbstractProblem implements Problem {
         dataSetBuilder = dsb;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void changeEnvironment() {
-        throw new UnsupportedOperationException("Problems are static by default. Dynamic problems should override this method");
+    public DomainRegistry getDomain() {
+        if (domainRegistry.getDomainString() == null) {
+            throw new IllegalStateException("Domain has not been defined. Please define domain for function optimization.");
+        }
+        return domainRegistry;
     }
 
-    /**
-     * Get the current problem change strategy.
-     * @return The current {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy}.
-     */
-    public final ChangeStrategy getChangeStrategy() {
-        return changeStrategy;
-    }
-
-    /**
-     * Set the {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy} for this problem.
-     * @param changeStrategy The {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy} to set.
-     */
-    public final void setChangeStrategy(ChangeStrategy changeStrategy) {
-        this.changeStrategy = changeStrategy;
+    @Override
+    public void setDomain(String domain) {
+        this.domainRegistry.setDomainString(domain);
     }
 }

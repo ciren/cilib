@@ -51,14 +51,15 @@ public abstract class MappingProblem extends AbstractProblem {
     private MappingEvaluator evaluator = null;
     private DistanceMeasure distanceMeasure = null;
 
-
-    /**
-     *
-     *
-     */
     public MappingProblem() {
         this.evaluator = new CurvilinearCompEvaluator();
         this.distanceMeasure = new EuclideanDistanceMeasure();
+    }
+
+    public MappingProblem(MappingProblem copy) {
+        super(copy);
+        this.evaluator = copy.evaluator;
+        this.distanceMeasure = copy.distanceMeasure;
     }
 
 

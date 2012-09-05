@@ -23,20 +23,17 @@ package net.sourceforge.cilib.problem;
 
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
 public abstract class ClusteringProblem extends AbstractProblem{
     private int numberOfClusters;
-    private DomainRegistry domainRegistry;
 
     public ClusteringProblem() {
-        domainRegistry = new StringBasedDomainRegistry();
         numberOfClusters = 1;
     }
 
     public ClusteringProblem(ClusteringProblem copy) {
-        domainRegistry = copy.domainRegistry;
+        super(copy);
         numberOfClusters = copy.numberOfClusters;
     }
 
@@ -53,14 +50,6 @@ public abstract class ClusteringProblem extends AbstractProblem{
             throw new IllegalStateException("Domain has not been defined. Please define domain for function optimization.");
         }
         return domainRegistry;
-    }
-
-    /**
-     * Sets the domain of the function.
-     * @param representation the string representation for the function domain.
-     */
-    public void setDomain(String representation) {
-        this.domainRegistry.setDomainString(representation);
     }
 
     public void setDimension(int dimension) {

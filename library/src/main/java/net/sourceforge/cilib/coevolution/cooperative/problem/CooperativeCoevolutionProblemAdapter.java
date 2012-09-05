@@ -48,7 +48,7 @@ public class CooperativeCoevolutionProblemAdapter extends AbstractProblem {
 
     private static final long serialVersionUID = 3764040830993620887L;
     private Problem problem;
-    private DomainRegistry problemDomain;
+    //private DomainRegistry problemDomain;
     private Vector context;
     private DimensionAllocation problemAllocation;
 
@@ -64,7 +64,8 @@ public class CooperativeCoevolutionProblemAdapter extends AbstractProblem {
         this.problem = problem;
         this.problemAllocation = problemAllocation;
         this.context = Vector.copyOf(context);
-        problemDomain = new StringBasedDomainRegistry();
+        this.domainRegistry = new StringBasedDomainRegistry();
+
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < problemAllocation.getSize(); i++) {
             String tmp = Types.getRepresentation(context.get(problemAllocation.getProblemIndex(i)));
@@ -73,7 +74,8 @@ public class CooperativeCoevolutionProblemAdapter extends AbstractProblem {
                 builder.append(",");
             }
         }
-        problemDomain.setDomainString(builder.toString());
+
+        this.domainRegistry.setDomainString(builder.toString());
     }
 
     /**
@@ -103,14 +105,6 @@ public class CooperativeCoevolutionProblemAdapter extends AbstractProblem {
     @Override
     public AbstractProblem getClone() {
         return new CooperativeCoevolutionProblemAdapter(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public DomainRegistry getDomain() {
-        return problemDomain;
     }
 
     /**
