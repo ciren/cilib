@@ -41,8 +41,9 @@ public final class Main {
      * @param args provided arguments.
      */
     public static void main(String[] args) {
-        if (args.length < 1) {
-            throw new IllegalArgumentException("Please provide the correct arguments.\nUsage: Simulator <simulation-config.xml> [-textprogress|-guiprogress]");
+        if (args.length != 1) {
+            System.out.println("Please provide the correct arguments.\nUsage: Simulator <simulation-config.xml>");
+            System.exit(1);
         }
 
         final List<Simulator> simulators = SimulatorShell.prepare(new File(args[0]));
