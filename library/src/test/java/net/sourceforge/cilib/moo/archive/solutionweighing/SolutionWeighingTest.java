@@ -26,7 +26,6 @@ import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
@@ -40,8 +39,6 @@ import org.junit.Assert;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
-/**
- */
 public class SolutionWeighingTest {
 
     private static final double EPSILON = 0.00000000001;

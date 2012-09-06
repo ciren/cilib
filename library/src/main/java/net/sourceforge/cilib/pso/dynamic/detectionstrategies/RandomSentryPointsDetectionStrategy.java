@@ -22,10 +22,10 @@
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
 import java.util.ArrayList;
-
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 
 /**
  * This class defines a detection strategy that uses a user-specified
@@ -78,7 +78,7 @@ public class RandomSentryPointsDetectionStrategy<E extends PopulationBasedAlgori
      */
     @Override
     public boolean detect(PopulationBasedAlgorithm algorithm) {
-        if (sentries.size() == 0) {
+        if (sentries.isEmpty()) {
             initializeSentryPoints(algorithm.getTopology());
         }
 
@@ -112,12 +112,9 @@ public class RandomSentryPointsDetectionStrategy<E extends PopulationBasedAlgori
      *         {@link #sentries} is NOT <code>null</code>.
      */
     private void initializeSentryPoints(Topology<? extends Entity> topology) {
-        if (sentries.size() != 0)
-            throw new IllegalStateException("The sentry points have already been initialized");
-
         int size = Double.valueOf(numberOfSentries.getParameter()).intValue();
 
-        Entity prototype = topology.get(randomGenerator.nextInt(topology.size()));
+        Entity prototype = (Entity) new RandomSelector().on(topology).select();
         sentries.ensureCapacity(size);
 
         for (int i = 0; i < size; ++i) {

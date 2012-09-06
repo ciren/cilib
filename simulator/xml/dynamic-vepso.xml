@@ -47,35 +47,26 @@
     </algorithms>
 
     <problems>
-        <problem id="FDA1_f1" class="problem.FunctionOptimisationProblem"  domain="R(0:1)">
+        <problem id="FDA1_f1" class="problem.FunctionOptimisationProblem"  domain="R(0:1)^20">
             <function class="functions.continuous.dynamic.moo.fda1.FDA1_f1"/>
         </problem>
-        <problem id="FDA1_g" class="problem.FunctionOptimisationProblem">
-            <function class="functions.continuous.dynamic.moo.fda1.FDA1_g">
-                <n_t value="10"/>
-                <tau_t value="5"/>
-            </function>
-        </problem>
-        <problem id="fda_h" class="problem.FunctionOptimisationProblem">
-            <function id="fda1_h" class="functions.continuous.dynamic.moo.fda1.FDA1_h">
-                <setFDA1_g>
-                    <problem idref="FDA1_g"/>
-                </setFDA1_g>
-                <setFDA1_f>
-                    <problem idref="FDA1_f1"/>
-                </setFDA1_f>
-            </function>
-        </problem>
-        <problem id="FDA1_g*h" class="problem.FunctionOptimisationProblem">
+
+        <problem id="FDA1_g*h" class="problem.FunctionOptimisationProblem" domain="R(0:1)^20">
             <function class="functions.continuous.dynamic.moo.fda1.FDA1_f2">
-                <setFDA1_g>
-                    <problem idref="FDA1_g"/>
+                <setFDA1_g class="functions.continuous.dynamic.moo.fda1.FDA1_g">
+                    <n_t value="10"/>
+                    <tau_t value="5"/>
                 </setFDA1_g>
-                <setFDA1_h>
-                    <problem idref="fda_h"/>
+                <setFDA1_h class="functions.continuous.dynamic.moo.fda1.FDA1_h">
+                    <setFDA1_g class="functions.continuous.dynamic.moo.fda1.FDA1_g">
+                        <n_t value="10"/>
+                        <tau_t value="5"/>
+                    </setFDA1_g>
+                    <setFDA1_f class="functions.continuous.dynamic.moo.fda1.FDA1_f1"/>
                 </setFDA1_h>
             </function>
         </problem>
+
         <problem id="moo_problem" class="problem.MOOptimisationProblem">
             <add idref="FDA1_f1"/>
             <add idref="FDA1_g*h"/>
@@ -87,11 +78,11 @@
     </measurements>
 
     <simulations>
-        <!--<simulation samples="1">
+        <simulation samples="1">
             <algorithm idref="vepso"/>
             <problem idref="moo_problem"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/dynamic-vepso.txt"/>
-        </simulation>-->
+        </simulation>
     </simulations>
 </simulator>

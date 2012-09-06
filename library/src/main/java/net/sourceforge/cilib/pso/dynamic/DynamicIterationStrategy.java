@@ -49,8 +49,6 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
 
     private static final long serialVersionUID = -4441422301948289718L;
     private IterationStrategy<PSO> iterationStrategy;
-    //TODO: private DetectionStrategy<PSO> detection
-    //TODO: private ReactionStrategy<PSO> reaction
     private EnvironmentChangeDetectionStrategy<PSO> detectionStrategy;
     private EnvironmentChangeResponseStrategy<PSO> responseStrategy;
 
