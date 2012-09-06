@@ -21,25 +21,23 @@
  */
 package net.sourceforge.cilib.moo.archive.solutionweighing;
 
-import java.util.List;
-import net.sourceforge.cilib.util.selection.WeightedObject;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import net.sourceforge.cilib.problem.solution.Fitness;
+import java.util.List;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
+import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.problem.solution.MinimisationFitness;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.WeightedObject;
+import static org.hamcrest.core.Is.is;
 import org.junit.Assert;
+import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 /**
@@ -80,19 +78,9 @@ public class SolutionWeighingTest {
         public DomainRegistry getDomain() {
             return null;
         }
-
+        
         @Override
-        public DataSetBuilder getDataSetBuilder() {
-            return null;
-        }
-
-        @Override
-        public void setDataSetBuilder(DataSetBuilder dataSet) {
-        }
-
-        @Override
-        public void changeEnvironment() {
-            throw new UnsupportedOperationException("This method is not implemented.");
+        public void setDomain(String domain) {
         }
     }
 
