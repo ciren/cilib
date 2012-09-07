@@ -28,7 +28,6 @@ import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Sequence;
 
 /**
  * Implements the Entity interface. Individual represents entities used within the EC paradigm.
@@ -105,7 +104,7 @@ public class Individual extends AbstractEntity {
         Vector candidate = Vector.newBuilder().copyOf(problem.getDomain().getBuiltRepresenation()).buildRandom();
         this.setCandidateSolution(candidate);
 
-        Vector strategy = Vector.copyOf(Sequence.repeat(0.0, candidate.size()));
+        Vector strategy = Vector.fill(0.0, candidate.size());
         this.getProperties().put(EntityType.STRATEGY_PARAMETERS, strategy);
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
     }

@@ -53,7 +53,7 @@ public class Matrices {
     public static Matrix getRandomOrthonormalMatrix(int size) {
         List<Vector> vecs = Lists.<Vector>newArrayList();
         final GaussianDistribution random = new GaussianDistribution();
-        Vector proto = Vector.copyOf(Sequence.repeat(0.0, size));
+        Vector proto = Vector.fill(0.0, size);
         Matrix.Builder builder = Matrix.builder().dimensions(size, size);
 
         //get random vectors
