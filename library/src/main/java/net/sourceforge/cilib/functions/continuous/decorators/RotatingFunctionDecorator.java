@@ -26,7 +26,6 @@ import net.sourceforge.cilib.problem.changestrategy.ChangeStrategy;
 import net.sourceforge.cilib.problem.changestrategy.IterationBasedSingleChangeStrategy;
 import net.sourceforge.cilib.type.types.container.Matrix;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Sequence;
 
 /**
  *
@@ -135,7 +134,7 @@ public class RotatingFunctionDecorator implements ContinuousFunction {
     @Override
     public Double apply(final Vector input) {
         Matrix result = createMatrix();
-        Vector rotatedX = Vector.copyOf(Sequence.repeat(0.0, input.size()));
+        Vector rotatedX = Vector.fill(0.0, input.size());
 
         for (int j = 0; j < input.size(); j++) {
             for (int i = 0; i < input.size(); i++) {

@@ -24,7 +24,6 @@ package net.sourceforge.cilib.functions.continuous.hybrid;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.continuous.decorators.RotatedFunctionDecorator;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Sequence;
 
 /**
  * This is a container class to store information about individual functions used
@@ -165,7 +164,7 @@ public class SingleFunction implements ContinuousFunction {
      * @param input 
      */
     public void shift(Vector input) {
-        setShifted(input.subtract(Vector.copyOf(Sequence.repeat(horizontalShift, input.size()))));
+        setShifted(input.subtract(Vector.fill(horizontalShift, input.size())));
     }
 
     /**
@@ -175,7 +174,7 @@ public class SingleFunction implements ContinuousFunction {
     public Double apply(Vector input) {
         //need to get input's size to set fMax
         if (!initialized) {
-            setfMax(Math.abs(rotationFunction.apply(Vector.copyOf(Sequence.repeat(5.0, input.size())).divide(lambda))));
+            setfMax(Math.abs(rotationFunction.apply(Vector.fill(5.0, input.size()).divide(lambda))));
             initialized = true;
         }
 
