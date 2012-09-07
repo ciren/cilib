@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.algorithm.population;
 
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.entity.EntityType;
@@ -37,7 +38,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 /**
  * This class holds the functionality that is common to a number of cooperative iteration strategies
  */
-public abstract class AbstractCooperativeIterationStrategy<E extends PopulationBasedAlgorithm> extends AbstractIterationStrategy<E> {
+public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> extends AbstractIterationStrategy<E> {
     protected ClusterParticle contextParticle;
     protected boolean contextinitialized;
     protected DataTable table;

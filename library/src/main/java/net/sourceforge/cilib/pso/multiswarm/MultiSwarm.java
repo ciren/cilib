@@ -26,11 +26,9 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.DomainRegistry;
 
 /**
@@ -87,9 +85,10 @@ public class MultiSwarm extends MultiPopulationBasedAlgorithm {
     public OptimisationSolution getBestSolution() {
         OptimisationSolution bestSolution = subPopulationsAlgorithms.get(0).getBestSolution();
         for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
-            if(bestSolution.compareTo(currentAlgorithm.getBestSolution())<0)
+            if(bestSolution.compareTo(currentAlgorithm.getBestSolution())<0) {
                 bestSolution = currentAlgorithm.getBestSolution();
             }
+        }
         return bestSolution;
     }
 
@@ -154,14 +153,5 @@ public class MultiSwarm extends MultiPopulationBasedAlgorithm {
 
     public double getDiameter(){
         throw new UnsupportedOperationException("getDiameter() is not supported");
-    }
-
-    public void setTopology(Topology t) {
-        throw new UnsupportedOperationException("setTopology() is not supported");
-    }
-
-    @Override
-    public Topology<? extends Entity> getTopology() {
-        throw new UnsupportedOperationException("getTopology() is not supported");
     }
 }

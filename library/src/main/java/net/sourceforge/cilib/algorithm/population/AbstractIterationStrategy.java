@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.algorithm.population;
 
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.problem.boundaryconstraint.UnconstrainedBoundary;
 
@@ -33,7 +34,7 @@ import net.sourceforge.cilib.problem.boundaryconstraint.UnconstrainedBoundary;
  *
  * @param <E> The {@linkplain PopulationBasedAlgorithm} type.
  */
-public abstract class AbstractIterationStrategy<E extends PopulationBasedAlgorithm> implements IterationStrategy<E> {
+public abstract class AbstractIterationStrategy<E extends Algorithm> implements IterationStrategy<E> {
 
     private static final long serialVersionUID = -2922555178733552167L;
     protected BoundaryConstraint boundaryConstraint;

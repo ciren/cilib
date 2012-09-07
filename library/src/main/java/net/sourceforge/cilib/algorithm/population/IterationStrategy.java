@@ -22,8 +22,7 @@
 package net.sourceforge.cilib.algorithm.population;
 
 import java.io.Serializable;
-import net.sourceforge.cilib.entity.Entity;
-
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -33,7 +32,7 @@ import net.sourceforge.cilib.util.Cloneable;
  *
  * @param <E> The {@code PopulationBasedAlgorithm} type.
  */
-public interface IterationStrategy<E extends PopulationBasedAlgorithm> extends Cloneable, Serializable {
+public interface IterationStrategy<E extends Algorithm> extends Cloneable, Serializable {
 
     /**
      * {@inheritDoc}
@@ -42,9 +41,9 @@ public interface IterationStrategy<E extends PopulationBasedAlgorithm> extends C
     IterationStrategy<E> getClone();
 
     /**
-     * Perform the iteration of the PopulationBasedAlgorithm.
+     * Perform the iteration of the Algorithm.
      * <p>
-     * Due to the nature of the PopulationBasedAlgorithms, the actual manner in which the algorithm's
+     * Due to the nature of the Algorithms, the actual manner in which the algorithm's
      * iteration is performed is deferred to the specific iteration strategy being used.
      * <p>
      * This implies that the general structure of the iteration for a specific flavour of

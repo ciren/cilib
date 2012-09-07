@@ -23,6 +23,7 @@ package net.sourceforge.cilib.niching;
 
 import com.google.common.collect.Lists;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
+import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
@@ -32,6 +33,7 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
+import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.niching.creation.ClosestNeighbourNicheCreationStrategy;
 import net.sourceforge.cilib.niching.creation.MaintainedFitnessNicheDetection;
 import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
@@ -67,7 +69,7 @@ import net.sourceforge.cilib.type.types.Int;
  * {@literal @}inproceedings{}
  * </pre>
  */
-public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
+public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements PopulationBasedAlgorithm {
     private static final long serialVersionUID = 3575627467034673738L;
 
     protected IterationStrategy<NichingAlgorithm> iterationStrategy;
@@ -175,7 +177,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
      * {@inheritDoc}
      */
     @Override
-    public PopulationBasedAlgorithm getClone() {
+    public NichingAlgorithm getClone() {
         return new NichingAlgorithm(this);
     }
 
@@ -186,8 +188,9 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
      */
     @Override
     public void algorithmInitialisation() {
-        for (StoppingCondition stoppingCondition : getStoppingConditions())
+        for (StoppingCondition stoppingCondition : getStoppingConditions()) {
             this.mainSwarm.addStoppingCondition(stoppingCondition);
+        }
 
         this.mainSwarm.setOptimisationProblem(getOptimisationProblem());
 
@@ -203,11 +206,6 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
     @Override
     protected void algorithmIteration() {
         iterationStrategy.performIteration(this);
-    }
-
-    @Override
-    public Topology<? extends Entity> getTopology() {
-        return mainSwarm.getTopology();
     }
 
     /**
@@ -344,5 +342,21 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm {
 
     public SubswarmIterator getSubSwarmIterator() {
         return subSwarmIterator;
+    }
+
+    public Topology<? extends Entity> getTopology() {
+        return mainSwarm.getTopology();
+    }
+
+    public Object accept(TopologyVisitor visitor) {
+        return mainSwarm.accept(visitor);
+    }
+
+    public void setInitialisationStrategy(PopulationInitialisationStrategy<? extends Entity> initialisationStrategy) {
+        mainSwarm.setInitialisationStrategy(initialisationStrategy);
+    }
+
+    public PopulationInitialisationStrategy getInitialisationStrategy() {
+        return mainSwarm.getInitialisationStrategy();
     }
 }

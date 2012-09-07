@@ -51,8 +51,7 @@ public class ArchiveReevaluationResponseStrategy extends EnvironmentChangeRespon
             entity.calculateFitness();
         }
 
-        PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
-        Problem problem = populationBasedAlgorithm.getOptimisationProblem();
+        Problem problem = AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
 
         List<OptimisationSolution> newList = new LinkedList<OptimisationSolution>();
         for (OptimisationSolution solution : Archive.Provider.get()) {

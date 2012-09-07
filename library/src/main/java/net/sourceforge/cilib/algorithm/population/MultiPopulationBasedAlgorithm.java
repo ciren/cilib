@@ -25,12 +25,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.iterator.AlgorithmIterator;
 import net.sourceforge.cilib.algorithm.iterator.SequentialAlgorithmIterator;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 
 /**
  * Algorithm class to describe the notion of aggregated {@linkplain PopulationBasedAlgorithm} instances.
@@ -46,8 +42,9 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
  * </ul>
  *
  */
-public abstract class MultiPopulationBasedAlgorithm extends AbstractAlgorithm implements PopulationBasedAlgorithm, Iterable<PopulationBasedAlgorithm> {
+public abstract class MultiPopulationBasedAlgorithm extends AbstractAlgorithm implements Iterable<PopulationBasedAlgorithm> {
     private static final long serialVersionUID = -5311450612897848103L;
+
     protected List<PopulationBasedAlgorithm> subPopulationsAlgorithms;
     protected AlgorithmIterator<PopulationBasedAlgorithm> algorithmIterator;
 
@@ -141,28 +138,4 @@ public abstract class MultiPopulationBasedAlgorithm extends AbstractAlgorithm im
         this.algorithmIterator = algorithmIterator;
         this.algorithmIterator.setAlgorithms(this.subPopulationsAlgorithms);
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Object accept(TopologyVisitor visitor) {
-        throw new UnsupportedOperationException("Needs an implementation");
-    }
-
-    @Override
-    public Topology<? extends Entity> getTopology() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public PopulationInitialisationStrategy getInitialisationStrategy() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setInitialisationStrategy(PopulationInitialisationStrategy initialisationStrategy) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 }

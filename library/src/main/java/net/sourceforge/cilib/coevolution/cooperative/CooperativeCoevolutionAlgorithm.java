@@ -148,7 +148,7 @@ public class CooperativeCoevolutionAlgorithm extends MultiPopulationBasedAlgorit
      * {@inheritDoc}
      */
     @Override
-    public PopulationBasedAlgorithm getClone() {
+    public CooperativeCoevolutionAlgorithm getClone() {
         return new CooperativeCoevolutionAlgorithm(this);
     }
 
