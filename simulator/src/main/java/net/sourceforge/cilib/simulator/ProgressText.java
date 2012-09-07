@@ -67,7 +67,6 @@ final class ProgressText implements ProgressListener {
         }
     }
 
-    @Override
     public void setSimulation(int simulation) {
         System.out.println("Starting simulation " + (simulation + 1) + " of " + simulations + ".");
         printedDone = false;

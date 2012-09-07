@@ -23,7 +23,6 @@ package net.sourceforge.cilib.simulator;
 
 import java.io.File;
 import java.util.List;
-import net.sourceforge.cilib.algorithm.ProgressListener;
 
 /**
  * This is the entry point for the CIlib simulator. This class accepts one
@@ -47,7 +46,7 @@ public final class Main {
         }
 
         final List<Simulator> simulators = SimulatorShell.prepare(new File(args[0]));
-        ProgressListener progress = new ProgressText(simulators.size());
+        ProgressText progress = new ProgressText(simulators.size());
 
         SimulatorShell.execute(simulators, progress);
     }
