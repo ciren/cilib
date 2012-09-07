@@ -94,4 +94,8 @@ public class MaximumEntropyDiversityMeasure extends Diversity {
     public void setIntervals(int intervals) {
         entropyMeasure.setIntervals(intervals);
     }
+
+    public void setEntropyMeasure(EntropyMeasurement entropyMeasure) {
+        this.entropyMeasure = entropyMeasure;
+    }
 }
