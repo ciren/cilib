@@ -20,6 +20,7 @@
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
 package net.sourceforge.cilib.functions.continuous;
+import com.google.common.base.Preconditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,9 +65,7 @@ public class RoyalRoad implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
-        if (input.size() != 240) {
-            return 0.0d;
-        }
+        Preconditions.checkArgument(input.size() == 240);
         
         return part(input) + bonus(input);
     }
@@ -83,10 +82,7 @@ public class RoyalRoad implements ContinuousFunction {
                 }
             }
             
-            if (numOnes == b) {
-                // block is complete
-                partFitness += 0.0;
-            } else {
+            if (numOnes != b) {
                 if (numOnes <= mstar) {
                     partFitness += numOnes * v;
                 } else {
@@ -135,11 +131,7 @@ public class RoyalRoad implements ContinuousFunction {
         List<Vector> blocks = new ArrayList<Vector>();
         
         for(int i = 0; i < input.size(); i += region) {
-            Vector.Builder builder = Vector.newBuilder();
-            for(int j = 0; j < b; j++) {
-                builder.add(input.booleanValueOf(i+j));
-            }
-            blocks.add(builder.build());
+            blocks.add(input.copyOfRange(i, i+b));
         }
         return blocks;
     }

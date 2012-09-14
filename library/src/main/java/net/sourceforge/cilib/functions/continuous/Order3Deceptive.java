@@ -47,15 +47,10 @@ public class Order3Deceptive implements ContinuousFunction {
         double result = 0.0;
         
         for (int i = 0; i < input.size()-2; i+=3) {
-            Vector.Builder builder = Vector.newBuilder();
-            builder.add(input.get(i));
-            builder.add(input.get(i+1));
-            builder.add(input.get(i+2));
-            
-            result += getValue(builder.build());
+            result += getValue(input.copyOfRange(i, i+3));
         }
         
-        return Math.round(result * 10) / 10.0d;
+        return result;
     }
     
     private Double getValue(Vector input) {
@@ -67,14 +62,11 @@ public class Order3Deceptive implements ContinuousFunction {
             }
         }     
         
-        Double value;
         if (sum == 3) {
-            value =  1.0;
+            return 1.0;
         } else {
-            value = 0.9 - (0.3 * sum);
+            return 0.9 - (0.3 * sum);
             
         }
-        
-        return value;
     }
 }

@@ -47,16 +47,10 @@ public class Order3Bipolar implements ContinuousFunction {
         double result = 0.0;
         
         for (int i = 0; i < input.size()-5; i+=6) {
-            Vector.Builder builder = Vector.newBuilder();
-            
-            for(int j = 0; j < 6; j++) {
-                builder.add(input.get(i+j));
-            }
-            
-            result += getValue(builder.build());
+            result += getValue(input.copyOfRange(i,i+6));
         }
         
-        return Math.round(result * 10) / 10.0d;
+        return result;
     }
     
     private Double getValue(Vector input) {

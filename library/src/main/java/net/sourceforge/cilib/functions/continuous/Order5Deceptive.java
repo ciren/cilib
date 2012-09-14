@@ -47,16 +47,10 @@ public class Order5Deceptive implements ContinuousFunction {
         double result = 0.0;
         
         for (int i = 0; i < input.size()-4; i+=5) {
-            Vector.Builder builder = Vector.newBuilder();
-            
-            for(int j = 0; j < 5; j++) {
-                builder.add(input.get(i+j));
-            }
-            
-            result += getValue(builder.build());
+            result += getValue(input.copyOfRange(i, i+5));
         }
         
-        return Math.round(result * 10) / 10.0d;
+        return result;
     }
     
     /**
@@ -77,22 +71,14 @@ public class Order5Deceptive implements ContinuousFunction {
             }
         }    
         
-        double value;
         switch (decimalValue) {
-            case 0: value = 4.0;
-                break;
-            case 1: value = 3.0;
-                break;
-            case 3: value = 2.0;
-                break;
-            case 7: value = 1.0;
-                break;
-            case 31: value = 3.5;
-                break;
-            default: value = 0.0;
+            case 0: return 4.0;
+            case 1: return 3.0;
+            case 3: return 2.0;
+            case 7: return 1.0;
+            case 31: return 3.5;
+            default: return 0.0;
                 
         }
-        
-        return value;
     }
 }

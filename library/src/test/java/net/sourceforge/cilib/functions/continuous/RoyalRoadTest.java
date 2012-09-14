@@ -33,19 +33,11 @@ public class RoyalRoadTest {
     @Test
     public void testFunction() {
         
-        assertEquals(0.0, func.apply(Vector.of(1,1,1,0,0,0)), Maths.EPSILON);        
-        
-        Vector.Builder b = Vector.newBuilder();
-        
-        for(int i = 0; i < 240; i++) {
-            b.add(true);
-        }
-        
-        Vector maxFit = b.build();
+        Vector maxFit = Vector.fill(1, 240);
         
         assertEquals(12.8, func.apply(maxFit), Maths.EPSILON);
         
-        b = Vector.newBuilder();
+        Vector.Builder b = Vector.newBuilder();
         
         for(int i = 0; i < 240; i+= 15) {
             for(int k = 0; k < 15; k++) {
