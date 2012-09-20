@@ -31,6 +31,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -93,11 +94,11 @@ public class BlendCrossoverStrategy implements CrossoverStrategy {
             double gamma = (1 + 2 * alpha.getParameter()) * random.getRandomNumber() - alpha.getParameter();
             double value1 = (1 - gamma) * parentChromosome1.doubleValueOf(i) + gamma * parentChromosome2.doubleValueOf(i);
             double value2 = (1 - gamma) * parentChromosome2.doubleValueOf(i) + gamma * parentChromosome1.doubleValueOf(i);
-            
-            offspringChromosome1.add(value1);
-            offspringChromosome2.add(value2);
+
+            offspringChromosome1.add(Real.valueOf(value1, parentChromosome1.boundsOf(i)));
+            offspringChromosome2.add(Real.valueOf(value2, parentChromosome1.boundsOf(i)));
         }
-        
+
         offspring1.setCandidateSolution(offspringChromosome1.build());
         offspring2.setCandidateSolution(offspringChromosome2.build());
 
