@@ -25,9 +25,11 @@ import net.sourceforge.cilib.io.ARFFFileReader;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
-import org.junit.Assert;
+import net.sourceforge.cilib.type.DomainRegistry;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * This test does not compare against anything (the same problem as with unit testing
@@ -56,8 +58,8 @@ public class NNDataTrainingProblemTest {
     public void testPercentages() {
         int refTraining = (int) (150 * 0.7); // 150 pattern in iris
         int refGeneralization = (int) (150 * 0.3); // 150 pattern in iris
-        Assert.assertEquals(refTraining, problem.getTrainingSet().size());
-        Assert.assertEquals(refGeneralization, problem.getGeneralizationSet().size());
+        assertEquals(refTraining, problem.getTrainingSet().size());
+        assertEquals(refGeneralization, problem.getGeneralizationSet().size());
     }
 
     @Test
@@ -67,5 +69,11 @@ public class NNDataTrainingProblemTest {
         pso.setOptimisationProblem(problem);
         pso.performInitialisation();
         pso.performIteration();
+    }
+
+    @Test
+    public void shouldInitializeDomain() {
+        final DomainRegistry domainRegistry = problem.initializationDomain();
+        assertEquals(19, domainRegistry.getBuiltRepresenation().size());
     }
 }

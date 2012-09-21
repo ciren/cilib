@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.problem;
 
+import com.google.common.annotations.VisibleForTesting;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.DataTableBuilder;
@@ -30,10 +31,13 @@ import net.sourceforge.cilib.io.exception.CIlibIOException;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.io.transform.ShuffleOperator;
 import net.sourceforge.cilib.io.transform.TypeConversionOperator;
+import net.sourceforge.cilib.nn.WeightSolutionInterpretationStrategy;
 import net.sourceforge.cilib.nn.architecture.visitors.OutputErrorVisitor;
+import net.sourceforge.cilib.nn.domain.DomainInitializationStrategy;
+import net.sourceforge.cilib.nn.domain.SolutionInterpretationStrategy;
+import net.sourceforge.cilib.nn.domain.WeightBasedDomainInitializationStrategy;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -47,6 +51,8 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
     private static final long serialVersionUID = -8765101028460476990L;
 
     private DataTableBuilder dataTableBuilder;
+    private DomainInitializationStrategy domainInitializationStrategy;
+    private SolutionInterpretationStrategy solutionInterpretationStrategy;
     private int previousShuffleIteration;
     private boolean initialized;
 
@@ -56,6 +62,8 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
     public NNDataTrainingProblem() {
         super();
         dataTableBuilder = new DataTableBuilder(new DelimitedTextFileReader());
+        domainInitializationStrategy = new WeightBasedDomainInitializationStrategy();
+        solutionInterpretationStrategy = new WeightSolutionInterpretationStrategy();
         previousShuffleIteration = -1;
         initialized = false;
     }
@@ -111,6 +119,7 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
      * Calculates the fitness of the given solution by setting the neural network
      * weights to the solution and evaluating the training set in order to calculate
      * the MSE (which is minimized).
+     *
      * @param solution the weights representing a solution.
      * @return a new MinimizationFitness wrapping the MSE training error.
      */
@@ -129,7 +138,7 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
             }
         }
 
-        neuralNetwork.setWeights((Vector) solution);
+        neuralNetwork.getArchitecture().accept(solutionInterpretationStrategy.interpretSolution(solution));
 
         double errorTraining = 0.0;
         OutputErrorVisitor visitor = new OutputErrorVisitor();
@@ -156,15 +165,17 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
         if (!initialized) {
             this.initialise();
         }
-        int numWeights = neuralNetwork.getWeights().size();
-        String domainString = neuralNetwork.getArchitecture().getArchitectureBuilder().getLayerBuilder().getDomain();
-        StringBasedDomainRegistry dr = new StringBasedDomainRegistry();
-        dr.setDomainString(domainString + "^" + numWeights);
-        return dr;
+        return initializationDomain();
+    }
+
+    @VisibleForTesting
+    protected DomainRegistry initializationDomain() {
+        return domainInitializationStrategy.initializeDomain(neuralNetwork);
     }
 
     /**
      * Gets the datatable builder.
+     *
      * @return the datatable builder.
      */
     public DataTableBuilder getDataTableBuilder() {
@@ -173,6 +184,7 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
 
     /**
      * Sets the datatable builder.
+     *
      * @param dataTableBuilder the new datatable builder.
      */
     public void setDataTableBuilder(DataTableBuilder dataTableBuilder) {
@@ -181,6 +193,7 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
 
     /**
      * Gets the source URL of the the datatable builder.
+     *
      * @return the source URL of the the datatable builder.
      */
     public String getSourceURL() {
@@ -189,6 +202,7 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
 
     /**
      * Sets the source URL of the the datatable builder.
+     *
      * @param sourceURL the new source URL of the the datatable builder.
      */
     public void setSourceURL(String sourceURL) {
