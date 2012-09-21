@@ -28,22 +28,23 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * The generalized sigmoid function. The function is the general case of the sigmoid function
- * with the ability to specify the steepness of the function as well as an offset that should
+ * with the ability to specify the lambda of the function as well as an offset that should
  * be taken into consideration.
  */
 public class Sigmoid implements ActivationFunction {
 
-    private static final long serialVersionUID = 8291966233976579855L;
-    private ControlParameter steepness;
+    private ControlParameter lambda; // steepness
+    private ControlParameter gamma;  // range
     private ControlParameter offset;
 
     /**
-     * Create a new instance of {@code Sigmoid}. The default instance has the {@code steepness}
+     * Create a new instance of {@code Sigmoid}. The default instance has the {@code lambda}
      * {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter} set
      * to a value of {@code 1.0}, with the {@code offset} defined as {@code 0.0}.
      */
     public Sigmoid() {
-        this.steepness = ConstantControlParameter.of(1.0);
+        this.lambda = ConstantControlParameter.of(1.0);
+        this.gamma = ConstantControlParameter.of(1.0);
         this.offset = ConstantControlParameter.of(0.0);
     }
 
@@ -60,7 +61,7 @@ public class Sigmoid implements ActivationFunction {
      */
     @Override
     public double apply(double input) {
-        return 1.0 / (1.0 + Math.pow(Math.E, -1.0 * steepness.getParameter() * (input - offset.getParameter())));
+        return gamma.getParameter() / (1.0 + Math.exp(-1.0 * lambda.getParameter() * (input - offset.getParameter())));
     }
 
     @Override
@@ -77,22 +78,38 @@ public class Sigmoid implements ActivationFunction {
     }
 
     /**
-     * Get the {@literal steepness} associated with the {@linkplain Sigmoid}.
-     * @return The {@linkplain ControlParameter} representing the {@literal steepness}.
+     * Get the {@literal lambda} associated with the {@linkplain Sigmoid}.
+     * @return The {@linkplain ControlParameter} representing the {@literal lambda}.
      */
-    public ControlParameter getSteepness() {
-        return steepness;
+    public ControlParameter getLambda() {
+        return lambda;
     }
 
     /**
-     * Set the {@linkplain ControlParameter} to represent the {@literal steepness} of the function.
-     * @param steepness The value to set.
+     * Set the {@linkplain ControlParameter} to represent the {@literal lambda} of the function.
+     * @param lambda The value to set.
      */
-    public void setSteepness(ControlParameter steepness) {
-        if (steepness.getParameter() < 0) {
-            throw new UnsupportedOperationException("Cannot set steepness to a negative value.");
+    public void setLambda(ControlParameter lambda) {
+        if (lambda.getParameter() < 0) {
+            throw new UnsupportedOperationException("Cannot set lambda to a negative value.");
         }
-        this.steepness = steepness;
+        this.lambda = lambda;
+    }
+
+    /**
+     * Get the {@literal gamma} associated with the {@linkplain Sigmoid}.
+     * @return The {@linkplain ControlParameter} representing the {@literal gamma}.
+     */
+    public ControlParameter getGamma() {
+        return gamma;
+    }
+
+    /**
+     * Set the {@linkplain ControlParameter} to represent the {@literal gamma} of the function.
+     * @param gamma The value to set.
+     */
+    public void setGamma(ControlParameter gamma) {
+        this.gamma = gamma;
     }
 
     /**
