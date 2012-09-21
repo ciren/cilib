@@ -714,15 +714,6 @@ public class Vector implements StructuredType<Numeric>,
     }
 
     /**
-     * Obtain the {@code long} representation of the element at the provided index.
-     * @param index position of element
-     * @return {@code long} value of index within {@code Vector}.
-     */
-    public long longValueOf(int index) {
-        return components[index].longValue();
-    }
-
-    /**
      * Obtain the {@code boolean} representation of the element at the provided index.
      * @param index position of element
      * @return {@code boolean} value of index within {@code Vector}.
