@@ -29,7 +29,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.OnePointCrossoverStrategy;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
@@ -41,7 +41,7 @@ public class CrossoverOperator implements Operator {
     
     private CrossoverStrategy crossoverStrategy;
     private ControlParameter crossoverProbability;
-    private ProbabilityDistributionFuction randomDistribution;
+    private ProbabilityDistributionFunction randomDistribution;
     private Selector selectionStrategy;
 
     public CrossoverOperator() {
@@ -50,7 +50,7 @@ public class CrossoverOperator implements Operator {
     }
     
     public CrossoverOperator(CrossoverStrategy strategy, ControlParameter probability, 
-            Selector selector, ProbabilityDistributionFuction random) {
+            Selector selector, ProbabilityDistributionFunction random) {
         this.crossoverProbability = probability;
         this.randomDistribution = random;
         this.selectionStrategy = selector;
@@ -87,11 +87,11 @@ public class CrossoverOperator implements Operator {
         this.crossoverProbability = crossoverProbability;
     }
 
-    public ProbabilityDistributionFuction getRandomDistribution() {
+    public ProbabilityDistributionFunction getRandomDistribution() {
         return randomDistribution;
     }
 
-    public void setRandomDistribution(ProbabilityDistributionFuction randomNumber) {
+    public void setRandomDistribution(ProbabilityDistributionFunction randomNumber) {
         this.randomDistribution = randomNumber;
     }
 

@@ -28,7 +28,7 @@ import net.sourceforge.cilib.io.DataTableBuilder;
 import net.sourceforge.cilib.io.StandardDataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.io.transform.PatternConversionOperator;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
@@ -38,7 +38,7 @@ import net.sourceforge.cilib.type.types.container.ClusterCentroid;
  * It initializes ClusterCentroids to the positions of existing data patterns
  */
 public class DataPatternInitializationStrategy <E extends Entity> extends DataDependantInitializationStrategy<E> {
-    private ProbabilityDistributionFuction random;
+    private ProbabilityDistributionFunction random;
     private PatternConversionOperator patternConversionOperator;
     
     /*

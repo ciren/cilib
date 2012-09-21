@@ -30,7 +30,7 @@ import net.sourceforge.cilib.container.SortedList;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Harmony;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
@@ -47,9 +47,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class HS extends AbstractAlgorithm implements SingularAlgorithm {
 
     private static final long serialVersionUID = 8019668923312811974L;
-    private ProbabilityDistributionFuction uniform1;
-    private ProbabilityDistributionFuction uniform2;
-    private ProbabilityDistributionFuction uniform3;
+    private ProbabilityDistributionFunction uniform1;
+    private ProbabilityDistributionFunction uniform2;
+    private ProbabilityDistributionFunction uniform3;
     private ControlParameter harmonyMemorySize;
     private ControlParameter harmonyMemoryConsideringRate;
     private ControlParameter pitchAdjustingRate;

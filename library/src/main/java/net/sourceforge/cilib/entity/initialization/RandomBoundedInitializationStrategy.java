@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -40,7 +40,7 @@ public class RandomBoundedInitializationStrategy<E extends Entity> implements
     private static final long serialVersionUID = -7926839076670354209L;
     protected ControlParameter lowerBound;
     protected ControlParameter upperBound;
-    private ProbabilityDistributionFuction random;
+    private ProbabilityDistributionFunction random;
     protected ArrayList<ControlParameter[]> boundsPerDimension;
 
     public RandomBoundedInitializationStrategy() {

@@ -28,7 +28,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -38,7 +38,7 @@ public class GaussianMutationStrategy extends MutationStrategy {
     private static final long serialVersionUID = -4219155909474892419L;
     private double mean;
     private ControlParameter deviationStrategy;
-    private ProbabilityDistributionFuction gaussian;
+    private ProbabilityDistributionFunction gaussian;
 
     public GaussianMutationStrategy() {
         super();

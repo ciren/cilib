@@ -25,7 +25,7 @@ import fj.P1;
 import java.util.List;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -34,7 +34,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * OffspringPBestProvider and adding some noise to the resulting pbest.
  */
 public class NoisyPositionOffspringPBestProvider extends OffspringPBestProvider {    
-    private ProbabilityDistributionFuction random;
+    private ProbabilityDistributionFunction random;
     private OffspringPBestProvider delegate;
 
     public NoisyPositionOffspringPBestProvider() {
@@ -52,11 +52,11 @@ public class NoisyPositionOffspringPBestProvider extends OffspringPBestProvider 
         });
     }
 
-    public ProbabilityDistributionFuction getRandom() {
+    public ProbabilityDistributionFunction getRandom() {
         return random;
     }
 
-    public void setRandom(ProbabilityDistributionFuction random) {
+    public void setRandom(ProbabilityDistributionFunction random) {
         this.random = random;
     }
 

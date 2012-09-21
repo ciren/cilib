@@ -26,7 +26,7 @@ import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
@@ -37,8 +37,8 @@ import net.sourceforge.cilib.util.Vectors;
 public class SelfAdaptiveMutationStrategy extends MutationStrategy {
 
     private static final long serialVersionUID = -8942505730267916237L;
-    private ProbabilityDistributionFuction randomSingle;
-    private ProbabilityDistributionFuction randomDimension;
+    private ProbabilityDistributionFunction randomSingle;
+    private ProbabilityDistributionFunction randomDimension;
     private double tau;
     private double tauPrime;
 

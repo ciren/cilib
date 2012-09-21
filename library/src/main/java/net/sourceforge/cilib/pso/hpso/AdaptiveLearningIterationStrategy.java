@@ -33,7 +33,7 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
@@ -80,7 +80,7 @@ public class AdaptiveLearningIterationStrategy implements IterationStrategy<PSO>
 
     private SpecializedRatio weighting;
     private ControlParameter minRatio;
-    private ProbabilityDistributionFuction random;
+    private ProbabilityDistributionFunction random;
 
     private Particle aBest;
     private boolean initialized;
@@ -421,7 +421,7 @@ public class AdaptiveLearningIterationStrategy implements IterationStrategy<PSO>
         this.minRatio = minRatio;
     }
 
-    public void setRandom(ProbabilityDistributionFuction random) {
+    public void setRandom(ProbabilityDistributionFunction random) {
         this.random = random;
     }
 
