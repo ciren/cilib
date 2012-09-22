@@ -26,22 +26,19 @@ object CIlibBuild extends Build {
     sources in (library, Compile), sources in (library, Test), sources in (simulator, Compile), sources in (simulator, Test),
     streams) map { (librarySources, libraryTestSources, simulatorSources, simulatorTestSources, s) =>
       val logger = s.log
-      updateHeaders(librarySources)
-      updateHeaders(simulatorSources)
-      updateHeaders(libraryTestSources)
-      updateHeaders(simulatorTestSources)
+      updateHeaders(librarySources, logger)
+      updateHeaders(simulatorSources, logger)
+      updateHeaders(libraryTestSources, logger)
+      updateHeaders(simulatorTestSources, logger)
     }
 
-  private final def updateHeaders(xs: Seq[File]) = {
+  private final def updateHeaders(xs: Seq[File], logger: Logger) = {
     xs.filterNot(x => alreadyHasHeader(IO.readLines(x))).foreach { file =>
-      val contents = IO.readLines(file)
-      val contentsWithout = removeCurrentHeader(contents)
-
       val withHeader = new File(file.getParent, "withHeader")
       IO.append(withHeader, header)
-      IO.append(withHeader, contentsWithout.mkString("\n"))
+      IO.append(withHeader, removeCurrentHeader(IO.readLines(file)).mkString("\n"))
 
-      println("Replacing header in file: " + file.toString)
+      logger.info("Replacing header in: " + file.toString)
       IO.copyFile(withHeader, file)
       IO.delete(withHeader)
     }
