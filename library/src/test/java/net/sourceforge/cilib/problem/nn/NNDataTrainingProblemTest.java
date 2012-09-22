@@ -19,36 +19,33 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.problem;
+package net.sourceforge.cilib.problem.nn;
 
 import net.sourceforge.cilib.io.ARFFFileReader;
-import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
-import org.junit.Assert;
+import net.sourceforge.cilib.type.DomainRegistry;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * This test does not compare against anything (the same problem as with unit testing
  * a PSO) but simply executes to see whether there is exceptions.
  */
-public class NNSlidingWindowTrainingProblemTest {
+public class NNDataTrainingProblemTest {
 
-    NNSlidingWindowTrainingProblem problem;
+    NNDataTrainingProblem problem;
 
     @Before
     public void setup() {
-        problem = new NNSlidingWindowTrainingProblem();
+        problem = new NNDataTrainingProblem();
         problem.getDataTableBuilder().setDataReader(new ARFFFileReader());
         problem.getDataTableBuilder().setSourceURL("library/src/test/resources/datasets/iris.arff");
         problem.setTrainingSetPercentage(0.7);
         problem.setGeneralizationSetPercentage(0.3);
-        problem.setStepSize(10);
-        problem.setChangeFrequency(100);
-        problem.setWindowSize(50);
 
         problem.getNeuralNetwork().getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(4));
         problem.getNeuralNetwork().getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
@@ -59,18 +56,24 @@ public class NNSlidingWindowTrainingProblemTest {
 
     @Test
     public void testPercentages() {
-        int refTraining = (int) (problem.getWindowSize() * 0.7);
-        int refGeneralization = (int) (problem.getWindowSize() * 0.3);
-        Assert.assertEquals(refTraining, problem.getTrainingSet().size());
-        Assert.assertEquals(refGeneralization, problem.getGeneralizationSet().size());
+        int refTraining = (int) (150 * 0.7); // 150 pattern in iris
+        int refGeneralization = (int) (150 * 0.3); // 150 pattern in iris
+        assertEquals(refTraining, problem.getTrainingSet().size());
+        assertEquals(refGeneralization, problem.getGeneralizationSet().size());
     }
 
     @Test
     public void testCalculateFitness() {
         PSO pso = new PSO();
-        pso.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 1100));
+        pso.addStoppingCondition(new MeasuredStoppingCondition());
         pso.setOptimisationProblem(problem);
         pso.performInitialisation();
         pso.performIteration();
+    }
+
+    @Test
+    public void shouldInitializeDomain() {
+        final DomainRegistry domainRegistry = problem.initializationDomain();
+        assertEquals(19, domainRegistry.getBuiltRepresenation().size());
     }
 }

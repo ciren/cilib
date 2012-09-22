@@ -21,7 +21,7 @@ package net.sourceforge.cilib.gd;
 import net.sourceforge.cilib.io.ARFFFileReader;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
-import net.sourceforge.cilib.problem.NNDataTrainingProblem;
+import net.sourceforge.cilib.problem.nn.NNDataTrainingProblem;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;

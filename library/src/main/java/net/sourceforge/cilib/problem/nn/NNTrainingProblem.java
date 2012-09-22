@@ -19,13 +19,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.problem;
+package net.sourceforge.cilib.problem.nn;
 
 import net.sourceforge.cilib.io.StandardPatternDataTable;
 import net.sourceforge.cilib.io.transform.DataOperator;
 import net.sourceforge.cilib.io.transform.PatternConversionOperator;
 import net.sourceforge.cilib.io.transform.ShuffleOperator;
 import net.sourceforge.cilib.nn.NeuralNetwork;
+import net.sourceforge.cilib.problem.AbstractProblem;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 

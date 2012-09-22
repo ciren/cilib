@@ -27,7 +27,7 @@ import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.nn.architecture.visitors.OutputErrorVisitor;
-import net.sourceforge.cilib.problem.NNTrainingProblem;
+import net.sourceforge.cilib.problem.nn.NNTrainingProblem;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
