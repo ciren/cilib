@@ -31,7 +31,7 @@ import net.sourceforge.cilib.io.exception.CIlibIOException;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.io.transform.ShuffleOperator;
 import net.sourceforge.cilib.io.transform.TypeConversionOperator;
-import net.sourceforge.cilib.nn.WeightSolutionInterpretationStrategy;
+import net.sourceforge.cilib.nn.domain.WeightSolutionInterpretationStrategy;
 import net.sourceforge.cilib.nn.architecture.visitors.OutputErrorVisitor;
 import net.sourceforge.cilib.nn.domain.DomainInitializationStrategy;
 import net.sourceforge.cilib.nn.domain.SolutionInterpretationStrategy;

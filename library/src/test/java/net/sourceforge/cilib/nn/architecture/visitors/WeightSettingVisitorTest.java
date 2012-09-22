@@ -50,8 +50,7 @@ public class WeightSettingVisitorTest {
         }
         Vector expectedWeights = expectedWeightsBuilder.build();
 
-        WeightSettingVisitor visitor = new WeightSettingVisitor();
-        visitor.setWeights(expectedWeights);
+        WeightSettingVisitor visitor = new WeightSettingVisitor(expectedWeights);
         visitor.visit(network.getArchitecture());
 
         Vector.Builder actualWeightsBuilder = Vector.newBuilder();
