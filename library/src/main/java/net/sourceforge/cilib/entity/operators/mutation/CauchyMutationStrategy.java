@@ -27,7 +27,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.CauchyDistribution;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -39,7 +39,7 @@ public class CauchyMutationStrategy extends MutationStrategy {
     private static final long serialVersionUID = 8576581034467137106L;
     private double location;
     private ControlParameter scaleStrategy;
-    private ProbabilityDistributionFuction cauchy;
+    private ProbabilityDistributionFunction cauchy;
 
     public CauchyMutationStrategy() {
         super();

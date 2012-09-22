@@ -23,7 +23,7 @@ package net.sourceforge.cilib.pso.velocityprovider;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
@@ -35,7 +35,7 @@ import net.sourceforge.cilib.util.Vectors;
 public class NoisyVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = -4398497101382747367L;
-    private ProbabilityDistributionFuction distribution;
+    private ProbabilityDistributionFunction distribution;
     private VelocityProvider delegate;
 
     public NoisyVelocityProvider() {
@@ -71,11 +71,11 @@ public class NoisyVelocityProvider implements VelocityProvider {
         this.delegate = delegate;
     }
 
-    public ProbabilityDistributionFuction getDistribution() {
+    public ProbabilityDistributionFunction getDistribution() {
         return this.distribution;
     }
 
-    public void setDistribution(ProbabilityDistributionFuction distribution) {
+    public void setDistribution(ProbabilityDistributionFunction distribution) {
         this.distribution = distribution;
     }
 }

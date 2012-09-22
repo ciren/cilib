@@ -27,12 +27,12 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.LinearlyVaryingControlParameter;
 import net.sourceforge.cilib.controlparameter.UpdateOnIterationControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 
 public class BoltzmannComparator<E extends Entity> implements Comparator<E>, Serializable {
     
-    private ProbabilityDistributionFuction distribution;
+    private ProbabilityDistributionFunction distribution;
     private ControlParameter tempSchedule;
     
     public BoltzmannComparator() {
@@ -61,11 +61,11 @@ public class BoltzmannComparator<E extends Entity> implements Comparator<E>, Ser
         return 1;
     }
 
-    public ProbabilityDistributionFuction getDistribution() {
+    public ProbabilityDistributionFunction getDistribution() {
         return distribution;
     }
 
-    public void setDistribution(ProbabilityDistributionFuction distribution) {
+    public void setDistribution(ProbabilityDistributionFunction distribution) {
         this.distribution = distribution;
     }
 

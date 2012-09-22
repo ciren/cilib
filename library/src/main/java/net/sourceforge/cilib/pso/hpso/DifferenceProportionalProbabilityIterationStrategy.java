@@ -33,7 +33,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.pso.PSO;
@@ -60,7 +60,7 @@ public class DifferenceProportionalProbabilityIterationStrategy implements Itera
     private Map<ParticleBehavior, List<Particle>> rigidParticles;
     private int rigidCountPerBehavior;
     private ControlParameter beta;
-    private ProbabilityDistributionFuction random;
+    private ProbabilityDistributionFunction random;
     private boolean initialized;
 
     /**

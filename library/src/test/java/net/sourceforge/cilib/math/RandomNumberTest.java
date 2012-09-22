@@ -23,7 +23,7 @@ package net.sourceforge.cilib.math;
 
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import static org.junit.Assert.assertTrue;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import org.junit.Test;
@@ -34,7 +34,7 @@ import org.junit.Test;
  */
 public class RandomNumberTest {
 
-    private ProbabilityDistributionFuction rand;
+    private ProbabilityDistributionFunction rand;
 
     @Test
     public void testGuassian() {

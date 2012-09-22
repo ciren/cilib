@@ -29,7 +29,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -40,7 +40,7 @@ public class DifferentialEvolutionBinomialCrossover implements CrossoverStrategy
 
     private static final long serialVersionUID = -2939023704055943968L;
     
-    private ProbabilityDistributionFuction random;
+    private ProbabilityDistributionFunction random;
     private ControlParameter crossoverPointProbability;
     
     public DifferentialEvolutionBinomialCrossover() {
@@ -107,11 +107,11 @@ public class DifferentialEvolutionBinomialCrossover implements CrossoverStrategy
         return Arrays.asList(offspring);
     }
 
-    public void setRandom(ProbabilityDistributionFuction random) {
+    public void setRandom(ProbabilityDistributionFunction random) {
         this.random = random;
     }
 
-    public ProbabilityDistributionFuction getRandom() {
+    public ProbabilityDistributionFunction getRandom() {
         return random;
     }
 

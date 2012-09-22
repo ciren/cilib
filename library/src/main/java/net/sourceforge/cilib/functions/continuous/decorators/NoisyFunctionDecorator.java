@@ -25,7 +25,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -36,7 +36,7 @@ public class NoisyFunctionDecorator implements ContinuousFunction {
 
     private static final long serialVersionUID = -3918271655104447420L;
     private ContinuousFunction function;
-    private ProbabilityDistributionFuction randomNumber;
+    private ProbabilityDistributionFunction randomNumber;
     private ControlParameter variance;
 
     /**
