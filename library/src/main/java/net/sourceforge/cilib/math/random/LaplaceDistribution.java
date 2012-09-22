@@ -30,7 +30,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 /**
  * 
  */
-public class LaplaceDistribution implements ProbabilityDistributionFuction {
+public class LaplaceDistribution implements ProbabilityDistributionFunction {
 
     private RandomProvider provider;
     private ControlParameter location;

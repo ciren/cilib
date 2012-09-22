@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -34,7 +34,7 @@ public class OnePointCrossoverStrategy implements CrossoverStrategy {
 
     private static final long serialVersionUID = 7313531386910938748L;
     
-    private ProbabilityDistributionFuction random;
+    private ProbabilityDistributionFunction random;
 
     public OnePointCrossoverStrategy() {
         this.random = new UniformDistribution();
@@ -77,11 +77,11 @@ public class OnePointCrossoverStrategy implements CrossoverStrategy {
         return Arrays.asList(offspring1, offspring2);
     }
 
-    public void setRandom(ProbabilityDistributionFuction random) {
+    public void setRandom(ProbabilityDistributionFunction random) {
         this.random = random;
     }
 
-    public ProbabilityDistributionFuction getRandom() {
+    public ProbabilityDistributionFunction getRandom() {
         return random;
     }
 

@@ -30,7 +30,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 /**
  *
  */
-public class UniformDistribution implements ProbabilityDistributionFuction {
+public class UniformDistribution implements ProbabilityDistributionFunction {
 
     private RandomProvider provider;
     private ControlParameter lowerBound;

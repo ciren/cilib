@@ -28,7 +28,7 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.pso.positionprovider.PositionProvider;
 import net.sourceforge.cilib.pso.positionprovider.StandardPositionProvider;
@@ -47,7 +47,7 @@ public class QuantumPositionProvider implements PositionProvider {
     private static final double EPSILON = 0.000000001;
 
     private ControlParameter radius;
-    private ProbabilityDistributionFuction randomizer;
+    private ProbabilityDistributionFunction randomizer;
     private Vector nucleus;
 
     private PositionProvider delegate;

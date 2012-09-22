@@ -28,7 +28,7 @@ import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -36,7 +36,7 @@ public class UniformCrossoverStrategy implements CrossoverStrategy {
 
     private static final long serialVersionUID = 8912494112973025634L;
     
-    private ProbabilityDistributionFuction random;
+    private ProbabilityDistributionFunction random;
     private ControlParameter crossoverPointProbability;
 
     public UniformCrossoverStrategy() {
@@ -93,11 +93,11 @@ public class UniformCrossoverStrategy implements CrossoverStrategy {
         return crossoverPointProbability;
     }
 
-    public void setRandom(ProbabilityDistributionFuction random) {
+    public void setRandom(ProbabilityDistributionFunction random) {
         this.random = random;
     }
 
-    public ProbabilityDistributionFuction getRandom() {
+    public ProbabilityDistributionFunction getRandom() {
         return random;
     }
 

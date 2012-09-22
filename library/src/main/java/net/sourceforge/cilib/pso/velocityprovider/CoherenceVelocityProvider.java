@@ -27,7 +27,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.functions.activation.Sigmoid;
 import net.sourceforge.cilib.math.random.CauchyDistribution;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
@@ -39,7 +39,7 @@ public class CoherenceVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = -9051938755796130230L;
     private ControlParameter scalingFactor;
-    private ProbabilityDistributionFuction randomNumber;
+    private ProbabilityDistributionFunction randomNumber;
     private Sigmoid sigmoid;
     private VelocityProvider delegate;
 

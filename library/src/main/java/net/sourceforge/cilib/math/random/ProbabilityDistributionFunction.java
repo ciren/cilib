@@ -29,7 +29,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  * distributions.
  *
  */
-public interface ProbabilityDistributionFuction {
+public interface ProbabilityDistributionFunction {
 
     /**
      * Sample a random number from the distribution.

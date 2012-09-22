@@ -27,7 +27,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
@@ -59,7 +59,7 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
 
     private static final long serialVersionUID = 3177150919194273857L;
     private ControlParameter turbulenceProbability;
-    private ProbabilityDistributionFuction random;
+    private ProbabilityDistributionFunction random;
 
     /**
      * Create an instance of the constraint with a turbulence probability

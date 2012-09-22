@@ -30,7 +30,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 /**
  *
  */
-public class CauchyDistribution implements ProbabilityDistributionFuction {
+public class CauchyDistribution implements ProbabilityDistributionFunction {
 
     private RandomProvider provider;
     private ControlParameter location;

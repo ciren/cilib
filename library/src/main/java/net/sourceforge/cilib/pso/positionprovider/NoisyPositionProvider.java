@@ -21,10 +21,10 @@
  */
 package net.sourceforge.cilib.pso.positionprovider;
 
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
 import net.sourceforge.cilib.util.Vectors;
 
 /**
@@ -35,7 +35,7 @@ import net.sourceforge.cilib.util.Vectors;
 public class NoisyPositionProvider implements PositionProvider {
 
     private static final long serialVersionUID = -2665293187543545962L;
-    private ProbabilityDistributionFuction distribution;
+    private ProbabilityDistributionFunction distribution;
     private PositionProvider delegate;
 
     public NoisyPositionProvider() {
@@ -71,11 +71,11 @@ public class NoisyPositionProvider implements PositionProvider {
         this.delegate = delegate;
     }
 
-    public ProbabilityDistributionFuction getDistribution() {
+    public ProbabilityDistributionFunction getDistribution() {
         return this.distribution;
     }
 
-    public void setDistribution(ProbabilityDistributionFuction distribution) {
+    public void setDistribution(ProbabilityDistributionFunction distribution) {
         this.distribution = distribution;
     }
 }

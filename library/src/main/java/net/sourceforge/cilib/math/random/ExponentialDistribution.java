@@ -30,7 +30,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 /**
  *
  */
-public class ExponentialDistribution implements ProbabilityDistributionFuction {
+public class ExponentialDistribution implements ProbabilityDistributionFunction {
 
     private RandomProvider provider;
     private ControlParameter rate;
