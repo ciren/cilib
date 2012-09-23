@@ -24,12 +24,13 @@ package net.sourceforge.cilib.functions.activation;
 import net.sourceforge.cilib.functions.Differentiable;
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Activation functions are functions that are typically used within Neurons. This class provides
  * an abstraction for all functions that can be used in this manner.
  */
-public interface ActivationFunction extends Function<Real, Real>, Differentiable {
+public interface ActivationFunction extends Function<Real, Real>, Differentiable, Cloneable {
 
     /**
      * Determine the gradient of the {@link ActivationFunction} at the given point.

@@ -31,8 +31,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class Linear implements ActivationFunction {
 
-    private static final long serialVersionUID = -6826800182176063079L;
-
     /**
      * {@inheritDoc}
      */
@@ -79,5 +77,10 @@ public class Linear implements ActivationFunction {
     @Override
     public double getUpperActiveRange() {
         return Double.MAX_VALUE;
+    }
+
+    @Override
+    public Object getClone() {
+        return this;
     }
 }

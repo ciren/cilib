@@ -43,9 +43,24 @@ public class Sigmoid implements ActivationFunction {
      * to a value of {@code 1.0}, with the {@code offset} defined as {@code 0.0}.
      */
     public Sigmoid() {
-        this.lambda = ConstantControlParameter.of(1.0);
-        this.gamma = ConstantControlParameter.of(1.0);
+        this(1.0, 1.0);
+    }
+
+    public Sigmoid(double lambda, double gamma) {
+        this.lambda = ConstantControlParameter.of(lambda);
+        this.gamma = ConstantControlParameter.of(gamma);
         this.offset = ConstantControlParameter.of(0.0);
+    }
+
+    public Sigmoid(Sigmoid sigmoid) {
+        this.lambda = sigmoid.getLambda().getClone();
+        this.gamma = sigmoid.getGamma().getClone();
+        this.offset = sigmoid.getOffset().getClone();
+    }
+
+    @Override
+    public ActivationFunction getClone() {
+        return new Sigmoid(this);
     }
 
     /**

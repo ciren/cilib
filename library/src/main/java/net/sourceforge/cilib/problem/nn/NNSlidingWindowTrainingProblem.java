@@ -30,6 +30,7 @@ import net.sourceforge.cilib.io.exception.CIlibIOException;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.io.transform.ShuffleOperator;
 import net.sourceforge.cilib.io.transform.TypeConversionOperator;
+import net.sourceforge.cilib.nn.NeuralNetworks;
 import net.sourceforge.cilib.nn.architecture.visitors.OutputErrorVisitor;
 import net.sourceforge.cilib.problem.AbstractProblem;
 import net.sourceforge.cilib.problem.solution.Fitness;
@@ -83,9 +84,9 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
         }
         try {
             dataTableBuilder.addDataOperator(new TypeConversionOperator());
-            dataTableBuilder.addDataOperator(patternConverstionOperator);
+            dataTableBuilder.addDataOperator(patternConversionOperator);
             dataTableBuilder.buildDataTable();
-            dataTable = (StandardPatternDataTable) dataTableBuilder.getDataTable();
+            dataTable = dataTableBuilder.getDataTable();
 
             int trainingSize = (int)(windowSize * trainingSetPercentage);
             int generalizationSize = windowSize - trainingSize;
@@ -205,11 +206,11 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
         if (!initialized) {
             this.initialise();
         }
-        int numWeights = neuralNetwork.getWeights().size();
+        int numWeights = NeuralNetworks.countWeights(neuralNetwork);
         String domainString = neuralNetwork.getArchitecture().getArchitectureBuilder().getLayerBuilder().getDomain();
-        StringBasedDomainRegistry dr = new StringBasedDomainRegistry();
-        dr.setDomainString(domainString + "^" + numWeights);
-        return dr;
+        StringBasedDomainRegistry stringBasedDomainRegistry = new StringBasedDomainRegistry();
+        stringBasedDomainRegistry.setDomainString(domainString + "^" + numWeights);
+        return stringBasedDomainRegistry;
     }
 
     /**

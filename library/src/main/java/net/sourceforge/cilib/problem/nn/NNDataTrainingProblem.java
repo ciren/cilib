@@ -80,9 +80,9 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
         }
         try {
             dataTableBuilder.addDataOperator(new TypeConversionOperator());
-            dataTableBuilder.addDataOperator(patternConverstionOperator);
+            dataTableBuilder.addDataOperator(patternConversionOperator);
             dataTableBuilder.buildDataTable();
-            DataTable dataTable = (StandardPatternDataTable) dataTableBuilder.getDataTable();
+            DataTable dataTable = dataTableBuilder.getDataTable();
 
             shuffler = new ShuffleOperator();
             shuffler.operate(dataTable);
@@ -166,11 +166,12 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
         if (!initialized) {
             this.initialise();
         }
-        return initializationDomain();
+        return initializeDomain();
     }
 
     @VisibleForTesting
-    protected DomainRegistry initializationDomain() {
+    protected DomainRegistry initializeDomain() {
+        solutionInterpretationStrategy.initialize(neuralNetwork);
         return domainInitializationStrategy.initializeDomain(neuralNetwork);
     }
 
@@ -210,4 +211,19 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
         dataTableBuilder.setSourceURL(sourceURL);
     }
 
+    public DomainInitializationStrategy getDomainInitializationStrategy() {
+        return domainInitializationStrategy;
+    }
+
+    public void setDomainInitializationStrategy(DomainInitializationStrategy domainInitializationStrategy) {
+        this.domainInitializationStrategy = domainInitializationStrategy;
+    }
+
+    public SolutionInterpretationStrategy getSolutionInterpretationStrategy() {
+        return solutionInterpretationStrategy;
+    }
+
+    public void setSolutionInterpretationStrategy(SolutionInterpretationStrategy solutionInterpretationStrategy) {
+        this.solutionInterpretationStrategy = solutionInterpretationStrategy;
+    }
 }
