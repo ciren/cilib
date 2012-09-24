@@ -13,11 +13,12 @@ object CIlibBuild extends Build {
 
 
   // Header task definition
-  private val header = """/**            __  __                                                    *
- *     _____ _/ /_/ /_    Computational Intelligence Library (CIlib)     *
- *    / ___/ / / / __ \   (c) CIRG @ UP                                  *
- *   / /__/ / / / /_/ /   http://cilib.net                               *
- *   \___/_/_/_/_.___/                                                   */
+  private val header = """/**           __  __
+ *    _____ _/ /_/ /_    Computational Intelligence Library (CIlib)
+ *   / ___/ / / / __ \   (c) CIRG @ UP
+ *  / /__/ / / / /_/ /   http://cilib.net
+ *  \___/_/_/_/_.___/
+ */
 """
 
   val headerCheck = TaskKey[Unit]("update-source-headers")
@@ -36,7 +37,7 @@ object CIlibBuild extends Build {
     xs.filterNot(x => alreadyHasHeader(IO.readLines(x))).foreach { file =>
       val withHeader = new File(file.getParent, "withHeader")
       IO.append(withHeader, header)
-      IO.append(withHeader, removeCurrentHeader(IO.readLines(file)).mkString("\n"))
+      IO.append(withHeader, removeCurrentHeader(IO.readLines(file)).mkString("", "\n", "\n"))
 
       logger.info("Replacing header in: " + file.toString)
       IO.copyFile(withHeader, file)
@@ -49,8 +50,8 @@ object CIlibBuild extends Build {
       case (a, b) => a == b
     }
 
-  private def removeCurrentHeader(file: List[String]) =
-    file.dropWhile { line =>
+  private def removeCurrentHeader(contents: List[String]) =
+    contents.dropWhile { line =>
       line.startsWith("/*") || line.startsWith(" *")
     }
 }
