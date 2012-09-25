@@ -19,6 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
+
 /**
  * This package contains different topology implementations. Within CIlib, all {@linkplain Entity}
  * objects are capable of being contained within <tt>Topology</tt> instances.
