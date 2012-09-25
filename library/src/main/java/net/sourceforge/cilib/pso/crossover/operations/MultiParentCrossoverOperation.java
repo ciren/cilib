@@ -28,7 +28,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.crossover.real.MultiParentCrossoverStrategy;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.crossover.ParticleCrossoverStrategy;
@@ -51,7 +51,7 @@ public class MultiParentCrossoverOperation extends PSOCrossoverOperation {
     private ParentReplacementStrategy parentReplacementStrategy;
     private ParticleCrossoverStrategy crossover;
     private ControlParameter crossoverProbability;
-    private ProbabilityDistributionFuction random;
+    private ProbabilityDistributionFunction random;
     private Selector<Particle> selector;
     
     public MultiParentCrossoverOperation() {
@@ -110,7 +110,7 @@ public class MultiParentCrossoverOperation extends PSOCrossoverOperation {
         return parentReplacementStrategy;
     }
 
-    public ProbabilityDistributionFuction getRandom() {
+    public ProbabilityDistributionFunction getRandom() {
         return random;
     }
 
@@ -130,7 +130,7 @@ public class MultiParentCrossoverOperation extends PSOCrossoverOperation {
         this.parentReplacementStrategy = parentReplacementStrategy;
     }
 
-    public void setRandom(ProbabilityDistributionFuction random) {
+    public void setRandom(ProbabilityDistributionFunction random) {
         this.random = random;
     }
 

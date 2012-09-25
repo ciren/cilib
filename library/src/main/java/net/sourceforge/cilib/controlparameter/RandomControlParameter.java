@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.controlparameter;
 
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 
 /**
@@ -30,7 +30,7 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
  * the distribution is uniform.
  */
 public class RandomControlParameter implements ControlParameter {
-    private ProbabilityDistributionFuction distribution;
+    private ProbabilityDistributionFunction distribution;
     private double lowerBound;
     private double upperBound;
 
@@ -38,7 +38,7 @@ public class RandomControlParameter implements ControlParameter {
         this(new UniformDistribution());
     }
 
-    public RandomControlParameter(ProbabilityDistributionFuction distribution) {
+    public RandomControlParameter(ProbabilityDistributionFunction distribution) {
         this.distribution = distribution;
         this.lowerBound = 0.0;
         this.upperBound = 1.0;
@@ -85,11 +85,11 @@ public class RandomControlParameter implements ControlParameter {
         this.upperBound = upper;
     }
 
-    public ProbabilityDistributionFuction getDistribution() {
+    public ProbabilityDistributionFunction getDistribution() {
         return distribution;
     }
 
-    public void setDistribution(ProbabilityDistributionFuction distribution) {
+    public void setDistribution(ProbabilityDistributionFunction distribution) {
         this.distribution = distribution;
     }
 }

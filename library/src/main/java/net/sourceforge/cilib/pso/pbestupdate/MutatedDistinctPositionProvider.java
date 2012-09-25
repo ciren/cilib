@@ -23,7 +23,7 @@ package net.sourceforge.cilib.pso.pbestupdate;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -31,7 +31,7 @@ import net.sourceforge.cilib.type.types.container.Vector.Function;
 
 public class MutatedDistinctPositionProvider extends DistinctPositionProvider {
     
-    private ProbabilityDistributionFuction distribution;
+    private ProbabilityDistributionFunction distribution;
     
     public MutatedDistinctPositionProvider() {
         this.distribution = new GaussianDistribution();
@@ -55,11 +55,11 @@ public class MutatedDistinctPositionProvider extends DistinctPositionProvider {
         });
     }
 
-    public void setDistribution(ProbabilityDistributionFuction distribution) {
+    public void setDistribution(ProbabilityDistributionFunction distribution) {
         this.distribution = distribution;
     }
 
-    public ProbabilityDistributionFuction getDistribution() {
+    public ProbabilityDistributionFunction getDistribution() {
         return distribution;
     }
 }

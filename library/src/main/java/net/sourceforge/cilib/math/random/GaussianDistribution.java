@@ -29,7 +29,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  */
-public class GaussianDistribution implements ProbabilityDistributionFuction {
+public class GaussianDistribution implements ProbabilityDistributionFunction {
 
     private RandomProvider provider;
     private ControlParameter mean;

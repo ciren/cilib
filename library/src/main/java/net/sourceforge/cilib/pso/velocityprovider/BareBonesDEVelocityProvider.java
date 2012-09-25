@@ -29,7 +29,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
@@ -46,9 +46,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class BareBonesDEVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = -8781011210069055197L;
-    private ProbabilityDistributionFuction rand1;
-    private ProbabilityDistributionFuction rand2;
-    private ProbabilityDistributionFuction rand3;
+    private ProbabilityDistributionFunction rand1;
+    private ProbabilityDistributionFunction rand2;
+    private ProbabilityDistributionFunction rand3;
     private RandomProvider r1;
     private RandomProvider r2;
     private ControlParameter cognitive;
@@ -104,7 +104,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
         List<Entity> positions = getRandomParentEntities(pso.getTopology());
 
         //select three random individuals, all different and different from particle
-        ProbabilityDistributionFuction pdf = new UniformDistribution();
+        ProbabilityDistributionFunction pdf = new UniformDistribution();
 
         Vector position1 = (Vector) positions.get(0).getCandidateSolution();
         Vector position2 = (Vector) positions.get(1).getCandidateSolution();
@@ -134,7 +134,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
     public static List<Entity> getRandomParentEntities(Topology<? extends Entity> topology) {
         List<Entity> parents = new ArrayList<Entity>(3);
 
-        ProbabilityDistributionFuction randomNumber = new UniformDistribution();
+        ProbabilityDistributionFunction randomNumber = new UniformDistribution();
 
         int count = 0;
 
@@ -154,7 +154,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
      * Get the first {@linkplain RandomNumber}.
      * @return The first {@linkplain RandomNumber}.
      */
-    public ProbabilityDistributionFuction getRand1() {
+    public ProbabilityDistributionFunction getRand1() {
         return this.rand1;
     }
 
@@ -162,7 +162,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
      * Set the first {@linkplain RandomNumber}.
      * @param rand1 The value to set.
      */
-    public void setRand1(ProbabilityDistributionFuction rand1) {
+    public void setRand1(ProbabilityDistributionFunction rand1) {
         this.rand1 = rand1;
     }
 
@@ -170,7 +170,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
      * Get the second{@linkplain RandomNumber}.
      * @return The second {@linkplain RandomNumber}.
      */
-    public ProbabilityDistributionFuction getRand2() {
+    public ProbabilityDistributionFunction getRand2() {
         return this.rand2;
     }
 
@@ -178,7 +178,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
      * Set the second {@linkplain RandomNumber}.
      * @param rand2 The value to set.
      */
-    public void setRand2(ProbabilityDistributionFuction rand2) {
+    public void setRand2(ProbabilityDistributionFunction rand2) {
         this.rand2 = rand2;
     }
 
@@ -186,7 +186,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
      * Get the third {@linkplain RandomNumber}.
      * @return The third {@linkplain RandomNumber}.
      */
-    public ProbabilityDistributionFuction getRand3() {
+    public ProbabilityDistributionFunction getRand3() {
         return this.rand3;
     }
 
@@ -194,7 +194,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
      * Set the third {@linkplain RandomNumber}.
      * @param rand3 The value to set.
      */
-    public void setRand3(ProbabilityDistributionFuction rand3) {
+    public void setRand3(ProbabilityDistributionFunction rand3) {
         this.rand3 = rand3;
     }
 
