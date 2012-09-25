@@ -64,8 +64,8 @@ public class RoyalRoad implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
-        Preconditions.checkArgument(input.size() == Math.pow(2,k) * b * g,
-            "Royal Road function must be used with vectors of length " + Math.pow(2,k) * b * g + " for the given configuration.");
+        Preconditions.checkArgument(input.size() == Math.pow(2,k) * (b + g),
+            "Royal Road function must be used with vectors of length " + Math.pow(2,k) * (b + g) + " for the given configuration.");
 
         return part(input) + bonus(input);
     }
