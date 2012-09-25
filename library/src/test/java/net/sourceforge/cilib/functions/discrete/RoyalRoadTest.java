@@ -19,29 +19,38 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.discrete;
 
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.container.Vector;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
-public class Order5DeceptiveTest {
-    
-    private Order5Deceptive func = new Order5Deceptive();
-    
+public class RoyalRoadTest {
+
+    private RoyalRoad func = new RoyalRoad();
+
     @Test
-    public void testFunction() {      
-        assertEquals(4.0, func.apply(Vector.of(0,0,0,0,0)), Maths.EPSILON);        
-        assertEquals(3.0, func.apply(Vector.of(0,0,0,0,1)), Maths.EPSILON);        
-        assertEquals(2.0, func.apply(Vector.of(0,0,0,1,1)), Maths.EPSILON);        
-        assertEquals(1.0, func.apply(Vector.of(0,0,1,1,1)), Maths.EPSILON);        
-        assertEquals(3.5, func.apply(Vector.of(1,1,1,1,1)), Maths.EPSILON);        
-        
-        assertEquals(0.0, func.apply(Vector.of(1,0,0,0,1)), Maths.EPSILON);        
-        assertEquals(0.0, func.apply(Vector.of(1,0,1,0,1)), Maths.EPSILON);        
-        assertEquals(0.0, func.apply(Vector.of(1,1,0,0,1)), Maths.EPSILON);        
-        assertEquals(0.0, func.apply(Vector.of(1,0,0,1,1)), Maths.EPSILON);        
+    public void testFunction() {
+
+        Vector maxFit = Vector.fill(1, 240);
+
+        assertEquals(12.8, func.apply(maxFit), Maths.EPSILON);
+
+        Vector.Builder b = Vector.newBuilder();
+
+        for(int i = 0; i < 240; i+= 15) {
+            for(int k = 0; k < 15; k++) {
+                if (k < 7) {
+                    b.add(true);
+                } else {
+                    b.add(false);
+                }
+            }
+        }
+
+        Vector minFit = b.build();
+        assertEquals(-0.96, func.apply(minFit), Maths.EPSILON);
     }
-    
+
 }

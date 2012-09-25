@@ -178,9 +178,4 @@ public class Bit implements Numeric {
     public Bounds getBounds() {
         return this.bounds;
     }
-
-    @Override
-    public long longValue() {
-        return (long) intValue();
-    }
 }

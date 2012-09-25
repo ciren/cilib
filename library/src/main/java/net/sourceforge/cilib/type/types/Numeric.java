@@ -45,8 +45,6 @@ public interface Numeric extends Type, BoundedType, Comparable<Numeric>, Randomi
      */
     int intValue();
 
-    long longValue();
-
     /**
      * Get the value of this {@linkplain Numeric}.
      * @return The value of this {@linkplain Numeric} as a {@literal double}.
