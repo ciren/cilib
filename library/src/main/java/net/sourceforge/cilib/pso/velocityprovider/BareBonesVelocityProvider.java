@@ -23,7 +23,7 @@ package net.sourceforge.cilib.pso.velocityprovider;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -36,7 +36,7 @@ public class BareBonesVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = -823686042197742768L;
     
-    protected ProbabilityDistributionFuction randomDistribution;
+    protected ProbabilityDistributionFunction randomDistribution;
 
     public BareBonesVelocityProvider() {
         this.randomDistribution = new GaussianDistribution();
@@ -71,11 +71,11 @@ public class BareBonesVelocityProvider implements VelocityProvider {
         return builder.build();
     }
 
-    public ProbabilityDistributionFuction getRandomDistribution() {
+    public ProbabilityDistributionFunction getRandomDistribution() {
         return this.randomDistribution;
     }
 
-    public void setRandomDistribution(ProbabilityDistributionFuction pdf) {
+    public void setRandomDistribution(ProbabilityDistributionFunction pdf) {
         this.randomDistribution = pdf;
     }
 }

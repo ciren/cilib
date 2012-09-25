@@ -30,7 +30,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 /**
  * 
  */
-public class GammaDistribution implements ProbabilityDistributionFuction {
+public class GammaDistribution implements ProbabilityDistributionFunction {
 
     private RandomProvider provider;
     private ControlParameter shape;
@@ -78,7 +78,7 @@ public class GammaDistribution implements ProbabilityDistributionFuction {
         checkArgument(shapeScale[0] > 0, "The first provided parameter (shape parameter) must be an integer greater than zero.");
         checkArgument(shapeScale[1] > 0, "The second provided parameter (scale parameter) must be greater than zero.");
 
-        ProbabilityDistributionFuction expPdf = new ExponentialDistribution();
+        ProbabilityDistributionFunction expPdf = new ExponentialDistribution();
         double sum = 0;
 
         for (int i = 0; i < shapeScale[0]; i++) {

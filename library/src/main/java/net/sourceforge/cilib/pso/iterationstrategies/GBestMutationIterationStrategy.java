@@ -34,7 +34,7 @@ import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.math.random.CauchyDistribution;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.crossover.operations.MultiParentCrossoverOperation;
 import net.sourceforge.cilib.type.types.Bounds;
@@ -46,7 +46,7 @@ public class GBestMutationIterationStrategy extends AbstractIterationStrategy<PS
     
     private ControlParameter vMax;
     private IterationStrategy<PSO> delegate;
-    private ProbabilityDistributionFuction distribution;
+    private ProbabilityDistributionFunction distribution;
     
     public GBestMutationIterationStrategy() {
         PSOCrossoverIterationStrategy del = new PSOCrossoverIterationStrategy();
@@ -122,11 +122,11 @@ public class GBestMutationIterationStrategy extends AbstractIterationStrategy<PS
         return vMax;
     }
     
-    public void setDistribution(ProbabilityDistributionFuction distribution) {
+    public void setDistribution(ProbabilityDistributionFunction distribution) {
         this.distribution = distribution;
     }
 
-    public ProbabilityDistributionFuction getDistribution() {
+    public ProbabilityDistributionFunction getDistribution() {
         return distribution;
     }
 

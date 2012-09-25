@@ -29,7 +29,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -55,7 +55,7 @@ public class BlendCrossoverStrategy implements CrossoverStrategy {
 
     private static final long serialVersionUID = -7955031193090240495L;
     private ControlParameter alpha;
-    private ProbabilityDistributionFuction random;
+    private ProbabilityDistributionFunction random;
 
     public BlendCrossoverStrategy() {
         this.alpha = ConstantControlParameter.of(0.5);
@@ -113,11 +113,11 @@ public class BlendCrossoverStrategy implements CrossoverStrategy {
         this.alpha = alpha;
     }
 
-    public void setRandom(ProbabilityDistributionFuction random) {
+    public void setRandom(ProbabilityDistributionFunction random) {
         this.random = random;
     }
 
-    public ProbabilityDistributionFuction getRandom() {
+    public ProbabilityDistributionFunction getRandom() {
         return random;
     }
 

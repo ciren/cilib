@@ -24,7 +24,7 @@ package net.sourceforge.cilib.pso.guideprovider;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -35,7 +35,7 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  */
 public class RandomGuideProvider implements GuideProvider {
 
-    private ProbabilityDistributionFuction random;
+    private ProbabilityDistributionFunction random;
 
     public RandomGuideProvider() {
         this.random = new UniformDistribution();

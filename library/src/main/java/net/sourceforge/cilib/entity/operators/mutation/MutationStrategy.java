@@ -28,7 +28,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.Operator;
 import net.sourceforge.cilib.math.ArithmeticOperator;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 
 /**
@@ -38,7 +38,7 @@ public abstract class MutationStrategy implements Operator {
 
     private static final long serialVersionUID = 6670947597280440404L;
     private ControlParameter mutationProbability;
-    private ProbabilityDistributionFuction randomDistribution;
+    private ProbabilityDistributionFunction randomDistribution;
     private String operator;
     private ArithmeticOperator operatorStrategy;
 
@@ -85,11 +85,11 @@ public abstract class MutationStrategy implements Operator {
         this.mutationProbability = mutationProbability;
     }
 
-    public ProbabilityDistributionFuction getRandomDistribution() {
+    public ProbabilityDistributionFunction getRandomDistribution() {
         return randomDistribution;
     }
 
-    public void setRandomDistribution(ProbabilityDistributionFuction randomNumber) {
+    public void setRandomDistribution(ProbabilityDistributionFunction randomNumber) {
         this.randomDistribution = randomNumber;
     }
 

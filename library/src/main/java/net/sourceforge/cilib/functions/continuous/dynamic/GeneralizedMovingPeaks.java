@@ -24,7 +24,7 @@ package net.sourceforge.cilib.functions.continuous.dynamic;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.DynamicFunction;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.type.types.Bounds;
@@ -52,7 +52,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class GeneralizedMovingPeaks implements ContinuousFunction, DynamicFunction<Vector, Double> {
 
-    private ProbabilityDistributionFuction gaussian, uniform; //random providers.
+    private ProbabilityDistributionFunction gaussian, uniform; //random providers.
     private int frequency; //the frequency (in iterations) with which the environment changes.
     private int peaks; //the number of peaks.
     private int lastChange = 0; //iteration that last change was applied

@@ -24,7 +24,7 @@ package net.sourceforge.cilib.util;
 import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
@@ -93,7 +93,7 @@ public class Matrices {
      * @return 
      */
     public static Matrix getRandomLinearTransformationMatrix(int size, int condition) {
-        ProbabilityDistributionFuction random = new UniformDistribution();
+        ProbabilityDistributionFunction random = new UniformDistribution();
         
         Matrix p = getRandomOrthonormalMatrix(size);
         Matrix q = getRandomOrthonormalMatrix(size);

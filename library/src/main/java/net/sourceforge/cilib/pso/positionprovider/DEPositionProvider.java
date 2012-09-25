@@ -21,18 +21,18 @@
  */
 package net.sourceforge.cilib.pso.positionprovider;
 
-import java.util.ArrayList;
-
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
+
+import java.util.ArrayList;
 
 /** Implementation of the DE PSO of Hendtlass.
  * TODO: can the DE strategies be incorporated somehow?
@@ -40,13 +40,13 @@ import net.sourceforge.cilib.util.Vectors;
 public class DEPositionProvider implements PositionProvider {
 
     private static final long serialVersionUID = -4052606351661988520L;
-    private ProbabilityDistributionFuction differentialEvolutionProbability; //Make a parameter to set via xml
-    private ProbabilityDistributionFuction crossoverProbability;
-    private ProbabilityDistributionFuction scaleParameter;
-    private ProbabilityDistributionFuction rand1;
-    private ProbabilityDistributionFuction rand2;
-    private ProbabilityDistributionFuction rand3;
-    private ProbabilityDistributionFuction rand4;
+    private ProbabilityDistributionFunction differentialEvolutionProbability; //Make a parameter to set via xml
+    private ProbabilityDistributionFunction crossoverProbability;
+    private ProbabilityDistributionFunction scaleParameter;
+    private ProbabilityDistributionFunction rand1;
+    private ProbabilityDistributionFunction rand2;
+    private ProbabilityDistributionFunction rand3;
+    private ProbabilityDistributionFunction rand4;
 
     public DEPositionProvider() {
         differentialEvolutionProbability = new GaussianDistribution();

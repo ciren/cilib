@@ -25,7 +25,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFuction;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Entities;
@@ -95,7 +95,7 @@ public class SimplexCrossoverStrategy implements CrossoverStrategy {
         List<Vector> solutions = Entities.<Vector>getCandidateSolutions(parentCollection);
         List<Vector> simplexVertices = Lists.newArrayList();
         List<E> offspring = Lists.newArrayList();
-        ProbabilityDistributionFuction random = new UniformDistribution();
+        ProbabilityDistributionFunction random = new UniformDistribution();
         Vector mean = Vectors.mean(solutions);
         final int n = solutions.size();
 
