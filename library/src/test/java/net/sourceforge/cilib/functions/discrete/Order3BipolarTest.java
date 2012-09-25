@@ -19,30 +19,33 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.discrete;
 
-import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.container.Vector;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
+public class Order3BipolarTest {
 
-/**
- * Implementation of the Onemax (counting ones) problem.
- * Intended for bit strings of arbitrary length
- * 
-**/
-public class Onemax implements ContinuousFunction {
-        
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double apply(Vector input) {                
-        double result = 0.0;
-        
-        for (int i = 0; i < input.size(); i++) {
-            result += input.doubleValueOf(i);
-        }
-        
-        return result;
+    private Order3Bipolar func = new Order3Bipolar();
+
+    @Test
+    public void testFunction() {
+        // 0 or 6
+        assertEquals(1.0, func.apply(Vector.of(0,0,0,0,0,0)), Maths.EPSILON);
+        assertEquals(1.0, func.apply(Vector.of(1,1,1,1,1,1)), Maths.EPSILON);
+
+        // 1 or 5
+        assertEquals(0.0, func.apply(Vector.of(1,0,0,0,0,0)), Maths.EPSILON);
+        assertEquals(0.0, func.apply(Vector.of(1,1,1,1,1,0)), Maths.EPSILON);
+
+        // 2 or 4
+        assertEquals(0.4, func.apply(Vector.of(1,1,0,0,0,0)), Maths.EPSILON);
+        assertEquals(0.4, func.apply(Vector.of(1,1,1,1,0,0)), Maths.EPSILON);
+
+        // 3
+        assertEquals(0.8, func.apply(Vector.of(1,1,1,0,0,0)), Maths.EPSILON);
     }
+
 }

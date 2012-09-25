@@ -27,8 +27,8 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
-import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This reaction strategy initialises new dimensions introduced into the particles.
@@ -56,7 +56,7 @@ public class InitialiseNaNElementsReactionStrategy<E extends PopulationBasedAlgo
     /**
      * Initialise the dimensions that have the value of Double.NaN. This is done
 	 * for all the particles in the topology.
-	 * 
+	 *
      * {@inheritDoc}
      */
     @Override
@@ -68,22 +68,25 @@ public class InitialiseNaNElementsReactionStrategy<E extends PopulationBasedAlgo
 			//initialise position
             Vector position = (Vector)particle.getPosition();
 			for (int curElement = 0; curElement < position.size(); ++curElement) {
-				if (Double.isNaN(position.getReal(curElement)))
-            		((Real) position.get(curElement)).randomize(randomGenerator);
+				if (Double.isNaN(position.doubleValueOf(curElement))) {
+                    position.get(curElement).randomize(randomGenerator);
+                }
 			}
-			
+
 			//initialise personal best
             Vector personalBest = (Vector)particle.getBestPosition();
 			for (int curElement = 0; curElement < position.size(); ++curElement) {
-				if (Double.isNaN(personalBest.getReal(curElement)))
-            		personalBest.setReal(curElement, position.getReal(curElement));
+				if (Double.isNaN(personalBest.doubleValueOf(curElement))) {
+                    personalBest.setReal(curElement, position.doubleValueOf(curElement));
+                }
 			}
 
 			//initialise velocity
             Vector velocity = particle.getVelocity();
 			for (int curElement = 0; curElement < position.size(); ++curElement) {
-				if (Double.isNaN(velocity.getReal(curElement)))
-            		velocity.setReal(curElement, 0.0);
+				if (Double.isNaN(velocity.doubleValueOf(curElement))) {
+                    velocity.setReal(curElement, 0.0);
+                }
 			}
         }
     }

@@ -27,11 +27,11 @@ import net.sourceforge.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.nn.architecture.visitors.CascadeVisitor;
 import net.sourceforge.cilib.problem.NNDataTrainingProblem;
-import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
-import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -41,7 +41,7 @@ import org.junit.Test;
 public class ReinitialiseCascadeNetworkOutputWeightsReactionStrategyTest {
 
     /**
-     * 
+     *
      */
 	@Test
 	public void responseExecution() {
@@ -58,13 +58,13 @@ public class ReinitialiseCascadeNetworkOutputWeightsReactionStrategyTest {
         problem.getNeuralNetwork().getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1));
         problem.getNeuralNetwork().getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
         problem.initialise();
-		
+
         PSO pso = new PSO();
         pso.getInitialisationStrategy().setEntityType(new DynamicParticle());
         pso.addStoppingCondition(new MeasuredStoppingCondition());
         pso.setOptimisationProblem(problem);
         pso.performInitialisation();
-        
+
         ReinitialiseCascadeNetworkOutputWeightsReactionStrategy reaction = new ReinitialiseCascadeNetworkOutputWeightsReactionStrategy();
 
 		Assert.assertEquals(26, ((Vector)pso.getBestSolution().getPosition()).size());
@@ -81,15 +81,15 @@ public class ReinitialiseCascadeNetworkOutputWeightsReactionStrategyTest {
 		Assert.assertEquals(26, problem.getNeuralNetwork().getWeights().size());
 
 		for (int i = 0; i < 18; ++i) {
-			Assert.assertTrue(Double.isNaN(((Vector) Topologies.getBestEntity(pso.getTopology()).getPosition()).getReal(i)));
-			Assert.assertTrue(Double.isNaN(((Vector) Topologies.getBestEntity(pso.getTopology()).getVelocity()).getReal(i)));
-			Assert.assertTrue(Double.isNaN(((Vector) Topologies.getBestEntity(pso.getTopology()).getBestPosition()).getReal(i)));
+			Assert.assertTrue(Double.isNaN(((Vector) Topologies.getBestEntity(pso.getTopology()).getPosition()).doubleValueOf(i)));
+			Assert.assertTrue(Double.isNaN(((Vector) Topologies.getBestEntity(pso.getTopology()).getVelocity()).doubleValueOf(i)));
+			Assert.assertTrue(Double.isNaN(((Vector) Topologies.getBestEntity(pso.getTopology()).getBestPosition()).doubleValueOf(i)));
 		}
 
 		for (int i = 18; i < 26; ++i) {
-			Assert.assertTrue(!Double.isNaN(((Vector) Topologies.getBestEntity(pso.getTopology()).getPosition()).getReal(i)));
-			Assert.assertTrue(((Vector) Topologies.getBestEntity(pso.getTopology()).getVelocity()).getReal(i) == 0.0);
-			Assert.assertTrue(Double.isNaN(((Vector) Topologies.getBestEntity(pso.getTopology()).getBestPosition()).getReal(i)));
+			Assert.assertTrue(!Double.isNaN(((Vector) Topologies.getBestEntity(pso.getTopology()).getPosition()).doubleValueOf(i)));
+			Assert.assertTrue(((Vector) Topologies.getBestEntity(pso.getTopology()).getVelocity()).doubleValueOf(i) == 0.0);
+			Assert.assertTrue(Double.isNaN(((Vector) Topologies.getBestEntity(pso.getTopology()).getBestPosition()).doubleValueOf(i)));
 		}
     }
 }
