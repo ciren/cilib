@@ -4,7 +4,7 @@ import net.sourceforge.cilib.nn.architecture.Layer;
 import net.sourceforge.cilib.nn.components.Neuron;
 
 /**
- * Helper class for neural networks.
+ * Utility class for neural networks.
  */
 public final class NeuralNetworks {
 

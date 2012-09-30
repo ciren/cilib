@@ -12,7 +12,7 @@ public class WeightSolutionInterpretationStrategyTest {
     @Test
     public void shouldInterpretSolution() {
         Vector vector = Vector.of(2.0, -2.0, 5.0, 1.0, 5.0);
-        final ArchitectureVisitor architectureVisitor = new WeightSolutionInterpretationStrategy().interpretSolution(vector);
+        final ArchitectureVisitor architectureVisitor = new WeightSolutionConversionStrategy().interpretSolution(vector);
         final Vector weights = ((WeightSettingVisitor) architectureVisitor).getWeights();
         assertEquals(vector, weights);
     }

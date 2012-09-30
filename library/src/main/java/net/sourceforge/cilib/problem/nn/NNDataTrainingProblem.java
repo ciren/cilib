@@ -31,11 +31,10 @@ import net.sourceforge.cilib.io.exception.CIlibIOException;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.io.transform.ShuffleOperator;
 import net.sourceforge.cilib.io.transform.TypeConversionOperator;
-import net.sourceforge.cilib.nn.domain.WeightSolutionInterpretationStrategy;
+import net.sourceforge.cilib.nn.domain.*;
+import net.sourceforge.cilib.nn.domain.WeightSolutionConversionStrategy;
 import net.sourceforge.cilib.nn.architecture.visitors.OutputErrorVisitor;
-import net.sourceforge.cilib.nn.domain.DomainInitializationStrategy;
-import net.sourceforge.cilib.nn.domain.SolutionInterpretationStrategy;
-import net.sourceforge.cilib.nn.domain.WeightBasedDomainInitializationStrategy;
+import net.sourceforge.cilib.nn.domain.SolutionConversionStrategy;
 import net.sourceforge.cilib.problem.AbstractProblem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.DomainRegistry;
@@ -53,7 +52,7 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
 
     private DataTableBuilder dataTableBuilder;
     private DomainInitializationStrategy domainInitializationStrategy;
-    private SolutionInterpretationStrategy solutionInterpretationStrategy;
+    private SolutionConversionStrategy solutionConversionStrategy;
     private int previousShuffleIteration;
     private boolean initialized;
 
@@ -64,7 +63,7 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
         super();
         dataTableBuilder = new DataTableBuilder(new DelimitedTextFileReader());
         domainInitializationStrategy = new WeightBasedDomainInitializationStrategy();
-        solutionInterpretationStrategy = new WeightSolutionInterpretationStrategy();
+        solutionConversionStrategy = new WeightSolutionConversionStrategy();
         previousShuffleIteration = -1;
         initialized = false;
     }
@@ -139,7 +138,7 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
             }
         }
 
-        neuralNetwork.getArchitecture().accept(solutionInterpretationStrategy.interpretSolution(solution));
+        neuralNetwork.getArchitecture().accept(solutionConversionStrategy.interpretSolution(solution));
 
         double errorTraining = 0.0;
         OutputErrorVisitor visitor = new OutputErrorVisitor();
@@ -171,7 +170,7 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
 
     @VisibleForTesting
     protected DomainRegistry initializeDomain() {
-        solutionInterpretationStrategy.initialize(neuralNetwork);
+        solutionConversionStrategy.initialize(neuralNetwork);
         return domainInitializationStrategy.initializeDomain(neuralNetwork);
     }
 
@@ -219,11 +218,11 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
         this.domainInitializationStrategy = domainInitializationStrategy;
     }
 
-    public SolutionInterpretationStrategy getSolutionInterpretationStrategy() {
-        return solutionInterpretationStrategy;
+    public SolutionConversionStrategy getSolutionConversionStrategy() {
+        return solutionConversionStrategy;
     }
 
-    public void setSolutionInterpretationStrategy(SolutionInterpretationStrategy solutionInterpretationStrategy) {
-        this.solutionInterpretationStrategy = solutionInterpretationStrategy;
+    public void setSolutionConversionStrategy(SolutionConversionStrategy solutionConversionStrategy) {
+        this.solutionConversionStrategy = solutionConversionStrategy;
     }
 }

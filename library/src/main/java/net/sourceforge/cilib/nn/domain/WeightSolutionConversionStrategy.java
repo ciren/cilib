@@ -6,10 +6,10 @@ import net.sourceforge.cilib.nn.architecture.visitors.WeightSettingVisitor;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-public class WeightSolutionInterpretationStrategy implements SolutionInterpretationStrategy {
+public class WeightSolutionConversionStrategy implements SolutionConversionStrategy {
 
     @Override
-    public SolutionInterpretationStrategy initialize(NeuralNetwork neuralNetwork) {
+    public SolutionConversionStrategy initialize(NeuralNetwork neuralNetwork) {
         return this;
     }
 

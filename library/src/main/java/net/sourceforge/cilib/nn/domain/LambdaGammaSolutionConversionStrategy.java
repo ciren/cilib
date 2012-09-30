@@ -7,13 +7,13 @@ import net.sourceforge.cilib.nn.architecture.visitors.LambdaGammaVisitor;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-public class LambdaGammaSolutionInterpretationStrategy implements SolutionInterpretationStrategy {
+public class LambdaGammaSolutionConversionStrategy implements SolutionConversionStrategy {
 
     private int activationFuncCount = 0;
     private int weightCount = 0;
 
     @Override
-    public SolutionInterpretationStrategy initialize(NeuralNetwork neuralNetwork) {
+    public SolutionConversionStrategy initialize(NeuralNetwork neuralNetwork) {
         activationFuncCount = NeuralNetworks.countActivationFunctions(neuralNetwork);
         weightCount = NeuralNetworks.countWeights(neuralNetwork);
         return this;

@@ -1,9 +1,13 @@
 package net.sourceforge.cilib.nn.domain;
 
+import net.sourceforge.cilib.functions.activation.Sigmoid;
 import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.nn.NeuralNetworks;
+import net.sourceforge.cilib.nn.architecture.Layer;
+import net.sourceforge.cilib.nn.components.Neuron;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
+import org.parboiled.common.Preconditions;
 
 public class LambdaGammaDomainInitializationStrategy implements DomainInitializationStrategy {
 
@@ -12,6 +16,7 @@ public class LambdaGammaDomainInitializationStrategy implements DomainInitializa
 
     @Override
     public DomainRegistry initializeDomain(NeuralNetwork neuralNetwork) {
+        validateSigmoidActivationFunctions(neuralNetwork);
         final int activationFuncCount = NeuralNetworks.countActivationFunctions(neuralNetwork);
         final int weightCount = NeuralNetworks.countWeights(neuralNetwork);
         String domainString = neuralNetwork.getArchitecture().getArchitectureBuilder().getLayerBuilder().getDomain();
@@ -20,6 +25,16 @@ public class LambdaGammaDomainInitializationStrategy implements DomainInitializa
                 lambdaDomainString + "^" + activationFuncCount + "," +
                 gammaDomainString + "^" + activationFuncCount);
         return domainRegistry;
+    }
+
+    private void validateSigmoidActivationFunctions(NeuralNetwork neuralNetwork) {
+        for (Layer activationLayer : neuralNetwork.getArchitecture().getActivationLayers()) {
+            for (Neuron neuron : activationLayer) {
+                if (!neuron.isBias()) {
+                    Preconditions.checkArgument(neuron.getActivationFunction() instanceof Sigmoid, "Lambda Gamma domain initialization is only applicable to Sigmoid activation functions.");
+                }
+            }
+        }
     }
 
     public String getLambdaDomainString() {

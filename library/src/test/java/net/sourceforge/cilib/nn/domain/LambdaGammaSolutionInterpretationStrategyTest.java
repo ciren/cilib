@@ -18,7 +18,7 @@ public class LambdaGammaSolutionInterpretationStrategyTest {
 
     @Test
     public void shouldInitialize() {
-        LambdaGammaSolutionInterpretationStrategy lambdaGammaSolutionInterpretationStrategy = new LambdaGammaSolutionInterpretationStrategy();
+        LambdaGammaSolutionConversionStrategy lambdaGammaSolutionInterpretationStrategy = new LambdaGammaSolutionConversionStrategy();
         lambdaGammaSolutionInterpretationStrategy.initialize(neuralNetwork);
         assertEquals(11, lambdaGammaSolutionInterpretationStrategy.getWeightCount());
         assertEquals(3, lambdaGammaSolutionInterpretationStrategy.getActivationFuncCount());

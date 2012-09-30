@@ -4,9 +4,9 @@ import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.nn.architecture.visitors.ArchitectureVisitor;
 import net.sourceforge.cilib.type.types.Type;
 
-public interface SolutionInterpretationStrategy {
+public interface SolutionConversionStrategy {
 
-    SolutionInterpretationStrategy initialize(NeuralNetwork neuralNetwork);
+    SolutionConversionStrategy initialize(NeuralNetwork neuralNetwork);
 
     ArchitectureVisitor interpretSolution(Type solution);
 }
