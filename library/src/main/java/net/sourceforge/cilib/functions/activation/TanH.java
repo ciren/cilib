@@ -30,8 +30,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class TanH implements ActivationFunction {
 
-    private static final long serialVersionUID = -5843046986587459333L;
-
     /**
      * {@inheritDoc}
      */
@@ -78,5 +76,10 @@ public class TanH implements ActivationFunction {
     @Override
     public double getUpperActiveRange() {
         return 1.732050808;
+    }
+
+    @Override
+    public Object getClone() {
+        return this;
     }
 }

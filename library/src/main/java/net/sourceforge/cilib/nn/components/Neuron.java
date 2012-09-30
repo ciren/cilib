@@ -55,7 +55,7 @@ public class Neuron implements Cloneable {
      */
     public Neuron(Neuron neuron) {
         activation = neuron.getActivation();
-        activationFunction = (ActivationFunction) neuron.activationFunction;
+        activationFunction = (ActivationFunction) neuron.getActivationFunction().getClone();
         weights = Vector.copyOf(neuron.weights);
     }
 
@@ -139,5 +139,9 @@ public class Neuron implements Cloneable {
      */
     public void setWeights(Vector weights) {
         this.weights = weights;
+    }
+
+    public boolean isBias() {
+        return false;
     }
 }

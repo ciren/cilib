@@ -21,11 +21,14 @@
  */
 package net.sourceforge.cilib.nn.architecture;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.common.collect.AbstractIterator;
 import net.sourceforge.cilib.nn.architecture.builder.ArchitectureBuilder;
 import net.sourceforge.cilib.nn.architecture.builder.FeedForwardArchitectureBuilder;
 import net.sourceforge.cilib.nn.architecture.visitors.ArchitectureVisitor;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Class represents a neural network architecture and encapsulates a {@link ArchitectureBuilder}
@@ -99,5 +102,30 @@ public class Architecture {
      */
     public void setLayers(List<Layer> layers) {
         this.layers = layers;
+    }
+
+    /**
+     * Iterable for all hidden and output layers.
+     */
+    public Iterable<Layer> getActivationLayers() {
+        return new Iterable<Layer>() {
+            @Override
+            public Iterator<Layer> iterator() {
+                return new ActivationLayerIterator();
+            }
+        };
+    }
+
+    private class ActivationLayerIterator extends AbstractIterator<Layer> {
+
+        private int idx = 1;
+
+        @Override
+        protected Layer computeNext() {
+            if (idx >= getNumLayers()) {
+                return endOfData();
+            }
+            return getLayers().get(idx++);
+        }
     }
 }

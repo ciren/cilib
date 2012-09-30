@@ -19,18 +19,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.problem;
+package net.sourceforge.cilib.problem.nn;
 
 import net.sourceforge.cilib.io.StandardPatternDataTable;
 import net.sourceforge.cilib.io.transform.DataOperator;
 import net.sourceforge.cilib.io.transform.PatternConversionOperator;
 import net.sourceforge.cilib.io.transform.ShuffleOperator;
 import net.sourceforge.cilib.nn.NeuralNetwork;
-import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.StringBasedDomainRegistry;
+import net.sourceforge.cilib.problem.AbstractProblem;
 
 /**
- * Abstract class represents an {@link OptimisationProblem} where the goal is to optimize
+ * Abstract class represents an {@link net.sourceforge.cilib.problem.Problem} where the goal is to optimize
  * the set of weights of a neural network. Used as an interface to more specific training problems
  * such as training from a static dataset and sliding window training.
  */
@@ -41,7 +40,7 @@ public abstract class NNTrainingProblem extends AbstractProblem {
     protected double trainingSetPercentage;
     protected double generalizationSetPercentage;
     protected ShuffleOperator shuffler;
-    protected DataOperator patternConverstionOperator;
+    protected DataOperator patternConversionOperator;
 
     /**
      * Default constructor.
@@ -50,7 +49,7 @@ public abstract class NNTrainingProblem extends AbstractProblem {
         neuralNetwork = new NeuralNetwork();
         trainingSetPercentage = 0.66;
         generalizationSetPercentage = 0.34;
-        patternConverstionOperator = new PatternConversionOperator();
+        patternConversionOperator = new PatternConversionOperator();
     }
 
     /**
@@ -159,7 +158,7 @@ public abstract class NNTrainingProblem extends AbstractProblem {
      * @return the pattern conversion operator
      */
     public DataOperator getPatternConversionOperator() {
-        return patternConverstionOperator;
+        return patternConversionOperator;
     }
 
     /**
@@ -167,6 +166,6 @@ public abstract class NNTrainingProblem extends AbstractProblem {
      * @param patternConverstionOperator the new pattern conversion operator
      */
     public void setPatternConversionOperator(DataOperator patternConverstionOperator) {
-        this.patternConverstionOperator = patternConverstionOperator;
+        this.patternConversionOperator = patternConverstionOperator;
     }
 }
