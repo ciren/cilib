@@ -24,7 +24,7 @@ public class LambdaGammaDomainInitializationStrategyTest {
     @Test
     public void shouldInitializeDomain() {
         final DomainRegistry domainRegistry = new LambdaGammaDomainInitializationStrategy().initializeDomain(neuralNetwork);
-        final StructuredType builtRepresenation = domainRegistry.getBuiltRepresenation();
+        final StructuredType builtRepresenation = domainRegistry.getBuiltRepresentation();
         int idx = 0;
         final int weights = NeuralNetworks.countWeights(neuralNetwork);
         final int activationFuncCount = NeuralNetworks.countActivationFunctions(neuralNetwork);

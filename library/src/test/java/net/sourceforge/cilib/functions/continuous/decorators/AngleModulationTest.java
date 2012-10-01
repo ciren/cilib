@@ -36,7 +36,7 @@ public class AngleModulationTest {
     @Test
     public void testObjectDimensionality() {
         AngleModulation angle = new AngleModulation();
-        Vector builtRepresentation = (Vector) angle.getDomain().getBuiltRepresenation();
+        Vector builtRepresentation = (Vector) angle.getDomain().getBuiltRepresentation();
 
         assertEquals(4, builtRepresentation.size());
     }

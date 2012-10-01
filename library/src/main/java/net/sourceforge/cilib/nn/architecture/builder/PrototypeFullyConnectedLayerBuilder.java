@@ -61,7 +61,7 @@ public class PrototypeFullyConnectedLayerBuilder extends LayerBuilder {
             Neuron newNeuron = (Neuron) prototypeNeuron.getClone();
             Real domainReal = null;
             try {
-                domainReal = (Real)((Vector)this.getDomainRegistry().getBuiltRepresenation()).get(0);
+                domainReal = (Real)((Vector)this.getDomainRegistry().getBuiltRepresentation()).get(0);
             }
             catch(ClassCastException exception) {
                 throw new UnsupportedOperationException("The domain string of the neural network weights has to be real valued");

@@ -141,7 +141,7 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
      */
     @Override
     public void initialise(Problem problem) {
-        Vector candidate = Vector.newBuilder().copyOf(problem.getDomain().getBuiltRepresenation()).buildRandom();
+        Vector candidate = Vector.newBuilder().copyOf(problem.getDomain().getBuiltRepresentation()).buildRandom();
         this.setCandidateSolution(candidate);
         this.dimension = candidate.size();
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());

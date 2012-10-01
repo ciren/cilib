@@ -80,7 +80,7 @@ public class StringBasedDomainRegistry implements DomainRegistry {
      * {@inheritDoc}
      */
     @Override
-    public StructuredType getBuiltRepresenation() {
+    public StructuredType getBuiltRepresentation() {
         return this.builtRepresenation;
     }
 

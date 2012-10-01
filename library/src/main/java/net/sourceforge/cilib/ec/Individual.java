@@ -101,7 +101,7 @@ public class Individual extends AbstractEntity {
     public void initialise(Problem problem) {
         // ID initialization is done in the clone method...
         // which is always enforced due to the semantics of the performInitialisation methods
-        Vector candidate = Vector.newBuilder().copyOf(problem.getDomain().getBuiltRepresenation()).buildRandom();
+        Vector candidate = Vector.newBuilder().copyOf(problem.getDomain().getBuiltRepresentation()).buildRandom();
         this.setCandidateSolution(candidate);
 
         Vector strategy = Vector.fill(0.0, candidate.size());

@@ -175,7 +175,7 @@ public class ContextEntity implements Entity {
      */
     @Override
     public void initialise(Problem problem) {
-        context = (Vector) problem.getDomain().getBuiltRepresenation().getClone();
+        context = (Vector) problem.getDomain().getBuiltRepresentation().getClone();
     }
 
     /**
