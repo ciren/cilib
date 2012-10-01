@@ -27,7 +27,8 @@ public class LambdaGammaDomainInitializationStrategyTest {
         final StructuredType builtRepresenation = domainRegistry.getBuiltRepresenation();
         int idx = 0;
         final int weights = NeuralNetworks.countWeights(neuralNetwork);
-        assertEquals(weights, builtRepresenation.size());
+        final int activationFuncCount = NeuralNetworks.countActivationFunctions(neuralNetwork);
+        assertEquals(weights + activationFuncCount * 2, builtRepresenation.size());
         for (Object object : builtRepresenation) {
             Real real = (Real) object;
             if (idx < weights) {

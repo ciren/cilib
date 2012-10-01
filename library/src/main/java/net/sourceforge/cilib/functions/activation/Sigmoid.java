@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.functions.activation;
 
+import com.google.common.base.Objects;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.type.types.Real;
@@ -80,6 +81,22 @@ public class Sigmoid implements ActivationFunction {
     }
 
     @Override
+    public boolean equals(Object o) {
+        return (o instanceof Sigmoid) && equals((Sigmoid) o);
+    }
+
+    private boolean equals(Sigmoid other) {
+        return Objects.equal(getLambda(), other.getLambda()) &&
+                Objects.equal(getGamma(), other.getGamma()) &&
+                Objects.equal(getOffset(), other.getOffset());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getLambda(), getGamma(), getOffset());
+    }
+
+    @Override
     public Vector getGradient(Vector x) {
         return Vector.of(this.getGradient(x.doubleValueOf(0)));
     }
@@ -94,6 +111,7 @@ public class Sigmoid implements ActivationFunction {
 
     /**
      * Get the {@literal lambda} associated with the {@linkplain Sigmoid}.
+     *
      * @return The {@linkplain ControlParameter} representing the {@literal lambda}.
      */
     public ControlParameter getLambda() {
@@ -102,6 +120,7 @@ public class Sigmoid implements ActivationFunction {
 
     /**
      * Set the {@linkplain ControlParameter} to represent the {@literal lambda} of the function.
+     *
      * @param lambda The value to set.
      */
     public void setLambda(ControlParameter lambda) {
@@ -113,6 +132,7 @@ public class Sigmoid implements ActivationFunction {
 
     /**
      * Get the {@literal gamma} associated with the {@linkplain Sigmoid}.
+     *
      * @return The {@linkplain ControlParameter} representing the {@literal gamma}.
      */
     public ControlParameter getGamma() {
@@ -121,6 +141,7 @@ public class Sigmoid implements ActivationFunction {
 
     /**
      * Set the {@linkplain ControlParameter} to represent the {@literal gamma} of the function.
+     *
      * @param gamma The value to set.
      */
     public void setGamma(ControlParameter gamma) {
@@ -129,6 +150,7 @@ public class Sigmoid implements ActivationFunction {
 
     /**
      * Get the {@literal offset} associated with the function.
+     *
      * @return The {@linkplain ControlParameter} representing the {@literal offset}.
      */
     public ControlParameter getOffset() {
@@ -137,6 +159,7 @@ public class Sigmoid implements ActivationFunction {
 
     /**
      * Set the {@linkplain ControlParameter} to represent the {@literal offset} of the function.
+     *
      * @param offset The value to set.
      */
     public void setOffset(ControlParameter offset) {
