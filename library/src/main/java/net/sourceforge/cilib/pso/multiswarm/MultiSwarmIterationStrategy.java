@@ -89,10 +89,10 @@ public class MultiSwarmIterationStrategy extends AbstractIterationStrategy<Multi
 
     double calculateRadius() {
         double d = AbstractAlgorithm.get().getOptimisationProblem().getDomain().getDimension();
-        //    double X = ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).getNumeric(0).getBounds().getUpperBound()
-        //            - ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).getNumeric(0).getBounds().getLowerBound();
-        double X = ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getUpperBound()
-                - ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getLowerBound();
+        //    double X = ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresentation()).getNumeric(0).getBounds().getUpperBound()
+        //            - ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresentation()).getNumeric(0).getBounds().getLowerBound();
+        double X = ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresentation()).get(0).getBounds().getUpperBound()
+                - ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresentation()).get(0).getBounds().getLowerBound();
         double M = ((MultiSwarm) (AbstractAlgorithm.get())).getPopulations().size();
         return X / (2 * Math.pow(M, 1 / d));
     }

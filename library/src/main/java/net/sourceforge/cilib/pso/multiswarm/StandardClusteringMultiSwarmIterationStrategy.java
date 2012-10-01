@@ -100,8 +100,8 @@ public class StandardClusteringMultiSwarmIterationStrategy extends AbstractItera
      */
     double calculateRadius(MultiPopulationBasedAlgorithm algorithm) {
         double dimensions = algorithm.getOptimisationProblem().getDomain().getDimension();
-        double X = ((Vector) algorithm.getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getUpperBound()
-                - ((Vector) algorithm.getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getLowerBound();
+        double X = ((Vector) algorithm.getOptimisationProblem().getDomain().getBuiltRepresentation()).get(0).getBounds().getUpperBound()
+                - ((Vector) algorithm.getOptimisationProblem().getDomain().getBuiltRepresentation()).get(0).getBounds().getLowerBound();
         double populationSize = ((MultiSwarm) algorithm).getPopulations().size();
         return X / (2 * Math.pow(populationSize, 1 / dimensions));
     }

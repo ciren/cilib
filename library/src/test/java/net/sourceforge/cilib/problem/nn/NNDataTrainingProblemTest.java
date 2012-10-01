@@ -74,6 +74,6 @@ public class NNDataTrainingProblemTest {
     @Test
     public void shouldInitializeDomain() {
         final DomainRegistry domainRegistry = problem.initializeDomain();
-        assertEquals(19, domainRegistry.getBuiltRepresenation().size());
+        assertEquals(19, domainRegistry.getBuiltRepresentation().size());
     }
 }

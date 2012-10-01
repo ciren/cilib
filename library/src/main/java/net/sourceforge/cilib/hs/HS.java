@@ -212,8 +212,8 @@ public class HS extends AbstractAlgorithm implements SingularAlgorithm {
 
                 newHarmonyVector.setReal(i, newHarmonyValue);
             } else {
-                double upper = ((Vector) problem.getDomain().getBuiltRepresenation()).boundsOf(i).getUpperBound();
-                double lower = ((Vector) problem.getDomain().getBuiltRepresenation()).boundsOf(i).getLowerBound();
+                double upper = ((Vector) problem.getDomain().getBuiltRepresentation()).boundsOf(i).getUpperBound();
+                double lower = ((Vector) problem.getDomain().getBuiltRepresentation()).boundsOf(i).getLowerBound();
                 newHarmonyVector.setReal(i, uniform3.getRandomNumber(lower, upper));
             }
         }
