@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.controlparameter;
 
+import com.google.common.base.Objects;
+
 /**
  * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}
  * to represent a constant value. The specified value will be maintained until it is altered.
@@ -64,6 +66,20 @@ public class ConstantControlParameter implements ControlParameter {
     @Override
     public ConstantControlParameter getClone() {
         return new ConstantControlParameter(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return (o instanceof ConstantControlParameter) && equals((ConstantControlParameter)o);
+    }
+
+    private boolean equals(ConstantControlParameter other) {
+        return Objects.equal(parameter, other.getParameter());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(parameter);
     }
 
     /**
