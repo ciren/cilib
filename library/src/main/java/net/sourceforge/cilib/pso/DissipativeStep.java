@@ -55,7 +55,7 @@ public class DissipativeStep {
     public void execute(Particle particle) {
         //Parser parser = Parser.getInstance();
         //net.sourceforge.cilib.Type.Vector domain = (net.sourceforge.cilib.Type.Vector) pso.getOptimisationProblem().getDomain().getBuiltRepresentation();
-        Vector domain = (Vector) pso.getOptimisationProblem().getDomain().getBuiltRepresenation();
+        Vector domain = (Vector) pso.getOptimisationProblem().getDomain().getBuiltRepresentation();
         //Vector domain = (Vector) parser.getBuiltRepresentation();
         if (randomGenerator.nextFloat() < velocityThreshold) {
             for (int i = 0; i < particle.getDimension(); ++i) {

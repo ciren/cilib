@@ -131,7 +131,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void initialise(Problem problem) {
-        this.getProperties().put(EntityType.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresenation().getClone());
+        this.getProperties().put(EntityType.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresentation().getClone());
         this.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf(getPosition()));
         this.getProperties().put(EntityType.Particle.VELOCITY, Vector.copyOf(getPosition()));
 

@@ -76,7 +76,7 @@ public class DimensionalEntropyMeasurement extends EntropyMeasurement {
 
         int dimensions = populationBasedAlgorithm.getOptimisationProblem().getDomain().getDimension();
 
-        Vector bounds = (Vector)populationBasedAlgorithm.getOptimisationProblem().getDomain().getBuiltRepresenation();
+        Vector bounds = (Vector)populationBasedAlgorithm.getOptimisationProblem().getDomain().getBuiltRepresentation();
         Entity e;
 
         //keeps an entropy measurement for each dimension

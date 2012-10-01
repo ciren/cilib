@@ -106,7 +106,7 @@ public class Harmony extends AbstractEntity {
      */
     @Override
     public void initialise(Problem problem) {
-        StructuredType harmony = problem.getDomain().getBuiltRepresenation().getClone();
+        StructuredType harmony = problem.getDomain().getBuiltRepresentation().getClone();
         harmony.randomize(new MersenneTwister());
 
         setCandidateSolution(harmony);
