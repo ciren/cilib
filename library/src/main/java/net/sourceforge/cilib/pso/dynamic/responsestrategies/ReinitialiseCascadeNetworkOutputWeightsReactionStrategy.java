@@ -27,7 +27,7 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.nn.NeuralNetwork;
-import net.sourceforge.cilib.problem.NNDataTrainingProblem;
+import net.sourceforge.cilib.problem.nn.NNDataTrainingProblem;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.type.types.Real;

@@ -62,7 +62,7 @@ public class CoherenceVelocityProvider implements VelocityProvider {
         this.randomNumber = copy.randomNumber;
         this.sigmoid = new Sigmoid();
         this.sigmoid.setOffset(copy.sigmoid.getOffset());
-        this.sigmoid.setSteepness(copy.sigmoid.getSteepness());
+        this.sigmoid.setLambda(copy.sigmoid.getLambda());
         this.delegate = copy.delegate.getClone();
     }
 

@@ -21,19 +21,24 @@
  */
 package net.sourceforge.cilib.nn.architecture.visitors;
 
-import java.util.List;
 import net.sourceforge.cilib.nn.architecture.Architecture;
 import net.sourceforge.cilib.nn.architecture.Layer;
 import net.sourceforge.cilib.nn.components.Neuron;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+import java.util.List;
+
 /**
  * Visitor that takes a {@link Vector} of weights as input to set the weights of
  * the neurons in an architecture. The weight values are not cloned.
  */
-public class WeightSettingVisitor implements ArchitectureVisitor {
+public final class WeightSettingVisitor implements ArchitectureVisitor {
 
-    private Vector weights;
+    private final Vector weights;
+
+    public WeightSettingVisitor(Vector weights) {
+        this.weights = weights;
+    }
 
     /**
      * Sets the weights of the architecture.
@@ -71,14 +76,6 @@ public class WeightSettingVisitor implements ArchitectureVisitor {
      */
     public Vector getWeights() {
         return weights;
-    }
-
-    /**
-     * Sets the weights.
-     * @param weights the new weights to use for setting.
-     */
-    public void setWeights(Vector weights) {
-        this.weights = weights;
     }
 
 }

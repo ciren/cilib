@@ -26,7 +26,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
-import net.sourceforge.cilib.problem.NNDataTrainingProblem;
+import net.sourceforge.cilib.problem.nn.NNDataTrainingProblem;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;

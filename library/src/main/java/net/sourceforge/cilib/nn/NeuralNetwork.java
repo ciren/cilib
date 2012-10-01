@@ -113,8 +113,7 @@ public class NeuralNetwork {
      * @param weights the new weights contained in the network.
      */
     public void setWeights(Vector weights) {
-        WeightSettingVisitor visitor = new WeightSettingVisitor();
-        visitor.setWeights(weights);
+        WeightSettingVisitor visitor = new WeightSettingVisitor(weights);
         this.architecture.accept(visitor);
     }
 }

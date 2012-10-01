@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.nn.architecture.builder;
 
-import net.sourceforge.cilib.functions.activation.ActivationFunction;
 import net.sourceforge.cilib.nn.architecture.Layer;
 import net.sourceforge.cilib.nn.components.BiasNeuron;
 import net.sourceforge.cilib.nn.components.Neuron;
@@ -53,7 +52,7 @@ public class PrototypeFullyConnectedLayerBuilder extends LayerBuilder {
      */
     @Override
     public Layer buildLayer(LayerConfiguration layerConfiguration, int previousLayerAbsoluteSize) {
-        prototypeNeuron.setActivationFunction((ActivationFunction)layerConfiguration.getActivationFunction());
+        prototypeNeuron.setActivationFunction(layerConfiguration.getActivationFunction());
         int layerSize = layerConfiguration.getSize();
         boolean bias = layerConfiguration.isBias();
 

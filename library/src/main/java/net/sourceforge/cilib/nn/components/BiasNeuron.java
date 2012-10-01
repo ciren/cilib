@@ -48,4 +48,8 @@ public class BiasNeuron extends Neuron {
         this.setActivation(-1.0);
         return super.getActivation();
     }
+
+    public boolean isBias() {
+        return true;
+    }
 }

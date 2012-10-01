@@ -26,7 +26,7 @@ import net.sourceforge.cilib.io.ARFFFileReader;
 import net.sourceforge.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.nn.architecture.visitors.CascadeVisitor;
-import net.sourceforge.cilib.problem.NNDataTrainingProblem;
+import net.sourceforge.cilib.problem.nn.NNDataTrainingProblem;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
