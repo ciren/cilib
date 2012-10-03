@@ -7,20 +7,20 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ChichinadzeTest {
+public class ZettleTest {
 
     private ContinuousFunction function;
 
     @Before
     public void instantiate() {
-        this.function = new Chichinadze();
+        this.function = new Zettle();
     }
 
-    /** Test of evaluate method, of class Chichinadze. */
+    /** Test of evaluate method, of class Zettle. */
     @Test
     public void testEvaluate() {
-        Vector x = Vector.of(5.90133, 0.5);
-        assertEquals(-43.31586206998933, function.apply(x), 0);
+        Vector x = Vector.of(-0.0299, 0);
+        assertEquals(-0.003791, function.apply(x), 0.000009);
         
     }
 }

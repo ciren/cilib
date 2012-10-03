@@ -12,9 +12,9 @@ public class Chichinadze implements ContinuousFunction {
 		
 		double cos = Math.cos(Math.PI * x1 / 2);
 		double sin = Math.sin(5*Math.PI*x1);
-		double ePow = Math.pow(Math.E, -0.5 * ( (x2 - 0.5) * (x2 - 0.5))); 
+		double ePow = Math.exp(-0.5 * ((x2 - 0.5) * (x2 - 0.5))); 
 		
-		return (x1*x1) - 12 * (x1) + 11 + 10*cos + 8 * sin - Math.pow( (1/5.0), 0.5)* ePow;
+		return (x1*x1) - 12 * (x1) + 11 + 10*cos + 8 * sin - Math.pow((1/5.0), 0.5)* ePow;
 	}
 
 }
