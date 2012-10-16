@@ -106,6 +106,7 @@ public class BackPropagationVisitor implements ArchitectureVisitor {
             previousWeightUpdates = new double[numLayers - 1][];
             for (currentLayerIdx = numLayers - 1; currentLayerIdx > 0; currentLayerIdx--) {
                 for (int k = 0; k < layerSize; k++) {
+                    currentLayer = layers.get(currentLayerIdx);
                     layerSize = currentLayer.isBias() ? currentLayer.size() - 1 : currentLayer.size();
                     int previousLayerSize = layers.get(currentLayerIdx - 1).size();
                     previousWeightUpdates[currentLayerIdx - 1] = new double[layerSize * previousLayerSize + previousLayerSize + 1];
@@ -114,7 +115,7 @@ public class BackPropagationVisitor implements ArchitectureVisitor {
         }
 
         ((ForwardingLayer) layers.get(0)).setSource(new PatternInputSource(previousPattern));
-        //updates output and all hidden layer weights 
+        //updates output and all hidden layer weights
         for (currentLayerIdx = numLayers - 1; currentLayerIdx > 0; currentLayerIdx--) { // loop excludes input layer
             currentLayer = layers.get(currentLayerIdx);
             layerSize = currentLayer.isBias() ? currentLayer.size() - 1 : currentLayer.size();
