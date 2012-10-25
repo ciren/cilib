@@ -102,8 +102,8 @@ public final class BinaryMVVelocityProvider implements VelocityProvider {
         Vector v1 = (Vector) properties.get(Velocity.V1);
         
         // get local and global bests
-        Vector pbest = (Vector) particle.getBestPosition();
-        Vector gbest = (Vector) particle.getNeighbourhoodBest().getBestPosition();
+        Vector pbest = (Vector) particle.getLocalGuide();
+        Vector gbest = (Vector) particle.getGlobalGuide();
 
         // update both velocities (v0 and v1)
         Vector.Builder dp0 = Vector.newBuilder();
@@ -135,9 +135,9 @@ public final class BinaryMVVelocityProvider implements VelocityProvider {
         Vector position = (Vector) particle.getPosition();
         for (int i = 0; i < particle.getDimension(); i++) {
             if (position.booleanValueOf(i)) {
-                combined.add(v0.booleanValueOf(i));
+                combined.addWithin(v0.doubleValueOf(i), position.boundsOf(i));
             } else {
-                combined.add(v1.booleanValueOf(i));
+                combined.addWithin(v1.doubleValueOf(i), position.boundsOf(i));
             }
         }
 

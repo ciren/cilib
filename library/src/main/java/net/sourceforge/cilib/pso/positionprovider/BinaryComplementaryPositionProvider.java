@@ -79,9 +79,9 @@ public class BinaryComplementaryPositionProvider implements PositionProvider {
 
             // 2's complement update strategy
             if (rand < result) {
-                builder.add(1 - position.doubleValueOf(i));
+                builder.addWithin(1 - position.doubleValueOf(i), position.boundsOf(i));
             } else {
-                builder.add(position.doubleValueOf(i));
+                builder.addWithin(position.doubleValueOf(i), position.boundsOf(i));
             }
         }
         return builder.build();
