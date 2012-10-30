@@ -9,16 +9,15 @@ package net.sourceforge.cilib.entity.operators.crossover;
 import com.google.common.base.Preconditions;
 import java.util.Arrays;
 import java.util.List;
-
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-public class OnePointCrossoverStrategy implements CrossoverStrategy {
+public class OnePointCrossoverStrategy implements CrossoverStrategy, DiscreteCrossoverStrategy {
 
     private static final long serialVersionUID = 7313531386910938748L;
-    
+
     private ProbabilityDistributionFunction random;
 
     public OnePointCrossoverStrategy() {
@@ -37,13 +36,22 @@ public class OnePointCrossoverStrategy implements CrossoverStrategy {
     @Override
     public <E extends Entity> List<E> crossover(List<E> parentCollection) {
         Preconditions.checkArgument(parentCollection.size() == 2, "OnePointCrossoverStrategy requires 2 parents.");
-        
+
+        // Select the pivot point where crossover will occour
+        int maxLength = Math.min(parentCollection.get(0).getDimension(), parentCollection.get(1).getDimension());
+        int crossoverPoint = Double.valueOf(random.getRandomNumber(0, maxLength + 1)).intValue();
+
+        return crossover(parentCollection, Arrays.asList(crossoverPoint));
+    }
+
+    @Override
+    public <E extends Entity> List<E> crossover(List<E> parentCollection, List<Integer> crossoverPoints) {
+        Preconditions.checkArgument(parentCollection.size() == 2, "OnePointCrossoverStrategy requires 2 parents.");
+
         E offspring1 = (E) parentCollection.get(0).getClone();
         E offspring2 = (E) parentCollection.get(1).getClone();
 
-        // Select the pivot point where crossover will occour
-        int maxLength = Math.min(offspring1.getDimension(), offspring2.getDimension());
-        int crossoverPoint = Double.valueOf(random.getRandomNumber(0, maxLength + 1)).intValue();
+        int crossoverPoint = crossoverPoints.get(0);
 
         Vector offspringVector1 = (Vector) offspring1.getCandidateSolution();
         Vector offspringVector2 = (Vector) offspring2.getCandidateSolution();
@@ -55,7 +63,7 @@ public class OnePointCrossoverStrategy implements CrossoverStrategy {
         offspringVector2Builder.copyOf(offspringVector2.copyOfRange(0, crossoverPoint));
         offspringVector1Builder.copyOf(offspringVector2.copyOfRange(crossoverPoint, offspringVector2.size()));
         offspringVector2Builder.copyOf(offspringVector1.copyOfRange(crossoverPoint, offspringVector1.size()));
-        
+
         offspring1.setCandidateSolution(offspringVector1Builder.build());
         offspring2.setCandidateSolution(offspringVector2Builder.build());
 
