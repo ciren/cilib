@@ -27,5 +27,7 @@ import net.sourceforge.cilib.entity.Entity;
 public interface DiscreteCrossoverStrategy {
 
     public <E extends Entity> List<E> crossover(List<E> parentCollection, List<Integer> crossoverPoints);
-    
+
+    public List<Integer> getCrossoverPoints();
+
 }

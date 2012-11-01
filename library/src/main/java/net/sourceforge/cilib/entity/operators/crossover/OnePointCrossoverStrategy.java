@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.entity.operators.crossover;
 
 import com.google.common.base.Preconditions;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
@@ -19,13 +20,16 @@ public class OnePointCrossoverStrategy implements CrossoverStrategy, DiscreteCro
     private static final long serialVersionUID = 7313531386910938748L;
 
     private ProbabilityDistributionFunction random;
+    private List<Integer> crossoverPoints;
 
     public OnePointCrossoverStrategy() {
         this.random = new UniformDistribution();
+        this.crossoverPoints = new ArrayList<Integer>();
     }
 
     public OnePointCrossoverStrategy(OnePointCrossoverStrategy copy) {
         this.random = copy.random;
+        this.crossoverPoints = new ArrayList<Integer>(copy.crossoverPoints);
     }
 
     @Override
@@ -39,9 +43,9 @@ public class OnePointCrossoverStrategy implements CrossoverStrategy, DiscreteCro
 
         // Select the pivot point where crossover will occour
         int maxLength = Math.min(parentCollection.get(0).getDimension(), parentCollection.get(1).getDimension());
-        int crossoverPoint = Double.valueOf(random.getRandomNumber(0, maxLength + 1)).intValue();
+        crossoverPoints = Arrays.asList(Double.valueOf(random.getRandomNumber(0, maxLength + 1)).intValue());
 
-        return crossover(parentCollection, Arrays.asList(crossoverPoint));
+        return crossover(parentCollection, crossoverPoints);
     }
 
     @Override
@@ -81,5 +85,10 @@ public class OnePointCrossoverStrategy implements CrossoverStrategy, DiscreteCro
     @Override
     public int getNumberOfParents() {
         return 2;
+    }
+
+    @Override
+    public List<Integer> getCrossoverPoints() {
+        return crossoverPoints;
     }
 }

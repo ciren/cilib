@@ -7,8 +7,8 @@
 package net.sourceforge.cilib.entity.operators.crossover;
 
 import com.google.common.base.Preconditions;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -23,15 +23,18 @@ public class UniformCrossoverStrategy implements CrossoverStrategy, DiscreteCros
 
     private ProbabilityDistributionFunction random;
     private ControlParameter crossoverPointProbability;
+    private List<Integer> crossoverPoints;
 
     public UniformCrossoverStrategy() {
         this.random = new UniformDistribution();
         this.crossoverPointProbability = ConstantControlParameter.of(0.5);
+        this.crossoverPoints = new ArrayList<Integer>();
     }
 
     public UniformCrossoverStrategy(UniformCrossoverStrategy copy) {
         this.random = copy.random;
         this.crossoverPointProbability = copy.crossoverPointProbability.getClone();
+        this.crossoverPoints = new ArrayList<Integer>(copy.crossoverPoints);
     }
 
     @Override
@@ -43,7 +46,7 @@ public class UniformCrossoverStrategy implements CrossoverStrategy, DiscreteCros
     public <E extends Entity> List<E> crossover(List<E> parentCollection) {
         Preconditions.checkArgument(parentCollection.size() == 2, "UniformCrossoverStrategy requires 2 parents.");
         int minDimension = Math.min(parentCollection.get(0).getDimension(), parentCollection.get(1).getDimension());
-        List<Integer> crossoverPoints = new LinkedList<Integer>();
+        crossoverPoints.clear();
 
         for (int i = 0; i < minDimension; i++) {
             if (random.getRandomNumber() < crossoverPointProbability.getParameter()) {
@@ -104,5 +107,10 @@ public class UniformCrossoverStrategy implements CrossoverStrategy, DiscreteCros
     @Override
     public int getNumberOfParents() {
         return 2;
+    }
+
+    @Override
+    public List<Integer> getCrossoverPoints() {
+        return crossoverPoints;
     }
 }
