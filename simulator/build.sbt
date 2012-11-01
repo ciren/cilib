@@ -2,9 +2,11 @@ import AssemblyKeys._
 
 assemblySettings
 
-name := "simulator"
+// name := "simulator"
 
-version := "0.8-SNAPSHOT"
+version := "0.7.5"
+
+description := "Simulator environment fo running experiments using the CIlib library"
 
 scalacOptions += "-deprecation"
 
