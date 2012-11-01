@@ -45,7 +45,7 @@ public class NNDataTrainingProblemTest {
         problem.getDataTableBuilder().setDataReader(new ARFFFileReader());
         problem.getDataTableBuilder().setSourceURL("library/src/test/resources/datasets/iris.arff");
         problem.setTrainingSetPercentage(0.5);
-		problem.setValidationSetPercentage(0.2);
+        problem.setValidationSetPercentage(0.2);
         problem.setGeneralizationSetPercentage(0.3);
 
         problem.getNeuralNetwork().getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(4));
@@ -58,7 +58,7 @@ public class NNDataTrainingProblemTest {
     @Test
     public void testPercentages() {
         int refTraining = (int) (150 * 0.5); // 150 pattern in iris
-		int refValidation = (int) (150 * 0.2);
+        int refValidation = (int) (150 * 0.2);
         int refGeneralization = (int) (150 * 0.3); // 150 pattern in iris
         assertEquals(refTraining, problem.getTrainingSet().size());
         assertEquals(refGeneralization, problem.getGeneralizationSet().size());

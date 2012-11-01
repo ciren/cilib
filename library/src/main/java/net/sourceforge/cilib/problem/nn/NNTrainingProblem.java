@@ -37,10 +37,10 @@ public abstract class NNTrainingProblem extends AbstractProblem {
     protected NeuralNetwork neuralNetwork;
     protected StandardPatternDataTable trainingSet;
     protected StandardPatternDataTable generalizationSet;
-	protected StandardPatternDataTable validationSet;
+    protected StandardPatternDataTable validationSet;
     protected double trainingSetPercentage;
     protected double generalizationSetPercentage;
-	protected double validationSetPercentage;
+    protected double validationSetPercentage;
     protected ShuffleOperator shuffler;
     protected DataOperator patternConversionOperator;
 
@@ -51,7 +51,7 @@ public abstract class NNTrainingProblem extends AbstractProblem {
         neuralNetwork = new NeuralNetwork();
         trainingSetPercentage = 0.66;
         generalizationSetPercentage = 0.34;
-		validationSetPercentage = 0.0;
+        validationSetPercentage = 0.0;
         patternConversionOperator = new PatternConversionOperator();
     }
 
