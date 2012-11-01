@@ -3,3 +3,4 @@ target
 simulator.sh
 simulator.bat
 .ensime*
+private.sbt

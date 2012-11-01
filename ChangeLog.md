@@ -22,4 +22,5 @@ Future releases will have more detail.
  - Several deprecations have been removed
  - Additional benchmark functions have been included
  - Updates to XML specifications
+ - Added Multiple Velocity Binary PSO
  - More fixes (too many to mention! Please refer to the git history!)
