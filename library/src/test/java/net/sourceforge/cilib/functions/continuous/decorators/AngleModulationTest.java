@@ -98,6 +98,10 @@ public class AngleModulationTest {
     @Test
     public void testBinaryConversion() {
         AngleModulation angle = new AngleModulation();
+        FunctionOptimisationProblem delegate = new FunctionOptimisationProblem();
+        delegate.setDomain("R(-5.12:5.12)^30");
+        delegate.setFunction(new Rastrigin());
+        angle.setProblem(delegate);
 
         String test = "1111";
         String test2 = "1010";

@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.functions.continuous.decorators;
 
 import com.google.common.base.Preconditions;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.AbstractProblem;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.DomainRegistry;
@@ -127,7 +127,6 @@ public class AngleModulation extends AbstractProblem {
 
             return Double.valueOf(Math.ceil(Math.log(expandedRange) / Math.log(2.0))).intValue();
         }
-
     }
 
     /**
@@ -141,7 +140,7 @@ public class AngleModulation extends AbstractProblem {
     public String generateBitString(Vector x, int dimensionBitNumber) {
         StringBuilder str = new StringBuilder();
         double a, b, c, d, result;
-        
+
         for (int g = 0; g < numberOfGenerators; g++) {
             a = x.doubleValueOf(4 * g);
             b = x.doubleValueOf((4 * g) + 1);
@@ -196,7 +195,7 @@ public class AngleModulation extends AbstractProblem {
         Preconditions.checkState(bitsPerDimension * delegate.getDomain().getDimension() % bitString.length() == 0,
                 "A " + bitsPerDimension * delegate.getDomain().getDimension()
                 + "-dimensional problem cannot be equally split into " + numberOfGenerators + " parts.");
-        
+
         String substring = bitString.substring(startIndex, endIndex);
 
         return Integer.valueOf(substring, 2).intValue();
@@ -234,7 +233,7 @@ public class AngleModulation extends AbstractProblem {
 
     public void setNumberOfGenerators(int numberOfGenerators) {
         this.numberOfGenerators = numberOfGenerators;
-        
+
         int dimensions = 4 * numberOfGenerators;
         domainRegistry.setDomainString("R(-1.0:1.0)^" + String.valueOf(dimensions));
     }
