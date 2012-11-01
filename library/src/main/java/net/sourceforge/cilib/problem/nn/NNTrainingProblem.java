@@ -37,8 +37,10 @@ public abstract class NNTrainingProblem extends AbstractProblem {
     protected NeuralNetwork neuralNetwork;
     protected StandardPatternDataTable trainingSet;
     protected StandardPatternDataTable generalizationSet;
+	protected StandardPatternDataTable validationSet;
     protected double trainingSetPercentage;
     protected double generalizationSetPercentage;
+	protected double validationSetPercentage;
     protected ShuffleOperator shuffler;
     protected DataOperator patternConversionOperator;
 
@@ -49,6 +51,7 @@ public abstract class NNTrainingProblem extends AbstractProblem {
         neuralNetwork = new NeuralNetwork();
         trainingSetPercentage = 0.66;
         generalizationSetPercentage = 0.34;
+		validationSetPercentage = 0.0;
         patternConversionOperator = new PatternConversionOperator();
     }
 
@@ -135,6 +138,38 @@ public abstract class NNTrainingProblem extends AbstractProblem {
      */
     public void setTrainingSetPercentage(double trainingSetPercentage) {
         this.trainingSetPercentage = trainingSetPercentage;
+    }
+
+    /**
+     * Gets the validation dataset.
+     * @return the validation dataset.
+     */
+    public StandardPatternDataTable getValidationSet() {
+        return validationSet;
+    }
+
+    /**
+     * Sets the validation dataset.
+     * @param validationSet the new validation dataset.
+     */
+    public void setValidationSet(StandardPatternDataTable validationSet) {
+        this.validationSet = validationSet;
+    }
+
+    /**
+     * Gets the percentage of the training set to use for validation.
+     * @return the percentage of the training set to use for validation.
+     */
+    public double getValidationSetPercentage() {
+        return validationSetPercentage;
+    }
+
+    /**
+     * Sets the percentage of the training set to use for validation.
+     * @param validationSetPercentage the new percentage of the training set to use for validation.
+     */
+    public void setValidationSetPercentage(double validationSetPercentage) {
+        this.validationSetPercentage = validationSetPercentage;
     }
 
     /**

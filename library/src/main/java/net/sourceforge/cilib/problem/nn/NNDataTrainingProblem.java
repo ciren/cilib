@@ -87,16 +87,22 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
             shuffler.operate(dataTable);
 
             int trainingSize = (int) (dataTable.size() * trainingSetPercentage);
-            int generalizationSize = dataTable.size() - trainingSize;
+			int validationSize = (int) (dataTable.size() * validationSetPercentage);
+            int generalizationSize = dataTable.size() - trainingSize - validationSize;
 
             trainingSet = new StandardPatternDataTable();
+			validationSet = new StandardPatternDataTable();
             generalizationSet = new StandardPatternDataTable();
 
             for (int i = 0; i < trainingSize; i++) {
                 trainingSet.addRow((StandardPattern) dataTable.getRow(i));
             }
 
-            for (int i = trainingSize; i < generalizationSize + trainingSize; i++) {
+			for (int i = trainingSize; i < validationSize + trainingSize; i++) {
+				validationSet.addRow((StandardPattern) dataTable.getRow(i));
+			}
+			
+            for (int i = validationSize + trainingSize; i < generalizationSize + validationSize + trainingSize; i++) {
                 generalizationSet.addRow((StandardPattern) dataTable.getRow(i));
             }
 
