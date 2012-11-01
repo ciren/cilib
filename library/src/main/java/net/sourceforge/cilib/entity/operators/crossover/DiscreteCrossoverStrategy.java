@@ -24,7 +24,10 @@ package net.sourceforge.cilib.entity.operators.crossover;
 import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
 
-public interface DiscreteCrossoverStrategy {
+public interface DiscreteCrossoverStrategy extends CrossoverStrategy {
+
+    @Override
+    public DiscreteCrossoverStrategy getClone();
 
     public <E extends Entity> List<E> crossover(List<E> parentCollection, List<Integer> crossoverPoints);
 

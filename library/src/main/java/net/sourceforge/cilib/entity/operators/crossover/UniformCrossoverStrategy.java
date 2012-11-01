@@ -17,7 +17,7 @@ import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-public class UniformCrossoverStrategy implements CrossoverStrategy, DiscreteCrossoverStrategy {
+public class UniformCrossoverStrategy implements DiscreteCrossoverStrategy {
 
     private static final long serialVersionUID = 8912494112973025634L;
 
