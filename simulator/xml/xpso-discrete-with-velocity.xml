@@ -70,6 +70,69 @@
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
         
+        <algorithm id="xpso-pbest-2point" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.DiscreteCrossoverOperation">
+                    <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.TwoPointCrossoverStrategy"/>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                    </crossoverStrategy>
+                    <parentProvider class="pso.guideprovider.PBestGuideProvider"/>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+        
+        <algorithm id="xpso-gbest-2point" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.DiscreteCrossoverOperation">
+                    <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.TwoPointCrossoverStrategy"/>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                    </crossoverStrategy>
+                    <parentProvider class="pso.guideprovider.GBestGuideProvider"/>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
+                </crossoverOperation>
+            </iterationStrategy>
+            <topology class="entity.topologies.LBestTopology"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+        
+        <algorithm id="xpso-nbest-2point" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.DiscreteCrossoverOperation">
+                    <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.TwoPointCrossoverStrategy"/>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                    </crossoverStrategy>
+                    <parentProvider class="pso.guideprovider.NBestGuideProvider"/>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
+                </crossoverOperation>
+            </iterationStrategy>
+            <topology class="entity.topologies.LBestTopology"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+        
+        <algorithm id="xpso-arithmetic-2point" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.DiscreteCrossoverOperation">
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.TwoPointCrossoverStrategy"/>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider"/>
+                    </crossoverStrategy>
+                    <parentProvider class="pso.guideprovider.ArithmeticGuideProvider" perDimension="false"/>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+        
         <algorithm id="xpso-pbest-uniform" class="pso.PSO">
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.operations.DiscreteCrossoverOperation">
@@ -292,6 +355,30 @@
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-arithmetic-1point-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pbest-2point" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-pbest-2point-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-gbest-2point" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-gbest-2point-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-nbest-2point" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-nbest-2point-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-arithmetic-2point" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-arithmetic-2point-griewank.txt" />
         </simulation>
         <simulation samples="5">
             <algorithm idref="xpso-pbest-uniform" />

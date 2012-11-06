@@ -17,8 +17,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 public class TwoPointCrossoverStrategy implements DiscreteCrossoverStrategy {
 
-    private static final long serialVersionUID = 7313531386910938748L;
-
     private ProbabilityDistributionFunction random;
     private List<Integer> crossoverPoints;
 
@@ -39,9 +37,9 @@ public class TwoPointCrossoverStrategy implements DiscreteCrossoverStrategy {
 
     @Override
     public <E extends Entity> List<E> crossover(List<E> parentCollection) {
-        Preconditions.checkArgument(parentCollection.size() == 2, "OnePointCrossoverStrategy requires 2 parents.");
+        Preconditions.checkArgument(parentCollection.size() == 2, "TwoPointCrossoverStrategy requires 2 parents.");
 
-        // Select the pivot point where crossover will occour
+        // Select the pivot points where crossover will occour
         int maxLength = Math.min(parentCollection.get(0).getDimension(), parentCollection.get(1).getDimension());
         int p1 = Double.valueOf(random.getRandomNumber(0, maxLength + 1)).intValue();
         int p2 = Double.valueOf(random.getRandomNumber(0, maxLength + 1)).intValue();
@@ -52,7 +50,7 @@ public class TwoPointCrossoverStrategy implements DiscreteCrossoverStrategy {
 
     @Override
     public <E extends Entity> List<E> crossover(List<E> parentCollection, List<Integer> crossoverPoints) {
-        Preconditions.checkArgument(parentCollection.size() == 2, "OnePointCrossoverStrategy requires 2 parents.");
+        Preconditions.checkArgument(parentCollection.size() == 2, "TwoPointCrossoverStrategy requires 2 parents.");
 
         E offspring1 = (E) parentCollection.get(0).getClone();
         E offspring2 = (E) parentCollection.get(1).getClone();
