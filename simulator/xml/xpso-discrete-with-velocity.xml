@@ -16,6 +16,7 @@
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.PBestGuideProvider"/>
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
                 </crossoverOperation>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
@@ -30,6 +31,7 @@
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.GBestGuideProvider"/>
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
                 </crossoverOperation>
             </iterationStrategy>
             <topology class="entity.topologies.LBestTopology"/>
@@ -45,6 +47,7 @@
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.NBestGuideProvider"/>
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
                 </crossoverOperation>
             </iterationStrategy>
             <topology class="entity.topologies.LBestTopology"/>
@@ -61,6 +64,7 @@
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.ArithmeticGuideProvider"/>
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
                 </crossoverOperation>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
@@ -75,6 +79,7 @@
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.PBestGuideProvider"/>
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
                 </crossoverOperation>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
@@ -89,6 +94,7 @@
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.GBestGuideProvider"/>
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
                 </crossoverOperation>
             </iterationStrategy>
             <topology class="entity.topologies.LBestTopology"/>
@@ -104,6 +110,7 @@
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.NBestGuideProvider"/>
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
                 </crossoverOperation>
             </iterationStrategy>
             <topology class="entity.topologies.LBestTopology"/>
@@ -120,7 +127,129 @@
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.ArithmeticGuideProvider"/>
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
                 </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+        
+        <!--ASync-->
+        <algorithm id="xpso-pbest-1point-async" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.ASynchronousIterationStrategy">
+                <additionalStep class="pso.crossover.CrossoverReplaceFunction">
+                    <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.OnePointCrossoverStrategy"/>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                    </crossoverStrategy>
+                    <parentProvider class="pso.guideprovider.PBestGuideProvider"/>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
+                </additionalStep>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+        
+        <algorithm id="xpso-gbest-1point-async" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.ASynchronousIterationStrategy">
+                <additionalStep class="pso.crossover.CrossoverReplaceFunction">
+                    <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.OnePointCrossoverStrategy"/>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                    </crossoverStrategy>
+                    <parentProvider class="pso.guideprovider.GBestGuideProvider"/>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
+                </additionalStep>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+        
+        <algorithm id="xpso-nbest-1point-async" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.ASynchronousIterationStrategy">
+                <additionalStep class="pso.crossover.CrossoverReplaceFunction">
+                    <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.OnePointCrossoverStrategy"/>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                    </crossoverStrategy>
+                    <parentProvider class="pso.guideprovider.NBestGuideProvider"/>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
+                </additionalStep>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+        
+        <algorithm id="xpso-arithmetic-1point-async" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.ASynchronousIterationStrategy">
+                <additionalStep class="pso.crossover.CrossoverReplaceFunction">
+                    <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.OnePointCrossoverStrategy"/>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                    </crossoverStrategy>
+                    <parentProvider class="pso.guideprovider.ArithmeticGuideProvider"/>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
+                </additionalStep>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+        
+        <algorithm id="xpso-pbest-uniform-async" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.ASynchronousIterationStrategy">
+                <additionalStep class="pso.crossover.CrossoverReplaceFunction">
+                    <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy"/>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                    </crossoverStrategy>
+                    <parentProvider class="pso.guideprovider.PBestGuideProvider"/>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
+                </additionalStep>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+        
+        <algorithm id="xpso-gbest-uniform-async" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.ASynchronousIterationStrategy">
+                <additionalStep class="pso.crossover.CrossoverReplaceFunction">
+                    <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy"/>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                    </crossoverStrategy>
+                    <parentProvider class="pso.guideprovider.GBestGuideProvider"/>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
+                </additionalStep>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+        
+        <algorithm id="xpso-nbest-uniform-async" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.ASynchronousIterationStrategy">
+                <additionalStep class="pso.crossover.CrossoverReplaceFunction">
+                    <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy"/>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                    </crossoverStrategy>
+                    <parentProvider class="pso.guideprovider.NBestGuideProvider"/>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
+                </additionalStep>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+        
+        <algorithm id="xpso-arithmetic-uniform-async" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.ASynchronousIterationStrategy">
+                <additionalStep class="pso.crossover.CrossoverReplaceFunction">
+                    <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy"/>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                    </crossoverStrategy>
+                    <parentProvider class="pso.guideprovider.ArithmeticGuideProvider"/>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
+                </additionalStep>
             </iterationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
@@ -130,7 +259,7 @@
         <problem id="griewank" class="problem.FunctionOptimisationProblem" domain="R(300:600)^30">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.unconstrained.Griewank" />
-                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="500" />
+                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="-500" />
             </function>
         </problem>
     </problems>
@@ -187,6 +316,55 @@
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-arithmetic-uniform-griewank.txt" />
+        </simulation>
+        
+        <simulation samples="5">
+            <algorithm idref="xpso-pbest-1point-async" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-pbest-1point-async-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-gbest-1point-async" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-gbest-1point-async-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-nbest-1point-async" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-nbest-1point-async-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-arithmetic-1point-async" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-arithmetic-1point-async-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pbest-uniform-async" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-pbest-uniform-async-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-gbest-uniform-async" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-gbest-uniform-async-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-nbest-uniform-async" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-nbest-uniform-async-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-arithmetic-uniform-async" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-arithmetic-uniform-async-griewank.txt" />
         </simulation>
     </simulations>
 </simulator>
