@@ -15,24 +15,24 @@ import net.sourceforge.cilib.pso.crossover.operations.BoltzmannCrossoverSelectio
 import net.sourceforge.cilib.pso.crossover.operations.PSOCrossoverOperation;
 
 /**
- * An iteration strategy that uses different PSOCrossoverOperations to affect the 
+ * An iteration strategy that uses different PSOCrossoverOperations to affect the
  * swarm of particles.
  */
 public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO> {
-    
+
     private PSOCrossoverOperation crossoverOperation;
-    
+
     /**
      * Default constructor
      */
     public PSOCrossoverIterationStrategy() {
         this.crossoverOperation = new BoltzmannCrossoverSelection();
     }
-    
+
     /**
      * Copy constructor
-     * 
-     * @param copy 
+     *
+     * @param copy
      */
     public PSOCrossoverIterationStrategy(PSOCrossoverIterationStrategy copy) {
         this.crossoverOperation = copy.crossoverOperation.getClone();
@@ -40,7 +40,7 @@ public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO
 
     /**
      * Clones this instance
-     * 
+     *
      * @return the clone
      */
     @Override
@@ -49,24 +49,25 @@ public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO
     }
 
     /**
-     * 
-     * 
-     * @param algorithm 
+     *
+     *
+     * @param algorithm
      */
     @Override
     public void performIteration(PSO algorithm) {
         Topology<Particle> topology = algorithm.getTopology();
- 
+
         for (Particle current : topology) {
             current.updateVelocity();
             current.updatePosition();
 
-            current.calculateFitness();
             boundaryConstraint.enforce(current);
+            current.calculateFitness();
         }
-        
+
         algorithm.setTopology(crossoverOperation.f(algorithm));
-        
+        topology = algorithm.getTopology();
+
         for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
             Particle current = i.next();
 

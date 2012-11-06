@@ -6,6 +6,7 @@
  */
 package net.sourceforge.cilib.pso.iterationstrategies;
 
+import fj.F;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
@@ -20,6 +21,13 @@ import net.sourceforge.cilib.pso.PSO;
 public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO> {
 
     private static final long serialVersionUID = -3511991873784185698L;
+
+    private F<Particle, Particle> additionalStep = new F<Particle, Particle>() {
+        @Override
+        public Particle f(Particle a) {
+            return a;
+        }
+    };
 
     /**
      * {@inheritDoc}
@@ -57,12 +65,23 @@ public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO
 
             current.calculateFitness();
 
+            Particle newParticle = additionalStep.f(current);
+            topology.set(topology.indexOf(current), newParticle);
+
             for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
                 Particle other = j.next();
                 if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
-                    other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?
+                    other.setNeighbourhoodBest(newParticle); // TODO: neighbourhood visitor?
                 }
             }
         }
+    }
+
+    public void setAdditionalStep(F<Particle, Particle> additionalStep) {
+        this.additionalStep = additionalStep;
+    }
+
+    public F<Particle, Particle> getAdditionalStep() {
+        return additionalStep;
     }
 }
