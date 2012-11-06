@@ -6,24 +6,35 @@
  */
 package net.sourceforge.cilib.pso.crossover;
 
-import fj.F2;
+import fj.F;
 import java.util.Arrays;
 import java.util.List;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
+import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy;
+import net.sourceforge.cilib.pso.crossover.parentupdate.ParentReplacementStrategy;
 import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
 import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
 
-public class CrossoverReplaceFunction extends F2<Topology<Particle>, Particle, List<Particle>> {
+public class CrossoverReplaceFunction extends F<Particle, Particle> {
 
     private GuideProvider parentProvider;
     private CrossoverStrategy crossoverStrategy;
+    private ParentReplacementStrategy parentReplacementStrategy;
+    private ControlParameter crossoverProbability;
+    private UniformDistribution uniform;
 
     public CrossoverReplaceFunction() {
         this.parentProvider = new NBestGuideProvider();
         this.crossoverStrategy = new DiscreteVelocityCrossoverStrategy();
+        this.parentReplacementStrategy = new AlwaysReplaceParentReplacementStrategy();
+        this.crossoverProbability = ConstantControlParameter.of(0.5);
+        this.uniform = new UniformDistribution();
     }
 
     public void setParentProvider(GuideProvider parentProvider) {
@@ -42,12 +53,37 @@ public class CrossoverReplaceFunction extends F2<Topology<Particle>, Particle, L
         return crossoverStrategy;
     }
 
-    @Override
-    public List<Particle> f(Topology<Particle> a, Particle p) {
-        Particle parent = p.getClone();
-        Vector parentSolution = (Vector) parentProvider.get(p);
-        parent.setCandidateSolution(parentSolution);
+    public void setParentReplacementStrategy(ParentReplacementStrategy parentReplacementStrategy) {
+        this.parentReplacementStrategy = parentReplacementStrategy;
+    }
 
-        return crossoverStrategy.crossover(Arrays.asList(p, parent));
+    public ParentReplacementStrategy getParentReplacementStrategy() {
+        return parentReplacementStrategy;
+    }
+
+    public void setCrossoverProbability(ControlParameter crossoverProbability) {
+        this.crossoverProbability = crossoverProbability;
+    }
+
+    public ControlParameter getCrossoverProbability() {
+        return crossoverProbability;
+    }
+
+    @Override
+    public Particle f(Particle p) {
+        if (uniform.getRandomNumber() < crossoverProbability.getParameter()) {
+            Particle parent = p.getClone();
+            Vector parentSolution = (Vector) parentProvider.get(p);
+            parent.setCandidateSolution(parentSolution);
+
+            List<Particle> offspring = crossoverStrategy.crossover(Arrays.asList(p, parent));
+
+            Particle bestOffspring = new ElitistSelector<Particle>().on(offspring).select();
+            Particle newParticle = parentReplacementStrategy.f(Arrays.asList(p), Arrays.asList(bestOffspring)).get(0);
+
+            return newParticle;
+        } else {
+            return p;
+        }
     }
 }
