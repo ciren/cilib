@@ -73,7 +73,7 @@ public class UniformCrossoverStrategy implements DiscreteCrossoverStrategy {
         Vector.Builder offspringChromosome2Builder = Vector.newBuilder();
 
         for (int i = 0; i < minDimension; i++) {
-            if (crossoverPoints.get(i) == i) {
+            if (crossoverPoints.contains(i)) {
                 offspringChromosome1Builder.add(parentChromosome1.get(i));
                 offspringChromosome2Builder.add(parentChromosome2.get(i));
             } else {
