@@ -66,6 +66,7 @@ public class PSOCrossoverIterationStrategy extends AbstractIterationStrategy<PSO
         }
 
         algorithm.setTopology(crossoverOperation.f(algorithm));
+        topology = algorithm.getTopology();
 
         for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
             Particle current = i.next();

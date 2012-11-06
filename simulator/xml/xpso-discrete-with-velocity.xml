@@ -62,7 +62,7 @@
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider"/>
                     </crossoverStrategy>
-                    <parentProvider class="pso.guideprovider.ArithmeticGuideProvider"/>
+                    <parentProvider class="pso.guideprovider.ArithmeticGuideProvider" perDimension="true"/>
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
                     <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
                 </crossoverOperation>
