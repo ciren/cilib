@@ -7,30 +7,35 @@
 package net.sourceforge.cilib.pso.positionprovider;
 
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.functions.activation.Sigmoid;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
- * Binary position update strategy to enable the BinaryPSO.
- *
+ * Implementation of A quantum particle swarm optimization
+ * 
+ * Velocity of particle is modeled by a quantum bit (qubit)
+ * <p>
+ * References:
+ * </p>
+ * <ul><li>
+ * Shuyuan Yang, Min Wang, Licheng Jiao., 
+ * "A quantum particle swarm optimization" (2004). 
+ * IEEE Congress on evolutionary computation, vol 1, pp 320--324, 2004
+ * </li></ul>
  */
-public class BinaryPositionProvider implements PositionProvider {
+public class BinaryQuantumPositionProvider implements PositionProvider {
 
-    private static final long serialVersionUID = -2136786203855125909L;
-    private Sigmoid sigmoid;
     private RandomProvider random;
 
     /**
-     * Create an instance of {@linkplain BinaryPositionProvider}.
+     * Create an instance of {@linkplain BinaryQuantumPositionProvider}.
      */
-    public BinaryPositionProvider() {
-        this(new Sigmoid(), new MersenneTwister());
+    public BinaryQuantumPositionProvider() {
+        this(new MersenneTwister());
     }
 
-    public BinaryPositionProvider(Sigmoid sigmoid, RandomProvider random) {
-        this.sigmoid = sigmoid;
+    public BinaryQuantumPositionProvider(RandomProvider random) {
         this.random = random;
     }
 
@@ -38,8 +43,7 @@ public class BinaryPositionProvider implements PositionProvider {
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public BinaryPositionProvider(BinaryPositionProvider copy) {
-        this.sigmoid = copy.sigmoid;
+    public BinaryQuantumPositionProvider(BinaryQuantumPositionProvider copy) {
         this.random = copy.random;
     }
 
@@ -47,44 +51,31 @@ public class BinaryPositionProvider implements PositionProvider {
      * {@inheritDoc}
      */
     @Override
-    public BinaryPositionProvider getClone() {
-        return new BinaryPositionProvider(this);
+    public BinaryQuantumPositionProvider getClone() {
+        return new BinaryQuantumPositionProvider(this);
     }
 
-    /**
-     * BinaryPSO particle position update, as defined by Kennedy and Eberhart.
+    /*
+     * Updates the particle's position by treating velocity as a 
+     * set of quantum bits 
      */
     @Override
     public Vector get(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
+        Vector position = (Vector) particle.getPosition();
         Vector.Builder builder = Vector.newBuilder();
-        for (int i = 0; i < particle.getDimension(); i++) {
-            double result = this.sigmoid.apply(velocity.doubleValueOf(i));
-            double rand = this.random.nextDouble();
 
-            if (rand < result) {
-                builder.add(true);
+        for (int i = 0; i < particle.getDimension(); i++) {
+            double rand = this.random.nextDouble();
+            double q = velocity.doubleValueOf(i);
+
+            if (rand > q) {
+                builder.addWithin(1.0, position.boundsOf(i));
             } else {
-                builder.add(false);
+                builder.addWithin(0.0, position.boundsOf(i));
             }
         }
         return builder.build();
-    }
-
-    /**
-     * Get the sigmoid function used within the update strategy.
-     * @return The {@linkplain Sigmoid} function used.
-     */
-    public Sigmoid getSigmoid() {
-        return this.sigmoid;
-    }
-
-    /**
-     * Set the sigmoid function to use.
-     * @param sigmoid The function to set.
-     */
-    public void setSigmoid(Sigmoid sigmoid) {
-        this.sigmoid = sigmoid;
     }
 
     /**
