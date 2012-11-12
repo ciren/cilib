@@ -52,7 +52,7 @@ public class TanH implements ActivationFunction {
 
     @Override
     public Vector getGradient(Vector x) {
-        throw new RuntimeException("Implement me");
+        return Vector.of(this.getGradient(x.getReal(0)));
     }
 
     /**
@@ -60,7 +60,7 @@ public class TanH implements ActivationFunction {
      */
     @Override
     public double getGradient(double number) {
-        throw new RuntimeException("Implement me");
+        return 1 - number * number;
     }
 
     /**
