@@ -12,8 +12,6 @@ organizationHomepage := Some(url("http://cirg.cs.up.ac.za"))
 
 version := "0.7.5"
 
-publishArtifact in packageDoc := false
-
 publishArtifact in Test := false
 
 parallelExecution in Test := false
@@ -31,7 +29,7 @@ libraryDependencies ++= Seq(
     "com.novocode" % "junit-interface" % "0.10-M1" % "test"
 )
 
-javacOptions ++= Seq("-encoding", "UTF8", "-Xlint:deprecation")
+javacOptions ++= Seq("-encoding", "UTF8")
 
 scalacOptions += "-deprecation"
 
