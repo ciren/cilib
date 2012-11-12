@@ -71,30 +71,25 @@ pomExtra := (
     <name>Gary Pamparà</name>
     <url>http://gpampara.github.com</url>
   </developer>
+  <developer>
+    <id>filinep</id>
+    <name>Filipe Nepomuceno</name>
+    <url>http://github.com/filinep</url>
+  </developer>
+  <developer>
+    <id>benniel</id>
+    <name>Bennie Leonard</name>
+    <url>http://github.com/benniel</url>
+  </developer>
+  <developer>
+    <id>avanwyk</id>
+    <name>Andrich van Wyk</name>
+    <url>http://github.com/avanwyk</url>
+  </developer>
+  <developer>
+    <id>kgeorgieva</id>
+    <name>Kristina Georgieva</name>
+    <url>http://github.com/kgeorgieva</url>
+  </developer>
 </developers>)
 
-pomPostProcess := { (node: scala.xml.Node) =>
-  val rewriteRule =
-    new scala.xml.transform.RewriteRule {
-      override def transform(n: scala.xml.Node): scala.xml.NodeSeq = {
-        val name = n.nameToString(new StringBuilder).toString
-        println("scalaVersion:"+scalaVersion.toString)
-        if (name == "artifactId") {
-          println("found it!!! " + name + " " + n.text)
-          // println(n.xmlType())
-          // n match {
-          //   case <artifactId>{v}</artifactId>  => println("boom: " + v.replace("_2.9.2", ""))
-          //   case other => {println("other???"); other}
-          // }
-          n
-          // \ "artifactId" match {
-          //   case <artifactId>{v}</artifactId> => { println("Found it!"); <artifactId>v</artifactId> }
-          //   case other => other
-          // }
-          // println("child is artifactId?" + (n \ "artifactId").getClass.getName)
-        } else n
-      }
-    }
-  val transformer = new scala.xml.transform.RuleTransformer(rewriteRule)
-  transformer.transform(node)(0)
-}

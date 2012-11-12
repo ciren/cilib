@@ -5,6 +5,7 @@ Future releases will have more detail.
 
 0.7.5:
  - New clustering implementation.
+ - Rework of Niching (NichePSO) to be more sane.
  - Removed the "games" package due to its unmaintained state. It will be
    revised in a future release.
  - Removed several methods that are largely not required (in Meansurements
