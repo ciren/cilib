@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>
+        <algorithm id="de" class="ec.EC">
+            <iterationStrategy class="ec.iterationstrategies.DifferentialEvolutionIterationStrategy"/>
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityNumber value="50"/>
+                <entityType class="ec.Individual"/>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="50000"/>
+        </algorithm>
+    </algorithms>
+    <problems>
+        <problem id="spherical" class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
+            <function class="functions.continuous.decorators.AngleModulation" precision="2" domain="R(-1.0:1.0)^4">
+            <function class="functions.continuous.unconstrained.Spherical"/>
+            </function>
+        </problem>
+        <problem id="rosenbrock" class="problem.FunctionOptimisationProblem" domain="R(-2.048:2.048)^30">
+            <function class="functions.continuous.decorators.AngleModulation" precision="3" domain="R(-1.0:1.0)^4">
+            <function class="functions.continuous.unconstrained.Rosenbrock"/>
+            </function>
+        </problem>
+        <problem id="griewank" class="problem.FunctionOptimisationProblem" domain="R(-300.0:300.0)^30">
+            <function class="functions.continuous.decorators.AngleModulation" precision="3" domain="R(-1.0:1.0)^4">
+            <function class="functions.continuous.unconstrained.Griewank" />
+            </function>
+        </problem>
+        <problem id="ackley" class="problem.FunctionOptimisationProblem" domain="R(-30.0:30.0)^30">
+            <function class="functions.continuous.decorators.AngleModulation" precision="2" domain="R(-1.0:1.0)^4">
+            <function class="functions.continuous.unconstrained.Ackley"/>
+            </function>
+        </problem>
+    </problems>
+    <measurements id="measurements" class="simulator.MeasurementSuite" resolution="10">
+        <addMeasurement class="measurement.single.Fitness"/>
+        <addMeasurement class="measurement.single.Solution"/>
+    </measurements>
+    <simulations>
+        <!--   <simulation samples="1">
+            <algorithm idref="de"/>
+            <problem idref="spherical"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/de-spherical-@iteration@.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="de"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/de-rosenbrock.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="de"/>
+            <problem idref="griewank"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/de-griewank.txt"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="de"/>
+            <problem idref="ackley"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/de-ackley.txt"/>
+        </simulation>-->
+    </simulations>
+</simulator>

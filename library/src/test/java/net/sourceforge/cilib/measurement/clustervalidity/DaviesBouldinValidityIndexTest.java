@@ -1,0 +1,57 @@
+/**           __  __
+ *    _____ _/ /_/ /_    Computational Intelligence Library (CIlib)
+ *   / ___/ / / / __ \   (c) CIRG @ UP
+ *  / /__/ / / / /_/ /   http://cilib.net
+ *  \___/_/_/_/_.___/
+ */
+package net.sourceforge.cilib.measurement.clustervalidity;
+
+import junit.framework.Assert;
+import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.ClusterCentroid;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+public class DaviesBouldinValidityIndexTest {
+    
+    public DaviesBouldinValidityIndexTest() {
+    }
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
+    
+    @Before
+    public void setUp() {
+    }
+    
+    @After
+    public void tearDown() {
+    }
+    
+    /**
+     * Test of getMaximumInterclusterDistance method, of class DaviesBouldinValidityIndex.
+     */
+    @Test
+    public void testGetMaximumInterclusterDistance() {
+        ClusterCentroid cluster1 = ClusterCentroid.of(1,5);
+        cluster1.addDataItem(0, Vector.of(0.5,7));
+        cluster1.addDataItem(0, Vector.of(1.5,6));
+        cluster1.addDataItem(0, Vector.of(1.4,4));
+        ClusterCentroid cluster2 = ClusterCentroid.of(3,2);
+        cluster2.addDataItem(0, Vector.of(2,2.5));
+        cluster2.addDataItem(0, Vector.of(4,1.5));
+        DunnValidityIndex instance = new DunnValidityIndex();
+        
+        double distance = instance.getMaximumInterclusterDistance(cluster1);
+        
+        Assert.assertEquals(Math.round(3.1320919526731650539273262067644 * 1e10) / 1e10, Math.round(distance * 1e10) / 1e10);
+    }
+}

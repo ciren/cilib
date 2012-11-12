@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>
+        <algorithm id="abc" class="boa.ABC">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="40">
+                <entityType class="boa.bee.WorkerBee"/>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+            <dancingSelectionStrategy class="util.selection.recipes.RouletteWheelSelector"/>
+            <workerBeePercentage class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+            <forageLimit class="controlparameter.ConstantControlParameter" parameter="500"/>
+            <explorerBeeUpdateLimit class="controlparameter.ConstantControlParameter" parameter="1"/>
+        </algorithm>
+        <algorithm id="pso" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+    </algorithms>
+    <problems>
+        <problem id="spherical" class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
+            <function class="functions.continuous.unconstrained.Spherical"/>
+        </problem>
+        <problem id="rosenbrock" class="problem.FunctionOptimisationProblem" domain="R(-2.048:2.048)^30">
+            <function class="functions.continuous.unconstrained.Rosenbrock"/>
+        </problem>
+        <problem id="rastrigin" class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
+            <function class="functions.continuous.unconstrained.Rastrigin"/>
+        </problem>
+        <problem id="griewank" class="problem.FunctionOptimisationProblem" domain="R(-600:600)^30">
+            <function class="functions.continuous.unconstrained.Griewank"/>
+        </problem>
+    </problems>
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">
+        <addMeasurement class="measurement.single.Fitness"/>
+    </measurements>
+    <simulations>
+        <simulation samples="10">
+            <algorithm idref="abc"/>
+            <problem idref="spherical"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/abc_spherical.txt"/>
+        </simulation>
+        <simulation samples="10">
+            <algorithm idref="abc"/>
+            <problem idref="griewank"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/abc_griewank.txt"/>
+        </simulation>
+        <simulation samples="10">
+            <algorithm idref="abc"/>
+            <problem idref="rastrigin"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/abc_rastrigin.txt"/>
+        </simulation>
+        <simulation samples="10">
+            <algorithm idref="abc"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/abc_rosenbrock.txt"/>
+        </simulation>
+    </simulations>
+</simulator>

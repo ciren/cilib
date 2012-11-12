@@ -1,0 +1,551 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator
+[
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>
+        <!--PBest: parent's | Velocity: parent's-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:parent-vel:parent" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <!-- This is where you change the pbest and velocity strategies -->
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                        <!--
+                        Other options for velocityProvider:
+                        - AverageParentsOffspringVelocityProvider: averages the velocities of the parents
+
+                        - LovbjergOffspringVelocityProvider: | v1 + v2 + ... vn | * vj where n is the number
+                        of parents and j is the cloned parent
+
+                        Other options for pbestProvider:
+                        - BestParentOffspringPBestProvider: uses the best parent as pbest
+
+                        - GBestOffspringPBestProvider: uses the gbest as the pbest
+
+                        Also NosiyPositionOffspringPBestProvider can be used with any of the of the
+                        OffspringPBestProviders
+                        -->
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: parent's | Velocity: zero-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:parent-vel:zero" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: parent's | Velocity: random-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:parent-vel:random" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.RandomOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: parent's | Velocity: worstParent-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:parent-vel:worstParent" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.WorstParentOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: offspring position | Velocity: parent's-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:offspringPosition-vel:parent" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: offspring position | Velocity: zero-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:offspringPosition-vel:zero" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: offspring position | Velocity: random-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:offspringPosition-vel:random" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.RandomOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: offspring position | Velocity: worstParent-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:offspringPosition-vel:worstParent" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.WorstParentOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: random | Velocity: parent's-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:random-vel:parent" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.RandomOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: random | Velocity: zero-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:random-vel:zero" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.RandomOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: random | Velocity: random-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:random-vel:random" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.RandomOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.RandomOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: random | Velocity: worstParent-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:random-vel:worstParent" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.RandomOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.WorstParentOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: parent's + noise | Velocity: parent's-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:parent+noise-vel:parent" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.NoisyPositionOffspringPBestProvider">
+                            <delegate class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider"/>
+                        </pbestProvider>
+                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: parent's + noise | Velocity: zero-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:parent+noise-vel:zero" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.NoisyPositionOffspringPBestProvider">
+                            <delegate class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider"/>
+                        </pbestProvider>
+                        <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: parent's + noise | Velocity: random-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:parent+noise-vel:random" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.NoisyPositionOffspringPBestProvider">
+                            <delegate class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider"/>
+                        </pbestProvider>
+                        <velocityProvider class="pso.crossover.velocityprovider.RandomOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: parent's + noise | Velocity: worstParent-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:parent+noise-vel:worstParent" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.NoisyPositionOffspringPBestProvider">
+                            <delegate class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider"/>
+                        </pbestProvider>
+                        <velocityProvider class="pso.crossover.velocityprovider.WorstParentOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: pcx | Velocity: parent's-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:pcx-vel:parent" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.CrossoverOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: pcx | Velocity: zero-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:pcx-vel:zero" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.CrossoverOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: pcx | Velocity: random-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:pcx-vel:random" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.CrossoverOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.RandomOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+
+        <!--PBest: pcx | Velocity: worstParent-->
+        <algorithm id="xpso-pcx-iteration-repeating-pbest:pcx-vel:worstParent" class="pso.PSO">
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.RepeatingCrossoverSelection">
+
+                    <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                            <numberOfParents value="3" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.CrossoverOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.WorstParentOffspringVelocityProvider" />
+                    </crossoverStrategy>
+
+                    <retries class="controlparameter.ConstantControlParameter" parameter="10" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+    </algorithms>
+
+    <problems>
+        <problem id="griewank" class="problem.FunctionOptimisationProblem" domain="R(300:600)^30">
+            <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
+                <function class="functions.continuous.unconstrained.Griewank" />
+                <horizontalShift class="controlparameter.ConstantControlParameter" parameter="500" />
+            </function>
+        </problem>
+    </problems>
+
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="100">
+        <addMeasurement class="measurement.single.Fitness" />
+    </measurements>
+
+    <simulations>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:parent-vel:parent" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-parent-vel-parent.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:parent-vel:zero" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-parent-vel-zero.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:parent-vel:random" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-parent-vel-random.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:parent-vel:worstParent" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-parent-vel-worstParent.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:offspringPosition-vel:parent" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-offspringPosition-vel-parent.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:offspringPosition-vel:zero" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-offspringPosition-vel-zero.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:offspringPosition-vel:random" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-offspringPosition-vel-random.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:offspringPosition-vel:worstParent" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-offspringPosition-vel-worstParent.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:random-vel:parent" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-random-vel-parent.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:random-vel:zero" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-random-vel-zero.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:random-vel:random" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-random-vel-random.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:random-vel:worstParent" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-random-vel-worstParent.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:parent+noise-vel:parent" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-parent+noise-vel-parent.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:parent+noise-vel:zero" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-parent+noise-vel-zero.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:parent+noise-vel:random" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-parent+noise-vel-random.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:parent+noise-vel:worstParent" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-parent+noise-vel-worstParent.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:pcx-vel:parent" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-pcx-vel-parent.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:pcx-vel:zero" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-pcx-vel-zero.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:pcx-vel:random" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-pcx-vel-random.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-pcx-iteration-repeating-pbest:pcx-vel:worstParent" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/griewank-pbest-pcx-vel-worstParent.txt" />
+        </simulation>
+    </simulations>
+</simulator>
+

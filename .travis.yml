@@ -1,8 +1,7 @@
-language: java
+language: scala
 jdk:
-  - openjdk6
-  # Needs work to get going
-  #- openjdk7
+  - oraclejdk7
+#  - openjdk7
 notifications:
   email:
     on_success: never

@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>
+        <algorithm id="pso" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+        <algorithm id="ga" class="ec.EC">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+        <algorithm id="coop-pso" class="coevolution.cooperative.CooperativeCoevolutionAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+            <contributionSelectionStrategy class="coevolution.cooperative.contributionselection.SocialFitnessContributionSelectionStrategy"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+        </algorithm>
+        <algorithm id="coop-ga" class="coevolution.cooperative.CooperativeCoevolutionAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+            <addPopulationBasedAlgorithm idref="ga"/>
+            <addPopulationBasedAlgorithm idref="ga"/>
+            <addPopulationBasedAlgorithm idref="ga"/>
+            <addPopulationBasedAlgorithm idref="ga"/>
+            <addPopulationBasedAlgorithm idref="ga"/>
+            <addPopulationBasedAlgorithm idref="ga"/>
+        </algorithm>
+    </algorithms>
+    <problems>
+        <problem id="griewank" class="problem.FunctionOptimisationProblem" domain="R(-600.0:600.0)^36">
+            <function class="functions.continuous.unconstrained.Griewank"/>
+        </problem>
+    </problems>
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">
+        <addMeasurement class="measurement.single.Fitness"/>
+    </measurements>
+    <simulations>
+        <simulation samples="2">
+            <algorithm idref="coop-pso"/>
+            <problem idref="griewank"/>
+            <measurements idref="fitness"/>
+            <output format="TXT" file="data/coop-pso.txt"/>
+        </simulation>
+        <simulation samples="2">
+            <algorithm idref="coop-ga"/>
+            <problem idref="griewank"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/coop-ga.txt"/>
+        </simulation>
+        <simulation samples="2">
+            <algorithm idref="pso"/>
+            <problem idref="griewank"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/norm-pso.txt"/>
+        </simulation>
+        <simulation samples="2">
+            <algorithm idref="ga"/>
+            <problem idref="griewank"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/norm-ga.txt"/>
+        </simulation>
+    </simulations>
+</simulator>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<simulator>
+    <simulation samples="1">
+        <algorithm class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="1.4" finalValue="0.4"/>
+                    </velocityProvider>
+                </entityType>
+            </initialisationStrategy>
+        </algorithm>
+
+        <problem class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
+            <function class="functions.continuous.unconstrained.Spherical" />
+        </problem>
+
+        <measurements class="simulator.MeasurementSuite" resolution="100">
+            <addMeasurement class="measurement.generic.Iterations"/>
+        </measurements>
+        <output format="TXT" file="data/pso-inertia.txt" />
+    </simulation>
+</simulator>

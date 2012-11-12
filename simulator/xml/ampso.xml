@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>
+        <algorithm id="pso" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="4000"/>
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityNumber value="40"/>
+                <entityType class="pso.particle.StandardParticle">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter">
+                            <initialValue value="0.9"/>
+                            <finalValue value="0.4"/>
+                        </inertiaWeight>
+                    </velocityProvider>
+                </entityType>
+            </initialisationStrategy>
+            <topology class="entity.topologies.VonNeumannTopology"/>
+        </algorithm>
+    </algorithms>
+    <problems>
+	<problem id="AMRastrigin" class="functions.continuous.decorators.AngleModulation"  precision="2">
+            <problem class="problem.FunctionMinimisationProblem" domain="R(-5.12:5.12)^30">
+                <!--<function class="functions.continuous.decorators.AngleModulation" precision="2">-->
+                <function class="functions.continuous.unconstrained.Rastrigin"/>
+                <!--</function>-->
+            </problem>
+	</problem>
+        <problem id="AMRastrigin_multipleGenerators" class="functions.continuous.decorators.AngleModulation"  precision="2">
+            <numberOfGenerators value="3"/>
+            <problem class="problem.FunctionMinimisationProblem" domain="R(-5.12:5.12)^30">
+                <function class="functions.continuous.unconstrained.Rastrigin"/>
+            </problem>
+	</problem>
+    </problems>
+    <measurements>
+        <measurements id="measurements" class="simulator.MeasurementSuite" resolution="1">
+            <addMeasurement class="measurement.single.Fitness"/>
+            <addMeasurement class="measurement.single.Solution"/>
+        </measurements>
+    </measurements>
+    <simulations>
+        <simulation  samples="1">
+            <algorithm idref="pso"/>
+            <problem idref="AMRastrigin"/>
+            <measurements idref="measurements"/>
+            <output format="TXT"  file="data/ampso-rastrigin.txt"/>
+        </simulation>
+        <simulation  samples="1">
+            <algorithm idref="pso"/>
+            <problem idref="AMRastrigin_multipleGenerators"/>
+            <measurements idref="measurements"/>
+            <output format="TXT"  file="data/ampso-multiple-generators-rastrigin.txt"/>
+        </simulation>
+    </simulations>
+</simulator>

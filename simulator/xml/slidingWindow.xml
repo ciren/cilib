@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+
+<simulator>
+    <algorithms>
+        <algorithm id="chargedPSO" class="pso.PSO">
+            <iterationStrategy class="pso.dynamic.DynamicIterationStrategy">
+                <detectionStrategy class="pso.dynamic.detectionstrategies.AlwaysTrueDetectionStrategy" />
+                <responseStrategy class="pso.dynamic.responsestrategies.ParticleReevaluationResponseStrategy"/>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1100"/>
+            <initialisationStrategy class="algorithm.initialisation.ChargedPopulationInitialisationStrategy">
+                <entityType class="pso.dynamic.ChargedParticle"/>
+            </initialisationStrategy>
+        </algorithm>
+
+        <algorithm id="gradientdescent" class="gd.GradientDescentBackpropagationTraining">
+            <learningRate class="controlparameter.ConstantControlParameter" parameter="0.2" />
+            <momentum class="controlparameter.ConstantControlParameter" parameter="0.8" />
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1100"/>
+        </algorithm>
+    </algorithms>
+    
+    <problems>
+        <problem id="nn4-8-1-sig" class="problem.NNSlidingWindowTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3">
+             <windowSize value="50" />
+            <stepSize value="10" />
+            <changeFrequency value="100" />
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.ARFFFileReader" sourceURL="library/src/test/resources/datasets/iris.arff"/>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="4"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="3">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1"/>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-3:3)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+    </problems>
+
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.Fitness"/>
+        <addMeasurement class="measurement.single.MSEGeneralizationError"/>
+    </measurements>
+
+    <simulations>
+        <simulation samples="2">
+            <algorithm idref="chargedPSO"/>
+            <problem idref="nn4-8-1-sig"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/slidingWindowPSO.csv"/>
+        </simulation>
+
+        <simulation samples="2">
+            <algorithm idref="gradientdescent"/>
+            <problem idref="nn4-8-1-sig"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/slidingWindowGDBP.csv"/>
+        </simulation>
+    </simulations>
+</simulator>

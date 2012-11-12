@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<simulator>
+    <simulation samples="1">
+        <algorithm class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
+        <problem class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
+            <function class="functions.continuous.unconstrained.Spherical" />
+        </problem>
+
+        <measurements class="simulator.MeasurementSuite" resolution="100">
+            <addMeasurement class="measurement.single.ParticlePositions"/>
+        </measurements>
+        <output format="TXT" file="data/pso-positions.txt"/>
+    </simulation>
+</simulator>

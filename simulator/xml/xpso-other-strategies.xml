@@ -1,0 +1,344 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator
+[
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>
+        <!--Lovbjerg Hybrid XPSO-->
+        <algorithm id="xpso-lovbjerg-hybrid" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                        <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
+                        <delegate class="pso.velocityprovider.StandardVelocityProvider">
+                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.0" />
+                            <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.0" />
+                            <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.7" finalValue="0.4" />
+                        </delegate>
+                    </velocityProvider>
+                </entityType>
+            </initialisationStrategy>
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.HybridCrossoverOperation">
+                    <particleCrossover class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy" />
+                        <pbestProvider class="pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.LovbjergOffspringVelocityProvider" />
+                    </particleCrossover>
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy" />
+                    <selector class="util.selection.recipes.RandomSelector" />
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.2" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000" />
+        </algorithm>
+
+        <!-- Global Local Best PSO with GLbestIW and GLbestAC with Arithmetic Xover -->
+        <algorithm id="xpso-gliw-glac-arithmetic" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                        <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
+                        <delegate class="pso.velocityprovider.GlobalLocalBestVelocityProvider" />
+                        <!-- Do not set acceleration and inertia to use the default GLbestIW and GLbestAC -->
+                    </velocityProvider>
+                </entityType>
+            </initialisationStrategy>
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.HybridCrossoverOperation">
+                    <particleCrossover class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy">
+                            <lambda class="controlparameter.RandomControlParameter" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                    </particleCrossover>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000" />
+        </algorithm>
+
+        <!-- Global Local Best PSO with GLbestIW and Fixed AC with Arithmetic Xover -->
+        <algorithm id="xpso-gliw-fac-arithmetic" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                        <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
+                        <delegate class="pso.velocityprovider.GlobalLocalBestVelocityProvider">
+                            <acceleration class="controlparameter.ConstantControlParameter" parameter="2.0" />
+                        </delegate>
+                    </velocityProvider>
+                </entityType>
+            </initialisationStrategy>
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.HybridCrossoverOperation">
+                    <particleCrossover class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy">
+                            <lambda class="controlparameter.RandomControlParameter" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                    </particleCrossover>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000" />
+        </algorithm>
+
+        <!-- Global Local Best PSO with GLbestIW and GLbestAC with Average Convex Xover -->
+        <algorithm id="xpso-gliw-glac-averageConvex" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                        <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
+                        <delegate class="pso.velocityprovider.GlobalLocalBestVelocityProvider" />
+                        <!-- Do not set acceleration and inertia to use the default GLbestIW and GLbestAC -->
+                    </velocityProvider>
+                </entityType>
+            </initialisationStrategy>
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.HybridCrossoverOperation">
+                    <particleCrossover class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy">
+                            <lambda class="controlparameter.ConstantControlParameter" parameter="0.5" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                    </particleCrossover>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000" />
+        </algorithm>
+
+        <!-- Global Local Best PSO with GLbestIW and Fixed AC with Average Convex Xover -->
+        <algorithm id="xpso-gliw-fac-averageConvex" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                        <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
+                        <delegate class="pso.velocityprovider.GlobalLocalBestVelocityProvider">
+                            <acceleration class="controlparameter.ConstantControlParameter" parameter="2.0" />
+                        </delegate>
+                    </velocityProvider>
+                </entityType>
+            </initialisationStrategy>
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.HybridCrossoverOperation">
+                    <particleCrossover class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.ArithmeticCrossoverStrategy">
+                            <lambda class="controlparameter.ConstantControlParameter" parameter="0.5" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                    </particleCrossover>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000" />
+        </algorithm>
+
+        <!-- Global Local Best PSO with GLbestIW and GLbestAC with Root Probability Xover -->
+        <algorithm id="xpso-gliw-glac-rootProbability" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                        <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
+                        <delegate class="pso.velocityprovider.GlobalLocalBestVelocityProvider" />
+                        <!-- Do not set acceleration and inertia to use the default GLbestIW and GLbestAC -->
+                    </velocityProvider>
+                </entityType>
+            </initialisationStrategy>
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.HybridCrossoverOperation">
+                    <particleCrossover class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.RootProbabilityCrossoverStrategy">
+                            <lambda class="controlparameter.RandomControlParameter" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                    </particleCrossover>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000" />
+        </algorithm>
+
+        <!-- Global Local Best PSO with GLbestIW and Fixed AC with Root Probability Xover -->
+        <algorithm id="xpso-gliw-fac-rootProbability" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                        <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
+                        <delegate class="pso.velocityprovider.GlobalLocalBestVelocityProvider">
+                            <acceleration class="controlparameter.ConstantControlParameter" parameter="2.0" />
+                        </delegate>
+                    </velocityProvider>
+                </entityType>
+            </initialisationStrategy>
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.HybridCrossoverOperation">
+                    <particleCrossover class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.RootProbabilityCrossoverStrategy">
+                            <lambda class="controlparameter.RandomControlParameter" />
+                        </crossoverStrategy>
+                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
+                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
+                    </particleCrossover>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000" />
+        </algorithm>
+
+        <!-- Novel Multi Parent Crossover Operator PSO -->
+        <algorithm id="xpso-nmpco" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle" />
+                <entityNumber value="100" />
+            </initialisationStrategy>
+            <iterationStrategy class="pso.iterationstrategies.GBestMutationIterationStrategy">
+                <delegate class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                    <crossoverOperation class="pso.crossover.operations.MultiParentCrossoverOperation">
+                        <crossover class="pso.crossover.ParticleCrossoverStrategy">
+                            <crossoverStrategy class="entity.operators.crossover.real.MultiParentCrossoverStrategy" />
+                        </crossover>
+                        <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8" />
+                        <parentReplacementStrategy class="pso.crossover.parentupdate.ElitistParentReplacementStrategy" />
+                        <selector class="util.selection.recipes.RandomSelector" />
+                        <random class="math.random.UniformDistribution" />
+                    </crossoverOperation>
+                </delegate>
+                <vMax class="controlparameter.ConstantControlParameter" parameter="1.0" />
+                <distribution class="math.random.CauchyDistribution" />
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000" />
+        </algorithm>
+
+        <!-- Novel Multi Parent Crossover Operator PSO without Cauchy Mutation -->
+        <algorithm id="xpso-nmpco-without-cauchy" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle" />
+                <entityNumber value="100" />
+            </initialisationStrategy>
+            <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
+                <crossoverOperation class="pso.crossover.operations.MultiParentCrossoverOperation">
+                    <crossover class="pso.crossover.ParticleCrossoverStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.real.MultiParentCrossoverStrategy" />
+                    </crossover>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.8" />
+                    <parentReplacementStrategy class="pso.crossover.parentupdate.ElitistParentReplacementStrategy" />
+                    <selector class="util.selection.recipes.RandomSelector" />
+                    <random class="math.random.UniformDistribution" />
+                </crossoverOperation>
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000" />
+        </algorithm>
+
+        <!-- Hybrid Evolutionary Algorithm PSO -->
+        <algorithm id="xpso-hea" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.0" />
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="1.0" />
+                        <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.6" />
+                    </velocityProvider>
+                </entityType>
+            </initialisationStrategy>
+            <iterationStrategy class="pso.iterationstrategies.HybridEAIterationStrategy">
+                <crossoverStrategy class="entity.operators.CrossoverOperator">
+                    <crossoverStrategy class="entity.operators.crossover.real.BlendCrossoverStrategy">
+                        <alpha class="controlparameter.ConstantControlParameter" parameter="1.6" />
+                    </crossoverStrategy>
+                    <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.1" />
+                    <selectionStrategy class="util.selection.recipes.RouletteWheelSelector">
+                        <weighing class="util.selection.weighting.EntityWeighting">
+                            <entityFitness class="util.selection.weighting.CurrentFitness" />
+                        </weighing>
+                    </selectionStrategy>
+                </crossoverStrategy>
+                <selector class="util.selection.recipes.ElitistSelector" />
+            </iterationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000" />
+        </algorithm>
+    </algorithms>
+
+    <problems>
+        <problem id="griewank" class="problem.FunctionOptimisationProblem" domain="R(300:600)^30">
+            <function class="functions.continuous.unconstrained.Griewank" />
+        </problem>
+    </problems>
+
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="100">
+        <addMeasurement class="measurement.single.Fitness" />
+    </measurements>
+
+    <simulations>
+        <simulation samples="5">
+            <algorithm idref="xpso-hea" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-hea.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-nmpco" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-nmpco.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-nmpco-without-cauchy" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-nmpco-without-cauchy.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-lovbjerg-hybrid" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-lovbjerg-hybrid.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-gliw-glac-arithmetic" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-gliw-glac-arithmetic.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-gliw-fac-arithmetic" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-gliw-fac-arithmetic.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-gliw-glac-averageConvex" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-gliw-glac-averageConvex.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-gliw-fac-averageConvex" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-gliw-fac-averageConvex.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-gliw-glac-rootProbability" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-gliw-glac-rootProbability.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-gliw-fac-rootProbability" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-gliw-fac-rootProbability.txt" />
+        </simulation>
+    </simulations>
+</simulator>
+
