@@ -23,9 +23,11 @@ libraryDependencies ++= Seq(
     "org.hamcrest" % "hamcrest-all" % "1.1" % "test"
 )
 
+autoScalaLibrary := false
+
 // Handle the scala compiler dependency
-libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
-    deps :+ ("org.scala-lang" % "scala-compiler" % sv)
-}
+//libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
+//    deps :+ ("org.scala-lang" % "scala-compiler" % sv)
+//}
 
 resourceDirectory in Test <<= baseDirectory { _ / "simulator" }
