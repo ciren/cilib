@@ -68,8 +68,10 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
             dataTableBuilder.buildDataTable();
             DataTable dataTable = dataTableBuilder.getDataTable();
 
-            shuffler = new ShuffleOperator();
-            shuffler.operate(dataTable);
+            if(shuffle) {
+                shuffler = new ShuffleOperator();
+                shuffler.operate(dataTable);
+            }
 
             int trainingSize = (int) (dataTable.size() * trainingSetPercentage);
             int validationSize = (int) (dataTable.size() * validationSetPercentage);
@@ -121,7 +123,7 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
         }
 
         int currentIteration = AbstractAlgorithm.get().getIterations();
-        if (currentIteration != previousShuffleIteration) {
+        if (currentIteration != previousShuffleIteration && shuffle) {
             try {
                 shuffler.operate(trainingSet);
             } catch (CIlibIOException exception) {
@@ -215,5 +217,13 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
 
     public void setSolutionConversionStrategy(SolutionConversionStrategy solutionConversionStrategy) {
         this.solutionConversionStrategy = solutionConversionStrategy;
+    }
+    
+    /**
+     * Typical NN data training problem does not modify the data set during training.
+     */
+    @Override
+    public void operateOnData() {
+        // do nothing!..
     }
 }

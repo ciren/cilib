@@ -59,7 +59,7 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
     }
 
     /**
-     * Initializes the problem by reading in the data and constructing the datatable,
+     * Initializes the problem by reading in the data and constructing the data table,
      * as well as the initial training and generalization sets. Also initializes (constructs) the neural network.
      */
     @Override
@@ -127,7 +127,7 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
         }
 
         int currentIteration = AbstractAlgorithm.get().getIterations();
-        if (currentIteration != previousShuffleIteration) {
+        if (currentIteration != previousShuffleIteration && shuffle) {
             try {
                 shuffler.operate(trainingSet);
             } catch (CIlibIOException exception) {
@@ -135,35 +135,7 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
             }
         }
 
-        if(currentIteration - changeFrequency * dataChangesCounter == 0 && currentIteration != previousIteration) { // update training & generalisation sets (slide the window)
-            try {
-                previousIteration = currentIteration;
-                dataChangesCounter++;
-
-                StandardPatternDataTable candidateSet = new StandardPatternDataTable();
-                for (int i = 0; i < stepSize; i++) {
-                    candidateSet.addRow((StandardPattern) dataTable.removeRow(0));
-                }
-
-                shuffler = new ShuffleOperator();
-                shuffler.operate(candidateSet);
-
-                int trainingStepSize = (int)(stepSize * trainingSetPercentage);
-                int generalizationStepSize = stepSize - trainingStepSize;
-
-                for (int t = 0; t < trainingStepSize; t++){
-                    trainingSet.removeRow(0);
-                    trainingSet.addRow(candidateSet.removeRow(0));
-                }
-
-                for (int t = 0; t < generalizationStepSize; t++){
-                    generalizationSet.removeRow(0);
-                    generalizationSet.addRow(candidateSet.removeRow(0));
-                }
-            } catch (CIlibIOException exception) {
-                exception.printStackTrace();
-            }
-        }
+        operateOnData(); // slide the window!..
 
         neuralNetwork.setWeights((Vector) solution);
 
@@ -184,6 +156,41 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
         return objective.evaluate(errorTraining);
     }
 
+    @Override
+    public void operateOnData() {
+        int currentIteration = AbstractAlgorithm.get().getIterations();
+        if(currentIteration - changeFrequency * dataChangesCounter == 0 && currentIteration != previousIteration) { // update training & generalisation sets (slide the window)
+            try {
+                previousIteration = currentIteration;
+                dataChangesCounter++;
+                StandardPatternDataTable candidateSet = new StandardPatternDataTable();
+                for (int i = 0; i < stepSize; i++) {
+                    candidateSet.addRow((StandardPattern) dataTable.removeRow(0));
+                }
+
+                if(shuffle) {
+                    shuffler = new ShuffleOperator();
+                    shuffler.operate(candidateSet);
+                }
+
+                int trainingStepSize = (int)(stepSize * trainingSetPercentage);
+                int generalizationStepSize = stepSize - trainingStepSize;
+
+                for (int t = 0; t < trainingStepSize; t++){
+                    trainingSet.removeRow(0);
+                    trainingSet.addRow(candidateSet.removeRow(0));
+                }
+
+                for (int t = 0; t < generalizationStepSize; t++){
+                    generalizationSet.removeRow(0);
+                    generalizationSet.addRow(candidateSet.removeRow(0));
+                }
+            } catch (CIlibIOException exception) {
+                exception.printStackTrace();
+            }
+        }
+    }
+    
     /**
      * {@inheritDoc}
      */

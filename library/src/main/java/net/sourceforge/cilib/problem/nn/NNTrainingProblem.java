@@ -46,7 +46,12 @@ public abstract class NNTrainingProblem extends AbstractProblem {
      * Initializes the problem by setting up the datasets: has to be implemeted by inheriting classes.
      */
     public abstract void initialise();
-
+    
+    /**
+     * This method allows to modify the data set while training. Necessary for on-line learning, sliding window, etc.
+     */
+    public abstract void operateOnData();
+    
     /**
      * Gets the generalization dataset.
      * @return the generalization dataset.
