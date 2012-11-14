@@ -84,9 +84,10 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
                 candidateSet.addRow((StandardPattern) dataTable.removeRow(0));
             }
 
-            shuffler = new ShuffleOperator();
-            shuffler.operate(candidateSet);
-
+            if(shuffle) {
+                shuffler = new ShuffleOperator();
+                shuffler.operate(candidateSet);
+            }
 
             for (int i = 0; i < trainingSize; i++) {
                 trainingSet.addRow((StandardPattern) candidateSet.getRow(i));

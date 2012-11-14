@@ -27,6 +27,7 @@ public abstract class NNTrainingProblem extends AbstractProblem {
     protected double generalizationSetPercentage;
     protected double validationSetPercentage;
     protected ShuffleOperator shuffler;
+    protected boolean shuffle;
     protected DataOperator patternConversionOperator;
 
     /**
@@ -38,6 +39,7 @@ public abstract class NNTrainingProblem extends AbstractProblem {
         generalizationSetPercentage = 0.34;
         validationSetPercentage = 0.0;
         patternConversionOperator = new PatternConversionOperator();
+        shuffle = true;
     }
 
     /**
@@ -171,6 +173,14 @@ public abstract class NNTrainingProblem extends AbstractProblem {
      */
     public void setShuffler(ShuffleOperator shuffler) {
         this.shuffler = shuffler;
+    }
+
+    public boolean isShuffle() {
+        return shuffle;
+    }
+
+    public void setShuffle(boolean shuffle) {
+        this.shuffle = shuffle;
     }
 
     /**
