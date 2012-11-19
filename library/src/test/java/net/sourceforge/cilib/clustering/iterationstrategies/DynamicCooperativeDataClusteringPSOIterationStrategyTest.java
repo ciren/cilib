@@ -18,33 +18,10 @@ import net.sourceforge.cilib.problem.boundaryconstraint.CentroidBoundaryConstrai
 import net.sourceforge.cilib.problem.boundaryconstraint.RandomBoundaryConstraint;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class DynamicCooperativeDataClusteringPSOIterationStrategyTest {
     
-    public DynamicCooperativeDataClusteringPSOIterationStrategyTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of performIteration method, of class DynamicCooperativeDataClusteringPSOIterationStrategy.
      */

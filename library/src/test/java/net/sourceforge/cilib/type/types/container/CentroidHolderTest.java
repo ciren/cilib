@@ -7,36 +7,13 @@
 package net.sourceforge.cilib.type.types.container;
 
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import org.junit.Assert;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.Assert;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class CentroidHolderTest {
     
-    public CentroidHolderTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of size method, of class CentroidHolder.
      */

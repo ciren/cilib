@@ -24,7 +24,7 @@
     </algorithms>
     <problems>
 	<problem id="AMRastrigin" class="functions.continuous.decorators.AngleModulation"  precision="2">
-            <problem class="problem.FunctionMinimisationProblem" domain="R(-5.12:5.12)^30">
+            <problem class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
                 <!--<function class="functions.continuous.decorators.AngleModulation" precision="2">-->
                 <function class="functions.continuous.unconstrained.Rastrigin"/>
                 <!--</function>-->
@@ -32,7 +32,7 @@
 	</problem>
         <problem id="AMRastrigin_multipleGenerators" class="functions.continuous.decorators.AngleModulation"  precision="2">
             <numberOfGenerators value="3"/>
-            <problem class="problem.FunctionMinimisationProblem" domain="R(-5.12:5.12)^30">
+            <problem class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
                 <function class="functions.continuous.unconstrained.Rastrigin"/>
             </problem>
 	</problem>

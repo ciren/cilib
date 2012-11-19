@@ -6,13 +6,13 @@
  */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
+import fj.F;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.type.types.container.Vector.Function;
 
 /**
  * ShiftedFunctionDecorator.
@@ -49,9 +49,9 @@ public class ShiftedFunctionDecorator implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
-        Vector tmp = horizontalShift.getParameter() == 0.0 ? input : input.map(new Function<Numeric, Numeric>() {
+        Vector tmp = horizontalShift.getParameter() == 0.0 ? input : input.map(new F<Numeric, Numeric>() {
             @Override
-            public Numeric apply(Numeric x) {
+            public Numeric f(Numeric x) {
                 return Real.valueOf(x.doubleValue() - horizontalShift.getParameter());
             }
         });

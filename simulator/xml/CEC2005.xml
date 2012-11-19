@@ -41,7 +41,7 @@
 
         <problem id="f4" class="problem.FunctionOptimisationProblem" domain="R(-100:100)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
-                <function class="functions.continuous.decorators.PostEvalNoiseFunctionDecorator">
+                <function class="functions.continuous.decorators.NoisyFunctionDecorator">
                     <function class="functions.continuous.SchwefelProblem1_2"/>
                 </function>
                 <horizontalShift class="controlparameter.ConstantControlParameter" parameter="20"/>
@@ -256,7 +256,7 @@
 
         <problem id="f17" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
-                <function class="functions.continuous.decorators.PostEvalNoiseFunctionDecorator">
+                <function class="functions.continuous.decorators.NoisyFunctionDecorator">
                     <function class="functions.continuous.hybrid.HybridCompositionFunction">
                         <addFunction class="functions.continuous.hybrid.SingleFunction"
                             sigma="1" lambda="1" matrixType="linear_transformation" condition="2" bias="0" horizontalShift="1">
@@ -691,7 +691,7 @@
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="2" lambda="0.05" matrixType="linear_transformation" condition="2" bias="900" horizontalShift="5">
-                        <function class="functions.continuous.decorators.PostEvalNoiseFunctionDecorator">
+                        <function class="functions.continuous.decorators.NoisyFunctionDecorator">
                             <function class="functions.continuous.unconstrained.Spherical"/>
                             <scale class="controlparameter.ConstantControlParameter" parameter="0.1"/>
                         </function>
@@ -755,7 +755,7 @@
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="2" lambda="0.05" matrixType="linear_transformation" condition="2" bias="900" horizontalShift="5">
-                        <function class="functions.continuous.decorators.PostEvalNoiseFunctionDecorator">
+                        <function class="functions.continuous.decorators.NoisyFunctionDecorator">
                             <function class="functions.continuous.unconstrained.Spherical"/>
                             <scale class="controlparameter.ConstantControlParameter" parameter="0.1"/>
                         </function>

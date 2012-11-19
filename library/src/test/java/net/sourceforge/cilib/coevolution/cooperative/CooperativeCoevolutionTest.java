@@ -14,9 +14,9 @@ import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolut
 import net.sourceforge.cilib.coevolution.cooperative.problem.SequencialDimensionAllocation;
 import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.ProblemDistributionStrategy;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.DomainRegistry;

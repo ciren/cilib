@@ -21,9 +21,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 
-/**
- *
- */
 public class NumberOfSolutionsTest {
 
     @Test
