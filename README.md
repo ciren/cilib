@@ -1,4 +1,4 @@
-# CIlib - Computational Intelligence Library (http://cilib.net)
+# CIlib - Computational Intelligence Library (http://www.cilib.net)
 
 Copyright (C) 2003,  2010 - CIRG@UP
 Computational Intelligence Research Group (CIRG@UP)
