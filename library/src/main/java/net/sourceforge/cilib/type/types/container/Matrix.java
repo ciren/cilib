@@ -118,7 +118,7 @@ public final class Matrix implements Type {
         }
         return result;
     }
-    
+
     /**
      * Multiplies every element of this matrix by the given scalar;
      * @param scalar The scalar to multiply into the matrix.
@@ -129,10 +129,10 @@ public final class Matrix implements Type {
             @Override
             public Double _1() {
                 return scalar;
-            }            
+            }
         });
     }
-    
+
     /**
      * Multiplies every element of this matrix by the given supplier;
      * @param supplier The supplier that supplies scalar values.
@@ -230,6 +230,77 @@ public final class Matrix implements Type {
 
         LUDecomposition decomposition = new LUDecomposition(this);
         return decomposition.determinant();
+    }
+
+    /**
+    * Determines if the {@code Matrix} is singular.
+    * A matrix is singular if its determinant is zero.
+    * @return {@code true} if the matrix is singular, {@code false} otherwise.
+    */
+    public boolean isSingular() {
+        return determinant() == 0.0;
+    }
+
+    /**
+    * Remove a row and a column from the current {@code Matrix} instance.
+    * @param row The index of the row to remove
+    * @param col The index of the column to remove
+    * @return The {@code Matrix} without the row and column
+    */
+    public Matrix subMatrix(int row, int col) {
+        Preconditions.checkArgument((row >= 0 && row < getRows()), "Illegal row index");
+        Preconditions.checkArgument((col >= 0 && col < getColumns()), "Illegal column index");
+        Preconditions.checkState(getRows() > 1 && getColumns() > 1, "Cannot obtain submatrix of a 1xN or Nx1 matrix");
+
+        Matrix sub = new Matrix(getRows() - 1, getColumns() - 1);
+        int r = 0, c = 0;
+
+        for(int i = 0; i < getRows(); i++) {
+            if (i != row) {
+                for (int j = 0; j < getColumns(); j++) {
+                    if (j != col)
+                        sub.contents[r][c++] = this.contents[i][j];
+                }
+                r++;
+                c = 0;
+            }
+        }
+
+        return sub;
+    }
+
+    /**
+     * Obtain the cofactor (adjunct) of the current {@code Matrix} instance.
+     * <p>
+     * Please refer to <a href=http://en.wikipedia.org/wiki/Cofactor_(linear_algebra)>
+     * the Wikipedia entry</a> for more information.
+     * <p>
+     */
+    public Matrix cofactor() {
+        Preconditions.checkState(isSquare(), "Cannot obtain cofactor of a non-square matrix");
+
+        Matrix cofactor = new Matrix(getRows(), getColumns());
+
+        for (int i = 0; i < getRows(); i++) {
+            for (int j = 0; j < getColumns(); j++) {
+                Matrix sub = subMatrix(i, j);
+                double factor = sub.determinant() * Math.pow(-1, i + j);
+                cofactor.contents[i][j] = factor;
+            }
+        }
+
+        return cofactor;
+    }
+    /**
+    * Obtain the inverse of the current {@code Matrix} instance if it exists.
+    * @return The inverse {@code Matrix}
+    */
+    public Matrix inverse() {
+        Preconditions.checkState(isSquare(), "Cannot obtain inverse of a non-square matrix");
+        Preconditions.checkState(!isSingular(), "Cannot obtain cofactor of a singular matrix");
+
+        Matrix adjugate = cofactor().transpose();
+        return adjugate.multiply(1.0 / determinant());
     }
 
     /**
