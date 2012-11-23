@@ -9,6 +9,7 @@ package net.sourceforge.cilib.pso.crossover;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
@@ -89,5 +90,13 @@ public class DiscreteVelocityCrossoverStrategy implements CrossoverStrategy {
 
     public OffspringPBestProvider getPbestProvider() {
         return pbestProvider;
+    }
+
+    public void setCrossoverPointProbability(double crossoverPointProbability) {
+        throw new UnsupportedOperationException("Not applicable");
+    }
+
+    public ControlParameter getCrossoverPointProbability() {
+        throw new UnsupportedOperationException("Not applicable");
     }
 }

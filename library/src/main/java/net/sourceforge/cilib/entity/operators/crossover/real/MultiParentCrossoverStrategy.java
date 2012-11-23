@@ -9,6 +9,7 @@ package net.sourceforge.cilib.entity.operators.crossover.real;
 import com.google.common.base.Preconditions;
 import java.util.Arrays;
 import java.util.List;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
@@ -69,5 +70,13 @@ public class MultiParentCrossoverStrategy implements CrossoverStrategy {
     @Override
     public int getNumberOfParents() {
         return 4;
+    }
+    
+    public void setCrossoverPointProbability(double crossoverPointProbability) {
+        throw new UnsupportedOperationException("Not applicable");
+    }
+    
+    public ControlParameter getCrossoverPointProbability() {
+        throw new UnsupportedOperationException("Not applicable");
     }
 }

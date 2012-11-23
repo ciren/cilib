@@ -6,11 +6,14 @@
  */
 package net.sourceforge.cilib.ec;
 
+import javax.sound.midi.Sequence;
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.problem.Problem;
+import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
+import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -19,7 +22,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class Individual extends AbstractEntity {
 
-    private static final long serialVersionUID = -578986147850240655L;
+    protected static final long serialVersionUID = -578986147850240655L;
+    protected InitializationStrategy<Individual> initialisationStrategy;
 
     /**
      * Create an instance of {@linkplain Individual}.
@@ -27,6 +31,7 @@ public class Individual extends AbstractEntity {
     public Individual() {
         this.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of());
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        initialisationStrategy = new RandomInitializationStrategy<Individual>();
     }
 
     /**
@@ -35,6 +40,7 @@ public class Individual extends AbstractEntity {
      */
     public Individual(Individual copy) {
         super(copy);
+        initialisationStrategy = copy.initialisationStrategy;
     }
 
     /**
@@ -86,10 +92,12 @@ public class Individual extends AbstractEntity {
     public void initialise(Problem problem) {
         // ID initialization is done in the clone method...
         // which is always enforced due to the semantics of the performInitialisation methods
-        Vector candidate = Vector.newBuilder().copyOf(problem.getDomain().getBuiltRepresentation()).buildRandom();
-        this.setCandidateSolution(candidate);
-
-        Vector strategy = Vector.fill(0.0, candidate.size());
+        this.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.newBuilder().copyOf(problem.getDomain().getBuiltRepresentation()).build());
+        
+        this.initialisationStrategy.initialize(EntityType.CANDIDATE_SOLUTION, this);
+        
+        Vector strategy = Vector.fill(0.0, this.getCandidateSolution().size());
+        
         this.getProperties().put(EntityType.STRATEGY_PARAMETERS, strategy);
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
     }
@@ -146,5 +154,13 @@ public class Individual extends AbstractEntity {
     @Override
     public void reinitialise() {
         throw new UnsupportedOperationException("Implementation is required for this method");
+    }
+    
+    public InitializationStrategy getInitialisationStrategy() {
+        return initialisationStrategy;
+    }
+    
+    public void setInitializationStrategy(InitializationStrategy strategy) {
+        initialisationStrategy = strategy;
     }
 }

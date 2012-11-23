@@ -12,12 +12,11 @@ import com.google.common.base.Objects;
  * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}
  * to represent a constant value. The specified value will be maintained until it is altered.
  */
-public class ConstantControlParameter implements ControlParameter {
+public class ConstantControlParameter implements SettableControlParameter {
     private static final long serialVersionUID = 8847038781478109426L;
     protected double parameter;
-
-
-    public static ControlParameter of(double value) {
+    
+    public static SettableControlParameter of(double value) {
         return new ConstantControlParameter(value);
     }
 
@@ -88,7 +87,19 @@ public class ConstantControlParameter implements ControlParameter {
      * 
      * @param value The new constant parameter.
      */
+    @Override
     public void setParameter(double value) {
         this.parameter = value;
     }
+
+    /*
+     * This is method does nothing in this case as the ConstantControlParameter
+     * cannot be updated, only set.
+     */
+    @Override
+    public void update(double newParameter) {
+       //nothing
+    }
+    
+    
 }

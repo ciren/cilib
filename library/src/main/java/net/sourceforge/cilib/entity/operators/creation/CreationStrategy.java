@@ -6,6 +6,7 @@
  */
 package net.sourceforge.cilib.entity.operators.creation;
 
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.Operator;
@@ -30,5 +31,8 @@ public interface CreationStrategy extends Operator {
      * @return
      */
     Entity create(Entity targetEntity, Entity current, Topology<? extends Entity> topology);
+    
+    public void setScaleParameter(double scaleParameterValue);
 
+    public ControlParameter getScaleParameter();
 }

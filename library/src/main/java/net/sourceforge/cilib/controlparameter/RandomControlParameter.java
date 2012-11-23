@@ -77,4 +77,8 @@ public class RandomControlParameter implements ControlParameter {
     public void setDistribution(ProbabilityDistributionFunction distribution) {
         this.distribution = distribution;
     }
+
+    public void setParameter(double newParameter) {
+        //not applicable
+    }
 }

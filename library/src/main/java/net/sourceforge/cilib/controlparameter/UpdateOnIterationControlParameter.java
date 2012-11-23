@@ -84,4 +84,8 @@ public class UpdateOnIterationControlParameter implements ControlParameter {
     public ControlParameter getDelegate() {
         return delegate;
     }
+    
+    public void setParameter(double newParameter) {
+        parameter = newParameter;
+    }
 }

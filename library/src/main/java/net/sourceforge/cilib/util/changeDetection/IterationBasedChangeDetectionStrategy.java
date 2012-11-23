@@ -8,10 +8,6 @@ package net.sourceforge.cilib.util.changeDetection;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 
-/**
- *
- * @author Kris
- */
 public class IterationBasedChangeDetectionStrategy extends ChangeDetectionStrategy{
     int iterationOfChange;
     int nextIterationOfChange;

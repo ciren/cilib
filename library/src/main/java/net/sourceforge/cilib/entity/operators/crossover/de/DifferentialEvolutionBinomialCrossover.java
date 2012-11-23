@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.controlparameter.SettableControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
@@ -24,9 +24,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class DifferentialEvolutionBinomialCrossover implements CrossoverStrategy {
 
     private static final long serialVersionUID = -2939023704055943968L;
-    
     private ProbabilityDistributionFunction random;
-    private ControlParameter crossoverPointProbability;
+    private SettableControlParameter crossoverPointProbability;
     
     public DifferentialEvolutionBinomialCrossover() {
         this.random = new UniformDistribution();
@@ -100,11 +99,11 @@ public class DifferentialEvolutionBinomialCrossover implements CrossoverStrategy
         return random;
     }
 
-    public void setCrossoverPointProbability(ControlParameter crossoverPointProbability) {
+    public void setCrossoverPointProbability(SettableControlParameter crossoverPointProbability) {
         this.crossoverPointProbability = crossoverPointProbability;
     }
 
-    public ControlParameter getCrossoverPointProbability() {
+    public SettableControlParameter getCrossoverPointProbability() {
         return crossoverPointProbability;
     }
 
@@ -112,4 +111,13 @@ public class DifferentialEvolutionBinomialCrossover implements CrossoverStrategy
     public int getNumberOfParents() {
         return 2;
     }
+    
+    public void setCrossoverPointProbability(double crossoverPointProbability) {
+        this.crossoverPointProbability.setParameter(crossoverPointProbability);
+    }
+    
+    public void setCrossoverProbabilityParameter(SettableControlParameter crossoverPointProbability) {
+        this.crossoverPointProbability = crossoverPointProbability;
+    }
+    
 }
