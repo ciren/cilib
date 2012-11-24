@@ -32,9 +32,9 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
  */
 public abstract class CrossoverSelection extends PSOCrossoverOperation {
 
-    private ParticleCrossoverStrategy crossoverStrategy;
-    private Selector selector;
-    private ParticleProvider particleProvider;
+    protected ParticleCrossoverStrategy crossoverStrategy;
+    protected Selector selector;
+    protected ParticleProvider particleProvider;
 
     public CrossoverSelection() {
         this.crossoverStrategy = new ParticleCrossoverStrategy();

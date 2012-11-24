@@ -14,15 +14,14 @@ import java.util.Set;
 
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
-import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
+import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.recipes.DistanceBasedElitistSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
- * <p>
- * A constrained set-driven {@link Archive} implementation. It makes use of
- * a {@link Selection} to determine which solution from the archive
- * will be selected next for removal if the archive grows larger than the capacity.
- * </p>
+ * <p> A constrained set-driven {@link Archive} implementation. It makes use of
+ * a {@link Selection} to determine which solution from the archive will be
+ * selected next for removal if the archive grows larger than the capacity. </p>
  *
  */
 public class SetBasedConstrainedArchive extends ConstrainedArchive {
@@ -32,7 +31,7 @@ public class SetBasedConstrainedArchive extends ConstrainedArchive {
 
     public SetBasedConstrainedArchive() {
         this.solutions = Sets.newLinkedHashSet();
-        this.pruningSelection = new RandomSelector<OptimisationSolution>();
+        this.pruningSelection = new DistanceBasedElitistSelector<OptimisationSolution>();
     }
 
     public SetBasedConstrainedArchive(SetBasedConstrainedArchive copy) {

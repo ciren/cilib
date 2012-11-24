@@ -18,6 +18,7 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
+import net.sourceforge.cilib.type.types.Types;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
@@ -60,9 +61,11 @@ public class ArchivingIterationStrategy<E extends PopulationBasedAlgorithm> impl
         Algorithm topLevelAlgorithm = AbstractAlgorithm.getAlgorithmList().get(0);
         List<OptimisationSolution> optimisationSolutions = new ArrayList<OptimisationSolution>();
         for (Entity entity : population) {
-            Type solution = entity.getCandidateSolution().getClone();
-            optimisationSolutions.add(new OptimisationSolution(solution,
+            if(Types.isInsideBounds(entity.getCandidateSolution())){
+                Type solution = entity.getCandidateSolution().getClone();
+                optimisationSolutions.add(new OptimisationSolution(solution,
                     topLevelAlgorithm.getOptimisationProblem().getFitness(solution)));
+            }
         }
         Archive.Provider.get().addAll(optimisationSolutions);
     }
