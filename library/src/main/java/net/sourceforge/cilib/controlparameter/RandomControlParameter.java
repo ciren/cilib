@@ -16,8 +16,6 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
  */
 public class RandomControlParameter implements ControlParameter {
     private ProbabilityDistributionFunction distribution;
-    private double lowerBound;
-    private double upperBound;
 
     public RandomControlParameter() {
         this(new UniformDistribution());
@@ -25,8 +23,6 @@ public class RandomControlParameter implements ControlParameter {
 
     public RandomControlParameter(ProbabilityDistributionFunction distribution) {
         this.distribution = distribution;
-        this.lowerBound = 0.0;
-        this.upperBound = 1.0;
     }
 
     @Override
@@ -36,7 +32,7 @@ public class RandomControlParameter implements ControlParameter {
 
     @Override
     public double getParameter() {
-        return getParameter(lowerBound, upperBound);
+        return distribution.getRandomNumber();
     }
     
     @Override
@@ -52,22 +48,6 @@ public class RandomControlParameter implements ControlParameter {
      */
     public double getParameter(double... parameters) {
         return distribution.getRandomNumber(parameters);
-    }
-
-    public double getLowerBound() {
-        return lowerBound;
-    }
-
-    public double getUpperBound() {
-        return upperBound;
-    }
-
-    public void setLowerBound(double lower) {
-        this.lowerBound = lower;
-    }
-
-    public void setUpperBound(double upper) {
-        this.upperBound = upper;
     }
 
     public ProbabilityDistributionFunction getDistribution() {

@@ -14,23 +14,32 @@ import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
- *
+ * Adds noise to result of an evaluated function.
+ * The noise is added as follows:
+ * functionResult * (offset + scale * |Gaussian(0,1)|)
+ * <p>
+ * Reference:
+ * </p>
+ * <p>
+ * Suganthan, P. N., Hansen, N., Liang, J. J., Deb, K., Chen, Y., Auger, A., and Tiwari, S. (2005).
+ * Problem Definitions and Evaluation Criteria for the CEC 2005 Special Session on Real-Parameter Optimization.
+ * Natural Computing, 1-50. Available at: http://vg.perso.eisti.fr/These/Papiers/Bibli2/CEC05.pdf.
+ * </p>
  */
 public class NoisyFunctionDecorator implements ContinuousFunction {
 
-    private static final long serialVersionUID = -3918271655104447420L;
     private ContinuousFunction function;
     private ProbabilityDistributionFunction randomNumber;
-    private ControlParameter variance;
+    private ControlParameter scale;
+    private ControlParameter offset;
 
     /**
-     * Create an instance of the decorator and set the domain to "R" by default.
+     * Default constructor.
      */
     public NoisyFunctionDecorator() {
-//        setDomain("R");
-        randomNumber = new GaussianDistribution();
-        this.variance = ConstantControlParameter.of(1.0);
+        this.randomNumber = new GaussianDistribution();
+        this.scale = ConstantControlParameter.of(0.4);
+        this.offset = ConstantControlParameter.of(1.0);
     }
 
     /**
@@ -38,7 +47,7 @@ public class NoisyFunctionDecorator implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
-        return function.apply(input) + randomNumber.getRandomNumber(0.0, this.variance.getParameter());
+        return function.apply(input) * (offset.getParameter() + scale.getParameter() * Math.abs(randomNumber.getRandomNumber()));
     }
 
     /**
@@ -56,12 +65,36 @@ public class NoisyFunctionDecorator implements ContinuousFunction {
     public void setFunction(ContinuousFunction function) {
         this.function = function;
     }
-
-    public ControlParameter getVariance() {
-        return variance;
+    
+    /**
+     * Gets the scale of the noise.
+     * @return 
+     */
+    public ControlParameter getScale() {
+        return scale;
     }
 
-    public void setVariance(ControlParameter variance) {
-        this.variance = variance;
+    /**
+     * Sets the scale of the noise.
+     * @param noiseScale 
+     */
+    public void setScale(ControlParameter noiseScale) {
+        this.scale = noiseScale;
+    }
+
+    /**
+     * Sets the offset of the noise.
+     * @param offset 
+     */
+    public void setOffset(ControlParameter offset) {
+        this.offset = offset;
+    }
+
+    /**
+     * Gets the offset of the noise.
+     * @return 
+     */
+    public ControlParameter getOffset() {
+        return offset;
     }
 }

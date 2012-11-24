@@ -10,6 +10,7 @@ package net.sourceforge.cilib.measurement.multiple;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -19,7 +20,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *             should be used instead
  */
 @Deprecated
-public class MultipleSolutions implements Measurement<Vector> {
+public class MultipleSolutions implements Measurement<TypeList> {
     private static final long serialVersionUID = 1617755270627315980L;
 
     @Override
@@ -28,14 +29,14 @@ public class MultipleSolutions implements Measurement<Vector> {
     }
 
     @Override
-    public Vector getValue(Algorithm algorithm) {
-        Vector.Builder v = Vector.newBuilder();
+    public TypeList getValue(Algorithm algorithm) {
+        TypeList tl = new TypeList();
 
         for (OptimisationSolution solution : algorithm.getSolutions()) {
-            v.copyOf((Vector) solution.getPosition());
+            tl.add(solution.getPosition());
         }
 
-        return v.build();
+        return tl;
     }
 
 }

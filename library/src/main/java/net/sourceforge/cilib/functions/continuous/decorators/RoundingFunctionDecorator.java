@@ -6,11 +6,11 @@
  */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
+import fj.F;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.type.types.container.Vector.Function;
 
 /**
  * A decorator that makes a function non-continuous.
@@ -40,9 +40,9 @@ public class RoundingFunctionDecorator implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
-        return function.apply(input.map(new Function<Numeric, Numeric>() {
+        return function.apply(input.map(new F<Numeric, Numeric>() {
             @Override
-            public Numeric apply(Numeric f) {
+            public Numeric f(Numeric f) {
                 if (Math.abs(f.doubleValue()) < 0.5) {
                     return f;
                 }

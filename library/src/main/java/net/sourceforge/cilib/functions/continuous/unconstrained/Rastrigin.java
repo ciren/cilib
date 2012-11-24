@@ -6,12 +6,12 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
+import fj.F;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.Differentiable;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.type.types.container.Vector.Function;
 
 /**
  * <p><b>The rastrigin function.</b></p>
@@ -54,9 +54,9 @@ public class Rastrigin implements ContinuousFunction, Differentiable {
      */
     @Override
     public Vector getGradient(Vector input) {
-        return input.map(new Function<Numeric, Numeric>() {
+        return input.map(new F<Numeric, Numeric>() {
             @Override
-            public Numeric apply(Numeric x) {
+            public Numeric f(Numeric x) {
                 return Real.valueOf((2.0 * x.doubleValue()) + (20 * Math.PI * Math.sin(2.0 * Math.PI * x.doubleValue())));
             }
         });

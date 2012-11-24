@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 
 public class SelectiveContextUpdateStrategyTest {
      @SuppressWarnings("unchecked")
-    @Test
+     @Test
      public void SelectiveUpdateTest(){
          final ContextEntity contextEntity = new ContextEntity();
 
