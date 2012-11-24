@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.util;
 
 import com.google.common.collect.Lists;
+import fj.F;
 import java.util.List;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
@@ -43,9 +44,9 @@ public class Matrices {
 
         //get random vectors
         for(int i = 0; i < size; i++) {
-            vecs.add(proto.map(new Vector.Function<Numeric, Numeric>() {
+            vecs.add(proto.map(new F<Numeric, Numeric>() {
                 @Override
-                public Numeric apply(Numeric x) {
+                public Numeric f(Numeric x) {
                     return Real.valueOf(random.getRandomNumber());
                 }
             }));

@@ -6,6 +6,7 @@
  */
 package net.sourceforge.cilib.niching.creation;
 
+import fj.data.List;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -15,6 +16,7 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.functions.Numerics;
 
 /**
  * <p>
@@ -101,6 +103,6 @@ public class MaintainedFitnessNicheDetection extends NicheDetection {
         }
                 
         return fitnesses.size() == (int) this.stationaryCounter.getParameter()
-                && Stats.stdDeviation(builder.build()) < threshold.getParameter();
+                && Stats.stdDev(List.iterableList(builder.build()).map(Numerics.doubleValue())) < threshold.getParameter();
     }
 }

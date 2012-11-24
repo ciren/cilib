@@ -22,25 +22,25 @@ import static org.mockito.Mockito.when;
 public class StandardContextUpdateStrategyTest {
     @SuppressWarnings("unchecked")
     @Test
-     public void StandardUpdateTest(){
-         final ContextEntity contextEntity = new ContextEntity();
+    public void StandardUpdateTest(){
+        final ContextEntity contextEntity = new ContextEntity();
 
-         final FitnessCalculator<Entity> test = mock(FitnessCalculator.class);
-         when(test.getFitness(any(ContextEntity.class))).thenReturn(new MinimisationFitness(1.0));
+        final FitnessCalculator<Entity> test = mock(FitnessCalculator.class);
+        when(test.getFitness(any(ContextEntity.class))).thenReturn(new MinimisationFitness(1.0));
 
-         Vector testContext = Vector.of(1, 1);
+        Vector testContext = Vector.of(1, 1);
 
-         contextEntity.setCandidateSolution(testContext);
-         contextEntity.setFitnessCalculator(test);
-         contextEntity.setFitness(new MinimisationFitness(0.0));
+        contextEntity.setCandidateSolution(testContext);
+        contextEntity.setFitnessCalculator(test);
+        contextEntity.setFitness(new MinimisationFitness(0.0));
 
-         Vector solution = Vector.of(0);
-         DimensionAllocation allocation = new SequencialDimensionAllocation(0, 1);
+        Vector solution = Vector.of(0);
+        DimensionAllocation allocation = new SequencialDimensionAllocation(0, 1);
 
-         StandardContextUpdateStrategy strategy = new StandardContextUpdateStrategy();
-         strategy.updateContext(contextEntity, solution, allocation);
+        StandardContextUpdateStrategy strategy = new StandardContextUpdateStrategy();
+        strategy.updateContext(contextEntity, solution, allocation);
 
-         assertEquals(0.0, contextEntity.getCandidateSolution().get(0).doubleValue(), 0.0);
-         assertEquals(1.0, contextEntity.getFitness().getValue(), 0.0);
-     }
+        assertEquals(0.0, contextEntity.getCandidateSolution().get(0).doubleValue(), 0.0);
+        assertEquals(1.0, contextEntity.getFitness().getValue(), 0.0);
+    }
 }

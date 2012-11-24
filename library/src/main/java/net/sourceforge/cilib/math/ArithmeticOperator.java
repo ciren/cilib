@@ -30,7 +30,7 @@ public enum ArithmeticOperator {
             return left.doubleValue() * right.doubleValue();
         }
     },
-    DEVISION {
+    DIVISION {
         @Override
         public <T extends Number> double evaluate(T left, T right) {
             return left.doubleValue() / right.doubleValue();

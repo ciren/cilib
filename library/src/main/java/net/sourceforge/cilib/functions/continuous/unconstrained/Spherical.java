@@ -6,12 +6,12 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
+import fj.F;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.Differentiable;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.type.types.container.Vector.Function;
 
 /**
  * <p>Spherical function.</p>
@@ -45,9 +45,9 @@ public class Spherical implements ContinuousFunction, Differentiable {
      */
     @Override
     public Double apply(Vector input) {
-        return input.foldLeft(0.0, new Function<Numeric, Double>() {
+        return input.foldLeft(0.0, new F<Numeric, Double>() {
             @Override
-            public Double apply(Numeric x) {
+            public Double f(Numeric x) {
                 return x.doubleValue() * x.doubleValue();
             }            
         });
@@ -58,9 +58,9 @@ public class Spherical implements ContinuousFunction, Differentiable {
      */
     @Override
     public Vector getGradient(Vector x) {
-        return x.map(new Function<Numeric, Numeric>() {
+        return x.map(new F<Numeric, Numeric>() {
             @Override
-            public Numeric apply(Numeric x) {
+            public Numeric f(Numeric x) {
                 return Real.valueOf(x.doubleValue() * 2);
             }            
         });

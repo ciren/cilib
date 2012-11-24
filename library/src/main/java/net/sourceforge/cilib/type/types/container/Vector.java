@@ -10,7 +10,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
-
+import fj.F;
+import fj.F2;
 import fj.P;
 import fj.P1;
 import java.util.*;
@@ -495,10 +496,9 @@ public class Vector implements StructuredType<Numeric>,
      */
     @Override
     public final double norm() {
-        return Math.sqrt(foldLeft(0, new Function<Numeric, Double>() {
-
+        return Math.sqrt(foldLeft(0, new F<Numeric, Double>() {
             @Override
-            public Double apply(Numeric x) {
+            public Double f(Numeric x) {
                 return x.doubleValue() * x.doubleValue();
             }
         }));
@@ -817,10 +817,10 @@ public class Vector implements StructuredType<Numeric>,
      * @param function provided to perform a transform on each element.
      * @return A new {@code Vector} containing the transformed elements.
      */
-    public Vector map(Function<Numeric, Numeric> function) {
+    public Vector map(F<Numeric, Numeric> function) {
         Numeric[] result = new Numeric[components.length];
         for (int i = 0, n = components.length; i < n; i++) {
-            result[i] = function.apply(components[i]);
+            result[i] = function.f(components[i]);
         }
         return new Vector(result);
     }
@@ -850,21 +850,21 @@ public class Vector implements StructuredType<Numeric>,
      * @param function to be used in the folding operations.
      * @return a scalar vale which is the result of the fold.
      */
-    public double foldLeft(double initial, Function<Numeric, Double> function) {
+    public double foldLeft(double initial, F<Numeric, Double> function) {
         double acc = initial;
         for (int i = 0, n = components.length; i < n; i++) {
-            acc += function.apply(components[i]);
+            acc += function.f(components[i]);
         }
         return acc;
     }
 
     /**
      * Reduce a collection of elements to a single scalar value, based on the
-     * given function (which is used to perfrom the reduction).
-     * @param function provided to perfrom the reduction.
+     * given function (which is used to perform the reduction).
+     * @param function provided to perform the reduction.
      * @return scalar value of the reduction operation.
      */
-    public Number reduceLeft(BinaryFunction<Double, Double, Number> function) {
+    public Number reduceLeft(F2<Double, Double, Number> function) {
         if (isEmpty()) {
             throw new UnsupportedOperationException("empty.reduceLeft");
         }
@@ -876,20 +876,10 @@ public class Vector implements StructuredType<Numeric>,
                 acc = n.doubleValue();
                 first = false;
             } else {
-                acc = function.apply(acc.doubleValue(), n.doubleValue());
+                acc = function.f(acc.doubleValue(), n.doubleValue());
             }
         }
         return acc;
-    }
-
-    public interface Function<F, T> {
-
-        T apply(F x);
-    }
-
-    public interface BinaryFunction<A, B, C> {
-
-        C apply(A a, B b);
     }
 
     /**

@@ -6,14 +6,17 @@
  */
 package net.sourceforge.cilib.math;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import fj.F;
+import static fj.data.List.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.functions.Numerics;
 
 /**
  * This class provides helper functions in addtion to the standard <code>java.lang.Math</code>
@@ -226,6 +229,32 @@ public final class Maths {
      */
     public static double log(double base, double value) {
         return Math.log(value) / Math.log(base);
+    }
+    
+    private static fj.data.List<Vector> combinations(final fj.data.List<Vector> input, final int i) {
+        if (i == input.length()) {
+            return list(Vector.of());
+        }
+
+        final fj.data.List<Vector> recursive = combinations(input, i + 1);
+        final Vector current = input.index(i);
+        
+        return fj.data.List.join(iterableList(current).map(Numerics.doubleValue())
+            .map(new F<Double, fj.data.List<Vector>>() {
+                @Override
+                public fj.data.List<Vector> f(final Double a) {
+                    return recursive.map(new F<Vector, Vector>() {
+                        @Override
+                        public Vector f(Vector b) {
+                            return Vector.newBuilder().copyOf(b).add(a).build();
+                        }
+                    });
+                }
+            }));
+    }
+    
+    public static fj.data.List<Vector> combinations(final fj.data.List<Vector> input) {
+        return combinations(input, 0);
     }
 
 }

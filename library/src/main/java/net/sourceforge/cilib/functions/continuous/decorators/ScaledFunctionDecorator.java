@@ -6,7 +6,8 @@
  */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
-import com.google.common.base.Preconditions;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -28,25 +29,17 @@ public class ScaledFunctionDecorator implements ContinuousFunction {
 
     private static final long serialVersionUID = -5316734133098401441L;
     private ContinuousFunction function;
-    private double verticalScale;
-    private double horizontalScale;
+    private ControlParameter verticalScale;
+    private ControlParameter horizontalScale;
 
     /**
-     * Create an instance of the decorator. Domain is set to "R" by default.
+     * Create an instance of the decorator.
      */
     public ScaledFunctionDecorator() {
-        verticalScale = 1.0;
-        horizontalScale = 1.0;
+        verticalScale = ConstantControlParameter.of(1.0);
+        horizontalScale = ConstantControlParameter.of(1.0);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-//    @Override
-//    public Double getMinimum() {
-//        // adds the value of the verticalShift to the original function minimum
-//        return Double.valueOf(function.getMinimum().doubleValue() * verticalScale);
-//    }
     /**
      * {@inheritDoc}
      */
@@ -55,10 +48,10 @@ public class ScaledFunctionDecorator implements ContinuousFunction {
         Vector tmp = Vector.copyOf(input);
 
         for (int i = 0; i < input.size(); i++) {
-            tmp.setReal(i, (horizontalScale * input.doubleValueOf(i)));
+            tmp.setReal(i, (horizontalScale.getParameter() * input.doubleValueOf(i)));
         }
 
-        return (verticalScale * function.apply(tmp));
+        return (verticalScale.getParameter() * function.apply(tmp));
     }
 
     /**
@@ -77,37 +70,19 @@ public class ScaledFunctionDecorator implements ContinuousFunction {
         this.function = function;
     }
 
-    /**
-     * Get the horizontal scale value.
-     * @return The horizontal scale value.
-     */
-    public double getHorizontalScale() {
-        return horizontalScale;
+    public void setVerticalScale(ControlParameter verticalScale) {
+        this.verticalScale = verticalScale;
     }
 
-    /**
-     * Set the value of the horizontal scale.
-     * @param horizontalScale The value of the horizontal scale.
-     */
-    public void setHorizontalScale(double horizontalScale) {
-        Preconditions.checkArgument(horizontalScale > 0, "Horizontal scale factor must be greater than zero!");
-        this.horizontalScale = horizontalScale;
-    }
-
-    /**
-     * Get the value of the vertical scale.
-     * @return The vertical scale value.
-     */
-    public double getVerticalScale() {
+    public ControlParameter getVerticalScale() {
         return verticalScale;
     }
 
-    /**
-     * Set the value of the vertical scale.
-     * @param verticalScale The vertical scale to use.
-     */
-    public void setVerticalScale(double verticalScale) {
-        Preconditions.checkArgument(verticalScale > 0, "Vertical scale factor must be greater than zero!");
-        this.verticalScale = verticalScale;
+    public void setHorizontalScale(ControlParameter horizontalScale) {
+        this.horizontalScale = horizontalScale;
+    }
+
+    public ControlParameter getHorizontalScale() {
+        return horizontalScale;
     }
 }
