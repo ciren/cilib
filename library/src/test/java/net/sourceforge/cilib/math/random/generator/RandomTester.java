@@ -6,9 +6,6 @@
  */
 package net.sourceforge.cilib.math.random.generator;
 
-/**
- *
- */
 public interface RandomTester {
     void addSample(double number);
     boolean hasRandomSamples();

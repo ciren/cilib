@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import net.sourceforge.cilib.container.visitor.Visitor;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 
@@ -353,9 +352,9 @@ public class ClusterCentroid implements StructuredType<Numeric>{
      * @param random The RandomProvider to be used
      */
     @Override
-    public void randomize(RandomProvider random) {
+    public void randomize() {
         for (int i = 0; i < components.length; i++) {
-            this.components[i].randomize(random);
+            this.components[i].randomize();
         }
     }
     

@@ -13,8 +13,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.LinearlyVaryingControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -47,13 +46,11 @@ public class FDRVelocityProvider implements VelocityProvider {
     private static final long serialVersionUID = -7117135203986406944L;
 
     private ControlParameter fdrMaximizerAcceleration;
-    private RandomProvider randomProvider;
 
     private StandardVelocityProvider delegate;
 
     public FDRVelocityProvider() {
         this.fdrMaximizerAcceleration = ConstantControlParameter.of(2);
-        this.randomProvider = new MersenneTwister();
 
         this.delegate = new StandardVelocityProvider();
         //TODO: recheck this inertia, the original paper has some weird values that become negative early on
@@ -67,7 +64,6 @@ public class FDRVelocityProvider implements VelocityProvider {
 
     public FDRVelocityProvider(FDRVelocityProvider copy) {
         this.fdrMaximizerAcceleration = copy.fdrMaximizerAcceleration.getClone();
-        this.randomProvider = new MersenneTwister();
         this.delegate = copy.delegate.getClone();
     }
 
@@ -113,7 +109,7 @@ public class FDRVelocityProvider implements VelocityProvider {
             }
 
             Vector fdrMaximizerPosition = (Vector) fdrMaximizer.getBestPosition();
-            builder.add(standardVelocity.doubleValueOf(i) + this.fdrMaximizerAcceleration.getParameter() * this.randomProvider.nextDouble()
+            builder.add(standardVelocity.doubleValueOf(i) + this.fdrMaximizerAcceleration.getParameter() * Rand.nextDouble()
                     * (fdrMaximizerPosition.doubleValueOf(i) - position.doubleValueOf(i)));
         }
         return builder.build();

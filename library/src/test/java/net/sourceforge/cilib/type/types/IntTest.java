@@ -6,13 +6,10 @@
  */
 package net.sourceforge.cilib.type.types;
 
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-/**
- *
- */
 public class IntTest {
 
     @Test
@@ -53,11 +50,12 @@ public class IntTest {
 
     @Test
     public void testRandomize() {
+        Rand.setSeed(0);
         Int i1 = Int.valueOf(0, new Bounds(-300, 300));
         Int i2 = i1.getClone();
 
         assertTrue(i1.intValue() == i2.intValue());
-        i1.randomize(new MersenneTwister());
+        i1.randomize();
         assertTrue(i1.intValue() != i2.intValue());
     }
 }

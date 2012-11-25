@@ -7,9 +7,8 @@
 package net.sourceforge.cilib.pso.positionprovider;
 
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  * Implementation of A quantum particle swarm optimization
@@ -26,33 +25,12 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  */
 public class BinaryQuantumPositionProvider implements PositionProvider {
 
-    private RandomProvider random;
-
-    /**
-     * Create an instance of {@linkplain BinaryQuantumPositionProvider}.
-     */
-    public BinaryQuantumPositionProvider() {
-        this(new MersenneTwister());
-    }
-
-    public BinaryQuantumPositionProvider(RandomProvider random) {
-        this.random = random;
-    }
-
-    /**
-     * Create a copy of the provided instance.
-     * @param copy The instance to copy.
-     */
-    public BinaryQuantumPositionProvider(BinaryQuantumPositionProvider copy) {
-        this.random = copy.random;
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
     public BinaryQuantumPositionProvider getClone() {
-        return new BinaryQuantumPositionProvider(this);
+        return this;
     }
 
     /*
@@ -66,7 +44,7 @@ public class BinaryQuantumPositionProvider implements PositionProvider {
         Vector.Builder builder = Vector.newBuilder();
 
         for (int i = 0; i < particle.getDimension(); i++) {
-            double rand = this.random.nextDouble();
+            double rand = Rand.nextDouble();
             double q = velocity.doubleValueOf(i);
 
             if (rand > q) {
@@ -76,21 +54,5 @@ public class BinaryQuantumPositionProvider implements PositionProvider {
             }
         }
         return builder.build();
-    }
-
-    /**
-     * Get the random function used within the update strategy.
-     * @return The {@linkplain RandomProvider} function used.
-     */
-    public RandomProvider getRandom() {
-        return this.random;
-    }
-
-    /**
-     * Set the random function to use.
-     * @param random The function to set.
-     */
-    public void setRandom(RandomProvider random) {
-        this.random = random;
     }
 }

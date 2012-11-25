@@ -6,8 +6,6 @@
  */
 package net.sourceforge.cilib.math.random.generator;
 
-import net.sourceforge.cilib.math.random.generator.seeder.Seeder;
-
 /**
  * <p>
  * This is an implementation of the MT19937 random number generator.
@@ -38,18 +36,16 @@ import net.sourceforge.cilib.math.random.generator.seeder.Seeder;
  * Comment text ripped from GSL.
  *
  */
-public class MersenneTwister implements RandomProvider {
+class MersenneTwister {
 
     private static final long serialVersionUID = -4165908582605023476L;
     private final long seed;
-
-    /**
-     * Default Constructor. Initialises the {@linkplain MersenneTwister} with the
-     * seed value from {@link Seeder#getSeed()}.
-     */
-    public MersenneTwister() {
-        this.seed = Seeder.getSeed();
-    }
+    private long[] data;
+    private int index;
+    private static final int N = 624;
+    private static final int M = 397;
+    private static final long UPPER_MASK = 0x80000000L;
+    private static final long LOWER_MASK = 0x7fffffffL;
 
     /**
      * Create a {@linkplain MersenneTwister} with the given seed value.
@@ -57,15 +53,6 @@ public class MersenneTwister implements RandomProvider {
      */
     public MersenneTwister(long seed) {
         this.seed = seed;
-    }
-
-    /**
-     * Copy constructor. Create an instance with the same seed as the given
-     * instance.
-     * @param copy The instance to copy.
-     */
-    public MersenneTwister(MersenneTwister copy) {
-        this.seed = copy.seed;
     }
 
     /**
@@ -86,9 +73,6 @@ public class MersenneTwister implements RandomProvider {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     private int next(int bits) {
         if (data == null) {
             setSeed(seed);
@@ -124,10 +108,6 @@ public class MersenneTwister implements RandomProvider {
         return (int) ((k & 0xffffffffL) >>> (32 - bits));
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public double nextDouble() {
         double result = (((long) next(26) << 27) + next(27)) / (double) (1L << 53);
         index--;
@@ -139,24 +119,15 @@ public class MersenneTwister implements RandomProvider {
             data[i] ^= 0x9908b0dfL;
         }
     }
-    private long[] data;
-    private int index;
-    private static final int N = 624;
-    private static final int M = 397;
-    private static final long UPPER_MASK = 0x80000000L;
-    private static final long LOWER_MASK = 0x7fffffffL;
-
-    @Override
+    
     public boolean nextBoolean() {
         return next(1) != 0;
     }
 
-    @Override
     public int nextInt() {
         return next(32);
     }
 
-    @Override
     public int nextInt(int n) {
         if (n <= 0) {
             throw new IllegalArgumentException("n must be positive");
@@ -175,17 +146,14 @@ public class MersenneTwister implements RandomProvider {
         return val;
     }
 
-    @Override
     public long nextLong() {
         return ((long) (next(32)) << 32) + next(32);
     }
 
-    @Override
     public float nextFloat() {
         return next(24) / ((float) (1 << 24));
     }
 
-    @Override
     public void nextBytes(byte[] bytes) {
         for (int i = 0, len = bytes.length; i < len;) {
             for (int rnd = nextInt(),
@@ -194,5 +162,9 @@ public class MersenneTwister implements RandomProvider {
                 bytes[i++] = (byte) rnd;
             }
         }
+    }
+
+    public long getSeed() {
+        return seed;
     }
 }

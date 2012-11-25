@@ -7,11 +7,9 @@
 package net.sourceforge.cilib.pso.velocityprovider;
 
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.Bounds;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Implementation of Modified particle swarm optimization algorithm for variable
@@ -31,20 +29,17 @@ import net.sourceforge.cilib.type.types.Bounds;
  */
 public final class BinaryRandomVelocityProvider implements VelocityProvider {
 
-    protected RandomProvider r1;
     protected Bounds bounds;
 
     public BinaryRandomVelocityProvider() {
-        this(new MersenneTwister(), new Bounds(0,1));
+        this(new Bounds(0,1));
     }
 
-    public BinaryRandomVelocityProvider(RandomProvider r1, Bounds bounds) {
-        this.r1 = r1;
+    public BinaryRandomVelocityProvider(Bounds bounds) {
         this.bounds = bounds;
     }
 
     public BinaryRandomVelocityProvider(BinaryRandomVelocityProvider copy) {
-        this.r1 = copy.r1;
         this.bounds = copy.bounds;
     }
 
@@ -61,18 +56,10 @@ public final class BinaryRandomVelocityProvider implements VelocityProvider {
         Vector.Builder velocity = Vector.newBuilder();
 
         for(int i = 0; i < particle.getDimension(); i++) {
-            velocity.addWithin(r1.nextDouble(), bounds);
+            velocity.addWithin(Rand.nextDouble(), bounds);
         }
 
         return velocity.build();
-    }
-
-    public RandomProvider getR1() {
-        return r1;
-    }
-
-    public void setR1(RandomProvider r1) {
-        this.r1 = r1;
     }
 
     public Bounds getBounds() {

@@ -7,11 +7,8 @@
 package net.sourceforge.cilib.type.types;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import net.sourceforge.cilib.math.random.generator.Rand;
 
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
-
-/**
- */
 public class Real implements Numeric {
 
     private static final long serialVersionUID = 5290504438178510485L;
@@ -132,8 +129,8 @@ public class Real implements Numeric {
      * Re-randomize the <code>Real</code> object based on the upper and lower bounds.
      */
     @Override
-    public void randomize(RandomProvider random) {
-        this.value = checkNotNull(random).nextDouble() * (bounds.getUpperBound() - bounds.getLowerBound()) + bounds.getLowerBound();
+    public void randomize() {
+        this.value = Rand.nextDouble() * (bounds.getUpperBound() - bounds.getLowerBound()) + bounds.getLowerBound();
     }
 
     /**

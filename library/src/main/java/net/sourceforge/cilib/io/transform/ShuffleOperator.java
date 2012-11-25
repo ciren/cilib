@@ -8,7 +8,7 @@ package net.sourceforge.cilib.io.transform;
 
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.exception.CIlibIOException;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.Rand;
 
 /**
  * A data operator that efficiently shuffles a datatable.
@@ -26,11 +26,9 @@ public class ShuffleOperator implements DataOperator {
      */
     @Override
     public DataTable operate(DataTable dataTable) throws CIlibIOException {
-        MersenneTwister twister = new MersenneTwister();
-
         int size = dataTable.size();
         for (int n = size - 1; n > 1; n--) {
-            int k = twister.nextInt(n + 1);
+            int k = Rand.nextInt(n + 1);
             Object tmp = dataTable.getRow(k);
             dataTable.setRow(k, dataTable.getRow(n));
             dataTable.setRow(n, tmp);
@@ -38,5 +36,4 @@ public class ShuffleOperator implements DataOperator {
 
         return dataTable;
     }
-
 }

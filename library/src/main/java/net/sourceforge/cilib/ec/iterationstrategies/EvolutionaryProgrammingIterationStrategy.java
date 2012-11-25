@@ -16,7 +16,6 @@ import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.mutation.GaussianMutationStrategy;
 import net.sourceforge.cilib.entity.operators.mutation.MutationStrategy;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
@@ -89,7 +88,7 @@ public class EvolutionaryProgrammingIterationStrategy extends AbstractIterationS
     private int getScore(Individual current, Topology<Individual> topology) {
         int score = 0;
         List<Individual> selection = Selection.copyOf(topology)
-                .orderBy(new RandomArrangement(new MersenneTwister()))
+                .orderBy(new RandomArrangement())
                 .select(Samples.first(10).unique());
 
         for (Individual i : selection) {

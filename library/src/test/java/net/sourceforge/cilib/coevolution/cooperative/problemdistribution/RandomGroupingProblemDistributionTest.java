@@ -10,9 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
-import net.sourceforge.cilib.math.random.generator.seeder.SeedSelectionStrategy;
-import net.sourceforge.cilib.math.random.generator.seeder.Seeder;
-import net.sourceforge.cilib.math.random.generator.seeder.ZeroSeederStrategy;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.DomainRegistry;
@@ -29,40 +27,35 @@ public class RandomGroupingProblemDistributionTest {
 
     @Test
     public void RandomGroupingTest() {
-        SeedSelectionStrategy seedStrategy = Seeder.getSeederStrategy();
-        Seeder.setSeederStrategy(new ZeroSeederStrategy());
-        try {
-            final DomainRegistry problemDomain = new StringBasedDomainRegistry();
-            problemDomain.setDomainString("R(0.0:4.0)^5");
-            Bounds bounds = new Bounds(0.0, 4.0);
-            Vector data = Vector.of(Real.valueOf(0.0, bounds),
-                    Real.valueOf(0.0, bounds),
-                    Real.valueOf(0.0, bounds),
-                    Real.valueOf(0.0, bounds),
-                    Real.valueOf(0.0, bounds));
+        Rand.setSeed(0);
+        final DomainRegistry problemDomain = new StringBasedDomainRegistry();
+        problemDomain.setDomainString("R(0.0:4.0)^5");
+        Bounds bounds = new Bounds(0.0, 4.0);
+        Vector data = Vector.of(Real.valueOf(0.0, bounds),
+                Real.valueOf(0.0, bounds),
+                Real.valueOf(0.0, bounds),
+                Real.valueOf(0.0, bounds),
+                Real.valueOf(0.0, bounds));
 
-            List<PopulationBasedAlgorithm> populations = Arrays.asList((PopulationBasedAlgorithm) new PSO(), (PopulationBasedAlgorithm) new PSO());
+        List<PopulationBasedAlgorithm> populations = Arrays.asList((PopulationBasedAlgorithm) new PSO(), (PopulationBasedAlgorithm) new PSO());
 
-            final Problem problem = mock(Problem.class);
-            when(problem.getDomain()).thenReturn(problemDomain);
+        final Problem problem = mock(Problem.class);
+        when(problem.getDomain()).thenReturn(problemDomain);
 
-            RandomGroupingDistributionStrategy test = new RandomGroupingDistributionStrategy();
-            test.performDistribution(populations, problem, data);
+        RandomGroupingDistributionStrategy test = new RandomGroupingDistributionStrategy();
+        test.performDistribution(populations, problem, data);
 
-            CooperativeCoevolutionProblemAdapter p1 = (CooperativeCoevolutionProblemAdapter) populations.get(0).getOptimisationProblem();
-            CooperativeCoevolutionProblemAdapter p2 = (CooperativeCoevolutionProblemAdapter) populations.get(1).getOptimisationProblem();
+        CooperativeCoevolutionProblemAdapter p1 = (CooperativeCoevolutionProblemAdapter) populations.get(0).getOptimisationProblem();
+        CooperativeCoevolutionProblemAdapter p2 = (CooperativeCoevolutionProblemAdapter) populations.get(1).getOptimisationProblem();
 
-            assertEquals(3, p1.getDomain().getDimension(), 0.0);
-            assertEquals(2, p2.getDomain().getDimension(), 0.0);
+        assertEquals(3, p1.getDomain().getDimension(), 0.0);
+        assertEquals(2, p2.getDomain().getDimension(), 0.0);
 
-            assertEquals(3, p1.getProblemAllocation().getProblemIndex(0), 0.0);
-            assertEquals(2, p1.getProblemAllocation().getProblemIndex(1), 0.0);
-            assertEquals(4, p1.getProblemAllocation().getProblemIndex(2), 0.0);
+        assertEquals(3, p1.getProblemAllocation().getProblemIndex(0), 0.0);
+        assertEquals(2, p1.getProblemAllocation().getProblemIndex(1), 0.0);
+        assertEquals(4, p1.getProblemAllocation().getProblemIndex(2), 0.0);
 
-            assertEquals(1, p2.getProblemAllocation().getProblemIndex(0), 0.0);
-            assertEquals(0, p2.getProblemAllocation().getProblemIndex(1), 0.0);
-        } finally {
-            Seeder.setSeederStrategy(seedStrategy);
-        }
+        assertEquals(1, p2.getProblemAllocation().getProblemIndex(0), 0.0);
+        assertEquals(0, p2.getProblemAllocation().getProblemIndex(1), 0.0);
     }
 }

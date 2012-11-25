@@ -6,38 +6,30 @@
  */
 package net.sourceforge.cilib.math.random.generator;
 
-/**
- *
- */
 public final class RandomAdaptor extends java.util.Random {
     private static final long serialVersionUID = 9072860165404102971L;
-    private final RandomProvider delegate;
 
     private double nextNextGaussian;
     private boolean haveNextNextGaussian = false;
 
-    public RandomAdaptor(RandomProvider provider) {
-        this.delegate = provider;
-    }
-
     @Override
     public boolean nextBoolean() {
-        return delegate.nextBoolean();
+        return Rand.nextBoolean();
     }
 
     @Override
     public void nextBytes(byte[] bytes) {
-        delegate.nextBytes(bytes);
+        Rand.nextBytes(bytes);
     }
 
     @Override
     public double nextDouble() {
-        return delegate.nextDouble();
+        return Rand.nextDouble();
     }
 
     @Override
     public float nextFloat() {
-        return delegate.nextFloat();
+        return Rand.nextFloat();
     }
 
     @Override
@@ -62,17 +54,17 @@ public final class RandomAdaptor extends java.util.Random {
 
     @Override
     public int nextInt() {
-        return delegate.nextInt();
+        return Rand.nextInt();
     }
 
     @Override
     public int nextInt(int n) {
-        return delegate.nextInt(n);
+        return Rand.nextInt(n);
     }
 
     @Override
     public long nextLong() {
-        return delegate.nextLong();
+        return Rand.nextLong();
     }
 
     @Override

@@ -92,7 +92,7 @@ public class Samples {
 
         @Override
         public <T> List<T> sample(List<T> list) {
-            Set<T> set = Sets.newHashSet(list);
+            Set<T> set = Sets.newLinkedHashSet(list);
             return strategy.sample(Lists.newArrayList(set));
         }
     }

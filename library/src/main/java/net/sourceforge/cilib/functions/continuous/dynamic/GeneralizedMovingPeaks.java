@@ -11,7 +11,6 @@ import net.sourceforge.cilib.functions.DynamicFunction;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -331,9 +330,5 @@ public class GeneralizedMovingPeaks implements ContinuousFunction, DynamicFuncti
 
     public void setWidthSeverity(double widthSeverity) {
         this.widthSeverity = widthSeverity;
-    }
-
-    public void setSeed(long seed) {
-        uniform.setRandomProvider(new MersenneTwister(seed));
     }
 }

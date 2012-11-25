@@ -6,12 +6,10 @@
  */
 package net.sourceforge.cilib.type.types;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 
 /**
- * Implemetantation of the <tt>Bit</tt> object. The <tt>Bit</tt> object is the
+ * Implementation of the <tt>Bit</tt> object. The <tt>Bit</tt> object is the
  * <tt>Type</tt> system equivalent of a bit.
  *
  */
@@ -134,9 +132,8 @@ public class Bit implements Numeric {
      * Randomly choose a new valid for the <code>Bit</code> object.
      */
     @Override
-    public void randomize(RandomProvider random) {
-        checkNotNull(random);
-        this.state = random.nextBoolean();
+    public void randomize() {
+        this.state = Rand.nextBoolean();
     }
 
     /**

@@ -37,13 +37,12 @@ public class NetworkBasedSeedSelectionStrategy implements SeedSelectionStrategy 
     }
 
     private int getNetworkAddress() {
-        byte[] address = null;
+        byte[] addr = null;
 
         try {
-            address = InetAddress.getLocalHost().getAddress();
-        }
-        catch (UnknownHostException ex) {
-//            log.warn("localhost not found directly. Proceeding.");
+            addr = InetAddress.getLocalHost().getAddress();
+        } catch (UnknownHostException ex) {
+            System.out.println("Warning: localhost not found directly. Proceeding.");
         }
 
         try {
@@ -51,22 +50,20 @@ public class NetworkBasedSeedSelectionStrategy implements SeedSelectionStrategy 
             while (interfaces.hasMoreElements()) {
                 Enumeration<InetAddress> addresses = interfaces.nextElement().getInetAddresses();
                 while (addresses.hasMoreElements()) {
-                    InetAddress addr = addresses.nextElement();
-                    if (!addr.isLoopbackAddress()) {
-                        address = addr.getAddress();
+                    InetAddress a = addresses.nextElement();
+                    if (!a.isLoopbackAddress()) {
+                        addr = a.getAddress();
                     }
                 }
             }
-        }
-        catch (SocketException ex) {
-//            log.warn("localhost not found through interfce list. Proceeding.");
+        } catch (SocketException ex) {
+            System.out.println("Warning: localhost not found through interfce list. Proceeding.");
         }
 
-        if (address == null) {
+        if (addr == null) {
             return 0;
-        }
-        else {
-            return ((int) address[0]) << 24 | ((int) address[1]) << 16 | ((int) address[2]) << 8 | (int) address[3];
+        } else {
+            return ((int) addr[0]) << 24 | ((int) addr[1]) << 16 | ((int) addr[2]) << 8 | (int) addr[3];
         }
     }
 }

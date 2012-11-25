@@ -11,17 +11,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
-
+import net.sourceforge.cilib.math.random.generator.Rand;
+import static org.hamcrest.CoreMatchers.is;
 import org.junit.Assert;
 import org.junit.Test;
-import static org.hamcrest.CoreMatchers.is;
 
-
-/**
- *
- */
 public class MathsTest {
 
     @Test(expected = IllegalArgumentException.class)
@@ -95,20 +89,20 @@ public class MathsTest {
 
     @Test
     public void flip() {
-        RandomProvider provider = new MersenneTwister(1000L);
+        Rand.setSeed(1000L);
 
-        Assert.assertThat(Maths.flip(0.0, provider), is(0));
-        Assert.assertThat(Maths.flip(1.0, provider), is(1));
+        Assert.assertThat(Maths.flip(0.0), is(0));
+        Assert.assertThat(Maths.flip(1.0), is(1));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void flipNegativeProbability() {
-        Maths.flip(-1.0, null);
+        Maths.flip(-1.0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void flipImpossibleProbability() {
-        Maths.flip(1.1, null);
+        Maths.flip(1.1);
     }
 
 }

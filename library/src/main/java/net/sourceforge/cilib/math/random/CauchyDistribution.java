@@ -9,15 +9,10 @@ package net.sourceforge.cilib.math.random;
 import static com.google.common.base.Preconditions.checkArgument;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 
-/**
- *
- */
 public class CauchyDistribution implements ProbabilityDistributionFunction {
 
-    private RandomProvider provider;
     private ControlParameter location;
     private ControlParameter scale;
 
@@ -25,13 +20,6 @@ public class CauchyDistribution implements ProbabilityDistributionFunction {
      * Default Constructor
      */
     public CauchyDistribution() {
-        this.provider = new MersenneTwister();
-        this.location = ConstantControlParameter.of(0.0);
-        this.scale = ConstantControlParameter.of(1.0);
-    }
-
-    public CauchyDistribution(long seed) {
-        this.provider = new MersenneTwister(seed);
         this.location = ConstantControlParameter.of(0.0);
         this.scale = ConstantControlParameter.of(1.0);
     }
@@ -60,19 +48,9 @@ public class CauchyDistribution implements ProbabilityDistributionFunction {
         checkArgument(locationScale.length == 2, "The Cauchy distribution requires two parameters.");
         checkArgument(locationScale[1] > 0, "The scale must be greater than zero.");
 
-        double x = provider.nextDouble(); // Uniform number between 0.0 and 1.0
+        double x = Rand.nextDouble(); // Uniform number between 0.0 and 1.0
 
         return locationScale[0] + locationScale[1] * Math.tan(Math.PI * (x - 0.5));
-    }
-
-    @Override
-    public RandomProvider getRandomProvider() {
-        return provider;
-    }
-
-    @Override
-    public void setRandomProvider(RandomProvider provider) {
-        this.provider = provider;
     }
 
     public void setScale(ControlParameter scale) {

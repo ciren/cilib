@@ -6,20 +6,16 @@
  */
 package net.sourceforge.cilib.type.types;
 
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.Rand;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.not;
-
 import org.junit.Test;
 
-/**
- *
- */
 public class RealTest {
 
     @Test
@@ -75,18 +71,20 @@ public class RealTest {
 
     @Test
     public void randomizeWithinDefinedBounds() {
+        Rand.setSeed(0);
         Real r1 = Real.valueOf(0.0, new Bounds(-30.0, 30.0));
         Real r2 = Real.valueOf(0.0, new Bounds(-30.0, 30.0));
 
         assertTrue(r1.doubleValue() == r2.doubleValue());
-        r1.randomize(new MersenneTwister());
+        r1.randomize();
         assertTrue(r1.doubleValue() != r2.doubleValue());
     }
 
     @Test
     public void randomizeBetweenInfiniteBounds() {
+        Rand.setSeed(0);
         Real r = Real.valueOf(0.0);
-        r.randomize(new MersenneTwister());
+        r.randomize();
         Assert.assertThat(r.doubleValue(), not(equalTo(0.0)));
         Assert.assertThat(r.doubleValue(), not(equalTo(Double.NaN)));
     }
