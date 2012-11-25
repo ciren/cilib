@@ -16,8 +16,7 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -34,8 +33,6 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
     private ProbabilityDistributionFunction rand1;
     private ProbabilityDistributionFunction rand2;
     private ProbabilityDistributionFunction rand3;
-    private RandomProvider r1;
-    private RandomProvider r2;
     private ControlParameter cognitive;
     private ControlParameter social;
     private ControlParameter crossoverProbability;
@@ -47,8 +44,6 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
         this.rand1 = new UniformDistribution();
         this.rand2 = new UniformDistribution();
         this.rand3 = new UniformDistribution();
-        this.r1 = new MersenneTwister();
-        this.r2 = new MersenneTwister();
         this.cognitive = ConstantControlParameter.of(1);
         this.social = ConstantControlParameter.of(1);
         this.crossoverProbability = ConstantControlParameter.of(0.5);
@@ -62,8 +57,6 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
         this.rand1 = copy.rand1;
         this.rand2 = copy.rand2;
         this.rand3 = copy.rand3;
-        this.r1 = copy.r1;
-        this.r2 = copy.r2;
         this.cognitive = copy.cognitive.getClone();
         this.social = copy.social.getClone();
         this.crossoverProbability = copy.crossoverProbability.getClone();
@@ -124,7 +117,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
         int count = 0;
 
         while (count < 3) {
-            int random = randomNumber.getRandomProvider().nextInt(topology.size());
+            int random = Rand.nextInt(topology.size());
             Entity parent = topology.get(random);
             if (!parents.contains(parent)) {
                 parents.add(parent);
@@ -229,21 +222,5 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
      */
     public void setCrossoverProbability(ControlParameter crossoverProbability) {
         this.crossoverProbability = crossoverProbability;
-    }
-
-    public RandomProvider getR1() {
-        return r1;
-    }
-
-    public void setR1(RandomProvider r1) {
-        this.r1 = r1;
-    }
-
-    public RandomProvider getR2() {
-        return r2;
-    }
-
-    public void setR2(RandomProvider r2) {
-        this.r2 = r2;
     }
 }

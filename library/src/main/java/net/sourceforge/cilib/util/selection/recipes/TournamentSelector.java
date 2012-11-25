@@ -12,10 +12,8 @@ import java.util.Comparator;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.PartialSelection;
+import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
 import net.sourceforge.cilib.util.selection.arrangement.ReverseArrangement;
@@ -40,7 +38,6 @@ public class TournamentSelector<E extends Comparable> implements Selector<E> {
     private static final long serialVersionUID = -6689673224380247931L;
     private ControlParameter tournamentProportion;
     private Comparator<E> comparator;
-    private RandomProvider random;
 
     /**
      * Create a new instance.
@@ -48,7 +45,6 @@ public class TournamentSelector<E extends Comparable> implements Selector<E> {
     public TournamentSelector() {
         this.tournamentProportion = new ProportionalControlParameter();
         this.comparator = Ordering.natural();
-        this.random = new MersenneTwister();
     }
 
     /**
@@ -58,7 +54,6 @@ public class TournamentSelector<E extends Comparable> implements Selector<E> {
     public TournamentSelector(TournamentSelector<E> copy) {
         this.tournamentProportion = copy.tournamentProportion.getClone();
         this.comparator = copy.comparator;
-        this.random = copy.random;
     }
 
     /**
@@ -94,29 +89,13 @@ public class TournamentSelector<E extends Comparable> implements Selector<E> {
     }
 
     /**
-     * Set the random number generator to use.
-     * @param random The value to set.
-     */
-    public void setRandom(RandomProvider random) {
-        this.random = random;
-    }
-
-    /**
-     * Get the current random number generator.
-     * @return The current random number generator.
-     */
-    public RandomProvider getRandom() {
-        return this.random;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public PartialSelection<E> on(Iterable<E> iterable) {
         int size = Iterables.size(iterable);
         int tournamentSize = Double.valueOf(this.tournamentProportion.getParameter() * size).intValue();
-        List<E> intermediate = Selection.copyOf(iterable).orderBy(new RandomArrangement(random)).select(Samples.last(tournamentSize));
+        List<E> intermediate = Selection.copyOf(iterable).orderBy(new RandomArrangement()).select(Samples.last(tournamentSize));
         return Selection.copyOf(intermediate).orderBy(new SortedArrangement()).orderBy(new ReverseArrangement());
     }
 }

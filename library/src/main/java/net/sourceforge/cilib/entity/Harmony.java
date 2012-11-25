@@ -6,10 +6,9 @@
  */
 package net.sourceforge.cilib.entity;
 
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
-import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
@@ -92,7 +91,7 @@ public class Harmony extends AbstractEntity {
     @Override
     public void initialise(Problem problem) {
         StructuredType harmony = problem.getDomain().getBuiltRepresentation().getClone();
-        harmony.randomize(new MersenneTwister());
+        harmony.randomize();
 
         setCandidateSolution(harmony);
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());

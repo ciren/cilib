@@ -8,30 +8,26 @@ package net.sourceforge.cilib.pso.positionprovider;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.functions.activation.Sigmoid;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  * Binary position update strategy to enable the BinaryPSO.
- *
  */
 public class BinaryPositionProvider implements PositionProvider {
 
     private static final long serialVersionUID = -2136786203855125909L;
     private Sigmoid sigmoid;
-    private RandomProvider random;
 
     /**
      * Create an instance of {@linkplain BinaryPositionProvider}.
      */
     public BinaryPositionProvider() {
-        this(new Sigmoid(), new MersenneTwister());
+        this(new Sigmoid());
     }
 
-    public BinaryPositionProvider(Sigmoid sigmoid, RandomProvider random) {
+    public BinaryPositionProvider(Sigmoid sigmoid) {
         this.sigmoid = sigmoid;
-        this.random = random;
     }
 
     /**
@@ -40,7 +36,6 @@ public class BinaryPositionProvider implements PositionProvider {
      */
     public BinaryPositionProvider(BinaryPositionProvider copy) {
         this.sigmoid = copy.sigmoid;
-        this.random = copy.random;
     }
 
     /**
@@ -60,7 +55,7 @@ public class BinaryPositionProvider implements PositionProvider {
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); i++) {
             double result = this.sigmoid.apply(velocity.doubleValueOf(i));
-            double rand = this.random.nextDouble();
+            double rand = Rand.nextDouble();
 
             if (rand < result) {
                 builder.add(true);
@@ -85,21 +80,5 @@ public class BinaryPositionProvider implements PositionProvider {
      */
     public void setSigmoid(Sigmoid sigmoid) {
         this.sigmoid = sigmoid;
-    }
-
-    /**
-     * Get the random function used within the update strategy.
-     * @return The {@linkplain RandomProvider} function used.
-     */
-    public RandomProvider getRandom() {
-        return this.random;
-    }
-
-    /**
-     * Set the random function to use.
-     * @param random The function to set.
-     */
-    public void setRandom(RandomProvider random) {
-        this.random = random;
     }
 }

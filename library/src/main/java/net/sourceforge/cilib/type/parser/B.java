@@ -6,27 +6,21 @@
  */
 package net.sourceforge.cilib.type.parser;
 
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Type;
 
-/**
- *
- *
- */
 final class B implements TypeCreator {
 
     private static final long serialVersionUID = 7124782787032789332L;
-    private RandomProvider random = new MersenneTwister();
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Type create() {
-        return Bit.valueOf(random.nextBoolean());
+        return Bit.valueOf(Rand.nextBoolean());
     }
 
     /**

@@ -11,9 +11,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.math.random.generator.seeder.SeedSelectionStrategy;
-import net.sourceforge.cilib.math.random.generator.seeder.Seeder;
-import net.sourceforge.cilib.math.random.generator.seeder.ZeroSeederStrategy;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
@@ -59,58 +57,44 @@ public class ConstrictionVelocityProviderTest {
      */
     @Test
     public void velocityProvision() {
-        SeedSelectionStrategy strategy = Seeder.getSeederStrategy();
-        Seeder.setSeederStrategy(new ZeroSeederStrategy());
+        Rand.setSeed(0);
+        Particle particle = createParticle(Vector.of(0.0));
+        Particle nBest = createParticle(Vector.of(1.0));
+        particle.setNeighbourhoodBest(nBest);
+        nBest.setNeighbourhoodBest(nBest);
 
-        try {
-            Particle particle = createParticle(Vector.of(0.0));
-            Particle nBest = createParticle(Vector.of(1.0));
-            particle.setNeighbourhoodBest(nBest);
-            nBest.setNeighbourhoodBest(nBest);
+        ConstrictionVelocityProvider velocityProvider = new ConstrictionVelocityProvider();
+        Vector velocity = velocityProvider.get(particle);
 
-            ConstrictionVelocityProvider velocityProvider = new ConstrictionVelocityProvider();
-            Vector velocity = velocityProvider.get(particle);
-
-            Assert.assertEquals(1.2189730956981684, velocity.doubleValueOf(0), Maths.EPSILON);
-        } finally {
-            Seeder.setSeederStrategy(strategy);
-        }
+        Assert.assertEquals(0.20269795364089954, velocity.doubleValueOf(0), Maths.EPSILON);
     }
 
     @Test
     public void testConstrictionCalculation() {
-        SeedSelectionStrategy strategy = Seeder.getSeederStrategy();
-        Seeder.setSeederStrategy(new ZeroSeederStrategy());
+        Rand.setSeed(0);
+        ConstrictionVelocityProvider velocityProvider = new ConstrictionVelocityProvider();
+        Particle particle = createParticle(Vector.of(0.0));
+        particle.setVelocityProvider(velocityProvider);
+        Particle nBest = createParticle(Vector.of(1.0));
+        particle.setNeighbourhoodBest(nBest);
+        nBest.setNeighbourhoodBest(nBest);
+        Particle clone = particle.getClone();
 
-        try {
-            ConstrictionVelocityProvider velocityProvider = new ConstrictionVelocityProvider();
-            Particle particle = createParticle(Vector.of(0.0));
-            particle.setVelocityProvider(velocityProvider);
-            Particle nBest = createParticle(Vector.of(1.0));
-            particle.setNeighbourhoodBest(nBest);
-            nBest.setNeighbourhoodBest(nBest);
-            Particle clone = particle.getClone();
+        particle.getVelocityProvider().get(particle);
+        clone.getVelocityProvider().get(particle);
 
-            particle.getVelocityProvider().get(particle);
-            clone.getVelocityProvider().get(particle);
+        double kappa = 1.0;
+        double c1 = 2.05;
+        double c2 = 2.05;
+        double phi = c1 + c2;
+        double chi = (2 * kappa) / Math.abs(2 - phi - Math.sqrt(phi * phi - 4.0 * phi)); //this was not copied from the implementation.
 
-            double kappa = 1.0;
-            double c1 = 2.05;
-            double c2 = 2.05;
-            double phi = c1 + c2;
-            double chi = (2 * kappa) / Math.abs(2 - phi - Math.sqrt(phi * phi - 4.0 * phi)); //this was not copied from the implementation.
+        //verify implementation maths is correct.
+        Assert.assertEquals(chi, velocityProvider.getConstrictionCoefficient().getParameter(), Maths.EPSILON);
+        //verify it is the same for two particles.
 
-            //verify implementation maths is correct.
-            Assert.assertEquals(chi, velocityProvider.getConstrictionCoefficient().getParameter(), Maths.EPSILON);
-            //verify it is the same for two particles.
-
-            Assert.assertEquals(((ConstrictionVelocityProvider) particle.getVelocityProvider()).getConstrictionCoefficient().getParameter(),
-                    ((ConstrictionVelocityProvider) clone.getVelocityProvider()).getConstrictionCoefficient().getParameter(), Maths.EPSILON);
-
-
-        } finally {
-            Seeder.setSeederStrategy(strategy);
-        }
+        Assert.assertEquals(((ConstrictionVelocityProvider) particle.getVelocityProvider()).getConstrictionCoefficient().getParameter(),
+                ((ConstrictionVelocityProvider) clone.getVelocityProvider()).getConstrictionCoefficient().getParameter(), Maths.EPSILON);
     }
 
     private Particle createParticle(Vector vector) {

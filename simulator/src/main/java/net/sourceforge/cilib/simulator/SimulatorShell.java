@@ -11,7 +11,8 @@ import java.io.File;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import net.sourceforge.cilib.algorithm.ProgressListener;
+import net.sourceforge.cilib.math.random.generator.seeder.NetworkBasedSeedSelectionStrategy;
+import net.sourceforge.cilib.math.random.generator.seeder.SeedSelectionStrategy;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -26,11 +27,13 @@ import org.w3c.dom.NodeList;
  *
  */
 public class SimulatorShell {
+    
     private SimulatorShell() {}
+    
     /**
      * Prepare a list of {@code Simulator} instances for execution.
      * @param specification to be read defining the simulations.
-     * @return the list of instacnes to execute.
+     * @return the list of instances to execute.
      */
     public static List<Simulator> prepare(File specification) {
         try {
@@ -42,15 +45,27 @@ public class SimulatorShell {
             NodeList simulations = config.getElementsByTagName("simulation");
             for (int i = 0; i < simulations.getLength(); ++i) {
                 Element current = (Element) simulations.item(i);
-                int samples = current.hasAttribute("samples") ? Integer.valueOf(current.getAttribute("samples")) : 1;
+                
                 XMLObjectFactory algorithmFactory = new XMLObjectFactory(config, (Element) current.getElementsByTagName("algorithm").item(0));
                 XMLObjectFactory problemFactory = new XMLObjectFactory(config, (Element) current.getElementsByTagName("problem").item(0));
                 XMLObjectFactory measurementsFactory = new XMLObjectFactory(config, (Element) current.getElementsByTagName("measurements").item(0));
                 MeasurementCombiner combiner = createCombiner((Element) current.getElementsByTagName("output").item(0));
+                
+                int samples = current.hasAttribute("samples") ? Integer.valueOf(current.getAttribute("samples")) : 1;
+                
+                SeedSelectionStrategy seeder;
+                NodeList seeders = current.getElementsByTagName("seeder");
+                if (seeders.getLength() >= 1) {
+                    XMLObjectFactory seederFactory = new XMLObjectFactory(config, (Element) seeders.item(0));
+                    seeder = (SeedSelectionStrategy) seederFactory.newObject();
+                } else {
+                    seeder = new NetworkBasedSeedSelectionStrategy();
+                }
 
-                Simulator simulator = new Simulator(algorithmFactory, problemFactory, measurementsFactory, combiner, samples);
+                Simulator simulator = new Simulator(algorithmFactory, problemFactory, measurementsFactory, combiner, samples, seeder);
                 simulators.add(simulator);
             }
+            
             return simulators;
         } catch (Exception ex) {
             throw new RuntimeException("Error preparing: " + specification.getAbsolutePath(), ex);
@@ -60,7 +75,7 @@ public class SimulatorShell {
     /**
      * Run and execute the simulations, reporting progress.
      * @param simulators iterable list to execute.
-     * @param listener reposible to monitor progress.
+     * @param listener responsible to monitor progress.
      * TODO: This listener idea is not fresh - one listener per simulation should be the case.
      */
     public static void execute(Iterable<Simulator> simulators, ProgressText listener) {

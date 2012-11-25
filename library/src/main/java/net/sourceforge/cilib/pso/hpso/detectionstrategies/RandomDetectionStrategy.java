@@ -6,20 +6,16 @@
  */
 package net.sourceforge.cilib.pso.hpso.detectionstrategies;
 
-
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 
 public class RandomDetectionStrategy implements BehaviorChangeTriggerDetectionStrategy {
     private ControlParameter probability;
-    private RandomProvider random;
 
     public RandomDetectionStrategy() {
         probability = ConstantControlParameter.of(75.0);
-        random = new MersenneTwister();
     }
 
     /**
@@ -29,7 +25,6 @@ public class RandomDetectionStrategy implements BehaviorChangeTriggerDetectionSt
      */
     public RandomDetectionStrategy(RandomDetectionStrategy copy) {
         this.probability = copy.probability.getClone();
-        this.random = copy.random;
     }
 
     /**
@@ -42,9 +37,7 @@ public class RandomDetectionStrategy implements BehaviorChangeTriggerDetectionSt
 
     @Override
     public boolean detect(Particle entity) {
-        double rNum = random.nextDouble();
-
-        if (rNum < probability.getParameter()) {
+        if (Rand.nextDouble() < probability.getParameter()) {
             return true;
         }
 

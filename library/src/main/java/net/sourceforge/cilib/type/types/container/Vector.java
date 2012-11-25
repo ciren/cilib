@@ -17,8 +17,6 @@ import fj.P1;
 import java.util.*;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.math.VectorMath;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.*;
 
 /**
@@ -614,9 +612,9 @@ public class Vector implements StructuredType<Numeric>,
      */
     @Deprecated
     @Override
-    public void randomize(RandomProvider random) {
+    public void randomize() {
         for (int i = 0; i < components.length; i++) {
-            this.components[i].randomize(random);
+            this.components[i].randomize();
         }
     }
 
@@ -1036,11 +1034,10 @@ public class Vector implements StructuredType<Numeric>,
                 return Vector.of();
             }
 
-            MersenneTwister random = new MersenneTwister(); // needs to come out, must be passed in
             Numeric[] numerics = new Numeric[elements.size()];
             int index = 0;
             for (Numeric element : elements) {
-                element.randomize(random);
+                element.randomize();
                 numerics[index++] = element;
             }
             return new Vector(numerics);

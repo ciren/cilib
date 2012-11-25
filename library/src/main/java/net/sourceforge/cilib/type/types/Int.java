@@ -7,11 +7,8 @@
 package net.sourceforge.cilib.type.types;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 
-/**
- *
- */
 public class Int implements Numeric {
 
     private static final long serialVersionUID = 271271478995857543L;
@@ -145,9 +142,8 @@ public class Int implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public void randomize(RandomProvider random) {
-        checkNotNull(random);
-        double tmp = random.nextDouble() * (getBounds().getUpperBound() - getBounds().getLowerBound()) + getBounds().getLowerBound();
+    public void randomize() {
+        double tmp = Rand.nextDouble() * (getBounds().getUpperBound() - getBounds().getLowerBound()) + getBounds().getLowerBound();
         this.value = Double.valueOf(tmp).intValue();
     }
 

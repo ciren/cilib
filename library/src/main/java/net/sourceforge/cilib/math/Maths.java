@@ -7,16 +7,16 @@
 package net.sourceforge.cilib.math;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import fj.F;
 import static fj.data.List.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.functions.Numerics;
+
 
 /**
  * This class provides helper functions in addtion to the standard <code>java.lang.Math</code>
@@ -206,14 +206,12 @@ public final class Maths {
     /**
      * Determine if a "flip" would occur given the provided probability value.
      * @param probability The provided probability value. This value must be in [0,1]
-     * @param randomProvider The {@link RandomProvider} to provide random numbers.
      * @return 1 - if a "flip" occured, 0 otherwise.
      */
-    public static int flip(double probability, RandomProvider randomProvider) {
+    public static int flip(double probability) {
         checkArgument(probability >= 0 && probability <= 1, "Illegal input: valid range is [0,1]");
-        checkNotNull(randomProvider, "Random number generator cannot be null.");
 
-        if (randomProvider.nextDouble() <= probability) {
+        if (Rand.nextDouble() <= probability) {
             return 1;
         }
 

@@ -7,8 +7,7 @@
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -41,8 +40,6 @@ public class SchwefelProblem2_6 implements ContinuousFunction {
     }
     
     public void setMatrices(int dimensions) {
-        RandomProvider random = new MersenneTwister();
-        
         Vector.Builder oBuilder = Vector.newBuilder();
         m_A = new double[dimensions][dimensions];
 
@@ -55,7 +52,7 @@ public class SchwefelProblem2_6 implements ContinuousFunction {
             } else if ((i+1) >= Math.floor((3.0 * dimensions) / 4.0)) {
                 oBuilder.add(100);
             } else {
-                oBuilder.add(random.nextInt(201) - 100);
+                oBuilder.add(Rand.nextInt(201) - 100);
             }
         }
         
@@ -63,7 +60,7 @@ public class SchwefelProblem2_6 implements ContinuousFunction {
         
         for (int i = 0 ; i < dimensions ; i ++) {
             for (int j = 0 ; j < dimensions ; j ++) {
-                m_A[i][j] = random.nextInt(1001) - 500;
+                m_A[i][j] = Rand.nextInt(1001) - 500;
             }
         }
         

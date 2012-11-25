@@ -9,18 +9,9 @@ package net.sourceforge.cilib.util.selection.arrangement;
 import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 
-/**
- *
- */
 public class RandomArrangement<T> implements Arrangement<T> {
-
-    private final RandomProvider random;
-
-    public RandomArrangement(RandomProvider random) {
-        this.random = random;
-    }
 
     @Override
     public Iterable<T> arrange(final Iterable<T> elements) {
@@ -42,7 +33,7 @@ public class RandomArrangement<T> implements Arrangement<T> {
         int n = elements.size();
 
         while (n > 1) {
-            int k = random.nextInt(n); // 0 <= k < n
+            int k = Rand.nextInt(n); // 0 <= k < n
             n--;
             Collections.swap(elements, n, k);
         }

@@ -6,13 +6,11 @@
  */
 package net.sourceforge.cilib.math.random.generator.quasi;
 
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
-
 /**
  * TODO: Need to complete javadoc.
  *
  */
-public abstract class QuasiRandom implements RandomProvider {
+public abstract class QuasiRandom {
     private static final long serialVersionUID = -1631441422804523649L;
     private final long seed;
 

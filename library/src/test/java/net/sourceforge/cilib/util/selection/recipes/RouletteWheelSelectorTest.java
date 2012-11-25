@@ -9,22 +9,18 @@ package net.sourceforge.cilib.util.selection.recipes;
 import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.problem.solution.MaximisationFitness;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.util.selection.weighting.EntityWeighting;
-import org.junit.Assert;
-import org.junit.Test;
-
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;
-import static org.hamcrest.Matchers.hasItem;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * <p>

@@ -9,8 +9,6 @@ package net.sourceforge.cilib.problem.boundaryconstraint;
 import java.util.Iterator;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -39,11 +37,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class RandomBoundaryConstraint implements BoundaryConstraint {
 
     private static final long serialVersionUID = -4090871319456989303L;
-    private RandomProvider random;
-
-    public RandomBoundaryConstraint() {
-        this.random = new MersenneTwister();
-    }
 
     /**
      * {@inheritDoc}
@@ -98,7 +91,7 @@ public class RandomBoundaryConstraint implements BoundaryConstraint {
     private void constrain(Numeric position, Numeric velocity, Vector.Builder newPosition, Vector.Builder newVelocity) {
         double previousPosition = position.doubleValue();
         Numeric pos = position.getClone();
-        pos.randomize(random);
+        pos.randomize();
         newPosition.add(pos);
         newVelocity.add(position.doubleValue() - previousPosition);
     }

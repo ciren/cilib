@@ -10,24 +10,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.util.selection.WeightedObject;
 
-/**
- *
- */
 public class ProportionalArrangement<T> implements Arrangement<T> {
-
-    private RandomProvider generator;
-
-    public ProportionalArrangement() {
-        this.generator = new MersenneTwister();
-    }
-
-    public ProportionalArrangement(RandomProvider generator) {
-        this.generator = generator;
-    }
 
     @Override
     public Iterable<T> arrange(Iterable<T> elements) {
@@ -45,7 +31,7 @@ public class ProportionalArrangement<T> implements Arrangement<T> {
 
         List<WeightedObject> temp = Lists.newArrayList();
         while (weightedObjects.size() > 0) {
-            double randomValue = this.generator.nextDouble() * total;
+            double randomValue = Rand.nextDouble() * total;
             double marker = 0.0;
             int i = 0;
             do {

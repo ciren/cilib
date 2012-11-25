@@ -9,26 +9,13 @@ package net.sourceforge.cilib.math.random;
 import static com.google.common.base.Preconditions.checkArgument;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
-/**
- * 
- */
 public class GammaDistribution implements ProbabilityDistributionFunction {
 
-    private RandomProvider provider;
     private ControlParameter shape;
     private ControlParameter scale;
 
     public GammaDistribution() {
-        provider = new MersenneTwister();
-        shape = ConstantControlParameter.of(2.0);
-        scale = ConstantControlParameter.of(2.0);
-    }
-
-    public GammaDistribution(long seed) {
-        provider = new MersenneTwister(seed);
         shape = ConstantControlParameter.of(2.0);
         scale = ConstantControlParameter.of(2.0);
     }
@@ -87,15 +74,5 @@ public class GammaDistribution implements ProbabilityDistributionFunction {
 
     public ControlParameter getScale() {
         return scale;
-    }
-
-    @Override
-    public void setRandomProvider(RandomProvider provider) {
-        this.provider = provider;
-    }
-
-    @Override
-    public RandomProvider getRandomProvider() {
-        return provider;
     }
 }

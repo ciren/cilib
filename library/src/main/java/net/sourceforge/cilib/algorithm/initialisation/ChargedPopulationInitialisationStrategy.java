@@ -10,8 +10,7 @@ import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.pso.dynamic.ChargedParticle;
 
@@ -73,13 +72,12 @@ public class ChargedPopulationInitialisationStrategy<E extends Entity>
         Preconditions.checkNotNull(prototypeEntity, "No prototype Entity object has been defined for the clone operation in the entity constrution process.");
 
         List<E> clones = new ArrayList<E>();
-        RandomProvider r = new MersenneTwister();
         int chargedCounter = 0;
         int neutralCounter = 0;
 
         for (int i = 0; i < entityNumber; ++i) {
             E entity = (E) prototypeEntity.getClone();
-            double rand = r.nextDouble();
+            double rand = Rand.nextDouble();
 
             // makes sure the charged particles are randomly positioned across the topology
             if (chargedCounter < Math.floor(entityNumber * chargedRatio) && rand < chargedRatio) {
