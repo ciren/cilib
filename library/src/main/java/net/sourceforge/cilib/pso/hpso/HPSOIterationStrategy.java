@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.pso.hpso;
 
 import static com.google.common.base.Preconditions.checkState;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,12 +15,13 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.hpso.detectionstrategies.PersonalBestStagnationDetectionStrategy;
 import net.sourceforge.cilib.pso.hpso.detectionstrategies.BehaviorChangeTriggerDetectionStrategy;
+import net.sourceforge.cilib.pso.hpso.detectionstrategies.PersonalBestStagnationDetectionStrategy;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
@@ -34,7 +34,7 @@ import net.sourceforge.cilib.util.selection.recipes.TournamentSelector;
  * behavior from the other particles. This class is an implementation of a number
  * of different strategies. The default for this class is to use a dynamic
  * strategy. The following strategies are implemented:<br><br>
- * 
+ *
  * <i>Dynamic</i> HPSO (dHPSO): Particles can change their behaviors through the course
  * of the algorithm when certain conditions are met, such as when a particle stagnates.
  * Parameters to use:
@@ -42,36 +42,36 @@ import net.sourceforge.cilib.util.selection.recipes.TournamentSelector;
  *  <li>windowSize = maximum number of iterations</li>
  *  <li>behaviorSelectionRecipe = RandomSelector</li>
  * </ul><br>
- * 
- * <i>Frequency based</i> HPSO (fk-HPSO-1000): Similar to dHPSO but particles probabilistically 
- * choose new behaviors from the behavior pool, rather than randomly. In this way, 
- * behaviors that perform well in early iterations are favored over the other behaviors 
+ *
+ * <i>Frequency based</i> HPSO (fk-HPSO-1000): Similar to dHPSO but particles probabilistically
+ * choose new behaviors from the behavior pool, rather than randomly. In this way,
+ * behaviors that perform well in early iterations are favored over the other behaviors
  * in subsequent iterations.
- * Parameters to use: 
+ * Parameters to use:
  * <ul>
  *  <li>windowSize = maximum number of iterations</li>
- *  <li>behaviorSelectionRecipe = TournamentSelector/RouletteWheelSelector 
+ *  <li>behaviorSelectionRecipe = TournamentSelector/RouletteWheelSelector
  * with a ParticleBehaviorWeighting</li>
  * </ul><br>
- * 
+ *
  * <i>Iteration best</i> HPSO (fk-HPSO-1): Similar to fk-HPSO but only the previous iterations'
  * successes contribute to behavior selection.
  * Parameters to use:
  * <ul>
  *  <li>windowSize = maximum number of iterations</li>
- *  <li>behaviorSelectionRecipe = TournamentSelector/RouletteWheelSelector 
+ *  <li>behaviorSelectionRecipe = TournamentSelector/RouletteWheelSelector
  * with a ParticleBehaviorWeighting</li>
  * </ul><br>
- * 
+ *
  * <i>Moving window</i> HPSO (fk-HPSO-10): This is a generalization of aHPSO and aHPSO-IB.
  * It uses the previous windowSize iterations' successes to choose a behavior.
  * Parameters to use:
  * <ul>
  *  <li>0 &lt; windowSize &lt;= max iterations</li>
- *  <li>behaviorSelectionRecipe = TournamentSelector/RouletteWheelSelector 
+ *  <li>behaviorSelectionRecipe = TournamentSelector/RouletteWheelSelector
  * with a ParticleBehaviorWeighting</li>
  * </ul><br>
- * 
+ *
  * The default parameters are
  * <ul>
  *  <li>windowSize = 10</li>
@@ -91,7 +91,8 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
     private Selector<ParticleBehavior> behaviorSelectionRecipe;
     private List<ParticleBehavior> behaviorPool;
     private Map<ParticleBehavior, List<Integer>> successCounters;
-    private int windowSize;
+    private ControlParameter windowSize;
+    private boolean initialized;
 
     /**
      * Create a new instance of {@linkplain SlidingWindowHeterogeneousIterationStrategy}.
@@ -101,7 +102,7 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
         this.detectionStrategy = new PersonalBestStagnationDetectionStrategy();
         this.behaviorSelectionRecipe = new TournamentSelector<ParticleBehavior>();
         this.behaviorPool = new ArrayList<ParticleBehavior>();
-        this.windowSize = 10;
+        this.windowSize = ConstantControlParameter.of(10);
         this.successCounters = new HashMap<ParticleBehavior, List<Integer>>();
 
         ((TournamentSelector<ParticleBehavior>) this.behaviorSelectionRecipe).setTournamentSize(ConstantControlParameter.of(0.4));
@@ -147,17 +148,25 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
     @Override
     public void performIteration(PSO algorithm) {
         checkState(behaviorPool.size() > 0, "You must add particle behaviors to the behavior pool first.");
-        checkState(windowSize > 0, "N must be bigger than 0.");
+        checkState((int) windowSize.getParameter() > 0, "N must be bigger than 0.");
+
+        //reset for algorithm
+        if (AbstractAlgorithm.get().getIterations() == 0) {
+            for(ParticleBehavior pb : behaviorPool) {
+                addToSuccessCounters(pb);
+            }
+        }
 
         for(ParticleBehavior pb : behaviorPool) {
             int sum = 0;
-            
-            for(int i = 0; i < windowSize; i++)
+
+            for(int i = 0; i < (int) windowSize.getParameter(); i++) {
                 sum += successCounters.get(pb).get(i);
+            }
 
             pb.setSuccessCounter(sum);
         }
-        
+
         ParticleBehavior behavior;
         for(Entity e : algorithm.getTopology()) {
             Particle p = (Particle)e;
@@ -168,15 +177,15 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
                 p.setParticleBehavior(behavior);
             }
         }
-        
+
         for(ParticleBehavior pb : behaviorPool) {
             pb.resetSuccessCounter();
         }
 
         iterationStrategy.performIteration(algorithm);
-        
+
         for(ParticleBehavior pb : behaviorPool) {
-            successCounters.get(pb).set(AbstractAlgorithm.get().getIterations()%windowSize, pb.getSuccessCounter());
+            successCounters.get(pb).set(AbstractAlgorithm.get().getIterations()%(int)windowSize.getParameter(), pb.getSuccessCounter());
         }
     }
 
@@ -227,12 +236,13 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
     public void setSelectionRecipe(Selector<ParticleBehavior> recipe) {
         this.behaviorSelectionRecipe = recipe;
     }
-    
+
     private void addToSuccessCounters(ParticleBehavior behavior) {
-        ArrayList<Integer> zeroList = new ArrayList<Integer>(windowSize);
-        for(int i = 0; i < windowSize; i++)
+        ArrayList<Integer> zeroList = new ArrayList<Integer>((int)windowSize.getParameter());
+        for(int i = 0; i < (int) windowSize.getParameter(); i++) {
             zeroList.add(0);
-        
+        }
+
         successCounters.put(behavior, zeroList);
     }
 
@@ -242,20 +252,14 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
     @Override
     public void addBehavior(ParticleBehavior behavior) {
         behaviorPool.add(behavior);
-        
-        addToSuccessCounters(behavior);
     }
-    
+
     /**
      * Sets the number of iterations for which to keep success counters.
      * @param windowSize The number of iterations
      */
-    public void setWindowSize(int n) {
+    public void setWindowSize(ControlParameter n) {
         this.windowSize = n;
-        
-        for(ParticleBehavior pb : behaviorPool) {
-            addToSuccessCounters(pb);
-        }
     }
 
     /**
@@ -264,8 +268,6 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
     @Override
     public void setBehaviorPool(List<ParticleBehavior> pool) {
         behaviorPool = pool;
-        
-        setWindowSize(windowSize);
     }
 
     /**

@@ -8,6 +8,7 @@ package net.sourceforge.cilib.niching.creation;
 
 import fj.*;
 import fj.data.List;
+import fj.function.Doubles;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -22,6 +23,7 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.niching.NichingSwarms;
+import static net.sourceforge.cilib.niching.VectorBasedFunctions.*;
 import net.sourceforge.cilib.niching.utils.JoinedTopologyProvider;
 import net.sourceforge.cilib.niching.utils.TopologyProvider;
 import net.sourceforge.cilib.pso.PSO;
@@ -51,77 +53,24 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
         swarmType.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 500));
     }
 
-    public static F<Particle, Double> dot(final Particle nBest) {
-        return new F<Particle, Double>() {
-            @Override
-            public Double f(Particle p) {
-                Vector gBest = (Vector) nBest.getBestPosition();
-                Vector vg = gBest.subtract((Vector) p.getCandidateSolution());
-                Vector vp = ((Vector) p.getBestPosition()).subtract((Vector) p.getCandidateSolution());
-
-                return vp.dot(vg);
-            }
-        };
-    }
-
-    public static final F<Double, Boolean> ltZero = new F<Double, Boolean>() {
-        @Override
-        public Boolean f(final Double i) {
-            return Double.compare(i, 0) < 0;
-        }
-    };
-
-    public static F2<Particle, Particle, Ordering> sortByDistance(final Particle nBest, final DistanceMeasure distance) {
-        return new F2<Particle, Particle, Ordering>() {
-            @Override
-            public Ordering f(Particle a, Particle b) {
-                double aDist = distance.distance(a.getCandidateSolution(), nBest.getBestPosition());
-                double bDist = distance.distance(b.getCandidateSolution(), nBest.getBestPosition());
-
-                return Ordering.values()[Double.compare(aDist, bDist) + 1];
-            }
-        };
-    }
-
-    public static F2<Particle, Particle, Boolean> equalParticle = new F2<Particle, Particle, Boolean>() {
-        @Override
-        public Boolean f(Particle a, Particle b) {
-            return a.getBestPosition().equals(b.getBestPosition())
-                    && a.getBestFitness().equals(b.getBestFitness())
-                    && a.getCandidateSolution().equals(b.getCandidateSolution())
-                    && a.getFitness().equals(b.getFitness());
-        }
-    };
-
-    public static F<Particle, Boolean> filter(final DistanceMeasure distanceMeasure, final Particle nBest, final double nRadius) {
-        return new F<Particle, Boolean>() {
-            @Override
-            public Boolean f(Particle p) {                
-                double pRadius = distanceMeasure.distance(p.getCandidateSolution(), nBest.getBestPosition());                
-
-                return pRadius < nRadius && dot(nBest).f(p) > 0;
-            }
-        };
-    }
-    
     @Override
     public NichingSwarms f(NichingSwarms swarms, Entity b) {
         Particle gBest = (Particle) Topologies.getBestEntity(swarms.getMainSwarm().getTopology(), new SocialBestFitnessComparator());
         List<Particle> newTopology = List.list(gBest);
         List<Particle> swarm = ((List<Particle>) topologyProvider.f(swarms)).delete(gBest, Equal.equal(equalParticle.curry()));
-        
+
         RadiusVisitor visitor = new RadiusVisitor();
         visitor.visit(swarms.getMainSwarm().getTopology());
         double nRadius = visitor.getResult();
 
         // get closest particle with dot < 0
-        List<Particle> filteredSwarm = swarm.filter(dot(gBest).andThen(ltZero));
+        List<Particle> filteredSwarm = swarm.filter(dot(gBest).andThen(Doubles.ltZero));
         if(!filteredSwarm.isEmpty()) {
-            Particle closest = filteredSwarm.minimum(Ord.ord(sortByDistance(gBest, distanceMeasure).curry()));
+            Particle closest = filteredSwarm.minimum(Ord.ord(sortByDistance(gBest, distanceMeasure)));
             nRadius = distanceMeasure.distance(closest.getCandidateSolution(), gBest.getCandidateSolution());
             newTopology = newTopology.append(swarm.filter(filter(distanceMeasure, gBest, nRadius)));
         }
-        
+
         // to prevent new particles from having the same position as the gBest
         if (nRadius == 0) {
             nRadius = ((Vector) gBest.getCandidateSolution()).get(0).getBounds().getUpperBound();
@@ -131,10 +80,10 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
         final double nicheRadius = nRadius;
         final UniformDistribution uniform = new UniformDistribution();
         int extras = (int) minSwarmSize.getParameter() - newTopology.length();
-        
+
         for (int i = 0; i < extras; i++) {
             Particle newP = gBest.getClone();
-            
+
             // new position within the niche
             Vector solution = (Vector) newP.getCandidateSolution();
             solution = solution.multiply(new P1<Number>() {
@@ -143,7 +92,7 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
                     return uniform.getRandomNumber(-nicheRadius, nicheRadius);
                 }
             }).plus((Vector) gBest.getCandidateSolution());
-            
+
             newP.setCandidateSolution(solution);
             newP.getProperties().put(EntityType.Coevolution.POPULATION_ID, Int.valueOf(swarms.getSubswarms().length() + 1));
             newTopology = newTopology.cons(newP);
