@@ -12,14 +12,10 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.measurement.single.diversity.Diversity;
 import net.sourceforge.cilib.measurement.single.diversity.centerinitialisationstrategies.GBestCenterInitialisationStrategy;
 
-/**
- *
- */
 public class DiversityBasedMergeDetection extends MergeDetection {
-    private MergeDetection mergeDetector;
     private Diversity diversityMeasure;
     private ControlParameter threshold;
-    
+
     /**
      * Default constructor.
      */
@@ -27,31 +23,18 @@ public class DiversityBasedMergeDetection extends MergeDetection {
         this.threshold = ConstantControlParameter.of(0.1);
         this.diversityMeasure = new Diversity();
         this.diversityMeasure.setPopulationCenter(new GBestCenterInitialisationStrategy());
-        this.mergeDetector = new RadiusOverlapMergeDetection();
     }
-    
+
     /**
      * Determines if two swarms should be merged based on whether they overlap and
      * if the diversity of the first swarm is below a threshold.
      * @param a
      * @param b
-     * @return 
+     * @return
      */
     @Override
     public Boolean f(PopulationBasedAlgorithm a, PopulationBasedAlgorithm b) {
-        if (diversityMeasure.getValue(a).doubleValue() < threshold.getParameter() && mergeDetector.f(a, b)) {
-            return true;
-        }
-        
-        return false;
-    }
-
-    public MergeDetection getMergeDetector() {
-        return mergeDetector;
-    }
-
-    public void setMergeDetector(MergeDetection mergeDetector) {
-        this.mergeDetector = mergeDetector;
+        return diversityMeasure.getValue(a).doubleValue() < threshold.getParameter();
     }
 
     public Diversity getDiversityMeasure() {

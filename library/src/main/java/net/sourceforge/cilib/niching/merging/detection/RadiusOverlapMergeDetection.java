@@ -18,7 +18,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  * Determines if two swarms overlap.
- * 
+ *
  * <p>
  * This overlap is determined by the radius of the sub-swarm. If the overlap
  * is less than a predefined threshold value, the sub-swarms will merge into
@@ -28,7 +28,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 public class RadiusOverlapMergeDetection extends MergeDetection {
     private ControlParameter threshold;
     private DistanceMeasure distanceMeasure;
-    
+
     /**
      * Default constructor.
      */
@@ -36,10 +36,10 @@ public class RadiusOverlapMergeDetection extends MergeDetection {
         this.threshold = ConstantControlParameter.of(10e-8);
         this.distanceMeasure = new EuclideanDistanceMeasure();
     }
-    
+
     /**
      * Determines whether two swarms overlap.
-     * 
+     *
      * @param swarm1 The first swarm.
      * @param swarm2 The second swarm.
      * @return True if the swarms overlap, false otherwise.
@@ -48,31 +48,31 @@ public class RadiusOverlapMergeDetection extends MergeDetection {
     public Boolean f(PopulationBasedAlgorithm swarm1, PopulationBasedAlgorithm swarm2) {
         RadiusVisitor radiusVisitor = new RadiusVisitor();
         radiusVisitor.setDistanceMeasure(distanceMeasure);
-        
+
         swarm1.accept(radiusVisitor);
         double swarm1Radius = radiusVisitor.getResult().doubleValue();
-        
+
         swarm2.accept(radiusVisitor);
         double swarm2Radius = radiusVisitor.getResult().doubleValue();
-        
+
         Vector swarm1GBest = (Vector) Topologies.getBestEntity(swarm1.getTopology()).getCandidateSolution();
         Vector swarm2GBest = (Vector) Topologies.getBestEntity(swarm2.getTopology()).getCandidateSolution();
 
         double distance = distanceMeasure.distance(swarm1GBest, swarm2GBest);
         double normalizedDistance = distance / swarm1GBest.boundsOf(0).getRange();
-        
+
         //special case if both radii approximate 0 or if the swarms intersect
-        if ((Math.abs(swarm1Radius) < Maths.EPSILON && Math.abs(swarm2Radius) < Maths.EPSILON 
+        if ((Math.abs(swarm1Radius) < Maths.EPSILON && Math.abs(swarm2Radius) < Maths.EPSILON
                 && normalizedDistance < threshold.getParameter()) || (distance < swarm1Radius + swarm2Radius)) {
             return true;
         }
-        
+
         return false;
     }
 
     /**
      * Get the merge threshold value.
-     * 
+     *
      * @return The value of the merge threshold.
      */
     public ControlParameter getThreshold() {
@@ -81,7 +81,7 @@ public class RadiusOverlapMergeDetection extends MergeDetection {
 
     /**
      * Set the merge threshold value.
-     * 
+     *
      * @param threshold The value to set.
      */
     public void setThreshold(ControlParameter threshold) {

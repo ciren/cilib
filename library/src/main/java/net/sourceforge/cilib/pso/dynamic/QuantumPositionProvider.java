@@ -28,7 +28,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class QuantumPositionProvider implements PositionProvider {
 
     private static final long serialVersionUID = -7844226788317206737L;
-    
+
     private static final double EPSILON = 0.000000001;
 
     private ControlParameter radius;
@@ -113,7 +113,7 @@ public class QuantumPositionProvider implements PositionProvider {
     public PositionProvider getDelegate() {
         return this.delegate;
     }
-    
+
     public Vector getNucleus() {
         return this.nucleus;
     }
@@ -133,7 +133,7 @@ public class QuantumPositionProvider implements PositionProvider {
      * @param radius the radius to set
      */
     public void setRadius(ControlParameter radius) {
-        Preconditions.checkArgument(radius.getParameter() >= 0, "Radius of the electron cloud can not be negative");
+        //Preconditions.checkArgument(radius.getParameter() >= 0, "Radius of the electron cloud can not be negative");
         this.radius = radius;
     }
 }
