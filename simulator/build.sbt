@@ -2,17 +2,13 @@ import AssemblyKeys._
 
 assemblySettings
 
-// name := "simulator"
-
-version := "0.7.5"
+name := "cilib-simulator"
 
 description := "Simulator environment fo running experiments using the CIlib library"
 
 scalacOptions += "-deprecation"
 
 parallelExecution in Test := false
-
-scalaVersion := "2.9.2"
 
 mainClass := Some("net.sourceforge.cilib.simulator.Main")
 

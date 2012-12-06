@@ -2,14 +2,23 @@ import sbt._
 import Keys._
 
 object CIlibBuild extends Build {
+
+  val buildSettings = Defaults.defaultSettings ++ Seq(
+    scalaVersion := "2.9.2",
+    version := "0.7.6-SNAPSHOT"
+  )
+
   lazy val root = Project("cilib", file(".")) aggregate(library, simulator) settings (
     headerCheckSetting
   )
 
-  lazy val library = Project("library", file("library"))
+  lazy val library = Project(id = "library",
+    base = file("library"),
+    settings = buildSettings)
 
   lazy val simulator = Project(id = "simulator",
-                               base = file("simulator")) dependsOn(library)
+    base = file("simulator"),
+    settings = buildSettings) dependsOn(library)
 
 
   // Header task definition

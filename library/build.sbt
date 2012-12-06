@@ -1,6 +1,6 @@
 seq(scalariformSettings: _*)
 
-// name := "library"
+name := "cilib-library"
 
 description := "A library of composable components enabling simpler Computational Intelligence"
 
@@ -10,13 +10,9 @@ organizationName := "CIRG @ UP"
 
 organizationHomepage := Some(url("http://cirg.cs.up.ac.za"))
 
-version := "0.7.5"
-
 publishArtifact in Test := false
 
 parallelExecution in Test := false
-
-scalaVersion := "2.9.2"
 
 libraryDependencies ++= Seq(
     "com.google.guava" % "guava" % "11.0.1",
@@ -29,14 +25,14 @@ libraryDependencies ++= Seq(
     "com.novocode" % "junit-interface" % "0.10-M1" % "test"
 )
 
-javacOptions ++= Seq("-encoding", "UTF8")
+javacOptions ++= Seq("-encoding", "UTF8", "-source", "1.7", "-target", "1.7")
 
 scalacOptions += "-deprecation"
 
 // Related settings to allow for publishing of maven style artifacts
 publishMavenStyle := true
 
-autoScalaLibrary := false // Prevent the scala-library automatically being added to the pom
+//autoScalaLibrary := false // Prevent the scala-library automatically being added to the pom
 
 publishArtifact in Test := false
 
