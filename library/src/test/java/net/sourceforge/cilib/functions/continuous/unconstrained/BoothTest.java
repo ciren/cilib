@@ -16,15 +16,14 @@ public class BoothTest {
 
     private ContinuousFunction function;
 
-    public BoothTest() {
-    }
-
     @Before
     public void instantiate() {
         this.function = new Booth();
     }
 
-    /** Test of evaluate method, of class za.ac.u.cs.ailib.Functions.Booth. */
+    /**
+     * Test of evaluate method, of class {@link Booth}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(1,2);
@@ -33,5 +32,13 @@ public class BoothTest {
         x.setReal(0, 1.0);
         x.setReal(1, 3.0);
         assertEquals(0.0, function.apply(x), 0.0);
+    }
+
+    /**
+     * Test argument with invalid dimension.
+     */
+    @Test(expected=IllegalArgumentException.class)
+    public void testInvalidEvaluate() {
+        function.apply(Vector.of(1.0, 2.0, 3.0));
     }
 }

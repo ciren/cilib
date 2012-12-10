@@ -6,17 +6,13 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- */
 public class SphericalTest {
 
     private Spherical function = new Spherical();
@@ -26,14 +22,24 @@ public class SphericalTest {
         this.function = new Spherical();
     }
 
-    /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Spherical. */
+    /**
+     * Test of evaluate method, of class {@link Spherical}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(1.0, 2.0, 3.0);
 
         assertEquals(14.0, function.apply(x), 0.0);
+
+        x.setReal(0, 0.0);
+        x.setReal(1, 0.0);
+        x.setReal(2, 0.0);
+        assertEquals(0.0, function.apply(x), 0.0);
     }
 
+    /**
+     * Test of gradient method, of class {@link Spherical}.
+     */
     @Test
     public void testGradient() {
         Vector x = Vector.of(1.0, 2.0, 3.0);

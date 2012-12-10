@@ -16,15 +16,14 @@ public class Bukin6Test {
 
     private ContinuousFunction function;
 
-    public Bukin6Test() {
-    }
-
     @Before
     public void instantiate() {
         this.function = new Bukin6();
     }
 
-    /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bukin6. */
+    /**
+     * Test of evaluate method, of class {@link Bukin6}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(1.0, 2.0);
@@ -33,5 +32,13 @@ public class Bukin6Test {
         x.setReal(0, -10.0);
         x.setReal(1, 1.0);
         assertEquals(0.0, function.apply(x), 0.0);
+    }
+
+    /**
+     * Test argument with invalid dimension.
+     */
+    @Test(expected=IllegalArgumentException.class)
+    public void testInvalidEvaluate() {
+        function.apply(Vector.of(1.0, 2.0, 3.0));
     }
 }

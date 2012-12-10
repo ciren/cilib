@@ -14,17 +14,18 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * <p><b>The rastrigin function.</b></p>
+ * <p><b>The Rastrigin function.</b></p>
  *
- *<p><b>Reference:</b> X. Yao and Y. Liu and G. Liu, <i>Evolutionary Programming Made Faster</i>,
+ * <p><b>Reference:</b> X. Yao and Y. Liu and G. Liu, <i>Evolutionary Programming Made Faster</i>,
  * IEEE Transactions on Evolutionary Computation, vol 3, number 2, pages 82--102, 1999.</p>
  *
- * Characteristics:
+ * <p>Characteristics:
  * <ul>
  * <li>Multimodal</li>
  * <li>Continuous</li>
  * <li>Seperable</li>
  * </ul>
+ * </p>
  *
  * f(x) = 0; x = (0,0,...,0);
  *

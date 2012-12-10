@@ -8,6 +8,7 @@ package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+import com.google.common.base.Preconditions;
 
 /**
  * <p><b>The Colville Function.</b></p>
@@ -24,6 +25,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * <p>Characteristics:
  * <ul>
+ * <li>Only defined for 4 dimensions</li>
  * <li>Unimodal</li>
  * <li>Non-seperable</li>
  * <li>Regular</li>
@@ -42,6 +44,8 @@ public class Colville implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
+        Preconditions.checkArgument(input.size() == 4, "Colville function is only defined for 4 dimensions");
+
         double a = input.doubleValueOf(0);
         double b = input.doubleValueOf(1);
         double c = input.doubleValueOf(2);

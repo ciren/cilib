@@ -21,7 +21,9 @@ public class AbsoluteValueTest {
         this.function = new AbsoluteValue();
     }
 
-    /** Test of evaluate method, of class cilib.functions.unconstrained.AbsoluteValue. */
+    /**
+     * Test of evaluate method, of class {@link AbsoluteValue}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(-1, 2, -3);

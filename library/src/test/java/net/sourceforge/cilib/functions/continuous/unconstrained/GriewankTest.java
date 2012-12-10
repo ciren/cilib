@@ -21,7 +21,9 @@ public class GriewankTest {
         this.function = new Griewank();
     }
 
-    /** Test of evaluate method, of class cilib.functions.unconstrained.Griewank. */
+    /**
+     * Test of evaluate method, of class {@link Griewank}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(0,0);

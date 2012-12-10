@@ -21,7 +21,9 @@ public class DeJongF4Test {
         this.function = new DeJongF4();
     }
 
-    /** Test of evaluate method, of class cilib.functions.unconstrained.DeJongF4. */
+    /**
+     * Test of evaluate method, of class {@link DeJongF4}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(0.0, 0.0);

@@ -16,6 +16,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Made Faster</i>,  IEEE Transactions on Evolutionary Computation,
  * 3(2):82--102, 1999</p>
  *
+ * <p>
  * Characteristics:
  * <ul>
  * <li>Unimodal</li>
@@ -23,6 +24,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Continuous</li>
  * <li>Regular</li>
  * </ul>
+ * </p>
  *
  * f(x) = 0; x = 1
  *

@@ -22,7 +22,9 @@ public class EasomTest {
         this.function = new Easom();
     }
 
-    /** Test of evaluate method, of class cilib.functions.unconstrained.Easom. */
+    /**
+     * Test of evaluate method, of class {@link Easom}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(Real.valueOf(Math.PI),
@@ -32,5 +34,13 @@ public class EasomTest {
         x.setReal(0, Math.PI/2.0);
         x.setReal(1, Math.PI/2.0);
         assertEquals(0.0, function.apply(x), 0.0000000001);
+    }
+
+    /**
+     * Test argument with invalid dimension.
+     */
+    @Test(expected=IllegalArgumentException.class)
+    public void testInvalidEvaluate() {
+        function.apply(Vector.of(1.0, 2.0, 3.0));
     }
 }

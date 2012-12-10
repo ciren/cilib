@@ -16,16 +16,14 @@ public class Bohachevsky3Test {
 
     private ContinuousFunction function;
 
-    public Bohachevsky3Test() {
-
-    }
-
     @Before
     public void instantiate() {
         this.function = new Bohachevsky3();
     }
 
-    /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bohachevsky3. */
+    /**
+     * Test of evaluate method, of class {@link Bohachevsky3}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(1,2);
@@ -34,5 +32,13 @@ public class Bohachevsky3Test {
         x.setReal(0, 0.0);
         x.setReal(1, 0.0);
         assertEquals(0.0, function.apply(x), 0.0);
+    }
+
+    /**
+     * Test argument with invalid dimension.
+     */
+    @Test(expected=IllegalArgumentException.class)
+    public void testInvalidEvaluate() {
+        function.apply(Vector.of(1.0, 2.0, 3.0));
     }
 }
