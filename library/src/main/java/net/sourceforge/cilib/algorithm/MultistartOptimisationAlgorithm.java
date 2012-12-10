@@ -255,6 +255,10 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
 
         private int iteration;
 
+        public SingleIteration getClone() {
+            return new SingleIteration();
+        }
+
         @Override
         public double getPercentageCompleted(Algorithm algorithm) {
             if (iteration == algorithm.getIterations()) {

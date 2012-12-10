@@ -8,6 +8,7 @@ package net.sourceforge.cilib.stoppingcondition;
 
 import com.google.common.base.Predicate;
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * A class that implements this interface can be used to measure the progress of
@@ -19,11 +20,17 @@ import net.sourceforge.cilib.algorithm.Algorithm;
  * Stopping conditions are also useful for implementing graphical progress bars and varying inertia
  * weights etc.
  */
-public interface StoppingCondition<T extends Algorithm> extends Predicate<T> {
+public interface StoppingCondition<T extends Algorithm> extends Predicate<T>, Cloneable {
 
     /**
      * Determines the percentage complete for the associated algorithm.
      * @return the percentage completed as a fraction {@literal (0 <= i <= 1.0)}.
      */
     public double getPercentageCompleted(T algorithm);
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public StoppingCondition<T> getClone();
 }
