@@ -21,7 +21,9 @@ public class StepTest {
         this.function = new Step();
     }
 
-    /** Test of evaluate method, of class cilib.functions.unconstrained.Step. */
+    /**
+     * Test of evaluate method, of class {@link Step}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(-0.5,-0.5);

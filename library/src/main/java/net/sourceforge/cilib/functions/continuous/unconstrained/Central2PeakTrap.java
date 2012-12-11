@@ -9,6 +9,7 @@ package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+import com.google.common.base.Preconditions;
 
 /**
  * <p><b>The Central Two-Peak Trap Function.</b></p>
@@ -47,6 +48,8 @@ public class Central2PeakTrap implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
+        Preconditions.checkArgument(input.size() == 1, "Central2PeakTrap function is only defined for 1 dimension");
+
         double x = input.doubleValueOf(0);
         
         if (x < 0)

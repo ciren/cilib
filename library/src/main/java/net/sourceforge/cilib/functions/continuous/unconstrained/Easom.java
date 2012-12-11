@@ -8,20 +8,28 @@ package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+import com.google.common.base.Preconditions;
 
 /**
  * Easom function as taken from
  * www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files
  *
- * <p>
- * Characteristics:
+ * <p>Minimum:
  * <ul>
+ * <li> &fnof;(<b>x</b>*) = -1.0</li>
+ * <li> <b>x</b>* = (Pi, Pi)</li>
+ * <li> for x<sub>i</sub> in [-100, 100]</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Characteristics:
+ * <ul>
+ * <li>Only defined for 2 dimensions</li>
  * <li>Multimodal</li>
  * <li>Not separable</li>
  * <li>Regular</li>
  * </ul>
- *
- * f(x) = -1.0;  x = (Pi, Pi);
+ * </p>
  *
  * R(-100, 100)^2
  *
@@ -35,6 +43,8 @@ public class Easom implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
+        Preconditions.checkArgument(input.size() == 2, "Easom function is only defined for 2 dimensions");
+
         double powerTerm1 = -((input.doubleValueOf(0)-Math.PI)*(input.doubleValueOf(0)-Math.PI));
         double powerTerm2 = -((input.doubleValueOf(1)-Math.PI)*(input.doubleValueOf(1)-Math.PI));
         double power = powerTerm1 + powerTerm2;

@@ -19,7 +19,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <ul>
  * <li> if n=5 then f(<b>x</b>*) = -4.687 </li>
  * <li> if n=10 then f(<b>x</b>*) = -9.66 </li>
- * <li> for x_i in [0, pi]</li>
+ * <li> for x<sub>i</sub> in [0, pi]</li>
  * </ul>
  * </p>
  *

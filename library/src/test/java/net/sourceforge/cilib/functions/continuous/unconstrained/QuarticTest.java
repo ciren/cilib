@@ -9,14 +9,10 @@ package net.sourceforge.cilib.functions.continuous.unconstrained;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- */
 public class QuarticTest {
 
     private static final double EPSILON = 1.0E-6;
@@ -27,16 +23,18 @@ public class QuarticTest {
         this.function = new Quartic();
     }
 
-    /** Test of the evaluation method of the {@link Quartic} class */
+    /**
+     * Test of evaluate method, of class {@link Quartic}.
+     */
     @Test
     public void evaluationTest() {
         Vector x = Vector.of(0, 0, 0);
-        Assert.assertEquals(0.0, function.apply(x), EPSILON);
+        assertEquals(0.0, function.apply(x), EPSILON);
 
         //test another point
         x.setReal(0, 2.0);
         x.setReal(1, 2.0);
         x.setReal(2, 2.0);
-        Assert.assertEquals(96.0, function.apply(x), EPSILON);
+        assertEquals(96.0, function.apply(x), EPSILON);
     }
 }

@@ -21,7 +21,9 @@ public class AckleyTest {
         this.function = new Ackley();
     }
 
-    /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Ackley. */
+    /**
+     * Test of evaluate method, of class {@link Ackley}. 
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(1,2,3);

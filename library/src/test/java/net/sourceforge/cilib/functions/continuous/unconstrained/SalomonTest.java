@@ -21,7 +21,9 @@ public class SalomonTest {
         this.function = new Salomon();
     }
 
-    /** Test of evaluate method, of class cilib.functions.unconstrained.Salomon. */
+    /**
+     * Test of evaluate method, of class {@link Salomon}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(0, 0);

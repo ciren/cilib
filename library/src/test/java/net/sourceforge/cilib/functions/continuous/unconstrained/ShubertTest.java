@@ -6,16 +6,12 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- */
 public class ShubertTest {
  
     private ContinuousFunction function;
@@ -25,17 +21,19 @@ public class ShubertTest {
         this.function = new Shubert();
     }
 
-    /** Test for Shubert Function*/
+    /**
+     * Test of evaluate method, of class {@link Shubert}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(0,0);
-        
+
         assertEquals(19.875836249, function.apply(x), 0.000000009);
 
         x.setReal(0, -8.0);
         x.setReal(1, -8.0);
         assertEquals(7.507985827, function.apply(x), 0.000000009);
-        
+
         x.setReal(0, -7.2);
         x.setReal(1, -7.7);
         assertEquals(-157.071676802, function.apply(x), 0.000000009);

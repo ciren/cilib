@@ -8,6 +8,7 @@ package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+import com.google.common.base.Preconditions;
 
 /**
  * <p><b>Chichinadze.</b></p>
@@ -25,6 +26,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * <p>Characteristics:
  * <ul>
+ * <li>Only defined for 2 dimensions</li>
  * <li>Multimodal</li>
  * <li>Seperable</li>
  * <li>Regular</li>
@@ -36,6 +38,8 @@ public class Chichinadze implements ContinuousFunction {
 
 	@Override
 	public Double apply(Vector input) {
+		Preconditions.checkArgument(input.size() == 2, "Chichinadze function is only defined for 2 dimensions");
+
 		double x1 = input.get(0).doubleValue();
 		double x2 = input.get(1).doubleValue();
 		
@@ -45,5 +49,4 @@ public class Chichinadze implements ContinuousFunction {
 		
 		return (x1*x1) - 12 * (x1) + 11 + 10*cos + 8 * sin - Math.pow((1/5.0), 0.5)* ePow;
 	}
-
 }

@@ -22,7 +22,9 @@ public class DamavandiTest {
         this.function = new Damavandi();
     }
 
-    /** Test of evaluate method, of class cilib.functions.unconstrained.Damavandi. */
+    /**
+     * Test of evaluate method, of class {@link Damavandi}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(Real.valueOf(2.0000001),
@@ -32,5 +34,13 @@ public class DamavandiTest {
         x.setReal(0, 7.0);
         x.setReal(1, 7.0);
         assertEquals(2.0, function.apply(x), 0.0);
+    }
+
+    /**
+     * Test argument with invalid dimension.
+     */
+    @Test(expected=IllegalArgumentException.class)
+    public void testInvalidEvaluate() {
+        function.apply(Vector.of(1.0, 2.0, 3.0));
     }
 }

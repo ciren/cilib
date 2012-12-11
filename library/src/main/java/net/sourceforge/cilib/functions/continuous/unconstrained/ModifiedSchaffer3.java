@@ -12,19 +12,23 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Modified Schaffer Function 3.
  *
+ * <p>
  * Characteristics:
  * <ul>
  *  <li>Multi-modal</li>
  *  <li>Non-Seperable</li>
  *  <li>Not Regular</li>
  * </ul>
+ * </p>
  *
+ * <p>
  * Reference:
  * @article{
  * mishra-some,
  * title={{Some new test functions for global optimization and performance of repulsive particle swarm method}},
  * author={Mishra, S.K. and Campus, N.}
  * }
+ * </p>
  *
  */
 public class ModifiedSchaffer3 implements ContinuousFunction {

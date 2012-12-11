@@ -10,14 +10,10 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.math.Maths;
-
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Test the validity of the implementation of the {@link Elliptic} function.
- */
 public class EllipticTest {
 
     private ContinuousFunction function;
@@ -27,15 +23,16 @@ public class EllipticTest {
         this.function = new Elliptic();
     }
 
+    /**
+     * Test of evaluate method, of class {@link Elliptic}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(Real.valueOf(0.0), Real.valueOf(0.0));
-        Assert.assertEquals(0.0, function.apply(x), Maths.EPSILON);
-    }
+        assertEquals(0.0, function.apply(x), Maths.EPSILON);
 
-    @Test
-    public void additionEvaluation() {
-        Vector x = Vector.of(Real.valueOf(1.0), Real.valueOf(2.0));
-        Assert.assertEquals(4000001, function.apply(x), Maths.EPSILON);
+        x.setReal(0, 1.0);
+        x.setReal(1, 2.0);
+        assertEquals(4000001, function.apply(x), Maths.EPSILON);
     }
 }

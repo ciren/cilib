@@ -8,6 +8,7 @@ package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+import com.google.common.base.Preconditions;
 
 /**
  * <p><b>Bohachevsky 3.</b></p>
@@ -44,6 +45,8 @@ public class Bohachevsky3 implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
+        Preconditions.checkArgument(input.size() == 2, "Bohachevsky 3 function is only defined for 2 dimensions");
+
         double x = input.doubleValueOf(0);
         double y = input.doubleValueOf(1);
         return x*x + 2*y*y - 0.3*Math.cos(3*Math.PI*x + 4*Math.PI*y)+0.3;

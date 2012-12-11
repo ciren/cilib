@@ -8,6 +8,7 @@ package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+import com.google.common.base.Preconditions;
 
 /**
  * SixHumpCamelBack function.
@@ -17,12 +18,15 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p>Copyright: Copyright (c) 2004</p>
  * <p>Company: </p>
  *
+ * <p>
  * Characteristics:
  * <ul>
+ * <li>Only defined for 2 dimensions</li>
  * <li>Multimodal</li>
  * <li>Continuous</li>
  * <li>Non Separable</li>
  * </ul>
+ * </p>
  *
  * f(x) = -1.0316; x = (-0.0898, 0.1726); x = (0.0898, -0.1726)
  * x_1 e [-3, 3]; x_2 e [-2, 2]
@@ -40,6 +44,8 @@ public class SixHumpCamelBack implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
+        Preconditions.checkArgument(input.size() == 2, "SixHumpCamelBack function is only defined for 2 dimensions");
+
         double x1 = input.doubleValueOf(0);
         double x2 = input.doubleValueOf(1);
 
