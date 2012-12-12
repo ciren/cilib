@@ -22,14 +22,14 @@ public class MultiReactionStrategy<E extends PopulationBasedAlgorithm> extends E
     protected ArrayList< EnvironmentChangeResponseStrategy<E> > responses;
 
     public MultiReactionStrategy() {
-		this.responses = new ArrayList< EnvironmentChangeResponseStrategy<E> >();
+        this.responses = new ArrayList< EnvironmentChangeResponseStrategy<E> >();
     }
 
     public MultiReactionStrategy(MultiReactionStrategy<E> rhs) {
         super(rhs);
-		for (EnvironmentChangeResponseStrategy<E> response : rhs.responses) {
-			this.responses.add(response);
-		}
+        for (EnvironmentChangeResponseStrategy<E> response : rhs.responses) {
+            this.responses.add(response);
+        }
     }
 
     @Override
@@ -39,24 +39,24 @@ public class MultiReactionStrategy<E extends PopulationBasedAlgorithm> extends E
 
     /**
      * Performs multiple reaction strategies, in the order in which they were
-	 * added via the addResponseStrategy method.
+     * added via the addResponseStrategy method.
      *
      * {@inheritDoc}
      */
     @Override
     public void performReaction(E algorithm) {
         for (EnvironmentChangeResponseStrategy<E> response : responses) {
-			response.performReaction(algorithm);
-		}
+            response.performReaction(algorithm);
+        }
     }
 
-	/**
+    /**
      * Adds a response strategy to the end of the list of responses that have to
-	 * be performed.
+     * be performed.
      *
      * @param response The response strategy that has to be added.
      */
-	public void addResponseStrategy(EnvironmentChangeResponseStrategy<E> response) {
-		responses.add(response);
-	}
+    public void addResponseStrategy(EnvironmentChangeResponseStrategy<E> response) {
+        responses.add(response);
+    }
 }

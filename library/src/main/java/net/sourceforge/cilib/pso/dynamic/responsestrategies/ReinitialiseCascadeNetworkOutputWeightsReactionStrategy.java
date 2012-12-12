@@ -27,7 +27,7 @@ public class ReinitialiseCascadeNetworkOutputWeightsReactionStrategy<E extends P
 
     public ReinitialiseCascadeNetworkOutputWeightsReactionStrategy() {
     }
-    
+
     public ReinitialiseCascadeNetworkOutputWeightsReactionStrategy(ReinitialiseCascadeNetworkOutputWeightsReactionStrategy<E> rhs) {
         super(rhs);
     }
@@ -47,16 +47,15 @@ public class ReinitialiseCascadeNetworkOutputWeightsReactionStrategy<E extends P
         NNDataTrainingProblem problem = (NNDataTrainingProblem) algorithm.getOptimisationProblem();
         NeuralNetwork network = problem.getNeuralNetwork();
 
-        int precedingLayersSize = network.getArchitecture().getArchitectureBuilder()
-                .getLayerConfigurations().get(0).getSize()
-                + network.getArchitecture().getArchitectureBuilder()
-                .getLayerConfigurations().get(1).getSize();
-        if (network.getArchitecture().getArchitectureBuilder().getLayerConfigurations().get(0).isBias()) {
-            precedingLayersSize++;
+        int precedingLayersSize = 0;
+        for (int curLayer = 0; curLayer < network.getArchitecture().getArchitectureBuilder().getLayerConfigurations().size()-1; ++curLayer) {
+            precedingLayersSize += network.getArchitecture().getArchitectureBuilder().getLayerConfigurations().get(curLayer).getSize();
         }
+        if (network.getArchitecture().getArchitectureBuilder().getLayerConfigurations().get(0).isBias())
+            precedingLayersSize++;
 
-        int outputLayerSize = network.getArchitecture().getArchitectureBuilder()
-                .getLayerConfigurations().get(2).getSize();
+        int outputLayerSize = network.getArchitecture().getArchitectureBuilder().getLayerConfigurations()
+                              .get(network.getArchitecture().getArchitectureBuilder().getLayerConfigurations().size()-1).getSize();
         int nrOfweightsToDo = precedingLayersSize * outputLayerSize;
 
         Topology<? extends Entity> entities = algorithm.getTopology();

@@ -45,6 +45,15 @@ public abstract class ArchitectureBuilder {
         layerConfigurations.add(layerConfiguration);
     }
 
+	/**
+     * Adds a layer configuration object at the index in the stored layer configurations list.
+	 * @param index the position at which the layer should be added.
+     * @param layerConfiguration the layer configuration to add.
+     */
+    public void addLayer(int index, LayerConfiguration layerConfiguration) {
+        layerConfigurations.add(index, layerConfiguration);
+    }
+	
     /**
      * Gets the layer builder.
      * @return the layer builder.

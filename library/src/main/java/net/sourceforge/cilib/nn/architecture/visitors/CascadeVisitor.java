@@ -13,7 +13,7 @@ import net.sourceforge.cilib.nn.architecture.Layer;
 import net.sourceforge.cilib.nn.components.PatternInputSource;
 
 /**
- * Class implements an {@link ArchitectureOperationVisitor} that performs a 
+ * Class implements an {@link ArchitectureOperationVisitor} that performs a
  * cascade pass through a neural network architechture as the visit operation.
  */
 public class CascadeVisitor extends ArchitectureOperationVisitor {
@@ -31,15 +31,15 @@ public class CascadeVisitor extends ArchitectureOperationVisitor {
 
         ((ForwardingLayer) layers.get(0)).setSource(new PatternInputSource(input));
 
-		//Consolidate multiple layers into a single input.
-		//The receiving Neuron must ensure that it doesn't process more inputs
-		//than what it has weights for.
-		Layer consolidatedLayer = new Layer();
-		for (Layer curLayer : layers) {
-			for (int curNeuron = 0; curNeuron < curLayer.size(); curNeuron++) {
-				consolidatedLayer.add(curLayer.getNeuron(curNeuron));
-			}
-		}
+        //Consolidate multiple layers into a single input.
+        //The receiving Neuron must ensure that it doesn't process more inputs
+        //than what it has weights for.
+        Layer consolidatedLayer = new Layer();
+        for (Layer curLayer : layers) {
+            for (int curNeuron = 0; curNeuron < curLayer.size(); curNeuron++) {
+                consolidatedLayer.add(curLayer.getNeuron(curNeuron));
+            }
+        }
 
         Layer currentLayer = null;
         for (int l = 1; l < size; l++) {
