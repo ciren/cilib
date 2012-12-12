@@ -917,7 +917,7 @@ public class Vector implements StructuredType<Numeric>,
 
         public Builder repeat(int n, Numeric numeric) {
             for (int i = 0; i < n; i++) {
-                elements.add(numeric);
+                elements.add(numeric.getClone());
             }
             return this;
         }
