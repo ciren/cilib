@@ -47,11 +47,11 @@ public class Colville implements ContinuousFunction {
         double c = input.doubleValueOf(2);
         double d = input.doubleValueOf(3);
 
-        return 100 * (b - a * a) * (b - a * a)
+        return 100 * (a - b * b) * (a - b * b)
                 + (1 - a) * (1 - a)
                 + 90 * (d - c * c) * (d - c * c)
                 + (1 - c) * (1 - c)
-                + 10.1 * ((c - 1) * (c - 1) + (d - 1) * (d - 1))
+                + 10.1 * ((b - 1) * (b - 1) + (d - 1) * (d - 1))
                 + 19.8 * (b - 1) * (d - 1);
     }
 }
