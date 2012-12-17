@@ -20,10 +20,12 @@ public class SobolParameterListProvider extends ParameterListProvider {
     
     private List<TuningBounds> parameters;
     private int count;
+    private int precision;
     
     public SobolParameterListProvider() {
         this.parameters = List.<TuningBounds>nil();
         this.count = 1000;
+        this.precision = 4;
     }
 
     @Override
@@ -41,7 +43,7 @@ public class SobolParameterListProvider extends ParameterListProvider {
                         public Double f(P2<TuningBounds, Integer> a) {
                             return p[a._2()] * a._1().getRange() + a._1().getLowerBound();
                         }                    
-                    }.andThen(Utils.precision(2))));
+                    }.andThen(Utils.precision(precision))));
             }            
         }).toList();
     }
@@ -56,5 +58,13 @@ public class SobolParameterListProvider extends ParameterListProvider {
 
     public int getCount() {
         return count;
+    }
+
+    public void setPrecision(int precision) {
+        this.precision = precision;
+    }
+
+    public int gtPrecision() {
+        return precision;
     }
 }

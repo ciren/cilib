@@ -30,6 +30,10 @@ public abstract class AbstractIterationStrategy<E extends Algorithm> implements 
     public AbstractIterationStrategy() {
         this.boundaryConstraint = new UnconstrainedBoundary();
     }
+    
+    public AbstractIterationStrategy(AbstractIterationStrategy copy) {
+        this.boundaryConstraint = copy.boundaryConstraint.getClone();
+    }
 
     /**
      * {@inheritDoc}
