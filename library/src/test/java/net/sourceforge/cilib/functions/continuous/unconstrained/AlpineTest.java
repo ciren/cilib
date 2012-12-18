@@ -21,7 +21,9 @@ public class AlpineTest {
         this.function = new Alpine();
     }
 
-    /** Test of evaluate method, of class cilib.functions.unconstrained.Alpine. */
+    /**
+     * Test of evaluate method, of class {@link Alpine}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(0,0);

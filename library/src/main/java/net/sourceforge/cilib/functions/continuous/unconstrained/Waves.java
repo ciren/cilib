@@ -9,9 +9,10 @@ package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+import com.google.common.base.Preconditions;
 
 /**
- * <p><b>The Five Uneven Peak Trap Function.</b></p>
+ * <p><b>Waves Function.</b></p>
  *
  * <p>Global Minimum:
  * <ul>
@@ -22,7 +23,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * 
  * <p>Characteristics:
  * <ul>
- * <li>Two-dimensional only</li>
+ * <li>Only defined for 2 dimensions</li>
  * <li>Multimodal</li>
  * <li>Non-Separable</li>
  * <li>One global optimum, and nine local optima</li>
@@ -38,6 +39,8 @@ public class Waves implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
+        Preconditions.checkArgument(input.size() == 2, "Waves function is only defined for 2 dimensions");
+
         double x = input.doubleValueOf(0);
         double y = input.doubleValueOf(1);
         

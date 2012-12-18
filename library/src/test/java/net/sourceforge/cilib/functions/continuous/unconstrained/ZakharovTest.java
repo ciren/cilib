@@ -21,7 +21,9 @@ public class ZakharovTest {
         this.function = new Zakharov();
     }
 
-    /** Test of evaluate method, of class cilib.functions.unconstrained.Zakharov. */
+    /**
+     * Test of evaluate method, of class {@link Zakharov}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(0.0, 0.0);

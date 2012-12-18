@@ -8,7 +8,7 @@ package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,14 +22,24 @@ public class SixHumpCamelBackTest {
         this.function = new SixHumpCamelBack();
     }
 
-    /** Test of the evaluate method of the {@link SixHumpCamelBack} class */
+    /**
+     * Test of evaluate method, of class {@link SixHumpCamelBack}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(-0.0898,0.7126);
-        Assert.assertEquals(-1.0316, function.apply(x), EPSILON);
+        assertEquals(-1.0316, function.apply(x), EPSILON);
 
         x.setReal(0, 0.0898);
         x.setReal(1, -0.7126);
-        Assert.assertEquals(-1.0316, function.apply(x), EPSILON);
+        assertEquals(-1.0316, function.apply(x), EPSILON);
+    }
+
+    /**
+     * Test argument with invalid dimension.
+     */
+    @Test(expected=IllegalArgumentException.class)
+    public void testInvalidEvaluate() {
+        function.apply(Vector.of(1.0, 2.0, 3.0));
     }
 }

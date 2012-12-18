@@ -6,16 +6,13 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
-*/
 public class MichalewiczTest {
 
     private ContinuousFunction function;
@@ -25,11 +22,11 @@ public class MichalewiczTest {
         this.function = new Michalewicz();
     }
 
-    /** Test of evaluate method, of class cilib.functions.unconstrained.Michalewicz. */
+    /**
+     * Test of evaluate method, of class {@link Michalewicz}.
+     */
     @Test
     public void testEvaluate() {
-//        function.setDomain("R(0, 3.141592653589793)^2");
-
         Vector x = Vector.of(1.5, 1.3);
         assertEquals(-0.07497735029244701, function.apply(x), 0.00000000000000001);
 

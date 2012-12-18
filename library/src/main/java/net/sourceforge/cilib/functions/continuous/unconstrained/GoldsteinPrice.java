@@ -8,6 +8,7 @@ package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+import com.google.common.base.Preconditions;
 
 /**
  * The Goldstein-Price function.<br><br>
@@ -29,6 +30,8 @@ public class GoldsteinPrice implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
+        Preconditions.checkArgument(input.size() == 2, "Goldstein-Price function is only defined for 2 dimensions");
+
         double x = input.doubleValueOf(0);
         double y = input.doubleValueOf(1);
         double part1 = 1 + (x + y + 1.0) * (x + y + 1.0) * (19.0 - 14.0 * x + 3 * x * x - 14 * y + 6 * x * y + 3 * y * y);

@@ -8,7 +8,7 @@ package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,28 +26,34 @@ public class HimmelblauTest {
     }
 
     /**
-     * Test of evaluate method, on the given problem domain.
+     * Test of evaluate method, of class {@link Himmelblau}.
      */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(3,2);
-        Assert.assertEquals(0.0, function.apply(x), EPSILON);
+        assertEquals(0.0, function.apply(x), EPSILON);
 
         x.setReal(0, -2.805118);
         x.setReal(1, 3.131312);
-        Assert.assertEquals(0.0, function.apply(x), EPSILON);
+        assertEquals(0.0, function.apply(x), EPSILON);
 
         x.setReal(0, -3.779301);
         x.setReal(1, -3.283185);
-        Assert.assertEquals(0.0, function.apply(x), EPSILON);
+        assertEquals(0.0, function.apply(x), EPSILON);
 
         x.setReal(0, 3.584428);
         x.setReal(1, -1.848126);
-        Assert.assertEquals(0.0, function.apply(x), EPSILON);
+        assertEquals(0.0, function.apply(x), EPSILON);
 
         //test one other point
         x.setReal(0, 2.0);
         x.setReal(1, 2.0);
-        Assert.assertEquals(26.0, function.apply(x), EPSILON);
+        assertEquals(26.0, function.apply(x), EPSILON);
+    }
+
+    /** Test argument with invalid dimension */
+    @Test(expected=IllegalArgumentException.class)
+    public void testInvalidEvaluate() {
+        function.apply(Vector.of(1.0, 2.0, 3.0));
     }
 }

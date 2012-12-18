@@ -29,6 +29,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Regular</li>
  * <li>Convex</li>
  * </ul>
+ * </p>
  *
  * f(x) = 0; x = (0,0,...,0)
  * x e [-5.12, 5.12]

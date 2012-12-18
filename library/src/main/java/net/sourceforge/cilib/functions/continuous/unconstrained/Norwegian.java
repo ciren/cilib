@@ -10,22 +10,7 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Modified Schaffer Function 2.
- *
- * Characteristics:
- * <ul>
- *  <li>Multi-modal</li>
- *  <li>Non-Seperable</li>
- *  <li>Regular</li>
- * </ul>
- *
- * Reference:
- * @article{
- * mishra-some,
- * title={{Some new test functions for global optimization and performance of repulsive particle swarm method}},
- * author={Mishra, S.K. and Campus, N.}
- * }
- *
+ * Norwegian function.
  */
 public class Norwegian implements ContinuousFunction {
     

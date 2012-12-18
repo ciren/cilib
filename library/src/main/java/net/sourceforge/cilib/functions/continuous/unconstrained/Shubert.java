@@ -15,7 +15,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p>Global Minimum:
  * <ul>
  * <li>&fnof;(<b>x</b>*) = -186.7309088</li>
- * <li> Many global minima: n=1 has 3, n=2 has 18, n=3 has 81, n=4 has 324, n has pow(3,n)</li>
+ * <li> Many global minima: n=1 has 3, n=2 has 9, n=3 has 81, n=4 has 324, n has pow(3,n)</li>
  * <li> All unevenly spaced</li>
  * <li> for x<sub>i</sub> in [-10,10]</li>
  * </ul>

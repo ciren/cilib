@@ -6,16 +6,12 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- */
 public class WavesTest {
  
     private ContinuousFunction function;
@@ -25,7 +21,9 @@ public class WavesTest {
         this.function = new Waves();
     }
 
-    /** Test for Central2PeakTrapTest */
+    /**
+     * Test of evaluate method, of class {@link Waves}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(-0.5,-1.2);
@@ -47,5 +45,13 @@ public class WavesTest {
         x.setReal(0, 1.2);
         x.setReal(1, 0);
         assertEquals(-0.046656, function.apply(x), 0.000000009);
-    }   
+    }
+
+    /**
+     * Test argument with invalid dimension.
+     */
+    @Test(expected=IllegalArgumentException.class)
+    public void testInvalidEvaluate() {
+        function.apply(Vector.of(1.0, 2.0, 3.0));
+    }
 }

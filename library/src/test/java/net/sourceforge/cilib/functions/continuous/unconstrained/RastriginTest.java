@@ -8,13 +8,9 @@ package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.type.types.container.Vector;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- */
 public class RastriginTest {
 
     private Rastrigin function;
@@ -24,7 +20,9 @@ public class RastriginTest {
         this.function = new Rastrigin();
     }
 
-    /** Test of evaluate method, of class cilib.functions.unconstrained.Rastrigin. */
+    /**
+     * Test of evaluate method, of class {@link Rastrigin}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(0.0, 0.0);
@@ -37,6 +35,9 @@ public class RastriginTest {
         assertEquals(42.9885094392, function.apply(x), 0.0000000001);
     }
     
+    /**
+     * Test of gradient method, of class {@link Rastrigin}.
+     */
     @Test
     public void testGradient() {
         Vector x = Vector.of(1.0);

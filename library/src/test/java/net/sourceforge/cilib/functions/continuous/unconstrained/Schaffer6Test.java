@@ -21,7 +21,9 @@ public class Schaffer6Test {
         this.function = new Schaffer6();
     }
 
-    /** Test of evaluate method, of class cilib.functions.unconstrained.Pathological. */
+    /**
+     * Test of evaluate method, of class {@link Schaffer6}.
+     */
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(0.0, 0.0);

@@ -8,6 +8,7 @@ package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+import com.google.common.base.Preconditions;
 
 /**
  * <p><b>Bukin 6 Function.</b></p>
@@ -45,6 +46,8 @@ public class Bukin6 implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
+        Preconditions.checkArgument(input.size() == 2, "Bukin 6 function is only defined for 2 dimensions");
+
         double x1 = input.doubleValueOf(0);
         double x2 = input.doubleValueOf(1);
 
