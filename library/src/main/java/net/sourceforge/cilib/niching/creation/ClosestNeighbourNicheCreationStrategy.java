@@ -15,7 +15,6 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.ClosestEntityVisitor;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.problem.boundaryconstraint.ClampingBoundaryConstraint;
@@ -58,7 +57,7 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
 
         ClampingVelocityProvider delegate = new ClampingVelocityProvider(ConstantControlParameter.of(1.0),
                 new StandardVelocityProvider(new UpdateOnIterationControlParameter(new LinearlyVaryingControlParameter(0.7, 0.2)),
-                    ConstantControlParameter.of(1.2), ConstantControlParameter.of(1.2), new MersenneTwister(), new MersenneTwister()));
+                    ConstantControlParameter.of(1.2), ConstantControlParameter.of(1.2)));
         
         GCVelocityProvider gcVelocityProvider = new GCVelocityProvider();
         gcVelocityProvider.setDelegate(delegate);

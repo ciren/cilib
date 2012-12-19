@@ -20,7 +20,6 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
 import net.sourceforge.cilib.math.random.UniformDistribution;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.niching.NichingSwarms;
 import static net.sourceforge.cilib.niching.VectorBasedFunctions.*;
@@ -47,8 +46,7 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
         topologyProvider = new JoinedTopologyProvider();
         minSwarmSize = ConstantControlParameter.of(3.0);
         swarmBehavior = new ParticleBehavior();
-        swarmBehavior.setVelocityProvider(new StandardVelocityProvider(ConstantControlParameter.of(0.8), ConstantControlParameter.of(1.0), ConstantControlParameter.of(1.0),
-                new MersenneTwister(), new MersenneTwister()));
+        swarmBehavior.setVelocityProvider(new StandardVelocityProvider(ConstantControlParameter.of(0.8), ConstantControlParameter.of(1.0), ConstantControlParameter.of(1.0)));
         swarmType = new PSO();
         swarmType.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 500));
     }

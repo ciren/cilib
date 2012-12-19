@@ -7,8 +7,6 @@
 package net.sourceforge.cilib.type.types.container;
 
 import junit.framework.Assert;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.Int;
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -136,10 +134,9 @@ public class ClusterCentroidTest {
      */
     @Test
     public void testRandomize() {
-        RandomProvider random = new MersenneTwister();
         ClusterCentroid instance = new ClusterCentroid();
         instance.addAll(Vector.of(1,5,6,7,9,5,2));
-        instance.randomize(random);
+        instance.randomize();
         
         Assert.assertFalse(instance.containsAll(Vector.of(1,5,6,7,9,5,2)));
     }

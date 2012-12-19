@@ -11,6 +11,7 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.AlgorithmEvent;
 import net.sourceforge.cilib.algorithm.AlgorithmListener;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.Problem;
 
 /**
@@ -38,7 +39,7 @@ public class Simulation implements AlgorithmListener, Runnable {
     }
 
     /**
-     * Prepre for execution. The simulation is prepared for execution by
+     * Prepare for execution. The simulation is prepared for execution by
      * setting the provided {@code problem} on the current {@code algorithm},
      * followed by the required initialization for the {@code algorithm} itself.
      */
@@ -54,6 +55,8 @@ public class Simulation implements AlgorithmListener, Runnable {
      */
     @Override
     public void run() {
+        Rand.reset();
+        init();
         algorithm.run();
     }
 

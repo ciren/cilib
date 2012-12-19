@@ -6,18 +6,18 @@
  */
 package net.sourceforge.cilib.pso.positionprovider;
 
+import java.util.ArrayList;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
-
-import java.util.ArrayList;
 
 /** Implementation of the DE PSO of Hendtlass.
  * TODO: can the DE strategies be incorporated somehow?
@@ -84,7 +84,7 @@ public class DEPositionProvider implements PositionProvider {
             int count = 0;
 
             while (count < 3) {
-                int random = rand2.getRandomProvider().nextInt(pso.getTopology().size());
+                int random = Rand.nextInt(pso.getTopology().size());
                 Entity parent = pso.getTopology().get(random);
                 if (!positions.contains((Vector) parent.getCandidateSolution())) {
                     positions.add((Vector) parent.getCandidateSolution());

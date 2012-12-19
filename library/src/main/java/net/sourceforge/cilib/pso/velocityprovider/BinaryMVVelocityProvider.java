@@ -10,11 +10,9 @@ import fj.P1;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 
 /**
  * Implementation of A novel Binary Particle Swarm Optimization.
@@ -35,32 +33,23 @@ public final class BinaryMVVelocityProvider implements VelocityProvider {
     protected ControlParameter inertiaWeight;
     protected ControlParameter c1;
     protected ControlParameter c2;
-    protected RandomProvider r1;
-    protected RandomProvider r2;
-
+    
     public BinaryMVVelocityProvider() {
         this(ConstantControlParameter.of(0.729844),
             ConstantControlParameter.of(1.496180),
-            ConstantControlParameter.of(1.496180),
-            new MersenneTwister(),
-            new MersenneTwister());
+            ConstantControlParameter.of(1.496180));
     }
 
-    public BinaryMVVelocityProvider(ControlParameter inertia, ControlParameter c1, ControlParameter c2,
-            RandomProvider r1, RandomProvider r2) {
+    public BinaryMVVelocityProvider(ControlParameter inertia, ControlParameter c1, ControlParameter c2) {
         this.inertiaWeight = inertia;
         this.c1 = c1;
         this.c2 = c2;
-        this.r1 = r1;
-        this.r2 = r2;
     }
 
     public BinaryMVVelocityProvider(BinaryMVVelocityProvider copy) {
         this.inertiaWeight = copy.inertiaWeight.getClone();
         this.c1 = copy.c1.getClone();
         this.c2 = copy.c2.getClone();
-        this.r1 = copy.r1;
-        this.r2 = copy.r2;
     }
 
     /**
@@ -104,12 +93,12 @@ public final class BinaryMVVelocityProvider implements VelocityProvider {
         }
 
         v0 = v0.multiply(inertiaWeight.getParameter())
-            .plus(dp0.build().multiply(cp(c1)).multiply(random(r1)))
-            .plus(dg0.build().multiply(cp(c2)).multiply(random(r2)));
+            .plus(dp0.build().multiply(cp(c1)).multiply(random()))
+            .plus(dg0.build().multiply(cp(c2)).multiply(random()));
 
         v1 = v1.multiply(inertiaWeight.getParameter())
-            .plus(dp1.build().multiply(cp(c1)).multiply(random(r1)))
-            .plus(dg1.build().multiply(cp(c2)).multiply(random(r2)));
+            .plus(dp1.build().multiply(cp(c1)).multiply(random()))
+            .plus(dg1.build().multiply(cp(c2)).multiply(random()));
 
         // update the particle's v0 and v1 velocities
         particle.getProperties().put(Velocity.V0, v0);
@@ -129,11 +118,11 @@ public final class BinaryMVVelocityProvider implements VelocityProvider {
         return combined.build();
     }
     
-    private static P1<Number> random(final RandomProvider r) {
+    private static P1<Number> random() {
         return new P1<Number>() {
             @Override
             public Number _1() {
-                return r.nextDouble();
+                return Rand.nextDouble();
             }
         };
     }
@@ -198,21 +187,5 @@ public final class BinaryMVVelocityProvider implements VelocityProvider {
      */
     public void c2(ControlParameter c2) {
         this.c2 = c2;
-    }
-
-    public RandomProvider getR1() {
-        return r1;
-    }
-
-    public void setR1(RandomProvider r1) {
-        this.r1 = r1;
-    }
-
-    public RandomProvider getR2() {
-        return r2;
-    }
-
-    public void setR2(RandomProvider r2) {
-        this.r2 = r2;
     }
 }

@@ -7,8 +7,6 @@
 package net.sourceforge.cilib.util.selection.recipes;
 
 import net.sourceforge.cilib.util.selection.PartialSelection;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.arrangement.ProportionalArrangement;
 import net.sourceforge.cilib.util.selection.arrangement.ReverseArrangement;
@@ -31,14 +29,12 @@ public class RouletteWheelSelector<E extends Comparable> implements Selector<E> 
 
     private static final long serialVersionUID = 4194450350205390514L;
     private Weighting weighting;
-    private RandomProvider random;
 
     /**
      * Create a new instance.
      */
     public RouletteWheelSelector() {
         this.weighting = new LinearWeighting();
-        this.random = new MersenneTwister();
     }
 
     /**
@@ -47,7 +43,6 @@ public class RouletteWheelSelector<E extends Comparable> implements Selector<E> 
      */
     public RouletteWheelSelector(Weighting weighing) {
         this.weighting = weighing;
-        this.random = new MersenneTwister();
     }
 
     /**
@@ -56,7 +51,6 @@ public class RouletteWheelSelector<E extends Comparable> implements Selector<E> 
      */
     public RouletteWheelSelector(RouletteWheelSelector<E> copy) {
         this.weighting = copy.weighting;
-        this.random = copy.random;
     }
 
     /**
@@ -73,22 +67,6 @@ public class RouletteWheelSelector<E extends Comparable> implements Selector<E> 
      */
     public Weighting getWeighing() {
         return this.weighting;
-    }
-
-    /**
-     * Set the random number generator to use.
-     * @param random The value to set.
-     */
-    public void setRandom(RandomProvider random) {
-        this.random = random;
-    }
-
-    /**
-     * Get the current random number generator.
-     * @return The current random number generator.
-     */
-    public RandomProvider getRandom() {
-        return this.random;
     }
 
     /**

@@ -6,17 +6,12 @@
  */
 package net.sourceforge.cilib.type.types;
 
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
-/**
- *
- */
 public class BitTest {
 
     @Test
@@ -81,12 +76,13 @@ public class BitTest {
     public void testRandomize() {
         Bit b1 = Bit.valueOf(true);
         Bit b2 = Bit.valueOf(true);
-        b2.randomize(new MersenneTwister());
+        b2.randomize();
 
-        if (b2.booleanValue())
+        if (b2.booleanValue()) {
             assertTrue(b1.booleanValue() == b2.booleanValue());
-        else
+        } else {
             assertTrue(b1.booleanValue() != b2.booleanValue());
+        }
     }
 
  }

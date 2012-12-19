@@ -7,18 +7,13 @@
 package net.sourceforge.cilib.pso;
 
 import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
-import net.sourceforge.cilib.math.random.generator.seeder.SeedSelectionStrategy;
-import net.sourceforge.cilib.math.random.generator.seeder.Seeder;
-import net.sourceforge.cilib.math.random.generator.seeder.ZeroSeederStrategy;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import static org.hamcrest.CoreMatchers.is;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- *
- */
 public class PSOTest {
 
     /**
@@ -39,24 +34,18 @@ public class PSOTest {
      */
     @Test
     public void algorithmExecution() {
-        SeedSelectionStrategy seedStrategy = Seeder.getSeederStrategy();
-        Seeder.setSeederStrategy(new ZeroSeederStrategy());
+        Rand.setSeed(0);
+        FunctionOptimisationProblem problem = new FunctionOptimisationProblem();
+        problem.setDomain("R(-5.12:5.12)^30");
+        problem.setFunction(new Spherical());
 
-        try {
-            FunctionOptimisationProblem problem = new FunctionOptimisationProblem();
-            problem.setDomain("R(-5.12:5.12)^30");
-            problem.setFunction(new Spherical());
+        PSO pso = new PSO();
+        pso.setOptimisationProblem(problem);
+        pso.addStoppingCondition(new MeasuredStoppingCondition());
 
-            PSO pso = new PSO();
-            pso.setOptimisationProblem(problem);
-            pso.addStoppingCondition(new MeasuredStoppingCondition());
+        pso.performInitialisation();
+        pso.run();
 
-            pso.performInitialisation();
-            pso.run();
-
-            Assert.assertThat(pso.getBestSolution().getFitness().getValue(), is(400.5332366469983));
-        } finally {
-            Seeder.setSeederStrategy(seedStrategy);
-        }
+        Assert.assertThat(pso.getBestSolution().getFitness().getValue(), is(3.8439844423144655E-12));
     }
 }

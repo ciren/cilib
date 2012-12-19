@@ -8,8 +8,7 @@ package net.sourceforge.cilib.pso;
 
 
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.math.random.generator.KnuthSubtractive;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -32,7 +31,6 @@ public class DissipativeStep {
 
     /** Creates a new instance of DissipativeStep. */
     public DissipativeStep() {
-        randomGenerator = new KnuthSubtractive();
         velocityThreshold = 0.001f;
         positionThreshold = 0.002f;
     }
@@ -42,7 +40,7 @@ public class DissipativeStep {
         //net.sourceforge.cilib.Type.Vector domain = (net.sourceforge.cilib.Type.Vector) pso.getOptimisationProblem().getDomain().getBuiltRepresentation();
         Vector domain = (Vector) pso.getOptimisationProblem().getDomain().getBuiltRepresentation();
         //Vector domain = (Vector) parser.getBuiltRepresentation();
-        if (randomGenerator.nextFloat() < velocityThreshold) {
+        if (Rand.nextFloat() < velocityThreshold) {
             for (int i = 0; i < particle.getDimension(); ++i) {
                 //Real component = (Real) domain.getComponent(i);
                 net.sourceforge.cilib.type.types.Real component = (net.sourceforge.cilib.type.types.Real) domain.get(i);
@@ -55,10 +53,10 @@ public class DissipativeStep {
                     //(d.getUpperBound() - d.getLowerBound());
                     (component.getUpperBound() - component.getLowerBound());*/
                 Vector velocity = (Vector) particle.getVelocity();
-                velocity.setReal(i, randomGenerator.nextFloat()*(component.getBounds().getUpperBound() - component.getBounds().getLowerBound()));
+                velocity.setReal(i, Rand.nextFloat()*(component.getBounds().getUpperBound() - component.getBounds().getLowerBound()));
             }
         }
-        if (randomGenerator.nextFloat() < positionThreshold) {
+        if (Rand.nextFloat() < positionThreshold) {
             for (int i = 0; i < particle.getDimension(); ++i) {
                 /*Real component = (Real) domain.getComponent(i);
                 particle.getPosition()[i] = randomGenerator.nextDouble()
@@ -70,17 +68,9 @@ public class DissipativeStep {
                 //* (d.getUpperBound() - d.getLowerBound()) + d.getLowerBound();
                 * (component.getUpperBound() - component.getLowerBound()) + component.getLowerBound();*/
                 Vector position = (Vector) particle.getPosition();
-                position.setReal(i, randomGenerator.nextDouble()*(component.getBounds().getUpperBound() - component.getBounds().getLowerBound())+ component.getBounds().getLowerBound());
+                position.setReal(i, Rand.nextDouble()*(component.getBounds().getUpperBound() - component.getBounds().getLowerBound())+ component.getBounds().getLowerBound());
             }
         }
-    }
-
-    public void setRandomGenerator(RandomProvider randomGenerator) {
-        this.randomGenerator = randomGenerator;
-    }
-
-    public RandomProvider getRandomGenerator() {
-        return randomGenerator;
     }
 
     public void setVelocityThreshold(float velocityThreshold) {
@@ -109,7 +99,6 @@ public class DissipativeStep {
 
     private PSO pso;
 
-    private RandomProvider randomGenerator;
     private float velocityThreshold;
     private float positionThreshold;
 

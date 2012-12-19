@@ -10,6 +10,7 @@ import fj.F;
 import fj.P2;
 import fj.data.List;
 import fj.data.Stream;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.math.random.generator.quasi.Sobol;
 import net.sourceforge.cilib.tuning.parameters.TuningBounds;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -27,7 +28,7 @@ public class SobolParameterListProvider extends ParameterListProvider {
 
     @Override
     public List<Vector> _1() {
-        final Sobol sobol = new Sobol();
+        final Sobol sobol = new Sobol(Rand.nextLong());
         sobol.setDimensions(parameters.length());
         
         return Stream.range(0, count).map(new F<Integer, Vector>() {

@@ -6,20 +6,16 @@
  */
 package net.sourceforge.cilib.math.random.generator;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Assert;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
-/**
- *
- */
 public class MersenneTwisterTest {
 
     @Test
     public void testNextDouble() {
         RandomTester tester = new SimpleRandomTester();
-        RandomProvider r = new MersenneTwister();
+        MersenneTwister r = new MersenneTwister(Rand.nextLong());
         for (int i = 0; i < 100000; ++i) {
             double d = r.nextDouble();
             assertTrue("Random value out of range", 0 <= d && d < 1);
@@ -34,7 +30,7 @@ public class MersenneTwisterTest {
      */
     @Test
     public void sequence() {
-        RandomProvider r = new MersenneTwister(5489L);
+        MersenneTwister r = new MersenneTwister(5489L);
 
         Assert.assertEquals(0.81472369, r.nextDouble(), 0.00000001);
         Assert.assertEquals(0.13547700, r.nextDouble(), 0.00000001);

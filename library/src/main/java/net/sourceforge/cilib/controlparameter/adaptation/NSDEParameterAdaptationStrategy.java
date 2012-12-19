@@ -12,7 +12,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.CauchyDistribution;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
-import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.math.random.generator.Rand;
 
 /**
  * This is the DE with Neighbouthood Search parameter adaptation strategy described 
@@ -22,24 +22,17 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
 public class NSDEParameterAdaptationStrategy implements ParameterAdaptationStrategy{
     private double scalingFactorProbability;
     private ProbabilityDistributionFunction random;
-    private ProbabilityDistributionFunction probabilityCheckRandom;
     private ProbabilityDistributionFunction cauchyVariableRandom;
     
     /* 
      * Default constructor for the NSDEParameterAdaptationStrategy
      */
     public NSDEParameterAdaptationStrategy() {
-        scalingFactorProbability = 0.5;
-        random = new GaussianDistribution();
-        ((GaussianDistribution) random).setMean(0.0);
-        ((GaussianDistribution) random).setDeviation(0.5);
-        
-        probabilityCheckRandom = new UniformDistribution();
-        ((UniformDistribution) probabilityCheckRandom).setLowerBound(ConstantControlParameter.of(0));
-        ((UniformDistribution) probabilityCheckRandom).setUpperBound(ConstantControlParameter.of(1));
-        
+        GaussianDistribution gaussian = new GaussianDistribution();
+        gaussian.setDeviation(ConstantControlParameter.of(0.5));
+        random = gaussian;      
         cauchyVariableRandom = new CauchyDistribution();
-        ((CauchyDistribution) cauchyVariableRandom).setScale(ConstantControlParameter.of(1));
+        scalingFactorProbability = 0.5;
     }
     
     /*
@@ -49,7 +42,6 @@ public class NSDEParameterAdaptationStrategy implements ParameterAdaptationStrat
     public NSDEParameterAdaptationStrategy(NSDEParameterAdaptationStrategy copy) {
         scalingFactorProbability = copy.scalingFactorProbability;
         random = copy.random;
-        probabilityCheckRandom = copy.probabilityCheckRandom;
         cauchyVariableRandom = copy.cauchyVariableRandom;
     }
     
@@ -67,7 +59,7 @@ public class NSDEParameterAdaptationStrategy implements ParameterAdaptationStrat
      * @param parameter The parameter to be changed
      */
     public void change(SettableControlParameter parameter) {
-        if(probabilityCheckRandom.getRandomNumber() < scalingFactorProbability) {
+        if(Rand.nextDouble() < scalingFactorProbability) {
             parameter.update(random.getRandomNumber());
         } else {
             parameter.update(cauchyVariableRandom.getRandomNumber());

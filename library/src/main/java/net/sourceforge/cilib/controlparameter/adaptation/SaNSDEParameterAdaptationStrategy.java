@@ -6,14 +6,13 @@
  */
 package net.sourceforge.cilib.controlparameter.adaptation;
 
-import java.util.ArrayList;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.SettableControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.CauchyDistribution;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
-import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.math.random.generator.Rand;
 
 /**
  * This is the self-adaptive version of NSDEParameterAdaptationStrategy, where
@@ -25,7 +24,6 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
 public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStrategy{
     private double scalingFactorProbability;
     private ProbabilityDistributionFunction random;
-    private ProbabilityDistributionFunction probabilityCheckRandom;
     private ProbabilityDistributionFunction cauchyVariableRandom;
     private double totalAcceptedWithProbability;
     private double totalRejectedWithProbability;
@@ -37,18 +35,13 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
      * Default constructor for SaNSDEParameterAdaptationStrategy
      */
     public SaNSDEParameterAdaptationStrategy() {
-        scalingFactorProbability = 0.5;
-        random = new GaussianDistribution();
-        ((GaussianDistribution) random).setMean(0.5);
-        ((GaussianDistribution) random).setDeviation(0.3);
-        
-        probabilityCheckRandom = new UniformDistribution();
-        ((UniformDistribution) probabilityCheckRandom).setLowerBound(ConstantControlParameter.of(0));
-        ((UniformDistribution) probabilityCheckRandom).setUpperBound(ConstantControlParameter.of(1));
+        GaussianDistribution gaussian = new GaussianDistribution();
+        gaussian.setMean(ConstantControlParameter.of(0.5));
+        gaussian.setDeviation(ConstantControlParameter.of(0.3));
+        random = gaussian; 
         
         cauchyVariableRandom = new CauchyDistribution();
-        ((CauchyDistribution) cauchyVariableRandom).setScale(ConstantControlParameter.of(1));
-        
+        scalingFactorProbability = 0.5;
         totalAcceptedWithProbability = 0;
         totalRejectedWithProbability = 0;
         totalRejectedWithCauchy = 0;
@@ -63,7 +56,6 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
     public SaNSDEParameterAdaptationStrategy(SaNSDEParameterAdaptationStrategy copy) {
         scalingFactorProbability = copy.scalingFactorProbability;
         random = copy.random;
-        probabilityCheckRandom = copy.probabilityCheckRandom;
         cauchyVariableRandom = copy.cauchyVariableRandom;
         totalAcceptedWithProbability = copy.totalAcceptedWithProbability;
         totalRejectedWithProbability = copy.totalRejectedWithProbability;
@@ -85,7 +77,7 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
      * @param parameter The parameter to be changed
      */
     public void change(SettableControlParameter parameter) {
-        if(probabilityCheckRandom.getRandomNumber() < scalingFactorProbability) {
+        if(Rand.nextDouble() < scalingFactorProbability) {
             parameter.update(random.getRandomNumber());
             probabilityChosen = true;
         } else {
@@ -162,24 +154,6 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
      */
     public void setRandom(ProbabilityDistributionFunction random) {
         this.random = random;
-    }
-
-    /*
-     * Returns the probability distribution function used to determine which
-     * strategy the parameter will be adapted with
-     * @return The probability distribution function
-     */
-    public ProbabilityDistributionFunction getProbabilityCheckRandom() {
-        return probabilityCheckRandom;
-    }
-
-    /*
-     * Sets the probability distribution function usef to determine which
-     * strtategy the parameter will be adapted with
-     * @param probabilityCheckRandom The new probability distribution function
-     */
-    public void setProbabilityCheckRandom(ProbabilityDistributionFunction probabilityCheckRandom) {
-        this.probabilityCheckRandom = probabilityCheckRandom;
     }
 
     /*

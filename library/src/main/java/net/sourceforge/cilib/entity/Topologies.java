@@ -7,8 +7,8 @@
 package net.sourceforge.cilib.entity;
 
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
 
@@ -43,7 +43,7 @@ public final class Topologies {
      */
     public static <T extends Entity> Set<T> getNeighbourhoodBestEntities(Topology<T> topology, Comparator<? super T> comparator) {
         // a Set does not allow duplicates
-        Set<T> neighbourhoodBests = new HashSet<T>(topology.size());
+        Set<T> neighbourhoodBests = new LinkedHashSet<T>(topology.size());
         Iterator<T> topologyIterator = topology.iterator();
 
         // iterate over all entities in the topology

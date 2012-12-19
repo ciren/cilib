@@ -10,8 +10,7 @@ package net.sourceforge.cilib.pso.velocityprovider;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.math.random.generator.KnuthSubtractive;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
@@ -27,9 +26,6 @@ public class LinearVelocityProvider implements VelocityProvider {
     protected ControlParameter socialAcceleration;
     protected ControlParameter cognitiveAcceleration;
 
-    private RandomProvider socialRandomGenerator;
-    private RandomProvider cognitiveRandomGenerator;
-
     /**
      * Create an instance of {@linkplain LinearVelocityProvider}.
      */
@@ -39,18 +35,12 @@ public class LinearVelocityProvider implements VelocityProvider {
         this.inertiaWeight = ConstantControlParameter.of(0.729844);
         this.socialAcceleration = ConstantControlParameter.of(1.496180);
         this.cognitiveAcceleration = ConstantControlParameter.of(1.496180);
-
-        this.socialRandomGenerator = new KnuthSubtractive();
-        this.cognitiveRandomGenerator = new KnuthSubtractive();
     }
 
     public LinearVelocityProvider(LinearVelocityProvider copy) {
         this.inertiaWeight = copy.inertiaWeight.getClone();
         this.socialAcceleration = copy.socialAcceleration.getClone();
         this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
-
-        this.socialRandomGenerator = copy.socialRandomGenerator;
-        this.cognitiveRandomGenerator = copy.cognitiveRandomGenerator;
     }
 
     @Override
@@ -68,8 +58,8 @@ public class LinearVelocityProvider implements VelocityProvider {
         Vector localGuide = (Vector) particle.getLocalGuide();
         Vector globalGuide = (Vector) particle.getGlobalGuide();
 
-        float social = this.socialRandomGenerator.nextFloat();
-        float cognitive = this.cognitiveRandomGenerator.nextFloat();
+        float social = Rand.nextFloat();
+        float cognitive = Rand.nextFloat();
 
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
@@ -79,34 +69,5 @@ public class LinearVelocityProvider implements VelocityProvider {
             builder.add(value);
         }
         return builder.build();
-    }
-
-    /**
-     * Return the random number generator for the cognitive component.
-     * @return Returns the random number generator for the cognitive component.
-     */
-    public RandomProvider getCongnitiveRandomGenerator() {
-        return this.cognitiveRandomGenerator;
-    }
-
-    /**
-     * @param congnitiveRandomGenerator The congnitiveRandomGenerator to set.
-     */
-    public void setCongnitiveRandomGenerator(RandomProvider congnitiveRandomGenerator) {
-        this.cognitiveRandomGenerator = congnitiveRandomGenerator;
-    }
-
-    /**
-     * @return Returns the socialRandomGenerator.
-     */
-    public RandomProvider getSocialRandomGenerator() {
-        return this.socialRandomGenerator;
-    }
-
-    /**
-     * @param socialRandomGenerator The socialRandomGenerator to set.
-     */
-    public void setSocialRandomGenerator(RandomProvider socialRandomGenerator) {
-        this.socialRandomGenerator = socialRandomGenerator;
     }
 }

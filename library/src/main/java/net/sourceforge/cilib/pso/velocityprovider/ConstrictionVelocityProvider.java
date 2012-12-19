@@ -9,8 +9,7 @@ package net.sourceforge.cilib.pso.velocityprovider;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -83,9 +82,7 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
 
     private ControlParameter socialAcceleration;
     private ControlParameter cognitiveAcceleration;
-    protected RandomProvider r1;
-    protected RandomProvider r2;
-
+    
     private ControlParameter kappa;
     private ControlParameter constrictionCoefficient;
 
@@ -97,8 +94,6 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
     public ConstrictionVelocityProvider() {
         this.socialAcceleration = ConstantControlParameter.of(2.05);
         this.cognitiveAcceleration = ConstantControlParameter.of(2.05);
-        this.r1 = new MersenneTwister();
-        this.r2 = new MersenneTwister();
 
         this.kappa = ConstantControlParameter.of(1.0);
         this.constrictionCoefficient = null;
@@ -111,8 +106,6 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
     public ConstrictionVelocityProvider(ConstrictionVelocityProvider copy) {
         this.socialAcceleration = copy.socialAcceleration.getClone();
         this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
-        this.r1 = copy.r1;
-        this.r2 = copy.r2;
         this.kappa = copy.kappa.getClone();
     }
 
@@ -143,8 +136,8 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             double value = this.constrictionCoefficient.getParameter() * (velocity.doubleValueOf(i)
-                    + (localGuide.doubleValueOf(i) - position.doubleValueOf(i)) * this.cognitiveAcceleration.getParameter() * this.r1.nextDouble()
-                    + (globalGuide.doubleValueOf(i) - position.doubleValueOf(i)) * this.socialAcceleration.getParameter() * this.r2.nextDouble());
+                    + (localGuide.doubleValueOf(i) - position.doubleValueOf(i)) * this.cognitiveAcceleration.getParameter() * Rand.nextDouble()
+                    + (globalGuide.doubleValueOf(i) - position.doubleValueOf(i)) * this.socialAcceleration.getParameter() * Rand.nextDouble());
             builder.add(value);
         }
         return builder.build();
