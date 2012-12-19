@@ -8,26 +8,23 @@ package net.sourceforge.cilib.util.selection.arrangement;
 
 import com.google.common.collect.Lists;
 import java.util.List;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.WeightedObject;
 import net.sourceforge.cilib.util.selection.weighting.LinearWeighting;
+import static org.hamcrest.CoreMatchers.*;
 import org.junit.Assert;
 import org.junit.Test;
-import static org.hamcrest.CoreMatchers.*;
 
-/**
- *
- */
 public class ProportionalArrangementTest {
 
     @Test
     public void proportionalOrdering() {
+        Rand.setSeed(0);
         List<Integer> elements = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
         List<WeightedObject> entries = Selection.copyOf(elements)
                 .weigh(new LinearWeighting(1, 9))
-                .orderBy(new ProportionalArrangement(new ConstantRandomNumber()))
+                .orderBy(new ProportionalArrangement())
                 .weightedElements();
 
         // Random numbers in the range [0,1) will be generated in the following order:
@@ -93,50 +90,5 @@ public class ProportionalArrangementTest {
         // Finally...
         i = (Integer) entries.get(0).getObject();
         Assert.assertThat(i.intValue(), is(1));
-    }
-
-    private static class ConstantRandomNumber implements RandomProvider {
-
-        private static final long serialVersionUID = 3019387660938987850L;
-        private final MersenneTwister randomProvider;
-
-        public ConstantRandomNumber() {
-            this.randomProvider = new MersenneTwister(0);
-        }
-
-        @Override
-        public int nextInt(int n) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public boolean nextBoolean() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public int nextInt() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public long nextLong() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public float nextFloat() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public double nextDouble() {
-            return this.randomProvider.nextDouble();
-        }
-
-        @Override
-        public void nextBytes(byte[] bytes) {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
     }
 }

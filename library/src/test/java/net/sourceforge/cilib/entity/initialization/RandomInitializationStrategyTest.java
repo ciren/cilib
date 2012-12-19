@@ -11,23 +11,16 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.CentroidHolder;
-import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 import static org.hamcrest.CoreMatchers.*;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
-import static org.mockito.Matchers.any;
 
-/**
- *
- */
 public class RandomInitializationStrategyTest {
 
     @Test
@@ -59,7 +52,7 @@ public class RandomInitializationStrategyTest {
 
         strategy.initialize(EntityType.CANDIDATE_SOLUTION, particle);
         
-        verify(randomizable).randomize(any(RandomProvider.class));
+        verify(randomizable).randomize();
     }
     
     @Test

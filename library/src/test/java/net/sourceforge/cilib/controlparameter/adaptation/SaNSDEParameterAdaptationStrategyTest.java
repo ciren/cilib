@@ -6,19 +6,12 @@
  */
 package net.sourceforge.cilib.controlparameter.adaptation;
 
-import java.util.ArrayList;
 import junit.framework.Assert;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
 import net.sourceforge.cilib.controlparameter.StandardUpdatableControlParameter;
 import net.sourceforge.cilib.ec.SaDEIndividual;
 import net.sourceforge.cilib.math.random.CauchyDistribution;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
-import net.sourceforge.cilib.math.random.UniformDistribution;
+import org.junit.Test;
 
 public class SaNSDEParameterAdaptationStrategyTest {
     @Test
@@ -83,24 +76,6 @@ public class SaNSDEParameterAdaptationStrategyTest {
         strategy.setRandom(random);
         
         Assert.assertEquals(random, strategy.getRandom());
-    }
-      
-    @Test
-    public void getProbabilityCheckRandomTest() {
-        SaNSDEParameterAdaptationStrategy strategy = new SaNSDEParameterAdaptationStrategy();
-        UniformDistribution random = new UniformDistribution();
-        strategy.setProbabilityCheckRandom(random);
-        
-        Assert.assertEquals(random, strategy.getProbabilityCheckRandom());
-    }
-      
-    @Test
-    public void setProbabilityCheckRandomTest() {
-        SaNSDEParameterAdaptationStrategy strategy = new SaNSDEParameterAdaptationStrategy();
-        UniformDistribution random = new UniformDistribution();
-        strategy.setProbabilityCheckRandom(random);
-        
-        Assert.assertEquals(random, strategy.getProbabilityCheckRandom());
     }
       
     @Test

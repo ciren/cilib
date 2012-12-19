@@ -6,8 +6,6 @@
  */
 package net.sourceforge.cilib.math.random;
 
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
-
 /**
  * An interface for probability distribution functions. Concrete classes of
  * this type provide methods to sample random values from specific probability
@@ -33,8 +31,4 @@ public interface ProbabilityDistributionFunction {
      * @return
      */
     double getRandomNumber(double... parameters);
-
-    RandomProvider getRandomProvider();
-
-    void setRandomProvider(RandomProvider provider);
 }

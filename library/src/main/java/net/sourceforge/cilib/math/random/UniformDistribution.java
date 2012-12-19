@@ -9,15 +9,10 @@ package net.sourceforge.cilib.math.random;
 import static com.google.common.base.Preconditions.checkArgument;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 
-/**
- *
- */
 public class UniformDistribution implements ProbabilityDistributionFunction {
 
-    private RandomProvider provider;
     private ControlParameter lowerBound;
     private ControlParameter upperBound;
 
@@ -25,13 +20,6 @@ public class UniformDistribution implements ProbabilityDistributionFunction {
      * Default Constructor
      */
     public UniformDistribution() {
-        this.provider = new MersenneTwister();
-        lowerBound = ConstantControlParameter.of(0.0);
-        upperBound = ConstantControlParameter.of(1.0);
-    }
-
-    public UniformDistribution(long seed) {
-        this.provider = new MersenneTwister(seed);
         lowerBound = ConstantControlParameter.of(0.0);
         upperBound = ConstantControlParameter.of(1.0);
     }
@@ -62,18 +50,8 @@ public class UniformDistribution implements ProbabilityDistributionFunction {
         checkArgument(bounds.length == 2, "The Uniform distribution requires two parameters.");
         checkArgument(bounds[1] > bounds[0], "The lower bound (first parameter) must be less than upper bound (second parameter).");
 
-        double r = provider.nextDouble();
+        double r = Rand.nextDouble();
         return ((bounds[1] - bounds[0]) * r + bounds[0]);
-    }
-
-    @Override
-    public RandomProvider getRandomProvider() {
-        return provider;
-    }
-
-    @Override
-    public void setRandomProvider(RandomProvider provider) {
-        this.provider = provider;
     }
 
     public void setUpperBound(ControlParameter upperBound) {

@@ -8,7 +8,7 @@ package net.sourceforge.cilib.pso.velocityprovider;
 
 import com.google.common.collect.Lists;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -94,7 +94,7 @@ public class DistinctCrossoverVelocityProvider implements VelocityProvider {
         Vector pBest = (Vector) particle.getBestPosition();
         Vector nBest = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
-        Set<Vector> solutions = new HashSet<Vector>(Arrays.asList(solution, pBest, nBest));
+        Set<Vector> solutions = new LinkedHashSet<Vector>(Arrays.asList(solution, pBest, nBest));
 
         if (solutions.size() == 3) {
             return applyCrossover(particle, Lists.newLinkedList(solutions), mainCrossover);

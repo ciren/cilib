@@ -9,29 +9,17 @@ package net.sourceforge.cilib.math.random;
 import static com.google.common.base.Preconditions.checkArgument;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.controlparameter.SettableControlParameter;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 
-/**
- */
 public class GaussianDistribution implements ProbabilityDistributionFunction {
 
-    private RandomProvider provider;
-    private SettableControlParameter mean;
-    private SettableControlParameter deviation;
+    private ControlParameter mean;
+    private ControlParameter deviation;
 
     /**
      * Default constructor.
      */
     public GaussianDistribution() {
-        provider = new MersenneTwister();
-        mean = ConstantControlParameter.of(0.0);
-        deviation = ConstantControlParameter.of(1.0);
-    }
-
-    public GaussianDistribution(long seed) {
-        provider = new MersenneTwister(seed);
         mean = ConstantControlParameter.of(0.0);
         deviation = ConstantControlParameter.of(1.0);
     }
@@ -79,8 +67,8 @@ public class GaussianDistribution implements ProbabilityDistributionFunction {
         gaussian() requires uniforms > 0, but nextDouble() delivers >= 0.
          */
         do {
-            u = provider.nextDouble();
-            v = provider.nextDouble();
+            u = Rand.nextDouble();
+            v = Rand.nextDouble();
 
             if (u <= 0.0 || v <= 0.0) {
                 u = 1.0;
@@ -105,37 +93,19 @@ public class GaussianDistribution implements ProbabilityDistributionFunction {
         return (locationScale[0] + locationScale[1] * v / u);
     }
 
-    @Override
-    public RandomProvider getRandomProvider() {
-        return provider;
-    }
-
-    @Override
-    public void setRandomProvider(RandomProvider provider) {
-        this.provider = provider;
-    }
-
-    public void setDeviation(SettableControlParameter deviation) {
+    public void setDeviation(ControlParameter deviation) {
         this.deviation = deviation;
     }
-    
-    public void setDeviation(double deviation) {
-        this.deviation.setParameter(deviation);
-    }
 
-    public SettableControlParameter getDeviation() {
+    public ControlParameter getDeviation() {
         return deviation;
     }
 
-    public void setMean(SettableControlParameter mean) {
+    public void setMean(ControlParameter mean) {
         this.mean = mean;
     }
-    
-    public void setMean(double mean) {
-        this.mean.setParameter(mean);
-    }
 
-    public SettableControlParameter getMean() {
+    public ControlParameter getMean() {
         return mean;
     }
 }

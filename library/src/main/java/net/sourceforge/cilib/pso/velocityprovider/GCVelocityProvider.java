@@ -12,8 +12,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.pso.PSO;
@@ -52,7 +51,6 @@ public class GCVelocityProvider implements VelocityProvider {
     private VelocityProvider delegate;
 
     private ControlParameter inertiaWeight;
-    private RandomProvider randomProvider;
     private ControlParameter rhoLowerBound;
     private ControlParameter rho;
 
@@ -72,7 +70,6 @@ public class GCVelocityProvider implements VelocityProvider {
         this.delegate = new StandardVelocityProvider();
 
         this.inertiaWeight = ConstantControlParameter.of(0.729844);
-        this.randomProvider = new MersenneTwister();
 
         this.rho = ConstantControlParameter.of(1.0);
         this.rhoLowerBound = ConstantControlParameter.of(1.0e-323);
@@ -94,7 +91,6 @@ public class GCVelocityProvider implements VelocityProvider {
     public GCVelocityProvider(GCVelocityProvider copy) {
         this.delegate = copy.delegate.getClone();
         this.inertiaWeight = copy.inertiaWeight.getClone();
-        this.randomProvider = new MersenneTwister();
 
         this.rho = copy.rho.getClone();
         this.rhoLowerBound = copy.rhoLowerBound.getClone();
@@ -135,7 +131,7 @@ public class GCVelocityProvider implements VelocityProvider {
             for (int i = 0; i < velocity.size(); ++i) {
                 double component = -position.doubleValueOf(i) + globalGuide.doubleValueOf(i)
                         + this.inertiaWeight.getParameter() * velocity.doubleValueOf(i)
-                        + this.rho.getParameter() * (1 - 2 * this.randomProvider.nextDouble());
+                        + this.rho.getParameter() * (1 - 2 * Rand.nextDouble());
                 builder.add(component);
             }
 

@@ -6,19 +6,16 @@
  */
 package net.sourceforge.cilib.util.selection;
 
-import net.sourceforge.cilib.util.selection.arrangement.Arrangement;
-import com.google.common.base.Predicate;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import java.util.List;
+import net.sourceforge.cilib.util.selection.arrangement.Arrangement;
 import net.sourceforge.cilib.util.selection.weighting.Weighting;
 
-/**
- *
- */
 public final class Selection<T> implements WeighableSelection<T>, PartialSelection<T> {
 
     private final Object[] elements;

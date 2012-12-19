@@ -9,24 +9,13 @@ package net.sourceforge.cilib.math.random;
 import static com.google.common.base.Preconditions.checkArgument;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.math.random.generator.Rand;
 
-/**
- *
- */
 public class ExponentialDistribution implements ProbabilityDistributionFunction {
 
-    private RandomProvider provider;
     private ControlParameter rate;
 
     public ExponentialDistribution() {
-        provider = new MersenneTwister();
-        rate = ConstantControlParameter.of(1.0);
-    }
-
-    public ExponentialDistribution(long seed) {
-        provider = new MersenneTwister(seed);
         rate = ConstantControlParameter.of(1.0);
     }
 
@@ -51,18 +40,8 @@ public class ExponentialDistribution implements ProbabilityDistributionFunction 
         checkArgument(rate.length == 1, "The Exponential distribution requires a single parameter that specifies the rate.");
         checkArgument(rate[0] > 0, "The rate for the Exponential distribution parameter must be greater than zero.");
 
-        double r = provider.nextDouble(); //uniform number in the range (0.0, 1.0]:
+        double r = Rand.nextDouble(); //uniform number in the range (0.0, 1.0]:
         return -Math.log(1 - r) / rate[0];
-    }
-
-    @Override
-    public RandomProvider getRandomProvider() {
-        return provider;
-    }
-
-    @Override
-    public void setRandomProvider(RandomProvider provider) {
-        this.provider = provider;
     }
 
     public ControlParameter getRate() {
@@ -72,6 +51,4 @@ public class ExponentialDistribution implements ProbabilityDistributionFunction 
     public void setRate(ControlParameter rate) {
         this.rate = rate;
     }
-
-
 }

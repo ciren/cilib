@@ -6,17 +6,12 @@
  */
 package net.sourceforge.cilib.type.types;
 
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
-
-/**
- *
- */
 public interface Randomizable {
 
     /**
      * Apply a randomization using the provided {@code Random}.
      * @param random The {@code Random} to use for the randomization.
      */
-    void randomize(RandomProvider random);
+    void randomize();
 
 }

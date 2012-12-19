@@ -18,10 +18,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.ProgressEvent;
 import net.sourceforge.cilib.algorithm.ProgressListener;
+import net.sourceforge.cilib.math.random.generator.seeder.SeedSelectionStrategy;
+import net.sourceforge.cilib.math.random.generator.seeder.Seeder;
 import net.sourceforge.cilib.problem.Problem;
 
 /**
@@ -52,6 +53,7 @@ public class Simulator {
     private final XMLObjectFactory measurementFactory;
     private final MeasurementCombiner combiner;
     private final int samples;
+    private final SeedSelectionStrategy seeder;
 
     /**
      * Creates a new instance of Simulator given an algorithm factory, a problem factory and a
@@ -61,7 +63,10 @@ public class Simulator {
      * @param problemFactory The problem factory.
      * @param measurementFactory The measurement suite.
      */
-    public Simulator(XMLObjectFactory algorithmFactory, XMLObjectFactory problemFactory, XMLObjectFactory measurementFactory, MeasurementCombiner combiner, int samples) {
+    public Simulator(XMLObjectFactory algorithmFactory, 
+            XMLObjectFactory problemFactory, 
+            XMLObjectFactory measurementFactory, 
+            MeasurementCombiner combiner, int samples, SeedSelectionStrategy seeder) {
         this.algorithmFactory = algorithmFactory;
         this.problemFactory = problemFactory;
         this.measurementFactory = measurementFactory;
@@ -70,6 +75,7 @@ public class Simulator {
         this.progressListeners = Lists.newArrayList();
         this.progress = new HashMap<Simulation, Double>();
         this.simulations = new Simulation[samples];
+        this.seeder = seeder;
     }
 
     /**
@@ -77,9 +83,9 @@ public class Simulator {
      * {@code Simulation} instances and executing the threads.
      */
     public void init() {
+        Seeder.setSeederStrategy(seeder);
         for (int i = 0; i < samples; ++i) {
             simulations[i] = createSimulation();
-            simulations[i].init(); // Prepare the simulation for execution
             progress.put(simulations[i], 0.0);
         }
     }

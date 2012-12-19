@@ -10,10 +10,9 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Ordering;
 import java.util.Comparator;
 import java.util.List;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import net.sourceforge.cilib.util.selection.Samples;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.util.selection.PartialSelection;
+import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
 import net.sourceforge.cilib.util.selection.arrangement.SortedArrangement;
@@ -34,13 +33,11 @@ public class RankBasedSelector<E extends Comparable> implements Selector<E> {
 
     private static final long serialVersionUID = -2387196820773731607L;
     private Comparator<E> comparator;
-    private RandomProvider random;
 
     /**
      * Create a new instance.
      */
     public RankBasedSelector() {
-        this.random = new MersenneTwister();
         this.comparator = Ordering.natural();
     }
 
@@ -50,7 +47,6 @@ public class RankBasedSelector<E extends Comparable> implements Selector<E> {
      */
     public RankBasedSelector(Comparator<E> comparator) {
         this.comparator = comparator;
-        this.random = new MersenneTwister();
     }
 
     /**
@@ -59,7 +55,6 @@ public class RankBasedSelector<E extends Comparable> implements Selector<E> {
      */
     public RankBasedSelector(RankBasedSelector<E> copy) {
         this.comparator = copy.comparator;
-        this.random = new MersenneTwister();
     }
 
     /**
@@ -79,28 +74,12 @@ public class RankBasedSelector<E extends Comparable> implements Selector<E> {
     }
 
     /**
-     * Get the current random number generator.
-     * @return The current random number generator.
-     */
-    public RandomProvider getRandom() {
-        return random;
-    }
-
-    /**
-     * Set the random number generator to use.
-     * @param random The value to set.
-     */
-    public void setRandom(RandomProvider random) {
-        this.random = random;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public PartialSelection<E> on(Iterable<E> iterable) {
         int size = Iterables.size(iterable);
-        List<E> list = Selection.copyOf(iterable).orderBy(new SortedArrangement()).select(Samples.last(random.nextInt(size)+1));
-        return Selection.copyOf(list).orderBy(new RandomArrangement(random));
+        List<E> list = Selection.copyOf(iterable).orderBy(new SortedArrangement()).select(Samples.last(Rand.nextInt(size)+1));
+        return Selection.copyOf(list).orderBy(new RandomArrangement());
     }
 }

@@ -8,8 +8,6 @@ package net.sourceforge.cilib.boa.bee;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -23,7 +21,6 @@ import net.sourceforge.cilib.util.Cloneable;
 public class ExplorerBee implements Cloneable {
 
     private static final long serialVersionUID = 1068799535328234923L;
-    private RandomProvider random;            //generates a random position
     private int previousUpdatedIteration;    //used to check whether the algorithm has entered a new iteration
     private int numberOfUpdates;            //how many have occured in current iteration
     private ControlParameter explorerBeeUpdateLimit;
@@ -33,7 +30,6 @@ public class ExplorerBee implements Cloneable {
      * default values.
      */
     public ExplorerBee() {
-        random = new MersenneTwister();
         previousUpdatedIteration = -1;
         numberOfUpdates = 0;
         explorerBeeUpdateLimit = ConstantControlParameter.of(1.0);
@@ -44,7 +40,6 @@ public class ExplorerBee implements Cloneable {
      * @param copy reference to explorer bee that deep copy is made of.
      */
     public ExplorerBee(ExplorerBee copy) {
-        this.random = copy.random;
         this.previousUpdatedIteration = copy.previousUpdatedIteration;
         this.numberOfUpdates = copy.numberOfUpdates;
         this.explorerBeeUpdateLimit = copy.explorerBeeUpdateLimit;
@@ -136,21 +131,5 @@ public class ExplorerBee implements Cloneable {
      */
     public void setPreviousUpdatedIteration(int previousUpdatedIteration) {
         this.previousUpdatedIteration = previousUpdatedIteration;
-    }
-
-    /**
-     * Gets the random number generator to use for generating new positions.
-     * @return
-     */
-    public RandomProvider getRandom() {
-        return random;
-    }
-
-     /**
-     * Sets the random number generator to use for generating new positions.
-     * @param random the new random number generator to use for generating new positions.
-     */
-    public void setRandom(RandomProvider random) {
-        this.random = random;
     }
 }
