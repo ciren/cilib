@@ -32,7 +32,7 @@ public class WFG9 extends MOOptimisationProblem {
             ContinuousFunction function = new ContinuousFunction() {
 
                 @Override
-                public Double apply(Vector input) {
+                public Double apply(Vector input){ 
                     Vector y = Problems.WFG9(input, k, M);
                     return y.doubleValueOf(index);
                 }
@@ -41,7 +41,7 @@ public class WFG9 extends MOOptimisationProblem {
             wfg9_fm.setFunction(function);
             List<String> domain = Lists.newArrayList();
             for (int j = 0; j < k + l; ++j) {
-                domain.add("R(0, " + 2 * (j + 1) + ")");
+                domain.add("R(0:" + 2 * (j + 1) + ")");
             }
             wfg9_fm.setDomain(Joiner.on(", ").join(domain));
             add(wfg9_fm);

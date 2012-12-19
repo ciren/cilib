@@ -41,7 +41,7 @@ public class WFG3 extends MOOptimisationProblem {
             wfg3_fm.setFunction(function);
             List<String> domain = Lists.newArrayList();
             for (int j = 0; j < k + l; ++j) {
-                domain.add("R(0, " + 2 * (j + 1) + ")");
+                domain.add("R(0:" + 2 * (j + 1) + ")");
             }
             wfg3_fm.setDomain(Joiner.on(", ").join(domain));
             add(wfg3_fm);
