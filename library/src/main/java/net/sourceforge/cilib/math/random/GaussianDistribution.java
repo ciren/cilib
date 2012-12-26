@@ -12,7 +12,6 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.random.generator.Rand;
 
 public class GaussianDistribution implements ProbabilityDistributionFunction {
-
     private ControlParameter mean;
     private ControlParameter deviation;
 

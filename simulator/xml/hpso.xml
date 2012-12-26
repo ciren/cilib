@@ -88,7 +88,7 @@
                 </addBehavior>
                 <!-- end behavior pool -->
 
-                <windowSize value="1000"/>
+                <windowSize class="controlparameter.ConstantControlParameter" parameter="1000"/>
                 <selectionRecipe class="util.selection.recipes.RandomSelector"/>
             </iterationStrategy>
         </algorithm>
@@ -211,7 +211,7 @@
                 </addBehavior>
                 <!-- end behavior pool -->
 
-                <windowSize value="1000"/>
+                <windowSize class="controlparameter.ConstantControlParameter" parameter="1000"/>
             </iterationStrategy>
         </algorithm>
 
@@ -333,7 +333,7 @@
                 </addBehavior>
                 <!-- end behavior pool -->
 
-                <windowSize value="10"/>
+                <windowSize class="controlparameter.ConstantControlParameter" parameter="10"/>
             </iterationStrategy>
         </algorithm>
 
@@ -455,7 +455,7 @@
                 </addBehavior>
                 <!-- end behavior pool -->
 
-                <windowSize value="1"/>
+                <windowSize class="controlparameter.ConstantControlParameter" parameter="1"/>
             </iterationStrategy>
         </algorithm>
 
@@ -491,45 +491,60 @@
                 </addBehavior>
                 <!-- end behavior pool -->
 
-                <rigidCountPerBehavior value="5"/>
+                <rigidCountPerBehavior class="controlparameter.ConstantControlParameter" parameter="5"/>
             </iterationStrategy>
         </algorithm>
 
         <!-- Adaptive Learning PSO-ii -->
         <algorithm id="alpso-ii" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2500"/>
 
             <initialisationStrategy class="algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy">
-                <entityNumber value="30"/>
+                <entityNumber value="10"/>
                 <entityType class="pso.particle.StandardParticle"/>
 
                 <!-- initial behaviors -->
                 <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                        <delegate class="pso.velocityprovider.StandardVelocityProvider">
+                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.0"/>
+                            <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                            <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
+                        </delegate>
+                        <vMax class="controlparameter.DomainProportionalControlParameter" proportion="0.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                        <delegate class="pso.velocityprovider.StandardVelocityProvider">
+                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                            <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.0"/>
+                            <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
+                        </delegate>
+                        <vMax class="controlparameter.DomainProportionalControlParameter" proportion="0.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                        <delegate class="pso.velocityprovider.StandardVelocityProvider">
+                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                            <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.0"/>
+                            <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
+                        </delegate>
+                        <vMax class="controlparameter.DomainProportionalControlParameter" proportion="0.5"/>
                     </velocityProvider>
                     <globalGuideProvider class="pso.guideprovider.RandomGuideProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.RandomNearbyVelocityProvider"/>
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                        <delegate class="pso.velocityprovider.RandomNearbyVelocityProvider"/>
+                        <vMax class="controlparameter.DomainProportionalControlParameter" proportion="0.5"/>
+                    </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
                 <!-- end initial behaviors -->
@@ -538,34 +553,52 @@
             <iterationStrategy class="pso.hpso.AdaptiveLearningIterationStrategy">
                 <!-- behavior pool -->
                 <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                        <delegate class="pso.velocityprovider.StandardVelocityProvider">
+                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.0"/>
+                            <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                            <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
+                        </delegate>
+                        <vMax class="controlparameter.DomainProportionalControlParameter" proportion="0.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                        <delegate class="pso.velocityprovider.StandardVelocityProvider">
+                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                            <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.0"/>
+                            <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
+                        </delegate>
+                        <vMax class="controlparameter.DomainProportionalControlParameter" proportion="0.5"/>
                     </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.5"/>
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                        <delegate class="pso.velocityprovider.StandardVelocityProvider">
+                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                            <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.0"/>
+                            <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
+                        </delegate>
+                        <vMax class="controlparameter.DomainProportionalControlParameter" proportion="0.5"/>
                     </velocityProvider>
                     <globalGuideProvider class="pso.guideprovider.RandomGuideProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
-                    <velocityProvider class="pso.velocityprovider.RandomNearbyVelocityProvider"/>
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                        <delegate class="pso.velocityprovider.RandomNearbyVelocityProvider"/>
+                        <vMax class="controlparameter.DomainProportionalControlParameter" proportion="0.5"/>
+                    </velocityProvider>
                     <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
                 </addBehavior>
                 <!-- end behavior pool -->
+
+                <q class="controlparameter.ConstantControlParameter" parameter="10"/>
+                <minRatio class="controlparameter.ConstantControlParameter" parameter="0.01"/>
             </iterationStrategy>
         </algorithm>
 

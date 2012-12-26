@@ -113,7 +113,7 @@ public class UniformCrossoverStrategy implements DiscreteCrossoverStrategy {
     }
 
     public List<Integer> getCrossoverPoints() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return crossoverPoints;
     }
 
 }

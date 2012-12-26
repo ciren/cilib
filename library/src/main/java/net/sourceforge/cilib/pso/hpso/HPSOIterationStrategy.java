@@ -92,7 +92,6 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
     private List<ParticleBehavior> behaviorPool;
     private Map<ParticleBehavior, List<Integer>> successCounters;
     private ControlParameter windowSize;
-    private boolean initialized;
 
     /**
      * Create a new instance of {@linkplain SlidingWindowHeterogeneousIterationStrategy}.
