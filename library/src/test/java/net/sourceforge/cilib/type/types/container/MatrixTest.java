@@ -248,4 +248,135 @@ public class MatrixTest {
         Assert.assertTrue(a.hashCode() == b.hashCode());
     }
 
+    @Test
+    public void singular() {
+        Matrix a = Matrix.builder().dimensions(2, 2)
+            .addRow(2.0, 1.0)
+            .addRow(2.0, 1.0)
+            .build();
+
+        Assert.assertTrue(a.isSingular());
+
+        Matrix b = Matrix.builder().dimensions(5, 5).identity().build();
+
+        Assert.assertTrue(!b.isSingular());
+    }
+
+    @Test
+    public void subMatrix() {
+        Matrix a = Matrix.builder().dimensions(2, 2)
+            .addRow(1.0, 2.0)
+            .addRow(3.0, 4.0)
+            .build();
+
+        Matrix b = a.subMatrix(0,0);
+
+        Assert.assertEquals(b.getRows(), 1);
+        Assert.assertThat(b.valueAt(0,0), is(4.0));
+
+        a = Matrix.builder().dimensions(3, 3)
+            .addRow(1.0, 2.0, 3.0)
+            .addRow(4.0, 5.0, 6.0)
+            .addRow(7.0, 8.0, 9.0)
+            .build();
+
+        b = a.subMatrix(1,1);
+
+        Assert.assertThat(b.getRows(), is(2));
+        Assert.assertThat(b.getRow(0), equalTo(Vector.of(1.0, 3.0)));
+        Assert.assertThat(b.getRow(1), equalTo(Vector.of(7.0, 9.0)));
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void illegalSubMatrixIndicies() {
+        Matrix a = Matrix.builder().dimensions(2, 2).build().subMatrix(-1, 5);
+    }
+
+    @Test(expected=IllegalStateException.class)
+    public void illegalSubMatrixSize() {
+        Matrix a = Matrix.builder().dimensions(1, 1).build().subMatrix(0, 0);
+    }
+
+    @Test
+    public void cofactor() {
+        Matrix a = Matrix.builder().dimensions(2, 2)
+            .addRow(1.0, 2.0)
+            .addRow(3.0, 4.0)
+            .build();
+
+        Matrix b = a.cofactor();
+
+        Assert.assertThat(b.getRow(0), equalTo(Vector.of(4.0, -3.0)));
+        Assert.assertThat(b.getRow(1), equalTo(Vector.of(-2.0, 1)));
+
+        Matrix c = Matrix.builder().dimensions(3, 3)
+            .addRow(1.0, 2.0, 3.0)
+            .addRow(4.0, 5.0, 6.0)
+            .addRow(7.0, 8.0, 9.0)
+            .build();
+
+        Matrix d = c.cofactor();
+
+        double e = 0.000001;
+        Assert.assertEquals(d.valueAt(0,1), 6.0, e);
+        Assert.assertEquals(d.valueAt(0,2), -3.0, e);
+        Assert.assertEquals(d.valueAt(1,1), -12.0, e);
+        Assert.assertEquals(d.valueAt(1,2), 6.0, e);
+        Assert.assertEquals(d.valueAt(2,1), 6.0, e);
+        Assert.assertEquals(d.valueAt(2,2), -3.0, e);
+    }
+
+    @Test(expected=IllegalStateException.class)
+    public void invalidCofactor() {
+        Matrix a = Matrix.builder().dimensions(2, 3).build().cofactor();
+    }
+
+    @Test
+    public void inverse() {
+        Matrix a = Matrix.builder().dimensions(2, 2).identity().build();
+        Matrix b = a.inverse();
+
+        double e = 0.000001;
+        Assert.assertEquals(b.valueAt(0,0), 1.0, e);
+        Assert.assertEquals(b.valueAt(1,0), 0.0, e);
+
+        a = Matrix.builder().dimensions(2, 2)
+            .addRow(4.0, 1.0)
+            .addRow(2.0, -1.0)
+            .build();
+
+        b = a.inverse();
+
+        Assert.assertEquals(b.valueAt(0,0), 1.0 / 6, e);
+        Assert.assertEquals(b.valueAt(1,1), -4.0 / 6, e);
+
+        a = Matrix.builder().dimensions(3, 3)
+            .addRow(1.0, 2.0, 3.0)
+            .addRow(4.0, 5.0, 6.0)
+            .addRow(7.0, 8.0, 10.0)
+            .build();
+
+        b = a.inverse();
+
+        Assert.assertEquals(b.valueAt(1,1), 11.0 / 3, e);
+        Assert.assertEquals(b.valueAt(1,2), -6.0 / 3, e);
+        Assert.assertEquals(b.valueAt(2,0), 3 / 3, e);
+    }
+
+    @Test(expected=IllegalStateException.class)
+    public void invalidSingularInverse() {
+        Matrix a = Matrix.builder().dimensions(3, 3)
+            .addRow(1.0, 2.0, 3.0)
+            .addRow(4.0, 5.0, 6.0)
+            .addRow(7.0, 8.0, 9.0)
+            .build().inverse();
+    }
+
+    @Test(expected=IllegalStateException.class)
+    public void invalidNonSquareInverse() {
+        Matrix a = Matrix.builder().dimensions(1, 2)
+            .addRow(1.0, 2.0)
+            .build().inverse();
+    }
+
 }
