@@ -39,7 +39,7 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
         gaussian.setMean(ConstantControlParameter.of(0.5));
         gaussian.setDeviation(ConstantControlParameter.of(0.3));
         random = gaussian; 
-        
+
         cauchyVariableRandom = new CauchyDistribution();
         scalingFactorProbability = 0.5;
         totalAcceptedWithProbability = 0;
