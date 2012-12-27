@@ -10,9 +10,7 @@ import fj.data.List;
 import java.util.ArrayList;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
-import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.solution.InferiorFitness;
-import net.sourceforge.cilib.problem.solution.OptimisationSolution;
+import net.sourceforge.cilib.problem.solution.*;
 import net.sourceforge.cilib.tuning.parameterlist.ParameterListProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -27,14 +25,13 @@ public class TuningAlgorithm extends AbstractAlgorithm {
         this.iterationStrategy = new FRaceIterationStrategy();
     }
     
+    @Override
     public TuningAlgorithm getClone() {
         return this;
     }
     
     @Override
     public void algorithmInitialisation() {
-        TuningProblem p = (TuningProblem) optimisationProblem;
-        p.generateProblems();
         this.parameterList = parameterProvider._1();
     }
 
@@ -52,7 +49,7 @@ public class TuningAlgorithm extends AbstractAlgorithm {
 
     @Override
     public Iterable<OptimisationSolution> getSolutions() {
-        java.util.List<OptimisationSolution> sols = new ArrayList<OptimisationSolution>();
+        java.util.List<OptimisationSolution> sols = new ArrayList();
         for (Vector v : parameterList) {
             sols.add(new OptimisationSolution(v, InferiorFitness.instance()));
         }

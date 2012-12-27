@@ -6,20 +6,17 @@
  */
 package net.sourceforge.cilib.tuning.parameterchange.reactions;
 
-import fj.F;
-import fj.Ord;
-import fj.P2;
-import fj.Unit;
+import fj.*;
 import fj.data.List;
-import static fj.data.List.*;
+import static fj.data.List.replicate;
 import net.sourceforge.cilib.tuning.TuningAlgorithm;
 import net.sourceforge.cilib.tuning.parameterlist.SobolParameterListProvider;
 import net.sourceforge.cilib.tuning.parameters.TuningBounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
-import static net.sourceforge.cilib.util.functions.Numerics.*;
+import static net.sourceforge.cilib.util.functions.Numerics.doubleValue;
 import net.sourceforge.cilib.util.functions.Utils;
-import static net.sourceforge.cilib.util.functions.Utils.*;
+import static net.sourceforge.cilib.util.functions.Utils.pairwise;
 
 public class MinMaxParameterChangeReaction extends ParameterChangeReaction {
 

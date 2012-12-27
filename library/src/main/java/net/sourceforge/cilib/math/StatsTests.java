@@ -6,17 +6,15 @@
  */
 package net.sourceforge.cilib.math;
 
-import fj.F;
+import fj.*;
 import static fj.Function.*;
 import static fj.Ord.*;
-import fj.P;
-import fj.P2;
 import fj.data.List;
 import static fj.data.List.*;
 import fj.data.Stream;
 import static fj.function.Doubles.*;
 import net.sourceforge.cilib.util.functions.Utils;
-import static net.sourceforge.cilib.util.functions.Utils.*;
+import static net.sourceforge.cilib.util.functions.Utils.pairwise;
 
 public final class StatsTests {
 

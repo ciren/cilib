@@ -6,40 +6,49 @@
  */
 package net.sourceforge.cilib.tuning;
 
-import fj.F;
-import static fj.Function.*;
-import fj.P2;
+import static fj.Function.flip;
+import fj.*;
 import fj.data.List;
 import static fj.data.List.*;
+import static fj.data.List.iterableList;
+import static fj.function.Doubles.add;
+import static fj.Ord.*;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.math.StatsTests;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
-import static net.sourceforge.cilib.util.functions.Fitnesses.*;
-import static net.sourceforge.cilib.util.functions.Solutions.*;
+import static net.sourceforge.cilib.util.functions.Fitnesses.getValue;
+import static net.sourceforge.cilib.util.functions.Solutions.getFitness;
 import net.sourceforge.cilib.util.functions.Utils;
+import static net.sourceforge.cilib.util.functions.Utils.*;
 
 public class FRaceIterationStrategy extends AbstractIterationStrategy<TuningAlgorithm> {
     
     private List<List<OptimisationSolution>> results;
-    private ControlParameter minProblems;    
+    private ControlParameter minProblems;
+    private ControlParameter minSolutions;
     
     public FRaceIterationStrategy() {
         this.minProblems = ConstantControlParameter.of(4.0);
+        this.minSolutions = ConstantControlParameter.of(2.0);
         this.results = List.<List<OptimisationSolution>>nil();
     }
     
     public FRaceIterationStrategy(FRaceIterationStrategy copy) {
         this.minProblems = copy.minProblems.getClone();
+        this.minSolutions = copy.minSolutions.getClone();
         this.results = iterableList(copy.results);
     }
 
+    @Override
     public FRaceIterationStrategy getClone() {
         return new FRaceIterationStrategy(this);
     }
 
+    @Override
     public void performIteration(final TuningAlgorithm alg) {
         final List<Vector> parameterList = alg.getParameterList();
         
@@ -52,22 +61,42 @@ public class FRaceIterationStrategy extends AbstractIterationStrategy<TuningAlgo
         }));
         
         // (+1 because iterations start at 0)
-        if (alg.getIterations() + 1 >= minProblems.getParameter() && parameterList.length() != 1) {            
+        if (alg.getIterations() + 1 >= minProblems.getParameter() && parameterList.length() > 1) {
             List<List<Double>> data = results
                 .map(List.<OptimisationSolution,Double>map_().f(getFitness().andThen(getValue())));
             P2<Double, Double> friedman = StatsTests.friedman(0.05, data);
 
             if (friedman._1() > friedman._2()) {
                 final List<Integer> indexes = StatsTests.postHoc(0.05, friedman._1(), data);
-                alg.setParameterList(indexes.map(flip(Utils.<Vector>index()).f(parameterList)));
+                
+                if (indexes.isNotEmpty() && indexes.length() >= minSolutions.getParameter()) {
+                    alg.setParameterList(indexes.map(flip(Utils.<Vector>index()).f(parameterList)));
 
-                results = results.map(new F<List<OptimisationSolution>,List<OptimisationSolution>>() {
-                    @Override
-                    public List<OptimisationSolution> f(final List<OptimisationSolution> a) {
-                        return indexes.map(flip(Utils.<OptimisationSolution>index()).f(a));
-                    }
-                });
-            }            
+                    results = results.map(new F<List<OptimisationSolution>,List<OptimisationSolution>>() {
+                        @Override
+                        public List<OptimisationSolution> f(final List<OptimisationSolution> a) {
+                            return indexes.map(flip(Utils.<OptimisationSolution>index()).f(a));
+                        }
+                    });
+                } else {
+                    final List<List<Double>> ranks = iterableList(data)
+                        .map(Stats.rank.andThen(Utils.<Double,Iterable>iterableList()));
+                    final List<Integer> newIndexes = ranks.foldLeft(Utils.<Double>pairwise(add), replicate(data.head().length(), 0.0))
+                        .zipIndex()
+                        .sort(p2Ord(doubleOrd, intOrd))
+                        .take((int)minSolutions.getParameter())
+                        .map(P2.<Double,Integer>__2());
+                    
+                    alg.setParameterList(newIndexes.map(flip(Utils.<Vector>index()).f(parameterList)));
+                    
+                    results = results.map(new F<List<OptimisationSolution>,List<OptimisationSolution>>() {
+                        @Override
+                        public List<OptimisationSolution> f(final List<OptimisationSolution> a) {
+                            return newIndexes.map(flip(Utils.<OptimisationSolution>index()).f(a));
+                        }
+                    });
+                }   
+            }
         }
     }
 
@@ -77,5 +106,17 @@ public class FRaceIterationStrategy extends AbstractIterationStrategy<TuningAlgo
 
     public ControlParameter getMinProblems() {
         return minProblems;
+    }
+    
+    public void setMinSolutions(ControlParameter r) {
+        this.minSolutions = r;
+    }
+
+    public ControlParameter getMinSolutions() {
+        return minSolutions;
+    }
+    
+    public void resetResults() {
+        results = List.nil();
     }
 }

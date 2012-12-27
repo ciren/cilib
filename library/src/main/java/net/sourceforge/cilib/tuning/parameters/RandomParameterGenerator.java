@@ -7,7 +7,8 @@
 package net.sourceforge.cilib.tuning.parameters;
 
 import fj.F;
-import fj.data.List;
+import static fj.data.List.range;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.functions.Utils;
@@ -17,22 +18,21 @@ import net.sourceforge.cilib.util.functions.Utils;
  */
 public class RandomParameterGenerator extends ParameterGenerator {
     
-    private TuningBounds bounds;
     private int count;
+    private ProbabilityDistributionFunction distribution;
     
     public RandomParameterGenerator() {
-        this.bounds = new TuningBounds();
+        this.distribution = new UniformDistribution();
         this.count = 10;
     }
 
     @Override
     public Vector _1() {
-        final UniformDistribution uniform = new UniformDistribution();
         return Vector.copyOf(
-            List.range(0, count).map(new F<Integer, Double>(){
+            range(0, count).map(new F<Integer, Double>(){
                 @Override
                 public Double f(Integer a) {
-                    return bounds.getLowerBound() + bounds.getRange() * uniform.getRandomNumber();
+                    return distribution.getRandomNumber();
                 }                
             }.andThen(Utils.precision(precision))));
     }
@@ -45,11 +45,11 @@ public class RandomParameterGenerator extends ParameterGenerator {
         return count;
     }
 
-    public void setBounds(TuningBounds bounds) {
-        this.bounds = bounds;
+    public void setDistribution(ProbabilityDistributionFunction distribution) {
+        this.distribution = distribution;
     }
 
-    public TuningBounds getBounds() {
-        return bounds;
+    public ProbabilityDistributionFunction getDistribution() {
+        return distribution;
     }
 }
