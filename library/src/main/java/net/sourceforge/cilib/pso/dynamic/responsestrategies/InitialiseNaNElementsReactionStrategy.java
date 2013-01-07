@@ -20,7 +20,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
  */
 public class InitialiseNaNElementsReactionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy<E> {
-    
+
     public InitialiseNaNElementsReactionStrategy() {
     }
 

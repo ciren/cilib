@@ -24,40 +24,39 @@ import org.junit.Test;
 public class MultiReactionStrategyTest {
 
     /**
-     * 
+     *
      */
-	@Test
-	public void responseExecution() {
-		NNDataTrainingProblem problem = new NNDataTrainingProblem();
+    @Test
+    public void responseExecution() {
+        NNDataTrainingProblem problem = new NNDataTrainingProblem();
         problem.getDataTableBuilder().setDataReader(new ARFFFileReader());
         problem.getDataTableBuilder().setSourceURL("library/src/test/resources/datasets/iris.arff");
         problem.setTrainingSetPercentage(0.7);
         problem.setGeneralizationSetPercentage(0.3);
 
-		problem.getNeuralNetwork().getArchitecture().setArchitectureBuilder(new CascadeArchitectureBuilder());
-		problem.getNeuralNetwork().setOperationVisitor(new CascadeVisitor());
+        problem.getNeuralNetwork().getArchitecture().setArchitectureBuilder(new CascadeArchitectureBuilder());
+        problem.getNeuralNetwork().setOperationVisitor(new CascadeVisitor());
         problem.getNeuralNetwork().getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(4));
-        problem.getNeuralNetwork().getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(0));
         problem.getNeuralNetwork().getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1));
         problem.getNeuralNetwork().getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
         problem.initialise();
-		
+
         PSO pso = new PSO();
         pso.getInitialisationStrategy().setEntityType(new DynamicParticle());
         pso.addStoppingCondition(new MeasuredStoppingCondition());
         pso.setOptimisationProblem(problem);
         pso.performInitialisation();
-        
+
         MultiReactionStrategy reaction = new MultiReactionStrategy();
-		reaction.addResponseStrategy(new CascadeNetworkExpansionReactionStrategy());
-		reaction.addResponseStrategy(new CascadeNetworkExpansionReactionStrategy());
-		reaction.addResponseStrategy(new CascadeNetworkExpansionReactionStrategy());
+        reaction.addResponseStrategy(new CascadeNetworkExpansionReactionStrategy());
+        reaction.addResponseStrategy(new CascadeNetworkExpansionReactionStrategy());
+        reaction.addResponseStrategy(new CascadeNetworkExpansionReactionStrategy());
 
-		Assert.assertEquals(5, ((Vector)pso.getBestSolution().getPosition()).size());
-		Assert.assertEquals(5, problem.getNeuralNetwork().getWeights().size());
+        Assert.assertEquals(5, ((Vector)pso.getBestSolution().getPosition()).size());
+        Assert.assertEquals(5, problem.getNeuralNetwork().getWeights().size());
 
-		reaction.performReaction(pso);
-		Assert.assertEquals(26, ((Vector)pso.getBestSolution().getPosition()).size());
-		Assert.assertEquals(26, problem.getNeuralNetwork().getWeights().size());
+        reaction.performReaction(pso);
+        Assert.assertEquals(26, ((Vector)pso.getBestSolution().getPosition()).size());
+        Assert.assertEquals(26, problem.getNeuralNetwork().getWeights().size());
     }
 }
