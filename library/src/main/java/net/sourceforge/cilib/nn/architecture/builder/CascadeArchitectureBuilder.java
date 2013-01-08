@@ -14,9 +14,9 @@ import net.sourceforge.cilib.nn.components.BiasNeuron;
 
 /**
  * <p>
- * Cascade network architecture consists of one input layer, one output layer and one hidden layer.
- * Each hidden neuron is fully connected with the entire input layer, as well as each hiddden neuron
- * added before it. The output layer is fully connected with the entire input layer and the entire
+ * Cascade network architecture consists of one input layer, one output layer and multiple hidden layers.
+ * Each hidden layer is fully connected with the entire input layer, as well as each hiddden layer
+ * added before it. The output layer is fully connected with the entire input layer and the each
  * hidden layer.
  * </p>
  * <p>
@@ -35,7 +35,7 @@ public class CascadeArchitectureBuilder extends ArchitectureBuilder {
     /**
      * Adds the layers to the architecture such that the architecture represents
      * a Cascade network. All layers are fully connected to the input layer
-     * Each hidden unit is connected to the hidden units added before it.
+     * Each hidden layer is fully connected to the hidden layer added before it.
      * @param architecture {@inheritDoc }
      */
     @Override
@@ -43,15 +43,8 @@ public class CascadeArchitectureBuilder extends ArchitectureBuilder {
         List<Layer> layers = architecture.getLayers();
         layers.clear();
 
-        CascadeLayerBuilder cascadeLayerBuilder = new CascadeLayerBuilder();
-		cascadeLayerBuilder.setDomain(this.getLayerBuilder().getDomain());
-		
         List<LayerConfiguration> layerConfigurations = this.getLayerConfigurations();
         int listSize = layerConfigurations.size();
-
-		if (listSize != 3) {
-			throw new UnsupportedOperationException("The cascade network only support a three layer architecture.");
-		}
 
         // build the input layer
         ForwardingLayer inputLayer = new ForwardingLayer();
@@ -62,16 +55,16 @@ public class CascadeArchitectureBuilder extends ArchitectureBuilder {
         }
         layers.add(inputLayer);
 
-        // build the hidden layer
+        // build the hidden layers and output layer
         int sumOfPreviousLayerAbsoluteSizes = inputLayer.size();
-        Layer currentLayer = cascadeLayerBuilder.buildLayer(layerConfigurations.get(1), sumOfPreviousLayerAbsoluteSizes);
-        layers.add(currentLayer);
-        sumOfPreviousLayerAbsoluteSizes += currentLayer.size();
+        for (int curLayer = 1; curLayer < layerConfigurations.size(); ++curLayer) {
+            if (layerConfigurations.get(curLayer).getSize() == 0)
+                throw new UnsupportedOperationException("Hidden layers must have at least one neuron each.");
 
-		// build the output layer
-		layerConfigurations.get(2).setBias(false);
-        currentLayer = this.getLayerBuilder().buildLayer(layerConfigurations.get(2), sumOfPreviousLayerAbsoluteSizes);
-        layers.add(currentLayer);
-        sumOfPreviousLayerAbsoluteSizes += currentLayer.size();
+            layerConfigurations.get(curLayer).setBias(false); //All neurons have access to the bias in the input layer.
+            Layer newLayer = this.getLayerBuilder().buildLayer(layerConfigurations.get(curLayer), sumOfPreviousLayerAbsoluteSizes);
+            layers.add(newLayer);
+            sumOfPreviousLayerAbsoluteSizes += newLayer.size();
+        }
     }
 }
