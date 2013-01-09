@@ -56,7 +56,7 @@
             <function class="functions.continuous.unconstrained.Ackley"/>
         </problem>
         <problem id="schwefel" class="problem.FunctionOptimisationProblem" domain="R(-512.03:511.97)^30">
-            <function class="functions.continuous.Schwefel"/>
+            <function class="functions.continuous.unconstrained.Schwefel"/>
         </problem>
     </problems>
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">

@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -12,7 +12,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Minimum: 0.0
  * R(-500, 500)^30
- * 
+ *
  */
 public class NastyBenchmark implements ContinuousFunction {
 

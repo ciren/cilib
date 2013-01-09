@@ -78,7 +78,7 @@
             <function class="functions.continuous.unconstrained.Rastrigin"/>
         </problem>
         <problem id="schwefel" class="problem.FunctionOptimisationProblem" domain="R(-512.03:511.97)^30">
-            <function class="functions.continuous.Schwefel"/>
+            <function class="functions.continuous.unconstrained.Schwefel"/>
         </problem>
     </problems>
     <measurements id="measurements" class="simulator.MeasurementSuite" resolution="100">
