@@ -4,22 +4,21 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * The continuous Step function. It is the same as the normal step function, however,
- * it is continuous and not discrete.
+ * Multimodal3 function.
  *
- * <p>
- * The default domain of the function is defined to be R(-100.0, 100.0)^30
+ * Minimum: 0.0
+ * R(0, 1)^1
  *
  */
-public class ContinuousStep implements ContinuousFunction {
+public class MultimodalFunction3 implements ContinuousFunction {
 
-    private static final long serialVersionUID = 4962101545621686038L;
+    private static final long serialVersionUID = 3687474318232647359L;
 
     /**
      * {@inheritDoc}
@@ -28,7 +27,8 @@ public class ContinuousStep implements ContinuousFunction {
     public Double apply(Vector input) {
         double sum = 0.0;
         for (int i = 0; i < input.size(); ++i) {
-            sum += (input.doubleValueOf(i) + 0.5) * (input.doubleValueOf(i) + 0.5);
+            double x = Math.pow(Math.sin(5.0 * Math.PI * (Math.pow(input.doubleValueOf(i), 0.75) - 0.05)), 6.0);
+            sum += x;
         }
         return sum;
     }

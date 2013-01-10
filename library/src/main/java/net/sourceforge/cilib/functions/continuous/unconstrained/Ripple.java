@@ -4,23 +4,18 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+import com.google.common.base.Preconditions;
 
 /**
  * Ripple function.
  *
- * <p>Title: CILib</p>
- * <p>Description: CILib (Computational Intelligence Library)</p>
- * <p>Copyright: Copyright (c) 2004</p>
- * <p>Company: </p>
- *
  * Minimum: 2.2
  * R(0, 1)^2
- * 
- * @version 1.0
+ *
  */
 public class Ripple implements ContinuousFunction {
 
@@ -31,6 +26,8 @@ public class Ripple implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
+        Preconditions.checkArgument(input.size() == 2, "Ripple function is only defined for 2 dimensions");
+
         double x = input.doubleValueOf(0);
         double y = input.doubleValueOf(1);
 
