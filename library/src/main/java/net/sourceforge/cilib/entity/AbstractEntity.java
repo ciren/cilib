@@ -10,19 +10,20 @@ import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
-import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 import net.sourceforge.cilib.util.calculator.EntityBasedFitnessCalculator;
+import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 
 /**
  * Abstract class definition for all concrete {@linkplain Entity} objects.
  * This class defines the {@linkplain Entity} main data structure for the
  * values stored within the {@linkplain Entity} itself.
  */
-public abstract class AbstractEntity implements Entity, CandidateSolution {
+public abstract class AbstractEntity implements Entity {
+
     private static final long serialVersionUID = 3104817182593047611L;
 
     private long id;
-    private final CandidateSolution candidateSolution;
+    private final Blackboard<Enum<?>, Type> properties;
     private FitnessCalculator<Entity> fitnessCalculator;
 
     /**
@@ -30,8 +31,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
      */
     protected AbstractEntity() {
         this.id = EntityIdFactory.getNextId();
-
-        this.candidateSolution = new CandidateSolutionMixin();
+        this.properties = new Blackboard<Enum<?>, Type>();
         this.fitnessCalculator = new EntityBasedFitnessCalculator();
     }
 
@@ -41,15 +41,14 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
      */
     protected AbstractEntity(AbstractEntity copy) {
         this.id = EntityIdFactory.getNextId();
-
-        this.candidateSolution = (CandidateSolution) copy.candidateSolution.getClone();
+        this.properties = copy.properties.getClone();
         this.fitnessCalculator = copy.fitnessCalculator.getClone();
     }
 
     /**
      * {@inheritDoc}
      *
-     * It doesn;t make sense to compare the meta data of the entity.
+     * It doesn't make sense to compare the meta data of the entity.
      * In other words, the properties of the entity may vary, but the entity
      * is still the same entity.
      *
@@ -57,11 +56,13 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
      */
     @Override
     public boolean equals(Object object) {
-        if (this == object)
+        if (this == object) {
             return true;
+        }
 
-        if ((object == null) || (this.getClass() != object.getClass()))
+        if ((object == null) || (this.getClass() != object.getClass())) {
             return false;
+        }
 
         AbstractEntity other = (AbstractEntity) object;
         return this.id == other.id;
@@ -83,38 +84,38 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
      */
     @Override
     public final Blackboard<Enum<?>, Type> getProperties() {
-        return this.candidateSolution.getProperties();
+        return properties;
     }
 
     /**
-     * Get the value of the {@linkplain CandidateSolution} maintained by this
+     * Get the value of the candidate solution maintained by this
      * {@linkplain Entity}.
      * @return The candidate solution as a {@linkplain Type}.
      */
     @Override
     public StructuredType getCandidateSolution() {
-        return this.candidateSolution.getCandidateSolution();
+        return (StructuredType) properties.get(EntityType.CANDIDATE_SOLUTION);
     }
 
     /**
-     * Get the fitness of the {@linkplain CandidateSolution} maintained by this
+     * Get the fitness of the candidate solution maintained by this
      * {@linkplain Entity}.
      * @return The {@linkplain Fitness} of the candidate solution.
      */
     @Override
     public Fitness getFitness() {
-        return this.candidateSolution.getFitness();
+        return (Fitness) properties.get(EntityType.FITNESS);
     }
 
     /**
      * Set the {@linkplain Type} maintained by this {@linkplain Entity}s
-     * {@linkplain CandidateSolution}.
+     * candidate solution
      * @param candidateSolution The {@linkplain Type} that will be the new value of the
-     *        {@linkplain Entity} {@linkplain CandidateSolution}.
+     *        {@linkplain Entity} candidate solution.
      */
     @Override
     public void setCandidateSolution(StructuredType candidateSolution) {
-        this.candidateSolution.setCandidateSolution(candidateSolution);
+        properties.put(EntityType.CANDIDATE_SOLUTION, candidateSolution);
     }
 
     /**

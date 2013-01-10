@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.pso.dynamic;
 
-import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -22,13 +21,11 @@ import net.sourceforge.cilib.util.Vectors;
  * This is an implementation of the original Charged PSO algorithm
  * developed by Blackwell and Bentley and then further improved by
  * Blackwell and Branke.
- *
- *
  */
 public class ChargedVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = 365924556746583124L;
-    
+
     private VelocityProvider delegate;
     private ControlParameter pCore; // lower limit
     private ControlParameter p; // upper limit
@@ -55,28 +52,21 @@ public class ChargedVelocityProvider implements VelocityProvider {
         Vector position = (Vector) particle.getPosition();
 
         PSO pso = (PSO) AbstractAlgorithm.get();
-        Iterator<Particle> iter = null;
-        // make iter point to the current particle
-        for (Iterator<Particle> i = pso.getTopology().iterator(); i.hasNext();) {
-            if (i.next().getId() == particle.getId()) {
-                iter = i;
-                break;
-            }
-        }
 
         // Calculate acceleration of the current particle
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             double accSum = 0;
-            for (Iterator<Particle> j = pso.getTopology().neighbourhood(iter); j.hasNext();) {
-                ChargedParticle other = (ChargedParticle) j.next();
+            for (Particle other : pso.getTopology().neighbourhood(particle)) {
                 if (particle.getId() == other.getId()) {
                     continue;
                 }
+
                 double qi = ((ChargedParticle) particle).getCharge();
-                double qj = other.getCharge();
-                Vector rij = position.subtract(other.getPosition());
+                double qj = ((ChargedParticle) other).getCharge();
+                Vector rij = position.subtract((Vector) other.getPosition());
                 double magnitude = rij.norm();
+
                 if (this.pCore.getParameter() <= magnitude && magnitude <= this.p.getParameter()) {
                     accSum += (qi * qj / Math.pow(magnitude, 3)) * rij.doubleValueOf(i);
                 }

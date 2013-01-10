@@ -6,17 +6,16 @@
  */
 package net.sourceforge.cilib.entity.topologies;
 
+import com.google.common.collect.UnmodifiableIterator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.AbstractTopology;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.IndexedIterator;
 
 /**
  * <p>
- * Implementation of the Von Neumann neighbourhood topology. The Von Neumann topology is
+ * Implementation of the Von Neumann neighbourhoodOf topology. The Von Neumann topology is
  * a two dimensional grid of particles with wrap around.
  * </p><p>
  * Refereces:
@@ -25,159 +24,102 @@ import net.sourceforge.cilib.entity.IndexedIterator;
  * in Proceedings of the IEEE Congress on Evolutionary Computation,
  * (Honolulu, Hawaii USA), May 2002.
  * </li></ul></p>
- *
- *
  * @param <E> A {@linkplain Entity} instance.
  */
 public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
+
     private static final long serialVersionUID = -4795901403887110994L;
 
     private enum Direction { CENTER, NORTH, EAST, SOUTH, WEST, DONE };
 
-    /**
-     * Default constructor.
-     */
     public VonNeumannTopology() {
-        super();
         this.neighbourhoodSize = ConstantControlParameter.of(5);
     }
 
-    /**
-     * Copy constructor.
-     */
-    public VonNeumannTopology(VonNeumannTopology<E> copy) {
+    public VonNeumannTopology(VonNeumannTopology copy) {
         super(copy);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public VonNeumannTopology<E> getClone() {
-        return new VonNeumannTopology<E>(this);
+    public VonNeumannTopology getClone() {
+        return new VonNeumannTopology(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
-        return new VonNeumannNeighbourhoodIterator<E>(this, (IndexedIterator<E>) iterator);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getNeighbourhoodSize() {
-        return 5;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setNeighbourhoodSize(ControlParameter neighbourhoodSize) {
-        //Note: This is fixed to 5 so it cant be change
+        //Note: This is fixed to 5 so it cant be changed
     }
 
-    /**
-     * Iterator to traverse the Von Neumann topology.
-     */
-    private class VonNeumannNeighbourhoodIterator<T extends Entity> extends NeighbourhoodIterator<T> {
+    @Override
+    protected Iterator<E> neighbourhoodOf(final E e) {
+        return new UnmodifiableIterator<E>() {
+            private int np = entities.size();
+            private int index = entities.indexOf(e);
+            private final int sqSide = (int) Math.round(Math.sqrt(np));
+            private final int nRows = (int) Math.ceil(np / (double) sqSide);;
+            private final int row = index / sqSide;
+            private final int col = index % sqSide;
+            private Direction element = Direction.CENTER;
 
-        private final int sqSide;
-        private final int nRows;
-        private final int row;
-        private final int col;
-        private Direction element;
-
-        public VonNeumannNeighbourhoodIterator(AbstractTopology<T> topology, IndexedIterator<T> iterator) {
-            super(topology, iterator)         ;
-            
-            this.sqSide = (int) Math.round(Math.sqrt(topology.size()));
-            this.row = iterator.getIndex() / sqSide;
-            this.col = iterator.getIndex() % sqSide;
-            this.nRows = (int) Math.ceil(topology.size() / (double) sqSide);
-            this.index = row * sqSide + col;
-            this.element = Direction.CENTER;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean hasNext() {
-            return (element != Direction.DONE);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public T next() {
-            int r;
-            int c;
-            
-            switch (element) {
-                case CENTER:
-                    r = row;
-                    c = col;
-                    break;
-
-                case NORTH:
-                    r = (row - 1 + nRows) % nRows;
-                    c = col;
-                    while (c >= getColumnsInRow(r)) {
-                        r = (--r + nRows) % nRows;
-                    }
-                    break;
-
-                case EAST:
-                    r = row;
-                    c = (col + 1) % getColumnsInRow(r);
-                    break;
-
-                case SOUTH:
-                    r = (row + 1) % nRows;
-                    c = col;                    
-                    while (c >= getColumnsInRow(r)) {
-                        r = ++r % nRows;
-                    }                    
-                    break;
-
-                case WEST:
-                    r = row;
-                    c = (col - 1 + getColumnsInRow(r)) % getColumnsInRow(r);
-                    break;
-
-                default: throw new NoSuchElementException();
+            @Override
+            public boolean hasNext() {
+                return (element != Direction.DONE);
             }
 
-            index = r * sqSide + c;
-            element = Direction.values()[element.ordinal()+1];
-            return topology.get(index);
-        }
+            @Override
+            public E next() {
+                int r;
+                int c;
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void remove() {
-            topology.remove(index);
-            if (element == Direction.CENTER) {
-                element = Direction.DONE;
+                switch (element) {
+                    case CENTER:
+                        r = row;
+                        c = col;
+                        break;
+
+                    case NORTH:
+                        r = (row - 1 + nRows) % nRows;
+                        c = col;
+                        while (c >= getColumnsInRow(r)) {
+                            r = (--r + nRows) % nRows;
+                        }
+                        break;
+
+                    case EAST:
+                        r = row;
+                        c = (col + 1) % getColumnsInRow(r);
+                        break;
+
+                    case SOUTH:
+                        r = (row + 1) % nRows;
+                        c = col;
+                        while (c >= getColumnsInRow(r)) {
+                            r = ++r % nRows;
+                        }
+                        break;
+
+                    case WEST:
+                        r = row;
+                        c = (col - 1 + getColumnsInRow(r)) % getColumnsInRow(r);
+                        break;
+
+                    default: throw new NoSuchElementException();
+                }
+
+                index = r * sqSide + c;
+                element = Direction.values()[element.ordinal()+1];
+                return entities.get(index);
             }
-        }
-        
-        /**
-         * Gets the number of columns in a given row.
-         * 
-         * @param r The given row.
-         * @return The number of columns in the row.
-         */
-        private int getColumnsInRow(int r) {
-            return r == nRows - 1 ? topology.size() - r * sqSide : sqSide;
-        }
+
+            /**
+             * Gets the number of columns in a given row.
+             *
+             * @param r The given row.
+             * @return The number of columns in the row.
+             */
+            private int getColumnsInRow(int r) {
+                return r == nRows - 1 ? np - r * sqSide : sqSide;
+            }
+        };
     }
 }

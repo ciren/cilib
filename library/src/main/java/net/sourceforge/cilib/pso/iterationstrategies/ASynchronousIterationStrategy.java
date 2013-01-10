@@ -7,16 +7,13 @@
 package net.sourceforge.cilib.pso.iterationstrategies;
 
 import fj.F;
-import java.util.Iterator;
-
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
 
 /**
- * Implementation of the asynchrounous iteration strategy for PSO.
- *
+ * Implementation of the asynchronous iteration strategy for PSO.
  */
 public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO> {
 
@@ -45,8 +42,8 @@ public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO
      * <li>Update the particle velocity</li>
      * <li>Update the particle position</li>
      * <li>Calculate the particle fitness</li>
-     * <li>For all paritcles in the current particle's neighbourhood</li>
-     * <ol><li>Update the nieghbourhooh best</li></ol>
+     * <li>For all particles in the current particle's neighbourhood</li>
+     * <ol><li>Update the neighbourhood best</li></ol>
      * </ol>
      * </ol>
      *
@@ -56,20 +53,17 @@ public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO
     public void performIteration(PSO algorithm) {
         Topology<Particle> topology = algorithm.getTopology();
 
-        for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
-            Particle current = i.next();
+        for (Particle current : topology) {
             current.updateVelocity();       // TODO: replace with visitor (will simplify particle interface)
             current.updatePosition();       // TODO: replace with visitor (will simplify particle interface)
 
             boundaryConstraint.enforce(current);
-
             current.calculateFitness();
 
             Particle newParticle = additionalStep.f(current);
             topology.set(topology.indexOf(current), newParticle);
 
-            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
-                Particle other = j.next();
+            for (Particle other : topology.neighbourhood(current)) {
                 if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
                     other.setNeighbourhoodBest(newParticle); // TODO: neighbourhood visitor?
                 }
