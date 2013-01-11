@@ -6,8 +6,6 @@
  */
 package net.sourceforge.cilib.pso.iterationstrategies;
 
-import java.util.Iterator;
-
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
@@ -15,7 +13,6 @@ import net.sourceforge.cilib.pso.PSO;
 
 /**
  * Implementation of the synchronous iteration strategy for PSO.
- *
  */
 public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO> {
 
@@ -30,15 +27,15 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
     }
 
     /**
-     * <p>This is an ASynchronous strategy:</p>
+     * <p>This is an Synchronous strategy:</p>
      * <ol>
      * <li>For all particles:</li>
      * <ol><li>Update the particle velocity</li>
      *     <li>Update the particle position</li></ol>
      * <li>For all particles:</li>
      * <ol><li>Calculate the particle fitness</li>
-     *     <li>For all paritcles in the current particle's neighbourhood:</li>
-     *     <ol><li>Update the nieghbourhooh best</li></ol></ol>
+     *     <li>For all particles in the current particle's neighbourhood:</li>
+     *     <ol><li>Update the neighbourhood best</li></ol></ol>
      * </ol>
      *
      * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration(net.sourceforge.cilib.PSO.PSO)
@@ -55,14 +52,11 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
             boundaryConstraint.enforce(current);
         }
 
-        for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
-            Particle current = i.next();
+        for (Particle current : topology) {
             current.calculateFitness();
-
-            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
-                Particle other = j.next();
+            for (Particle other : topology.neighbourhood(current)) {
                 if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
-                    other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?
+                    other.setNeighbourhoodBest(current);
                 }
             }
         }

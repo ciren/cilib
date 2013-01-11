@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.pso.dynamic;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 
@@ -15,7 +14,6 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
  * that it adds is the ability to re-evaluate both current and best position of
  * the particle. A dynamic algorithm usually re-evaluates all particles when a
  * change in the environment has been detected.
- *
  */
 public class DynamicParticle extends StandardParticle {
 

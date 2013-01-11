@@ -31,7 +31,7 @@ public class SimulatorTest {
 
     /**
      * <p>
-     * Iterate through all the availble XML simulation specifications and
+     * Iterate through all the available XML simulation specifications and
      * instantiate the needed objects, as well as making the simulations
      * ready for execution. After this process, discard the constructed
      * instances.
@@ -44,7 +44,10 @@ public class SimulatorTest {
     @Test
     public void simulationConstruction() {
         System.out.println("Constructing specification: " + filename);
-        SimulatorShell.prepare(new File("simulator/xml", filename));
+        List<Simulator> sims = SimulatorShell.prepare(new File("simulator/xml", filename));
+        for (Simulator s : sims) {
+            s.createSimulation();
+        }
     }
 
     @Parameterized.Parameters

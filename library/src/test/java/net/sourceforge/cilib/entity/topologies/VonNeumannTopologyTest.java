@@ -6,26 +6,20 @@
  */
 package net.sourceforge.cilib.entity.topologies;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.problem.Problem;
+import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.pso.particle.AbstractParticle;
+import net.sourceforge.cilib.type.types.container.Vector;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
-
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
-import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.pso.particle.AbstractParticle;
-import net.sourceforge.cilib.type.types.container.Vector;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-/**
- *
- */
 public class VonNeumannTopologyTest {
 
     @BeforeClass
@@ -85,7 +79,7 @@ public class VonNeumannTopologyTest {
         }
         assertEquals("5", p.getParticleName());
 
-        Iterator<Particle> j = square.neighbourhood(i);
+        Iterator<Particle> j = square.neighbourhood(p).iterator();
 
         int count = 0;
         int nid[] = {5, 2, 6, 8, 4};
@@ -99,14 +93,13 @@ public class VonNeumannTopologyTest {
         try {
             j.next();
             fail("NoSuchElementException should have been thown");
-        }
-        catch (NoSuchElementException ex) { }
+        } catch (NoSuchElementException ex) {}
 
         i = irregular.iterator();
         p = (DumbParticle) i.next();
         assertEquals("1", p.getParticleName());
 
-        j = irregular.neighbourhood(i);
+        j = irregular.neighbourhood(p).iterator();
 
         count = 0;
         int nnid[] = {1, 10, 2, 4, 3};
@@ -122,7 +115,7 @@ public class VonNeumannTopologyTest {
         }
         assertEquals("9", p.getParticleName());
 
-        j = irregular.neighbourhood(i);
+        j = irregular.neighbourhood(p).iterator();
 
         count = 0;
         int nnnid[] = {9, 6, 7, 3, 8};
@@ -136,7 +129,7 @@ public class VonNeumannTopologyTest {
         p = (DumbParticle) i.next();
         assertEquals("10", p.getParticleName());
 
-        j = irregular.neighbourhood(i);
+        j = irregular.neighbourhood(p).iterator();
 
         count = 0;
         int nnnnid[] = {10, 7, 10, 1, 10};
@@ -180,6 +173,7 @@ public class VonNeumannTopologyTest {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
 
+        @Override
         public int getDimension() {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
@@ -231,11 +225,13 @@ public class VonNeumannTopologyTest {
 
         @Override
         public boolean equals(Object object) {
-            if (this == object)
+            if (this == object) {
                 return true;
+            }
 
-            if ((object == null) || (this.getClass() != object.getClass()))
+            if ((object == null) || (this.getClass() != object.getClass())) {
                 return false;
+            }
 
             DumbParticle other = (DumbParticle) object;
             return this.name.equals(other.name);
