@@ -21,7 +21,7 @@
             </algorithm>
 
             <problem class="problem.FunctionOptimisationProblem" domain="R(-500:500)^30">
-                <function class="functions.continuous.NastyBenchmark"/>
+                <function class="functions.continuous.unconstrained.NastyBenchmark"/>
             </problem>
 
             <measurements class="simulator.MeasurementSuite" resolution="1">

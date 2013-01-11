@@ -114,7 +114,7 @@
         <problem id="f11" class="problem.FunctionOptimisationProblem" domain="R(-0.5:0.5)^10">
             <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
                 <function class="functions.continuous.decorators.RotatedFunctionDecorator">
-                    <function class="functions.continuous.Weierstrass"/>
+                    <function class="functions.continuous.unconstrained.Weierstrass"/>
                     <matrixType value="linear_transformation"/>
                     <condition value="5"/>
                 </function>
@@ -171,11 +171,11 @@
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="1" lambda="10" matrixType="identity" bias="200" horizontalShift="-1">
-                        <function class="functions.continuous.Weierstrass"/>
+                        <function class="functions.continuous.unconstrained.Weierstrass"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="1" lambda="10" matrixType="identity" bias="300" horizontalShift="2">
-                        <function class="functions.continuous.Weierstrass"/>
+                        <function class="functions.continuous.unconstrained.Weierstrass"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="1" lambda="0.08333333333333333" matrixType="identity" bias="400" horizontalShift="-2">
@@ -219,11 +219,11 @@
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="1" lambda="10" matrixType="linear_transformation" condition="2" bias="200" horizontalShift="-1">
-                        <function class="functions.continuous.Weierstrass"/>
+                        <function class="functions.continuous.unconstrained.Weierstrass"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="1" lambda="10" matrixType="linear_transformation" condition="2" bias="300" horizontalShift="2">
-                        <function class="functions.continuous.Weierstrass"/>
+                        <function class="functions.continuous.unconstrained.Weierstrass"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="1" lambda="0.08333333333333333" matrixType="linear_transformation" condition="2" bias="400" horizontalShift="-2">
@@ -268,11 +268,11 @@
                         </addFunction>
                         <addFunction class="functions.continuous.hybrid.SingleFunction"
                             sigma="1" lambda="10" matrixType="linear_transformation" condition="2" bias="200" horizontalShift="-1">
-                            <function class="functions.continuous.Weierstrass"/>
+                            <function class="functions.continuous.unconstrained.Weierstrass"/>
                         </addFunction>
                         <addFunction class="functions.continuous.hybrid.SingleFunction"
                             sigma="1" lambda="10" matrixType="linear_transformation" condition="2" bias="300" horizontalShift="2">
-                            <function class="functions.continuous.Weierstrass"/>
+                            <function class="functions.continuous.unconstrained.Weierstrass"/>
                         </addFunction>
                         <addFunction class="functions.continuous.hybrid.SingleFunction"
                             sigma="1" lambda="0.08333333333333333" matrixType="linear_transformation" condition="2" bias="400" horizontalShift="-2">
@@ -334,11 +334,11 @@
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="1.5" lambda="0.15625" matrixType="linear_transformation" condition="20" bias="600" horizontalShift="-3">
-                        <function class="functions.continuous.Weierstrass"/>
+                        <function class="functions.continuous.unconstrained.Weierstrass"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="1.5" lambda="0.15625" matrixType="linear_transformation" condition="30" bias="700" horizontalShift="4">
-                        <function class="functions.continuous.Weierstrass"/>
+                        <function class="functions.continuous.unconstrained.Weierstrass"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="2" lambda="0.16666666666666666" matrixType="linear_transformation" condition="200" bias="800" horizontalShift="-4">
@@ -382,11 +382,11 @@
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="1.5" lambda="20" matrixType="linear_transformation" condition="20" bias="600" horizontalShift="-3">
-                        <function class="functions.continuous.Weierstrass"/>
+                        <function class="functions.continuous.unconstrained.Weierstrass"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="1.5" lambda="10" matrixType="linear_transformation" condition="30" bias="700" horizontalShift="4">
-                        <function class="functions.continuous.Weierstrass"/>
+                        <function class="functions.continuous.unconstrained.Weierstrass"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="2" lambda="0.16666666666666666" matrixType="linear_transformation" condition="200" bias="800" horizontalShift="-4">
@@ -430,11 +430,11 @@
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="1.5" lambda="0.15625" matrixType="linear_transformation" condition="20" bias="600" horizontalShift="-3">
-                        <function class="functions.continuous.Weierstrass"/>
+                        <function class="functions.continuous.unconstrained.Weierstrass"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="1.5" lambda="0.15625" matrixType="linear_transformation" condition="30" bias="700" horizontalShift="4">
-                        <function class="functions.continuous.Weierstrass"/>
+                        <function class="functions.continuous.unconstrained.Weierstrass"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="2" lambda="0.16666666666666666" matrixType="linear_transformation" condition="200" bias="800" horizontalShift="-4">
@@ -492,11 +492,11 @@
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="2" lambda="50" matrixType="orthonormal" bias="600" horizontalShift="-3">
-                        <function class="functions.continuous.Weierstrass"/>
+                        <function class="functions.continuous.unconstrained.Weierstrass"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="2" lambda="10" matrixType="orthonormal" bias="700" horizontalShift="4">
-                        <function class="functions.continuous.Weierstrass"/>
+                        <function class="functions.continuous.unconstrained.Weierstrass"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="2" lambda="0.125" matrixType="orthonormal" bias="800" horizontalShift="-4">
@@ -554,11 +554,11 @@
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="2" lambda="50" matrixType="linear_transformation" condition="2000" bias="600" horizontalShift="-3">
-                        <function class="functions.continuous.Weierstrass"/>
+                        <function class="functions.continuous.unconstrained.Weierstrass"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="2" lambda="10" matrixType="linear_transformation" condition="3000" bias="700" horizontalShift="4">
-                        <function class="functions.continuous.Weierstrass"/>
+                        <function class="functions.continuous.unconstrained.Weierstrass"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="2" lambda="0.125" matrixType="linear_transformation" condition="4000" bias="800" horizontalShift="-4">
@@ -617,11 +617,11 @@
                         </addFunction>
                         <addFunction class="functions.continuous.hybrid.SingleFunction"
                             sigma="2" lambda="50" matrixType="orthonormal" bias="600" horizontalShift="-3">
-                            <function class="functions.continuous.Weierstrass"/>
+                            <function class="functions.continuous.unconstrained.Weierstrass"/>
                         </addFunction>
                         <addFunction class="functions.continuous.hybrid.SingleFunction"
                             sigma="2" lambda="10" matrixType="orthonormal" bias="700" horizontalShift="4">
-                            <function class="functions.continuous.Weierstrass"/>
+                            <function class="functions.continuous.unconstrained.Weierstrass"/>
                         </addFunction>
                         <addFunction class="functions.continuous.hybrid.SingleFunction"
                             sigma="2" lambda="0.125" matrixType="orthonormal" bias="800" horizontalShift="-4">
@@ -642,7 +642,7 @@
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="2" lambda="10" matrixType="linear_transformation" condition="100" bias="0" horizontalShift="1">
-                        <function class="functions.continuous.Weierstrass"/>
+                        <function class="functions.continuous.unconstrained.Weierstrass"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="2" lambda="0.25" matrixType="linear_transformation" condition="50" bias="100" horizontalShift="0">
@@ -706,7 +706,7 @@
                 <function class="functions.continuous.hybrid.HybridCompositionFunction">
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="2" lambda="10" matrixType="linear_transformation" condition="100" bias="0" horizontalShift="-1">
-                        <function class="functions.continuous.Weierstrass"/>
+                        <function class="functions.continuous.unconstrained.Weierstrass"/>
                     </addFunction>
                     <addFunction class="functions.continuous.hybrid.SingleFunction"
                         sigma="2" lambda="0.25" matrixType="linear_transformation" condition="50" bias="100" horizontalShift="0">

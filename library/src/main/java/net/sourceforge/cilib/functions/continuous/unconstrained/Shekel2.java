@@ -4,30 +4,24 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+import com.google.common.base.Preconditions;
 
 /**
- * ShekelsFoxholes function.
- *
- * <p>Title: CILib</p>
- * <p>Description: CILib (Computational Intelligence Library)</p>
- * <p>Copyright: Copyright (c) 2004</p>
- * <p>Company: </p>
+ * Shekel2 (also Foxhole) function.
  *
  * R(-65.536, 65.536)^2
  * Minimum: 0.9980038
- * 
- * @version 1.0
+ *
  */
-public class ShekelsFoxholes implements ContinuousFunction {
+public class Shekel2 implements ContinuousFunction {
 
-    private static final long serialVersionUID = 1986501892056164693L;
     private double[][] a = new double[2][25];
 
-    public ShekelsFoxholes() {
+    public Shekel2() {
         int index = 0;
         for (int j = -32; j <= 32; j += 16) {
             for (int i = -32; i <= 32; i += 16) {
@@ -43,6 +37,8 @@ public class ShekelsFoxholes implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
+        Preconditions.checkArgument(input.size() == 2, "Shekel2 function is only defined for 2 dimensions");
+
         double resultI = 0.0;
         for (int i = 1; i <= 25; i++) {
             double resultJ = 0.0;
@@ -52,8 +48,7 @@ public class ShekelsFoxholes implements ContinuousFunction {
             resultJ = i + resultJ;
             resultI += 1 / resultJ;
         }
-        resultI = 0.002 + resultI;
 
-        return 1.0 / resultI;
+        return 1.0 / (resultI + 0.002);
     }
 }

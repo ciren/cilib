@@ -74,19 +74,19 @@
 
     <problems>
         <problem id="f1" class="problem.DeratingOptimisationProblem" domain="R(0.0:1.0)">
-            <function class="functions.continuous.MultimodalFunction1"/>
+            <function class="functions.continuous.unconstrained.MultimodalFunction1"/>
         </problem>
         <problem id="f2" class="problem.DeratingOptimisationProblem" domain="R(0.0:1.0)">
-            <function class="functions.continuous.MultimodalFunction2"/>
+            <function class="functions.continuous.unconstrained.MultimodalFunction2"/>
         </problem>
         <problem id="f3" class="problem.DeratingOptimisationProblem" domain="R(0.0:1.0)">
-            <function class="functions.continuous.MultimodalFunction3"/>
+            <function class="functions.continuous.unconstrained.MultimodalFunction3"/>
         </problem>
         <problem id="f4" class="problem.DeratingOptimisationProblem" domain="R(0.0:1.0)">
-            <function class="functions.continuous.MultimodalFunction4"/>
+            <function class="functions.continuous.unconstrained.MultimodalFunction4"/>
         </problem>
         <problem id="f5" class="problem.DeratingOptimisationProblem" domain="R(-5.0:5.0)^2">
-            <function class="functions.continuous.MultimodalFunction5"/>
+            <function class="functions.continuous.unconstrained.MultimodalFunction5"/>
         </problem>
     </problems>
 
