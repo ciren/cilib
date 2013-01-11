@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.pso.velocityprovider;
 
-import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -16,8 +15,6 @@ import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-/**
- */
 public class FIPSVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = 6391914534943249737L;
@@ -47,26 +44,14 @@ public class FIPSVelocityProvider implements VelocityProvider {
     public Vector get(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getPosition();
-
         Topology<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
-        Iterator<Particle> swarmIterator = topology.iterator();
-
-        while (swarmIterator.hasNext()) {
-            Particle currentTarget = swarmIterator.next();
-            if (currentTarget.getId() == particle.getId()) {
-                break;
-            }
-        }
 
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             double informationSum = 0.0;
             int numberOfNeighbours = 0;
 
-            Iterator<Particle> neighborhoodIterator = topology.neighbourhood(swarmIterator);
-
-            while (neighborhoodIterator.hasNext()) {
-                Particle currentTarget = neighborhoodIterator.next();
+            for (Particle currentTarget : topology.neighbourhood(particle)) {
                 Vector currentTargetPosition = (Vector) currentTarget.getBestPosition();
 
                 double randomComponent = (this.cognitiveAcceleration.getParameter() + this.socialAcceleration.getParameter()) * Rand.nextDouble();

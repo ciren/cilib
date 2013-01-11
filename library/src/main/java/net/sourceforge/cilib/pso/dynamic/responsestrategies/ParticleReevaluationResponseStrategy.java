@@ -6,26 +6,19 @@
  */
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
-import java.util.Iterator;
-
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 
-/**
- */
-public class ParticleReevaluationResponseStrategy<E extends PopulationBasedAlgorithm> extends
-        EnvironmentChangeResponseStrategy<E> {
+public class ParticleReevaluationResponseStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy<E> {
+
     private static final long serialVersionUID = -4389695103800841288L;
 
     public ParticleReevaluationResponseStrategy() {
-        // empty constructor
     }
 
     public ParticleReevaluationResponseStrategy(ParticleReevaluationResponseStrategy<E> copy) {
-        // empty copy constructor
+        super(copy);
     }
 
     public ParticleReevaluationResponseStrategy<E> getClone() {
@@ -36,6 +29,7 @@ public class ParticleReevaluationResponseStrategy<E extends PopulationBasedAlgor
      * Respond to environment change by re-evaluating each particle's position, personal best and neighbourhood best.
      * @param algorithm PSO algorithm that has to respond to environment change
      */
+    @Override
     public void respond(E algorithm) {
         reevaluateParticles(algorithm);
     }
@@ -45,32 +39,18 @@ public class ParticleReevaluationResponseStrategy<E extends PopulationBasedAlgor
      * @param algorithm PSO algorithm that has to respond to environment change
      */
     protected void reevaluateParticles(E algorithm) {
-
-        Topology<? extends Entity> topology = algorithm.getTopology();
+        Topology<DynamicParticle> topology = (Topology<DynamicParticle>) algorithm.getTopology();
 
         // Reevaluate current position. Update personal best (done by reevaluate()).
-        Iterator<? extends Entity> iterator = topology.iterator();
-        while (iterator.hasNext()) {
-            DynamicParticle current = (DynamicParticle) iterator.next();
+        for (DynamicParticle current : topology) {
             current.reevaluate();
         }
 
-        // Update the neighbourhood best
-        iterator = topology.iterator();
-        while (iterator.hasNext()) {
-            Particle current = (Particle) iterator.next();
-            Iterator<? extends Entity> j = topology.neighbourhood(iterator);
-            while (j.hasNext()) {
-                Particle other = (Particle) j.next();
-                if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
-                    other.setNeighbourhoodBest(current);
-                }
-            } // end for
-        } // end for
+        updateNeighbourhoodBestEntities(topology);
     }
 
     @Override
     protected void performReaction(E algorithm) {
         reevaluateParticles(algorithm);
     }
-} // end class
+}

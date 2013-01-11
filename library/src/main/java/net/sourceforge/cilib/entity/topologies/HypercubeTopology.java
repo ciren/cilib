@@ -6,13 +6,11 @@
  */
 package net.sourceforge.cilib.entity.topologies;
 
+import com.google.common.collect.UnmodifiableIterator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.AbstractTopology;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.IndexedIterator;
 
 /**
  * @param <E> The {@linkplain Entity} type.
@@ -24,7 +22,6 @@ public class HypercubeTopology<E extends Entity> extends AbstractTopology<E> {
      * Default constructor.
      */
     public HypercubeTopology() {
-        super();
         this.neighbourhoodSize = ConstantControlParameter.of(5);
     }
 
@@ -47,62 +44,26 @@ public class HypercubeTopology<E extends Entity> extends AbstractTopology<E> {
      * {@inheritDoc}
      */
     @Override
-    public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
-        return new HypercubeNeighbourhoodIterator<E>(this, (IndexedIterator<E>) iterator);
-    }
+    protected Iterator<E> neighbourhoodOf(final E e) {
+        return new UnmodifiableIterator<E>() {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getNeighbourhoodSize() {
-        return (int) Math.round(neighbourhoodSize.getParameter());
-    }
+            private int count = 0;
+            private int index = entities.indexOf(e);
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setNeighbourhoodSize(ControlParameter neighbourhoodSize) {
-        this.neighbourhoodSize = neighbourhoodSize;
-    }
+            @Override
+            public E next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
 
-    /**
-     * Iterator to traverse the hypercube topology.
-     */
-    private class HypercubeNeighbourhoodIterator<T extends Entity> extends NeighbourhoodIterator<T> {
-        private int count;
-
-        public HypercubeNeighbourhoodIterator(AbstractTopology<T> topology, IndexedIterator<T> iterator) {
-            super(topology, iterator);
-            this.count = 0;
-        }
-
-        @Override
-        public T next() {
-            if (count >= topology.getNeighbourhoodSize()) {
-                throw new NoSuchElementException();
+                return entities.get(index ^ Double.valueOf(Math.pow(2, count++)).intValue());
             }
-            
-            int i = index ^ Double.valueOf(Math.pow(2, count)).intValue();
-            count++;
 
-            return topology.get(i);
-        }
-
-        @Override
-        public void remove() {
-            topology.remove(index);
-            index = index ^ Double.valueOf(Math.pow(2, count)).intValue();
-            
-            if (index < 0) {
-                index += topology.size();
+            @Override
+            public boolean hasNext() {
+                return count < getNeighbourhoodSize();
             }
-        }
-
-        @Override
-        public boolean hasNext() {
-            return count < topology.getNeighbourhoodSize();
-        }
+        };
     }
+
 }

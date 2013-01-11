@@ -20,11 +20,8 @@ import static org.hamcrest.CoreMatchers.is;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- *
- */
 public class TopologiesTest {
-    
+
     @Test
     public void comparatorBestEntity() {
         Particle i1 = new StandardParticle();
@@ -70,7 +67,7 @@ public class TopologiesTest {
 
         Assert.assertThat(best, is(p1));
     }
-    
+
     @Test
     public void comparatorNeighbourhoodBest() {
         Particle i1 = new StandardParticle();
@@ -104,7 +101,7 @@ public class TopologiesTest {
         Assert.assertThat(leastFit, is(i2));
         Assert.assertThat(other, is(i3));
     }
-    
+
     @Test
     public void comparatorNeighbourhoodBestEntities() {
         Particle i1 = new StandardParticle();

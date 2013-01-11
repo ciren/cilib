@@ -7,14 +7,12 @@
 package net.sourceforge.cilib.entity.topologies;
 
 import java.util.Iterator;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.AbstractTopology;
 import net.sourceforge.cilib.entity.Entity;
 
 /**
  * <p>
- * Implementation of the gbest neighbourhood topology. This topology is a special 
- * case of the LBestTopology where the neighbourhood size is the swarm size.
+ * Implementation of the gbest neighbourhoodOf topology. This topology is a special
+ * case of the LBestTopology where the neighbourhoodOf size is the swarm size.
  * </p><p>
  * References:
  * </p><p><ul><li>
@@ -53,14 +51,6 @@ public class GBestTopology<E extends Entity> extends AbstractTopology<E> {
      * {@inheritDoc}
      */
     @Override
-    public void setNeighbourhoodSize(ControlParameter neighbourhoodSize) {
-        // Do nothing: neighbourhood size is the swarm size
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public int getNeighbourhoodSize() {
         return size();
     }
@@ -69,8 +59,8 @@ public class GBestTopology<E extends Entity> extends AbstractTopology<E> {
      * {@inheritDoc}
      */
     @Override
-    public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
-        return new TopologyIterator<E>(this);
+    protected Iterator<E> neighbourhoodOf(E e) {
+        return iterator();
     }
 }
 
