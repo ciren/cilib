@@ -1,0 +1,1509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE simulator [
+    <!ATTLIST algorithm id ID #IMPLIED>
+    <!ATTLIST problem id ID #IMPLIED>
+    <!ATTLIST measurements id ID #IMPLIED>
+    <!ATTLIST topology id ID #IMPLIED>
+    <!ATTLIST data id ID #IMPLIED>
+]>
+
+<simulator>
+    <algorithms>
+        <algorithm id="gcpsoLB" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="20">
+                <entityType class="pso.particle.StandardParticle">
+                    <velocityInitializationStrategy class="entity.initialization.ConstantInitializationStrategy" constant="0.0" />
+                    <velocityProvider class="pso.velocityprovider.GCVelocityProvider">
+                        <delegate class="pso.velocityprovider.StandardVelocityProvider">
+                            <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.729844" />
+                            <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="1.496180" />
+                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.496180" />
+                        </delegate>
+                    </velocityProvider>
+                    <neighbourhoodBestUpdateStrategy class="pso.positionprovider.MemoryNeighbourhoodBestUpdateStrategy" />
+                </entityType>
+            </initialisationStrategy>
+            <topology class="entity.topologies.LBestTopology">
+                <neighbourhoodSize class="controlparameter.ConstantControlParameter" parameter="5" />
+            </topology>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
+        <algorithm id="gcpsoLBbound" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="20">
+                <entityType class="pso.particle.StandardParticle">
+                    <velocityInitializationStrategy class="entity.initialization.ConstantInitializationStrategy" constant="0.0" />
+                    <velocityProvider class="pso.velocityprovider.GCVelocityProvider">
+                        <delegate class="pso.velocityprovider.StandardVelocityProvider">
+                            <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.729844" />
+                            <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="1.496180" />
+                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.496180" />
+                        </delegate>
+                    </velocityProvider>
+                    <neighbourhoodBestUpdateStrategy class="pso.positionprovider.MemoryNeighbourhoodBestUpdateStrategy" />
+                    <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy" />
+                </entityType>
+            </initialisationStrategy>
+            <topology class="entity.topologies.LBestTopology">
+                <neighbourhoodSize class="controlparameter.ConstantControlParameter" parameter="5" />
+            </topology>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
+        <algorithm id="gradientdecent" class="gd.GradientDescentBackpropagationTraining">
+            <learningRate class="controlparameter.ConstantControlParameter" parameter="0.2" />
+            <momentum class="controlparameter.ConstantControlParameter" parameter="0.8" />
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="500"/>
+        </algorithm>
+
+        <algorithm id="useSetWeights" class="algorithm.PretrainedWeightsSettingAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"  target="1" />
+            <fileReader class="io.DelimitedTextFileReader" sourceURL="data/weights.csv" />
+        </algorithm>
+
+        <algorithm id="chargedPSO" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
+            <iterationStrategy class="pso.dynamic.DynamicIterationStrategy">
+                <detectionStrategy class="pso.dynamic.detectionstrategies.AlwaysTrueDetectionStrategy" />
+                <responseStrategy class="pso.dynamic.responsestrategies.ParticleReevaluationResponseStrategy"/>
+            </iterationStrategy>
+            <initialisationStrategy class="algorithm.initialisation.ChargedPopulationInitialisationStrategy" entityNumber="15">
+               <entityType class="pso.dynamic.ChargedParticle">
+                    <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy" />
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                       <vMax class="controlparameter.ConstantControlParameter" parameter="1.0"/>
+                    </velocityProvider>
+                </entityType>
+            </initialisationStrategy>
+        </algorithm>
+        <algorithm id="coop-сpso-2" class="coevolution.cooperative.CooperativeCoevolutionAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
+            <problemDistribution class="coevolution.cooperative.problemdistribution.NeuralNetworkDistributionStrategy" />
+            <contributionSelectionStrategy class="coevolution.cooperative.contributionselection.SocialFitnessContributionSelectionStrategy"/>
+            <addPopulationBasedAlgorithm idref="chargedPSO"/>
+            <addPopulationBasedAlgorithm idref="chargedPSO"/>
+        </algorithm>
+        <algorithm id="coop-сpso-3" class="coevolution.cooperative.CooperativeCoevolutionAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
+            <problemDistribution class="coevolution.cooperative.problemdistribution.NeuralNetworkDistributionStrategy" />
+            <contributionSelectionStrategy class="coevolution.cooperative.contributionselection.SocialFitnessContributionSelectionStrategy"/>
+            <addPopulationBasedAlgorithm idref="chargedPSO"/>
+            <addPopulationBasedAlgorithm idref="chargedPSO"/>
+        </algorithm>
+        <algorithm id="coop-сpso-4" class="coevolution.cooperative.CooperativeCoevolutionAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
+            <problemDistribution class="coevolution.cooperative.problemdistribution.NeuralNetworkDistributionStrategy" />
+            <contributionSelectionStrategy class="coevolution.cooperative.contributionselection.SocialFitnessContributionSelectionStrategy"/>
+            <addPopulationBasedAlgorithm idref="chargedPSO"/>
+            <addPopulationBasedAlgorithm idref="chargedPSO"/>
+        </algorithm>
+
+        <algorithm id="chargedPSO5" class="pso.PSO">
+            <iterationStrategy class="pso.dynamic.DynamicIterationStrategy">
+                <detectionStrategy class="pso.dynamic.detectionstrategies.AlwaysTrueDetectionStrategy" />
+                <responseStrategy class="pso.dynamic.responsestrategies.ParticleReevaluationResponseStrategy"/>
+            </iterationStrategy>
+            <initialisationStrategy class="algorithm.initialisation.ChargedPopulationInitialisationStrategy" entityNumber="5">
+                <entityType class="pso.dynamic.ChargedParticle">
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                       <vMax class="controlparameter.ConstantControlParameter" parameter="1.0"/>
+                    </velocityProvider>
+                </entityType>
+            </initialisationStrategy>
+        </algorithm>
+
+        <algorithm id="chargedPSO30" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
+            <iterationStrategy class="pso.dynamic.DynamicIterationStrategy">
+                <detectionStrategy class="pso.dynamic.detectionstrategies.AlwaysTrueDetectionStrategy" />
+                <responseStrategy class="pso.dynamic.responsestrategies.ParticleReevaluationResponseStrategy"/>
+            </iterationStrategy>
+            <initialisationStrategy class="algorithm.initialisation.ChargedPopulationInitialisationStrategy" entityNumber="30">
+                <entityType class="pso.dynamic.ChargedParticle">
+                    <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy" />
+                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                       <vMax class="controlparameter.ConstantControlParameter" parameter="1.0"/>
+                    </velocityProvider>
+                </entityType>
+            </initialisationStrategy>
+        </algorithm>
+
+         <algorithm id="quantumPSO" class="pso.PSO">
+            <iterationStrategy class="pso.dynamic.DynamicIterationStrategy">
+                <detectionStrategy class="pso.dynamic.detectionstrategies.AlwaysTrueDetectionStrategy" />
+                <responseStrategy class="pso.dynamic.responsestrategies.ParticleReevaluationResponseStrategy"/>
+            </iterationStrategy>
+            <initialisationStrategy class="algorithm.initialisation.ChargedPopulationInitialisationStrategy" entityNumber="10">
+                <entityType class="pso.dynamic.ChargedParticle">
+                    <velocityProvider class="pso.dynamic.QuantumVelocityProvider">
+                        <delegate class="pso.velocityprovider.ClampingVelocityProvider">
+                           <vMax class="controlparameter.ConstantControlParameter" parameter="2.0"/>
+                         </delegate>
+                    </velocityProvider>
+                    <positionProvider class="pso.dynamic.QuantumPositionProvider">
+                        <radius class="controlparameter.ConstantControlParameter" parameter="30" />
+                    </positionProvider>
+                    <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy" />
+                </entityType>
+            </initialisationStrategy>
+        </algorithm>
+
+        <algorithm id="quantumPSO5" class="pso.PSO">
+            <iterationStrategy class="pso.dynamic.DynamicIterationStrategy">
+                <detectionStrategy class="pso.dynamic.detectionstrategies.AlwaysTrueDetectionStrategy" />
+                <responseStrategy class="pso.dynamic.responsestrategies.ParticleReevaluationResponseStrategy"/>
+            </iterationStrategy>
+            <initialisationStrategy class="algorithm.initialisation.ChargedPopulationInitialisationStrategy" entityNumber="5">
+                <entityType class="pso.dynamic.ChargedParticle">
+                    <velocityProvider class="pso.dynamic.QuantumVelocityProvider">
+                        <delegate class="pso.velocityprovider.ClampingVelocityProvider">
+                           <vMax class="controlparameter.ConstantControlParameter" parameter="2.0"/>
+                         </delegate>
+                    </velocityProvider>
+                    <positionProvider class="pso.dynamic.QuantumPositionProvider">
+                        <radius class="controlparameter.ConstantControlParameter" parameter="50" />
+                    </positionProvider>
+                </entityType>
+            </initialisationStrategy>
+        </algorithm>
+
+         <algorithm id="quantumPSO30" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
+            <iterationStrategy class="pso.dynamic.DynamicIterationStrategy">
+                <detectionStrategy class="pso.dynamic.detectionstrategies.AlwaysTrueDetectionStrategy" />
+                <responseStrategy class="pso.dynamic.responsestrategies.ParticleReevaluationResponseStrategy"/>
+            </iterationStrategy>
+            <initialisationStrategy class="algorithm.initialisation.ChargedPopulationInitialisationStrategy" entityNumber="30">
+                <entityType class="pso.dynamic.ChargedParticle">
+                    <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy" />
+                    <velocityProvider class="pso.dynamic.QuantumVelocityProvider">
+                        <delegate class="pso.velocityprovider.ClampingVelocityProvider">
+                           <vMax class="controlparameter.ConstantControlParameter" parameter="2.0"/>
+                         </delegate>
+                    </velocityProvider>
+                    <positionProvider class="pso.dynamic.QuantumPositionProvider">
+                        <radius class="controlparameter.ConstantControlParameter" parameter="50" />
+                    </positionProvider>
+                </entityType>
+            </initialisationStrategy>
+        </algorithm>
+
+        <algorithm id="reinit" class="pso.PSO">
+		<topology class="entity.topologies.VonNeumannTopology" />
+                <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                        <entityType class="pso.dynamic.DynamicParticle">
+                                <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                                    <vMax class="controlparameter.ConstantControlParameter" parameter="1.0"/>
+                                </velocityProvider>
+                        </entityType>
+            </initialisationStrategy>
+                <iterationStrategy class="pso.dynamic.DynamicIterationStrategy">
+                        <detectionStrategy class="pso.dynamic.detectionstrategies.AlwaysTrueDetectionStrategy"/>
+                        <responseStrategy class="pso.dynamic.responsestrategies.DualReactionStrategy" reinitializationRatio="0.5" reevaluationRatio="0.5" />
+                        <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy" />
+                </iterationStrategy>
+        </algorithm>
+
+        <algorithm id="pso" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+        <algorithm id="ga" class="ec.EC">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+        <algorithm id="coop-pso" class="coevolution.cooperative.CooperativeCoevolutionAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+            <problemDistribution class="coevolution.cooperative.problemdistribution.NeuralNetworkDistributionStrategy" />
+            <contributionSelectionStrategy class="coevolution.cooperative.contributionselection.SocialFitnessContributionSelectionStrategy"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+        </algorithm>
+
+        <algorithm id="coop-cpso-5" class="coevolution.cooperative.CooperativeCoevolutionAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+            <problemDistribution class="coevolution.cooperative.problemdistribution.ImperfectSplitDistributionStrategy" />
+            <contributionSelectionStrategy class="coevolution.cooperative.contributionselection.SocialFitnessContributionSelectionStrategy"/>
+            <addPopulationBasedAlgorithm idref="chargedPSO5"/>
+            <addPopulationBasedAlgorithm idref="chargedPSO5"/>
+            <addPopulationBasedAlgorithm idref="chargedPSO5"/>
+            <addPopulationBasedAlgorithm idref="chargedPSO5"/>
+        </algorithm>
+        <algorithm id="greedy-coop-qpso-5" class="coevolution.cooperative.GreedyCooperativeCoevolutionAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+            <problemDistribution class="coevolution.cooperative.problemdistribution.ImperfectSplitDistributionStrategy" />
+            <contributionSelectionStrategy class="coevolution.cooperative.contributionselection.SocialFitnessContributionSelectionStrategy"/>
+            <addPopulationBasedAlgorithm idref="quantumPSO5"/>
+            <addPopulationBasedAlgorithm idref="quantumPSO5"/>
+            <addPopulationBasedAlgorithm idref="quantumPSO5"/>
+            <addPopulationBasedAlgorithm idref="quantumPSO5"/>
+        </algorithm>
+         <algorithm id="greedy-multicoop-charged-pso" class="coevolution.cooperative.GreedyCooperativeCoevolutionAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+            <problemDistribution class="coevolution.cooperative.problemdistribution.NeuralNetworkDistributionStrategy" />
+            <contributionSelectionStrategy class="coevolution.cooperative.contributionselection.SocialFitnessContributionSelectionStrategy"/>
+            <addPopulationBasedAlgorithm idref="coop-cpso-5"/>
+            <addPopulationBasedAlgorithm idref="coop-cpso-5"/>
+        </algorithm>
+
+        <algorithm id="coop-charged-pso" class="coevolution.cooperative.CooperativeCoevolutionAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="600"/>
+            <problemDistribution class="coevolution.cooperative.problemdistribution.NeuralNetworkDistributionStrategy" />
+            <contributionSelectionStrategy class="coevolution.cooperative.contributionselection.SocialFitnessContributionSelectionStrategy"/>
+            <addPopulationBasedAlgorithm idref="chargedPSO"/>
+            <addPopulationBasedAlgorithm idref="chargedPSO"/>
+            <addPopulationBasedAlgorithm idref="chargedPSO"/>
+        </algorithm>
+        <algorithm id="coop-quantum-pso" class="coevolution.cooperative.CooperativeCoevolutionAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
+            <problemDistribution class="coevolution.cooperative.problemdistribution.NeuralNetworkDistributionStrategy" />
+            <contributionSelectionStrategy class="coevolution.cooperative.contributionselection.SocialFitnessContributionSelectionStrategy"/>
+            <addPopulationBasedAlgorithm idref="quantumPSO"/>
+            <addPopulationBasedAlgorithm idref="quantumPSO"/>
+        </algorithm>
+        <algorithm id="greedy-coop-pso" class="coevolution.cooperative.GreedyCooperativeCoevolutionAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+            <problemDistribution class="coevolution.cooperative.problemdistribution.NeuralNetworkDistributionStrategy" />
+            <contributionSelectionStrategy class="coevolution.cooperative.contributionselection.SocialFitnessContributionSelectionStrategy"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+        </algorithm>
+        <algorithm id="greedy-coop-charged-pso" class="coevolution.cooperative.GreedyCooperativeCoevolutionAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="600"/>
+            <problemDistribution class="coevolution.cooperative.problemdistribution.NeuralNetworkDistributionStrategy" />
+            <contributionSelectionStrategy class="coevolution.cooperative.contributionselection.SocialFitnessContributionSelectionStrategy"/>
+            <addPopulationBasedAlgorithm idref="chargedPSO"/>
+            <addPopulationBasedAlgorithm idref="chargedPSO"/>
+            <addPopulationBasedAlgorithm idref="chargedPSO"/>
+        </algorithm>
+        <algorithm id="greedy-coop-quantum-pso" class="coevolution.cooperative.GreedyCooperativeCoevolutionAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="600"/>
+            <problemDistribution class="coevolution.cooperative.problemdistribution.NeuralNetworkDistributionStrategy" />
+            <contributionSelectionStrategy class="coevolution.cooperative.contributionselection.SocialFitnessContributionSelectionStrategy"/>
+            <addPopulationBasedAlgorithm idref="quantumPSO"/>
+            <addPopulationBasedAlgorithm idref="quantumPSO"/>
+            <addPopulationBasedAlgorithm idref="quantumPSO"/>
+        </algorithm>
+    </algorithms>
+
+    <problems>
+        <problem id="nn-big-traffic" class="problem.NNSlidingWindowTrainingProblem" trainingSetPercentage="0.5" generalizationSetPercentage="0.5" shuffle="true">
+            <windowSize value="1000" />
+            <stepSize value="500" />
+            <changeFrequency value="10" />
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="6" tau="1" step="5"> <!-- 10 + 1 (inputs + target) -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_ts_32_sqrt_scaled.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1"/>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-big-traffic-no-window" class="problem.NNDataTrainingProblem" trainingSetPercentage="0.5" generalizationSetPercentage="0.5" shuffle="false">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="6" tau="1"> <!-- 10 + 1 (inputs + target) -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_ts_32_sqrt_scaled.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1"/>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-big-traffic-multi" class="problem.nn.NNSlidingWindowTrainingProblem" trainingSetPercentage="0.6" generalizationSetPercentage="0.4" shuffle="true">
+            <windowSize value="2000" />
+            <stepSize value="500" />
+            <changeFrequency value="50" />
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="10" tau="1" step="10"> <!-- 10 + 1 (inputs + target) -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_ts_32_lambda0.687.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <patternConversionOperator class="io.transform.PatternConversionOperator" classIndex="5" classLength="5" />
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5"/>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-big-traffic-multi-no-window" class="problem.nn.NNDataTrainingProblem" trainingSetPercentage="0.6" generalizationSetPercentage="0.4" shuffle="false">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="10" tau="1" step="5"> <!-- for reconstruction: step = # targets -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_ts_32_lambda0.687.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <patternConversionOperator class="io.transform.PatternConversionOperator" classIndex="5" classLength="5" />
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5"/>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-new-traffic-multi" class="problem.nn.NNSlidingWindowTrainingProblem" trainingSetPercentage="0.6" generalizationSetPercentage="0.4" shuffle="true">
+            <windowSize value="2000" />
+            <stepSize value="500" />
+            <changeFrequency value="50" />
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="10" tau="1" step="5"> <!-- 10 + 1 (inputs + target) -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/new_traff_01.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <patternConversionOperator class="io.transform.PatternConversionOperator" classIndex="5" classLength="5" />
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5">
+                            <activationFunction class="functions.activation.Linear" />
+                        </addLayer>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-new-traffic-multi-no-window" class="problem.nn.NNDataTrainingProblem" trainingSetPercentage="0.6" generalizationSetPercentage="0.4" shuffle="false">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="10" tau="1" step="5"> <!-- for reconstruction: step = # targets -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/new_traff_01.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <patternConversionOperator class="io.transform.PatternConversionOperator" classIndex="5" classLength="5" />
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5">
+                            <activationFunction class="functions.activation.Linear" />
+                        </addLayer>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-sin-no-window-rec" class="problem.nn.NNDataTrainingProblem" trainingSetPercentage="0.6" generalizationSetPercentage="0.4" shuffle="false">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="10" tau="1" step="5"> <!-- for reconstruction: step = # targets -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/sinwave.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <patternConversionOperator class="io.transform.PatternConversionOperator" classIndex="5" classLength="5" />
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="4">
+                            <activationFunction class="functions.activation.TanH" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5">
+                            <activationFunction class="functions.activation.Linear" />
+                        </addLayer>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-sin-no-window" class="problem.nn.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3" shuffle="true">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="10" tau="1" step="1"> <!-- for reconstruction: step = # targets -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/sinwave.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <patternConversionOperator class="io.transform.PatternConversionOperator" classIndex="5" classLength="5" />
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="4">
+                            <activationFunction class="functions.activation.TanH" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5">
+                            <activationFunction class="functions.activation.Linear" />
+                        </addLayer>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-func2-no-window-rec" class="problem.nn.NNDataTrainingProblem" trainingSetPercentage="0.6" generalizationSetPercentage="0.4" shuffle="false">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="10" tau="1" step="5"> <!-- for reconstruction: step = # targets -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="/export/home/arakitianskaia/input/func2_tanh.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <patternConversionOperator class="io.transform.PatternConversionOperator" classIndex="5" classLength="5" />
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="4">
+                            <activationFunction class="functions.activation.TanH" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5">
+                            <activationFunction class="functions.activation.Linear" />
+                        </addLayer>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-func2-no-window-5-10h" class="problem.nn.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3" shuffle="true">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="10" tau="1" step="1"> <!-- for reconstruction: step = # targets -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="/export/home/arakitianskaia/input/func2_tanh.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <patternConversionOperator class="io.transform.PatternConversionOperator" classIndex="5" classLength="5" />
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10">
+                            <activationFunction class="functions.activation.TanH" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5">
+                            <activationFunction class="functions.activation.Linear" />
+                        </addLayer>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-func2-no-window-5-20h" class="problem.nn.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3" shuffle="true">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="10" tau="1" step="1"> <!-- for reconstruction: step = # targets -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="/export/home/arakitianskaia/input/func2_tanh.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <patternConversionOperator class="io.transform.PatternConversionOperator" classIndex="5" classLength="5" />
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="20">
+                            <activationFunction class="functions.activation.TanH" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5">
+                            <activationFunction class="functions.activation.Linear" />
+                        </addLayer>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-func2-no-window-10-10h" class="problem.nn.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3" shuffle="true">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="20" tau="1" step="1"> <!-- for reconstruction: step = # targets -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="/export/home/arakitianskaia/input/func2_tanh.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <patternConversionOperator class="io.transform.PatternConversionOperator" classIndex="10" classLength="10" />
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10">
+                            <activationFunction class="functions.activation.TanH" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10">
+                            <activationFunction class="functions.activation.Linear" />
+                        </addLayer>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-func2-no-window-10-20h" class="problem.nn.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3" shuffle="true">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="20" tau="1" step="1"> <!-- for reconstruction: step = # targets -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="/export/home/arakitianskaia/input/func2_tanh.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <patternConversionOperator class="io.transform.PatternConversionOperator" classIndex="10" classLength="10" />
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="20">
+                            <activationFunction class="functions.activation.TanH" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10">
+                            <activationFunction class="functions.activation.Linear" />
+                        </addLayer>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-func2-no-window-10-20h-15h" class="problem.nn.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3" shuffle="true">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="20" tau="1" step="1"> <!-- for reconstruction: step = # targets -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="/export/home/arakitianskaia/input/func2_tanh.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <patternConversionOperator class="io.transform.PatternConversionOperator" classIndex="10" classLength="10" />
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="20">
+                            <activationFunction class="functions.activation.TanH" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="15">
+                            <activationFunction class="functions.activation.TanH" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10">
+                            <activationFunction class="functions.activation.Linear" />
+                        </addLayer>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-traffic" class="problem.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3" shuffle="false">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="6" tau="1"> <!-- 10 + 1 (inputs + target) -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_time_series_scaled.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1"/>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-traffic-window" class="problem.NNSlidingWindowTrainingProblem" trainingSetPercentage="0.6" generalizationSetPercentage="0.4" shuffle="true">
+            <windowSize value="500" />
+            <stepSize value="50" />
+            <changeFrequency value="10" />
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="5" tau="1"> <!-- 10 + 1 (inputs + target) -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_time_series_scaled.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="4"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1"/>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-traffic-window-sqrt" class="problem.NNSlidingWindowTrainingProblem" trainingSetPercentage="0.6" generalizationSetPercentage="0.4" shuffle="true">
+            <windowSize value="500" />
+            <stepSize value="50" />
+            <changeFrequency value="10" />
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="5" tau="1"> <!-- 10 + 1 (inputs + target) -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_time_series_sqrt_scaled.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="4"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1"/>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-traffic-sqrt" class="problem.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3" shuffle="false">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="5"> <!-- 10 + 1 (inputs + target) -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_time_series_sqrt_scaled.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="4"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="5">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1"/>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="elman-nn-traffic" class="problem.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3" shuffle="false">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="11"> <!-- 10 + 1 (inputs + target) -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_time_series_scaled.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <operationVisitor class="nn.architecture.visitors.ElmanRecurrentVisitor" />
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.ElmanArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1"/>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-traffic-tanh" class="problem.NNSequentialDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3" shuffle="false">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="11"> <!-- 10 + 1 (inputs + target) -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_time_series_tanh_scaled.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.TanH" />
+                        </addLayer>
+                        <!--addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer-->
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1">
+                            <activationFunction class="functions.activation.TanH" />
+                        </addLayer>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-3:3)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-traffic-all-rect" class="problem.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="11"> <!-- 10 + 1 (inputs + target) -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_time_series_opt_scaled.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Rectifier" />
+                        </addLayer>
+                        <!--addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer-->
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1" >
+                            <activationFunction class="functions.activation.Rectifier" />
+                        </addLayer>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-traffic-all-rect-sqrt" class="problem.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="11"> <!-- 10 + 1 (inputs + target) -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_time_series_sqrt_scaled.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Rectifier" />
+                        </addLayer>
+                        <!--addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer-->
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1" >
+                            <activationFunction class="functions.activation.Rectifier" />
+                        </addLayer>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-traffic-rect" class="problem.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="11"> <!-- 10 + 1 (inputs + target) -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_time_series_opt_scaled.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Rectifier" />
+                        </addLayer>
+                        <!--addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer-->
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1" />
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-traffic-rect-sqrt" class="problem.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="11"> <!-- 10 + 1 (inputs + target) -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_time_series_sqrt_scaled.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Rectifier" />
+                        </addLayer>
+                        <!--addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer-->
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1" />
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-5:5)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-traffic-hidden-rect" class="problem.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="11"> <!-- 10 + 1 (inputs + target) -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_time_series_sqrt_scaled.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10">
+                            <activationFunction class="functions.activation.Rectifier" />
+                        </addLayer>
+                        <!--addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer-->
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1" >
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-3:3)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn-traffic-rect-preweighted" class="problem.NNOutputRetrievalProblem" trainingSetPercentage="1.0" generalizationSetPercentage="0.0" shuffle="false">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="11"> <!-- 10 + 1 (inputs + target) -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_time_series_scaled.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Rectifier" />
+                        </addLayer>
+                        <!--addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer-->
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1" />
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-3:3)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="elman-nn-traffic-tanh" class="problem.NNSequentialDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3" shuffle="false">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.TimeSeriesReader" embedding="11"> <!-- 10 + 1 (inputs + target) -->
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_time_series_tanh_scaled.csv"/>
+                </dataReader>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <operationVisitor class="nn.architecture.visitors.ElmanRecurrentVisitor" />
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.ElmanArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="8">
+                            <activationFunction class="functions.activation.TanH" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1">
+                            <activationFunction class="functions.activation.TanH" />
+                        </addLayer>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-3:3)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="elman-nn10-7-1-sig-hyper" class="problem.NNSlidingWindowTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3" shuffle="false">
+             <windowSize value="1000" />
+            <stepSize value="1000" />
+            <changeFrequency value="250" />
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.ARFFFileReader" sourceURL="data/input/hyper.arff"/>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <operationVisitor class="nn.architecture.visitors.ElmanRecurrentVisitor" />
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.ElmanArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="10"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="7">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1"/>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-3:3)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn4-8-1-sig" class="problem.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.ARFFFileReader" sourceURL="src/test/resources/datasets/iris.arff"/>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="4"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="3">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1"/>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-3:3)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn4-8-1-lin" class="problem.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.ARFFFileReader" sourceURL="src/test/resources/datasets/iris.arff"/>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="4"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="3">
+                            <activationFunction class="functions.activation.Linear" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1"/>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-3:3)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+    </problems>
+
+
+    <measurements id="outputs" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.NNOutput"/>
+    </measurements>
+    <measurements id="multiplePrediction" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.NNTimeSeriesMultiplePrediction" n="5"/>
+    </measurements>
+    <measurements id="recursivePrediction0" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.NNTimeSeriesRecursivePrediction" n="0"/>
+    </measurements>
+    <measurements id="recursivePrediction1" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.NNTimeSeriesRecursivePrediction" n="1"/>
+    </measurements>
+    <measurements id="recursivePrediction2" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.NNTimeSeriesRecursivePrediction" n="2"/>
+    </measurements>
+    <measurements id="recursivePrediction3" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.NNTimeSeriesRecursivePrediction" n="3"/>
+    </measurements>
+    <measurements id="recursivePrediction4" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.NNTimeSeriesRecursivePrediction" n="4"/>
+    </measurements>
+    <measurements id="recursivePrediction5" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.NNTimeSeriesRecursivePrediction" n="5" extraSteps="150000"/>
+    </measurements>
+    <measurements id="recursivePredictionI0" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.NNTimeSeriesGetEveryNRecursiveInput" n="5" inputNumber="0"/>        
+    </measurements>
+    <measurements id="recursivePredictionI1" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.NNTimeSeriesGetEveryNRecursiveInput" n="5" inputNumber="1"/>        
+    </measurements>
+    <measurements id="recursivePredictionI2" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.NNTimeSeriesGetEveryNRecursiveInput" n="5" inputNumber="2"/>        
+    </measurements>
+    <measurements id="recursivePredictionI3" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.NNTimeSeriesGetEveryNRecursiveInput" n="5" inputNumber="3"/>        
+    </measurements>
+    <measurements id="recursivePredictionI4" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.NNTimeSeriesGetEveryNRecursiveInput" n="5" inputNumber="4"/>        
+    </measurements>
+    <measurements id="recursivePredictionO0" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.NNTimeSeriesGetEveryNRecursiveOutput" n="5" outputNumber="0"/>        
+    </measurements>
+    <measurements id="recursivePredictionO1" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.NNTimeSeriesGetEveryNRecursiveOutput" n="5" outputNumber="1"/>        
+    </measurements>
+    <measurements id="recursivePredictionO2" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.NNTimeSeriesGetEveryNRecursiveOutput" n="5" outputNumber="2"/>        
+    </measurements>
+    <measurements id="recursivePredictionO3" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.NNTimeSeriesGetEveryNRecursiveOutput" n="5" outputNumber="3"/>        
+    </measurements>
+    <measurements id="recursivePredictionO4" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.NNTimeSeriesGetEveryNRecursiveOutput" n="5" outputNumber="4"/>        
+    </measurements>
+    
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.Fitness"/>
+        <addMeasurement class="measurement.single.MSEGeneralizationError"/>
+        <!--addMeasurement class="measurement.single.NNWeights" /-->
+        <!--addMeasurement class="measurement.single.NNOutput" destinationURL="data/nn_output" /-->
+            <!--outputReader class="io.NNOutputReader">
+                <dataReader class="io.TimeSeriesReader" embedding="11">
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_time_series_scaled.csv"/>
+                </dataReader>
+            </outputReader>
+        </addMeasurement-->
+    </measurements>
+    <measurements id="weights" class="simulator.MeasurementSuite" resolution="500">
+        <addMeasurement class="measurement.single.Fitness"/>
+        <addMeasurement class="measurement.single.MSEGeneralizationError"/>
+        <addMeasurement class="measurement.single.NNWeights" />
+        <!--addMeasurement class="measurement.single.NNOutput" destinationURL="data/nn_output" /-->
+            <!--outputReader class="io.NNOutputReader">
+                <dataReader class="io.TimeSeriesReader" embedding="11">
+                    <delegate class="io.DelimitedTextFileReader" sourceURL="data/input/traffic_time_series_scaled.csv"/>
+                </dataReader>
+            </outputReader>
+        </addMeasurement-->
+    </measurements>
+    <simulations>
+        <!--simulation samples="5">
+            <algorithm idref="coop-pso"/>
+            <problem idref="nn4-8-1-sig"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/coop_simple_PSO_nn_iris_fitness.csv"/>
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="greedy-coop-quantum-pso"/>
+            <problem idref="nn4-8-1-sig"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/30_greedy_coop_quantum_PSO_nn_iris_fitness.csv"/>
+        </simulation-->
+
+        <!--simulation samples="2">
+            <algorithm idref="gcpsoLB"/>
+            <problem idref="nn4-8-1-sig"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/gbest_nn_iris_fitness.csv"/>
+        </simulation-->
+         <!--  THIS ONE FAILS simulation samples="2">
+            <algorithm idref="greedy-multicoop-charged-pso"/>
+            <problem idref="elman-nn-traffic"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/elman_greedy_multicoop_charged_traffic_scaled.csv"/>
+        </simulation-->
+        <!--simulation samples="1">
+            <algorithm idref="greedy-coop-quantum-pso"/>
+            <problem idref="nn-big-traffic"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/qpso_big_traffic.csv"/>
+        </simulation-->
+        <!--simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-big-traffic-no-window"/>
+            <measurements idref="outputs" />
+            <output format="TXT" file="data/gd_big_traffic_PRED.csv"/>
+        </simulation-->
+        <!--simulation samples="1">
+            <algorithm idref="gradientdecent"/>
+            <problem idref="nn-big-traffic-no-window"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/gd_big_traffic_e5_sqrt_step5_nowin.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="coop-quantum-pso"/>
+            <problem idref="nn-big-traffic-no-window"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/coop_qpso_big_traffic_e5_sqrt_step5_nowin.csv"/>
+        </simulation-->
+        <!--simulation samples="1">
+            <algorithm idref="gradientdecent"/>
+            <problem idref="nn-big-traffic-multi"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/gd_big_traffic_multi_lambda.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="quantumPSO30"/>
+            <problem idref="nn-big-traffic-multi"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/qpso30_big_traffic_multi_lambda.csv"/>
+        </simulation-->
+        <!--simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-big-traffic-multi-no-window"/>
+            <measurements idref="recursivePredictionI" />
+            <output format="TXT" file="data/qpso_big_traffic_multi_lambda_r2_i0_PRED.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-big-traffic-multi-no-window"/>
+            <measurements idref="recursivePredictionI1" />
+            <output format="TXT" file="data/qpso_big_traffic_multi_lambda_r2_i1_PRED.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-big-traffic-multi-no-window"/>
+            <measurements idref="recursivePredictionI2" />
+            <output format="TXT" file="data/qpso_big_traffic_multi_lambda_r2_i2_PRED.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-big-traffic-multi-no-window"/>
+            <measurements idref="recursivePredictionI3" />
+            <output format="TXT" file="data/qpso_big_traffic_multi_lambda_r2_i3_PRED.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-big-traffic-multi-no-window"/>
+            <measurements idref="recursivePredictionI4" />
+            <output format="TXT" file="data/qpso_big_traffic_multi_lambda_r2_i4_PRED.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-big-traffic-multi-no-window"/>
+            <measurements idref="recursivePredictionO" />
+            <output format="TXT" file="data/qpso_big_traffic_multi_lambda_r2_o_PRED.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-big-traffic-multi-no-window"/>
+            <measurements idref="recursivePredictionO1" />
+            <output format="TXT" file="data/qpso_big_traffic_multi_lambda_r2_o1_PRED.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-big-traffic-multi-no-window"/>
+            <measurements idref="recursivePredictionO2" />
+            <output format="TXT" file="data/qpso_big_traffic_multi_lambda_r2_o2_PRED.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-big-traffic-multi-no-window"/>
+            <measurements idref="recursivePredictionO3" />
+            <output format="TXT" file="data/qpso_big_traffic_multi_lambda_r2_o3_PRED.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-big-traffic-multi-no-window"/>
+            <measurements idref="recursivePredictionO4" />
+            <output format="TXT" file="data/qpso_big_traffic_multi_lambda_r2_o4_PRED.csv"/>
+        </simulation-->
+        <!--simulation samples="1">
+            <algorithm idref="gradientdecent"/>
+            <problem idref="nn-traffic-window-sqrt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/gd_small_traffic_win_sqrt_h2.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="quantumPSO30"/>
+            <problem idref="nn-traffic-window-sqrt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/qpso30_small_traffic_win_sqrt_h2.csv"/>
+        </simulation-->
+        <!--simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-traffic-sqrt"/>
+            <measurements idref="outputs" />
+            <output format="TXT" file="data/qpso_sqrt_PRED.csv"/>
+        </simulation-->
+<!--simulation samples="5">
+            <algorithm idref="chargedPSO30"/>
+            <problem idref="nn-func2-no-window"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/cec/cpso_func2_h10.csv"/>
+        </simulation-->
+        <simulation samples="30">
+            <algorithm idref="gradientdecent"/>
+            <problem idref="nn-func2-no-window-5-10h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e5_10h_gd.csv"/>
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="gradientdecent"/>
+            <problem idref="nn-func2-no-window-5-20h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e5_20h_gd.csv"/>
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="gradientdecent"/>
+            <problem idref="nn-func2-no-window-10-10h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e10_10h_gd.csv"/>
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="gradientdecent"/>
+            <problem idref="nn-func2-no-window-10-20h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e10_20h_gd.csv"/>
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="gradientdecent"/>
+            <problem idref="nn-func2-no-window-10-20h-15h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e10_20h_15h_gd.csv"/>
+        </simulation>        
+        
+        <!-- CPSO-30 -->
+        <simulation samples="30">
+            <algorithm idref="chargedPSO30"/>
+            <problem idref="nn-func2-no-window-5-10h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e5_10h_cpso30.csv"/>
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="chargedPSO30"/>
+            <problem idref="nn-func2-no-window-5-20h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e5_20h_cpso30.csv"/>
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="chargedPSO30"/>
+            <problem idref="nn-func2-no-window-10-10h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e10_10h_cpso30.csv"/>
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="chargedPSO30"/>
+            <problem idref="nn-func2-no-window-10-20h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e10_20h_cpso30.csv"/>
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="chargedPSO30"/>
+            <problem idref="nn-func2-no-window-10-20h-15h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e10_20h_15h_cpso30.csv"/>
+        </simulation>
+        
+        <!-- QPSO-30 -->
+        <simulation samples="30">
+            <algorithm idref="quantumPSO30"/>
+            <problem idref="nn-func2-no-window-5-10h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e5_10h_qpso30.csv"/>
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="quantumPSO30"/>
+            <problem idref="nn-func2-no-window-5-20h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e5_20h_qpso30.csv"/>
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="quantumPSO30"/>
+            <problem idref="nn-func2-no-window-10-10h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e10_10h_qpso30.csv"/>
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="quantumPSO30"/>
+            <problem idref="nn-func2-no-window-10-20h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e10_20h_qpso30.csv"/>
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="quantumPSO30"/>
+            <problem idref="nn-func2-no-window-10-20h-15h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e10_20h_15h_qpso30.csv"/>
+        </simulation>
+        
+        <!-- COOP-CPSO -->
+        <simulation samples="30">
+            <algorithm idref="coop-сpso-2"/>
+            <problem idref="nn-func2-no-window-5-10h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e5_10h_coop_cpso_NN.csv"/>
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="coop-сpso-2"/>
+            <problem idref="nn-func2-no-window-5-20h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e5_20h_coop_cpso_NN.csv"/>
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="coop-сpso-2"/>
+            <problem idref="nn-func2-no-window-10-10h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e10_10h_coop_cpso_NN.csv"/>
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="coop-сpso-2"/>
+            <problem idref="nn-func2-no-window-10-20h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e10_20h_coop_cpso_NN.csv"/>
+        </simulation>
+        <simulation samples="30">
+            <algorithm idref="coop-сpso-3"/>
+            <problem idref="nn-func2-no-window-10-20h-15h"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="/export/home/arakitianskaia/scratch/func_approx/func2_e10_20h_15h_coop_cpso_NN.csv"/>
+        </simulation>
+<!--simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-sin-no-window-rec"/>
+            <measurements idref="recursivePredictionO0" />
+            <output format="TXT" file="data/gd_sin_h4_tanh_lin_PRED_O0.csv"/>
+        </simulation>
+<simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-sin-no-window-rec"/>
+            <measurements idref="recursivePredictionO1" />
+            <output format="TXT" file="data/gd_sin_h4_tanh_lin_PRED_O1.csv"/>
+        </simulation>
+<simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-sin-no-window-rec"/>
+            <measurements idref="recursivePredictionO2" />
+            <output format="TXT" file="data/gd_sin_h4_tanh_lin_PRED_O2.csv"/>
+        </simulation>
+<simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-sin-no-window-rec"/>
+            <measurements idref="recursivePredictionO3" />
+            <output format="TXT" file="data/gd_sin_h4_tanh_lin_PRED_O3.csv"/>
+        </simulation>
+<simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-sin-no-window-rec"/>
+            <measurements idref="recursivePredictionO4" />
+            <output format="TXT" file="data/gd_sin_h4_tanh_lin_PRED_O4.csv"/>
+        </simulation>
+<simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-sin-no-window-rec"/>
+            <measurements idref="recursivePrediction5" />
+            <output format="TXT" file="data/gd_sin_h4_tanh_lin_PRED_5_extra_150000.csv"/>
+        </simulation-->
+        <!--simulation samples="1">
+            <algorithm idref="greedy-coop-quantum-pso"/>
+            <problem idref="nn-traffic-window"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/gqpso_small_traffic_win.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="coop-quantum-pso"/>
+            <problem idref="nn-traffic-window"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/qpso_small_traffic_win.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="greedy-coop-charged-pso"/>
+            <problem idref="nn-traffic-window"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/gcpso_small_traffic_win.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="coop-charged-pso"/>
+            <problem idref="nn-traffic-window"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/cpso_small_traffic_win.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="chargedPSO30"/>
+            <problem idref="nn-traffic-window"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/cpso30_small_traffic_win.csv"/>
+        </simulation-->
+        <!--simulation samples="1">
+            <algorithm idref="greedy-coop-quantum-pso"/>
+            <problem idref="nn-traffic"/>
+            <measurements idref="weights" />
+            <output format="TXT" file="data/greedy_coop_quantum_2layers_0.1_weights.csv"/>
+        </simulation-->
+        <!--simulation samples="1">
+            <algorithm idref="useSetWeights"/>
+            <problem idref="nn-traffic"/>
+            <measurements idref="outputs" />
+            <output format="TXT" file="data/qpso_2l_0.1_PRED.csv"/>
+        </simulation-->
+        <!--simulation samples="1">
+            <algorithm idref="coop-cpso-5"/>
+            <problem idref="nn-traffic"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/coop_charged_imperfect_0.2_0.8.csv"/>
+        </simulation-->
+        <!--simulation samples="1">
+            <algorithm idref="greedy-coop-quantum-pso"/>
+            <problem idref="nn-traffic-all-rect-sqrt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/greedy_coop_quantum_0.2_0.8_sqrt_all_rect.csv"/>
+        </simulation-->
+
+        <!--simulation samples="1">
+            <algorithm idref="greedy-coop-charged-pso"/>
+            <problem idref="nn-traffic-rect"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/greedy_coop_charged_traffic_scaled_rect.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="coop-quantum-pso"/>
+            <problem idref="nn-traffic-rect"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/coop_quantum_traffic_scaled_rect.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="coop-charged-pso"/>
+            <problem idref="nn-traffic-rect"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/coop_charged_traffic_scaled_rect.csv"/>
+        </simulation-->
+        <!--simulation samples="1">
+            <algorithm idref="greedy-coop-quantum-pso"/>
+            <problem idref="nn-traffic"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/greedy_coop_quantum_traffic_scaled_deep.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="greedy-coop-charged-pso"/>
+            <problem idref="nn-traffic"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/greedy_coop_charged_traffic_scaled_deep.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="coop-quantum-pso"/>
+            <problem idref="nn-traffic"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/coop_quantum_traffic_scaled_deep.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="coop-charged-pso"/>
+            <problem idref="nn-traffic"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/coop_charged_traffic_scaled_deep.csv"/>
+        </simulation-->
+
+        <!--simulation samples="1">
+            <algorithm idref="greedy-coop-quantum-pso"/>
+            <problem idref="elman-nn-traffic-tanh"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/elman_greedy_coop_quantum_traffic_scaled_tanh.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="greedy-coop-charged-pso"/>
+            <problem idref="elman-nn-traffic-tanh"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/elman_greedy_coop_charged_traffic_scaled_tanh.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="coop-quantum-pso"/>
+            <problem idref="elman-nn-traffic-tanh"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/elman_coop_quantum_traffic_scaled_tanh.csv"/>
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="coop-charged-pso"/>
+            <problem idref="elman-nn-traffic-tanh"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/elman_coop_charged_traffic_scaled_tanh.csv"/>
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="gradientdecent"/>
+            <problem idref="elman-nn-traffic-tanh"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/elman_gd_traffic_scaled_tanh.csv"/>
+        </simulation-->
+
+        <!--simulation samples="1">
+            <algorithm idref="gcpsoLBbound"/>
+            <problem idref="elman-nn-traffic"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/elamn_gbest_bound_traffic.csv"/>
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="gradientdecent"/>
+            <problem idref="elman-nn-traffic"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/elman_gd_traffic.csv"/>
+        </simulation-->
+
+        <!--simulation samples="1">
+            <algorithm idref="gcpsoLBbound"/>
+            <problem idref="nn-traffic"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/gbest_bound_traffic.csv"/>
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="gradientdecent"/>
+            <problem idref="nn-traffic"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/gd_traffic.csv"/>
+        </simulation-->
+
+        <!--simulation samples="2">
+            <algorithm idref="gcpsoLB"/>
+            <problem idref="nn4-8-1-lin"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/gbest_nn-lin_iris_fitness.csv"/>
+        </simulation>
+
+        <simulation samples="2">
+            <algorithm idref="gcpsoLBbound"/>
+            <problem idref="nn4-8-1-lin"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/gbest_bound_nn-lin_iris_fitness.csv"/>
+        </simulation>
+
+        <simulation samples="2">
+            <algorithm idref="gradientdecent"/>
+            <problem idref="nn4-8-1-lin"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/gd_nn-lin_iris_fitness.csv"/>
+        </simulation-->
+    </simulations>
+</simulator>
