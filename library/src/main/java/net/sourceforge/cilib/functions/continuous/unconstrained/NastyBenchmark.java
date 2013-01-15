@@ -10,6 +10,8 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * <p><b>NastyBenchmark.</b></p>
+ *
  * Minimum: 0.0
  * R(-500, 500)^30
  *
