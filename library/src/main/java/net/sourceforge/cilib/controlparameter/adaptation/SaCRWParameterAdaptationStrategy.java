@@ -73,7 +73,7 @@ public class SaCRWParameterAdaptationStrategy implements ParameterAdaptationStra
         initialisationStrategy.setRandom(random);
         
         SettableControlParameter newParameter = parameter.getClone();
-        initialisationStrategy.initialize(newParameter);
+        initialisationStrategy.initialise(newParameter);
         parameter.update(newParameter.getParameter());
     }
 

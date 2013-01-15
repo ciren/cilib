@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.nn.architecture.visitors;
 
-import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.util.Visitor;
 import net.sourceforge.cilib.nn.architecture.Architecture;
 
 /**

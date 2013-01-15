@@ -132,7 +132,7 @@ public class Bit implements Numeric {
      * Randomly choose a new valid for the <code>Bit</code> object.
      */
     @Override
-    public void randomize() {
+    public void randomise() {
         this.state = Rand.nextBoolean();
     }
 

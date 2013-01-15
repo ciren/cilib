@@ -8,7 +8,7 @@ package net.sourceforge.cilib.coevolution.cooperative.contextupdate;
 
 import net.sourceforge.cilib.coevolution.cooperative.ContextEntity;
 import net.sourceforge.cilib.coevolution.cooperative.problem.DimensionAllocation;
-import net.sourceforge.cilib.coevolution.cooperative.problem.SequencialDimensionAllocation;
+import net.sourceforge.cilib.coevolution.cooperative.problem.SequentialDimensionAllocation;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -35,7 +35,7 @@ public class StandardContextUpdateStrategyTest {
         contextEntity.setFitness(new MinimisationFitness(0.0));
 
         Vector solution = Vector.of(0);
-        DimensionAllocation allocation = new SequencialDimensionAllocation(0, 1);
+        DimensionAllocation allocation = new SequentialDimensionAllocation(0, 1);
 
         StandardContextUpdateStrategy strategy = new StandardContextUpdateStrategy();
         strategy.updateContext(contextEntity, solution, allocation);

@@ -7,9 +7,9 @@
 package net.sourceforge.cilib.pso.iterationstrategies;
 
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * Implementation of the synchronous iteration strategy for PSO.

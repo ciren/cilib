@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.pso.crossover.pbestupdate;
 
 import java.util.List;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
@@ -17,5 +17,5 @@ public class CurrentPositionOffspringPBestProvider extends OffspringPBestProvide
     @Override
     public StructuredType f(List<Particle> parent, Particle offspring) {
         return offspring.getPosition();
-    }    
+    }
 }

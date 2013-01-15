@@ -9,7 +9,6 @@ package net.sourceforge.cilib.ff.positionupdatestrategies;
 import net.sourceforge.cilib.ff.firefly.*;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.math.Maths;

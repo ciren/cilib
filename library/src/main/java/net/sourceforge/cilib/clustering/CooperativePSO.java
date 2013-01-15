@@ -95,7 +95,7 @@ public class CooperativePSO extends MultiPopulationBasedAlgorithm{
     }
 
     /*
-     * Initializes the algorithm and its sub-populations
+     * Initialises the algorithm and its sub-populations
      */
     @Override
     public void algorithmInitialisation()    {

@@ -106,7 +106,7 @@ public final class Maths {
             private List<T> internalList = new ArrayList<T>(input); // Keep our own copy
             private int n = input.size();
             private int m = number;
-            private int[] index = initialize();
+            private int[] index = initialise();
             private boolean hasMore = true;
 
             @Override
@@ -134,7 +134,7 @@ public final class Maths {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
-            private int[] initialize() {
+            private int[] initialise() {
                 if (!(this.n >= m && m >= 0)) {
                     throw new IllegalStateException("Permutation error! n >= m");
                 }

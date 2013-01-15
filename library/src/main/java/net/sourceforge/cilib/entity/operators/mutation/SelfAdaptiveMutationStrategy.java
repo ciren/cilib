@@ -41,7 +41,7 @@ public class SelfAdaptiveMutationStrategy extends MutationStrategy {
 
     @Override
     public void mutate(List<? extends Entity> offspringList) {
-        initializeConstants(offspringList);
+        initialiseConstants(offspringList);
 
         final double pre = tauPrime * randomSingle.getRandomNumber();
 
@@ -68,7 +68,7 @@ public class SelfAdaptiveMutationStrategy extends MutationStrategy {
         }
     }
 
-    private void initializeConstants(List<? extends Entity> offspringList) {
+    private void initialiseConstants(List<? extends Entity> offspringList) {
         Entity first = offspringList.get(0);
 
         if (Double.compare(tau, Double.NaN) == 0) {

@@ -8,7 +8,6 @@ package net.sourceforge.cilib.entity.operators.crossover;
 
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.Operator;
 
@@ -17,10 +16,10 @@ public interface CrossoverStrategy extends Operator {
     public CrossoverStrategy getClone();
 
     public <E extends Entity> List<E> crossover(List<E> parentCollection);
-    
+
     public int getNumberOfParents();
-    
+
     public void setCrossoverPointProbability(double crossoverPointProbability);
-    
+
     public ControlParameter getCrossoverPointProbability();
 }

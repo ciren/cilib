@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.pso.pbestupdate;
 
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Int;

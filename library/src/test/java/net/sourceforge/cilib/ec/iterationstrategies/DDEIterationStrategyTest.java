@@ -6,31 +6,21 @@
  */
 package net.sourceforge.cilib.ec.iterationstrategies;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import net.sourceforge.cilib.entity.operators.creation.CreationStrategy;
 import net.sourceforge.cilib.entity.operators.creation.RandCreationStrategy;
-import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.de.DifferentialEvolutionBinomialCrossover;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.util.selection.recipes.FeasibilitySelector;
-import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
-import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 public class DDEIterationStrategyTest {
-    
+
     @Test
     public void getTargetVectorSelectionStrategyTest() {
         DDEIterationStrategy strategy = new DDEIterationStrategy();
         FeasibilitySelector selector = new FeasibilitySelector();
         strategy.setTargetVectorSelectionStrategy(selector);
-        
+
         Assert.assertEquals(selector, strategy.getTargetVectorSelectionStrategy());
     }
 
@@ -39,7 +29,7 @@ public class DDEIterationStrategyTest {
         DDEIterationStrategy strategy = new DDEIterationStrategy();
         FeasibilitySelector selector = new FeasibilitySelector();
         strategy.setTargetVectorSelectionStrategy(selector);
-        
+
         Assert.assertEquals(selector, strategy.getTargetVectorSelectionStrategy());
     }
 
@@ -48,7 +38,7 @@ public class DDEIterationStrategyTest {
         DDEIterationStrategy strategy = new DDEIterationStrategy();
         DifferentialEvolutionBinomialCrossover crossoverStr = new DifferentialEvolutionBinomialCrossover();
         strategy.setCrossoverStrategy(crossoverStr);
-        
+
         Assert.assertEquals(crossoverStr, strategy.getCrossoverStrategy());
     }
 
@@ -57,7 +47,7 @@ public class DDEIterationStrategyTest {
         DDEIterationStrategy strategy = new DDEIterationStrategy();
         DifferentialEvolutionBinomialCrossover crossoverStr = new DifferentialEvolutionBinomialCrossover();
         strategy.setCrossoverStrategy(crossoverStr);
-        
+
         Assert.assertEquals(crossoverStr, strategy.getCrossoverStrategy());
     }
 
@@ -66,7 +56,7 @@ public class DDEIterationStrategyTest {
         DDEIterationStrategy strategy = new DDEIterationStrategy();
         RandCreationStrategy creationStr = new RandCreationStrategy();
         strategy.setTrialVectorCreationStrategy(creationStr);
-        
+
         Assert.assertEquals(creationStr, strategy.getTrialVectorCreationStrategy());
     }
 
@@ -75,7 +65,7 @@ public class DDEIterationStrategyTest {
         DDEIterationStrategy strategy = new DDEIterationStrategy();
         RandCreationStrategy creationStr = new RandCreationStrategy();
         strategy.setTrialVectorCreationStrategy(creationStr);
-        
+
         Assert.assertEquals(creationStr, strategy.getTrialVectorCreationStrategy());
     }
 
@@ -83,7 +73,7 @@ public class DDEIterationStrategyTest {
     public void getSelectorParameterTest() {
         DDEIterationStrategy strategy = new DDEIterationStrategy();
         strategy.setSelectorParameter(5.0);
-        
+
         Assert.assertTrue(strategy.getSelectorParameter() == 5.0);
     }
 
@@ -91,7 +81,7 @@ public class DDEIterationStrategyTest {
     public void setSelectorParameterTest() {
         DDEIterationStrategy strategy = new DDEIterationStrategy();
         strategy.setSelectorParameter(5.0);
-        
+
         Assert.assertTrue(strategy.getSelectorParameter() == 5.0);
     }
 
@@ -99,7 +89,7 @@ public class DDEIterationStrategyTest {
     public void getTotalOffspringTest() {
         DDEIterationStrategy strategy = new DDEIterationStrategy();
         strategy.setTotalOffspring(2);
-        
+
         Assert.assertTrue(strategy.getTotalOffspring() == 2);
     }
 
@@ -107,7 +97,7 @@ public class DDEIterationStrategyTest {
     public void setTotalOffspringTest() {
         DDEIterationStrategy strategy = new DDEIterationStrategy();
         strategy.setTotalOffspring(2);
-        
+
         Assert.assertTrue(strategy.getTotalOffspring() == 2);
     }
 
@@ -116,7 +106,7 @@ public class DDEIterationStrategyTest {
         DDEIterationStrategy strategy = new DDEIterationStrategy();
         UniformDistribution random = new UniformDistribution();
         strategy.setScalingFactorRandom(random);
-        
+
         Assert.assertEquals(random, strategy.getScalingFactorRandom());
     }
 
@@ -125,26 +115,8 @@ public class DDEIterationStrategyTest {
         DDEIterationStrategy strategy = new DDEIterationStrategy();
         UniformDistribution random = new UniformDistribution();
         strategy.setScalingFactorRandom(random);
-        
-        Assert.assertEquals(random, strategy.getScalingFactorRandom());
-    }
-    
-    @Test
-    public void getSelectorRandomTest() {
-        DDEIterationStrategy strategy = new DDEIterationStrategy();
-        UniformDistribution random = new UniformDistribution();
-        strategy.setSelectorRandom(random);
-        
-        Assert.assertEquals(random, strategy.getSelectorRandom());
-    }
 
-    @Test
-    public void setSelectorRandomTest() {
-        DDEIterationStrategy strategy = new DDEIterationStrategy();
-        UniformDistribution random = new UniformDistribution();
-        strategy.setSelectorRandom(random);
-        
-        Assert.assertEquals(random, strategy.getSelectorRandom());
+        Assert.assertEquals(random, strategy.getScalingFactorRandom());
     }
 
     @Test
@@ -152,7 +124,7 @@ public class DDEIterationStrategyTest {
         DDEIterationStrategy strategy = new DDEIterationStrategy();
         FeasibilitySelector selector = new FeasibilitySelector();
         strategy.setOffspringSelectionStrategy(selector);
-        
+
         Assert.assertEquals(selector, strategy.getOffspringSelectionStrategy());
     }
 
@@ -161,7 +133,7 @@ public class DDEIterationStrategyTest {
         DDEIterationStrategy strategy = new DDEIterationStrategy();
         FeasibilitySelector selector = new FeasibilitySelector();
         strategy.setOffspringSelectionStrategy(selector);
-        
+
         Assert.assertEquals(selector, strategy.getOffspringSelectionStrategy());
     }
 
@@ -170,7 +142,7 @@ public class DDEIterationStrategyTest {
         DDEIterationStrategy strategy = new DDEIterationStrategy();
         FeasibilitySelector selector = new FeasibilitySelector();
         strategy.setNextGenerationSelectionStrategy(selector);
-        
+
         Assert.assertEquals(selector, strategy.getNextGenerationSelectionStrategy());
     }
 
@@ -179,7 +151,7 @@ public class DDEIterationStrategyTest {
         DDEIterationStrategy strategy = new DDEIterationStrategy();
         FeasibilitySelector selector = new FeasibilitySelector();
         strategy.setNextGenerationSelectionStrategy(selector);
-        
+
         Assert.assertEquals(selector, strategy.getNextGenerationSelectionStrategy());
     }
 }

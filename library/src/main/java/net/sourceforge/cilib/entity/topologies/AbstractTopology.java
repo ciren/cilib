@@ -12,6 +12,7 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
@@ -35,15 +36,16 @@ public abstract class AbstractTopology<E extends Entity> extends ForwardingList<
      * Default constructor.
      */
     public AbstractTopology() {
-        this.entities = Lists.<E>newLinkedList();
+        this.entities = Lists.<E>newArrayList();
+        this.neighbourhoodSize = ConstantControlParameter.of(3.0);
     }
 
     /**
      * Copy constructor.
      */
     public AbstractTopology(AbstractTopology<E> copy) {
-        this.neighbourhoodSize = copy.neighbourhoodSize;
-        this.entities = Lists.<E>newLinkedList();
+        this.neighbourhoodSize = copy.neighbourhoodSize.getClone();
+        this.entities = Lists.<E>newArrayList();
 
         for (E entity : copy.entities) {
             this.entities.add((E) entity.getClone());

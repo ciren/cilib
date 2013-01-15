@@ -70,21 +70,21 @@ public class RealTest {
     }
 
     @Test
-    public void randomizeWithinDefinedBounds() {
+    public void randomiseWithinDefinedBounds() {
         Rand.setSeed(0);
         Real r1 = Real.valueOf(0.0, new Bounds(-30.0, 30.0));
         Real r2 = Real.valueOf(0.0, new Bounds(-30.0, 30.0));
 
         assertTrue(r1.doubleValue() == r2.doubleValue());
-        r1.randomize();
+        r1.randomise();
         assertTrue(r1.doubleValue() != r2.doubleValue());
     }
 
     @Test
-    public void randomizeBetweenInfiniteBounds() {
+    public void randomiseBetweenInfiniteBounds() {
         Rand.setSeed(0);
         Real r = Real.valueOf(0.0);
-        r.randomize();
+        r.randomise();
         Assert.assertThat(r.doubleValue(), not(equalTo(0.0)));
         Assert.assertThat(r.doubleValue(), not(equalTo(Double.NaN)));
     }

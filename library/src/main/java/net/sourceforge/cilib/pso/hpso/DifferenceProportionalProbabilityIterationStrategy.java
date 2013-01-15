@@ -16,7 +16,6 @@ import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
@@ -25,6 +24,7 @@ import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.hpso.detectionstrategies.BehaviorChangeTriggerDetectionStrategy;
 import net.sourceforge.cilib.pso.hpso.detectionstrategies.PersonalBestStagnationDetectionStrategy;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 
 /**
@@ -110,9 +110,9 @@ public class DifferenceProportionalProbabilityIterationStrategy implements Itera
 
         iterationStrategy.performIteration(algorithm);
     }
-    
+
     private double fitnessDifference(Fitness newF, Fitness oldF) {
-        return newF.compareTo(oldF) * 
+        return newF.compareTo(oldF) *
                 Math.abs((newF.getValue().isNaN() ? 0 : newF.getValue()) - (oldF.getValue().isNaN() ? 0 : oldF.getValue()));
     }
 
@@ -124,7 +124,7 @@ public class DifferenceProportionalProbabilityIterationStrategy implements Itera
         if(algorithm.getIterations() == 0) {
             checkState(algorithm.getTopology().size() >= behaviorPool.size() * rigidCountPerBehavior.getParameter(), "There are not enough particles for your chosen rigid particle count and behavior count.");
 
-            //assuming the behaviors in the intializationstrategy are the same as the behaviors in behaviorpool
+            //assuming the behaviors in the intialisationstrategy are the same as the behaviors in behaviorpool
             setBehaviorPool(((HeterogeneousPopulationInitialisationStrategy) algorithm.getInitialisationStrategy()).getBehaviorPool());
             List<Particle> top = algorithm.getTopology();
 

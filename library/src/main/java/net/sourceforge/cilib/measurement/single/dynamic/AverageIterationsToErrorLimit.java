@@ -9,9 +9,8 @@ package net.sourceforge.cilib.measurement.single.dynamic;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.problem.DynamicOptimizationProblem;
+import net.sourceforge.cilib.problem.DynamicOptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 
 /**
@@ -68,7 +67,7 @@ public class AverageIterationsToErrorLimit extends DynamicMeasurement<Real> {
     public Real getValue(Algorithm algorithm) {
         int iteration = algorithm.getIterations();
 
-        DynamicOptimizationProblem function = (DynamicOptimizationProblem) algorithm.getOptimisationProblem();
+        DynamicOptimisationProblem function = (DynamicOptimisationProblem) algorithm.getOptimisationProblem();
         double error = function.getError(algorithm.getBestSolution().getPosition());
         int score = this.cycleSize;
 

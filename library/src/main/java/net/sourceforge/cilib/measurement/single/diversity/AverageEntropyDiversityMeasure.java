@@ -6,9 +6,9 @@
  */
 package net.sourceforge.cilib.measurement.single.diversity;
 
-import net.sourceforge.cilib.measurement.entropy.DimensionalEntropyMeasurement;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.measurement.entropy.DimensionalEntropyMeasurement;
 import net.sourceforge.cilib.measurement.entropy.EntropyMeasurement;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.TypeList;

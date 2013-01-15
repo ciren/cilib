@@ -12,10 +12,10 @@ import java.util.Arrays;
 import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
+import net.sourceforge.cilib.pso.particle.Particle;
 
 public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> extends
         EnvironmentChangeDetectionStrategy<E> {
@@ -24,7 +24,7 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> e
     private int sentries;
     private double theta;
     private int[] sentryIDs;
-    private boolean initialized = false;
+    private boolean initialised = false;
     ArrayList<Particle> sentryList;
 
     public RandomSentryDetectionStrategy() {
@@ -32,7 +32,7 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> e
         theta = 0.001;
     }
 
-    public void Initialize(E algorithm){
+    public void Initialise(E algorithm){
         sentryIDs = new int[sentries];
         int populationSize = algorithm.getTopology().size();
 
@@ -61,7 +61,7 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> e
             }//if
         }//while
 
-        this.initialized = true;
+        this.initialised = true;
     }
 
     public RandomSentryDetectionStrategy(RandomSentryDetectionStrategy<E> copy) {
@@ -81,8 +81,8 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> e
      * @return true if any changes are detected, false otherwise
      */
     public boolean detect(E algorithm) {
-        if(initialized == false){
-            this.Initialize(algorithm);
+        if(initialised == false){
+            this.Initialise(algorithm);
         }
         boolean envChangeOccured = false;
 

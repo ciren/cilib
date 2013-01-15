@@ -24,8 +24,8 @@ import org.junit.Test;
 
 /**
  * <p>
- * Tests to test the behavior of RouletteWheelSelection, in both the minimization
- * and maximization cases.
+ * Tests to test the behavior of RouletteWheelSelection, in both the minimisation
+ * and maximisation cases.
  * </p>
  */
 public class RouletteWheelSelectorTest {
@@ -57,7 +57,7 @@ public class RouletteWheelSelectorTest {
     }
 
     @Test
-    public void minimizationSelection() {
+    public void minimisationSelection() {
         Topology<Individual> topology = createDummyTopology();
         topology.get(0).getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
         topology.get(1).getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
@@ -73,7 +73,7 @@ public class RouletteWheelSelectorTest {
     }
 
     @Test
-    public void maximizationSelection() {
+    public void maximisationSelection() {
         Topology<Individual> topology = createDummyTopology();
         topology.get(0).getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
         topology.get(1).getProperties().put(EntityType.FITNESS, new MaximisationFitness(90000.0)); // Should be the best entity

@@ -20,7 +20,7 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
     private static final long serialVersionUID = 3107473364744861153L;
     private ContinuousFunction function;
     private Matrix rotationMatrix;
-    private boolean initialized;
+    private boolean initialised;
     private MatrixType type;
     private int condition;
     
@@ -33,7 +33,7 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
     public RotatedFunctionDecorator() {
         this.rotationMatrix = null;
         this.type = MatrixType.ORTHONORMAL;
-        this.initialized = false;
+        this.initialised = false;
         this.condition = 1;
     }
 
@@ -48,9 +48,9 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
             return function.apply(input);
         }
         
-        if (!initialized) {
+        if (!initialised) {
             setRotationMatrix(input.size());
-            initialized = true;
+            initialised = true;
         }
 
         Vector rotatedX = Vector.fill(0.0, input.size());

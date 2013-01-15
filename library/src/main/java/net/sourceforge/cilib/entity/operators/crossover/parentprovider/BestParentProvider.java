@@ -6,9 +6,9 @@
  */
 package net.sourceforge.cilib.entity.operators.crossover.parentprovider;
 
+import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
-import java.util.List;
 
 public class BestParentProvider extends ParentProvider {
 

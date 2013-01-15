@@ -8,7 +8,7 @@ package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.measurement.Measurement;

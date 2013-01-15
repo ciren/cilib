@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.coevolution.cooperative.problemdistribution;
 
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgorithm;
 import net.sourceforge.cilib.problem.Problem;

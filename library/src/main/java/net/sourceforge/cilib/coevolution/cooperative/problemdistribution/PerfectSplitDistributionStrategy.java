@@ -8,13 +8,12 @@ package net.sourceforge.cilib.coevolution.cooperative.problemdistribution;
 
 import com.google.common.base.Preconditions;
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
 import net.sourceforge.cilib.coevolution.cooperative.problem.DimensionAllocation;
-import net.sourceforge.cilib.coevolution.cooperative.problem.SequencialDimensionAllocation;
+import net.sourceforge.cilib.coevolution.cooperative.problem.SequentialDimensionAllocation;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -41,7 +40,7 @@ public class PerfectSplitDistributionStrategy implements ProblemDistributionStra
         int dimension = problem.getDomain().getDimension() / populations.size();
         int offset = 0;
         for (Algorithm population : populations) {
-            DimensionAllocation allocation = new SequencialDimensionAllocation(offset, dimension);
+            DimensionAllocation allocation = new SequentialDimensionAllocation(offset, dimension);
             population.setOptimisationProblem(new CooperativeCoevolutionProblemAdapter(problem, allocation, context));
             offset += dimension;
         }

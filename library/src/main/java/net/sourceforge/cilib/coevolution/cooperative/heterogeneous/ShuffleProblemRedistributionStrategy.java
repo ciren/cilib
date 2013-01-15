@@ -8,7 +8,6 @@ package net.sourceforge.cilib.coevolution.cooperative.heterogeneous;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.iterator.RandomAlgorithmIterator;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;

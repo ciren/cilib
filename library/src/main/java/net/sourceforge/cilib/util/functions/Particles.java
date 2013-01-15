@@ -8,7 +8,7 @@ package net.sourceforge.cilib.util.functions;
 
 import fj.F;
 import fj.F2;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.positionprovider.PositionProvider;
 import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;

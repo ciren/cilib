@@ -7,12 +7,11 @@
 package net.sourceforge.cilib.algorithm.initialisation;
 
 import com.google.common.base.Preconditions;
-
 import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Problem;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
@@ -61,11 +60,11 @@ public class HeterogeneousPopulationInitialisationStrategy implements Population
     }
 
     /**
-     * Perform the required initialization, using the provided <tt>Topology</tt> and
+     * Perform the required initialisation, using the provided <tt>Topology</tt> and
      * <tt>Problem</tt>.
-     * @param problem The <tt>Problem</tt> to use in the initialization of the topology.
+     * @param problem The <tt>Problem</tt> to use in the initialisation of the topology.
      * @return An {@code Iterable<E>} of cloned instances.
-     * @throws InitialisationException if the initialization cannot take place.
+     * @throws InitialisationException if the initialisation cannot take place.
      */
     @Override
     public Iterable<Particle> initialise(Problem problem) {

@@ -6,9 +6,9 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
+import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
-import com.google.common.base.Preconditions;
 
 /**
  * UrsemF3 function.

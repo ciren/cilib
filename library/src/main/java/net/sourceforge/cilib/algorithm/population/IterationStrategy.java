@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.algorithm.population;
 
-import java.io.Serializable;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.util.Cloneable;
@@ -17,7 +16,7 @@ import net.sourceforge.cilib.util.Cloneable;
  *
  * @param <E> The {@code PopulationBasedAlgorithm} type.
  */
-public interface IterationStrategy<E extends Algorithm> extends Cloneable, Serializable {
+public interface IterationStrategy<E extends Algorithm> extends Cloneable {
 
     /**
      * {@inheritDoc}

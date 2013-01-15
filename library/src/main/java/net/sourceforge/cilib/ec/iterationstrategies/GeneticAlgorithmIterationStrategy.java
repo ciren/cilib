@@ -10,10 +10,10 @@ import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
-
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.ec.EC;
+import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.CrossoverOperator;
@@ -66,16 +66,16 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
      */
     @Override
     public void performIteration(EC ec) {
-        Topology<Entity> population = (Topology<Entity>) ec.getTopology();
+        Topology<Individual> population = ec.getTopology();
 
         // Perform crossover: Allow each individual to create an offspring
-        List<Entity> crossedOver = Lists.newArrayList();
+        List<Individual> crossedOver = Lists.newArrayList();
         for (int i = 0, n = population.size(); i < n; i++) {
-            crossedOver.addAll(this.crossover.crossover((List<Entity>) ec.getTopology()));
+            crossedOver.addAll(crossover.crossover(ec.getTopology()));
         }
 
         // Perform mutation on offspring
-        this.mutationStrategy.mutate(crossedOver);
+        mutationStrategy.mutate(crossedOver);
 
         // Evaluate the fitness values of the generated offspring
         for (Entity entity : crossedOver) {
@@ -84,10 +84,8 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
         }
 
         // Perform new population selection
-        Topology<Entity> topology = (Topology<Entity>) ec.getTopology();
-        for (Entity entity : crossedOver) {
-            topology.add(entity);
-        }
+        Topology<Individual> topology = ec.getTopology();
+        topology.addAll(crossedOver);
 
         Collections.sort(ec.getTopology());
         ListIterator<? extends Entity> i = ec.getTopology().listIterator();

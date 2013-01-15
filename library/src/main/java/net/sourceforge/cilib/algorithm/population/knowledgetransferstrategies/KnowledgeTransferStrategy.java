@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.algorithm.population.knowledgetransferstrategies;
 
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.type.types.Type;

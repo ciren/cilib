@@ -7,13 +7,12 @@
 package net.sourceforge.cilib.nn.architecture;
 
 import com.google.common.collect.AbstractIterator;
-import net.sourceforge.cilib.nn.architecture.builder.ArchitectureBuilder;
-import net.sourceforge.cilib.nn.architecture.builder.FeedForwardArchitectureBuilder;
-import net.sourceforge.cilib.nn.architecture.visitors.ArchitectureVisitor;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import net.sourceforge.cilib.nn.architecture.builder.ArchitectureBuilder;
+import net.sourceforge.cilib.nn.architecture.builder.FeedForwardArchitectureBuilder;
+import net.sourceforge.cilib.nn.architecture.visitors.ArchitectureVisitor;
 
 /**
  * Class represents a neural network architecture and encapsulates a {@link ArchitectureBuilder}
@@ -33,10 +32,10 @@ public class Architecture {
     }
 
     /**
-     * Initializes the architecture by calling the builder's build method on
+     * Initialises the architecture by calling the builder's build method on
      * 'this' object.
      */
-    public void initialize() {
+    public void initialise() {
         architectureBuilder.buildArchitecture(this);
     }
 

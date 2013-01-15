@@ -7,8 +7,8 @@
 package net.sourceforge.cilib.type.types.container;
 
 import java.util.Collection;
-import net.sourceforge.cilib.container.visitor.Visitor;
-import net.sourceforge.cilib.type.types.Randomizable;
+import net.sourceforge.cilib.util.Visitor;
+import net.sourceforge.cilib.type.types.Randomisable;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
@@ -16,7 +16,7 @@ import net.sourceforge.cilib.type.types.Type;
  *
  * @param <E> the type of object the {@linkplain Structure} may contain.
  */
-public interface StructuredType<E> extends Collection<E>, Type, Randomizable {
+public interface StructuredType<E> extends Collection<E>, Type, Randomisable {
 
     @Override
     StructuredType<E> getClone();

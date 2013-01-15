@@ -4,12 +4,12 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
- 
+
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
+import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
-import com.google.common.base.Preconditions;
 
 /**
  * <p><b>The Central Two-Peak Trap Function.</b></p>
@@ -28,7 +28,7 @@ import com.google.common.base.Preconditions;
  * <li> for x_i in [0, 20]</li>
  * </ul>
  * </p>
- * 
+ *
  * <p>Characteristics:
  * <ul>
  * <li>One-dimensional only</li>
@@ -42,7 +42,7 @@ import com.google.common.base.Preconditions;
  *
  */
 public class Central2PeakTrap implements ContinuousFunction {
-    
+
     /**
      * {@inheritDoc}
      */
@@ -51,7 +51,7 @@ public class Central2PeakTrap implements ContinuousFunction {
         Preconditions.checkArgument(input.size() == 1, "Central2PeakTrap function is only defined for 1 dimension");
 
         double x = input.doubleValueOf(0);
-        
+
         if (x < 0)
             return 0.0;
         else if (x<=10)

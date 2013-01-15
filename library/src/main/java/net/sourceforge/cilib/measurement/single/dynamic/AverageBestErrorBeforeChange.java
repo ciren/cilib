@@ -9,9 +9,8 @@ package net.sourceforge.cilib.measurement.single.dynamic;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.problem.DynamicOptimizationProblem;
+import net.sourceforge.cilib.problem.DynamicOptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 
 /**
@@ -50,7 +49,7 @@ public class AverageBestErrorBeforeChange extends DynamicMeasurement<Real> {
     @Override
     public synchronized Real getValue(Algorithm algorithm) {
         if ((algorithm.getIterations() + 1) % cycleSize == 0) {
-            DynamicOptimizationProblem function = (DynamicOptimizationProblem) algorithm.getOptimisationProblem();
+            DynamicOptimisationProblem function = (DynamicOptimisationProblem) algorithm.getOptimisationProblem();
             double error = function.getError(algorithm.getBestSolution().getPosition());
             this.avg = (this.avg * this.cycleNr + error) / (this.cycleNr + 1);
             this.cycleNr++;

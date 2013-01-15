@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.util.Visitor;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 
@@ -36,7 +36,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
         components = new Real[]{};
         dataItems = new ArrayList<Vector>();
     }
-    
+
     /*
      * Creates a ClusterCentroid of some size
      * @param size The size of the clusterCentroid
@@ -49,7 +49,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
             components[i] = Real.valueOf(0);
         }
     }
-    
+
     /*
      * Creates a ClusterCentroid containing the numbers received as parameters
      * @param numbers The values to be held by the ClusterCentroid
@@ -63,7 +63,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
         }
         return new ClusterCentroid(elements);
     }
-    
+
     /*
      * Creates a ClusterCentroid containing the real numbers received as parameters
      * It takes into account the bounds set for each number
@@ -78,7 +78,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
         }
         return new ClusterCentroid(elements);
     }
-    
+
     /*
      * A constructor that cerates a ClusterCentroid containing the elements received as parameters
      * @param elements The elements to be added to the ClusterCentroid
@@ -88,7 +88,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
         dataItemDistances = new double[]{};
         dataItems = new ArrayList<Vector>();
     }
-    
+
     /*
      * A constructor that cerates a ClusterCentroid containing the elements received as parameters
      * It takes into account the bouds set for each number
@@ -102,7 +102,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
         dataItemDistances = new double[]{};
         dataItems = new ArrayList<Vector>();
     }
-    
+
     /*
      * The copy constructor of a ClusterCentroid
      * @param copy The ClusterCentroid to be copied
@@ -112,7 +112,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
         components = copy.components.clone();
         dataItems = copy.dataItems;
     }
-    
+
     /*
      * Creates a ClusterCentroid from the Vector given
      * @param input The vector to be converted to a ClusterCentroid
@@ -123,7 +123,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
             components[i] = Real.valueOf(input.get(i).doubleValue());
         }
     }
-    
+
     /*
      * The clone method for the ClusterCentroid
      * @return the new instance of the ClusterCentroid
@@ -164,7 +164,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
         if(components.length == 0) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -196,13 +196,13 @@ public class ClusterCentroid implements StructuredType<Numeric>{
     @Override
     public Object[] toArray() {
         Object[] array = new Object[components.length];
-        
+
         int i = 0;
         for(Numeric n : components) {
             array[i] = n.doubleValue();
             i++;
         }
-        
+
         return array;
     }
 
@@ -238,7 +238,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
     }
 
     /*
-     * Removes an element from the ClusterCentroid 
+     * Removes an element from the ClusterCentroid
      * @param object The element to be found and removed
      * @return true if the element was found and removed, false otherwise
      */
@@ -251,7 +251,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
         }
         return false;
     }
-    
+
     /*
      * Removes the element located in some position from the ClusterCentroid
      * @param index The position of the element to be removed
@@ -300,7 +300,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
         }
         return false;
     }
-    
+
     /*
      * Adds all the elements received as parameters to the ClusterCentroid
      * @param collection The collection of elements to be added to the ClusterCentroid
@@ -352,12 +352,12 @@ public class ClusterCentroid implements StructuredType<Numeric>{
      * @param random The RandomProvider to be used
      */
     @Override
-    public void randomize() {
+    public void randomise() {
         for (int i = 0; i < components.length; i++) {
-            this.components[i].randomize();
+            this.components[i].randomise();
         }
     }
-    
+
     /*
      * Returns the dataItems asugned to this ClusterCentroid
      * @return dataItems The list of dataItems assigned to the CentroidHolder
@@ -365,7 +365,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
     public ArrayList<Vector> getDataItems() {
         return dataItems;
     }
-    
+
     /*
      * Rerturns the list of distances between each data item and the ClusterCentroid
      * @return dataItemDistances The list of distances between each data item and the ClusterCentroid
@@ -373,7 +373,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
     public double[] getDataItemDistances() {
         return dataItemDistances;
     }
-    
+
     /*
      * Sets dataItemDistances array to the one received as a parameter
      * @param newDataItemDistanes The new array of data-item distances
@@ -381,7 +381,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
     public void setDataItemDistances(double[] newDataItemDistances) {
         dataItemDistances = newDataItemDistances;
     }
-    
+
     /*
      * Adds a data-item to the list of data items assigned to the ClusterCentroid
      * It also adds the distance between the ClusterCentroid and this data item to the
@@ -398,7 +398,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
         dataItems.add(item);
         return true;
     }
-    
+
     /*
      * Converts the ClusterCentroid to a Vector
      * @return vector The vector representation of the ClusterCentroid
@@ -408,10 +408,10 @@ public class ClusterCentroid implements StructuredType<Numeric>{
         for(Numeric number : components) {
             builder.add(number);
         }
-        
+
         return builder.build();
     }
-    
+
     /*
      * Removes all elements from the list of data-items assifgned to the ClusterCentroid
      */
@@ -419,7 +419,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
         dataItemDistances = new double[]{};
         dataItems.clear();
     }
-    
+
     /*
      * Returns the string representation of the ClusterCentroid
      * @return string The string representation of the ClusterCentroid
@@ -430,10 +430,10 @@ public class ClusterCentroid implements StructuredType<Numeric>{
         for(Numeric number : components) {
             result += number + ", ";
         }
-        
+
         return result + "]";
     }
-    
+
     /*
      * Returns the element held at some index by the ClusterCentroid
      * @param index The index of the element to be retrieved
@@ -442,7 +442,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
     public Numeric get(int index) {
         return components[index];
     }
-    
+
     /*
      * Sets the element held by the ClusterCentroid at some index to the new value provided for it
      * @param index The index of the element to be replaced

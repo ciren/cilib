@@ -115,7 +115,7 @@ public class CentroidHolderTest {
     }
 
     /**
-     * Test of randomize method, of class CentroidHolder.
+     * Test of randomise method, of class CentroidHolder.
      */
     @Test
     public void testRandomize() {
@@ -126,7 +126,7 @@ public class CentroidHolderTest {
         centroids.add(c1);
         centroids.add(c2);
         instance.addAll(centroids);
-        instance.randomize();
+        instance.randomise();
         
         Assert.assertFalse(instance.get(0).containsAll(Vector.of(5,8,9,3)));
         Assert.assertFalse(instance.get(1).containsAll(Vector.of(2,8,0,5)));

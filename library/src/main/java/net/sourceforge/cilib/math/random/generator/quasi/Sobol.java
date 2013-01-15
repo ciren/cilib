@@ -18,7 +18,7 @@ public class Sobol extends QuasiRandom {
     private int currentIndex = 0;
     private int atmost;
     private int dimensionsSave = 0;
-    private boolean initialized = false;
+    private boolean initialised = false;
     private int maxcol;
     private float recipd;
     private int storedSeed = -1;
@@ -141,14 +141,14 @@ public class Sobol extends QuasiRandom {
 
     public Sobol(long seed) {
         super(seed);
-        initialized = false;
+        initialised = false;
         storedSeed = -1;
         skipValue = 0;
     }
 
     private int next(int bits) {
         if (currentPoint == null) {
-            initialized = false;
+            initialised = false;
             storedSeed = -1;
             while (skipValue > 0) {
                 currentPoint = nextPoint();
@@ -211,8 +211,8 @@ public class Sobol extends QuasiRandom {
         int seed_temp;
         double[] quasi = new double[dimensions];
 
-        if (!initialized || dimensions != dimensionsSave) {
-            initialized = true;
+        if (!initialised || dimensions != dimensionsSave) {
+            initialised = true;
             for (i = 0; i < DIM_MAX2; i++) {
                 for (j = 0; j < LOG_MAX; j++) {
                     v[i][j] = 0;
@@ -474,7 +474,7 @@ public class Sobol extends QuasiRandom {
             //
             maxcol = i4BitHi1(atmost);
             //
-            // Initialize row 1 of V.
+            // Initialise row 1 of V.
             //
             for (j = 0; j < maxcol; j++) {
                 v[0][j] = 1;

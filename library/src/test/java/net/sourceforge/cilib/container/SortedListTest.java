@@ -6,6 +6,7 @@
  */
 package net.sourceforge.cilib.container;
 
+import net.sourceforge.cilib.type.types.container.SortedList;
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 

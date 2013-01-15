@@ -15,9 +15,8 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
+import net.sourceforge.cilib.entity.initialisation.RandomInitialisationStrategy;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.niching.creation.ClosestNeighbourNicheCreationStrategy;
 import net.sourceforge.cilib.niching.creation.MaintainedFitnessNicheDetection;
@@ -33,10 +32,11 @@ import net.sourceforge.cilib.niching.merging.SingleSwarmMergeStrategy;
 import net.sourceforge.cilib.niching.merging.StandardMergeStrategy;
 import net.sourceforge.cilib.niching.merging.detection.MergeDetection;
 import net.sourceforge.cilib.niching.merging.detection.RadiusOverlapMergeDetection;
-import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
@@ -110,7 +110,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements P
         velocityUpdateStrategy.setCognitiveAcceleration(ConstantControlParameter.of(1.2));
 
         Particle particle = new StandardParticle();
-        particle.setVelocityInitializationStrategy(new RandomInitializationStrategy());
+        particle.setVelocityInitialisationStrategy(new RandomInitialisationStrategy());
         particle.setVelocityProvider(velocityUpdateStrategy);
         this.entityType = particle;
 
@@ -167,7 +167,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements P
     }
 
     /**
-     * Initialize the main swarm..
+     * Initialise the main swarm..
      *
      * @see MultiPopulationBasedAlgorithm#performInitialisation()
      */
@@ -204,7 +204,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements P
     }
 
     /**
-     * Get the solutions of the the optimization. The solutions are the best
+     * Get the solutions of the the optimisation. The solutions are the best
      * entities within each identified niche.
      *
      * @return The list of best solutions for each niche.

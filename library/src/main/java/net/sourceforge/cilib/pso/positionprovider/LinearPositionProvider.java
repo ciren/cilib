@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.pso.positionprovider;
 
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -37,10 +37,10 @@ public class LinearPositionProvider implements PositionProvider {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getCandidateSolution();
         Vector.Builder builder = Vector.newBuilder();
-        
+
         for(int n = 0; n < position.size(); n++)
             builder.addWithin(velocity.doubleValueOf(n), position.boundsOf(n));
-        
+
         return builder.build();
     }
 }

@@ -7,9 +7,9 @@
 package net.sourceforge.cilib.util.selection.recipes;
 
 import java.util.Comparator;
-import net.sourceforge.cilib.util.selection.arrangement.DistanceComparator;
 import net.sourceforge.cilib.util.selection.PartialSelection;
 import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.arrangement.DistanceComparator;
 import net.sourceforge.cilib.util.selection.arrangement.ReverseArrangement;
 import net.sourceforge.cilib.util.selection.arrangement.SortedArrangement;
 

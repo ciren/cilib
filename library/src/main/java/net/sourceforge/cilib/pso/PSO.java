@@ -6,22 +6,17 @@
  */
 package net.sourceforge.cilib.pso;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
-import net.sourceforge.cilib.coevolution.cooperative.ParticipatingAlgorithm;
-import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
-import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ZeroContributionSelectionStrategy;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 
 /**
@@ -44,11 +39,11 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
  * </ul>
  * </p>
  */
-public class PSO extends SinglePopulationBasedAlgorithm implements ParticipatingAlgorithm {
+public class PSO extends SinglePopulationBasedAlgorithm<Particle> {
+
     private static final long serialVersionUID = -8234345682394295357L;
-    private Topology<Particle> topology;
+
     private IterationStrategy<PSO> iterationStrategy;
-    private ContributionSelectionStrategy contributionSelection;
 
     /**
      * Creates a new instance of <code>PSO</code>. All fields are initialised to reasonable
@@ -56,13 +51,9 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
      * <code>null</code> and must be set before {@link #initialise()} is called.
      */
     public PSO() {
-        topology = new GBestTopology<Particle>();
-
         iterationStrategy = new SynchronousIterationStrategy();
-
         initialisationStrategy = new ClonedPopulationInitialisationStrategy();
         initialisationStrategy.setEntityType(new StandardParticle());
-        contributionSelection = new ZeroContributionSelectionStrategy();
     }
 
     /**
@@ -71,15 +62,11 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
      */
     public PSO(PSO copy) {
         super(copy);
-        this.topology = copy.topology.getClone();
-        this.iterationStrategy = copy.iterationStrategy; // need to clone?
-        this.initialisationStrategy = copy.initialisationStrategy; // need to clone?
-        this.contributionSelection = copy.contributionSelection.getClone();
+        this.iterationStrategy = copy.iterationStrategy.getClone();
 
-        for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
-            Particle current = i.next();
-            Particle nBest = Topologies.getNeighbourhoodBest(topology, current, new SocialBestFitnessComparator());
-            current.setNeighbourhoodBest(nBest);
+        for (Particle p : topology) {
+            Particle nBest = Topologies.getNeighbourhoodBest(topology, p, new SocialBestFitnessComparator());
+            p.setNeighbourhoodBest(nBest);
         }
     }
 
@@ -97,9 +84,8 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
      */
     @Override
     public void algorithmInitialisation() {
-        Iterable<Particle> particles = (Iterable<Particle>) this.initialisationStrategy.initialise(this.getOptimisationProblem());
         topology.clear();
-        topology.addAll(Lists.<Particle>newLinkedList(particles));
+        Iterables.addAll(topology, initialisationStrategy.initialise(optimisationProblem));
 
         for (Particle p : topology) {
             p.calculateFitness();
@@ -141,25 +127,6 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
     }
 
     /**
-     * Sets the particle topology used. The default is {@link GBestTopology}.
-     * @param topology A class that implements the {@link Topology} interface.
-     */
-    @Override
-    @SuppressWarnings("unchecked")
-    public void setTopology(Topology topology) {
-        this.topology = topology;
-    }
-
-    /**
-     * Accessor for the topology being used.
-     * @return The {@link Topology} being used.
-     */
-    @Override
-    public Topology<Particle> getTopology() {
-        return topology;
-    }
-
-    /**
      * Get the <code>IterationStrategy</code> of the PSO algorithm.
      * @return Returns the iterationStrategy..
      */
@@ -175,19 +142,4 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
         this.iterationStrategy = iterationStrategy;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ContributionSelectionStrategy getContributionSelectionStrategy() {
-        return contributionSelection;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setContributionSelectionStrategy(ContributionSelectionStrategy strategy) {
-        contributionSelection = strategy;
-    }
 }

@@ -6,8 +6,8 @@
  */
 package net.sourceforge.cilib.ff.firefly;
 
-import net.sourceforge.cilib.ff.positionupdatestrategies.FireflyPositionUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.ff.positionupdatestrategies.FireflyPositionUpdateStrategy;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.container.Vector;
 

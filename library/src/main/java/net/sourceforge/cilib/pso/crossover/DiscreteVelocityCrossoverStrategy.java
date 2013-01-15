@@ -12,12 +12,12 @@ import java.util.List;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.DiscreteCrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.OnePointCrossoverStrategy;
 import net.sourceforge.cilib.pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider;
 import net.sourceforge.cilib.pso.crossover.pbestupdate.OffspringPBestProvider;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
 
 public class DiscreteVelocityCrossoverStrategy implements CrossoverStrategy {

@@ -119,13 +119,13 @@ public class SlidingWindow {
     }
     
     /*
-     * Initializes the SlidingWindow to hold the appropriate poriton of the dataset.
-     * Initializes the widow to be the size of the datset if it was never set.
-     * Initializes the slideSize to be the size of the window if it was never set.
+     * Initialises the SlidingWindow to hold the appropriate poriton of the dataset.
+     * Initialises the widow to be the size of the datset if it was never set.
+     * Initialises the slideSize to be the size of the window if it was never set.
      * Sets the boolean isTemporal.
      * Sets the counts.
      */
-    public DataTable initializeWindow() {
+    public DataTable initialiseWindow() {
         tableBuilder.addDataOperator(new TypeConversionOperator());
         tableBuilder.addDataOperator(patternConverstionOperator);
         try {

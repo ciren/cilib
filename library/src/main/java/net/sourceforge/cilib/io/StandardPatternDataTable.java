@@ -6,11 +6,11 @@
  */
 package net.sourceforge.cilib.io;
 
-import net.sourceforge.cilib.io.pattern.StandardPattern;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.TypeList;
 

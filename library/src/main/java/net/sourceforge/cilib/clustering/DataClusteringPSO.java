@@ -8,20 +8,14 @@ package net.sourceforge.cilib.clustering;
 
 import com.google.common.collect.Lists;
 import java.util.List;
-import net.sourceforge.cilib.algorithm.initialisation.DataDependantPopulationInitializationStrategy;
+import net.sourceforge.cilib.algorithm.initialisation.DataDependantPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.clustering.iterationstrategies.SinglePopulationDataClusteringIterationStrategy;
 import net.sourceforge.cilib.clustering.iterationstrategies.StandardDataClusteringIterationStrategy;
-import net.sourceforge.cilib.coevolution.cooperative.ParticipatingAlgorithm;
-import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
-import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ZeroContributionSelectionStrategy;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.problem.ClusteringProblem;
@@ -43,13 +37,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * This is so if the StandardDataClusteringIterationStrategy is used. Variations of the algorithm
  * in the article above can then be tested by using other iteration strategies, such as the
- * ReinitializingDataClusteringIterationStrategy
+ * ReinitialisingDataClusteringIterationStrategy
  */
-public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements ParticipatingAlgorithm {
-    private Topology<ClusterParticle> topology;
+public class DataClusteringPSO extends SinglePopulationBasedAlgorithm<ClusterParticle> {
+
     private SlidingWindow window;
-    IterationStrategy<DataClusteringPSO> iterationStrategy;
-    private ContributionSelectionStrategy contributionSelection;
+    private IterationStrategy<DataClusteringPSO> iterationStrategy;
     private boolean isExplorer;
     private int numberOfCentroids;
 
@@ -57,10 +50,7 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
      * Default Constructor for DataClusteringPSO
      */
     public DataClusteringPSO() {
-        super();
-        contributionSelection = new ZeroContributionSelectionStrategy();
-        topology = new GBestTopology<ClusterParticle>();
-        initialisationStrategy = new DataDependantPopulationInitializationStrategy<ClusterParticle>();
+        initialisationStrategy = new DataDependantPopulationInitialisationStrategy<ClusterParticle>();
         window = new SlidingWindow();
         iterationStrategy = new StandardDataClusteringIterationStrategy();
         isExplorer = false;
@@ -73,11 +63,8 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
      */
     public DataClusteringPSO(DataClusteringPSO copy) {
         super(copy);
-        topology = copy.topology;
-        initialisationStrategy = copy.initialisationStrategy;
-        window = copy.window;
-        iterationStrategy = copy.iterationStrategy;
-        contributionSelection = copy.contributionSelection;
+        window = copy.window.getClone();
+        iterationStrategy = copy.iterationStrategy.getClone();
         isExplorer = copy.isExplorer;
         numberOfCentroids = copy.numberOfCentroids;
     }
@@ -97,45 +84,26 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
     @Override
     protected void algorithmIteration() {
         iterationStrategy.performIteration(this);
-
     }
 
     /*
-     * Returns the current topology of the algorithm
-     * @return topology (population and arrangement of population) The topology of the algorithm
-     */
-    @Override
-    public Topology<ClusterParticle> getTopology() {
-        return topology;
-    }
-
-    /*
-     * Sets the topology of the algorithm
-     * @param topology The new topology
-     */
-    @Override
-    public void setTopology(Topology<? extends Entity> receivedTopology) {
-        topology = (Topology<ClusterParticle>) receivedTopology;
-    }
-
-    /*
-     * Initializes the algorithm. This includes the SlidingWindow and topology
+     * Initialises the algorithm. This includes the SlidingWindow and topology
      */
     @Override
     public void algorithmInitialisation() {
-        DataTable dataset = window.initializeWindow();
+        DataTable dataset = window.initialiseWindow();
 
         Vector pattern = ((StandardPattern) dataset.getRow(0)).getVector();
         ((ClusteringProblem) this.optimisationProblem).setDimension((int) pattern.size());
 
-        ((DataDependantPopulationInitializationStrategy) initialisationStrategy).setDataset(window.getCompleteDataset());
+        ((DataDependantPopulationInitialisationStrategy) initialisationStrategy).setDataset(window.getCompleteDataset());
         Iterable<ClusterParticle> particles = (Iterable<ClusterParticle>) this.initialisationStrategy.initialise(this.getOptimisationProblem());
 
         topology.clear();
         topology.addAll(Lists.<ClusterParticle>newLinkedList(particles));
 
         ((SinglePopulationDataClusteringIterationStrategy) iterationStrategy).setWindow(window);
-        
+
         for(ClusterParticle particle : topology) {
             particle.calculateFitness();
         }
@@ -163,24 +131,6 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm implements
         }
         return solutions;
 
-    }
-
-    /*
-     * Returns the contribution selection strategy
-     * @return strategy The conribution selection strategy
-     */
-    @Override
-    public ContributionSelectionStrategy getContributionSelectionStrategy() {
-        return contributionSelection;
-    }
-
-    /*
-     * Sets teh contribution selection strategy to the one received as a parameter
-     * @param strategy The new contribution selection strategy
-     */
-    @Override
-    public void setContributionSelectionStrategy(ContributionSelectionStrategy strategy) {
-        contributionSelection = strategy;
     }
 
     /*

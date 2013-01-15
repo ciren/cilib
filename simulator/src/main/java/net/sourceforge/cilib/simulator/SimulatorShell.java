@@ -81,7 +81,7 @@ public class SimulatorShell {
     public static void execute(Iterable<Simulator> simulators, ProgressText listener) {
         int index = 0;
         for (Simulator simulator : simulators) {
-            simulator.init(); // Prepare the simulator by initializing the simulations
+            simulator.init(); // Prepare the simulator by initialising the simulations
             simulator.addProgressListener(listener);
             listener.setSimulation(index++);
             simulator.execute();

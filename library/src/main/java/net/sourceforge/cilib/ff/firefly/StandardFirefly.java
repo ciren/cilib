@@ -68,7 +68,7 @@ public class StandardFirefly extends AbstractFirefly {
     @Override
     public void initialise(Problem problem) {
         this.getProperties().put(EntityType.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresentation().getClone());
-        this.positionInitializationStrategy.initialize(EntityType.CANDIDATE_SOLUTION, this);
+        this.positionInitialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, this);
 
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
     }
@@ -78,6 +78,6 @@ public class StandardFirefly extends AbstractFirefly {
      */
     @Override
     public void reinitialise() {
-        this.positionInitializationStrategy.initialize(EntityType.CANDIDATE_SOLUTION, this);
+        this.positionInitialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, this);
     }
 }

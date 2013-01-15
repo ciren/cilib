@@ -62,7 +62,7 @@ public class PrototypeFullyConnectedLayerBuilder extends LayerBuilder {
             }
 
             Vector builtWeights = weights.build();
-            this.getWeightInitializationStrategy().initialize(builtWeights);
+            this.getWeightInitialisationStrategy().initialise(builtWeights);
             newNeuron.setWeights(builtWeights);
             layer.add(newNeuron);
         }

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.util.Visitor;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -246,17 +246,17 @@ public class TypeList extends AbstractList<Type> {
     }
 
     @Override
-    public void randomize() {
+    public void randomise() {
         for (int i = 0; i < components.size(); i++) {
             Type type = components.get(i);
             if (type instanceof Numeric) {
                 Numeric numeric = (Numeric) type;
-                numeric.randomize();
+                numeric.randomise();
             }
 
             if (type instanceof StructuredType) {
                 StructuredType structuredType = (StructuredType) type;
-                structuredType.randomize();
+                structuredType.randomise();
             }
         }
     }

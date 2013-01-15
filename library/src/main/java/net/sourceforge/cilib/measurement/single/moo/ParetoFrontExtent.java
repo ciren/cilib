@@ -9,11 +9,11 @@ package net.sourceforge.cilib.measurement.single.moo;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.moo.archive.Archive;
+import net.sourceforge.cilib.problem.solution.Fitnesses;
 import net.sourceforge.cilib.problem.solution.MOFitness;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.problem.solution.Fitnesses;
 
 /**
  * <p>

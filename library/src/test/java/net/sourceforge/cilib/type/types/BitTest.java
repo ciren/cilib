@@ -76,7 +76,7 @@ public class BitTest {
     public void testRandomize() {
         Bit b1 = Bit.valueOf(true);
         Bit b2 = Bit.valueOf(true);
-        b2.randomize();
+        b2.randomise();
 
         if (b2.booleanValue()) {
             assertTrue(b1.booleanValue() == b2.booleanValue());

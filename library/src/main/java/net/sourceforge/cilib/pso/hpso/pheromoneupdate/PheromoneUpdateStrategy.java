@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.pso.hpso.pheromoneupdate;
 
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * Interface to calculate the change in pheromone level for the adaptive HPSO using

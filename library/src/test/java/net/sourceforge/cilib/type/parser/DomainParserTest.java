@@ -9,11 +9,9 @@ package net.sourceforge.cilib.type.parser;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.type.types.container.TypeList;
-import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.StringType;
 import static org.hamcrest.CoreMatchers.is;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**

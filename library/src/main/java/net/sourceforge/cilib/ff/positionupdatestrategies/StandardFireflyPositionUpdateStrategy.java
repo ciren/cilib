@@ -6,19 +6,15 @@
  */
 package net.sourceforge.cilib.ff.positionupdatestrategies;
 
-import net.sourceforge.cilib.ff.firefly.Firefly;
-import net.sourceforge.cilib.ff.FFA;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.util.DistanceMeasure;
-import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.LinearlyVaryingControlParameter;
+import net.sourceforge.cilib.ff.firefly.Firefly;
+import net.sourceforge.cilib.type.types.Bounds;
+import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.distancemeasure.DistanceMeasure;
+import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
 
 /**
  * <p>

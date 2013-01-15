@@ -3,7 +3,6 @@
  *   / ___/ / / / __ \   (c) CIRG @ UP
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
- * =======
  */
 
 package net.sourceforge.cilib.entity.operators.creation;
@@ -17,7 +16,6 @@ import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 //@Ignore("For some reason this test is failing when run in the suite.... must be some static state")

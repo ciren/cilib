@@ -8,7 +8,7 @@ package net.sourceforge.cilib.entity.topologies;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.Fitness;

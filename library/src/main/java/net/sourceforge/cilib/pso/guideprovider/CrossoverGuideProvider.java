@@ -9,21 +9,21 @@ package net.sourceforge.cilib.pso.guideprovider;
 import fj.P3;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.crossover.operations.CrossoverSelection;
 import net.sourceforge.cilib.pso.crossover.operations.RepeatingCrossoverSelection;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
  * This guide provider generates an offspring particle from random parents.
  * If the offspring is better than the gBest of the swarm then the offspring
  * "replaces" (the gBest's best position and fitness are updated) the gBest.
- * This is done until a better offspring is generated or the retry limit is 
+ * This is done until a better offspring is generated or the retry limit is
  * reached.
  */
 public class CrossoverGuideProvider implements GuideProvider {
-    
+
     private GuideProvider delegate;
     private CrossoverSelection crossoverSelection;
     private Enum positionComponent;
@@ -38,11 +38,11 @@ public class CrossoverGuideProvider implements GuideProvider {
         this.positionComponent = EntityType.Particle.BEST_POSITION;
         this.fitnessComponent = EntityType.Particle.BEST_FITNESS;
     }
-    
+
     /**
      * Copy constructor.
-     * 
-     * @param copy 
+     *
+     * @param copy
      */
     public CrossoverGuideProvider(CrossoverGuideProvider copy) {
         this.delegate = copy.delegate.getClone();
@@ -50,7 +50,7 @@ public class CrossoverGuideProvider implements GuideProvider {
         this.positionComponent = copy.positionComponent;
         this.fitnessComponent = copy.fitnessComponent;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -91,7 +91,7 @@ public class CrossoverGuideProvider implements GuideProvider {
     public GuideProvider getDelegate() {
         return delegate;
     }
-    
+
     public void setComponent(String type) {
         if ("pbest".equalsIgnoreCase(type)) {
             fitnessComponent = EntityType.Particle.BEST_FITNESS;

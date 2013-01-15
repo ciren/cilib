@@ -16,8 +16,8 @@ import net.sourceforge.cilib.problem.boundaryconstraint.CentroidBoundaryConstrai
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.DistanceMeasure;
-import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+import net.sourceforge.cilib.util.distancemeasure.DistanceMeasure;
+import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
 
 /**
  *This class holds the methods that are shared by certain clustering iteration strategies
@@ -28,23 +28,23 @@ public abstract class SinglePopulationDataClusteringIterationStrategy extends Ab
     protected SlidingWindow window;
     protected int reinitialisationInterval;
     protected int dimensions;
-    protected boolean reinitialized;
+    protected boolean reinitialised;
     protected String fileName;
-    
+
     /*
      * Default constructor for SinglePopulationDataClusteringIterationStrategy
      */
     public SinglePopulationDataClusteringIterationStrategy() {
         dataset = new StandardPatternDataTable();
-        reinitialized = false;
+        reinitialised = false;
         distanceMeasure = new EuclideanDistanceMeasure();
         boundaryConstraint = new CentroidBoundaryConstraint();
         window = new SlidingWindow();
         reinitialisationInterval = 1;
         dimensions = 0;
-        
+
     }
-    
+
     /*
      * Copy constructor for SinglePopulationDataClusteringIterationStrategy
      * @param vopy The SinglePopulationDataClusteringIterationStrategy to be copied
@@ -56,9 +56,9 @@ public abstract class SinglePopulationDataClusteringIterationStrategy extends Ab
         window = copy.window;
         reinitialisationInterval = copy.reinitialisationInterval;
         dimensions = copy.dimensions;
-        reinitialized = copy.reinitialized;
+        reinitialised = copy.reinitialised;
     }
-    
+
     /*
      * Abstract clone method for SinglePopulationDataClusteringIterationStrategy
      */
@@ -70,7 +70,7 @@ public abstract class SinglePopulationDataClusteringIterationStrategy extends Ab
      */
     @Override
     public abstract void performIteration(DataClusteringPSO algorithm);
-    
+
     /**
      * Get the Distance Measure
      * @return the Distance Measure
@@ -78,7 +78,7 @@ public abstract class SinglePopulationDataClusteringIterationStrategy extends Ab
     public DistanceMeasure getDistanceMeasure() {
         return distanceMeasure;
     }
-    
+
     /**
      * Get the Dataset
      * @return the Dataset
@@ -86,7 +86,7 @@ public abstract class SinglePopulationDataClusteringIterationStrategy extends Ab
     public DataTable getDataset() {
         return dataset;
     }
-    
+
     /*
      * Sets the boundary constraint
      * @param constraint The new boundary constraint
@@ -94,17 +94,17 @@ public abstract class SinglePopulationDataClusteringIterationStrategy extends Ab
     public void setCentroidBoundaryConstraint(CentroidBoundaryConstraint constraint) {
         boundaryConstraint = constraint;
     }
-    
+
     /*
-     * Sets the itnerval at which the particles will be re-initialized if reinitialization 
+     * Sets the itnerval at which the particles will be re-initialised if reinitialisation
      * due to change in environment is required. In other words, every how-many particles
-     * must be initialized? To initialize all, the interval is 1
+     * must be initialised? To initialise all, the interval is 1
      * @param interval the new interval
      */
     public void setReinitialisationInterval(int interval) {
         reinitialisationInterval = interval;
     }
-    
+
     /*
      * Returns the value of the reinitialisation interval
      * @return reinitialisationInterval The value of the reinitialisation interval
@@ -112,7 +112,7 @@ public abstract class SinglePopulationDataClusteringIterationStrategy extends Ab
     public int getReinitialisationInterval() {
         return reinitialisationInterval;
     }
-    
+
     /*
      * Sets the dimensions of the centroids (determined by the dataset)
      * @param dim The new dimensions
@@ -120,24 +120,24 @@ public abstract class SinglePopulationDataClusteringIterationStrategy extends Ab
     public void setDimensions(int dim) {
         dimensions = dim;
     }
-    
+
     /*
      * Sets the sliding window to the one provided as a parameter
-     * @param slidingWindow The new sliding window 
+     * @param slidingWindow The new sliding window
      */
     public void setWindow(SlidingWindow slidingWindow) {
         window = slidingWindow;
         dataset = window.getCurrentDataset();
     }
-    
+
     /*
-     * Returns the current sliding window  
+     * Returns the current sliding window
      * @return window The current sliding window
      */
     public SlidingWindow getWindow() {
         return window;
     }
-    
+
     /*
      * Adds the data patterns closest to a centrid to its data pattern list
      * @param candidateSolution The solution holding all the centroids
@@ -148,7 +148,7 @@ public abstract class SinglePopulationDataClusteringIterationStrategy extends Ab
         Vector addedPattern;
         DistanceMeasure aDistanceMeasure = new EuclideanDistanceMeasure();
         Vector pattern;
-        
+
         for(int i = 0; i < dataset.size(); i++) {
                 euclideanDistance = Double.POSITIVE_INFINITY;
                 addedPattern = Vector.of();
@@ -163,7 +163,7 @@ public abstract class SinglePopulationDataClusteringIterationStrategy extends Ab
                     }
                     centroidIndex++;
                 }
-                
+
                 candidateSolution.get(patternIndex).addDataItem(euclideanDistance, addedPattern);
             }
     }

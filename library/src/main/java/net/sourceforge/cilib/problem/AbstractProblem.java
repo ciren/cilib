@@ -77,7 +77,7 @@ public abstract class AbstractProblem implements Problem {
     @Override
     public DomainRegistry getDomain() {
         if (domainRegistry.getDomainString() == null) {
-            throw new IllegalStateException("Domain has not been defined. Please define domain for function optimization.");
+            throw new IllegalStateException("Domain has not been defined. Please define domain for function optimisation.");
         }
         return domainRegistry;
     }

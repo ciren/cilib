@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class TextFileReader extends FileReader<String> {
 
-    /** Default constructor. Initializes the delimiter to be a comma, i.e.
+    /** Default constructor. Initialises the delimiter to be a comma, i.e.
      * the class is a csv reader.
      */
     public TextFileReader() {

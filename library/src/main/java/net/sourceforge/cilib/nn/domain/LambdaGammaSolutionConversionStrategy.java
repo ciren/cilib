@@ -19,7 +19,7 @@ public class LambdaGammaSolutionConversionStrategy implements SolutionConversion
     private int weightCount = 0;
 
     @Override
-    public SolutionConversionStrategy initialize(NeuralNetwork neuralNetwork) {
+    public SolutionConversionStrategy initialise(NeuralNetwork neuralNetwork) {
         activationFuncCount = NeuralNetworks.countActivationFunctions(neuralNetwork);
         weightCount = NeuralNetworks.countWeights(neuralNetwork);
         return this;

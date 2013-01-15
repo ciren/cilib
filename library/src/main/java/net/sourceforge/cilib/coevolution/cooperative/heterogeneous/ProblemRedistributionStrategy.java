@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.coevolution.cooperative.heterogeneous;
 
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.ContextEntity;
 import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgorithm;

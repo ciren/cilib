@@ -6,9 +6,9 @@
  */
 package net.sourceforge.cilib.io;
 
-import net.sourceforge.cilib.io.exception.CIlibIOException;
 import java.util.ArrayList;
 import java.util.List;
+import net.sourceforge.cilib.io.exception.CIlibIOException;
 import net.sourceforge.cilib.type.types.StringType;
 
 /**
@@ -20,7 +20,7 @@ public class DelimitedTextFileReader extends FileReader<List<StringType>> {
 
     private String delimiter;
 
-    /** Default constructor. Initializes the delimiter to be a comma, i.e.
+    /** Default constructor. Initialises the delimiter to be a comma, i.e.
      * the class is a csv reader.
      */
     public DelimitedTextFileReader() {

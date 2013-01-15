@@ -7,10 +7,9 @@
 package net.sourceforge.cilib.pso.particle;
 
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
-import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -120,9 +119,9 @@ public class StandardParticle extends AbstractParticle {
         this.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf(getPosition()));
         this.getProperties().put(EntityType.Particle.VELOCITY, Vector.copyOf(getPosition()));
 
-        this.positionInitialisationStrategy.initialize(EntityType.CANDIDATE_SOLUTION, this);
-        this.personalBestInitialisationStrategy.initialize(EntityType.Particle.BEST_POSITION, this);
-        this.velocityInitializationStrategy.initialize(EntityType.Particle.VELOCITY, this);
+        this.positionInitialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, this);
+        this.personalBestInitialisationStrategy.initialise(EntityType.Particle.BEST_POSITION, this);
+        this.velocityInitialisationStrategy.initialise(EntityType.Particle.VELOCITY, this);
 
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
         this.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
@@ -175,8 +174,8 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void reinitialise() {
-        this.positionInitialisationStrategy.initialize(EntityType.CANDIDATE_SOLUTION, this);
-        this.personalBestInitialisationStrategy.initialize(EntityType.Particle.BEST_POSITION, this);
-        this.velocityInitializationStrategy.initialize(EntityType.Particle.VELOCITY, this);
+        this.positionInitialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, this);
+        this.personalBestInitialisationStrategy.initialise(EntityType.Particle.BEST_POSITION, this);
+        this.velocityInitialisationStrategy.initialise(EntityType.Particle.VELOCITY, this);
     }
 }

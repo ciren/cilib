@@ -53,7 +53,7 @@ public class CascadeNetworkExpansionReactionStrategy<E extends PopulationBasedAl
         LayerConfiguration targetLayerConfiguration = new LayerConfiguration();
         targetLayerConfiguration.setSize(1);
         network.getArchitecture().getArchitectureBuilder().addLayer(network.getArchitecture().getArchitectureBuilder().getLayerConfigurations().size()-1, targetLayerConfiguration);
-        network.initialize();
+        network.initialise();
 
         //add new weights to all the particles in a manner that preserves the old weights
         List<? extends Entity> particles = algorithm.getTopology();

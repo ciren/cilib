@@ -11,8 +11,8 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="100"/>
                 <entityType class="pso.particle.StandardParticle">
-                    <positionProvider class="pso.positionprovider.BinaryStaticProbPositionProvider" />
-                    <velocityProvider class="pso.velocityprovider.BinaryRandomVelocityProvider" />
+                    <positionProvider class="pso.positionprovider.binary.BinaryStaticProbPositionProvider" />
+                    <velocityProvider class="pso.velocityprovider.binary.BinaryRandomVelocityProvider" />
                 </entityType>
             </initialisationStrategy>
         </algorithm>

@@ -34,7 +34,7 @@ public class FDA1_g implements ContinuousFunction {
      */
     public FDA1_g() {
         super();
-        //initialize the members
+        //initialise the members
         this.tau_t = 5;
         this.tau = 1;
         this.n_t = 10;

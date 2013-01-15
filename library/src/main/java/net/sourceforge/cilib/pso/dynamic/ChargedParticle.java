@@ -7,15 +7,15 @@
 package net.sourceforge.cilib.pso.dynamic;
 
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.problem.Problem;
+import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Charged Particle used by charged PSO (ChargedVelocityProvider). The only
  * difference from DynamicParticle is that a charged particle stores the charge
- * magnitude and the initialization strategy for charge.
+ * magnitude and the initialisation strategy for charge.
  *
  *
  */
@@ -82,9 +82,9 @@ public class ChargedParticle extends DynamicParticle {
         this.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf(getPosition()));
         this.getProperties().put(EntityType.Particle.VELOCITY, Vector.copyOf(getPosition()));
 
-        this.positionInitialisationStrategy.initialize(EntityType.CANDIDATE_SOLUTION, this);
-        this.personalBestInitialisationStrategy.initialize(EntityType.Particle.BEST_POSITION, this);
-        this.velocityInitializationStrategy.initialize(EntityType.Particle.VELOCITY, this);
+        this.positionInitialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, this);
+        this.personalBestInitialisationStrategy.initialise(EntityType.Particle.BEST_POSITION, this);
+        this.velocityInitialisationStrategy.initialise(EntityType.Particle.VELOCITY, this);
 
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
         this.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());

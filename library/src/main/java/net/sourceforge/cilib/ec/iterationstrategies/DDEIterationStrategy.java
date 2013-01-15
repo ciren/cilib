@@ -8,12 +8,10 @@ package net.sourceforge.cilib.ec.iterationstrategies;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.creation.CreationStrategy;
 import net.sourceforge.cilib.entity.operators.creation.RandCreationStrategy;
@@ -21,6 +19,7 @@ import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.de.DifferentialEvolutionBinomialCrossover;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.util.selection.recipes.FeasibilitySelector;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
@@ -30,7 +29,7 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
  * and Palomeque-Ortiz in their 2009 paper "Self-adaptive and Deterministic Parameter
  * Control in Differential Evolution for Constrained Optimization".
  *
- * For firther details find:
+ * For further details find:
  * 
  * @incollection{Mezura09a,
  * author = {Efr\'{e}n Mezura-Montes and Ana Gabriela Palomeque-Ortiz},
@@ -48,15 +47,15 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
 public class DDEIterationStrategy  extends AbstractIterationStrategy<EC> {
 
     private static final long serialVersionUID = 8019668923312811974L;
-    protected Selector targetVectorSelectionStrategy; // x
+    
+    protected Selector<Individual>  targetVectorSelectionStrategy; // x
     protected CreationStrategy trialVectorCreationStrategy; // y
     protected CrossoverStrategy crossoverStrategy; // z
     private double selectorParameter; //Parameter intorduced for DDE
     private int totalOffspring; //Parameter intorduced for DDE
     private ProbabilityDistributionFunction scalingFactorRandom;
-    private ProbabilityDistributionFunction selectorRandom;
-    private Selector offspringSelectionStrategy;
-    private Selector nextGenerationSelectionStrategy;
+    private Selector<Individual> offspringSelectionStrategy;
+    private Selector<Individual> nextGenerationSelectionStrategy;
 
     /**
      * Create an instance of the {@linkplain DDEIterationStrategy}.
@@ -71,12 +70,8 @@ public class DDEIterationStrategy  extends AbstractIterationStrategy<EC> {
         ((UniformDistribution) scalingFactorRandom).setLowerBound(ConstantControlParameter.of(0.3));
         ((UniformDistribution) scalingFactorRandom).setUpperBound(ConstantControlParameter.of(0.9));
         
-        this.selectorRandom = new UniformDistribution();
-        ((UniformDistribution) selectorRandom).setLowerBound(ConstantControlParameter.of(0));
-        ((UniformDistribution) selectorRandom).setUpperBound(ConstantControlParameter.of(1));
-        
-        offspringSelectionStrategy = new FeasibilitySelector<Individual>();
-        nextGenerationSelectionStrategy = new FeasibilitySelector<Individual>();
+        offspringSelectionStrategy = new FeasibilitySelector();
+        nextGenerationSelectionStrategy = new FeasibilitySelector();
     }
 
     /**
@@ -90,7 +85,6 @@ public class DDEIterationStrategy  extends AbstractIterationStrategy<EC> {
         this.selectorParameter = copy.selectorParameter;
         this.totalOffspring = copy.totalOffspring;
         this.scalingFactorRandom = copy.scalingFactorRandom;
-        this.selectorRandom = copy.selectorRandom;
         this.offspringSelectionStrategy = copy.offspringSelectionStrategy;
         this.nextGenerationSelectionStrategy = copy.offspringSelectionStrategy;
     }
@@ -109,62 +103,46 @@ public class DDEIterationStrategy  extends AbstractIterationStrategy<EC> {
      */
     @Override
     public void performIteration(EC ec) {
-        Topology<Entity> topology = (Topology<Entity>) ec.getTopology();
-        ArrayList selectorList = new ArrayList();
-        Entity current;
-        Entity offspringEntity;
-        Entity targetEntity;
-        Entity trialEntity;
-        List<Entity> offspring;
-        Entity tempOffspringEntity;
+        Topology<Individual> topology = ec.getTopology();
 
         //generate the scaling factor randomly each iteration
         trialVectorCreationStrategy.setScaleParameter(scalingFactorRandom.getRandomNumber());
         
         for (int i = 0; i < topology.size(); i++) {
-            current = topology.get(i);
-            current.calculateFitness();
-            offspringEntity = current.getClone();
+            Individual current = topology.get(i);
+            Individual bestOffspring = current.getClone();
             
             //take the best offspring from a set of offsprings created with the same trial vector
-            for(int o = 0; o < totalOffspring; o++) {
-               
+            for(int o = 0; o < totalOffspring; o++) {               
                 // Create the trial vector by applying mutation
-                
-                targetEntity = (Entity) targetVectorSelectionStrategy.on(topology).exclude(current).select();
+                Individual targetEntity = targetVectorSelectionStrategy.on(topology).exclude(current).select();
 
                 // Create the trial vector / entity
-                trialEntity = trialVectorCreationStrategy.create(targetEntity.getClone(), current.getClone(), topology.getClone());
+                Individual trialEntity = trialVectorCreationStrategy.create(targetEntity.getClone(), current.getClone(), topology.getClone());
 
                 // Create the offspring by applying cross-over
-                offspring = (List<Entity>) this.crossoverStrategy.crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
-                tempOffspringEntity = offspring.get(0);
-                tempOffspringEntity.calculateFitness();
-                
-                selectorList.clear();
-                selectorList.add(offspringEntity);
-                selectorList.add(tempOffspringEntity);
+                Individual currentOffspring = crossoverStrategy
+                        .crossover(Arrays.asList(current, trialEntity)).get(0); // Order is VERY important here!!
+                boundaryConstraint.enforce(currentOffspring);
+                currentOffspring.calculateFitness();
                 
                 //Select the best offspring so far
-                if(totalOffspring > 1) {
-                    offspringEntity = ((Entity) offspringSelectionStrategy.on(selectorList).select()).getClone();
+                if(o > 0) {
+                    bestOffspring = offspringSelectionStrategy.on(Arrays.asList(bestOffspring, currentOffspring)).select();
                 } else {
-                    offspringEntity = tempOffspringEntity.getClone();
+                    bestOffspring = currentOffspring;
                 }
                 
             }
             
             //select the best between the current entity and the offspring entity
-            if(selectorRandom.getRandomNumber() > selectorParameter) {
-                if(offspringEntity.getFitness().compareTo(current.getFitness()) > 0 ){
-                    topology.set(i, offspringEntity);
+            if(Rand.nextDouble() > selectorParameter) {
+                if(bestOffspring.getFitness().compareTo(current.getFitness()) > 0 ){
+                    topology.set(i, bestOffspring);
                 } 
             } else {
-                selectorList.clear();
-                selectorList.add(offspringEntity);
-                selectorList.add(current);
-                offspringEntity = (Entity) nextGenerationSelectionStrategy.on(selectorList).select();
-                topology.set(i, offspringEntity);
+                bestOffspring = nextGenerationSelectionStrategy.on(Arrays.asList(bestOffspring, current)).select();
+                topology.set(i, bestOffspring);
             }
         }
     }
@@ -298,21 +276,4 @@ public class DDEIterationStrategy  extends AbstractIterationStrategy<EC> {
         this.nextGenerationSelectionStrategy = nextGenerationSelectionStrategy;
     }
 
-     /**
-     * Get the probability distribution function that will be used for the decision between the selector to be used
-     * @return The {@linkplain ProbabilityDistributionFunction}.
-     */
-    public ProbabilityDistributionFunction getSelectorRandom() {
-        return selectorRandom;
-    }
-
-     /**
-     * Sets the probability distribution function that will be used for the decision between the selector to be used
-     * @return The {@linkplain ProbabilityDistributionFunction}.
-     */
-    public void setSelectorRandom(ProbabilityDistributionFunction selectorRandom) {
-        this.selectorRandom = selectorRandom;
-    }
-    
-    
 }

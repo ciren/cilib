@@ -6,12 +6,12 @@
  */
 package net.sourceforge.cilib.io;
 
-import net.sourceforge.cilib.io.exception.CIlibIOException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import net.sourceforge.cilib.io.exception.CIlibIOException;
 
 /**
  * Abstract data writer that writes data to a local file.
@@ -24,7 +24,7 @@ public abstract class FileWriter implements DataWriter {
     private int outputBufferSize;
 
     /**
-     * Default constructor. Initializes the output buffer to a default size.
+     * Default constructor. Initialises the output buffer to a default size.
      */
     public FileWriter() {
         outputBufferSize = 32 * IOUtils.Block.MEGABYTE.size();

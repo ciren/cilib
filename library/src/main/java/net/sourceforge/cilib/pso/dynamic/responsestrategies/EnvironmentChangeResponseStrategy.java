@@ -6,17 +6,16 @@
  */
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
-import java.io.Serializable;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * TODO: Complete this Javadoc.
  */
-public abstract class EnvironmentChangeResponseStrategy<E extends PopulationBasedAlgorithm> implements Cloneable, Serializable {
+public abstract class EnvironmentChangeResponseStrategy<E extends PopulationBasedAlgorithm> implements Cloneable {
     protected boolean hasMemory = true;
 
     public EnvironmentChangeResponseStrategy() {

@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.io.pattern;
 
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;

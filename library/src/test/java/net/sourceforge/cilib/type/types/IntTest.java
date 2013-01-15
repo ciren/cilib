@@ -55,7 +55,7 @@ public class IntTest {
         Int i2 = i1.getClone();
 
         assertTrue(i1.intValue() == i2.intValue());
-        i1.randomize();
+        i1.randomise();
         assertTrue(i1.intValue() != i2.intValue());
     }
 }

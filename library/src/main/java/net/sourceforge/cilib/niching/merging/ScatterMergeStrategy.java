@@ -9,7 +9,7 @@ package net.sourceforge.cilib.niching.merging;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 
 /**
- * Takes all the entities of the second sub-swarm, reinitializes those entities
+ * Takes all the entities of the second sub-swarm, reinitialises those entities
  * in the first sub-swarm and returns the merged sub-swarm.
  */
 public class ScatterMergeStrategy extends MergeStrategy {

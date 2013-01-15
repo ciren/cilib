@@ -9,12 +9,12 @@ package net.sourceforge.cilib.pso.crossover.operations;
 import fj.P;
 import fj.P3;
 import java.util.Comparator;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.comparator.BoltzmannComparator;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
- * A CrossoverSelection strategy that performs Boltzmann selection on the worst 
+ * A CrossoverSelection strategy that performs Boltzmann selection on the worst
  * parent and the offspring if the offspring is worse than the worst parent.
  * This class is also used in the CrossoverGuideProvider using the nBest instead
  * of the worst parent.

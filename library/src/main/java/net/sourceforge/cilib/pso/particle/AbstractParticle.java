@@ -8,11 +8,10 @@ package net.sourceforge.cilib.pso.particle;
 
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.initialization.ConstantInitializationStrategy;
-import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
-import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
-import net.sourceforge.cilib.entity.initialization.StandardPBestPositionInitializationStrategy;
+import net.sourceforge.cilib.entity.initialisation.ConstantInitialisationStrategy;
+import net.sourceforge.cilib.entity.initialisation.InitialisationStrategy;
+import net.sourceforge.cilib.entity.initialisation.RandomInitialisationStrategy;
+import net.sourceforge.cilib.entity.initialisation.StandardPBestPositionInitialisationStrategy;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
 import net.sourceforge.cilib.pso.pbestupdate.PersonalBestUpdateStrategy;
@@ -33,9 +32,9 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 
     protected ParticleBehavior behavior;
 
-    protected InitializationStrategy<Particle> velocityInitializationStrategy;
-    protected InitializationStrategy<Particle> positionInitialisationStrategy;
-    protected InitializationStrategy<Particle> personalBestInitialisationStrategy;
+    protected InitialisationStrategy<Particle> velocityInitialisationStrategy;
+    protected InitialisationStrategy<Particle> positionInitialisationStrategy;
+    protected InitialisationStrategy<Particle> personalBestInitialisationStrategy;
 
     protected PersonalBestUpdateStrategy personalBestUpdateStrategy;
     protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;
@@ -46,9 +45,9 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public AbstractParticle() {
         this.behavior = new ParticleBehavior();
 
-        this.velocityInitializationStrategy = new ConstantInitializationStrategy<Particle>(0.0);
-        this.positionInitialisationStrategy = new RandomInitializationStrategy<Particle>();
-        this.personalBestInitialisationStrategy = new StandardPBestPositionInitializationStrategy();
+        this.velocityInitialisationStrategy = new ConstantInitialisationStrategy<Particle>(0.0);
+        this.positionInitialisationStrategy = new RandomInitialisationStrategy<Particle>();
+        this.personalBestInitialisationStrategy = new StandardPBestPositionInitialisationStrategy();
 
         this.personalBestUpdateStrategy = new StandardPersonalBestUpdateStrategy();
         this.neighbourhoodBestUpdateStrategy = new MemoryNeighbourhoodBestUpdateStrategy();
@@ -62,7 +61,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
         super(copy);
         this.behavior = copy.behavior.getClone();
 
-        this.velocityInitializationStrategy = copy.velocityInitializationStrategy.getClone();
+        this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.getClone();
         this.positionInitialisationStrategy = copy.positionInitialisationStrategy.getClone();
         this.personalBestInitialisationStrategy = copy.personalBestInitialisationStrategy.getClone();
 
@@ -257,28 +256,28 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     }
 
     /**
-     * Get the {@link net.sourceforge.cilib.entity.initialization.InitializationStrategy}.
-     * @return The current {@link net.sourceforge.cilib.entity.initialization.InitializationStrategy}.
+     * Get the {@link net.sourceforge.cilib.entity.initialisation.InitialisationStrategy}.
+     * @return The current {@link net.sourceforge.cilib.entity.initialisation.InitialisationStrategy}.
      */
     @Override
-    public InitializationStrategy getVelocityInitializationStrategy() {
-        return this.velocityInitializationStrategy;
+    public InitialisationStrategy getVelocityInitialisationStrategy() {
+        return this.velocityInitialisationStrategy;
     }
 
     /**
-     * Set the velocityInitializationStrategy.
-     * @param initializationStrategy The value to set.
+     * Set the velocityInitialisationStrategy.
+     * @param initialisationStrategy The value to set.
      */
     @Override
-    public void setVelocityInitializationStrategy(InitializationStrategy initializationStrategy) {
-        this.velocityInitializationStrategy = initializationStrategy;
+    public void setVelocityInitialisationStrategy(InitialisationStrategy initialisationStrategy) {
+        this.velocityInitialisationStrategy = initialisationStrategy;
     }
 
     /**
      * Get the current {@linkplain PositionInitialisationStrategy}.
      * @return The current {@linkplain PositionInitialisationStrategy}.
      */
-    public InitializationStrategy<Particle> getPositionInitialisationStrategy() {
+    public InitialisationStrategy<Particle> getPositionInitialisationStrategy() {
         return this.positionInitialisationStrategy;
     }
 
@@ -286,7 +285,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * Set the {@linkplain PositionInitialisationStrategy} to be used.
      * @param positionInitialisationStrategy The value to set.
      */
-    public void setPositionInitialisationStrategy(InitializationStrategy positionInitialisationStrategy) {
+    public void setPositionInitialisationStrategy(InitialisationStrategy positionInitialisationStrategy) {
         this.positionInitialisationStrategy = positionInitialisationStrategy;
     }
 
@@ -350,7 +349,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
         this.behavior = particleBehavior;
     }
 
-    public void setPersonalBestInitialisationStrategy(InitializationStrategy<Particle> personalBestInitialisationStrategy) {
+    public void setPersonalBestInitialisationStrategy(InitialisationStrategy<Particle> personalBestInitialisationStrategy) {
         this.personalBestInitialisationStrategy = personalBestInitialisationStrategy;
     }
 }

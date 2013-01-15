@@ -6,14 +6,12 @@
  */
 package net.sourceforge.cilib.ff.firefly;
 
-import net.sourceforge.cilib.ff.positionupdatestrategies.FireflyPositionUpdateStrategy;
-import net.sourceforge.cilib.ff.positionupdatestrategies.StandardFireflyPositionUpdateStrategy;
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
-import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
-import net.sourceforge.cilib.problem.Problem;
+import net.sourceforge.cilib.entity.initialisation.InitialisationStrategy;
+import net.sourceforge.cilib.entity.initialisation.RandomInitialisationStrategy;
+import net.sourceforge.cilib.ff.positionupdatestrategies.FireflyPositionUpdateStrategy;
+import net.sourceforge.cilib.ff.positionupdatestrategies.StandardFireflyPositionUpdateStrategy;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -23,14 +21,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public abstract class AbstractFirefly extends AbstractEntity implements Firefly {
 
     protected FireflyPositionUpdateStrategy positionUpdateStrategy;
-    protected InitializationStrategy<Firefly> positionInitializationStrategy;
+    protected InitialisationStrategy<Firefly> positionInitialisationStrategy;
 
     /**
      * Default constructor. Defines reasonable defaults for common members.
      */
     public AbstractFirefly() {
         this.positionUpdateStrategy = new StandardFireflyPositionUpdateStrategy();
-        this.positionInitializationStrategy = new RandomInitializationStrategy<Firefly>();
+        this.positionInitialisationStrategy = new RandomInitialisationStrategy<Firefly>();
     }
 
     /**
@@ -40,7 +38,7 @@ public abstract class AbstractFirefly extends AbstractEntity implements Firefly 
     public AbstractFirefly(AbstractFirefly copy) {
         super(copy);
         this.positionUpdateStrategy = copy.positionUpdateStrategy.getClone();
-        this.positionInitializationStrategy = copy.positionInitializationStrategy.getClone();
+        this.positionInitialisationStrategy = copy.positionInitialisationStrategy.getClone();
     }
 
     /**
@@ -125,15 +123,15 @@ public abstract class AbstractFirefly extends AbstractEntity implements Firefly 
      * Get the current {@linkplain PositionInitialisationStrategy}.
      * @return The current {@linkplain PositionInitialisationStrategy}.
      */
-    public InitializationStrategy<Firefly> getPositionInitialisationStrategy() {
-        return this.positionInitializationStrategy;
+    public InitialisationStrategy<Firefly> getPositionInitialisationStrategy() {
+        return this.positionInitialisationStrategy;
     }
 
     /**
      * Set the {@linkplain PositionInitialisationStrategy} to be used.
-     * @param positionInitializationStrategy The value to set.
+     * @param positionInitialisationStrategy The value to set.
      */
-    public void setPositionInitialisationStrategy(InitializationStrategy positionInitializationStrategy) {
-        this.positionInitializationStrategy = positionInitializationStrategy;
+    public void setPositionInitialisationStrategy(InitialisationStrategy positionInitialisationStrategy) {
+        this.positionInitialisationStrategy = positionInitialisationStrategy;
     }
 }

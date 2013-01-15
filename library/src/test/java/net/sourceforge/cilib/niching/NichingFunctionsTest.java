@@ -13,7 +13,7 @@ import net.sourceforge.cilib.algorithm.initialisation.ChargedPopulationInitialis
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.niching.creation.ClosestNeighbourNicheCreationStrategy;
@@ -214,7 +214,7 @@ public class NichingFunctionsTest {
         Assert.assertNotNull(((Particle) a.getTopology().get(0)).getNeighbourhoodBest());
         Assert.assertEquals(QuantumVelocityProvider.class, ((Particle) a.getTopology().get(0)).getVelocityProvider().getClass());
     }
-    
+
     @Test
     public void testCreateNichings() {
         PSO mainSwarm = new PSO();
@@ -234,16 +234,16 @@ public class NichingFunctionsTest {
 
         Particle p2_1 = createParticle(new MinimisationFitness(3.0), Vector.of(10.0, 0.0));
         Particle p2_2 = createParticle(new MinimisationFitness(3.0), Vector.of(100.0, 12.0));
-        
+
         mainSwarm.getTopology().addAll(Arrays.asList(m1, m2, m3));
         pso1.getTopology().addAll(Arrays.asList(p1_1, p1_2));
         pso2.getTopology().addAll(Arrays.asList(p2_1, p2_2));
-        
+
         NicheDetection detector = new MaintainedFitnessNicheDetection();
         NicheCreationStrategy creator = new ClosestNeighbourNicheCreationStrategy();
         ((ClosestNeighbourNicheCreationStrategy) creator).setSwarmBehavior(new ParticleBehavior());
         MergeStrategy merger = new SingleSwarmMergeStrategy();
-        
+
         NichingSwarms merged = NichingFunctions.createNiches(detector, creator, merger)
                 .andThen(NichingFunctions.createNiches(detector, creator, merger)
                 .andThen(NichingFunctions.createNiches(detector, creator, merger)))

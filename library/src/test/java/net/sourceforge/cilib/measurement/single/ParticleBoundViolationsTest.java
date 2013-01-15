@@ -8,7 +8,7 @@ package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.measurement.Measurement;
@@ -42,12 +42,12 @@ public class ParticleBoundViolationsTest {
         topology.add(p4);
 
         final PopulationBasedAlgorithm pba = mock(PopulationBasedAlgorithm.class);
-        
+
         when(pba.getTopology()).thenReturn((Topology) topology);
 
         Measurement m = new ParticleBoundViolations();
         Assert.assertEquals(Real.valueOf(3.0/topology.size()), m.getValue(pba));
-        
+
         verify(pba, atLeast(1)).getTopology();
     }
 

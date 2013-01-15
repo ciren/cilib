@@ -6,8 +6,8 @@
  */
 package net.sourceforge.cilib.io;
 
-import net.sourceforge.cilib.io.exception.CIlibIOException;
 import java.util.List;
+import net.sourceforge.cilib.io.exception.CIlibIOException;
 
 /**
  * An interface to an object that is capable of reading data from a source and

@@ -46,13 +46,13 @@ public class SingleFunction implements ContinuousFunction {
     private double fmax;
     private double bias;
     private Vector shifted; //A temporary vector to hold the shifted input
-    private boolean initialized;
+    private boolean initialised;
     
     /**
      * Default constructor.
      */
     public SingleFunction() {
-        this.initialized = false;
+        this.initialised = false;
         this.rotationFunction = new RotatedFunctionDecorator();
         this.sigma = 1.0;
         this.lambda = 1.0;
@@ -158,9 +158,9 @@ public class SingleFunction implements ContinuousFunction {
     @Override
     public Double apply(Vector input) {
         //need to get input's size to set fMax
-        if (!initialized) {
+        if (!initialised) {
             setfMax(Math.abs(rotationFunction.apply(Vector.fill(5.0, input.size()).divide(lambda))));
-            initialized = true;
+            initialised = true;
         }
 
         return rotationFunction.apply(shifted.divide(lambda)) / getfMax();

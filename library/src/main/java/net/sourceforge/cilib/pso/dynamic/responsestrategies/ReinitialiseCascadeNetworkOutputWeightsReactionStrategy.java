@@ -66,7 +66,7 @@ public class ReinitialiseCascadeNetworkOutputWeightsReactionStrategy<E extends P
             Vector position = (Vector) particle.getPosition();
             Vector velocity = (Vector) particle.getVelocity();
             for (int curElement = position.size() - nrOfweightsToDo; curElement < position.size(); ++curElement) {
-                ((Real) position.get(curElement)).randomize();
+                ((Real) position.get(curElement)).randomise();
                 velocity.setReal(curElement, 0.0);
             }
         }

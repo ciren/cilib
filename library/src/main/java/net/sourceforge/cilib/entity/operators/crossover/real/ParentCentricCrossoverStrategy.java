@@ -24,7 +24,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Entities;
 import net.sourceforge.cilib.util.Vectors;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 
 /**
  * <p> Parent Centric Crossover Strategy </p>
@@ -151,7 +150,7 @@ public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
 
             E result = (E) parentCollection.get(parent).getClone();
             result.setCandidateSolution(child);
-            
+
             offspring.add(result);
         }
 
@@ -210,13 +209,13 @@ public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
     public void setParentProvider(ParentProvider parentProvider) {
         this.parentProvider = parentProvider;
     }
-    
+
     public void setCrossoverPointProbability(double crossoverPointProbability) {
         throw new UnsupportedOperationException("Not applicable");
     }
-    
+
     public ControlParameter getCrossoverPointProbability() {
         throw new UnsupportedOperationException("Not applicable");
     }
-    
+
 }

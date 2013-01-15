@@ -40,7 +40,7 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
 
     /**
      * Respond to environment change by re-evaluating each particle's position, personal best and neighbourhood best,
-     * and reinitializing the positions of a specified percentage of particles.
+     * and reinitialising the positions of a specified percentage of particles.
      * @param algorithm PSO algorithm that has to respond to environment change
      */
     @Override
@@ -59,13 +59,13 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
 
             //makes sure the charged particles are randomly positionned accross the topology
             if (reinitCounter < Math.floor(populationSize * reinitialisationRatio) && Rand.nextDouble() < reinitialisationRatio && current != Topologies.getBestEntity(algorithm.getTopology())) {
-                current.getPosition().randomize();
+                current.getPosition().randomise();
                 current.getProperties().put(EntityType.Particle.VELOCITY, Vectors.transform(current.getVelocity(), zt));
                 current.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf(current.getPosition()));
                 ++reinitCounter;
             }//if
             else if (keepCounter > Math.floor(populationSize * (1.0 - reinitialisationRatio)) && current != Topologies.getBestEntity(algorithm.getTopology())) {
-                current.getPosition().randomize();
+                current.getPosition().randomise();
                 current.getProperties().put(EntityType.Particle.VELOCITY, Vectors.transform(current.getVelocity(), zt));
                 current.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf(current.getPosition()));
                 ++reinitCounter;

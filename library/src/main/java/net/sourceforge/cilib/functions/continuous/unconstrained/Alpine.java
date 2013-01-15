@@ -13,7 +13,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * <p><b>The Alpine Function.</b></p>
  *
- * <p><b>Reference:</b> S. Rahnamayan, H. R. Tizhoosh, M. M. A. Salama <i>A novel population initialization method for accelerating evolutionary algorithms</i>,
+ * <p><b>Reference:</b> S. Rahnamayan, H. R. Tizhoosh, M. M. A. Salama <i>A novel population initialisation method for accelerating evolutionary algorithms</i>,
  * Computers and Mathematics with Applications, 2007</p>
  *
  * <p>Minimum:

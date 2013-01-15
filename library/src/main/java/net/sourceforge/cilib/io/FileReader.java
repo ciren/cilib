@@ -6,12 +6,12 @@
  */
 package net.sourceforge.cilib.io;
 
-import net.sourceforge.cilib.io.exception.CIlibIOException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import net.sourceforge.cilib.io.exception.CIlibIOException;
 
 /**
  * Class represents a {@link DataReader DataReader} object that reads its data from

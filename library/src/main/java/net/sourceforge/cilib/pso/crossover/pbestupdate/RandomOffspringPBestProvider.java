@@ -7,12 +7,12 @@
 package net.sourceforge.cilib.pso.crossover.pbestupdate;
 
 import java.util.List;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * This OffspringPBestProvider sets an offspring's pBest to a random position in 
+ * This OffspringPBestProvider sets an offspring's pBest to a random position in
  * the search space.
  */
 public class RandomOffspringPBestProvider extends OffspringPBestProvider {

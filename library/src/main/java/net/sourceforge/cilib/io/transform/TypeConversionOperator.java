@@ -6,11 +6,11 @@
  */
 package net.sourceforge.cilib.io.transform;
 
+import java.util.ArrayList;
+import java.util.List;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.StandardDataTable;
 import net.sourceforge.cilib.io.exception.CIlibIOException;
-import java.util.ArrayList;
-import java.util.List;
 import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.StringType;

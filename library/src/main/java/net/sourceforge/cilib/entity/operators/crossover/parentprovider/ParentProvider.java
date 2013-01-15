@@ -6,10 +6,10 @@
  */
 package net.sourceforge.cilib.entity.operators.crossover.parentprovider;
 
-import net.sourceforge.cilib.util.Cloneable;
-import net.sourceforge.cilib.entity.Entity;
 import fj.F;
 import java.util.List;
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Selects a parent to be used as the main parent for Crossover strategies that require

@@ -34,7 +34,7 @@ public class CascadeVisitorTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1, new Linear()));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2, new Linear()));
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
-        network.initialize();
+        network.initialise();
 
         Vector weights = Vector.of(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,
                                    1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0,2.1,2.2,2.3,2.4);
@@ -69,7 +69,7 @@ public class CascadeVisitorTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1, new Linear()));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2, new Linear()));
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
-        network.initialize();
+        network.initialise();
 
         Vector weights = Vector.of(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,
                                    1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0,2.1,2.2,2.3,2.4);

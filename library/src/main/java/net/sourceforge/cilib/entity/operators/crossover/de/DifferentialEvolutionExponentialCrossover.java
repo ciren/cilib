@@ -10,7 +10,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import java.util.Arrays;
 import java.util.List;
-
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.SettableControlParameter;
 import net.sourceforge.cilib.entity.Entity;
@@ -25,12 +24,12 @@ public class DifferentialEvolutionExponentialCrossover implements CrossoverStrat
 
     private ProbabilityDistributionFunction random;
     private SettableControlParameter crossoverPointProbability;
-    
+
     public DifferentialEvolutionExponentialCrossover() {
         this.random = new UniformDistribution();
         this.crossoverPointProbability = ConstantControlParameter.of(0.5);
     }
-    
+
     public DifferentialEvolutionExponentialCrossover(DifferentialEvolutionExponentialCrossover copy) {
         this.random = copy.random;
         this.crossoverPointProbability = copy.crossoverPointProbability.getClone();
@@ -62,7 +61,7 @@ public class DifferentialEvolutionExponentialCrossover implements CrossoverStrat
         Vector trialVector = (Vector) parentCollection.get(1).getCandidateSolution();
         Vector.Builder offspringVector = Vector.newBuilder();
         List<Integer> points = getMutationPoints(trialVector.size());
-        
+
         for (int i = 0; i < trialVector.size(); i++) {
             if (points.contains(i)) {
                 offspringVector.add(trialVector.get(i));
@@ -73,7 +72,7 @@ public class DifferentialEvolutionExponentialCrossover implements CrossoverStrat
 
         E offspring = (E) parentCollection.get(0).getClone();
         offspring.setCandidateSolution(offspringVector.build());
-        
+
         return Arrays.asList(offspring);
     }
 
@@ -93,7 +92,7 @@ public class DifferentialEvolutionExponentialCrossover implements CrossoverStrat
 
         return points;
     }
-    
+
     public void setRandom(ProbabilityDistributionFunction random) {
         this.random = random;
     }
@@ -114,7 +113,7 @@ public class DifferentialEvolutionExponentialCrossover implements CrossoverStrat
     public int getNumberOfParents() {
         return 2;
     }
-    
+
     public void setCrossoverPointProbability(double crossoverPointProbability) {
         this.crossoverPointProbability.setParameter(crossoverPointProbability);
     }

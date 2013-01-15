@@ -7,35 +7,30 @@
 package net.sourceforge.cilib.controlparameter.initialisation;
 
 import junit.framework.Assert;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import net.sourceforge.cilib.controlparameter.initialisation.RandomBoundedParameterInitialisationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.controlparameter.StandardUpdatableControlParameter;
 
 public class RandomBoundedParameterInitialisationStrategyTest {
-    
+
     @Test
-    public void initializeTest() {
+    public void initialiseTest() {
         StandardUpdatableControlParameter parameter = new StandardUpdatableControlParameter();
         RandomBoundedParameterInitialisationStrategy strategy = new RandomBoundedParameterInitialisationStrategy();
         strategy.setLowerBound(1);
         strategy.setUpperBound(5);
-        strategy.initialize(parameter);
-        
+        strategy.initialise(parameter);
+
         Assert.assertTrue(parameter.getParameter() > 1 && parameter.getParameter() < 5);
     }
-    
+
     @Test
     public void getLowerBoundTest() {
         RandomBoundedParameterInitialisationStrategy strategy = new RandomBoundedParameterInitialisationStrategy();
         strategy.setLowerBound(ConstantControlParameter.of(3));
-        
+
         Assert.assertTrue(strategy.getLowerBound().getParameter() == 3);
     }
 
@@ -43,15 +38,15 @@ public class RandomBoundedParameterInitialisationStrategyTest {
     public void setLowerBoundTest() {
         RandomBoundedParameterInitialisationStrategy strategy = new RandomBoundedParameterInitialisationStrategy();
         strategy.setLowerBound(3);
-        
+
         Assert.assertTrue(strategy.getLowerBound().getParameter() == 3);
     }
-    
+
     @Test
     public void setLowerBoundTest2() {
         RandomBoundedParameterInitialisationStrategy strategy = new RandomBoundedParameterInitialisationStrategy();
         strategy.setLowerBound(ConstantControlParameter.of(3));
-        
+
         Assert.assertTrue(strategy.getLowerBound().getParameter() == 3);
     }
 
@@ -59,7 +54,7 @@ public class RandomBoundedParameterInitialisationStrategyTest {
     public void getUpperBoundTest() {
         RandomBoundedParameterInitialisationStrategy strategy = new RandomBoundedParameterInitialisationStrategy();
         strategy.setUpperBound(ConstantControlParameter.of(3));
-        
+
         Assert.assertTrue(strategy.getUpperBound().getParameter() == 3);
     }
 
@@ -67,15 +62,15 @@ public class RandomBoundedParameterInitialisationStrategyTest {
     public void setUpperBoundTest() {
         RandomBoundedParameterInitialisationStrategy strategy = new RandomBoundedParameterInitialisationStrategy();
         strategy.setUpperBound(ConstantControlParameter.of(3));
-        
+
         Assert.assertTrue(strategy.getUpperBound().getParameter() == 3);
     }
-    
+
     @Test
     public void setUpperBoundTest2() {
         RandomBoundedParameterInitialisationStrategy strategy = new RandomBoundedParameterInitialisationStrategy();
         strategy.setUpperBound(3);
-        
+
         Assert.assertTrue(strategy.getUpperBound().getParameter() == 3);
     }
 
@@ -84,7 +79,7 @@ public class RandomBoundedParameterInitialisationStrategyTest {
         RandomBoundedParameterInitialisationStrategy strategy = new RandomBoundedParameterInitialisationStrategy();
         GaussianDistribution distribution = new GaussianDistribution();
         strategy.setRandom(distribution);
-        
+
         Assert.assertEquals(distribution, strategy.getRandom());
     }
 
@@ -93,8 +88,8 @@ public class RandomBoundedParameterInitialisationStrategyTest {
         RandomBoundedParameterInitialisationStrategy strategy = new RandomBoundedParameterInitialisationStrategy();
         GaussianDistribution distribution = new GaussianDistribution();
         strategy.setRandom(distribution);
-        
+
         Assert.assertEquals(distribution, strategy.getRandom());
-        
+
     }
 }

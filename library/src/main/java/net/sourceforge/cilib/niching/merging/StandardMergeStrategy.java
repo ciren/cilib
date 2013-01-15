@@ -9,7 +9,7 @@ package net.sourceforge.cilib.niching.merging;
 import java.util.Collection;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 
 /**
@@ -18,7 +18,7 @@ import net.sourceforge.cilib.pso.particle.ParticleBehavior;
  */
 public class StandardMergeStrategy extends MergeStrategy {
     private static final long serialVersionUID = 6790307057694598017L;
-    
+
     @Override
     public PopulationBasedAlgorithm f(PopulationBasedAlgorithm subSwarm1, PopulationBasedAlgorithm subSwarm2) {
         PopulationBasedAlgorithm newSwarm = subSwarm1.getClone();

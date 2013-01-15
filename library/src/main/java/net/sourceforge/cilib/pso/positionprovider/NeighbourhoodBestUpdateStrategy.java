@@ -6,8 +6,6 @@
  */
 package net.sourceforge.cilib.pso.positionprovider;
 
-import java.io.Serializable;
-
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.util.Cloneable;
@@ -15,9 +13,8 @@ import net.sourceforge.cilib.util.Cloneable;
 /**
  * Interface specifying the manner in which the neighbourhood best of the
  * {@linkplain Entity} is obtained.
- *
  */
-public interface NeighbourhoodBestUpdateStrategy extends Serializable, Cloneable {
+public interface NeighbourhoodBestUpdateStrategy extends Cloneable {
 
     /**
      * {@inheritDoc}

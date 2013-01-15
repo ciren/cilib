@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.problem;
 
-import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
@@ -16,7 +15,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * <p>
  * Optimisation problems are characterized by a domain that specifies the search space and
  * a fitness given a potential solution. This interface ensures that an
- * {@linkplain net.sourceforge.cilib.algorithm.OptimisationAlgorithm optimization algorithm} has
+ * {@linkplain net.sourceforge.cilib.algorithm.OptimisationAlgorithm optimisation algorithm} has
  * all the information it needs to find a solution to a given optimisation problem. In addition, it is the
  * responsibility of an optimisation problem to keep track of the number of times the fitness has
  * been evaluated.

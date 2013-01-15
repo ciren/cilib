@@ -16,7 +16,7 @@
                             <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
                             <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.2"/>
                         </velocityProvider>
-                        <velocityInitializationStrategy class="entity.initialization.RandomInitializationStrategy"/>
+                        <velocityInitialisationStrategy class="entity.initialisation.RandomInitialisationStrategy"/>
                     </entityType>
                     <entityNumber value="30"/>
                 </initialisationStrategy>

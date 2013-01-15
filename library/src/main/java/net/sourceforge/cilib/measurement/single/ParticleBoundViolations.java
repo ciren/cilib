@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.measurement.single;
 
 import java.util.Iterator;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;

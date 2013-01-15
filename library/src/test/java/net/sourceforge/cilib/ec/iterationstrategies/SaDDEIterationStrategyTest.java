@@ -7,24 +7,15 @@
 package net.sourceforge.cilib.ec.iterationstrategies;
 
 import junit.framework.Assert;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-
-import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.ec.ParameterizedIndividual;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.selection.recipes.FeasibilitySelector;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 
 public class SaDDEIterationStrategyTest {
-    
+
     @Test
     public void updateSelectorParameter() {
        SaDDEIterationStrategy strategy = new SaDDEIterationStrategy();
@@ -32,7 +23,7 @@ public class SaDDEIterationStrategyTest {
        strategy.setLastSelectorParameterValue(2.5);
        strategy.setFirstSelectorParameterValue(3.1);
        strategy.updateSelectorParameter(5);
-       
+
        Assert.assertEquals(1.98, strategy.getSelectorParameter().doubleValue());
     }
 
@@ -50,22 +41,6 @@ public class SaDDEIterationStrategyTest {
         RandomSelector selector = new RandomSelector();
         strategy.setTargetVectorSelectionStrategy(selector);
         Assert.assertEquals(selector, strategy.getTargetVectorSelectionStrategy());
-    }
-
-    @Test
-    public void getSelectorRandom() {
-        SaDDEIterationStrategy strategy = new SaDDEIterationStrategy();
-        UniformDistribution distribution = new UniformDistribution();
-        strategy.setSelectorRandom(distribution);
-        Assert.assertEquals(distribution, strategy.getSelectorRandom());
-    }
-
-    @Test
-    public void setSelectorRandom() {
-        SaDDEIterationStrategy strategy = new SaDDEIterationStrategy();
-        UniformDistribution distribution = new UniformDistribution();
-        strategy.setSelectorRandom(distribution);
-        Assert.assertEquals(distribution, strategy.getSelectorRandom());
     }
 
     @Test
@@ -175,5 +150,5 @@ public class SaDDEIterationStrategyTest {
         strategy.setLastSelectorParameterValue(2.0);
         Assert.assertEquals(2.0, strategy.getLastSelectorParameterValue());
     }
-    
+
 }

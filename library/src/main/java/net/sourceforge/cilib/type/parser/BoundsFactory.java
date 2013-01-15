@@ -6,9 +6,9 @@
  */
 package net.sourceforge.cilib.type.parser;
 
-import net.sourceforge.cilib.type.types.*;
 import com.google.common.collect.Maps;
 import java.util.Map;
+import net.sourceforge.cilib.type.types.*;
 
 /**
  * This class represents the bounds information for all Numeric types in

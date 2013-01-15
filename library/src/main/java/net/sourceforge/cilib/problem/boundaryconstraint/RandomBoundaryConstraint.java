@@ -91,7 +91,7 @@ public class RandomBoundaryConstraint implements BoundaryConstraint {
     private void constrain(Numeric position, Numeric velocity, Vector.Builder newPosition, Vector.Builder newVelocity) {
         double previousPosition = position.doubleValue();
         Numeric pos = position.getClone();
-        pos.randomize();
+        pos.randomise();
         newPosition.add(pos);
         newVelocity.add(position.doubleValue() - previousPosition);
     }

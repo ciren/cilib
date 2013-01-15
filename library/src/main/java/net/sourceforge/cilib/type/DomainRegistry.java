@@ -9,13 +9,7 @@ package net.sourceforge.cilib.type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.Cloneable;
 
-import java.io.Serializable;
-
-/**
- *
- *
- */
-public interface DomainRegistry extends Cloneable, Serializable {
+public interface DomainRegistry extends Cloneable {
 
     /**
      * {@inheritDoc}

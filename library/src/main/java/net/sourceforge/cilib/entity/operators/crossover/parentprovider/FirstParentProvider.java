@@ -7,8 +7,8 @@
 package net.sourceforge.cilib.entity.operators.crossover.parentprovider;
 
 import com.google.common.base.Preconditions;
-import net.sourceforge.cilib.entity.Entity;
 import java.util.List;
+import net.sourceforge.cilib.entity.Entity;
 
 public class FirstParentProvider extends ParentProvider {
 

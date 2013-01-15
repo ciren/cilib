@@ -26,7 +26,7 @@ public class RandomParameterInitialisationStrategy implements ControlParameterIn
     }
 
     @Override
-    public void initialize(SettableControlParameter parameter) {
+    public void initialise(SettableControlParameter parameter) {
         double value = random.getRandomNumber();
         parameter.setParameter(value);
     }

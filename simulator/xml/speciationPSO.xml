@@ -13,7 +13,7 @@
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
         </algorithm>
 
-        <algorithm id="speciationWithRedundantParticleReinitialization" class="pso.PSO">
+        <algorithm id="speciationWithRedundantParticleReinitialisation" class="pso.PSO">
             <iterationStrategy class="niching.iterationstrategies.EnhancedSpeciation"/>
             <topology class="entity.topologies.SpeciationTopology">
                 <radius class="controlparameter.ConstantControlParameter" parameter="0.1"/>
@@ -83,31 +83,31 @@
         </simulation>
 
         <simulation samples="1">
-            <algorithm idref="speciationWithRedundantParticleReinitialization"/>
+            <algorithm idref="speciationWithRedundantParticleReinitialisation"/>
             <problem idref="f1"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/enhanced-speciation-f1.txt"/>
         </simulation>
         <simulation samples="1">
-            <algorithm idref="speciationWithRedundantParticleReinitialization"/>
+            <algorithm idref="speciationWithRedundantParticleReinitialisation"/>
             <problem idref="f2"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/enhanced-speciation-f2.txt"/>
         </simulation>
         <simulation samples="1">
-            <algorithm idref="speciationWithRedundantParticleReinitialization"/>
+            <algorithm idref="speciationWithRedundantParticleReinitialisation"/>
             <problem idref="f3"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/enhanced-speciation-f3.txt"/>
         </simulation>
         <simulation samples="1">
-            <algorithm idref="speciationWithRedundantParticleReinitialization"/>
+            <algorithm idref="speciationWithRedundantParticleReinitialisation"/>
             <problem idref="f4"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/enhanced-speciation-f4.txt"/>
         </simulation>
         <simulation samples="1">
-            <algorithm idref="speciationWithRedundantParticleReinitialization"/>
+            <algorithm idref="speciationWithRedundantParticleReinitialisation"/>
             <problem idref="f5"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/enhanced-speciation-f5.txt"/>

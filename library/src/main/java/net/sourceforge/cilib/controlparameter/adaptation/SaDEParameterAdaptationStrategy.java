@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.controlparameter.adaptation;
 
 import java.util.ArrayList;
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.SettableControlParameter;
 import net.sourceforge.cilib.controlparameter.initialisation.RandomBoundedParameterInitialisationStrategy;
@@ -16,16 +15,16 @@ import net.sourceforge.cilib.math.random.GaussianDistribution;
 
 /**
  * This is an adaptation strategy described by Qin and Suganthan in the following article:
- * 
+ *
  * This adaptive strategy can be found in the following article:
- * 
- * @INPROCEEDINGS{1554904, 
- * author={Qin, A.K. and Suganthan, P.N.}, 
- * booktitle={Evolutionary Computation, 2005. The 2005 IEEE Congress on}, title={Self-adaptive differential evolution algorithm for numerical optimization}, 
- * year={2005}, 
- * month={sept.}, 
- * volume={2}, 
- * number={}, 
+ *
+ * @INPROCEEDINGS{1554904,
+ * author={Qin, A.K. and Suganthan, P.N.},
+ * booktitle={Evolutionary Computation, 2005. The 2005 IEEE Congress on}, title={Self-adaptive differential evolution algorithm for numerical optimization},
+ * year={2005},
+ * month={sept.},
+ * volume={2},
+ * number={},
  * pages={ 1785 - 1791 Vol. 2}}
  */
 public class SaDEParameterAdaptationStrategy implements ParameterAdaptationStrategy{
@@ -33,7 +32,7 @@ public class SaDEParameterAdaptationStrategy implements ParameterAdaptationStrat
     private double mean;
     private GaussianDistribution random;
     private RandomBoundedParameterInitialisationStrategy initialisationStrategy;
-    
+
     /*
      * Default constructor for SaDEParameterAdaptationStrategy
      */
@@ -45,7 +44,7 @@ public class SaDEParameterAdaptationStrategy implements ParameterAdaptationStrat
         random.setDeviation(ConstantControlParameter.of(0.1));
         initialisationStrategy = new RandomBoundedParameterInitialisationStrategy();
     }
-    
+
     /*
      * Copy constructor for SaDEParameterAdaptationStrategy
      * @param copy The SaDEParameterAdaptationStrategy to be copied
@@ -67,20 +66,20 @@ public class SaDEParameterAdaptationStrategy implements ParameterAdaptationStrat
 
     /*
      * This method changes the value of the parameter sent to it.
-     * In this case it samples a random number from a Gaussian 
+     * In this case it samples a random number from a Gaussian
      * distribution with the given mean.
-     * @param parameter The parameter to be changed     
+     * @param parameter The parameter to be changed
      */
     @Override
     public void change(SettableControlParameter parameter) {
         random.setMean(ConstantControlParameter.of(mean));
         initialisationStrategy.setRandom(random);
-        
+
         SettableControlParameter newParameter = parameter.getClone();
-        initialisationStrategy.initialize(newParameter);
+        initialisationStrategy.initialise(newParameter);
         parameter.update(newParameter.getParameter());
     }
-    
+
     /*
      * Recalculates the mean for future changes in the parameter
      * @return The new mean value
@@ -88,7 +87,7 @@ public class SaDEParameterAdaptationStrategy implements ParameterAdaptationStrat
     public double recalculateAdaptiveVariables() {
         if(learningExperience.size() > 0) {
             mean = 0.0;
-       
+
             for(double value : learningExperience) {
                 mean += value;
             }
@@ -97,13 +96,13 @@ public class SaDEParameterAdaptationStrategy implements ParameterAdaptationStrat
 
             learningExperience.clear();
         }
-        
+
         return mean;
     }
 
     /*
      * Informs the SaDEParameterAdaptationStrategy that the offspring
-     * generated using the parameter was accepted. It does this to gain 
+     * generated using the parameter was accepted. It does this to gain
      * learning experience for future changes.
      * @param acceptedParameter The parameter that was accepted
      */
@@ -176,5 +175,5 @@ public class SaDEParameterAdaptationStrategy implements ParameterAdaptationStrat
     public void setInitialisationStrategy(RandomBoundedParameterInitialisationStrategy initialisationStrategy) {
         this.initialisationStrategy = initialisationStrategy;
     }
-    
+
 }

@@ -7,12 +7,7 @@
 package net.sourceforge.cilib.controlparameter.adaptation;
 
 import junit.framework.Assert;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import net.sourceforge.cilib.controlparameter.StandardUpdatableControlParameter;
 
 public class NSDEParameterAdaptationStrategyTest {
@@ -22,7 +17,7 @@ public class NSDEParameterAdaptationStrategyTest {
         strategy.setScalingFactorProbability(1.0);
         StandardUpdatableControlParameter parameter = new StandardUpdatableControlParameter();
         parameter.setParameter(5.0);
-        
+
         strategy.change(parameter);
         Assert.assertTrue(parameter.getParameter() != 5.0);
     }
@@ -31,15 +26,15 @@ public class NSDEParameterAdaptationStrategyTest {
     public void getScalingFactorProbabilityTest() {
         NSDEParameterAdaptationStrategy strategy = new NSDEParameterAdaptationStrategy();
         strategy.setScalingFactorProbability(0.9);
-        
+
         Assert.assertEquals(0.9, strategy.getScalingFactorProbability());
     }
-    
+
     @Test
     public void setScalingFactorProbabilityTest() {
         NSDEParameterAdaptationStrategy strategy = new NSDEParameterAdaptationStrategy();
         strategy.setScalingFactorProbability(0.9);
-        
+
         Assert.assertEquals(0.9, strategy.getScalingFactorProbability());
     }
 }

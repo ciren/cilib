@@ -6,19 +6,18 @@
  */
 package net.sourceforge.cilib.ff;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.problem.solution.OptimisationSolution;
-import net.sourceforge.cilib.ff.iterationstrategies.StandardFireflyIterationStrategy;
 import net.sourceforge.cilib.ff.firefly.Firefly;
 import net.sourceforge.cilib.ff.firefly.StandardFirefly;
+import net.sourceforge.cilib.ff.iterationstrategies.StandardFireflyIterationStrategy;
+import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 
 /**
  * <p>
@@ -35,9 +34,8 @@ import net.sourceforge.cilib.ff.firefly.StandardFirefly;
  * </ul>
  * </p>
  */
-public class FFA extends SinglePopulationBasedAlgorithm {
+public class FFA extends SinglePopulationBasedAlgorithm<Firefly> {
 
-    private Topology<Firefly> topology;
     private IterationStrategy<FFA> iterationStrategy;
 
     /**
@@ -45,10 +43,7 @@ public class FFA extends SinglePopulationBasedAlgorithm {
      * All fields are initialised to reasonable defaults.
      */
     public FFA() {
-        topology = new GBestTopology<Firefly>();
-
         iterationStrategy = new StandardFireflyIterationStrategy();
-
         initialisationStrategy = new ClonedPopulationInitialisationStrategy();
         initialisationStrategy.setEntityType(new StandardFirefly());
     }
@@ -59,9 +54,7 @@ public class FFA extends SinglePopulationBasedAlgorithm {
      */
     public FFA(FFA copy) {
         super(copy);
-        this.topology = copy.topology.getClone();
         this.iterationStrategy = copy.iterationStrategy;
-        this.initialisationStrategy = copy.initialisationStrategy;
     }
 
     /**
@@ -78,12 +71,11 @@ public class FFA extends SinglePopulationBasedAlgorithm {
      */
     @Override
     public void algorithmInitialisation() {
-        Iterable<Firefly> particles = (Iterable<Firefly>) this.initialisationStrategy.initialise(this.getOptimisationProblem());
         topology.clear();
-        topology.addAll(Lists.<Firefly>newLinkedList(particles));
+        Iterables.addAll(topology, initialisationStrategy.initialise(optimisationProblem));
 
-        for (Firefly p : topology) {
-            p.calculateFitness();
+        for (Firefly f : topology) {
+            f.calculateFitness();
         }
     }
 
@@ -104,25 +96,6 @@ public class FFA extends SinglePopulationBasedAlgorithm {
     public OptimisationSolution getBestSolution() {
         Firefly bestEntity = Topologies.getBestEntity(topology, new DescendingFitnessComparator<Firefly>());
         return new OptimisationSolution(bestEntity.getPosition(), bestEntity.getFitness());
-    }
-
-    /**
-     * Sets the firefly topology used. The default is {@link GBestTopology}.
-     * @param topology A class that implements the {@link Topology} interface.
-     */
-    @Override
-    @SuppressWarnings("unchecked")
-    public void setTopology(Topology topology) {
-        this.topology = topology;
-    }
-
-    /**
-     * Accessor for the topology being used.
-     * @return The {@link Topology} being used.
-     */
-    @Override
-    public Topology<Firefly> getTopology() {
-        return topology;
     }
 
     /**

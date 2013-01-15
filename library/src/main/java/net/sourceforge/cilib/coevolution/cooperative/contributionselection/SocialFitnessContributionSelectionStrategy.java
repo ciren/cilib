@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.coevolution.cooperative.contributionselection;
 
 import java.util.Comparator;
-
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.MemoryBasedEntity;
 import net.sourceforge.cilib.entity.SocialEntity;
@@ -29,7 +28,7 @@ public class SocialFitnessContributionSelectionStrategy implements
      */
     @Override
     public Vector getContribution(PopulationBasedAlgorithm algorithm) {
-        MemoryBasedEntity entity = (MemoryBasedEntity) Topologies.getBestEntity(algorithm.getTopology(), 
+        MemoryBasedEntity entity = (MemoryBasedEntity) Topologies.getBestEntity(algorithm.getTopology(),
                 (Comparator) new SocialBestFitnessComparator<SocialEntity>());
         return (Vector) entity.getBestPosition();
     }

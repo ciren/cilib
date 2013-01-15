@@ -163,7 +163,7 @@ public class VectorTest {
     }
 
     @Test
-    public void randomize() {
+    public void randomise() {
         Vector target = Vector.newBuilder().add(Real.valueOf(1.0)).add(Real.valueOf(2.0)).add(Real.valueOf(3.0)).buildRandom();
 
         assertFalse(target.doubleValueOf(0) == 1.0);

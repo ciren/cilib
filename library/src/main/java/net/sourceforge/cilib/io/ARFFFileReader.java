@@ -6,12 +6,12 @@
  */
 package net.sourceforge.cilib.io;
 
-import net.sourceforge.cilib.io.exception.CIlibIOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import net.sourceforge.cilib.io.exception.CIlibIOException;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.StringType;

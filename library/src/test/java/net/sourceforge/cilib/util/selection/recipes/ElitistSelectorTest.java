@@ -53,7 +53,7 @@ public class ElitistSelectorTest {
     }
 
     @Test
-    public void minimizationSelection() {
+    public void minimisationSelection() {
         Topology<Individual> topology = createDummyTopology();
         topology.get(0).getProperties().put(EntityType.FITNESS, new MinimisationFitness(99.0));
         topology.get(1).getProperties().put(EntityType.FITNESS, new MinimisationFitness(8.0));
@@ -68,7 +68,7 @@ public class ElitistSelectorTest {
     }
 
     @Test
-    public void maximizationSelection() {
+    public void maximisationSelection() {
         Topology<Individual> topology = createDummyTopology();
         topology.get(0).getProperties().put(EntityType.FITNESS, new MaximisationFitness(99.0));
         topology.get(1).getProperties().put(EntityType.FITNESS, new MaximisationFitness(8.0));

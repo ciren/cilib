@@ -7,13 +7,13 @@
 package net.sourceforge.cilib.pso.crossover.operations;
 
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.crossover.CrossoverReplaceFunction;
 import net.sourceforge.cilib.pso.crossover.parentupdate.ParentReplacementStrategy;
 import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
+import net.sourceforge.cilib.pso.particle.Particle;
 
 public class DiscreteCrossoverOperation extends PSOCrossoverOperation {
 

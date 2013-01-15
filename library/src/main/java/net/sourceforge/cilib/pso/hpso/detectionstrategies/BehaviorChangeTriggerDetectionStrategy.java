@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.pso.hpso.detectionstrategies;
 
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * An interface to detect when an {@link Entity} should change its behavior.

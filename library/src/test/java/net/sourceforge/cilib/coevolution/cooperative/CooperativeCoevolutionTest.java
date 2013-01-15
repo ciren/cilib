@@ -11,7 +11,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.contextupdate.SelectiveContextUpdateStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
-import net.sourceforge.cilib.coevolution.cooperative.problem.SequencialDimensionAllocation;
+import net.sourceforge.cilib.coevolution.cooperative.problem.SequentialDimensionAllocation;
 import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.ProblemDistributionStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Problem;
@@ -55,7 +55,7 @@ public class CooperativeCoevolutionTest {
         final OptimisationSolution solution = new OptimisationSolution(pop1Rand, InferiorFitness.instance());
 
         final CooperativeCoevolutionProblemAdapter subProb = mock(CooperativeCoevolutionProblemAdapter.class);
-        when(subProb.getProblemAllocation()).thenReturn(new SequencialDimensionAllocation(0, 1), new SequencialDimensionAllocation(1, 1));
+        when(subProb.getProblemAllocation()).thenReturn(new SequentialDimensionAllocation(0, 1), new SequentialDimensionAllocation(1, 1));
 
         //Mock participating algorithms
         final PSO subPopulation = mock(PSO.class);

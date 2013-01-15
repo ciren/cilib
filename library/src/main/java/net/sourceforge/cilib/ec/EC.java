@@ -6,38 +6,30 @@
  */
 package net.sourceforge.cilib.ec;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
-import net.sourceforge.cilib.coevolution.cooperative.ParticipatingAlgorithm;
-import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
-import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ZeroContributionSelectionStrategy;
 import net.sourceforge.cilib.ec.iterationstrategies.GeneticAlgorithmIterationStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
-import net.sourceforge.cilib.entity.initialization.NullInitializationStrategy;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.problem.Problem;
+import net.sourceforge.cilib.entity.initialisation.InitialisationStrategy;
+import net.sourceforge.cilib.entity.initialisation.NullInitialisationStrategy;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 
 /**
  * Generic EC skeleton algorithm. The algorithm is altered by defining the
  * appropriate {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy}.
- *
  */
-public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingAlgorithm {
+public class EC<I extends Individual> extends SinglePopulationBasedAlgorithm<I> {
 
     private static final long serialVersionUID = -4324446523858690744L;
-    private Problem problem;
+
     private IterationStrategy<EC> iterationStrategy;
-    private Topology<Individual> topology;
-    private InitializationStrategy<Entity> strategyParameterInitialization;
-    private ContributionSelectionStrategy contributionSelection;
+    private InitialisationStrategy<Individual> strategyParameterInitialisation;
 
     /**
      * Create a new instance of {@code EC}.
@@ -46,9 +38,7 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
         this.initialisationStrategy = new ClonedPopulationInitialisationStrategy();
         this.initialisationStrategy.setEntityType(new Individual());
         this.iterationStrategy = new GeneticAlgorithmIterationStrategy();
-        this.topology = new GBestTopology<Individual>();
-        this.strategyParameterInitialization = new NullInitializationStrategy<Entity>();
-        this.contributionSelection = new ZeroContributionSelectionStrategy();
+        this.strategyParameterInitialisation = new NullInitialisationStrategy();
     }
 
     /**
@@ -57,11 +47,8 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
      */
     public EC(EC copy) {
         super(copy);
-        this.initialisationStrategy = copy.initialisationStrategy.getClone();
         this.iterationStrategy = copy.iterationStrategy.getClone();
-        this.topology = copy.topology.getClone();
-        this.strategyParameterInitialization = copy.strategyParameterInitialization.getClone();
-        this.contributionSelection = copy.contributionSelection.getClone();
+        this.strategyParameterInitialisation = copy.strategyParameterInitialisation.getClone();
     }
 
     /**
@@ -77,18 +64,15 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
      */
     @Override
     public void algorithmInitialisation() {
-        Iterable<? extends Entity> individuals = this.initialisationStrategy.initialise(this.problem);
-        //Iterables.addAll(getTopology(), particles); // Use this instead?
-        for (Entity individual : individuals) {
-            topology.add((Individual) individual);
+        topology.clear();
+        Iterables.addAll(topology, initialisationStrategy.initialise(optimisationProblem));
+
+        for (Individual i : topology) {
+            i.calculateFitness();
         }
 
-        for (Entity entity : topology) {
-            this.strategyParameterInitialization.initialize(EntityType.STRATEGY_PARAMETERS, entity);
-        }
-
-        for (Entity e : getTopology()) {
-            e.calculateFitness();
+        for (Individual i : topology) {
+            this.strategyParameterInitialisation.initialise(EntityType.STRATEGY_PARAMETERS, i);
         }
     }
 
@@ -98,38 +82,6 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
     @Override
     public void algorithmIteration() {
         iterationStrategy.performIteration(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Topology<? extends Entity> getTopology() {
-        return this.topology;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setTopology(Topology topology) {
-        this.topology = topology;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setOptimisationProblem(Problem problem) {
-        this.problem = problem;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Problem getOptimisationProblem() {
-        return this.problem;
     }
 
     /**
@@ -168,27 +120,11 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
         return Lists.newArrayList(getBestSolution());
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ContributionSelectionStrategy getContributionSelectionStrategy() {
-        return contributionSelection;
+    public InitialisationStrategy<Individual> getStrategyParameterInitialisation() {
+        return strategyParameterInitialisation;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setContributionSelectionStrategy(ContributionSelectionStrategy strategy) {
-        contributionSelection = strategy;
-    }
-
-    public InitializationStrategy<Entity> getStrategyParameterInitialization() {
-        return strategyParameterInitialization;
-    }
-
-    public void setStrategyParameterInitialization(InitializationStrategy<Entity> strategyParameterInitialization) {
-        this.strategyParameterInitialization = strategyParameterInitialization;
+    public void setStrategyParameterInitialisation(InitialisationStrategy<Individual> strategyParameterInitialisation) {
+        this.strategyParameterInitialisation = strategyParameterInitialisation;
     }
 }

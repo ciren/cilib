@@ -6,7 +6,7 @@
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <positionProvider class="pso.positionprovider.BinaryInertiaPositionProvider">
+                    <positionProvider class="pso.positionprovider.binary.BinaryInertiaPositionProvider">
                         <!-- inertia value determines convergence speed -->
                         <inertia class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.5" finalValue="0.0"/>
                     </positionProvider>

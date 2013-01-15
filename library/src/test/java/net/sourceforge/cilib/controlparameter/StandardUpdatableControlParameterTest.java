@@ -6,17 +6,12 @@
  */
 package net.sourceforge.cilib.controlparameter;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import net.sourceforge.cilib.controlparameter.StandardUpdatableControlParameter;
 import org.junit.Assert;
 
 public class StandardUpdatableControlParameterTest {
-    
+
     @Test
     public void getParameterTest() {
         StandardUpdatableControlParameter parameter = new StandardUpdatableControlParameter();

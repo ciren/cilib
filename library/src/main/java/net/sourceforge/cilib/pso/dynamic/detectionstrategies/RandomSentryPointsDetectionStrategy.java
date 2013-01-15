@@ -55,8 +55,8 @@ public class RandomSentryPointsDetectionStrategy<E extends PopulationBasedAlgori
      * environment change is detected when the difference between the previous and current
      * fitness values are &gt;= the specified {@link #epsilon} value. Although this detection
      * strategy only makes use of random sentry points, the entities in the population based
-     * algorithm are sent through to the {@link #initializeSentryPoints(Topology) method to
-     * initialize the sentry points.
+     * algorithm are sent through to the {@link #initialiseSentryPoints(Topology) method to
+     * initialise the sentry points.
      *
      * @param algorithm used to get hold of topology of entities and number of iterations
      * @return true if a change has been detected, false otherwise
@@ -64,7 +64,7 @@ public class RandomSentryPointsDetectionStrategy<E extends PopulationBasedAlgori
     @Override
     public boolean detect(PopulationBasedAlgorithm algorithm) {
         if (sentries.isEmpty()) {
-            initializeSentryPoints(algorithm.getTopology());
+            initialiseSentryPoints(algorithm.getTopology());
         }
 
         if (algorithm.getIterations() % interval == 0) {
@@ -82,12 +82,12 @@ public class RandomSentryPointsDetectionStrategy<E extends PopulationBasedAlgori
     }
 
     /**
-     * This method initializes the sentry points. The following steps are followed:
+     * This method initialises the sentry points. The following steps are followed:
      * <ol>
      * <li>Randomly selects an {@link Entity} from the given {@link Topology}</li>
      * <li>Clones the selected entity a {@link #numberOfSentries specified} number of
      * times</li>
-     * <li>Reinitializes each cloned entity</li>
+     * <li>Reinitialises each cloned entity</li>
      * <li>Evaluates each cloned entity (fitness value is calculated)</li>
      * <li>Adds each cloned entity to the list of sentry points</li>
      * </ol>
@@ -96,7 +96,7 @@ public class RandomSentryPointsDetectionStrategy<E extends PopulationBasedAlgori
      * @throws an {@link IllegalStateException} when this method is called and
      *         {@link #sentries} is NOT <code>null</code>.
      */
-    private void initializeSentryPoints(Topology<? extends Entity> topology) {
+    private void initialiseSentryPoints(Topology<? extends Entity> topology) {
         int size = Double.valueOf(numberOfSentries.getParameter()).intValue();
 
         Entity prototype = (Entity) new RandomSelector().on(topology).select();

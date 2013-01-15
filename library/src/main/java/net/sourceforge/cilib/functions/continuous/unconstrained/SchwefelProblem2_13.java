@@ -34,10 +34,10 @@ public class SchwefelProblem2_13 implements ContinuousFunction {
     private double[] m_A;
     private double[] m_B;
     
-    private boolean initialized;
+    private boolean initialised;
     
     public SchwefelProblem2_13() {
-        this.initialized = false;
+        this.initialised = false;
     }
     
     public void setMatrices(int dimensions) {
@@ -70,9 +70,9 @@ public class SchwefelProblem2_13 implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
-        if(!initialized) {
+        if(!initialised) {
             setMatrices(input.size());
-            initialized = true;
+            initialised = true;
         }
         
         double sum = 0.0;

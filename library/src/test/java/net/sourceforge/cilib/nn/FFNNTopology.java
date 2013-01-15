@@ -99,7 +99,7 @@ public class FFNNTopology {
         for (int i = 0; i < (nrHiddenBiased); i++) {
             hiddenResult[i] = 0.0;
         }
-        hiddenResult[nrHiddenBiased - 1] = -1.0; // Initialize bias unit
+        hiddenResult[nrHiddenBiased - 1] = -1.0; // Initialise bias unit
 
         for (int i = 0; i < (nrOutput); i++) {
             outputResult[i] = 0.0;
@@ -220,6 +220,6 @@ public class FFNNTopology {
         }
     }
 
-    public void initialize() {
+    public void initialise() {
     }
 }

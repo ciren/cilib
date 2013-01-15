@@ -42,7 +42,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
      * This {@linkplain ThreadLocal} variable maintains the stack of the currently
      * executing algorithm. It is defined as a static member and as a result is not
      * required to be marked as transient as static members are not allowed to be
-     * serializable according to the Java Specification.
+     * serialisable according to the Java Specification.
      *
      * @TODO: This static variable needs to be removed.
      */
@@ -56,7 +56,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
 
     /**
      * Default constructor for {@linkplain Algorithm} classes. Sets up the correct state
-     * for the instance and initializes the needed containers needed for the different
+     * for the instance and initialises the needed containers needed for the different
      * {@linkplain AlgorithmEvent}s that are generated.
      */
     protected AbstractAlgorithm() {
@@ -93,7 +93,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     }
 
     /**
-     * Initializes the algorithm. Must be called before {@link #run()} is called.
+     * Initialises the algorithm. Must be called before {@link #run()} is called.
      */
     @Override
     public final void performInitialisation() {
@@ -146,7 +146,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
 
     /**
      * Executes the algorithm.
-     * @exception InitialisationException algorithm was not properly initialized.
+     * @exception InitialisationException algorithm was not properly initialised.
      */
     @Override
     public void run() {

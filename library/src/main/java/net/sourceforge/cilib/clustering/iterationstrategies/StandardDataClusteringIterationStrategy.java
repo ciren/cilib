@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.clustering.iterationstrategies;
 
-import java.util.Iterator;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.entity.Topology;
@@ -65,7 +64,7 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
         double euclideanDistance;
         Vector addedPattern;
         clearCentroidDistanceValues(topology);
-        reinitialized = false;
+        reinitialised = false;
         Vector pattern;
 
         for(ClusterParticle particle : topology) {

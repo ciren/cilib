@@ -17,15 +17,15 @@ import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.DistanceMeasure;
-import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+import net.sourceforge.cilib.util.distancemeasure.DistanceMeasure;
+import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
 
 /**
  * This class holds the functionality that is common to a number of cooperative iteration strategies
  */
 public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> extends AbstractIterationStrategy<E> {
     protected ClusterParticle contextParticle;
-    protected boolean contextinitialized;
+    protected boolean contextinitialised;
     protected DataTable table;
     protected boolean elitist;
     /*
@@ -33,7 +33,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
      */
     public AbstractCooperativeIterationStrategy() {
         contextParticle = new ClusterParticle();
-        contextinitialized = false;
+        contextinitialised = false;
         table = new StandardDataTable();
         elitist = false;
     }
@@ -44,7 +44,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
      */
     public AbstractCooperativeIterationStrategy(AbstractCooperativeIterationStrategy copy) {
         contextParticle = copy.contextParticle;
-        contextinitialized = copy.contextinitialized;
+        contextinitialised = copy.contextinitialised;
         table = copy.table;
         elitist = copy.elitist;
     }
@@ -72,7 +72,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
         DistanceMeasure distanceMeasure = new EuclideanDistanceMeasure();
         int centroidIndex;
         int patternIndex;
-        
+
         for(int i = 0; i < dataset.size(); i++) {
                 euclideanDistance = Double.POSITIVE_INFINITY;
                 addedPattern = Vector.of();
@@ -104,10 +104,10 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
     }
 
     /*
-     * Initializes the context particle for the first time
-     * @param algorithm The algorithm whose context particle needs to be initialized
+     * Initialises the context particle for the first time
+     * @param algorithm The algorithm whose context particle needs to be initialised
      */
-    public void initializeContextParticle(MultiPopulationBasedAlgorithm algorithm) {
+    public void initialiseContextParticle(MultiPopulationBasedAlgorithm algorithm) {
         int populationIndex = 0;
         CentroidHolder solution = new CentroidHolder();
         CentroidHolder velocity = new CentroidHolder();
@@ -128,7 +128,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
         contextParticle.getProperties().put(EntityType.Particle.BEST_POSITION, bestPosition);
         contextParticle.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
         contextParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
-        contextinitialized = true;
+        contextinitialised = true;
     }
 
 
@@ -147,7 +147,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
     }
 
     public void setIsElitist(Boolean elitist) {
-        this.elitist = elitist; 
+        this.elitist = elitist;
     }
-    
+
 }

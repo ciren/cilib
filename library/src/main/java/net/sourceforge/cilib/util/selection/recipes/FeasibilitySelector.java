@@ -11,22 +11,21 @@ import java.util.Arrays;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.problem.boundaryconstraint.UnconstrainedBoundary;
-import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
 import net.sourceforge.cilib.util.selection.PartialSelection;
 import net.sourceforge.cilib.util.selection.Selection;
 
 public class FeasibilitySelector <E extends Individual> implements Selector<E>{
     private BoundaryConstraint constraint;
-    
+
     /*
      * Default constructor for FeasibilitySelector
      */
     public FeasibilitySelector() {
         constraint = new UnconstrainedBoundary();
     }
-    
+
     /*
      * Copy constructor for FeasibilitySelector
      * @param new instance of FeasibilitySelector
@@ -34,7 +33,7 @@ public class FeasibilitySelector <E extends Individual> implements Selector<E>{
     public FeasibilitySelector(FeasibilitySelector copy) {
         constraint = copy.constraint;
     }
-    
+
     /*
      * Clone method of FeasibilitySelector
      * @return The new instance of FeasibilitySelector
@@ -42,7 +41,7 @@ public class FeasibilitySelector <E extends Individual> implements Selector<E>{
     public FeasibilitySelector getClone() {
         return new FeasibilitySelector(this);
     }
-    
+
     /*
      * Inner class holding an individual and its sum of constraintViolation
      */
@@ -96,13 +95,13 @@ public class FeasibilitySelector <E extends Individual> implements Selector<E>{
         ArrayList inFeasibleEntities = new ArrayList();
         E winningIndividual;
         EuclideanDistanceMeasure euclideanDistanceMeasure = new EuclideanDistanceMeasure();
-                
+
         for(E current : iterable) {
            temp = (E) current.getClone();
-            
+
            constraint.enforce(temp);
            difference = euclideanDistanceMeasure.distance(temp.getCandidateSolution(), current.getCandidateSolution());
-           
+
            if(difference == 0) {
                feasibleEntities.add(current);
            } else {
@@ -111,33 +110,33 @@ public class FeasibilitySelector <E extends Individual> implements Selector<E>{
                newIndividual.setSumOfConstrainViolation(difference);
                inFeasibleEntities.add(newIndividual);
            }
-        } 
-        
+        }
+
         if(feasibleEntities.size() > 0) {
             return Selection.copyOf(Arrays.asList(selectBestOfFeasible(feasibleEntities)));
         }
-        
+
         return Selection.copyOf(Arrays.asList(selectBestOfInfeasible(inFeasibleEntities)));
-        
+
     }
-    
+
     /*
-     * Selects the best among a set of feasible solutions 
+     * Selects the best among a set of feasible solutions
      * @param iterable The set of feasible solutions
      * @return The best individual among the feasible solutions
      */
     protected E selectBestOfFeasible(Iterable<E> iterable) {
         E bestIndividual = iterable.iterator().next();
-        
+
         for(E current : iterable) {
            if(current.getFitness().compareTo(bestIndividual.getBestFitness()) > 0) {
                bestIndividual = (E) current.getClone();
            }
-        } 
-        
+        }
+
         return bestIndividual;
     }
-    
+
     /*
      * Selects the individual with the lowest sum of constraint violation among a set of infeasible solutions
      *@param iterable The set of infeasible solutions
@@ -149,16 +148,16 @@ public class FeasibilitySelector <E extends Individual> implements Selector<E>{
         double sumOfConstraintViolation = Double.POSITIVE_INFINITY;
         double sumPerDimension;
         Vector difference;
-        
+
         for(ExtendedIndividual current : iterable) {
             sumPerDimension = current.getSumOfConstrainViolation();
             if(sumPerDimension < sumOfConstraintViolation ) {
                bestIndividual = (E) current.getIndividual().getClone();
                sumOfConstraintViolation = sumPerDimension;
             }
-           
+
         }
-        
+
         return bestIndividual;
     }
 
@@ -177,6 +176,6 @@ public class FeasibilitySelector <E extends Individual> implements Selector<E>{
     public void setConstraint(BoundaryConstraint constraint) {
         this.constraint = constraint;
     }
-    
-       
+
+
 }

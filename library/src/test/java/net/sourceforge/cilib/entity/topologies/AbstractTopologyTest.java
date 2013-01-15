@@ -6,17 +6,6 @@
  */
 package net.sourceforge.cilib.entity.topologies;
 
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
-import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
-import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
-import net.sourceforge.cilib.problem.solution.MaximisationFitness;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.pso.particle.StandardParticle;
-import static org.hamcrest.CoreMatchers.is;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class AbstractTopologyTest {

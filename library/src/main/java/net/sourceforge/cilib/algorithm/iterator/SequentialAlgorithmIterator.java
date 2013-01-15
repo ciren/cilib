@@ -8,7 +8,6 @@ package net.sourceforge.cilib.algorithm.iterator;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
 
 /**

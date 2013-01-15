@@ -6,8 +6,6 @@
  */
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
-import java.io.Serializable;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.pso.dynamic.DynamicIterationStrategy;
@@ -19,7 +17,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * detect whether the environment has change during the course of an
  * {@link Algorithm algorithm's} execution.
  */
-public abstract class EnvironmentChangeDetectionStrategy<E extends PopulationBasedAlgorithm> implements Cloneable, Serializable {
+public abstract class EnvironmentChangeDetectionStrategy<E extends PopulationBasedAlgorithm> implements Cloneable {
     protected double epsilon = 0.0;
     protected int interval = 0;
 

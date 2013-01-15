@@ -15,7 +15,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class WeightSolutionConversionStrategy implements SolutionConversionStrategy {
 
     @Override
-    public SolutionConversionStrategy initialize(NeuralNetwork neuralNetwork) {
+    public SolutionConversionStrategy initialise(NeuralNetwork neuralNetwork) {
         return this;
     }
 

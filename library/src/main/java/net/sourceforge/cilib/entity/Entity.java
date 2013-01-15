@@ -6,10 +6,8 @@
  */
 package net.sourceforge.cilib.entity;
 
-import java.io.Serializable;
-
-import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.Problem;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -20,7 +18,7 @@ import net.sourceforge.cilib.util.calculator.FitnessCalculator;
  * This is the super interface which all corresponding entity implementation and extending interfaces,
  * for use in population based algorithms, must implement/extend from.
  */
-public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
+public interface Entity extends Comparable<Entity>, Cloneable {
 
     /**
      * Make a clone of the Entity the exact semantics of the clone method will be defined by the classes

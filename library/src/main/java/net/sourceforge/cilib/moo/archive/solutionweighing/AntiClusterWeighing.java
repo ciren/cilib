@@ -9,7 +9,6 @@ package net.sourceforge.cilib.moo.archive.solutionweighing;
 import com.google.common.collect.Lists;
 import java.util.Iterator;
 import java.util.List;
-
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.MOFitness;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
@@ -23,10 +22,10 @@ import net.sourceforge.cilib.util.selection.WeightedObject;
  * </p>
  *
  * <p>
- * This class can be used to select the most closely clustered optimization
+ * This class can be used to select the most closely clustered optimisation
  * solutions to be removed from the {@link Archive} if it reaches its maximum capacity.
  * However, by selecting the least closely clustered solutions, you have a collection of
- * solutions that are good candidates to be used as guides in a Multi-objective optimization
+ * solutions that are good candidates to be used as guides in a Multi-objective optimisation
  * algorithm (see {@link GuideSelectionStrategy}).
  * </p>
  *

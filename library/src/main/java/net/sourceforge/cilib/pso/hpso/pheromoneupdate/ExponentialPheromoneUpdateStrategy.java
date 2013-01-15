@@ -9,8 +9,8 @@ package net.sourceforge.cilib.pso.hpso.pheromoneupdate;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * Calculates the change in pheromone level for a particular particle's behavior

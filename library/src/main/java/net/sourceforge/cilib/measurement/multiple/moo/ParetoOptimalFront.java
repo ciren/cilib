@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.measurement.multiple.moo;
 
 import java.util.Collection;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.moo.archive.Archive;

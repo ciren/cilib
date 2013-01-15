@@ -8,7 +8,6 @@ package net.sourceforge.cilib.algorithm.population;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.knowledgetransferstrategies.KnowledgeTransferStrategy;
 import net.sourceforge.cilib.moo.archive.Archive;

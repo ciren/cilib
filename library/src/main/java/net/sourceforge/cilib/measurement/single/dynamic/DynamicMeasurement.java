@@ -9,7 +9,6 @@ package net.sourceforge.cilib.measurement.single.dynamic;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
 import net.sourceforge.cilib.measurement.StateAwareMeasurement;
 import net.sourceforge.cilib.type.types.Type;
 

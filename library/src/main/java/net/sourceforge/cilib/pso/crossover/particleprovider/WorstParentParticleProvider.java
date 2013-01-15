@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.pso.crossover.particleprovider;
 
 import java.util.List;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
 
