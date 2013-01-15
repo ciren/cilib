@@ -1,8 +1,11 @@
-/**           __  __
- *    _____ _/ /_/ /_    Computational Intelligence Library (CIlib)
- *   / ___/ / / / __ \   (c) CIRG @ UP
- *  / /__/ / / / /_/ /   http://cilib.net
- *  \___/_/_/_/_.___/
+/**
+ * __ __
+ * _____ _/ /_/ /_ Computational Intelligence Library (CIlib)
+ *   / ___/ / / / __ \ (c) CIRG
+ * <p/>
+ * @ UP
+ *  / /__/ / / / /_/ / http://cilib.net
+ * \___/_/_/_/_.___/
  */
 package net.sourceforge.cilib.algorithm.initialisation;
 
@@ -18,12 +21,12 @@ import net.sourceforge.cilib.pso.dynamic.ChargedParticle;
  * Create a collection of {@linkplain net.sourceforge.cilib.entity.Entity entities}
  * by cloning the given prototype {@link net.sourceforge.cilib.entity.Entity}.
  * The Entity have to be ChargedParticle and their charged are set during the
- * initialization process.
+ * initialisation process.
  *
  * @param <E> The {@code Entity} type.
  */
 public class ChargedPopulationInitialisationStrategy<E extends Entity>
-        implements PopulationInitialisationStrategy<E> {
+    implements PopulationInitialisationStrategy<E> {
 
     private ChargedParticle prototypeEntity;
     private int entityNumber;
@@ -42,13 +45,17 @@ public class ChargedPopulationInitialisationStrategy<E extends Entity>
 
     /**
      * Copy constructor. Create a copy of the given instance.
+     * <p/>
      * @param copy The instance to copy.
      */
     public ChargedPopulationInitialisationStrategy(ChargedPopulationInitialisationStrategy<E> copy) {
         this.entityNumber = copy.entityNumber;
-        this.prototypeEntity = copy.prototypeEntity.getClone();
         this.chargedRatio = copy.chargedRatio;
         this.chargeMagnitude = copy.chargeMagnitude;
+        
+        if (prototypeEntity != null) {
+            this.prototypeEntity = copy.prototypeEntity.getClone();
+        }
     }
 
     /**
@@ -56,15 +63,15 @@ public class ChargedPopulationInitialisationStrategy<E extends Entity>
      */
     @Override
     public ChargedPopulationInitialisationStrategy<E> getClone() {
-        return new ChargedPopulationInitialisationStrategy<E>(this);
+        return new ChargedPopulationInitialisationStrategy(this);
     }
 
     /**
-     * Perform the required initialization, using the provided <tt>Topology</tt> and
+     * Perform the required initialisation, using the provided <tt>Topology</tt> and
      * <tt>Problem</tt>.
-     * @param problem The <tt>Problem</tt> to use in the initialization of the topology.
+     * @param problem The <tt>Problem</tt> to use in the initialisation of the topology.
      * @return An {@code Iterable<E>} of cloned instances.
-     * @throws InitialisationException if the initialization cannot take place.
+     * @throws InitialisationException if the initialisation cannot take place.
      */
     @Override
     public Iterable<E> initialise(Problem problem) {

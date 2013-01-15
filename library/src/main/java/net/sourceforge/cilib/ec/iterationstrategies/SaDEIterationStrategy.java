@@ -8,11 +8,9 @@ package net.sourceforge.cilib.ec.iterationstrategies;
 
 import java.util.Arrays;
 import java.util.List;
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.ec.SaDEIndividual;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.creation.SaDECreationStrategy;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -27,7 +25,8 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
 public class SaDEIterationStrategy extends AbstractIterationStrategy<EC> {
 
     private static final long serialVersionUID = 8019668923312811974L;
-    private Selector targetVectorSelectionStrategy;
+    
+    private Selector<SaDEIndividual> targetVectorSelectionStrategy;
     private int frequencyOfChange;
     private int frequencyOfAdaptiveVarialeRecalculation;
     private int nextChange;
@@ -36,7 +35,6 @@ public class SaDEIterationStrategy extends AbstractIterationStrategy<EC> {
     private double totalAcceptedWithStrategy2;
     private double totalRejectedWithStrategy1;
     private double totalRejectedWithStrategy2;
-    
     
     /**
      * Create an instance of the {@linkplain DifferentialEvolutionIterationStrategy}.
@@ -83,10 +81,10 @@ public class SaDEIterationStrategy extends AbstractIterationStrategy<EC> {
      */
     @Override
     public void performIteration(EC ec) {
-        Topology<Entity> topology = (Topology<Entity>) ec.getTopology();
+        Topology<SaDEIndividual> topology = (Topology<SaDEIndividual>) ec.getTopology();
         String strategyResult;
         
-        if(((SaDECreationStrategy)((SaDEIndividual) topology.get(0)).getTrialVectorCreationStrategy()).probabilitiesChanged()) {
+        if(((SaDECreationStrategy)topology.get(0).getTrialVectorCreationStrategy()).probabilitiesChanged()) {
             totalAcceptedWithStrategy1 = 0;
             totalAcceptedWithStrategy2 = 0;
             totalRejectedWithStrategy1 = 0;
@@ -94,24 +92,19 @@ public class SaDEIterationStrategy extends AbstractIterationStrategy<EC> {
         }
         
         for (int i = 0; i < topology.size(); i++) {
-            SaDEIndividual current = (SaDEIndividual) topology.get(i);
-            
-            //System.out.println("Parameter: " + current.getTrialVectorCreationStrategy().getScaleParameter().getParameter());
-            
-            current.calculateFitness();
+            SaDEIndividual current = topology.get(i);
 
             // Create the trial vector by applying mutation
-            Entity targetEntity = (Entity) targetVectorSelectionStrategy.on(topology).exclude(current).select();
+            SaDEIndividual targetEntity = targetVectorSelectionStrategy.on(topology).exclude(current).select();
 
             // Create the trial vector / entity
-            Entity trialEntity = current.getTrialVectorCreationStrategy().create(targetEntity, current, topology);
+            SaDEIndividual trialEntity = current.getTrialVectorCreationStrategy().create(targetEntity, current, topology);
 
             // Create the offspring by applying cross-over
-            
-            List<Entity> offspring = (List<Entity>) current.getCrossoverStrategy().crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
+            List<SaDEIndividual> offspring = current.getCrossoverStrategy().crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
 
             // Replace the parent (current) if the offspring is better
-            SaDEIndividual offspringEntity = (SaDEIndividual) offspring.get(0).getClone();
+            SaDEIndividual offspringEntity = offspring.get(0);
             offspringEntity.setPreviousFitness(current.getFitness().getClone());
             boundaryConstraint.enforce(offspringEntity);
             offspringEntity.calculateFitness();
@@ -150,10 +143,8 @@ public class SaDEIterationStrategy extends AbstractIterationStrategy<EC> {
             }
         }
         
-        if(AbstractAlgorithm.get().getIterations() == nextAdaptiveVariableRecalculation) {
-            SaDEIndividual current;
-            for (int i = 0; i < topology.size(); i++) {
-                current = (SaDEIndividual) topology.get(i);
+        if(ec.getIterations() == nextAdaptiveVariableRecalculation) {
+            for (SaDEIndividual current : topology) {
                 current.getCrossoverProbabilityParameterAdaptationStrategy().recalculateAdaptiveVariables();
                 current.getScalingFactorParameterAdaptationStrategy().recalculateAdaptiveVariables();
             }
@@ -161,10 +152,8 @@ public class SaDEIterationStrategy extends AbstractIterationStrategy<EC> {
            nextAdaptiveVariableRecalculation += frequencyOfAdaptiveVarialeRecalculation;
         }
         
-        if(AbstractAlgorithm.get().getIterations() == nextChange) {
-            SaDEIndividual current;
-            for (int i = 0; i < topology.size(); i++) {
-                current = (SaDEIndividual) topology.get(i);
+        if(ec.getIterations() == nextChange) {
+            for (SaDEIndividual current : topology) {
                 current.updateParameters();
             }
             

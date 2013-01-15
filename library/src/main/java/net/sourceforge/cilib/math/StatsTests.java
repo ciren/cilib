@@ -6,38 +6,38 @@
  */
 package net.sourceforge.cilib.math;
 
-import static fj.data.List.*;
 import fj.F;
 import static fj.Function.*;
 import static fj.Ord.*;
 import fj.P;
 import fj.P2;
 import fj.data.List;
+import static fj.data.List.*;
 import fj.data.Stream;
 import static fj.function.Doubles.*;
 import net.sourceforge.cilib.util.functions.Utils;
 import static net.sourceforge.cilib.util.functions.Utils.*;
 
 public final class StatsTests {
-    
+
     private StatsTests() {}
-    
+
     public static <T extends Iterable<? extends Iterable<Double>>> P2<Double,Double> friedman(final double alpha, T a) {
         return friedman(alpha).f(a);
     }
-    
+
     public static <T extends Iterable<? extends Iterable<Double>>> List<Integer> postHoc(final double alpha, final double statistic, T a) {
         return postHoc(alpha, statistic).f(a);
     }
-    
-    public static F<Iterable<? extends Iterable<Double>>, P2<Double,Double>> 
+
+    public static F<Iterable<? extends Iterable<Double>>, P2<Double,Double>>
             friedman(final double alpha) {
         return new F<Iterable<? extends Iterable<Double>>, P2<Double, Double>>() {
             @Override
             public P2<Double, Double> f(Iterable<? extends Iterable<Double>> a) {
                 final List<List<Double>> ranks = iterableList(a)
                     .map(Stats.rank.andThen(Utils.<Double,Iterable>iterableList()));
-                
+
                 final int k = ranks.length();
                 final int m = ranks.isNotEmpty() ? iterableList(ranks.head()).length() : 0;
 
@@ -57,15 +57,15 @@ public final class StatsTests {
             }
         };
     }
-    
-    public static F<Iterable<? extends Iterable<Double>>, List<Integer>> 
+
+    public static F<Iterable<? extends Iterable<Double>>, List<Integer>>
             postHoc(final double alpha, final double statistic) {
         return new F<Iterable<? extends Iterable<Double>>, List<Integer>>() {
             @Override
             public List<Integer> f(Iterable<? extends Iterable<Double>> a) {
                 final List<List<Double>> ranks = iterableList(a)
                     .map(Stats.rank.andThen(Utils.<Double,Iterable>iterableList()));
-                
+
                 final int k = ranks.length();
                 final int m = ranks.isNotEmpty() ? iterableList(ranks.head()).length() : 0;
 
@@ -75,10 +75,10 @@ public final class StatsTests {
                     - k * m * (m + 1) * (m + 1) / 4;
 
                 final double posthocStatistic = StatsTables.tDistribution(m - 1, alpha / 2.0);
-                final double posthocDenominator = Math.sqrt((2 * k) 
+                final double posthocDenominator = Math.sqrt((2 * k)
                     * (1 - statistic / (k * (m - 1))) * denominator / ((k - 1) * (m - 1)));
                 final P2<Double,Integer> best = sumOfRanks.sort(p2Ord(doubleOrd, intOrd)).head();
-                
+
                 return Stream.unzip(sumOfRanks.filter(new F<P2<Double, Integer>, Boolean>() {
                     @Override
                     public Boolean f(P2<Double, Integer> a) {

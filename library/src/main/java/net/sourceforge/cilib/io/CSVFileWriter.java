@@ -6,9 +6,9 @@
  */
 package net.sourceforge.cilib.io;
 
-import net.sourceforge.cilib.io.exception.CIlibIOException;
 import java.io.IOException;
 import java.util.List;
+import net.sourceforge.cilib.io.exception.CIlibIOException;
 
 /**
  * Implements a Data Writer that writes a datatable to a local CSV file.

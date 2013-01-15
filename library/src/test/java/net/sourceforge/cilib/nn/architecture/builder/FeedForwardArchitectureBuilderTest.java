@@ -21,7 +21,7 @@ public class FeedForwardArchitectureBuilderTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3, false));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
-        network.initialize();
+        network.initialise();
 
         //assert num layers
         Assert.assertEquals(4, network.getArchitecture().getNumLayers());

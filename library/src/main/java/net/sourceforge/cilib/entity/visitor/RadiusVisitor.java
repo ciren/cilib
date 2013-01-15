@@ -7,14 +7,13 @@
 package net.sourceforge.cilib.entity.visitor;
 
 import java.util.Iterator;
-
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.measurement.single.diversity.centerinitialisationstrategies.CenterInitialisationStrategy;
 import net.sourceforge.cilib.measurement.single.diversity.centerinitialisationstrategies.GBestCenterInitialisationStrategy;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.DistanceMeasure;
-import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+import net.sourceforge.cilib.util.distancemeasure.DistanceMeasure;
+import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
 
 /**
  * Determine the radius of the current {@linkplain net.sourceforge.cilib.entity.Topology topology}
@@ -26,7 +25,7 @@ public class RadiusVisitor implements TopologyVisitor {
     private boolean done;
     private CenterInitialisationStrategy populationCenter;
     protected DistanceMeasure distanceMeasure;
-    
+
     /**
      * Default constructor.
      */
@@ -49,7 +48,7 @@ public class RadiusVisitor implements TopologyVisitor {
         double maxDistance = 0.0;
         Vector center = populationCenter.getCenter(topology);
 
-        // initialize iterator to be used to calculate radius
+        // initialise iterator to be used to calculate radius
         Iterator<?> calculateRadiusIterator = topology.iterator();
 
         // calculate radius
@@ -87,7 +86,7 @@ public class RadiusVisitor implements TopologyVisitor {
 
     /**
      * Gets the strategy used for calculating the center of the topology.
-     * @return 
+     * @return
      */
     public CenterInitialisationStrategy getPopulationCenter() {
         return populationCenter;
@@ -95,7 +94,7 @@ public class RadiusVisitor implements TopologyVisitor {
 
     /**
      * Sets the strategy to use for calculating the center of the topology.
-     * @param centerCalculator 
+     * @param centerCalculator
      */
     public void setPopulationCenter(CenterInitialisationStrategy centerCalculator) {
         this.populationCenter = centerCalculator;
@@ -103,7 +102,7 @@ public class RadiusVisitor implements TopologyVisitor {
 
     /**
      * Gets the distance measure used.
-     * @return 
+     * @return
      */
     public DistanceMeasure getDistanceMeasure() {
         return distanceMeasure;
@@ -111,7 +110,7 @@ public class RadiusVisitor implements TopologyVisitor {
 
     /**
      * Sets the distance measure to use.
-     * @param distanceMeasure 
+     * @param distanceMeasure
      */
     public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
         this.distanceMeasure = distanceMeasure;

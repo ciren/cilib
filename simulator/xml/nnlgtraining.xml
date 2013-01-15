@@ -11,7 +11,7 @@
         <algorithm id="gcpsoLB" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="20">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityInitializationStrategy class="entity.initialization.ConstantInitializationStrategy" constant="0.0" />
+                    <velocityInitialisationStrategy class="entity.initialisation.ConstantInitialisationStrategy" constant="0.0" />
                     <velocityProvider class="pso.velocityprovider.GCVelocityProvider">
                         <delegate class="pso.velocityprovider.StandardVelocityProvider">
                             <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.729844" />
@@ -30,11 +30,11 @@
     </algorithms>
 
     <problems>
-        <problem id="nn4-8-1-sig" class="problem.nn.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3">
+        <problem id="nn4-8-1-sig" class="problem.nn.NNDataTrainingProblem" trainingSetPercentage="0.7" generalisationSetPercentage="0.3">
             <dataTableBuilder class="io.DataTableBuilder">
                 <dataReader class="io.ARFFFileReader" sourceURL="library/src/test/resources/datasets/iris.arff"/>
             </dataTableBuilder>
-            <domainInitializationStrategy class="nn.domain.LambdaGammaDomainInitializationStrategy"/>
+            <domainInitialisationStrategy class="nn.domain.LambdaGammaDomainInitialisationStrategy"/>
             <solutionConversionStrategy class="nn.domain.LambdaGammaSolutionConversionStrategy"/>
             <neuralNetwork class="nn.NeuralNetwork">
                 <architecture class="nn.architecture.Architecture">
@@ -53,7 +53,7 @@
 
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
         <addMeasurement class="measurement.single.Fitness"/>
-        <addMeasurement class="measurement.single.MSEGeneralizationError"/>
+        <addMeasurement class="measurement.single.MSEGeneralisationError"/>
     </measurements>
 
     <simulations>

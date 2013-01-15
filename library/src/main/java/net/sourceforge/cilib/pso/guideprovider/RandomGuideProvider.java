@@ -7,11 +7,11 @@
 package net.sourceforge.cilib.pso.guideprovider;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
@@ -39,7 +39,7 @@ public class RandomGuideProvider implements GuideProvider {
     public StructuredType get(Particle particle) {
         Topology<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
         Particle other = topology.get((int) random.getRandomNumber(0, topology.size()));
-        
+
         return other.getBestPosition();
     }
 }

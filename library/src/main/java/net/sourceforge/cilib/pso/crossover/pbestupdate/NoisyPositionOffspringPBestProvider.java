@@ -8,17 +8,17 @@ package net.sourceforge.cilib.pso.crossover.pbestupdate;
 
 import fj.P1;
 import java.util.List;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * This OffspringPBestProvider sets an offspring's pBest using another 
+ * This OffspringPBestProvider sets an offspring's pBest using another
  * OffspringPBestProvider and adding some noise to the resulting pbest.
  */
-public class NoisyPositionOffspringPBestProvider extends OffspringPBestProvider {    
+public class NoisyPositionOffspringPBestProvider extends OffspringPBestProvider {
     private ProbabilityDistributionFunction random;
     private OffspringPBestProvider delegate;
 
@@ -33,7 +33,7 @@ public class NoisyPositionOffspringPBestProvider extends OffspringPBestProvider 
             @Override
             public Number _1() {
                 return random.getRandomNumber();
-            }            
+            }
         });
     }
 

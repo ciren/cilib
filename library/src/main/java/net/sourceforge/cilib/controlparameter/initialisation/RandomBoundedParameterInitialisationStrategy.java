@@ -47,11 +47,11 @@ public class RandomBoundedParameterInitialisationStrategy implements ControlPara
     }
 
     /*
-     * Initializes the parameter received within 2 bounds.
+     * Initialises the parameter received within 2 bounds.
      * @param parameter The parameter to be initialised
      */
     @Override
-    public void initialize(SettableControlParameter parameter) {
+    public void initialise(SettableControlParameter parameter) {
         double value = random.getRandomNumber(lowerBound.getParameter(), upperBound.getParameter());
         parameter.setParameter(value);
     }

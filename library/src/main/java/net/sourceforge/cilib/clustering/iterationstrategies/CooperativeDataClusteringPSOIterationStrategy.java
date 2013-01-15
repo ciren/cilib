@@ -29,7 +29,7 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
     public CooperativeDataClusteringPSOIterationStrategy() {
         super();
         contextParticle = new ClusterParticle();
-        contextinitialized = false;
+        contextinitialised = false;
         table = new StandardDataTable();
     }
     
@@ -40,7 +40,7 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
     public CooperativeDataClusteringPSOIterationStrategy(CooperativeDataClusteringPSOIterationStrategy copy) {
         super(copy);
         contextParticle = copy.contextParticle;
-        contextinitialized = copy.contextinitialized;
+        contextinitialised = copy.contextinitialised;
         table = copy.table;
     }
     
@@ -71,8 +71,8 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
               
             table = ((SinglePopulationDataClusteringIterationStrategy) ((DataClusteringPSO) currentAlgorithm).getIterationStrategy()).getDataset();
             
-            if(!contextinitialized) {
-                initializeContextParticle(algorithm);
+            if(!contextinitialised) {
+                initialiseContextParticle(algorithm);
             }
             
             pso = ((DataClusteringPSO) currentAlgorithm);
@@ -92,7 +92,7 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
                 particleWithContext.setNeighbourhoodBest(particle.getNeighbourhoodBest());
                 ((CentroidHolder) particleWithContext.getCandidateSolution()).set(populationIndex, ((CentroidHolder) particle.getCandidateSolution()).get(populationIndex));
                 particleWithContext.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER).getClone());
-                particleWithContext.setCentroidInitialisationStrategy(particle.getCentroidInitializationStrategyCandidate().getClone());
+                particleWithContext.setCentroidInitialisationStrategy(particle.getCentroidInitialisationStrategyCandidate().getClone());
                 
                 clearDataPatterns(particleWithContext);
                 assignDataPatternsToParticle((CentroidHolder) particleWithContext.getCandidateSolution(), table);

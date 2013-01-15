@@ -18,18 +18,15 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.crossover.ParticleCrossoverStrategy;
-import net.sourceforge.cilib.pso.crossover.particleprovider.ParticleProvider;
 import net.sourceforge.cilib.pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider;
 import net.sourceforge.cilib.pso.crossover.velocityprovider.ZeroOffspringVelocityProvider;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.selection.Samples;
-import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
  * Perform crossover on archive solutions by creating a dummy particle for each

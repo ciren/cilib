@@ -26,7 +26,7 @@ public final class NeuralNetworksTestHelper {
         layerBuilder.setDomain("R(-3:3)");
         architectureBuilder.setLayerBuilder(layerBuilder);
         architecture.setArchitectureBuilder(architectureBuilder);
-        architecture.initialize();
+        architecture.initialise();
         NeuralNetwork neuralNetwork = new NeuralNetwork();
         neuralNetwork.setArchitecture(architecture);
         return neuralNetwork;

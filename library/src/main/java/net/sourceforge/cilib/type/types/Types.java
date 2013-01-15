@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.type.types;
 
 import java.util.Iterator;
-import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.util.Visitor;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -35,7 +35,7 @@ public final class Types {
                 if(!visitor.isValid())
                     return false;
             }
-            
+
             return true;
         } else if (candidateSolution instanceof StructuredType) {
             StructuredType structuredType = (StructuredType) candidateSolution;
@@ -47,8 +47,8 @@ public final class Types {
             Bounds bounds = boundedType.getBounds();
             return bounds.isInsideBounds(boundedType.doubleValue());
         }
-        
-        
+
+
 
         return false;
     }

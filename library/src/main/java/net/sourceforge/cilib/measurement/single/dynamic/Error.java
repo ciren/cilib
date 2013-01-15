@@ -8,7 +8,7 @@ package net.sourceforge.cilib.measurement.single.dynamic;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.DynamicOptimizationProblem;
+import net.sourceforge.cilib.problem.DynamicOptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 
 public class Error implements Measurement<Real> {
@@ -18,7 +18,7 @@ public class Error implements Measurement<Real> {
     }
 
     public Real getValue(Algorithm algorithm) {
-        DynamicOptimizationProblem function = (DynamicOptimizationProblem) algorithm.getOptimisationProblem();
+        DynamicOptimisationProblem function = (DynamicOptimisationProblem) algorithm.getOptimisationProblem();
         return Real.valueOf(function.getError(algorithm.getBestSolution().getPosition()));
     }
 

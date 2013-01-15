@@ -7,29 +7,29 @@
 package net.sourceforge.cilib.nn.architecture.builder;
 
 import net.sourceforge.cilib.nn.architecture.Layer;
-import net.sourceforge.cilib.nn.components.RandomWeightInitializationStrategy;
-import net.sourceforge.cilib.nn.components.WeightInitializationStrategy;
+import net.sourceforge.cilib.nn.components.RandomWeightInitialisationStrategy;
+import net.sourceforge.cilib.nn.components.WeightInitialisationStrategy;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 
 /**
  * Class represents an object responsible for constructing a layer i.e. construct
  * and correctly set up all the neurons the layer should contain. The concrete
- * extension defines how this is done. Class also stores the {@link WeightInitializationStrategy}
+ * extension defines how this is done. Class also stores the {@link WeightInitialisationStrategy}
  * and the {@link DomainRegistry} for the weights.
  */
 public abstract class LayerBuilder {
 
-    private WeightInitializationStrategy weightInitializationStrategy;
+    private WeightInitialisationStrategy weightInitialisationStrategy;
     private DomainRegistry domainRegistry;
 
     /**
-     * Default constructor. The default weight initialization strategy is the
-     * {@link RandomWeightInitializationStrategy} and the default domain registry
+     * Default constructor. The default weight initialisation strategy is the
+     * {@link RandomWeightInitialisationStrategy} and the default domain registry
      * is the {@link StringBasedDomainRegistry}.
      */
     public LayerBuilder() {
-        weightInitializationStrategy = new RandomWeightInitializationStrategy();
+        weightInitialisationStrategy = new RandomWeightInitialisationStrategy();
         domainRegistry = new StringBasedDomainRegistry();
     }
 
@@ -43,19 +43,19 @@ public abstract class LayerBuilder {
     public abstract Layer buildLayer(LayerConfiguration layerConfiguration, int previousLayerAbsoluteSize);
 
     /**
-     * Gets the weight initialization stratetegy.
-     * @return the weight initialization strategy.
+     * Gets the weight initialisation stratetegy.
+     * @return the weight initialisation strategy.
      */
-    public WeightInitializationStrategy getWeightInitializationStrategy() {
-        return weightInitializationStrategy;
+    public WeightInitialisationStrategy getWeightInitialisationStrategy() {
+        return weightInitialisationStrategy;
     }
 
     /**
-     * Sets the weight initialization strategy.
-     * @param weightInitializationStrategy the weight initialization strategy.
+     * Sets the weight initialisation strategy.
+     * @param weightInitialisationStrategy the weight initialisation strategy.
      */
-    public void setWeightInitializationStrategy(WeightInitializationStrategy weightInitializationStrategy) {
-        this.weightInitializationStrategy = weightInitializationStrategy;
+    public void setWeightInitialisationStrategy(WeightInitialisationStrategy weightInitialisationStrategy) {
+        this.weightInitialisationStrategy = weightInitialisationStrategy;
     }
 
     /**

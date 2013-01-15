@@ -27,7 +27,7 @@
     </algorithms>
     
     <problems>
-        <problem id="nn4-8-1-sig" class="problem.nn.NNSlidingWindowTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3">
+        <problem id="nn4-8-1-sig" class="problem.nn.NNSlidingWindowTrainingProblem" trainingSetPercentage="0.7" generalisationSetPercentage="0.3">
              <windowSize value="50" />
             <stepSize value="10" />
             <changeFrequency value="100" />
@@ -51,7 +51,7 @@
 
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
         <addMeasurement class="measurement.single.Fitness"/>
-        <addMeasurement class="measurement.single.MSEGeneralizationError"/>
+        <addMeasurement class="measurement.single.MSEGeneralisationError"/>
     </measurements>
 
     <simulations>

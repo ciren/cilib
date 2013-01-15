@@ -7,32 +7,27 @@
 package net.sourceforge.cilib.controlparameter.adaptation;
 
 import java.util.ArrayList;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import net.sourceforge.cilib.controlparameter.adaptation.SaDEParameterAdaptationStrategy;
 import net.sourceforge.cilib.controlparameter.SettableControlParameter;
 import net.sourceforge.cilib.controlparameter.StandardUpdatableControlParameter;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.controlparameter.initialisation.RandomBoundedParameterInitialisationStrategy;
-import net.sourceforge.cilib.ec.ParameterizedIndividual;
+import net.sourceforge.cilib.ec.ParameterisedIndividual;
 
 public class SaDEParameterAdaptationStrategyTest {
-    
+
     @Test
     public void changeTest() {
         SaDEParameterAdaptationStrategy strategy = new SaDEParameterAdaptationStrategy();
         SettableControlParameter parameter = new StandardUpdatableControlParameter();
         parameter.setParameter(5.2);
         strategy.change(parameter);
-        
+
         Assert.assertFalse(parameter.getParameter() == 5.2);
     }
-    
+
     @Test
     public void recalculateAdaptiveVariablesTest() {
         ArrayList<Double> learningExperience = new ArrayList<Double>();
@@ -40,12 +35,12 @@ public class SaDEParameterAdaptationStrategyTest {
         learningExperience.add(1.4);
         learningExperience.add(6.3);
         learningExperience.add(3.0);
-        
+
         SaDEParameterAdaptationStrategy strategy = new SaDEParameterAdaptationStrategy();
         strategy.setLearningExperience(learningExperience);
-        
+
         strategy.recalculateAdaptiveVariables();
-        
+
         Assert.assertTrue(strategy.getMean() == 3.2);
     }
 
@@ -54,9 +49,9 @@ public class SaDEParameterAdaptationStrategyTest {
         SaDEParameterAdaptationStrategy strategy = new SaDEParameterAdaptationStrategy();
         SettableControlParameter parameter = new StandardUpdatableControlParameter();
         parameter.setParameter(5.2);
-        strategy.accepted(parameter,new ParameterizedIndividual(), true);
+        strategy.accepted(parameter,new ParameterisedIndividual(), true);
         double result = strategy.getLearningExperience().get(0);
-        
+
         Assert.assertTrue(5.2 == result);
     }
 
@@ -67,12 +62,12 @@ public class SaDEParameterAdaptationStrategyTest {
         learningExperience.add(1.4);
         learningExperience.add(6.3);
         learningExperience.add(3.0);
-        
+
         SaDEParameterAdaptationStrategy strategy = new SaDEParameterAdaptationStrategy();
         strategy.setLearningExperience(learningExperience);
-        
+
         Assert.assertEquals(learningExperience, strategy.getLearningExperience());
-        
+
     }
 
     @Test
@@ -82,18 +77,18 @@ public class SaDEParameterAdaptationStrategyTest {
         learningExperience.add(1.4);
         learningExperience.add(6.3);
         learningExperience.add(3.0);
-        
+
         SaDEParameterAdaptationStrategy strategy = new SaDEParameterAdaptationStrategy();
         strategy.setLearningExperience(learningExperience);
-        
+
         Assert.assertEquals(learningExperience, strategy.getLearningExperience());
     }
-    
+
     @Test
     public void getMean() {
        SaDEParameterAdaptationStrategy strategy = new SaDEParameterAdaptationStrategy();
        strategy.setMean(3.0);
-       
+
        Assert.assertTrue(strategy.getMean() == 3.0);
     }
 
@@ -101,7 +96,7 @@ public class SaDEParameterAdaptationStrategyTest {
     public void setMean() {
        SaDEParameterAdaptationStrategy strategy = new SaDEParameterAdaptationStrategy();
        strategy.setMean(3.0);
-       
+
        Assert.assertTrue(strategy.getMean() == 3.0);
     }
 
@@ -110,7 +105,7 @@ public class SaDEParameterAdaptationStrategyTest {
        SaDEParameterAdaptationStrategy strategy = new SaDEParameterAdaptationStrategy();
        GaussianDistribution distribution = new GaussianDistribution();
        strategy.setRandom(distribution);
-       
+
        Assert.assertEquals(distribution, strategy.getRandom());
     }
 
@@ -128,7 +123,7 @@ public class SaDEParameterAdaptationStrategyTest {
        SaDEParameterAdaptationStrategy strategy = new SaDEParameterAdaptationStrategy();
        RandomBoundedParameterInitialisationStrategy initStrategy = new RandomBoundedParameterInitialisationStrategy();
        strategy.setInitialisationStrategy(initStrategy);
-       
+
        Assert.assertEquals(initStrategy, strategy.getInitialisationStrategy());
     }
 
@@ -137,7 +132,7 @@ public class SaDEParameterAdaptationStrategyTest {
        SaDEParameterAdaptationStrategy strategy = new SaDEParameterAdaptationStrategy();
        RandomBoundedParameterInitialisationStrategy initStrategy = new RandomBoundedParameterInitialisationStrategy();
        strategy.setInitialisationStrategy(initStrategy);
-       
+
        Assert.assertEquals(initStrategy, strategy.getInitialisationStrategy());
     }
 }

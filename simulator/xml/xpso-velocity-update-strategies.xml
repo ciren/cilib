@@ -12,7 +12,7 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <!--PBest cant be same as position for UNDX because of orthonormalize function-->
-                    <personalBestInitialisationStrategy class="entity.initialization.RandomInitializationStrategy" />
+                    <personalBestInitialisationStrategy class="entity.initialisation.RandomInitialisationStrategy" />
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
@@ -32,7 +32,7 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <!--PBest cant be same as position for UNDX because of orthonormalize function-->
-                    <personalBestInitialisationStrategy class="entity.initialization.RandomInitializationStrategy" />
+                    <personalBestInitialisationStrategy class="entity.initialisation.RandomInitialisationStrategy" />
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
@@ -57,7 +57,7 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <!--PBest cant be same as position for UNDX because of orthonormalize function-->
-                    <personalBestInitialisationStrategy class="entity.initialization.RandomInitializationStrategy" />
+                    <personalBestInitialisationStrategy class="entity.initialisation.RandomInitialisationStrategy" />
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
@@ -83,7 +83,7 @@
         <algorithm id="xpso-pcx-velocity-alternative" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <personalBestInitialisationStrategy class="entity.initialization.RandomInitializationStrategy" />
+                    <personalBestInitialisationStrategy class="entity.initialisation.RandomInitialisationStrategy" />
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.DistinctCrossoverVelocityProvider">
@@ -109,7 +109,7 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <!--PBest cant be same as position for UNDX because of orthonormalize function-->
-                    <personalBestInitialisationStrategy class="entity.initialization.RandomInitializationStrategy" />
+                    <personalBestInitialisationStrategy class="entity.initialisation.RandomInitialisationStrategy" />
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
@@ -136,7 +136,7 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <!--PBest cant be same as position for UNDX because of orthonormalize function-->
-                    <personalBestInitialisationStrategy class="entity.initialization.RandomInitializationStrategy" />
+                    <personalBestInitialisationStrategy class="entity.initialisation.RandomInitialisationStrategy" />
                     <particleBehavior class="pso.particle.ParticleBehavior">
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">

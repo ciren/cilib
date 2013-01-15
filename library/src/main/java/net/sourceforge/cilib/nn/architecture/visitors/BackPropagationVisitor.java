@@ -40,7 +40,7 @@ public class BackPropagationVisitor implements ArchitectureVisitor {
      * Performs a gradient decent backpropagation given the previous {@link StandardPattern}
      * as input as well as the weight updates after the previous execution of a
      * backpropagation. If the previous weight updates do not exist, the visitor
-     * will create them and initialize them to zero.
+     * will create them and initialise them to zero.
      * @param architecture
      */
     @Override

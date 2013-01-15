@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.measurement.entropy;
 
 import java.util.Iterator;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
@@ -99,7 +98,7 @@ public class DimensionalEntropyMeasurement extends EntropyMeasurement {
             }
 
             double entropy = 0.0;
-            
+
             //calculate entropy for current dimension
             if(intervals == 1) {
                 entropy = 0.0;
@@ -115,8 +114,8 @@ public class DimensionalEntropyMeasurement extends EntropyMeasurement {
 
             entropyMeasurements.append(Real.valueOf(entropy));
         }
-        
+
         return entropyMeasurements;
     }
-    
+
 }

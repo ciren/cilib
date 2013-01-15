@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.pso.particle;
 
 import static org.junit.Assert.*;
-import net.sourceforge.cilib.entity.Particle;
 
 import org.junit.Test;
 

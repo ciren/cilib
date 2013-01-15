@@ -9,8 +9,8 @@ package net.sourceforge.cilib.pso.velocityprovider;
 import fj.P1;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.Rand;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
@@ -20,7 +20,7 @@ import net.sourceforge.cilib.util.Vectors;
 public final class StandardVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = 8204479765311251730L;
-    
+
     protected ControlParameter inertiaWeight;
     protected ControlParameter socialAcceleration;
     protected ControlParameter cognitiveAcceleration;
@@ -55,7 +55,7 @@ public final class StandardVelocityProvider implements VelocityProvider {
     public StandardVelocityProvider getClone() {
         return new StandardVelocityProvider(this);
     }
-    
+
     private static P1<Number> random() {
         return new P1<Number>() {
             @Override
@@ -64,7 +64,7 @@ public final class StandardVelocityProvider implements VelocityProvider {
             }
         };
     }
-    
+
     private static P1<Number> cp(final ControlParameter r) {
         return new P1<Number>() {
             @Override
@@ -86,7 +86,7 @@ public final class StandardVelocityProvider implements VelocityProvider {
         Vector globalGuide = (Vector) particle.getGlobalGuide();
 
         Vector dampenedVelocity = Vector.copyOf(velocity).multiply(inertiaWeight.getParameter());
-        Vector cognitiveComponent = Vector.copyOf(localGuide).subtract(position).multiply(cp(cognitiveAcceleration)).multiply(random());        
+        Vector cognitiveComponent = Vector.copyOf(localGuide).subtract(position).multiply(cp(cognitiveAcceleration)).multiply(random());
         Vector socialComponent = Vector.copyOf(globalGuide).subtract(position).multiply(cp(socialAcceleration)).multiply(random());
         return Vectors.sumOf(dampenedVelocity, cognitiveComponent, socialComponent);
     }

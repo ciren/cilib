@@ -21,10 +21,10 @@ import net.sourceforge.cilib.problem.AbstractProblem;
 public abstract class NNTrainingProblem extends AbstractProblem {
     protected NeuralNetwork neuralNetwork;
     protected StandardPatternDataTable trainingSet;
-    protected StandardPatternDataTable generalizationSet;
+    protected StandardPatternDataTable generalisationSet;
     protected StandardPatternDataTable validationSet;
     protected double trainingSetPercentage;
-    protected double generalizationSetPercentage;
+    protected double generalisationSetPercentage;
     protected double validationSetPercentage;
     protected ShuffleOperator shuffler;
     protected DataOperator patternConversionOperator;
@@ -35,46 +35,46 @@ public abstract class NNTrainingProblem extends AbstractProblem {
     public NNTrainingProblem() {
         neuralNetwork = new NeuralNetwork();
         trainingSetPercentage = 0.66;
-        generalizationSetPercentage = 0.34;
+        generalisationSetPercentage = 0.34;
         validationSetPercentage = 0.0;
         patternConversionOperator = new PatternConversionOperator();
     }
 
     /**
-     * Initializes the problem by setting up the datasets: has to be implemeted by inheriting classes.
+     * Initialises the problem by setting up the datasets: has to be implemeted by inheriting classes.
      */
     public abstract void initialise();
 
     /**
-     * Gets the generalization dataset.
-     * @return the generalization dataset.
+     * Gets the generalisation dataset.
+     * @return the generalisation dataset.
      */
-    public StandardPatternDataTable getGeneralizationSet() {
-        return generalizationSet;
+    public StandardPatternDataTable getGeneralisationSet() {
+        return generalisationSet;
     }
 
     /**
-     * Sets the generalization dataset.
-     * @param generalizationSet the new generalization dataset.
+     * Sets the generalisation dataset.
+     * @param generalisationSet the new generalisation dataset.
      */
-    public void setGeneralizationSet(StandardPatternDataTable generalizationSet) {
-        this.generalizationSet = generalizationSet;
+    public void setGeneralisationSet(StandardPatternDataTable generalisationSet) {
+        this.generalisationSet = generalisationSet;
     }
 
     /**
-     * Gets the percentage of the training set to use for generalization.
-     * @return the percentage of the training set to use for generalization.
+     * Gets the percentage of the training set to use for generalisation.
+     * @return the percentage of the training set to use for generalisation.
      */
-    public double getGeneralizationSetPercentage() {
-        return generalizationSetPercentage;
+    public double getGeneralisationSetPercentage() {
+        return generalisationSetPercentage;
     }
 
     /**
-     * Sets the percentage of the training set to use for generalization.
-     * @param generalizationSetPercentage the new percentage of the training set to use for generalization.
+     * Sets the percentage of the training set to use for generalisation.
+     * @param generalisationSetPercentage the new percentage of the training set to use for generalisation.
      */
-    public void setGeneralizationSetPercentage(double generalizationSetPercentage) {
-        this.generalizationSetPercentage = generalizationSetPercentage;
+    public void setGeneralisationSetPercentage(double generalisationSetPercentage) {
+        this.generalisationSetPercentage = generalisationSetPercentage;
     }
 
     /**

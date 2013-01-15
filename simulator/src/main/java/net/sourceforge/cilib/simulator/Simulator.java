@@ -79,7 +79,7 @@ public class Simulator {
     }
 
     /**
-     * Perform the initialization of the {@code Simulator} by creating the required
+     * Perform the initialisation of the {@code Simulator} by creating the required
      * {@code Simulation} instances and executing the threads.
      */
     public void init() {

@@ -7,8 +7,8 @@
 package net.sourceforge.cilib.pso;
 
 
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.Rand;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**

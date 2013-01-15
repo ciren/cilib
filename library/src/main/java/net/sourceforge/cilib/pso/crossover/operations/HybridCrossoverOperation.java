@@ -10,7 +10,6 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
@@ -22,14 +21,15 @@ import net.sourceforge.cilib.pso.crossover.parentupdate.AlwaysReplaceParentRepla
 import net.sourceforge.cilib.pso.crossover.parentupdate.ParentReplacementStrategy;
 import net.sourceforge.cilib.pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider;
 import net.sourceforge.cilib.pso.crossover.velocityprovider.LovbjergOffspringVelocityProvider;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
- * A crossover operation for PSOs that selects particles according to Lovbjerg 
+ * A crossover operation for PSOs that selects particles according to Lovbjerg
  * et al's hybrid PSO.
- * 
+ *
  * <p>Defined in:</p>
  * <p>
  * @INPROCEEDINGS{Løvbjerg01hybridparticle,
@@ -44,29 +44,29 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
  * <p>Also used in:</p>
  */
 public class HybridCrossoverOperation extends PSOCrossoverOperation {
-    
+
     private ParticleCrossoverStrategy particleCrossover;
     private ParentReplacementStrategy parentReplacementStrategy;
     private ControlParameter crossoverProbability;
     private Selector selector;
-    
+
     public HybridCrossoverOperation() {
-        this.particleCrossover = new ParticleCrossoverStrategy(new ArithmeticCrossoverStrategy(), 
-                new CurrentPositionOffspringPBestProvider(), 
+        this.particleCrossover = new ParticleCrossoverStrategy(new ArithmeticCrossoverStrategy(),
+                new CurrentPositionOffspringPBestProvider(),
                 new LovbjergOffspringVelocityProvider());
-        
+
         this.parentReplacementStrategy = new AlwaysReplaceParentReplacementStrategy();
         this.crossoverProbability = ConstantControlParameter.of(0.2);
         this.selector = new RandomSelector();
     }
-    
+
     public HybridCrossoverOperation(HybridCrossoverOperation copy) {
         this.particleCrossover = copy.particleCrossover;
         this.parentReplacementStrategy = copy.parentReplacementStrategy;
         this.crossoverProbability = copy.crossoverProbability.getClone();
         this.selector = copy.selector;
     }
-    
+
     @Override
     public HybridCrossoverOperation getClone() {
         return new HybridCrossoverOperation(this);
@@ -75,13 +75,13 @@ public class HybridCrossoverOperation extends PSOCrossoverOperation {
     @Override
     public Topology<Particle> f(PSO pso) {
         Topology<Particle> topology = pso.getTopology();
-        UniformDistribution uniform = new UniformDistribution();        
+        UniformDistribution uniform = new UniformDistribution();
         List<Particle> parents = Lists.newArrayList();
         List<Particle> offspring;
-        
+
         Topology<Particle> newTopology = topology.getClone();
         newTopology.clear();
-        
+
         for (Particle p : topology) {
             if (uniform.getRandomNumber() < crossoverProbability.getParameter()) {
                 parents.add(p);
@@ -92,21 +92,21 @@ public class HybridCrossoverOperation extends PSOCrossoverOperation {
 
         while (!parents.isEmpty()) {
             int numberOfParents = particleCrossover.getCrossoverStrategy().getNumberOfParents();
-            
+
             // need specific number of parents to perform crossover
             if (parents.size() < numberOfParents) {
                 newTopology.addAll(parents);
                 break;
             }
-            
+
             List<Particle> selectedParents = selector.on(parents).select(Samples.first(numberOfParents));
             offspring = particleCrossover.crossover(selectedParents);
-            
+
             parents.removeAll(selectedParents);
-            
+
             newTopology.addAll(parentReplacementStrategy.f(selectedParents, offspring));
         }
-        
+
         for (Particle p : newTopology) {
             Particle nBest = Topologies.getNeighbourhoodBest(newTopology, p, new SocialBestFitnessComparator());
             p.setNeighbourhoodBest(nBest);

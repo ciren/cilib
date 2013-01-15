@@ -8,13 +8,11 @@ package net.sourceforge.cilib.hs;
 
 import java.util.Arrays;
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.SingularAlgorithm;
-import net.sourceforge.cilib.container.SortedList;
+import net.sourceforge.cilib.type.types.container.SortedList;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.Harmony;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.problem.Problem;

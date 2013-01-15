@@ -10,7 +10,7 @@ import com.google.common.collect.UnmodifiableIterator;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.util.Visitor;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 
@@ -20,14 +20,14 @@ import net.sourceforge.cilib.type.types.Real;
 public class CentroidHolder implements StructuredType<ClusterCentroid>{
 
     ClusterCentroid[] components;
-    
+
     /*
      * The CentroidHolder default constructor
      */
     public CentroidHolder() {
         components = new ClusterCentroid[]{};
     }
-    
+
     /*
      * Creates a centroid holder of some size holding ClusterCentroids of some size
      * @param size The size of the CentroidHolder, i.i. how many ClusterCentroids it must hold
@@ -39,7 +39,7 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
             components[i] = new ClusterCentroid(clusterDimensions);
         }
     }
-    
+
     /*
      * The CentroidHolder copy constructor
      * @param The CentroidHolder to be copied
@@ -52,7 +52,7 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
             index++;
         }
     }
-    
+
     /*
      * The clone method of the CentroidHolder
      * @return the new instance of the CentroidHolder
@@ -74,11 +74,11 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
             }
         }
     }
-    
+
     /*
-     * Reinitializes the values of all dimentisons of all ClusterCentroids held by the CentroidHolder to zero
+     * Reinitialises the values of all dimentisons of all ClusterCentroids held by the CentroidHolder to zero
      */
-    public void reinitialize() {
+    public void reinitialise() {
         for(ClusterCentroid centroid : components) {
             for(Numeric n : centroid) {
                 n = Real.valueOf(0.0);
@@ -104,7 +104,7 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
         if(components.length == 0) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -200,7 +200,7 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
         }
         return false;
     }
-    
+
     /*
      * Removes the ClusterCentroid held at some index by the CentroidHolder
      * @param index The index of the element to be removed
@@ -283,12 +283,12 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
      * @param random The RandomProvider to be used
      */
     @Override
-    public void randomize() {
+    public void randomise() {
         for (int i = 0; i < components.length; i++) {
-            this.components[i].randomize();
+            this.components[i].randomise();
         }
     }
-    
+
     /*
      * Gets the element held by the CentroidHolder at some index
      * @param index The index of the element to be retrieved
@@ -297,7 +297,7 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
     public ClusterCentroid get(int index) {
         return components[index];
     }
-    
+
     /*
      * Returns the string representation of the CentroidHolder
      * @return strinf The string representation of the CentroidHolder
@@ -310,7 +310,7 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
         }
         return result + " }";
     }
-    
+
     /*
      * Sets the element at some index of the CentroidHolder to the value received as a parameter
      * @param index The index of the element to be replaced
@@ -319,5 +319,5 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
     public void set(int index, ClusterCentroid centroid) {
         components[index] = centroid.getClone();
     }
-    
+
 }

@@ -7,8 +7,8 @@
 package net.sourceforge.cilib.pso.crossover.velocityprovider;
 
 import java.util.List;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.crossover.particleprovider.WorstParentParticleProvider;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 public class WorstParentOffspringVelocityProvider extends OffspringVelocityProvider {

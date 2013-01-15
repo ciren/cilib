@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.measurement.single.dynamic;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.problem.DynamicOptimizationProblem;
+import net.sourceforge.cilib.problem.DynamicOptimisationProblem;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Real;
@@ -28,7 +28,7 @@ public class AverageBestErrorBeforeChangeTest {
     public void results() {
         final Algorithm algorithm = mock(Algorithm.class);
         final OptimisationSolution mockSolution1 = new OptimisationSolution(Vector.of(1.0), new MinimisationFitness(0.0));
-        final DynamicOptimizationProblem mockProblem = mock(DynamicOptimizationProblem.class);
+        final DynamicOptimisationProblem mockProblem = mock(DynamicOptimisationProblem.class);
 
         when(algorithm.getBestSolution()).thenReturn(mockSolution1);
         when(algorithm.getOptimisationProblem()).thenReturn(mockProblem);

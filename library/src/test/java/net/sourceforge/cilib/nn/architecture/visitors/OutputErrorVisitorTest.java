@@ -30,7 +30,7 @@ public class OutputErrorVisitorTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3, true));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
-        network.initialize();
+        network.initialise();
 
         ArchitectureOperationVisitor visitor = new FeedForwardVisitor();
         visitor.setInput(pattern);

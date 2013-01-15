@@ -17,12 +17,12 @@ import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.hpso.detectionstrategies.BehaviorChangeTriggerDetectionStrategy;
 import net.sourceforge.cilib.pso.hpso.detectionstrategies.PersonalBestStagnationDetectionStrategy;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 import net.sourceforge.cilib.util.selection.recipes.TournamentSelector;
@@ -63,7 +63,7 @@ import net.sourceforge.cilib.util.selection.recipes.TournamentSelector;
  * with a ParticleBehaviorWeighting</li>
  * </ul><br>
  *
- * <i>Moving window</i> HPSO (fk-HPSO-10): This is a generalization of aHPSO and aHPSO-IB.
+ * <i>Moving window</i> HPSO (fk-HPSO-10): This is a generalisation of aHPSO and aHPSO-IB.
  * It uses the previous windowSize iterations' successes to choose a behavior.
  * Parameters to use:
  * <ul>

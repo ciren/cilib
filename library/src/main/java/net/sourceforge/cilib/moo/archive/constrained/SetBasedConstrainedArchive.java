@@ -11,7 +11,6 @@ import com.google.common.collect.Sets;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.util.selection.Selection;

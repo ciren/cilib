@@ -9,7 +9,6 @@ package net.sourceforge.cilib.boa;
 import com.google.common.base.Preconditions;
 import java.util.Arrays;
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.boa.bee.ExplorerBee;
@@ -47,12 +46,11 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
  *
  *
  */
-public class ABC extends SinglePopulationBasedAlgorithm {
+public class ABC extends SinglePopulationBasedAlgorithm<HoneyBee> {
 
     private static final long serialVersionUID = 7918711449442012960L;
     private Topology<HoneyBee> workerBees;              //keeps references to the worker bees
     private Topology<HoneyBee> onlookerBees;            //keeps references to the onlooker bees
-    private Topology<HoneyBee> hive;                    //keeps references to all the bees (workers and onlookers)
     private ExplorerBee explorerBee;                    //explorer bee
     private Selector<HoneyBee> dancingSelectionStrategy;//bee dancing selection strategy
     private ControlParameter workerBeePercentage;       //control parameter for number of worker bees
@@ -70,7 +68,7 @@ public class ABC extends SinglePopulationBasedAlgorithm {
 
         workerBees = new GBestTopology<HoneyBee>();
         onlookerBees = new GBestTopology<HoneyBee>();
-        hive = new GBestTopology<HoneyBee>();
+        topology = new GBestTopology<HoneyBee>();
 
         explorerBee = new ExplorerBee();
         dancingSelectionStrategy = new RouletteWheelSelector();
@@ -88,9 +86,9 @@ public class ABC extends SinglePopulationBasedAlgorithm {
         super(copy);
         workerBees = copy.workerBees.getClone();
         onlookerBees = copy.onlookerBees.getClone();
-        hive.clear();
-        hive.addAll(workerBees);
-        hive.addAll(onlookerBees);
+        topology.clear();
+        topology.addAll(workerBees);
+        topology.addAll(onlookerBees);
 
         explorerBee = copy.explorerBee.getClone();
         dancingSelectionStrategy = new RouletteWheelSelector();
@@ -116,22 +114,22 @@ public class ABC extends SinglePopulationBasedAlgorithm {
         Iterable<? extends Entity> bees = this.initialisationStrategy.initialise(this.optimisationProblem);
         //Iterables.addAll(getTopology(), particles); // Use this instead?
         for (Entity bee : bees) {
-            hive.add((HoneyBee) bee);
+            topology.add((HoneyBee) bee);
         }
 
         int i;
-        int numWorkerBees = (int) (workerBeePercentage.getParameter() * hive.size());
+        int numWorkerBees = (int) (workerBeePercentage.getParameter() * topology.size());
         for (i = 0; i < numWorkerBees; i++) {
-            WorkerBee bee = (WorkerBee) hive.get(i);
+            WorkerBee bee = (WorkerBee) topology.get(i);
             bee.setForageLimit(this.forageLimit.getClone());
-            this.workerBees.add(hive.get(i));
+            this.workerBees.add(topology.get(i));
         }
 
         for (int j = 0; j < initialisationStrategy.getEntityNumber() - numWorkerBees; j++) {
-            WorkerBee worker = (WorkerBee) hive.get(i);
+            WorkerBee worker = (WorkerBee) topology.get(i);
             OnlookerBee onlooker = new OnlookerBee(worker);
-            hive.remove(i);
-            hive.add(onlooker);
+            topology.remove(i);
+            topology.add(onlooker);
             onlookerBees.add(onlooker);
         }
         explorerBee.setExplorerBeeUpdateLimit(this.explorerBeeUpdateLimit);
@@ -178,22 +176,6 @@ public class ABC extends SinglePopulationBasedAlgorithm {
     @Override
     public List<OptimisationSolution> getSolutions() {
         return Arrays.asList(getBestSolution());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Topology<HoneyBee> getTopology() {
-        return this.hive;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setTopology(Topology<? extends Entity> topology) {
-        throw new UnsupportedOperationException("Method not implemented");
     }
 
     /**
@@ -298,22 +280,6 @@ public class ABC extends SinglePopulationBasedAlgorithm {
      */
     public void setBestBee(HoneyBee bestBee) {
         this.bestBee = bestBee;
-    }
-
-    /**
-     * Get the {@code Topology}  containing all the bees in the hive.
-     * @return the {@code Topology}  containing all bees in the hive.
-     */
-    public Topology<HoneyBee> getHive() {
-        return hive;
-    }
-
-    /**
-     * Set the {@code Topology}  containing all the bees in the hive.
-     * @param hive the new {@code Topology}  containing all bees in the hive.
-     */
-    public void setHive(Topology<HoneyBee> hive) {
-        this.hive = hive;
     }
 
     /**

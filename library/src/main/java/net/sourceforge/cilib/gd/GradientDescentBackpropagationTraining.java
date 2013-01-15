@@ -19,15 +19,15 @@ import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.nn.architecture.visitors.BackPropagationVisitor;
 import net.sourceforge.cilib.nn.architecture.visitors.OutputErrorVisitor;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.problem.nn.NNTrainingProblem;
+import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Class implementing the gradien decent backpropagation training algorithm. The
- * error measure used is MSE and it supports both learning rate and momemtum
+ * Class implementing the gradient descent backpropagation training algorithm. The
+ * error measure used is MSE and it supports both learning rate and momentum
  * parameters.
  */
 public class GradientDescentBackpropagationTraining extends AbstractAlgorithm implements SingularAlgorithm {
@@ -46,6 +46,12 @@ public class GradientDescentBackpropagationTraining extends AbstractAlgorithm im
         learningRate = ConstantControlParameter.of(0.1);
         momentum = ConstantControlParameter.of(0.9);
         bpVisitor = new BackPropagationVisitor();
+    }
+
+    public GradientDescentBackpropagationTraining(GradientDescentBackpropagationTraining copy) {
+        learningRate = copy.learningRate.getClone();
+        momentum = copy.momentum.getClone();
+        bpVisitor = copy.bpVisitor;
     }
 
     /**
@@ -100,8 +106,8 @@ public class GradientDescentBackpropagationTraining extends AbstractAlgorithm im
      * {@inheritDoc}
      */
     @Override
-    public Algorithm getClone() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public GradientDescentBackpropagationTraining getClone() {
+        return new GradientDescentBackpropagationTraining(this);
     }
 
     /**

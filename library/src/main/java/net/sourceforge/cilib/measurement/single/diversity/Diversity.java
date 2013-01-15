@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.measurement.single.diversity;
 
 import java.util.Iterator;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
@@ -18,8 +17,8 @@ import net.sourceforge.cilib.measurement.single.diversity.normalisation.Diversit
 import net.sourceforge.cilib.measurement.single.diversity.normalisation.NormalisationParameter;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.DistanceMeasure;
-import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+import net.sourceforge.cilib.util.distancemeasure.DistanceMeasure;
+import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
 
 /**
  * TODO: Add JavaDoc.
@@ -94,8 +93,8 @@ public class Diversity implements Measurement<Real> {
     /**
      * @param normalisationParameter the normalisationParameter to set
      */
-    public void setNormalisationParameter(DiversityNormalisation normalizationParameter) {
-        this.normalisationParameter = normalizationParameter;
+    public void setNormalisationParameter(DiversityNormalisation normalisationParameter) {
+        this.normalisationParameter = normalisationParameter;
     }
 
     /**

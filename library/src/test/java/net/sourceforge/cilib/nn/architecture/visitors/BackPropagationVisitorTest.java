@@ -30,7 +30,7 @@ public class BackPropagationVisitorTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
-        network.initialize();
+        network.initialise();
 
         FFNNTopology topology = new FFNNTopology(5, 3, 2, 0.1, 0.9);
 
@@ -78,7 +78,7 @@ public class BackPropagationVisitorTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1));
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
-        network.initialize();
+        network.initialise();
 
         BackPropagationVisitor visitor = new BackPropagationVisitor();
         double[][] previousWeightUpdates = null;

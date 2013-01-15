@@ -24,11 +24,11 @@ public class ArchitectureTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1));
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
-        network.initialize();
+        network.initialise();
     }
 
     @Test
-    public void testInitialize() {
+    public void testInitialise() {
         // assert number of layers, it is not necessary to test constructed components
         // as they have their own unit tests.
         Assert.assertEquals(3, network.getArchitecture().getNumLayers());

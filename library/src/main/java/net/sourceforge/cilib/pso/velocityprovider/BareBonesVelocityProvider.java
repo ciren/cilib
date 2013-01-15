@@ -6,29 +6,33 @@
  */
 package net.sourceforge.cilib.pso.velocityprovider;
 
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
+import net.sourceforge.cilib.math.random.generator.Rand;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *  The <tt>VelocityProvider</tt> for the Bare Bones PSO as defined by Kennedy.
- *
- *  TODO: get the required references
- *
+ * The <tt>VelocityProvider</tt> for the Bare Bones PSO as adapted by Kennedy.
+ * J. Kennedy, “Bare bones particle swarms,” in Proceedings of the IEEE Swarm Intelligence Symposium, pp. 80-87, 2003.
  */
 public class BareBonesVelocityProvider implements VelocityProvider {
 
-    private static final long serialVersionUID = -823686042197742768L;
-    
-    protected ProbabilityDistributionFunction randomDistribution;
+    private static final long serialVersionUID = -5028807853700576434L;
+
+    private ProbabilityDistributionFunction distribution;
+    private ControlParameter exploitProbability;
 
     public BareBonesVelocityProvider() {
-        this.randomDistribution = new GaussianDistribution();
+        this.distribution = new GaussianDistribution();
+        this.exploitProbability = ConstantControlParameter.of(0.5);
     }
 
     public BareBonesVelocityProvider(BareBonesVelocityProvider copy) {
-        this.randomDistribution = copy.randomDistribution;
+        this.distribution = copy.distribution;
+        this.exploitProbability = copy.exploitProbability.getClone();
     }
 
     @Override
@@ -43,24 +47,35 @@ public class BareBonesVelocityProvider implements VelocityProvider {
 
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
-            //double tmp1 = cognitive.getParameter();
-            //double tmp2 = social.getParameter();
+            if (Rand.nextDouble() < exploitProbability.getParameter()) {
+                builder.add(localGuide.doubleValueOf(i));
+            } else {
+                double sigma = Math.abs(localGuide.doubleValueOf(i) - globalGuide.doubleValueOf(i));
+                double mean = (localGuide.doubleValueOf(i) + globalGuide.doubleValueOf(i)) / 2;
+                //double tmp1 = cognitive.getParameter();
+                //double tmp2 = social.getParameter();
+                //andries proposal: double mean = (tmp1*personalBestPosition.getReal(i) + tmp2*nBestPosition.getReal(i)) / (tmp1+tmp2);
 
-            double sigma = Math.abs(localGuide.doubleValueOf(i) - globalGuide.doubleValueOf(i));
-            //according to Kennedy
-            double mean = (localGuide.doubleValueOf(i) + globalGuide.doubleValueOf(i)) / 2;
-            //andries proposal: double mean = (tmp1*personalBestPosition.getReal(i) + tmp2*nBestPosition.getReal(i)) / (tmp1+tmp2);
-
-            builder.add(this.randomDistribution.getRandomNumber(mean, sigma));
+                builder.add(this.distribution.getRandomNumber(mean, sigma));
+            }
         }
+
         return builder.build();
     }
 
-    public ProbabilityDistributionFunction getRandomDistribution() {
-        return this.randomDistribution;
+    public void setExploitProbability(ControlParameter exploitProbability) {
+        this.exploitProbability = exploitProbability;
     }
 
-    public void setRandomDistribution(ProbabilityDistributionFunction pdf) {
-        this.randomDistribution = pdf;
+    public ControlParameter getExploitProbability() {
+        return exploitProbability;
+    }
+
+    public void setDistribution(ProbabilityDistributionFunction pdf) {
+        this.distribution = pdf;
+    }
+
+    public ProbabilityDistributionFunction getDistribution() {
+        return this.distribution;
     }
 }

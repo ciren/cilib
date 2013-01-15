@@ -130,13 +130,13 @@ public class ClusterCentroidTest {
     }
 
     /**
-     * Test of randomize method, of class ClusterCentroid.
+     * Test of randomise method, of class ClusterCentroid.
      */
     @Test
     public void testRandomize() {
         ClusterCentroid instance = new ClusterCentroid();
         instance.addAll(Vector.of(1,5,6,7,9,5,2));
-        instance.randomize();
+        instance.randomise();
         
         Assert.assertFalse(instance.containsAll(Vector.of(1,5,6,7,9,5,2)));
     }

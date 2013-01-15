@@ -12,13 +12,13 @@ import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.operators.CrossoverOperator;
 import net.sourceforge.cilib.entity.operators.crossover.real.BlendCrossoverStrategy;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
 import net.sourceforge.cilib.util.selection.recipes.RouletteWheelSelector;
@@ -44,22 +44,22 @@ import net.sourceforge.cilib.util.selection.weighting.EntityWeighting;
  *  }
  */
 public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
-    
+
     private CrossoverOperator crossover;
     private Selector selector;
-    
+
     public HybridEAIterationStrategy() {
         BlendCrossoverStrategy cs = new BlendCrossoverStrategy();
         cs.setAlpha(ConstantControlParameter.of(0.4));
-        
+
         this.crossover = new CrossoverOperator();
         this.crossover.setSelectionStrategy(new RouletteWheelSelector(new EntityWeighting(new CurrentFitness<Entity>())));
         this.crossover.setCrossoverProbability(ConstantControlParameter.of(0.1));
         this.crossover.setCrossoverStrategy(cs);
-        
+
         this.selector = new ElitistSelector();
     }
-    
+
     public HybridEAIterationStrategy(HybridEAIterationStrategy copy) {
         this.crossover = copy.crossover.getClone();
         this.selector = copy.selector;
@@ -74,7 +74,7 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
     public void performIteration(PSO algorithm) {
         Topology<Particle> topology = algorithm.getTopology();
         int size = topology.size();
-        
+
         // pos/vel update
         for (Particle current : topology) {
             current.updateVelocity();
@@ -83,7 +83,7 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
             boundaryConstraint.enforce(current);
             current.calculateFitness();
         }
-        
+
         // crossover
         List<Particle> offspring = Lists.newArrayList();
         for (Particle p : topology) {
@@ -92,20 +92,20 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
                 offspring.add(o.get(0));
             }
         }
-        
+
         for (Particle p : offspring) {
             p.getProperties().put(EntityType.Particle.BEST_POSITION, p.getCandidateSolution());
             p.setNeighbourhoodBest(p);
             p.calculateFitness();
-            
+
             topology.add(p);
         }
-        
+
         // rank and eliminate
         Topology<Particle> newTopology = topology.getClone();
         topology.clear();
         topology.addAll(selector.on(newTopology).select(Samples.first(size)));
-        
+
         // selector removes nbests
         for (Particle p : topology) {
             Particle nBest = Topologies.getNeighbourhoodBest(topology, p, new SocialBestFitnessComparator());
@@ -127,5 +127,5 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
 
     public CrossoverOperator getCrossoverStrategy() {
         return crossover;
-    }    
+    }
 }

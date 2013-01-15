@@ -10,7 +10,6 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ForwardingCollection;
 import java.util.Collection;
-
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 

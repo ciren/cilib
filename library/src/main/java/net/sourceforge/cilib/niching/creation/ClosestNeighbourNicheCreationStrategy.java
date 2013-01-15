@@ -12,7 +12,6 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.LinearlyVaryingControlParameter;
 import net.sourceforge.cilib.controlparameter.UpdateOnIterationControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.ClosestEntityVisitor;
 import net.sourceforge.cilib.measurement.generic.Iterations;
@@ -20,6 +19,7 @@ import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.problem.boundaryconstraint.ClampingBoundaryConstraint;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.velocityprovider.ClampingVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.GCVelocityProvider;
@@ -46,7 +46,7 @@ import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
  * </p>
  */
 public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy {
-    
+
     /**
      * Default constructor.
      */
@@ -58,11 +58,11 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
         ClampingVelocityProvider delegate = new ClampingVelocityProvider(ConstantControlParameter.of(1.0),
                 new StandardVelocityProvider(new UpdateOnIterationControlParameter(new LinearlyVaryingControlParameter(0.7, 0.2)),
                     ConstantControlParameter.of(1.2), ConstantControlParameter.of(1.2)));
-        
+
         GCVelocityProvider gcVelocityProvider = new GCVelocityProvider();
         gcVelocityProvider.setDelegate(delegate);
         gcVelocityProvider.setRho(ConstantControlParameter.of(0.01));
-        
+
         this.swarmBehavior = new ParticleBehavior();
         this.swarmBehavior.setVelocityProvider(gcVelocityProvider);
     }
@@ -73,29 +73,29 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
         if (a.getMainSwarm().getTopology().size() <= 1 || !a.getMainSwarm().getTopology().contains(b)) {
             return a;
         }
-        
+
         // Get closest particle
         ClosestEntityVisitor closestEntityVisitor = new ClosestEntityVisitor();
         closestEntityVisitor.setTargetEntity(b);
         a.getMainSwarm().accept(closestEntityVisitor);
-        
+
         // Clone particles
         Particle nicheMainParticle = (Particle) b.getClone();
         Particle nicheClosestParticle = (Particle) closestEntityVisitor.getResult().getClone();
-        
+
         // Set behavior and nBest
         nicheMainParticle.setNeighbourhoodBest(nicheMainParticle);
         nicheClosestParticle.setNeighbourhoodBest(nicheMainParticle);
-        
+
         nicheMainParticle.setParticleBehavior(swarmBehavior.getClone());
         nicheClosestParticle.setParticleBehavior(swarmBehavior.getClone());
-        
+
         // Create new subswarm
         PopulationBasedAlgorithm newSubSwarm = swarmType.getClone();
         newSubSwarm.setOptimisationProblem(a.getMainSwarm().getOptimisationProblem());
         newSubSwarm.getTopology().clear();
-        ((Topology<Particle>) newSubSwarm.getTopology()).addAll(Arrays.asList(nicheMainParticle, nicheClosestParticle));        
-        
+        ((Topology<Particle>) newSubSwarm.getTopology()).addAll(Arrays.asList(nicheMainParticle, nicheClosestParticle));
+
         // Create new mainswarm
         PopulationBasedAlgorithm newMainSwarm = a.getMainSwarm().getClone();
         newMainSwarm.getTopology().clear();
@@ -104,7 +104,7 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
                 ((Topology<Entity>) newMainSwarm.getTopology()).add(e.getClone());
             }
         }
-        
+
         return NichingSwarms.of(newMainSwarm, a.getSubswarms().cons(newSubSwarm));
     }
 }

@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.functions.discrete;
 
 import java.util.ArrayList;
-
 import net.sourceforge.cilib.functions.DiscreteFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 

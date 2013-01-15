@@ -8,7 +8,6 @@ package net.sourceforge.cilib.entity.comparator;
 
 import java.io.Serializable;
 import java.util.Comparator;
-
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.solution.Fitness;
 

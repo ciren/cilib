@@ -25,7 +25,7 @@ public class NeighbourhoodBestSentriesReactionStrategy<E extends PopulationBased
     @Override
     public void performReaction(PopulationBasedAlgorithm algorithm) {
         for (Entity entity : Topologies.getNeighbourhoodBestEntities(algorithm.getTopology())) {
-            entity.getCandidateSolution().randomize();
+            entity.getCandidateSolution().randomise();
             // TODO: What is the influence of reevaluation?
 //            entity.calculateFitness(false);
         }

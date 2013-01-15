@@ -16,13 +16,13 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
- * This is a standard DE which uses an SaSEIndividual and updates its parameters at 
+ * This is a standard DE which uses an SaSEIndividual and updates its parameters at
  * the end of each iteration.
- * 
+ *
  */
 public class AdaptiveIterationStrategy extends AbstractIterationStrategy<EC> {
 
-    protected Selector targetVectorSelectionStrategy;
+    protected Selector<SaDEIndividual> targetVectorSelectionStrategy;
 
     /**
      * Create an instance of the {@linkplain AdaptiveIterationStrategy}.
@@ -58,16 +58,15 @@ public class AdaptiveIterationStrategy extends AbstractIterationStrategy<EC> {
 
         for (int i = 0; i < topology.size(); i++) {
             SaDEIndividual current = topology.get(i);
-            current.calculateFitness();
 
             // Create the trial vector by applying mutation
-            SaDEIndividual targetEntity = (SaDEIndividual) targetVectorSelectionStrategy.on(topology).exclude(current).select();
+            SaDEIndividual targetEntity = targetVectorSelectionStrategy.on(topology).exclude(current).select();
 
             // Create the trial vector / entity
-            SaDEIndividual trialEntity = (SaDEIndividual) current.getTrialVectorCreationStrategy().create(targetEntity, current, topology);
+            SaDEIndividual trialEntity = current.getTrialVectorCreationStrategy().create(targetEntity, current, topology);
 
             // Create the offspring by applying cross-over
-            List<SaDEIndividual> offspring = (List<SaDEIndividual>) current.getCrossoverStrategy().crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
+            List<SaDEIndividual> offspring = current.getCrossoverStrategy().crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
 
             // Replace the parent (current) if the offspring is better
             SaDEIndividual offspringEntity = offspring.get(0);
@@ -77,7 +76,7 @@ public class AdaptiveIterationStrategy extends AbstractIterationStrategy<EC> {
             if (offspringEntity.getFitness().compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent
                 topology.set(i, offspringEntity); // Replace the parent with the offspring individual
             }
-            
+
             topology.get(i).updateParameters();
         }
     }

@@ -6,43 +6,42 @@
  */
 package net.sourceforge.cilib.clustering.iterationstrategies;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.clustering.CooperativePSO;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
-import net.sourceforge.cilib.util.changeDetection.ChangeDetectionStrategy;
-import net.sourceforge.cilib.util.changeDetection.IterationBasedChangeDetectionStrategy;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
+import net.sourceforge.cilib.util.changeDetection.ChangeDetectionStrategy;
+import net.sourceforge.cilib.util.changeDetection.IterationBasedChangeDetectionStrategy;
 
 /**
  * This class an iteration of the cooperative data clustering iteration strategy.
- * If there is a change in the environment, this class re-initializes the context 
+ * If there is a change in the environment, this class re-initialises the context
  * particle as well as part of or the whole population.
  */
 public class DynamicCooperativeDataClusteringPSOIterationStrategy extends CooperativeDataClusteringPSOIterationStrategy{
-    int reinitializationInterval;
+    int reinitialisationInterval;
     ChangeDetectionStrategy changeDetectionStrategy;
-    
+
     /*
      * Default constructor for DynamicCooperativeDataClusteringPSOIterationStrategy
      */
     public DynamicCooperativeDataClusteringPSOIterationStrategy() {
         super();
-        reinitializationInterval = 1;
+        reinitialisationInterval = 1;
         changeDetectionStrategy = new IterationBasedChangeDetectionStrategy();
     }
-    
+
     /*
      * Copy cosntructor for DynamicCooperativeDataClusteringPSOIterationStrategy
      */
     public DynamicCooperativeDataClusteringPSOIterationStrategy(DynamicCooperativeDataClusteringPSOIterationStrategy copy) {
         super(copy);
-        reinitializationInterval = copy.reinitializationInterval;
+        reinitialisationInterval = copy.reinitialisationInterval;
         changeDetectionStrategy = copy.changeDetectionStrategy;
     }
-    
+
     /*
      * Clone method for DynamicCooperativeDataClusteringPSOIterationStrategy
      * @return new instance of the DynamicCooperativeDataClusteringPSOIterationStrategy
@@ -55,58 +54,58 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
     /*
      * Performs an iteration of DynamicCooperativeDataClusteringPSOIterationStrategy
      * First it performs an iteration of the cooperative data clustering iteration strategy,
-     * followed by a check for change which leads to a re-initialization process if it is true.
+     * followed by a check for change which leads to a re-initialisation process if it is true.
      * @param algorithm The algorithm for which the iteration is veing performed
      */
     @Override
     public void performIteration(CooperativePSO algorithm) {
         Topology topology;
         if(changeDetectionStrategy.detectChange()) {
-               this.reinitializeContext(algorithm);
+               this.reinitialiseContext(algorithm);
                for(PopulationBasedAlgorithm currentAlgorithm : algorithm.getPopulations()) {
                  topology = currentAlgorithm.getTopology();
 
-                 for(int i = 0; i < topology.size(); i+=reinitializationInterval) {
+                 for(int i = 0; i < topology.size(); i+=reinitialisationInterval) {
                     ((ClusterParticle) topology.get(i)).reinitialise();
                     clearDataPatterns((ClusterParticle) topology.get(i));
                     assignDataPatternsToParticle(((CentroidHolder)((ClusterParticle) topology.get(i)).getCandidateSolution()),
                             ((SinglePopulationDataClusteringIterationStrategy)(((DataClusteringPSO) currentAlgorithm).getIterationStrategy())).getDataset());
                 }
              }
-               
+
         }
-        
+
         super.performIteration(algorithm);
     }
-    
+
     /*
-     * Re-initializes the context particle. It is used by the Dynamic co-operative data clustering 
+     * Re-initialises the context particle. It is used by the Dynamic co-operative data clustering
      * @param currentAlgorithm The algorithm for wich the context must be re-initialied
      */
-    public void reinitializeContext(CooperativePSO currentAlgorithm) {  
+    public void reinitialiseContext(CooperativePSO currentAlgorithm) {
         contextParticle = ((DataClusteringPSO) currentAlgorithm.getPopulations().get(0)).getTopology().get(0).getClone();
         contextParticle.reinitialise();
         clearDataPatterns(contextParticle);
         assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);
         contextParticle.calculateFitness();
     }
-    
+
     /*
-     * Returns the interval at which entities are re-initialized
-     * @return reinitializationInterval The interval at which entities are re-initialized
+     * Returns the interval at which entities are re-initialised
+     * @return reinitialisationInterval The interval at which entities are re-initialised
      */
-    public int getReinitializationInterval() {
-        return reinitializationInterval;
+    public int getReinitialisationInterval() {
+        return reinitialisationInterval;
     }
-    
+
     /*
-     * Sets the interval at which entities must be re-initialized
+     * Sets the interval at which entities must be re-initialised
      * @param interval The interval at which entities must be
      */
-    public void setReinitializationInterval(int interval) {
-        reinitializationInterval = interval;
+    public void setReinitialisationInterval(int interval) {
+        reinitialisationInterval = interval;
     }
-    
+
     /*
      * Sets the change detection strategy to be used
      * @param changeStrategy The new changeDetectionStrategy
@@ -114,7 +113,7 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
     public void setChangeDetectionStrategy(ChangeDetectionStrategy changeStrategy) {
         changeDetectionStrategy = changeStrategy;
     }
-    
+
     /*
      * Returns the change detection strategy being used
      * @return cahngeDetectionStrategy The current change detection strategy
@@ -122,5 +121,5 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
     public ChangeDetectionStrategy getChangeDetectionStrategy() {
         return changeDetectionStrategy;
     }
-    
+
 }

@@ -7,9 +7,9 @@
 package net.sourceforge.cilib.pso.crossover.operations;
 
 import fj.F;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**

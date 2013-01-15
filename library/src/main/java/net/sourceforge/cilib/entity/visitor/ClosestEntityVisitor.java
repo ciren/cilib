@@ -8,8 +8,8 @@ package net.sourceforge.cilib.entity.visitor;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.util.DistanceMeasure;
-import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+import net.sourceforge.cilib.util.distancemeasure.DistanceMeasure;
+import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
 
 /**
  * Vistor to calculate the closest entity to the provided {@code targetEntity}
@@ -23,7 +23,7 @@ public class ClosestEntityVisitor implements TopologyVisitor {
     private double closest;
     private boolean done;
     protected DistanceMeasure distanceMeasure;
-    
+
     /**
      * Deault constructor.
      */
@@ -52,7 +52,7 @@ public class ClosestEntityVisitor implements TopologyVisitor {
                 this.closest = distance;
             }
         }
-        
+
         done = true;
     }
 
@@ -89,10 +89,10 @@ public class ClosestEntityVisitor implements TopologyVisitor {
     public boolean isDone() {
         return done;
     }
-    
+
     /**
      * Gets the distance measure used.
-     * @return 
+     * @return
      */
     public DistanceMeasure getDistanceMeasure() {
         return distanceMeasure;
@@ -100,7 +100,7 @@ public class ClosestEntityVisitor implements TopologyVisitor {
 
     /**
      * Sets the distance measure to use.
-     * @param distanceMeasure 
+     * @param distanceMeasure
      */
     public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
         this.distanceMeasure = distanceMeasure;

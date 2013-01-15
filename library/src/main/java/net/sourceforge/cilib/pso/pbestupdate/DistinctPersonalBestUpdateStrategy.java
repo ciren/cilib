@@ -8,10 +8,10 @@ package net.sourceforge.cilib.pso.pbestupdate;
 
 import java.util.Arrays;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.crossover.velocityprovider.IdentityOffspringVelocityProvider;
 import net.sourceforge.cilib.pso.crossover.velocityprovider.OffspringVelocityProvider;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 

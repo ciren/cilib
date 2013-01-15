@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.niching.merging;
 
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.niching.NichingFunctionsTest;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;

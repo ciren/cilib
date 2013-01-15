@@ -8,13 +8,12 @@ package net.sourceforge.cilib.moo.criterion;
 
 import java.util.Collections;
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.population.MultiPopulationCriterionBasedAlgorithm;
 import net.sourceforge.cilib.moo.criterion.objectiveassignmentstrategies.ObjectiveAssignmentStrategy;
-import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.problem.AbstractProblem;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.problem.AbstractProblem;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 

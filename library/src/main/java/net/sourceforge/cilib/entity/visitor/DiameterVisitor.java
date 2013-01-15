@@ -7,12 +7,11 @@
 package net.sourceforge.cilib.entity.visitor;
 
 import java.util.Iterator;
-
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.DistanceMeasure;
-import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+import net.sourceforge.cilib.util.distancemeasure.DistanceMeasure;
+import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
 
 /**
  * Visitor to determine the size of the diameter of the provided {@linkplain Topology}
@@ -22,7 +21,7 @@ public class DiameterVisitor implements TopologyVisitor {
     private double distance;
     private boolean done;
     protected DistanceMeasure distanceMeasure;
-    
+
     /**
      * Default constructor.
      */
@@ -81,7 +80,7 @@ public class DiameterVisitor implements TopologyVisitor {
 
     /**
      * Gets the distance measure used.
-     * @return 
+     * @return
      */
     public DistanceMeasure getDistanceMeasure() {
         return distanceMeasure;
@@ -89,7 +88,7 @@ public class DiameterVisitor implements TopologyVisitor {
 
     /**
      * Sets the distance measure to use.
-     * @param distanceMeasure 
+     * @param distanceMeasure
      */
     public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
         this.distanceMeasure = distanceMeasure;

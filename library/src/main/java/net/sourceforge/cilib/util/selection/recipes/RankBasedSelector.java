@@ -24,7 +24,7 @@ import net.sourceforge.cilib.util.selection.arrangement.SortedArrangement;
  * <ol>
  *   <li>Sorting the list of elements in a natural ordering.</li>
  *   <li>Selecting portion of the elements that are better than the majority.</li>
- *   <li>Randomizing the sub list of elements and selecting an element from the randomized list.</li>
+ *   <li>Randomizing the sub list of elements and selecting an element from the randomised list.</li>
  *   <li>Return the result.</li>
  * </ol>
  * @param <E>

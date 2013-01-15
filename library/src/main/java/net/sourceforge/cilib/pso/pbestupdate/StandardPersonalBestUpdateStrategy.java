@@ -7,9 +7,8 @@
 package net.sourceforge.cilib.pso.pbestupdate;
 
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.Numeric;
 
 /**
  * Update the personal best of the particle, based on the standard PSO definition
@@ -32,10 +31,10 @@ public class StandardPersonalBestUpdateStrategy implements PersonalBestUpdateStr
      * If the current fitness is better than the current best fitness, update
      * the best fitness of the particle to equal the current fitness and make
      * the personal best position a clone of the current particle position.
-     * 
+     *
      * If the current fitness is not better than the current best fitness,
      * increase the particle's pbest stagnation counter.
-     * 
+     *
      * @param particle The particle to update.
      */
     @Override

@@ -7,11 +7,11 @@
 package net.sourceforge.cilib.pso.iterationstrategies;
 
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.crossover.operations.BoltzmannCrossoverSelection;
 import net.sourceforge.cilib.pso.crossover.operations.PSOCrossoverOperation;
+import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * An iteration strategy that uses different PSOCrossoverOperations to affect the

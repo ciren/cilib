@@ -7,9 +7,9 @@
 
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
+import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
-import com.google.common.base.Preconditions;
 
 /**
  * <p><b>The Five Uneven Peak Trap Function.</b></p>
@@ -26,7 +26,7 @@ import com.google.common.base.Preconditions;
  * <li> Three local minima at 5, 12.5, 22.5</li>
  * </ul>
  * </p>
- * 
+ *
  * <p>Characteristics:
  * <ul>
  * <li>Only defined for 1 dimension</li>
@@ -40,7 +40,7 @@ import com.google.common.base.Preconditions;
  *
  */
 public class FiveUnevenPeakTrap implements ContinuousFunction {
-    
+
     /**
      * {@inheritDoc}
      */
@@ -49,7 +49,7 @@ public class FiveUnevenPeakTrap implements ContinuousFunction {
         Preconditions.checkArgument(input.size() == 1, "FiveUnevenPeakTrap function is only defined for 1 dimension");
 
         double x = input.doubleValueOf(0);
-        
+
         if (x < 0)
             return -200.0;
         else if (x < 2.5)

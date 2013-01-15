@@ -15,9 +15,10 @@ import fj.F2;
 import fj.P;
 import fj.P1;
 import java.util.*;
-import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.util.Visitor;
 import net.sourceforge.cilib.math.VectorMath;
 import net.sourceforge.cilib.type.types.*;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Mathematical vector implementation. This class represents a vector within
@@ -607,14 +608,14 @@ public class Vector implements StructuredType<Numeric>,
 
     /**
      * Randomize all the elements contained within the {@code Vector}.
-     * @param random The {@code Random} to use to randomize the {@code Vector}.
+     * @param random The {@code Random} to use to randomise the {@code Vector}.
      * @deprecated Use {@link Vector.Builder#buildRandom()} instead.
      */
     @Deprecated
     @Override
-    public void randomize() {
+    public void randomise() {
         for (int i = 0; i < components.length; i++) {
-            this.components[i].randomize();
+            this.components[i].randomise();
         }
     }
 
@@ -1024,7 +1025,7 @@ public class Vector implements StructuredType<Numeric>,
 
         /**
          * Construct a {@code Vector} from the built up elements within the
-         * {@code Builder}. All elements are randomized upon {@code Vector}
+         * {@code Builder}. All elements are randomised upon {@code Vector}
          * construction.
          * @return a new {@code Vector} instance created from the
          *         {@code Builder}.
@@ -1037,7 +1038,7 @@ public class Vector implements StructuredType<Numeric>,
             Numeric[] numerics = new Numeric[elements.size()];
             int index = 0;
             for (Numeric element : elements) {
-                element.randomize();
+                element.randomise();
                 numerics[index++] = element;
             }
             return new Vector(numerics);

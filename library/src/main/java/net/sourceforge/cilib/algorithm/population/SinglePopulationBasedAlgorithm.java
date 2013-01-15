@@ -8,23 +8,32 @@ package net.sourceforge.cilib.algorithm.population;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
+import net.sourceforge.cilib.coevolution.cooperative.ParticipatingAlgorithm;
+import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
+import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ZeroContributionSelectionStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 
 /**
  * Base class for algorithms that focus on a single populations of entities.
- * These types of algoruthms typically include PSO , EC, ACO etc.
+ * These types of algorithms typically include PSO , EC, ACO etc.
  */
-public abstract class SinglePopulationBasedAlgorithm extends AbstractAlgorithm implements PopulationBasedAlgorithm {
+public abstract class SinglePopulationBasedAlgorithm<E extends Entity> extends AbstractAlgorithm implements PopulationBasedAlgorithm, ParticipatingAlgorithm {
+
     private static final long serialVersionUID = -4095104893057340895L;
 
-    protected PopulationInitialisationStrategy<? extends Entity> initialisationStrategy;
+    protected PopulationInitialisationStrategy<E> initialisationStrategy;
+    protected Topology<E> topology;
+    protected ContributionSelectionStrategy contributionSelection;
 
     /**
      * Create an empty {@linkplain PopulationBasedAlgorithm}.
      */
     protected SinglePopulationBasedAlgorithm() {
+        this.topology = new GBestTopology();
+        this.contributionSelection = new ZeroContributionSelectionStrategy();
     }
 
     /**
@@ -33,6 +42,9 @@ public abstract class SinglePopulationBasedAlgorithm extends AbstractAlgorithm i
      */
     protected SinglePopulationBasedAlgorithm(SinglePopulationBasedAlgorithm copy) {
         super(copy);
+        this.initialisationStrategy = copy.initialisationStrategy.getClone();
+        this.topology = copy.topology.getClone();
+        this.contributionSelection = copy.contributionSelection.getClone();
     }
 
     /**
@@ -51,20 +63,24 @@ public abstract class SinglePopulationBasedAlgorithm extends AbstractAlgorithm i
      * {@inheritDoc}
      */
     @Override
-    public abstract Topology<? extends Entity> getTopology();
+    public Topology<E> getTopology() {
+        return topology;
+    }
 
     /**
      * Set the <tt>Topology</tt> for the population-based algorithm.
      * @param topology The {@linkplain Topology} to be set.
      */
-    public abstract void setTopology(Topology<? extends Entity> topology);
+    public void setTopology(Topology topology) {
+        this.topology = topology;
+    }
 
     /**
      * Get the currently set {@linkplain PopulationInitialisationStrategy}.
      * @return The current {@linkplain PopulationInitialisationStrategy}.
      */
     @Override
-    public PopulationInitialisationStrategy getInitialisationStrategy() {
+    public PopulationInitialisationStrategy<E> getInitialisationStrategy() {
         return initialisationStrategy;
     }
 
@@ -73,7 +89,7 @@ public abstract class SinglePopulationBasedAlgorithm extends AbstractAlgorithm i
      * @param initialisationStrategy The {@linkplain PopulationInitialisationStrategy} to use.
      */
     @Override
-    public void setInitialisationStrategy(PopulationInitialisationStrategy<? extends Entity> initialisationStrategy) {
+    public void setInitialisationStrategy(PopulationInitialisationStrategy initialisationStrategy) {
         this.initialisationStrategy = initialisationStrategy;
     }
 
@@ -84,6 +100,22 @@ public abstract class SinglePopulationBasedAlgorithm extends AbstractAlgorithm i
     public Object accept(TopologyVisitor visitor) {
         getTopology().accept(visitor);
         return visitor.getResult();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setContributionSelectionStrategy(ContributionSelectionStrategy strategy) {
+        this.contributionSelection = strategy;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ContributionSelectionStrategy getContributionSelectionStrategy() {
+        return contributionSelection;
     }
 
 }

@@ -49,7 +49,7 @@ public class InitialiseNaNElementsReactionStrategy<E extends PopulationBasedAlgo
             Vector position = (Vector) particle.getPosition();
             for (int curElement = 0; curElement < position.size(); ++curElement) {
                 if (Double.isNaN(position.doubleValueOf(curElement))) {
-                    position.get(curElement).randomize();
+                    position.get(curElement).randomise();
                 }
             }
 

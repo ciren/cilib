@@ -9,7 +9,6 @@ package net.sourceforge.cilib.entity.operators.crossover.real;
 import com.google.common.base.Preconditions;
 import java.util.Arrays;
 import java.util.List;
-
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
@@ -110,11 +109,11 @@ public class BlendCrossoverStrategy implements CrossoverStrategy {
     public int getNumberOfParents() {
         return 2;
     }
-    
+
     public void setCrossoverPointProbability(double crossoverPointProbability) {
         throw new UnsupportedOperationException("Not applicable");
     }
-    
+
     public ControlParameter getCrossoverPointProbability() {
         throw new UnsupportedOperationException("Not applicable");
     }

@@ -7,22 +7,17 @@
 package net.sourceforge.cilib.controlparameter.initialisation;
 
 import junit.framework.Assert;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 
 public class RandomParameterInitialisationStrategyTest {
-    
+
     @Test
     public void getRandomTest() {
         RandomParameterInitialisationStrategy strategy = new RandomParameterInitialisationStrategy();
         GaussianDistribution distribution = new GaussianDistribution();
         strategy.setRandom(distribution);
-        
+
         Assert.assertEquals(distribution, strategy.getRandom());
     }
 
@@ -31,7 +26,7 @@ public class RandomParameterInitialisationStrategyTest {
         RandomParameterInitialisationStrategy strategy = new RandomParameterInitialisationStrategy();
         GaussianDistribution distribution = new GaussianDistribution();
         strategy.setRandom(distribution);
-        
+
         Assert.assertEquals(distribution, strategy.getRandom());
     }
 }

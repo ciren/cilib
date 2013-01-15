@@ -6,15 +6,10 @@
  */
 package net.sourceforge.cilib.measurement.generic;
 
-import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
-import net.sourceforge.cilib.type.parser.DomainParser;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
-import static org.junit.Assert.*;
 import org.junit.Test;
 
 

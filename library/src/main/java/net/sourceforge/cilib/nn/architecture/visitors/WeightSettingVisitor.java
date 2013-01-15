@@ -6,12 +6,11 @@
  */
 package net.sourceforge.cilib.nn.architecture.visitors;
 
+import java.util.List;
 import net.sourceforge.cilib.nn.architecture.Architecture;
 import net.sourceforge.cilib.nn.architecture.Layer;
 import net.sourceforge.cilib.nn.components.Neuron;
 import net.sourceforge.cilib.type.types.container.Vector;
-
-import java.util.List;
 
 /**
  * Visitor that takes a {@link Vector} of weights as input to set the weights of

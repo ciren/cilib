@@ -6,18 +6,18 @@
  */
 package net.sourceforge.cilib.niching.merging;
 
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.niching.NichingFunctionsTest;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class SingleSwarmMergeStrategyTest {
-    
+
     @Test
     public void testSingleSwarmMerge() {
         PSO pso1 = new PSO();

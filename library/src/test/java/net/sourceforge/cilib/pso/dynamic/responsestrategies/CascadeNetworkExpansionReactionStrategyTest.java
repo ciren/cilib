@@ -34,7 +34,7 @@ public class CascadeNetworkExpansionReactionStrategyTest {
         problem.getDataTableBuilder().setDataReader(new ARFFFileReader());
         problem.getDataTableBuilder().setSourceURL("library/src/test/resources/datasets/iris.arff");
         problem.setTrainingSetPercentage(0.7);
-        problem.setGeneralizationSetPercentage(0.3);
+        problem.setGeneralisationSetPercentage(0.3);
 
         problem.getNeuralNetwork().getArchitecture().setArchitectureBuilder(new CascadeArchitectureBuilder());
         problem.getNeuralNetwork().setOperationVisitor(new CascadeVisitor());

@@ -64,10 +64,10 @@ public class CooperativeMultiswarmIterationStrategy extends AbstractCooperativeI
         for(PopulationBasedAlgorithm currentAlgorithm : algorithm.getPopulations()) {
                 table = ((SinglePopulationDataClusteringIterationStrategy) ((DataClusteringPSO) currentAlgorithm).getIterationStrategy()).getDataset();
 
-                if(!contextinitialized) {
+                if(!contextinitialised) {
                     ((DataClusteringPSO) currentAlgorithm).setIsExplorer(true);
-                    initializeContextParticle(algorithm);
-                    contextinitialized = true;
+                    initialiseContextParticle(algorithm);
+                    contextinitialised = true;
                 }
 
                 if(!((DataClusteringPSO) currentAlgorithm).isExplorer()) {
@@ -84,7 +84,7 @@ public class CooperativeMultiswarmIterationStrategy extends AbstractCooperativeI
                         particleWithContext.setNeighbourhoodBest(contextParticle);
                         ((CentroidHolder) particleWithContext.getCandidateSolution()).set(populationIndex, ((CentroidHolder) particle.getCandidateSolution()).get(populationIndex).getClone());
                         particleWithContext.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER).getClone());
-                        particleWithContext.setCentroidInitialisationStrategy(particle.getCentroidInitializationStrategyCandidate().getClone());
+                        particleWithContext.setCentroidInitialisationStrategy(particle.getCentroidInitialisationStrategyCandidate().getClone());
 
                         clearDataPatterns(particleWithContext);
                         assignDataPatternsToParticle((CentroidHolder) particleWithContext.getCandidateSolution(), table);

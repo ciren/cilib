@@ -30,7 +30,7 @@ public class NNSlidingWindowTrainingProblemTest {
         problem.getDataTableBuilder().setDataReader(new ARFFFileReader());
         problem.getDataTableBuilder().setSourceURL("library/src/test/resources/datasets/iris.arff");
         problem.setTrainingSetPercentage(0.7);
-        problem.setGeneralizationSetPercentage(0.3);
+        problem.setGeneralisationSetPercentage(0.3);
         problem.setStepSize(10);
         problem.setChangeFrequency(100);
         problem.setWindowSize(50);
@@ -45,9 +45,9 @@ public class NNSlidingWindowTrainingProblemTest {
     @Test
     public void testPercentages() {
         int refTraining = (int) (problem.getWindowSize() * 0.7);
-        int refGeneralization = (int) (problem.getWindowSize() * 0.3);
+        int refGeneralisation = (int) (problem.getWindowSize() * 0.3);
         Assert.assertEquals(refTraining, problem.getTrainingSet().size());
-        Assert.assertEquals(refGeneralization, problem.getGeneralizationSet().size());
+        Assert.assertEquals(refGeneralisation, problem.getGeneralisationSet().size());
     }
 
     @Test

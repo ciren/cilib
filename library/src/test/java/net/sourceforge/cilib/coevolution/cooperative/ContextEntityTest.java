@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.coevolution.cooperative;
 
-import net.sourceforge.cilib.coevolution.cooperative.problem.SequencialDimensionAllocation;
+import net.sourceforge.cilib.coevolution.cooperative.problem.SequentialDimensionAllocation;
 import net.sourceforge.cilib.type.types.container.Vector;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -19,7 +19,7 @@ public class ContextEntityTest {
         testEntity.setCandidateSolution(context);
         Vector data = Vector.of(1, 2);
 
-        SequencialDimensionAllocation allocation = new SequencialDimensionAllocation(1, 2);
+        SequentialDimensionAllocation allocation = new SequentialDimensionAllocation(1, 2);
 
         testEntity.copyFrom(data, allocation);
         context = testEntity.getCandidateSolution();

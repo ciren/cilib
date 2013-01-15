@@ -20,7 +20,7 @@ public abstract class SelectiveDataOperator implements DataOperator {
     protected List<Integer> selectedItems;
 
     /**
-     * Default constructor. Initializes selectedItems.
+     * Default constructor. Initialises selectedItems.
      */
     public SelectiveDataOperator() {
         selectedItems = new ArrayList<Integer>();

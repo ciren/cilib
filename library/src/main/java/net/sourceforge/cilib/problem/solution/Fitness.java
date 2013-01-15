@@ -6,8 +6,6 @@
  */
 package net.sourceforge.cilib.problem.solution;
 
-import java.io.Serializable;
-
 import net.sourceforge.cilib.type.types.Type;
 
 /**
@@ -34,7 +32,7 @@ import net.sourceforge.cilib.type.types.Type;
  * </code> <br />
  *
  */
-public interface Fitness extends Type, Comparable<Fitness>, Serializable {
+public interface Fitness extends Type, Comparable<Fitness> {
 
     /**
      * {@inheritDoc}

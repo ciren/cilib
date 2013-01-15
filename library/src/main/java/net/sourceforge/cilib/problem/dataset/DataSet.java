@@ -7,15 +7,13 @@
 package net.sourceforge.cilib.problem.dataset;
 
 import java.io.InputStream;
-import java.io.Serializable;
-
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * This interface provides an abstraction for accessing data sets. The underlying data set can be
  * accessed using either an <code>InputStream</code> or a <code>byte[]</code>
  */
-public abstract class DataSet implements Cloneable, Serializable {
+public abstract class DataSet implements Cloneable {
     private static final long serialVersionUID = 5190227337412349440L;
 
     @Deprecated

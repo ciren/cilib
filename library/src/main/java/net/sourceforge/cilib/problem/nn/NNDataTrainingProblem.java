@@ -16,10 +16,8 @@ import net.sourceforge.cilib.io.exception.CIlibIOException;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.io.transform.ShuffleOperator;
 import net.sourceforge.cilib.io.transform.TypeConversionOperator;
-import net.sourceforge.cilib.nn.domain.*;
-import net.sourceforge.cilib.nn.domain.WeightSolutionConversionStrategy;
 import net.sourceforge.cilib.nn.architecture.visitors.OutputErrorVisitor;
-import net.sourceforge.cilib.nn.domain.SolutionConversionStrategy;
+import net.sourceforge.cilib.nn.domain.*;
 import net.sourceforge.cilib.problem.AbstractProblem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.DomainRegistry;
@@ -36,10 +34,10 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
     private static final long serialVersionUID = -8765101028460476990L;
 
     private DataTableBuilder dataTableBuilder;
-    private DomainInitializationStrategy domainInitializationStrategy;
+    private DomainInitialisationStrategy domainInitialisationStrategy;
     private SolutionConversionStrategy solutionConversionStrategy;
     private int previousShuffleIteration;
-    private boolean initialized;
+    private boolean initialised;
 
     /**
      * Default constructor.
@@ -47,19 +45,19 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
     public NNDataTrainingProblem() {
         super();
         dataTableBuilder = new DataTableBuilder(new DelimitedTextFileReader());
-        domainInitializationStrategy = new WeightBasedDomainInitializationStrategy();
+        domainInitialisationStrategy = new WeightBasedDomainInitialisationStrategy();
         solutionConversionStrategy = new WeightSolutionConversionStrategy();
         previousShuffleIteration = -1;
-        initialized = false;
+        initialised = false;
     }
 
     /**
-     * Initializes the problem by reading in the data and constructing the training
-     * and generalization sets. Also initializes (constructs) the neural network.
+     * Initialises the problem by reading in the data and constructing the training
+     * and generalisation sets. Also initialises (constructs) the neural network.
      */
     @Override
     public void initialise() {
-        if (initialized) {
+        if (initialised) {
             return;
         }
         try {
@@ -73,11 +71,11 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
 
             int trainingSize = (int) (dataTable.size() * trainingSetPercentage);
             int validationSize = (int) (dataTable.size() * validationSetPercentage);
-            int generalizationSize = dataTable.size() - trainingSize - validationSize;
+            int generalisationSize = dataTable.size() - trainingSize - validationSize;
 
             trainingSet = new StandardPatternDataTable();
             validationSet = new StandardPatternDataTable();
-            generalizationSet = new StandardPatternDataTable();
+            generalisationSet = new StandardPatternDataTable();
 
             for (int i = 0; i < trainingSize; i++) {
                 trainingSet.addRow((StandardPattern) dataTable.getRow(i));
@@ -87,15 +85,15 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
                 validationSet.addRow((StandardPattern) dataTable.getRow(i));
             }
 
-            for (int i = validationSize + trainingSize; i < generalizationSize + validationSize + trainingSize; i++) {
-                generalizationSet.addRow((StandardPattern) dataTable.getRow(i));
+            for (int i = validationSize + trainingSize; i < generalisationSize + validationSize + trainingSize; i++) {
+                generalisationSet.addRow((StandardPattern) dataTable.getRow(i));
             }
 
-            neuralNetwork.initialize();
+            neuralNetwork.initialise();
         } catch (CIlibIOException exception) {
             exception.printStackTrace();
         }
-        initialized = true;
+        initialised = true;
     }
 
     /**
@@ -112,7 +110,7 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
      * the MSE (which is minimized).
      *
      * @param solution the weights representing a solution.
-     * @return a new MinimizationFitness wrapping the MSE training error.
+     * @return a new MinimisationFitness wrapping the MSE training error.
      */
     @Override
     protected Fitness calculateFitness(Type solution) {
@@ -153,16 +151,16 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
      */
     @Override
     public DomainRegistry getDomain() {
-        if (!initialized) {
+        if (!initialised) {
             this.initialise();
         }
-        return initializeDomain();
+        return initialiseDomain();
     }
 
     @VisibleForTesting
-    protected DomainRegistry initializeDomain() {
-        solutionConversionStrategy.initialize(neuralNetwork);
-        return domainInitializationStrategy.initializeDomain(neuralNetwork);
+    protected DomainRegistry initialiseDomain() {
+        solutionConversionStrategy.initialise(neuralNetwork);
+        return domainInitialisationStrategy.initialiseDomain(neuralNetwork);
     }
 
     /**
@@ -201,12 +199,12 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
         dataTableBuilder.setSourceURL(sourceURL);
     }
 
-    public DomainInitializationStrategy getDomainInitializationStrategy() {
-        return domainInitializationStrategy;
+    public DomainInitialisationStrategy getDomainInitialisationStrategy() {
+        return domainInitialisationStrategy;
     }
 
-    public void setDomainInitializationStrategy(DomainInitializationStrategy domainInitializationStrategy) {
-        this.domainInitializationStrategy = domainInitializationStrategy;
+    public void setDomainInitialisationStrategy(DomainInitialisationStrategy domainInitialisationStrategy) {
+        this.domainInitialisationStrategy = domainInitialisationStrategy;
     }
 
     public SolutionConversionStrategy getSolutionConversionStrategy() {

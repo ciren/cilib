@@ -23,7 +23,7 @@ import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * This class forms the basis for any co-operative coevolution optimization
+ * This class forms the basis for any co-operative coevolution optimisation
  * algorithm implementations. A cooperative algorithm is an algorithm that
  * maintains a context solution and a list of participating algorithms. Each
  * participating algorithm optimizes only a subsection of the problem, and
@@ -94,7 +94,7 @@ public class CooperativeCoevolutionAlgorithm extends MultiPopulationBasedAlgorit
         context.initialise(optimisationProblem);
         problemDistribution.performDistribution(subPopulationsAlgorithms, optimisationProblem, context.getCandidateSolution());
         context.clear();
-        //Initialize each sub population, and add the randomised solution vector from each population to the current context.
+        //Initialise each sub population, and add the randomised solution vector from each population to the current context.
         for (PopulationBasedAlgorithm algorithm : subPopulationsAlgorithms) {
             algorithm.performInitialisation();
             context.append(algorithm.getBestSolution().getPosition());

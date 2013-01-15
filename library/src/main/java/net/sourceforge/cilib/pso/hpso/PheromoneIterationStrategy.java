@@ -13,7 +13,6 @@ import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.hpso.detectionstrategies.BehaviorChangeTriggerDetectionStrategy;
@@ -21,11 +20,12 @@ import net.sourceforge.cilib.pso.hpso.detectionstrategies.PersonalBestStagnation
 import net.sourceforge.cilib.pso.hpso.pheromoneupdate.ConstantPheromoneUpdateStrategy;
 import net.sourceforge.cilib.pso.hpso.pheromoneupdate.PheromoneUpdateStrategy;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.util.selection.recipes.RouletteWheelSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 import net.sourceforge.cilib.util.selection.weighting.ParticleBehaviorWeighting;
-import net.sourceforge.cilib.util.selection.weighting.SpecializedRatio;
+import net.sourceforge.cilib.util.selection.weighting.SpecialisedRatio;
 
 /**
  * Iteration strategy for adaptive dynamic heterogeneous particle swarms (HPSO).
@@ -56,7 +56,7 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
         this.iterationStrategy = new SynchronousIterationStrategy();
         this.detectionStrategy = new PersonalBestStagnationDetectionStrategy();
 
-        SpecializedRatio weighting = new SpecializedRatio();
+        SpecialisedRatio weighting = new SpecialisedRatio();
         weighting.setBehaviors(behaviorPool);
         weighting.setWeights(pheromoneConcentration);
 

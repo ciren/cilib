@@ -9,8 +9,8 @@ package net.sourceforge.cilib.pso.crossover.operations;
 import fj.P3;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * Performs a standard iteration then selects three random parents and performs

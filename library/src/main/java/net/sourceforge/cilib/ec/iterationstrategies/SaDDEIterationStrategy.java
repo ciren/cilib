@@ -6,20 +6,18 @@
  */
 package net.sourceforge.cilib.ec.iterationstrategies;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.ec.ParameterizedIndividual;
+import net.sourceforge.cilib.ec.ParameterisedIndividual;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -28,18 +26,18 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /*
- * This is the Self-adaptive Diversity Differential Evolution iteration strategy described by Mezura-Montes 
+ * This is the Self-adaptive Diversity Differential Evolution iteration strategy described by Mezura-Montes
  * and Palomeque-Ortiz in their 2009 paper "Self-adaptive and Deterministic Parameter
- * Control in Differential Evolution for Constrained Optimization". It is an adaptation 
+ * Control in Differential Evolution for Constrained Optimization". It is an adaptation
  * of their previously described Diversity DE algorithm.
- * 
+ *
  * It adapts the three parameters, namely scaling factor, crossover probability and total number of
- * offspring, used by the DDE algorithm using the same process as generating a trial vector. The 
- * selector parameter used by the DDE algorithm is also adapteb, but in a different manner, slowly 
+ * offspring, used by the DDE algorithm using the same process as generating a trial vector. The
+ * selector parameter used by the DDE algorithm is also adapteb, but in a different manner, slowly
  * being decreased.
- * 
+ *
  * Further details about the article:
- * 
+ *
  * @incollection{Mezura09a,
  * author = {Efr\'{e}n Mezura-Montes and Ana Gabriela Palomeque-Ortiz},
  * title = {{Self-adaptive and Deterministic Parameter Control in Differential
@@ -56,17 +54,16 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
  */
 
 public class SaDDEIterationStrategy extends AbstractIterationStrategy<EC> {
-    protected Selector targetVectorSelectionStrategy;
-    private Selector parameterTargetVectorSelectionStrategy;
+    protected Selector<ParameterisedIndividual> targetVectorSelectionStrategy;
+    private Selector<Individual> parameterTargetVectorSelectionStrategy;
     private ProbabilityDistributionFunction selectorParameterRandom;
     private ProbabilityDistributionFunction lastSelectorFactorRandom;
-    private ProbabilityDistributionFunction selectorRandom;
-    private Selector offspringSelectionStrategy;
-    private Selector nextGenerationSelectionStrategy;
+    private Selector<ParameterisedIndividual> offspringSelectionStrategy;
+    private Selector<ParameterisedIndividual> nextGenerationSelectionStrategy;
     private Real selectorParameter;
     private double firstSelectorParameterValue;
     private double lastSelectorParameterValue;
-    
+
     /*
      * Default constructor for SaDDEIterationStrategy
      */
@@ -79,35 +76,30 @@ public class SaDDEIterationStrategy extends AbstractIterationStrategy<EC> {
         this.selectorParameterRandom = new UniformDistribution();
         ((UniformDistribution) selectorParameterRandom).setLowerBound(ConstantControlParameter.of(0.45));
         ((UniformDistribution) selectorParameterRandom).setUpperBound(ConstantControlParameter.of(0.65));
-        
+
         this.lastSelectorFactorRandom = new UniformDistribution();
         ((UniformDistribution) lastSelectorFactorRandom).setLowerBound(ConstantControlParameter.of(0.0));
         ((UniformDistribution) lastSelectorFactorRandom).setUpperBound(ConstantControlParameter.of(0.5));
-        
-        this.selectorRandom = new UniformDistribution();
-        ((UniformDistribution) selectorRandom).setLowerBound(ConstantControlParameter.of(0));
-        ((UniformDistribution) selectorRandom).setUpperBound(ConstantControlParameter.of(1));
-        
-        offspringSelectionStrategy = new FeasibilitySelector<Individual>();
-        nextGenerationSelectionStrategy = new FeasibilitySelector<Individual>();
+
+        offspringSelectionStrategy = new FeasibilitySelector();
+        nextGenerationSelectionStrategy = new FeasibilitySelector();
     }
-    
+
     /*
      * Copy constructor for SaDDEIterationStrategy
      * @param copy The SaDDEIterationStrategy to be copied
      */
     public SaDDEIterationStrategy(SaDDEIterationStrategy copy) {
         this.targetVectorSelectionStrategy = copy.targetVectorSelectionStrategy;
-        this.parameterTargetVectorSelectionStrategy = copy.targetVectorSelectionStrategy;
+        this.parameterTargetVectorSelectionStrategy = copy.parameterTargetVectorSelectionStrategy;
         this.selectorParameter = copy.selectorParameter;
         this.firstSelectorParameterValue = copy.firstSelectorParameterValue;
         this.lastSelectorParameterValue = copy.lastSelectorParameterValue;
         this.selectorParameterRandom = copy.selectorParameterRandom;
-        this.selectorRandom = copy.selectorRandom;
         this.offspringSelectionStrategy = copy.offspringSelectionStrategy;
         this.nextGenerationSelectionStrategy = copy.offspringSelectionStrategy;
     }
-    
+
     /*
      * Clone method for SaDDEIterationStrategy
      * @return A new instance of this SaDDEIterationStrategy
@@ -124,98 +116,76 @@ public class SaDDEIterationStrategy extends AbstractIterationStrategy<EC> {
      */
     @Override
     public void performIteration(EC algorithm) {
-        Topology<ParameterizedIndividual> topology = (Topology<ParameterizedIndividual>) algorithm.getTopology();
-        ArrayList<Individual> parameterList = new ArrayList<Individual>(); //
-        ArrayList selectorList = new ArrayList();
-        ParameterizedIndividual current; 
-        ParameterizedIndividual offspringEntity;
-        ParameterizedIndividual targetEntity;
-        ParameterizedIndividual trialEntity;
-        List<ParameterizedIndividual> offspring;
-        ParameterizedIndividual tempOffspringEntity;
-        Individual currentParameters; //
-        
+        Topology<ParameterisedIndividual> topology = (Topology<ParameterisedIndividual>) algorithm.getTopology();
+
         if(AbstractAlgorithm.get().getIterations() == 1) {
             selectorParameter = Real.valueOf(selectorParameterRandom.getRandomNumber(), selectorParameter.getBounds());
             firstSelectorParameterValue = selectorParameter.doubleValue();
             lastSelectorParameterValue = lastSelectorFactorRandom.getRandomNumber();
         }
-        
-        for(int i = 0; i < topology.size(); i++) { //
-            Individual individual = topology.get(i).getParameterHoldingIndividual();
-            parameterList.add(individual);
+
+        Topology parameterTopology = new GBestTopology();
+        for(ParameterisedIndividual p : topology) { //
+            parameterTopology.add(p.getParameterHoldingIndividual());
         }
-        
-        Topology parameterTopology = new GBestTopology(); //
-        parameterTopology.addAll(parameterList); //
-        
+
         for (int i = 0; i < topology.size(); i++) {
-            current = topology.get(i);
-            currentParameters = current.getParameterHoldingIndividual(); //
-            current.calculateFitness();
-            offspringEntity = current.getClone();
-            
-            //System.out.println(current.getTotalOffspring());
+            ParameterisedIndividual current = topology.get(i);
+            Individual currentParameters = current.getParameterHoldingIndividual(); //
+            ParameterisedIndividual bestOffspring = current.getClone();
+
             for(int o = 0; o < current.getTotalOffspring(); o++) {
                 // Create the trial vector by applying mutation
-                targetEntity = (ParameterizedIndividual) targetVectorSelectionStrategy.on(topology).exclude(current).select();
-                Individual targetParameters = (Individual) parameterTargetVectorSelectionStrategy.on(parameterTopology).exclude(currentParameters).select(); //
+                ParameterisedIndividual targetEntity = targetVectorSelectionStrategy.on(topology).exclude(current).select();
+                Individual targetParameters = parameterTargetVectorSelectionStrategy.on(parameterTopology).exclude(currentParameters).select(); //
 
                 // Create the trial vector / entity
-                trialEntity = (ParameterizedIndividual) current.getTrialVectorCreationStrategy().create(targetEntity.getClone(), current.getClone(), topology.getClone());
-                Individual trialParameters = (Individual) targetEntity.getTrialVectorCreationStrategy().create(targetParameters.getClone(), currentParameters.getClone(), parameterTopology.getClone()); //
+                ParameterisedIndividual trialEntity = current.getTrialVectorCreationStrategy().create(targetEntity.getClone(), current.getClone(), topology.getClone());
+                Individual trialParameters = targetEntity.getTrialVectorCreationStrategy().create(targetParameters.getClone(), currentParameters.getClone(), parameterTopology.getClone()); //
 
                 // Create the offspring by applying cross-over
-                offspring = (List<ParameterizedIndividual>) current.getCrossoverStrategy().crossover(Arrays.asList(current, trialEntity));// Order is VERY important here!!
-                tempOffspringEntity = offspring.get(0);
-                tempOffspringEntity.calculateFitness();
-                
+                ParameterisedIndividual currentOffspring = current.getCrossoverStrategy()
+                        .crossover(Arrays.asList(current, trialEntity)).get(0); // Order is VERY important here!!
+                currentOffspring.calculateFitness();
+
                 //set the parameters of the tempOffspring
-                if(((Vector) tempOffspringEntity.getCandidateSolution()).get(tempOffspringEntity.getDimension() - 1) ==  
+                if(((Vector) currentOffspring.getCandidateSolution()).get(currentOffspring.getDimension() - 1) ==
                      ((Vector) trialEntity.getCandidateSolution()).get(trialEntity.getDimension() - 1)) {
-                            tempOffspringEntity.setParameterHoldingIndividual(targetParameters.getClone());
-                            
+                            currentOffspring.setParameterHoldingIndividual(targetParameters.getClone());
+
                 } else {
-                     tempOffspringEntity.setParameterHoldingIndividual(trialParameters.getClone());
+                     currentOffspring.setParameterHoldingIndividual(trialParameters.getClone());
                 }
-                
-                selectorList.clear();
-                selectorList.add(offspringEntity);
-                selectorList.add(tempOffspringEntity);
-                
+
                 //Select the best offspring so far
-                if(current.getTotalOffspring() > 1) {
-                    offspringEntity = ((ParameterizedIndividual) offspringSelectionStrategy.on(selectorList).select()).getClone();
+                if(o > 0) {
+                    bestOffspring = offspringSelectionStrategy.on(Arrays.asList(bestOffspring, currentOffspring)).select();
                 } else {
-                    offspringEntity = tempOffspringEntity.getClone();
+                    bestOffspring = currentOffspring;
                 }
-                
+
             }
-            
+
             //Replace the Individual with the surviving individual
-            if(selectorRandom.getRandomNumber() > selectorParameter.doubleValue()) {
-                if(offspringEntity.getFitness().compareTo(current.getFitness()) > 0 ){
-                    topology.set(i, offspringEntity.getClone());
-                } 
+            if(Rand.nextDouble() > selectorParameter.doubleValue()) {
+                if(bestOffspring.getFitness().compareTo(current.getFitness()) > 0 ){
+                    topology.set(i, bestOffspring.getClone());
+                }
             } else {
-                selectorList.clear();
-                selectorList.add(offspringEntity);
-                selectorList.add(current);
-                offspringEntity = (ParameterizedIndividual) nextGenerationSelectionStrategy.on(selectorList).select();
-                topology.set(i, offspringEntity.getClone());
+                bestOffspring = nextGenerationSelectionStrategy.on(Arrays.asList(bestOffspring, current)).select();
+                topology.set(i, bestOffspring.getClone());
             }
-            
+
         }
-        
+
         //update the selector parameter
         updateSelectorParameter(AbstractAlgorithm.get().getIterations());
     }
-    
+
     protected void updateSelectorParameter(int iterations) {
         double change = (firstSelectorParameterValue - lastSelectorParameterValue) / (double) iterations;
         lastSelectorParameterValue = selectorParameter.doubleValue();
         selectorParameter = Real.valueOf(selectorParameter.doubleValue() - change, selectorParameter.getBounds());
-        
     }
 
     /*
@@ -232,22 +202,6 @@ public class SaDDEIterationStrategy extends AbstractIterationStrategy<EC> {
      */
     public void setTargetVectorSelectionStrategy(Selector targetVectorSelectionStrategy) {
         this.targetVectorSelectionStrategy = targetVectorSelectionStrategy;
-    }
-
-     /*
-     * Gets the Selector Random Probability Distribution Function
-     * @return The Selector Random Probability Distribution Function
-     */
-    public ProbabilityDistributionFunction getSelectorRandom() {
-        return selectorRandom;
-    }
-
-    /*
-     * Sets the Selector Random Probability Distribution Function
-     * @return The new Selector Random Probability Distribution Function
-     */
-    public void setSelectorRandom(ProbabilityDistributionFunction selectorRandom) {
-        this.selectorRandom = selectorRandom;
     }
 
     /*
@@ -362,5 +316,5 @@ public class SaDDEIterationStrategy extends AbstractIterationStrategy<EC> {
     public void setLastSelectorParameterValue(double lastSelectorParameterValue) {
         this.lastSelectorParameterValue = lastSelectorParameterValue;
     }
-    
+
 }

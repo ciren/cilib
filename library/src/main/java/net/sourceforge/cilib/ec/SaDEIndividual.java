@@ -24,17 +24,17 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /*
  * This is an individual that holds extends a Parameterized Individual in order to keep track of
- * the parameter adaptation strategies. It is specific to self adapting DE problems. 
+ * the parameter adaptation strategies. It is specific to self adapting DE problems.
  */
-public class SaDEIndividual extends ParameterizedIndividual{
+public class SaDEIndividual extends ParameterisedIndividual{
      private ParameterAdaptationStrategy scalingFactorParameterAdaptationStrategy;
      private ParameterAdaptationStrategy crossoverProbabilityParameterAdaptationStrategy;
-     
+
      private ControlParameterInitialisationStrategy scalingFactorInitialisationStrategy;
      private ControlParameterInitialisationStrategy  crossoverProbabilityInitialisationStrategy;
-     
+
      private Fitness previousFitness;
-     
+
      /*
       * Default constructor for SaDEIndividual
       */
@@ -48,7 +48,7 @@ public class SaDEIndividual extends ParameterizedIndividual{
          this.crossoverProbabilityInitialisationStrategy = new RandomParameterInitialisationStrategy();
          this.previousFitness = this.getFitness();
      }
-     
+
      /*
       * Copy constructor for SaDEIndividual
       * @param copy The SaDEIndividual to be copied
@@ -63,7 +63,7 @@ public class SaDEIndividual extends ParameterizedIndividual{
          this.crossoverProbabilityInitialisationStrategy = copy.crossoverProbabilityInitialisationStrategy.getClone();
          this.previousFitness = copy.previousFitness.getClone();
      }
-     
+
      /*
       * Clone method of SaDEIndividual
       * @return A new instance of this SaDEIndividual
@@ -72,7 +72,7 @@ public class SaDEIndividual extends ParameterizedIndividual{
      public SaDEIndividual getClone() {
          return new SaDEIndividual(this);
      }
-     
+
      /*
       * Initialises the individual ans the aprameters
       * @param problem The proballem being solved by the algorithm
@@ -80,20 +80,20 @@ public class SaDEIndividual extends ParameterizedIndividual{
      @Override
      public void initialise(Problem problem) {
         this.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.newBuilder().copyOf(problem.getDomain().getBuiltRepresentation()).buildRandom());
-        
-        this.initialisationStrategy.initialize(EntityType.CANDIDATE_SOLUTION, this);
-        
+
+        this.initialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, this);
+
         Vector strategy = Vector.fill(0.0, this.getCandidateSolution().size());
-        
+
         this.getProperties().put(EntityType.STRATEGY_PARAMETERS, strategy);
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
-         
-         scalingFactorInitialisationStrategy.initialize((SettableControlParameter) trialVectorCreationStrategy.getScaleParameter());
-         
-         
-         crossoverProbabilityInitialisationStrategy.initialize((SettableControlParameter) crossoverStrategy.getCrossoverPointProbability());
+
+         scalingFactorInitialisationStrategy.initialise((SettableControlParameter) trialVectorCreationStrategy.getScaleParameter());
+
+
+         crossoverProbabilityInitialisationStrategy.initialise((SettableControlParameter) crossoverStrategy.getCrossoverPointProbability());
      }
-     
+
      /*
       * Calls the change methods for each parameter which will then adapt or remain the same
       * depending on the type of parameter and the outcomes of the changing algorithms
@@ -102,7 +102,7 @@ public class SaDEIndividual extends ParameterizedIndividual{
          crossoverProbabilityParameterAdaptationStrategy.change((SettableControlParameter) crossoverStrategy.getCrossoverPointProbability());
          scalingFactorParameterAdaptationStrategy.change((SettableControlParameter) trialVectorCreationStrategy.getScaleParameter());
      }
- 
+
      /*
       * Informs the adaptation strategies of the acceptance or rejection of the parameter
       * @param accepted Whether the parameter was accepted/rejected
@@ -226,5 +226,5 @@ public class SaDEIndividual extends ParameterizedIndividual{
     public void setPreviousFitness(Fitness previousFitness) {
         this.previousFitness = previousFitness;
     }
-    
+
 }

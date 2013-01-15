@@ -27,7 +27,7 @@ public class WeightSettingVisitorTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3, true));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
-        network.initialize();
+        network.initialise();
 
         Vector.Builder expectedWeightsBuilder = Vector.newBuilder();
         for (int i = 0; i < network.getWeights().size(); i++) {

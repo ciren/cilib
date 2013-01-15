@@ -6,16 +6,12 @@
  */
 package net.sourceforge.cilib.problem.dataset;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
-/**
- */
-public abstract class DataSetBuilder implements Iterable<DataSet>, Cloneable, Serializable {
+public abstract class DataSetBuilder implements Iterable<DataSet>, Cloneable {
 
     private static final long serialVersionUID = 5252204062214206898L;
     protected ArrayList<DataSet> dataSets = null;

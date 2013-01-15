@@ -9,9 +9,9 @@ package net.sourceforge.cilib.niching;
 import fj.F;
 import fj.F2;
 import fj.Ordering;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.DistanceMeasure;
+import net.sourceforge.cilib.util.distancemeasure.DistanceMeasure;
 
 public final class VectorBasedFunctions {
 

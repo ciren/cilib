@@ -32,7 +32,7 @@ public abstract class ClusteringProblem extends AbstractProblem{
     @Override
     public DomainRegistry getDomain() {
         if (domainRegistry.getDomainString() == null) {
-            throw new IllegalStateException("Domain has not been defined. Please define domain for function optimization.");
+            throw new IllegalStateException("Domain has not been defined. Please define domain for function optimisation.");
         }
         return domainRegistry;
     }

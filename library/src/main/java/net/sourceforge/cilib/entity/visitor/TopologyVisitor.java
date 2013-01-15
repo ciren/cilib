@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.entity.visitor;
 
-import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.util.Visitor;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 

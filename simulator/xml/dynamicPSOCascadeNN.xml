@@ -26,7 +26,7 @@
 	</algorithms>
 	
 	<problems>
-		<problem id="nnProblem" class="problem.nn.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3">
+		<problem id="nnProblem" class="problem.nn.NNDataTrainingProblem" trainingSetPercentage="0.7" generalisationSetPercentage="0.3">
 			<dataTableBuilder class="io.DataTableBuilder">
 				<dataReader class="io.ARFFFileReader" sourceURL="library/src/test/resources/datasets/iris.arff"/>
 			</dataTableBuilder>
@@ -47,7 +47,7 @@
 	</problems>
 	
 	<measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
-		<addMeasurement class="measurement.single.MSEGeneralizationError"/>
+		<addMeasurement class="measurement.single.MSEGeneralisationError"/>
 		<addMeasurement class="measurement.single.Solution"/>
 	</measurements>
 	

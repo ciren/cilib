@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.util.selection;
 
 import java.util.List;
-import net.sourceforge.cilib.util.selection.Samples;
 
 /**
  *

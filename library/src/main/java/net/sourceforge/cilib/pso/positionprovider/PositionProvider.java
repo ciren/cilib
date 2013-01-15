@@ -6,9 +6,7 @@
  */
 package net.sourceforge.cilib.pso.positionprovider;
 
-import java.io.Serializable;
-
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -17,10 +15,10 @@ import net.sourceforge.cilib.util.Cloneable;
  * TODO: Complete this javadoc.
  *
  */
-public interface PositionProvider extends Cloneable, Serializable {
+public interface PositionProvider extends Cloneable {
 
     /**
-     * Clone the stategy by creating a new object with the same contents and values
+     * Clone the strategy by creating a new object with the same contents and values
      * as the current object.
      *
      * @return A clone of the current <tt>PositionProvider</tt>

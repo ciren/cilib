@@ -6,26 +6,19 @@
  */
 package net.sourceforge.cilib.ec.iterationstrategies;
 
-import java.util.Arrays;
-import java.util.List;
 import junit.framework.Assert;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import net.sourceforge.cilib.ec.iterationstrategies.SaDEIterationStrategy;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 
 public class SaDEIterationStrategyTest {
-  
+
     @Test
     public void getTargetVectorSelectionStrategyTest() {
         SaDEIterationStrategy strategy = new SaDEIterationStrategy();
         RandomSelector selector = new RandomSelector();
         strategy.setTargetVectorSelectionStrategy(selector);
-        
+
         Assert.assertEquals(selector, strategy.getTargetVectorSelectionStrategy());
     }
 
@@ -34,7 +27,7 @@ public class SaDEIterationStrategyTest {
         SaDEIterationStrategy strategy = new SaDEIterationStrategy();
         RandomSelector selector = new RandomSelector();
         strategy.setTargetVectorSelectionStrategy(selector);
-        
+
         Assert.assertEquals(selector, strategy.getTargetVectorSelectionStrategy());
     }
 
@@ -42,7 +35,7 @@ public class SaDEIterationStrategyTest {
     public void getFrequencyOfChangeTest() {
         SaDEIterationStrategy strategy = new SaDEIterationStrategy();
         strategy.setFrequencyOfChange(5);
-        
+
         Assert.assertEquals(5, strategy.getFrequencyOfChange());
     }
 
@@ -50,7 +43,7 @@ public class SaDEIterationStrategyTest {
     public void setFrequencyOfChangeTest() {
         SaDEIterationStrategy strategy = new SaDEIterationStrategy();
         strategy.setFrequencyOfChange(5);
-        
+
         Assert.assertEquals(5, strategy.getFrequencyOfChange());
     }
 
@@ -58,7 +51,7 @@ public class SaDEIterationStrategyTest {
     public void getFrequencyOfMeanRecalculationTest() {
         SaDEIterationStrategy strategy = new SaDEIterationStrategy();
         strategy.setFrequencyOfMeanRecalculation(3);
-        
+
         Assert.assertEquals(3, strategy.getFrequencyOfMeanRecalculation());
     }
 
@@ -66,7 +59,7 @@ public class SaDEIterationStrategyTest {
     public void setFrequencyOfMeanRecalculationTest() {
         SaDEIterationStrategy strategy = new SaDEIterationStrategy();
         strategy.setFrequencyOfMeanRecalculation(3);
-        
+
         Assert.assertEquals(3, strategy.getFrequencyOfMeanRecalculation());
     }
 
@@ -74,7 +67,7 @@ public class SaDEIterationStrategyTest {
     public void getNextChangeTest() {
         SaDEIterationStrategy strategy = new SaDEIterationStrategy();
         strategy.setNextChange(3);
-        
+
         Assert.assertEquals(3, strategy.getNextChange());
     }
 
@@ -82,7 +75,7 @@ public class SaDEIterationStrategyTest {
     public void setNextChangeTest() {
         SaDEIterationStrategy strategy = new SaDEIterationStrategy();
         strategy.setNextChange(3);
-        
+
         Assert.assertEquals(3, strategy.getNextChange());
     }
 
@@ -90,7 +83,7 @@ public class SaDEIterationStrategyTest {
     public void getNextMeanRecalculationTest() {
         SaDEIterationStrategy strategy = new SaDEIterationStrategy();
         strategy.setNextMeanRecalculation(6);
-        
+
         Assert.assertEquals(6, strategy.getNextMeanRecalculation());
     }
 
@@ -98,8 +91,8 @@ public class SaDEIterationStrategyTest {
     public void setNextMeanRecalculationTest() {
         SaDEIterationStrategy strategy = new SaDEIterationStrategy();
         strategy.setNextMeanRecalculation(6);
-        
+
         Assert.assertEquals(6, strategy.getNextMeanRecalculation());
     }
-    
+
 }

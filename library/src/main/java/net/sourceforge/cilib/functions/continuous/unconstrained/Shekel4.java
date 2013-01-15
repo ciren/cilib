@@ -6,9 +6,9 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
+import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
-import com.google.common.base.Preconditions;
 
 /**
  * Shekel4 function.
@@ -40,7 +40,7 @@ public class Shekel4 implements ContinuousFunction {
     private static final double[] C = {0.1, 0.2, 0.2, 0.4, 0.4, 0.6, 0.3, 0.7, 0.5, 0.5};
 
     /**
-     * Creates a new instance of {@link Shekel} and initializes n to 10.
+     * Creates a new instance of {@link Shekel} and initialises n to 10.
      */
     public Shekel4() {
         setN(10);

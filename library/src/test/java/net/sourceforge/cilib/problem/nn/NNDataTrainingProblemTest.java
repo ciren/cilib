@@ -31,7 +31,7 @@ public class NNDataTrainingProblemTest {
         problem.getDataTableBuilder().setSourceURL("library/src/test/resources/datasets/iris.arff");
         problem.setTrainingSetPercentage(0.5);
         problem.setValidationSetPercentage(0.2);
-        problem.setGeneralizationSetPercentage(0.3);
+        problem.setGeneralisationSetPercentage(0.3);
 
         problem.getNeuralNetwork().getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(4));
         problem.getNeuralNetwork().getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
@@ -44,9 +44,9 @@ public class NNDataTrainingProblemTest {
     public void testPercentages() {
         int refTraining = (int) (150 * 0.5); // 150 pattern in iris
         int refValidation = (int) (150 * 0.2);
-        int refGeneralization = (int) (150 * 0.3); // 150 pattern in iris
+        int refGeneralisation = (int) (150 * 0.3); // 150 pattern in iris
         assertEquals(refTraining, problem.getTrainingSet().size());
-        assertEquals(refGeneralization, problem.getGeneralizationSet().size());
+        assertEquals(refGeneralisation, problem.getGeneralisationSet().size());
     }
 
     @Test
@@ -59,8 +59,8 @@ public class NNDataTrainingProblemTest {
     }
 
     @Test
-    public void shouldInitializeDomain() {
-        final DomainRegistry domainRegistry = problem.initializeDomain();
+    public void shouldInitialiseDomain() {
+        final DomainRegistry domainRegistry = problem.initialiseDomain();
         assertEquals(19, domainRegistry.getBuiltRepresentation().size());
     }
 }

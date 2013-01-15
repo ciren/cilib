@@ -10,7 +10,6 @@ import fj.P1;
 import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.SettableControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
@@ -22,7 +21,7 @@ import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
 /**
  * A creation strategy for DE where the difference vector is computed by
  * selecting random entities from the population for each dimension.
- * 
+ *
  */
 public class RandPerDimensionCreationStrategy implements CreationStrategy {
 
@@ -148,7 +147,7 @@ public class RandPerDimensionCreationStrategy implements CreationStrategy {
     public void setScaleParameter(SettableControlParameter scaleParameter) {
         this.scaleParameter = scaleParameter;
     }
-    
+
     public void setScaleParameter(double scaleParameterValue) {
         this.scaleParameter.setParameter(scaleParameterValue);
     }

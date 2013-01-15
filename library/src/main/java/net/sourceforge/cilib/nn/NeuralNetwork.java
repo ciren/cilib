@@ -33,10 +33,10 @@ public class NeuralNetwork {
     }
 
     /**
-     * Initializes the network by initializing the architecture.
+     * Initialises the network by initialising the architecture.
      */
-    public void initialize() {
-        architecture.initialize();
+    public void initialise() {
+        architecture.initialise();
     }
 
     /**

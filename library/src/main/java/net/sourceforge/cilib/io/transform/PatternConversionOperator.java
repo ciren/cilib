@@ -8,10 +8,8 @@ package net.sourceforge.cilib.io.transform;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
-
 import java.util.List;
 import java.util.Set;
-
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.StandardDataTable;
 import net.sourceforge.cilib.io.StandardPatternDataTable;

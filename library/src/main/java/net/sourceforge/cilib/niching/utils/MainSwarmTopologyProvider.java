@@ -9,7 +9,6 @@ package net.sourceforge.cilib.niching.utils;
 import fj.data.List;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.niching.NichingSwarms;
-import net.sourceforge.cilib.niching.NichingSwarms;
 
 /**
  *

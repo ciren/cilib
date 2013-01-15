@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.pso.guideprovider;
 
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**

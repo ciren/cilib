@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.moo.criterion.objectiveassignmentstrategies;
 
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.moo.criterion.CriterionBasedMOProblemAdapter;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;

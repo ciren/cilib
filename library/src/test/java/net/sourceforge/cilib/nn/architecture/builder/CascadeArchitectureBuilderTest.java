@@ -30,7 +30,7 @@ public class CascadeArchitectureBuilderTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
-        network.initialize();
+        network.initialise();
 
         //assert number of layers
         Assert.assertEquals(5, network.getArchitecture().getNumLayers());
@@ -67,7 +67,7 @@ public class CascadeArchitectureBuilderTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
-        network.initialize();
+        network.initialise();
 
         //assert number of layers
         Assert.assertEquals(4, network.getArchitecture().getNumLayers());
@@ -102,6 +102,6 @@ public class CascadeArchitectureBuilderTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(0));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
-        network.initialize();
+        network.initialise();
     }
 }

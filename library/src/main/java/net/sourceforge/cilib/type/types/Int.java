@@ -142,7 +142,7 @@ public class Int implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public void randomize() {
+    public void randomise() {
         double tmp = Rand.nextDouble() * (getBounds().getUpperBound() - getBounds().getLowerBound()) + getBounds().getLowerBound();
         this.value = Double.valueOf(tmp).intValue();
     }

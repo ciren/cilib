@@ -8,7 +8,6 @@ package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
 
 import java.util.Set;
-
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topologies;

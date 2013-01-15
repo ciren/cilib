@@ -8,12 +8,11 @@ package net.sourceforge.cilib.util.functions;
 
 import fj.F;
 import fj.F2;
-import fj.Unit;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.MemoryBasedEntity;
 import net.sourceforge.cilib.entity.SocialEntity;
-import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.Problem;
+import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 public final class Entities {

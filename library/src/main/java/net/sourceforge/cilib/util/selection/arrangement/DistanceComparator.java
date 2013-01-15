@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.util.selection.arrangement;
 
 import java.util.Comparator;
-
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.solution.MOFitness;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
@@ -31,7 +30,7 @@ public class DistanceComparator<E extends Comparable> implements Comparator<Opti
 	 * If o1's distance < o2's distance, 1 is returned.
 	 * If o1's distance == o2's distance, 0 is returned.
 	 */
-    
+
     @Override
     public int compare(OptimisationSolution o1, OptimisationSolution o2) {
         double minDistance1_1 = 0.0;
@@ -39,7 +38,7 @@ public class DistanceComparator<E extends Comparable> implements Comparator<Opti
         double minDistance2_1 = 0.0;
         double minDistance2_2 = 0.0;
         //get solutions for o1 and o2
-        
+
         MOFitness fitness1 = (MOFitness)(o1.getFitness());
         MOFitness fitness2 = (MOFitness)(o2.getFitness());
 

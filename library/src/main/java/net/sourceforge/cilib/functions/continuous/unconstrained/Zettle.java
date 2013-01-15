@@ -6,9 +6,9 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
+import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
-import com.google.common.base.Preconditions;
 
 /**
  * <p><b>Zettle.</b></p>
@@ -35,13 +35,13 @@ import com.google.common.base.Preconditions;
  * R(-5, 5)^2
  */
 public class Zettle implements ContinuousFunction {
-    
+
 	@Override
 	public Double apply(Vector input) {
 		Preconditions.checkArgument(input.size() == 2, "Zettle function is only defined for 2 dimensions");
 
 		double x1 = input.get(0).doubleValue();
         double x2 = input.get(1).doubleValue();
-        return (Math.pow(((x1 * x1) + (x2 * x2) - 2*x1), 2) + 0.25*x1);   
+        return (Math.pow(((x1 * x1) + (x2 * x2) - 2*x1), 2) + 0.25*x1);
 	}
 }

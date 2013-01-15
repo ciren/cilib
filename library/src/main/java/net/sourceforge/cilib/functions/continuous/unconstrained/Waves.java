@@ -7,9 +7,9 @@
 
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
+import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
-import com.google.common.base.Preconditions;
 
 /**
  * <p><b>Waves Function.</b></p>
@@ -20,7 +20,7 @@ import com.google.common.base.Preconditions;
  * <li>Many global minima where ever x = 0</li>
  * </ul>
  * </p>
- * 
+ *
  * <p>Characteristics:
  * <ul>
  * <li>Only defined for 2 dimensions</li>
@@ -43,7 +43,7 @@ public class Waves implements ContinuousFunction {
 
         double x = input.doubleValueOf(0);
         double y = input.doubleValueOf(1);
-        
+
         return -(Math.pow(0.3*x, 3)-(y*y-4.5*y*y)*x*y-4.7*Math.cos(3*x-y*y*(2+x))*Math.sin(2.5*Math.PI*x));
     }
 }

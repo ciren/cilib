@@ -8,7 +8,6 @@ package net.sourceforge.cilib.algorithm.iterator;
 
 import java.util.List;
 import java.util.ListIterator;
-
 import net.sourceforge.cilib.util.Cloneable;
 
 /**

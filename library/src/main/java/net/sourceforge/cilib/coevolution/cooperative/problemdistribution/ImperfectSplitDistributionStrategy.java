@@ -6,17 +6,16 @@
  */
 package net.sourceforge.cilib.coevolution.cooperative.problemdistribution;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
 import net.sourceforge.cilib.coevolution.cooperative.problem.DimensionAllocation;
-import net.sourceforge.cilib.coevolution.cooperative.problem.SequencialDimensionAllocation;
+import net.sourceforge.cilib.coevolution.cooperative.problem.SequentialDimensionAllocation;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.container.Vector;
-import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * This {@linkplain ProblemDistributionStrategy} performs a split by assining a sequencial
@@ -46,7 +45,7 @@ public class ImperfectSplitDistributionStrategy implements ProblemDistributionSt
             if (i < oddDimensions)
                 actualDimension++;
 
-            DimensionAllocation problemAllocation = new SequencialDimensionAllocation(offset, actualDimension);
+            DimensionAllocation problemAllocation = new SequentialDimensionAllocation(offset, actualDimension);
             population.setOptimisationProblem(new CooperativeCoevolutionProblemAdapter(problem, problemAllocation, context));
             offset += actualDimension;
 

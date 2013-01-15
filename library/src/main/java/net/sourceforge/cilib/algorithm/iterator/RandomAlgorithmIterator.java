@@ -6,13 +6,12 @@
  */
 package net.sourceforge.cilib.algorithm.iterator;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
-import net.sourceforge.cilib.math.random.UniformDistribution;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
+import net.sourceforge.cilib.math.random.UniformDistribution;
 
 /**
  * Iterate through a list of {@link Algorithm}s in a random order. With this class it is possible

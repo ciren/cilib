@@ -26,7 +26,7 @@ public class Neuron implements Cloneable {
     /**
      * Default constructor.
      * Activation is set to 0.0. The default Activation Function is {@link Sigmoid}
-     * and the weights are initialized as an empty {@link Vector}.
+     * and the weights are initialised as an empty {@link Vector}.
      */
     public Neuron() {
         activation = 0.0;

@@ -40,7 +40,7 @@ public class KnightsTour implements DiscreteFunction {
             moves[count++] = decode(input.booleanValueOf(i), input.booleanValueOf(i+1), input.booleanValueOf(i+2));
         }
 
-        // Initialize the game board
+        // Initialise the game board
         boolean[][] visited = new boolean[boardSize][boardSize];
 
         int fitness = 0;

@@ -40,7 +40,7 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
     private DataTable dataTable; // stores the entire data set from which training & generalisation sets are sampled
     private int previousShuffleIteration;
     private int previousIteration;
-    private boolean initialized;
+    private boolean initialised;
 
     private int dataChangesCounter = 1; // # times the dataset was dynamically updated (has to start with 1)
     private int stepSize; // step size for each set, i.e. # patterns by which the sliding window moves forward in each dynamic step
@@ -55,16 +55,16 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
         dataTableBuilder = new DataTableBuilder(new DelimitedTextFileReader());
         previousShuffleIteration = -1;
         previousIteration = -1;
-        initialized = false;
+        initialised = false;
     }
 
     /**
-     * Initializes the problem by reading in the data and constructing the datatable,
-     * as well as the initial training and generalization sets. Also initializes (constructs) the neural network.
+     * Initialises the problem by reading in the data and constructing the datatable,
+     * as well as the initial training and generalisation sets. Also initialises (constructs) the neural network.
      */
     @Override
     public void initialise() {
-        if (initialized) {
+        if (initialised) {
             return;
         }
         try {
@@ -74,11 +74,11 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
             dataTable = dataTableBuilder.getDataTable();
 
             int trainingSize = (int)(windowSize * trainingSetPercentage);
-            int generalizationSize = windowSize - trainingSize;
+            int generalisationSize = windowSize - trainingSize;
 
             StandardPatternDataTable candidateSet = new StandardPatternDataTable();
             trainingSet = new StandardPatternDataTable();
-            generalizationSet = new StandardPatternDataTable();
+            generalisationSet = new StandardPatternDataTable();
 
             for (int i = 0; i < windowSize; i++) { // fetch patterns to fill the initial window
                 candidateSet.addRow((StandardPattern) dataTable.removeRow(0));
@@ -92,15 +92,15 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
                 trainingSet.addRow((StandardPattern) candidateSet.getRow(i));
             }
 
-            for (int i = trainingSize; i < generalizationSize + trainingSize; i++) {
-                generalizationSet.addRow((StandardPattern) candidateSet.getRow(i));
+            for (int i = trainingSize; i < generalisationSize + trainingSize; i++) {
+                generalisationSet.addRow((StandardPattern) candidateSet.getRow(i));
             }
 
-            neuralNetwork.initialize();
+            neuralNetwork.initialise();
         } catch (CIlibIOException exception) {
             exception.printStackTrace();
         }
-        initialized = true;
+        initialised = true;
     }
 
     /**
@@ -115,9 +115,9 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
      * Calculates the fitness of the given solution by setting the neural network
      * weights to the solution and evaluating the training set in order to calculate
      * the MSE (which is minimized). Also checks whether the window has to be slided,
-     * and slides the window when necessary by adjusting the training and generalization sets.
+     * and slides the window when necessary by adjusting the training and generalisation sets.
      * @param solution the weights representing a solution.
-     * @return a new MinimizationFitness wrapping the MSE training error.
+     * @return a new MinimisationFitness wrapping the MSE training error.
      */
     @Override
     protected Fitness calculateFitness(Type solution) {
@@ -148,16 +148,16 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
                 shuffler.operate(candidateSet);
 
                 int trainingStepSize = (int)(stepSize * trainingSetPercentage);
-                int generalizationStepSize = stepSize - trainingStepSize;
+                int generalisationStepSize = stepSize - trainingStepSize;
 
                 for (int t = 0; t < trainingStepSize; t++){
                     trainingSet.removeRow(0);
                     trainingSet.addRow(candidateSet.removeRow(0));
                 }
 
-                for (int t = 0; t < generalizationStepSize; t++){
-                    generalizationSet.removeRow(0);
-                    generalizationSet.addRow(candidateSet.removeRow(0));
+                for (int t = 0; t < generalisationStepSize; t++){
+                    generalisationSet.removeRow(0);
+                    generalisationSet.addRow(candidateSet.removeRow(0));
                 }
             } catch (CIlibIOException exception) {
                 exception.printStackTrace();
@@ -188,7 +188,7 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
      */
     @Override
     public DomainRegistry getDomain() {
-        if (!initialized) {
+        if (!initialised) {
             this.initialise();
         }
         int numWeights = NeuralNetworks.countWeights(neuralNetwork);

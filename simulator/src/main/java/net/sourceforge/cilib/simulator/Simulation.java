@@ -41,7 +41,7 @@ public class Simulation implements AlgorithmListener, Runnable {
     /**
      * Prepare for execution. The simulation is prepared for execution by
      * setting the provided {@code problem} on the current {@code algorithm},
-     * followed by the required initialization for the {@code algorithm} itself.
+     * followed by the required initialisation for the {@code algorithm} itself.
      */
     public void init() {
         AbstractAlgorithm alg = (AbstractAlgorithm) algorithm;

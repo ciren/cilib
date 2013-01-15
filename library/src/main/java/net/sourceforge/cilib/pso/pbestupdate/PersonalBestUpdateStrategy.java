@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.pso.pbestupdate;
 
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**

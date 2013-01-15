@@ -126,10 +126,10 @@ public class Real implements Numeric {
     }
 
     /**
-     * Re-randomize the <code>Real</code> object based on the upper and lower bounds.
+     * Re-randomise the <code>Real</code> object based on the upper and lower bounds.
      */
     @Override
-    public void randomize() {
+    public void randomise() {
         this.value = Rand.nextDouble() * (bounds.getUpperBound() - bounds.getLowerBound()) + bounds.getLowerBound();
     }
 

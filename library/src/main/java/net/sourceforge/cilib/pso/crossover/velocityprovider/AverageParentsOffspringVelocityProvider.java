@@ -9,13 +9,13 @@ package net.sourceforge.cilib.pso.crossover.velocityprovider;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import java.util.List;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
 /**
- * This OffspringVelocityProvider sets an offspring's velocity to the average 
+ * This OffspringVelocityProvider sets an offspring's velocity to the average
  * velocity of its parents.
  */
 public class AverageParentsOffspringVelocityProvider extends OffspringVelocityProvider {
@@ -25,7 +25,7 @@ public class AverageParentsOffspringVelocityProvider extends OffspringVelocityPr
             @Override
             public Vector apply(Particle f) {
                 return (Vector) f.getVelocity();
-            }            
+            }
         }));
     }
 }

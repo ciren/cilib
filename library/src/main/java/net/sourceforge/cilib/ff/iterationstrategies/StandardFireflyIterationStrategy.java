@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.ff.iterationstrategies;
 
-import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.entity.Topology;
@@ -15,7 +14,6 @@ import net.sourceforge.cilib.ff.firefly.Firefly;
 
 /**
  * Implementation of the standard iteration strategy for the Firefly algorithm.
- *
  */
 public class StandardFireflyIterationStrategy extends AbstractIterationStrategy<FFA> {
 
@@ -45,6 +43,7 @@ public class StandardFireflyIterationStrategy extends AbstractIterationStrategy<
      * </ol>
      * @param algorithm The algorithm to which an iteration is to be applied.
      */
+    @Override
     public void performIteration(FFA algorithm) {
         Topology<Firefly> topology = algorithm.getTopology();
 

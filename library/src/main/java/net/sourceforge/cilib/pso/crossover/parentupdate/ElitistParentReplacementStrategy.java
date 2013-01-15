@@ -8,7 +8,7 @@ package net.sourceforge.cilib.pso.crossover.parentupdate;
 
 import com.google.common.collect.Lists;
 import java.util.List;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
 
@@ -21,7 +21,7 @@ public class ElitistParentReplacementStrategy extends ParentReplacementStrategy 
     public List<Particle> f(List<Particle> parents, List<Particle> offspring) {
         List<Particle> joined = Lists.newArrayList(parents);
         joined.addAll(offspring);
-        
+
         return new ElitistSelector<Particle>().on(joined).select(Samples.first(parents.size()));
-    }    
+    }
 }

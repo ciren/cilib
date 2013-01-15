@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.problem.solution.MaximisationFitness;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
@@ -34,7 +34,7 @@ public class SocialBestFitnessComparatorTest {
      * it's BEST_FITNESS property.
      */
     @Test
-    public void minimizationFitnessesMemory() {
+    public void minimisationFitnessesMemory() {
         Particle p1 = new StandardParticle();
         Particle p2 = new StandardParticle();
         Particle p3 = new StandardParticle();
@@ -58,7 +58,7 @@ public class SocialBestFitnessComparatorTest {
      * it's BEST_FITNESS property.
      */
     @Test
-    public void maximizationFitnessesMemory() {
+    public void maximisationFitnessesMemory() {
         Particle p1 = new StandardParticle();
         Particle p2 = new StandardParticle();
         Particle p3 = new StandardParticle();
@@ -81,7 +81,7 @@ public class SocialBestFitnessComparatorTest {
      * The current iteration strategy operates on the current fitness of the entity.
      */
     @Test
-    public void minimizationFitnessesIteration() {
+    public void minimisationFitnessesIteration() {
         Particle p1 = new StandardParticle();
         Particle p2 = new StandardParticle();
         Particle p3 = new StandardParticle();
@@ -108,7 +108,7 @@ public class SocialBestFitnessComparatorTest {
      * The current iteration strategy operates on the current fitness of the entity.
      */
     @Test
-    public void maximizationFitnessesIteration() {
+    public void maximisationFitnessesIteration() {
         Particle p1 = new StandardParticle();
         Particle p2 = new StandardParticle();
         Particle p3 = new StandardParticle();

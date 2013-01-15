@@ -11,7 +11,6 @@ import fj.P2;
 import fj.data.List;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.niching.NichingAlgorithm;
 import static net.sourceforge.cilib.niching.NichingFunctions.*;
 import net.sourceforge.cilib.niching.NichingSwarms;
@@ -19,6 +18,7 @@ import static net.sourceforge.cilib.niching.NichingSwarms.onMainSwarm;
 import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
 import net.sourceforge.cilib.niching.creation.NicheDetection;
 import net.sourceforge.cilib.niching.merging.MergeStrategy;
+import net.sourceforge.cilib.pso.particle.Particle;
 import static net.sourceforge.cilib.util.functions.Populations.enforceTopology;
 
 public class NichePSO extends AbstractIterationStrategy<NichingAlgorithm> {
