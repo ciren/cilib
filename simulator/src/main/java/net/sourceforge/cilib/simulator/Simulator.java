@@ -8,8 +8,10 @@ package net.sourceforge.cilib.simulator;
 
 import com.google.common.collect.Lists;
 import java.io.File;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorCompletionService;
@@ -46,8 +48,8 @@ public class Simulator {
 
     private static final long serialVersionUID = 8987667794610802908L;
     private final Simulation[] simulations;
-    private final List<ProgressListener> progressListeners;
-    private final HashMap<Simulation, Double> progress;
+    private final CopyOnWriteArrayList<ProgressListener> progressListeners;
+    private final Map<Simulation, Double> progress;
     private final XMLObjectFactory algorithmFactory;
     private final XMLObjectFactory problemFactory;
     private final XMLObjectFactory measurementFactory;
@@ -63,17 +65,17 @@ public class Simulator {
      * @param problemFactory The problem factory.
      * @param measurementFactory The measurement suite.
      */
-    public Simulator(XMLObjectFactory algorithmFactory, 
-            XMLObjectFactory problemFactory, 
-            XMLObjectFactory measurementFactory, 
+    public Simulator(XMLObjectFactory algorithmFactory,
+            XMLObjectFactory problemFactory,
+            XMLObjectFactory measurementFactory,
             MeasurementCombiner combiner, int samples, SeedSelectionStrategy seeder) {
         this.algorithmFactory = algorithmFactory;
         this.problemFactory = problemFactory;
         this.measurementFactory = measurementFactory;
         this.combiner = combiner;
         this.samples = samples;
-        this.progressListeners = Lists.newArrayList();
-        this.progress = new HashMap<Simulation, Double>();
+        this.progressListeners = new CopyOnWriteArrayList<ProgressListener>();
+        this.progress = new ConcurrentHashMap<Simulation, Double>();
         this.simulations = new Simulation[samples];
         this.seeder = seeder;
     }
@@ -89,10 +91,10 @@ public class Simulator {
             progress.put(simulations[i], 0.0);
         }
     }
-    
+
     public Simulation createSimulation() {
-        return new Simulation(this, (Algorithm) algorithmFactory.newObject(), 
-                (Problem) problemFactory.newObject(), 
+        return new Simulation(this, (Algorithm) algorithmFactory.newObject(),
+                (Problem) problemFactory.newObject(),
                 (MeasurementSuite) measurementFactory.newObject());
     }
 
@@ -157,7 +159,7 @@ public class Simulator {
         progressListeners.remove(listener);
     }
 
-    private synchronized void notifyProgress() {
+    private void notifyProgress() {
         double ave = 0;
         for (Double tmp : progress.values()) {
             ave += tmp.doubleValue();
