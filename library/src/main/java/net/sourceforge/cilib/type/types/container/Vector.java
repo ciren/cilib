@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.type.types.container;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
@@ -17,6 +18,7 @@ import fj.P1;
 import java.util.*;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.math.VectorMath;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.*;
 
 /**
@@ -879,6 +881,23 @@ public class Vector implements StructuredType<Numeric>,
         }
         return acc;
     }
+    /**
+     * Permute the elements of the {@code Vector} instance to create
+     * a new {@code Vector}.
+     * @return A permuted {@code Vector} instance.
+     */
+    public Vector permute() {
+        Vector.Builder builder = Vector.newBuilder();
+        Vector current = this.copyOf(this);
+
+        while(current.size() > 0) {
+            int index = Rand.nextInt(current.size());
+            builder.add(current.get(index));
+            current.remove(index);
+        }
+
+        return builder.build();
+    }
 
     /**
      * Obtain a {@link Builder} to create a {@code Vector}.
@@ -967,6 +986,26 @@ public class Vector implements StructuredType<Numeric>,
          */
         public Builder add(Numeric numeric) {
             elements.add(numeric);
+            return this;
+        }
+
+        /**
+         * Add a range of {@code int}s to the {@code Builder}. The {@code int}s
+         * are wrapped within {@link Int} instances.
+         * @param start the start of the range.
+         * @param end the end of the range, exlusive
+         * @param step the amount that is added to each value in the range
+         * @return The current {@code Builder} for chaining operations.
+         */
+        public Builder range(int start, int end, int step) {
+            checkArgument(start < end, "Range start index must be less than the end index");
+            checkArgument(step > 0, "Range step must positive");
+
+            int index = start;
+            while (index < end) {
+                elements.add(Int.valueOf(index));
+                index += step;
+            }
             return this;
         }
 
