@@ -21,11 +21,18 @@ public class PermutationFunctionDecorator implements ContinuousFunction {
     private Vector permutedIndices;
 
     /**
+     * Default contructor that initialises an empty indices vector.
+     */
+    public PermutationFunctionDecorator() {
+        this.permutedIndices = Vector.of();
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public Double apply(Vector input) {
-        if (permutedIndices == null) {
+        if (permutedIndices.size() != input.size()) {
             permutedIndices = Vector.newBuilder()
                 .range(0, input.size(), 1)
                 .build()
