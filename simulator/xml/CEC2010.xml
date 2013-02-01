@@ -20,7 +20,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -35,7 +35,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -50,7 +50,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -83,7 +83,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -116,7 +116,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -149,7 +149,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -182,7 +182,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -215,7 +215,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -245,7 +245,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -275,7 +275,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -305,7 +305,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -333,7 +333,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -361,7 +361,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -384,7 +384,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -407,7 +407,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -430,7 +430,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -451,7 +451,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -472,7 +472,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -487,7 +487,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
@@ -502,7 +502,7 @@
                     <controlParameter class="controlparameter.RandomControlParameter">
                         <distribution class="math.random.UniformDistribution">
                             <lowerBound class="controlparameter.ConstantControlParameter" parameter="0.0" />
-                            <upperBound class="controlparameter.ConstantControlParameter" parameter="20.0" />
+                            <upperBound class="controlparameter.DomainProportionalControlParameter" />
                         </distribution>
                     </controlParameter>
                 </horizontalShift>
