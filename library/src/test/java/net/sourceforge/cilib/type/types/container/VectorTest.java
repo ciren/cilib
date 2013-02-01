@@ -15,6 +15,7 @@ import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
@@ -123,7 +124,7 @@ public class VectorTest {
     public void testSetReal() {
         Vector m = Vector.of(0);
         assertEquals(0.0, m.doubleValueOf(0), 0.0);
-        
+
         m.setReal(0, 10.0);
         assertEquals(10.0, m.doubleValueOf(0), 0.0);
     }
@@ -312,6 +313,15 @@ public class VectorTest {
     }
 
     @Test
+    public void rangeBuilder() {
+        Vector expected = Vector.newBuilder().add(0).add(1).add(2).build();
+        Vector result = Vector.newBuilder().range(0, 3, 1).build();
+
+        assertEquals(3, result.size());
+        assertEquals(result, expected);
+    }
+
+    @Test
     public void copyOf() {
         final Vector initial = Vector.of(1.0, 1.0, 1.0);
 
@@ -381,24 +391,24 @@ public class VectorTest {
 
         Assert.assertEquals(4.0, result, 0.0001);
     }
-    
+
     @Test
     public void testIsZero() {
         Vector zero = Vector.of(0.0, 0.0, 0.0, 0.0, 0.0);
         Vector notZero = Vector.of(0.0, 0.0, 1.0, 0.0, 0.0);
-        
+
         assertFalse(notZero.isZero());
         assertTrue(zero.isZero());
     }
-    
+
     @Test
     public void testProject() {
         Vector u = Vector.of(2.0, 1.0);
         Vector v = Vector.of(-3.0, 4.0);
-        
+
         assertEquals(u.project(v), Vector.of(6.0 / 25.0, -8.0 / 25.0));
     }
-    
+
     @Test
     public void testOrthogonalize() {
         Vector v1 = Vector.of(3.0, 1.0);
@@ -407,5 +417,12 @@ public class VectorTest {
 
         assertEquals(ortho.doubleValueOf(0), 1.0, 0.0);
         assertEquals(ortho.doubleValueOf(1), -1.0, 0.0);
+    }
+
+    @Test
+    public void testPermute() {
+        Vector v1 = Vector.of(1.0, 2.0, 3.0, 4.0);
+        Rand.setSeed(1);
+        assertEquals(v1.permute(), Vector.of(2.0, 4.0, 3.0, 1.0));
     }
 }
