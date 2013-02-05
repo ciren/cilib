@@ -118,6 +118,7 @@ public class Simulator {
         } catch (InterruptedException ex) {
             Logger.getLogger(Simulator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ExecutionException ex) {
+            executor.shutdownNow(); // Shutdown now - time to explode
             throw new RuntimeException(ex);
         }
 
