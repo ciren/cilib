@@ -6,6 +6,7 @@
  */
 package net.sourceforge.cilib.functions.continuous.dynamic;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.DynamicFunction;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
@@ -39,7 +40,6 @@ public class GeneralisedMovingPeaks implements ContinuousFunction, DynamicFuncti
     private ProbabilityDistributionFunction gaussian, uniform; //random providers.
     private int frequency; //the frequency (in iterations) with which the environment changes.
     private int peaks; //the number of peaks.
-    private int lastChange = 0; //iteration that last change was applied
     private double widthSeverity, heightSeverity, shiftSeverity, lambda; //controls the severity and movement trends of peak movements.
     private double[] peakHeigths, peakWidths; //the current heights and widths of all peaks.
     private double minHeight, maxHeight, minWidth, maxWidth; //minimum and maximum values for peak heights and widths.
@@ -114,10 +114,10 @@ public class GeneralisedMovingPeaks implements ContinuousFunction, DynamicFuncti
     @Override
     public void changeEnvironment() {
         //get problem domain boundaries
-        //Vector bounds = (Vector) DomainParser.parse(AbstractAlgorithm.get().getOptimisationProblem().getDomain().getDomainString());
+        Vector bounds = (Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresentation();
 
-        double upper = 50;
-        double lower = -50;
+        double upper = bounds.boundsOf(0).getUpperBound();
+        double lower = bounds.boundsOf(0).getLowerBound();
 
         Vector tempPosition;
 
@@ -187,10 +187,10 @@ public class GeneralisedMovingPeaks implements ContinuousFunction, DynamicFuncti
         shiftVectors = new Vector[peaks];
 
         //get problem domain boundaries
-        //Vector bounds = (Vector) DomainParser.parse(AbstractAlgorithm.get().getOptimisationProblem().getDomain().getDomainString());
+        Vector bounds = (Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresentation();
 
-        double upper = 50;
-        double lower = -50;
+        double upper = bounds.boundsOf(0).getUpperBound();
+        double lower = bounds.boundsOf(0).getLowerBound();
 
         Double[] oneVector = new Double[dimensions];
         for (int i = 0; i < dimensions; i++) {
