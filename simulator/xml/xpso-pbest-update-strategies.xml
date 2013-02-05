@@ -511,6 +511,17 @@
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
+
+        <algorithm id="xpso-discrete-pbestupdate" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <personalBestUpdateStrategy class="pso.pbestupdate.CrossoverPersonalBestUpdateStrategy">
+                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy"/>
+                    </personalBestUpdateStrategy>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
     </algorithms>
 
     <problems>
@@ -623,6 +634,12 @@
             <problem idref="griewank" />
             <measurements idref="fitness" />
             <output format="TXT" file="data/xpso-pcx-guide-boltzmann-bounded-mutation-pbest-zero-vel-griewank.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="xpso-discrete-pbestupdate" />
+            <problem idref="griewank" />
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xpso-discrete-pbestupdate-griewank.txt" />
         </simulation>
     </simulations>
 </simulator>
