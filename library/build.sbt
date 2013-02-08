@@ -27,7 +27,11 @@ libraryDependencies ++= Seq(
 
 javacOptions ++= Seq("-encoding", "UTF8", "-source", "1.7", "-target", "1.7")
 
+javacOptions in doc := Seq("-source", "1.7")
+
 scalacOptions += "-deprecation"
+
+crossPaths := false
 
 // Related settings to allow for publishing of maven style artifacts
 publishMavenStyle := true
