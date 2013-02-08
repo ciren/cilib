@@ -46,11 +46,13 @@ public class StandardParticle extends AbstractParticle {
 
     @Override
     public boolean equals(Object object) {
-        if (this == object)
+        if (this == object) {
             return true;
+        }
 
-        if ((object == null) || (this.getClass() != object.getClass()))
+        if ((object == null) || (this.getClass() != object.getClass())) {
             return false;
+        }
 
         StandardParticle other = (StandardParticle) object;
         return super.equals(object) &&
@@ -76,14 +78,6 @@ public class StandardParticle extends AbstractParticle {
     @Override
     public Vector getBestPosition() {
         return (Vector) this.getProperties().get(EntityType.Particle.BEST_POSITION);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getDimension() {
-        return getPosition().size();
     }
 
     /**
@@ -146,10 +140,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void calculateFitness() {
-        Fitness fitness = getFitnessCalculator().getFitness(this);
-        this.getProperties().put(EntityType.PREVIOUS_FITNESS, this.getFitness());
-        this.getProperties().put(EntityType.FITNESS, fitness);
-
+        super.calculateFitness();
         this.personalBestUpdateStrategy.updatePersonalBest(this);
     }
 

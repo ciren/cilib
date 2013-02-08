@@ -6,6 +6,7 @@
  */
 package net.sourceforge.cilib.entity;
 
+import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
@@ -31,7 +32,7 @@ public abstract class AbstractEntity implements Entity {
      */
     protected AbstractEntity() {
         this.id = EntityIdFactory.getNextId();
-        this.properties = new Blackboard<Enum<?>, Type>();
+        this.properties = new Blackboard();
         this.fitnessCalculator = new EntityBasedFitnessCalculator();
     }
 
@@ -149,6 +150,31 @@ public abstract class AbstractEntity implements Entity {
     @Override
     public long getId() {
         return this.id;
+    }
+
+    @Override
+    public abstract AbstractEntity getClone();
+
+    @Override
+    public void calculateFitness() {
+        properties.put(EntityType.PREVIOUS_FITNESS, getFitness().getClone());
+        properties.put(EntityType.FITNESS, fitnessCalculator.getFitness(this));
+    }
+
+    @Override
+    public abstract void initialise(Problem problem);
+
+    @Override
+    public int getDimension() {
+        return getCandidateSolution().size();
+    }
+
+    @Override
+    public abstract void reinitialise();
+
+    @Override
+    public int compareTo(Entity o) {
+        return getFitness().compareTo(o.getFitness());
     }
 
 }
