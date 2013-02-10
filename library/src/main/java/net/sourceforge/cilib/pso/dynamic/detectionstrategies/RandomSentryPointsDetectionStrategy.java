@@ -15,7 +15,7 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 /**
  * This class defines a detection strategy that uses a user-specified
  * {@link #numberOfSentries number of sentry points} and an {@local #epsilon} value to
- * detect whether a change has occured in the environment within a number of
+ * detect whether a change has occurred in the environment within a number of
  * {@link #interval consecutive iterations}.
  *
  * @InProceedings{title = "Adapting Particle Swarm Optimization to Dynamic Environments",

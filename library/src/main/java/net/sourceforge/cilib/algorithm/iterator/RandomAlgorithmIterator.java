@@ -16,7 +16,7 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
 /**
  * Iterate through a list of {@link Algorithm}s in a random order. With this class it is possible
  * to move forwards and backwards in an iteration even though the order is random. To achieve this
- * an list of random indices are generated and the indices are used as the iteration order. The
+ * a list of random indices is generated and the indices are used as the iteration order. The
  * iteration order will be different for every {@link RandomAlgorithmIterator} object.
  *
  * @param <E> The {@linkplain Algorithm} type.
@@ -133,7 +133,7 @@ public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgo
      * subsequent call to next would be unaffected, and a subsequent call to previous would return
      * the new element. (This call increases by one the value that would be returned by a call to
      * nextIndex or previousIndex.) WARNING: Using the add method too much during an iteration causes
-     * randomness to dissapear.
+     * randomness to disappear.
      */
     @Override
     public void add(E algorithm) {

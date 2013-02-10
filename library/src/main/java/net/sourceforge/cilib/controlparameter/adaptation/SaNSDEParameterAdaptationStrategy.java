@@ -17,8 +17,8 @@ import net.sourceforge.cilib.math.random.generator.Rand;
 /**
  * This is the self-adaptive version of NSDEParameterAdaptationStrategy, where
  * the scaling factor probability adapts as the parameter adapts.
- * 
- * It can be found in Zhenyu, Tang and Yao's 2008 paper "Self-adaptive 
+ *
+ * It can be found in Zhenyu, Tang and Yao's 2008 paper "Self-adaptive
  * Differential Evolution with Neighbourhood Search"
  */
 public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStrategy{
@@ -38,7 +38,7 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
         GaussianDistribution gaussian = new GaussianDistribution();
         gaussian.setMean(ConstantControlParameter.of(0.5));
         gaussian.setDeviation(ConstantControlParameter.of(0.3));
-        random = gaussian; 
+        random = gaussian;
 
         cauchyVariableRandom = new CauchyDistribution();
         scalingFactorProbability = 0.5;
@@ -48,7 +48,7 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
         totalAcceptedWithCauchy = 0;
         probabilityChosen = false;
     }
-    
+
     /*
      * Copy constructor for SaNSDEParameterAdaptationStrategy
      * @param copy The SaNSDEParameterAdaptationStrategy to be copied
@@ -63,7 +63,7 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
         totalAcceptedWithCauchy = copy.totalAcceptedWithCauchy;
         probabilityChosen = copy.probabilityChosen;
     }
-    
+
     /*
      * Clone method for SaNSDEParameterAdaptationStrategy
      * @return A new instance of this SaNSDEParameterAdaptationStrategy
@@ -108,7 +108,7 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
             }
         }
     }
-    
+
     /*
      * Recalculates the scalingFactorProbability using the values of
      * accepted and rejected parameters using each strategy.
@@ -118,11 +118,11 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
         double nominator = totalAcceptedWithProbability * (totalAcceptedWithCauchy + totalRejectedWithCauchy);
         double denominator = totalAcceptedWithCauchy * (totalAcceptedWithProbability + totalRejectedWithProbability)
                 + totalAcceptedWithProbability * (totalAcceptedWithCauchy + totalRejectedWithCauchy);
-        
+
         if(denominator != 0.0) {
             scalingFactorProbability = nominator / denominator;
         }
-        
+
         totalAcceptedWithProbability = 0;
         totalRejectedWithProbability = 0;
         totalRejectedWithCauchy = 0;
@@ -139,7 +139,7 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
     }
 
     /*
-     * Returns the random probability distribution function used when 
+     * Returns the random probability distribution function used when
      * changing the parameter
      * @return The probability distribution function
      */
@@ -148,7 +148,7 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
     }
 
     /*
-     * Sets the random probability distribution function used when 
+     * Sets the random probability distribution function used when
      * changing the parameter
      * @param The new probability distribution function
      */
@@ -166,7 +166,7 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
 
     /*
      * Sets the probability distribution function used to adapt the parameter to the one
-     * received asa a parameter
+     * received as a parameter
      * @return The probability distribution function
      */
     public void setCauchyVariableRandom(ProbabilityDistributionFunction cauchyVariableRandom) {
@@ -183,7 +183,7 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
 
     /*
      * Sets the value of totalAcceptedWithProbability to the value
-     * received asa a parameter
+     * received as a parameter
      * @param The new value of totalAcceptedWithProbability
      */
     public void setTotalAcceptedWithProbability(double totalAcceptedWithProbability) {
@@ -200,7 +200,7 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
 
     /*
      * Sets the value of totalRejectedWithProbability to the value
-     * received asa a parameter
+     * received as a parameter
      * @param The new value of totalRejectedWithProbability
      */
     public void setTotalRejectedWithProbability(double totalRejectedWithProbability) {
@@ -217,7 +217,7 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
 
     /*
      * Sets the value of totalRejectedWithCauchy to the value
-     * received asa a parameter
+     * received as a parameter
      * @param The new value of totalRejectedWithCauchy
      */
     public void setTotalRejectedWithCauchy(double totalRejectedWithCauchy) {
@@ -234,12 +234,10 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
 
     /*
      * Sets the new value of getTotalAcceptedWithCauchy to the value
-     * received asa a parameter
+     * received as a parameter
      * @param The value of getTotalAcceptedWithCauchy
      */
     public void setTotalAcceptedWithCauchy(double totalAcceptedWithCauchy) {
         this.totalAcceptedWithCauchy = totalAcceptedWithCauchy;
     }
-    
-    
 }

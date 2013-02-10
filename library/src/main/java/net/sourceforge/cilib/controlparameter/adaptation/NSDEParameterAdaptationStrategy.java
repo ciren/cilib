@@ -15,26 +15,26 @@ import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.generator.Rand;
 
 /**
- * This is the DE with Neighbouthood Search parameter adaptation strategy described 
- * in the beginign of Zhenyu, Tang and Yao's 2008 paper "Self-adaptive Differential
+ * This is the DE with Neighbourhood Search parameter adaptation strategy described
+ * in the beginning of Zhenyu, Tang and Yao's 2008 paper "Self-adaptive Differential
  * Evolution with Neighbourhood Search".
  */
 public class NSDEParameterAdaptationStrategy implements ParameterAdaptationStrategy{
     private double scalingFactorProbability;
     private ProbabilityDistributionFunction random;
     private ProbabilityDistributionFunction cauchyVariableRandom;
-    
-    /* 
+
+    /*
      * Default constructor for the NSDEParameterAdaptationStrategy
      */
     public NSDEParameterAdaptationStrategy() {
         GaussianDistribution gaussian = new GaussianDistribution();
         gaussian.setDeviation(ConstantControlParameter.of(0.5));
-        random = gaussian;      
+        random = gaussian;
         cauchyVariableRandom = new CauchyDistribution();
         scalingFactorProbability = 0.5;
     }
-    
+
     /*
      * Copy constructor of the NSDEParameterAdaptationStrategy
      * @param copy The NSDEParameterAdaptationStrategy to be copied
@@ -44,7 +44,7 @@ public class NSDEParameterAdaptationStrategy implements ParameterAdaptationStrat
         random = copy.random;
         cauchyVariableRandom = copy.cauchyVariableRandom;
     }
-    
+
     /*
      * Clone method of NSDEParameterAdaptationStrategy
      * @return A new instance of this NSDEParameterAdaptationStrategy
@@ -95,5 +95,5 @@ public class NSDEParameterAdaptationStrategy implements ParameterAdaptationStrat
     public void setScalingFactorProbability(double scalingFactorProbability) {
         this.scalingFactorProbability = scalingFactorProbability;
     }
-    
+
 }

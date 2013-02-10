@@ -41,7 +41,7 @@ public interface Algorithm extends Runnable, Cloneable {
     Iterable<OptimisationSolution> getSolutions();
 
     /**
-     * Returns the number of iterations that have been performed by the algorihtm.
+     * Returns the number of iterations that have been performed by the algorithm.
      * @return The number of iterations.
      *
      * Not Needed>??>????????????

@@ -78,7 +78,7 @@ public interface Particle extends Entity, SocialEntity, MemoryBasedEntity {
     void setVelocityProvider(VelocityProvider velocityProvider);
 
     /**
-     * Get the strategy for the intialisation of the velocity.
+     * Get the strategy for the initialisation of the velocity.
      * @return The {@linkplain VelocityInitialisationStrategy} that is currently set.
      */
     InitialisationStrategy getVelocityInitialisationStrategy();

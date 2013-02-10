@@ -135,7 +135,7 @@ public class Individual extends AbstractEntity {
 
     /**
      * Create a textual representation of the current {@linkplain Individual}. The
-     * returned {@linkplain String} will contain both the genotypes and penotypes for
+     * returned {@linkplain String} will contain both the genotypes and phenotypes for
      * the current {@linkplain Individual}.
      * @return The textual representation of this {@linkplain Individual}.
      */

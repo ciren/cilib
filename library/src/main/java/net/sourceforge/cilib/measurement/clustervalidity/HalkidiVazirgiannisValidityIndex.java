@@ -23,7 +23,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
     CentroidHolder centroidHolder;
-    
+
     /*
      * Default constructor for HalkidiVazirgiannisValidityIndex
      */
@@ -31,7 +31,7 @@ public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
         super();
         centroidHolder = new CentroidHolder();
     }
-    
+
     /*
      * Copy constructor for HalkidiVazirgiannisValidityIndex
      */
@@ -39,7 +39,7 @@ public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
         super(copy);
         centroidHolder = copy.centroidHolder;
     }
-    
+
     /*
      * Clone method for HalkidiVazirgiannisValidityIndex
      * @return new instance of HalkidiVazirgiannisValidityIndex
@@ -48,7 +48,7 @@ public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
     public HalkidiVazirgiannisValidityIndex getClone() {
         return new HalkidiVazirgiannisValidityIndex(this);
     }
-    
+
     /*
      * Calculates the Halkidi Vazirgiannis Validity Index
      * @param algorithm The algorithm for which the validity index is being calculated
@@ -60,7 +60,7 @@ public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
         double result = getScattering() + getDensityAmongClusters();
         return Real.valueOf(result);
     }
-    
+
     /*
      * Calculates the standard deviation
      * @return result The standard deviation
@@ -70,10 +70,10 @@ public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
         for(ClusterCentroid centroid : centroidHolder) {
             sum += getVariance(centroid.getDataItems(), centroid.toVector());
         }
-        
+
         return sum / (double) centroidHolder.size();
     }
-    
+
     /*
      * Calculates the variance between a centroid and a list of patterns
      * @param patternlist The list of data patterns
@@ -88,14 +88,14 @@ public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
             for(Vector otherPattern : patternList) {
                 sum += Math.pow(otherPattern.get(i).doubleValue() - pattern.get(i).doubleValue(), 2);
             }
-            
+
             sum = (!patternList.isEmpty()) ? Math.pow(sum / patternList.size(), 2) : 0;
             finalSum += sum;
         }
-        
+
         return Math.sqrt(finalSum);
     }
-    
+
     /*
      * Calculates the middle point between two clusters
      * @param cluster1 one of the clusters to be compared
@@ -106,7 +106,7 @@ public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
         Vector result = Vector.copyOf(cluster1.toVector()).plus(cluster2.toVector());
         return Vector.copyOf(result).divide(2.0);
     }
-    
+
     /*
      * Calculates the neighbourhood value
      * @param pattern A data pattern
@@ -119,7 +119,7 @@ public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
         }
         return 1;
     }
-    
+
     /*
      * Calculates the density
      * @param middlePoint the middle point between two clusters
@@ -131,13 +131,13 @@ public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
         for(Vector pattern : allPatterns) {
             sum += getNeighbourhoodValue(pattern, middlePoint);
         }
-        
+
         return sum;
     }
-    
+
     /*
      * Calculates the density among all clusters
-     * @return resut The density among all clusters
+     * @return result The density among all clusters
      */
     protected double getDensityAmongClusters() {
         double valueToMultiply = 1 / (double) ((centroidHolder.size() * (centroidHolder.size() - 1)));
@@ -146,15 +146,15 @@ public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
         for(ClusterCentroid centroid : centroidHolder) {
             centroidHolder2 = centroidHolder.getClone();
             centroidHolder2.remove(centroid);
-            
+
             for(ClusterCentroid centroid2 : centroidHolder2) {
                sum += (getDensity(getMiddlePoint(centroid, centroid2)) / ((double) Math.max(getDensity(centroid.toVector()), getDensity(centroid2.toVector()))));
             }
         }
-        
+
         return valueToMultiply * sum;
     }
-    
+
     /*
      * Returns a list of all patterns in the dataset
      * @return list The list of all patterns in the dataset
@@ -166,41 +166,41 @@ public class HalkidiVazirgiannisValidityIndex extends ValidityIndex {
         }
         return allPatterns;
     }
-    
+
     /*
-     * Calculates the midle point of the entire dataset
-     * @return middlePoint The midle point of the entire dataset
+     * Calculates the middle point of the entire dataset
+     * @return middlePoint The middle point of the entire dataset
      */
     protected Vector getMiddlePointOfDataset() {
         ArrayList<Vector> allPatterns = getAllPatterns();
-        
+
         Vector.Builder builder = Vector.newBuilder();
         for(int i = 0; i < allPatterns.get(0).size(); i++) {
             builder.add(0);
         }
-        
+
         Vector sum = builder.build();
-        
+
         for(Vector pattern : allPatterns) {
             sum = Vector.copyOf(sum).plus(pattern);
         }
-        
+
         return Vector.copyOf(sum).divide(allPatterns.size());
-        
+
     }
-    
+
     /*
      * Calculates the scattering of the clusters
      * @return scattering The scattering of the clusters
      */
     protected double getScattering() {
         double sum = 0;
-        
+
         for(ClusterCentroid centroid : centroidHolder) {
             sum += getVariance(centroid.getDataItems(), centroid.toVector()) / (double) getVariance(getAllPatterns(), getMiddlePointOfDataset());
         }
-        
+
         return sum / (double) centroidHolder.size();
     }
-    
+
 }

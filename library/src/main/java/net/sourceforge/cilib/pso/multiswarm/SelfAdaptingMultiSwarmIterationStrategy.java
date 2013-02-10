@@ -129,7 +129,7 @@ public class SelfAdaptingMultiSwarmIterationStrategy extends AbstractIterationSt
             currentAlgorithm.performIteration();
         }
 
-        //check if swarms are withing exclusionRadius and counts converged swarms
+        //check if swarms are within exclusionRadius and counts converged swarms
         for (ListIterator it = ca.getPopulations().listIterator(); it.hasNext();) {
             PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm) it.next();
             for (ListIterator other = ca.getPopulations().listIterator(); other.hasNext();) {

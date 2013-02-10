@@ -31,7 +31,7 @@ public final class Blackboard<K, V extends Type> implements Type {
 
     /**
      * Copy constructor. Create a copy of the provided instance.
-     * @param copy The isntance to copy.
+     * @param copy The instance to copy.
      */
     public Blackboard(Blackboard<K, V> copy) {
         this.board = new ConcurrentHashMap<K, V>();

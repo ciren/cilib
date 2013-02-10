@@ -44,7 +44,7 @@ public class Real implements Numeric {
     }
 
     /**
-     * Copy construtor.
+     * Copy constructor.
      * @param copy The instance to copy.
      */
     private Real(Real copy) {

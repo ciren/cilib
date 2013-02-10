@@ -24,7 +24,7 @@ public class StandardFirefly extends AbstractFirefly {
 
     /**
      * Copy constructor. Create a copy of the provided instance.
-     * @param copy The isntance to copy.
+     * @param copy The instance to copy.
      */
     public StandardFirefly(StandardFirefly copy) {
         super(copy);

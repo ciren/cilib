@@ -106,7 +106,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
     /**
      * Get a list of individuals that are suitable to be used within
      * the recombination arithmetic operator.
-     * @param topology The {@see net.sourceforge.cilib.entity.Topology Topology} containing the entites.
+     * @param topology The {@see net.sourceforge.cilib.entity.Topology Topology} containing the entities.
      * @return A list of unique entities.
      */
     public static List<Entity> getRandomParentEntities(Topology<? extends Entity> topology) {

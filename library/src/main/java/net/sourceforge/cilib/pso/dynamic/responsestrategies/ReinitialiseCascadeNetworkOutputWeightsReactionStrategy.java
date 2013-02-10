@@ -18,7 +18,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * This reaction strategy reinitialises the particles' dimensions corresponding
  * to the output weights of a cascade network. The elements in the position
- * vector are reinitilised, the elements in the velocity vector are set to zero
+ * vector are reinitialised, the elements in the velocity vector are set to zero
  * and the elements in the personal best vector are left as is.
  *
  * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}

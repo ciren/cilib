@@ -19,7 +19,7 @@ public final class InferiorFitness implements Fitness {
     }
 
     /**
-     * Get the cloned instance of this object. Due to this obect being a
+     * Get the cloned instance of this object. Due to this object being a
      * Singleton, the same instance is returned and is not cloned.
      */
     public InferiorFitness getClone() {

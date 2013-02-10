@@ -7,8 +7,8 @@
 package net.sourceforge.cilib.coevolution.cooperative.problem;
 
 /**
- * This is an implimentation of the {@linkplain DimensionAllocation} class which stores a
- * offset into the original problem vector. Therefore the index values are in a sequencial order.
+ * This is an implementation of the {@linkplain DimensionAllocation} class which stores a
+ * offset into the original problem vector. Therefore the index values are in a sequential order.
  *
  */
 public class SequentialDimensionAllocation extends DimensionAllocation {

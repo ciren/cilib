@@ -51,7 +51,7 @@ public class ReinitialisingDataClusteringIterationStrategy extends SinglePopulat
     }
 
     /*
-     * Performs an iteration of it's delegate iteration startegy (by default the StandardDataClusteringIterationStrategy).
+     * Performs an iteration of it's delegate iteration strategy (by default the StandardDataClusteringIterationStrategy).
      * Reinitialises part of, or the whole, population if a change has taken place.
      * @param algorithm The algorithm using this iteration strategy
      */
@@ -76,7 +76,7 @@ public class ReinitialisingDataClusteringIterationStrategy extends SinglePopulat
     }
 
     /*
-     * Sets teh delegate iteration strategy to the one received as a parameter
+     * Sets the delegate iteration strategy to the one received as a parameter
      * @param newDelegate The new delegate iteration strategy
      */
     public void setDelegate(SinglePopulationDataClusteringIterationStrategy newDelegate){

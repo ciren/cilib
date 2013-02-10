@@ -80,7 +80,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
     }
 
     /*
-     * A constructor that cerates a ClusterCentroid containing the elements received as parameters
+     * A constructor that creates a ClusterCentroid containing the elements received as parameters
      * @param elements The elements to be added to the ClusterCentroid
      */
     private ClusterCentroid(Numeric[] elements) {
@@ -90,8 +90,8 @@ public class ClusterCentroid implements StructuredType<Numeric>{
     }
 
     /*
-     * A constructor that cerates a ClusterCentroid containing the elements received as parameters
-     * It takes into account the bouds set for each number
+     * A constructor that creates a ClusterCentroid containing the elements received as parameters
+     * It takes into account the bounds set for each number
      * @param elements The elements to be added to the ClusterCentroid
      */
     private ClusterCentroid(Real[] elements) {
@@ -359,7 +359,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
     }
 
     /*
-     * Returns the dataItems asugned to this ClusterCentroid
+     * Returns the dataItems assigned to this ClusterCentroid
      * @return dataItems The list of dataItems assigned to the CentroidHolder
      */
     public ArrayList<Vector> getDataItems() {
@@ -367,7 +367,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
     }
 
     /*
-     * Rerturns the list of distances between each data item and the ClusterCentroid
+     * Returns the list of distances between each data item and the ClusterCentroid
      * @return dataItemDistances The list of distances between each data item and the ClusterCentroid
      */
     public double[] getDataItemDistances() {
@@ -413,7 +413,7 @@ public class ClusterCentroid implements StructuredType<Numeric>{
     }
 
     /*
-     * Removes all elements from the list of data-items assifgned to the ClusterCentroid
+     * Removes all elements from the list of data-items assigned to the ClusterCentroid
      */
     public void clearDataItems() {
         dataItemDistances = new double[]{};

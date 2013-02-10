@@ -12,7 +12,7 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Implementation to create hybrid composition functions from the CEC2005 benhmark functions.
+ * Implementation to create hybrid composition functions from the CEC2005 benchmark functions.
  * <p>
  * Reference:
  * </p>
@@ -23,10 +23,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </p>
  */
 public class HybridCompositionFunction implements ContinuousFunction {
-    
+
     private List<SingleFunction> functions;
     private double scaleConstant;
-    
+
     public HybridCompositionFunction() {
         this.functions = Lists.<SingleFunction>newArrayList();
         this.scaleConstant = 2000.0;
@@ -42,9 +42,9 @@ public class HybridCompositionFunction implements ContinuousFunction {
         for (SingleFunction f : functions) {
             f.shift(input);
             double sumSqr = Math.pow(f.getShifted().norm(), 2);
-            
+
             f.setWeight(Math.exp(-1.0 * sumSqr / (2.0 * nDims * f.getSigma() * f.getSigma())));
-            
+
             if (wMax < f.getWeight())
                 wMax = f.getWeight();
 
@@ -65,13 +65,13 @@ public class HybridCompositionFunction implements ContinuousFunction {
         for (SingleFunction f : functions) {
             sumF += f.getWeight() * (scaleConstant * f.apply(input) + f.getBias());
         }
-        
+
         return sumF;
     }
-    
+
     /**
      * Adds a function to be composed.
-     * @param function 
+     * @param function
      */
     public void addFunction(SingleFunction function) {
         functions.add(function);

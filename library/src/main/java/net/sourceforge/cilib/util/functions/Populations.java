@@ -71,7 +71,7 @@ public final class Populations {
     }
 
     /**
-     * Makes sure a swarm has a neighborhood best and the correct particle behavior.
+     * Makes sure a swarm has a neighbourhood best and the correct particle behavior.
      *
      * @param pb The particle behavior to give each entity in the swarm.
      *

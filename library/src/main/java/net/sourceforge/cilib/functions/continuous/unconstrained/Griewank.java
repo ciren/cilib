@@ -16,7 +16,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Characteristics:
  * <ul>
  * <li>Multi-modal</li>
- * <li>Non seperable</li>
+ * <li>Non-separable</li>
  * <li>Regular</li>
  * </ul>
  *

@@ -13,7 +13,7 @@ import net.sourceforge.cilib.nn.components.Neuron;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Visitor retreives all the weights in the architecture, starting with the far
+ * Visitor retrieves all the weights in the architecture, starting with the far
  * left hidden layer and top neuron, moving down and then to the layer to the right.
  */
 public class WeightRetrievalVisitor extends ArchitectureOperationVisitor {
@@ -34,7 +34,7 @@ public class WeightRetrievalVisitor extends ArchitectureOperationVisitor {
                 outputBuilder.copyOf(neuron.getWeights());
             }
         }
-        
+
         output = outputBuilder.build();
     }
 

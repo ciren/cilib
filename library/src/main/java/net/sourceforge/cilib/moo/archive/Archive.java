@@ -33,11 +33,11 @@ public interface Archive extends Collection<OptimisationSolution> {
         }
 
         /**
-         * Static entrypoint to get to the Archive. This method is usefull especially
+         * Static entrypoint to get to the Archive. This method is useful especially
          * in situations where you need to get to the archive from different locations
          * such as a {@code GuideSelectionStrategy}, or the {@link ArchivingIterationStep}
          * at the end of a multi-objective algorithm.
-         * @return The currently active archive for a multi-objective algortihm.
+         * @return The currently active archive for a multi-objective algorithm.
          */
         public static Archive get() {
             return currentArchive.get();

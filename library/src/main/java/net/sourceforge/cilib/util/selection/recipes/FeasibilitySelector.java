@@ -58,7 +58,7 @@ public class FeasibilitySelector <E extends Individual> implements Selector<E>{
         }
 
         /*
-         * Sets the Individual to the one receied as a parameter
+         * Sets the Individual to the one received as a parameter
          * @param individual The Individual to be returned
          */
         public void setIndividual(E individual) {
@@ -170,7 +170,7 @@ public class FeasibilitySelector <E extends Individual> implements Selector<E>{
     }
 
     /*
-     * Sets the boundary cosntraint currently being used to the one received as a parameter
+     * Sets the boundary constraint currently being used to the one received as a parameter
      * @param constraint The new constraint
      */
     public void setConstraint(BoundaryConstraint constraint) {

@@ -14,7 +14,7 @@ import net.sourceforge.cilib.nn.components.PatternInputSource;
 
 /**
  * Class implements an {@link ArchitectureOperationVisitor} that performs a feed-
- * forward through a neural network architechture as the visit operation.
+ * forward through a neural network architecture as the visit operation.
  */
 public class FeedForwardVisitor extends ArchitectureOperationVisitor {
 
@@ -22,7 +22,7 @@ public class FeedForwardVisitor extends ArchitectureOperationVisitor {
     /**
      * Perform a feed-forward using {@link #input} as the input for the FF and
      * storing the output in {@link #output}.
-     * @param architecture the architechture to visit.
+     * @param architecture the architecture to visit.
      */
     @Override
     public void visit(Architecture architecture) {

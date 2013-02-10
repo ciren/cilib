@@ -11,7 +11,7 @@ import net.sourceforge.cilib.type.types.Types;
 
 /**
  * Once the entity has over shot the search space boundaries, re-initialise
- * the Entity once again to be witihin the search space of the problem at a
+ * the Entity once again to be within the search space of the problem at a
  * random position.
  *
  * @see Types#isInsideBounds(net.sourceforge.cilib.type.types.Type)

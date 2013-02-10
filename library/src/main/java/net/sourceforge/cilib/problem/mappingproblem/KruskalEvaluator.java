@@ -18,7 +18,7 @@ public class KruskalEvaluator implements MappingEvaluator {
     /**
      * Implements the evaluateMapping function as required by {@see NonlinearMappingProblem}.
      *
-     * @param dist The distrance matrix for the generated output vectors.
+     * @param dist The distance matrix for the generated output vectors.
      *
      * @return the fitness as a double, wrapped inside a Fitness.
      *

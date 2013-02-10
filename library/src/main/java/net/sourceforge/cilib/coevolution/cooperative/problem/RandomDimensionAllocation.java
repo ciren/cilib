@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is an implimentation of the {@linkplain DimensionAllocation} class which stores a
+ * This is an implementation of the {@linkplain DimensionAllocation} class which stores a
  * list of randomly generated index values.
  *
  */

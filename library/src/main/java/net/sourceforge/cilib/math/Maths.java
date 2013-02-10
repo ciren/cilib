@@ -19,7 +19,7 @@ import net.sourceforge.cilib.util.functions.Numerics;
 
 
 /**
- * This class provides helper functions in addtion to the standard <code>java.lang.Math</code>
+ * This class provides helper functions in addition to the standard <code>java.lang.Math</code>
  * class.
  *
  * These utility functions further are necessary for the various distributions and selections
@@ -68,7 +68,7 @@ public final class Maths {
 
     /**
      * Return the combination of <code>n</code> and <code>r</code>.
-     * @param n The total elements from which the combination is perfromed.
+     * @param n The total elements from which the combination is performed.
      * @param r The {@code r}-combinations (of size {@code r}) to select.
      * @return The combination of <code>n</code> and <code>r</code>.
      */
@@ -79,7 +79,7 @@ public final class Maths {
     }
 
     /**
-     * This is a convienience method providing an alias to <code>combination</code>.
+     * This is a convenience method providing an alias to <code>combination</code>.
      * @param n The number of elements available for selection.
      * @param r The {@code r}-combinations (of size {@code r}) to select.
      * @return The value of the operation "<code>n</code> choose <code>x</code>".
@@ -206,7 +206,7 @@ public final class Maths {
     /**
      * Determine if a "flip" would occur given the provided probability value.
      * @param probability The provided probability value. This value must be in [0,1]
-     * @return 1 - if a "flip" occured, 0 otherwise.
+     * @return 1 - if a "flip" occurred, 0 otherwise.
      */
     public static int flip(double probability) {
         checkArgument(probability >= 0 && probability <= 1, "Illegal input: valid range is [0,1]");
@@ -228,7 +228,7 @@ public final class Maths {
     public static double log(double base, double value) {
         return Math.log(value) / Math.log(base);
     }
-    
+
     private static fj.data.List<Vector> combinations(final fj.data.List<Vector> input, final int i) {
         if (i == input.length()) {
             return list(Vector.of());
@@ -236,7 +236,7 @@ public final class Maths {
 
         final fj.data.List<Vector> recursive = combinations(input, i + 1);
         final Vector current = input.index(i);
-        
+
         return fj.data.List.join(iterableList(current).map(Numerics.doubleValue())
             .map(new F<Double, fj.data.List<Vector>>() {
                 @Override
@@ -250,7 +250,7 @@ public final class Maths {
                 }
             }));
     }
-    
+
     public static fj.data.List<Vector> combinations(final fj.data.List<Vector> input) {
         return combinations(input, 0);
     }

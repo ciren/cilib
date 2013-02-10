@@ -14,7 +14,7 @@ import net.sourceforge.cilib.type.types.Type;
 /**
  * Calculate the actual fitness of the particle at their current position.
  * This measurement should be used on dynamic algorithms where the pbest of the
- * particles may be innacurate (outdated).
+ * particles may be inaccurate (outdated).
  *
  *
  */

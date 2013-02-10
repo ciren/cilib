@@ -22,7 +22,7 @@ public interface ContextUpdateStrategy extends Cloneable {
      * Decide if the given solution should be added to the given context vector.
      * @param context The current context vector.
      * @param solution The new participant solution.
-     * @param allocation The {@linkplain DimensionAllocation} which indictates how the solution
+     * @param allocation The {@linkplain DimensionAllocation} which indicates how the solution
      *      vector forms part of the context.
      */
     void updateContext(ContextEntity context, Vector solution, DimensionAllocation allocation);

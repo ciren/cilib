@@ -19,7 +19,7 @@ public class CurvilinearDistEvaluator implements MappingEvaluator {
     /**
      * Implements the evaluateMapping function as required by.
      *
-     * @param d The distrance matrix for the generated output vectors.
+     * @param d The distance matrix for the generated output vectors.
      *
      * @return the fitness as a double, wrapped inside a Fitness.
      *
@@ -57,7 +57,7 @@ public class CurvilinearDistEvaluator implements MappingEvaluator {
     }
 
     /**
-     * Called by MappingProblem.setEvaluator in order to establisg
+     * Called by MappingProblem.setEvaluator in order to establish
      * bi-directional communication.
      *
      * @param prob The instance of MappingProblem that is going use us.

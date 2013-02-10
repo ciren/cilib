@@ -20,7 +20,7 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
  * Create a collection of {@linkplain net.sourceforge.cilib.entity.Entity entities}
  * by cloning the given prototype {@link net.sourceforge.cilib.entity.Entity}.
  * The prototype Entity must be a {@link Particle}. All particles cloned from
- * the given Particle are assigned different behavriors from a behavior pool.
+ * the given Particle are assigned different behaviors from a behavior pool.
  * The manner in which behaviors are selected from the behavior pool is governed
  * by the {@link Selector} (random by default).
  *

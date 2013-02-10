@@ -12,7 +12,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Matrices;
 
 /**
- * A function decorator that rotates a given function by a random orthonormal 
+ * A function decorator that rotates a given function by a random orthonormal
  * matrix or a linear transformation matrix.
  */
 public class RotatedFunctionDecorator implements ContinuousFunction {
@@ -23,13 +23,13 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
     private boolean initialised;
     private MatrixType type;
     private int condition;
-    
+
     public enum MatrixType {
         IDENTITY,
         ORTHONORMAL,
         LINEAR_TRANSFORMATION
     }
-    
+
     public RotatedFunctionDecorator() {
         this.rotationMatrix = null;
         this.type = MatrixType.ORTHONORMAL;
@@ -47,7 +47,7 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
         if (type == MatrixType.IDENTITY) {
             return function.apply(input);
         }
-        
+
         if (!initialised) {
             setRotationMatrix(input.size());
             initialised = true;
@@ -110,10 +110,10 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
         } else if ("linear_transformation".equalsIgnoreCase(type)) {
             this.type = MatrixType.LINEAR_TRANSFORMATION;
         }else {
-            throw new IllegalArgumentException("Unkown matrix type. Must be 'identity' or 'orthonormal'");
+            throw new IllegalArgumentException("Unknown matrix type. Must be 'identity' or 'orthonormal'");
         }
     }
-    
+
     public void setCondition(int condition) {
         this.condition = condition;
     }

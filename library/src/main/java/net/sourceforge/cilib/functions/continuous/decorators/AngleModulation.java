@@ -18,7 +18,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * A Decorator pattern class to wrap a normal function to perform Angle Modulation.
  *
- * The deault values for angle modulation are:
+ * The default values for angle modulation are:
  * <p>
  * <ul>
  *   <li>domain = "R(-1.0,1.0)^4"</li>
@@ -73,7 +73,7 @@ public class AngleModulation extends AbstractProblem {
      */
     public void setPrecision(int precision) {
         if (precision < 0) {
-            throw new ArithmeticException("Presicion values must be >= 0");
+            throw new ArithmeticException("Precision values must be >= 0");
         }
 
         this.precision = precision;

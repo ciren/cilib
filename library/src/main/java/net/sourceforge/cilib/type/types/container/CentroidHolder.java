@@ -76,7 +76,7 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
     }
 
     /*
-     * Reinitialises the values of all dimentisons of all ClusterCentroids held by the CentroidHolder to zero
+     * Reinitialises the values of all dimensions of all ClusterCentroids held by the CentroidHolder to zero
      */
     public void reinitialise() {
         for(ClusterCentroid centroid : components) {
@@ -300,7 +300,7 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
 
     /*
      * Returns the string representation of the CentroidHolder
-     * @return strinf The string representation of the CentroidHolder
+     * @return string The string representation of the CentroidHolder
      */
     @Override
     public String toString() {

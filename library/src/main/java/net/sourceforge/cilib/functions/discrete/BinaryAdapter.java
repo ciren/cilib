@@ -12,7 +12,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Class to convert a binary vector into a continuous vector for optimisation of
- * continous problems by a binary optimiser.
+ * continuous problems by a binary optimiser.
  *
  * This still needs some experimental work though, to verify that it is working
  *
@@ -38,7 +38,7 @@ public class BinaryAdapter implements ContinuousFunction {
     /**
      * Evaluate the {@see net.sourceforge.cilib.type.types.Vector} by
      * decoding the binary vector into a continuous vector and evaluate the results
-     * by feeding the result into the wrapped funtion.
+     * by feeding the result into the wrapped function.
      *
      * @param input The {@see net.sourceforge.cilib.type.types.Bit} vector to evaluate
      */

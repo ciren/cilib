@@ -142,7 +142,7 @@ public class StandardDataTable<T extends Cloneable> implements DataTable<List<T>
     /**
      * Gets a column from the datatable as a new ArrayList.
      * @param index the index of the column to retrieve.
-     * @return a new ArrayList cotaining the column elements.
+     * @return a new ArrayList containing the column elements.
      */
     @Override
     public List<T> getColumn(int index) {

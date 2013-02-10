@@ -46,7 +46,7 @@ public class GammaDistribution implements ProbabilityDistributionFunction {
      */
     @Override
     public double getRandomNumber(double... shapeScale) {
-        checkArgument(shapeScale.length == 2, "The Gamma distribution requires two parameters. ");
+        checkArgument(shapeScale.length == 2, "The Gamma distribution requires two parameters.");
         checkArgument(shapeScale[0] > 0, "The first provided parameter (shape parameter) must be an integer greater than zero.");
         checkArgument(shapeScale[1] > 0, "The second provided parameter (scale parameter) must be greater than zero.");
 

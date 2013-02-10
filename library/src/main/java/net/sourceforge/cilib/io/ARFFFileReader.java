@@ -61,7 +61,7 @@ public class ARFFFileReader extends FileReader<List<Type>> {
         String[] tokens = line.split(dataDelimiter);
         if (tokens.length != columnTypePrototypes.size()) {
             throw new UnsupportedOperationException("Error: Not all attributes specified." +
-                    "Expected @attribute decleration for each column");
+                    "Expected @attribute declaration for each column");
         }
         ArrayList<Type> row = new ArrayList<Type>();
         for (int i = 0; i < tokens.length; i++) {
@@ -81,7 +81,7 @@ public class ARFFFileReader extends FileReader<List<Type>> {
         if (line.toUpperCase().startsWith("@RELATION")) {
             tokens = line.split(headerDelimiter);
             if (tokens.length < 2) {
-                throw new CIlibIOException("@RELATION decleration must be followed" +
+                throw new CIlibIOException("@RELATION declaration must be followed" +
                         "by whitespace and relation name.");
             }
             relationName = tokens[1];
@@ -92,10 +92,10 @@ public class ARFFFileReader extends FileReader<List<Type>> {
         while (!line.equalsIgnoreCase("@DATA")) {
             tokens = line.split(headerDelimiter);
             if (!tokens[0].equalsIgnoreCase("@ATTRIBUTE")) {
-                throw new CIlibIOException("Expected @ATTRIBUTE decleration, found: " + tokens[0]);
+                throw new CIlibIOException("Expected @ATTRIBUTE declaration, found: " + tokens[0]);
             }
             if (tokens.length < 3) {
-                throw new CIlibIOException("@ATTRIBUTE decleration must be followed" +
+                throw new CIlibIOException("@ATTRIBUTE declaration must be followed" +
                         "by <attribute-name> <datatype>");
             }
             String attributeName = tokens[1];
@@ -149,7 +149,7 @@ public class ARFFFileReader extends FileReader<List<Type>> {
         datatype = datatype.replaceAll("[{}]", "");
         String[] nominalAttributes = datatype.split("\\,");
         if (nominalAttributes.length == 0) {
-            throw new CIlibIOException("Nominal attributes must be comma seperated:" +
+            throw new CIlibIOException("Nominal attributes must be comma separated:" +
                     "{<nominal-name1>, <nominal-name2>, <nominal-name3>, ...} ");
         }
         for (int i = 0; i < nominalAttributes.length; i++) {
@@ -182,7 +182,7 @@ public class ARFFFileReader extends FileReader<List<Type>> {
     }
 
     /**
-     * Gets the delimiter used to seperate fields in the file's header.
+     * Gets the delimiter used to separate fields in the file's header.
      * @return the header delimiter.
      */
     public String getHeaderDelimiter() {
@@ -190,7 +190,7 @@ public class ARFFFileReader extends FileReader<List<Type>> {
     }
 
     /**
-     * Sets the delimiter used to seperate fields in the file's header.
+     * Sets the delimiter used to separate fields in the file's header.
      * @param headerDelimiter the header delimiter.
      */
     public void setHeaderDelimiter(String headerDelimiter) {

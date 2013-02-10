@@ -41,7 +41,7 @@ public abstract class NNTrainingProblem extends AbstractProblem {
     }
 
     /**
-     * Initialises the problem by setting up the datasets: has to be implemeted by inheriting classes.
+     * Initialises the problem by setting up the datasets: has to be implemented by inheriting classes.
      */
     public abstract void initialise();
 

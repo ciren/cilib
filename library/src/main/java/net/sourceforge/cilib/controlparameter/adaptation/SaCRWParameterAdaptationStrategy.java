@@ -17,7 +17,7 @@ import net.sourceforge.cilib.math.random.GaussianDistribution;
 /**
  * This is the weighted parameter adaptation strategy described by Zhenyu, Tang and Yao
  * in their 2008 paper "Self-adaptive Differential Evolution with Neighbourhood
- * Search". It is the implementation of the parameter adaptation strategy used 
+ * Search". It is the implementation of the parameter adaptation strategy used
  * to adapt the crossover probability.
  */
 public class SaCRWParameterAdaptationStrategy implements ParameterAdaptationStrategy{
@@ -27,7 +27,7 @@ public class SaCRWParameterAdaptationStrategy implements ParameterAdaptationStra
     private double crossoverMean;
     private GaussianDistribution random;
     private RandomBoundedParameterInitialisationStrategy initialisationStrategy;
-    
+
     /*
      * Default constructor for the SaCRWParameterAdaptationStrategy
      */
@@ -41,7 +41,7 @@ public class SaCRWParameterAdaptationStrategy implements ParameterAdaptationStra
         random.setDeviation(ConstantControlParameter.of(0.1));
         initialisationStrategy = new RandomBoundedParameterInitialisationStrategy();
     }
-    
+
     /*
      * Copy constructor for the SaCRWParameterAdaptationStrategy
      * @param copy The SaCRWParameterAdaptationStrategy to be copied
@@ -54,7 +54,7 @@ public class SaCRWParameterAdaptationStrategy implements ParameterAdaptationStra
         random = copy.random;
         initialisationStrategy = copy.initialisationStrategy.getClone();
     }
-    
+
     /*
      * Clone method for the SaCRWParameterAdaptationStrategy
      * @return A new instance of this SaCRWParameterAdaptationStrategy
@@ -71,7 +71,7 @@ public class SaCRWParameterAdaptationStrategy implements ParameterAdaptationStra
     public void change(SettableControlParameter parameter) {
         random.setMean(ConstantControlParameter.of(crossoverMean));
         initialisationStrategy.setRandom(random);
-        
+
         SettableControlParameter newParameter = parameter.getClone();
         initialisationStrategy.initialise(newParameter);
         parameter.update(newParameter.getParameter());
@@ -79,7 +79,7 @@ public class SaCRWParameterAdaptationStrategy implements ParameterAdaptationStra
 
     /*
      * Adds the value of a successful parameter to the learning experience as
-     * well as the value by which the fitness has improved to a list of these 
+     * well as the value by which the fitness has improved to a list of these
      * better fitness differences.
      * @param parameter The value of the parameter which was accepted/rejected
      * @param entity The entity that was accepted/rejected which holds the accepted/rejected parameter
@@ -106,7 +106,7 @@ public class SaCRWParameterAdaptationStrategy implements ParameterAdaptationStra
         for(double weight : fitnessDifferences) {
             fitnessSum += weight;
         }
-        
+
         if(fitnessSum != 0) {
             for(double parameterValue : learningExperience) {
                 crossoverMean += (fitnessDifferences.get(parameterIndex) / fitnessSum) * parameterValue;
@@ -160,7 +160,7 @@ public class SaCRWParameterAdaptationStrategy implements ParameterAdaptationStra
     }
 
     /*
-     * Sets the value of the crossoverMean to the value received asa a parameter
+     * Sets the value of the crossoverMean to the value received as a parameter
      * @param crossoverMean The new value for the crossoverMean
      */
     public void setCrossoverMean(double crossoverMean) {
@@ -176,7 +176,7 @@ public class SaCRWParameterAdaptationStrategy implements ParameterAdaptationStra
     }
 
     /*
-     * Sets the random provider to the one received asa a parameter
+     * Sets the random provider to the one received as a parameter
      * @param random The new random provider
      */
     public void setRandom(GaussianDistribution random) {
@@ -199,5 +199,5 @@ public class SaCRWParameterAdaptationStrategy implements ParameterAdaptationStra
     public void setInitialisationStrategy(RandomBoundedParameterInitialisationStrategy initialisationStrategy) {
         this.initialisationStrategy = initialisationStrategy;
     }
-    
+
 }

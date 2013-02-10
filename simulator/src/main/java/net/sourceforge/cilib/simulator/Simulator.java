@@ -41,7 +41,7 @@ import net.sourceforge.cilib.problem.Problem;
  * <p>
  * The primary purpose of running simulations is to measure the performance of the given algorithm
  * on a given problem. For that reason, a simulation accepts a measurement suite which it uses to
- * record the performace.
+ * record the performance.
  * </p>
  */
 public class Simulator {

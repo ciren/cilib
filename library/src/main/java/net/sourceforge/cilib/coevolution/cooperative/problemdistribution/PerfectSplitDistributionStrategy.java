@@ -25,7 +25,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class PerfectSplitDistributionStrategy implements ProblemDistributionStrategy {
 
     /**
-     * Splits up the given {@link OptimisationProblem} into sub-problems, where each sub problem contains a sequential, uniform length, portion of the problem verctor, and assigns all the sub-problems to the sub population {@link Algorithm}s.
+     * Splits up the given {@link OptimisationProblem} into sub-problems, where each sub problem contains a sequential, uniform length, portion of the problem vector, and assigns all the sub-problems to the sub population {@link Algorithm}s.
      * @param populations The list of participating {@linkplain PopulationBasedAlgorithm}s.
      * @param problem The problem that needs to be re-distributed.
      * @param context The context vector maintained by the {@linkplain CooperativeCoevolutionAlgorithm}.

@@ -19,7 +19,7 @@ public interface DataOperator {
      * @param dataTable the DataTable to operate on.
      * @return the resulting DataTable.
      * @throws net.sourceforge.cilib.io.exception.CIlibIOException A wrapper exception
-     * that occured during the operation.
+     * that occurred during the operation.
      */
     DataTable operate(DataTable dataTable) throws CIlibIOException;
 }

@@ -35,7 +35,7 @@ public interface DataTable<T, E> extends Cloneable, Iterable<T> {
     void addRows(List<T> multipleRowData);
 
     /**
-     * Adds mulltiple columns to the table.
+     * Adds multiple columns to the table.
      * @param multipleColumnData List containing multiple columns' data.
      */
     void addColumns(List<E> multipleColumnData);

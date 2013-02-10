@@ -14,7 +14,7 @@ import net.sourceforge.cilib.nn.components.PatternInputSource;
 
 /**
  * Class implements an {@link ArchitectureOperationVisitor} that performs a
- * cascade pass through a neural network architechture as the visit operation.
+ * cascade pass through a neural network architecture as the visit operation.
  */
 public class CascadeVisitor extends ArchitectureOperationVisitor {
 
@@ -22,7 +22,7 @@ public class CascadeVisitor extends ArchitectureOperationVisitor {
     /**
      * Perform cascade pass using {@link #input} as the input for the pass and
      * storing the output in {@link #output}.
-     * @param architecture the architechture to visit.
+     * @param architecture the architecture to visit.
      */
     @Override
     public void visit(Architecture architecture) {

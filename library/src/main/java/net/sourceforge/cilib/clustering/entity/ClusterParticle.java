@@ -52,7 +52,7 @@ public class ClusterParticle extends AbstractParticle{
     }
 
     /*
-     * The xopy constructor of the ClusterParticle
+     * The copy constructor of the ClusterParticle
      * @param copy The ClusterParticle to be copied
      */
     public ClusterParticle(ClusterParticle copy) {
@@ -133,7 +133,7 @@ public class ClusterParticle extends AbstractParticle{
     }
 
     /*
-     * Retruns the best particle in the neighbourhood of the ClusterParticle
+     * Returns the best particle in the neighbourhood of the ClusterParticle
      * @return neighbourhoodBest The Neighbourhood Best particle
      */
     @Override

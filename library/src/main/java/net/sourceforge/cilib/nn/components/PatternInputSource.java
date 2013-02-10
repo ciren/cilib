@@ -31,7 +31,7 @@ public class PatternInputSource implements NeuralInputSource {
 
     /**
      * Gets the neural input by indexing into the decorated pattern's input vector.
-     * @param index the index of the input to retreive.
+     * @param index the index of the input to retrieve.
      * @return
      */
     @Override
@@ -56,7 +56,7 @@ public class PatternInputSource implements NeuralInputSource {
 		neuron.setActivation(this.getNeuralInput(index));
         return neuron;
     }
-	 
+
 
     /**
      * Gets the pattern's input vector.

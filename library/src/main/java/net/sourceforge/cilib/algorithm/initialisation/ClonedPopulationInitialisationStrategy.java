@@ -62,7 +62,7 @@ public class ClonedPopulationInitialisationStrategy<E extends Entity> implements
     @Override
     public Iterable<E> initialise(Problem problem) {
         Preconditions.checkNotNull(problem, "No problem has been specified");
-        Preconditions.checkNotNull(prototypeEntity, "No prototype Entity object has been defined for the clone operation in the entity constrution process.");
+        Preconditions.checkNotNull(prototypeEntity, "No prototype Entity object has been defined for the clone operation in the entity construction process.");
 
         List<E> clones = new ArrayList<E>();
 
