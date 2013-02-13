@@ -8,7 +8,7 @@ package net.sourceforge.cilib.coevolution.cooperative.problemdistribution;
 
 import java.util.Arrays;
 import java.util.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.pso.PSO;
@@ -33,7 +33,7 @@ public class PerfectSplitProblemDistributionTest {
                 Real.valueOf(0.0, bounds),
                 Real.valueOf(0.0, bounds));
 
-        List<PopulationBasedAlgorithm> populations = Arrays.asList((PopulationBasedAlgorithm)new PSO(), (PopulationBasedAlgorithm)new PSO());
+        List<SinglePopulationBasedAlgorithm> populations = Arrays.asList((SinglePopulationBasedAlgorithm)new PSO(), (SinglePopulationBasedAlgorithm)new PSO());
 
         final Problem problem = mock(Problem.class);
         when(problem.getDomain()).thenReturn(problemDomain);

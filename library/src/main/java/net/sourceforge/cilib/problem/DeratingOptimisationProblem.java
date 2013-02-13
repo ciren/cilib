@@ -6,9 +6,9 @@
  */
 package net.sourceforge.cilib.problem;
 
-import com.google.common.collect.Lists;
 import java.util.Collection;
 import java.util.List;
+
 import net.sourceforge.cilib.functions.continuous.derating.DeratingFunction;
 import net.sourceforge.cilib.functions.continuous.derating.PowerDeratingFunction;
 import net.sourceforge.cilib.problem.objective.Maximise;
@@ -17,6 +17,8 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.distancemeasure.DistanceMeasure;
 import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
+
+import com.google.common.collect.Lists;
 
 /**
  * <p>Title: SequentialNichingProblem </p>
@@ -33,7 +35,7 @@ import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
  */
 public class DeratingOptimisationProblem extends FunctionOptimisationProblem {
 
-    private List<Vector> solutions;
+    private final List<Vector> solutions;
     private DeratingFunction deratingFunction;
     private DistanceMeasure distanceMeasure;
 
@@ -71,7 +73,7 @@ public class DeratingOptimisationProblem extends FunctionOptimisationProblem {
             double distance = distanceMeasure.distance(input.normalize(), v.normalize());
 
             if (distance < deratingFunction.getRadius()) {
-                fitness *= getDeratingFunction().apply(Vector.of(distance));
+                fitness *= getDeratingFunction().f(Vector.of(distance));
             }
         }
 

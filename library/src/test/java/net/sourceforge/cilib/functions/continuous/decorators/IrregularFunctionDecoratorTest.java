@@ -21,9 +21,9 @@ public class IrregularFunctionDecoratorTest {
         i.setFunction(s);
 
         Vector v = Vector.of(1.0, 2.0);
-        assertEquals(4.953, i.apply(v), 0.001);
+        assertEquals(4.953, i.f(v), 0.001);
 
         v.setReal(1, 0.0);
-        assertEquals(1.0, i.apply(v), 0.0);
+        assertEquals(1.0, i.f(v), 0.0);
     }
 }

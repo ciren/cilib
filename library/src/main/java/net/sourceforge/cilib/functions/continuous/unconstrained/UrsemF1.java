@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * UrsemF1 function.
@@ -17,7 +18,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Minimum: 4.81681
  *
  */
-public class UrsemF1 implements ContinuousFunction {
+public class UrsemF1 extends ContinuousFunction {
 
     private static final long serialVersionUID = -2595919942608678319L;
 
@@ -25,7 +26,7 @@ public class UrsemF1 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() == 2, "UrsemF1 function is only defined for 2 dimensions");
 
         double x = input.doubleValueOf(0);

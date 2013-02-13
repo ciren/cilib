@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.coevolution.cooperative.problem;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgorithm;
 import net.sourceforge.cilib.measurement.single.Fitness;
 import net.sourceforge.cilib.util.Cloneable;

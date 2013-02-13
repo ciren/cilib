@@ -6,13 +6,13 @@
  */
 package net.sourceforge.cilib.functions.continuous.hybrid.cec2013;
 
-import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.FixedControlParameter;
 import net.sourceforge.cilib.controlparameter.RandomControlParameter;
+import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This is a container class to store information about individual functions used
@@ -38,7 +38,7 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
  * on Real-Parameter Optimization." (2013).
  * </p>
  */
-public class SingleFunction implements ContinuousFunction {
+public class SingleFunction extends ContinuousFunction {
     private ContinuousFunction function;
     private double sigma;
     private double lambda;
@@ -69,8 +69,8 @@ public class SingleFunction implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
-        return lambda * function.apply(input) + bias;
+    public Double f(Vector input) {
+        return lambda * function.f(input) + bias;
     }
 
     /**

@@ -18,7 +18,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Transactions on Evolutionary Computation, 8(5): 425-442, 2003
  *
  */
-public class FDA2_h implements ContinuousFunction {
+public class FDA2_h extends ContinuousFunction {
 
     private static final long serialVersionUID = -637862405309737323L;
     //members
@@ -165,7 +165,7 @@ public class FDA2_h implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
+    public Double f(Vector input) {
         this.tau = AbstractAlgorithm.get().getIterations();
         return this.apply(this.tau, x);
     }
@@ -175,7 +175,7 @@ public class FDA2_h implements ContinuousFunction {
      *
      */
     public Double apply(int iteration, Vector x) {
-        double t = (1.0 / (double) n_t) * Math.floor((double) iteration / (double) this.tau_t);
+        double t = (1.0 / n_t) * Math.floor((double) this.tau / (double) this.tau_t);
         double H = 0.75 + 0.7 * (Math.sin(0.5 * Math.PI * t));
         Vector xI = x;
         Vector xII = x;
@@ -186,8 +186,8 @@ public class FDA2_h implements ContinuousFunction {
             xIII = x.copyOfRange(16, x.size());
         }
 
-        double f = this.fda2_f.apply(xI);
-        double g = this.fda2_g.apply(xII);
+        double f = this.fda2_f.f(xI);
+        double g = this.fda2_g.f(xII);
 
         double value = 1.0;
         double power = H;

@@ -43,7 +43,7 @@ public class CooperativePSOTest {
         constraint.setDelegate(new RandomBoundaryConstraint());
         strategy.setBoundaryConstraint(constraint);
         instance.setOptimisationProblem(problem);
-        DataDependantPopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy<ClusterParticle>();
+        DataDependantPopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy();
 
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
@@ -62,7 +62,7 @@ public class CooperativePSOTest {
         constraint2.setDelegate(new RandomBoundaryConstraint());
         strategy2.setBoundaryConstraint(constraint2);
         instance2.setOptimisationProblem(problem2);
-        DataDependantPopulationInitialisationStrategy init2 = new DataDependantPopulationInitialisationStrategy<ClusterParticle>();
+        DataDependantPopulationInitialisationStrategy init2 = new DataDependantPopulationInitialisationStrategy();
 
         init2.setEntityType(new ClusterParticle());
         init2.setEntityNumber(2);
@@ -81,7 +81,7 @@ public class CooperativePSOTest {
         constraint3.setDelegate(new RandomBoundaryConstraint());
         strategy3.setBoundaryConstraint(constraint3);
         instance3.setOptimisationProblem(problem3);
-        DataDependantPopulationInitialisationStrategy init3 = new DataDependantPopulationInitialisationStrategy<ClusterParticle>();
+        DataDependantPopulationInitialisationStrategy init3 = new DataDependantPopulationInitialisationStrategy();
 
         init3.setEntityType(new ClusterParticle());
         init3.setEntityNumber(2);
@@ -100,11 +100,11 @@ public class CooperativePSOTest {
 
         cooperative.performInitialisation();
 
-        ClusterParticle particleBefore = instance.getTopology().get(0).getClone();
+        ClusterParticle particleBefore = instance.getTopology().head().getClone();
 
         cooperative.run();
 
-        ClusterParticle particleAfter = instance.getTopology().get(0).getClone();
+        ClusterParticle particleAfter = instance.getTopology().head().getClone();
 
         Assert.assertFalse(particleAfter.getCandidateSolution().containsAll(particleBefore.getCandidateSolution()));
     }
@@ -124,7 +124,7 @@ public class CooperativePSOTest {
         particle.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(2.0));
         particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getCandidateSolution());
         particle.setNeighbourhoodBest(particle);
-        standard.getTopology().add(particle);
+//        standard.getTopology().add(particle);
 
         ClusterParticle otherParticle = new ClusterParticle();
         CentroidHolder otherHolder = new CentroidHolder();
@@ -135,7 +135,9 @@ public class CooperativePSOTest {
         otherParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(1.0));
         otherParticle.getProperties().put(EntityType.Particle.BEST_POSITION, otherParticle.getCandidateSolution());
         otherParticle.setNeighbourhoodBest(otherParticle);
-        standard.getTopology().add(otherParticle);
+//        standard.getTopology().add(otherParticle);
+
+        standard.setTopology(fj.data.List.list(particle, otherParticle));
 
         DataClusteringPSO standard2  = new DataClusteringPSO();
         ClusterParticle particle2 = new ClusterParticle();
@@ -147,7 +149,7 @@ public class CooperativePSOTest {
         particle2.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(2.1));
         particle2.getProperties().put(EntityType.Particle.BEST_POSITION, particle2.getCandidateSolution());
         particle2.setNeighbourhoodBest(particle2);
-        standard2.getTopology().add(particle2);
+//        standard2.getTopology().add(particle2);
 
         ClusterParticle otherParticle2 = new ClusterParticle();
         CentroidHolder holder2 = new CentroidHolder();
@@ -158,7 +160,9 @@ public class CooperativePSOTest {
         otherParticle2.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(3.0));
         otherParticle2.getProperties().put(EntityType.Particle.BEST_POSITION, otherParticle.getCandidateSolution());
         otherParticle2.setNeighbourhoodBest(otherParticle2);
-        standard2.getTopology().add(otherParticle2);
+//        standard2.getTopology().add(otherParticle2);
+
+        standard2.setTopology(fj.data.List.list(particle2, otherParticle2));
 
         CooperativePSO cooperative = new CooperativePSO();
         cooperative.addPopulationBasedAlgorithm(standard);
@@ -173,7 +177,7 @@ public class CooperativePSOTest {
         Assert.assertTrue(!list.isEmpty());
         boolean contains = false;
         for(CentroidHolder centroidHolder : holders) {
-            if(centroidHolder.containsAll((CentroidHolder) otherParticle.getCandidateSolution())){
+            if(centroidHolder.containsAll(otherParticle.getCandidateSolution())){
                 contains = true;
             }
         }
@@ -182,7 +186,7 @@ public class CooperativePSOTest {
 
         contains = false;
         for(CentroidHolder centroidHolder : holders) {
-            if(centroidHolder.containsAll((CentroidHolder) particle2.getCandidateSolution())){
+            if(centroidHolder.containsAll(particle2.getCandidateSolution())){
                 contains = true;
             }
         }
@@ -202,7 +206,7 @@ public class CooperativePSOTest {
         problem.setDomain("R(-5.12:5.12)");
         standard.setOptimisationProblem(problem);
         standard.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 1));
-        PopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy<ClusterParticle>();
+        PopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy();
         init.setEntityType(new ClusterParticle());
         standard.setInitialisationStrategy(init);
         standard.setSourceURL("library/src/test/resources/datasets/iris2.arff");

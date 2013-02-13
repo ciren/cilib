@@ -8,7 +8,7 @@ package net.sourceforge.cilib.measurement.single;
 
 import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
@@ -74,12 +74,12 @@ public class SpatialExtent implements Measurement<Real> {
         return new Real(maxDimensionalDifference);*/
 
 
-        PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
+        SinglePopulationBasedAlgorithm populationBasedAlgorithm = (SinglePopulationBasedAlgorithm) algorithm;
         DistanceMeasure chebyshevDistance = new ChebyshevDistanceMeasure();
         double maxDimensionalDifference = 0.0;
         //PSO pso = (PSO) Algorithm.get();
 
-        Iterator<? extends Entity> populationIterator_1 = populationBasedAlgorithm.getTopology().iterator();
+        Iterator<Entity> populationIterator_1 = populationBasedAlgorithm.getTopology().iterator();
 
         while (populationIterator_1.hasNext()) {
             Entity entity_1 = populationIterator_1.next();

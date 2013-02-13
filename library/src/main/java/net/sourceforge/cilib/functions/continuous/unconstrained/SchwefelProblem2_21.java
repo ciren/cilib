@@ -22,7 +22,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 // TODO: Check discontinuous / continuous
-public class SchwefelProblem2_21 implements ContinuousFunction {
+public class SchwefelProblem2_21 extends ContinuousFunction {
 
     private static final long serialVersionUID = 8583159190281586599L;
 
@@ -30,7 +30,7 @@ public class SchwefelProblem2_21 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double max = Math.abs(input.doubleValueOf(0));
         double value;
 

@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * Shekel4 function.
@@ -21,7 +22,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(0, 10)^4
  *
  */
-public class Shekel4 implements ContinuousFunction {
+public class Shekel4 extends ContinuousFunction {
 
     private int n;
 
@@ -50,7 +51,7 @@ public class Shekel4 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() == 4, "Shekel4 function is only defined for 4 dimensions");
 
         double sum = 0;

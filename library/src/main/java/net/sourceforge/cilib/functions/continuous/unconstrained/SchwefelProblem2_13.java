@@ -26,20 +26,20 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Natural Computing, 1-50. Available at: http://vg.perso.eisti.fr/These/Papiers/Bibli2/CEC05.pdf.
  * </p>
  */
-public class SchwefelProblem2_13 implements ContinuousFunction {
+public class SchwefelProblem2_13 extends ContinuousFunction {
     private double[] optimum;
     private double[][] m_a;
     private double[][] m_b;
 
     private double[] m_A;
     private double[] m_B;
-    
+
     private boolean initialised;
-    
+
     public SchwefelProblem2_13() {
         this.initialised = false;
     }
-    
+
     public void setMatrices(int dimensions) {
         optimum = new double[dimensions];
         m_a = new double[dimensions][dimensions];
@@ -53,7 +53,7 @@ public class SchwefelProblem2_13 implements ContinuousFunction {
                 m_a[i][j] = Rand.nextInt(201) - 100;
                 m_b[i][j] = Rand.nextInt(201) - 100;
             }
-            
+
             optimum[i] = Rand.nextDouble() * 2 * Math.PI - Math.PI;
         }
 
@@ -69,12 +69,12 @@ public class SchwefelProblem2_13 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         if(!initialised) {
             setMatrices(input.size());
             initialised = true;
         }
-        
+
         double sum = 0.0;
 
         for (int i = 0; i < input.size(); i++) {

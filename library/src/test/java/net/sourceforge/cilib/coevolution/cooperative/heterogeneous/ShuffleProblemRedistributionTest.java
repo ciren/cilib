@@ -8,7 +8,7 @@ package net.sourceforge.cilib.coevolution.cooperative.heterogeneous;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.ProblemDistributionStrategy;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.Problem;
@@ -29,15 +29,15 @@ public class ShuffleProblemRedistributionTest {
         when(problem2.getClone()).thenReturn(problem2);
         when(problem3.getClone()).thenReturn(problem3);
 
-        final PopulationBasedAlgorithm testAlgorithm1 = mock(PopulationBasedAlgorithm.class);
-        final PopulationBasedAlgorithm testAlgorithm2 = mock(PopulationBasedAlgorithm.class, "populationBasedAlgorithm2");
-        final PopulationBasedAlgorithm testAlgorithm3 = mock(PopulationBasedAlgorithm.class, "populationBasedAlgorithm3");
+        final SinglePopulationBasedAlgorithm testAlgorithm1 = mock(SinglePopulationBasedAlgorithm.class);
+        final SinglePopulationBasedAlgorithm testAlgorithm2 = mock(SinglePopulationBasedAlgorithm.class, "populationBasedAlgorithm2");
+        final SinglePopulationBasedAlgorithm testAlgorithm3 = mock(SinglePopulationBasedAlgorithm.class, "populationBasedAlgorithm3");
 
         when(testAlgorithm1.getOptimisationProblem()).thenReturn(problem1);
         when(testAlgorithm2.getOptimisationProblem()).thenReturn(problem2);
         when(testAlgorithm3.getOptimisationProblem()).thenReturn(problem3);
 
-        final List<PopulationBasedAlgorithm> populations = new ArrayList<PopulationBasedAlgorithm>();
+        final List<SinglePopulationBasedAlgorithm> populations = new ArrayList<SinglePopulationBasedAlgorithm>();
         populations.add(testAlgorithm1);
         populations.add(testAlgorithm2);
         populations.add(testAlgorithm3);

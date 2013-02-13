@@ -14,13 +14,13 @@ import net.sourceforge.cilib.util.Cloneable;
  * Interface describing the manner in which populations are initialised.
  * @param <E> The {@code Entity} type.
  */
-public interface PopulationInitialisationStrategy<E extends Entity> extends Cloneable {
+public interface PopulationInitialisationStrategy extends Cloneable {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    PopulationInitialisationStrategy<E> getClone();
+    PopulationInitialisationStrategy getClone();
 
     /**
      * Set the entity type to use.
@@ -39,7 +39,7 @@ public interface PopulationInitialisationStrategy<E extends Entity> extends Clon
      * @param problem The Problem to based the initialisation on
      * @return An {@code Iterable<E>} of instances.
      */
-    Iterable<E> initialise(Problem problem);
+    <E extends Entity> Iterable<E> initialise(Problem problem);
 
     /**
      * Get the number of entities specified to be created by the <code>InitialisationStrategy</code>.

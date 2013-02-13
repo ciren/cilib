@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * Easom function as taken from
@@ -34,7 +35,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-100, 100)^2
  *
  */
-public class Easom implements ContinuousFunction {
+public class Easom extends ContinuousFunction {
 
     private static final long serialVersionUID = 7173528343222997045L;
 
@@ -42,7 +43,7 @@ public class Easom implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() == 2, "Easom function is only defined for 2 dimensions");
 
         double powerTerm1 = -((input.doubleValueOf(0)-Math.PI)*(input.doubleValueOf(0)-Math.PI));

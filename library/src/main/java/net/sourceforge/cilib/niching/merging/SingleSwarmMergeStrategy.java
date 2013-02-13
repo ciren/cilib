@@ -6,14 +6,14 @@
  */
 package net.sourceforge.cilib.niching.merging;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 
 /**
  * Returns a copy of the first sub-swarm.
  */
 public class SingleSwarmMergeStrategy extends MergeStrategy {
     @Override
-    public PopulationBasedAlgorithm f(PopulationBasedAlgorithm subSwarm1, PopulationBasedAlgorithm subSwarm2) {
+    public SinglePopulationBasedAlgorithm f(SinglePopulationBasedAlgorithm subSwarm1, SinglePopulationBasedAlgorithm subSwarm2) {
         return subSwarm1.getClone();
     }
 }

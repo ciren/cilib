@@ -21,15 +21,15 @@ public class ShiftedFunctionDecoratorTest {
         d.setHorizontalShift(ConstantControlParameter.of(0));
         d.setVerticalShift(ConstantControlParameter.of(1));
         d.setFunction(s);
-        
-        assertEquals(d.apply(Vector.of(0.0, 0.0)), 1.0, 0.0);
-        
+
+        assertEquals(d.f(Vector.of(0.0, 0.0)), 1.0, 0.0);
+
         d.setHorizontalShift(ConstantControlParameter.of(5));
-        
-        assertEquals(d.apply(Vector.of(5.0, 5.0)), 1.0, 0.0);
-        
+
+        assertEquals(d.f(Vector.of(5.0, 5.0)), 1.0, 0.0);
+
         d.setVerticalShift(ConstantControlParameter.of(-1));
-        
-        assertEquals(d.apply(Vector.of(5.0, 5.0)), -1.0, 0.0);
+
+        assertEquals(d.f(Vector.of(5.0, 5.0)), -1.0, 0.0);
     }
 }

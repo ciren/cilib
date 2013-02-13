@@ -7,9 +7,8 @@
 package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -30,17 +29,17 @@ public class EuclideanDiversityAroundGBest implements Measurement<Real> {
 
     @Override
     public Real getValue(Algorithm algorithm) {
-        PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
+        SinglePopulationBasedAlgorithm populationBasedAlgorithm = (SinglePopulationBasedAlgorithm) algorithm;
 
         Vector center = (Vector) algorithm.getBestSolution().getPosition();
         DistanceMeasure distance = new EuclideanDistanceMeasure();
         double diameter = 0;
 
-        Topology<? extends Entity> topology = populationBasedAlgorithm.getTopology();
+        fj.data.List<Entity> topology = populationBasedAlgorithm.getTopology();
         for (Entity entity : topology) {
             diameter += distance.distance(center, (Vector) entity.getCandidateSolution());
         }
 
-        return Real.valueOf(diameter / topology.size());
+        return Real.valueOf(diameter / topology.length());
     }
 }

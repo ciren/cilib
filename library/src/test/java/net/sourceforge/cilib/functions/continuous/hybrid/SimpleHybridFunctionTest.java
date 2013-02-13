@@ -22,8 +22,8 @@ public class SimpleHybridFunctionTest {
         sh.addFunction(s);
 
         Vector v = Vector.of(1.0, 2.0, 3.0, 4.0, 5.0);
-        assertEquals(s.apply(v), 55, 0.0);
+        assertEquals(s.f(v), 55, 0.0);
 
-        assertEquals(sh.apply(v), 110.0, 0.0);
+        assertEquals(sh.f(v), 110.0, 0.0);
     }
 }

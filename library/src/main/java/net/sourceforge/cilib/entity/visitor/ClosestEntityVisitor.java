@@ -7,20 +7,19 @@
 package net.sourceforge.cilib.entity.visitor;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.util.distancemeasure.DistanceMeasure;
 import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
+import fj.data.List;
 
 /**
  * Vistor to calculate the closest entity to the provided {@code targetEntity}
  * using a {@link DistanceMeasure}.
  */
-public class ClosestEntityVisitor implements TopologyVisitor {
+public class ClosestEntityVisitor<E extends Entity> extends TopologyVisitor<E, E> {
 
-    private Entity closestEntity;
-    private Entity targetEntity;
+    private E closestEntity;
+    private E targetEntity;
     private double closest;
-    private boolean done;
     protected DistanceMeasure distanceMeasure;
 
     /**
@@ -29,40 +28,6 @@ public class ClosestEntityVisitor implements TopologyVisitor {
     public ClosestEntityVisitor() {
         this.closest = Double.MAX_VALUE;
         this.distanceMeasure = new EuclideanDistanceMeasure();
-    }
-
-    /**
-     * Perform the search for the closest entity.
-     * @param topology The topology to search.
-     */
-    @Override
-    public void visit(Topology<? extends Entity> topology) {
-        done = false;
-        closestEntity = null;
-
-        for (Entity entity : topology) {
-            if (targetEntity == entity) {
-                continue;
-            }
-
-            double distance = distanceMeasure.distance(targetEntity.getCandidateSolution(), entity.getCandidateSolution());
-            if (distance < closest) {
-                this.closestEntity = entity;
-                this.closest = distance;
-            }
-        }
-
-        done = true;
-    }
-
-    /**
-     * Get the result of the visitor. IE: Get the located entity that
-     * is the closest entity spatially to the provided {@code targetEntity}.
-     * @return The entity that is the closest to the {@code targetEntity}.
-     */
-    @Override
-    public Entity getResult() {
-        return this.closestEntity;
     }
 
     /**
@@ -77,16 +42,8 @@ public class ClosestEntityVisitor implements TopologyVisitor {
      * Set the entity for which the calculations are based on.
      * @param targetEntity The entity to set.
      */
-    public void setTargetEntity(Entity targetEntity) {
+    public void setTargetEntity(E targetEntity) {
         this.targetEntity = targetEntity;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isDone() {
-        return done;
     }
 
     /**
@@ -103,5 +60,24 @@ public class ClosestEntityVisitor implements TopologyVisitor {
      */
     public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
         this.distanceMeasure = distanceMeasure;
+    }
+
+    @Override
+    public E f(List<E> topology) {
+        closestEntity = null;
+
+        for (E entity : topology) {
+            if (targetEntity == entity) {
+                continue;
+            }
+
+            double distance = distanceMeasure.distance(targetEntity.getCandidateSolution(), entity.getCandidateSolution());
+            if (distance < closest) {
+                this.closestEntity = entity;
+                this.closest = distance;
+            }
+        }
+
+        return closestEntity;
     }
 }

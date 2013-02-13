@@ -6,8 +6,8 @@
  */
 package net.sourceforge.cilib.clustering;
 
-import com.google.common.collect.Lists;
 import java.util.List;
+
 import net.sourceforge.cilib.algorithm.initialisation.DataDependantPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
@@ -21,6 +21,8 @@ import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.collect.Lists;
 
 /**
  * This class holds the functionality of the Standard Data Clustering PSO described in:
@@ -44,13 +46,13 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm<ClusterPar
     private SlidingWindow window;
     private IterationStrategy<DataClusteringPSO> iterationStrategy;
     private boolean isExplorer;
-    private int numberOfCentroids;
+    private final int numberOfCentroids;
 
     /*
      * Default Constructor for DataClusteringPSO
      */
     public DataClusteringPSO() {
-        initialisationStrategy = new DataDependantPopulationInitialisationStrategy<ClusterParticle>();
+        initialisationStrategy = new DataDependantPopulationInitialisationStrategy();
         window = new SlidingWindow();
         iterationStrategy = new StandardDataClusteringIterationStrategy();
         isExplorer = false;
@@ -94,13 +96,12 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm<ClusterPar
         DataTable dataset = window.initialiseWindow();
 
         Vector pattern = ((StandardPattern) dataset.getRow(0)).getVector();
-        ((ClusteringProblem) this.optimisationProblem).setDimension((int) pattern.size());
+        ((ClusteringProblem) this.optimisationProblem).setDimension(pattern.size());
 
         ((DataDependantPopulationInitialisationStrategy) initialisationStrategy).setDataset(window.getCompleteDataset());
-        Iterable<ClusterParticle> particles = (Iterable<ClusterParticle>) this.initialisationStrategy.initialise(this.getOptimisationProblem());
+        Iterable<ClusterParticle> particles = this.initialisationStrategy.initialise(this.getOptimisationProblem());
 
-        topology.clear();
-        topology.addAll(Lists.<ClusterParticle>newLinkedList(particles));
+        topology = fj.data.List.iterableList(particles);
 
         ((SinglePopulationDataClusteringIterationStrategy) iterationStrategy).setWindow(window);
 
@@ -126,7 +127,7 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm<ClusterPar
     @Override
     public List<OptimisationSolution> getSolutions() {
         List<OptimisationSolution> solutions = Lists.newLinkedList();
-        for (ClusterParticle e : Topologies.getNeighbourhoodBestEntities(topology, new SocialBestFitnessComparator<ClusterParticle>())) {
+        for (ClusterParticle e : Topologies.getNeighbourhoodBestEntities(topology, getNeighbourhood(), new SocialBestFitnessComparator<ClusterParticle>())) {
             solutions.add(new OptimisationSolution(e.getBestPosition(), e.getBestFitness()));
         }
         return solutions;

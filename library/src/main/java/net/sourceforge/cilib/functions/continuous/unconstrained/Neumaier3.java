@@ -24,14 +24,15 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-900, 900)^30
  *
  */
-public class Neumaier3 implements ContinuousFunction {
+public class Neumaier3 extends ContinuousFunction {
 
     private static final long serialVersionUID = 192809046725649930L;
 
     /**
      * {@inheritDoc}
      */
-    public Double apply(Vector input) {
+    @Override
+    public Double f(Vector input) {
         double tmp1 = 0;
         double tmp2 = 0;
         for (int i = 0; i < input.size(); ++i) {

@@ -51,22 +51,22 @@ public final class ZDT6 extends MOOptimisationProblem {
     private static final long serialVersionUID = -8294718517983975376L;
     private static final String DOMAIN = "R(0:1)^10";
 
-    private static class ZDT6_f1 implements ContinuousFunction {
+    private static class ZDT6_f1 extends ContinuousFunction {
 
         private static final long serialVersionUID = -7611726748395645976L;
 
         @Override
-        public Double apply(Vector input) {
+        public Double f(Vector input) {
             return 1.0 - Math.exp(-4.0 * input.doubleValueOf(0)) * Math.pow(Math.sin(6.0 * Math.PI * input.doubleValueOf(0)), 6.0);
         }
     }
 
-    private static class ZDT6_g implements ContinuousFunction {
+    private static class ZDT6_g extends ContinuousFunction {
 
         private static final long serialVersionUID = -7961935910114582096L;
 
         @Override
-        public Double apply(Vector input) {
+        public Double f(Vector input) {
             double sum = 0.0;
             for (int i = 1; i < input.size(); ++i) {
                 sum += input.doubleValueOf(i) / (input.size() - 1.0);
@@ -75,7 +75,7 @@ public final class ZDT6 extends MOOptimisationProblem {
         }
     }
 
-    private static class ZDT6_h implements ContinuousFunction {
+    private static class ZDT6_h extends ContinuousFunction {
 
         private static final long serialVersionUID = -6636124986465822446L;
         private final ZDT6_f1 f1;
@@ -87,12 +87,12 @@ public final class ZDT6 extends MOOptimisationProblem {
         }
 
         @Override
-        public Double apply(Vector input) {
-            return 1.0 - Math.pow(this.f1.apply(input) / this.g.apply(input), 2.0);
+        public Double f(Vector input) {
+            return 1.0 - Math.pow(this.f1.f(input) / this.g.f(input), 2.0);
         }
     }
 
-    private static class ZDT6_f2 implements ContinuousFunction {
+    private static class ZDT6_f2 extends ContinuousFunction {
 
         private static final long serialVersionUID = 6790101111642461359L;
         private final ZDT6_g g;
@@ -104,8 +104,8 @@ public final class ZDT6 extends MOOptimisationProblem {
         }
 
         @Override
-        public Double apply(Vector input) {
-            return this.g.apply(input) * this.h.apply(input);
+        public Double f(Vector input) {
+            return this.g.f(input) * this.h.f(input);
         }
     }
 

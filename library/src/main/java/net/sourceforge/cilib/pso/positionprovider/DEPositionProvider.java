@@ -84,8 +84,8 @@ public class DEPositionProvider implements PositionProvider {
             int count = 0;
 
             while (count < 3) {
-                int random = Rand.nextInt(pso.getTopology().size());
-                Entity parent = pso.getTopology().get(random);
+                int random = Rand.nextInt(pso.getTopology().length());
+                Entity parent = pso.getTopology().index(random);
                 if (!positions.contains((Vector) parent.getCandidateSolution())) {
                     positions.add((Vector) parent.getCandidateSolution());
                     count++;

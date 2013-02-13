@@ -9,7 +9,7 @@ package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 import fj.F;
 import fj.data.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
@@ -26,7 +26,7 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
  *              College", year = "2001", number = "CSSE01-08" }
  * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
  */
-public class RandomSentriesDetectionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
+public class RandomSentriesDetectionStrategy<E extends SinglePopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
     private static final long serialVersionUID = -7299802900616282412L;
 
     protected ControlParameter numberOfSentries;

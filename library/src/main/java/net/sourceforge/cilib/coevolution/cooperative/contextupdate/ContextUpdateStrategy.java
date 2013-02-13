@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.coevolution.cooperative.contextupdate;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.ContextEntity;
 import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problem.DimensionAllocation;

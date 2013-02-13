@@ -28,10 +28,10 @@ public class SingleFunctionTest {
         function.setFunction(s);
         Vector v = Vector.of(1.0, 2.0, 3.0);
 
-        assertEquals(s.apply(v), function.apply(v), 0.0);
+        assertEquals(s.f(v), function.f(v), 0.0);
 
         function.setBias(450.0);
-        assertEquals(s.apply(v) + 450, function.apply(v), 0.0);
+        assertEquals(s.f(v) + 450, function.f(v), 0.0);
     }
 
     @Test

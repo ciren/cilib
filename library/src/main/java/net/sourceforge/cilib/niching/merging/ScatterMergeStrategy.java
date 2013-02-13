@@ -6,7 +6,8 @@
  */
 package net.sourceforge.cilib.niching.merging;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * Takes all the entities of the second sub-swarm, reinitialises those entities
@@ -14,12 +15,12 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
  */
 public class ScatterMergeStrategy extends MergeStrategy {
     @Override
-    public PopulationBasedAlgorithm f(PopulationBasedAlgorithm subSwarm1, PopulationBasedAlgorithm subSwarm2) {
-        PopulationBasedAlgorithm newSwarm = new StandardMergeStrategy().f(subSwarm1, subSwarm2);
+    public SinglePopulationBasedAlgorithm f(SinglePopulationBasedAlgorithm subSwarm1, SinglePopulationBasedAlgorithm subSwarm2) {
+        SinglePopulationBasedAlgorithm<Particle> newSwarm = new StandardMergeStrategy().f(subSwarm1, subSwarm2);
 
-        for (int i = subSwarm1.getTopology().size(); i < newSwarm.getTopology().size(); i++) {
-            newSwarm.getTopology().get(i).reinitialise();
-            newSwarm.getTopology().get(i).calculateFitness();
+        for (int i = subSwarm1.getTopology().length(); i < newSwarm.getTopology().length(); i++) {
+            newSwarm.getTopology().index(i).reinitialise();
+            newSwarm.getTopology().index(i).calculateFitness();
         }
 
         return newSwarm;

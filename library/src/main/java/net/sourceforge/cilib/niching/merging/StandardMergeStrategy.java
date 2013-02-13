@@ -6,8 +6,7 @@
  */
 package net.sourceforge.cilib.niching.merging;
 
-import java.util.Collection;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
@@ -20,14 +19,15 @@ public class StandardMergeStrategy extends MergeStrategy {
     private static final long serialVersionUID = 6790307057694598017L;
 
     @Override
-    public PopulationBasedAlgorithm f(PopulationBasedAlgorithm subSwarm1, PopulationBasedAlgorithm subSwarm2) {
-        PopulationBasedAlgorithm newSwarm = subSwarm1.getClone();
-        newSwarm.getTopology().addAll((Collection) subSwarm2.getClone().getTopology());
+    public SinglePopulationBasedAlgorithm f(SinglePopulationBasedAlgorithm subSwarm1, SinglePopulationBasedAlgorithm subSwarm2) {
+        SinglePopulationBasedAlgorithm newSwarm = subSwarm1.getClone();
+        newSwarm.setTopology(newSwarm.getTopology().append(subSwarm2.getClone().getTopology()));
 
         Particle p;
-        if (!newSwarm.getTopology().isEmpty() && (p = (Particle) newSwarm.getTopology().get(0)) instanceof Particle) {
+        if (!newSwarm.getTopology().isEmpty() && (p = (Particle) newSwarm.getTopology().head()) instanceof Particle) {
             ParticleBehavior pb = p.getParticleBehavior();
-            for (Entity e : newSwarm.getTopology()) {
+            fj.data.List<Entity> local = newSwarm.getTopology();
+            for (Entity e : local) {
                 ((Particle) e).setParticleBehavior(pb);
             }
         }

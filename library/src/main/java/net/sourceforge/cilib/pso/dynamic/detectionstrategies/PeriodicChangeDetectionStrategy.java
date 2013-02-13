@@ -7,15 +7,15 @@
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 //import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 
 /**
  * Detection strategy that returns true periodically after a known number of iteration.
  * For environment where change frequency is known.
  *
  */
-public class PeriodicChangeDetectionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
+public class PeriodicChangeDetectionStrategy<E extends SinglePopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
 
     /**
      *
@@ -41,7 +41,7 @@ public class PeriodicChangeDetectionStrategy<E extends PopulationBasedAlgorithm>
      * @param algorithm PSO algorithm that operates in a dynamic environment
      * @return true
      */
-    public boolean detect(PopulationBasedAlgorithm algorithm) {
+    public boolean detect(SinglePopulationBasedAlgorithm algorithm) {
         if (algorithm.getIterations()%period == 0)
             return true;
         return false;

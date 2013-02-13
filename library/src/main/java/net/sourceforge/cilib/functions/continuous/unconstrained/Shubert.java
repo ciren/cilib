@@ -20,13 +20,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li> for x<sub>i</sub> in [-10,10]</li>
  * </ul>
  * </p>
- * 
+ *
  * <p>Local Minimum:
  * <ul>
  * <li> Many local minima</li>
  * </ul>
  * </p>
- * 
+ *
  * <p>Characteristics:
  * <ul>
  * <li>Multi-dimensional</li>
@@ -36,13 +36,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </p>
  *
  */
-public class Shubert implements ContinuousFunction {
+public class Shubert extends ContinuousFunction {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double result = 1.0;
         for (int i = 0; i < input.size(); ++i) {
             double result2 = 0.0;

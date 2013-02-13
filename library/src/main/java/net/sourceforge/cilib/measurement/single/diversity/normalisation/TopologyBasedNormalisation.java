@@ -6,8 +6,7 @@
  */
 package net.sourceforge.cilib.measurement.single.diversity.normalisation;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.visitor.DiameterVisitor;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 
@@ -29,10 +28,10 @@ public class TopologyBasedNormalisation implements DiversityNormalisation {
      * {@inheritDoc}
      */
     @Override
-    public double getNormalisationParameter(PopulationBasedAlgorithm algorithm) {
-        algorithm.getTopology().accept(visitor);
+    public double getNormalisationParameter(SinglePopulationBasedAlgorithm algorithm) {
+//        algorithm.getTopology().accept(visitor);
 
-        return (Double) visitor.getResult();
+        return (Double) visitor.f(algorithm.getTopology());//getResult();
     }
 
     /**

@@ -34,7 +34,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  *
  */
-public class Ackley implements ContinuousFunction {
+public class Ackley extends ContinuousFunction {
 
     private static final long serialVersionUID = -7803711986955989075L;
 
@@ -42,7 +42,7 @@ public class Ackley implements ContinuousFunction {
      * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         final int size = input.size();
         double sumsq = 0.0;
         double sumcos = 0.0;

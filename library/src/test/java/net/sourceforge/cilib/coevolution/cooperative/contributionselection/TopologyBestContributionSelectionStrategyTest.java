@@ -6,15 +6,15 @@
  */
 package net.sourceforge.cilib.coevolution.cooperative.contributionselection;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import static org.junit.Assert.assertEquals;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
-import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 public class TopologyBestContributionSelectionStrategyTest {
@@ -22,7 +22,7 @@ public class TopologyBestContributionSelectionStrategyTest {
     @Test
     public void TopologyBestContributionSelectionTest(){
 
-        PopulationBasedAlgorithm algorithm = new PSO();
+        SinglePopulationBasedAlgorithm algorithm = new PSO();
 
         Particle e1 = new StandardParticle();
         Particle e2 = new StandardParticle();
@@ -45,10 +45,10 @@ public class TopologyBestContributionSelectionStrategyTest {
         Vector v3 = Vector.of(3);
         e3.getProperties().put(EntityType.CANDIDATE_SOLUTION, v3);
 
-
-        ((Topology<Particle>)algorithm.getTopology()).add(e1);
-        ((Topology<Particle>)algorithm.getTopology()).add(e2);
-        ((Topology<Particle>)algorithm.getTopology()).add(e3);
+        algorithm.setTopology(fj.data.List.list(e1, e2, e3));
+//        ((Topology<Particle>)algorithm.getTopology()).add(e1);
+//        ((Topology<Particle>)algorithm.getTopology()).add(e2);
+//        ((Topology<Particle>)algorithm.getTopology()).add(e3);
 
         TopologyBestContributionSelectionStrategy test = new TopologyBestContributionSelectionStrategy();
 

@@ -7,12 +7,11 @@
 package net.sourceforge.cilib.clustering.iterationstrategies;
 
 import net.sourceforge.cilib.algorithm.population.AbstractCooperativeIterationStrategy;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.clustering.CooperativePSO;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.io.StandardDataTable;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 
@@ -64,10 +63,10 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
         int populationIndex = 0;
         table = new StandardDataTable();
         DataClusteringPSO pso ;
-        Topology newTopology;
+        fj.data.List<ClusterParticle> newTopology;
         ClusterParticle particleWithContext;
 
-        for(PopulationBasedAlgorithm currentAlgorithm : algorithm.getPopulations()) {
+        for(SinglePopulationBasedAlgorithm currentAlgorithm : algorithm.getPopulations()) {
 
             table = ((SinglePopulationDataClusteringIterationStrategy) ((DataClusteringPSO) currentAlgorithm).getIterationStrategy()).getDataset();
 
@@ -76,8 +75,7 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
             }
 
             pso = ((DataClusteringPSO) currentAlgorithm);
-            newTopology = ((DataClusteringPSO) currentAlgorithm).getTopology().getClone();
-            newTopology.clear();
+            newTopology = fj.data.List.nil();
 
             for(ClusterParticle particle : ((DataClusteringPSO) currentAlgorithm).getTopology()) {
                 clearDataPatterns(contextParticle);
@@ -116,7 +114,7 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
                     contextParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, contextParticle.getFitness()).getClone();
                 }
 
-                newTopology.add(particleWithContext);
+                newTopology = fj.data.List.cons(particleWithContext, newTopology);//.snoc(particleWithContext);
             }
 
             if(elitist) {
@@ -124,7 +122,7 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
                 contextParticle.getProperties().put(EntityType.FITNESS, contextParticle.getBestFitness().getClone());
             }
 
-            pso.setTopology(newTopology);
+            pso.setTopology(newTopology.reverse());
             pso.performIteration();
 
             populationIndex++;

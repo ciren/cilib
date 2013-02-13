@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.measurement.single.diversity.normalisation;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 
@@ -28,7 +28,7 @@ public class NormalisationParameter implements DiversityNormalisation {
      * @return the normalising parameter
      */
     @Override
-    public double getNormalisationParameter(PopulationBasedAlgorithm algorithm) {
+    public double getNormalisationParameter(SinglePopulationBasedAlgorithm algorithm) {
         return this.normalisationParameter.getParameter();
     }
 

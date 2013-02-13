@@ -7,9 +7,9 @@
 package net.sourceforge.cilib.pso.iterationstrategies;
 
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
+import fj.F;
 
 /**
  * Implementation of the synchronous iteration strategy for PSO.
@@ -48,23 +48,33 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
      * @param pso The {@link PSO} to have an iteration applied.
      */
     @Override
-    public void performIteration(PSO pso) {
-        Topology<Particle> topology = pso.getTopology();
+    public void performIteration(final PSO pso) {
+        final fj.data.List<Particle> topology = pso.getTopology();
+        
+        final F<Particle, Particle> first = new F<Particle, Particle>() {
+			@Override
+			public Particle f(Particle current) {
+				current.updateVelocity();
+	            current.updatePosition();
 
-        for (Particle current : topology) {
-            current.updateVelocity();
-            current.updatePosition(); // TODO: replace with visitor (will simplify particle interface)
+	            boundaryConstraint.enforce(current);
+	            return current;
+			}
+        };
 
-            boundaryConstraint.enforce(current);
-        }
-
-        for (Particle current : topology) {
-            current.calculateFitness();
-            for (Particle other : topology.neighbourhood(current)) {
-                if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
-                    other.setNeighbourhoodBest(current);
-                }
-            }
-        }
+        final F<Particle, Particle> second = new F<Particle, Particle>() {
+        	public Particle f(Particle current) {
+        		current.calculateFitness();
+        		for (Particle other : pso.getNeighbourhood().f(topology, current)) {
+        			if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
+        				other.setNeighbourhoodBest(current);
+        			}
+        		}
+        		
+        		return current;
+        	}
+        };
+        
+        pso.setTopology(topology.map(first.andThen(second)));
     }
 }

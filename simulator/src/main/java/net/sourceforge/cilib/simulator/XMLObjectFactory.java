@@ -165,6 +165,8 @@ public class XMLObjectFactory {
                 invokeSetMethod(e, object, e.getTagName(), newObject(e.getAttribute("value")));
             } else if (e.hasAttribute("class") || e.hasAttribute("idref")) {
                 invokeAnyMethod(e, object, e.getTagName(), newObject(e));
+	    } else if (e.hasAttribute("instance")) {
+		invokeInstance(object, e.getTagName(), e.getAttribute("instance"));
             } else if (getFirstChildElement(e) == null) {
                 Text text = getFirstChildText(e);
                 if (text == null) {
@@ -245,9 +247,33 @@ public class XMLObjectFactory {
     }
 
     private void invokeSetMethod(Element xml, Object target, String property, Object value) {
+	if (property.equals("instance")) {
+	    System.out.println("we have found an instance request for the value of: " + value.toString());
+	    throw new Error("instance");
+	}
+
         String setMethodName = "set" + property.substring(0, 1).toUpperCase() + property.substring(1);
         Object[] parameters = {value};
         invokeMethod(xml, target, setMethodName, parameters);
+    }
+
+    private void invokeInstance(Object target, String tag, String value) {
+	try {
+	    String[] arr = value.split("#");
+	    //System.out.println("net.sourceforge.cilib." + arr[0]);
+	    Class<?> c = Class.forName("net.sourceforge.cilib." + arr[0]);
+	    Method m = c.getMethod(arr[1]);
+	    Object instance = m.invoke(null); // Invoking a static method
+	    //System.out.println(instance);
+	    //	    System.out.println(instance.class.);
+	    Class<?> targetClass = target.getClass();
+	    //System.out.println("targetClass: " + instance.getClass().getSuperclass());
+	    Method targetM = targetClass.getMethod("set" + tag.substring(0, 1).toUpperCase() + tag.substring(1), instance.getClass().getSuperclass());
+	    //	    System.out.println("asdfasdf " + targetM);
+	    targetM.invoke(target, instance);
+	} catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException m) {
+	    throw new RuntimeException("instance request failed for: " + value + " " + m.getMessage());
+	}
     }
 
     private String getParameterString(Object[] parameters) {

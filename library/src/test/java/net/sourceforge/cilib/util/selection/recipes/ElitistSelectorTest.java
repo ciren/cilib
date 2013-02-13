@@ -10,8 +10,6 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.solution.MaximisationFitness;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import org.junit.Assert;
@@ -41,45 +39,42 @@ public class ElitistSelectorTest {
         Assert.assertThat(selected, is(1));
     }
 
-    private static Topology<Individual> createDummyTopology() {
-        Topology<Individual> topology = new GBestTopology<Individual>();
+    private static fj.data.List<Individual> createDummyTopology() {
         Individual individual1 = new Individual();
         Individual individual2 = new Individual();
         Individual individual3 = new Individual();
-        topology.add(individual1);
-        topology.add(individual2);
-        topology.add(individual3);
-        return topology;
+       
+        return fj.data.List.list(individual1, individual2, individual3);
     }
 
     @Test
     public void minimisationSelection() {
-        Topology<Individual> topology = createDummyTopology();
-        topology.get(0).getProperties().put(EntityType.FITNESS, new MinimisationFitness(99.0));
-        topology.get(1).getProperties().put(EntityType.FITNESS, new MinimisationFitness(8.0));
-        topology.get(2).getProperties().put(EntityType.FITNESS, new MinimisationFitness(9.0));
+        fj.data.List<Individual> topology = createDummyTopology();
+        topology.index(0).getProperties().put(EntityType.FITNESS, new MinimisationFitness(99.0));
+        topology.index(1).getProperties().put(EntityType.FITNESS, new MinimisationFitness(8.0));
+        topology.index(2).getProperties().put(EntityType.FITNESS, new MinimisationFitness(9.0));
 
         ElitistSelector<Individual> selection = new ElitistSelector<Individual>();
         Individual selected = selection.on(topology).select();
 
         Assert.assertThat(selected, is(notNullValue()));
         Assert.assertThat(topology, hasItem(selected));
-        Assert.assertThat(selected, is(topology.get(1)));
+        Assert.assertThat(selected, is(topology.index(1)));
     }
 
     @Test
     public void maximisationSelection() {
-        Topology<Individual> topology = createDummyTopology();
-        topology.get(0).getProperties().put(EntityType.FITNESS, new MaximisationFitness(99.0));
-        topology.get(1).getProperties().put(EntityType.FITNESS, new MaximisationFitness(8.0));
-        topology.get(2).getProperties().put(EntityType.FITNESS, new MaximisationFitness(9.0));
+        fj.data.List<Individual> topology = createDummyTopology();
+        topology.index(0).getProperties().put(EntityType.FITNESS, new MaximisationFitness(99.0));
+        topology.index(1).getProperties().put(EntityType.FITNESS, new MaximisationFitness(8.0));
+        topology.index(2).getProperties().put(EntityType.FITNESS, new MaximisationFitness(9.0));
 
         ElitistSelector<Individual> selection = new ElitistSelector<Individual>();
         Individual selected = selection.on(topology).select();
 
         Assert.assertThat(selected, is(notNullValue()));
         Assert.assertThat(topology, hasItem(selected));
-        Assert.assertThat(selected, is(topology.get(0)));
+        Assert.assertThat(selected, is(topology.index(0)));
     }
 
     @Test

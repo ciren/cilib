@@ -7,9 +7,9 @@
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
 import java.util.ArrayList;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 
 /**
@@ -24,7 +24,7 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
  *                      V. Dozier", pages = "429--434", year = "2000", }
  * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
  */
-public class RandomSentryPointsDetectionStrategy<E extends PopulationBasedAlgorithm> extends RandomSentriesDetectionStrategy<E> {
+public class RandomSentryPointsDetectionStrategy<E extends SinglePopulationBasedAlgorithm> extends RandomSentriesDetectionStrategy<E> {
     private static final long serialVersionUID = -7908355064341601839L;
 
     protected ArrayList<Entity> sentries = null;
@@ -64,7 +64,7 @@ public class RandomSentryPointsDetectionStrategy<E extends PopulationBasedAlgori
      * @return          true if a change has been detected, false otherwise.
      */
     @Override
-    public boolean detect(PopulationBasedAlgorithm algorithm) {
+    public boolean detect(E algorithm) {
         if (sentries.isEmpty()) {
             initialiseSentryPoints(algorithm.getTopology());
         }
@@ -98,7 +98,7 @@ public class RandomSentryPointsDetectionStrategy<E extends PopulationBasedAlgori
      * @throws an {@link IllegalStateException} when this method is called and
      *         {@link #sentries} is NOT <code>null</code>.
      */
-    private void initialiseSentryPoints(Topology<? extends Entity> topology) {
+    private void initialiseSentryPoints(fj.data.List<? extends Entity> topology) {
         int size = Double.valueOf(numberOfSentries.getParameter()).intValue();
 
         Entity prototype = (Entity) new RandomSelector().on(topology).select();

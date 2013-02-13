@@ -7,7 +7,8 @@
 package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.HasTopology;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Int;
 
@@ -20,6 +21,6 @@ public class SwarmSize implements Measurement<Int> {
 
     @Override
     public Int getValue(Algorithm algorithm) {
-        return Int.valueOf(((PopulationBasedAlgorithm) algorithm).getTopology().size());
+        return Int.valueOf(((HasTopology<Entity>) algorithm).getTopology().length());
     }
 }

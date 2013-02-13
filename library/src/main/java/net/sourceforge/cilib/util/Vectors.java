@@ -130,7 +130,11 @@ public final class Vectors {
     public static Vector mean(List<Vector> vectors) {
         return sumOf(vectors).divide(vectors.size());
     }
-
+    
+    public static Vector mean(fj.data.List<Vector> vectors) {
+        return sumOf(Lists.newArrayList(vectors)).divide(vectors.length());
+    }
+    
     /**
      * Uses the Gram-Schmidt process to orthonormalize a list of {@link Vector}
      * instances.

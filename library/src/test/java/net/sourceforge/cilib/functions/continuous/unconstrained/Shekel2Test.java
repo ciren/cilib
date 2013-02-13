@@ -28,11 +28,11 @@ public class Shekel2Test {
     public void testEvaluate() {
         Vector x = Vector.of(0.0, 0.0);
 
-        assertEquals(12.6705058, function.apply(x), 0.0000001);
+        assertEquals(12.6705058, function.f(x), 0.0000001);
 
         x.setReal(0, -32.0);
         x.setReal(1, -32.0);
-        assertEquals(0.99800, function.apply(x), 0.00001);
+        assertEquals(0.99800, function.f(x), 0.00001);
     }
 
     /**
@@ -40,6 +40,6 @@ public class Shekel2Test {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0));
+        function.f(Vector.of(1.0, 2.0, 3.0));
     }
 }

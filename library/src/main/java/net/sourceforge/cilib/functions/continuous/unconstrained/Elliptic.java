@@ -23,7 +23,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </pre>
  *
  */
-public class Elliptic implements ContinuousFunction {
+public class Elliptic extends ContinuousFunction {
 
     /*
      * The condition number 10^6 is used to transform a sphere
@@ -32,7 +32,7 @@ public class Elliptic implements ContinuousFunction {
     private double conditionNumber = 1E6;
 
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double sum = 0;
 
         for (int i = 0; i < input.size(); i++) {

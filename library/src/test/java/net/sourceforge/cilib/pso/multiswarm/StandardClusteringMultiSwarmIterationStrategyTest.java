@@ -90,8 +90,7 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
         ClusterParticle particle2 = new ClusterParticle();
         particle2.setCandidateSolution(candidateSolution2);
 
-        pso.getTopology().add(particle);
-        pso.getTopology().add(particle2);
+        pso.setTopology(fj.data.List.list(particle, particle2));
 
         DataClusteringPSO pso2 = new DataClusteringPSO();
 
@@ -105,8 +104,7 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
         ClusterParticle particle22 = new ClusterParticle();
         particle22.setCandidateSolution(candidateSolution22);
 
-        pso2.getTopology().add(particle12);
-        pso2.getTopology().add(particle22);
+        pso2.setTopology(fj.data.List.list(particle12, particle22));
 
         multiswarm.addPopulationBasedAlgorithm(pso);
         multiswarm.addPopulationBasedAlgorithm(pso2);
@@ -139,7 +137,7 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
         constraint.setDelegate(new RandomBoundaryConstraint());
         strategy.setBoundaryConstraint(constraint);
         instance.setOptimisationProblem(problem);
-        DataDependantPopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy<ClusterParticle>();
+        DataDependantPopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy();
 
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
@@ -157,11 +155,11 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
 
         ms.performInitialisation();
 
-        ClusterParticle particleBefore = instance.getTopology().get(0).getClone();
+        ClusterParticle particleBefore = instance.getTopology().head().getClone();
 
         ms.run();
 
-        ClusterParticle particleAfter = instance.getTopology().get(0).getClone();
+        ClusterParticle particleAfter = instance.getTopology().head().getClone();
 
         Assert.assertFalse(particleAfter.getCandidateSolution().containsAll(particleBefore.getCandidateSolution()));
     }
@@ -180,7 +178,7 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
         constraint.setDelegate(new RandomBoundaryConstraint());
         strategy.setBoundaryConstraint(constraint);
         instance.setOptimisationProblem(problem);
-        DataDependantPopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy<ClusterParticle>();
+        DataDependantPopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy();
 
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
@@ -192,14 +190,14 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
 
         instance.performInitialisation();
 
-        ClusterParticle particleBefore1 = instance.getTopology().get(0).getClone();
-        ClusterParticle particleBefore2 = instance.getTopology().get(1).getClone();
+        ClusterParticle particleBefore1 = instance.getTopology().index(0).getClone();
+        ClusterParticle particleBefore2 = instance.getTopology().index(1).getClone();
 
         StandardClusteringMultiSwarmIterationStrategy msStrategy = new StandardClusteringMultiSwarmIterationStrategy();
         msStrategy.reInitialise(instance);
 
-        ClusterParticle particleAfter1 = instance.getTopology().get(0).getClone();
-        ClusterParticle particleAfter2 = instance.getTopology().get(1).getClone();
+        ClusterParticle particleAfter1 = instance.getTopology().index(0).getClone();
+        ClusterParticle particleAfter2 = instance.getTopology().index(1).getClone();
 
         assertFalse(particleAfter1.getCandidateSolution().containsAll(particleBefore1.getCandidateSolution()));
         assertFalse(particleAfter2.getCandidateSolution().containsAll(particleBefore2.getCandidateSolution()));

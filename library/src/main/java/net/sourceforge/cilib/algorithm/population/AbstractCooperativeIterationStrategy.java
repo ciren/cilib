@@ -113,7 +113,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
         CentroidHolder velocity = new CentroidHolder();
         CentroidHolder bestPosition = new CentroidHolder();
 
-        for(PopulationBasedAlgorithm alg : algorithm.getPopulations()) {
+        for(SinglePopulationBasedAlgorithm alg : algorithm.getPopulations()) {
             if(!((DataClusteringPSO) alg).isExplorer()) {
                 solution.add(((CentroidHolder) alg.getBestSolution().getPosition()).get(populationIndex).getClone());
                 velocity.add(((CentroidHolder) alg.getBestSolution().getPosition()).get(populationIndex).getClone());

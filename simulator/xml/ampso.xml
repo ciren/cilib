@@ -19,7 +19,7 @@
                     </velocityProvider>
                 </entityType>
             </initialisationStrategy>
-            <topology class="entity.topologies.VonNeumannTopology"/>
+            <neighbourhood instance="entity.Topologies#vonNeumann"/>
         </algorithm>
     </algorithms>
     <problems>

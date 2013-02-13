@@ -6,12 +6,12 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import fj.F;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.Differentiable;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
+import fj.F;
 
 /**
  * <p><b>The Rastrigin function.</b></p>
@@ -34,7 +34,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-5.12, 5.12)^30
  *
  */
-public class Rastrigin implements ContinuousFunction, Differentiable {
+public class Rastrigin extends ContinuousFunction implements Differentiable {
 
     private static final long serialVersionUID = 447701182683968035L;
 
@@ -42,7 +42,7 @@ public class Rastrigin implements ContinuousFunction, Differentiable {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double tmp = 0;
         for (int i = 0; i < input.size(); ++i) {
             tmp += input.doubleValueOf(i) * input.doubleValueOf(i) - 10.0 * Math.cos(2 * Math.PI * input.doubleValueOf(i));

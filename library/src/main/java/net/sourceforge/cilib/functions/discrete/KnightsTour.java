@@ -12,14 +12,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  *
  */
-public class KnightsTour implements DiscreteFunction {
+public class KnightsTour extends DiscreteFunction {
 
     private static final long serialVersionUID = -4448832121042323303L;
     private static final int[] MOVE_X = {-2, -1, 1, 2, 2, 1, -1, -2};
     private static final int[] MOVE_Y = {-1, -2, -2, -1, 1, 2, -2, -1};
     private int boardSize;
-    private int startRow = 0;
-    private int startCol = 0;
+    private final int startRow = 0;
+    private final int startCol = 0;
 
     public KnightsTour() {
         this.boardSize = 8;
@@ -33,7 +33,7 @@ public class KnightsTour implements DiscreteFunction {
      * @return the fitness of the bit string
      */
     @Override
-    public Integer apply(Vector input) {
+    public Integer f(Vector input) {
         // First, decode the input vector into moves for the knight to make
         int count = 0;
         int[] moves = new int[boardSize * boardSize];

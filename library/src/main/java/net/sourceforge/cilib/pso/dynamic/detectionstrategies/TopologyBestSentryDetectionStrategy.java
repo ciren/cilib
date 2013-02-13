@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topologies;
 
@@ -18,7 +18,7 @@ import net.sourceforge.cilib.entity.Topologies;
  *                 "Honolulu, HI, USA", isbn = "0-7803-7282-4", month = may }
  * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
  */
-public class TopologyBestSentryDetectionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
+public class TopologyBestSentryDetectionStrategy<E extends SinglePopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
     private static final long serialVersionUID = 7060690546029355964L;
 
     @Override
@@ -27,7 +27,7 @@ public class TopologyBestSentryDetectionStrategy<E extends PopulationBasedAlgori
     }
 
     @Override
-    public boolean detect(PopulationBasedAlgorithm algorithm) {
+    public boolean detect(E algorithm) {
         if (algorithm.getIterations() % interval == 0) {
             Entity sentry = Topologies.getBestEntity(algorithm.getTopology());
             double previousFitness = sentry.getFitness().getValue();

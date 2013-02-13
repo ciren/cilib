@@ -6,21 +6,22 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
+import fj.F;
 
 /**
  * @param <F> The "from" type.
  * @param <T> The "to" type.
  */
-public class GenericFunctionMeasurement<F, T> implements Measurement<Real> {
+public class GenericFunctionMeasurement<A, B> implements Measurement<Real> {
 
     private static final long serialVersionUID = 3301062975775598397L;
-    private Function<Vector, Double> function = null;
+    private F<Vector, Double> function = null;
 
     /**
      * Create a new instance of {@linkplain GenericFunctionMeasurement}.
@@ -52,14 +53,14 @@ public class GenericFunctionMeasurement<F, T> implements Measurement<Real> {
     public Real getValue(Algorithm algorithm) {
         Preconditions.checkNotNull(function, "The function that should be evaluated has not been set");
         Vector vector = (Vector) algorithm.getBestSolution().getPosition();
-        return Real.valueOf(function.apply(vector));
+        return Real.valueOf(function.f(vector));
     }
 
     /**
      * Get the set function.
      * @return The contained function.
      */
-    public Function<Vector, Double> getFunction() {
+    public F<Vector, Double> getFunction() {
         return function;
     }
 
@@ -67,7 +68,7 @@ public class GenericFunctionMeasurement<F, T> implements Measurement<Real> {
      * Set the function.
      * @param f The value to set.
      */
-    public void setFunction(Function<Vector, Double> f) {
+    public void setFunction(F<Vector, Double> f) {
         function = f;
     }
 }

@@ -18,12 +18,12 @@ public class CompositeFunctionDecoratorTest {
     public void testEvaluate() {
         CompositeFunctionDecorator comp = new CompositeFunctionDecorator();
         Spherical function = new Spherical();
-        
+
         comp.setInnerFunction(function);
         comp.setOuterFunction(function);
 
-        assertEquals(0.0, comp.apply(Vector.of(0.0, 0.0)), Maths.EPSILON);
-        assertEquals(4.0, comp.apply(Vector.of(1.0, 1.0)), Maths.EPSILON);
-        assertEquals(196.0, comp.apply(Vector.of(1.0, 2.0, 3.0)), Maths.EPSILON);
+        assertEquals(0.0, comp.f(Vector.of(0.0, 0.0)), Maths.EPSILON);
+        assertEquals(4.0, comp.f(Vector.of(1.0, 1.0)), Maths.EPSILON);
+        assertEquals(196.0, comp.f(Vector.of(1.0, 2.0, 3.0)), Maths.EPSILON);
     }
 }

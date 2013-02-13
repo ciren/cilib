@@ -27,7 +27,7 @@ public class ZettleTest {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(-0.0299, 0);
-        assertEquals(-0.003791, function.apply(x), 0.000009);
+        assertEquals(-0.003791, function.f(x), 0.000009);
     }
 
     /**
@@ -35,6 +35,6 @@ public class ZettleTest {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0));
+        function.f(Vector.of(1.0, 2.0, 3.0));
     }
 }

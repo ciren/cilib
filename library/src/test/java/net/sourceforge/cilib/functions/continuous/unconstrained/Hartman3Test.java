@@ -27,7 +27,7 @@ public class Hartman3Test {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(0.1, 0.55592003, 0.85218259);
-        assertEquals(-3.8756, function.apply(x), 0.0001);
+        assertEquals(-3.8756, function.f(x), 0.0001);
     }
 
     /**
@@ -35,6 +35,6 @@ public class Hartman3Test {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0, 4.0));
+        function.f(Vector.of(1.0, 2.0, 3.0, 4.0));
     }
 }

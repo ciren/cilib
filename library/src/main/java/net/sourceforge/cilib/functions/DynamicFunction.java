@@ -6,9 +6,11 @@
  */
 package net.sourceforge.cilib.functions;
 
-public interface DynamicFunction<F, T> extends Function<F, T> {
+import fj.F;
 
-    T getOptimum();
+public abstract class DynamicFunction<A, T> extends F<A, T> {
 
-    void changeEnvironment();
+    public abstract T getOptimum();
+
+    public abstract void changeEnvironment();
 }

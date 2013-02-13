@@ -6,11 +6,12 @@
  */
 package net.sourceforge.cilib.type.parser;
 
-import net.sourceforge.cilib.type.types.container.StructuredType;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.type.types.container.TypeList;
-import net.sourceforge.cilib.type.types.StringType;
 import static org.hamcrest.CoreMatchers.is;
+import net.sourceforge.cilib.type.types.StringType;
+import net.sourceforge.cilib.type.types.container.StructuredType;
+import net.sourceforge.cilib.type.types.container.TypeList;
+import net.sourceforge.cilib.type.types.container.Vector;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -123,7 +124,7 @@ public class DomainParserTest {
     @Test
     public void vectorReturn() {
         StructuredType type = DomainParser.parse("R^5");
-        Assert.assertThat(type, is(Vector.class));
+        Assert.assertTrue(type instanceof Vector);
     }
 
     @Test

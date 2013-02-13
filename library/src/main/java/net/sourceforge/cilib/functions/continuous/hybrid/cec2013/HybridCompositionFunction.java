@@ -6,8 +6,9 @@
  */
 package net.sourceforge.cilib.functions.continuous.hybrid.cec2013;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -22,16 +23,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * on Real-Parameter Optimization." (2013).
  * </p>
  */
-public class HybridCompositionFunction implements ContinuousFunction {
+public class HybridCompositionFunction extends ContinuousFunction {
 
-    private List<SingleFunction> functions;
+    private final List<SingleFunction> functions;
 
     public HybridCompositionFunction() {
         this.functions = new ArrayList();
     }
 
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double totalWeight = 0;
         for (SingleFunction s : functions) {
             totalWeight += s.getWeight(input);
@@ -43,7 +44,7 @@ public class HybridCompositionFunction implements ContinuousFunction {
                 ? (1.0 / input.size())
                 : (s.getWeight(input) / totalWeight);
 
-            sum += weight * s.apply(input);
+            sum += weight * s.f(input);
         }
 
         return sum;

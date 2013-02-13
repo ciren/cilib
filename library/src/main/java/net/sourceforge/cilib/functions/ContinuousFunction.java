@@ -7,9 +7,10 @@
 package net.sourceforge.cilib.functions;
 
 import net.sourceforge.cilib.type.types.container.Vector;
+import fj.F;
 
 /**
  * Marker interface to differentiate continuous-valued functions.
  */
-public interface ContinuousFunction extends Function<Vector, Double> {
+public abstract class ContinuousFunction extends F<Vector, Double> {
 }

@@ -57,7 +57,7 @@ public class EntropyDiversityTest {
         //move a single particle to the edge of the search space in one dimension
         Vector position = Vector.newBuilder().repeat(30, Real.valueOf(0.0)).build();
         position.setReal(0, -5.12);
-        pso.getTopology().get(0).getProperties().put(EntityType.CANDIDATE_SOLUTION, position);
+        pso.getTopology().head().getProperties().put(EntityType.CANDIDATE_SOLUTION, position);
 
         //
         //the diversity of the swarm is taken as the average entropy over all
@@ -97,7 +97,7 @@ public class EntropyDiversityTest {
         //move a single particle to the edge of the search space in one dimension
         Vector position = Vector.newBuilder().repeat(30, Real.valueOf(0.0)).build();
         position.setReal(0, -5.12);
-        pso.getTopology().get(0).getProperties().put(EntityType.CANDIDATE_SOLUTION, position);
+        pso.getTopology().head().getProperties().put(EntityType.CANDIDATE_SOLUTION, position);
 
         //
         //the diversity of the swarm is taken as the maximum entropy over all

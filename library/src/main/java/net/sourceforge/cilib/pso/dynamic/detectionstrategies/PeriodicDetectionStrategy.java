@@ -6,9 +6,9 @@
  */
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 
-public class PeriodicDetectionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
+public class PeriodicDetectionStrategy<E extends SinglePopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
     private static final long serialVersionUID = 4079212153655661164L;
 
     public PeriodicDetectionStrategy() {
@@ -25,7 +25,7 @@ public class PeriodicDetectionStrategy<E extends PopulationBasedAlgorithm> exten
     }
 
     @Override
-    public boolean detect(PopulationBasedAlgorithm algorithm) {
+    public boolean detect(SinglePopulationBasedAlgorithm algorithm) {
         if (algorithm.getIterations() != 0 && algorithm.getIterations() % interval == 0) {
             return true;
         }

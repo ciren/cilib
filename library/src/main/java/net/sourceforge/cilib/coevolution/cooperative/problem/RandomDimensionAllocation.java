@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class RandomDimensionAllocation extends DimensionAllocation {
     private static final long serialVersionUID = -2006187323873094124L;
-    private List<Integer> indexList;
+    private final List<Integer> indexList;
 
     /**
      * Constructor
@@ -50,5 +50,4 @@ public class RandomDimensionAllocation extends DimensionAllocation {
     public int getProblemIndex(int elementIndex) {
         return indexList.get(elementIndex);
     }
-
 }

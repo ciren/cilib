@@ -31,7 +31,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-5, 10)^30
  *
  */
-public class Zakharov implements ContinuousFunction {
+public class Zakharov extends ContinuousFunction {
 
     private static final long serialVersionUID = -635648546100966058L;
 
@@ -39,7 +39,7 @@ public class Zakharov implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double sum1 = 0;
         double sum2 = 0;
         for(int i = 0; i < input.size(); ++i){

@@ -11,9 +11,8 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
@@ -31,10 +30,10 @@ import net.sourceforge.cilib.type.types.Types;
  * @param <E> The {@link PopulationBasedAlgorithm} that will have it's entities' positions added to
  * the archive as potential solutions.
  */
-public class ArchivingIterationStrategy<E extends PopulationBasedAlgorithm> implements IterationStrategy<E> {
+public class ArchivingIterationStrategy<E extends SinglePopulationBasedAlgorithm> implements IterationStrategy<E> {
 
     private static final long serialVersionUID = 4029628616324259998L;
-    private IterationStrategy<PopulationBasedAlgorithm> iterationStrategy;
+    private IterationStrategy<SinglePopulationBasedAlgorithm> iterationStrategy;
 
     public ArchivingIterationStrategy() {
     }
@@ -48,15 +47,15 @@ public class ArchivingIterationStrategy<E extends PopulationBasedAlgorithm> impl
         return new ArchivingIterationStrategy<E>(this);
     }
 
-    public void setIterationStrategy(IterationStrategy<PopulationBasedAlgorithm> iterationStrategy) {
+    public void setIterationStrategy(IterationStrategy<SinglePopulationBasedAlgorithm> iterationStrategy) {
         this.iterationStrategy = iterationStrategy;
     }
 
-    public IterationStrategy<PopulationBasedAlgorithm> getIterationStrategy() {
+    public IterationStrategy<SinglePopulationBasedAlgorithm> getIterationStrategy() {
         return this.iterationStrategy;
     }
 
-    protected void updateArchive(Topology<? extends Entity> population) {
+    protected void updateArchive(fj.data.List<? extends Entity> population) {
         Algorithm topLevelAlgorithm = AbstractAlgorithm.getAlgorithmList().get(0);
         List<OptimisationSolution> optimisationSolutions = new ArrayList<OptimisationSolution>();
         for (Entity entity : population) {

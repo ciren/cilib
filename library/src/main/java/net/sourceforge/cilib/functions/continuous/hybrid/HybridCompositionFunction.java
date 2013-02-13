@@ -6,10 +6,12 @@
  */
 package net.sourceforge.cilib.functions.continuous.hybrid;
 
-import com.google.common.collect.Lists;
 import java.util.List;
+
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.collect.Lists;
 
 /**
  * Implementation to create hybrid composition functions from the CEC2005 benchmark functions.
@@ -22,9 +24,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Natural Computing, 1-50. Available at: http://vg.perso.eisti.fr/These/Papiers/Bibli2/CEC05.pdf.
  * </p>
  */
-public class HybridCompositionFunction implements ContinuousFunction {
+public class HybridCompositionFunction extends ContinuousFunction {
 
-    private List<SingleFunction> functions;
+    private final List<SingleFunction> functions;
     private double scaleConstant;
 
     public HybridCompositionFunction() {
@@ -33,7 +35,7 @@ public class HybridCompositionFunction implements ContinuousFunction {
     }
 
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         int nDims = input.size();
 
         // Get the raw weights
@@ -63,7 +65,7 @@ public class HybridCompositionFunction implements ContinuousFunction {
 
         double sumF = 0.0;
         for (SingleFunction f : functions) {
-            sumF += f.getWeight() * (scaleConstant * f.apply(input) + f.getBias());
+            sumF += f.getWeight() * (scaleConstant * f.f(input) + f.getBias());
         }
 
         return sumF;

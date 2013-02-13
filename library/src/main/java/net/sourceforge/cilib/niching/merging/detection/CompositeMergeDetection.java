@@ -9,7 +9,7 @@ package net.sourceforge.cilib.niching.merging.detection;
 import fj.F;
 import fj.data.List;
 import fj.function.Booleans;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 
 public class CompositeMergeDetection extends MergeDetection {
 
@@ -21,7 +21,7 @@ public class CompositeMergeDetection extends MergeDetection {
     }
 
     @Override
-    public Boolean f(final PopulationBasedAlgorithm a, final PopulationBasedAlgorithm b) {
+    public Boolean f(final SinglePopulationBasedAlgorithm a, final SinglePopulationBasedAlgorithm b) {
         return Booleans.and(detectors.map(new F<MergeDetection, Boolean>() {
             @Override
             public Boolean f(MergeDetection c) {

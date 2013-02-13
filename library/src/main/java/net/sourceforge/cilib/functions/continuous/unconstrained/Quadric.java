@@ -32,7 +32,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-100, 100)^30
  *
  */
-public class Quadric implements ContinuousFunction {
+public class Quadric extends ContinuousFunction {
 
     private static final long serialVersionUID = -2555670302543357421L;
 
@@ -40,7 +40,7 @@ public class Quadric implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double sumsq = 0;
         for (int i = 0; i < input.size(); ++i) {
             double sum = 0;

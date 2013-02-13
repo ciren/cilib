@@ -31,7 +31,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-1.28, 1.28)^30
  *
  */
-public class DeJongF4 implements ContinuousFunction {
+public class DeJongF4 extends ContinuousFunction {
 
     private static final long serialVersionUID = 4835441178770462999L;
 
@@ -39,7 +39,7 @@ public class DeJongF4 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double sum = 0;
         for (int i = 0; i < input.size(); ++i) {
             double xi = input.doubleValueOf(i);

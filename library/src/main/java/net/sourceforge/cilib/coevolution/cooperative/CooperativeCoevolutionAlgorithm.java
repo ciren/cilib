@@ -9,7 +9,7 @@ package net.sourceforge.cilib.coevolution.cooperative;
 import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.CoevolutionAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.contextupdate.ContextUpdateStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.contextupdate.SelectiveContextUpdateStrategy;
@@ -92,8 +92,7 @@ public class CooperativeCoevolutionAlgorithm extends MultiPopulationBasedAlgorit
         problemDistribution.performDistribution(subPopulationsAlgorithms, optimisationProblem, context.getCandidateSolution());
 
         //Initialise each sub population, and add the randomised solution vector from each population to the current context.
-        for (PopulationBasedAlgorithm algorithm : subPopulationsAlgorithms) {
-            CooperativeCoevolutionProblemAdapter problem = (CooperativeCoevolutionProblemAdapter) algorithm.getOptimisationProblem();
+        for (SinglePopulationBasedAlgorithm algorithm : subPopulationsAlgorithms) {
             algorithm.performInitialisation();
             context.copyFrom((Vector) algorithm.getBestSolution().getPosition(), problem.getProblemAllocation());
         }
@@ -147,8 +146,8 @@ public class CooperativeCoevolutionAlgorithm extends MultiPopulationBasedAlgorit
      * {@inheritDoc}
      */
     @Override
-    public void addPopulationBasedAlgorithm(PopulationBasedAlgorithm algorithm) {
-        // TODO: There should be a better way to perform this test, rather than using an instanceof.
+    public void addPopulationBasedAlgorithm(SinglePopulationBasedAlgorithm algorithm) {
+        // TODO: There should be a better way to perfrom this test, rather than using an instanceof.
         if (((ParticipatingAlgorithm) algorithm).getContributionSelectionStrategy() instanceof ZeroContributionSelectionStrategy) {
             ((ParticipatingAlgorithm) algorithm).setContributionSelectionStrategy(contributionSelection);
         }

@@ -6,12 +6,10 @@
  */
 package net.sourceforge.cilib.measurement.multiple;
 
-//import static com.google.common.base.Preconditions.checkState;
-
 import java.util.List;
+
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.hpso.HeterogeneousIterationStrategy;
@@ -46,7 +44,7 @@ public class AdaptiveHPSOBehaviorProfileMeasurement implements Measurement<Vecto
     @Override
     public Vector getValue(Algorithm algorithm) {
         PSO pso = (PSO) algorithm;
-        Topology<Particle> topology = pso.getTopology();
+        fj.data.List<Particle> topology = pso.getTopology();
         HeterogeneousIterationStrategy strategy = (HeterogeneousIterationStrategy) pso.getIterationStrategy();
         HeterogeneousPopulationInitialisationStrategy initStrategy = (HeterogeneousPopulationInitialisationStrategy) pso.getInitialisationStrategy();
         List<ParticleBehavior> initialBehaviorPool = initStrategy.getBehaviorPool();

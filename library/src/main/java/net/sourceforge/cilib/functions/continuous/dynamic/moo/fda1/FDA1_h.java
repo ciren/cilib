@@ -18,7 +18,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Transactions on Evolutionary Computation, 8(5): 425-442, 2003
  *
  */
-public class FDA1_h implements ContinuousFunction {
+public class FDA1_h extends ContinuousFunction {
 
     private static final long serialVersionUID = -539665464941830813L;
     //members
@@ -103,24 +103,11 @@ public class FDA1_h implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
-        int iteration = AbstractAlgorithm.get().getIterations();
-        return apply(iteration, x);
-    }
-
-    /**
-     * Evaluates the function for a specific iteration.
-     */
-    public Double apply(int iteration, Vector x) {
-
-        //only the first element
-        Vector y = x.copyOfRange(0, 1);
-        //all the elements except the first element
-        Vector z = x.copyOfRange(1, x.size());
-        //evaluate the fda1_g function
-        double g = ((FDA1_g) this.fda1_g).apply(iteration, z);
-        //evaluate the fda1_f1 function
-        double f1 = this.fda1_f1.apply(y);
+    public Double f(Vector input) {
+        Vector y = input.copyOfRange(0, 1);
+        Vector z = input.copyOfRange(1, input.size());
+        double g = this.fda1_g.f(z);
+        double f1 = this.fda1_f1.f(y);
 
         double value = 1.0;
         value -= Math.sqrt((double) f1 / (double) g);

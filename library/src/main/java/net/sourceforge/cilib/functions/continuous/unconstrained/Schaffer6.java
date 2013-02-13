@@ -30,7 +30,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-100.0,100.0)^30
  */
-public class Schaffer6 implements ContinuousFunction {
+public class Schaffer6 extends ContinuousFunction {
 
     private static final long serialVersionUID = 4959662717057274057L;
 
@@ -41,9 +41,9 @@ public class Schaffer6 implements ContinuousFunction {
      * @return A double value representing the function evaluation
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double sum = 0;
-        
+
         for (int i = 0; i < input.size()-1; i++) {
             double xi = input.doubleValueOf(i);
             double xj = input.doubleValueOf(i + 1);

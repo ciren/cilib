@@ -13,14 +13,14 @@ import org.junit.Test;
 
 public class RoyalRoadTest {
 
-    private RoyalRoad func = new RoyalRoad();
+    private final RoyalRoad func = new RoyalRoad();
 
     @Test
     public void testFunction() {
 
         Vector maxFit = Vector.fill(1, 240);
 
-        assertEquals(12.8, func.apply(maxFit), Maths.EPSILON);
+        assertEquals(12.8, func.f(maxFit), Maths.EPSILON);
 
         Vector.Builder b = Vector.newBuilder();
 
@@ -35,7 +35,7 @@ public class RoyalRoadTest {
         }
 
         Vector minFit = b.build();
-        assertEquals(-0.96, func.apply(minFit), Maths.EPSILON);
+        assertEquals(-0.96, func.f(minFit), Maths.EPSILON);
     }
 
 }

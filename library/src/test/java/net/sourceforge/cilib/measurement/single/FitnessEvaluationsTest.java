@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.Int;
@@ -23,7 +23,7 @@ public class FitnessEvaluationsTest {
 
     @Test
     public void result() {
-        final PopulationBasedAlgorithm pba = mock(PopulationBasedAlgorithm.class);
+        final SinglePopulationBasedAlgorithm pba = mock(SinglePopulationBasedAlgorithm.class);
         final Problem problem = mock(Problem.class);
 
         when(pba.getOptimisationProblem()).thenReturn(problem);

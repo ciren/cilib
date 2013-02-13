@@ -7,8 +7,8 @@
 package net.sourceforge.cilib.measurement.single.diversity.centerinitialisationstrategies;
 
 import java.util.Iterator;
+
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -21,8 +21,8 @@ public class SpatialCenterInitialisationStrategy implements CenterInitialisation
      * {@inheritDoc}
      */
     @Override
-    public Vector getCenter(Topology<? extends Entity> topology) {
-        int numberOfEntities = topology.size();
+    public Vector getCenter(fj.data.List<? extends Entity> topology) {
+        int numberOfEntities = topology.length();
         Iterator<? extends Entity> averageIterator = topology.iterator();
         Entity entity = averageIterator.next();
         Vector averageEntityPosition = (Vector) entity.getCandidateSolution().getClone();

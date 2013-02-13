@@ -6,13 +6,14 @@
  */
 package net.sourceforge.cilib.ec.iterationstrategies;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+
+import fj.F;
+
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.creation.CreationStrategy;
 import net.sourceforge.cilib.entity.operators.creation.RandCreationStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
@@ -103,48 +104,55 @@ public class DDEIterationStrategy  extends AbstractIterationStrategy<EC> {
      */
     @Override
     public void performIteration(EC ec) {
-        Topology<Individual> topology = ec.getTopology();
+        final fj.data.List<Individual> topology = ec.getTopology();
 
         //generate the scaling factor randomly each iteration
         trialVectorCreationStrategy.setScaleParameter(scalingFactorRandom.getRandomNumber());
 
-        for (int i = 0; i < topology.size(); i++) {
-            Individual current = topology.get(i);
-            Individual bestOffspring = current.getClone();
+        ec.setTopology(topology.map(new F<Individual, Individual>(){
+            @Override
+            public Individual f(Individual current) {
+                Individual bestOffspring = current.getClone();
 
-            //take the best offspring from a set of offspring created with the same trial vector
-            for(int o = 0; o < totalOffspring; o++) {
-                // Create the trial vector by applying mutation
-                Individual targetEntity = targetVectorSelectionStrategy.on(topology).exclude(current).select();
+                //take the best offspring from a set of offsprings created with the same trial vector
+                for(int o = 0; o < totalOffspring; o++) {
+                    // Create the trial vector by applying mutation
+                    Individual targetEntity = targetVectorSelectionStrategy.on(topology).exclude(current).select();
 
-                // Create the trial vector / entity
-                Individual trialEntity = trialVectorCreationStrategy.create(targetEntity.getClone(), current.getClone(), topology.getClone());
+                    // Create the trial vector / entity
+                    Individual trialEntity = trialVectorCreationStrategy.create(targetEntity.getClone(), current.getClone(), topology);
 
-                // Create the offspring by applying cross-over
-                Individual currentOffspring = crossoverStrategy
+                    // Create the offspring by applying cross-over
+                    Individual currentOffspring = crossoverStrategy
                         .crossover(Arrays.asList(current, trialEntity)).get(0); // Order is VERY important here!!
-                boundaryConstraint.enforce(currentOffspring);
-                currentOffspring.calculateFitness();
+                    boundaryConstraint.enforce(currentOffspring);
+                    currentOffspring.calculateFitness();
 
-                //Select the best offspring so far
-                if(o > 0) {
-                    bestOffspring = offspringSelectionStrategy.on(Arrays.asList(bestOffspring, currentOffspring)).select();
+                    //Select the best offspring so far
+                    if(o > 0) {
+                        bestOffspring = offspringSelectionStrategy.on(Arrays.asList(bestOffspring, currentOffspring)).select();
+                    } else {
+                        bestOffspring = currentOffspring;
+                    }
+
+                }
+
+                Individual result = current;
+                //select the best between the current entity and the offspring entity
+                if(Rand.nextDouble() > selectorParameter) {
+                    if(bestOffspring.getFitness().compareTo(current.getFitness()) > 0 ){
+                        //topology.set(i, bestOffspring);
+                        result = bestOffspring;
+                    }
                 } else {
-                    bestOffspring = currentOffspring;
+                    bestOffspring = nextGenerationSelectionStrategy.on(Arrays.asList(bestOffspring, current)).select();
+                    //                      topology.set(i, bestOffspring);
+                    result = bestOffspring;
                 }
 
+                return result;
             }
-
-            //select the best between the current entity and the offspring entity
-            if(Rand.nextDouble() > selectorParameter) {
-                if(bestOffspring.getFitness().compareTo(current.getFitness()) > 0 ){
-                    topology.set(i, bestOffspring);
-                }
-            } else {
-                bestOffspring = nextGenerationSelectionStrategy.on(Arrays.asList(bestOffspring, current)).select();
-                topology.set(i, bestOffspring);
-            }
-        }
+        }));
     }
 
     /**

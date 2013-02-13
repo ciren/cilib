@@ -26,7 +26,7 @@ public class MultimodalFunction5Test {
     @Test
     public void testApply() {
         Vector x = Vector.of(0.0, 0.0);
-        assertEquals(30, function.apply(x), 0.0);
+        assertEquals(30, function.f(x), 0.0);
     }
 
     /**
@@ -34,6 +34,6 @@ public class MultimodalFunction5Test {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0));
+        function.f(Vector.of(1.0, 2.0, 3.0));
     }
 }

@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * <p><b>The Egg Holder.</b></p>
@@ -40,12 +41,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-512.0,512.0)^30
  *
  */
-public class EggHolder implements ContinuousFunction {
+public class EggHolder extends ContinuousFunction {
 
     private static final long serialVersionUID = 358993985066821115L;
 
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() >= 2, "EggHolder function is only defined for 2 or more dimensions");
 
         double sum = 0.0;

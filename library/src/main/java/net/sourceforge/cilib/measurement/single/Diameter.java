@@ -7,9 +7,8 @@
 package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.DiameterVisitor;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
@@ -37,13 +36,9 @@ public class Diameter implements Measurement<Real> {
      */
     @Override
     public Real getValue(Algorithm algorithm) {
-        PopulationBasedAlgorithm popAlg = (PopulationBasedAlgorithm) algorithm;
-        Topology<? extends Entity> topology = popAlg.getTopology();
-
-        DiameterVisitor visitor = new DiameterVisitor();
-        topology.accept(visitor);
-
-        return Real.valueOf(visitor.getResult());
+        SinglePopulationBasedAlgorithm popAlg = (SinglePopulationBasedAlgorithm) algorithm;
+        fj.data.List<Entity> topology = popAlg.getTopology();
+        return Real.valueOf(new DiameterVisitor().f(topology));
     }
 
 }

@@ -29,12 +29,12 @@ public class ModifiedSchaffer2Test {
         Vector x = Vector.of(0.0, 0.0);
 
         //test global minimum
-        assertEquals(0.0, function.apply(x), EPSILON);
+        assertEquals(0.0, function.f(x), EPSILON);
 
         //test another point
         x.setReal(0, 2.0);
         x.setReal(1, 3.0);
-        assertEquals(0.908837, function.apply(x), EPSILON);
+        assertEquals(0.908837, function.f(x), EPSILON);
 
     }
 }

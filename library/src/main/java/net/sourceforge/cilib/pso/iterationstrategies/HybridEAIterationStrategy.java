@@ -6,14 +6,14 @@
  */
 package net.sourceforge.cilib.pso.iterationstrategies;
 
-import com.google.common.collect.Lists;
+import fj.F;
 import java.util.List;
+
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.operators.CrossoverOperator;
 import net.sourceforge.cilib.entity.operators.crossover.real.BlendCrossoverStrategy;
@@ -25,6 +25,8 @@ import net.sourceforge.cilib.util.selection.recipes.RouletteWheelSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 import net.sourceforge.cilib.util.selection.weighting.CurrentFitness;
 import net.sourceforge.cilib.util.selection.weighting.EntityWeighting;
+
+import com.google.common.collect.Lists;
 
 /**
  * ﻿@article {springerlink:10.1007/s10015-010-0846-z,
@@ -71,9 +73,9 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
     }
 
     @Override
-    public void performIteration(PSO algorithm) {
-        Topology<Particle> topology = algorithm.getTopology();
-        int size = topology.size();
+    public void performIteration(final PSO algorithm) {
+        final fj.data.List<Particle> topology = algorithm.getTopology();
+        int size = topology.length();
 
         // pos/vel update
         for (Particle current : topology) {
@@ -85,32 +87,59 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
         }
 
         // crossover
-        List<Particle> offspring = Lists.newArrayList();
-        for (Particle p : topology) {
-            List<Particle> o = crossover.crossover(topology);
-            if (!o.isEmpty()) {
-                offspring.add(o.get(0));
-            }
-        }
+        fj.data.List<Particle> offspring = topology.bind(new F<Particle, fj.data.List<Particle>>() {
+        	public fj.data.List<Particle> f(Particle p) {
+        		List<Particle> o = crossover.crossover(topology);
+        		if (!o.isEmpty()) {
+        			return fj.data.List.single(o.get(0));
+        		} else {
+        			return fj.data.List.nil();
+        		}
+        	}
+        }) ;
+        		
+//        		Lists.newArrayList();
+//        for (Particle p : topology) {
+//            List<Particle> o = crossover.crossover(topology);
+//            if (!o.isEmpty()) {
+//                offspring.add(o.get(0));
+//            }
+//        }
 
-        for (Particle p : offspring) {
-            p.getProperties().put(EntityType.Particle.BEST_POSITION, p.getCandidateSolution());
-            p.setNeighbourhoodBest(p);
-            p.calculateFitness();
-
-            topology.add(p);
-        }
+        fj.data.List<Particle> newTopology = fj.data.List.iterableList(selector.on(topology.append(offspring.map(new F<Particle, Particle>(){
+        	public Particle f(Particle p) {
+        		p.getProperties().put(EntityType.Particle.BEST_POSITION, p.getCandidateSolution());
+                p.setNeighbourhoodBest(p);
+                p.calculateFitness();
+                return p;
+        	}
+        }))).select(Samples.first(size)));
+//        for (Particle p : offspring) {
+//            p.getProperties().put(EntityType.Particle.BEST_POSITION, p.getCandidateSolution());
+//            p.setNeighbourhoodBest(p);
+//            p.calculateFitness();
+//
+//            topology.add(p);
+//        }
 
         // rank and eliminate
-        Topology<Particle> newTopology = topology.getClone();
-        topology.clear();
-        topology.addAll(selector.on(newTopology).select(Samples.first(size)));
+//        fj.data.List<Particle> newTopology = topology;//.getClone();
+//        topology.clear();
+//        topology.addAll(selector.on(newTopology).select(Samples.first(size)));
 
         // selector removes nbests
-        for (Particle p : topology) {
-            Particle nBest = Topologies.getNeighbourhoodBest(topology, p, new SocialBestFitnessComparator());
-            p.setNeighbourhoodBest(nBest);
-        }
+//        for (Particle p : topology) {
+//            Particle nBest = Topologies.getNeighbourhoodBest(topology, p, algorithm.getNeighbourhood(), new SocialBestFitnessComparator());
+//            p.setNeighbourhoodBest(nBest);
+//        }
+        
+        algorithm.setTopology(newTopology.map(new F<Particle, Particle>() {
+        	public Particle f(Particle p) {
+        		Particle nBest = Topologies.getNeighbourhoodBest(topology, p, algorithm.getNeighbourhood(), new SocialBestFitnessComparator());
+                p.setNeighbourhoodBest(nBest);
+                return p;
+        	}
+        }));
     }
 
     public void setSelector(Selector selector) {

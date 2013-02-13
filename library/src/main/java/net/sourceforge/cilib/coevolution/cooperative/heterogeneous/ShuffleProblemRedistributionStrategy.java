@@ -9,7 +9,7 @@ package net.sourceforge.cilib.coevolution.cooperative.heterogeneous;
 import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.iterator.RandomAlgorithmIterator;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
 import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.ProblemDistributionStrategy;
 import net.sourceforge.cilib.problem.Problem;
@@ -28,13 +28,13 @@ public class ShuffleProblemRedistributionStrategy implements
     /**
      * {@inheritDoc}
      */
-    public void redistributeProblem(List<PopulationBasedAlgorithm> populations, Problem problem, ProblemDistributionStrategy distributionStrategy, Vector context) {
+    public void redistributeProblem(List<SinglePopulationBasedAlgorithm> populations, Problem problem, ProblemDistributionStrategy distributionStrategy, Vector context) {
         List<Problem> problems = new ArrayList<Problem>();
-        for(PopulationBasedAlgorithm algorithm: populations){
+        for(SinglePopulationBasedAlgorithm algorithm: populations){
             problems.add(algorithm.getOptimisationProblem().getClone());
         }
 
-        RandomAlgorithmIterator<PopulationBasedAlgorithm> iterator = new RandomAlgorithmIterator<PopulationBasedAlgorithm>(populations);
+        RandomAlgorithmIterator<SinglePopulationBasedAlgorithm> iterator = new RandomAlgorithmIterator<>(populations);
         while(iterator.hasNext()){
             iterator.next().setOptimisationProblem(problems.get(0));
             problems.remove(0);

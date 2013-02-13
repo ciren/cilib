@@ -29,10 +29,10 @@ public class EllipticTest {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(Real.valueOf(0.0), Real.valueOf(0.0));
-        assertEquals(0.0, function.apply(x), Maths.EPSILON);
+        assertEquals(0.0, function.f(x), Maths.EPSILON);
 
         x.setReal(0, 1.0);
         x.setReal(1, 2.0);
-        assertEquals(4000001, function.apply(x), Maths.EPSILON);
+        assertEquals(4000001, function.f(x), Maths.EPSILON);
     }
 }

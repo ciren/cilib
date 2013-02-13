@@ -26,12 +26,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(0.25,10)^n
  *
  */
-public class Vincent implements ContinuousFunction {
+public class Vincent extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double result = 1.0;
         for (int i = 0; i < input.size(); ++i)
             result += Math.sin(10*Math.log(input.doubleValueOf(i)));

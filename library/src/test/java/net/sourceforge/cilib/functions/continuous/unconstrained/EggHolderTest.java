@@ -27,11 +27,11 @@ public class EggHolderTest {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(200,100);
-        assertEquals(-166.745338888944,function.apply(x),0.00000000001);
+        assertEquals(-166.745338888944,function.f(x),0.00000000001);
 
         x.setReal(0, 512.0);
         x.setReal(1, 404.2319);
-        assertEquals(-959.640662710616,function.apply(x),0.00000000001);
+        assertEquals(-959.640662710616,function.f(x),0.00000000001);
     }
 
     /**
@@ -39,6 +39,6 @@ public class EggHolderTest {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0));
+        function.f(Vector.of(1.0));
     }
 }

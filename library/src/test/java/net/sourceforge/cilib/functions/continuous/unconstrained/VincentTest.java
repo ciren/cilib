@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class VincentTest {
- 
+
     private ContinuousFunction function;
 
     @Before
@@ -28,14 +28,14 @@ public class VincentTest {
     public void testEvaluate() {
         Vector x = Vector.of(5,5);
 
-        assertEquals(-0.246258053, function.apply(x), 0.000000009);
+        assertEquals(-0.246258053, function.f(x), 0.000000009);
 
         x.setReal(0, 10.0);
         x.setReal(1, 10.0);
-        assertEquals(0.719420726, function.apply(x), 0.000000009);
-        
+        assertEquals(0.719420726, function.f(x), 0.000000009);
+
         x.setReal(0, 8.0);
         x.setReal(1, 8.0);
-        assertEquals(-2.861700698, function.apply(x), 0.000000009);
-    }   
+        assertEquals(-2.861700698, function.f(x), 0.000000009);
+    }
 }

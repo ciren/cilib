@@ -12,16 +12,16 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class SchwefelProblem1_2Test {
-    
-    private SchwefelProblem1_2 func = new SchwefelProblem1_2();
-    
+
+    private final SchwefelProblem1_2 func = new SchwefelProblem1_2();
+
     @Test
     public void testFunction() {
-        assertEquals(0.0, func.apply(Vector.of(0.0, 0.0, 0.0, 0.0, 0.0)), Maths.EPSILON);
-        
-        assertEquals(5.0, func.apply(Vector.of(1.0, 1.0)), Maths.EPSILON);
-        
-        assertEquals(30.0, func.apply(Vector.of(1.0, 1.0, 3.0)), Maths.EPSILON);
+        assertEquals(0.0, func.f(Vector.of(0.0, 0.0, 0.0, 0.0, 0.0)), Maths.EPSILON);
+
+        assertEquals(5.0, func.f(Vector.of(1.0, 1.0)), Maths.EPSILON);
+
+        assertEquals(30.0, func.f(Vector.of(1.0, 1.0, 3.0)), Maths.EPSILON);
     }
-    
+
 }

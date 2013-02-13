@@ -12,14 +12,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  *
  */
-final class ZDT_f1 implements ContinuousFunction {
+final class ZDT_f1 extends ContinuousFunction {
 
     private static final long serialVersionUID = 921516091265963637L;
 
     ZDT_f1() { }
 
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         return input.doubleValueOf(0);
     }
 }

@@ -8,7 +8,6 @@ package net.sourceforge.cilib.pso.velocityprovider;
 
 import fj.P1;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.pso.PSO;
@@ -48,14 +47,14 @@ public final class RandomNearbyVelocityProvider implements VelocityProvider {
      */
     @Override
     public Vector get(Particle particle) {
-        Topology<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
+        fj.data.List<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
         Vector average = Vector.fill(0.0, particle.getDimension());
 
         for(Particle p : topology) {
             average = average.plus((Vector) p.getVelocity());
         }
 
-        average = average.divide(topology.size());
+        average = average.divide(topology.length());
 
         average.multiply(new P1<Number>() {
             @Override

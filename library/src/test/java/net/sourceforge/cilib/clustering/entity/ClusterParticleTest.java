@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.clustering.entity;
 
 import java.util.ArrayList;
+
 import junit.framework.Assert;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.initialisation.DataDependantPopulationInitialisationStrategy;
@@ -15,9 +16,7 @@ import net.sourceforge.cilib.clustering.SlidingWindow;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.initialisation.StandardCentroidInitialisationStrategy;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.QuantisationErrorMinimisationProblem;
@@ -26,6 +25,7 @@ import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
+
 import org.junit.Test;
 
 public class ClusterParticleTest {
@@ -105,9 +105,9 @@ public class ClusterParticleTest {
         pso.setInitialisationStrategy(init);
 
         pso.performInitialisation();
-        Topology topology = new GBestTopology<ClusterParticle>();
-        topology.add(instance);
-        pso.setTopology(topology);
+//        Topology topology = new GBestTopology<ClusterParticle>();
+//        topology.add(instance);
+        pso.setTopology(fj.data.List.list(instance));
         pso.run();
 
         Assert.assertEquals(Math.round(instance.getFitness().getValue() * 1e10) / 1e10,  Math.round(3.1291362326128439920284548286519 * 1e10) / 1e10);

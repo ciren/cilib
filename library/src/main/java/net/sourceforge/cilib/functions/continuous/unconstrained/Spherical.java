@@ -6,12 +6,12 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import fj.F;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.Differentiable;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
+import fj.F;
 
 /**
  * <p>Spherical function.</p>
@@ -37,7 +37,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-5.12, 5.12)^30
  *
  */
-public class Spherical implements ContinuousFunction, Differentiable {
+public class Spherical extends ContinuousFunction implements Differentiable {
 
     private static final long serialVersionUID = 5811377575647995206L;
 
@@ -45,12 +45,12 @@ public class Spherical implements ContinuousFunction, Differentiable {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         return input.foldLeft(0.0, new F<Numeric, Double>() {
             @Override
             public Double f(Numeric x) {
                 return x.doubleValue() * x.doubleValue();
-            }            
+            }
         });
     }
 
@@ -63,7 +63,7 @@ public class Spherical implements ContinuousFunction, Differentiable {
             @Override
             public Numeric f(Numeric x) {
                 return Real.valueOf(x.doubleValue() * 2);
-            }            
+            }
         });
     }
 }

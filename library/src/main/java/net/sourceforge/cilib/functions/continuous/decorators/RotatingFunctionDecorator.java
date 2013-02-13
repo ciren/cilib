@@ -36,7 +36,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @param rotatingFrequency specifies how many iterations take place between 2 rotations
  * of the function.
  */
-public class RotatingFunctionDecorator implements ContinuousFunction {
+public class RotatingFunctionDecorator extends ContinuousFunction {
 
     private static final long serialVersionUID = 3107473364744861153L;
     private ContinuousFunction function;
@@ -117,7 +117,7 @@ public class RotatingFunctionDecorator implements ContinuousFunction {
     }
 
     @Override
-    public Double apply(final Vector input) {
+    public Double f(final Vector input) {
         Matrix result = createMatrix();
         Vector rotatedX = Vector.fill(0.0, input.size());
 
@@ -130,7 +130,7 @@ public class RotatingFunctionDecorator implements ContinuousFunction {
             rotatedX.setReal(j, rotatedValue);
         }
 
-        return function.apply(rotatedX);
+        return function.f(rotatedX);
     }
 
     /**

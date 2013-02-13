@@ -10,14 +10,14 @@ package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 import net.sourceforge.cilib.pso.particle.Particle;
 
-public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> extends
+public class RandomSentryDetectionStrategy<E extends SinglePopulationBasedAlgorithm> extends
         EnvironmentChangeDetectionStrategy<E> {
     private static final long serialVersionUID = 6254159986113630555L;
 
@@ -34,7 +34,7 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> e
 
     public void Initialise(E algorithm){
         sentryIDs = new int[sentries];
-        int populationSize = algorithm.getTopology().size();
+        int populationSize = algorithm.getTopology().length();
 
         //randomly select the sentries among the particles
         for(int i=0; i<sentries; i++){
@@ -48,7 +48,7 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> e
         }//for
         Arrays.sort(sentryIDs);
 
-        Topology<? extends Entity> topology = algorithm.getTopology();
+        fj.data.List<? extends Entity> topology = algorithm.getTopology();
         this.sentryList = new ArrayList<Particle>();
         Iterator<? extends Entity> iterator = topology.iterator();
 

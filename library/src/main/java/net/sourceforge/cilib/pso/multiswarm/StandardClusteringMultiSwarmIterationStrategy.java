@@ -8,7 +8,7 @@ package net.sourceforge.cilib.pso.multiswarm;
 
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.clustering.iterationstrategies.SinglePopulationDataClusteringIterationStrategy;
@@ -97,7 +97,7 @@ public class StandardClusteringMultiSwarmIterationStrategy extends AbstractItera
      * @param ca The current multi-population algorithm
      * @return true if the swarm has converged, false otherwise
      */
-    boolean isConverged(PopulationBasedAlgorithm algorithm, MultiPopulationBasedAlgorithm ca) {
+    boolean isConverged(SinglePopulationBasedAlgorithm algorithm, MultiPopulationBasedAlgorithm ca) {
         double r = calculateRadius(ca);
         int converged = 0;
 
@@ -153,15 +153,15 @@ public class StandardClusteringMultiSwarmIterationStrategy extends AbstractItera
     @Override
     public void performIteration(MultiPopulationBasedAlgorithm ca) {
         int converged = 0;
-        for (PopulationBasedAlgorithm current : ca.getPopulations()) {
+        for (SinglePopulationBasedAlgorithm current : ca.getPopulations()) {
             if (isConverged(current, ca)) {
                 converged++;
             }
         }
 
         if (converged == ca.getPopulations().size()) {
-            PopulationBasedAlgorithm weakest = null;
-            for (PopulationBasedAlgorithm current : ca.getPopulations()) {
+            SinglePopulationBasedAlgorithm weakest = null;
+            for (SinglePopulationBasedAlgorithm current : ca.getPopulations()) {
                 ((DataClusteringPSO) current).setIsExplorer(false);
                 if (weakest == null || weakest.getBestSolution().compareTo(current.getBestSolution()) > 0) {
                     weakest = current;
@@ -171,12 +171,12 @@ public class StandardClusteringMultiSwarmIterationStrategy extends AbstractItera
             reInitialise((DataClusteringPSO) weakest);
         }
 
-        for (PopulationBasedAlgorithm current : ca.getPopulations()) {
+        for (SinglePopulationBasedAlgorithm current : ca.getPopulations()) {
             current.performIteration();
         }
 
-        for (PopulationBasedAlgorithm current : ca.getPopulations()) {
-            for (PopulationBasedAlgorithm other : ca.getPopulations()) {
+        for (SinglePopulationBasedAlgorithm current : ca.getPopulations()) {
+            for (SinglePopulationBasedAlgorithm other : ca.getPopulations()) {
                 CentroidHolder currentPosition, otherPosition;
                 if (!current.equals(other)) {
                     currentPosition = (CentroidHolder) ((DataClusteringPSO) current).getBestSolution().getPosition(); //getBestParticle().getPosition();

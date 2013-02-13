@@ -10,6 +10,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+import fj.F;
 
 /**
  * ShiftedFunctionDecorator.
@@ -29,7 +30,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *             (c < 0) means that g(x) is f(x) shifted c units downwards
  *
  */
-public class ShiftedFunctionDecorator implements ContinuousFunction {
+public class ShiftedFunctionDecorator extends ContinuousFunction {
 
     private static final long serialVersionUID = 8687711759870298103L;
     private ContinuousFunction function;
@@ -49,16 +50,15 @@ public class ShiftedFunctionDecorator implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
-        if (randomShift) {
-            if (shiftVector == null || input.size() != shiftVector.size()) {
-                shiftVector = Vector.newBuilder().copyOf(input).buildRandom();
+    public Double f(Vector input) {
+        Vector tmp = horizontalShift.getParameter() == 0.0 ? input : input.map(new F<Numeric, Numeric>() {
+            @Override
+            public Numeric f(Numeric x) {
+                return Real.valueOf(x.doubleValue() - horizontalShift.getParameter());
             }
-        } else {
-            shiftVector = Vector.fill(horizontalShift.getParameter(), input.size());
-        }
-        
-        return function.apply(input.subtract(shiftVector)) + verticalShift.getParameter();
+        });
+
+        return function.f(tmp) + verticalShift.getParameter();
     }
 
     /**

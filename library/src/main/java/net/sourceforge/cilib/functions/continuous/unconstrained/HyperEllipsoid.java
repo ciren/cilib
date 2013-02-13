@@ -30,9 +30,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  *
  * R(-5.12,5.12)^30
- * 
+ *
  */
-public class HyperEllipsoid implements ContinuousFunction {
+public class HyperEllipsoid extends ContinuousFunction {
 
     private static final long serialVersionUID = 813261964413884141L;
 
@@ -40,7 +40,7 @@ public class HyperEllipsoid implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double tmp = 0;
         for (int i = 0; i < input.size(); ++i) {
             tmp += (i + 1) * input.doubleValueOf(i) * input.doubleValueOf(i);

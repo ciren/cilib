@@ -15,13 +15,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-10, 10)^30
  *
  */
-public class Levy implements ContinuousFunction {
+public class Levy extends ContinuousFunction {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double firstTerm = Math.pow(Math.sin(3 * Math.PI * input.doubleValueOf(0)), 2);
 
         double secondTerm = 0;

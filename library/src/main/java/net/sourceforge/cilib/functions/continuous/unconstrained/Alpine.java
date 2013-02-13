@@ -30,9 +30,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </p>
  *
  * R(-10, 10)^30
- * 
+ *
  */
-public class Alpine implements ContinuousFunction {
+public class Alpine extends ContinuousFunction {
 
     private static final long serialVersionUID = -1365268075451075465L;
 
@@ -40,7 +40,7 @@ public class Alpine implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector x) {
+    public Double f(Vector x) {
         double sum = 0;
         for (Numeric n : x) {
             sum += Math.abs((n.doubleValue() * Math.sin(n.doubleValue())) + (0.1 * n.doubleValue()));

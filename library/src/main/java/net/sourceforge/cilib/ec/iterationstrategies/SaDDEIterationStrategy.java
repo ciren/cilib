@@ -7,14 +7,13 @@
 package net.sourceforge.cilib.ec.iterationstrategies;
 
 import java.util.Arrays;
+
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.ec.ParameterisedIndividual;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.math.random.generator.Rand;
@@ -24,6 +23,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.selection.recipes.FeasibilitySelector;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
+import fj.F;
 
 /*
  * This is the Self-adaptive Diversity Differential Evolution iteration strategy described by Mezura-Montes
@@ -55,7 +55,7 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 public class SaDDEIterationStrategy extends AbstractIterationStrategy<EC> {
     protected Selector<ParameterisedIndividual> targetVectorSelectionStrategy;
-    private Selector<Individual> parameterTargetVectorSelectionStrategy;
+    private final Selector<Individual> parameterTargetVectorSelectionStrategy;
     private ProbabilityDistributionFunction selectorParameterRandom;
     private ProbabilityDistributionFunction lastSelectorFactorRandom;
     private Selector<ParameterisedIndividual> offspringSelectionStrategy;
@@ -116,7 +116,7 @@ public class SaDDEIterationStrategy extends AbstractIterationStrategy<EC> {
      */
     @Override
     public void performIteration(EC algorithm) {
-        Topology<ParameterisedIndividual> topology = (Topology<ParameterisedIndividual>) algorithm.getTopology();
+        final fj.data.List<ParameterisedIndividual> topology = algorithm.getTopology();
 
         if(AbstractAlgorithm.get().getIterations() == 1) {
             selectorParameter = Real.valueOf(selectorParameterRandom.getRandomNumber(), selectorParameter.getBounds());
@@ -124,59 +124,60 @@ public class SaDDEIterationStrategy extends AbstractIterationStrategy<EC> {
             lastSelectorParameterValue = lastSelectorFactorRandom.getRandomNumber();
         }
 
-        Topology parameterTopology = new GBestTopology();
-        for(ParameterisedIndividual p : topology) { //
-            parameterTopology.add(p.getParameterHoldingIndividual());
-        }
+        final fj.data.List<Individual> parameterTopology = topology.map(new F<ParameterisedIndividual, Individual>() {
+			@Override
+			public Individual f(ParameterisedIndividual p) {
+				return p.getParameterHoldingIndividual();
+			}
+        });
 
-        for (int i = 0; i < topology.size(); i++) {
-            ParameterisedIndividual current = topology.get(i);
-            Individual currentParameters = current.getParameterHoldingIndividual(); //
-            ParameterisedIndividual bestOffspring = current.getClone();
+        algorithm.setTopology(topology.map(new F<ParameterisedIndividual, ParameterisedIndividual>() {
+			@Override
+			public ParameterisedIndividual f(ParameterisedIndividual current) {
+			    Individual currentParameters = current.getParameterHoldingIndividual(); //
+	            ParameterisedIndividual bestOffspring = current.getClone();
 
-            for(int o = 0; o < current.getTotalOffspring(); o++) {
-                // Create the trial vector by applying mutation
-                ParameterisedIndividual targetEntity = targetVectorSelectionStrategy.on(topology).exclude(current).select();
-                Individual targetParameters = parameterTargetVectorSelectionStrategy.on(parameterTopology).exclude(currentParameters).select(); //
+	            for(int o = 0; o < current.getTotalOffspring(); o++) {
+	                // Create the trial vector by applying mutation
+	                ParameterisedIndividual targetEntity = targetVectorSelectionStrategy.on(topology).exclude(current).select();
+	                Individual targetParameters = parameterTargetVectorSelectionStrategy.on(parameterTopology).exclude(currentParameters).select(); //
 
-                // Create the trial vector / entity
-                ParameterisedIndividual trialEntity = current.getTrialVectorCreationStrategy().create(targetEntity.getClone(), current.getClone(), topology.getClone());
-                Individual trialParameters = targetEntity.getTrialVectorCreationStrategy().create(targetParameters.getClone(), currentParameters.getClone(), parameterTopology.getClone()); //
+	                // Create the trial vector / entity
+	                ParameterisedIndividual trialEntity = current.getTrialVectorCreationStrategy().create(targetEntity.getClone(), current.getClone(), topology/*.getClone()*/);
+	                Individual trialParameters = targetEntity.getTrialVectorCreationStrategy().create(targetParameters.getClone(), currentParameters.getClone(), parameterTopology/*.getClone()*/); //
 
-                // Create the offspring by applying cross-over
-                ParameterisedIndividual currentOffspring = current.getCrossoverStrategy()
-                        .crossover(Arrays.asList(current, trialEntity)).get(0); // Order is VERY important here!!
-                currentOffspring.calculateFitness();
+	                // Create the offspring by applying cross-over
+	                ParameterisedIndividual currentOffspring = current.getCrossoverStrategy()
+	                        .crossover(Arrays.asList(current, trialEntity)).get(0); // Order is VERY important here!!
+	                currentOffspring.calculateFitness();
 
-                //set the parameters of the tempOffspring
-                if(((Vector) currentOffspring.getCandidateSolution()).get(currentOffspring.getDimension() - 1) ==
-                     ((Vector) trialEntity.getCandidateSolution()).get(trialEntity.getDimension() - 1)) {
-                            currentOffspring.setParameterHoldingIndividual(targetParameters.getClone());
+	                //set the parameters of the tempOffspring
+	                if(((Vector) currentOffspring.getCandidateSolution()).get(currentOffspring.getDimension() - 1) ==
+	                     ((Vector) trialEntity.getCandidateSolution()).get(trialEntity.getDimension() - 1)) {
+	                            currentOffspring.setParameterHoldingIndividual(targetParameters.getClone());
 
-                } else {
-                     currentOffspring.setParameterHoldingIndividual(trialParameters.getClone());
-                }
+	                } else {
+	                     currentOffspring.setParameterHoldingIndividual(trialParameters.getClone());
+	                }
 
-                //Select the best offspring so far
-                if(o > 0) {
-                    bestOffspring = offspringSelectionStrategy.on(Arrays.asList(bestOffspring, currentOffspring)).select();
-                } else {
-                    bestOffspring = currentOffspring;
-                }
+	                //Select the best offspring so far
+	                if(o > 0) {
+	                    bestOffspring = offspringSelectionStrategy.on(Arrays.asList(bestOffspring, currentOffspring)).select();
+	                } else {
+	                    bestOffspring = currentOffspring;
+	                }
 
-            }
+	            }
 
-            //Replace the Individual with the surviving individual
-            if(Rand.nextDouble() > selectorParameter.doubleValue()) {
-                if(bestOffspring.getFitness().compareTo(current.getFitness()) > 0 ){
-                    topology.set(i, bestOffspring.getClone());
-                }
-            } else {
-                bestOffspring = nextGenerationSelectionStrategy.on(Arrays.asList(bestOffspring, current)).select();
-                topology.set(i, bestOffspring.getClone());
-            }
-
-        }
+	            //Replace the Individual with the surviving individual
+	            if(Rand.nextDouble() > selectorParameter.doubleValue()) {
+	            	return bestOffspring.getFitness().compareTo(current.getFitness()) > 0 ? bestOffspring.getClone() : current;
+	            } else {
+	                bestOffspring = nextGenerationSelectionStrategy.on(Arrays.asList(bestOffspring, current)).select();
+	                return bestOffspring.getClone();
+	            }
+			}
+        }));
 
         //update the selector parameter
         updateSelectorParameter(AbstractAlgorithm.get().getIterations());

@@ -7,12 +7,12 @@
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 
 /**
  * Detection strategy that always return true. For environment that are constantly changing.
  */
-public class AlwaysTrueDetectionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
+public class AlwaysTrueDetectionStrategy<E extends SinglePopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
 
     /**
      *
@@ -36,7 +36,7 @@ public class AlwaysTrueDetectionStrategy<E extends PopulationBasedAlgorithm> ext
      * @param algorithm PSO algorithm that operates in a dynamic environment
      * @return true
      */
-    public boolean detect(PopulationBasedAlgorithm algorithm) {
+    public boolean detect(SinglePopulationBasedAlgorithm algorithm) {
         return true;
     }
 

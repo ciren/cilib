@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * Multimodal5 function..
@@ -17,7 +18,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-6, 6)^2
  *
  */
-public class MultimodalFunction5 implements ContinuousFunction {
+public class MultimodalFunction5 extends ContinuousFunction {
 
     private static final long serialVersionUID = -8704025552791904890L;
 
@@ -25,7 +26,7 @@ public class MultimodalFunction5 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() == 2, "MultimodalFunction5 is only defined for 2 dimensions");
 
         double x = input.doubleValueOf(0);

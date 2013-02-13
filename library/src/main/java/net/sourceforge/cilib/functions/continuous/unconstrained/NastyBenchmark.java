@@ -16,7 +16,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-500, 500)^30
  *
  */
-public class NastyBenchmark implements ContinuousFunction {
+public class NastyBenchmark extends ContinuousFunction {
 
     private static final long serialVersionUID = 6848836780892359015L;
 
@@ -24,7 +24,7 @@ public class NastyBenchmark implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double tmp = 0;
         for (int i = 0; i < input.size(); ++i) {
             double factor = (input.doubleValueOf(i) - (i + 1));

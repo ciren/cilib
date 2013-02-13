@@ -21,13 +21,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </p>
  *
  */
-public class Katsuura implements ContinuousFunction {
+public class Katsuura extends ContinuousFunction {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         int d = input.size();
         double product = 1;
 

@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class FiveUnevenPeakTrapTest {
-    
+
     private ContinuousFunction function;
 
     @Before
@@ -27,20 +27,20 @@ public class FiveUnevenPeakTrapTest {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(0.0);
-        
-        assertEquals(-200.0, function.apply(x), 0.000000009);
+
+        assertEquals(-200.0, function.f(x), 0.000000009);
 
         x.setReal(0, 5.0);
-        assertEquals(-160.0, function.apply(x), 0.000000009);
-        
+        assertEquals(-160.0, function.f(x), 0.000000009);
+
         x.setReal(0, 12.5);
-        assertEquals(-140.0, function.apply(x), 0.000000009);
-        
+        assertEquals(-140.0, function.f(x), 0.000000009);
+
         x.setReal(0, 22.5);
-        assertEquals(-160.0, function.apply(x), 0.000000009);
-        
+        assertEquals(-160.0, function.f(x), 0.000000009);
+
         x.setReal(0, 30.0);
-        assertEquals(-200.0, function.apply(x), 0.000000009);
+        assertEquals(-200.0, function.f(x), 0.000000009);
     }
 
     /**
@@ -48,6 +48,6 @@ public class FiveUnevenPeakTrapTest {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0));
+        function.f(Vector.of(1.0, 2.0));
     }
 }

@@ -14,9 +14,7 @@
                     <velocityProvider class="pso.velocityprovider.GCVelocityProvider"/>
                 </entityType>
             </initialisationStrategy>
-            <topology class="entity.topologies.LBestTopology">
-                <neighbourhoodSize class="controlparameter.ConstantControlParameter" parameter="3"/>
-            </topology>
+            <neighbourhood instance="entity.Topologies#lbest3"/>
         </algorithm>
     </algorithms>
 

@@ -6,23 +6,23 @@
  */
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.topologies.Neighbourhood;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * TODO: Complete this Javadoc.
  */
-public abstract class EnvironmentChangeResponseStrategy<E extends PopulationBasedAlgorithm> implements Cloneable {
+public abstract class EnvironmentChangeResponseStrategy implements Cloneable {
     protected boolean hasMemory = true;
 
     public EnvironmentChangeResponseStrategy() {
         this.hasMemory = true;
     }
 
-    public EnvironmentChangeResponseStrategy(EnvironmentChangeResponseStrategy<E> rhs) {
+    public EnvironmentChangeResponseStrategy(EnvironmentChangeResponseStrategy rhs) {
         this.hasMemory = rhs.hasMemory;
     }
 
@@ -31,7 +31,7 @@ public abstract class EnvironmentChangeResponseStrategy<E extends PopulationBase
      *
      * @return A cloned <tt>EnvironmentChangeResponseStrategy</tt>
      */
-    public abstract EnvironmentChangeResponseStrategy<E> getClone();
+    public abstract EnvironmentChangeResponseStrategy getClone();
 
     /**
      * Respond to the environment change and ensure that the neighbourhood best entities are
@@ -43,10 +43,10 @@ public abstract class EnvironmentChangeResponseStrategy<E extends PopulationBase
      *
      * @param algorithm some {@link PopulationBasedAlgorithm population based algorithm}
      */
-    public void respond(E algorithm) {
+    public <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void respond(A algorithm) {
         performReaction(algorithm);
         if(hasMemory) {
-            updateNeighbourhoodBestEntities((Topology<Particle>) algorithm.getTopology());
+            updateNeighbourhoodBestEntities(algorithm.getTopology(), algorithm.getNeighbourhood());
         }
     }
 
@@ -54,7 +54,7 @@ public abstract class EnvironmentChangeResponseStrategy<E extends PopulationBase
      * This is the method responsible for responding that should be overridden by sub-classes.
      * @param algorithm
      */
-    protected abstract void performReaction(E algorithm);
+    protected abstract <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void performReaction(A algorithm);
 
     /**
      * TODO: The problem with this is that it is PSO specific. It uses {@link Particle particles}
@@ -63,10 +63,10 @@ public abstract class EnvironmentChangeResponseStrategy<E extends PopulationBase
      *
      * @param topology a topology of {@link Particle particles} :-(
      */
-    protected <P extends Particle> void updateNeighbourhoodBestEntities(Topology<P> topology) {
+    protected <P extends Particle> void updateNeighbourhoodBestEntities(fj.data.List<P> topology, Neighbourhood<P> neighbourhood) {
         for (P current : topology) {
             current.calculateFitness();
-            for (P other : topology.neighbourhood(current)) {
+            for (P other : neighbourhood.f(topology, current)) {
                 if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
                     other.setNeighbourhoodBest(current);
                 }

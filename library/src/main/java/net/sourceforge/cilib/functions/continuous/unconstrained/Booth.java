@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * <p><b>Booth Function</b></p>.
@@ -37,14 +38,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-10,10)^2
  *
  */
-public class Booth implements ContinuousFunction {
+public class Booth extends ContinuousFunction {
     private static final long serialVersionUID = -7803711986955989075L;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() == 2, "Booth function is only defined for 2 dimensions");
 
         double x1 = input.doubleValueOf(0);

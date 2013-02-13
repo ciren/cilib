@@ -28,11 +28,11 @@ public class BraninTest {
     public void testEvaluate() {
         Vector x = Vector.of(1,2);
 
-        assertEquals(21.62763539206238, function.apply(x), 0.00000000000001);
+        assertEquals(21.62763539206238, function.f(x), 0.00000000000001);
 
         x.setReal(0, -Math.PI);
         x.setReal(1, 12.275);
-        assertEquals(0.397887, function.apply(x), 0.0000009);
+        assertEquals(0.397887, function.f(x), 0.0000009);
     }
 
     /**
@@ -40,6 +40,6 @@ public class BraninTest {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0));
+        function.f(Vector.of(1.0, 2.0, 3.0));
     }
 }

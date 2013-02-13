@@ -55,7 +55,7 @@ public class BinaryPositionProvider implements PositionProvider {
         Vector velocity = (Vector) particle.getVelocity();
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); i++) {
-            double result = this.sigmoid.apply(velocity.doubleValueOf(i));
+            double result = this.sigmoid.f(velocity.doubleValueOf(i));
             double rand = Rand.nextDouble();
 
             if (rand < result) {

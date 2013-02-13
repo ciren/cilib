@@ -6,38 +6,40 @@
  */
 package net.sourceforge.cilib.entity.topologies;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.pso.particle.AbstractParticle;
-import net.sourceforge.cilib.type.types.container.Vector;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
-import org.junit.BeforeClass;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+import net.sourceforge.cilib.entity.Topologies;
+import net.sourceforge.cilib.problem.Problem;
+import net.sourceforge.cilib.problem.solution.Fitness;
+import net.sourceforge.cilib.pso.particle.AbstractParticle;
+import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.type.types.container.Vector;
+
+import org.junit.Before;
 import org.junit.Test;
 
+import com.google.common.collect.Lists;
+
+import fj.F;
+
 public class VonNeumannTopologyTest {
+	
+	private final F<Integer, Particle> dumbParticleFunc = new F<Integer, Particle>() {
+    	public Particle f(Integer i) {
+    		return new DumbParticle(String.valueOf(i + 1));
+    	}
+    };
 
-    @BeforeClass
-    public static void setUp() {
-        empty = new VonNeumannTopology<Particle>();
-        square = new VonNeumannTopology<Particle>();
-
-        for (int i = 0; i < 9; ++i) {
-            Particle dumbParticle = new DumbParticle(String.valueOf(i + 1));
-            square.add(dumbParticle);
-        }
-
-        irregular = new VonNeumannTopology<Particle>();
-
-        for (int i = 0; i < 10; ++i) {
-            Particle dumbParticle = new DumbParticle(String.valueOf(i + 1));
-            irregular.add(dumbParticle);
-        }
+    @Before
+    public void setUp() {
+        empty = fj.data.List.nil();
+        square = fj.data.List.range(0, 9).map(dumbParticleFunc);
+        irregular = fj.data.List.range(0, 10).map(dumbParticleFunc);
     }
 
     @Test
@@ -79,7 +81,7 @@ public class VonNeumannTopologyTest {
         }
         assertEquals("5", p.getParticleName());
 
-        Iterator<Particle> j = square.neighbourhood(p).iterator();
+        Iterator<Particle> j = Topologies.<Particle>vonNeumann().f(square, p).iterator();
 
         int count = 0;
         int nid[] = {5, 2, 6, 8, 4};
@@ -99,7 +101,7 @@ public class VonNeumannTopologyTest {
         p = (DumbParticle) i.next();
         assertEquals("1", p.getParticleName());
 
-        j = irregular.neighbourhood(p).iterator();
+        j = Topologies.<Particle>vonNeumann().f(irregular, p).iterator();
 
         count = 0;
         int nnid[] = {1, 10, 2, 4, 3};
@@ -115,7 +117,7 @@ public class VonNeumannTopologyTest {
         }
         assertEquals("9", p.getParticleName());
 
-        j = irregular.neighbourhood(p).iterator();
+        j = Topologies.<Particle>vonNeumann().f(irregular, p).iterator();
 
         count = 0;
         int nnnid[] = {9, 6, 7, 3, 8};
@@ -129,7 +131,7 @@ public class VonNeumannTopologyTest {
         p = (DumbParticle) i.next();
         assertEquals("10", p.getParticleName());
 
-        j = irregular.neighbourhood(p).iterator();
+        j = Topologies.<Particle>vonNeumann().f(irregular, p).iterator();
 
         count = 0;
         int nnnnid[] = {10, 7, 10, 1, 10};
@@ -141,9 +143,9 @@ public class VonNeumannTopologyTest {
         assertEquals(5, count);
     }
 
-    private static Topology<Particle> empty;
-    private static Topology<Particle> square;
-    private static Topology<Particle> irregular;
+    private static fj.data.List<Particle> empty;
+    private static fj.data.List<Particle> square;
+    private static fj.data.List<Particle> irregular;
 
     //private int[] id = {1, 3, 7, 2, 4, 8, 5, 6, 9, 10};
     private int[] id = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};

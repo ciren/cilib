@@ -34,9 +34,9 @@ public class ABCTest {
         abc.setWorkerBeePercentage(ConstantControlParameter.of(0.7));
 
         abc.performInitialisation();
-        assertEquals(abc.getTopology().size(), 100);
-        assertEquals(abc.getWorkerBees().size(), 70);
-        assertEquals(abc.getOnlookerBees().size(), 30);
+        assertEquals(abc.getTopology().length(), 100);
+        assertEquals(abc.getWorkerBees().length(), 70);
+        assertEquals(abc.getOnlookerBees().length(), 30);
         HashMap<Type, Type> map = new HashMap<Type, Type>();
 
         for (HoneyBee bee : abc.getTopology()) {

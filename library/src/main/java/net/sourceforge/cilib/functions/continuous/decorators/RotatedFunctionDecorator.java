@@ -15,7 +15,7 @@ import net.sourceforge.cilib.util.Matrices;
  * A function decorator that rotates a given function by a random orthonormal
  * matrix or a linear transformation matrix.
  */
-public class RotatedFunctionDecorator implements ContinuousFunction {
+public class RotatedFunctionDecorator extends ContinuousFunction {
 
     private static final long serialVersionUID = 3107473364744861153L;
     private ContinuousFunction function;
@@ -43,9 +43,9 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
      * the function being decorated with the rotated vector as the parameter.
      */
     @Override
-    public Double apply(final Vector input) {
+    public Double f(final Vector input) {
         if (type == MatrixType.IDENTITY) {
-            return function.apply(input);
+            return function.f(input);
         }
 
         if (!initialised || input.size() != rotationMatrix.getRows()) {
@@ -62,7 +62,7 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
             }
         }
 
-        return function.apply(rotatedX);
+        return function.f(rotatedX);
     }
 
     /**

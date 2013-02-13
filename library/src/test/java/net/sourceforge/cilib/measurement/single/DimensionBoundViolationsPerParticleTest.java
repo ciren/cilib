@@ -6,11 +6,9 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Bounds;
@@ -39,14 +37,10 @@ public class DimensionBoundViolationsPerParticleTest {
         p3.getProperties().put(EntityType.CANDIDATE_SOLUTION, vectorOf(bounds, -1.0,0.0,1.0));
         p4.getProperties().put(EntityType.CANDIDATE_SOLUTION, vectorOf(bounds, 3.0,2.0,-1.0));
 
-        final Topology<Particle> topology = new GBestTopology<Particle>();
-        topology.add(p1);
-        topology.add(p2);
-        topology.add(p3);
-        topology.add(p4);
+        final fj.data.List<Particle> topology = fj.data.List.list(p1, p2, p3, p4);
 
-        final PopulationBasedAlgorithm pba = mock(PopulationBasedAlgorithm.class);
-        when(pba.getTopology()).thenReturn((Topology) topology);
+        final SinglePopulationBasedAlgorithm pba = mock(SinglePopulationBasedAlgorithm.class);
+        when(pba.getTopology()).thenReturn((fj.data.List) topology);
 
         Measurement m = new DimensionBoundViolationsPerParticle();
         Assert.assertEquals(Real.valueOf(1.25), m.getValue(pba));

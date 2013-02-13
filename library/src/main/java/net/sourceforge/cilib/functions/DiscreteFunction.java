@@ -7,9 +7,10 @@
 package net.sourceforge.cilib.functions;
 
 import net.sourceforge.cilib.type.types.container.Vector;
+import fj.F;
 
 /**
  * Marker interface for discrete-valued functions.
  */
-public interface DiscreteFunction extends Function<Vector, Integer> {
+public abstract class DiscreteFunction extends F<Vector, Integer> {
 }

@@ -6,13 +6,13 @@
  */
 package net.sourceforge.cilib.algorithm.initialisation;
 
-import com.google.common.base.Preconditions;
-import java.util.ArrayList;
-import java.util.List;
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Problem;
+
+import com.google.common.base.Preconditions;
+
+import fj.F;
+import fj.data.List;
 
 /**
  * Create a collection of {@linkplain net.sourceforge.cilib.entity.Entity entities}
@@ -20,7 +20,7 @@ import net.sourceforge.cilib.problem.Problem;
  *
  * @param <E> The {@code Entity} type.
  */
-public class ClonedPopulationInitialisationStrategy<E extends Entity> implements PopulationInitialisationStrategy<E> {
+public class ClonedPopulationInitialisationStrategy implements PopulationInitialisationStrategy {
 
     private static final long serialVersionUID = -7354579791235878648L;
     private Entity prototypeEntity;
@@ -62,20 +62,18 @@ public class ClonedPopulationInitialisationStrategy<E extends Entity> implements
      * @throws InitialisationException if the initialisation cannot take place.
      */
     @Override
-    public Iterable<E> initialise(Problem problem) {
+    public <E extends Entity> Iterable<E> initialise(final Problem problem) {
         Preconditions.checkNotNull(problem, "No problem has been specified");
         Preconditions.checkNotNull(prototypeEntity, "No prototype Entity object has been defined for the clone operation in the entity construction process.");
 
-        List<E> clones = new ArrayList<E>();
-
-        for (int i = 0; i < entityNumber.getParameter(); ++i) {
-            E entity = (E) prototypeEntity.getClone();
-
-            entity.initialise(problem);
-            clones.add(entity);
-        }
-
-        return clones;
+        return List.range(0, entityNumber).map(new F<Integer,E>() {
+            @Override
+            public E f(Integer i) {
+                E entity = (E) prototypeEntity.getClone();
+                entity.initialise(problem);
+                return entity;
+            }
+        });
     }
 
     /**

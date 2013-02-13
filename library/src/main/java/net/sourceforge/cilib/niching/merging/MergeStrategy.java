@@ -6,13 +6,13 @@
  */
 package net.sourceforge.cilib.niching.merging;
 
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import fj.F2;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 
 /**
  * Merge strategies for Niching.
  * 
  * Combines two PopulationBasedAlgorithms into one, returns the combined one.
  */
-public abstract class MergeStrategy extends F2<PopulationBasedAlgorithm, PopulationBasedAlgorithm, PopulationBasedAlgorithm> {
+public abstract class MergeStrategy extends F2<SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm> {
 }

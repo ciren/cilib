@@ -31,13 +31,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </p>
  *
  */
-public class ModifiedSchaffer2 implements ContinuousFunction {
+public class ModifiedSchaffer2 extends ContinuousFunction {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double sum = 0.0;
         double square1, square2, numerator, denominator;
 

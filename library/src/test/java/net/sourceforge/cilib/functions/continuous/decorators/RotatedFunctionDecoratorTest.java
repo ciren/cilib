@@ -23,12 +23,12 @@ public class RotatedFunctionDecoratorTest {
         Vector v = Vector.of(0.0, 0.0, 0.0);
 
         // rotation matrix should not change function minimum
-        assertEquals(0.0, r.apply(v), 0.0);
+        assertEquals(0.0, r.f(v), 0.0);
 
         // identity matrix should not change function
         v = Vector.of(1.0, 2.0, 3.0);
         r.setMatrixType("identity");
         r.setRotationMatrix(v.size());
-        assertEquals(s.apply(v), r.apply(v), 0.0);
+        assertEquals(s.f(v), r.f(v), 0.0);
     }
 }

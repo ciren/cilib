@@ -28,11 +28,11 @@ public class DifferentPowersTest {
     public void testEvaluate() {
         Vector x = Vector.of(1.0, 2.0, 3.0);
 
-        assertEquals(27.313, function.apply(x), 0.001);
+        assertEquals(27.313, function.f(x), 0.001);
 
         x.setReal(0, 0.0);
         x.setReal(1, 0.0);
         x.setReal(2, 0.0);
-        assertEquals(0.0, function.apply(x), 0.0);
+        assertEquals(0.0, function.f(x), 0.0);
     }
 }
