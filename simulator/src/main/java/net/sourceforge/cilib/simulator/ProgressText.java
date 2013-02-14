@@ -6,12 +6,12 @@
  */
 package net.sourceforge.cilib.simulator;
 
+import com.google.common.base.Strings;
 import net.sourceforge.cilib.algorithm.ProgressEvent;
 import net.sourceforge.cilib.algorithm.ProgressListener;
 
 /**
  * Implements a text progress meter.
- *
  */
 final class ProgressText implements ProgressListener {
 
@@ -33,23 +33,20 @@ final class ProgressText implements ProgressListener {
         if (printedDone) {
             return;
         }
+
         double percentage = (int) (1000 * event.getPercentage()) / 10.0;
         int nequals = (int) (50 * event.getPercentage());
-        int i = 0;
-        System.out.printf("\rProgress (%3.1f) |", percentage);
-        while (i++ < nequals) {
-            System.out.print("=");
-        }
-        while (i++ < 50) {
-            System.out.print(" ");
-        }
-        System.out.print("|");
+        StringBuilder sb = new StringBuilder(String.format("\rProgress (%3.1f) |", percentage));
+        sb.append(Strings.repeat("=", nequals));
+        sb.append(Strings.repeat(" ", 50 - nequals));
+        sb.append("|");
+
         if (nequals == 50) {
             printedDone = true;
-            System.out.println(" done.");
-        } else {
-            System.out.flush();
+            sb.append(" done.\n");
         }
+
+        System.out.print(sb.toString());
     }
 
     public void setSimulation(int simulation) {
