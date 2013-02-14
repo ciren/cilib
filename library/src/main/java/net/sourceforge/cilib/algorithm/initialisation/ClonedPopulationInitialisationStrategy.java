@@ -38,8 +38,8 @@ public class ClonedPopulationInitialisationStrategy<E extends Entity> implements
      */
     public ClonedPopulationInitialisationStrategy(ClonedPopulationInitialisationStrategy copy) {
         this.entityNumber = copy.entityNumber;
-        
-        if (prototypeEntity != null) {
+
+        if (copy.prototypeEntity != null) {
             this.prototypeEntity = copy.prototypeEntity.getClone();
         }
     }

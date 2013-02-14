@@ -35,7 +35,7 @@
 				<architecture class="nn.architecture.Architecture">
 					<architectureBuilder class="nn.architecture.builder.CascadeArchitectureBuilder">
 						<addLayer class="nn.architecture.builder.LayerConfiguration" size="4"/>
-						<addLayer class="nn.architecture.builder.LayerConfiguration" size="0">
+						<addLayer class="nn.architecture.builder.LayerConfiguration" size="1">
 							<activationFunction class="functions.activation.Sigmoid" />
 						</addLayer>
 						<addLayer class="nn.architecture.builder.LayerConfiguration" size="1"/>
