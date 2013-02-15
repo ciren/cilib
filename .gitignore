@@ -4,3 +4,4 @@ simulator.sh
 simulator.bat
 .ensime*
 private.sbt
+/nbproject/private/
