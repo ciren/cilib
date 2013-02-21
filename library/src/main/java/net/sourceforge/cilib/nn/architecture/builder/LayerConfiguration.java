@@ -30,6 +30,12 @@ public class LayerConfiguration {
         this.bias = true;
     }
 
+    public LayerConfiguration(LayerConfiguration rhs) {
+        this.size = rhs.size;
+        this.activationFunction = rhs.activationFunction;
+        this.bias = rhs.bias;
+    }
+	
     /**
      * Constructor that takes size as a parameter, all other fields are left
      * default.

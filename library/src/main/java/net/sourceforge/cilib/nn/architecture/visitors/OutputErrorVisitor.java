@@ -18,6 +18,17 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class OutputErrorVisitor extends ArchitectureOperationVisitor {
 
+    public OutputErrorVisitor() {}
+
+    public OutputErrorVisitor(OutputErrorVisitor rhs) {
+        super(rhs);
+    }
+
+    @Override
+    public OutputErrorVisitor getClone() {
+        return new OutputErrorVisitor(this);
+    }
+	
     /**
      * Calculate the output error given the StandardPattern that contains the target
      * as {@link #input} .
