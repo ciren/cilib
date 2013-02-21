@@ -17,6 +17,17 @@ import net.sourceforge.cilib.nn.components.BiasNeuron;
  */
 public class FeedForwardArchitectureBuilder extends ArchitectureBuilder {
 
+    public FeedForwardArchitectureBuilder() {}
+
+    public FeedForwardArchitectureBuilder(FeedForwardArchitectureBuilder rhs) {
+        super(rhs);
+    }
+
+    @Override
+    public FeedForwardArchitectureBuilder getClone() {
+        return new FeedForwardArchitectureBuilder(this);
+    }
+
     /**
      * Adds the layers to the architecture such that the architecture represents
      * an N layer Feed Forward Neural Network. All layers are fully connected and

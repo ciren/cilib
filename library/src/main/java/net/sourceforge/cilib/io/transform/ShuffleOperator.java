@@ -15,6 +15,10 @@ import net.sourceforge.cilib.math.random.generator.Rand;
  */
 public class ShuffleOperator implements DataOperator {
 
+    public ShuffleOperator getClone() {
+        return new ShuffleOperator();
+    }
+
     /**
      * Modern version of Fisher-Yates shuffle algorithm based on the Richard Durstenfeld
      * implementation as published in:

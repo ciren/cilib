@@ -36,6 +36,33 @@ public class BackPropagationVisitor implements ArchitectureVisitor {
         momentum = 0.9;
     }
 
+    public BackPropagationVisitor(BackPropagationVisitor rhs) {
+        learningRate = rhs.learningRate;
+        momentum = rhs.learningRate;
+
+        previousPattern = new StandardPattern(rhs.previousPattern);
+
+        layerWeightsDelta = new double[rhs.layerWeightsDelta.length][];
+        for (int i = 0; i < rhs.layerWeightsDelta.length; ++i) {
+            layerWeightsDelta[i] = new double[rhs.layerWeightsDelta[i].length];
+            for (int j = 0; j < rhs.layerWeightsDelta[i].length; ++j) {
+                layerWeightsDelta[i][j] = rhs.layerWeightsDelta[i][j];
+            }
+        }
+
+        previousWeightUpdates = new double[rhs.previousWeightUpdates.length][];
+        for (int i = 0; i < rhs.previousWeightUpdates.length; ++i) {
+            previousWeightUpdates[i] = new double[rhs.previousWeightUpdates[i].length];
+            for (int j = 0; j < rhs.previousWeightUpdates[i].length; ++j) {
+                previousWeightUpdates[i][j] = rhs.previousWeightUpdates[i][j];
+            }
+        }
+    }
+
+    public BackPropagationVisitor getClone() {
+        return new BackPropagationVisitor(this);
+    }
+
     /**
      * Performs a gradient decent backpropagation given the previous {@link StandardPattern}
      * as input as well as the weight updates after the previous execution of a

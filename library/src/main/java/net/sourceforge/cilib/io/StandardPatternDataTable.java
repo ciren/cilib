@@ -237,7 +237,7 @@ public class StandardPatternDataTable implements DataTable<StandardPattern, Type
     }
 
     @Override
-    public Object getClone() {
+    public StandardPatternDataTable getClone() {
         return new StandardPatternDataTable(this);
     }
 

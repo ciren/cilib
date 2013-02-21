@@ -40,6 +40,19 @@ public abstract class NNTrainingProblem extends AbstractProblem {
         patternConversionOperator = new PatternConversionOperator();
     }
 
+    public NNTrainingProblem(NNTrainingProblem rhs) {
+        super(rhs);
+        neuralNetwork = new NeuralNetwork(rhs.neuralNetwork);
+        trainingSetPercentage = rhs.trainingSetPercentage;
+        generalisationSetPercentage = rhs.generalisationSetPercentage;
+        validationSetPercentage = rhs.validationSetPercentage;
+        patternConversionOperator = rhs.patternConversionOperator;
+        trainingSet = rhs.trainingSet.getClone();
+        generalisationSet = rhs.generalisationSet.getClone();
+        validationSet = rhs.validationSet.getClone();
+        shuffler = rhs.shuffler.getClone();
+    }	
+
     /**
      * Initialises the problem by setting up the datasets: has to be implemented by inheriting classes.
      */

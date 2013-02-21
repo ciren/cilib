@@ -26,6 +26,15 @@ public abstract class SelectiveDataOperator implements DataOperator {
         selectedItems = new ArrayList<Integer>();
     }
 
+    public SelectiveDataOperator(SelectiveDataOperator rhs) {
+        selectedItems = new ArrayList<Integer>();
+        for (Integer curInt : rhs.selectedItems)
+            selectedItems.add(new Integer(curInt.intValue()));
+    }
+
+    @Override
+    public abstract SelectiveDataOperator getClone();
+
     /**
      * Add number to selected items.
      * @param selected a selected item.
