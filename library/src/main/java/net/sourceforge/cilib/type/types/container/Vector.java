@@ -595,6 +595,46 @@ public class Vector implements StructuredType<Numeric>,
     }
 
     /**
+     * Compares all elements in the {@code Vector} to find the greatest element.
+     *
+     * @return The greatest element in the {@code Vector}.
+     */
+    public Numeric max() {
+        if (this.components.length == 0) {
+            throw new UnsupportedOperationException("Cannot obtain the maximum element of an empty vector.");
+        }
+
+        double max = this.reduceLeft(new F2<Double, Double, Number>() {
+            @Override
+            public Number f(Double a, Double b) {
+                return (a > b) ? a : b;
+            }
+        }).doubleValue();
+
+        return Real.valueOf(max);
+    }
+
+    /**
+     * Compares all elements in the {@code Vector} to find the smallest element.
+     *
+     * @return The smallest element in the {@code Vector}.
+     */
+    public Numeric min() {
+        if (this.components.length == 0) {
+            throw new UnsupportedOperationException("Cannot obtain the minimum element of an empty vector.");
+        }
+
+        double min = this.reduceLeft(new F2<Double, Double, Number>() {
+            @Override
+            public Number f(Double a, Double b) {
+                return (a < b) ? a : b;
+            }
+        }).doubleValue();
+
+        return Real.valueOf(min);
+    }
+
+    /**
      * Calculates a vector that is orthogonal to a number of other vectors.
      *
      * @param vs    the list of vectors.
@@ -924,6 +964,14 @@ public class Vector implements StructuredType<Numeric>,
         }
 
         return builder.build();
+    }
+
+    /**
+     * Sample an element uniformly from the {@code Vector}.
+     * @return A uniformly sampled {@code Numeric}.
+     */
+    public Numeric sample() {
+        return get(Rand.nextInt(size()));
     }
 
     /**

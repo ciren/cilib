@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.Numeric;
 
 /**
  * Representation of a Matrix. This class is immutable with the intention that
@@ -63,6 +64,15 @@ public final class Matrix implements Type {
         }
 
         return Vector.copyOf(rowList);
+    }
+
+    /**
+     * Obtain the column vector for the given column, indexed from 0.
+     * @param column The column number to obtain.
+     * @return A {@code Vector} representing the column.
+     */
+    public Vector getColumn(int column) {
+        return this.transpose().getRow(column);
     }
 
     /**
@@ -162,6 +172,14 @@ public final class Matrix implements Type {
         return this.times(b);
     }
 
+    public Vector multiply(Vector b) {
+        Matrix.Builder builder = Matrix.builder().dimensions(b.size(), 1);
+        for(Numeric n : b) {
+            builder.addRow(n.doubleValue());
+        }
+        return this.times(builder.build()).getColumn(0);
+    }
+
     /**
      * Perform multiplication on the current {@code Matrix} and the provided {@code Matrix}.
      * Naturally, matrix multiplication can only be performed on matrices that adhere
@@ -172,13 +190,12 @@ public final class Matrix implements Type {
      * @return A new {@code Matrix} representing the result of the multiplication.
      */
     public Matrix times(Matrix b) {
-        Preconditions.checkArgument(this.getRows() == b.getColumns(), "Illegal matrix dimensions for matrix multiplication.");
+        Preconditions.checkArgument(this.getColumns() == b.getRows(), "Illegal matrix dimensions for matrix multiplication.");
 
         Matrix result = new Matrix(this.getRows(), b.getColumns());
-        for (int i = 0; i < result.getColumns(); i++) {
-            for (int j = 0; j < result.getRows(); j++) {
-                for (int k = 0; k < this.getRows(); k++)
-                result.contents[i][j] += this.contents[i][k] * b.contents[k][j];
+        for (int i = 0; i < this.getRows(); i++) {
+            for (int j = 0; j < b.getColumns(); j++) {
+                result.contents[i][j] = this.getRow(i).dot(b.getColumn(j));
             }
         }
         return result;
@@ -329,6 +346,15 @@ public final class Matrix implements Type {
 
         final Matrix other = (Matrix) obj;
         return Arrays.deepEquals(this.contents, other.contents);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < getRows(); i++) {
+            sb.append(getRow(i).toString() + '\n');
+        }
+        return sb.deleteCharAt(sb.length()-1).toString();
     }
 
     @Override

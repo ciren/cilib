@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 
 /**
  * Utility methods for {@link Vector}s.
@@ -62,11 +63,26 @@ public final class Vectors {
     }
 
     /**
-     * Determine the sum of a list of {@link Vector} instances. Convenience
-     * method for an array of vectors.
+     * Construct a {@code Vector} of a specified size by drawing values from a
+     * {@code ProbabilityDistributionFunction}.
      *
-     * @param vectors The {@linkplain Vector} instances to sum.
-     * @return The resultant {@linkplain Vector}.
+     * @param n The size of the {@code Vector} to create.
+     * @param prob The {@code ProbabilityDistributionFunction} to sample.
+     * @return A {@code Vector} that contains n elements sampled from the specified distribution.
+     */
+    public static Vector distributedVector(int n, ProbabilityDistributionFunction prob) {
+        Vector.Builder vector = Vector.newBuilder();
+        for (int i = 0; i < n; i++) {
+            vector.add(prob.getRandomNumber());
+        }
+        return vector.build();
+    }
+
+    /**
+     * Determine the sum of a list of {@code Vector} instances. Convenience method for
+     * an array of vectors.
+     * @param vectors The {@code Vector} instances to sum.
+     * @return The resultant {@code Vector}.
      */
     public static Vector sumOf(Vector... vectors) {
         return sumOf(Arrays.asList(vectors));

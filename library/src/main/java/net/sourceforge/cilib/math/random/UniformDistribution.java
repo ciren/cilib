@@ -25,6 +25,16 @@ public class UniformDistribution implements ProbabilityDistributionFunction {
     }
 
     /**
+     * Contructor to initialize bounds to non-default values.
+     * @param lowerBound The lower bound of the distribution.
+     * @param upperBound The upper bound of the distribution.
+     */
+    public UniformDistribution(ControlParameter lowerBound, ControlParameter upperBound) {
+        this.lowerBound = lowerBound;
+        this.upperBound = upperBound;
+    }
+
+    /**
      * Get a uniform random number located within {@code 0 &lt;= x &lt; 1}.
      *
      * @return uniform random number ({@code 0 &lt;= x &lt; 1}).
