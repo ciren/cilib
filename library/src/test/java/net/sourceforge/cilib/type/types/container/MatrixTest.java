@@ -68,6 +68,19 @@ public class MatrixTest {
     }
 
     @Test
+    public void getColumn() {
+        Matrix a = Matrix.builder().dimensions(2, 2)
+            .addRow(1.0, 1.0)
+            .addRow(2.0, 2.0)
+            .build();
+
+        Vector row = a.getColumn(0);
+
+        Assert.assertThat(row.doubleValueOf(0), is(1.0));
+        Assert.assertThat(row.doubleValueOf(1), is(2.0));
+    }
+
+    @Test
     public void rowNumber() {
         Matrix a = Matrix.builder().dimensions(4, 5).build();
         Assert.assertThat(a.getRows(), is(4));
@@ -142,6 +155,18 @@ public class MatrixTest {
 
         Assert.assertThat(c.getRow(0), equalTo(Vector.of(14.0, 20.0)));
         Assert.assertThat(c.getRow(1), equalTo(Vector.of(30.0, 44.0)));
+    }
+
+    @Test
+    public void matrixVectorMultiplication() {
+        Matrix a = Matrix.builder().dimensions(3, 3)
+            .addRow(2.0, 0.0, 0.0)
+            .addRow(0.0, 3.0, 0.0)
+            .addRow(0.0, 0.0, 4.0)
+            .build();
+
+        Vector v = Vector.of(7.0, 6.0, 3.0);
+        Assert.assertThat(a.multiply(v), equalTo(Vector.of(14.0, 18.0, 12.0)));
     }
 
     @Test
