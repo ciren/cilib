@@ -14,9 +14,11 @@ import java.util.Set;
 import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
 import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
+import net.sourceforge.cilib.entity.topologies.LBestNeighbourhood;
 import net.sourceforge.cilib.entity.topologies.Neighbourhood;
 import net.sourceforge.cilib.problem.solution.MaximisationFitness;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
+import net.sourceforge.cilib.pso.dynamic.detectionstrategies.NeighbourhoodBestSentriesDetectionStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 
@@ -84,7 +86,7 @@ public class TopologiesTest {
         i4.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(0.1));
 
         fj.data.List<Particle> topology = fj.data.List.list(i1, i2, i3, i4);
-        Neighbourhood<Particle> neighbourhood = Topologies.lbest3();
+        Neighbourhood<Particle> neighbourhood = new LBestNeighbourhood<>();
 
         Particle socialBest = Topologies.getNeighbourhoodBest(topology, i1, neighbourhood, new SocialBestFitnessComparator<Particle>());
         Particle mostFit = Topologies.getNeighbourhoodBest(topology, i1, neighbourhood, new AscendingFitnessComparator<Particle>());
@@ -115,8 +117,8 @@ public class TopologiesTest {
         i4.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(0.1));
 
         fj.data.List<Particle> topology = fj.data.List.list(i1, i2, i3, i4);
-        Neighbourhood<Particle> neighbourhood = Topologies.lbest3();
-        
+        Neighbourhood<Particle> neighbourhood = new LBestNeighbourhood<>();
+
         Set<Particle> socialBest = Topologies.getNeighbourhoodBestEntities(topology, neighbourhood, new SocialBestFitnessComparator<Particle>());
         Set<Particle> mostFit = Topologies.getNeighbourhoodBestEntities(topology, neighbourhood, new AscendingFitnessComparator<Particle>());
         Set<Particle> leastFit = Topologies.getNeighbourhoodBestEntities(topology, neighbourhood, new DescendingFitnessComparator<Particle>());

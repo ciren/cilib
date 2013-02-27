@@ -19,19 +19,19 @@ import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Entities;
 import net.sourceforge.cilib.util.Vectors;
+import net.sourceforge.cilib.util.functions.Entities;
 
 /**
  * <p> Parent Centric Crossover Strategy </p>
  *
- * <p> References: </p> 
- * 
+ * <p> References: </p>
+ *
  * <p> Ono, I. & Kobayashi, S. A Real-coded Genetic
  * Algorithm for Function Optimization Using Unimodal Normal Distribution
  * Crossover. Proceedings of the Seventh International Conference on Genetic
  * Algorithms ICGA97 14, 246-253 (1997). </p>
- * 
+ *
  * <p> The code is based on the MOEA
  * Framework under the LGPL license: http://www.moeaframework.org </p>
  */
@@ -41,7 +41,7 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
     private int numberOfOffspring;
     private ControlParameter sigma1;
     private ControlParameter sigma2;
-    private GaussianDistribution random;
+    private final GaussianDistribution random;
     private boolean useIndividualProviders;
 
     /**
@@ -86,7 +86,7 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
         checkState(parentCollection.size() >= 3, "There must be a minimum of three parents to perform UNDX crossover.");
         checkState(numberOfOffspring > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
 
-        List<Vector> solutions = Entities.<Vector>getCandidateSolutions(parentCollection);
+        List<Vector> solutions = Entities.<Vector, E>getCandidateSolutions(parentCollection);
         List<E> offspring = Lists.newArrayListWithCapacity(numberOfOffspring);
         UniformDistribution randomParent = new UniformDistribution();
         final int k = solutions.size();
@@ -162,7 +162,7 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
 
             E child = (E) parentCollection.get(parent).getClone();
             child.setCandidateSolution(variables);
-            
+
             offspring.add(child);
         }
 
@@ -213,11 +213,13 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
     public void setNumberOfParents(int numberOfParents) {
         this.numberOfParents = numberOfParents;
     }
-    
+
+    @Override
     public void setCrossoverPointProbability(double crossoverPointProbability) {
         throw new UnsupportedOperationException("Not applicable");
     }
-    
+
+    @Override
     public ControlParameter getCrossoverPointProbability() {
         throw new UnsupportedOperationException("Not applicable");
     }

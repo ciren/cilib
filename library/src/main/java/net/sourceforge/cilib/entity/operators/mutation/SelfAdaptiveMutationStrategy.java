@@ -22,8 +22,8 @@ import net.sourceforge.cilib.util.Vectors;
 public class SelfAdaptiveMutationStrategy extends MutationStrategy {
 
     private static final long serialVersionUID = -8942505730267916237L;
-    private ProbabilityDistributionFunction randomSingle;
-    private ProbabilityDistributionFunction randomDimension;
+    private final ProbabilityDistributionFunction randomSingle;
+    private final ProbabilityDistributionFunction randomDimension;
     private double tau;
     private double tauPrime;
 
@@ -40,7 +40,7 @@ public class SelfAdaptiveMutationStrategy extends MutationStrategy {
     }
 
     @Override
-    public void mutate(List<? extends Entity> offspringList) {
+    public <E extends Entity> List<E> mutate(List<E> offspringList) {
         initialiseConstants(offspringList);
 
         final double pre = tauPrime * randomSingle.getRandomNumber();
@@ -66,6 +66,7 @@ public class SelfAdaptiveMutationStrategy extends MutationStrategy {
             });
             offspring.getProperties().put(EntityType.STRATEGY_PARAMETERS, newStrategy);
         }
+        return offspringList;
     }
 
     private void initialiseConstants(List<? extends Entity> offspringList) {

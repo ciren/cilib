@@ -23,14 +23,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.common.collect.Lists;
-
 import fj.F;
 
 public class VonNeumannTopologyTest {
-	
+
 	private final F<Integer, Particle> dumbParticleFunc = new F<Integer, Particle>() {
-    	public Particle f(Integer i) {
+    	@Override
+        public Particle f(Integer i) {
     		return new DumbParticle(String.valueOf(i + 1));
     	}
     };
@@ -81,7 +80,7 @@ public class VonNeumannTopologyTest {
         }
         assertEquals("5", p.getParticleName());
 
-        Iterator<Particle> j = Topologies.<Particle>vonNeumann().f(square, p).iterator();
+        Iterator<Particle> j = new VonNeumannNeighbourhood().f(square, p).iterator();
 
         int count = 0;
         int nid[] = {5, 2, 6, 8, 4};
@@ -101,7 +100,7 @@ public class VonNeumannTopologyTest {
         p = (DumbParticle) i.next();
         assertEquals("1", p.getParticleName());
 
-        j = Topologies.<Particle>vonNeumann().f(irregular, p).iterator();
+        j = new VonNeumannNeighbourhood().f(irregular, p).iterator();
 
         count = 0;
         int nnid[] = {1, 10, 2, 4, 3};
@@ -117,7 +116,7 @@ public class VonNeumannTopologyTest {
         }
         assertEquals("9", p.getParticleName());
 
-        j = Topologies.<Particle>vonNeumann().f(irregular, p).iterator();
+        j = new VonNeumannNeighbourhood().f(irregular, p).iterator();
 
         count = 0;
         int nnnid[] = {9, 6, 7, 3, 8};
@@ -131,7 +130,7 @@ public class VonNeumannTopologyTest {
         p = (DumbParticle) i.next();
         assertEquals("10", p.getParticleName());
 
-        j = Topologies.<Particle>vonNeumann().f(irregular, p).iterator();
+        j = new VonNeumannNeighbourhood().f(irregular, p).iterator();
 
         count = 0;
         int nnnnid[] = {10, 7, 10, 1, 10};
@@ -148,12 +147,12 @@ public class VonNeumannTopologyTest {
     private static fj.data.List<Particle> irregular;
 
     //private int[] id = {1, 3, 7, 2, 4, 8, 5, 6, 9, 10};
-    private int[] id = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    private final int[] id = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     private static class DumbParticle extends AbstractParticle {
         private static final long serialVersionUID = 4273664052866515691L;
 
-        private String name;
+        private final String name;
 
         public DumbParticle(String name) {
             this.name = name;
@@ -163,14 +162,12 @@ public class VonNeumannTopologyTest {
             return name;
         }
 
-        public void setId(String id) {
-            this.name = id;
-        }
-
+        @Override
         public DumbParticle getClone() {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
 
+        @Override
         public Fitness getBestFitness() {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
@@ -180,42 +177,47 @@ public class VonNeumannTopologyTest {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
 
+        @Override
         public void initialise(Problem problem) {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
 
+        @Override
         public Vector getPosition() {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
 
+        @Override
         public Vector getBestPosition() {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
 
+        @Override
         public Vector getVelocity() {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
 
-        public void updateControlParameters() {
-            throw new UnsupportedOperationException("Mocked object - not allowed");
-        }
-
+        @Override
         public void setNeighbourhoodBest(Particle particle) {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
 
+        @Override
         public Particle getNeighbourhoodBest() {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
 
+        @Override
         public void updatePosition() {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
 
+        @Override
         public void updateVelocity() {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
 
+        @Override
         public void reinitialise() {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }

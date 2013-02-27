@@ -6,10 +6,7 @@
  */
 package net.sourceforge.cilib.ec.iterationstrategies;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.ListIterator;
-
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.ec.EC;

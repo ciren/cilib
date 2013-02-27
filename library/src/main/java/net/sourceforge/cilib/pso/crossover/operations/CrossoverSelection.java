@@ -67,7 +67,7 @@ public abstract class CrossoverSelection extends PSOCrossoverOperation {
         }
 
         //perform crossover and select particle to compare with
-        Particle offspring = (Particle) crossoverStrategy.crossover(parents).get(0);
+        Particle offspring = crossoverStrategy.crossover(parents).get(0);
         Particle selectedParticle = particleProvider.f(parents, offspring);
 
         //replace selectedEntity if offspring is better
@@ -115,7 +115,7 @@ public abstract class CrossoverSelection extends PSOCrossoverOperation {
         final P3<Boolean, Particle, Particle> result = doAction(algorithm, EntityType.CANDIDATE_SOLUTION, EntityType.FITNESS);
 
         if (result._1()) {
-            algorithm.getTopology().map(new F<Particle, Particle>() {
+            algorithm.setTopology(algorithm.getTopology().map(new F<Particle, Particle>() {
                 @Override
                 public Particle f(Particle a) {
                     if (a.equals(result._2())) {
@@ -125,7 +125,7 @@ public abstract class CrossoverSelection extends PSOCrossoverOperation {
                         return a;
                     }
                 }
-            });
+            }));
         }
 
         return algorithm.getTopology();

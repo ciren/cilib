@@ -54,7 +54,7 @@ public class MergingSubswarmIterator extends SubswarmIterator {
                     f(SinglePopulationBasedAlgorithm a, SinglePopulationBasedAlgorithm b) {
                 SinglePopulationBasedAlgorithm newA = a.getClone();
                 SinglePopulationBasedAlgorithm newB = b.getClone();
-//                newB.getTopology().clear();
+                newB.setTopology(List.nil());
 
                 List<Entity> local = b.getTopology();
                 for (Entity e : local) {

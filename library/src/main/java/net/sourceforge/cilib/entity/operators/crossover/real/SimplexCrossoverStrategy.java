@@ -16,22 +16,22 @@ import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Entities;
 import net.sourceforge.cilib.util.Vectors;
+import net.sourceforge.cilib.util.functions.Entities;
 
 /**
  * <p> Simplex Crossover Strategy </p>
  *
- * <p> References: </p> 
- * 
+ * <p> References: </p>
+ *
  * <p> Tsutsui, S.; Goldberg, D.E.; , "Simplex crossover
  * and linkage identification: single-stage evolution vs. multi-stage
  * evolution," Evolutionary Computation, 2002. CEC '02. Proceedings of the 2002
  * Congress on, vol.1, no., pp.974-979, 12-17 May 2002 doi:
  * 10.1109/CEC.2002.1007057 URL:
  * http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=1007057&isnumber=21693
- * </p> 
- * 
+ * </p>
+ *
  * <p> The code is based on the MOEA Framework under the LGPL license:
  * http://www.moeaframework.org </p>
  */
@@ -80,7 +80,7 @@ public class SimplexCrossoverStrategy implements CrossoverStrategy {
         Preconditions.checkArgument(parentCollection.size() >= 3, "ParentCentricCrossoverStrategy requires at least 3 parents.");
         Preconditions.checkState(numberOfOffspring > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
 
-        List<Vector> solutions = Entities.<Vector>getCandidateSolutions(parentCollection);
+        List<Vector> solutions = Entities.<Vector, E>getCandidateSolutions(parentCollection);
         List<Vector> simplexVertices = Lists.newArrayList();
         List<E> offspring = Lists.newArrayList();
         ProbabilityDistributionFunction random = new UniformDistribution();
@@ -112,7 +112,7 @@ public class SimplexCrossoverStrategy implements CrossoverStrategy {
 
             E child = (E) parentCollection.get(n - 1).getClone();
             child.setCandidateSolution(variables);
-            
+
             offspring.add(child);
         }
 
@@ -159,11 +159,13 @@ public class SimplexCrossoverStrategy implements CrossoverStrategy {
     public void setNumberOfParents(int numberOfParents) {
         this.numberOfParents = numberOfParents;
     }
-    
+
+    @Override
     public void setCrossoverPointProbability(double crossoverPointProbability) {
         throw new UnsupportedOperationException("Not applicable");
     }
-    
+
+    @Override
     public ControlParameter getCrossoverPointProbability() {
         throw new UnsupportedOperationException("Not applicable");
     }

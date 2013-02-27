@@ -13,6 +13,7 @@ import net.sourceforge.cilib.coevolution.cooperative.contributionselection.Contr
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ZeroContributionSelectionStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topologies;
+import net.sourceforge.cilib.entity.topologies.GBestNeighbourhood;
 import net.sourceforge.cilib.entity.topologies.Neighbourhood;
 import fj.F;
 import fj.data.List;
@@ -35,7 +36,7 @@ public abstract class SinglePopulationBasedAlgorithm<E extends Entity> extends A
      */
     protected SinglePopulationBasedAlgorithm() {
         this.topology = List.<E>nil();
-        this.neighbourhood = Topologies.<E>gbest();
+        this.neighbourhood = new GBestNeighbourhood<>();
         this.contributionSelection = new ZeroContributionSelectionStrategy();
     }
 

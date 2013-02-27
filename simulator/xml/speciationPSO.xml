@@ -7,7 +7,7 @@
 <simulator>
     <algorithms>
         <algorithm id="speciation" class="pso.PSO">
-            <neighbourhood instance="entity.Topologies#speciation">
+            <neighbourhood class="entity.topologies.SpeciationNeighbourhood">
                 <radius class="controlparameter.ConstantControlParameter" parameter="0.1"/>
             </neighbourhood>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
@@ -15,7 +15,7 @@
 
         <algorithm id="speciationWithRedundantParticleReinitialisation" class="pso.PSO">
             <iterationStrategy class="niching.iterationstrategies.EnhancedSpeciation"/>
-            <neighbourhood instance="entity.Topologies#speciation">
+            <neighbourhood class="entity.topologies.SpeciationNeighbourhood">
                 <radius class="controlparameter.ConstantControlParameter" parameter="0.1"/>
                 <perCall value="true"/>
             </neighbourhood>

@@ -13,6 +13,7 @@ import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisa
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.boa.bee.ExplorerBee;
 import net.sourceforge.cilib.boa.bee.HoneyBee;
+import net.sourceforge.cilib.boa.bee.OnlookerBee;
 import net.sourceforge.cilib.boa.bee.WorkerBee;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -23,6 +24,7 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 import com.google.common.base.Preconditions;
 
+import fj.F;
 import fj.P2;
 
 /**
@@ -108,12 +110,16 @@ public class ABC extends SinglePopulationBasedAlgorithm<HoneyBee> {
      */
     @Override
     public void algorithmInitialisation() {
-    	topology = fj.data.List.iterableList(initialisationStrategy.<HoneyBee>initialise(optimisationProblem));
+        topology = fj.data.List.iterableList(initialisationStrategy.<HoneyBee>initialise(optimisationProblem));
 
         int numWorkerBees = (int) (workerBeePercentage.getParameter() * topology.length());
         P2<fj.data.List<HoneyBee>, fj.data.List<HoneyBee>> split = topology.splitAt(numWorkerBees);
         this.workerBees = split._1();
-        this.onlookerBees = split._2();
+        this.onlookerBees = split._2().map(new F<HoneyBee, HoneyBee>() {
+            public HoneyBee f(HoneyBee b) {
+                return new OnlookerBee((WorkerBee) b);
+            }
+	});
 
         explorerBee.setExplorerBeeUpdateLimit(this.explorerBeeUpdateLimit);
     }

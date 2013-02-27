@@ -54,9 +54,10 @@ public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO
      *
      * @param algorithm the algorithm to which an iteration is to be applied.
      */
+    @Override
     public void performIteration(final PSO algorithm) {
         final fj.data.List<Particle> topology = algorithm.getTopology();
-        
+
         algorithm.setTopology(topology.zipIndex().foldLeft(new F2<fj.data.List<Particle>, P2<Particle, Integer>, fj.data.List<Particle>>() {
 			@Override
 			public List<Particle> f(List<Particle> accum, P2<Particle, Integer> item) {
@@ -65,10 +66,10 @@ public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO
 
 	            boundaryConstraint.enforce(item._1());
 	            item._1().calculateFitness();
-	            
+
 	            Particle newParticle = additionalStep.f(item._1());
-	            fj.data.List<Particle> intermediate = accum.append(topology.drop(item._2()));
-	            
+	            fj.data.List<Particle> intermediate = accum.append(topology.drop(item._2()+1));
+
 	            for (Particle other : algorithm.getNeighbourhood().f(intermediate, item._1())) {
 	                if (item._1().getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
 	                    other.setNeighbourhoodBest(newParticle);

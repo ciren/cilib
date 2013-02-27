@@ -105,10 +105,11 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
         newSubswarm.setOptimisationProblem(swarms.getMainSwarm().getOptimisationProblem());
 //        newSubswarm.getTopology().clear();
 //        ((Topology<Particle>) newSubswarm.getTopology()).addAll(newTopology.toCollection());
-        ((SinglePopulationBasedAlgorithm<Particle>) newSubswarm).setTopology(newTopology);
+        ((SinglePopulationBasedAlgorithm<Particle>) newSubswarm).setTopology(newSubswarm.getTopology().append(newTopology));
 
         // Remove the subswarms particles from the main swarm
         SinglePopulationBasedAlgorithm newMainSwarm = swarms.getMainSwarm().getClone();
+        newMainSwarm.setTopology(List.nil());
         fj.data.List<Entity> local = swarms.getMainSwarm().getTopology();
 //        newMainSwarm.getTopology().clear();
         for(Entity e : local) {

@@ -17,16 +17,13 @@ import fj.data.List;
  */
 public class ClosestEntityVisitor<E extends Entity> extends TopologyVisitor<E, E> {
 
-    private E closestEntity;
     private E targetEntity;
-    private double closest;
     protected DistanceMeasure distanceMeasure;
 
     /**
      * Deault constructor.
      */
     public ClosestEntityVisitor() {
-        this.closest = Double.MAX_VALUE;
         this.distanceMeasure = new EuclideanDistanceMeasure();
     }
 
@@ -64,7 +61,8 @@ public class ClosestEntityVisitor<E extends Entity> extends TopologyVisitor<E, E
 
     @Override
     public E f(List<E> topology) {
-        closestEntity = null;
+        E closestEntity = null;
+        double closest = Double.MAX_VALUE;
 
         for (E entity : topology) {
             if (targetEntity == entity) {
@@ -73,8 +71,8 @@ public class ClosestEntityVisitor<E extends Entity> extends TopologyVisitor<E, E
 
             double distance = distanceMeasure.distance(targetEntity.getCandidateSolution(), entity.getCandidateSolution());
             if (distance < closest) {
-                this.closestEntity = entity;
-                this.closest = distance;
+                closestEntity = entity;
+                closest = distance;
             }
         }
 

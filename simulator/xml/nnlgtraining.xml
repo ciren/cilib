@@ -22,7 +22,9 @@
                     <neighbourhoodBestUpdateStrategy class="pso.positionprovider.MemoryNeighbourhoodBestUpdateStrategy" />
                 </entityType>
             </initialisationStrategy>
-            <neighbourhood instance="entity.Topologies#lbest5" />
+            <neighbourhood class="entity.topologies.LBestNeighbourhood">
+                <neighbourhoodSize value="5" />
+            </neighbourhood>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
     </algorithms>

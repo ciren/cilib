@@ -22,6 +22,7 @@ import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.operators.mutation.GaussianMutationStrategy;
 import net.sourceforge.cilib.entity.operators.mutation.MutationStrategy;
+import net.sourceforge.cilib.util.functions.Entities;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
@@ -48,7 +49,7 @@ public class EvolutionaryProgrammingIterationStrategy extends AbstractIterationS
     @Override
     public void performIteration(final EC algorithm) {
         fj.data.List<Individual> topology = algorithm.getTopology();
-        fj.data.List<Individual> offspring = topology;
+        fj.data.List<Individual> offspring = topology.map(Entities.<Individual>clone_());
 
         // Apply the mutation
         this.mutationStrategy.mutate(Lists.newArrayList(offspring));

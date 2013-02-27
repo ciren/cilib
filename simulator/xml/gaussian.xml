@@ -10,7 +10,7 @@
     <simulations>
         <simulation samples="1">
             <algorithm class="pso.PSO">
-                <neighbourhood instance="entity.Topologies#vonNeumann"/>
+                <neighbourhood class="entity.topologies.VonNeumannNeighbourhood"/>
                 <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                     <entityType class="pso.particle.StandardParticle">
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />

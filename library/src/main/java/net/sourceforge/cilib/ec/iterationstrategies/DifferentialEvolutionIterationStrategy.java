@@ -19,8 +19,6 @@ import net.sourceforge.cilib.entity.operators.crossover.de.DifferentialEvolution
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
-import com.google.common.collect.Lists;
-
 import fj.F;
 
 /**
