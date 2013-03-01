@@ -493,6 +493,21 @@ public class Vector implements StructuredType<Numeric>,
     }
 
     /**
+     * Perform element-wise multiplication between this {@code Vector} and
+     * another {@code Vector}.
+     * @param other The {@code Vector} to perform multiplication with.
+     * @return A new {@code Vector} instance consisting of the result
+     * of the element-wise multiplication.
+     */
+    public final Vector multiply(Vector other) {
+        Vector result = this.getClone();
+        for (int i = 0; i < other.size(); i++) {
+            result.setReal(i, this.doubleValueOf(i) * other.doubleValueOf(i));
+        }
+        return result;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -619,6 +634,21 @@ public class Vector implements StructuredType<Numeric>,
         for (int i = 0; i < components.length; i++) {
             this.components[i].randomise();
         }
+    }
+
+    /**
+     * Return a new {@code Vector} with each element representing the sign
+     * of the corresponding input elements.
+     * @param input The {@code Vector} to obtain the signs from.
+     * @return A new {@code Vector} instance with each element representing
+     * the sign of the input element.
+     */
+    public static Vector sign(Vector input) {
+        Vector result = input.getClone();
+        for (Numeric n : input) {
+            n = Real.valueOf(Math.signum(n.doubleValue()));
+        }
+        return result;
     }
 
     /**
@@ -987,6 +1017,11 @@ public class Vector implements StructuredType<Numeric>,
          */
         public Builder add(Numeric numeric) {
             elements.add(numeric);
+            return this;
+        }
+
+        public Builder addAll(Collection<? extends Numeric> collection) {
+            elements.addAll(collection);
             return this;
         }
 

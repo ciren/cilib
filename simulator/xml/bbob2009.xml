@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>
+        <algorithm id="pso" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+    </algorithms>
+
+    <problems>
+        <!-- 1.1 Sphere Function -->
+        <problem id="f1" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB1" />
+        </problem>
+
+        <!-- 1.2 Ellipsoidal Function -->
+        <problem id="f2" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB2" />
+        </problem>
+
+        <!-- 1.3 Rastrigin Function -->
+        <problem id="f3" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB3" />
+        </problem>
+
+        <!-- 1.4 Buche-Rastrigin Function -->
+        <problem id="f4" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB4" />
+        </problem>
+
+        <!-- 1.5 Linear Slope -->
+        <problem id="f5" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB5" />
+        </problem>
+
+        <!-- 2.6 Attractive Sector Function -->
+        <problem id="f6" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB6" />
+        </problem>
+
+        <!-- 2.7 Step Ellipsoidal Function -->
+        <problem id="f7" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB7" />
+        </problem>
+
+        <!-- 2.8 Rosenbrock Function, original -->
+        <problem id="f8" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB8" />
+        </problem>
+
+        <!-- 2.9 Rosenbrock Function rotated -->
+        <problem id="f9" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB9" />
+        </problem>
+
+        <!-- 3.10 Ellipsoidal Function -->
+        <problem id="f10" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB10" />
+        </problem>
+
+        <!-- 3.11 Discus Function -->
+        <problem id="f11" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB11" />
+        </problem>
+
+        <!-- 3.12 Bent Cigar Function -->
+        <problem id="f12" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB12" />
+        </problem>
+
+        <!-- 3.13 Sharp Ridge Function -->
+        <problem id="f13" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB13" />
+        </problem>
+
+        <!-- 3.14 Different Powers Function -->
+        <problem id="f14" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB14" />
+        </problem>
+
+        <!-- 4.15 Rastrigin Function -->
+        <problem id="f15" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB15" />
+        </problem>
+
+        <!-- 4.16 Weierstrass Function -->
+        <problem id="f16" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB16" />
+        </problem>
+
+        <!-- 4.17 Schaffers F7 Function -->
+        <problem id="f17" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB17" />
+        </problem>
+
+        <!-- 4.18 Schaffers F7 Function, moderately ill-conditioned -->
+        <problem id="f18" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB18" />
+        </problem>
+
+        <!-- 4.19 Composite Griewank-Rosenbrock Function F8F2 -->
+        <problem id="f19" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB19" />
+        </problem>
+
+        <!-- 5.20 Schwefel Function -->
+        <problem id="f20" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB20" />
+        </problem>
+
+        <!-- 5.21 Gallagher's Gaussian 101-me Peaks Function -->
+        <problem id="f21" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB21" />
+        </problem>
+
+        <!-- 5.22 Gallagher's Gaussian 21-hi Peaks Function -->
+        <problem id="f22" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB22" />
+        </problem>
+
+        <!-- 5.23 Katsuura Function -->
+        <problem id="f23" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB23" />
+        </problem>
+
+        <!-- 5.24 Lunacek bi-Rastrigin Function -->
+        <problem id="f24" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^10">
+            <function class="functions.continuous.bbob.BBOB24" />
+        </problem>
+    </problems>
+
+    <measurements id="measurements" class="simulator.MeasurementSuite" resolution="100">
+        <addMeasurement class="measurement.single.FitnessMinusOptimum" />
+    </measurements>
+
+    <simulations>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f1"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f1.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f2"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f2.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f3"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f3.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f4"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f4.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f5"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f5.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f6"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f6.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f7"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f7.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f8"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f8.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f9"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f9.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f10"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f10.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f11"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f11.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f12"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f12.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f12"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f13.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f14"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f14.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f15"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f15.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f16"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f16.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f17"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f17.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f18"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f18.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f19"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f19.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f20"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f20.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f21"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f21.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f22"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f22.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f23"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f23.txt"/>
+        </simulation>
+                <simulation samples="5">
+            <algorithm idref="pso"/>
+            <problem idref="f24"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/bbob2009-pso-f24.txt"/>
+        </simulation>
+    </simulations>
+</simulator>
