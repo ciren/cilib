@@ -103,7 +103,7 @@ public class SortedList<E> implements List<E>, Cloneable {
     }
 
     /**
-     * Return a new array containg the elements of this list.
+     * Return a new array containing the elements of this list.
      * @return a new array containing the list elements.
      */
     @Override
@@ -121,7 +121,7 @@ public class SortedList<E> implements List<E>, Cloneable {
 
     /**
      * Add the provided element to the list. The position of the element is
-     * determined by the ordering as defined by the assosicated {@link Comparator}.
+     * determined by the ordering as defined by the associated {@link Comparator}.
      * The insertion is determined by first performing a binary search to
      * determine the location of the insert and then, finally adding the element.
      * @param e The object to add to the list.
@@ -167,7 +167,7 @@ public class SortedList<E> implements List<E>, Cloneable {
     }
 
     /**
-     * Insert the proveded collection to the list at {@code index}. This operation
+     * Insert the provided collection to the list at {@code index}. This operation
      * is not guaranteed and to ensure that the list remains sorted, the list
      * is tested after addition and reordered, if needed.
      * @param index The index to attempt the addition.
@@ -235,7 +235,7 @@ public class SortedList<E> implements List<E>, Cloneable {
     /**
      * Add {@code element} to the list at index {@code index}. This action is a
      * best effort. There is no guarantee that the addition of the element at
-     * {@code index} will perserve the list's ordering. As a result the list
+     * {@code index} will preserve the list's ordering. As a result the list
      * order is verified after addition.
      *
      * @param index The position in the list to attempt the addition.

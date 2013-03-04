@@ -40,7 +40,7 @@ public abstract class StateAwareMeasurement<E extends Type> implements Measureme
 
     /**
      * Set the state of the measurement. If this property is set, the measurement
-     * will then have it's internal state saved and restored each an everytime
+     * will then have it's internal state saved and restored each an every time
      * a measurement is to take place.
      * @param state The state awareness value of this measurement class.
      */
@@ -59,7 +59,7 @@ public abstract class StateAwareMeasurement<E extends Type> implements Measureme
     /**
      * Set the state of the {@code Measurement} based on the provided instance.
      * @param memento The instance containing the externalised state.
-     * @throws java.io.IOException If an IO error occours.
+     * @throws java.io.IOException If an IO error occurs.
      * @throws java.lang.ClassNotFoundException If a specified class cannot be found.
      */
     public void setState(MeasurementMemento memento) throws IOException, ClassNotFoundException {
@@ -78,7 +78,7 @@ public abstract class StateAwareMeasurement<E extends Type> implements Measureme
      * maintained in a {@linkplain MeasurementMemento} and is returned as an
      * immutable object.
      * @return The externalised state within a {@linkplain MeasurementMemento}
-     * @throws java.io.IOException If an IO error occours.
+     * @throws java.io.IOException If an IO error occurs.
      */
     public MeasurementMemento getState() throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

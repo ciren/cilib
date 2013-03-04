@@ -47,7 +47,7 @@ public abstract class SinglePopulationDataClusteringIterationStrategy extends Ab
 
     /*
      * Copy constructor for SinglePopulationDataClusteringIterationStrategy
-     * @param vopy The SinglePopulationDataClusteringIterationStrategy to be copied
+     * @param copy The SinglePopulationDataClusteringIterationStrategy to be copied
      */
     public SinglePopulationDataClusteringIterationStrategy(SinglePopulationDataClusteringIterationStrategy copy) {
         dataset = copy.dataset;
@@ -96,7 +96,7 @@ public abstract class SinglePopulationDataClusteringIterationStrategy extends Ab
     }
 
     /*
-     * Sets the itnerval at which the particles will be re-initialised if reinitialisation
+     * Sets the interval at which the particles will be re-initialised if reinitialisation
      * due to change in environment is required. In other words, every how-many particles
      * must be initialised? To initialise all, the interval is 1
      * @param interval the new interval
@@ -139,7 +139,7 @@ public abstract class SinglePopulationDataClusteringIterationStrategy extends Ab
     }
 
     /*
-     * Adds the data patterns closest to a centrid to its data pattern list
+     * Adds the data patterns closest to a centroid to its data pattern list
      * @param candidateSolution The solution holding all the centroids
      * @param dataset The dataset holding all the data patterns
      */

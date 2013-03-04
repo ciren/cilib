@@ -19,7 +19,7 @@ public class ShuffleOperator implements DataOperator {
      * Modern version of Fisher-Yates shuffle algorithm based on the Richard Durstenfeld
      * implementation as published in:
      * Durstenfeld, Richard (July 1964). "Algorithm 235: Random permutation". Communications of the ACM 7 (7): 420. doi:10.1145/364520.364540.
-     * The shuffle in-place (i.e. it doesn not use additional memory).
+     * The shuffle in-place (i.e. it doesn't not use additional memory).
      * @param dataTable the table to shuffle.
      * @return the same table as given with patterns in a uniform random order.
      * @throws CIlibIOException an IO Exception that might occur.

@@ -35,7 +35,7 @@ public class QuantisationErrorMinimisationProblem extends ClusteringProblem{
 
     /*
      * Copy constructor of the QuantisationErrorMinimisationProblem
-     * @param copy the QuantisationErrorMinimisationProblem tp be copied
+     * @param copy the QuantisationErrorMinimisationProblem to be copied
      */
     public QuantisationErrorMinimisationProblem(QuantisationErrorMinimisationProblem copy) {
         super(copy);

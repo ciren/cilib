@@ -15,7 +15,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Implementation of A quantum particle swarm optimisation
  *
- * Velocity of particle is modeled by a quantum bit (qubit)
+ * Velocity of particle is modelled by a quantum bit (qubit)
  * <p>
  * References:
  * </p>

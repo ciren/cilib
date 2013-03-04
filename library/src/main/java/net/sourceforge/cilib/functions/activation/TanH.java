@@ -10,7 +10,7 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Hyperbollic Tangent Function.
+ * Hyperbolic Tangent Function.
  *
  */
 public class TanH implements ActivationFunction {

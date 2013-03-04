@@ -53,7 +53,7 @@ public class CollectiveMeanOfMeasurement implements Measurement<Real> {
      */
     @Override
     public Real getValue(Algorithm algorithm) {
-        //ensure that new measurements are only taken when new iterations occured
+        //ensure that new measurements are only taken when new iterations occurred
         if (iterations < algorithm.getIterations()) {
             iterations = algorithm.getIterations();
             results.add(measurement.getValue(algorithm));

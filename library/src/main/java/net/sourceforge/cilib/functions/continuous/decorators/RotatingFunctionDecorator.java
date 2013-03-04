@@ -28,7 +28,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *}
  * </pre>
  *
- * The function rotates around the center of its domain (unless specified otherwise). The domain rotates
+ * The function rotates around the centre of its domain (unless specified otherwise). The domain rotates
  * with the function so that the domain size stays constant.
  *
  * @param cycleLength specifies how many rotation it takes for the function to be back

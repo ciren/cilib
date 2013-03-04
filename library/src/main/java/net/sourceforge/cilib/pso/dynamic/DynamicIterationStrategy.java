@@ -80,7 +80,7 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
      *   <ol>
      *     <li>Respond to change</li>
      *   <ol>
-     *   <li>Perform normal itartion</li>
+     *   <li>Perform normal iteration</li>
      * </ol>
      */
     public void performIteration(PSO algorithm) {

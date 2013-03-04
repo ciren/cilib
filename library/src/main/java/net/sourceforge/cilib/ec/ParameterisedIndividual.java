@@ -22,7 +22,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /*
  * This is an extended Individual that aims to adapt the parameters of a Differential Evolution algorithm.
  * It holds the Trial Vector Creation Strategy, the Crossover Strategy, the bounds for each parameter and
- * an extra parameter required by the SaDDE algroithm: total number of offspring. The parameters of the
+ * an extra parameter required by the SaDDE algorithm: total number of offspring. The parameters of the
  * algorithm are adapted by adapting a parameterHoldingIndividual in the same manner as the individual itself.
  * It can be thought of as an extension to the individual.
  */
@@ -112,7 +112,7 @@ public class ParameterisedIndividual extends Individual{
 
     /**
      * Create a textual representation of the current {@linkplain Individual}. The
-     * returned {@linkplain String} will contain both the genotypes and penotypes for
+     * returned {@linkplain String} will contain both the genotypes and phenotypes for
      * the current {@linkplain Individual}.
      * @return The textual representation of this {@linkplain Individual}.
      */

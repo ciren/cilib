@@ -15,7 +15,7 @@ import org.w3c.dom.*;
  * <p>
  * The <code>XMLObjectFactory</code> can be used to manage the construction of any object
  * based on an XML description. This class uses reflection to set properties
- * and call arbitrary methods of the object under contruction.
+ * and call arbitrary methods of the object under construction.
  * </p>
  * <p>
  * Example:
@@ -40,7 +40,7 @@ import org.w3c.dom.*;
  *
  * <p>
  * Each time <code>XMLObjectFactory</code> encounters a class attribute in the XML, an
- * instance of the specified class is instanciated. Nested elements are
+ * instance of the specified class is instantiated. Nested elements are
  * interpreted as either properties to be set or methods to be called on this
  * newly constructed object. If no class attribute is specified then the element
  * is interpreted as a Java primitive type or a string. Elements can be nested in
@@ -100,7 +100,7 @@ public class XMLObjectFactory {
     }
 
     private Class<?> getClass(Element xml) {
-        // Determine the class to instanciate
+        // Determine the class to instantiate
 
         String className = "";
         if (xml.hasAttribute("idref")) {
@@ -132,7 +132,7 @@ public class XMLObjectFactory {
     }
 
     private Object instanciate(Element xml, Class<?> objectClass) {
-        // Attempt to instanciate the class
+        // Attempt to instantiate the class
         Object object = null;
         try {
             object = objectClass.newInstance();

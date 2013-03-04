@@ -25,7 +25,7 @@ public interface ChangeStrategy {
     /**
      * Determine whether a change should be applied to the provided {@code problem} instance.
      * @param problem The problem on which a change is to be applied.
-     * @return {@code true} if a change occoured, {@code false} otherwise.
+     * @return {@code true} if a change occurred, {@code false} otherwise.
      */
     boolean shouldApply(Problem problem);
 

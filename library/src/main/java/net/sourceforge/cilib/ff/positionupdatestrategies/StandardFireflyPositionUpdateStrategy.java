@@ -22,7 +22,7 @@ import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
  * <ul>
  * <li>Alpha (random step size)</li>
  * <li>Beta (brightness factor)</li>
- * <li>Gamma (light absorbtion coefficient)</li>
+ * <li>Gamma (light absorption coefficient)</li>
  * <li>r (euclidean distance between fireflies)</li>
  * </ul>
  * </p>
@@ -85,7 +85,7 @@ public class StandardFireflyPositionUpdateStrategy implements FireflyPositionUpd
     /**
      * Move a firefly toward another firefly according to the distance
      * between them <code>r</code>, brightness factor <code>beta</code>,
-     * light absorbtion coefficient <code>gamma</code> and a random vector
+     * light absorption coefficient <code>gamma</code> and a random vector
      * scaled by the step size <code>alpha</code>.
      */
     private Vector moveToward(Firefly i, Firefly j) {
@@ -94,7 +94,7 @@ public class StandardFireflyPositionUpdateStrategy implements FireflyPositionUpd
         double r = distanceMeasure.distance(i.getPosition(), j.getPosition());
 
         // determine the attraction of the other firefly, based
-        // on the minimum brightness factor, light absorbtion and distance
+        // on the minimum brightness factor, light absorption and distance
         double attractiveness = (1.0 - betaMin.getParameter()) *
             Math.exp(-gamma.getParameter() * r * r) + betaMin.getParameter();
 

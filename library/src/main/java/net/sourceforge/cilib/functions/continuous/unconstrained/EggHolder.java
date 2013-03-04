@@ -32,7 +32,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <ul>
  * <li>Only defined for 2+ dimensions</li>
  * <li>Multimodal</li>
- * <li>Non-seperable</li>
+ * <li>Non-separable</li>
  * <li>Not regular</li>
  * </ul>
  * </p>

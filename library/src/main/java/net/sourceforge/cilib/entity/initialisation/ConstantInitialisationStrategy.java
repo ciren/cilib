@@ -50,7 +50,7 @@ public class ConstantInitialisationStrategy<E extends Entity> implements Initial
             return;
         }
 
-        throw new UnsupportedOperationException("Cannot perfrom initialisation on non Vector type.");
+        throw new UnsupportedOperationException("Cannot perform initialisation on non Vector type.");
     }
 
     public double getConstant() {

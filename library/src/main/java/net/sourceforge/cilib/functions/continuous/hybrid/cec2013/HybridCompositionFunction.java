@@ -12,7 +12,7 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Implementation to create hybrid composition functions from the CEC2013 benhmark functions.
+ * Implementation to create hybrid composition functions from the CEC2013 benchmark functions.
  * <p>
  * Reference:
  * </p>

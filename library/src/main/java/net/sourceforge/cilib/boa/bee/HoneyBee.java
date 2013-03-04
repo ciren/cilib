@@ -29,7 +29,7 @@ public interface HoneyBee extends Entity {
     Fitness getFitness();
 
     /**
-     * Updates the position of the bee based on the neighboring nectar content.
+     * Updates the position of the bee based on the neighbouring nectar content.
      */
     void updatePosition();
 

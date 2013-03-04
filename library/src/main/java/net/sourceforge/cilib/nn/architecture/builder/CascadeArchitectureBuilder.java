@@ -15,7 +15,7 @@ import net.sourceforge.cilib.nn.components.BiasNeuron;
 /**
  * <p>
  * Cascade network architecture consists of one input layer, one output layer and multiple hidden layers.
- * Each hidden layer is fully connected with the entire input layer, as well as each hiddden layer
+ * Each hidden layer is fully connected with the entire input layer, as well as each hidden layer
  * added before it. The output layer is fully connected with the entire input layer and the each
  * hidden layer.
  * </p>

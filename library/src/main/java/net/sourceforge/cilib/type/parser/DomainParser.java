@@ -61,7 +61,7 @@ public final class DomainParser {
                 strBuilder.append(e.getInputBuffer().extract(e.getStartIndex(), e.getEndIndex()));
             }
             throw new RuntimeException("Error in parsing domain: " + expanded +
-                    ". Ensure that the domain is a valid domain string and contains no whitespace.\nError occured near: " + strBuilder.toString());
+                    ". Ensure that the domain is a valid domain string and contains no whitespace.\nError occurred near: " + strBuilder.toString());
         }
 
         List<Type> l = Lists.newArrayList(result.valueStack);

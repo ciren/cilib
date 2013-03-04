@@ -127,7 +127,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 
     /**
      * Get the best position of the <tt>Particle</tt>.
-     * @return A <tt>Type</tt> representng the <tt>Particle</tt>'s best position.
+     * @return A <tt>Type</tt> representing the <tt>Particle</tt>'s best position.
      */
     @Override
     public abstract StructuredType getBestPosition();
@@ -141,7 +141,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 
     /**
      * Get the global guide of the <tt>Particle</tt>.
-     * @return A <tt>Type</tt> representng the <tt>Particle</tt>'s global guide.
+     * @return A <tt>Type</tt> representing the <tt>Particle</tt>'s global guide.
      */
     @Override
     public StructuredType getGlobalGuide() {
@@ -150,7 +150,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 
     /**
      * Get the local guide of the <tt>Particle</tt>.
-     * @return A <tt>Type</tt> representng the <tt>Particle</tt>'s local guide.
+     * @return A <tt>Type</tt> representing the <tt>Particle</tt>'s local guide.
      */
     @Override
     public StructuredType getLocalGuide() {
@@ -161,14 +161,14 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * Set the neighbourhood best particle for the current Particle based on the
      * topology of the current particle.
      *
-     * @param particle The particle to use as the current particle's neighborhood best particle
+     * @param particle The particle to use as the current particle's neighbourhood best particle
      */
     @Override
     public abstract void setNeighbourhoodBest(Particle particle);
 
     /**
-     * Get the current <tt>Particle</tt>'s neighborhood best.
-     * @return The neighborhood best of the <tt>Particle</tt>
+     * Get the current <tt>Particle</tt>'s neighbourhood best.
+     * @return The neighbourhood best of the <tt>Particle</tt>
      */
     @Override
     public abstract Particle getNeighbourhoodBest();

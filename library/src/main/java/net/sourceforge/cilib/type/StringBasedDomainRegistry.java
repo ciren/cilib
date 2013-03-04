@@ -71,7 +71,7 @@ public class StringBasedDomainRegistry implements DomainRegistry {
 
     /**
      * Set the representation for this domain string. This may cause an inconsistency
-     * as the built represenation and the domain string may differ, depending on the
+     * as the built representation and the domain string may differ, depending on the
      * values of the objects.
      * @param builtRepresenation The builtRepresenation to set.
      */

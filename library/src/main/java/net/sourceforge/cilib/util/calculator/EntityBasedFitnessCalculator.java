@@ -12,7 +12,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.solution.Fitness;
 
 /**
- * A fitness calculator tht is specialised to determine the fitness of
+ * A fitness calculator that is specialised to determine the fitness of
  * an Entity instance.
  */
 public class EntityBasedFitnessCalculator implements FitnessCalculator<Entity> {

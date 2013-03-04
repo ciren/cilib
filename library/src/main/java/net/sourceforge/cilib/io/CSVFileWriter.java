@@ -19,7 +19,7 @@ public class CSVFileWriter extends FileWriter {
     private boolean writeColumnNames;
 
     /**
-     * Default constructor. Sets the delimiter used to seperate fields to the
+     * Default constructor. Sets the delimiter used to separate fields to the
      * default (comma).
      */
     public CSVFileWriter() {
@@ -27,7 +27,7 @@ public class CSVFileWriter extends FileWriter {
     }
 
     /**
-     * Writes the datatable, writing each row as new line, with data fields seperated
+     * Writes the datatable, writing each row as new line, with data fields separated
      * by a {@link #delimiter delimiter}.
      * @param dataTable the datatable to write.
      * @throws net.sourceforge.cilib.io.exception.CIlibIOException {@inheritDoc }
@@ -68,7 +68,7 @@ public class CSVFileWriter extends FileWriter {
     }
 
     /**
-     * Gets the delimiter used to seperate data fields.
+     * Gets the delimiter used to separate data fields.
      * @return the data field delimiter.
      */
     public String getDelimiter() {
@@ -76,7 +76,7 @@ public class CSVFileWriter extends FileWriter {
     }
 
     /**
-     * Sets the delimiter used to seperate data fields.
+     * Sets the delimiter used to separate data fields.
      * @param delimiter the data field delimiter.
      */
     public void setDelimiter(String delimiter) {
@@ -95,7 +95,7 @@ public class CSVFileWriter extends FileWriter {
     /**
      * Sets writeColumnNames flag: whether column names will be written along
      * with data.
-     * @param writeColumnNames wether to write column names.
+     * @param writeColumnNames whether to write column names.
      */
     public void setWriteColumnNames(boolean writeColumnNames) {
         this.writeColumnNames = writeColumnNames;

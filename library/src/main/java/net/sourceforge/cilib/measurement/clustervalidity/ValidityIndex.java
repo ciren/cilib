@@ -40,14 +40,14 @@ public abstract class ValidityIndex implements Measurement<Real> {
     public abstract Measurement<Real> getClone();
 
     /*
-     * Abstract method to get value fo validity index
+     * Abstract method to get value for validity index
      * @param algorithm The algorithm for which validity indexes are being calculated
      */
     @Override
     public abstract Real getValue(Algorithm algorithm);
 
     /*
-     * Sets the distanceMeasure that will be used when calculating validity inexes
+     * Sets the distanceMeasure that will be used when calculating validity indexes
      * @param distanceMeasure The new distance measure
      */
     public void setDistanceMeasure(DistanceMeasure measure) {
@@ -55,7 +55,7 @@ public abstract class ValidityIndex implements Measurement<Real> {
     }
 
     /*
-     * Retruns the distanceMeasure that is being used when calculating validity inexes
+     * Returns the distanceMeasure that is being used when calculating validity indexes
      * @return distanceMeasure The distance measure
      */
     public DistanceMeasure getDistanceMeasure() {

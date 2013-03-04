@@ -42,7 +42,7 @@ public class OnePointCrossoverStrategy implements DiscreteCrossoverStrategy {
     public <E extends Entity> List<E> crossover(List<E> parentCollection) {
         Preconditions.checkArgument(parentCollection.size() == 2, "OnePointCrossoverStrategy requires 2 parents.");
 
-        // Select the pivot point where crossover will occour
+        // Select the pivot point where crossover will occur
         int maxLength = Math.min(parentCollection.get(0).getDimension(), parentCollection.get(1).getDimension());
         crossoverPoints = Arrays.asList(Double.valueOf(random.getRandomNumber(0, maxLength + 1)).intValue());
 
@@ -91,7 +91,7 @@ public class OnePointCrossoverStrategy implements DiscreteCrossoverStrategy {
     public void setCrossoverPointProbability(double crossoverPointProbability) {
         throw new UnsupportedOperationException("Not applicable");
     }
-    
+
     public ControlParameter getCrossoverPointProbability() {
         throw new UnsupportedOperationException("Not applicable");
     }

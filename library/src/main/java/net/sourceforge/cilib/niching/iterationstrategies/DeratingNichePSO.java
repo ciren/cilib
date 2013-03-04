@@ -58,7 +58,7 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
         problem.addSolutions(subswarms.map(Solutions.getPosition().o(Algorithms.<PopulationBasedAlgorithm>getBestSolution())).toCollection());
         alg.setPopulations(Lists.newLinkedList(subswarms.toCollection()));
         alg.getMainSwarm().setOptimisationProblem(problem);
-        // dont need to set the main swarm because it gets reinitialised
+        // don't need to set the main swarm because it gets reinitialised
     }
 
     /**

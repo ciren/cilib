@@ -135,7 +135,7 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm<ClusterPar
 
     /*
      * Sets the window's source URL. This source URL is the path to the file containing
-     * the dataset to be clsutered.
+     * the dataset to be clustered.
      * @param sourceURL The path to the dataset
      */
     public void setSourceURL(String sourceURL) {

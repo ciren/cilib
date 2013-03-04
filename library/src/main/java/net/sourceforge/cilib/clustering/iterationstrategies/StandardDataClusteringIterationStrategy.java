@@ -53,10 +53,10 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
     }
 
     /*
-     * Performs an iteratiion of the standard data clustering algorithm.
+     * Performs an iteration of the standard data clustering algorithm.
      * Assigns data patterns to centroids, updates personal and neighbourhood
      * bests and updates the particles.
-     * @param algortihm The algorithm that called this iteration strategy
+     * @param algorithm The algorithm that called this iteration strategy
      */
     @Override
     public void performIteration(DataClusteringPSO algorithm) {

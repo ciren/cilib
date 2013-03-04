@@ -23,7 +23,7 @@ import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /*
- * This is an individual that holds extends a Parameterized Individual in order to keep track of
+ * This is an individual that holds extends a Parametrised Individual in order to keep track of
  * the parameter adaptation strategies. It is specific to self adapting DE problems.
  */
 public class SaDEIndividual extends ParameterisedIndividual{
@@ -74,8 +74,8 @@ public class SaDEIndividual extends ParameterisedIndividual{
      }
 
      /*
-      * Initialises the individual ans the aprameters
-      * @param problem The proballem being solved by the algorithm
+      * Initialises the individual and the parameters
+      * @param problem The problem being solved by the algorithm
       */
      @Override
      public void initialise(Problem problem) {
@@ -156,7 +156,7 @@ public class SaDEIndividual extends ParameterisedIndividual{
     }
 
     /*
-     * Sets the scalingFactorParameterAdaptationStrategy to the one received asa a parameter
+     * Sets the scalingFactorParameterAdaptationStrategy to the one received as a parameter
      * @param scalingFactorParameterAdaptationStrategy The new scalingFactorParameterAdaptationStrategy
      */
     public void setScalingFactorParameterAdaptationStrategy(ParameterAdaptationStrategy scalingFactorParameterAdaptationStrategy) {
@@ -172,7 +172,7 @@ public class SaDEIndividual extends ParameterisedIndividual{
     }
 
     /*
-     * Sets the crossoverProbabilityParameterAdaptationStrategy to the one received asa a parameter
+     * Sets the crossoverProbabilityParameterAdaptationStrategy to the one received as a parameter
      * @param crossoverProbabilityParameterAdaptationStrategy The new crossoverProbabilityParameterAdaptationStrategy
      */
     public void setCrossoverProbabilityParameterAdaptationStrategy(ParameterAdaptationStrategy crossoverProbabilityParameterAdaptationStrategy) {
@@ -180,7 +180,7 @@ public class SaDEIndividual extends ParameterisedIndividual{
     }
 
     /*
-     * Returns the initialisation strategy ised for the scaling factor
+     * Returns the initialisation strategy used for the scaling factor
      * @return The scalingFactorInitialisationStrategy
      */
     public ControlParameterInitialisationStrategy getScalingFactorInitialisationStrategy() {
@@ -188,7 +188,7 @@ public class SaDEIndividual extends ParameterisedIndividual{
     }
 
     /*
-     * Sets the scalingFactorInitialisationStrategy to the one received asa a parameter
+     * Sets the scalingFactorInitialisationStrategy to the one received as a parameter
      * @param scalingFactorInitialisationStrategy The new scalingFactorInitialisationStrategy
      */
     public void setScalingFactorInitialisationStrategy(ControlParameterInitialisationStrategy scalingFactorInitialisationStrategy) {
@@ -196,7 +196,7 @@ public class SaDEIndividual extends ParameterisedIndividual{
     }
 
     /*
-     * Returns the initialisation strategy ised for the scaling factor
+     * Returns the initialisation strategy used for the scaling factor
      * @return The crossoverProbabilityInitialisationStrategy
      */
     public ControlParameterInitialisationStrategy getCrossoverProbabilityInitialisationStrategy() {
@@ -204,7 +204,7 @@ public class SaDEIndividual extends ParameterisedIndividual{
     }
 
     /*
-     * Sets the crossoverProbabilityInitialisationStrategy to the one received asa a parameter
+     * Sets the crossoverProbabilityInitialisationStrategy to the one received as a parameter
      * @param crossoverProbabilityInitialisationStrategy The new crossoverProbabilityInitialisationStrategy
      */
     public void setCrossoverProbabilityInitialisationStrategy(ControlParameterInitialisationStrategy crossoverProbabilityInitialisationStrategy) {
@@ -220,7 +220,7 @@ public class SaDEIndividual extends ParameterisedIndividual{
     }
 
     /*
-     * Sets the previous fitness value to the one received asa a parameter
+     * Sets the previous fitness value to the one received as a parameter
      * @param previousFitness The new previousFitness
      */
     public void setPreviousFitness(Fitness previousFitness) {

@@ -69,7 +69,7 @@ public class ReevaluationReactionStrategy<E extends PopulationBasedAlgorithm> ex
         RandomSelector selector = new RandomSelector();
         List<? extends Entity> subList = selector.on(entities).select(Samples.first(reevaluateCount));
         for (Entity entity : subList) {
-            // FIXME: does not reevaluate the _best_ positon.
+            // FIXME: does not reevaluate the _best_ position.
             entity.calculateFitness();
         }
     }

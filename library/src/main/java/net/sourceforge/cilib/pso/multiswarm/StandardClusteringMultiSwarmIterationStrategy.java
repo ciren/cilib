@@ -29,7 +29,7 @@ import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
  * {@literal @}article{blackwell51pso,
  *  title={{Particle swarm optimization in dynamic environments}},
  *  author={Blackwell, T.},
- *  journal={Evolutionary Computatation in Dynamic and Uncertain Environments},
+ *  journal={Evolutionary Computation in Dynamic and Uncertain Environments},
  *  volume={51},
  *  pages={29--49}
  * }
@@ -226,7 +226,7 @@ public class StandardClusteringMultiSwarmIterationStrategy extends AbstractItera
     }
 
      /*
-     * Adds the data patterns closest to a centrid to its data pattern list
+     * Adds the data patterns closest to a centroid to its data pattern list
      * @param candidateSolution The solution holding all the centroids
      * @param dataset The dataset holding all the data patterns
      */

@@ -11,7 +11,7 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 public class IterationBasedChangeDetectionStrategy extends ChangeDetectionStrategy{
     int iterationModulus;
     int nextIterationOfChange;
-    
+
     /*
      * Default constructor for the IterationBasedChangeDetectionStrategy
      */
@@ -19,7 +19,7 @@ public class IterationBasedChangeDetectionStrategy extends ChangeDetectionStrate
         iterationModulus = 1;
         nextIterationOfChange = 1;
     }
-    
+
     /*
      * Copy constructor of the IterationBasedChangeDetectionStrategy
      * @param copy The IterationBasedChangeDetectionStrategy that must be copied
@@ -28,7 +28,7 @@ public class IterationBasedChangeDetectionStrategy extends ChangeDetectionStrate
         iterationModulus = copy.iterationModulus;
         nextIterationOfChange = copy.nextIterationOfChange;
     }
-    
+
     /*
      * The clone method of the IterationBasedChangeDetectionStrategy
      * @return A new instance of this IterationBasedChangeDetectionStrategy
@@ -39,7 +39,7 @@ public class IterationBasedChangeDetectionStrategy extends ChangeDetectionStrate
     }
 
     /*
-     * Checks whether a change has occured by determining whether the current iteration is the one
+     * Checks whether a change has occurred by determining whether the current iteration is the one
      * where a change occurs
      * @return True if the current iteration is the iteration of a change, false if it is not
      */
@@ -51,7 +51,7 @@ public class IterationBasedChangeDetectionStrategy extends ChangeDetectionStrate
         }
         return false;
     }
-    
+
     /*
      * Returns the iteration of change: the iteration at which a change in the dataset occurs.
      * @return iterationOfChange The Iteration when a change will occur
@@ -59,7 +59,7 @@ public class IterationBasedChangeDetectionStrategy extends ChangeDetectionStrate
     public int getIterationModulus() {
         return iterationModulus;
     }
-    
+
     /*
      * Sets the iteration of change: the iteration at which a change in the dataset occurs.
      * @param changeIteration The new value for the iterationOfChange variable

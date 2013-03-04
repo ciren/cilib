@@ -22,7 +22,7 @@ public class FDA1_f1 implements ContinuousFunction {
     private static final long serialVersionUID = 1914230427150406406L;
 
 //    /**
-//     * Default Contructor
+//     * Default Constructor
 //     */
 //    public FDA1_f1() {
 //        super();

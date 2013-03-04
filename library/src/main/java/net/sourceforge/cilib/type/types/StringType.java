@@ -14,10 +14,10 @@ import java.io.ObjectOutput;
 /**
  * A general for string that may be returned from {@code measurement} instances.
  * The {@code StringType} represents a free form string for additional data. The
- * {@code StringType} replaces all occuring {@code ' '} with {@code '_'} to
+ * {@code StringType} replaces all occurring {@code ' '} with {@code '_'} to
  * prevent any potential problems with the format of CIlib output files.
  * <p>
- * It is not possible to determine what the delimeter within a data file will be
+ * It is not possible to determine what the delimiter within a data file will be
  * as a result the whitespace is "escaped".
  *
  */

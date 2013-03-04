@@ -25,7 +25,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <ul>
  * <li>Only defined for 2 dimensions</li>
  * <li>Multimodal</li>
- * <li>Non-separanle</li>
+ * <li>Non-separable</li>
  * <li>Deceptive</li>
  * </ul>
  * </p>

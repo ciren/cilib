@@ -37,7 +37,7 @@ public class ChargedPopulationInitialisationStrategy<E extends Entity>
         entityNumber = 20;
         prototypeEntity = null; // This has to be manually set as Individuals are used in PSO etc...
         chargedRatio = 0.5;    // one half of the swarm is charged => Atomic swarm
-        chargeMagnitude = 16; // the obscure value 16 comes from the article where the chraged PSO was analysed for the 1st time by its creators
+        chargeMagnitude = 16; // the obscure value 16 comes from the article where the charged PSO was analysed for the 1st time by its creators
     }
 
     /**
@@ -73,7 +73,7 @@ public class ChargedPopulationInitialisationStrategy<E extends Entity>
     @Override
     public Iterable<E> initialise(Problem problem) {
         Preconditions.checkNotNull(problem, "No problem has been specified");
-        Preconditions.checkNotNull(prototypeEntity, "No prototype Entity object has been defined for the clone operation in the entity constrution process.");
+        Preconditions.checkNotNull(prototypeEntity, "No prototype Entity object has been defined for the clone operation in the entity construction process.");
 
         List<E> clones = new ArrayList<E>();
         int chargedCounter = 0;

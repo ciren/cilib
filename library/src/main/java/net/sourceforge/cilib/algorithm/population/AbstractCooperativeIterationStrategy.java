@@ -62,7 +62,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
     public abstract void performIteration(E algorithm);
 
     /*
-     * Adds the data patterns closest to a centrid to its data pattern list
+     * Adds the data patterns closest to a centroid to its data pattern list
      * @param candidateSolution The solution holding all the centroids
      * @param dataset The dataset holding all the data patterns
      */
@@ -134,7 +134,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
 
     /*
      * Removes all data patterns held by cluster centroids held by the particle received
-     * @param particle The particle whose centrids must be cleared
+     * @param particle The particle whose centroids must be cleared
      */
     public void clearDataPatterns(ClusterParticle particle) {
         for(ClusterCentroid centroid : (CentroidHolder) particle.getCandidateSolution()) {

@@ -12,7 +12,7 @@ import net.sourceforge.cilib.util.Cloneable;
 
 
 /**
- * All measurements must implement this interface. The measurment must return
+ * All measurements must implement this interface. The measurement must return
  * the value of what it is measuring given the algorithm that it is measuring.
  *
  * @param <E> The return {@code Type}.
@@ -26,7 +26,7 @@ public interface Measurement<E extends Type> extends Cloneable {
     Measurement<E> getClone();
 
     /**
-     * Get the value of the measurement. The represenation of the measurement will be based
+     * Get the value of the measurement. The representation of the measurement will be based
      * on the domain string defined {@see Measurement#getDomain()}
      * @param algorithm The algorithm to obtain the measurement from.
      * @return The <tt>Type</tt> representing the value of the measurement.

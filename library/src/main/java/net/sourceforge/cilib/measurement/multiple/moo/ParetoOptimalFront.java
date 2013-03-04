@@ -17,7 +17,7 @@ import net.sourceforge.cilib.type.types.container.TypeList;
 
 /**
  * <p>
- * Measures the set of non-dominated objective vectors withing an archive.
+ * Measures the set of non-dominated objective vectors within an archive.
  * Requires the set of non-dominated decision vectors to be evaluated.
  * </p>
  *

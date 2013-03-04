@@ -33,7 +33,7 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
  *
  * It adapts the three parameters, namely scaling factor, crossover probability and total number of
  * offspring, used by the DDE algorithm using the same process as generating a trial vector. The
- * selector parameter used by the DDE algorithm is also adapteb, but in a different manner, slowly
+ * selector parameter used by the DDE algorithm is also adapted, but in a different manner, slowly
  * being decreased.
  *
  * Further details about the article:

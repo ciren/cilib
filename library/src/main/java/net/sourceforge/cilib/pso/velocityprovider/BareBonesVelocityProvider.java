@@ -16,7 +16,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * The <tt>VelocityProvider</tt> for the Bare Bones PSO as adapted by Kennedy.
- * J. Kennedy, “Bare bones particle swarms,” in Proceedings of the IEEE Swarm Intelligence Symposium, pp. 80-87, 2003.
+ * J. Kennedy, “Bare bones particle swarms”, in Proceedings of the IEEE Swarm Intelligence Symposium, pp. 80-87, 2003.
  */
 public class BareBonesVelocityProvider implements VelocityProvider {
 

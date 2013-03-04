@@ -158,7 +158,7 @@ public class BackPropagationVisitor implements ArchitectureVisitor {
 
     /**
      * Sets the momentum.
-     * @param momentum the new momemtum.
+     * @param momentum the new momentum.
      */
     public void setMomentum(double momentum) {
         this.momentum = momentum;

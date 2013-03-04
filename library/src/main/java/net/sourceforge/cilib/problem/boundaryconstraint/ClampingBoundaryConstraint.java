@@ -18,7 +18,7 @@ import net.sourceforge.cilib.util.Vectors;
 /**
  * Prevent any {@link Entity} from over-shooting the problem search space. Any
  * Entity that passes outside the search space is placed on the boundaries of
- * the seach space.
+ * the search space.
  */
 public class ClampingBoundaryConstraint implements BoundaryConstraint {
 

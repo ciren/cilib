@@ -15,7 +15,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * easier to write new ways of evaluating how effective a non-linear
  * mapping is, this allows for comparing different methods of evaluation.
  *
- * The reason the mapping is non-linear because it is not reverseable.
+ * The reason the mapping is non-linear because it is not reversible.
  *
  */
 public class LinearMappingProblem extends MappingProblem {
@@ -46,7 +46,7 @@ public class LinearMappingProblem extends MappingProblem {
      * The structure of the matrix is a typical "C" convention, how the data
      * is stored depends on whether you look at the input and output vectors
      * as row or column vectors.  In the case of column vectors the indexes
-     * into the matrix would go accross with 0 at the top left, (M-1) top-right,
+     * into the matrix would go across with 0 at the top left, (M-1) top-right,
      * M*(D-1) at the bottom left and (M*D-1) at the bottom right.  In the
      * case where you are working with row-vectors simply this whole scheme
      * just transposes.  In the case of row-vectors this is rowvector * matrix,

@@ -78,7 +78,7 @@ public class Bit implements Numeric {
     }
 
     /**
-     * Return the state of the curent <tt>Bit</tt> object.
+     * Return the state of the current <tt>Bit</tt> object.
      *
      * @return The state of the current <tt>Bit</tt> object.
      */
@@ -139,7 +139,7 @@ public class Bit implements Numeric {
     /**
      * Return the <tt>String</tt> representation of this object's value.
      *
-     * @return The <tt>String</tt> represtnation of this object's value.
+     * @return The <tt>String</tt> representation of this object's value.
      */
     @Override
     public String toString() {

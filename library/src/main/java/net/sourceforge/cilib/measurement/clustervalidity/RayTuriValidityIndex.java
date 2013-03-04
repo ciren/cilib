@@ -28,14 +28,14 @@ public class RayTuriValidityIndex extends ValidityIndex {
     public RayTuriValidityIndex() {
         super();
     }
-    
+
     /*
      * Copy constructor for RayTuriValidityIndex
      */
     public RayTuriValidityIndex(RayTuriValidityIndex copy) {
         super(copy);
     }
-    
+
     /*
      * Calculates the Ray Turi Validity Index
      * @param algorithm The algorithm for which the validity index is being calculated
@@ -45,14 +45,14 @@ public class RayTuriValidityIndex extends ValidityIndex {
     public Real getValue(Algorithm algorithm) {
         CentroidHolder holder = (CentroidHolder) algorithm.getBestSolution().getPosition();
         double result = getaverageClusterDistance(holder) / (double) getInterClusterDistance(holder);
-        
+
         return Real.valueOf(result);
     }
-    
+
     /*
      * Calculates the average distance between all centroid and their patterns
      * @param centroidHolder The set of centroids
-     * @return distace The average distance
+     * @return distance The average distance
      */
     protected double getaverageClusterDistance(CentroidHolder centroidHolder) {
         double sum = 0;
@@ -63,12 +63,12 @@ public class RayTuriValidityIndex extends ValidityIndex {
                 numberOfPatterns++;
             }
         }
-        
+
         sum /= (double) numberOfPatterns;
-        
+
         return sum;
     }
-    
+
     /*
      * Calculates the minimum distance between all centroids
      * @param centoidHolder The set of centroids to be checked
@@ -81,7 +81,7 @@ public class RayTuriValidityIndex extends ValidityIndex {
         for(ClusterCentroid centroid : centroidHolder) {
             centroidHolder2 = centroidHolder.getClone();
             centroidHolder2.remove(centroid);
-            
+
             for(ClusterCentroid centroid2 : centroidHolder2) {
                 distance = distanceMeasure.distance(centroid.toVector(), centroid2.toVector());
                 if(distance < minimum) {
@@ -89,7 +89,7 @@ public class RayTuriValidityIndex extends ValidityIndex {
                 }
             }
         }
-        
+
         return minimum;
     }
 

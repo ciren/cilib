@@ -65,7 +65,7 @@ public class Shekel4 implements ContinuousFunction {
     }
 
     /**
-     * Set the N vaue for the function.
+     * Set the N value for the function.
      * @param n The value to set.
      */
     public void setN(int n) {

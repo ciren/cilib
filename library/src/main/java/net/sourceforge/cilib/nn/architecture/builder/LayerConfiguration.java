@@ -80,7 +80,7 @@ public class LayerConfiguration {
 
     /**
      * Gets the activation function.
-     * @return the activation fuction.
+     * @return the activation function.
      */
     public ActivationFunction getActivationFunction() {
         return activationFunction;
