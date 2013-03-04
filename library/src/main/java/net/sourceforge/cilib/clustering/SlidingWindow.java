@@ -119,8 +119,8 @@ public class SlidingWindow {
     }
     
     /*
-     * Initialises the SlidingWindow to hold the appropriate poriton of the dataset.
-     * Initialises the widow to be the size of the datset if it was never set.
+     * Initialises the SlidingWindow to hold the appropriate portion of the dataset.
+     * Initialises the widow to be the size of the dataset if it was never set.
      * Initialises the slideSize to be the size of the window if it was never set.
      * Sets the boolean isTemporal.
      * Sets the counts.
@@ -265,7 +265,7 @@ public class SlidingWindow {
     }
     
     /*
-     * Returns the fequency of change.
+     * Returns the frequency of change.
      * Note: currently this is the same as getIterationToChange, but the representation 
      * of frequencies may be altered in future.
      * @return The frequency of change

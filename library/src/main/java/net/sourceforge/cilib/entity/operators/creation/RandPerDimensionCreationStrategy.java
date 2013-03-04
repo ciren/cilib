@@ -118,7 +118,7 @@ public class RandPerDimensionCreationStrategy implements CreationStrategy {
 
     /**
      * Get the number of difference vectors to create.
-     * @return The {@code ControlParameter} describing the numberof difference vectors.
+     * @return The {@code ControlParameter} describing the number of difference vectors.
      */
     public SettableControlParameter getNumberOfDifferenceVectors() {
         return numberOfDifferenceVectors;

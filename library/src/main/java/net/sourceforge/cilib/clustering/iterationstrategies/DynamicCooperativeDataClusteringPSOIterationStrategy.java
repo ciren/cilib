@@ -34,7 +34,7 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
     }
 
     /*
-     * Copy cosntructor for DynamicCooperativeDataClusteringPSOIterationStrategy
+     * Copy constructor for DynamicCooperativeDataClusteringPSOIterationStrategy
      */
     public DynamicCooperativeDataClusteringPSOIterationStrategy(DynamicCooperativeDataClusteringPSOIterationStrategy copy) {
         super(copy);
@@ -55,7 +55,7 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
      * Performs an iteration of DynamicCooperativeDataClusteringPSOIterationStrategy
      * First it performs an iteration of the cooperative data clustering iteration strategy,
      * followed by a check for change which leads to a re-initialisation process if it is true.
-     * @param algorithm The algorithm for which the iteration is veing performed
+     * @param algorithm The algorithm for which the iteration is being performed
      */
     @Override
     public void performIteration(CooperativePSO algorithm) {
@@ -80,7 +80,7 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
 
     /*
      * Re-initialises the context particle. It is used by the Dynamic co-operative data clustering
-     * @param currentAlgorithm The algorithm for wich the context must be re-initialied
+     * @param currentAlgorithm The algorithm for which the context must be re-initialised
      */
     public void reinitialiseContext(CooperativePSO currentAlgorithm) {
         contextParticle = ((DataClusteringPSO) currentAlgorithm.getPopulations().get(0)).getTopology().get(0).getClone();

@@ -16,7 +16,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * testing phase would jump off the board and remain off the board.
  *
  * The repair is a simple in-order operation that determines the position where the
- * error occoured and tries to replace the error move with one of the possible 7
+ * error occurred and tries to replace the error move with one of the possible 7
  * moves remaining. Once the tour can continue, the move is replaced and evaluation
  * continues.
  *
@@ -182,7 +182,7 @@ public class RepairingKnightsTour implements DiscreteFunction {
     /**
      * Set the starting position on the board. Following the normal chess convention
      * the rows are described by letters (A-H) on the 8x8 board and columns (0-7).
-     * These row and column values can obviously be adjusted to the currenly set board
+     * These row and column values can obviously be adjusted to the currently set board
      * size.
      *
      * @param startingPos The startingPos to set.

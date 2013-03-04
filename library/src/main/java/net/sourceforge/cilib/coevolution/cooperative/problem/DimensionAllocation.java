@@ -12,13 +12,13 @@ import net.sourceforge.cilib.measurement.single.Fitness;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * This abstract class hides the detailes of which sub-dimensions a participating
+ * This abstract class hides the details of which sub-dimensions a participating
  * algorithm in a {@linkplain CooperativeCoevolutionAlgorithm} optimizes.
  * <p>
  * The {@linkplain CooperativeCoevolutionProblemAdapter} class uses the concrete
  * {@linkplain DimensionAllocation} to copy the solution from a participating
  * {@linkplain Entity} in a participating {@linkplain PopulationBasedAlgorithm}
- * into the contet vector so that its {@linkplain Fitness} can be calculated.
+ * into the context vector so that its {@linkplain Fitness} can be calculated.
  */
 public abstract class DimensionAllocation implements Cloneable {
     private int size;
@@ -56,7 +56,7 @@ public abstract class DimensionAllocation implements Cloneable {
 
     /**
      * Return the index into the original problem vector of the element at the given index into the participant's solution.
-     * @param elementIndex The index into the participant's soltion vector.
+     * @param elementIndex The index into the participant's solution vector.
      * @return The index of the same value for the original problem vector.
      */
     public abstract int getProblemIndex(int elementIndex);

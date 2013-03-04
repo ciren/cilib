@@ -15,7 +15,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Reinitialise each element within the provided {@code Type} element if
  * it is no longer within the valid search space. Each element violating the
- * condition will be reinitilaised witin the domain of the problem (search space).
+ * condition will be reinitialised within the domain of the problem (search space).
  *
  * @see Types#isInsideBounds(net.sourceforge.cilib.type.types.Type)
  */

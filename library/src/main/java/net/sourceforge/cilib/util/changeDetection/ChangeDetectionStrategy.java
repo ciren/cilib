@@ -20,9 +20,9 @@ public abstract class ChangeDetectionStrategy {
      * @return A new instance of the ChangeDetectionStrategy
      */
     public abstract ChangeDetectionStrategy getClone();
-    
+
     /*
-     * Checks if a change has occured
+     * Checks if a change has occurred
      * @return True if a change has taken place, false if it has not
      */
     public abstract boolean detectChange();

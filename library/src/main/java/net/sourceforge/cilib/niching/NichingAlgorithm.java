@@ -99,7 +99,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements P
      * <ul>
      *  <li>Detection: fitness deviation threshold</li>
      *  <li>Main swarm merging: no merging back into the main swarm (SingleSwarmMergingStrategy)</li>
-     *  <li>Creation strategy: standard creation i.e. a swarm is created with a particle and its closest neighbor</li>
+     *  <li>Creation strategy: standard creation i.e. a swarm is created with a particle and its closest neighbour</li>
      * </ul>
      * </p>
      */

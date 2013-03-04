@@ -17,7 +17,7 @@ public class ZeroContributionSelectionStrategy implements ContributionSelectionS
     @Override
     public Vector getContribution(PopulationBasedAlgorithm algorithm) {
         throw new UnsupportedOperationException("Cannot obtain a contribution from a ZeroContributionSelectionStrategy." +
-            "\nPlease specify the correct contribution stategy to use.");
+            "\nPlease specify the correct contribution strategy to use.");
     }
 
     @Override

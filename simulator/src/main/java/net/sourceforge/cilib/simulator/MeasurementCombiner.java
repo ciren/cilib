@@ -26,7 +26,7 @@ import java.util.List;
  * Create a combined view of the generated data in the normal CIlib text
  * file format.
  *
- * @TODO: This class should probably use a divide and conquer startegy to combine files as needed
+ * @TODO: This class should probably use a divide and conquer strategy to combine files as needed
  */
 public class MeasurementCombiner {
 

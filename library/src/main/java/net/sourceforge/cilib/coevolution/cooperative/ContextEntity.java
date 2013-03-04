@@ -141,7 +141,7 @@ public class ContextEntity implements Entity {
     }
 
     /**
-     * Copy the given solution {@linkplain Vector} into a specified position into this context entitie's context {@linkplain Vector}.
+     * Copy the given solution {@linkplain Vector} into a specified position into this context entity's context {@linkplain Vector}.
      * The given {@linkplain DimensionAllocation} dictates which dimensions the given {@linkplain Vector} should be copied into.
      * @param solution The {@linkplain Vector} to copy from.
      * @param allocation The {@linkplain DimensionAllocation} which describes which dimensions to copy the solution into.
@@ -164,7 +164,7 @@ public class ContextEntity implements Entity {
     }
 
     /**
-     * Set the conext vector to the given {@linkplain StructuredType}. The type has to be
+     * Set the context vector to the given {@linkplain StructuredType}. The type has to be
      * of type {@linkplain Vector}.
      */
     @Override

@@ -27,11 +27,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <ul>
  * <li>Multi-modal</li>
  * <li>Has n! local minima</li>
- * <li>Non seperable</li>
+ * <li>Non-separable</li>
  * </ul>
  *
  * R(0, 3.141592653589793)^10
- * 
+ *
  */
 public class Michalewicz implements ContinuousFunction {
 

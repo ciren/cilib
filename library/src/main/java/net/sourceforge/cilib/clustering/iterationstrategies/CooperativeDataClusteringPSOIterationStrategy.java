@@ -19,7 +19,7 @@ import net.sourceforge.cilib.type.types.container.CentroidHolder;
 /**
  * This class performs an iteration of the cooperative data clustering iteration strategy.
  * It holds a context particle, adapts the swarms to hold the context particle
- * with the appropriate dimension difference,updates the personal and global 
+ * with the appropriate dimension difference, updates the personal and global
  * bests and then updates the particles.
  */
 public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCooperativeIterationStrategy<CooperativePSO>{
@@ -32,9 +32,9 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
         contextinitialised = false;
         table = new StandardDataTable();
     }
-    
+
     /*
-     * Copy cosntructor for CooperativeDataClusteringPSOIterationStrategy
+     * Copy constructor for CooperativeDataClusteringPSOIterationStrategy
      * @param copy The CooperativeDataClusteringPSOIterationStrategy to be copied
      */
     public CooperativeDataClusteringPSOIterationStrategy(CooperativeDataClusteringPSOIterationStrategy copy) {
@@ -43,7 +43,7 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
         contextinitialised = copy.contextinitialised;
         table = copy.table;
     }
-    
+
     /*
      * Clone method of the CooperativeDataClusteringPSOIterationStrategy
      * @return new instance of the CooperativeDataClusteringPSOIterationStrategy
@@ -56,7 +56,7 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
     /*
      * Performs an iteration of the standard co-operative algorithm.
      * It holds a context particle, adapts the swarms to hold the context particle
-     * with the appropriate dimension difference,updates the personal and global 
+     * with the appropriate dimension difference, updates the personal and global
      * bests and then updates the particles.
      */
     @Override
@@ -66,24 +66,24 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
         DataClusteringPSO pso ;
         Topology newTopology;
         ClusterParticle particleWithContext;
-        
+
         for(PopulationBasedAlgorithm currentAlgorithm : algorithm.getPopulations()) {
-              
+
             table = ((SinglePopulationDataClusteringIterationStrategy) ((DataClusteringPSO) currentAlgorithm).getIterationStrategy()).getDataset();
-            
+
             if(!contextinitialised) {
                 initialiseContextParticle(algorithm);
             }
-            
+
             pso = ((DataClusteringPSO) currentAlgorithm);
             newTopology = ((DataClusteringPSO) currentAlgorithm).getTopology().getClone();
             newTopology.clear();
-            
+
             for(ClusterParticle particle : ((DataClusteringPSO) currentAlgorithm).getTopology()) {
                 clearDataPatterns(contextParticle);
                 assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);
                 contextParticle.calculateFitness();
-                    
+
                 particleWithContext = new ClusterParticle();
                 particleWithContext.setCandidateSolution(contextParticle.getCandidateSolution().getClone());
                 particleWithContext.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getBestPosition().getClone());
@@ -93,45 +93,45 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
                 ((CentroidHolder) particleWithContext.getCandidateSolution()).set(populationIndex, ((CentroidHolder) particle.getCandidateSolution()).get(populationIndex));
                 particleWithContext.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER).getClone());
                 particleWithContext.setCentroidInitialisationStrategy(particle.getCentroidInitialisationStrategyCandidate().getClone());
-                
+
                 clearDataPatterns(particleWithContext);
                 assignDataPatternsToParticle((CentroidHolder) particleWithContext.getCandidateSolution(), table);
                 particleWithContext.calculateFitness();
-                
-                
+
+
                 if(particleWithContext.getFitness().compareTo(particleWithContext.getBestFitness()) > 0) {
                     particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition());
                     particle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getFitness());
-                    
+
                     particleWithContext.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition());
                     particleWithContext.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getFitness());
                 }
-                
+
                 if(particleWithContext.getBestFitness().compareTo(contextParticle.getFitness()) > 0) {
                        ((CentroidHolder) contextParticle.getCandidateSolution()).set(populationIndex, ((CentroidHolder) particle.getCandidateSolution()).get(populationIndex));
                 }
-                
+
                 if(contextParticle.getFitness().compareTo(contextParticle.getBestFitness()) > 0) {
                     contextParticle.getProperties().put(EntityType.Particle.BEST_POSITION, contextParticle.getPosition()).getClone();
                     contextParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, contextParticle.getFitness()).getClone();
                 }
-                
+
                 newTopology.add(particleWithContext);
             }
-            
+
             if(elitist) {
                 contextParticle.getProperties().put(EntityType.CANDIDATE_SOLUTION, contextParticle.getBestPosition().getClone());
                 contextParticle.getProperties().put(EntityType.FITNESS, contextParticle.getBestFitness().getClone());
             }
-            
+
             pso.setTopology(newTopology);
             pso.performIteration();
-            
+
             populationIndex++;
         }
-        
-        
+
+
     }
-    
+
 
 }

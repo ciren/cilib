@@ -21,7 +21,7 @@ public class PermutationFunctionDecorator implements ContinuousFunction {
     private Vector permutedIndices;
 
     /**
-     * Default contructor that initialises an empty indices vector.
+     * Default constructor that initialises an empty indices vector.
      */
     public PermutationFunctionDecorator() {
         this.permutedIndices = Vector.of();

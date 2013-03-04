@@ -35,7 +35,7 @@ import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
  * <p>
  * For each newly discovered niching location, a new sub-swarmType is creates that will
  * maintain the niche. For the case of the PSO, the niching particle and the closest
- * particle to the identified particle are gropuped into a niche. Sub-swarms will always
+ * particle to the identified particle are grouped into a niche. Sub-swarms will always
  * then have at least two particles.
  * </p>
  * <p>

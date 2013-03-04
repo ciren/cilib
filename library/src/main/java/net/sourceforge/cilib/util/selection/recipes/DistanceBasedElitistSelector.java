@@ -14,7 +14,7 @@ import net.sourceforge.cilib.util.selection.arrangement.ReverseArrangement;
 import net.sourceforge.cilib.util.selection.arrangement.SortedArrangement;
 
 /**
- * This class is similiar to {@linkplain ElistSelection}, but where a Distance
+ * This class is similar to {@linkplain ElistSelection}, but where a Distance
  * Comparator is used. This class is necessary to select a different comparator
  * than the default one, due to the way in which the archive has been
  * implemented.

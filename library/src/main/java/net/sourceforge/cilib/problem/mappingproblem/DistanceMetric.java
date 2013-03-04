@@ -13,7 +13,7 @@ package net.sourceforge.cilib.problem.mappingproblem;
  */
 public interface DistanceMetric {
     /**
-     * Gets called by CurvilinearDistEvaluator to indicate the precice problem
+     * Gets called by CurvilinearDistEvaluator to indicate the precise problem
      * to make use of.  It is recommended that the results of the distances
      * be calculated and placed into some kind of matrix at this point to allow
      * for faster execution.

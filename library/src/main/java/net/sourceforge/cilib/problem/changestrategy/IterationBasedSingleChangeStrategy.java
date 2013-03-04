@@ -14,7 +14,7 @@ import net.sourceforge.cilib.problem.Problem;
 
 /**
  * Signal a change periodically based on the number of iteration.
- * At most one change will be signaled per iteration by an instance of this class.
+ * At most one change will be signalled per iteration by an instance of this class.
  */
 public class IterationBasedSingleChangeStrategy implements ChangeStrategy {
 

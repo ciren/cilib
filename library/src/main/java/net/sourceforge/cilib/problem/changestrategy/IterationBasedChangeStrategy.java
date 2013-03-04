@@ -16,7 +16,7 @@ import net.sourceforge.cilib.problem.Problem;
  * altered or changed at a predefined frequency.
  * <p>
  * The default behaviour is to return {@code true} for all iterations. ie: the frequency
- * paramater {@code resolution} is set to have a value of {@code 1.0}.
+ * parameter {@code resolution} is set to have a value of {@code 1.0}.
  * </p>
  * @see ControlParameter
  *

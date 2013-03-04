@@ -75,7 +75,7 @@ public final class OptimisationSolution implements Solution, Comparable<Optimisa
 
     /**
      * Returns the fitness of this solution according to {@link net.sourceforge.cilib.problem.OptimisationProblem#getFitness(Type, boolean)}.
-     * Calling this function does not contribute to the number of fitness evaulations maintained by
+     * Calling this function does not contribute to the number of fitness evaluations maintained by
      * {@link net.sourceforge.cilib.problem.OptimisationProblem}.
      *
      * @return The fitness of this solution.

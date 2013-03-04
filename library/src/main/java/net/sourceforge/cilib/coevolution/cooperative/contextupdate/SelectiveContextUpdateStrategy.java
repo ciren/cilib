@@ -12,7 +12,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This {@linkplain ContextUpdateStrategy} only updates the given context if the new
- * participant solution impoves the fitness of the context vector.
+ * participant solution improves the fitness of the context vector.
  */
 public class SelectiveContextUpdateStrategy implements ContextUpdateStrategy {
     private static final long serialVersionUID = -7457923682790990569L;

@@ -27,11 +27,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Characteristics:
  * <ul>
  * <li>Multimodal</li>
- * <li>Nonseperable</li>
+ * <li>Non-separable</li>
  * </ul>
  * </p>
  * f(x) = 0; x = (0,0,...,0); x_i e (-600,600)
- * 
+ *
  * R(-600, 600)^30
  *
  */

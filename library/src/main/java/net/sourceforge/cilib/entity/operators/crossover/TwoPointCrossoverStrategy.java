@@ -40,7 +40,7 @@ public class TwoPointCrossoverStrategy implements DiscreteCrossoverStrategy {
     public <E extends Entity> List<E> crossover(List<E> parentCollection) {
         Preconditions.checkArgument(parentCollection.size() == 2, "TwoPointCrossoverStrategy requires 2 parents.");
 
-        // Select the pivot points where crossover will occour
+        // Select the pivot points where crossover will occur
         int maxLength = Math.min(parentCollection.get(0).getDimension(), parentCollection.get(1).getDimension());
         int p1 = Double.valueOf(random.getRandomNumber(0, maxLength + 1)).intValue();
         int p2 = Double.valueOf(random.getRandomNumber(0, maxLength + 1)).intValue();

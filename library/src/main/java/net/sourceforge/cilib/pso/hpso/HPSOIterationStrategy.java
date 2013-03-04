@@ -45,7 +45,7 @@ import net.sourceforge.cilib.util.selection.recipes.TournamentSelector;
  *
  * <i>Frequency based</i> HPSO (fk-HPSO-1000): Similar to dHPSO but particles probabilistically
  * choose new behaviors from the behavior pool, rather than randomly. In this way,
- * behaviors that perform well in early iterations are favored over the other behaviors
+ * behaviors that perform well in early iterations are favoured over the other behaviors
  * in subsequent iterations.
  * Parameters to use:
  * <ul>

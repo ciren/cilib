@@ -47,7 +47,7 @@ public class OptimiserStalled implements StoppingCondition<Algorithm> {
     }
 
     /**
-     * sets the maximum consecutive evalutions that an algorithm can improve less then the minimum.
+     * sets the maximum consecutive evaluations that an algorithm can improve less then the minimum.
      * percentage. this value relates to evaluations and not iterations.
      * @param count The value to set.
      */

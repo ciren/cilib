@@ -43,7 +43,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p><strong>Note: Many methods have been deprecated from previous versions
  * of this class.</strong> The applied deprecations have been made to enable a
  * clearer API of usage for the user. All constructors have been deprecated in
- * favor of static factory methods.
+ * favour of static factory methods.
  *
  * <p><strong>Please take note of all deprecations, it influences the usage
  * quite substantially. All deprecations will be removed in a subsequent
@@ -225,7 +225,7 @@ public class Vector implements StructuredType<Numeric>,
 
     /**
      * Obtain an array representing this {@code Vector}.
-     * @return An array of the elemetns within this {@code Vector}.
+     * @return An array of the elements within this {@code Vector}.
      */
     @Override
     public Object[] toArray() {
@@ -249,7 +249,7 @@ public class Vector implements StructuredType<Numeric>,
 
     /**
      * Add the {@code element} to the end of the current {@code Vector}.
-     * @param element The instace to add to the current {@code Vector}.
+     * @param element The instance to add to the current {@code Vector}.
      * @return {@code true} if successful, {@false otherwise}.
      * @deprecated Use the {@code Vector.Builder} instead.
      */
@@ -268,7 +268,7 @@ public class Vector implements StructuredType<Numeric>,
      * {@code Vector}.
      * @param c The structure containing the elements to add.
      * @return {@code true} if successful, {@code false} otherwise.
-     * @deprecated This method has been deprecated in favor of using the
+     * @deprecated This method has been deprecated in favour of using the
      *             {@link Vector.Builder} instead.
      */
     @Deprecated
@@ -288,7 +288,7 @@ public class Vector implements StructuredType<Numeric>,
 
     /**
      * Add the {@code element} to the indicated index of the current {@code Vector}.
-     * @param element The instace to add to the current {@code Vector}.
+     * @param element The instance to add to the current {@code Vector}.
 	 * @param index The index where the new {@code element} must be added.
      * @return {@code true} if successful, {@false otherwise}.
      * @deprecated Use the {@code Vector.Builder} instead.
@@ -316,7 +316,7 @@ public class Vector implements StructuredType<Numeric>,
     /**
      * Returns {@code true} if the specified {@code element} is contained
      * within the current {@code Vector}.
-     * @param o wlemet whose presence in the {@code Vector} is to be tested.
+     * @param o element whose presence in the {@code Vector} is to be tested.
      * @return {@code true} if {@code element} is contained in the {@code Vector}.
      * @throws NullPointerException if the specified element is null and this
      *         list does not permit null elements. (optional).
@@ -369,8 +369,8 @@ public class Vector implements StructuredType<Numeric>,
     }
 
     /**
-     * Remove the first occurance of the provided object.
-     * @param o The object instace to remove.
+     * Remove the first occurrence of the provided object.
+     * @param o The object instance to remove.
      * @return {@code true} if successful, {@code false} otherwise.
      * @deprecated This method has been deprecated. Rather recreate the {@code Vector}
      *             without this element using the {@link Vector.Builder} interface.
@@ -403,7 +403,7 @@ public class Vector implements StructuredType<Numeric>,
      * Remove all the objects contained within {@code structure}.
      * @param c The structure containing objects to remove.
      * @return {@code true} if successful, {@code false} otherwise.
-     * @deprecated This method has been deprecated in favor of recreating
+     * @deprecated This method has been deprecated in favour of recreating
      *             the {@code Vector} instance.
      * @throws UnsupportedOperationException if invoked.
      */
@@ -523,7 +523,7 @@ public class Vector implements StructuredType<Numeric>,
         Vector local = copyOf(this);
         double value = local.norm();
 
-        // If the norm() of the vector is 0.0, then we are takling about the "normal vector"
+        // If the norm() of the vector is 0.0, then we are talking about the "normal vector"
         // (\vector{0}) and as a result the normal vector is it's own normal.
         return (Double.compare(value, 0.0) != 0) ? local.divide(value) : local;
     }
@@ -910,7 +910,7 @@ public class Vector implements StructuredType<Numeric>,
 
     /**
      * A builder for creating {@code Vector} instances. It is especially
-     * useful for creating contsant instances that do not change:
+     * useful for creating constant instances that do not change:
      * <p>
      * Example:
      * <pre>{@code
@@ -994,7 +994,7 @@ public class Vector implements StructuredType<Numeric>,
          * Add a range of {@code int}s to the {@code Builder}. The {@code int}s
          * are wrapped within {@link Int} instances.
          * @param start the start of the range.
-         * @param end the end of the range, exlusive
+         * @param end the end of the range, exclusive
          * @param step the amount that is added to each value in the range
          * @return The current {@code Builder} for chaining operations.
          */
@@ -1039,7 +1039,7 @@ public class Vector implements StructuredType<Numeric>,
         /**
          * Add all elements provided by {@code iterable} to the current
          * {@code Builder}.
-         * @param iterable the given elemetns.
+         * @param iterable the given elements.
          * @return The current {@code Builder} for chaining operations.
          */
         public Builder copyOf(Iterable<? extends Numeric> iterable) {

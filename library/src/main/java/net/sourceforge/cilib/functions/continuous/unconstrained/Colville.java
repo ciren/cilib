@@ -27,7 +27,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <ul>
  * <li>Only defined for 4 dimensions</li>
  * <li>Unimodal</li>
- * <li>Non-seperable</li>
+ * <li>Non-separable</li>
  * <li>Regular</li>
  * </ul>
  * </p>

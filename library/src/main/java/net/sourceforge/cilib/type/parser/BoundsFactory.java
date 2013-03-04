@@ -12,7 +12,7 @@ import net.sourceforge.cilib.type.types.*;
 
 /**
  * This class represents the bounds information for all Numeric types in
- * CIlib. This implemetnation is done by using the Flyweight design pattern.
+ * CIlib. This implementation is done by using the Flyweight design pattern.
  *
  */
 public class BoundsFactory {
@@ -22,7 +22,7 @@ public class BoundsFactory {
     }
 
     /**
-     * Create a new {@code Bounds} object, or alternatively return a precreated instance.
+     * Create a new {@code Bounds} object, or alternatively return a pre-created instance.
      * @param bounds The bounds object to base the creation off.
      * @return The common {@code Bounds} instance.
      */

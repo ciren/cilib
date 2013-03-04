@@ -17,7 +17,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This {@link ProblemRedistributionStrategy} works by shuffling the problems of the participating {@link PopulationBasedAlgorithm}'s. A list of
- * all the current participating algorithm's {@link CooperativeCoevolutionProblemAdapter}s is created, and then randomly re-assinged to the list
+ * all the current participating algorithm's {@link CooperativeCoevolutionProblemAdapter}s is created, and then randomly re-assigned to the list
  * of algorithms.
  *
  */

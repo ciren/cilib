@@ -43,7 +43,7 @@ public abstract class LayerBuilder {
     public abstract Layer buildLayer(LayerConfiguration layerConfiguration, int previousLayerAbsoluteSize);
 
     /**
-     * Gets the weight initialisation stratetegy.
+     * Gets the weight initialisation strategy.
      * @return the weight initialisation strategy.
      */
     public WeightInitialisationStrategy getWeightInitialisationStrategy() {

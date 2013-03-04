@@ -19,8 +19,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * <p>
- * M. Senthil Arumugam, M.V.C. Rao, "On th eimproved performances of the particle
- * swarm optimization algorithms with dapative parameters, cross-over operators
+ * M. Senthil Arumugam, M.V.C. Rao, "On the improved performances of the particle
+ * swarm optimization algorithms with adaptive parameters, cross-over operators
  * and root mean square (RMS) variants for computing optimal control of a class
  * of hybrid systems", Applied Soft Computing, vol 8, pp 324--336, 2008,
  * doi:10.1016/j.asoc.2007.01.010

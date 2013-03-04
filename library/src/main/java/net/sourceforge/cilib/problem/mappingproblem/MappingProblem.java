@@ -48,7 +48,7 @@ public abstract class MappingProblem extends AbstractProblem {
 
 
     /**
-     * Calculates the fitness of the given matrix.  This wraps arounds the
+     * Calculates the fitness of the given matrix.  This wraps around the
      * {@see evaluateMapping} function.  It may call evaluateMapping multiple
      * times for every call to calculateFitness depending on the dataset.
      *
@@ -86,7 +86,7 @@ public abstract class MappingProblem extends AbstractProblem {
     /**
      * This function is there to perform the mapping.  It <b>must not</b>
      * alter the values in the inputs or distmatrix array.  It should place
-     * the mapped to vectoers in the outputs array.  All arrays are
+     * the mapped to vectors in the outputs array.  All arrays are
      * pre-allocated.
      *
      * The distmatrix is a single dimensional array - of the size specified by

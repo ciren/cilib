@@ -161,7 +161,7 @@ public class SaDEParameterAdaptationStrategy implements ParameterAdaptationStrat
     }
 
     /*
-     * Returns the initialisation strategy uised in the adaptaition step.
+     * Returns the initialisation strategy used in the adaptation step.
      * @return The initialisation Strategy
      */
     public RandomBoundedParameterInitialisationStrategy getInitialisationStrategy() {

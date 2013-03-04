@@ -46,7 +46,7 @@ public class StandardCentroidInitialisationStrategy <E extends Entity> extends D
 
     /*
      * Initialises the entity provided accordingly
-     * If the RandomBoundedInitialisationStrategy is chosen as a delegate, the bounds are set to be thsoe of the dataset
+     * If the RandomBoundedInitialisationStrategy is chosen as a delegate, the bounds are set to be those of the dataset
      * @param key The key stating which property of the entity must be initialised
      * @param entity The entity to be initialised
      */

@@ -16,7 +16,7 @@ import net.sourceforge.cilib.type.types.Type;
 
 /**
  * Representation of a Matrix. This class is immutable with the intention that
- * all opertions on a Matrix will result in a new resulting Matrix.
+ * all operations on a Matrix will result in a new resulting Matrix.
  */
 public final class Matrix implements Type {
     private static final long serialVersionUID = 7726056815026772629L;
@@ -101,7 +101,7 @@ public final class Matrix implements Type {
     }
 
     /**
-     * Apply the subtration operation on the current matrix and the provided
+     * Apply the subtraction operation on the current matrix and the provided
      * matrix. The result is a new matrix.
      * @param b The matrix to subtract.
      * @return A new {@code Matrix} representing the result of the subtraction.
@@ -150,7 +150,7 @@ public final class Matrix implements Type {
 
     /**
      * Perform multiplication on the current {@code Matrix} and the provided {@code Matrix}.
-     * Naturally, matrix multiplication can only be performed on matricies that adhere
+     * Naturally, matrix multiplication can only be performed on matrices that adhere
      * to the required matrix multiplication rules.
      * <p>
      * The result of this operation is a new immutable matrix.
@@ -164,7 +164,7 @@ public final class Matrix implements Type {
 
     /**
      * Perform multiplication on the current {@code Matrix} and the provided {@code Matrix}.
-     * Naturally, matrix multiplication can only be performed on matricies that adhere
+     * Naturally, matrix multiplication can only be performed on matrices that adhere
      * to the required matrix multiplication rules.
      * <p>
      * The result of this operation is a new immutable matrix.
@@ -364,7 +364,7 @@ public final class Matrix implements Type {
         }
 
         /**
-         * Define the dimensions (rows and coloums) that the bult up {@code Matrix} will
+         * Define the dimensions (rows and columns) that the built up {@code Matrix} will
          * contain.
          * @param rows The number of rows.
          * @param columns The number of columns.
@@ -430,7 +430,7 @@ public final class Matrix implements Type {
          * @param row The row number, indexed from 0.
          * @param col The column number, indexed from 0.
          * @param value The value to be set at the defined location.
-         * @return The curret {@code Builder}.
+         * @return The current {@code Builder}.
          */
         public Builder valueAt(int row, int col, double value) {
             this.tuples.add(new DataPoint(row, col, value));

@@ -22,7 +22,7 @@ public class ExplorerBee implements Cloneable {
 
     private static final long serialVersionUID = 1068799535328234923L;
     private int previousUpdatedIteration;    //used to check whether the algorithm has entered a new iteration
-    private int numberOfUpdates;            //how many have occured in current iteration
+    private int numberOfUpdates;            //how many have occurred in current iteration
     private ControlParameter explorerBeeUpdateLimit;
 
     /**

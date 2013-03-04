@@ -12,11 +12,11 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 
 /**
- * An implementation of a Heterogeneous co-operative coevolution algorithm, which is a cooperative algorithm where the sub population algorithms consist of different algorithm implimentations
+ * An implementation of a Heterogeneous co-operative coevolution algorithm, which is a cooperative algorithm where the sub population algorithms consist of different algorithm implementations
  * (For example an cooperative algorithm with a PSO as well as a GA as participating algorithms).
  * This functionality is already supported by the {@link CooperativeCoevolutionAlgorithm} class, the purpose of this class is to add a {@link ProblemRedistributionStrategy} to the
  * optimisation process. During this step, after each {@link CooperativeCoevolutionAlgorithm} iteration, the problem is re-distributed amongst the participating algorithms. A parameter is
- * used to regulate the fequency of this re-distribution.
+ * used to regulate the frequency of this re-distribution.
  *
  * <p>
  * References:
@@ -55,7 +55,7 @@ public class HeterogeneousCooperativeAlgorithm extends CooperativeCoevolutionAlg
     @Override
     public void algorithmIteration() {
         super.algorithmIteration();
-        
+
         if ((getIterations() + 1) % (int)problemAllocationSwapIteration.getParameter() == 0) {
              redistributionStrategy.redistributeProblem(subPopulationsAlgorithms, optimisationProblem, problemDistribution, context.getCandidateSolution());
         }

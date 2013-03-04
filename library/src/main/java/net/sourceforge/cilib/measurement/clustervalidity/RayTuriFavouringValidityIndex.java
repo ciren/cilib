@@ -27,7 +27,7 @@ public class RayTuriFavouringValidityIndex extends ValidityIndex{
     private RayTuriValidityIndex delegate;
     private ControlParameter mean;
     private ControlParameter standardDeviation;
-    
+
     /*
      * Default constructor for RayTuriFavouringValidityIndex
      */
@@ -37,7 +37,7 @@ public class RayTuriFavouringValidityIndex extends ValidityIndex{
         mean = ConstantControlParameter.of(0.0);
         standardDeviation = ConstantControlParameter.of(1.0);
     }
-    
+
     /*
      * Copy constructor for RayTuriFavouringValidityIndex
      * @param copy The RayTuriFavouringValidityIndex to be copied
@@ -48,7 +48,7 @@ public class RayTuriFavouringValidityIndex extends ValidityIndex{
         mean = copy.mean;
         standardDeviation = copy.standardDeviation;
     }
-    
+
     /*
      * Clone method for RayTuriFavouringValidityIndex
      */
@@ -56,7 +56,7 @@ public class RayTuriFavouringValidityIndex extends ValidityIndex{
     public RayTuriFavouringValidityIndex getClone() {
         return new RayTuriFavouringValidityIndex(this);
     }
-    
+
     /*
      * Calculates the Favouring Ray Tury Validity Index
      * @param algorithm The algorithm for which the validity index is being calculated
@@ -65,20 +65,20 @@ public class RayTuriFavouringValidityIndex extends ValidityIndex{
     public Real getValue(Algorithm algorithm) {
         CentroidHolder holder = (CentroidHolder) algorithm.getBestSolution().getPosition();
         double result = delegate.getValue(algorithm).doubleValue() * ((scalingConstant.getParameter() * getGaussianValue(holder)) + 1);
-        
+
         return Real.valueOf(result);
     }
-    
+
     /*
      * Calculates a gaussian value
-     * @param holder The centroid hoder currently in use in the calculation of the validity index
+     * @param holder The centroid holder currently in use in the calculation of the validity index
      * @return result The resulting gaussian value
      */
     protected double getGaussianValue(CentroidHolder holder) {
         double power = -1 * (Math.pow((holder.size() - mean.getParameter()), 2) / (2 * Math.pow(standardDeviation.getParameter(), 2)));
         double bottomOfEquation = Math.sqrt(2 * Math.PI * Math.pow(standardDeviation.getParameter(), 2));
         double result = (1 / bottomOfEquation) * Math.exp(power);
-        
+
         return result;
     }
 }

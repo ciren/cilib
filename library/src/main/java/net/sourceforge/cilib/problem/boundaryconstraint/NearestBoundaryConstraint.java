@@ -22,7 +22,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * <p>
  * If a <b>particle</b> oversteps the boundary it gets re-initialised and placed on the overstepped
- * boundary. A terbulence probability gets specified to allow particles to escape the boundaries.
+ * boundary. A turbulence probability gets specified to allow particles to escape the boundaries.
  * </p>
  * <p>
  * References:

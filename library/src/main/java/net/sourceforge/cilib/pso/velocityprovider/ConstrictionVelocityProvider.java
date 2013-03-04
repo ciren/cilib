@@ -189,7 +189,7 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
 
     /**
      * Set the cognitive acceleration parameter.
-     * @param cognitiveAcceleration the new cognitive accerelation {@link ControlParameter control parameter }.
+     * @param cognitiveAcceleration the new cognitive acceleration {@link ControlParameter control parameter }.
      */
     public void setCognitiveAcceleration(ControlParameter cognitiveAcceleration) {
         this.cognitiveAcceleration = cognitiveAcceleration;
@@ -205,7 +205,7 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
 
     /**
      * Set the social acceleration parameter.
-     * @param socialAcceleration the new social accerelation {@link ControlParameter control parameter }.
+     * @param socialAcceleration the new social acceleration {@link ControlParameter control parameter }.
      */
     public void setSocialAcceleration(ControlParameter socialAcceleration) {
         this.socialAcceleration = socialAcceleration;

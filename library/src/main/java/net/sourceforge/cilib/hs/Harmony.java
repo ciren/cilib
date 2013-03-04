@@ -106,7 +106,7 @@ public class Harmony extends AbstractEntity {
     @Override
     public void reinitialise() {
 //        TypeUtil.randomise(getCandidateSolution());
-        throw new UnsupportedOperationException("Not implemetned yet.");
+        throw new UnsupportedOperationException("Not implemented yet.");
     }
 
 }

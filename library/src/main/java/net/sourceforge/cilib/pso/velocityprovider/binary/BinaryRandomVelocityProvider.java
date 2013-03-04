@@ -14,7 +14,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Implementation of Modified particle swarm optimisation algorithm for variable
- * selection in MLR and PLS modeling.
+ * selection in MLR and PLS modelling.
  *
  * Velocity of each particle is random
  * <p>
@@ -23,7 +23,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <ul><li>
  * Qi Shen, Jian-Hui Jiang, Chen-Xu Jiao, Guo-li Shen, Ru-Qin Yu.,
  * "Modified particle swarm optimization algorithm for variable
- * selection in MLR and PLS modeling: QSAR studies of antagonism of
+ * selection in MLR and PLS modelling: QSAR studies of antagonism of
  * angiotensin II antagonists" (2004). European Journal of Pharmaceutical
  * Sciences 22, 145-152
  * </li></ul>

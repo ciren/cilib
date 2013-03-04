@@ -57,7 +57,7 @@ public class NetworkBasedSeedSelectionStrategy implements SeedSelectionStrategy 
                 }
             }
         } catch (SocketException ex) {
-            System.out.println("Warning: localhost not found through interfce list. Proceeding.");
+            System.out.println("Warning: localhost not found through interface list. Proceeding.");
         }
 
         if (addr == null) {
