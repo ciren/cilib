@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>
+        <algorithm id="pso" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityNumber value="20"/>
+                <entityType class="pso.particle.StandardParticle">
+		    <personalBestUpdateStrategy class="pso.pbestupdate.BoundedRelaxedNonDominatedPersonalBestUpdateStrategy"/>
+		    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+                    <velocityProvider class="pso.velocityprovider.MOVelocityProvider"/>
+                    <localGuideProvider class="pso.guideprovider.PBestGuideProvider"/>
+                    <globalGuideProvider class="pso.guideprovider.VEPSOGuideProvider">
+                        <knowledgeTransferStrategy class="algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy">
+                            <populationSelection class="util.selection.recipes.RingBasedPopulationSelector"/>
+                            <entitySelection class="util.selection.recipes.ElitistSelector"/>
+                        </knowledgeTransferStrategy>
+                    </globalGuideProvider>
+                </entityType>
+            </initialisationStrategy>
+           <iterationStrategy class="pso.iterationstrategies.moo.DominantMOOSynchronousIterationStrategy">
+               <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+            </iterationStrategy>
+        </algorithm>
+
+	<algorithm id="vepso" class="algorithm.population.RespondingMultiPopulationCriterionBasedAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
+            <objectiveAssignmentStrategy class="moo.criterion.objectiveassignmentstrategies.SequentialObjectiveAssignmentStrategy"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <iterationStrategy class="moo.iterationstrategies.HigherLevelArchivingIterationStrategy">
+                <archive class="moo.archive.constrained.SetBasedConstrainedArchive" capacity="100">
+                    <pruningSelection class="util.selection.recipes.DistanceBasedElitistSelector">
+		      <comparator class="util.selection.arrangement.DistanceComparator"/>
+		    </pruningSelection>
+                </archive>
+                <iterationStrategy class="pso.dynamic.HigherLevelChangedDynamicIterationStrategy">
+                    <iterationStrategy class="pso.iterationstrategies.moo.DominantMOOSynchronousIterationStrategy">
+                        <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+                    </iterationStrategy>
+                    <detectionStrategy class="pso.dynamic.detectionstrategies.MOORandomArchiveSentriesDetectionStrategy">
+                        <iterationsModulus value="1"/>
+                        <numberOfSentries class="controlparameter.ConstantControlParameter" parameter="2"/>
+                    </detectionStrategy>
+		    <responseStrategy class="pso.dynamic.responsestrategies.MultiReactionStrategy">
+		      <addResponseStrategy class="pso.dynamic.responsestrategies.ArchiveChangeSeverityResponseStrategy"/>
+		      <addResponseStrategy class="pso.dynamic.responsestrategies.ReinitialisationReevaluationReactionStrategy">
+			<reinitialisationRatio value="0.3"/>
+		      </addResponseStrategy>
+                    </responseStrategy>
+                </iterationStrategy>
+            </iterationStrategy>
+        </algorithm>
+
+    </algorithms>
+
+       <problems>
+      <problem id="DMOP2_f1" class="problem.FunctionOptimisationProblem" domain="R(0:1)">
+	<function id="dmop2_f1" class="functions.continuous.dynamic.moo.dmop2.DMOP2_f1"/>
+      </problem>
+      <problem id="DMOP2_g" class="problem.FunctionOptimisationProblem" domain="R(0:1)^9">
+        <function id="dmop2_g" class="functions.continuous.dynamic.moo.dmop2.DMOP2_g">
+	  <n_t value="10"/>
+	  <tau_t value="10"/>
+	</function>
+      </problem>
+      <problem id="DMOP2_h" class="problem.FunctionOptimisationProblem" domain="R(0:1)^10">
+        <function id="dmop2_h" class="functions.continuous.dynamic.moo.dmop2.DMOP2_h">
+	  <n_t value="10"/>
+	  <tau_t value="10"/>
+          <setDMOP2_g>
+            <problem idref="DMOP2_g"/>
+          </setDMOP2_g>
+          <setDMOP2_f>
+            <problem idref="DMOP2_f1"/>
+          </setDMOP2_f>
+        </function>
+      </problem>
+
+      <problem id="DMOP2_g*h" class="problem.FunctionOptimisationProblem" domain="R(0:1)^10">
+        <function class="functions.continuous.dynamic.moo.dmop2.DMOP2_f2">
+          <setDMOP2_g>
+            <problem idref="DMOP2_g"/>
+          </setDMOP2_g>
+          <setDMOP2_h>
+            <problem idref="DMOP2_h"/>
+          </setDMOP2_h>
+        </function>
+      </problem>
+
+      <problem id="moo_problem" class="problem.MOOptimisationProblem">
+        <add idref="DMOP2_f1"/>
+        <add idref="DMOP2_g*h"/>
+      </problem>
+    </problems>
+
+    <measurements id="moo-quality" class="simulator.MeasurementSuite" resolution="10">
+        <addMeasurement class="measurement.single.moo.NumberOfSolutions"/>
+	<addMeasurement class="measurement.multiple.moo.ParetoOptimalFront"/>
+    </measurements>
+
+    <simulations>
+        <simulation samples="30">
+            <algorithm idref="vepso"/>
+            <problem idref="moo_problem"/>
+	    <measurements idref="moo-quality"/><output format="TXT" file="data/default-dvepso-DMOP2.txt"/>
+        </simulation>
+    </simulations>
+</simulator>

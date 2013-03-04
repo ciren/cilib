@@ -15,32 +15,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * and applications, IEEE Transactions on Evolutionary Computation, 8(5): 425-442, 2003
  *
  */
+
 public class FDA2_f1 implements ContinuousFunction {
 
     private static final long serialVersionUID = 3509865802519318920L;
 
     /**
-     * Default Constructor
-     */
-    public FDA2_f1() {
-        super();
-//        setDomain("R(0, 1)");
-    }
-
-    /**
-     * copy constructor
-     * @param copy
-     */
-    public FDA2_f1(FDA2_f1 copy) {
-//        this.setDomain(copy.getDomain());
-    }
-
-    /**
-     * Evaluates the function
-     * f1(X_I) = x_1
+     * Evaluates the function.
      */
     @Override
-    public Double apply(Vector input) {
-        return Math.abs(input.doubleValueOf(0));
+    public Double apply(Vector x) {
+        return (double)(Math.abs(x.doubleValueOf(0)));
     }
 }
