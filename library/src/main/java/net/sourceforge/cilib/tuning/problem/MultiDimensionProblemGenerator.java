@@ -6,43 +6,35 @@
  */
 package net.sourceforge.cilib.tuning.problem;
 
-import fj.F;
-import fj.data.List;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.tuning.parameters.TuningBounds;
 
-public class MultiDimensionProblemListProvider extends ProblemListProvider {
+public class MultiDimensionProblemGenerator extends ProblemGenerator {
 
-    private ProblemListProvider problemsProvider;
+    private ProblemGenerator problemsProvider;
     private TuningBounds dimensionBounds;
 
-    public MultiDimensionProblemListProvider() {
+    public MultiDimensionProblemGenerator() {
         this.dimensionBounds = new TuningBounds(1, 100);
     }
 
     @Override
-    public List<Problem> _1() {
-        final List<Problem> p = problemsProvider._1();
+    public Problem _1() {
+        final Problem p = problemsProvider._1();
         final UniformDistribution uniform = new UniformDistribution();
-
-        return p.map(new F<Problem, Problem>() {
-            @Override
-            public Problem f(Problem a) {
-                String d = a.getDomain().getDomainString();
-                a.setDomain(d.replaceAll("[\\^][\\d]*",
-                    "^" + Integer.toString((int) uniform.getRandomNumber(dimensionBounds.getLowerBound(),
-                    dimensionBounds.getUpperBound()))));
-                return a;
-            }
-        });
+        String d = p.getDomain().getDomainString();
+        p.setDomain(d.replaceAll("[\\^][\\d]*",
+            "^" + Integer.toString((int) uniform.getRandomNumber(dimensionBounds.getLowerBound(),
+            dimensionBounds.getUpperBound()))));
+        return p;
     }
 
-    public void setProblemsProvider(ProblemListProvider problemsProvider) {
+    public void setProblemsProvider(ProblemGenerator problemsProvider) {
         this.problemsProvider = problemsProvider;
     }
 
-    public ProblemListProvider getProblemsProvider() {
+    public ProblemGenerator getProblemsProvider() {
         return problemsProvider;
     }
 

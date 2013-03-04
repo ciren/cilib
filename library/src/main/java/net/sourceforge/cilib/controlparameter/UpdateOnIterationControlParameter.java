@@ -6,39 +6,16 @@
  */
 package net.sourceforge.cilib.controlparameter;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.algorithm.AlgorithmEvent;
-import net.sourceforge.cilib.algorithm.AlgorithmListener;
+import net.sourceforge.cilib.algorithm.*;
 
 /**
  * A Control parameter that updates itself at the end of each iteration.
  */
-public class UpdateOnIterationControlParameter implements ControlParameter {
+public class UpdateOnIterationControlParameter implements ControlParameter, AlgorithmListener {
     
     private double parameter;
     private ControlParameter delegate;
     private boolean attached;
-    private AlgorithmListener listener = new AlgorithmListener() {
-
-        @Override
-        public void algorithmStarted(AlgorithmEvent e) {
-            parameter = delegate.getParameter();
-        }
-
-        @Override
-        public void algorithmFinished(AlgorithmEvent e) {
-        }
-
-        @Override
-        public void iterationCompleted(AlgorithmEvent e) {
-            parameter = delegate.getParameter();
-        }
-
-        @Override
-        public AlgorithmListener getClone() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-    };
     
     public UpdateOnIterationControlParameter() {
         this(ConstantControlParameter.of(0.0));
@@ -53,8 +30,7 @@ public class UpdateOnIterationControlParameter implements ControlParameter {
     public UpdateOnIterationControlParameter(UpdateOnIterationControlParameter copy) {
         this.parameter = copy.parameter;
         this.delegate = copy.delegate.getClone();
-        this.attached = true;
-        AbstractAlgorithm.get().addAlgorithmListener(listener);
+        this.attached = false;
     }
     
     @Override
@@ -65,7 +41,9 @@ public class UpdateOnIterationControlParameter implements ControlParameter {
     @Override
     public double getParameter() {
         if (!attached) {
-            AbstractAlgorithm.get().addAlgorithmListener(listener);
+            parameter = delegate.getParameter();
+            AbstractAlgorithm.get().removeAlgorithmListener(this); // To prevent it being added multiple times
+            AbstractAlgorithm.get().addAlgorithmListener(this);
             attached = true;
         }
         
@@ -87,5 +65,20 @@ public class UpdateOnIterationControlParameter implements ControlParameter {
     
     public void setParameter(double newParameter) {
         parameter = newParameter;
+    }
+    
+    @Override
+    public void algorithmStarted(AlgorithmEvent e) {
+        parameter = delegate.getParameter();
+    }
+
+    @Override
+    public void algorithmFinished(AlgorithmEvent e) {
+        attached = false;
+    }
+
+    @Override
+    public void iterationCompleted(AlgorithmEvent e) {
+        parameter = delegate.getParameter();
     }
 }

@@ -85,7 +85,7 @@ public class AdaptiveLearningIterationStrategy extends AbstractIterationStrategy
         public double stagnation;
 
         public ParticleProperties getClone() {
-            return this;
+            return new ParticleProperties();
         }
     }
 

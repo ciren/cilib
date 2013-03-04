@@ -9,7 +9,6 @@ package net.sourceforge.cilib.gd;
 import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.SingularAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -125,7 +124,7 @@ public class GradientDescentBackpropagationTraining extends AbstractAlgorithm im
      */
     @Override
     public List<OptimisationSolution> getSolutions() {
-        ArrayList<OptimisationSolution> list = new ArrayList<OptimisationSolution>();
+        ArrayList<OptimisationSolution> list = new ArrayList();
         NNTrainingProblem problem = (NNTrainingProblem) getOptimisationProblem();
         NeuralNetwork neuralNetwork = problem.getNeuralNetwork();
         list.add(new OptimisationSolution(neuralNetwork.getWeights(), new MinimisationFitness(errorTraining)));

@@ -24,10 +24,12 @@ public class FixedControlParameter implements ControlParameter {
         this.parameter = Double.NaN;
     }
     
+    @Override
     public FixedControlParameter getClone() {
         return new FixedControlParameter(this);
     }
 
+    @Override
     public double getParameter() {
         if (Double.isNaN(parameter)) {
             parameter = controlParameter.getParameter();
@@ -36,6 +38,7 @@ public class FixedControlParameter implements ControlParameter {
         return parameter;
     }
 
+    @Override
     public double getParameter(double min, double max) {
         if (Double.isNaN(parameter)) {
             parameter = controlParameter.getParameter(min, max);

@@ -20,7 +20,7 @@ public class PeriodicParameterChangeTrigger extends ParameterChangeTrigger {
 
     @Override
     public Boolean f(TuningAlgorithm a) {
-        return a.getIterations() % (int) period.getParameter() == 0;
+        return (a.getIterations() + 1) % (int) period.getParameter() == 0;
     }
 
     public void setPeriod(ControlParameter period) {
