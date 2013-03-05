@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 
 /**
  * Utility methods for {@linkplain Vector}s.
@@ -58,6 +59,22 @@ public final class Vectors {
     }
 
     /**
+     * Construct a {@code Vector} of a specified size by drawing values from a
+     * {@code ProbabilityDistributionFunction}.
+     *
+     * @param n The size of the {@code Vector} to create.
+     * @param prob The {@code ProbabilityDistributionFunction} to sample.
+     * @return A {@code Vector} that contains n elements sampled from the specified distribution.
+     */
+    public static Vector distributedVector(int n, ProbabilityDistributionFunction prob) {
+        Vector.Builder vector = Vector.newBuilder();
+        for (int i = 0; i < n; i++) {
+            vector.add(prob.getRandomNumber());
+        }
+        return vector.build();
+    }
+
+    /**
      * Determine the sum of a list of {@code Vector} instances. Convenience method for
      * an array of vectors.
      * @param vectors The {@code Vector} instances to sum.
@@ -66,7 +83,7 @@ public final class Vectors {
     public static Vector sumOf(Vector... vectors) {
         return sumOf(Arrays.asList(vectors));
     }
-    
+
     /**
      * Determine the sum of a list of {@code Vector} instances.
      * @param vectors The {@code Vector} instances to sum.
@@ -76,18 +93,18 @@ public final class Vectors {
         if (vectors.isEmpty()) {
             return null;
         }
-        
+
         Vector result = vectors.get(0);
-        
+
         if (vectors.size() > 1) {
             for(int i = 1; i < vectors.size(); i++) {
                 result = result.plus(vectors.get(i));
             }
         }
-        
+
         return result;
     }
-    
+
     /**
      * Determine the mean of a list of {@code Vector} instances. Convenience method for
      * an array of vectors.
@@ -97,7 +114,7 @@ public final class Vectors {
     public static Vector mean(Vector... vectors) {
         return mean(Arrays.asList(vectors));
     }
-    
+
     /**
      * Determine the sum of a list of {@code Vector} instances.
      * @param vectors The {@code Vector} instances to sum.
@@ -106,38 +123,38 @@ public final class Vectors {
     public static Vector mean(List<Vector> vectors) {
         return sumOf(vectors).divide(vectors.size());
     }
-    
+
     /**
      * Uses the Gram-Schmidt process to orthonormalize a list of vectors.
      * @param vectors
-     * @return 
+     * @return
      */
     public static List<Vector> orthonormalize(List<Vector> vectors) {
         List<Vector> orthonormalBases = Lists.newArrayList();
         List<Vector> result = Lists.newArrayList();
-        
+
         Vector u1 = Vector.copyOf(vectors.get(0));
         orthonormalBases.add(u1);
-        
+
         for (int i = 1; i < vectors.size(); i++) {
             Vector ui = vectors.get(i);
-            
+
             for (int j = 0; j < orthonormalBases.size(); j++) {
                 ui = ui.subtract(vectors.get(i).project(orthonormalBases.get(j)));
             }
-		
+
             if (!ui.isZero()) {
                 orthonormalBases.add(ui);
             }
         }
-        
+
         for (Vector v : orthonormalBases) {
             result.add(v.normalize());
         }
-        
+
         return result;
     }
-    
+
     public static <T extends Number> Vector transform(Vector vector, Function<Numeric, T> function) {
         Vector.Builder builder = Vector.newBuilder();
         for (Numeric n : vector) {

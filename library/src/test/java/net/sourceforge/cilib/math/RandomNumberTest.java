@@ -7,10 +7,12 @@
 package net.sourceforge.cilib.math;
 
 import net.sourceforge.cilib.math.random.GaussianDistribution;
-import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
-
 import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.math.random.DiscreteUniformDistribution;
+import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.Real;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
@@ -42,4 +44,28 @@ public class RandomNumberTest {
             assertTrue(0.0 <= number);
         }
     }
+
+    @Test
+    public void testDiscreteUniform() {
+        rand = new DiscreteUniformDistribution();
+
+        for (int i = 0; i < 200; i++) {
+            double number = rand.getRandomNumber();
+            assertTrue(number == 0.0 || number == 1.0);
+        }
+
+        Vector v = Vector.of(1.0, 2.0, 3.0, 4.0);
+        rand = new DiscreteUniformDistribution(v);
+
+        for (int i = 0; i < 200; i++) {
+            double number = rand.getRandomNumber();
+            assertTrue(v.contains(Real.valueOf(number)));
+        }
+
+        for (int i = 0; i < 200; i++) {
+            double value = rand.getRandomNumber(1.0, 2.0, 3.0, 4.0);
+            assertTrue(v.contains(Real.valueOf(value)));
+        }
+    }
+
 }
