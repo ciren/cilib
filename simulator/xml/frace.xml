@@ -25,6 +25,7 @@
             <iterationStrategy class="tuning.IFRaceIterationStrategy">
                 <iterationStrategy class="tuning.FRaceIterationStrategy">
                     <minProblems class="controlparameter.ConstantControlParameter" parameter="1"/>
+                    <minSolutions class="controlparameter.ConstantControlParameter" parameter="2"/>
                 </iterationStrategy>
 
                 <parameterChangeTrigger class="tuning.parameterchange.triggers.PeriodicParameterChangeTrigger">
@@ -52,13 +53,11 @@
             <targetAlgorithm idref="pso"/>
             <measurement class="measurement.single.Fitness"/>
 
-            <problemsProvider class="tuning.problem.MultiDimensionProblemListProvider">
+            <problemsProvider class="tuning.problem.MultiDimensionProblemGenerator">
 
                 <dimensionBounds class="tuning.parameters.TuningBounds" lowerBound="10" upperBound="100"/>
 
-                <problemsProvider class="tuning.problem.StandardProblemListProvider">
-
-                    <count value="50"/>
+                <problemsProvider class="tuning.problem.StandardProblemGenerator">
 
                     <addProblem id="f1" class="problem.FunctionOptimisationProblem" domain="R(-100:100)^10">
                         <function class="functions.continuous.decorators.ShiftedFunctionDecorator">

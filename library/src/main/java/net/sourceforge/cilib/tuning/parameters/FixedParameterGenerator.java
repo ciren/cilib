@@ -40,6 +40,7 @@ public class FixedParameterGenerator extends ParameterGenerator {
         return count;
     }
     
+    @Override
     public Vector _1() {
         final double inc = bounds.getRange() / count;
         return Vector.copyOf(List.range(0, count)

@@ -67,6 +67,9 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
         initialised = false;
     }
 
+    @Override
+    public abstract AbstractAlgorithm getClone();
+
     /**
      * Copy constructor. Create a deep copy of the provided instance and return it.
      * @param copy The instance to copy.
@@ -161,7 +164,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
 
         fireAlgorithmFinished();
         currentAlgorithmStack.get().pop();
-
+        
         cleanUp();
     }
 

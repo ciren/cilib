@@ -13,15 +13,18 @@ public class TuningControlParameter implements ControlParameter {
     
     private int index;
 
+    @Override
     public double getParameter() {
         TuningAlgorithm algorithm = (TuningAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
         return algorithm.getCurrentParameters().doubleValueOf(index);
     }
 
+    @Override
     public double getParameter(double min, double max) {
         return getParameter();
     }
 
+    @Override
     public TuningControlParameter getClone() {
         return this;
     }

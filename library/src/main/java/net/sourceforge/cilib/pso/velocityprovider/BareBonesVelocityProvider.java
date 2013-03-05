@@ -35,6 +35,9 @@ public class BareBonesVelocityProvider implements VelocityProvider {
         this.exploitProbability = copy.exploitProbability.getClone();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BareBonesVelocityProvider getClone() {
         return new BareBonesVelocityProvider(this);

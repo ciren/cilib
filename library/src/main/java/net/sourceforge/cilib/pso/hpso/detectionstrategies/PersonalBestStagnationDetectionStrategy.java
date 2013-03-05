@@ -60,6 +60,7 @@ public class PersonalBestStagnationDetectionStrategy implements BehaviorChangeTr
         int counter = ((Int)entity.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER)).intValue();
 
         if (counter > windowSize.getParameter()) {
+            entity.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
             return true;
         }
 

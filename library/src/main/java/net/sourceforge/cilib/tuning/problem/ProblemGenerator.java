@@ -7,9 +7,8 @@
 package net.sourceforge.cilib.tuning.problem;
 
 import fj.P1;
-import fj.data.List;
 import net.sourceforge.cilib.problem.Problem;
 
-public abstract class ProblemListProvider extends P1<List<Problem>> {
+public abstract class ProblemGenerator extends P1<Problem> {
 
 }

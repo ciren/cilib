@@ -48,7 +48,7 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
             return function.apply(input);
         }
 
-        if (!initialised) {
+        if (!initialised || input.size() != rotationMatrix.getRows()) {
             setRotationMatrix(input.size());
             initialised = true;
         }

@@ -7,26 +7,21 @@
 package net.sourceforge.cilib.tuning;
 
 import fj.F;
-import static fj.data.List.*;
-import fj.data.Stream;
-import static fj.data.Stream.*;
-import static fj.function.Doubles.*;
+import static fj.data.List.range;
+import static fj.function.Doubles.sum;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.AbstractProblem;
-import net.sourceforge.cilib.problem.Problem;
+import net.sourceforge.cilib.problem.*;
 import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.tuning.problem.ProblemListProvider;
+import net.sourceforge.cilib.tuning.problem.ProblemGenerator;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 
 public class TuningProblem extends AbstractProblem {
     
-    private Stream<Problem> problems;
-    private Problem currentProblem;
-    
+    private Problem currentProblem;    
     private AbstractAlgorithm targetAlgorithm;
-    private ProblemListProvider problemsProvider;
+    private ProblemGenerator problemsProvider;
     private Measurement<Real> measurement;
     private int samples;
     
@@ -34,10 +29,17 @@ public class TuningProblem extends AbstractProblem {
         this.measurement = new net.sourceforge.cilib.measurement.single.Fitness();
         this.samples = 1;
     }
+    
+    public TuningProblem(TuningProblem copy) {
+        this.measurement = copy.measurement.getClone();
+        this.samples = copy.samples;
+        this.targetAlgorithm = copy.targetAlgorithm.getClone();
+        this.problemsProvider = copy.problemsProvider;
+    }
 
     @Override
-    public AbstractProblem getClone() {
-        return this;
+    public TuningProblem getClone() {
+        return new TuningProblem(this);
     }
 
     @Override
@@ -54,15 +56,9 @@ public class TuningProblem extends AbstractProblem {
 
         return objective.evaluate(f);
     }
-    
-    public void generateProblems() {
-        problems = cycle(iterableStream(problemsProvider._1()));
-        nextProblem();
-    }
-    
+
     public void nextProblem() {
-        currentProblem = problems.head();
-        problems = problems.tail()._1();
+        currentProblem = problemsProvider._1();
     }
     
     public void setMeasurement(Measurement<Real> measurement) {
@@ -73,11 +69,11 @@ public class TuningProblem extends AbstractProblem {
         return measurement;
     }
     
-    public void setProblemsProvider(ProblemListProvider problemProvider) {
+    public void setProblemsProvider(ProblemGenerator problemProvider) {
         this.problemsProvider = problemProvider;
     }
     
-    public ProblemListProvider getProblemsProvider() {
+    public ProblemGenerator getProblemsProvider() {
         return problemsProvider;
     }
     

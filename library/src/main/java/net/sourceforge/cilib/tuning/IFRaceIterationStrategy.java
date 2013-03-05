@@ -33,6 +33,7 @@ public class IFRaceIterationStrategy extends AbstractIterationStrategy<TuningAlg
     public void performIteration(final TuningAlgorithm algorithm) {
         if (parameterChangeTrigger.f(algorithm)) {
             algorithm.setParameterList(parameterChangeReaction.f(algorithm));
+            iterationStrategy.resetResults();
         }
         
         iterationStrategy.performIteration(algorithm);
