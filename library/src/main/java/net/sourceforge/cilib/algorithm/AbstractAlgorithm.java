@@ -83,7 +83,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
         }
 
         if (copy.optimisationProblem != null) {
-            optimisationProblem = copy.optimisationProblem.getClone();
+            optimisationProblem = copy.optimisationProblem;
         }
 
         for (StoppingCondition sc : copy.stoppingConditions) {
