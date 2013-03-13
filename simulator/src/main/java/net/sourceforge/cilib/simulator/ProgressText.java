@@ -36,7 +36,8 @@ final class ProgressText implements ProgressListener {
 
         double percentage = (int) (1000 * event.getPercentage()) / 10.0;
         int nequals = (int) (50 * event.getPercentage());
-        StringBuilder sb = new StringBuilder(String.format("\rProgress (%3.1f) |", percentage));
+        String spaces = Strings.repeat(" ", percentage < 10 ? 2 : percentage < 100 ? 1 : 0);
+        StringBuilder sb = new StringBuilder(String.format("\rProgress (%3.1f) %s|", percentage, spaces));
         sb.append(Strings.repeat("=", nequals));
         sb.append(Strings.repeat(" ", 50 - nequals));
         sb.append("|");
