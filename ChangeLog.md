@@ -1,9 +1,20 @@
 # ChangeLog for CIlib.
 
 0.7.6:
+Additions:
   - Added the firefly algorithm together with example XML
   - Updates to VEPSO knowledge transfer strategies
   - Updates to clustering (bug fixes and more)
+  - Addition of various benchmark funcitons
+  - Self Adaptive DE trial vector creation strategy
+  - Javadoc updates (mainly spelling related)
+
+Removals:
+  - Remove support for JDK6
+
+Bug fixes:
+  - Correct DE iteraton
+
 
 Please note that only noteworthy changes are mentioned for the 0.7.5 release.
 Future releases will have more detail.

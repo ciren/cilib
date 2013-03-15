@@ -5,12 +5,14 @@ object CIlibBuild extends Build {
 
   val buildSettings = Defaults.defaultSettings ++ Seq(
     scalaVersion := "2.9.2",
-    version := "0.7.6-SNAPSHOT"
+    version := "0.7.6"
   )
 
-  lazy val root = Project("cilib", file(".")) aggregate(library, simulator) settings (
-    headerCheckSetting
-  )
+  lazy val root = Project(id = "cilib",
+    base = file("."),
+    settings = buildSettings) aggregate(library, simulator) settings (
+      headerCheckSetting
+    )
 
   lazy val library = Project(id = "library",
     base = file("library"),
