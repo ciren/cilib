@@ -11,11 +11,13 @@ import fj.*;
 import fj.data.List;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.util.distancemeasure.DistanceMeasure;
 import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
+import net.sourceforge.cilib.util.functions.Utils;
 
 /**
  * <p>
@@ -33,11 +35,16 @@ public class SpeciationTopology<E extends Entity> extends AbstractTopology<E> {
 
     private DistanceMeasure distanceMeasure;
     private ControlParameter radius;
+    private List<List<Integer>> nHoods;
+    private int lastIteration;
+    private boolean perCall;
 
     public SpeciationTopology() {
         this.distanceMeasure = new EuclideanDistanceMeasure();
         this.radius = ConstantControlParameter.of(100);
         this.neighbourhoodSize = ConstantControlParameter.of(20);
+        this.lastIteration = -1;
+        this.perCall = false;
     }
 
     public SpeciationTopology(SpeciationTopology copy) {
@@ -45,6 +52,8 @@ public class SpeciationTopology<E extends Entity> extends AbstractTopology<E> {
         this.distanceMeasure = copy.distanceMeasure;
         this.radius = copy.radius.getClone();
         this.neighbourhoodSize = copy.neighbourhoodSize.getClone();
+        this.lastIteration = -1;
+        this.perCall = copy.perCall;
     }
 
     @Override
@@ -68,73 +77,81 @@ public class SpeciationTopology<E extends Entity> extends AbstractTopology<E> {
         return radius;
     }
 
+    public void setPerCall(boolean perCall) {
+        this.perCall = perCall;
+    }
+
+    public boolean getPerCall() {
+        return perCall;
+    }
+
     public static <T extends Entity> F<P2<T ,Integer>, Boolean> inRadius(final DistanceMeasure distance, final ControlParameter radius, final T other) {
         return new F<P2<T ,Integer>, Boolean>() {
             @Override
             public Boolean f(P2<T ,Integer> a) {
-                if (distance.distance(a._1().getCandidateSolution(), other.getCandidateSolution()) < radius.getParameter()) {
-                    return true;
-                }
-
-                return false;
+                return distance.distance(a._1().getCandidateSolution(), other.getCandidateSolution()) < radius.getParameter();
             }
         };
     }
-
-    public static <T extends Entity> F<P2<T, Integer>, Boolean> exists(final int index) {
-        return new F<P2<T, Integer>, Boolean>() {
-            @Override
-            public Boolean f(P2<T, Integer> a) {
-                if (a._2() == index) {
-                    return true;
-                }
-
-                return false;
-            }
-        };
+    
+    /**
+     * This is used to help with the unit test. i.e. no "empty stack exception"
+     */
+    public int getIteration() {
+        return AbstractAlgorithm.get().getIterations();
     }
-
-    public static <T extends Entity> F<List<P2<T, Integer>>, List<Integer>> getNeighbourhood(final DistanceMeasure distance,
-            final ControlParameter radius, final ControlParameter size, final int index) {
-        return new F<List<P2<T, Integer>>, List<Integer>>() {
+    
+    public static <T extends Entity> F<P2<List<P2<T, Integer>>,List<List<Integer>>>, List<List<Integer>>> getNeighbourhoods(final DistanceMeasure distance,
+            final ControlParameter radius, final ControlParameter size) {
+        return new F<P2<List<P2<T, Integer>>,List<List<Integer>>>, List<List<Integer>>>() {
             @Override
-            public List<Integer> f(List<P2<T, Integer>> a) {
-                if (a.isEmpty()) {
-                    return List.<Integer>nil();
+            public List<List<Integer>> f(P2<List<P2<T, Integer>>,List<List<Integer>>> a) {
+                if (a._1().isEmpty()) {
+                    return a._2();
                 }
 
-                List<P2<T, Integer>> sorted = a.sort(Ord.<P2<T, Integer>>ord(new F2<P2<T, Integer>, P2<T, Integer>, Ordering>() {
+                List<P2<T, Integer>> sorted = a._1().sort(Ord.<P2<T, Integer>>ord(new F2<P2<T, Integer>, P2<T, Integer>, Ordering>() {
                         @Override
                         public Ordering f(P2<T, Integer> a, P2<T, Integer> b) {
                             int result = -a._1().getFitness().compareTo(b._1().getFitness()) + 1;
                             return Ordering.values()[result];
                         }
                     }.curry()));
-                List<P2<T, Integer>> filtered = sorted.filter(inRadius(distance, radius, sorted.head()._1()));
-                List<P2<T, Integer>> neighbours = filtered.take((int) size.getParameter());
 
-                if(neighbours.exists(SpeciationTopology.<T>exists(index))) {
-                    return neighbours.map(P2.<T, Integer>__2());
-                }
+                List<P2<T, Integer>> neighbours = sorted
+                        .filter(inRadius(distance, radius, sorted.head()._1()))
+                        .take((int) size.getParameter());
 
-                List<P2<T, Integer>> remainder = sorted.minus(Equal.<P2<T, Integer>>equal(
-                    new F2<P2<T, Integer>, P2<T, Integer>, Boolean>() {
-                        @Override
-                        public Boolean f(P2<T, Integer> a, P2<T, Integer> b) {
-                            return a._2() == b._2();
-                        }
-                    }.curry()), neighbours);
-                return this.f(remainder);
+                List<P2<T, Integer>> remainder = sorted.minus(
+                        Equal.<T,Integer>p2Equal(Utils.<T>alwaysEqual(), Equal.intEqual), 
+                        neighbours);
+                return this.f(P.p(remainder, a._2().cons(neighbours.map(P2.<T,Integer>__2()))));
             }
         };
+    }
+    
+    private List<Integer> getNeighbourhood(final E e) {
+        int currentIteration = getIteration();
+        if (currentIteration > lastIteration || nHoods == null || perCall) {
+            lastIteration = currentIteration;
+            nHoods = getNeighbourhoods(distanceMeasure, radius, neighbourhoodSize)
+                .f(P.p(List.<Entity>iterableList((java.util.List<Entity>) entities).zipIndex(),List.<List<Integer>>nil()));
+        }
+        
+        final int index = entities.indexOf(e);
+        return nHoods.find(new F<List<Integer>, Boolean>() {
+            @Override
+            public Boolean f(List<Integer> a) {
+                return a.exists(Equal.intEqual.eq(index));
+            }
+        }).orSome(List.single(index));
     }
 
     @Override
     protected Iterator<E> neighbourhoodOf(final E e) {
         return new UnmodifiableIterator<E>() {
 
-            private List<Integer> neighbours = getNeighbourhood(distanceMeasure, radius, neighbourhoodSize, entities.indexOf(e))
-                    .f(List.<Entity>iterableList((java.util.List<Entity>) entities).zipIndex());
+            private List<Integer> neighbours = getNeighbourhood(e);
             private int index = -1;
 
             @Override

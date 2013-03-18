@@ -4,7 +4,6 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-
 package net.sourceforge.cilib.problem.changestrategy;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
@@ -19,10 +18,15 @@ import net.sourceforge.cilib.problem.Problem;
 public class IterationBasedSingleChangeStrategy implements ChangeStrategy {
 
     private ControlParameter resolution;
-    private int changeCounter=0;
+    private int changeCounter;
+
+    public IterationBasedSingleChangeStrategy() {
+        this(100);
+    }
 
     public IterationBasedSingleChangeStrategy(int numberOfIterationBetweenChanges) {
         this.resolution = ConstantControlParameter.of(numberOfIterationBetweenChanges);
+        this.changeCounter = 0;
     }
 
     @Override
@@ -34,6 +38,14 @@ public class IterationBasedSingleChangeStrategy implements ChangeStrategy {
         }
 
         return false;
+    }
+
+    public void setResolution(ControlParameter resolution) {
+        this.resolution = resolution;
+    }
+
+    public ControlParameter getResolution() {
+        return resolution;
     }
 
 }
