@@ -97,15 +97,6 @@ public class ClusterParticle extends AbstractParticle{
     }
 
     /*
-     * Returns the dimension of the ClusterParticle
-     * @return size The size of the Candidate Solution
-     */
-    @Override
-    public int getDimension() {
-        return getCandidateSolution().size();
-    }
-
-    /*
      * Returns the current position of the ClusterParticle
      * @return position The current value of the Candidate Solution
      */
