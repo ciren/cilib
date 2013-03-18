@@ -1,0 +1,1042 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>
+        <algorithm id="nichePSO" class="niching.NichingAlgorithm">
+            <!--addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/-->
+
+            <mainSwarm class="pso.PSO">
+                <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                    <entityType class="pso.particle.StandardParticle">
+                        <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                            <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.2"/>
+                        </velocityProvider>
+                        <velocityInitialisationStrategy class="entity.initialisation.RandomInitialisationStrategy"/>
+                    </entityType>
+                    <entityNumber value="30"/>
+                </initialisationStrategy>
+
+                <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
+                    <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+                </iterationStrategy>
+            </mainSwarm>
+
+            <nicheCreator class="niching.creation.ClosestNeighbourNicheCreationStrategy">
+                <swarmType class="pso.PSO">
+                    <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
+                        <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+                    </iterationStrategy>
+                </swarmType>
+
+                <swarmBehavior class="pso.particle.ParticleBehavior">
+                    <velocityProvider class="pso.velocityprovider.GCVelocityProvider">
+                        <rho class="controlparameter.ConstantControlParameter" parameter="0.001"/>
+                        <delegate class="pso.velocityprovider.ClampingVelocityProvider">
+                            <vMax class="controlparameter.ConstantControlParameter" parameter="1.0"/>
+                            <delegate class="pso.velocityprovider.StandardVelocityProvider">
+                                <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.2"/>
+                                <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="1.2"/>
+                                <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.7" finalValue="0.2"/>
+                            </delegate>
+                        </delegate>
+                    </velocityProvider>
+                </swarmBehavior>
+            </nicheCreator>
+
+            <nicheDetector class="niching.creation.MaintainedFitnessNicheDetection">
+                <threshold class="controlparameter.ConstantControlParameter" parameter="1.0E-4"/>
+                <stationaryCounter class="controlparameter.ConstantControlParameter" parameter="3.0"/>
+            </nicheDetector>
+
+            <mergeDetector class="niching.merging.detection.RadiusOverlapMergeDetection">
+                <threshold class="controlparameter.ConstantControlParameter" parameter="1.0E-12"/>
+            </mergeDetector>
+
+            <absorptionDetector class="niching.merging.detection.RadiusOverlapMergeDetection">
+                <threshold class="controlparameter.ConstantControlParameter" parameter="1.0E-12"/>
+            </absorptionDetector>
+
+            <mainSwarmMerger class="niching.merging.SingleSwarmMergeStrategy"/>
+            <mainSwarmAbsorber class="niching.merging.SingleSwarmMergeStrategy"/>
+            <mainSwarmCreationMerger class="niching.merging.SingleSwarmMergeStrategy"/>
+
+            <subSwarmMerger class="niching.merging.StandardMergeStrategy"/>
+            <subSwarmAbsorber class="niching.merging.StandardMergeStrategy"/>
+
+            <subSwarmIterator class="niching.iterators.AllSwarmsIterator">
+                <iterator class="niching.iterators.SingleNicheIteration"/>
+            </subSwarmIterator>
+
+            <mainSwarmIterator class="niching.iterators.SingleNicheIteration"/>
+
+            <iterationStrategy class="niching.iterationstrategies.NichePSO"/>
+        </algorithm>
+
+        <algorithm id="scatter-merge" idref="nichePSO">
+            <mainSwarmMerger class="niching.merging.ScatterMergeStrategy"/>
+            <subSwarmMerger class="niching.merging.ScatterMergeStrategy"/>
+        </algorithm>
+    </algorithms>
+
+    <problems>
+        <problem id="f1" class="problem.FunctionOptimisationProblem" domain="R(0:30)">
+            <objective class="problem.objective.Maximise"/>
+            <function class="functions.continuous.decorators.ScaledFunctionDecorator">
+                <function class="functions.continuous.unconstrained.FiveUnevenPeakTrap"/>
+                <verticalScale class="controlparameter.ConstantControlParameter" parameter="-1"/>
+            </function>
+        </problem>
+
+        <problem id="f2" class="problem.FunctionOptimisationProblem" domain="R(0:1)">
+            <objective class="problem.objective.Maximise"/>
+            <function class="functions.continuous.unconstrained.MultimodalFunction1"/>
+        </problem>
+
+        <problem id="f3" class="problem.FunctionOptimisationProblem" domain="R(0:1)">
+            <objective class="problem.objective.Maximise"/>
+            <function class="functions.continuous.unconstrained.MultimodalFunction4"/>
+        </problem>
+
+        <problem id="f4" class="problem.FunctionOptimisationProblem" domain="R(-6:6)^2">
+            <objective class="problem.objective.Maximise"/>
+            <function class="functions.continuous.decorators.ShiftedFunctionDecorator">
+                <function class="functions.continuous.decorators.ScaledFunctionDecorator">
+                    <function class="functions.continuous.unconstrained.Himmelblau"/>
+                    <verticalScale class="controlparameter.ConstantControlParameter" parameter="-1"/>
+                </function>
+                <verticalShift class="controlparameter.ConstantControlParameter" parameter="200"/>
+            </function>
+        </problem>
+
+        <problem id="f5" class="problem.FunctionOptimisationProblem" domain="R(-1.9:1.9),R(-1.1:1.1)">
+            <objective class="problem.objective.Maximise"/>
+            <function class="functions.continuous.decorators.ScaledFunctionDecorator">
+                <function class="functions.continuous.unconstrained.SixHumpCamelBack"/>
+                <verticalScale class="controlparameter.ConstantControlParameter" parameter="-4"/>
+            </function>
+        </problem>
+
+        <problem id="f6" class="problem.FunctionOptimisationProblem" domain="R(-10:10)^2">
+            <objective class="problem.objective.Maximise"/>
+            <function class="functions.continuous.decorators.ScaledFunctionDecorator">
+                <function class="functions.continuous.unconstrained.Shubert"/>
+                <verticalScale class="controlparameter.ConstantControlParameter" parameter="-1"/>
+            </function>
+        </problem>
+
+        <problem id="f7-2D" class="problem.FunctionOptimisationProblem" domain="R(0.25:10)^2">
+            <objective class="problem.objective.Maximise"/>
+            <function class="functions.continuous.decorators.ScaledFunctionDecorator">
+                <function class="functions.continuous.unconstrained.Vincent"/>
+                <verticalScale class="controlparameter.ConstantControlParameter" parameter="-2"/>
+            </function>
+        </problem>
+
+        <problem id="f7-3D" class="problem.FunctionOptimisationProblem" domain="R(0.25:10)^3">
+            <objective class="problem.objective.Maximise"/>
+            <function class="functions.continuous.decorators.ScaledFunctionDecorator">
+                <function class="functions.continuous.unconstrained.Vincent"/>
+                <verticalScale class="controlparameter.ConstantControlParameter" parameter="-3"/>
+            </function>
+        </problem>
+        
+        <problem id="f8" class="problem.FunctionOptimisationProblem" domain="R(0:1)^2">
+            <objective class="problem.objective.Maximise"/>
+            <function class="functions.continuous.unconstrained.RastriginNiching">
+                <k value="3.0"/>
+                <k value="4.0"/>
+            </function>
+        </problem>
+
+        <problem id="f9" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^2">
+            <function class="functions.continuous.hybrid.HybridCompositionFunction">
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="1" matrixType="identity" bias="0" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Griewank"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="1" matrixType="identity" bias="0" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Griewank"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="8" matrixType="identity" bias="0" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Weierstrass"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="8" matrixType="identity" bias="0" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Weierstrass"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="0.2" matrixType="identity" bias="0" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Spherical"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="0.2" matrixType="identity" bias="0" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Spherical"/>
+                </addFunction>
+            </function>
+        </problem>
+
+        <problem id="f10" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^2">
+            <function class="functions.continuous.hybrid.HybridCompositionFunction">
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="1" matrixType="identity" bias="0" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Rastrigin"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="1" matrixType="identity" bias="0" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Rastrigin"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="10" matrixType="identity" bias="0" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Weierstrass"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="10" matrixType="identity" bias="0" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Weierstrass"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="0.1" matrixType="identity" bias="0" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Griewank"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="0.1" matrixType="identity" bias="0" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Griewank"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="0.14285714285714285" matrixType="identity" bias="0" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Spherical"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="0.14285714285714285" matrixType="identity" bias="0" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Spherical"/>
+                </addFunction>
+            </function>
+        </problem>
+
+        <problem id="f11" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^2">
+            <function class="functions.continuous.hybrid.HybridCompositionFunction">
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="0.25" matrixType="linear_transformation" condition="1" bias="0" randomShift="true">
+                    <function class="functions.continuous.decorators.ExpandedFunctionDecorator">
+                        <function class="functions.continuous.decorators.CompositeFunctionDecorator">
+                            <innerFunction class="functions.continuous.unconstrained.Rosenbrock"/>
+                            <outerFunction class="functions.continuous.unconstrained.Griewank"/>
+                        </function>
+                    </function>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="0.1" matrixType="linear_transformation" condition="1" randomShift="true">
+                    <function class="functions.continuous.decorators.ExpandedFunctionDecorator">
+                        <function class="functions.continuous.decorators.CompositeFunctionDecorator">
+                            <innerFunction class="functions.continuous.unconstrained.Rosenbrock"/>
+                            <outerFunction class="functions.continuous.unconstrained.Griewank"/>
+                        </function>
+                    </function>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="2" lambda="2" matrixType="linear_transformation" condition="1" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Weierstrass"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="2" lambda="1" matrixType="linear_transformation" condition="1" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Weierstrass"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="2" lambda="2" matrixType="linear_transformation" condition="1" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Griewank"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="2" lambda="5" matrixType="linear_transformation" condition="1" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Griewank"/>
+                </addFunction>
+            </function>
+        </problem>
+
+        <problem id="f12" class="problem.FunctionOptimisationProblem" domain="R(-5:5)^3">
+            <function class="functions.continuous.hybrid.HybridCompositionFunction">
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="4" matrixType="linear_transformation" condition="1" bias="0" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Rastrigin"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="1" matrixType="linear_transformation" condition="1" bias="0" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Rastrigin"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="4" matrixType="linear_transformation" condition="1" bias="0" randomShift="true">
+                    <function class="functions.continuous.decorators.ExpandedFunctionDecorator">
+                        <function class="functions.continuous.decorators.CompositeFunctionDecorator">
+                            <innerFunction class="functions.continuous.unconstrained.Rosenbrock"/>
+                            <outerFunction class="functions.continuous.unconstrained.Griewank"/>
+                        </function>
+                    </function>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="1" matrixType="linear_transformation" condition="1" randomShift="true">
+                    <function class="functions.continuous.decorators.ExpandedFunctionDecorator">
+                        <function class="functions.continuous.decorators.CompositeFunctionDecorator">
+                            <innerFunction class="functions.continuous.unconstrained.Rosenbrock"/>
+                            <outerFunction class="functions.continuous.unconstrained.Griewank"/>
+                        </function>
+                    </function>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="1" lambda="0.1" matrixType="linear_transformation" condition="1" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Weierstrass"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="2" lambda="0.2" matrixType="linear_transformation" condition="1" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Weierstrass"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="2" lambda="0.1" matrixType="linear_transformation" condition="1" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Griewank"/>
+                </addFunction>
+                <addFunction class="functions.continuous.hybrid.SingleFunction"
+                    sigma="2" lambda="0.025" matrixType="linear_transformation" condition="1" randomShift="true">
+                    <function class="functions.continuous.unconstrained.Griewank"/>
+                </addFunction>
+            </function>
+        </problem>
+    </problems>
+
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.FitnessEvaluations"/>
+        <addMeasurement class="measurement.single.SwarmSize"/>
+        <addMeasurement class="measurement.multiple.CompositeMeasurement">
+            <addMeasurement class="measurement.single.SwarmSize"/>
+        </addMeasurement>
+        <addMeasurement class="measurement.multiple.CompositeMeasurement">
+            <addMeasurement class="measurement.single.Solution"/>
+        </addMeasurement>
+    </measurements>
+
+    <simulations>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="5e4">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f1"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="200"/>
+                    <radius value="0.01"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="200"/>
+                    <radius value="0.01"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="200"/>
+                    <radius value="0.01"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="200"/>
+                    <radius value="0.01"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="200"/>
+                    <radius value="0.01"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f1.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="5e4">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f2"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.01"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.01"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.01"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.01"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.01"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f2.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="5e4">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f3"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.01"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.01"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.01"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.01"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.01"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f3.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="5e4">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f4"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="200"/>
+                    <radius value="0.01"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="200"/>
+                    <radius value="0.01"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="200"/>
+                    <radius value="0.01"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="200"/>
+                    <radius value="0.01"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="200"/>
+                    <radius value="0.01"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f4.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="5e4">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f5"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1.03163"/>
+                    <radius value="0.5"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1.03163"/>
+                    <radius value="0.5"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1.03163"/>
+                    <radius value="0.5"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1.03163"/>
+                    <radius value="0.5"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1.03163"/>
+                    <radius value="0.5"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f5.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2e5">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f6"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="186.731"/>
+                    <radius value="0.5"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="186.731"/>
+                    <radius value="0.5"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="186.731"/>
+                    <radius value="0.5"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="186.731"/>
+                    <radius value="0.5"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="186.731"/>
+                    <radius value="0.5"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f6-2D.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="4e5">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f6" domain="R(-10:10)^3"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="2709.0935"/>
+                    <radius value="0.5"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="2709.0935"/>
+                    <radius value="0.5"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="2709.0935"/>
+                    <radius value="0.5"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="2709.0935"/>
+                    <radius value="0.5"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="2709.0935"/>
+                    <radius value="0.5"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f6-3D.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2e5">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f7-2D"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.2"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.2"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.2"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.2"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.2"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f7-2D.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="4e5">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f7-3D"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.2"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.2"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.2"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.2"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="1"/>
+                    <radius value="0.2"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f7-3D.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2e5">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f8"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="-2"/>
+                    <radius value="0.01"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="-2"/>
+                    <radius value="0.01"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="-2"/>
+                    <radius value="0.01"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="-2"/>
+                    <radius value="0.01"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="-2"/>
+                    <radius value="0.01"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f8.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2e5">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f9"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f9.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2e5">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f10"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f10.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2e5">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f11"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f11-2D.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="4e5">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f11" domain="R(-5:5)^3"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f11-3D.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="4e5">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f11" domain="R(-5:5)^5"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f11-5D.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="4e5">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f11" domain="R(-5:5)^10"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f11-10D.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="4e5">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f12"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f12-3D.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="4e5">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f12" domain="R(-5:5)^5"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f12-5D.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="4e5">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f12" domain="R(-5:5)^10"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f12-10D.txt"/>
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="nichePSO">
+                <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="4e5">
+                    <measurement class="measurement.single.FitnessEvaluations"/>
+                </addStoppingCondition>
+            </algorithm>
+            <problem idref="f12" domain="R(-5:5)^20"/>
+            <measurements idref="fitness">
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-1"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-2"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-3"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-4"/>
+                </addMeasurement>
+                <addMeasurement class="measurement.single.Niches">
+                    <peakHeight value="0"/>
+                    <radius value="0.01"/>
+                    <error value="1e-5"/>
+                </addMeasurement>
+            </measurements>
+            <output format="TXT" file="data/cec2013-niching-nichePSO-f12-20D.txt"/>
+        </simulation>
+    </simulations>
+</simulator>
