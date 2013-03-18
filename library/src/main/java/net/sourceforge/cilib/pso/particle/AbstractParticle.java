@@ -73,18 +73,20 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * {@inheritDoc}
      */
     @Override
-    public abstract Particle getClone();
+    public abstract AbstractParticle getClone();
 
     /**
      * {@inheritDoc}
      */
     @Override
     public boolean equals(Object object) {
-        if (this == object)
+        if (this == object) {
             return true;
+        }
 
-        if ((object == null) || (this.getClass() != object.getClass()))
+        if ((object == null) || (this.getClass() != object.getClass())) {
             return false;
+        }
 
         AbstractParticle other = (AbstractParticle) object;
         return super.equals(other);
@@ -104,19 +106,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * {@inheritDoc}
      */
     @Override
-    public abstract void calculateFitness();
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public abstract Fitness getBestFitness();
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract int getDimension();
 
     /**
      * Get the position of the <tt>Particle</tt>.
@@ -313,14 +303,6 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     @Override
     public Fitness getSocialFitness() {
         return this.neighbourhoodBestUpdateStrategy.getSocialBestFitness(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int compareTo(Entity o) {
-        return this.getFitness().compareTo(o.getFitness());
     }
 
     /**

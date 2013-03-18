@@ -50,22 +50,6 @@ public class StandardFirefly extends AbstractFirefly {
      * {@inheritDoc}
      */
     @Override
-    public int getDimension() {
-        return this.getPosition().size();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void calculateFitness() {
-        this.getProperties().put(EntityType.FITNESS, getFitnessCalculator().getFitness(this));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void initialise(Problem problem) {
         this.getProperties().put(EntityType.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresentation().getClone());
         this.positionInitialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, this);

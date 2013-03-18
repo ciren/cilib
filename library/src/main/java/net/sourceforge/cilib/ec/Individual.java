@@ -102,38 +102,6 @@ public class Individual extends AbstractEntity {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int compareTo(Entity o) {
-        return this.getFitness().compareTo(o.getFitness());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setCandidateSolution(StructuredType type) {
-        super.setCandidateSolution(type);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void calculateFitness() {
-        this.getProperties().put(EntityType.FITNESS, this.getFitnessCalculator().getFitness(this));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getDimension() {
-        return getCandidateSolution().size();
-    }
-
-    /**
      * Create a textual representation of the current {@linkplain Individual}. The
      * returned {@linkplain String} will contain both the genotypes and phenotypes for
      * the current {@linkplain Individual}.

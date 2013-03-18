@@ -73,20 +73,6 @@ public abstract class AbstractFirefly extends AbstractEntity implements Firefly 
      * {@inheritDoc}
      */
     @Override
-    public abstract void calculateFitness();
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int compareTo(Entity o) {
-        return getFitness().compareTo(o.getFitness());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public int compareIntensity(Firefly other) {
         return compareTo(other);
     }
@@ -102,6 +88,7 @@ public abstract class AbstractFirefly extends AbstractEntity implements Firefly 
     /**
      * {@inheritDoc}
      */
+    @Override
     public Vector getPosition() {
         return (Vector) this.getCandidateSolution();
     }
@@ -109,15 +96,10 @@ public abstract class AbstractFirefly extends AbstractEntity implements Firefly 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setPosition(Vector position) {
         this.setCandidateSolution(position);
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract int getDimension();
 
     /**
      * Get the current {@linkplain PositionInitialisationStrategy}.

@@ -9,7 +9,6 @@ package net.sourceforge.cilib.boa.bee;
 import net.sourceforge.cilib.boa.positionupdatestrategies.BeePositionUpdateStrategy;
 import net.sourceforge.cilib.boa.positionupdatestrategies.VisualPositionUpdateStategy;
 import net.sourceforge.cilib.entity.AbstractEntity;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
@@ -19,7 +18,6 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
  * The entity class for the ABC algorithm that represents the bees.
- *
  */
 public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
 
@@ -79,22 +77,6 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
      * {@inheritDoc}
      */
     @Override
-    public void calculateFitness() {
-        this.getProperties().put(EntityType.FITNESS, getFitnessCalculator().getFitness(this));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int compareTo(Entity o) {
-        return getFitness().compareTo(o.getFitness());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public int getDimension() {
         return this.dimension;
     }
@@ -110,6 +92,7 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Vector getPosition() {
         return (Vector) this.getCandidateSolution();
     }
@@ -117,6 +100,7 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setPosition(Vector position) {
         this.setCandidateSolution(position);
     }

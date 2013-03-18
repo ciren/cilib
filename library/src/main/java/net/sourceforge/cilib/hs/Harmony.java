@@ -42,11 +42,13 @@ public class Harmony extends AbstractEntity {
      */
     @Override
     public boolean equals(Object object) {
-        if (this == object)
+        if (this == object) {
             return true;
+        }
 
-        if ((object == null) || (this.getClass() != object.getClass()))
+        if ((object == null) || (this.getClass() != object.getClass())) {
             return false;
+        }
 
         Harmony other = (Harmony) object;
         return super.equals(other);
@@ -60,32 +62,6 @@ public class Harmony extends AbstractEntity {
         int hash = 7;
         hash = 31 * hash + super.hashCode();
         return hash;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void calculateFitness() {
-        Fitness fitness = getFitnessCalculator().getFitness(this);
-        this.getProperties().put(EntityType.FITNESS, fitness);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int compareTo(Entity o) {
-        return this.getFitness().compareTo(o.getFitness());
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getDimension() {
-        return getCandidateSolution().size();
     }
 
     /**
