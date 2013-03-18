@@ -46,7 +46,9 @@ public class SingleFunction implements ContinuousFunction {
     private double fmax;
     private double bias;
     private Vector shifted; //A temporary vector to hold the shifted input
+    private Vector shiftVector;
     private boolean initialised;
+    private boolean randomShift;
     
     /**
      * Default constructor.
@@ -58,6 +60,8 @@ public class SingleFunction implements ContinuousFunction {
         this.lambda = 1.0;
         this.horizontalShift = 0.0;
         this.bias = 0.0;
+        this.randomShift = false;
+        this.shiftVector = null;
     }
 
     /*
@@ -127,6 +131,14 @@ public class SingleFunction implements ContinuousFunction {
     public Vector getShifted() {
         return shifted;
     }
+
+    public void setRandomShift(boolean randomShift) {
+        this.randomShift = randomShift;
+    }
+
+    public boolean getRandomShift() {
+        return randomShift;
+    }
     
     /**
      * Sets the rotation matrix type.
@@ -149,7 +161,14 @@ public class SingleFunction implements ContinuousFunction {
      * @param input 
      */
     public void shift(Vector input) {
-        setShifted(input.subtract(Vector.fill(horizontalShift, input.size())));
+        if (shiftVector == null) {
+            if (randomShift) {
+                shiftVector = Vector.newBuilder().copyOf(input).buildRandom();
+            } else {
+                shiftVector = Vector.fill(horizontalShift, input.size());
+            }
+        }
+        setShifted(input.subtract(shiftVector));
     }
 
     /**

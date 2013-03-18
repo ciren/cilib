@@ -51,7 +51,7 @@ public class FiveUnevenPeakTrap implements ContinuousFunction {
         double x = input.doubleValueOf(0);
 
         if (x < 0)
-            return -200.0;
+            return 0.0;
         else if (x < 2.5)
             return -80*(2.5-x);
         else if (x < 5)
@@ -69,6 +69,6 @@ public class FiveUnevenPeakTrap implements ContinuousFunction {
         else if (x <= 30)
             return -80*(x-27.5);
         else
-            return -200.0;
+            return 0.0;
     }
 }
