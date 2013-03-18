@@ -47,7 +47,10 @@ public class MeasurementCombiner {
         Preconditions.checkArgument(partials.size() >= 1);
 
         try {
-            file.getParentFile().mkdirs();
+            if(file.getParent() != null) {
+                file.getParentFile().mkdirs();
+            }
+
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             int columnId = 0;
             writer.write("# " + columnId++ + " - Iterations\n");
