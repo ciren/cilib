@@ -102,7 +102,7 @@ public class HEF4_h implements ContinuousFunction {
     /**
      * Sets the f1 function that is used in the HEF4 problem without specifying
      * the problem.
-     * @param hef4_f ContinuousFunction used for the f1 function.
+     * @param hef4_f1 ContinuousFunction used for the f1 function.
      */
     public void setHEF4_f(ContinuousFunction hef4_f1) {
         this.hef4_f1 = hef4_f1;
@@ -134,7 +134,7 @@ public class HEF4_h implements ContinuousFunction {
 
     /**
      * Sets the frequency of change.
-     * @param tau Change frequency.
+     * @param tau_t Change frequency.
      */
     public void setTau_t(int tau_t) {
         this.tau_t = tau_t;

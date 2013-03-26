@@ -15,7 +15,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This class calculates the Ray Tury Validity Index that can be found in:
- * {@literal@}{Graaff11,
+ * {@literal @}{Graaff11,
  *  author = {Graaff A. J. and Engelbrecht A. P.},
  *  title = {A local network neighbourhood artificial immune system},
  *  year = {2011},

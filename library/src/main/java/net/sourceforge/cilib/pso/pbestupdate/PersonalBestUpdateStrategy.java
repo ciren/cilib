@@ -10,9 +10,9 @@ import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * Update the personal best of the particle. Updates are done in a variety
- * of manners, refer to implementations for details.
- *
+ * Updates the personal best of the {@link Particle}.
+ * <p>
+ * Updates are done in a variety of manners, refer to implementations for details.
  */
 public interface PersonalBestUpdateStrategy extends Cloneable {
 

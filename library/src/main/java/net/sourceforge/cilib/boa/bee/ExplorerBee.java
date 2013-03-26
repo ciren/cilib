@@ -12,11 +12,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * Represents the explorer bee in the algorithm. To emulate the functionality of the explorer bee in the hive, a random search
- * position is generated upon request if it is allowed. Keeps track of how many updates have occurred via numberOfUpdates and which iteration
- * the previous update occurred.
- *
- *
+ * Represents the explorer bee in the algorithm. To emulate the functionality of
+ * the explorer bee in the hive, a random search position is generated upon
+ * request if it is allowed. Keeps track of how many updates have occurred via
+ * {@link #getNumberOfUpdates()} and which iteration the previous update occurred.
  */
 public class ExplorerBee implements Cloneable {
 
@@ -73,10 +72,12 @@ public class ExplorerBee implements Cloneable {
 
     /**
      * Returns a new random position.
-     * @precondition the search is allowed.
-     * @param currentIteration the current iteration of the algorithm on the stack.
-     * @param position random position with same dimension and bounds as given position.
-     * @return The new position.
+     *
+     * @param currentIteration  the current iteration of the algorithm on the
+     *                          stack.
+     * @param position          random position with same dimension and bounds
+     *                          as given position.
+     * @return                  the new position.
      */
     public Vector getNewPosition(int currentIteration, Vector position) {
         previousUpdatedIteration = currentIteration;

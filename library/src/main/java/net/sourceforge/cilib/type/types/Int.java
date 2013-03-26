@@ -90,7 +90,7 @@ public class Int implements Numeric {
 
     /**
      * Return the value of the object itself. This is accordance to the manner
-     * in which {@see java.lang.Integer#hashCode()} operates.
+     * in which {@link java.lang.Integer#hashCode()} operates.
      *
      * @return The value of this Int representation.
      */

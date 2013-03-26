@@ -15,10 +15,11 @@ import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.pso.dynamic.ChargedParticle;
 
 /**
- * Create a collection of {@linkplain net.sourceforge.cilib.entity.Entity entities}
- * by cloning the given prototype {@link net.sourceforge.cilib.entity.Entity}.
- * The Entity have to be ChargedParticle and their charged are set during the
- * initialisation process.
+ * Create a collection of {@linkplain Entity entities} by cloning the given
+ * prototype {@link Entity}.
+ * <p>
+ * The entity has to be a {@link ChargedParticle}. Their charges are set during
+ * the initialisation process.
  *
  * @param <E> The {@code Entity} type.
  */
@@ -49,7 +50,7 @@ public class ChargedPopulationInitialisationStrategy<E extends Entity>
         this.entityNumber = copy.entityNumber;
         this.chargedRatio = copy.chargedRatio;
         this.chargeMagnitude = copy.chargeMagnitude;
-        
+
         if (prototypeEntity != null) {
             this.prototypeEntity = copy.prototypeEntity.getClone();
         }
@@ -102,8 +103,10 @@ public class ChargedPopulationInitialisationStrategy<E extends Entity>
     }
 
     /**
-     * Set the prototype {@linkplain net.sourceforge.cilib.entity.Entity entity} for the copy process.
-     * @param entityType The {@code Entity} to use for the cloning process. This must be a ChargedParticle.
+     * Set the prototype {@link  Entity} for the copy process.
+     *
+     * @param entityType    The {@linkplain Entity} to use for the cloning
+     *                      process. This must be a {@linkplain ChargedParticle}.
      */
     @Override
     public void setEntityType(Entity entityType) {
@@ -115,10 +118,9 @@ public class ChargedPopulationInitialisationStrategy<E extends Entity>
     }
 
     /**
-     * Get the {@linkplain net.sourceforge.cilib.entity.Entity entity} that has been defined as
-     * the prototype to for the copies.
-     * @see ChargedPopulationInitialisationStrategy#getPrototypeEntity()
-     * @return The prototype {@code Entity}.
+     * Get the {@link Entity} that has been defined as the prototype to copy.
+     *
+     * @return The prototype {@linkplain Entity}.
      */
     @Override
     public Entity getEntityType() {

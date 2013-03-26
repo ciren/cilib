@@ -26,8 +26,9 @@ public abstract class ClusteringProblem extends AbstractProblem{
     protected abstract Fitness calculateFitness(Type solution);
 
     /**
-     * Accessor for the domain of the function. See {@link net.sourceforge.cilib.Domain.Component}.
-     * @return The function domain.
+     * Accessor for the domain of the function.
+     *
+     * @return a {@link DomainRegistry} representing the function domain.
      */
     @Override
     public DomainRegistry getDomain() {
@@ -38,7 +39,9 @@ public abstract class ClusteringProblem extends AbstractProblem{
     }
 
     public void setDimension(int dimension) {
-        this.domainRegistry.setDomainString(domainRegistry.getDomainString().substring(0, domainRegistry.getDomainString().indexOf(")") + 1) + "^" + dimension);
+        this.domainRegistry.setDomainString(domainRegistry.getDomainString()
+            .substring(0, domainRegistry.getDomainString()
+            .indexOf(")") + 1) + "^" + dimension);
     }
 
     public void setNumberOfClusters(int newAmount) {

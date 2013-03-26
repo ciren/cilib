@@ -132,7 +132,7 @@ public final class BinaryQuantumVelocityProvider implements VelocityProvider {
 
     /**
      * Set the <tt>ControlParameter</tt> for beta.
-     * @param alpha
+     * @param beta the beta value to set.
      */
     public void setBeta(ControlParameter beta) {
         this.beta = beta;
@@ -168,7 +168,7 @@ public final class BinaryQuantumVelocityProvider implements VelocityProvider {
 
     /**
      * Set the <tt>ControlParameter</tt> for cognitive acceleration
-     * @param selfAcceleration
+     * @param cognitiveAcceleration
      */
     public void setCognitiveAcceleration(ControlParameter cognitiveAcceleration) {
         this.cognitiveAcceleration = cognitiveAcceleration;
@@ -186,7 +186,7 @@ public final class BinaryQuantumVelocityProvider implements VelocityProvider {
 
     /**
      * Set the <tt>ControlParameter</tt> for social acceleration
-     * @param selfAcceleration
+     * @param socialAcceleration
      */
     public void setSocialAcceleration(ControlParameter socialAcceleration) {
         this.socialAcceleration = socialAcceleration;

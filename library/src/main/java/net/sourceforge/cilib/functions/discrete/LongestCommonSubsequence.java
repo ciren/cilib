@@ -43,9 +43,10 @@ public class LongestCommonSubsequence implements DiscreteFunction {
     }
 
     /**
+     * Calculates the number of positive bits in the bit string.
      *
-     * @param x
-     * @return
+     * @param x the input bit string
+     * @return the number of positive bits
      */
     private int length(Vector x) {
         int count = 0;

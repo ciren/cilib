@@ -94,7 +94,7 @@ public class FDA1_f2 implements ContinuousFunction {
     /**
      * Sets the f1 function that is used in the FDA1 problem without specifying
      * the problem.
-     * @param fda1_h ContinuousFunction used for the h function.
+     * @return fda1_h ContinuousFunction used for the h function.
      */
     public ContinuousFunction getFDA1_h() {
         return this.fda1_h;

@@ -19,14 +19,12 @@ import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 
 /**
+ * All algorithms in CIlib should be subclasses of {@link Algorithm}. This class
+ * handles stopping criteria, events, threading and measurements.
  * <p>
- * All algorithms in CIlib should be subclasses of <code>Algorithm</code>. This class handles
- * stopping criteria, events, threading and measurements. Subclasses of <code>Algorithm</code>
- * must provide an implementation for <code>protected abstract void performIteration()</code>. If
- * a subclass overrides {@link #initialise()} then it must call <code>super.initialise()</code>.
- * Failure to do so will cause an {@linkplain InitialisationException} to be thrown when {@link #run()}
- * is called.
- * </p>
+ * Subclasses of {@link Algorithm} must provide an implementation for
+ * {@link Algorithm#performIteration()}. If a subclass overrides
+ * {@link #algorithmInitialisation()} then it must call {@code super.initialise()}.
  */
 public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
 
@@ -127,7 +125,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     protected abstract void algorithmIteration();
 
     /**
-     * {@inheritDoc}
+     * Initialise the algorithm.
      */
     public void algorithmInitialisation() {
         // subclasses can override the behaviour for this method
@@ -164,7 +162,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
 
         fireAlgorithmFinished();
         currentAlgorithmStack.get().pop();
-        
+
         cleanUp();
     }
 

@@ -5,6 +5,8 @@
  *  \___/_/_/_/_.___/
  */
 
+package net.sourceforge.cilib.controlparameter;
+
 /**
  * <p>A {@linkplain ControlParameter} is a generalised parameter type within CIlib.</p>
  * <p>
@@ -23,4 +25,3 @@
  * changes.
  * </p>
  */
-package net.sourceforge.cilib.controlparameter;

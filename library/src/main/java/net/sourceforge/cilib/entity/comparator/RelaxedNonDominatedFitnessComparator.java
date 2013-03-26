@@ -20,7 +20,6 @@ import net.sourceforge.cilib.math.random.generator.Rand;
  * Compare two {@link SocialEntity} instances, based on the available social best
  * fitness.
  * @param <E> The {@code SocialEntity} type.
- * @see SocialEntity#getSocialBestFitness()
  *
  */
 public class RelaxedNonDominatedFitnessComparator <E extends SocialEntity> implements Comparator<E>, Serializable  {

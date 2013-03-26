@@ -25,9 +25,10 @@ public class CauchyDistribution implements ProbabilityDistributionFunction {
     }
 
     /**
-     * Convenience method to obtain a Cauchy number. The distribution has a <code>mean</code>
-     * of <code>0.0</code> and a <code>deviation</code> of <code>1.0</code>.
-     * @return A cauchy number in the given distribution.
+     * Convenience method to obtain a Cauchy number. The distribution has a
+     * {@code mean = 0.0} and {@code deviation = 1.0}.
+     *
+     * @return A Cauchy number in the given distribution.
      */
     @Override
     public double getRandomNumber() {
@@ -38,10 +39,9 @@ public class CauchyDistribution implements ProbabilityDistributionFunction {
      * Return a random number sampled from the Cauchy distribution.
      * Two parameters are required. The first specifies the location,
      * the second specifies the scale.
-     * @param location The location of the mean of the distribution.
-     * @param scale The allowed variation that can be observed.
-     * @return A Cauchy random number with location <tt>location</tt> and
-     *         scale parameter <tt>scale</tt>
+     * @param locationScale the location (mean) and scale (deviation) of the
+     *                      distribution.
+     * @return A Cauchy number specified by {@code location} and {@code scale}.
      */
     @Override
     public double getRandomNumber(double... locationScale) {

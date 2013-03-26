@@ -18,11 +18,9 @@ import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrateg
 
 /**
  * Dynamic iteration strategy for PSO in dynamic environments.
- * In each iteration, it checks for an environmental change, but
- * the top-level algorithm, such as VEPSO, handles the
- * response for each sub-swarm
-
- *
+ * <p>
+ * In each iteration, it checks for an environmental change, but the top-level
+ * algorithm, such as VEPSO, handles the response for each sub-swarm.
  */
 public class HigherLevelDynamicIterationStrategy<E extends PopulationBasedAlgorithm> implements IterationStrategy<E> {
 
@@ -69,8 +67,6 @@ public class HigherLevelDynamicIterationStrategy<E extends PopulationBasedAlgori
     }
 
     /**
-     * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration()
-     *
      * Structure of Dynamic iteration strategy with re-initialisation:
      *
      * <ol>

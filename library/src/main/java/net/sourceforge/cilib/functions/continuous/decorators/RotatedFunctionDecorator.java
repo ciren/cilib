@@ -38,9 +38,9 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
     }
 
     /**
-     * Multiplies the argument vector, x, by the transpose of the rotation matrix
-     * stores the result in rotatedX and calls the evaluate method of the function
-     * being decorated with the rotated vector as the parameter.
+     * Multiplies the argument vector, x, by the transpose of the rotation
+     * matrix, stores the result in rotatedX and calls the evaluate method of
+     * the function being decorated with the rotated vector as the parameter.
      */
     @Override
     public Double apply(final Vector input) {
@@ -57,7 +57,8 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
 
         for (int j = 0; j < input.size(); j++) {
             for (int i = 0; i < input.size(); i++) {
-                rotatedX.setReal(j, rotatedX.doubleValueOf(j) + input.doubleValueOf(i) * rotationMatrix.valueAt(i, j));
+                rotatedX.setReal(j, rotatedX.doubleValueOf(j)
+                    + input.doubleValueOf(i) * rotationMatrix.valueAt(i, j));
             }
         }
 
@@ -86,7 +87,7 @@ public class RotatedFunctionDecorator implements ContinuousFunction {
     }
 
     /**
-     * @param rotationMatrix the rotationMatrix to set
+     * @param size the size of the rotationMatrix.
      */
     public void setRotationMatrix(int size) {
         switch(type) {

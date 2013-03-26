@@ -9,9 +9,7 @@ package net.sourceforge.cilib.type.types;
 public interface Randomisable {
 
     /**
-     * Apply a randomisation using the provided {@code Random}.
-     * @param random The {@code Random} to use for the randomisation.
+     * Apply a randomisation.
      */
     void randomise();
-
 }

@@ -34,10 +34,10 @@ public interface Topology<E extends Entity> extends List<E>, Cloneable {
     void accept(TopologyVisitor visitor);
 
     /**
-     * Returns an <code>Iterator</code> over all entities in the neighbourhood of
-     * the particle referred to by the given <code>Iterator</code>.
+     * Returns an iterator over all entities in the neighbourhood of
+     * the particle referred to by the given iterator.
      *
-     * @param iterator An iterator that refers to a particle in this topology.
+     * @param e An iterator that refers to a particle in this topology.
      * @return A particle iterator.
      */
     Collection<E> neighbourhood(final E e);

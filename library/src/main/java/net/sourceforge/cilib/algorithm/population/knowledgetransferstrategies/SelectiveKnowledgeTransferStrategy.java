@@ -16,14 +16,13 @@ import net.sourceforge.cilib.util.selection.recipes.RingBasedPopulationSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
- * <p>
- * An implementation of {@link KnowledgeTransferStrategy} where two {@link Selection}
- * instances are used to first select a sub-population ({@link PopulationBasedAlgorithm}) from
- * a collection of population-based algorithms (see {@link MultiPopulationBasedAlgorithm) and then
- * within this sub-population's {@link Topology}, which entity's knowledge is to be transferred
- * to the caller requesting it.
- * </p>
- *
+ * An implementation of {@link KnowledgeTransferStrategy} where two
+ * {@link Selector} instances are used to first select a
+ * {@link PopulationBasedAlgorithm sub-population} from a collection of
+ * population-based algorithms (see {@link MultiPopulationBasedAlgorithm}) and
+ * then within this sub-population's
+ * {@link net.sourceforge.cilib.entity.Topology}, which {@link Entity}'s
+ * knowledge is to be transferred to the caller requesting it.
  */
 public class SelectiveKnowledgeTransferStrategy implements KnowledgeTransferStrategy {
 

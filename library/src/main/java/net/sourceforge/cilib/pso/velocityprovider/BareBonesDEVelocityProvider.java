@@ -21,11 +21,10 @@ import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *  The <tt>VelocityProvider</tt> which uses a DE strategy where the trial
+ * A {@link VelocityProvider} which uses a DE strategy where the trial
  * vector is the bare bones attractor point.
  *
  *  TODO: To be published by Omran and Engelbrecht
- *
  */
 public class BareBonesDEVelocityProvider implements VelocityProvider {
 
@@ -106,7 +105,8 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
     /**
      * Get a list of individuals that are suitable to be used within
      * the recombination arithmetic operator.
-     * @param topology The {@see net.sourceforge.cilib.entity.Topology Topology} containing the entities.
+     *
+     * @param topology The {@link Topology} containing the entities.
      * @return A list of unique entities.
      */
     public static List<Entity> getRandomParentEntities(Topology<? extends Entity> topology) {
@@ -129,15 +129,15 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
     }
 
     /**
-     * Get the first {@linkplain RandomNumber}.
-     * @return The first {@linkplain RandomNumber}.
+     * Get the first {@code RandomNumber}.
+     * @return The first {@code RandomNumber}.
      */
     public ProbabilityDistributionFunction getRand1() {
         return this.rand1;
     }
 
     /**
-     * Set the first {@linkplain RandomNumber}.
+     * Set the first {@code RandomNumber}.
      * @param rand1 The value to set.
      */
     public void setRand1(ProbabilityDistributionFunction rand1) {
@@ -145,15 +145,15 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
     }
 
     /**
-     * Get the second{@linkplain RandomNumber}.
-     * @return The second {@linkplain RandomNumber}.
+     * Get the second{@code RandomNumber}.
+     * @return The second {@code RandomNumber}.
      */
     public ProbabilityDistributionFunction getRand2() {
         return this.rand2;
     }
 
     /**
-     * Set the second {@linkplain RandomNumber}.
+     * Set the second {@code RandomNumber}.
      * @param rand2 The value to set.
      */
     public void setRand2(ProbabilityDistributionFunction rand2) {
@@ -161,15 +161,15 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
     }
 
     /**
-     * Get the third {@linkplain RandomNumber}.
-     * @return The third {@linkplain RandomNumber}.
+     * Get the third {@code RandomNumber}.
+     * @return The third {@code RandomNumber}.
      */
     public ProbabilityDistributionFunction getRand3() {
         return this.rand3;
     }
 
     /**
-     * Set the third {@linkplain RandomNumber}.
+     * Set the third {@code RandomNumber}.
      * @param rand3 The value to set.
      */
     public void setRand3(ProbabilityDistributionFunction rand3) {

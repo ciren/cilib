@@ -56,7 +56,7 @@ public class DMOP2_g implements ContinuousFunction {
 
     /**
      * Sets the frequency of change.
-     * @param tau Change frequency.
+     * @param tau_t Change frequency.
      */
     public void setTau_t(int tau_t) {
         this.tau_t = tau_t;
@@ -64,7 +64,7 @@ public class DMOP2_g implements ContinuousFunction {
 
     /**
      * Returns the frequency of change.
-     * @return tau_t Change frequency.
+     * @return the change frequency.
      */
     public int getTau_t() {
         return this.tau_t;

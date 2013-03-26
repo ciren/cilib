@@ -35,8 +35,7 @@ public interface PopulationInitialisationStrategy<E extends Entity> extends Clon
     Entity getEntityType();
 
     /**
-     * Initialise the {@see net.sourceforge.cilib.entity.Entity} collection based on the given
-     * Topology and Problem.
+     * Initialise the {@link Entity} collection based on the given {@link Problem}.
      * @param problem The Problem to based the initialisation on
      * @return An {@code Iterable<E>} of instances.
      */

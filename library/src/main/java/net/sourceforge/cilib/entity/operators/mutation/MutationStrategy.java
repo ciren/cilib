@@ -54,8 +54,7 @@ public abstract class MutationStrategy implements Operator {
     public abstract void mutate(List<? extends Entity> offspringList);
 
     /**
-     *
-     * @return
+     * @return the mutation probability.
      */
     public ControlParameter getMutationProbability() {
         return mutationProbability;

@@ -19,23 +19,23 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * <code>MultistartOptimisationAlgorithm</code> is simply a wrapper. The wrapped
- * optimisation algorithm is subject to restart conditions. Each time one of these
- * conditions is satisfied, the wrapped algorithm is re-initialised and execution continues until
- * this algorithm's stopping conditions are satisfied.
- *
+ * {@link MultistartOptimisationAlgorithm} is simply a wrapper. The wrapped
+ * optimisation algorithm is subject to restart conditions. Each time one of
+ * these conditions is satisfied, the wrapped algorithm is re-initialised and
+ * execution continues until this algorithm's stopping conditions are satisfied.
  * <p>
  * This class implements a generalised multistart optimisation algorithm. The
  * original Multistart PSO is due to F. van den Bergh, reference:
  *          F. van den Bergh, "An Analysis of Particle Swarm Optimizers,"
  *          PhD thesis, Department of Computer Science,
  *          University of Pretoria, South Africa, 2002.
- *
  */
 public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implements ParticipatingAlgorithm {
     private static final long serialVersionUID = 1493525363256406120L;
 
-    /** Creates a new instance of MultistartOptimisationAlgorithm. */
+    /**
+     * Creates a new instance of MultistartOptimisationAlgorithm.
+     */
     public MultistartOptimisationAlgorithm() {
         singleIteration = new SingleIteration();
         problem = null;
@@ -61,7 +61,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
     /**
      * Sets the target optimisation algorithm that is subject to restarting.
      *
-     * @param algorithm Any {@link OptimisationAlgorithm} that extends {@link Algorithm}.
+     * @param algorithm any optimisation algorithm that extends {@link Algorithm}.
      */
     public void setTargetAlgorithm(Algorithm algorithm) {
         optimisationAlgorithm = (AbstractAlgorithm) algorithm;
@@ -87,6 +87,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
 
     /**
      * Set the optimisation problem.
+     *
      * @param problem The problem to set.
      */
     @Override
@@ -112,10 +113,11 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
 
     /**
      * Add a stopping condition used to determine when the algorithm
-     * should be restarted. Equivalent to calling {@link Algorithm#addStoppingCondition(StoppingCondition)} on
-     * the algorithm set in {@link #setTargetAlgorithm(OptimisationAlgorithm)}.
+     * should be restarted. Equivalent to calling
+     * {@link Stoppable#addStoppingCondition(StoppingCondition)} on the
+     * algorithm set in {@link #setTargetAlgorithm(Algorithm)}.
      *
-     * @param indicator The {@link StoppingCondition} to be added.
+     * @param condition the {@link StoppingCondition} to be added.
      */
     public void addRestartCondition(StoppingCondition condition) {
         algorithm.addStoppingCondition(condition);
@@ -123,10 +125,12 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
 
     /**
      * Removes a restart condition.
-     * Equivalent to calling {@link Algorithm#removeStoppingCondition(StoppingCondition)} on
-     * the algorithm set in {@link #setTargetAlgorithm(OptimisationAlgorithm)}.
+     * <p>
+     * Equivalent to calling
+     * {@link Stoppable#removeStoppingCondition(StoppingCondition)} on
+     * the algorithm set in {@link #setTargetAlgorithm(Algorithm)}.
      *
-     * @param condition The {@link StoppingCondition} to be removed.
+     * @param condition the {@link StoppingCondition} to be removed.
      */
     public void removeRestartCondition(StoppingCondition condition) {
         algorithm.removeStoppingCondition(condition);
@@ -147,8 +151,8 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
     }
 
     /**
-     * Perform an algorithm iteration, then restart the {@linkplain Algorithm} and increment
-     * the number of restarts.
+     * Perform an algorithm iteration, then restart the {@linkplain Algorithm}
+     * and increment the number of restarts.
      */
     @Override
     public void algorithmIteration() {
@@ -230,8 +234,8 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
             return target;
         }
 
-        /* (non-Javadoc)
-         * @see net.sourceforge.cilib.Problem.OptimisationProblemAdapter#calculateFitness(java.lang.Object)
+        /**
+         * {@inhericDoc}
          */
         @Override
         protected Fitness calculateFitness(Type solution) {

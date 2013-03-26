@@ -102,7 +102,7 @@ public class HEF8_h implements ContinuousFunction {
     /**
      * Sets the f1 function that is used in the HEF8 problem without specifying
      * the problem.
-     * @param hef8_f ContinuousFunction used for the f1 function.
+     * @param hef8_f1 ContinuousFunction used for the f1 function.
      */
     public void setHEF8_f(ContinuousFunction hef8_f1) {
         this.hef8_f1 = hef8_f1;
@@ -134,7 +134,7 @@ public class HEF8_h implements ContinuousFunction {
 
     /**
      * Sets the frequency of change.
-     * @param tau Change frequency.
+     * @param tau_t Change frequency.
      */
     public void setTau_t(int tau_t) {
         this.tau_t = tau_t;

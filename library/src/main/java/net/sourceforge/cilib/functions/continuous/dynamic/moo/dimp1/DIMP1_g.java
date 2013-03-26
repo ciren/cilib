@@ -57,7 +57,7 @@ public class DIMP1_g implements ContinuousFunction {
 
     /**
      * Sets the frequency of change.
-     * @param tau Change frequency.
+     * @param tau_t the change frequency.
      */
     public void setTau_t(int tau_t) {
         this.tau_t = tau_t;

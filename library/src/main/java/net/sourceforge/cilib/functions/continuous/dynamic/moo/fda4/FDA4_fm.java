@@ -91,7 +91,7 @@ public class FDA4_fm implements ContinuousFunction {
     /**
      * Sets the g function that is used in the FDA4 problem without specifying
      * the problem.
-     * @param fda4_g ContinuousFunction used for the g function.
+     * @param g ContinuousFunction used for the g function.
      */
     public void setFDA4_g(ContinuousFunction g) {
         this.fda4_g = g;

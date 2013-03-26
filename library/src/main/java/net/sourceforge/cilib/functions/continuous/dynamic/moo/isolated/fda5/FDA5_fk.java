@@ -116,7 +116,7 @@ public class FDA5_fk implements ContinuousFunction {
 
     /**
      * Sets the frequency of change.
-     * @param tau Change frequency.
+     * @param tau_t Change frequency.
      */
     public void setTau_t(int tau_t) {
         this.tau_t = tau_t;
@@ -167,7 +167,7 @@ public class FDA5_fk implements ContinuousFunction {
     /**
      * Sets the g function that is used in the FDA5 problem without specifying
      * the problem.
-     * @param fda5_g ContinuousFunction used for the g function.
+     * @param g ContinuousFunction used for the g function.
      */
     public void setFDA5_g(ContinuousFunction g) {
         this.fda5_g = g;

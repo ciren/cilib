@@ -20,13 +20,12 @@ import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * <p>
  * An implementation of the Guaranteed Convergence PSO algorithm. The GCPSO is a simple extension
  * to the normal PSO algorithm and the modifications to the algorithm is implemented as
- * a simple {@link VelocityProvider}
- * </p><p>
+ * a simple {@link VelocityProvider}.
+ * <p>
  * References:
- * </p><p><ul><li>
+ * <p><ul><li>
  * F. van den Bergh and A. Engelbrecht, "A new locally convergent particle swarm optimizer,"
  * in Proceedings of IEEE Conference on Systems, Man and Cybernetics,
  * (Hammamet, Tunisia), Oct. 2002.
@@ -34,10 +33,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * F. van den Bergh, "An Analysis of Particle Swarm Optimizers,"
  * PhD thesis, Department of Computer Science,
  * University of Pretoria, South Africa, 2002.
- * </li></ul></p>
- *
- * @TODO: The Rho value should be a vector to hold the rho value for each dimension!
- *
+ * </li></ul>
+ * <p>
+ * TODO: The Rho value should be a vector to hold the rho value for each dimension!
+ * <p>
  * It is very important to realise the importance of the <code>rho</code> values. <code>rho</code>
  * determines the local search size of the global best particle and depending on the domain
  * this could result in poor performance if the <code>rho</code> value is too small or too large depending

@@ -12,7 +12,7 @@ import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Interface for all types of fireflies in the firefly algorithm.
+ * Interface for all types of fireflies used in the firefly algorithm.
  */
 public interface Firefly extends Entity {
 
@@ -59,7 +59,7 @@ public interface Firefly extends Entity {
     int compareIntensity(Firefly other);
 
     /**
-     * Compares intensity to determine if the current {@link firefly} is brighter
+     * Compares intensity to determine if the current {@link Firefly} is brighter
      * than a neighbouring firefly.
      */
     boolean isBrighter(Firefly other);

@@ -40,7 +40,7 @@ public class Shekel4 implements ContinuousFunction {
     private static final double[] C = {0.1, 0.2, 0.2, 0.4, 0.4, 0.6, 0.3, 0.7, 0.5, 0.5};
 
     /**
-     * Creates a new instance of {@link Shekel} and initialises n to 10.
+     * Creates a new instance of {@link Shekel4} and initialises n to 10.
      */
     public Shekel4() {
         setN(10);
@@ -66,7 +66,7 @@ public class Shekel4 implements ContinuousFunction {
 
     /**
      * Set the N value for the function.
-     * @param n The value to set.
+     * @param n The value to set
      */
     public void setN(int n) {
         Preconditions.checkArgument(n == 5 || n == 7 || n == 10, "Shekel4 function N must be 5, 7 or 10.");

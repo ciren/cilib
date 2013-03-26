@@ -30,7 +30,8 @@ public class ElitistSelector<E extends Comparable> implements Selector<E> {
     private Comparator<E> comparator;
 
     /**
-     * Create a new instance with a defined comparator being {@link DefaultComparator}.
+     * Create a new instance with a defined comparator being
+     * {@link Ordering#natural()}.
      */
     public ElitistSelector() {
         this.comparator = Ordering.natural();

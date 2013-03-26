@@ -6,6 +6,7 @@
  */
 package net.sourceforge.cilib.pso.hpso.pheromoneupdate;
 
+import net.sourceforge.cilib.util.Cloneable;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
@@ -17,14 +18,14 @@ import net.sourceforge.cilib.pso.particle.Particle;
  * using three constants for whether the particle did better, the same or worse
  * than the previous iteration.
  */
-public class ConstantPheromoneUpdateStrategy implements PheromoneUpdateStrategy{
+public class ConstantPheromoneUpdateStrategy implements PheromoneUpdateStrategy, Cloneable {
     private ControlParameter better;
     private ControlParameter same;
     private ControlParameter worse;
 
     /**
-     * Initialises the controlparameters to 1.0, 0.5 and 0.0 for whether the
-     * particle did better, the same or worse respectively.
+     * Initialises the {@link ControlParameter}s to 1.0, 0.5 and 0.0 for whether
+     * the particle did better, the same or worse respectively.
      */
     public ConstantPheromoneUpdateStrategy() {
         this.better = ConstantControlParameter.of(1.0);
@@ -33,10 +34,10 @@ public class ConstantPheromoneUpdateStrategy implements PheromoneUpdateStrategy{
     }
 
     /**
-     * Creates a ConstantPheromoneUpdateStrategy with the same attributes as another
-     * ConstantPheromoneUpdateStrategy
+     * Creates a {@linkplain ConstantPheromoneUpdateStrategy} with the same
+     * attributes as another {@linkplain ConstantPheromoneUpdateStrategy}.
      *
-     * @param o the other instance ConstantPheromoneUpdateStrategy
+     * @param o the other instance {@linkplain ConstantPheromoneUpdateStrategy}
      */
     public ConstantPheromoneUpdateStrategy(ConstantPheromoneUpdateStrategy o) {
         this.better = o.better;
@@ -52,9 +53,11 @@ public class ConstantPheromoneUpdateStrategy implements PheromoneUpdateStrategy{
     }
 
     /**
-     * Calculates the change in pheromone level for a particular particle's behavior.
+     * Calculates the change in pheromone level for a particular
+     * {@link Particle}'s behavior.
      *
-     * @param e The particle whose behavior is being used for the pheromone update
+     * @param e The {@linkplain Particle} whose behavior is being used for the
+     * pheromone update
      * @return The change in pheromone level for a behavior
      */
     @Override

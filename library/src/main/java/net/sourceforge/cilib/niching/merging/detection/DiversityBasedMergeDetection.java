@@ -28,9 +28,9 @@ public class DiversityBasedMergeDetection extends MergeDetection {
     /**
      * Determines if two swarms should be merged based on whether they overlap and
      * if the diversity of the first swarm is below a threshold.
-     * @param a
-     * @param b
-     * @return
+     * @param a a {@linkplain PopulationBasedAlgorithm}.
+     * @param b a {@linkplain PopulationBasedAlgorithm}.
+     * @return whether the two swarms should be merged.
      */
     @Override
     public Boolean f(PopulationBasedAlgorithm a, PopulationBasedAlgorithm b) {

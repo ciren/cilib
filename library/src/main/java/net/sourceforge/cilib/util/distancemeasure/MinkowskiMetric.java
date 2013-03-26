@@ -11,22 +11,19 @@ import java.util.Iterator;
 import net.sourceforge.cilib.type.types.Numeric;
 
 /**
- * The Minkowski Metric is a generic measure of distance. It is defined in:<br/>
- * <pre>
+ * The Minkowski Metric is a generic measure of distance. It is defined in:
+ * <p>
  * Article{ 331504, author = "A. K. Jain and M. N. Murty and P. J. Flynn", title = "Data
  *           Clustering: A Review", journal = "ACM Computing Surveys", volume = "31", number = "3",
  *           year = "1999", issn = "0360-0300", pages = "264--323", doi =
  *           "http://0-doi.acm.org.innopac.up.ac.za:80/10.1145/331499.331504", publisher = "ACM
  *           Press", address = "New York, NY, USA" }
  * </pre>
- *
  * <p>
- * {@link net.sourceforge.cilib.util.ManhattanDistanceMeasure Manhattan Distance} is a special case of the Minkowski Metric with 'alpha' := 1.<br/>
- * {@link net.sourceforge.cilib.util.EuclideanDistanceMeasure Euclidean Distance} is a special case of the Minkowski Metric with 'alpha' := 2.
- * </p>
+ * {@link ManhattanDistanceMeasure} is a special case of the Minkowski Metric with 'alpha' := 1.<br/>
+ * {@link EuclideanDistanceMeasure} is a special case of the Minkowski Metric with 'alpha' := 2.
  * <p>
  * NOTE: The default 'alpha' value is 0 when this class is instantiated.
- * </p>
  */
 public class MinkowskiMetric implements DistanceMeasure {
 
@@ -54,8 +51,8 @@ public class MinkowskiMetric implements DistanceMeasure {
 
     /**
      * Calculate the distance between two vectors.
-     * @param x the one vector.
-     * @param y the other vector.
+     * @param x the first vector.
+     * @param y the second vector.
      * @return the distance (as a double) between the two vectors.
      * @throws IllegalArgumentException when the two vectors' dimension differ.
      */

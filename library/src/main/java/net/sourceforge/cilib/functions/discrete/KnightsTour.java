@@ -28,8 +28,9 @@ public class KnightsTour implements DiscreteFunction {
 
     /**
      * Determine the fitness of the provided bit string.
+     *
      * @param input
-     * @return
+     * @return the fitness of the bit string
      */
     @Override
     public Integer apply(Vector input) {

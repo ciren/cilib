@@ -106,7 +106,7 @@ public class MatrixDataSetBuilder extends DataSetBuilder {
     }
 
     /**
-     * Get the constructed {@see net.sourceforge.cilib.container.Matrix Matrix}.
+     * Get the constructed {@link Matrix}.
      * @return The current {@code Matrix} instance.
      */
     public Matrix getMatrix() {

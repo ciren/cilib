@@ -15,7 +15,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Implementation of the standard / default velocity update equation.
- *
  */
 public final class MOVelocityProvider implements VelocityProvider {
 
@@ -90,7 +89,7 @@ public final class MOVelocityProvider implements VelocityProvider {
 
 
     /**
-     * Get the <code>ControlParameter</code> representing the inertia weight of
+     * Get the {@linkplain ControlParameter} representing the inertia weight of
      * the VelocityProvider.
      * @return Returns the inertia component <tt>ControlParameter</tt>.
      */
@@ -99,17 +98,17 @@ public final class MOVelocityProvider implements VelocityProvider {
     }
 
     /**
-     * Set the <tt>ControlParameter</tt> for the inertia weight of the velocity
+     * Set the {@linkplain ControlParameter} for the inertia weight of the velocity
      * update equation.
-     * @param inertiaComponent The inertiaComponent to set.
+     * @param inertiaWeight The inertiaComponent to set.
      */
     public void setInertiaWeight(ControlParameter inertiaWeight) {
         this.inertiaWeight = inertiaWeight;
     }
 
     /**
-     * Gets the <tt>ControlParameter</tt> representing the cognitive component within this
-     * <code>VelocityProvider</code>.
+     * Gets the {@linkplain ControlParameter} representing the cognitive
+     * component within this {@linkplain VelocityProvider}.
      * @return Returns the cognitiveComponent.
      */
     public ControlParameter getCognitiveAcceleration() {
@@ -117,7 +116,7 @@ public final class MOVelocityProvider implements VelocityProvider {
     }
 
     /**
-     * Set the cognitive component <code>ControlParameter</code>.
+     * Set the cognitive component {@linkplain ControlParameter}.
      * @param cognitiveComponent The cognitiveComponent to set.
      */
     public void setCognitiveAcceleration(ControlParameter cognitiveComponent) {
@@ -125,8 +124,8 @@ public final class MOVelocityProvider implements VelocityProvider {
     }
 
     /**
-     * Get the <tt>ControlParameter</tt> representing the social component of
-     * the velocity update equation.
+     * Get the {@linkplain ControlParameter} representing the social component
+     * of the velocity update equation.
      * @return Returns the socialComponent.
      */
     public ControlParameter getSocialAcceleration() {
@@ -134,7 +133,7 @@ public final class MOVelocityProvider implements VelocityProvider {
     }
 
     /**
-     * Set the <tt>ControlParameter</tt> for the social component.
+     * Set the {@linkplain ControlParameter} for the social component.
      * @param socialComponent The socialComponent to set.
      */
     public void setSocialAcceleration(ControlParameter socialComponent) {

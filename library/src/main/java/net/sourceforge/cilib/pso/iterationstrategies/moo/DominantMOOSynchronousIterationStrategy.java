@@ -17,7 +17,6 @@ import net.sourceforge.cilib.pso.PSO;
 
 /**
  * Implementation of the synchronous iteration strategy for PSO.
- *
  */
 public class DominantMOOSynchronousIterationStrategy extends AbstractIterationStrategy<PSO> {
     /**
@@ -29,7 +28,7 @@ public class DominantMOOSynchronousIterationStrategy extends AbstractIterationSt
     }
 
     /**
-     * <p>This is an Synchronous strategy:</p>
+     * This is an Synchronous strategy:
      * <ol>
      * <li>For all particles:</li>
      * <ol><li>Update the particle velocity</li>
@@ -40,8 +39,7 @@ public class DominantMOOSynchronousIterationStrategy extends AbstractIterationSt
      *     <ol><li>Update the neighbourhood best</li></ol></ol>
      * </ol>
      *
-     * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration(net.sourceforge.cilib.PSO.PSO)
-     * @param pso The {@link PSO} to have an iteration applied.
+     * @param pso the {@link PSO} to have an iteration applied.
      */
     @Override
     public void performIteration(PSO pso) {

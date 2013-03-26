@@ -32,7 +32,7 @@ public class PatternInputSource implements NeuralInputSource {
     /**
      * Gets the neural input by indexing into the decorated pattern's input vector.
      * @param index the index of the input to retrieve.
-     * @return
+     * @return the neural input.
      */
     @Override
     public double getNeuralInput(int index) {

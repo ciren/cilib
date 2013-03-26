@@ -34,8 +34,7 @@ public class LaplaceDistribution implements ProbabilityDistributionFunction {
      * Get a Laplace-distributed random number. Two parameters are required.
      * The first specifies the location, the second specifies the scale.
      *
-     * @param location The location of the Laplace distribution.
-     * @param scale The scale of the Laplace distribution
+     * @param parameters the location and the scale of the distribution.
      * @return a Laplace-distributed random number.
      */
     @Override

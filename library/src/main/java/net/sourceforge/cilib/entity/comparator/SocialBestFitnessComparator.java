@@ -15,7 +15,6 @@ import net.sourceforge.cilib.problem.solution.Fitness;
  * Compare two {@link SocialEntity} instances, based on the available social best
  * fitness.
  * @param <E> The {@code SocialEntity} type.
- * @see SocialEntity#getSocialBestFitness()
  */
 public class SocialBestFitnessComparator<E extends SocialEntity> implements Comparator<E>, Serializable {
     private static final long serialVersionUID = 9035734190908368266L;

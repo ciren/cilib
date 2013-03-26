@@ -148,16 +148,16 @@ public class DDEIterationStrategy  extends AbstractIterationStrategy<EC> {
     }
 
     /**
-     * Obtain the {@linkplain SelectionStrategy} used to select the target vector.
-     * @return The {@linkplain SelectionStrategy} of the target vector.
+     * Obtain the {@linkplain Selector} used to select the target vector.
+     * @return The {@linkplain Selector} of the target vector.
      */
     public Selector getTargetVectorSelectionStrategy() {
         return targetVectorSelectionStrategy;
     }
 
     /**
-     * Set the {@linkplain SelectionStrategy} used to select the target vector within the DE.
-     * @param targetVectorSelectionStrategy The {@linkplain SelectionStrategy} to use for the
+     * Set the {@linkplain Selector} used to select the target vector within the DE.
+     * @param targetVectorSelectionStrategy The {@linkplain Selector} to use for the
      *        selection of the target vector.
      */
     public void setTargetVectorSelectionStrategy(Selector targetVectorSelectionStrategy) {
@@ -221,7 +221,8 @@ public class DDEIterationStrategy  extends AbstractIterationStrategy<EC> {
     }
 
     /*
-     * sets the current value of the total number of offspring to be generated
+     * Sets the current value of the total number of offspring to be generated.
+     *
      * @param totalOffspring The total number of offspring to be generated
      */
     public void setTotalOffspring(int totalOffspring) {
@@ -238,7 +239,7 @@ public class DDEIterationStrategy  extends AbstractIterationStrategy<EC> {
 
     /**
      * Set the probability distribution that will be used for the scaling factor.
-     * @return The {@linkplain ProbabilityDistributionFunction}.
+     * @param random the {@linkplain ProbabilityDistributionFunction}.
      */
     public void setScalingFactorRandom(ProbabilityDistributionFunction random) {
         this.scalingFactorRandom = random;
@@ -254,7 +255,7 @@ public class DDEIterationStrategy  extends AbstractIterationStrategy<EC> {
 
     /**
      * Set the selection strategy that will be used to select between offspring
-     * @return The {@linkplain Selector}.
+     * @param offspringSelectionStrategy the {@linkplain Selector}.
      */
     public void setOffspringSelectionStrategy(Selector offspringSelectionStrategy) {
         this.offspringSelectionStrategy = offspringSelectionStrategy;
@@ -270,10 +271,9 @@ public class DDEIterationStrategy  extends AbstractIterationStrategy<EC> {
 
      /**
      * Sets the selection strategy that will be used to select survivors for the next generation
-     * @return The {@linkplain Selector}.
+     * @param nextGenerationSelectionStrategy the {@linkplain Selector}.
      */
     public void setNextGenerationSelectionStrategy(Selector nextGenerationSelectionStrategy) {
         this.nextGenerationSelectionStrategy = nextGenerationSelectionStrategy;
     }
-
 }

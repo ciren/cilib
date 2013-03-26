@@ -12,9 +12,6 @@ import net.sourceforge.cilib.util.Vectors;
 
 /**
  * This is the normal position update as described by Kennedy and Eberhart.
- * @reference paper
- *
- *
  */
 public class StandardPositionProvider implements PositionProvider {
 
