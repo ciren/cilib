@@ -16,10 +16,10 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * An entity that maintains the context vector for a {@linkplain CooperativeCoevolutionAlgorithm}.
+ * An entity that maintains the context vector for a {@link CooperativeCoevolutionAlgorithm}.
  */
 public class ContextEntity extends AbstractEntity {
-    
+
     private static final long serialVersionUID = -3580129615323553890L;
 
     /**
@@ -32,10 +32,10 @@ public class ContextEntity extends AbstractEntity {
 
     /**
      * Copy constructor
-     * @param other {@linkplain ContextEntity} to make a copy of
+     * @param other {@linkplain ContextEntity} to make a copy of.
      */
-    public ContextEntity(ContextEntity copy){
-        super(copy);
+    public ContextEntity(ContextEntity other){
+        super(other);
     }
 
     /**
@@ -45,7 +45,7 @@ public class ContextEntity extends AbstractEntity {
     public ContextEntity getClone() {
         return new ContextEntity(this);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -74,17 +74,21 @@ public class ContextEntity extends AbstractEntity {
     }
 
     /**
-     * Clear the context vector
+     * Clear the context vector.
      */
     public void clear(){
         getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of());
     }
 
     /**
-     * Copy the given solution {@linkplain Vector} into a specified position into this context entity's context {@linkplain Vector}.
-     * The given {@linkplain DimensionAllocation} dictates which dimensions the given {@linkplain Vector} should be copied into.
+     * Copy the given solution {@linkplain Vector} into a specified position
+     * into this context entity's context {@linkplain Vector}. The given
+     * {@linkplain DimensionAllocation} dictates which dimensions the given
+     * {@linkplain Vector} should be copied into.
+     *
      * @param solution The {@linkplain Vector} to copy from.
-     * @param allocation The {@linkplain DimensionAllocation} which describes which dimensions to copy the solution into.
+     * @param allocation The {@linkplain DimensionAllocation} which describes
+     *                   which dimensions to copy the solution into.
      */
     public void copyFrom(Vector solution, DimensionAllocation allocation){
         if(solution.size() != allocation.getSize()) {
@@ -106,8 +110,8 @@ public class ContextEntity extends AbstractEntity {
     }
 
     /**
-     * Set the context vector to the given {@linkplain StructuredType}. The type has to be
-     * of type {@linkplain Vector}.
+     * Set the context vector to the given {@linkplain StructuredType}. The type
+     * has to be a {@linkplain Vector}.
      */
     @Override
     public void setCandidateSolution(StructuredType type) {
@@ -120,7 +124,7 @@ public class ContextEntity extends AbstractEntity {
     }
 
     /**
-     * Set the fitness of this context entity.
+     * Set the {@linkplain Fitness} of this context entity.
      * @param f The new {@linkplain Fitness} value.
      */
     public void setFitness(Fitness f){

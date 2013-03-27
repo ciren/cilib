@@ -13,7 +13,6 @@ import net.sourceforge.cilib.moo.archive.Archive;
  * This strategy responds to a change by removing all solutions from the archive.
  * This may be required when dealing with dynamic MOO functions where the POF
  * changes from concave to convex or from convex to concave.
- *
  */
 public class ArchiveAlwaysClearingResponseStrategy<E extends PopulationBasedAlgorithm> extends
         EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm>{
@@ -21,7 +20,7 @@ public class ArchiveAlwaysClearingResponseStrategy<E extends PopulationBasedAlgo
     private static final long serialVersionUID = -3042868407937040175L;
 
     /**
-     * @{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm> getClone() {
@@ -29,8 +28,11 @@ public class ArchiveAlwaysClearingResponseStrategy<E extends PopulationBasedAlgo
     }
 
     /**
-     * Responds to a change by removing all solutions from the archive.
-     * @param algorithm The algorithm to perform the response on.
+     * Responds to a change by removing all solutions from the
+     * {@linkplain Archive}.
+     *
+     * @param algorithm The {@linkplain PopulationBasedAlgorithm} to perform
+     *                  the response on.
      */
     @Override
     protected void performReaction(PopulationBasedAlgorithm algorithm) {

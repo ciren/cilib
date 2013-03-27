@@ -21,8 +21,10 @@ public class GammaDistribution implements ProbabilityDistributionFunction {
     }
 
     /**
-     * Get a Gamma-distributed random number with shape <code>k</code> and scale <code>theta</code>.
-     * @return a Gamma-distributed random number with shape 2 and scale 2.0.
+     * Get a Gamma-distributed random number with shape {@code k} and scale
+     * {@code theta}.
+     *
+     * @return a Gamma-distributed random number.
      */
     @Override
     public double getRandomNumber() {
@@ -32,16 +34,15 @@ public class GammaDistribution implements ProbabilityDistributionFunction {
     /**
      * Get a Gamma-distributed random number. Two parameters are required.
      * The first specifies the shape, the second specifies the scale.
-     *
+     * <p>
      * This method takes advantage of the following relationship between
      * the Gamma and Exponential distributions:
-     *
+     * <p>
      * if X1...Xn ~ Exponential(lambda) are exponentially distributed
      * and Y = X1 + X2 + ... + Xn, then Y ~ Gamma(n, 1/lambda).
      *
-     * @param shape The shape of the Gamma distribution.
-     * @param scale The scale of the Gamma distribution.
-     * @pre shape is assumed to be an integer.
+     * @param shapeScale    the shape and scale of the Gamma distribution.
+     *                      {@code shape} is assumed to be an integer.
      * @return a Gamma-distributed random number.
      */
     @Override

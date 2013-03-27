@@ -19,20 +19,30 @@ import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * This {@linkplain ProblemDistributionStrategy} performs a split by assigning a sequential portion of the varying length to each participating {@linkplain PopulationBasedAlgorithm}. Defaults into a
- * split of equal sizes if possible.
- * The order in which the algorithms are assigned is generated randomly.
+ * This {@linkplain ProblemDistributionStrategy} performs a split by assigning a
+ * sequential portion of the varying length to each participating
+ * {@linkplain PopulationBasedAlgorithm}.
+ * <p>
+ * Defaults into a split of equal sizes if possible. The order in which the
+ * algorithms are assigned is generated randomly.
  */
 public class RandomAlgorithmImperfectSplitDistribution implements
         ProblemDistributionStrategy {
 
     /**
-     * Splits up the given {@link OptimisationProblem} into sub-problems, where each sub problem contains a sequential (non-uniform sized) portion of the problem vector, and assigns them to all the participating {@link Algorithm}s.
-     * This implementation assigns a portion of length dimensionality/number of populations + 1 to dimensionality % number of populations of the participating populations.
+     * Splits up the given {@link Problem} into
+     * sub-problems, where each sub problem contains a sequential
+     * non-uniform sized) portion of the problem vector, and assigns them to all
+     * the participating {@link Algorithm}s. This implementation assigns a
+     * portion of length dimensionality/number of populations + 1 to
+     * dimensionality % number of populations of the participating populations.
      * The order in which the algorithms are assigned is generated randomly.
-     * @param populations The list of participating {@linkplain PopulationBasedAlgorithm}s.
-     * @param problem The problem that needs to be re-distributed.
-     * @param context The context vector maintained by the {@linkplain CooperativeCoevolutionAlgorithm}.
+     *
+     * @param populations   The list of participating
+     *                      {@linkplain PopulationBasedAlgorithm}s.
+     * @param problem       The problem that needs to be re-distributed.
+     * @param context       The context vector maintained by the
+     *                      {@linkplain CooperativeCoevolutionAlgorithm}.
      */
     public void performDistribution(List<PopulationBasedAlgorithm> populations,
             Problem problem, Vector context) {

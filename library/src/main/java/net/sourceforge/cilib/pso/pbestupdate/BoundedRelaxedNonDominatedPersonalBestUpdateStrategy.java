@@ -11,14 +11,6 @@ import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.type.types.Types;
 
-/**
- * <p> Implementation of {@link GuideUpdateStrategy} where a particle's guide
- * can get updated if the new guide is not dominated by the current guide, i.e.
- * both of the guides are non-dominated. If both guides are non- dominated the
- * new guide is selected. </p>
- *
- *
- */
 public class BoundedRelaxedNonDominatedPersonalBestUpdateStrategy extends RelaxedNonDominatedPersonalBestUpdateStrategy {
 
     /**
@@ -34,7 +26,6 @@ public class BoundedRelaxedNonDominatedPersonalBestUpdateStrategy extends Relaxe
      * guide is selected. However, if both guides are non-dominated, one of the
      * guides is randomly selected.
      * @param particle The particle who's guide is to be updated.
-     * @param guideType If the local or global guide should be updated.
      */
     @Override
     public void updatePersonalBest(Particle particle) {

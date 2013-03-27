@@ -42,7 +42,7 @@ public class NormalisationParameter implements DiversityNormalisation {
 
     /**
      * Gets the normalisation parameter.
-     * @return 
+     * @return the normalisation parameter.
      */
     public ControlParameter getNormalisationParameter() {
         return normalisationParameter;

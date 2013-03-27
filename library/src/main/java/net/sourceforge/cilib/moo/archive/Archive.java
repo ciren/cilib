@@ -11,18 +11,14 @@ import net.sourceforge.cilib.moo.archive.constrained.SetBasedConstrainedArchive;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 
 /**
- * <p>
- * A representation of an archive of non-dominated solutions used by Multi-objective optimisation
- * algorithms for solution storage during a search.
- * </p>
- *
+ * A representation of an archive of non-dominated solutions used by
+ * Multi-objective optimisation algorithms for solution storage during a search.
  */
 public interface Archive extends Collection<OptimisationSolution> {
 
     public static class Provider {
 
         private static ThreadLocal<Archive> currentArchive = new ThreadLocal<Archive>() {
-
             @Override
             protected Archive initialValue() {
                 return new SetBasedConstrainedArchive();
@@ -35,7 +31,7 @@ public interface Archive extends Collection<OptimisationSolution> {
         /**
          * Static entrypoint to get to the Archive. This method is useful especially
          * in situations where you need to get to the archive from different locations
-         * such as a {@code GuideSelectionStrategy}, or the {@link ArchivingIterationStep}
+         * such as a {@code GuideSelectionStrategy}, or the {@code ArchivingIterationStep}
          * at the end of a multi-objective algorithm.
          * @return The currently active archive for a multi-objective algorithm.
          */

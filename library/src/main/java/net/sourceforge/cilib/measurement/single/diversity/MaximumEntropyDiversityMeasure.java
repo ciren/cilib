@@ -74,7 +74,7 @@ public class MaximumEntropyDiversityMeasure extends Diversity {
     /**
      * Convenience method to set the number of intervals over which
      * entropy is measured.
-     * @param i the number of intervals to set.
+     * @param intervals the number of intervals to set.
      */
     public void setIntervals(int intervals) {
         entropyMeasure.setIntervals(intervals);

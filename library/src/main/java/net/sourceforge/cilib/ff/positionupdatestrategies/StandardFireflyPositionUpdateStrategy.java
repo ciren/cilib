@@ -84,9 +84,9 @@ public class StandardFireflyPositionUpdateStrategy implements FireflyPositionUpd
 
     /**
      * Move a firefly toward another firefly according to the distance
-     * between them <code>r</code>, brightness factor <code>beta</code>,
-     * light absorption coefficient <code>gamma</code> and a random vector
-     * scaled by the step size <code>alpha</code>.
+     * between them {@code r}, brightness factor {@code beta},
+     * light absorption coefficient {@code gamma} and a random vector
+     * scaled by the step size {@code alpha}.
      */
     private Vector moveToward(Firefly i, Firefly j) {
 
@@ -137,7 +137,7 @@ public class StandardFireflyPositionUpdateStrategy implements FireflyPositionUpd
 
     /**
     * Set the alpha control parameter to use.
-    * @param alpha The control parameter to set.
+    * @param alpha the control parameter to set.
     */
     public void setAlpha(ControlParameter alpha) {
         this.alpha = alpha;
@@ -153,7 +153,7 @@ public class StandardFireflyPositionUpdateStrategy implements FireflyPositionUpd
 
     /**
     * Set the beta control parameter to use.
-    * @param beta The control parameter to set.
+    * @param betaMin the control parameter to set.
     */
     public void setBetaMin(ControlParameter betaMin) {
         this.betaMin = betaMin;
@@ -169,14 +169,14 @@ public class StandardFireflyPositionUpdateStrategy implements FireflyPositionUpd
 
     /**
     * Set the gamma control parameter to use.
-    * @param gamma The control parameter to set.
+    * @param gamma the control parameter to set.
     */
     public void setGamma(ControlParameter gamma) {
         this.gamma = gamma;
     }
 
     /**
-    * Get the gamma control parameter used within the position update strategy
+    * Get the gamma control parameter used within the position update strategy.
     * @return the {@link ControlParameter} used.
     */
     public ControlParameter getGamma() {

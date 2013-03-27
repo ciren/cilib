@@ -43,17 +43,17 @@ public class ForwardingLayer extends Layer {
     @Override
     public Vector getActivations() {
         Vector.Builder activations = Vector.newBuilder();
-        
+
         for (int i = 0; i < this.size(); i++) {
             activations.add(getNeuralInput(i));
         }
-        
+
         return activations.build();
     }
 
     /**
      * Gets the size of this layer as the sum of the source's and its own.
-     * @return
+     * @return the of this layer
      */
     @Override
     public int size() {

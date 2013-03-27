@@ -13,8 +13,8 @@ import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
- * Calculates the change in pheromone level for a particular particle's behavior
- * in direct proportion to the change in the particle's fitness from one
+ * Calculates the change in pheromone level for a particular {@link Particle}'s
+ * behaviorin direct proportion to the change in the particle's fitness from one
  * iteration to the next.
  */
 public class LinearPheromoneUpdateStrategy implements PheromoneUpdateStrategy{

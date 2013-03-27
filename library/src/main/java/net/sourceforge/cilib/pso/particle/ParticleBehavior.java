@@ -6,6 +6,7 @@
  */
 package net.sourceforge.cilib.pso.particle;
 
+import net.sourceforge.cilib.util.Cloneable;
 import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
 import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
 import net.sourceforge.cilib.pso.guideprovider.PBestGuideProvider;
@@ -15,11 +16,11 @@ import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 
 /**
- * A {@link ParticleBehavior} object encapsulates the {@link PositionUpdateStrategy}
- * and {@link VelocityUpdateStrategy} that a particle uses.
+ * A {@link ParticleBehavior} object encapsulates the {@link PositionProvider}
+ * and {@link VelocityProvider} that a particle uses.
  *
  */
-public class ParticleBehavior implements Comparable<ParticleBehavior> {
+public class ParticleBehavior implements Comparable<ParticleBehavior>, Cloneable {
 
     private PositionProvider positionProvider;
     private VelocityProvider velocityProvider;
@@ -175,21 +176,21 @@ public class ParticleBehavior implements Comparable<ParticleBehavior> {
     public int getSuccessCounter() {
         return successCounter;
     }
-    
+
     /**
      * Reset the selected counter to zero.
      */
     public void resetSelectedCounter() {
         selectedCounter = 0;
     }
-    
+
     /**
      * Reset the success counter to zero.
      */
     public void resetSuccessCounter() {
         successCounter = 0;
     }
-    
+
     /**
      * Get the number of times this behavior has been selected
      */

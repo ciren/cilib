@@ -5,6 +5,8 @@
  *  \___/_/_/_/_.___/
  */
 
+package net.sourceforge.cilib.functions;
+
 /**
  * <p>
  * Collection of different types of functions. The function classes are categorized into
@@ -28,4 +30,3 @@
  *   <li>The accepted search space domain of the function for benchmark purposes.</li>
  * </ul>
  */
-package net.sourceforge.cilib.functions;

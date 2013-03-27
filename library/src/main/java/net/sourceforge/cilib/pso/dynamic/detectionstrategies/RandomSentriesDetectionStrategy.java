@@ -18,7 +18,7 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 
 /**
  * This class defines a detection strategy that uses a user-specified
- * {@link #numberOfSentries number of sentry entities} and an {@local #epsilon} value to
+ * {@link #numberOfSentries number of sentry entities} and an {@link #epsilon} value to
  * detect whether a change has occurred in the environment.
  *
  * @TechReport{ title = "Tracking Changing Extrema with Particle Swarm Optimizer", author =

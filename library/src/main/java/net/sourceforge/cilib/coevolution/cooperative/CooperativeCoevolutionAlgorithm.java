@@ -30,15 +30,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * fitness values are computed by inserting an entity's solution into the
  * current context vector before it is evaluated. The context vector is simply
  * the concatenation of the best solutions from each participating population.
- *
+ * <p>
  * Any algorithm that wishes to participate in a co-operative optimisation
  * algorithm must implement the {@link ParticipatingAlgorithm} interface. This class
  * also implements {@link ParticipatingAlgorithm}, meaning that co-operative
  * algorithms can be composed of co-operative algorithms again.
- *
  * <p>
  * References:
- * </p>
  * <p>
  * <ul>
  * <li> M. Potter and K.D. Jong, "A Cooperative Coevolutionary approach to function optimization,"
@@ -49,9 +47,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * IEEE Transactions on Evolutionary Computation, vol. 8, no. 3, pp 225-239, 2004.
  * </li>
  * </ul>
- * </p>
  *
- * @TODO: test this class.
+ * TODO: test this class.
  *
  */
 public class CooperativeCoevolutionAlgorithm extends MultiPopulationBasedAlgorithm implements ParticipatingAlgorithm, CoevolutionAlgorithm {

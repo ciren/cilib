@@ -93,7 +93,7 @@ public class HEF6_fm implements ContinuousFunction {
     /**
      * Sets the g function that is used in the HEF6 problem without specifying
      * the problem.
-     * @param hef6_g ContinuousFunction used for the g function.
+     * @param g ContinuousFunction used for the g function.
      */
     public void setHEF6_g(ContinuousFunction g) {
         this.hef6_g = g;

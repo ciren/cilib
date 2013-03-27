@@ -12,19 +12,18 @@ import net.sourceforge.cilib.problem.solution.MOFitness;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 
 /**
- * A Comparator that orders {@linkplain OptimisationSolutions} according to
+ * A Comparator that orders {@linkplain OptimisationSolution}s according to
  * their average Euclidean distance from two closest solutions in the archive.
  * We assume that the selection type will be OptimisationSolution.
- *
  *
  * @param <E> The selection type.
  */
 public class DistanceComparator<E extends Comparable> implements Comparator<OptimisationSolution>{
 
 	/**
-	 * Two @link{OptimisationSolution} entries are compared based on the sum of their
-	 * Euclidean distance to each of the solutions in the @link{Archive}. The
-	 * distance is calculated based on the @link{MOFitness}.
+	 * Two {@link OptimisationSolution} entries are compared based on the sum of their
+	 * Euclidean distance to each of the solutions in the {@link Archive}. The
+	 * distance is calculated based on the {@link MOFitness}.
 	 *
 	 * If o1's distance > o2's distance, -1 is returned.
 	 * If o1's distance < o2's distance, 1 is returned.

@@ -9,10 +9,10 @@ package net.sourceforge.cilib.problem.solution;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * This class represents a solution to an {@link net.sourceforge.cilib.problem.OptimisationProblem}.
- * It is responsible for keeping track of the optimisation problem and position of the solution within the search
- * space.
- *
+ * This class represents a solution to an
+ * {@linkplain net.sourceforge.cilib.problem.Problem optimisation problem}.
+ * It is responsible for keeping track of the optimisation problem and position
+ * of the solution within the search space.
  */
 public final class OptimisationSolution implements Solution, Comparable<OptimisationSolution> {
 
@@ -24,7 +24,7 @@ public final class OptimisationSolution implements Solution, Comparable<Optimisa
      * Constructs a new instance of {@code OptimisationSolution}.
      *
      * @param position The position of the solution within the search space of the problem.
-     * @param fitness The fitness of the optimisation solution.
+     * @param fitness The {@linkplain Fitness} of the optimisation solution.
      */
     public OptimisationSolution(Type position, Fitness fitness) {
         this.position = position.getClone();
@@ -74,9 +74,11 @@ public final class OptimisationSolution implements Solution, Comparable<Optimisa
     }
 
     /**
-     * Returns the fitness of this solution according to {@link net.sourceforge.cilib.problem.OptimisationProblem#getFitness(Type, boolean)}.
-     * Calling this function does not contribute to the number of fitness evaluations maintained by
-     * {@link net.sourceforge.cilib.problem.OptimisationProblem}.
+     * Returns the fitness of this solution according to
+     * {@linkplain net.sourceforge.cilib.problem.Problem optimisation problem}.
+     * Calling this function does not contribute to the number of fitness
+     * evaluations maintained by the
+     * {@link net.sourceforge.cilib.problem.Problem optimisation problem}.
      *
      * @return The fitness of this solution.
      */

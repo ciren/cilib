@@ -14,10 +14,10 @@ import net.sourceforge.cilib.util.selection.arrangement.ReverseArrangement;
 import net.sourceforge.cilib.util.selection.arrangement.SortedArrangement;
 
 /**
- * This class is similar to {@linkplain ElistSelection}, but where a Distance
- * Comparator is used. This class is necessary to select a different comparator
- * than the default one, due to the way in which the archive has been
- * implemented.
+ * This class is similar to {@link ElitistSelector}, but where a
+ * {@link DistanceComparator} is used. This class is necessary to select a
+ * different comparator than the default one, due to the way in which the
+ * archive has been implemented.
  *
  * @param <E> The selection type.
  */
@@ -28,7 +28,7 @@ public class DistanceBasedElitistSelector<E extends Comparable<? super E>> imple
 
     /**
      * Create a new instance with a defined comparator being
-     * {@link DefaultComparator}.
+     * {@link DistanceComparator}.
      */
     public DistanceBasedElitistSelector() {
         this.comparator = new DistanceComparator();
@@ -74,6 +74,5 @@ public class DistanceBasedElitistSelector<E extends Comparable<? super E>> imple
     public PartialSelection<E> on(Iterable<E> iterable) {
         return Selection.copyOf(iterable).orderBy(new SortedArrangement())
                 .orderBy(new ReverseArrangement());
-
     }
 }

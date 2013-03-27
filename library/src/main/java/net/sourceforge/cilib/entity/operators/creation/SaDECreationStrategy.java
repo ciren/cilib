@@ -15,14 +15,16 @@ import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 
 /**
- * This Creation Strategy selects between two selection strategies according to some probability.
- * As time passes, it adapts the probability in order to favour the strategy that results in more
- * individuals surviving to the next generation. The probabilities change every X iterations
- * where X is the learning period.
- *
+ * This Creation Strategy selects between two selection strategies according to
+ * some probability.
+ * <p>
+ * As time passes, it adapts the probability in order to favour the strategy
+ * that results in more individuals surviving to the next generation. The
+ * probabilities change every X iterations where X is the learning period.
+ * <p>
  * This adaptive strategy can be found in the following article:
- *
- * @INPROCEEDINGS{1554904,
+ * <p>
+ * @inproceedings{1554904,
  * author={Qin, A.K. and Suganthan, P.N.},
  * booktitle={Evolutionary Computation, 2005. The 2005 IEEE Congress on}, title={Self-adaptive differential evolution algorithm for numerical optimization},
  * year={2005},
@@ -30,7 +32,6 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
  * volume={2},
  * number={},
  * pages={ 1785 - 1791 Vol. 2}}
- *
  */
 public class SaDECreationStrategy implements CreationStrategy {
     private CreationStrategy strategy1;

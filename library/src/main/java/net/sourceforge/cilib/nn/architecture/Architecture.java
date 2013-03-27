@@ -15,8 +15,8 @@ import net.sourceforge.cilib.nn.architecture.builder.FeedForwardArchitectureBuil
 import net.sourceforge.cilib.nn.architecture.visitors.ArchitectureVisitor;
 
 /**
- * Class represents a neural network architecture and encapsulates a {@link ArchitectureBuilder}
- * and a list of {@link Layers}.
+ * Represents a neural network architecture and encapsulates a
+ * {@link ArchitectureBuilder} and a list of {@link Layer}s.
  */
 public class Architecture {
 
@@ -24,7 +24,8 @@ public class Architecture {
     private List<Layer> layers;
 
     /**
-     * Default constructor. Default ArchitectureBuilder is a {@link FeedForwardArchitectureBuilder}
+     * Default constructor. Default {@link ArchitectureBuilder} is a
+     * {@link FeedForwardArchitectureBuilder}.
      */
     public Architecture() {
         layers = new ArrayList<Layer>();
@@ -32,8 +33,8 @@ public class Architecture {
     }
 
     /**
-     * Initialises the architecture by calling the builder's build method on
-     * 'this' object.
+     * Initialises the architecture by calling the {@link ArchitectureBuilder}'s
+     *  build method on 'this' object.
      */
     public void initialise() {
         architectureBuilder.buildArchitecture(this);

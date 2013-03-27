@@ -79,7 +79,7 @@ public interface Particle extends Entity, SocialEntity, MemoryBasedEntity {
 
     /**
      * Get the strategy for the initialisation of the velocity.
-     * @return The {@linkplain VelocityInitialisationStrategy} that is currently set.
+     * @return The velocity {@linkplain InitialisationStrategy} that is currently set.
      */
     InitialisationStrategy getVelocityInitialisationStrategy();
 
@@ -121,7 +121,7 @@ public interface Particle extends Entity, SocialEntity, MemoryBasedEntity {
 
     /**
      * Set the behavior that the current particle should follow.
-     * @param behavior The {@link ParticleBehavior} to use.
+     * @param particleBehavior The {@linkplain ParticleBehavior} to use.
      */
     void setParticleBehavior(ParticleBehavior particleBehavior);
 

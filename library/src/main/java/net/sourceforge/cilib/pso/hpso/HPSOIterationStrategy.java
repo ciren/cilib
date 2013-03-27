@@ -94,7 +94,7 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
     private ControlParameter windowSize;
 
     /**
-     * Create a new instance of {@linkplain SlidingWindowHeterogeneousIterationStrategy}.
+     * Default constructor.
      */
     public HPSOIterationStrategy() {
         this.iterationStrategy = new SynchronousIterationStrategy();
@@ -141,8 +141,6 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
      *   <li>Perform normal iteration</li>
      *   <li>Update success counters</li>
      * </ol>
-     *
-     * @see net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy#performIteration()
      */
     @Override
     public void performIteration(PSO algorithm) {
@@ -205,16 +203,22 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
     }
 
     /**
-     * Get the currently defined {@linkplain StagnationDetectionStrategy}.
-     * @return The current {@linkplain StagnationDetectionStrategy}.
+     * Get the currently defined
+     * {@linkplain BehaviorChangeTriggerDetectionStrategy stagnation detection strategy}.
+     *
+     * @return  The current
+     *          {@linkplain BehaviorChangeTriggerDetectionStrategy stagnation detection strategy}.
      */
     public BehaviorChangeTriggerDetectionStrategy getDetectionStrategy() {
         return detectionStrategy;
     }
 
     /**
-     * Set the {@linkplain StagnationDetectionStrategy} to be used.
-     * @param strategy The {@linkplain StagnationDetectionStrategy} to set.
+     * Set the {@linkplain BehaviorChangeTriggerDetectionStrategy stagnation detection strategy}
+     * to be used.
+     *
+     * @param strategy  The {@linkplain BehaviorChangeTriggerDetectionStrategy stagnation detection strategy}
+     *                  to set.
      */
     public void setDetectionStrategy(BehaviorChangeTriggerDetectionStrategy strategy) {
         this.detectionStrategy = strategy;
@@ -230,7 +234,7 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
 
     /**
      * Set the current {@linkplain Selector} to use.
-     * @param strategy The {@linkplain Selector} to set.
+     * @param recipe The {@linkplain Selector} to set.
      */
     public void setSelectionRecipe(Selector<ParticleBehavior> recipe) {
         this.behaviorSelectionRecipe = recipe;
@@ -255,7 +259,7 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
 
     /**
      * Sets the number of iterations for which to keep success counters.
-     * @param windowSize The number of iterations
+     * @param n The number of iterations
      */
     public void setWindowSize(ControlParameter n) {
         this.windowSize = n;

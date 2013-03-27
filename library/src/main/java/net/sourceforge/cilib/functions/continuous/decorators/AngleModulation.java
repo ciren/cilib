@@ -16,16 +16,13 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * A Decorator pattern class to wrap a normal function to perform Angle Modulation.
- *
- * The default values for angle modulation are:
+ * Decorator pattern class to wrap a normal function to perform Angle Modulation.
  * <p>
+ * The default values for angle modulation are:
  * <ul>
  *   <li>domain = "R(-1.0,1.0)^4"</li>
  *   <li>precision = 3</li>
  * </ul>
- * </p>
- *
  */
 public class AngleModulation extends AbstractProblem {
 
@@ -61,7 +58,7 @@ public class AngleModulation extends AbstractProblem {
 
     /**
      *
-     * @return
+     * @return the precision.
      */
     public int getPrecision() {
         return this.precision;
@@ -89,9 +86,9 @@ public class AngleModulation extends AbstractProblem {
     }
 
     /**
-     * @TODO: This needs to use an API for domain string manipulation
-     * @param domain
-     * @return
+     * TODO: This needs to use an API for domain string manipulation
+     * @param domain    the domain used to calculate the number of bits.
+     * @return          the required number of bits for the specified domain.
      */
     public int getRequiredNumberOfBits(DomainRegistry domain) {
         if (domain.getDomainString().contains("B")) {
@@ -115,12 +112,12 @@ public class AngleModulation extends AbstractProblem {
     }
 
     /**
-     * @TODO: Change this to use something better than a string
-     * @TODO: complete this method
+     * TODO: Change this to use something better than a string
+     * TODO: complete this method
      *
      * @param x
      * @param dimensionBitNumber
-     * @return
+     * @return the generated bit string.
      */
     public String generateBitString(Vector x, int dimensionBitNumber) {
         StringBuilder str = new StringBuilder();
@@ -150,7 +147,7 @@ public class AngleModulation extends AbstractProblem {
      *
      * @param bits
      * @param dimensionBits
-     * @return
+     * @return the decoded bit string.
      */
     public Vector decodeBitString(String bits, int dimensionBits) {
         Vector.Builder vector = Vector.newBuilder();
@@ -198,7 +195,7 @@ public class AngleModulation extends AbstractProblem {
     /**
      *
      * @param number
-     * @return
+     * @return the transformed number.
      */
     private double transform(double number) {
         double result = number;

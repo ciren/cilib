@@ -149,7 +149,7 @@ public final class BinaryMVVelocityProvider implements VelocityProvider {
     /**
      * Set the <tt>ControlParameter</tt> for the inertia weight of the velocity
      * update equation.
-     * @param inertiaComponent The inertiaComponent to set.
+     * @param inertiaWeight The inertiaWeight to set.
      */
     public void setInertiaWeight(ControlParameter inertiaWeight) {
         this.inertiaWeight = inertiaWeight;

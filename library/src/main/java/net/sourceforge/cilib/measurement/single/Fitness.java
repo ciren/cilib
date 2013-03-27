@@ -32,5 +32,4 @@ public class Fitness implements Measurement<Real> {
         double fitness = algorithm.getBestSolution().getFitness().getValue();
         return Real.valueOf(fitness);
     }
-
 }

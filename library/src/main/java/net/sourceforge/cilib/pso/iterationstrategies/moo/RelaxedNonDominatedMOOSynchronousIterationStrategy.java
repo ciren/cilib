@@ -30,7 +30,7 @@ public class RelaxedNonDominatedMOOSynchronousIterationStrategy extends Abstract
     }
 
     /**
-     * <p>This is an Synchronous strategy:</p>
+     * This is an Synchronous strategy:
      * <ol>
      * <li>For all particles:</li>
      * <ol><li>Update the particle velocity</li>
@@ -41,7 +41,6 @@ public class RelaxedNonDominatedMOOSynchronousIterationStrategy extends Abstract
      *     <ol><li>Update the neighbourhood best</li></ol></ol>
      * </ol>
      *
-     * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration(net.sourceforge.cilib.PSO.PSO)
      * @param pso The {@link PSO} to have an iteration applied.
      */
     @Override

@@ -12,14 +12,9 @@ import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.type.types.Types;
 
 /**
- * <p>
- * Implementation of {@link GuideUpdateStrategy} where a particle's guide
- * can get updated if the new guide is not dominated by the current guide,
- * i.e. both of the guides are non-dominated. If both guides are non-
- * dominated the new guide is selected.
- * </p>
- *
- *
+ * A {@link Particle}'s guide can get updated if the new guide dominates the old
+ * guide or if both guides are non-dominated. If both guides are non-dominated,
+ * one of the guides is randomly selected.
  */
 public class BoundedMOOStandardPersonalBestUpdateStrategy extends MOOStandardPersonalBestUpdateStrategy {
 
@@ -35,8 +30,8 @@ public class BoundedMOOStandardPersonalBestUpdateStrategy extends MOOStandardPer
      * Updates the guide. If the new guide dominates the old guide, the new guide is
      * selected. However, if both guides are non-dominated, one of the guides is
      * randomly selected.
+     *
      * @param particle The particle who's guide is to be updated.
-     * @param guideType If the local or global guide should be updated.
      */
     @Override
     public void updatePersonalBest(Particle particle) {
@@ -47,5 +42,4 @@ public class BoundedMOOStandardPersonalBestUpdateStrategy extends MOOStandardPer
 
         super.updatePersonalBest(particle);
     }
-
 }

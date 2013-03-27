@@ -12,12 +12,10 @@ import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * <p>
  * The Cosine Distance Measure (or vector dot product) is not a distance measure, but
  * rather a similarity metric. It is defined in:<br/>
  * <strong>Learning structure and concepts in data through data clustering</strong>
  * by Gregory James Hamerly, 2003
- * </p>
  * <p>
  * More positive values indicate similarity. The vector dot product is the sum of the
  * product of each attribute from two vectors being compared. Here we use a normalized
@@ -32,15 +30,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </p>
  */
 public class CosineDistanceMeasure implements DistanceMeasure {
-
     /**
      * Calculate the "distance" (dot product) between (of) two vectors.
-     * @param <T> The {@linkplain Vector} type.
      * @param x the one vector.
      * @param y the other vector.
      * @return the "distance" (or angle or dot product) (as a double) between the two vectors.
      * @throws IllegalArgumentException when the two vectors' dimension differ.
-     * @TODO: Can this not be replaced with x.dot(y)?
+     * TODO: Can this not be replaced with x.dot(y)?
      */
     public double distance(Collection<? extends Numeric> x, Collection<? extends Numeric> y) {
         if (x.size() != y.size()) {

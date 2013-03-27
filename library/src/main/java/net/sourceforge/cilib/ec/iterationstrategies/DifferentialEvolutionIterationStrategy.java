@@ -97,16 +97,16 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
     }
 
     /**
-     * Obtain the {@linkplain SelectionStrategy} used to select the target vector.
-     * @return The {@linkplain SelectionStrategy} of the target vector.
+     * Obtain the {@linkplain Selector} used to select the target vector.
+     * @return The {@linkplain Selector} of the target vector.
      */
     public Selector getTargetVectorSelectionStrategy() {
         return targetVectorSelectionStrategy;
     }
 
     /**
-     * Set the {@linkplain SelectionStrategy} used to select the target vector within the DE.
-     * @param targetVectorSelectionStrategy The {@linkplain SelectionStrategy} to use for the
+     * Set the {@linkplain Selector} used to select the target vector within the DE.
+     * @param targetVectorSelectionStrategy The {@linkplain Selector} to use for the
      *        selection of the target vector.
      */
     public void setTargetVectorSelectionStrategy(Selector targetVectorSelectionStrategy) {

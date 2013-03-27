@@ -46,9 +46,11 @@ public class PSO extends SinglePopulationBasedAlgorithm<Particle> {
     private IterationStrategy<PSO> iterationStrategy;
 
     /**
-     * Creates a new instance of <code>PSO</code>. All fields are initialised to reasonable
-     * defaults. Note that the {@link net.sourceforge.cilib.problem.OptimisationProblem} is initially
-     * <code>null</code> and must be set before {@link #initialise()} is called.
+     * Creates a new instance of {@link PSO}.
+     * <p>
+     * All fields are initialised to reasonable defaults. Note that the
+     * {@link net.sourceforge.cilib.problem.Problem} is initially {@code null}
+     * and must be set before {@link #algorithmInitialisation()} is called.
      */
     public PSO() {
         iterationStrategy = new SynchronousIterationStrategy();

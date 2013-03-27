@@ -19,8 +19,8 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Calculates the MSE training error of the best solution of an algorithm
- * optimizing a {@link NNDataTrainingProblem}.
+ * Calculates the MSE training error of the best solution of an {@link Algorithm}
+ * optimising a {@link NNTrainingProblem}.
  */
 public class MSETrainingError implements Measurement {
 

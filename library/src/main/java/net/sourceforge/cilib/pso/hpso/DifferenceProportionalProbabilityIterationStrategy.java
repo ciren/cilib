@@ -84,7 +84,6 @@ public class DifferenceProportionalProbabilityIterationStrategy implements Itera
 
     /**
      *
-     * @see net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy#performIteration()
      */
     @Override
     public void performIteration(PSO algorithm) {
@@ -158,16 +157,22 @@ public class DifferenceProportionalProbabilityIterationStrategy implements Itera
     }
 
     /**
-     * Get the currently defined {@linkplain StagnationDetectionStrategy}.
-     * @return The current {@linkplain StagnationDetectionStrategy}.
+     * Get the currently defined
+     * {@linkplain BehaviorChangeTriggerDetectionStrategy stagnation detection strategy}.
+     *
+     * @return  The current
+     *          {@linkplain BehaviorChangeTriggerDetectionStrategy stagnation detection strategy}.
      */
     public BehaviorChangeTriggerDetectionStrategy getDetectionStrategy() {
         return detectionStrategy;
     }
 
     /**
-     * Set the {@linkplain StagnationDetectionStrategy} to be used.
-     * @param strategy The {@linkplain StagnationDetectionStrategy} to set.
+     * Set the {@linkplain BehaviorChangeTriggerDetectionStrategy stagnation detection strategy}
+     * to be used.
+     *
+     * @param strategy  The {@linkplain BehaviorChangeTriggerDetectionStrategy stagnation detection strategy}
+     *                  to set.
      */
     public void setDetectionStrategy(BehaviorChangeTriggerDetectionStrategy strategy) {
         this.detectionStrategy = strategy;

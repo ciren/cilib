@@ -70,7 +70,7 @@ public final class Selection<T> implements WeighableSelection<T>, PartialSelecti
     }
 
     /**
-     * @todo this can be made more efficient: no need to apply the predicate if not needed.
+     * TODO: this can be made more efficient: no need to apply the predicate if not needed.
      */
     @Override
     public Selection<T> filter(Predicate<? super T> predicate) {

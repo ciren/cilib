@@ -14,9 +14,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * evaluation functions.  The class was written in order to make it
  * easier to write new ways of evaluating how effective a non-linear
  * mapping is, this allows for comparing different methods of evaluation.
- *
+ * <p>
  * The reason the mapping is non-linear because it is not reversible.
- *
  */
 public class LinearMappingProblem extends MappingProblem {
     private static final long serialVersionUID = -8250226009646654027L;
@@ -35,14 +34,13 @@ public class LinearMappingProblem extends MappingProblem {
 
     /**
      * This function performs the actual mapping.  It is only used by this
-     * class and should never be required by any of the subclasses, who
-     * should only be implementing the {@see evaluateMapping} function.
-     *
+     * class and should never be required by any of the subclasses.
+     * <p>
      * The dimension of the input vector (M) must always be greater than the
      * dimension of the output vector (D).  This is not checked for as the
      * function will not break should this not hold - it just doesn't make
      * sense.
-     *
+     * <p>
      * The structure of the matrix is a typical "C" convention, how the data
      * is stored depends on whether you look at the input and output vectors
      * as row or column vectors.  In the case of column vectors the indexes
@@ -52,10 +50,9 @@ public class LinearMappingProblem extends MappingProblem {
      * just transposes.  In the case of row-vectors this is rowvector * matrix,
      * in the case of column vectors this is matrix * columnvector.
      *
-     * @param input The input vector.
-     * @param matrix The matrix to be used for the mapping.
-     * @param output The vector into which the output should be placed.
-     *
+     * @param input     the input vector.
+     * @param matrix    the matrix to be used for the mapping.
+     * @param output    the vector into which the output should be placed.
      */
     protected final void performMapping(Matrix input, Vector matrix, Matrix output) {
         int outputDimension = getOutputDim(); // D
@@ -80,7 +77,6 @@ public class LinearMappingProblem extends MappingProblem {
      * Returns the dimension as required above.
      *
      * @return The dimension required for the formulae outputs = inputs * matrix.
-     *
      */
     public final int getMatrixSize() {
         return getInputDim() * getOutputDim();

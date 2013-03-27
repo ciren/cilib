@@ -29,7 +29,6 @@ public interface Algorithm extends Runnable, Cloneable {
     /**
      * Obtain the best current solution.
      * @return The {@code OptimisationSolution} representing the best solution.
-     * @see net.sourceforge.cilib.entity.Topology#getBestEntity()
      */
     OptimisationSolution getBestSolution();
 
@@ -49,16 +48,18 @@ public interface Algorithm extends Runnable, Cloneable {
     int getIterations();
 
     /**
-     * Set the optimisation problem to be solved. By default, the problem is <code>null</code>.
-     * That is, it is necessary to set the optimisation problem before calling {@link #initialise()}.
-     * @param problem An implementation of the
-     * {@link net.sourceforge.cilib.problem.OptimisationProblemAdapter} interface.
+     * Set the optimisation {@link Problem} to be solved.
+     * <p>
+     * By default, the problem is {@code null}<code>null</code>. It is necessary
+     * to set the optimisation problem before calling {@link #performInitialisation()}.
+     *
+     * @param problem an implementation of the {@link Problem} interface.
      */
     void setOptimisationProblem(Problem problem);
 
     /**
-     * Get the specified {@linkplain OptimisationProblem}.
-     * @return The specified {@linkplain OptimisationProblem}.
+     * Get the specified {@linkplain Problem}.
+     * @return The specified {@linkplain Problem}.
      */
     Problem getOptimisationProblem();
 

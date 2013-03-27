@@ -55,7 +55,7 @@ public class DMOP3_f1 implements ContinuousFunction {
 
     /**
      * Sets the iteration when r was set.
-     * @param rIteration Iteration when r was last randmomly selected.
+     * @param r the iteration when r was last randomly selected.
      */
     public static void setRIteration(int r) {
         DMOP3_f1.rIteration = r;
@@ -71,7 +71,7 @@ public class DMOP3_f1 implements ContinuousFunction {
 
     /**
      * Sets the frequency of change.
-     * @param tau Change frequency.
+     * @param tau_t Change frequency.
      */
     public void setTau_t(int tau_t) {
         this.tau_t = tau_t;

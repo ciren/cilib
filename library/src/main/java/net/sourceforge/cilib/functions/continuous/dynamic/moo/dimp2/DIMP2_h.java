@@ -84,7 +84,7 @@ public class DIMP2_h implements ContinuousFunction {
     /**
      * Sets the f1 function that is used in the DIMP2 problem without specifying
      * the problem.
-     * @param dimp2_f ContinuousFunction used for the f1 function.
+     * @param dimp2_f1 ContinuousFunction used for the f1 function.
      */
     public void setDIMP2_f(ContinuousFunction dimp2_f1) {
         this.dimp2_f1 = dimp2_f1;

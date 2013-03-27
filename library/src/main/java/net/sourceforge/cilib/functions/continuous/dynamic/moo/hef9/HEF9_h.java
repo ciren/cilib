@@ -102,7 +102,7 @@ public class HEF9_h implements ContinuousFunction {
     /**
      * Sets the f1 function that is used in the HEF9 problem without specifying
      * the problem.
-     * @param hef9_f ContinuousFunction used for the f1 function.
+     * @param hef9_f1 ContinuousFunction used for the f1 function.
      */
     public void setHEF9_f(ContinuousFunction hef9_f1) {
         this.hef9_f1 = hef9_f1;
@@ -134,7 +134,7 @@ public class HEF9_h implements ContinuousFunction {
 
     /**
      * Sets the frequency of change.
-     * @param tau Change frequency.
+     * @param tau_t Change frequency.
      */
     public void setTau_t(int tau_t) {
         this.tau_t = tau_t;

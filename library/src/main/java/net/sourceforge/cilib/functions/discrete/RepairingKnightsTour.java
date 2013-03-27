@@ -14,12 +14,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * that this implementation implements a repair to the evaluation of the potential
  * solution. The reasoning behind this is that the knight all too often during the
  * testing phase would jump off the board and remain off the board.
- *
+ * <p>
  * The repair is a simple in-order operation that determines the position where the
  * error occurred and tries to replace the error move with one of the possible 7
  * moves remaining. Once the tour can continue, the move is replaced and evaluation
  * continues.
- *
  */
 public class RepairingKnightsTour implements DiscreteFunction {
     private static final long serialVersionUID = 6961834833997387285L;
@@ -122,7 +121,7 @@ public class RepairingKnightsTour implements DiscreteFunction {
      * @param b1
      * @param b2
      * @param b3
-     * @return
+     * @return the decoded value.
      */
     private int decode(boolean b1, boolean b2, boolean b3) {
         int i0 = b1 ? 1 : 0;

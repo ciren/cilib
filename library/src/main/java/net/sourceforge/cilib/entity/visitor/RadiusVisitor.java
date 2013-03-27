@@ -16,8 +16,8 @@ import net.sourceforge.cilib.util.distancemeasure.DistanceMeasure;
 import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
 
 /**
- * Determine the radius of the current {@linkplain net.sourceforge.cilib.entity.Topology topology}
- * centered on the given CenterInitialisationStrategy.
+ * Determine the radius of the current {@link Topology} centered on the given
+ * {@link CenterInitialisationStrategy}.
  */
 public class RadiusVisitor implements TopologyVisitor {
 
@@ -38,8 +38,6 @@ public class RadiusVisitor implements TopologyVisitor {
 
     /**
      * {@inheritDoc}
-     *
-     * @param topology
      */
     @Override
     public void visit(Topology<? extends Entity> topology) {
@@ -68,7 +66,8 @@ public class RadiusVisitor implements TopologyVisitor {
     }
 
     /**
-     * Obtain the value of the {@code radius} for the visited {@code Topology}.
+     * Obtain the value of the {@code radius} for the visited {@link Topology}.
+     *
      * @return The value of the radius.
      */
     @Override
@@ -86,15 +85,19 @@ public class RadiusVisitor implements TopologyVisitor {
 
     /**
      * Gets the strategy used for calculating the center of the topology.
-     * @return
+     *
+     * @return the {@linkplain CenterInitialisationStrategy}.
      */
     public CenterInitialisationStrategy getPopulationCenter() {
         return populationCenter;
     }
 
     /**
-     * Sets the strategy to use for calculating the center of the topology.
-     * @param centerCalculator
+     * Sets the {@linkplain CenterInitialisationStrategy} to use for calculating
+     * the center of the {@linkplain Topology}.
+     *
+     * @param centerCalculator  the {@linkplain CenterInitialisationStrategy} to
+     *                          use.
      */
     public void setPopulationCenter(CenterInitialisationStrategy centerCalculator) {
         this.populationCenter = centerCalculator;
@@ -102,7 +105,8 @@ public class RadiusVisitor implements TopologyVisitor {
 
     /**
      * Gets the distance measure used.
-     * @return
+     *
+     * @return the {@linkplain DistanceMeasure}.
      */
     public DistanceMeasure getDistanceMeasure() {
         return distanceMeasure;
@@ -110,7 +114,8 @@ public class RadiusVisitor implements TopologyVisitor {
 
     /**
      * Sets the distance measure to use.
-     * @param distanceMeasure
+     *
+     * @param distanceMeasure the {@linkplain DistanceMeasure} to use.
      */
     public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
         this.distanceMeasure = distanceMeasure;
