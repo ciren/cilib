@@ -6,7 +6,6 @@
 */
 package net.sourceforge.cilib.stoppingcondition.nnperformancecomparators;
 
-import com.google.common.annotations.VisibleForTesting;
 import java.util.ArrayList;
 import net.sourceforge.cilib.io.StandardPatternDataTable;
 import net.sourceforge.cilib.math.Maths;
@@ -67,8 +66,7 @@ public class OneTailedWilcoxonNNPerformanceComparator implements NNPerformanceCo
      * @param leftNN the actual outputs of the first neural network.
      * @param rightNN the actual outputs of the second neural network.
      */
-    @VisibleForTesting
-    protected static double pvalue(StandardPatternDataTable validationSet, ArrayList<Vector> leftNN, ArrayList<Vector> rightNN) {
+    public static double pvalue(StandardPatternDataTable validationSet, ArrayList<Vector> leftNN, ArrayList<Vector> rightNN) {
         //calculate error sets consisting of per-pattern mean-squared errors.
         ArrayList<Real> leftErrors = new ArrayList<Real>();
         ArrayList<Real> rightErrors = new ArrayList<Real>();
@@ -161,8 +159,7 @@ public class OneTailedWilcoxonNNPerformanceComparator implements NNPerformanceCo
         Some code was left out due to default parameters making it unnecessary.
         In such cases, a comment was added to indicate this.
     */
-    @VisibleForTesting
-    protected static double pnorm(double x) {
+    public static double pnorm(double x) {
         //default arguments:
         //mu = 0
         //sigma = 1
