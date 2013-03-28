@@ -250,7 +250,7 @@ public class Vector implements StructuredType<Numeric>,
     /**
      * Add the {@code element} to the end of the current {@code Vector}.
      * @param element The instance to add to the current {@code Vector}.
-     * @return {@code true} if successful, {@false otherwise}.
+     * @return {@code true} if successful, {@code false} otherwise.
      * @deprecated Use the {@code Vector.Builder} instead.
      */
     @Deprecated
@@ -290,7 +290,7 @@ public class Vector implements StructuredType<Numeric>,
      * Add the {@code element} to the indicated index of the current {@code Vector}.
      * @param element The instance to add to the current {@code Vector}.
 	 * @param index The index where the new {@code element} must be added.
-     * @return {@code true} if successful, {@false otherwise}.
+     * @return {@code true} if successful, {@code false} otherwise.
      * @deprecated Use the {@code Vector.Builder} instead.
      */
     public boolean insert(int index, Numeric element) {
@@ -567,7 +567,6 @@ public class Vector implements StructuredType<Numeric>,
     /**
      * Determines if this vector is a zero vector
      *
-     * @param v The vector to check
      * @return True if the vector is a zero vector, false otherwise
      */
     public boolean isZero() {
@@ -583,9 +582,8 @@ public class Vector implements StructuredType<Numeric>,
     /**
      * Calculates a vector that is orthogonal to a number of other vectors.
      *
-     * @param u the vector
-     * @param vs list of vectors
-     * @return the orthogonal vector
+     * @param vs    the list of vectors.
+     * @return      the orthogonal vector.
      */
     public Vector orthogonalize(Iterable<Vector> vs) {
         Vector u = copyOf(this);
@@ -600,9 +598,8 @@ public class Vector implements StructuredType<Numeric>,
     /**
      * Projects this vector onto another vector
      *
-     * @param u the first vector
-     * @param v the second vector
-     * @return the projected vector
+     * @param v the other vector.
+     * @return  the projected vector.
      */
     public Vector project(Vector v) {
         return v.multiply(this.dot(v) / v.dot(v));
@@ -610,7 +607,6 @@ public class Vector implements StructuredType<Numeric>,
 
     /**
      * Randomize all the elements contained within the {@code Vector}.
-     * @param random The {@code Random} to use to randomise the {@code Vector}.
      * @deprecated Use {@link Vector.Builder#buildRandom()} instead.
      */
     @Deprecated
@@ -712,23 +708,23 @@ public class Vector implements StructuredType<Numeric>,
      * Returns the array containing all of the elements within this
      * {@code Vector}. This method transforms the elements within the
      * {@code Vector} to an array representation.
-     *
-     * <p>If the provided array is large enough to contain the contents
+     * <p>
+     * If the provided array is large enough to contain the contents
      * of this {@code Vector}, it will be appended to the end of the given
      * array and the same reference that was provided will be returned.
-     *
-     * <p>If the given array is, however, smaller than the {@code Vector}
+     * <p>
+     * If the given array is, however, smaller than the {@code Vector}
      * instance, the contents of the array will be copied to a new array,
      * which will be created internally, with the {@code Vector} elements
      * appended directly after the contents of the array. The operation also
      * holds true for arrays of {@code length} 0.
-     *
-     * <p>{@code toArray(new Object[0])} is identical to the method call
+     * <p>
+     * {@code toArray(new Object[0])} is identical to the method call
      * {@code toArray()}.
      *
      * @param <T>
-     * @param a
-     * @return
+     * @param a the input vector.
+     * @return  an array representation of the vector.
      */
     @Override
     public <T> T[] toArray(T[] a) {
@@ -766,7 +762,7 @@ public class Vector implements StructuredType<Numeric>,
     /**
      * This method is not supported.
      * @param c
-     * @return
+     * @return whether the operation was successful.
      * @throws UnsupportedOperationException if invoked.
      * @deprecated This method is not valid. Rather recreate the {@code Vector}.
      */
@@ -845,7 +841,7 @@ public class Vector implements StructuredType<Numeric>,
      * A fold is a process to reduce a collection of values into a single
      * value, based on the provided function. {@code foldLeft} is effectively
      * the same as
-     * {@link #map(net.sourceforge.cilib.type.types.container.Vector.Function)}
+     * {@link #map(fj.F)}
      * except that the option of an initial value can be provided.
      * @param initial The initial value for the {@code fold} operation.
      * @param function to be used in the folding operations.

@@ -16,8 +16,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * TODO: This needs to be checked
  *
  * <p>
- * This implements the dissipative PSO (DPSO). Apply this to the standard PSO
- * using {@link PSO#setDissipativeStep(DissipativeStep)}.
+ * This implements the dissipative PSO (DPSO).
  * </p><p>
  * References:
  * </p><ul><li>

@@ -13,14 +13,14 @@ import net.sourceforge.cilib.pso.dynamic.ChargedParticle;
 /**
  * A topology visitor decorator that removes all charged particles from a topology
  * and then visits the topology with the decorated visitor.
- * 
+ *
  */
 public class ChargedTopologyVisitorDecorator implements TopologyVisitor {
-    
+
     private boolean done;
     private Object result;
     private TopologyVisitor visitor;
-    
+
     /**
      * Default constructor.
      */
@@ -37,15 +37,15 @@ public class ChargedTopologyVisitorDecorator implements TopologyVisitor {
     public void visit(Topology<? extends Entity> topology) {
         done = false;
         result = null;
-        
+
         Topology<? extends Entity> newTopology = topology.getClone();
-        
+
         for(Entity e : newTopology) {
             if(e instanceof ChargedParticle && ((ChargedParticle) e).getCharge() != 0) {
                 newTopology.remove(e);
             }
         }
-        
+
         topology.accept(visitor);
         result = visitor.getResult();
         done = true;
@@ -69,7 +69,7 @@ public class ChargedTopologyVisitorDecorator implements TopologyVisitor {
 
     /**
      * Gets the decorated topology visitor.
-     * @return 
+     * @return the topology visitor.
      */
     public TopologyVisitor getVisitor() {
         return visitor;
@@ -77,7 +77,7 @@ public class ChargedTopologyVisitorDecorator implements TopologyVisitor {
 
     /**
      * Sets the decorated topology visitor.
-     * @param visitor 
+     * @param visitor the topology visitor to use.
      */
     public void setVisitor(TopologyVisitor visitor) {
         this.visitor = visitor;

@@ -45,7 +45,7 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
     private ControlParameter minPeromone;
 
     /**
-     * Create a new instance of {@linkplain PheromoneAdaptiveHeterogeneousIterationStrategy}.
+     * Create a new instance of {@linkplain PheromoneIterationStrategy}.
      */
     public PheromoneIterationStrategy() {
         this.minPeromone = ConstantControlParameter.of(0.01);
@@ -99,8 +99,6 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
      *   <li>Perform normal iteration</li>
      *   <li>Update and evaporate pheromoneConcentration levels</li>
      * </ol>
-     *
-     * @see net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy#performIteration()
      */
     @Override
     public void performIteration(PSO algorithm) {

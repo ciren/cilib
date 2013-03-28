@@ -96,7 +96,7 @@ public class HEF1_f2 implements ContinuousFunction {
     /**
      * Sets the f1 function that is used in the HEF1 problem without specifying
      * the problem.
-     * @param hef1_h ContinuousFunction used for the h function.
+     * @return the ContinuousFunction used for the h function.
      */
     public ContinuousFunction getHEF1_h() {
         return this.hef1_h;

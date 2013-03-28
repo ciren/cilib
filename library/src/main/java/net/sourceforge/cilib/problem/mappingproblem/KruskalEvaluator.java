@@ -11,17 +11,15 @@ import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.type.types.container.Matrix;
 
 /**
- * Implements the Kruskal stress function for evaluating the fitness of the MappingProblem.
- *
+ * Implements the Kruskal stress function for evaluating the fitness of the
+ * {@link MappingProblem}.
  */
 public class KruskalEvaluator implements MappingEvaluator {
     /**
-     * Implements the evaluateMapping function as required by {@see NonlinearMappingProblem}.
+     * Implements the evaluateMapping function.
      *
      * @param dist The distance matrix for the generated output vectors.
-     *
-     * @return the fitness as a double, wrapped inside a Fitness.
-     *
+     * @return the fitness as a double, wrapped inside a {@link Fitness}.
      */
     public Fitness evaluateMapping(Matrix dist) {
         double above = 0.0;
@@ -43,9 +41,6 @@ public class KruskalEvaluator implements MappingEvaluator {
         return new MinimisationFitness(new Double(Math.sqrt(above / below)));
     }
 
-    /**
-     *
-     */
     public void setMappingProblem(MappingProblem prob) {
         this.prob = prob;
     }

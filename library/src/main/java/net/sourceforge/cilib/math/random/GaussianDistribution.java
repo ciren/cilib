@@ -51,8 +51,7 @@ public class GaussianDistribution implements ProbabilityDistributionFunction {
      * The algorithm uses the ratio of uniforms method of A.J. Kinderman
      * and J.F. Monahan augmented with quadratic bounding curves.
      *
-     * @param location The mean to use.
-     * @param scale The deviation to use.
+     * @param locationScale the mean and deviation to use.
      * @return A Gaussian number with mean <code>location</code> and deviation <code>scale</code>
      */
     @Override

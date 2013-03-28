@@ -16,14 +16,10 @@ import net.sourceforge.cilib.problem.solution.MOFitness;
 import net.sourceforge.cilib.type.types.Int;
 
 /**
- * <p>
- * Implementation of {@link GuideUpdateStrategy} where a particle's guide
- * can get updated if the new guide is not dominated by the current guide,
- * i.e. both of the guides are non-dominated. If both guides are non-
- * dominated the new guide is selected.
- * </p>
- *
- *
+ * Implementation of {@link PersonalBestUpdateStrategy} where a
+ * {@link Particle}'s guide can get updated if the new guide is not dominated
+ * by the current guide, i.e. both of the guides are non-dominated.
+ * If both guides are non-dominated the new guide is selected.
  */
 public class RelaxedNonDominatedPersonalBestUpdateStrategy implements PersonalBestUpdateStrategy {
 
@@ -40,7 +36,6 @@ public class RelaxedNonDominatedPersonalBestUpdateStrategy implements PersonalBe
      * selected. However, if both guides are non-dominated, one of the guides is
      * randomly selected.
      * @param particle The particle who's guide is to be updated.
-     * @param guideType If the local or global guide should be updated
      */
     @Override
     public void updatePersonalBest(Particle particle) {

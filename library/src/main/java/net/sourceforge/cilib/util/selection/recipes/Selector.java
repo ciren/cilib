@@ -18,7 +18,7 @@ public interface Selector<E> {
 
     /**
      * Perform the selection process.
-     * @param elements The elements to perform the selection on.
+     * @param iterable The elements to perform the selection on.
      * @return The selected element.
      */
     PartialSelection<E> on(Iterable<E> iterable);

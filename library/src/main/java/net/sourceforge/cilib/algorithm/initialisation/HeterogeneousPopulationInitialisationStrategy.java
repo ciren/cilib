@@ -17,14 +17,13 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
- * Create a collection of {@linkplain net.sourceforge.cilib.entity.Entity entities}
- * by cloning the given prototype {@link net.sourceforge.cilib.entity.Entity}.
+ * Create a collection of {@linkplain Entity entities} by cloning the given
+ * prototype {@link Entity}.
+ * <p>
  * The prototype Entity must be a {@link Particle}. All particles cloned from
- * the given Particle are assigned different behaviors from a behavior pool.
- * The manner in which behaviors are selected from the behavior pool is governed
- * by the {@link Selector} (random by default).
- *
- * @param <E> The {@code Entity} type.
+ * the given {@link Particle} are assigned different behaviors from a behavior
+ * pool. The manner in which behaviors are selected from the behavior pool is
+ * governed by the {@link Selector} (random by default).
  */
 public class HeterogeneousPopulationInitialisationStrategy implements PopulationInitialisationStrategy<Particle> {
 
@@ -115,10 +114,9 @@ public class HeterogeneousPopulationInitialisationStrategy implements Population
     }
 
     /**
-     * Get the {@linkplain net.sourceforge.cilib.entity.Entity entity} that has been defined as
-     * the prototype to for the copies.
-     * @see ChargedPopulationInitialisationStrategy#getPrototypeEntity()
-     * @return The prototype {@code Entity}.
+     * Get the {@link Entity} that has been defined as the prototype to copy.
+     *
+     * @return The prototype {@linkplain Entity}.
      */
     @Override
     public Entity getEntityType() {

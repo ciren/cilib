@@ -14,7 +14,7 @@ import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Utility methods for {@linkplain Vector}s.
+ * Utility methods for {@link Vector}s.
  */
 public final class Vectors {
 
@@ -26,12 +26,13 @@ public final class Vectors {
     }
 
     /**
-     * Constructs a {@link Vector} from <code>vector</code> Vector with each component's value
-     * set to the upper bound of that component.
-     * @param vector The {@linkplain Vector} to create the upper bound vector from.
-     * @throws UnsupportedOperationException When an element in the {@link Vector}
-     *         is not a {@link Numeric}
-     * @return a {@link Vector} with all the elements set to their respective upper bounds
+     * Constructs a {@link Vector} from another vector with each component's
+     * value set to the upper bound of that component.
+     *
+     * @param   vector The {@linkplain Vector} to create the upper bound vector from.
+     * @return  a {@link Vector} with all the elements set to their respective upper bounds
+     * @throws  UnsupportedOperationException When an element in the
+     *          {@linkplain Vector} is not a {@link Numeric}
      */
     public static Vector upperBoundVector(Vector vector) {
         Vector.Builder upper = Vector.newBuilder();
@@ -42,12 +43,15 @@ public final class Vectors {
     }
 
     /**
-     * Constructs a {@link Vector} from <code>vector</code> Vector with each component's value
-     * set to the lower bound of that component.
-     * @param vector The {@linkplain Vector} from which to create the lower bound vector.
-     * @throws UnsupportedOperationException when an element in the {@link Vector}
-     *         is not a {@link Numeric}
-     * @return a {@link Vector} with all the elements set to their respective lower bounds
+     * Constructs a {@link Vector} from another vector with each component's
+     * value set to the lower bound of that component.
+     *
+     * @param vector    The {@linkplain Vector} from which to create the lower
+     *                  bound vector.
+     * @return          a {@linkplain Vector} with all the elements set to their
+     *                  respective lower bounds
+     * @throws          UnsupportedOperationException when an element in the
+     *                  {@linkplain Vector} is not a {@link Numeric}
      */
     public static Vector lowerBoundVector(Vector vector) {
         Vector.Builder lower = Vector.newBuilder();
@@ -58,86 +62,92 @@ public final class Vectors {
     }
 
     /**
-     * Determine the sum of a list of {@code Vector} instances. Convenience method for
-     * an array of vectors.
-     * @param vectors The {@code Vector} instances to sum.
-     * @return The resultant {@code Vector}.
+     * Determine the sum of a list of {@link Vector} instances. Convenience
+     * method for an array of vectors.
+     *
+     * @param vectors The {@linkplain Vector} instances to sum.
+     * @return The resultant {@linkplain Vector}.
      */
     public static Vector sumOf(Vector... vectors) {
         return sumOf(Arrays.asList(vectors));
     }
-    
+
     /**
-     * Determine the sum of a list of {@code Vector} instances.
-     * @param vectors The {@code Vector} instances to sum.
-     * @return The resultant {@code Vector}.
+     * Determine the sum of a list of {@link Vector} instances.
+     *
+     * @param vectors The {@linkplain Vector} instances to sum.
+     * @return The resultant {@linkplain Vector}.
      */
     public static Vector sumOf(List<Vector> vectors) {
         if (vectors.isEmpty()) {
             return null;
         }
-        
+
         Vector result = vectors.get(0);
-        
+
         if (vectors.size() > 1) {
             for(int i = 1; i < vectors.size(); i++) {
                 result = result.plus(vectors.get(i));
             }
         }
-        
+
         return result;
     }
-    
+
     /**
-     * Determine the mean of a list of {@code Vector} instances. Convenience method for
-     * an array of vectors.
-     * @param vectors The {@code Vector} instances to sum.
-     * @return The resultant {@code Vector}.
+     * Determine the mean of a list of {@link Vector} instances. Convenience
+     * method for an array of vectors.
+     *
+     * @param vectors The {@linkplain Vector} instances to sum.
+     * @return The resultant {@linkplain Vector}.
      */
     public static Vector mean(Vector... vectors) {
         return mean(Arrays.asList(vectors));
     }
-    
+
     /**
-     * Determine the sum of a list of {@code Vector} instances.
-     * @param vectors The {@code Vector} instances to sum.
-     * @return The resultant {@code Vector}.
+     * Determine the sum of a list of {@link Vector} instances.
+     *
+     * @param vectors The {@linkplain Vector} instances to sum.
+     * @return The resultant {@linkplain Vector}.
      */
     public static Vector mean(List<Vector> vectors) {
         return sumOf(vectors).divide(vectors.size());
     }
-    
+
     /**
-     * Uses the Gram-Schmidt process to orthonormalize a list of vectors.
-     * @param vectors
-     * @return 
+     * Uses the Gram-Schmidt process to orthonormalize a list of {@link Vector}
+     * instances.
+     *
+     * @param vectors The {@linkplain Vector} instances to orthonormalize.
+     * @return The resultant {@linkplain Vector}.
      */
     public static List<Vector> orthonormalize(List<Vector> vectors) {
         List<Vector> orthonormalBases = Lists.newArrayList();
         List<Vector> result = Lists.newArrayList();
-        
+
         Vector u1 = Vector.copyOf(vectors.get(0));
         orthonormalBases.add(u1);
-        
+
         for (int i = 1; i < vectors.size(); i++) {
             Vector ui = vectors.get(i);
-            
+
             for (int j = 0; j < orthonormalBases.size(); j++) {
                 ui = ui.subtract(vectors.get(i).project(orthonormalBases.get(j)));
             }
-		
+
             if (!ui.isZero()) {
                 orthonormalBases.add(ui);
             }
         }
-        
+
         for (Vector v : orthonormalBases) {
             result.add(v.normalize());
         }
-        
+
         return result;
     }
-    
+
     public static <T extends Number> Vector transform(Vector vector, Function<Numeric, T> function) {
         Vector.Builder builder = Vector.newBuilder();
         for (Numeric n : vector) {

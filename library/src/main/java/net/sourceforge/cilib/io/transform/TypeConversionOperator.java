@@ -17,9 +17,11 @@ import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * Class represents a DataOperator that converts a {@link StandardDataTable<String> StandardDataTable<String>}
- * to a {@link StandardDataTable<Type> StandardDataTable<Type>}. Attempts to match
- * tokens (in order) as: Real, Bit (booleans) and then defaults to StringType.
+ * Class represents a DataOperator that converts a
+ * {@link StandardDataTable StandardDataTable<String>} to a
+ * {@link StandardDataTable StandardDataTable<Type>}. Attempts to match
+ * tokens (in order) as: {@link Real}, {@link Bit} (booleans) and then defaults
+ * to {@link StringType}.
  */
 public class TypeConversionOperator extends SelectiveDataOperator {
 
@@ -62,13 +64,15 @@ public class TypeConversionOperator extends SelectiveDataOperator {
             "[\\x00-\\x20]*");// Optional trailing "whitespace"
 
     /**
-     * Applies the operator to the given DataTable: Constructs a new {@link Type Type}
-     * from every String token in every row. All rows defined
-     * in the {@link #selectedItems selectedItems} list are processed. If the list is
-     * empty, all rows are processed.
+     * Applies the operator to the given {@link StandardDataTable}:
+     * <p>
+     * Constructs a new {@link Type} from every String token in every row.
+     * All rows defined in the {@link #selectedItems} list are processed.
+     * If the list is empty, all rows are processed.
+     *
      * @param dataTable a DataTable of type List<String>
-     * @return a new {@link StandardDataTable StandardDataTable} of type {@link Type Type}.
-     * @throws {@inheritDoc }
+     * @return a new {@link StandardDataTable} of type {@link Type}.
+     * @throws {@inheritDoc}
      */
     @Override
     public DataTable operate(DataTable dataTable) throws CIlibIOException {

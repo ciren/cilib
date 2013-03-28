@@ -19,7 +19,6 @@ import net.sourceforge.cilib.problem.solution.MOFitness;
  * Compare two {@link SocialEntity} instances, based on the available social best
  * fitness. Two solutions are compared using Pareto-dominance.
  * @param <E> The {@code SocialEntity} type.
- * @see SocialEntity#getSocialBestFitness()
  *
  */
 public class NonDominatedFitnessComparator <E extends SocialEntity> implements Comparator<E>, Serializable  {

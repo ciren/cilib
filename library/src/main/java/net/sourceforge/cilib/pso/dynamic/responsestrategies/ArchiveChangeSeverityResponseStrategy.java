@@ -52,7 +52,7 @@ public class ArchiveChangeSeverityResponseStrategy<E extends PopulationBasedAlgo
     }
 
     /**
-     * @{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm> getClone() {

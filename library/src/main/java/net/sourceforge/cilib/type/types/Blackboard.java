@@ -45,7 +45,6 @@ public final class Blackboard<K, V extends Type> implements Type {
 
     /**
      * {@inheritDoc}
-     * @return
      */
     @Override
     public Blackboard<K, V> getClone() {

@@ -6,6 +6,7 @@
  */
 package net.sourceforge.cilib.pso.hpso.pheromoneupdate;
 
+import net.sourceforge.cilib.util.Cloneable;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
@@ -17,7 +18,7 @@ import net.sourceforge.cilib.pso.particle.Particle;
  * using exponential change:
  * <br>change = sign(diffInFitnessChange) * exp(abs(diffInFitnessChange)) - 1
  */
-public class ExponentialPheromoneUpdateStrategy implements PheromoneUpdateStrategy{
+public class ExponentialPheromoneUpdateStrategy implements PheromoneUpdateStrategy, Cloneable {
 
     private ControlParameter scale;
 

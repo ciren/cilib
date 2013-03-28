@@ -14,22 +14,23 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * A decorator that makes a function non-continuous.
- * <pre>
+ * {@code
  *              x_j          if |x_j|&lt;0.5
  * x_j = round(2 * x_j) / 2  otherwise
- * 
+ *
  * where
  *            a-1  if x&lt;=0 && b&gt;=0.5
  * round(x) =  a   if b&lt;0.5
  *            a+1  if x&gt;0 && b&gt;=0.5
- * </pre>
+ * }
  * <p>
  * Reference:
  * </p>
  * <p>
- * Suganthan, P. N., Hansen, N., Liang, J. J., Deb, K., Chen, Y., Auger, A., and Tiwari, S. (2005).
- * Problem Definitions and Evaluation Criteria for the CEC 2005 Special Session on Real-Parameter Optimization.
- * Natural Computing, 1-50. Available at: http://vg.perso.eisti.fr/These/Papiers/Bibli2/CEC05.pdf.
+ * Suganthan, P. N., Hansen, N., Liang, J. J., Deb, K., Chen, Y., Auger, A.,
+ * and Tiwari, S. (2005). Problem Definitions and Evaluation Criteria for the
+ * CEC 2005 Special Session on Real-Parameter Optimization. Natural Computing,
+ * 1-50. Available at: http://vg.perso.eisti.fr/These/Papiers/Bibli2/CEC05.pdf.
  * </p>
  */
 public class RoundingFunctionDecorator implements ContinuousFunction {
@@ -46,21 +47,21 @@ public class RoundingFunctionDecorator implements ContinuousFunction {
                 if (Math.abs(f.doubleValue()) < 0.5) {
                     return f;
                 }
-                
+
                 return Real.valueOf(round(2 * f.doubleValue()) / 2.0);
-            }            
+            }
         }));
     }
-    
+
     /**
      * The round function.
-     * <pre>
+     * @{code
      *            a-1  if x&lt;=0 && b&gt;=0.5
      * round(x) =  a   if b&lt;0.5
      *            a+1  if x&gt;0 && b&gt;=0.5
-     * </pre>
-     * @param f
-     * @return 
+     * }
+     * @param f a number to round.
+     * @return  the rounded number.
      */
     private int round(double f) {
         double b = f - (int) f;
@@ -72,17 +73,17 @@ public class RoundingFunctionDecorator implements ContinuousFunction {
             return (int) f + 1;
         }
     }
-    
-        /**
-     * Get the function that is decorated.
-     * @return Returns the decorated function.
+
+    /**
+     * Gets the function that is decorated.
+     * @return the decorated function.
      */
     public ContinuousFunction getFunction() {
         return function;
     }
 
     /**
-     * Set the decorated function.
+     * Sets the decorated function.
      * @param function The function to decorate.
      */
     public void setFunction(ContinuousFunction function) {

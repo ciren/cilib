@@ -13,12 +13,12 @@ import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * This abstract class hides the details of which sub-dimensions a participating
- * algorithm in a {@linkplain CooperativeCoevolutionAlgorithm} optimizes.
+ * algorithm in a {@link CooperativeCoevolutionAlgorithm} optimizes.
  * <p>
  * The {@linkplain CooperativeCoevolutionProblemAdapter} class uses the concrete
  * {@linkplain DimensionAllocation} to copy the solution from a participating
- * {@linkplain Entity} in a participating {@linkplain PopulationBasedAlgorithm}
- * into the context vector so that its {@linkplain Fitness} can be calculated.
+ * {@code Entity} in a participating {@link PopulationBasedAlgorithm}
+ * into the context vector so that its {@link Fitness} can be calculated.
  */
 public abstract class DimensionAllocation implements Cloneable {
     private int size;
@@ -48,7 +48,7 @@ public abstract class DimensionAllocation implements Cloneable {
 
     /**
      * Return the number of dimensions stored by this {@linkplain DimensionAllocation}.
-     * @return
+     * @return the number of dimensions stored.
      */
     public int getSize() {
         return size;

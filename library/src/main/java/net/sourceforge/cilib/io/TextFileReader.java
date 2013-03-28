@@ -10,14 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class reads data from a local text based file. A row is a line in the text file,
- * the line is tokenized using the regular expression delimiter {@link #delimiter delimiter},
- * the resulting tokens form the columns of the row.
+ * Class reads data from a local text based file. A row is a line in the text
+ * file, the line is tokenized using the regular expression delimiter, the
+ * resulting tokens form the columns of the row.
  */
 public class TextFileReader extends FileReader<String> {
 
-    /** Default constructor. Initialises the delimiter to be a comma, i.e.
-     * the class is a csv reader.
+    /**
+     * Default constructor. Initialises the delimiter to be a comma, i.e. the
+     * class is a csv reader.
      */
     public TextFileReader() {
     }

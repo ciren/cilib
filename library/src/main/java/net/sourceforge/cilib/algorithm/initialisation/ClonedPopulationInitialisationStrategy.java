@@ -86,9 +86,8 @@ public class ClonedPopulationInitialisationStrategy<E extends Entity> implements
     }
 
     /**
-     * Get the {@linkplain net.sourceforge.cilib.entity.Entity entity} that has been defined as
-     * the prototype to for the copies.
-     * @see ClonedPopulationInitialisationStrategy#getPrototypeEntity()
+     * Gets the {@link Entity} that has been defined as to copy.
+     *
      * @return The prototype {@code Entity}.
      */
     @Override

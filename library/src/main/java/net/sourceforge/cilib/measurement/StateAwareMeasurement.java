@@ -15,18 +15,14 @@ import java.io.ObjectOutputStream;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * <p>
  * This class serves as the base class for all state based measurements. If a
  * measurement is a complex structure that needs to be computed over a period
  * of time (iterations / function evaluations etc), then the measurement should
  * extend this class.
- * </p>
  * <p>
- * The {@linkplain net.sourceforge.cilib.simulator.MeasurementSuite} is aware
- * of instances of this class and will correctly handle any data recording and
- * restoring that may be required as the measurements are performed on the
- * current algorithm.
- * </p>
+ * The {@code MeasurementSuite} is aware of instances of this class and will
+ * correctly handle any data recording and restoring that may be required as the
+ * measurements are performed on the current algorithm.
  *
  * @param <E> The {@code Type} type.
  */

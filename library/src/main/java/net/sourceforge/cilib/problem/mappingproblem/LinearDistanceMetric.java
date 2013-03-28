@@ -74,7 +74,7 @@ public class LinearDistanceMetric implements DistanceMetric {
     }
 
     /**
-     * Retrieves the looping status.  {@link setLoopStatus}
+     * Retrieves the looping status.
      *
      * @return The current loop status.
      */

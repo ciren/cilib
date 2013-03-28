@@ -9,11 +9,14 @@ package net.sourceforge.cilib.problem.solution;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * This interface is an abstraction for the fitness of a solution to an optimisation problem.
- * The actual fitness value (as determined by the {@link OptimisationProblem} in question)
- * can be obtained by calling {@link #getValue()} while fitnesses can be compared using the
- * standard Java <code>Comparable</code> interface.
- * <p />
+ * This interface is an abstraction for the fitness of a solution to an
+ * optimisation problem.
+ * <p>
+ * The actual fitness value (as determined by the
+ * {@link net.sourceforge.cilib.problem.Problem} in question) can be obtained by
+ * calling {@link #getValue()} while fitnesses can be compared using the
+ * standard Java {@link Comparable} interface.
+ * <p>
  * <b>Example:</b> <br />
  * <code>
  * Fitness a = ...; <br />

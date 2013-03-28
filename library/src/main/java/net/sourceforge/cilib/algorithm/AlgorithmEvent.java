@@ -9,7 +9,7 @@ package net.sourceforge.cilib.algorithm;
 /**
  * This is the event raised by algorithms after iterations and completion.
  *
- * See {@see AlgorithmListener}
+ * @see AlgorithmListener
  *
  */
 public class AlgorithmEvent {
@@ -26,7 +26,7 @@ public class AlgorithmEvent {
     /**
      * Accessor for the source algorithm.
      *
-     * @return The {@link Algorithm} that raised this event.
+     * @return the {@link Algorithm} that raised this event.
      */
     public Algorithm getSource() {
         return source;

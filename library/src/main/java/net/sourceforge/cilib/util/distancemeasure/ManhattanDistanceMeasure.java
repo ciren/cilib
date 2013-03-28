@@ -7,7 +7,8 @@
 package net.sourceforge.cilib.util.distancemeasure;
 
 /**
- * Manhattan Distance is a special case of the {@link net.sourceforge.cilib.util.MinkowskiMetric Minkowski Metric} with 'alpha' := 1.
+ * Manhattan Distance is a special case of the {@link MinkowskiMetric} with
+ * 'alpha' = 1.
  */
 public class ManhattanDistanceMeasure extends MinkowskiMetric {
 

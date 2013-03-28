@@ -15,20 +15,16 @@ import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.util.selection.WeightedObject;
 
 /**
- * <p>
  * An implementation of {@link SolutionWeighing} that weighs a collection of
  * {@link OptimisationSolution}s based on how closely clustered these solutions
  * are to one another.
- * </p>
- *
  * <p>
  * This class can be used to select the most closely clustered optimisation
- * solutions to be removed from the {@link Archive} if it reaches its maximum capacity.
- * However, by selecting the least closely clustered solutions, you have a collection of
- * solutions that are good candidates to be used as guides in a Multi-objective optimisation
- * algorithm (see {@link GuideSelectionStrategy}).
- * </p>
- *
+ * solutions to be removed from the
+ * {@link net.sourceforge.cilib.moo.archive.Archive} if it reaches its maximum
+ * capacity. However, by selecting the least closely clustered solutions, you
+ * have a collection of solutions that are good candidates to be used as guides
+ * in a Multi-objective optimisation algorithm.
  */
 public class AntiClusterWeighing implements SolutionWeighing {
 

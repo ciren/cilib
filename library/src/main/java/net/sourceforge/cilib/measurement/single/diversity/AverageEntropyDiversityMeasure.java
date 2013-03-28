@@ -16,7 +16,6 @@ import net.sourceforge.cilib.type.types.container.TypeList;
 /**
  * A diversity measurement that calculates the diversity of a population to be
  * the average entropy over all dimensions in the search space.
- *
  */
 public class AverageEntropyDiversityMeasure extends Diversity {
 
@@ -71,7 +70,7 @@ public class AverageEntropyDiversityMeasure extends Diversity {
 
     /**
      * Set the number of intervals over which entropy is measured.
-     * @param i the number of intervals to set.
+     * @param intervals the number of intervals to set.
      */
     public void setIntervals(int intervals) {
         entropyMeasure.setIntervals(intervals);

@@ -15,14 +15,13 @@ import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
+ * This is a convenience class that keeps track of the number of fitness
+ * evaluations. This class can be extended instead of implementing
+ * {@link Problem} directly.
  * <p>
- * This is a convenience class that keeps track of the number of fitness evaluations. This class can
- * be extend instead of implementing {@link net.sourceforge.cilib.problem.OptimisationProblem} directly.
- * </p>
- * <p>
- * The contract of returning an instance of {@link net.sourceforge.cilib.problem.InferiorFitness} for
- * solutions outside the problem search space is implemented by {@link #getFitness(Type, boolean)}
- * </p>
+ * The contract of returning an instance of
+ * {@link net.sourceforge.cilib.problem.solution.InferiorFitness} for solutions
+ * outside  the problem search space is implemented by {@link #getFitness(Type)}.
  */
 public abstract class AbstractProblem implements Problem {
 
@@ -50,9 +49,10 @@ public abstract class AbstractProblem implements Problem {
     /**
      * Determine the {@code Fitness} of the current {@link Problem} instance
      * based on the provided {@code solution}.
-     * @param solution The {@link net.sourceforge.cilib.type.types.Type} representing the candidate solution.
-     * @return The {@link Fitness} of the {@code solution} in the current {@linkplain Problem}.
-     * @see OptimisationProblemAdapter#getFitness(Type, boolean)
+     *
+     * @param solution  The {@linkplain Type} representing the candidate solution.
+     * @return          The {@linkplain Fitness} of the {@code solution} in the
+     *                  current {@linkplain Problem}.
      */
     protected abstract Fitness calculateFitness(Type solution);
 

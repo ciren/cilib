@@ -92,7 +92,7 @@ public class DIMP1_f2 implements ContinuousFunction {
     /**
      * Sets the f1 hunction that is used in the DIMP1 problem without specifying
      * the problem.
-     * @param dimp1_h ContinuousFunction used for the h function.
+     * @return dimp1_h ContinuousFunction used for the h function.
      */
     public ContinuousFunction getDIMP1_h() {
         return this.dimp1_h;

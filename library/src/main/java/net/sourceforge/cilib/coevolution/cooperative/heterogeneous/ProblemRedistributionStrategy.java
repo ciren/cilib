@@ -16,17 +16,22 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * This interface defines a problem re-distribution strategy. This strategy is used to re-distribute a problem amongst a number of participating algorithms in a {@link HeterogeneousCooperativeAlgorithm}.
- *
- *
+ * This interface defines a problem re-distribution strategy. This strategy is
+ * used to re-distribute a problem amongst a number of participating
+ * {@link PopulationBasedAlgorithm}s in a {@link HeterogeneousCooperativeAlgorithm}.
  */
 public interface ProblemRedistributionStrategy extends Cloneable {
     /**
-     * Re-distribute the given problem amongst the participating algorithms.
-     * @param populations A {@link List} of participating {@link PopulationBasedAlgorithm}s.
-     * @param problem The {@link OptimisationProblem} that is being optimized.
-     * @param distributionStrategy The {@link CooperativeCoevolutionAlgorithm}'s original {@link ProblemDistributionStrategy}, which may be used to recalculate the distribution.
-     * @param context The current {@link ContextEntity} of the {@link CooperativeCoevolutionAlgorithm}.
+     * Re-distribute the given problem amongst the participating
+     * {@link PopulationBasedAlgorithm}s.
+     *
+     * @param populations           A {@link List} of participating {@link PopulationBasedAlgorithm}s.
+     * @param problem               The {@link Problem} that is being optimised.
+     * @param distributionStrategy  The {@link CooperativeCoevolutionAlgorithm}'s
+     *                              original {@link ProblemDistributionStrategy},
+     *                              which may be used to recalculate the distribution.
+     * @param context               The current {@link ContextEntity} of the
+     *                              {@link CooperativeCoevolutionAlgorithm}.
      */
     void redistributeProblem(List<PopulationBasedAlgorithm> populations, Problem problem, ProblemDistributionStrategy distributionStrategy, Vector context);
 

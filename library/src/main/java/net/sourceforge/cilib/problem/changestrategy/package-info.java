@@ -5,6 +5,8 @@
  *  \___/_/_/_/_.___/
  */
 
+package net.sourceforge.cilib.problem.changestrategy;
+
 /**
  * Dynamic environments need to know when it should be applicable to change
  * the problem.
@@ -25,4 +27,3 @@
  *     problem.changeEnvironment();
  * </pre>
  */
-package net.sourceforge.cilib.problem.changestrategy;

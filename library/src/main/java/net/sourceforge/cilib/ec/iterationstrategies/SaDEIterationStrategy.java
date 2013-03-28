@@ -18,14 +18,14 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
- * This is the Self Adaptive Iteration Strategy described by A. K. Qin 
+ * This is the Self Adaptive Iteration Strategy described by A. K. Qin
  * and P. N. Suganthan in their 2005 IEEE paper "Self-adaptive Differential
  * Evolution Algorithm for Numerical Optimization".
  */
 public class SaDEIterationStrategy extends AbstractIterationStrategy<EC> {
 
     private static final long serialVersionUID = 8019668923312811974L;
-    
+
     private Selector<SaDEIndividual> targetVectorSelectionStrategy;
     private int frequencyOfChange;
     private int frequencyOfAdaptiveVarialeRecalculation;
@@ -35,7 +35,7 @@ public class SaDEIterationStrategy extends AbstractIterationStrategy<EC> {
     private double totalAcceptedWithStrategy2;
     private double totalRejectedWithStrategy1;
     private double totalRejectedWithStrategy2;
-    
+
     /**
      * Create an instance of the {@linkplain DifferentialEvolutionIterationStrategy}.
      */
@@ -83,14 +83,14 @@ public class SaDEIterationStrategy extends AbstractIterationStrategy<EC> {
     public void performIteration(EC ec) {
         Topology<SaDEIndividual> topology = (Topology<SaDEIndividual>) ec.getTopology();
         String strategyResult;
-        
+
         if(((SaDECreationStrategy)topology.get(0).getTrialVectorCreationStrategy()).probabilitiesChanged()) {
             totalAcceptedWithStrategy1 = 0;
             totalAcceptedWithStrategy2 = 0;
             totalRejectedWithStrategy1 = 0;
             totalRejectedWithStrategy2 = 0;
         }
-        
+
         for (int i = 0; i < topology.size(); i++) {
             SaDEIndividual current = topology.get(i);
 
@@ -113,11 +113,11 @@ public class SaDEIterationStrategy extends AbstractIterationStrategy<EC> {
             if (offspringEntity.getFitness().compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent
                 acceptedOffspring = true;
             }
-            
+
             strategyResult = ((SaDECreationStrategy) current.getTrialVectorCreationStrategy()).accepted(acceptedOffspring);
-     
+
             current.acceptParameters(acceptedOffspring, offspringEntity);
-            
+
             if(strategyResult.equalsIgnoreCase("Strategy 1 Accepted")) {
                 totalAcceptedWithStrategy1++;
                 //these are updated because the individual currently holds the creationStrategy, so it can only keep track of how many times its
@@ -133,7 +133,7 @@ public class SaDEIterationStrategy extends AbstractIterationStrategy<EC> {
                 totalRejectedWithStrategy2++;
                 ((SaDECreationStrategy) current.getTrialVectorCreationStrategy()).setTotalRejectedWithStrategy2(totalRejectedWithStrategy2);
             }
-            
+
             if (acceptedOffspring) { //Give the offspring Entity all properties of the parent
                 Vector offspringVector = (Vector) offspringEntity.getCandidateSolution();
                 offspringEntity = current.getClone();
@@ -142,36 +142,36 @@ public class SaDEIterationStrategy extends AbstractIterationStrategy<EC> {
                 topology.set(i, offspringEntity); // Replace the parent with the offspring individual
             }
         }
-        
+
         if(ec.getIterations() == nextAdaptiveVariableRecalculation) {
             for (SaDEIndividual current : topology) {
                 current.getCrossoverProbabilityParameterAdaptationStrategy().recalculateAdaptiveVariables();
                 current.getScalingFactorParameterAdaptationStrategy().recalculateAdaptiveVariables();
             }
-            
+
            nextAdaptiveVariableRecalculation += frequencyOfAdaptiveVarialeRecalculation;
         }
-        
+
         if(ec.getIterations() == nextChange) {
             for (SaDEIndividual current : topology) {
                 current.updateParameters();
             }
-            
+
             nextChange += frequencyOfChange;
         }
     }
 
     /**
-     * Obtain the {@linkplain SelectionStrategy} used to select the target vector.
-     * @return The {@linkplain SelectionStrategy} of the target vector.
+     * Obtain the {@linkplain Selector} used to select the target vector.
+     * @return The {@linkplain Selector} of the target vector.
      */
     public Selector getTargetVectorSelectionStrategy() {
         return targetVectorSelectionStrategy;
     }
 
     /**
-     * Set the {@linkplain SelectionStrategy} used to select the target vector within the DE.
-     * @param targetVectorSelectionStrategy The {@linkplain SelectionStrategy} to use for the
+     * Set the {@linkplain Selector} used to select the target vector within the DE.
+     * @param targetVectorSelectionStrategy The {@linkplain Selector} to use for the
      *        selection of the target vector.
      */
     public void setTargetVectorSelectionStrategy(Selector targetVectorSelectionStrategy) {

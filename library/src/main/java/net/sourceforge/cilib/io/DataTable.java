@@ -78,7 +78,7 @@ public interface DataTable<T, E> extends Cloneable, Iterable<T> {
     /**
      * Gets the name of the column, returns an empty string if none is specified.
      * @param index the column which is to be named.
-     * @return
+     * @return      the column name.
      */
     String getColumnName(int index);
 

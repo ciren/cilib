@@ -5,6 +5,8 @@
  *  \___/_/_/_/_.___/
  */
 
+package net.sourceforge.cilib.algorithm;
+
 /**
  * The <it>Algorithm</it> package provides the generic algorithm foundation
  * for all {@link Algorithm} instances.
@@ -28,4 +30,3 @@
  * on what properties are exposed and for what is available.
  * </p>
  */
-package net.sourceforge.cilib.algorithm;

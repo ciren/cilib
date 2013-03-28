@@ -14,7 +14,7 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 
 /**
  * This class defines a detection strategy that uses a user-specified
- * {@link #numberOfSentries number of sentry points} and an {@local #epsilon} value to
+ * {@link #numberOfSentries number of sentry points} and an {@link #epsilon} value to
  * detect whether a change has occurred in the environment within a number of
  * {@link #interval consecutive iterations}.
  *
@@ -50,16 +50,18 @@ public class RandomSentryPointsDetectionStrategy<E extends PopulationBasedAlgori
     }
 
     /**
-     * After every {@link #interval} iterations, iterate through all sentry points
-     * and compare their previous fitness values with their current fitness values. An
-     * environment change is detected when the difference between the previous and current
-     * fitness values are &gt;= the specified {@link #epsilon} value. Although this detection
-     * strategy only makes use of random sentry points, the entities in the population based
-     * algorithm are sent through to the {@link #initialiseSentryPoints(Topology) method to
-     * initialise the sentry points.
+     * After every {@link #interval} iterations, iterate through all sentry
+     * points and compare their previous fitness values with their current
+     * fitness values. An environment change is detected when the difference
+     * between the previous and current fitness values are {@code >= epsilon}.
+     * Although this detection strategy only makes use of random sentry points,
+     * the entities in the population based algorithm are sent through to the
+     * {@link #initialiseSentryPoints(Topology)} method to initialise the sentry
+     * points.
      *
-     * @param algorithm used to get hold of topology of entities and number of iterations
-     * @return true if a change has been detected, false otherwise
+     * @param algorithm used to get hold of topology of entities and number of
+     *                  iterations
+     * @return          true if a change has been detected, false otherwise.
      */
     @Override
     public boolean detect(PopulationBasedAlgorithm algorithm) {

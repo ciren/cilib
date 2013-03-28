@@ -21,10 +21,8 @@ import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * This class measures how many particles in a an adaptive heterogeneous PSO are
- * currently following each of the different behaviors in the behavior pool.
- *
- * @see AdaptiveHeterogeneousIterationStrategy
+ * Measures how many particles in a an adaptive heterogeneous PSO are currently
+ * following each of the different behaviors in the behavior pool.
  */
 public class AdaptiveHPSOBehaviorProfileMeasurement implements Measurement<Vector> {
     private static final long serialVersionUID = -255308745515061075L;
@@ -39,10 +37,11 @@ public class AdaptiveHPSOBehaviorProfileMeasurement implements Measurement<Vecto
 
     /**
      * Measure the behavior profile.
-     * @param algorithm The algorithm
-     * @return A {@link Vector} containing an integer values.
-     * Each value corresponds to a behavior in the behavior pool and indicates
-     * how many particles are currently following that behavior.
+     *
+     * @param algorithm the {@linkplain Algorithm}
+     * @return  a {@link Vector} containing integer values.
+     *          Each value corresponds to a behavior in the behavior pool and
+     *          indicates how many particles are currently following that behavior.
      */
     @Override
     public Vector getValue(Algorithm algorithm) {
@@ -69,5 +68,4 @@ public class AdaptiveHPSOBehaviorProfileMeasurement implements Measurement<Vecto
 
         return profile;
     }
-
 }

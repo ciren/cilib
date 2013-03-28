@@ -19,7 +19,7 @@ import net.sourceforge.cilib.type.types.Type;
 
 /**
  * An implementation of an ARFF file reader according to:
- * {@link http://www.cs.waikato.ac.nz/~ml/weka/arff.html}. Currently the reader
+ * {@code http://www.cs.waikato.ac.nz/~ml/weka/arff.html}. Currently the reader
  * does not support the DATE format as no CIlib equivalent type exists.
  */
 public class ARFFFileReader extends FileReader<List<Type>> {
@@ -35,7 +35,8 @@ public class ARFFFileReader extends FileReader<List<Type>> {
     /**
      * Initiates the reader, sets the default delimiters to a space (for header
      * fields) and comma (for data fields).
-     * @throws net.sourceforge.cilib.io.exception.CIlibIOException {@inheritDoc }
+     * @throws CIlibIOException
+     * {@inheritDoc}
      */
     @Override
     public void open() throws CIlibIOException {
@@ -49,9 +50,9 @@ public class ARFFFileReader extends FileReader<List<Type>> {
     }
 
     /**
-     * Reads and returns the next data row in the file as a {@link List List} of
-     * type {@link Type Type}. Each line read is assumed to be a row and the tokens
-     * parsed (by using the {@link #dataDelimiter dataDelimiter}) are best-effort
+     * Reads and returns the next data row in the file as a list of type
+     * {@link Type}. Each line read is assumed to be a row and the tokens parsed
+     * (by using the {@link #dataDelimiter dataDelimiter}) are best-effort
      * fashion according to the data header.
      * @return a list containing the row data.
      */
@@ -73,7 +74,8 @@ public class ARFFFileReader extends FileReader<List<Type>> {
 
     /**
      * Processes the header to determine the required type information.
-     * @throws net.sourceforge.cilib.io.exception.CIlibIOException {@inheritDoc }
+     * @throws CIlibIOException
+     * {@inheritDoc}
      */
     private void processHeader() throws CIlibIOException {
         String line = getNextLineIgnoreComments();
@@ -127,7 +129,8 @@ public class ARFFFileReader extends FileReader<List<Type>> {
      * @param columnn the column to map to a datatype.
      * @param datatype the datatype key.
      * @return a corresponding CIlib type.
-     * @throws net.sourceforge.cilib.io.exception.CIlibIOException {@inheritDoc }
+     * @throws CIlibIOException
+     * {@inheritDoc}
      */
     private Type getTypeData(int columnn, String datatype) throws CIlibIOException {
         if (datatype.equalsIgnoreCase("NUMERIC")) {

@@ -28,10 +28,10 @@ public interface CreationStrategy extends Operator {
      * @param targetEntity
      * @param current
      * @param topology
-     * @return
+     * @return the created entity.
      */
     <T extends Entity> T create(T targetEntity, T current, Topology<T> topology);
-    
+
     public void setScaleParameter(double scaleParameterValue);
 
     public ControlParameter getScaleParameter();

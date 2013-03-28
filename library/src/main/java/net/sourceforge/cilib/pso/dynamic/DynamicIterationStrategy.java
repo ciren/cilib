@@ -70,8 +70,6 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
     }
 
     /**
-     * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration()
-     *
      * Structure of Dynamic iteration strategy with re-initialisation:
      *
      * <ol>
@@ -83,6 +81,7 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
      *   <li>Perform normal iteration</li>
      * </ol>
      */
+    @Override
     public void performIteration(PSO algorithm) {
         boolean hasChanged = detectionStrategy.detect(algorithm);
 

@@ -15,14 +15,10 @@ import net.sourceforge.cilib.problem.solution.MOFitness;
 import net.sourceforge.cilib.type.types.Int;
 
 /**
- * <p>
- * Implementation of {@link GuideUpdateStrategy} where a particle's guide
- * can get updated if the new guide is not dominated by the current guide,
- * i.e. both of the guides are non-dominated. If both guides are non-
- * dominated the new guide is selected.
- * </p>
- *
- *
+ * Implementation of {@link PersonalBestUpdateStrategy} where a
+ * {@link Particle}'s guide can get updated if the new guide is not dominated by
+ * the current guide, i.e. both of the guides are non-dominated. If both guides
+ * are non-dominated the new guide is selected.
  */
 public class DominantPersonalBestUpdateStrategy implements PersonalBestUpdateStrategy {
 
@@ -37,8 +33,10 @@ public class DominantPersonalBestUpdateStrategy implements PersonalBestUpdateStr
     /**
      * If the current fitness is better than the best fitness, or both are
      * non-dominated, update the best fitness to the current fitness.
+     * <p>
+     * If the current fitness is not updated, increase the {@link Particle}'s
+     * pbest stagnation counter.
      *
-     * If the current fitness is not updated, increase the particle's pbest stagnation counter.
      * @param particle The particle to update.
      */
     @Override

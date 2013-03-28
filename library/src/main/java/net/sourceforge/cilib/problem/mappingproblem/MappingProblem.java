@@ -49,11 +49,12 @@ public abstract class MappingProblem extends AbstractProblem {
 
     /**
      * Calculates the fitness of the given matrix.  This wraps around the
-     * {@see evaluateMapping} function.  It may call evaluateMapping multiple
-     * times for every call to calculateFitness depending on the dataset.
+     * {@link MappingEvaluator#evaluateMapping} function.  It may call
+     * {@link MappingEvaluator#evaluateMapping} multiple times for every call to
+     * {@link #calculateFitness} depending on the dataset.
      *
-     * @param solution The solution to evaluate.  This must conform to the
-     *        domain.
+     * @param solution  the solution to evaluate. This must conform to the
+     *                  domain.
      */
     protected final Fitness calculateFitness(Type solution) {
         Vector matrix = (Vector) solution;
@@ -145,8 +146,7 @@ public abstract class MappingProblem extends AbstractProblem {
     /**
      * This function sets the evaluator to use.
      *
-     * @param The evaluator to use.
-     *
+     * @param evaluator the evaluator to use.
      */
     public final void setEvaluator(MappingEvaluator evaluator) {
         this.evaluator = evaluator;
@@ -158,7 +158,7 @@ public abstract class MappingProblem extends AbstractProblem {
      * This method is used during initialisation by the Simulator to provide us
      * with out DataSet.  This method loads the actual data from the DataSet.
      *
-     * @param dataset The dataset from which to retrieve the data.
+     * @param dataSetBuilder The dataset from which to retrieve the data.
      *
      * TODO: Get this to work!!! :P
      */

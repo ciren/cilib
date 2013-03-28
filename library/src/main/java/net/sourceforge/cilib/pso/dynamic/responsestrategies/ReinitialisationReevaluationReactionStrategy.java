@@ -11,10 +11,9 @@ import net.sourceforge.cilib.entity.*;
 
 /**
  * This reaction strategy reinitialises the specified
- * {@link #setReinitializationRatio(double) ratio} of randomly chosen entities in the given
- * {@link Topology}.
+ * {@code ratio} of randomly chosen entities in the given {@link Topology}.
  *
- * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
+ * @param <E> some {@link PopulationBasedAlgorithm}
  */
 public class ReinitialisationReevaluationReactionStrategy<E extends PopulationBasedAlgorithm> extends ReinitialisationReactionStrategy<E> {
 
@@ -46,8 +45,5 @@ public class ReinitialisationReevaluationReactionStrategy<E extends PopulationBa
         //update the particles and neighbourhoodbest
         algorithm.performIteration();
     }
-
-
-
 }
 
