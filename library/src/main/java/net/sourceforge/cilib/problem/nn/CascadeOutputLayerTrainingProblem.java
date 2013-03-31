@@ -80,9 +80,9 @@ public class CascadeOutputLayerTrainingProblem extends NNTrainingProblem {
         if (!initialised) {
             this.initialise();
         }
-		
-		Layer candidateLayer = neuralNetwork.getArchitecture().getLayers().get(neuralNetwork.getArchitecture().getNumLayers()-1);
-		int currentIndex = 0;
+
+        Layer candidateLayer = neuralNetwork.getArchitecture().getLayers().get(neuralNetwork.getArchitecture().getNumLayers()-1);
+        int currentIndex = 0;
         for (Neuron neuron : candidateLayer) {
             Vector neuronWeights = neuron.getWeights();
             int size = neuronWeights.size();
@@ -90,26 +90,26 @@ public class CascadeOutputLayerTrainingProblem extends NNTrainingProblem {
                 neuronWeights.set(j, ((Vector) solution).get(currentIndex++));
             }
         }
-		
+
         //calculate MSE
-		double mse = 0.0;
+        double mse = 0.0;
         OutputErrorVisitor errorVisitor = new OutputErrorVisitor();
         for (int curPattern = 0; curPattern < activationCache.size(); ++curPattern) {
             //Feed consolidated layers to new output layer.
             //The receiving Neuron must ensure that it doesn't process more inputs
             //than what it has weights for.
-			for (Neuron curNeuron : candidateLayer) {
-				curNeuron.calculateActivation(activationCache.get(curPattern));
-			}
+            for (Neuron curNeuron : candidateLayer) {
+                curNeuron.calculateActivation(activationCache.get(curPattern));
+            }
 
-			//calculate mse
-			errorVisitor.setInput(trainingSet.getRow(curPattern));
+            //calculate mse
+            errorVisitor.setInput(trainingSet.getRow(curPattern));
             errorVisitor.visit(neuralNetwork.getArchitecture());
-			for (Numeric curOutput : errorVisitor.getOutput()) {
-		        mse += Math.pow(curOutput.doubleValue(), 2);
-			}
+            for (Numeric curOutput : errorVisitor.getOutput()) {
+                mse += Math.pow(curOutput.doubleValue(), 2);
+            }
         }
-		
+
         return new MinimisationFitness(mse / (candidateLayer.size()*trainingSet.size()));
     }
 

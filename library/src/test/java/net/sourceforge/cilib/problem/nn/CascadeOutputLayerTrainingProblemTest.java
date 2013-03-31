@@ -143,7 +143,7 @@ public class CascadeOutputLayerTrainingProblemTest {
         assertEquals(0.0, fitness.getValue(), Maths.EPSILON);
 
         fitness = problem.calculateFitness(Vector.of(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0));
-        assertEquals(1.3634344, fitness.getValue(), Maths.EPSILON);
+        assertEquals(1.8179125, fitness.getValue(), Maths.EPSILON);
     }
 
     @Test
