@@ -41,7 +41,7 @@ public class CascadeHiddenNeuronCorrelationProblem extends NNTrainingProblem {
         initialised = false;
         activationCache = new ArrayList<Layer>();
         errorCache = new ArrayList<Vector>();
-        errorMeans = null;
+        errorMeans = Vector.of();
     }
 
     public CascadeHiddenNeuronCorrelationProblem(CascadeHiddenNeuronCorrelationProblem rhs) {

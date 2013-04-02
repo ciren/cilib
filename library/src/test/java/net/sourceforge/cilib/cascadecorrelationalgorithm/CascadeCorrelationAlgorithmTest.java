@@ -10,46 +10,46 @@ import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.functions.activation.Linear;
-import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.io.StandardPatternDataTable;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
+import net.sourceforge.cilib.nn.architecture.visitors.CascadeVisitor;
 import net.sourceforge.cilib.nn.architecture.Layer;
-import net.sourceforge.cilib.nn.components.Neuron;
 import net.sourceforge.cilib.nn.NeuralNetwork;
-import net.sourceforge.cilib.problem.nn.NNDataTrainingProblem;
+import net.sourceforge.cilib.problem.nn.NNTrainingProblem;
 import net.sourceforge.cilib.problem.solution.MaximisationFitness;
+import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import org.junit.Test;
-import org.mockito.Matchers;
-
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class CascadeCorrelationAlgorithmTest {
 
     @Test
     public void testPhase1() {
 
-        NNDataTrainingProblem problem = new NNDataTrainingProblem();
-
         NeuralNetwork network = new NeuralNetwork();
         network.getArchitecture().setArchitectureBuilder(new CascadeArchitectureBuilder());
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        network.setOperationVisitor(new CascadeVisitor());
         network.initialise();
-        
+
         network.setWeights(Vector.of(0.0,0.0,0.0,0.0,0.0,0.0));
-        problem.setNeuralNetwork(network);
+        
+        final NNTrainingProblem problem = mock(NNTrainingProblem.class);
+        when(problem.getTrainingSet()).thenReturn(new StandardPatternDataTable());
+        when(problem.getValidationSet()).thenReturn(new StandardPatternDataTable());
+        when(problem.getGeneralisationSet()).thenReturn(new StandardPatternDataTable());
+        when(problem.getNeuralNetwork()).thenReturn(network);
 
         ArrayList<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
         solutions.add(new OptimisationSolution(Vector.of(1.0, 1.0, 1.0), new MaximisationFitness(0.0)));
@@ -60,11 +60,12 @@ public class CascadeCorrelationAlgorithmTest {
         when(p1Alg.getClone()).thenReturn(p1AlgClone);
         when(p1AlgClone.getSolutions()).thenReturn(solutions);
         doNothing().when(p1AlgClone).performInitialisation();
-        doNothing().when(p1AlgClone).run();
+        doNothing().when(p1AlgClone).runAlgorithm();
 
         CascadeCorrelationAlgorithm cascadeAlg = new CascadeCorrelationAlgorithm();
         cascadeAlg.setOptimisationProblem(problem);
         cascadeAlg.setPhase1Algorithm(p1Alg);
+        cascadeAlg.performInitialisation();
         cascadeAlg.phase1();
 
         List<Layer> resultLayers = network.getArchitecture().getLayers();
@@ -135,28 +136,33 @@ public class CascadeCorrelationAlgorithmTest {
     @Test
     public void testPhase2() {
 
-        NNDataTrainingProblem problem = new NNDataTrainingProblem();
-
         NeuralNetwork network = new NeuralNetwork();
         network.getArchitecture().setArchitectureBuilder(new CascadeArchitectureBuilder());
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        network.setOperationVisitor(new CascadeVisitor());
         network.initialise();
         
         network.setWeights(Vector.of(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN));
-        problem.setNeuralNetwork(network);
+        
+        final NNTrainingProblem problem = mock(NNTrainingProblem.class);
+        when(problem.getTrainingSet()).thenReturn(new StandardPatternDataTable());
+        when(problem.getValidationSet()).thenReturn(new StandardPatternDataTable());
+        when(problem.getGeneralisationSet()).thenReturn(new StandardPatternDataTable());
+        when(problem.getNeuralNetwork()).thenReturn(network);
 
         final AbstractAlgorithm p2Alg = mock(AbstractAlgorithm.class);
         final AbstractAlgorithm p2AlgClone = mock(AbstractAlgorithm.class);
         when(p2Alg.getClone()).thenReturn(p2AlgClone);
-        when(p2AlgClone.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(1.0, 1.0, 1.0, 1.0, 1.0, 1.0), new MaximisationFitness(0.0)));
+        when(p2AlgClone.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(1.0, 1.0, 1.0, 1.0, 1.0, 1.0), new MinimisationFitness(0.0)));
         doNothing().when(p2AlgClone).performInitialisation();
-        doNothing().when(p2AlgClone).run();
+        doNothing().when(p2AlgClone).runAlgorithm();
 
         CascadeCorrelationAlgorithm cascadeAlg = new CascadeCorrelationAlgorithm();
         cascadeAlg.setOptimisationProblem(problem);
         cascadeAlg.setPhase2Algorithm(p2Alg);
+        cascadeAlg.performInitialisation();
         cascadeAlg.phase2();
 
         List<Layer> resultLayers = network.getArchitecture().getLayers();
@@ -178,7 +184,7 @@ public class CascadeCorrelationAlgorithmTest {
         network.setWeights(Vector.of(2.0,2.0,2.0,2.0,2.0,2.0,0.0,0.0,0.0,Double.NaN,
                                      Double.NaN,0.0,0.0,0.0,Double.NaN,Double.NaN));
         
-        when(p2AlgClone.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0), new MaximisationFitness(0.0)));
+        when(p2AlgClone.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0), new MinimisationFitness(0.0)));
         cascadeAlg.phase2();
 
         resultLayers = network.getArchitecture().getLayers();
@@ -210,17 +216,21 @@ public class CascadeCorrelationAlgorithmTest {
     @Test
     public void testAlgorithmIteration() {
 
-        NNDataTrainingProblem problem = new NNDataTrainingProblem();
-
         NeuralNetwork network = new NeuralNetwork();
         network.getArchitecture().setArchitectureBuilder(new CascadeArchitectureBuilder());
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        network.setOperationVisitor(new CascadeVisitor());
         network.initialise();
         
         network.setWeights(Vector.of(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN));
-        problem.setNeuralNetwork(network);
+        
+        final NNTrainingProblem problem = mock(NNTrainingProblem.class);
+        when(problem.getTrainingSet()).thenReturn(new StandardPatternDataTable());
+        when(problem.getValidationSet()).thenReturn(new StandardPatternDataTable());
+        when(problem.getGeneralisationSet()).thenReturn(new StandardPatternDataTable());
+        when(problem.getNeuralNetwork()).thenReturn(network);
 
         ArrayList<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
         solutions.add(new OptimisationSolution(Vector.of(1.0, 1.0, 1.0), new MaximisationFitness(0.0)));
@@ -231,19 +241,21 @@ public class CascadeCorrelationAlgorithmTest {
         when(p1Alg.getClone()).thenReturn(p1AlgClone);
         when(p1AlgClone.getSolutions()).thenReturn(solutions);
         doNothing().when(p1AlgClone).performInitialisation();
-        doNothing().when(p1AlgClone).run();
+        doNothing().when(p1AlgClone).runAlgorithm();
 
         final AbstractAlgorithm p2Alg = mock(AbstractAlgorithm.class);
         final AbstractAlgorithm p2AlgClone = mock(AbstractAlgorithm.class);
         when(p2Alg.getClone()).thenReturn(p2AlgClone);
-        when(p2AlgClone.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(3.0, 3.0, 3.0, 3.0, 3.0, 3.0), new MaximisationFitness(0.0)));
+        when(p2AlgClone.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(3.0, 3.0, 3.0, 3.0, 3.0, 3.0), new MinimisationFitness(0.0)));
         doNothing().when(p2AlgClone).performInitialisation();
-        doNothing().when(p2AlgClone).run();
+        doNothing().when(p2AlgClone).runAlgorithm();
 
         CascadeCorrelationAlgorithm cascadeAlg = new CascadeCorrelationAlgorithm();
         cascadeAlg.setOptimisationProblem(problem);
         cascadeAlg.setPhase1Algorithm(p1Alg);
         cascadeAlg.setPhase2Algorithm(p2Alg);
+        cascadeAlg.performInitialisation();
+
         cascadeAlg.performIteration();
 
         List<Layer> resultLayers = network.getArchitecture().getLayers();
@@ -262,7 +274,7 @@ public class CascadeCorrelationAlgorithmTest {
 
         network.setWeights(Vector.of(0.0,0.0,0.0,0.0,0.0,0.0));
         
-        when(p2AlgClone.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0), new MaximisationFitness(0.0)));
+        when(p2AlgClone.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0), new MinimisationFitness(0.0)));
         cascadeAlg.performIteration();
 
         resultLayers = network.getArchitecture().getLayers();
@@ -293,7 +305,7 @@ public class CascadeCorrelationAlgorithmTest {
         solutions.clear();
         solutions.add(new OptimisationSolution(Vector.of(1.0, 1.0, 1.0, 1.0, 1.0), new MaximisationFitness(0.0)));
         when(p2AlgClone.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0,
-                                                                                         3.0, 3.0), new MaximisationFitness(0.0)));
+                                                                                         3.0, 3.0), new MinimisationFitness(0.9)));
         network.setWeights(Vector.of(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
                                      0.0,0.0,0.0,0.0,0.0,0.0));
         cascadeAlg.performIteration();
@@ -330,5 +342,35 @@ public class CascadeCorrelationAlgorithmTest {
         assertEquals(3.0, resultWeights.doubleValueOf(20), Maths.EPSILON);
         assertEquals(3.0, resultWeights.doubleValueOf(21), Maths.EPSILON);
         assertEquals(3.0, resultWeights.doubleValueOf(22), Maths.EPSILON);
+
+        resultWeights = (Vector) cascadeAlg.getBestSolution().getPosition();
+        assertEquals(23, resultWeights.size());
+        assertEquals(0.0, resultWeights.doubleValueOf(0), Maths.EPSILON);
+        assertEquals(0.0, resultWeights.doubleValueOf(1), Maths.EPSILON);
+        assertEquals(0.0, resultWeights.doubleValueOf(2), Maths.EPSILON);
+        assertEquals(0.0, resultWeights.doubleValueOf(3), Maths.EPSILON);
+        assertEquals(0.0, resultWeights.doubleValueOf(4), Maths.EPSILON);
+        assertEquals(0.0, resultWeights.doubleValueOf(5), Maths.EPSILON);
+        assertEquals(1.0, resultWeights.doubleValueOf(6), Maths.EPSILON);
+        assertEquals(1.0, resultWeights.doubleValueOf(7), Maths.EPSILON);
+        assertEquals(1.0, resultWeights.doubleValueOf(8), Maths.EPSILON);
+        assertEquals(1.0, resultWeights.doubleValueOf(9), Maths.EPSILON);
+        assertEquals(1.0, resultWeights.doubleValueOf(10), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(11), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(12), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(13), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(14), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(15), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(16), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(17), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(18), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(19), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(20), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(21), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(22), Maths.EPSILON);
+
+        assertEquals(0.9, cascadeAlg.getBestSolution().getFitness().getValue(), Maths.EPSILON);
+        assertEquals(1, Lists.<OptimisationSolution>newLinkedList(cascadeAlg.getSolutions()).size());
+        assertEquals(0.9, Lists.<OptimisationSolution>newLinkedList(cascadeAlg.getSolutions()).get(0).getFitness().getValue(), Maths.EPSILON);
     }
 }
