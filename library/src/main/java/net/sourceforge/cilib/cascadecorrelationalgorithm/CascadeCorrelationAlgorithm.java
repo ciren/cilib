@@ -55,7 +55,11 @@ public class CascadeCorrelationAlgorithm extends AbstractAlgorithm {
 
     @Override
     protected void algorithmIteration() {
-		//phase 2
+		if (getIterations() > 0) {
+            phase1();
+        }
+
+        phase2();
     }
 
     @VisibleForTesting
@@ -79,6 +83,8 @@ public class CascadeCorrelationAlgorithm extends AbstractAlgorithm {
         List<OptimisationSolution> solutions = Lists.<OptimisationSolution>newLinkedList(alg1.getSolutions());
 
         List<LayerConfiguration> layers = network.getArchitecture().getArchitectureBuilder().getLayerConfigurations();
+
+        //expand weight vector
         int consolidatedLayerSize = 0;
         int insertionIndex = 0;
         for (int curLayer = 0; curLayer < layers.size()-1; ++curLayer) {
@@ -110,6 +116,33 @@ public class CascadeCorrelationAlgorithm extends AbstractAlgorithm {
         network.setWeights(bestSolution);
     }
 
+    @VisibleForTesting
+    protected void phase2() {
+        NNTrainingProblem problem = (NNTrainingProblem) optimisationProblem;
+        NeuralNetwork network = problem.getNeuralNetwork();
+        Vector bestSolution = network.getWeights();
+        
+        AbstractAlgorithm alg2 = (AbstractAlgorithm) phase2Algorithm.getClone();
+        CascadeHiddenNeuronCorrelationProblem correlationProblem = new CascadeHiddenNeuronCorrelationProblem();
+        correlationProblem.setTrainingSet(problem.getTrainingSet());
+        correlationProblem.setValidationSet(problem.getValidationSet());
+        correlationProblem.setGeneralisationSet(problem.getGeneralisationSet());
+        correlationProblem.setNeuralNetwork(network);
+
+        alg2.setOptimisationProblem(correlationProblem);
+        alg2.performInitialisation();
+        alg2.run();
+
+        Vector solution = (Vector) alg2.getBestSolution().getPosition();
+
+        for (int curElement = 0; curElement < solution.size(); ++curElement) {
+            bestSolution.set(bestSolution.size()-1-curElement,
+                             solution.get(solution.size()-1-curElement));
+        }
+        
+        network.setWeights(bestSolution);
+    }
+
     @Override
     public OptimisationSolution getBestSolution() {
         return null; // Collections.max(solutions);
@@ -129,5 +162,9 @@ public class CascadeCorrelationAlgorithm extends AbstractAlgorithm {
 
     public void setPhase1Algorithm(AbstractAlgorithm algorithm) {
         this.phase1Algorithm = algorithm;
+    }
+
+    public void setPhase2Algorithm(AbstractAlgorithm algorithm) {
+        this.phase2Algorithm = algorithm;
     }
 }
