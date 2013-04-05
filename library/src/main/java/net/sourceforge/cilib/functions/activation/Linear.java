@@ -65,7 +65,7 @@ public class Linear implements ActivationFunction {
     }
 
     @Override
-    public Object getClone() {
+    public Linear getClone() {
         return this;
     }
 }

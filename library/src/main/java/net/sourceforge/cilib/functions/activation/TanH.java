@@ -64,7 +64,7 @@ public class TanH implements ActivationFunction {
     }
 
     @Override
-    public Object getClone() {
+    public TanH getClone() {
         return this;
     }
 }
