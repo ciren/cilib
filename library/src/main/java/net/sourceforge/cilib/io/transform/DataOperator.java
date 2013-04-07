@@ -16,6 +16,12 @@ import net.sourceforge.cilib.util.Cloneable;
 public interface DataOperator extends Cloneable {
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    DataOperator getClone();
+
+    /**
      * Apply an operation to the given DataTable.
      * @param dataTable the DataTable to operate on.
      * @return the resulting DataTable.
