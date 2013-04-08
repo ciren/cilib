@@ -10,6 +10,7 @@ import java.util.List;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.real.ParentCentricCrossoverStrategy;
 import net.sourceforge.cilib.pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider;
@@ -68,7 +69,7 @@ public class ParticleCrossoverStrategy implements CrossoverStrategy {
     public <E extends Entity> List<E> crossover(List<E> parentCollection) {
         List<Particle> parents = (List<Particle>) parentCollection;
         List<Particle> offspring = crossoverStrategy.crossover(parents);
-        Particle nBest = new ElitistSelector<Particle>().on(parents).select();
+        Particle nBest = new ElitistSelector<Particle>(new SocialBestFitnessComparator()).on(parents).select();
 
         for (Particle p : offspring) {
             p.getProperties().put(EntityType.Particle.BEST_POSITION, pbestProvider.f(parents, p));

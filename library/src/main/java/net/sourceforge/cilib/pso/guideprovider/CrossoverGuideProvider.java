@@ -66,11 +66,9 @@ public class CrossoverGuideProvider implements GuideProvider {
     public StructuredType get(Particle particle) {
         PSO pso = (PSO) AbstractAlgorithm.get();
         P3<Boolean, Particle, Particle> result = crossoverSelection.doAction(pso, positionComponent, fitnessComponent);
-        Particle gBest = particle.getNeighbourhoodBest();
 
         if (result._1()) {
-            gBest.getProperties().put(EntityType.Particle.BEST_POSITION, result._3().getCandidateSolution());
-            gBest.getProperties().put(EntityType.Particle.BEST_FITNESS, result._3().getFitness());
+            return result._3().getCandidateSolution();
         }
 
         return delegate.get(particle);
