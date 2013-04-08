@@ -126,6 +126,7 @@
     </problems>
 
     <measurements id="solution" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.FitnessEvaluations"/>
         <addMeasurement class="measurement.multiple.CompositeMeasurement">
             <addMeasurement class="measurement.single.SwarmSize"/>
             <addMeasurement class="measurement.single.Solution"/>

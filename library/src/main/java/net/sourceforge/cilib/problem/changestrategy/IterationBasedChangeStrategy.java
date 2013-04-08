@@ -41,10 +41,15 @@ public class IterationBasedChangeStrategy implements ChangeStrategy {
     @Override
     public boolean shouldApply(Problem problem) {
         int iterations = AbstractAlgorithm.get().getIterations();
-        if (iterations != 0 && iterations % Double.valueOf(resolution.getParameter()).intValue() == 0)
-           return true;
+        return iterations != 0 && iterations % Double.valueOf(resolution.getParameter()).intValue() == 0;
+    }
 
-        return false;
+    public void setResolution(ControlParameter resolution) {
+        this.resolution = resolution;
+    }
+
+    public ControlParameter getResolution() {
+        return resolution;
     }
 
 }
