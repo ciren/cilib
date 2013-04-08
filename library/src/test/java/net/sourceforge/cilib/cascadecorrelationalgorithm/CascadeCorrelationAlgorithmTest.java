@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.io.StandardPatternDataTable;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
@@ -44,9 +45,18 @@ public class CascadeCorrelationAlgorithmTest {
         network.initialise();
 
         network.setWeights(Vector.of(0.0,0.0,0.0,0.0,0.0,0.0));
+
+        StandardPatternDataTable trainingSet = new StandardPatternDataTable();
+        Vector input = Vector.of(0.1, 0.2);
+        Vector output = Vector.of(0, 0);
+        StandardPattern pattern = new StandardPattern(input, output);
+        trainingSet.addRow(pattern);
+        input = Vector.of(0.2, 0.4);
+        pattern = new StandardPattern(input, output);
+        trainingSet.addRow(pattern);
         
         final NNTrainingProblem problem = mock(NNTrainingProblem.class);
-        when(problem.getTrainingSet()).thenReturn(new StandardPatternDataTable());
+        when(problem.getTrainingSet()).thenReturn(trainingSet);
         when(problem.getValidationSet()).thenReturn(new StandardPatternDataTable());
         when(problem.getGeneralisationSet()).thenReturn(new StandardPatternDataTable());
         when(problem.getNeuralNetwork()).thenReturn(network);
@@ -145,9 +155,18 @@ public class CascadeCorrelationAlgorithmTest {
         network.initialise();
         
         network.setWeights(Vector.of(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN));
+
+        StandardPatternDataTable trainingSet = new StandardPatternDataTable();
+        Vector input = Vector.of(0.1, 0.2);
+        Vector output = Vector.of(0, 0);
+        StandardPattern pattern = new StandardPattern(input, output);
+        trainingSet.addRow(pattern);
+        input = Vector.of(0.2, 0.4);
+        pattern = new StandardPattern(input, output);
+        trainingSet.addRow(pattern);
         
         final NNTrainingProblem problem = mock(NNTrainingProblem.class);
-        when(problem.getTrainingSet()).thenReturn(new StandardPatternDataTable());
+        when(problem.getTrainingSet()).thenReturn(trainingSet);
         when(problem.getValidationSet()).thenReturn(new StandardPatternDataTable());
         when(problem.getGeneralisationSet()).thenReturn(new StandardPatternDataTable());
         when(problem.getNeuralNetwork()).thenReturn(network);
@@ -225,9 +244,18 @@ public class CascadeCorrelationAlgorithmTest {
         network.initialise();
         
         network.setWeights(Vector.of(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN));
+
+        StandardPatternDataTable trainingSet = new StandardPatternDataTable();
+        Vector input = Vector.of(0.1, 0.2);
+        Vector output = Vector.of(0, 0);
+        StandardPattern pattern = new StandardPattern(input, output);
+        trainingSet.addRow(pattern);
+        input = Vector.of(0.2, 0.4);
+        pattern = new StandardPattern(input, output);
+        trainingSet.addRow(pattern);
         
         final NNTrainingProblem problem = mock(NNTrainingProblem.class);
-        when(problem.getTrainingSet()).thenReturn(new StandardPatternDataTable());
+        when(problem.getTrainingSet()).thenReturn(trainingSet);
         when(problem.getValidationSet()).thenReturn(new StandardPatternDataTable());
         when(problem.getGeneralisationSet()).thenReturn(new StandardPatternDataTable());
         when(problem.getNeuralNetwork()).thenReturn(network);
@@ -372,5 +400,56 @@ public class CascadeCorrelationAlgorithmTest {
         assertEquals(0.9, cascadeAlg.getBestSolution().getFitness().getValue(), Maths.EPSILON);
         assertEquals(1, Lists.<OptimisationSolution>newLinkedList(cascadeAlg.getSolutions()).size());
         assertEquals(0.9, Lists.<OptimisationSolution>newLinkedList(cascadeAlg.getSolutions()).get(0).getFitness().getValue(), Maths.EPSILON);
+        
+        solutions.clear();
+        solutions.add(new OptimisationSolution(Vector.of(1.0, 1.0, 1.0, 1.0, 1.0, 1.0), new MaximisationFitness(0.0)));
+        when(p2AlgClone.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0,
+                                                                                         3.0, 3.0, 3.0, 3.0), new MinimisationFitness(0.9)));
+        network.setWeights(Vector.of(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+                                     0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+                                     0.0,0.0,0.0));
+        cascadeAlg.performIteration();
+
+        resultLayers = network.getArchitecture().getLayers();
+        assertEquals(5, resultLayers.size());
+        assertEquals(3, resultLayers.get(0).size());
+        assertEquals(2, resultLayers.get(1).size());
+        assertEquals(1, resultLayers.get(2).size());
+        assertEquals(1, resultLayers.get(3).size());
+        assertEquals(2, resultLayers.get(4).size());
+
+        resultWeights = network.getWeights();
+        assertEquals(31, resultWeights.size());
+        assertEquals(0.0, resultWeights.doubleValueOf(0), Maths.EPSILON);
+        assertEquals(0.0, resultWeights.doubleValueOf(1), Maths.EPSILON);
+        assertEquals(0.0, resultWeights.doubleValueOf(2), Maths.EPSILON);
+        assertEquals(0.0, resultWeights.doubleValueOf(3), Maths.EPSILON);
+        assertEquals(0.0, resultWeights.doubleValueOf(4), Maths.EPSILON);
+        assertEquals(0.0, resultWeights.doubleValueOf(5), Maths.EPSILON);
+        assertEquals(0.0, resultWeights.doubleValueOf(6), Maths.EPSILON);
+        assertEquals(0.0, resultWeights.doubleValueOf(7), Maths.EPSILON);
+        assertEquals(0.0, resultWeights.doubleValueOf(8), Maths.EPSILON);
+        assertEquals(0.0, resultWeights.doubleValueOf(9), Maths.EPSILON);
+        assertEquals(0.0, resultWeights.doubleValueOf(10), Maths.EPSILON);
+        assertEquals(1.0, resultWeights.doubleValueOf(11), Maths.EPSILON);
+        assertEquals(1.0, resultWeights.doubleValueOf(12), Maths.EPSILON);
+        assertEquals(1.0, resultWeights.doubleValueOf(13), Maths.EPSILON);
+        assertEquals(1.0, resultWeights.doubleValueOf(14), Maths.EPSILON);
+        assertEquals(1.0, resultWeights.doubleValueOf(15), Maths.EPSILON);
+        assertEquals(1.0, resultWeights.doubleValueOf(16), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(17), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(18), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(19), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(20), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(21), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(22), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(23), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(24), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(25), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(26), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(27), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(28), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(29), Maths.EPSILON);
+        assertEquals(3.0, resultWeights.doubleValueOf(30), Maths.EPSILON);
     }
 }

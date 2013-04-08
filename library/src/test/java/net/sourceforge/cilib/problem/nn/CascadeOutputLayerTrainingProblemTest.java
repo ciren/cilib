@@ -109,7 +109,7 @@ public class CascadeOutputLayerTrainingProblemTest {
     }
 
     @Test
-    public void testBasicCNCorrelation() {
+    public void testBasicCNOutput() {
         NeuralNetwork network = new NeuralNetwork();
         network.getArchitecture().setArchitectureBuilder(new CascadeArchitectureBuilder());
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2, new Linear()));
@@ -135,6 +135,7 @@ public class CascadeOutputLayerTrainingProblemTest {
         CascadeOutputLayerTrainingProblem problem = new CascadeOutputLayerTrainingProblem();
         problem.setTrainingSet(trainingSet);
         problem.setNeuralNetwork(network);
+        problem.initialise();
 
         MinimisationFitness fitness = problem.calculateFitness(Vector.of(0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7));
         assertEquals(3.625771812499999, fitness.getValue(), Maths.EPSILON);

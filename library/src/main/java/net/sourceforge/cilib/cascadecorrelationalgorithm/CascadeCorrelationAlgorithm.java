@@ -31,10 +31,10 @@ import net.sourceforge.cilib.type.types.Real;
 public class CascadeCorrelationAlgorithm extends AbstractAlgorithm {
 
     private AbstractAlgorithm phase1Algorithm;
-	private AbstractAlgorithm phase2Algorithm;
+    private AbstractAlgorithm phase2Algorithm;
     private CascadeHiddenNeuronCorrelationProblem phase1Problem;
     private CascadeOutputLayerTrainingProblem phase2Problem;
-	private Fitness trackedFitness;
+    private Fitness trackedFitness;
     private Neuron neuronPrototype;
 
     public CascadeCorrelationAlgorithm() {
@@ -89,7 +89,7 @@ public class CascadeCorrelationAlgorithm extends AbstractAlgorithm {
      */
     @Override
     protected void algorithmIteration() {
-		if (getIterations() > 0) {
+        if (getIterations() > 0) {
             phase1();
         }
 
@@ -111,9 +111,10 @@ public class CascadeCorrelationAlgorithm extends AbstractAlgorithm {
         Vector trackedWeights = network.getWeights();
         
         AbstractAlgorithm alg1 = (AbstractAlgorithm) phase1Algorithm.getClone();
-        CascadeHiddenNeuronCorrelationProblem correlationProblem = phase1Problem;
 
-        alg1.setOptimisationProblem(correlationProblem);
+        phase1Problem.initialise();
+
+        alg1.setOptimisationProblem(phase1Problem);
         alg1.performInitialisation();
         alg1.runAlgorithm();
 
@@ -155,7 +156,7 @@ public class CascadeCorrelationAlgorithm extends AbstractAlgorithm {
 
     /**
      * Performs the output-training phase.
-     * A clone is made of the phase 1 algorithm to ensure a clean start.
+     * A clone is made of the phase 2 algorithm to ensure a clean start.
      * Once the algorithm is finished the best solution is used.
      */
     @VisibleForTesting
@@ -165,13 +166,10 @@ public class CascadeCorrelationAlgorithm extends AbstractAlgorithm {
         Vector trackedWeights = network.getWeights();
         
         AbstractAlgorithm alg2 = (AbstractAlgorithm) phase2Algorithm.getClone();
-        CascadeOutputLayerTrainingProblem correlationProblem = phase2Problem;
-        correlationProblem.setTrainingSet(problem.getTrainingSet());
-        correlationProblem.setValidationSet(problem.getValidationSet());
-        correlationProblem.setGeneralisationSet(problem.getGeneralisationSet());
-        correlationProblem.setNeuralNetwork(network);
+        
+        phase2Problem.initialise();
 
-        alg2.setOptimisationProblem(correlationProblem);
+        alg2.setOptimisationProblem(phase2Problem);
         alg2.performInitialisation();
         alg2.runAlgorithm();
 

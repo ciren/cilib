@@ -27,20 +27,17 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public class CascadeOutputLayerTrainingProblem extends NNTrainingProblem {
 
-    private boolean initialised;
     private ArrayList<Layer> activationCache;
     private int weightEvaluationCount;
 
     public CascadeOutputLayerTrainingProblem() {
         super();
-        initialised = false;
         activationCache = new ArrayList<Layer>();
         weightEvaluationCount = 0;
     }
 
     public CascadeOutputLayerTrainingProblem(CascadeOutputLayerTrainingProblem rhs) {
         super(rhs);
-        initialised = false;
         weightEvaluationCount = rhs.weightEvaluationCount;
 
         activationCache = new ArrayList<Layer>();
@@ -64,10 +61,19 @@ public class CascadeOutputLayerTrainingProblem extends NNTrainingProblem {
      */
     @Override
     public void initialise() {
-        if (!initialised) {
-            generateCache();
-            initialised = true;
+        generateCache();
+
+        List<Layer> layers = neuralNetwork.getArchitecture().getLayers();
+        int numWeights = 0;
+        for (int curLayer = 0; curLayer < layers.size()-1; ++curLayer) {
+            numWeights += layers.get(curLayer).size();
         }
+
+        numWeights *= layers.get(layers.size()-1).size();
+
+        String domainString = neuralNetwork.getArchitecture().getArchitectureBuilder().getLayerBuilder().getDomain();
+        domainRegistry = new StringBasedDomainRegistry();
+        domainRegistry.setDomainString(domainString + "^" + numWeights);
     }
 
     /**
@@ -80,9 +86,6 @@ public class CascadeOutputLayerTrainingProblem extends NNTrainingProblem {
      */
     @Override
     protected MinimisationFitness calculateFitness(Type solution) {
-        if (!initialised) {
-            this.initialise();
-        }
 
         weightEvaluationCount += ((Vector) solution).size();
 
@@ -145,60 +148,12 @@ public class CascadeOutputLayerTrainingProblem extends NNTrainingProblem {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public StringBasedDomainRegistry getDomain() {
-        if (!initialised) {
-            this.initialise();
-        }
-        return initializeDomain();
-    }
-
-    /**
-     * Calculates the domain of the problem.
-     * @return the domain of the problem.
-     */
-    private StringBasedDomainRegistry initializeDomain() {
-        List<Layer> layers = neuralNetwork.getArchitecture().getLayers();
-        int numWeights = 0;
-        for (int curLayer = 0; curLayer < layers.size()-1; ++curLayer) {
-            numWeights += layers.get(curLayer).size();
-        }
-
-        numWeights *= layers.get(layers.size()-1).size();
-
-        String domainString = neuralNetwork.getArchitecture().getArchitectureBuilder().getLayerBuilder().getDomain();
-        StringBasedDomainRegistry domainRegistry = new StringBasedDomainRegistry();
-        domainRegistry.setDomainString(domainString + "^" + numWeights);
-        return domainRegistry;
-    }
-
-    /**
      * Gets the current cache of neuron activations.
      * These activations must not be changed by the caller.
      * @return The activation cache.
      */
     public ArrayList<Layer> getActivationCache() {
         return activationCache;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setNeuralNetwork(NeuralNetwork newNeuralNetwork) {
-        super.setNeuralNetwork(newNeuralNetwork);
-        initialised = false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setTrainingSet(StandardPatternDataTable newTrainingSet) {
-        super.setTrainingSet(newTrainingSet);
-        initialised = false;
     }
 
     /**

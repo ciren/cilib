@@ -29,7 +29,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class CascadeHiddenNeuronCorrelationProblem extends NNTrainingProblem {
 
     private Neuron neuron;
-    private boolean initialised;
     private ArrayList<Layer> activationCache;
     private ArrayList<Vector> errorCache;
     private Vector errorMeans;
@@ -39,7 +38,6 @@ public class CascadeHiddenNeuronCorrelationProblem extends NNTrainingProblem {
         super();
         objective = new Maximise();
         neuron = new Neuron();
-        initialised = false;
         activationCache = new ArrayList<Layer>();
         errorCache = new ArrayList<Vector>();
         errorMeans = Vector.of();
@@ -50,7 +48,6 @@ public class CascadeHiddenNeuronCorrelationProblem extends NNTrainingProblem {
         super(rhs);
         objective = new Maximise();
         neuron = rhs.neuron.getClone();
-        initialised = false;
         errorMeans = rhs.errorMeans.getClone();
         weightEvaluationCount = rhs.weightEvaluationCount;
 
@@ -80,10 +77,17 @@ public class CascadeHiddenNeuronCorrelationProblem extends NNTrainingProblem {
      */
     @Override
     public void initialise() {
-        if (!initialised) {
-            generateCache();
-            initialised = true;
+        generateCache();
+
+        List<Layer> layers = neuralNetwork.getArchitecture().getLayers();
+        int numWeights = 0;
+        for (int curLayer = 0; curLayer < layers.size()-1; ++curLayer) {
+            numWeights += layers.get(curLayer).size();
         }
+
+        String domainString = neuralNetwork.getArchitecture().getArchitectureBuilder().getLayerBuilder().getDomain();
+        domainRegistry = new StringBasedDomainRegistry();
+        domainRegistry.setDomainString(domainString + "^" + numWeights);
     }
 
     /**
@@ -97,12 +101,11 @@ public class CascadeHiddenNeuronCorrelationProblem extends NNTrainingProblem {
      */
     @Override
     protected MaximisationFitness calculateFitness(Type solution) {
-        if (!initialised) {
-            this.initialise();
-        }
 
         weightEvaluationCount += ((Vector) solution).size(); 
         neuron.setWeights((Vector) solution);
+
+        //System.out.println(((Vector) solution).size() + " " + activationCache.get(0).size());
 
         //calculate activations
         double[] activations = new double[trainingSet.size()];
@@ -175,34 +178,6 @@ public class CascadeHiddenNeuronCorrelationProblem extends NNTrainingProblem {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public StringBasedDomainRegistry getDomain() {
-        if (!initialised) {
-            this.initialise();
-        }
-        return initializeDomain();
-    }
-
-    /**
-     * Calculates the domain of the problem.
-     * @return the domain of the problem.
-     */
-    private StringBasedDomainRegistry initializeDomain() {
-        List<Layer> layers = neuralNetwork.getArchitecture().getLayers();
-        int numWeights = 0;
-        for (int curLayer = 0; curLayer < layers.size()-1; ++curLayer) {
-            numWeights += layers.get(curLayer).size();
-        }
-
-        String domainString = neuralNetwork.getArchitecture().getArchitectureBuilder().getLayerBuilder().getDomain();
-        StringBasedDomainRegistry domainRegistry = new StringBasedDomainRegistry();
-        domainRegistry.setDomainString(domainString + "^" + numWeights);
-        return domainRegistry;
-    }
-
-    /**
      * Gets the current cache of neuron activations.
      * These activations must not be changed by the caller.
      * @return The activation cache.
@@ -236,24 +211,6 @@ public class CascadeHiddenNeuronCorrelationProblem extends NNTrainingProblem {
      */
     public void setNeuron(Neuron newNeuron) {
         neuron = newNeuron;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setNeuralNetwork(NeuralNetwork newNeuralNetwork) {
-        super.setNeuralNetwork(newNeuralNetwork);
-        initialised = false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setTrainingSet(StandardPatternDataTable newTrainingSet) {
-        super.setTrainingSet(newTrainingSet);
-        initialised = false;
     }
 
     /**

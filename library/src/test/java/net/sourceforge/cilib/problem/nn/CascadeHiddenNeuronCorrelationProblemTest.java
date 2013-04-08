@@ -161,6 +161,7 @@ public class CascadeHiddenNeuronCorrelationProblemTest {
         Neuron neuron = new Neuron();
         neuron.setActivationFunction(new Linear());
         problem.setNeuron(neuron);
+        problem.initialise();
 
         MaximisationFitness fitness = problem.calculateFitness(Vector.of(0.0, 0.0, 0.0, 0.0, 0.0));
         assertEquals(0.0, fitness.getValue(), Maths.EPSILON);
