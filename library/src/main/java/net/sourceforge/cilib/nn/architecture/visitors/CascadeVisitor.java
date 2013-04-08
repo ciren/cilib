@@ -18,7 +18,17 @@ import net.sourceforge.cilib.nn.components.PatternInputSource;
  */
 public class CascadeVisitor extends ArchitectureOperationVisitor {
 
+    public CascadeVisitor() {}
 
+    public CascadeVisitor(CascadeVisitor rhs) {
+        super(rhs);
+    }
+
+    @Override
+    public CascadeVisitor getClone() {
+        return new CascadeVisitor(this);
+    }
+	
     /**
      * Perform cascade pass using {@link #input} as the input for the pass and
      * storing the output in {@link #output}.

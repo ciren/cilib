@@ -32,6 +32,11 @@ public class NeuralNetwork {
         operationVisitor = new FeedForwardVisitor();
     }
 
+    public NeuralNetwork(NeuralNetwork rhs) {
+        architecture = new Architecture(rhs.architecture);
+        operationVisitor = rhs.operationVisitor.getClone();
+    }
+
     /**
      * Initialises the network by initialising the architecture.
      */
