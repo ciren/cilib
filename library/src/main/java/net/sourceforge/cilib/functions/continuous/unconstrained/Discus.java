@@ -36,7 +36,6 @@ public class Discus implements ContinuousFunction {
                 input.doubleValueOf(i);
         }
 
-        return 1E6 * input.doubleValueOf(0) * input.doubleValueOf(0)
-            + sum;
+        return 1E6 * input.doubleValueOf(0) * input.doubleValueOf(0) + sum;
     }
 }

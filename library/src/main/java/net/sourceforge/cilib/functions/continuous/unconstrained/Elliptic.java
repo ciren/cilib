@@ -29,16 +29,24 @@ public class Elliptic implements ContinuousFunction {
      * The condition number 10^6 is used to transform a sphere
      * to an elliptic function
      */
-    private static final double CONDITION_NUMBER = 1000000;
+    private double conditionNumber = 1E6;
 
     @Override
     public Double apply(Vector input) {
         double sum = 0;
 
         for (int i = 0; i < input.size(); i++) {
-            sum += Math.pow(CONDITION_NUMBER, i / (input.size() - 1)) * input.doubleValueOf(i) * input.doubleValueOf(i);
+            sum += Math.pow(conditionNumber, i / (input.size() - 1)) * input.doubleValueOf(i) * input.doubleValueOf(i);
         }
 
         return sum;
+    }
+
+    /*
+     * Set the condition number of the elliptic function.
+     * @param conditionNumber The new condition number.
+     */
+    public void setConditionNumber(double conditionNumber) {
+        this.conditionNumber = conditionNumber;
     }
 }
