@@ -111,7 +111,7 @@ public class CascadeCorrelationAlgorithm extends AbstractAlgorithm {
         Vector trackedWeights = network.getWeights();
         
         AbstractAlgorithm alg1 = (AbstractAlgorithm) phase1Algorithm.getClone();
-        CascadeHiddenNeuronCorrelationProblem correlationProblem = phase1Problem.getClone();
+        CascadeHiddenNeuronCorrelationProblem correlationProblem = phase1Problem;
 
         alg1.setOptimisationProblem(correlationProblem);
         alg1.performInitialisation();
@@ -165,7 +165,7 @@ public class CascadeCorrelationAlgorithm extends AbstractAlgorithm {
         Vector trackedWeights = network.getWeights();
         
         AbstractAlgorithm alg2 = (AbstractAlgorithm) phase2Algorithm.getClone();
-        CascadeOutputLayerTrainingProblem correlationProblem = phase2Problem.getClone();
+        CascadeOutputLayerTrainingProblem correlationProblem = phase2Problem;
         correlationProblem.setTrainingSet(problem.getTrainingSet());
         correlationProblem.setValidationSet(problem.getValidationSet());
         correlationProblem.setGeneralisationSet(problem.getGeneralisationSet());
@@ -238,5 +238,42 @@ public class CascadeCorrelationAlgorithm extends AbstractAlgorithm {
      */
     public void setPhase2Algorithm(AbstractAlgorithm algorithm) {
         this.phase2Algorithm = algorithm;
+    }
+
+    /**
+     * Gets the number of evaluations performed during the correlation
+     * phase.
+     * @return The number of evaluations.
+     */
+    public int getPhase1EvaluationCount() {
+        return phase1Problem.getFitnessEvaluations();
+    }
+
+    /**
+     * Gets the number of evaluations performed during the output-training
+     * phase.
+     * @return The number of evaluations.
+     */
+    public int getPhase2EvaluationCount() {
+        return phase2Problem.getFitnessEvaluations();
+    }
+
+    /**
+     * Gets the number of weight evaluations performed. This only includes
+     * weight evaluations performed while evaluating new candidate hidden
+     * neurons.
+     * @return The number of weight evaluations.
+     */
+    public int getPhase1WeightEvaluationCount() {
+        return phase1Problem.getWeightEvaluationCount();
+    }
+
+    /**
+     * Gets the number of weight evaluations performed. This only includes
+     * weight evaluations performed in the output layer.
+     * @return The number of weight evaluations.
+     */
+    public int getPhase2WeightEvaluationCount() {
+        return phase2Problem.getWeightEvaluationCount();
     }
 }

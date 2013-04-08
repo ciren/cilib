@@ -29,16 +29,19 @@ public class CascadeOutputLayerTrainingProblem extends NNTrainingProblem {
 
     private boolean initialised;
     private ArrayList<Layer> activationCache;
+    private int weightEvaluationCount;
 
     public CascadeOutputLayerTrainingProblem() {
         super();
         initialised = false;
         activationCache = new ArrayList<Layer>();
+        weightEvaluationCount = 0;
     }
 
     public CascadeOutputLayerTrainingProblem(CascadeOutputLayerTrainingProblem rhs) {
         super(rhs);
         initialised = false;
+        weightEvaluationCount = rhs.weightEvaluationCount;
 
         activationCache = new ArrayList<Layer>();
         for (Layer curLayer : rhs.activationCache) {
@@ -80,6 +83,8 @@ public class CascadeOutputLayerTrainingProblem extends NNTrainingProblem {
         if (!initialised) {
             this.initialise();
         }
+
+        weightEvaluationCount += ((Vector) solution).size();
 
         Layer candidateLayer = neuralNetwork.getArchitecture().getLayers().get(neuralNetwork.getArchitecture().getNumLayers()-1);
         int currentIndex = 0;
@@ -194,5 +199,14 @@ public class CascadeOutputLayerTrainingProblem extends NNTrainingProblem {
     public void setTrainingSet(StandardPatternDataTable newTrainingSet) {
         super.setTrainingSet(newTrainingSet);
         initialised = false;
+    }
+
+    /**
+     * Gets the number of weight evaluations performed. This only includes
+     * weight evaluations performed in the output layer.
+     * @return The number of weight evaluations.
+     */
+    public int getWeightEvaluationCount() {
+        return weightEvaluationCount;
     }
 }

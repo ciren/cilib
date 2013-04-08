@@ -33,6 +33,7 @@ public class CascadeHiddenNeuronCorrelationProblem extends NNTrainingProblem {
     private ArrayList<Layer> activationCache;
     private ArrayList<Vector> errorCache;
     private Vector errorMeans;
+    private int weightEvaluationCount;
 
     public CascadeHiddenNeuronCorrelationProblem() {
         super();
@@ -42,6 +43,7 @@ public class CascadeHiddenNeuronCorrelationProblem extends NNTrainingProblem {
         activationCache = new ArrayList<Layer>();
         errorCache = new ArrayList<Vector>();
         errorMeans = Vector.of();
+        weightEvaluationCount = 0;
     }
 
     public CascadeHiddenNeuronCorrelationProblem(CascadeHiddenNeuronCorrelationProblem rhs) {
@@ -50,6 +52,7 @@ public class CascadeHiddenNeuronCorrelationProblem extends NNTrainingProblem {
         neuron = rhs.neuron.getClone();
         initialised = false;
         errorMeans = rhs.errorMeans.getClone();
+        weightEvaluationCount = rhs.weightEvaluationCount;
 
         activationCache = new ArrayList<Layer>();
         for (Layer curLayer : rhs.activationCache) {
@@ -98,6 +101,7 @@ public class CascadeHiddenNeuronCorrelationProblem extends NNTrainingProblem {
             this.initialise();
         }
 
+        weightEvaluationCount += ((Vector) solution).size(); 
         neuron.setWeights((Vector) solution);
 
         //calculate activations
@@ -250,5 +254,15 @@ public class CascadeHiddenNeuronCorrelationProblem extends NNTrainingProblem {
     public void setTrainingSet(StandardPatternDataTable newTrainingSet) {
         super.setTrainingSet(newTrainingSet);
         initialised = false;
+    }
+
+    /**
+     * Gets the number of weight evaluations performed. This only includes
+     * weight evaluations performed while evaluating new candidate hidden
+     * neurons.
+     * @return The number of weight evaluations.
+     */
+    public int getWeightEvaluationCount() {
+        return weightEvaluationCount;
     }
 }
