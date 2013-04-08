@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.pso.particle.Particle;
 import static net.sourceforge.cilib.niching.NichingFunctionsTest.createParticle;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
@@ -40,7 +39,13 @@ public class SpeciationTopologyTest {
         Particle p9 = createParticle(new MinimisationFitness(5.0), Vector.of(9.0)); //8
         Particle p10 = createParticle(new MinimisationFitness(7.0), Vector.of(10.0)); //9
 
-        SpeciationTopology s = new SpeciationTopology();
+        SpeciationTopology s = new SpeciationTopology() {
+            @Override
+            public int getIteration() {
+                return 1;
+            }            
+        };
+        
         s.setNeighbourhoodSize(ConstantControlParameter.of(3));
         s.setRadius(ConstantControlParameter.of(2.1));
         s.addAll(Arrays.asList(p3,p2,p1,p4,p5,p6,p7,p8,p9,p10));
@@ -172,25 +177,4 @@ public class SpeciationTopologyTest {
         assertEquals(top.length(), 2);
     }
 
-    @Test
-    public void testExists() {
-        Entity p1 = new StandardParticle();
-        p1.setCandidateSolution(Vector.of(10.0, 10.0));
-        Entity p2 = new StandardParticle();
-        p2.setCandidateSolution(Vector.of(5.0, 5.0));
-        Entity other = new StandardParticle();
-        other.setCandidateSolution(Vector.of(0.0, 0.0));
-
-        assertTrue(SpeciationTopology.exists(1).f(P.p(p1, 1)));
-        assertFalse(SpeciationTopology.exists(1).f(P.p(p1, 2)));
-
-        assertTrue(List.<Entity>list(p1, p2, other)
-                .zipIndex()
-                .removeAll(SpeciationTopology.exists(2))
-                .exists(SpeciationTopology.exists(1)));
-        assertFalse(List.<Entity>list(p1, p2, other)
-                .zipIndex()
-                .removeAll(SpeciationTopology.exists(1))
-                .exists(SpeciationTopology.exists(1)));
-    }
 }

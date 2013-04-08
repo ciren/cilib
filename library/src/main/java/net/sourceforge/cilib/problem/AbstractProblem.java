@@ -38,7 +38,7 @@ public abstract class AbstractProblem implements Problem {
     }
 
     protected AbstractProblem(AbstractProblem copy) {
-        this.fitnessEvaluations = new AtomicInteger(copy.fitnessEvaluations.get());
+        this.fitnessEvaluations = copy.fitnessEvaluations;
         this.domainRegistry = copy.domainRegistry.getClone();
         this.objective = copy.objective;
     }
