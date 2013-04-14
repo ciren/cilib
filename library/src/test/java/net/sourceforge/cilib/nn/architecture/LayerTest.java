@@ -49,4 +49,12 @@ public class LayerTest {
     public void testIsBias() {
         Assert.assertEquals(false, layer.isBias());
     }
+	
+    @Test
+    public void testGetClone() {
+        Layer newLayer = layer.getClone();
+        for (int i = 0; i < refActivations.size(); i++) {
+            Assert.assertEquals(refActivations.get(i).doubleValue(), newLayer.getNeuralInput(i), Maths.EPSILON);
+        }
+    }
 }

@@ -26,6 +26,11 @@ public final class LambdaGammaVisitor implements ArchitectureVisitor {
     }
 
     @Override
+    public LambdaGammaVisitor getClone() {
+        return new LambdaGammaVisitor(solution.getClone(), weightCount, activationFuncCount);
+    }
+
+    @Override
     public void visit(Architecture architecture) {
         final Vector weights = extractWeights(solution);
         final Vector lambdas = extractLambdas(solution);

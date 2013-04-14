@@ -48,7 +48,7 @@ public class Neuron implements Cloneable {
      * {@inheritDoc }
      */
     @Override
-    public Object getClone() {
+    public Neuron getClone() {
         return new Neuron(this);
     }
 

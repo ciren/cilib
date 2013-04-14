@@ -44,6 +44,22 @@ public class PatternConversionOperator extends SelectiveDataOperator {
         this.classLength = 1;
     }
 
+    public PatternConversionOperator(PatternConversionOperator rhs) {
+        super(rhs);
+
+        this.ignoreColumnIndices = Sets.newHashSet();
+        for (Integer curInt : rhs.ignoreColumnIndices)
+            this.ignoreColumnIndices.add(new Integer(curInt.intValue()));
+
+        this.classIndex = rhs.classIndex;
+        this.classLength = rhs.classLength;
+    }
+
+    @Override
+    public PatternConversionOperator getClone() {
+        return new PatternConversionOperator(this);
+    }
+
     /**
      * Checks whether i is in the range min to max.
      * @param i number to test.
