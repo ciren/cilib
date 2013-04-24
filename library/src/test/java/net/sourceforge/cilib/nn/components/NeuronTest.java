@@ -69,5 +69,9 @@ public class NeuronTest {
         Assert.assertEquals(neuron.getActivation(), clone.getActivation(), Maths.EPSILON);
         Assert.assertEquals(neuron.getActivationFunction(), clone.getActivationFunction());
         Assert.assertEquals(neuron.getWeights(), clone.getWeights());
+
+        clone.setActivationFunction(null);
+        Neuron clone2 = clone.getClone();
+        Assert.assertTrue(clone2.getActivationFunction() == null);
     }
 }

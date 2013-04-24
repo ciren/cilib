@@ -40,15 +40,19 @@ public class Neuron implements Cloneable {
      */
     public Neuron(Neuron neuron) {
         activation = neuron.getActivation();
-        activationFunction = (ActivationFunction) neuron.getActivationFunction().getClone();
         weights = Vector.copyOf(neuron.weights);
+        
+        if (neuron.getActivationFunction() != null)
+            activationFunction = neuron.getActivationFunction().getClone();
+        else
+            activationFunction = null;
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public Object getClone() {
+    public Neuron getClone() {
         return new Neuron(this);
     }
 

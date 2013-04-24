@@ -45,7 +45,7 @@ public class Sigmoid implements ActivationFunction {
     }
 
     @Override
-    public ActivationFunction getClone() {
+    public Sigmoid getClone() {
         return new Sigmoid(this);
     }
 
