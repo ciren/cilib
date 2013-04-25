@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>
+        <algorithm id="predprey" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.SpecialisedPopulationInitialisationStrategy">
+                <setEntityTypes>
+                    <entity class="pso.particle.StandardParticle">
+                        <velocityProvider class="pso.velocityprovider.PredatorVelocityProvider" />
+                    </entity>
+                    <n value="1" />
+                </setEntityTypes>
+                <setEntityTypes>
+                    <entity class="pso.particle.StandardParticle">
+                    <velocityProvider class="pso.velocityprovider.PreyVelocityProvider">
+                        <delegate class="pso.velocityprovider.StandardVelocityProvider">
+                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter"
+                                parameter="2" />
+                            <socialAcceleration class="controlparameter.ConstantControlParameter"
+                                parameter="2" />
+                            <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter">
+                                <initialValue value="0.5"/>
+                                <finalValue value="0.0"/>
+                            </inertiaWeight>
+                        </delegate>
+                        <a class="controlparameter.ConstantControlParameter" parameter="1" />
+                        <b class="controlparameter.ConstantControlParameter" parameter="1" />
+                        <fear class="controlparameter.ConstantControlParameter" parameter="0.0005" />
+                    </velocityProvider>
+                    </entity>
+                    <n value="20" />
+                </setEntityTypes>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="5000" />
+        </algorithm>
+    </algorithms>
+    <problems>
+        <problem id="f1" class="problem.FunctionOptimisationProblem" domain="R(-10:10)^50">
+            <function class="functions.continuous.unconstrained.Rastrigin"/>
+        </problem>
+        <problem id="f2" class="problem.FunctionOptimisationProblem" domain="R(-600:600)^50">
+            <function class="functions.continuous.unconstrained.Griewank"/>
+        </problem>
+        <problem id="f3" class="problem.FunctionOptimisationProblem" domain="R(-30:30)^50">
+            <function class="functions.continuous.unconstrained.Ackley"/>
+        </problem>
+    </problems>
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="200">
+        <addMeasurement class="measurement.single.Fitness"/>
+    </measurements>
+    <simulations>
+        <simulation samples="5">
+            <algorithm idref="predprey"/>
+            <problem idref="f1"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/pred_prey-f1.txt" />
+        </simulation>
+         <simulation samples="5">
+            <algorithm idref="predprey"/>
+            <problem idref="f2"/>
+            <measurements idref="fitness" />
+        <output format="TXT" file="data/pred_prey-f2.txt" />
+        </simulation>
+        <simulation samples="5">
+        <algorithm idref="predprey"/>
+            <problem idref="f3"/>
+            <measurements idref="fitness" />
+        <output format="TXT" file="data/pred_prey-f3.txt" />
+        </simulation>
+    </simulations>
+</simulator>

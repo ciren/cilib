@@ -13,17 +13,16 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Problem;
 
 /**
- * Initialise a specialised collection of
- * {@linkplain net.sourceforge.cilib.entity.Entity entity} objects.
+ * Initialise a specialised collection of {@link Entity}s.
  */
-public class SpecialisedPopluationInitialisationStrategy implements PopulationInitialisationStrategy<Entity> {
+public class SpecialisedPopulationInitialisationStrategy implements PopulationInitialisationStrategy<Entity> {
     private static final long serialVersionUID = -9146471282965793922L;
     private List<Entity> entityList;
 
     /**
-     * Create an instance of {@code SpecialisedPopluationInitialisationStrategy}.
+     * Create an instance of {@code SpecialisedPopulationInitialisationStrategy}.
      */
-    public SpecialisedPopluationInitialisationStrategy() {
+    public SpecialisedPopulationInitialisationStrategy() {
         this.entityList = new ArrayList<Entity>(40);
     }
 
@@ -31,7 +30,7 @@ public class SpecialisedPopluationInitialisationStrategy implements PopulationIn
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public SpecialisedPopluationInitialisationStrategy(SpecialisedPopluationInitialisationStrategy copy) {
+    public SpecialisedPopulationInitialisationStrategy(SpecialisedPopulationInitialisationStrategy copy) {
         this.entityList = new ArrayList<Entity>(copy.entityList.size());
         for (Entity entity : copy.entityList) {
             this.entityList.add(entity.getClone());
@@ -42,8 +41,8 @@ public class SpecialisedPopluationInitialisationStrategy implements PopulationIn
      * {@inheritDoc}
      */
     @Override
-    public SpecialisedPopluationInitialisationStrategy getClone() {
-        return new SpecialisedPopluationInitialisationStrategy(this);
+    public SpecialisedPopulationInitialisationStrategy getClone() {
+        return new SpecialisedPopulationInitialisationStrategy(this);
     }
 
     /**
@@ -78,6 +77,18 @@ public class SpecialisedPopluationInitialisationStrategy implements PopulationIn
     @Override
     public void setEntityType(Entity entity) {
         this.entityList.add(entity);
+    }
+
+    /**
+     * Add {@code n} amount of {@code Entity}s to the list of entities.
+     *
+     * @param entity    The type of {@code Entity} to add to the list.
+     * @param n         The amount of entities to add.
+     */
+    public void setEntityTypes(Entity entity, int n) {
+        for (int i = 0; i < n; i++) {
+            this.entityList.add(entity.getClone());
+        }
     }
 
     /**
