@@ -22,11 +22,12 @@
 				</responseStrategy>
 			</iterationStrategy>
 			<addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100"/>
+			<addStoppingCondition class="stoppingcondition.PerExpansionNNPerformanceChangeStoppingCondition"/>
 		</algorithm>
 	</algorithms>
 	
 	<problems>
-		<problem id="nnProblem" class="problem.nn.NNDataTrainingProblem" trainingSetPercentage="0.7" generalisationSetPercentage="0.3">
+		<problem id="nnProblem" class="problem.nn.NNDataTrainingProblem" trainingSetPercentage="0.6" generalisationSetPercentage="0.2" validationSetPercentage="0.2">
 			<dataTableBuilder class="io.DataTableBuilder">
 				<dataReader class="io.ARFFFileReader" sourceURL="library/src/test/resources/datasets/iris.arff"/>
 			</dataTableBuilder>
