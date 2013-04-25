@@ -37,6 +37,14 @@ public class NNPerformanceChangeStoppingCondition implements StoppingCondition<A
         previousResults = rhs.previousResults;
         comparator = rhs.comparator;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public NNPerformanceChangeStoppingCondition getClone() {
+        return new NNPerformanceChangeStoppingCondition(this);
+    }
 
     /**
      * {@inheritDoc }
