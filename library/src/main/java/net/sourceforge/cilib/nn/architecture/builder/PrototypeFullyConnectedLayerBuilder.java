@@ -28,6 +28,16 @@ public class PrototypeFullyConnectedLayerBuilder extends LayerBuilder {
         prototypeNeuron = new Neuron();
     }
 
+    public PrototypeFullyConnectedLayerBuilder(PrototypeFullyConnectedLayerBuilder rhs) {
+        super(rhs);
+        prototypeNeuron = rhs.prototypeNeuron.getClone();
+    }
+
+    @Override
+    public PrototypeFullyConnectedLayerBuilder getClone() {
+        return new PrototypeFullyConnectedLayerBuilder(this);
+    }
+
     /**
      * Builds a layer by cloning a prototype neuron and adding to it weights such that it is
      * fully connected to the feeding layer.

@@ -24,6 +24,11 @@ public final class WeightSettingVisitor implements ArchitectureVisitor {
         this.weights = weights;
     }
 
+    @Override
+    public WeightSettingVisitor getClone() {
+        return new WeightSettingVisitor(weights.getClone());
+    }
+
     /**
      * Sets the weights of the architecture.
      * @param architecture the architecture to visit.

@@ -63,6 +63,17 @@ public class TypeConversionOperator extends SelectiveDataOperator {
             "[fFdD]?))" +
             "[\\x00-\\x20]*");// Optional trailing "whitespace"
 
+    public TypeConversionOperator() {}
+
+    public TypeConversionOperator(TypeConversionOperator rhs) {
+        super(rhs);
+    }
+
+    @Override
+    public TypeConversionOperator getClone() {
+        return new TypeConversionOperator(this);
+    }
+
     /**
      * Applies the operator to the given {@link StandardDataTable}:
      * <p>

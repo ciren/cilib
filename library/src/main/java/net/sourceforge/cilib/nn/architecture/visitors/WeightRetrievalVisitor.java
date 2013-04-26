@@ -18,6 +18,17 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class WeightRetrievalVisitor extends ArchitectureOperationVisitor {
 
+    public WeightRetrievalVisitor() {}
+
+    public WeightRetrievalVisitor(WeightRetrievalVisitor rhs) {
+        super(rhs);
+    }
+
+    @Override
+    public WeightRetrievalVisitor getClone() {
+        return new WeightRetrievalVisitor(this);
+    }
+
     /**
      * Retrieves the weights.
      * @param architecture the architecture to visit.

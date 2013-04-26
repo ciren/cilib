@@ -32,6 +32,14 @@ public class Architecture {
         architectureBuilder = new FeedForwardArchitectureBuilder();
     }
 
+    public Architecture(Architecture rhs) {
+        layers = new ArrayList<Layer>();
+        for (Layer curLayer : rhs.layers)
+            layers.add(curLayer.getClone());
+
+        architectureBuilder = rhs.architectureBuilder.getClone();
+    }
+
     /**
      * Initialises the architecture by calling the {@link ArchitectureBuilder}'s
      *  build method on 'this' object.

@@ -32,7 +32,8 @@ public class StringBasedDomainRegistry implements DomainRegistry {
      */
     public StringBasedDomainRegistry(StringBasedDomainRegistry copy) {
         this.domainString = copy.domainString;
-        this.builtRepresenation = copy.builtRepresenation.getClone();
+        if (this.builtRepresenation != null)
+            this.builtRepresenation = copy.builtRepresenation.getClone();
     }
 
     /**

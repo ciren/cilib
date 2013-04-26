@@ -26,6 +26,13 @@ public abstract class ArchitectureOperationVisitor implements ArchitectureVisito
     public ArchitectureOperationVisitor() {
     }
 
+    public ArchitectureOperationVisitor(ArchitectureOperationVisitor rhs) {
+        input = rhs.input;
+        output = rhs.output;
+    }
+
+    public abstract ArchitectureOperationVisitor getClone();
+
     /**
      * Constructor taking the input StandardPattern as argument.
      * @param input the StandardPattern that serves as input for the visit operation.
