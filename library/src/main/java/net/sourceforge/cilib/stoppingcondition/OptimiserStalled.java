@@ -38,6 +38,22 @@ public class OptimiserStalled implements StoppingCondition<Algorithm> {
         distMeasure = new ManhattanDistanceMeasure();
     }
 
+    public OptimiserStalled(OptimiserStalled rhs) {
+        minChange = rhs.minChange;
+        maxConsecutiveMinChange = rhs.maxConsecutiveMinChange;
+
+        minChangeCounter = rhs.minChangeCounter;
+        distMeasure = rhs.distMeasure;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public OptimiserStalled getClone() {
+        return new OptimiserStalled(this);
+    }
+
     /**
      * sets the minimum percentage that the new best location must be from the previous.
      * @param distance The value to set.
