@@ -27,10 +27,24 @@ public class MeasuredStoppingCondition implements StoppingCondition<Algorithm> {
         this(new Iterations(), new Maximum(), 1000);
     }
     
+    public MeasuredStoppingCondition(MeasuredStoppingCondition rhs) {
+        this.measurement = rhs.measurement.getClone();
+        this.predicate = rhs.predicate;
+        this.target = rhs.target;
+    }
+
     public MeasuredStoppingCondition(Measurement measurement, CompletionCalculator predicate, double target) {
         this.measurement = measurement;
         this.predicate = predicate;
         this.target = target;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MeasuredStoppingCondition getClone() {
+        return new MeasuredStoppingCondition(this);
     }
 
     @Override

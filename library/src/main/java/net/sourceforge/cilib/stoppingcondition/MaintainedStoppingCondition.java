@@ -24,6 +24,13 @@ public class MaintainedStoppingCondition implements StoppingCondition<Algorithm>
         this(new MeasuredStoppingCondition(new Diversity(), new Minimum(), 1.0), 10);
     }
     
+    public MaintainedStoppingCondition(MaintainedStoppingCondition rhs) {
+        this.consecutiveIterations = rhs.consecutiveIterations;
+        this.condition = rhs.condition.getClone();
+        this.count = rhs.count;
+        this.percentage = rhs.percentage;
+    }
+    
     public MaintainedStoppingCondition(StoppingCondition condition, int consecutiveIterations) {
         this.consecutiveIterations = consecutiveIterations;
         this.condition = condition;
@@ -31,6 +38,14 @@ public class MaintainedStoppingCondition implements StoppingCondition<Algorithm>
         this.percentage = 0.0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MaintainedStoppingCondition getClone() {
+        return new MaintainedStoppingCondition(this);
+    }
+    
     @Override
     public double getPercentageCompleted(Algorithm algorithm) {
         percentage = Math.max(percentage, count / (double) consecutiveIterations);
