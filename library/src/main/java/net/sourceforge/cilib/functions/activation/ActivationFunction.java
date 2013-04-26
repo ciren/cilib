@@ -18,6 +18,12 @@ import net.sourceforge.cilib.util.Cloneable;
 public interface ActivationFunction extends Function<Real, Real>, Differentiable, Cloneable {
 
     /**
+     * {@inheritDoc }
+     */
+    @Override
+    ActivationFunction getClone();
+
+    /**
      * Determine the gradient of the {@link ActivationFunction} at the given point.
      * @param number The <code>point</code> at which the gradient is to be determined.
      * @return The value of the gradient and the provided input.

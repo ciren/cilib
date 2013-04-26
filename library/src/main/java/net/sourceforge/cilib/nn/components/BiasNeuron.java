@@ -15,6 +15,10 @@ import net.sourceforge.cilib.nn.architecture.NeuralInputSource;
  */
 public class BiasNeuron extends Neuron {
 
+    public BiasNeuron() {
+        setActivationFunction(null);
+    }
+
     /**
      * Sets the stored activation to -1.
      * @param netInputSource the input source is not used.

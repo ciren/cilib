@@ -52,8 +52,9 @@ public class PatternInputSource implements NeuralInputSource {
      */
     @Override
     public Neuron getNeuron(int index) {
-		Neuron neuron = new Neuron();
-		neuron.setActivation(this.getNeuralInput(index));
+        Neuron neuron = new Neuron();
+        neuron.setActivationFunction(null);
+        neuron.setActivation(this.getNeuralInput(index));
         return neuron;
     }
 
