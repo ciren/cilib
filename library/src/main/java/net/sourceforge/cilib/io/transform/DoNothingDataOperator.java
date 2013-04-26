@@ -11,7 +11,7 @@ import net.sourceforge.cilib.io.exception.CIlibIOException;
 import net.sourceforge.cilib.math.random.generator.Rand;
 
 /**
- * A data operator that efficiently shuffles a datatable.
+ * A data operator that does nothing datatable.
  */
 public class DoNothingDataOperator implements DataOperator {
 
@@ -24,13 +24,9 @@ public class DoNothingDataOperator implements DataOperator {
     }
 
     /**
-     * Modern version of Fisher-Yates shuffle algorithm based on the Richard Durstenfeld
-     * implementation as published in:
-     * Durstenfeld, Richard (July 1964). "Algorithm 235: Random permutation". Communications of the ACM 7 (7): 420. doi:10.1145/364520.364540.
-     * The shuffle in-place (i.e. it doesn't not use additional memory).
-     * @param dataTable the table to shuffle.
-     * @return the same table as given with patterns in a uniform random order.
-     * @throws CIlibIOException an IO Exception that might occur.
+     * Returns the same data table that was passed to it.
+     * @param dataTable the table to return.
+     * @return the same table as given.
      */
     @Override
     public DataTable operate(DataTable dataTable) {
