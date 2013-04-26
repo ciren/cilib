@@ -18,6 +18,16 @@ import net.sourceforge.cilib.nn.components.PatternInputSource;
  */
 public class FeedForwardVisitor extends ArchitectureOperationVisitor {
 
+    public FeedForwardVisitor() {}
+
+    public FeedForwardVisitor(FeedForwardVisitor rhs) {
+        super(rhs);
+    }
+
+    @Override
+    public FeedForwardVisitor getClone() {
+        return new FeedForwardVisitor(this);
+    }
 
     /**
      * Perform a feed-forward using {@link #input} as the input for the FF and

@@ -11,6 +11,7 @@ import net.sourceforge.cilib.nn.components.RandomWeightInitialisationStrategy;
 import net.sourceforge.cilib.nn.components.WeightInitialisationStrategy;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Class represents an object responsible for constructing a layer i.e. construct
@@ -18,7 +19,7 @@ import net.sourceforge.cilib.type.StringBasedDomainRegistry;
  * extension defines how this is done. Class also stores the {@link WeightInitialisationStrategy}
  * and the {@link DomainRegistry} for the weights.
  */
-public abstract class LayerBuilder {
+public abstract class LayerBuilder implements Cloneable {
 
     private WeightInitialisationStrategy weightInitialisationStrategy;
     private DomainRegistry domainRegistry;
@@ -32,6 +33,13 @@ public abstract class LayerBuilder {
         weightInitialisationStrategy = new RandomWeightInitialisationStrategy();
         domainRegistry = new StringBasedDomainRegistry();
     }
+
+    public LayerBuilder(LayerBuilder rhs) {
+        weightInitialisationStrategy = new RandomWeightInitialisationStrategy();
+        domainRegistry = new StringBasedDomainRegistry();
+    }
+
+    public abstract LayerBuilder getClone();
 
     /**
      * Builds a layer based on the specified {@link LayerConfiguration} and the

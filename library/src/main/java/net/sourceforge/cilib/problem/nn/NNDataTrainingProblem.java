@@ -66,8 +66,8 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
             dataTableBuilder.buildDataTable();
             DataTable dataTable = dataTableBuilder.getDataTable();
 
-            shuffler = new ShuffleOperator();
-            shuffler.operate(dataTable);
+            ShuffleOperator initialShuffler = new ShuffleOperator();
+            initialShuffler.operate(dataTable);
 
             int trainingSize = (int) (dataTable.size() * trainingSetPercentage);
             int validationSize = (int) (dataTable.size() * validationSetPercentage);

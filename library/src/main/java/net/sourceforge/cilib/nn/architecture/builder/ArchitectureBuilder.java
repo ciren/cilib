@@ -9,6 +9,7 @@ package net.sourceforge.cilib.nn.architecture.builder;
 import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.cilib.nn.architecture.Architecture;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Class represents an architecture building object, responsible for setting up
@@ -17,7 +18,7 @@ import net.sourceforge.cilib.nn.architecture.Architecture;
  * constructed by extensions of this class. It depends on a {@link LayerBuilder}
  * to construct the layers themselves.
  */
-public abstract class ArchitectureBuilder {
+public abstract class ArchitectureBuilder implements Cloneable {
 
     private LayerBuilder layerBuilder;
     private List<LayerConfiguration> layerConfigurations;
@@ -29,6 +30,16 @@ public abstract class ArchitectureBuilder {
         layerBuilder = new PrototypeFullyConnectedLayerBuilder();
         layerConfigurations = new ArrayList<LayerConfiguration>(3);
     }
+
+    public ArchitectureBuilder(ArchitectureBuilder rhs) {
+        layerBuilder = rhs.layerBuilder.getClone();
+
+        layerConfigurations = new ArrayList<LayerConfiguration>();
+        for (LayerConfiguration curLayer : rhs.layerConfigurations)
+        layerConfigurations.add(new LayerConfiguration(curLayer));
+    }
+
+    public abstract ArchitectureBuilder getClone();
 
     /**
      * Constructs the layers and adds them in the necessary order in to the given

@@ -84,8 +84,8 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
                 candidateSet.addRow((StandardPattern) dataTable.removeRow(0));
             }
 
-            shuffler = new ShuffleOperator();
-            shuffler.operate(candidateSet);
+            ShuffleOperator initialShuffler = new ShuffleOperator();
+            initialShuffler.operate(candidateSet);
 
 
             for (int i = 0; i < trainingSize; i++) {
@@ -144,8 +144,8 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
                     candidateSet.addRow((StandardPattern) dataTable.removeRow(0));
                 }
 
-                shuffler = new ShuffleOperator();
-                shuffler.operate(candidateSet);
+                ShuffleOperator initialShuffler = new ShuffleOperator();
+                initialShuffler.operate(candidateSet);
 
                 int trainingStepSize = (int)(stepSize * trainingSetPercentage);
                 int generalisationStepSize = stepSize - trainingStepSize;

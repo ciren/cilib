@@ -8,6 +8,7 @@ package net.sourceforge.cilib.problem.nn;
 
 import net.sourceforge.cilib.io.StandardPatternDataTable;
 import net.sourceforge.cilib.io.transform.DataOperator;
+import net.sourceforge.cilib.io.transform.DoNothingDataOperator;
 import net.sourceforge.cilib.io.transform.PatternConversionOperator;
 import net.sourceforge.cilib.io.transform.ShuffleOperator;
 import net.sourceforge.cilib.nn.NeuralNetwork;
@@ -26,7 +27,7 @@ public abstract class NNTrainingProblem extends AbstractProblem {
     protected double trainingSetPercentage;
     protected double generalisationSetPercentage;
     protected double validationSetPercentage;
-    protected ShuffleOperator shuffler;
+    protected DataOperator shuffler;
     protected DataOperator patternConversionOperator;
 
     /**
@@ -38,7 +39,21 @@ public abstract class NNTrainingProblem extends AbstractProblem {
         generalisationSetPercentage = 0.34;
         validationSetPercentage = 0.0;
         patternConversionOperator = new PatternConversionOperator();
+        shuffler = new DoNothingDataOperator();
     }
+
+    public NNTrainingProblem(NNTrainingProblem rhs) {
+        super(rhs);
+        neuralNetwork = new NeuralNetwork(rhs.neuralNetwork);
+        trainingSetPercentage = rhs.trainingSetPercentage;
+        generalisationSetPercentage = rhs.generalisationSetPercentage;
+        validationSetPercentage = rhs.validationSetPercentage;
+        patternConversionOperator = rhs.patternConversionOperator;
+        trainingSet = rhs.trainingSet.getClone();
+        generalisationSet = rhs.generalisationSet.getClone();
+        validationSet = rhs.validationSet.getClone();
+        shuffler = rhs.shuffler.getClone();
+    }	
 
     /**
      * Initialises the problem by setting up the datasets: has to be implemented by inheriting classes.
@@ -161,7 +176,7 @@ public abstract class NNTrainingProblem extends AbstractProblem {
      * Gets the {@link ShuffleOperator}
      * @return the shuffle operator.
      */
-    public ShuffleOperator getShuffler() {
+    public DataOperator getShuffler() {
         return shuffler;
     }
 
@@ -169,7 +184,7 @@ public abstract class NNTrainingProblem extends AbstractProblem {
      * Sets the {@link ShuffleOperator}
      * @param shuffler the new shuffle operator.
      */
-    public void setShuffler(ShuffleOperator shuffler) {
+    public void setShuffler(DataOperator shuffler) {
         this.shuffler = shuffler;
     }
 

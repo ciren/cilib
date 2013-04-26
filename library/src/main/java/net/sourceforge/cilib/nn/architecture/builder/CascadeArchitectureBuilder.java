@@ -32,6 +32,17 @@ import net.sourceforge.cilib.nn.components.BiasNeuron;
  */
 public class CascadeArchitectureBuilder extends ArchitectureBuilder {
 
+    public CascadeArchitectureBuilder() {}
+
+    public CascadeArchitectureBuilder(CascadeArchitectureBuilder rhs) {
+        super(rhs);
+    }
+
+    @Override
+    public CascadeArchitectureBuilder getClone() {
+        return new CascadeArchitectureBuilder(this);
+    }
+
     /**
      * Adds the layers to the architecture such that the architecture represents
      * a Cascade network. All layers are fully connected to the input layer

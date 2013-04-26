@@ -8,11 +8,18 @@ package net.sourceforge.cilib.io.transform;
 
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.exception.CIlibIOException;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Interface for classes that perform an operation on data in a DataTable.
  */
-public interface DataOperator {
+public interface DataOperator extends Cloneable {
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    DataOperator getClone();
 
     /**
      * Apply an operation to the given DataTable.
