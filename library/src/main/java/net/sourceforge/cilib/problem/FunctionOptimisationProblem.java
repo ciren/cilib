@@ -6,6 +6,7 @@
  */
 package net.sourceforge.cilib.problem;
 
+import net.sourceforge.cilib.functions.Differentiable;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -16,7 +17,7 @@ import fj.F;
  * {@link net.sourceforge.cilib.functions.Function}.
  *
  */
-public class FunctionOptimisationProblem extends AbstractProblem {
+public class FunctionOptimisationProblem extends AbstractProblem implements DifferentiableProblem {
 
     private static final long serialVersionUID = 7944544624736580311L;
 
@@ -72,5 +73,18 @@ public class FunctionOptimisationProblem extends AbstractProblem {
     @Override
     protected Fitness calculateFitness(Type solution) {
         return objective.evaluate(function.f((Vector) solution).doubleValue());
+    }
+
+    /**
+     * Obtain the gradient {@code Vector} for the provided input {@code Vector}.
+     * The gradient is determined by the gradient of the function.
+     * 
+     * @param x The provided input {@code Vector} to calculate the derivative at.
+     * @return A {@link net.sourceforge.cilib.type.types.container.Vector} containing
+     *         the gradient of the provided input.
+     */
+    @Override
+    public Vector getGradient(Vector x) {
+        return ((Differentiable) function).getGradient(x);
     }
 }
