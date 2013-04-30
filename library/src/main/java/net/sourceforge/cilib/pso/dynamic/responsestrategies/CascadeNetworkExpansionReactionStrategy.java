@@ -57,8 +57,9 @@ public class CascadeNetworkExpansionReactionStrategy<E extends PopulationBasedAl
 
         //add new weights to all the particles in a manner that preserves the old weights
         List<? extends Entity> particles = algorithm.getTopology();
-        int hiddenLayerSize = network.getArchitecture().getArchitectureBuilder().getLayerConfigurations().size() -2;
-        int outputLayerSize = network.getArchitecture().getArchitectureBuilder().getLayerConfigurations().get(2).getSize();
+        int nrOfLayers = network.getArchitecture().getArchitectureBuilder().getLayerConfigurations().size();
+        int hiddenLayerSize = nrOfLayers -2;
+        int outputLayerSize = network.getArchitecture().getArchitectureBuilder().getLayerConfigurations().get(nrOfLayers-1).getSize();
         int inputLayerSize = network.getArchitecture().getArchitectureBuilder().getLayerConfigurations().get(0).getSize();
         if (network.getArchitecture().getArchitectureBuilder().getLayerConfigurations().get(0).isBias()) {
             inputLayerSize += 1;
