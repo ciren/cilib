@@ -84,7 +84,7 @@ public class RepairingKnightsTour implements DiscreteFunction {
 
                     int test = 0;
 
-                    for (int k = 0; k < boardSize; k++) {
+                    for (int k = 0; k < 8; k++) {
                         if (k == moveNum) {
                             // Nothing to do :)
                         } else {

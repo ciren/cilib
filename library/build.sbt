@@ -22,7 +22,7 @@ libraryDependencies ++= Seq(
     "junit" % "junit" % "4.10" % "test",
     "org.mockito" % "mockito-all" % "1.8.4" % "test",
     "org.hamcrest" % "hamcrest-all" % "1.1" % "test",
-    "com.novocode" % "junit-interface" % "0.10-M1" % "test"
+    "com.novocode" % "junit-interface" % "0.10-M4" % "test"
 )
 
 javacOptions ++= Seq("-encoding", "UTF8", "-source", "1.7", "-target", "1.7")
