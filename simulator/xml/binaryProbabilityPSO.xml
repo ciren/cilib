@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>
+        <algorithm id="pbpso" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+        </algorithm>
+    </algorithms>
+    <problems>
+        <!-- PBPSO uses a function decorator to convert a real-valued vector to a binary vector.
+             The domain range e.g. (-1:1) is a parameter of the PBPSO algorithm. -->
+        <problem id="onemax" class="problem.FunctionOptimisationProblem" domain="R(-1:1)^90">
+            <objective class="problem.objective.Maximise" />
+            <function class="functions.continuous.decorators.PBPSOFunctionDecorator">
+                <function class="functions.discrete.Onemax" />
+            </function>
+        </problem>
+
+        <problem id="order3bipolar" class="problem.FunctionOptimisationProblem" domain="R(-1:1)^90">
+            <objective class="problem.objective.Maximise" />
+            <function class="functions.continuous.decorators.PBPSOFunctionDecorator">
+                <function class="functions.discrete.Order3Bipolar" />
+            </function>
+        </problem>
+
+        <problem id="order3deceptive" class="problem.FunctionOptimisationProblem" domain="R(-1:1)^90">
+            <objective class="problem.objective.Maximise" />
+            <function class="functions.continuous.decorators.PBPSOFunctionDecorator">
+                <function class="functions.discrete.Order3Deceptive" />
+            </function>
+        </problem>
+
+        <problem id="order5deceptive" class="problem.FunctionOptimisationProblem" domain="R(-1:1)^90">
+            <objective class="problem.objective.Maximise" />
+            <function class="functions.continuous.decorators.PBPSOFunctionDecorator">
+                <function class="functions.discrete.Order5Deceptive" />
+            </function>
+        </problem>
+
+        <problem id="royalroad" class="problem.FunctionOptimisationProblem" domain="R(-1:1)^240">
+            <objective class="problem.objective.Maximise" />
+            <function class="functions.continuous.decorators.PBPSOFunctionDecorator">
+                <function class="functions.discrete.RoyalRoad" />
+            </function>
+        </problem>
+    </problems>
+
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">
+        <addMeasurement class="measurement.single.Fitness"/>
+    </measurements>
+
+    <simulations>
+        <simulation samples="5">
+            <algorithm idref="pbpso"/>
+            <problem idref="onemax"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/onemax.pbpso.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pbpso"/>
+            <problem idref="order3bipolar"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/order3bipolar.pbpso.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pbpso"/>
+            <problem idref="order3deceptive"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/order3deceptive.pbpso.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pbpso"/>
+            <problem idref="order5deceptive"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/order5deceptive.pbpso.txt" />
+        </simulation>
+        <simulation samples="5">
+            <algorithm idref="pbpso"/>
+            <problem idref="royalroad"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/royalroad.pbpso.txt" />
+        </simulation>
+    </simulations>
+</simulator>
