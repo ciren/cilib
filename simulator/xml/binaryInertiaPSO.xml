@@ -7,8 +7,11 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <positionProvider class="pso.positionprovider.binary.BinaryInertiaPositionProvider">
-                        <!-- inertia value determines convergence speed -->
-                        <inertia class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.5" finalValue="0.0"/>
+                        <!-- delta value influences convergence speed -->
+                        <delta class="controlparameter.LinearlyVaryingControlParameter">
+                            <initialValue value="0.25" />
+                            <finalValue value="0.0" />
+                        </delta>
                     </positionProvider>
                 </entityType>
             </initialisationStrategy>
@@ -23,6 +26,5 @@
             <addMeasurement class="measurement.single.Fitness"/>
         </measurements>
         <output format="TXT" file="data/binaryInertia.txt" />
-
     </simulation>
 </simulator>

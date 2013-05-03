@@ -28,14 +28,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class BinaryInertiaPositionProvider implements PositionProvider {
 
     private Sigmoid sigmoid;
-    private ControlParameter inertia;
+    private ControlParameter delta;
 
     /**
      * Create an instance of {@linkplain BinaryInertiaPositionProvider}.
      */
     public BinaryInertiaPositionProvider() {
         this.sigmoid = new Sigmoid();
-        this.inertia = new LinearlyVaryingControlParameter(0.25, 0);
+        this.delta = new LinearlyVaryingControlParameter(0.25, 0);
     }
 
     /**
@@ -44,7 +44,7 @@ public class BinaryInertiaPositionProvider implements PositionProvider {
      */
     public BinaryInertiaPositionProvider(BinaryInertiaPositionProvider copy) {
         this.sigmoid = copy.sigmoid;
-        this.inertia = copy.inertia.getClone();
+        this.delta = copy.delta.getClone();
     }
 
     /**
@@ -66,10 +66,9 @@ public class BinaryInertiaPositionProvider implements PositionProvider {
         Vector.Builder builder = Vector.newBuilder();
 
         for (int i = 0; i < particle.getDimension(); i++) {
-
-            double result = this.sigmoid.apply(velocity.doubleValueOf(i));
-            double min = 0.5 - inertia.getParameter();
-            double max = 0.5 + inertia.getParameter();
+            double result = sigmoid.apply(velocity.doubleValueOf(i));
+            double min = 0.5 - delta.getParameter();
+            double max = 0.5 + delta.getParameter();
 
             double newPosition = position.doubleValueOf(i);
 
@@ -101,18 +100,18 @@ public class BinaryInertiaPositionProvider implements PositionProvider {
     }
 
     /**
-    * Get the inertia control parameter used within the update strategy
+    * Get the {@code delta} control parameter used within the update strategy.
     * @return the {@linkplain ControlParameter} used.
     */
-    public ControlParameter getInertia() {
-        return this.inertia;
+    public ControlParameter getDelta() {
+        return this.delta;
     }
 
     /**
-    * Set the inertia control parameter to use.
-    * @param inertia The control parameter to set.
+    * Set the {@code delta} control parameter to use.
+    * @param delta the {@code delta} {@linkplain ControlParameter} to set.
     */
-    public void setInertia(ControlParameter inertia) {
-        this.inertia = inertia;
+    public void setDelta(ControlParameter delta) {
+        this.delta = delta;
     }
 }
