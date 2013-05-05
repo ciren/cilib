@@ -9,6 +9,8 @@ package net.sourceforge.cilib.algorithm.initialisation;
 import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.List;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Problem;
 
@@ -22,13 +24,13 @@ public class ClonedPopulationInitialisationStrategy<E extends Entity> implements
 
     private static final long serialVersionUID = -7354579791235878648L;
     private Entity prototypeEntity;
-    private int entityNumber;
+    private ControlParameter entityNumber;
 
     /**
      * Create an instance of the {@code ClonedPopulationInitialisationStrategy}.
      */
     public ClonedPopulationInitialisationStrategy() {
-        entityNumber = 20;
+        entityNumber = ConstantControlParameter.of(20);
         prototypeEntity = null; // This has to be manually set as Individuals are used in GAs etc...
     }
 
@@ -37,7 +39,7 @@ public class ClonedPopulationInitialisationStrategy<E extends Entity> implements
      * @param copy The instance to copy.
      */
     public ClonedPopulationInitialisationStrategy(ClonedPopulationInitialisationStrategy copy) {
-        this.entityNumber = copy.entityNumber;
+        this.entityNumber = copy.entityNumber.getClone();
 
         if (copy.prototypeEntity != null) {
             this.prototypeEntity = copy.prototypeEntity.getClone();
@@ -66,7 +68,7 @@ public class ClonedPopulationInitialisationStrategy<E extends Entity> implements
 
         List<E> clones = new ArrayList<E>();
 
-        for (int i = 0; i < entityNumber; ++i) {
+        for (int i = 0; i < entityNumber.getParameter(); ++i) {
             E entity = (E) prototypeEntity.getClone();
 
             entity.initialise(problem);
@@ -101,7 +103,7 @@ public class ClonedPopulationInitialisationStrategy<E extends Entity> implements
      */
     @Override
     public int getEntityNumber() {
-        return this.entityNumber;
+        return (int) this.entityNumber.getParameter();
     }
 
     /**
@@ -110,6 +112,10 @@ public class ClonedPopulationInitialisationStrategy<E extends Entity> implements
      */
     @Override
     public void setEntityNumber(int entityNumber) {
+        this.entityNumber = ConstantControlParameter.of(entityNumber);
+    }
+
+    public void setEntityNumber(ControlParameter entityNumber) {
         this.entityNumber = entityNumber;
     }
 }
