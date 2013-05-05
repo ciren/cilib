@@ -162,7 +162,7 @@ public class XMLObjectFactory {
         // handle sub-elements of current element
         for (Element e = getFirstChildElement(xml); e != null; e = getNextSiblingElement(e)) {
             if (e.hasAttribute("value")) {
-                invokeSetMethod(e, object, e.getTagName(), newObject(e.getAttribute("value")));
+                invokeAnyMethod(e, object, e.getTagName(), newObject(e.getAttribute("value")));
             } else if (e.hasAttribute("class") || e.hasAttribute("idref")) {
                 invokeAnyMethod(e, object, e.getTagName(), newObject(e));
             } else if (getFirstChildElement(e) == null) {
