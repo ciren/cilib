@@ -303,4 +303,12 @@ public class GCVelocityProvider implements VelocityProvider {
     public void setRhoContractCoefficient(ControlParameter rhoContractCoefficient) {
         this.rhoContractCoefficient = rhoContractCoefficient;
     }
+
+    /**
+     * Set the inertia weight value.
+     * @param inertiaWeight The value to set.
+     */
+    public void setInertiaWeight(ControlParameter inertiaWeight) {
+        this.inertiaWeight = inertiaWeight;
+    }
 }
