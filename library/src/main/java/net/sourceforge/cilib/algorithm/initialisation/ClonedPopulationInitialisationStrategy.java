@@ -115,7 +115,7 @@ public class ClonedPopulationInitialisationStrategy<E extends Entity> implements
         this.entityNumber = ConstantControlParameter.of(entityNumber);
     }
 
-    public void setEntityNumber(ControlParameter entityNumber) {
+    public void setEntityNumberControlParameter(ControlParameter entityNumber) {
         this.entityNumber = entityNumber;
     }
 }
