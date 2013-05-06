@@ -25,7 +25,7 @@ public class BinaryInertiaPositionProviderTest {
     @Test
     public void testGet() {
         BinaryInertiaPositionProvider positionProvider = new BinaryInertiaPositionProvider();
-        positionProvider.setInertia(ConstantControlParameter.of(0.25));
+        positionProvider.setDelta(ConstantControlParameter.of(0.25));
 
         Bounds bBounds = new Bounds(0.0, 1.0);
         Bounds vBounds = new Bounds(-7.0, 7.0);
@@ -69,7 +69,7 @@ public class BinaryInertiaPositionProviderTest {
         updatedPosition = positionProvider.get(particle);
         assertEquals(updatedPosition, Vector.of(Real.valueOf(1.0, bBounds), Real.valueOf(0.0, bBounds)));
 
-        positionProvider.setInertia(ConstantControlParameter.of(0.0));
+        positionProvider.setDelta(ConstantControlParameter.of(0.0));
         updatedPosition = positionProvider.get(particle);
         assertEquals(updatedPosition, Vector.of(Real.valueOf(1.0, bBounds), Real.valueOf(1.0, bBounds)));
     }
