@@ -15,8 +15,9 @@ import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Bit;
 
 /**
- * Decorator class to convert a real-valued vector to a binary-valued vactor.
+ * Decorator class to convert a real-valued vector to a binary-valued vector.
  * The domain of the problem is a parameter of the conversion function.
+ *
  * Used in the Probability Binary PSO (PBPSO).
  * <p>
  * Reference:
@@ -33,13 +34,11 @@ public class PBPSOFunctionDecorator implements ContinuousFunction {
      */
     @Override
     public Double apply(Vector input) {
-        Bounds bounds = input.boundsOf(0);
-        final double rmin = bounds.getLowerBound();
-        final double rmax = bounds.getUpperBound();
-
         return function.apply(input.map(new F<Numeric, Numeric>() {
             @Override
             public Numeric f(Numeric x) {
+                double rmin = x.getBounds().getLowerBound();
+                double rmax = x.getBounds().getUpperBound();
                 double lx = (x.doubleValue() - rmin) / (rmax - rmin);
                 return Bit.valueOf(Rand.nextDouble() <= lx);
             }

@@ -19,7 +19,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Position of the particle is updated using a varying probability
  * <p>
  * References:
- * </p>
+ * <p>
  * <ul><li>
  * Qi Shen, Jian-Hui Jiang, Chen-Xu Jiao, Guo-li Shen, Ru-Qin Yu.,
  * "Modified particle swarm optimization algorithm for variable
@@ -30,13 +30,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class BinaryStaticProbPositionProvider implements PositionProvider {
 
-    private ControlParameter staticProb;
+    private ControlParameter a;
 
     /**
      * Create an instance of {@linkplain BinaryStaticProbPositionProvider}.
      */
     public BinaryStaticProbPositionProvider() {
-        this.staticProb = new LinearlyVaryingControlParameter(0.5, 0.33);
+        this.a = new LinearlyVaryingControlParameter(0.5, 0.33);
     }
 
     /**
@@ -44,7 +44,7 @@ public class BinaryStaticProbPositionProvider implements PositionProvider {
      * @param copy The instance to copy.
      */
     public BinaryStaticProbPositionProvider(BinaryStaticProbPositionProvider copy) {
-        this.staticProb = copy.staticProb;
+        this.a = copy.a.getClone();
     }
 
     /**
@@ -62,19 +62,17 @@ public class BinaryStaticProbPositionProvider implements PositionProvider {
     public Vector get(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getPosition();
-        Vector.Builder builder = Vector.newBuilder();
-
-        double a = staticProb.getParameter();
-        double limit = 0.5 * (1 + a);
-
         Vector pbest = (Vector) particle.getLocalGuide();
         Vector gbest = (Vector) particle.getGlobalGuide();
+        Vector.Builder builder = Vector.newBuilder();
+
+        double limit = 0.5 * (1 + a.getParameter());
 
         for (int i = 0; i < particle.getDimension(); i++) {
             double vi = velocity.doubleValueOf(i);
             double newPosition = position.doubleValueOf(i);
 
-            if ((vi > a) && (vi <= limit)) {
+            if ((vi > a.getParameter()) && (vi <= limit)) {
                 newPosition = pbest.doubleValueOf(i);
             } else if ((vi > limit) && (vi <= 1)) {
                 newPosition = gbest.doubleValueOf(i);
@@ -85,20 +83,19 @@ public class BinaryStaticProbPositionProvider implements PositionProvider {
         return builder.build();
     }
 
-
     /**
-    * Get the static probability control parameter used within the update strategy
+    * Get the {@code a} {@linkplain ControlParameter} used within the update strategy.
     * @return the {@linkplain ControlParameter} used.
     */
-    public ControlParameter getStaticProb() {
-        return this.staticProb;
+    public ControlParameter getA() {
+        return this.a;
     }
 
     /**
-    * Set the static probability control parameter to use.
-    * @param staticProb The control parameter to set.
+    * Set the {@code a} {@linkplain ControlParameter} to use.
+    * @param a the {@linkplain ControlParameter} to set.
     */
-    public void setStaticProb(ControlParameter staticProb) {
-        this.staticProb = staticProb;
+    public void setA(ControlParameter a) {
+        this.a = a;
     }
 }

@@ -11,7 +11,12 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="100"/>
                 <entityType class="pso.particle.StandardParticle">
-                    <positionProvider class="pso.positionprovider.binary.BinaryStaticProbPositionProvider" />
+                    <positionProvider class="pso.positionprovider.binary.BinaryStaticProbPositionProvider">
+                        <a class="controlparameter.LinearlyVaryingControlParameter">
+                            <initialValue value="0.5" />
+                            <finalValue value="0.33" />
+                        </a>
+                    </positionProvider>
                     <velocityProvider class="pso.velocityprovider.binary.BinaryRandomVelocityProvider" />
                 </entityType>
             </initialisationStrategy>
