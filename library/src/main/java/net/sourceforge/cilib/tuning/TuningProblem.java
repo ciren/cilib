@@ -12,6 +12,7 @@ import static fj.function.Doubles.sum;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.*;
+import net.sourceforge.cilib.problem.objective.Objective;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.tuning.problem.ProblemGenerator;
 import net.sourceforge.cilib.type.types.Real;
@@ -91,5 +92,14 @@ public class TuningProblem extends AbstractProblem {
 
     public int getSamples() {
         return samples;
+    }
+
+    public Problem getCurrentProblem() {
+        return currentProblem;
+    }
+
+    @Override
+    public Objective getObjective() {
+        return ((AbstractProblem) currentProblem).getObjective();
     }
 }

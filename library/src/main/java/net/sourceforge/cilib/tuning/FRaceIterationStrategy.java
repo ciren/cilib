@@ -18,12 +18,14 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.math.StatsTests;
+import net.sourceforge.cilib.problem.objective.Maximise;
+import net.sourceforge.cilib.problem.objective.Minimise;
+import net.sourceforge.cilib.problem.objective.Objective;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
 import static net.sourceforge.cilib.util.functions.Fitnesses.getValue;
 import static net.sourceforge.cilib.util.functions.Solutions.getFitness;
 import net.sourceforge.cilib.util.functions.Utils;
-import static net.sourceforge.cilib.util.functions.Utils.*;
 
 public class FRaceIterationStrategy extends AbstractIterationStrategy<TuningAlgorithm> {
     
@@ -51,6 +53,7 @@ public class FRaceIterationStrategy extends AbstractIterationStrategy<TuningAlgo
     @Override
     public void performIteration(final TuningAlgorithm alg) {
         final List<Vector> parameterList = alg.getParameterList();
+        final TuningProblem tuningProblem = (TuningProblem) alg.getOptimisationProblem();
         
         //TODO: deal with maximisation problems
         results = results.snoc(parameterList.map(new F<Vector,OptimisationSolution>() {
@@ -63,7 +66,9 @@ public class FRaceIterationStrategy extends AbstractIterationStrategy<TuningAlgo
         // (+1 because iterations start at 0)
         if (alg.getIterations() + 1 >= minProblems.getParameter() && parameterList.length() > 1) {
             List<List<Double>> data = results
-                .map(List.<OptimisationSolution,Double>map_().f(getFitness().andThen(getValue())));
+                .map(List.<OptimisationSolution,Double>map_().f(getFitness()
+                    .andThen(getValue())
+                    .andThen(negateIfMaximising(tuningProblem.getObjective()))));
             P2<Double, Double> friedman = StatsTests.friedman(0.05, data);
 
             if (friedman._1() > friedman._2()) {
@@ -98,6 +103,33 @@ public class FRaceIterationStrategy extends AbstractIterationStrategy<TuningAlgo
                 }   
             }
         }
+        
+        List<List<Double>> data = results
+            .map(List.<OptimisationSolution,Double>map_().f(getFitness()
+                .andThen(getValue())
+                .andThen(negateIfMaximising(tuningProblem.getObjective()))));
+        final List<List<Double>> ranks = iterableList(data)
+            .map(Stats.rank.andThen(Utils.<Double,Iterable>iterableList()));
+        final List<Integer> indexes = ranks.foldLeft(Utils.<Double>pairwise(add), replicate(data.head().length(), 0.0))
+            .zipIndex()
+            .sort(p2Ord(doubleOrd, intOrd))
+            .map(P2.<Double,Integer>__2());
+        alg.setParameterList(indexes.map(flip(Utils.<Vector>index()).f(alg.getParameterList())));
+        results = results.map(new F<List<OptimisationSolution>,List<OptimisationSolution>>() {
+            @Override
+            public List<OptimisationSolution> f(final List<OptimisationSolution> a) {
+                return indexes.map(flip(Utils.<OptimisationSolution>index()).f(a));
+            }
+        });
+    }
+    
+    public static F<Double, Double> negateIfMaximising(final Objective obj) {
+        return new F<Double, Double>() {
+            @Override
+            public Double f(Double a) {
+                return obj.fold(Function.<Minimise,Double>constant(a), Function.<Maximise,Double>constant(-a));
+            }
+        };
     }
 
     public void setMinProblems(ControlParameter r) {
