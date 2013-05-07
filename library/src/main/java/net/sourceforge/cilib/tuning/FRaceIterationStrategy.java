@@ -18,6 +18,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.math.StatsTests;
+import net.sourceforge.cilib.problem.objective.Maximise;
 import net.sourceforge.cilib.problem.objective.Minimise;
 import net.sourceforge.cilib.problem.objective.Objective;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
@@ -126,7 +127,7 @@ public class FRaceIterationStrategy extends AbstractIterationStrategy<TuningAlgo
         return new F<Double, Double>() {
             @Override
             public Double f(Double a) {
-                return obj instanceof Minimise ? a : -a;
+                return obj.fold(Function.<Minimise,Double>constant(a), Function.<Maximise,Double>constant(-a));
             }
         };
     }
