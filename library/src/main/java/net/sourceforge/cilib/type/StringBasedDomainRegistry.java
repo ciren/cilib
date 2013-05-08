@@ -6,6 +6,7 @@
  */
 package net.sourceforge.cilib.type;
 
+import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
@@ -32,8 +33,7 @@ public class StringBasedDomainRegistry implements DomainRegistry {
      */
     public StringBasedDomainRegistry(StringBasedDomainRegistry copy) {
         this.domainString = copy.domainString;
-        if (this.builtRepresenation != null)
-            this.builtRepresenation = copy.builtRepresenation.getClone();
+        this.builtRepresenation = DomainParser.parse(this.domainString);
     }
 
     /**
@@ -59,7 +59,7 @@ public class StringBasedDomainRegistry implements DomainRegistry {
     @Override
     public void setDomainString(String domainString) {
         this.domainString = domainString;
-        this.builtRepresenation = net.sourceforge.cilib.type.parser.DomainParser.parse(domainString);
+        this.builtRepresenation = DomainParser.parse(domainString);
     }
 
     /**
