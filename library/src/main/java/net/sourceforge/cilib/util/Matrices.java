@@ -53,10 +53,10 @@ public class Matrices {
         }
 
         //orthonormalize the random vectors
-        vecs = Vectors.orthonormalize(vecs);
+//        vecs = Vectors.orthonormalize(fj.data.List.iterableList(vecs));
 
         //convert vectors to matrix
-        for (Vector v : vecs) {
+        for (Vector v : Vectors.orthonormalize(fj.data.List.iterableList(vecs))) {
             Double[] vals = new Double[size];
             int i = 0;
 

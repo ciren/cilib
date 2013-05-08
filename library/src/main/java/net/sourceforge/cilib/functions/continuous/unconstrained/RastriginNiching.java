@@ -17,7 +17,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * on Niching Methods for Multimodal Function Optimization'', Technical Report, Evolutionary Computation and Machine 
  * Learning Group, RMIT University, Australia, 2013
  */
-public class RastriginNiching implements ContinuousFunction {
+public class RastriginNiching extends ContinuousFunction {
     
     private List<Double> k;
 
@@ -29,7 +29,7 @@ public class RastriginNiching implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkState(k.size() >= input.size(), "Not enough k values for the given input vector.");
         double sum = 0;
         for (int i = 0; i < input.size(); ++i) {

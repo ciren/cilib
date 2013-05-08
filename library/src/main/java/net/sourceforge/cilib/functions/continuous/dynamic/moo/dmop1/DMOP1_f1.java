@@ -17,14 +17,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 
-public class DMOP1_f1 implements ContinuousFunction {
+public class DMOP1_f1 extends ContinuousFunction {
 
     private static final long serialVersionUID = 5097532459618440548L;
 
     //Domain = "R(0, 1)"
 
     @Override
-    public Double apply(Vector x) {
+    public Double f(Vector x) {
     	double value = Math.abs(x.doubleValueOf(0));
 	return value;
     }

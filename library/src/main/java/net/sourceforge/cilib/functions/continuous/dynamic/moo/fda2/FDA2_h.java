@@ -167,7 +167,7 @@ public class FDA2_h extends ContinuousFunction {
     @Override
     public Double f(Vector input) {
         this.tau = AbstractAlgorithm.get().getIterations();
-        return this.apply(this.tau, x);
+        return this.apply(this.tau, input);
     }
 
     /**

@@ -16,7 +16,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Transactions on Evolutionary Computation, 13(1): 103-127, 2009
  *
  */
-public class DMOP2_f1 implements ContinuousFunction {
+public class DMOP2_f1 extends ContinuousFunction {
 
     private static final long serialVersionUID = -1409443407246174303L;
 
@@ -26,7 +26,7 @@ public class DMOP2_f1 implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
+    public Double f(Vector x) {
         double value = Math.abs(x.doubleValueOf(0));
         return value;
     }

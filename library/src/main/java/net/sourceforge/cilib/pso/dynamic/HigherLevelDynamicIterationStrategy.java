@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.pso.dynamic;
 
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.pso.dynamic.detectionstrategies.EnvironmentChangeDetectionStrategy;
 import net.sourceforge.cilib.pso.dynamic.detectionstrategies.MOORandomSentriesDetectionStrategy;
@@ -22,13 +22,13 @@ import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrateg
  * In each iteration, it checks for an environmental change, but the top-level
  * algorithm, such as VEPSO, handles the response for each sub-swarm.
  */
-public class HigherLevelDynamicIterationStrategy<E extends PopulationBasedAlgorithm> implements IterationStrategy<E> {
+public class HigherLevelDynamicIterationStrategy<E extends SinglePopulationBasedAlgorithm> implements IterationStrategy<E> {
 
     private static final long serialVersionUID = -4441422301948289718L;
     private IterationStrategy<E> iterationStrategy;
-    private EnvironmentChangeDetectionStrategy<PopulationBasedAlgorithm> detectionStrategy;
-    private EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm> responseStrategy;
-    private EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm> archiveResponseStrategy;
+    private EnvironmentChangeDetectionStrategy<SinglePopulationBasedAlgorithm> detectionStrategy;
+    private EnvironmentChangeResponseStrategy responseStrategy;
+    private EnvironmentChangeResponseStrategy archiveResponseStrategy;
 
     /**
      * Create a new instance of {@linkplain DynamicIterationStrategy}.
@@ -40,9 +40,9 @@ public class HigherLevelDynamicIterationStrategy<E extends PopulationBasedAlgori
      */
     public HigherLevelDynamicIterationStrategy() {
         this.iterationStrategy = (IterationStrategy<E>)new SynchronousIterationStrategy();
-        this.detectionStrategy = (EnvironmentChangeDetectionStrategy<PopulationBasedAlgorithm>)
-        	new MOORandomSentriesDetectionStrategy<PopulationBasedAlgorithm>();
-        this.responseStrategy = new PartialReinitialisationResponseStrategy<PopulationBasedAlgorithm>();
+        this.detectionStrategy = (EnvironmentChangeDetectionStrategy<SinglePopulationBasedAlgorithm>)
+        	new MOORandomSentriesDetectionStrategy<SinglePopulationBasedAlgorithm>();
+        this.responseStrategy = new PartialReinitialisationResponseStrategy();
         this.archiveResponseStrategy = new ArchiveReevaluationResponseStrategy();
     }
 
@@ -108,7 +108,7 @@ public class HigherLevelDynamicIterationStrategy<E extends PopulationBasedAlgori
      * Get the currently defined {@linkplain EnvironmentChangeDetectionStrategy}.
      * @return The current {@linkplain EnvironmentChangeDetectionStrategy}.
      */
-    public EnvironmentChangeDetectionStrategy<PopulationBasedAlgorithm> getDetectionStrategy() {
+    public EnvironmentChangeDetectionStrategy<SinglePopulationBasedAlgorithm> getDetectionStrategy() {
         return detectionStrategy;
     }
 
@@ -116,7 +116,7 @@ public class HigherLevelDynamicIterationStrategy<E extends PopulationBasedAlgori
      * Set the {@linkplain EnvironmentChangeDetectionStrategy} to be used.
      * @param detectionStrategy The {@linkplain EnvironmentChangeDetectionStrategy} to set.
      */
-    public void setDetectionStrategy(EnvironmentChangeDetectionStrategy<PopulationBasedAlgorithm> detectionStrategy) {
+    public void setDetectionStrategy(EnvironmentChangeDetectionStrategy<SinglePopulationBasedAlgorithm> detectionStrategy) {
         this.detectionStrategy = detectionStrategy;
     }
 
@@ -124,7 +124,7 @@ public class HigherLevelDynamicIterationStrategy<E extends PopulationBasedAlgori
      * Get the currently defined {@linkplain EnvironmentChangeResponseStrategy},
      * @return The current {@linkplain EnvironmentChangeResponseStrategy}.
      */
-    public EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm> getResponseStrategy() {
+    public EnvironmentChangeResponseStrategy getResponseStrategy() {
         return responseStrategy;
     }
 
@@ -132,7 +132,7 @@ public class HigherLevelDynamicIterationStrategy<E extends PopulationBasedAlgori
      * Set the current {@linkplain EnvironmentChangeResponseStrategy} to use.
      * @param responseStrategy The {@linkplain EnvironmentChangeResponseStrategy} to set.
      */
-    public void setResponseStrategy(EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm> responseStrategy) {
+    public void setResponseStrategy(EnvironmentChangeResponseStrategy responseStrategy) {
         this.responseStrategy = responseStrategy;
     }
 
@@ -151,7 +151,7 @@ public class HigherLevelDynamicIterationStrategy<E extends PopulationBasedAlgori
      * for the archive.
      * @return The current {@linkplain EnvironmentChangeResponseStrategy}.
      */
-    public EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm> getArchiveResponseStrategy() {
+    public EnvironmentChangeResponseStrategy getArchiveResponseStrategy() {
         return this.archiveResponseStrategy;
     }
 
@@ -159,7 +159,7 @@ public class HigherLevelDynamicIterationStrategy<E extends PopulationBasedAlgori
      * Set the current {@linkplain EnvironmentChangeResponseStrategy} to use for the archive.
      * @param responseStrategy The {@linkplain EnvironmentChangeResponseStrategy} to set.
      */
-    public void setArchiveResponseStrategy(EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm> responseStrategy) {
+    public void setArchiveResponseStrategy(EnvironmentChangeResponseStrategy responseStrategy) {
         this.archiveResponseStrategy = responseStrategy;
     }
 

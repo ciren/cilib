@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.entity.operators.mutation;
 
-import com.google.common.base.Function;
+import fj.F;
 import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
@@ -56,10 +56,9 @@ public class SelfAdaptiveMutationStrategy extends MutationStrategy {
             }
 
             // Update the strategy parameters
-            Vector newStrategy = Vectors.transform(strategy, new Function<Numeric, Double>() {
-
+            Vector newStrategy = Vectors.transform(strategy, new F<Numeric, Double>() {
                 @Override
-                public Double apply(Numeric from) {
+                public Double f(Numeric from) {
                     double exponent = pre + tau * randomDimension.getRandomNumber();
                     return from.doubleValue() * Math.exp(exponent);
                 }

@@ -6,8 +6,8 @@
  */
 package net.sourceforge.cilib.util;
 
-import java.util.Arrays;
-import java.util.List;
+import fj.data.List;
+import fj.data.Option;
 import net.sourceforge.cilib.type.types.Bounds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -16,7 +16,6 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.Types;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 
 import org.junit.Assert;
@@ -76,8 +75,8 @@ public class VectorsTest {
         Vector v4 = Vector.of(1.0);
         Vector v5 = Vector.of(1.0);
 
-        Vector result1 = Vectors.sumOf(v1, v2, v3, v4, v5);
-        Vector result2 = Vectors.sumOf(Arrays.asList(v1, v2, v3, v4, v5));
+        Vector result1 = Vectors.sumOf(v1, v2, v3, v4, v5).valueE("");
+        Vector result2 = Vectors.sumOf(List.list(v1, v2, v3, v4, v5)).valueE("");
 
         Assert.assertThat(result1.doubleValueOf(0), is(5.0));
         Assert.assertThat(result2.doubleValueOf(0), is(5.0));
@@ -91,21 +90,20 @@ public class VectorsTest {
         Vector v4 = Vector.of(1.0);
         Vector v5 = Vector.of(1.0);
 
-        Vector result1 = Vectors.mean(v1, v2, v3, v4, v5);
-        Vector result2 = Vectors.mean(Arrays.asList(v1, v2, v3, v4, v5));
+        Option<Vector> result1 = Vectors.mean(v1, v2, v3, v4, v5);
+        Option<Vector> result2 = Vectors.mean(List.list(v1, v2, v3, v4, v5));
 
-        Assert.assertThat(result1.doubleValueOf(0), is(1.0));
-        Assert.assertThat(result2.doubleValueOf(0), is(1.0));
+        Assert.assertThat(result1.valueE("error").doubleValueOf(0), is(1.0));
+        Assert.assertThat(result2.valueE("error").doubleValueOf(0), is(1.0));
     }
 
     @Test
     public void testOrthonormalize() {
-        List<Vector> vectors = Arrays.asList(Vector.of(3.0, 1.0), Vector.of(2.0, 2.0));
-        List<Vector> ortho = Vectors.orthonormalize(vectors);
+        List<Vector> ortho = Vectors.orthonormalize(List.list(Vector.of(3.0, 1.0), Vector.of(2.0, 2.0)));
 
-        assertEquals(ortho.get(0).doubleValueOf(0), 3.0 / Math.sqrt(10), 0.00000001);
-        assertEquals(ortho.get(0).doubleValueOf(1), 1.0 / Math.sqrt(10), 0.00000001);
-        assertEquals(ortho.get(1).doubleValueOf(0), -2.0 / 5.0 / Math.sqrt(40.0 / 25.0), 0.00000001);
-        assertEquals(ortho.get(1).doubleValueOf(1), 6.0 / 5.0 / Math.sqrt(40.0 / 25.0), 0.00000001);
+        assertEquals(ortho.index(0).doubleValueOf(0), 3.0 / Math.sqrt(10), 0.00000001);
+        assertEquals(ortho.index(0).doubleValueOf(1), 1.0 / Math.sqrt(10), 0.00000001);
+        assertEquals(ortho.index(1).doubleValueOf(0), -2.0 / 5.0 / Math.sqrt(40.0 / 25.0), 0.00000001);
+        assertEquals(ortho.index(1).doubleValueOf(1), 6.0 / 5.0 / Math.sqrt(40.0 / 25.0), 0.00000001);
     }
 }

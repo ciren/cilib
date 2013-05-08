@@ -28,8 +28,8 @@ public class FDA2_g extends ContinuousFunction {
     public Double f(Vector input) {
         double sum = 1.0;
 
-        for (int k=0; k < x.size(); k++) {
-            sum += Math.pow(x.doubleValueOf(k), 2);
+        for (int k=0; k < input.size(); k++) {
+            sum += Math.pow(input.doubleValueOf(k), 2);
         }
 
         return sum;

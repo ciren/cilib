@@ -6,22 +6,13 @@
  */
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
-import com.google.common.collect.Lists;
-import java.util.ArrayList;
-import java.util.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.io.pattern.StandardPattern;
-import net.sourceforge.cilib.io.StandardPatternDataTable;
-import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.problem.nn.NNTrainingProblem;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.stoppingcondition.MaintainedStoppingCondition;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
-import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -30,9 +21,9 @@ public class StoppingConditionDetectionStrategyTest {
     @Test
     public void testDetect() {
 
-        StoppingConditionDetectionStrategy<PopulationBasedAlgorithm> detect = new StoppingConditionDetectionStrategy<PopulationBasedAlgorithm>();
+        StoppingConditionDetectionStrategy<SinglePopulationBasedAlgorithm> detect = new StoppingConditionDetectionStrategy<SinglePopulationBasedAlgorithm>();
 
-        final PopulationBasedAlgorithm algorithm = mock(PopulationBasedAlgorithm.class);
+        final SinglePopulationBasedAlgorithm algorithm = mock(SinglePopulationBasedAlgorithm.class);
 
         when(algorithm.getIterations()).thenReturn(0);
         assertFalse(detect.detect(algorithm));

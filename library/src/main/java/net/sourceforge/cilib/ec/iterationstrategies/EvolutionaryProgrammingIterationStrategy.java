@@ -6,9 +6,6 @@
  */
 package net.sourceforge.cilib.ec.iterationstrategies;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import com.google.common.collect.Lists;

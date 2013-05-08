@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.pso.crossover.particleprovider;
 
-import java.util.List;
+import fj.data.List;
 import net.sourceforge.cilib.pso.particle.Particle;
 
 /**

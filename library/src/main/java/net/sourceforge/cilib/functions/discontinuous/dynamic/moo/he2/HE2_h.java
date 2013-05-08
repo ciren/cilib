@@ -18,7 +18,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Transactions on Evolutionary Computation, 13(1): 103-127, 2009
  *
  */
-public class HE2_h implements ContinuousFunction {
+public class HE2_h extends ContinuousFunction {
 
     private static final long serialVersionUID = -2696640132377696102L;
     //members
@@ -167,7 +167,7 @@ public class HE2_h implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
+    public Double f(Vector x) {
         this.tau = AbstractAlgorithm.get().getIterations();
         return apply(this.tau, x);
     }
@@ -184,9 +184,9 @@ public class HE2_h implements ContinuousFunction {
         //all the elements except the first element
         Vector z = x.copyOfRange(1, x.size());
         //evaluate the fda1_g function
-        double g = this.he2_g.apply(z);
+        double g = this.he2_g.f(z);
         //evaluate the fda1_f1 function
-        double f1 = this.he2_f1.apply(y);
+        double f1 = this.he2_f1.f(y);
 
         double sum = 1.0;
         double val = (double) f1 / (double) g;

@@ -24,6 +24,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 import fj.F;
 import fj.P1;
+import fj.data.Option;
 
 public class GBestMutationIterationStrategy extends AbstractIterationStrategy<PSO> {
 
@@ -61,7 +62,7 @@ public class GBestMutationIterationStrategy extends AbstractIterationStrategy<PS
         	public Vector f(Particle p) {
         		return (Vector) p.getVelocity();
         	}
-        }));
+        })).valueE("Error determining mean");
         		
 //        		Lists.transform(topology, new Function<Particle, Vector>() {
 //            @Override

@@ -15,7 +15,6 @@ import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 
 /**
  * Velocity update for the Coherence PSO.
@@ -95,7 +94,7 @@ public class CoherenceVelocityProvider implements VelocityProvider {
         }
         Vector coherence = builder.build();
 
-        return Vectors.sumOf(standardVelocity, coherence);
+        return standardVelocity.plus(coherence);
 
 
 //        float social = socialRandomGenerator.nextFloat();

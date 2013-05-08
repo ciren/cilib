@@ -84,7 +84,7 @@ public class SimplexCrossoverStrategy implements CrossoverStrategy {
         List<Vector> simplexVertices = Lists.newArrayList();
         List<E> offspring = Lists.newArrayList();
         ProbabilityDistributionFunction random = new UniformDistribution();
-        Vector mean = Vectors.mean(solutions);
+        Vector mean = Vectors.mean(fj.data.List.iterableList(solutions)).valueE("Failed to obtain mean");
         final int n = solutions.size();
 
         if (useDefaultEpsilon) {

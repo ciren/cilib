@@ -34,7 +34,7 @@ public class BBOB24 extends AbstractBBOB {
 	}
 
 	@Override
-	public Double apply(Vector input) {
+	public Double f(Vector input) {
 		if (xOpt.size() != input.size()) {
 			xOpt = Vector.fill(1, input.size());
 			for (int i = 0; i < input.size(); i++) {
@@ -54,12 +54,12 @@ public class BBOB24 extends AbstractBBOB {
 			sum2 += d * input.size() + s * Math.pow(xHat.doubleValueOf(i) - mu1, 2);
 		}
 
-		return Math.min(sum1, sum2) + r.apply(xHat.subtract(xOpt)) + 1E4 * pen.apply(input) + fOpt;
+		return Math.min(sum1, sum2) + r.f(xHat.subtract(xOpt)) + 1E4 * pen.f(input) + fOpt;
 	}
 
-	private class Inner implements ContinuousFunction {
+	private class Inner extends ContinuousFunction {
 		@Override
-		public Double apply(Vector input) {
+		public Double f(Vector input) {
 			double sum = 0;
 
 			for (int i = 0; i < input.size(); i++) {

@@ -93,6 +93,7 @@ public class CooperativeCoevolutionAlgorithm extends MultiPopulationBasedAlgorit
 
         //Initialise each sub population, and add the randomised solution vector from each population to the current context.
         for (SinglePopulationBasedAlgorithm algorithm : subPopulationsAlgorithms) {
+            CooperativeCoevolutionProblemAdapter problem = (CooperativeCoevolutionProblemAdapter) algorithm.getOptimisationProblem();
             algorithm.performInitialisation();
             context.copyFrom((Vector) algorithm.getBestSolution().getPosition(), problem.getProblemAllocation());
         }

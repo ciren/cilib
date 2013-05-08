@@ -18,7 +18,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Memetic Computing, 2:87-110, 2010.
  *
  */
-public class DIMP1_h implements ContinuousFunction {
+public class DIMP1_h extends ContinuousFunction {
 
     //members
     private ContinuousFunction dimp1_g;
@@ -101,7 +101,7 @@ public class DIMP1_h implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
+    public Double f(Vector x) {
         int iteration = AbstractAlgorithm.get().getIterations();
         return apply(iteration, x);
     }
@@ -118,7 +118,7 @@ public class DIMP1_h implements ContinuousFunction {
         //evaluate the dimp1_g function
         double g = ((DIMP1_g) this.dimp1_g).apply(iteration, z);
         //evaluate the dimp1_f1 function
-        double f1 = this.dimp1_f1.apply(y);
+        double f1 = this.dimp1_f1.f(y);
 
         double value = 1.0;
         value -= Math.pow((double) f1 / (double) g, 2);

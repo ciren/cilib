@@ -10,7 +10,7 @@ package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 import java.util.LinkedList;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.Problem;
@@ -22,7 +22,7 @@ import net.sourceforge.cilib.problem.solution.OptimisationSolution;
  * environment has occurred. It should only be used for MOO problems.
  *
  */
-public class MOORandomArchiveSentriesDetectionStrategy<E extends PopulationBasedAlgorithm>
+public class MOORandomArchiveSentriesDetectionStrategy<E extends SinglePopulationBasedAlgorithm>
         extends RandomSentriesDetectionStrategy<E> {
 
     /**
@@ -67,7 +67,7 @@ public class MOORandomArchiveSentriesDetectionStrategy<E extends PopulationBased
     public boolean detect(E algorithm) {
         if ((AbstractAlgorithm.get().getIterations() % interval == 0) && (AbstractAlgorithm.get().getIterations() != 0)) {
 
-            PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
+            E populationBasedAlgorithm = (E) AbstractAlgorithm.getAlgorithmList().get(0);
             Problem problem = populationBasedAlgorithm.getOptimisationProblem();
 
             java.util.List<OptimisationSolution> currentSolutions = new LinkedList<OptimisationSolution>();

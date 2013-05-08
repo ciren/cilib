@@ -100,7 +100,7 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
             List<Vector> e_zeta = new ArrayList<Vector>();
 
             //calculate mean of parents except main parent
-            Vector g = Vectors.mean(solutions.subList(0, k - 1));
+            Vector g = Vectors.mean(fj.data.List.iterableList(solutions.subList(0, k - 1))).valueE("Error in getting mean");
 
             // basis vectors defined by parents
             for (int i = 0; i < k - 1; i++) {
@@ -119,15 +119,15 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
             final double D = solutions.get(k - 1).subtract(g).length();
 
             // create the remaining basis vectors
-            List<Vector> e_eta = Lists.newArrayList();
-            e_eta.add(solutions.get(k - 1).subtract(g));
+            fj.data.List<Vector> e_eta = fj.data.List.nil();
+            e_eta.snoc(solutions.get(k - 1).subtract(g));
 
             for (int i = 0; i < n - e_zeta.size() - 1; i++) {
                 Vector d = Vector.newBuilder().copyOf(g).buildRandom();
-                e_eta.add(d);
+                e_eta.snoc(d);
             }
 
-            e_eta = Vectors.orthonormalize(e_eta);
+            e_eta = Vectors.orthonormalize(fj.data.List.iterableList(e_eta));
 
             // construct the offspring
             Vector variables = Vector.copyOf(g);
@@ -137,8 +137,8 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
                     variables = variables.plus(e_zeta.get(i).multiply(random.getRandomNumber(0.0, sigma1.getParameter())));
                 }
 
-                for (int i = 0; i < e_eta.size(); i++) {
-                    variables = variables.plus(e_eta.get(i).multiply(D * random.getRandomNumber(0.0, sigma2.getParameter() / Math.sqrt(n))));
+                for (int i = 0; i < e_eta.length(); i++) {
+                    variables = variables.plus(e_eta.index(i).multiply(D * random.getRandomNumber(0.0, sigma2.getParameter() / Math.sqrt(n))));
                 }
             } else {
                 for (int i = 0; i < e_zeta.size(); i++) {
@@ -150,8 +150,8 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
                     }));
                 }
 
-                for (int i = 0; i < e_eta.size(); i++) {
-                    variables = variables.plus(e_eta.get(i).multiply(new P1<Number>() {
+                for (int i = 0; i < e_eta.length(); i++) {
+                    variables = variables.plus(e_eta.index(i).multiply(new P1<Number>() {
                         @Override
                         public Number _1() {
                             return D * random.getRandomNumber(0.0, sigma2.getParameter() / Math.sqrt(n));

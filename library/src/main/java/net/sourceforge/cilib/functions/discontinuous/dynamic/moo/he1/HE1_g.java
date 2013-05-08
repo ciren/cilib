@@ -16,7 +16,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 
-public class HE1_g implements ContinuousFunction {
+public class HE1_g extends ContinuousFunction {
 
 	private static final long serialVersionUID = -9042109015612284066L;
 
@@ -71,7 +71,7 @@ public class HE1_g implements ContinuousFunction {
 	 * Evaluates the function.
 	 */
         @Override
-	public Double apply(Vector x) {
+	public Double f(Vector x) {
 
 		double sum = 0.0;
 		for (int k=0; k < x.size(); k++) {

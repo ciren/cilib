@@ -26,7 +26,7 @@ public class BBOB20 extends AbstractBBOB {
 	}
 
 	@Override
-	public Double apply(Vector input) {
+	public Double f(Vector input) {
 		int size = input.size();
 		if (xOpt.size() != size) {
 			uniform = Vector.fill(1, size);
@@ -44,10 +44,10 @@ public class BBOB20 extends AbstractBBOB {
 				+ 0.25 * (xHat.doubleValueOf(i) - xOpt.doubleValueOf(i)));
 		}
 
-		return ill.apply(zHat.subtract(xOpt)) + fOpt;
+		return ill.f(zHat.subtract(xOpt)) + fOpt;
 	}
 
-	private class Inner implements ContinuousFunction {
+	private class Inner extends ContinuousFunction {
 		private Penalty pen;
 		private Schwefel schwefel;
 
@@ -57,10 +57,10 @@ public class BBOB20 extends AbstractBBOB {
 		}
 
 		@Override
-		public Double apply(Vector zHat) {
+		public Double f(Vector zHat) {
 			Vector z = zHat.plus(xOpt).multiply(100);
 
-			return (schwefel.apply(z) / z.size()) + 100 * pen.apply(z.multiply(0.01));
+			return (schwefel.f(z) / z.size()) + 100 * pen.f(z.multiply(0.01));
 		}
 	}
 }

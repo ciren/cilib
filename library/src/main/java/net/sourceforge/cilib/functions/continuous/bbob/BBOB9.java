@@ -22,13 +22,13 @@ public class BBOB9 extends AbstractBBOB {
 	}
 
 	@Override
-	public Double apply(Vector input) {
+	public Double f(Vector input) {
 		initialise(input.size());
 
-		return r.apply(input) + fOpt;
+		return r.f(input) + fOpt;
 	}
 
-	private class Inner implements ContinuousFunction {
+	private class Inner extends ContinuousFunction {
 		private Rosenbrock rosenbrock;
 
 		public Inner() {
@@ -36,11 +36,11 @@ public class BBOB9 extends AbstractBBOB {
 		}
 
 		@Override
-		public Double apply(Vector x) {
+		public Double f(Vector x) {
 			double factor = Math.max(1, Math.sqrt(x.size()) / 8);
 
 			Vector z = x.multiply(factor).plus(Vector.fill(0.5, x.size()));
-			return rosenbrock.apply(z);
+			return rosenbrock.f(z);
 		}
 	}
 }

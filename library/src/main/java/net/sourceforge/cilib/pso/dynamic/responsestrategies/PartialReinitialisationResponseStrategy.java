@@ -6,6 +6,7 @@
  */
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
+import fj.F;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
@@ -19,9 +20,8 @@ import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
-import com.google.common.base.Function;
 
-public class PartialReinitialisationResponseStrategy<E extends SinglePopulationBasedAlgorithm> extends ParticleReevaluationResponseStrategy {
+public class PartialReinitialisationResponseStrategy extends ParticleReevaluationResponseStrategy {
 
     private static final long serialVersionUID = 4619744183683905269L;
     private double reinitialisationRatio;
@@ -31,13 +31,13 @@ public class PartialReinitialisationResponseStrategy<E extends SinglePopulationB
         reinitialisationRatio = 0.5;
     }
 
-    public PartialReinitialisationResponseStrategy(PartialReinitialisationResponseStrategy<E> copy) {
+    public PartialReinitialisationResponseStrategy(PartialReinitialisationResponseStrategy copy) {
         this.reinitialisationRatio = copy.reinitialisationRatio;
     }
 
     @Override
-    public PartialReinitialisationResponseStrategy<E> getClone() {
-        return new PartialReinitialisationResponseStrategy<E>(this);
+    public PartialReinitialisationResponseStrategy getClone() {
+        return new PartialReinitialisationResponseStrategy(this);
     }
 
     /**
@@ -96,10 +96,9 @@ public class PartialReinitialisationResponseStrategy<E extends SinglePopulationB
         this.reinitialisationRatio = reinitialisationRatio;
     }
 
-    private static class ZeroTransformation implements Function<Numeric, Number> {
-
+    private static class ZeroTransformation extends F<Numeric, Number> {
         @Override
-        public Number apply(Numeric from) {
+        public Number f(Numeric from) {
             return 0.0;
         }
     }

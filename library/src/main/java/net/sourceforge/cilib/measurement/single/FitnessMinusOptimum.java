@@ -9,9 +9,6 @@ package net.sourceforge.cilib.measurement.single;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
-import net.sourceforge.cilib.functions.KnownOptimum;
-import net.sourceforge.cilib.functions.Function;
 
 /*
  * Measurement to calculate the difference between the best fitness

@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.pso.crossover.operations;
 
-import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.cilib.entity.EntityType;
@@ -23,10 +22,12 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Lists;
 
 import fj.F;
 import fj.P;
 import fj.P3;
+import fj.data.List;
 
 /**
  * An operation used in the PSOCrossoverIterationStrategy which is responsible
@@ -58,7 +59,7 @@ public abstract class CrossoverSelection extends PSOCrossoverOperation {
 	Map<Particle, StructuredType> tmp = Maps.newHashMap();
 
         // get random particles
-        List<Particle> parents = selector.on(topology).select(Samples.first(crossoverStrategy.getNumberOfParents()).unique());
+        List<Particle> parents = fj.data.List.iterableList(selector.on(topology).select(Samples.first(crossoverStrategy.getNumberOfParents()).unique()));
 
         //put pbest as candidate solution for the crossover
         for (Particle e : parents) {
@@ -67,7 +68,7 @@ public abstract class CrossoverSelection extends PSOCrossoverOperation {
         }
 
         //perform crossover and select particle to compare with
-        Particle offspring = crossoverStrategy.crossover(parents).get(0);
+        Particle offspring = crossoverStrategy.crossover(Lists.newArrayList(parents)).get(0);
         Particle selectedParticle = particleProvider.f(parents, offspring);
 
         //replace selectedEntity if offspring is better

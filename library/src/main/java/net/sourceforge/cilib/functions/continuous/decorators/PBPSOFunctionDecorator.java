@@ -11,7 +11,6 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Bit;
 
 /**
@@ -26,15 +25,15 @@ import net.sourceforge.cilib.type.types.Bit;
  * swarm optimization algorithm and its application." Journal of software 3.9
  * (2008): 28-35.
  */
-public class PBPSOFunctionDecorator implements ContinuousFunction {
+public class PBPSOFunctionDecorator extends ContinuousFunction {
     private ContinuousFunction function;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
-        return function.apply(input.map(new F<Numeric, Numeric>() {
+    public Double f(Vector input) {
+        return function.f(input.map(new F<Numeric, Numeric>() {
             @Override
             public Numeric f(Numeric x) {
                 double rmin = x.getBounds().getLowerBound();

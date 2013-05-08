@@ -18,7 +18,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Transactions on Evolutionary Computation, 13(1): 103-127, 2009
  *
  */
-public class DMOP3_g implements ContinuousFunction {
+public class DMOP3_g extends ContinuousFunction {
 
     private static final long serialVersionUID = -3942639679084167540L;
     //members
@@ -128,7 +128,7 @@ public class DMOP3_g implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
+    public Double f(Vector x) {
         this.tau = AbstractAlgorithm.get().getIterations();
         return this.apply(this.tau, x);
     }
@@ -142,7 +142,7 @@ public class DMOP3_g implements ContinuousFunction {
 
         double sum = 1.0;
         if (DMOP3_f1.getR() == -1) {
-            this.dmop3_f1.apply(x);
+            this.dmop3_f1.f(x);
         }
 
         for (int k = 0; k < x.size(); k++) {

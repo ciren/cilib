@@ -19,10 +19,10 @@ import net.sourceforge.cilib.moo.iterationstrategies.HigherLevelArchivingIterati
  */
 public class RespondingMultiPopulationCriterionBasedAlgorithm extends MultiPopulationCriterionBasedAlgorithm {
 
-    private IterationStrategy<PopulationBasedAlgorithm> iterationStrategy;
+    private IterationStrategy<SinglePopulationBasedAlgorithm> iterationStrategy;
 
     public RespondingMultiPopulationCriterionBasedAlgorithm() {
-        this.iterationStrategy = new HigherLevelArchivingIterationStrategy<PopulationBasedAlgorithm>();
+        this.iterationStrategy = new HigherLevelArchivingIterationStrategy<SinglePopulationBasedAlgorithm>();
     }
 
     public RespondingMultiPopulationCriterionBasedAlgorithm(RespondingMultiPopulationCriterionBasedAlgorithm copy) {
@@ -40,14 +40,14 @@ public class RespondingMultiPopulationCriterionBasedAlgorithm extends MultiPopul
      */
     @Override
 	protected void algorithmIteration() {
-            this.getIterationStrategy().performIteration((PopulationBasedAlgorithm)this);
+            this.getIterationStrategy().performIteration((SinglePopulationBasedAlgorithm)this);
     }
 
     /**
      * Returns the current {@linkplain IterationStrategy}.
      * @return The current {@linkplain IterationStrategy}.
      */
-    public IterationStrategy<PopulationBasedAlgorithm> getIterationStrategy() {
+    public IterationStrategy<SinglePopulationBasedAlgorithm> getIterationStrategy() {
         return iterationStrategy;
     }
 
@@ -55,7 +55,7 @@ public class RespondingMultiPopulationCriterionBasedAlgorithm extends MultiPopul
      * Sets the {@linkplain IterationStrategy} to be used.
      * @param iterationStrategy The value to set.
      */
-    public void setIterationStrategy(IterationStrategy<PopulationBasedAlgorithm> iterationStrategy) {
+    public void setIterationStrategy(IterationStrategy<SinglePopulationBasedAlgorithm> iterationStrategy) {
         this.iterationStrategy = iterationStrategy;
     }
 

@@ -12,7 +12,6 @@ import net.sourceforge.cilib.coevolution.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ZeroContributionSelectionStrategy;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.topologies.GBestNeighbourhood;
 import net.sourceforge.cilib.entity.topologies.Neighbourhood;
 import fj.F;

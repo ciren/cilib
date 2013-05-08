@@ -6,17 +6,15 @@
  */
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
+import fj.data.Java;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.MOFitness;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.util.selection.Samples;
-import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 
 /**
  * This class is similar to {@linkplain RandomSentriesDetectionStrategy}, but
@@ -25,7 +23,7 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
  * therefore the archive is not handled on the sub-algorithm level.
  *
  */
-public class MOORandomSentriesDetectionStrategy<E extends PopulationBasedAlgorithm>
+public class MOORandomSentriesDetectionStrategy<E extends SinglePopulationBasedAlgorithm>
         extends RandomSentriesDetectionStrategy<E> {
 
     private static final long serialVersionUID = 4572728741093545926L;
@@ -70,7 +68,7 @@ public class MOORandomSentriesDetectionStrategy<E extends PopulationBasedAlgorit
         int iterations = AbstractAlgorithm.get().getIterations();
         //System.out.println("iteration here in detection " + iterations);
     	if ((AbstractAlgorithm.get().getIterations() % interval == 0) && (AbstractAlgorithm.get().getIterations() != 0)) {
-            List<? extends Entity> all = algorithm.getTopology();
+            List all = Java.List_ArrayList().f(algorithm.getTopology());
 
             for (int i = 0; i < numberOfSentries.getParameter(); i++) {
                 // select random sentry entity

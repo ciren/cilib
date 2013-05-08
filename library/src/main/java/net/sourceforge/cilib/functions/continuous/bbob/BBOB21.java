@@ -10,7 +10,6 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import fj.F;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.continuous.bbob.Penalty;
 import net.sourceforge.cilib.functions.continuous.decorators.RotatedFunctionDecorator;
 import net.sourceforge.cilib.functions.continuous.decorators.IrregularFunctionDecorator;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -46,7 +45,7 @@ public class BBOB21 extends AbstractBBOB {
 	}
 
 	@Override
-	public Double apply(Vector input) {
+	public Double f(Vector input) {
 		if (xOpt.size() != input.size()) {
 			setup(input.size());
 		}
@@ -60,12 +59,12 @@ public class BBOB21 extends AbstractBBOB {
 			currentC = c.get(i);
 			r.setFunction(inner1);
 
-			max = Math.max(max, r.apply(xLessY));
+			max = Math.max(max, r.f(xLessY));
 		}
 
 		Numeric finalValue = Real.valueOf(Math.pow(10 - max, 2));
 
-		return irregularMapping.f(finalValue).doubleValue() + pen.apply(input) + fOpt;
+		return irregularMapping.f(finalValue).doubleValue() + pen.f(input) + fOpt;
 	}
 
 	private void setup(int size) {
@@ -105,17 +104,17 @@ public class BBOB21 extends AbstractBBOB {
 		this.peaks = peaks;
 	}
 
-	private class Inner1 implements ContinuousFunction {
+	private class Inner1 extends ContinuousFunction {
 		@Override
-		public Double apply(Vector input) {
+		public Double f(Vector input) {
 			r.setFunction(inner2);
-			return r.apply(input.multiply(currentC));
+			return r.f(input.multiply(currentC));
 		}
 	}
 
-	private class Inner2 implements ContinuousFunction {
+	private class Inner2 extends ContinuousFunction {
 		@Override
-		public Double apply(Vector input) {
+		public Double f(Vector input) {
 			return -(1.0 / (2.0 * input.size())) * xLessY.dot(input);
 		}
 	}

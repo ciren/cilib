@@ -14,7 +14,6 @@ import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 
 /**
  * VelocityProvider that the so called Charged PSO makes use of.
@@ -78,7 +77,7 @@ public class ChargedVelocityProvider implements VelocityProvider {
 
         Vector velocity = this.delegate.get(particle);
 
-        return Vectors.sumOf(velocity, acceleration);
+        return velocity.plus(acceleration);
     }
 
     public void setDelegate(VelocityProvider delegate) {

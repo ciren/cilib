@@ -61,6 +61,7 @@ public class Sigmoid extends ActivationFunction {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double f(double input) {
         return gamma.getParameter() / (1.0 + Math.exp(-1.0 * lambda.getParameter() * (input - offset.getParameter())));
     }

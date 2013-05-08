@@ -16,7 +16,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Transactions on Evolutionary Computation, 13(1): 103-127, 2009
  *
  */
-public class HE2_g implements ContinuousFunction {
+public class HE2_g extends ContinuousFunction {
 
     private static final long serialVersionUID = -9042109015612284066L;
     //number of distinct steps in t
@@ -69,7 +69,7 @@ public class HE2_g implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
+    public Double f(Vector x) {
 
         double sum = 0.0;
         for (int k = 0; k < x.size(); k++) {

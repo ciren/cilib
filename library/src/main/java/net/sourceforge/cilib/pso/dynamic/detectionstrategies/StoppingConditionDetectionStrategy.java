@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 
@@ -15,7 +15,7 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
  * Uses a stopping condition to trigger response strategies.
  * Once it triggers, the stopping condition is reset to its original state.
  */
-public class StoppingConditionDetectionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
+public class StoppingConditionDetectionStrategy<E extends SinglePopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
     StoppingCondition<Algorithm> originalStoppingCondition;
     StoppingCondition<Algorithm> stoppingCondition;
 
@@ -42,7 +42,7 @@ public class StoppingConditionDetectionStrategy<E extends PopulationBasedAlgorit
      * {@inheritDoc}
      */
     @Override
-    public boolean detect(PopulationBasedAlgorithm algorithm) {
+    public boolean detect(E algorithm) {
         if (stoppingCondition.apply(algorithm))
         {
             stoppingCondition = originalStoppingCondition.getClone();

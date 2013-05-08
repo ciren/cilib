@@ -269,7 +269,6 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
             }
         }
 
-        @Override
         public boolean apply(Algorithm input) {
             return iteration != algorithm.getIterations();
         }

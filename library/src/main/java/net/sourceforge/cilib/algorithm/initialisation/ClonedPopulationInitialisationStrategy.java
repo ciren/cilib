@@ -13,6 +13,8 @@ import com.google.common.base.Preconditions;
 
 import fj.F;
 import fj.data.List;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 
 /**
  * Create a collection of {@linkplain net.sourceforge.cilib.entity.Entity entities}
@@ -66,7 +68,7 @@ public class ClonedPopulationInitialisationStrategy implements PopulationInitial
         Preconditions.checkNotNull(problem, "No problem has been specified");
         Preconditions.checkNotNull(prototypeEntity, "No prototype Entity object has been defined for the clone operation in the entity construction process.");
 
-        return List.range(0, entityNumber).map(new F<Integer,E>() {
+        return List.range(0, (int) entityNumber.getParameter()).map(new F<Integer,E>() {
             @Override
             public E f(Integer i) {
                 E entity = (E) prototypeEntity.getClone();

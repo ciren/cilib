@@ -39,7 +39,7 @@ public class NoisyPositionProvider implements PositionProvider {
         for (int i = 0; i < particle.getDimension(); i++) {
             builder.add(this.distribution.getRandomNumber());
         }
-        return Vectors.sumOf(position, builder.build());
+        return position.plus(builder.build());
     }
 
     @Override

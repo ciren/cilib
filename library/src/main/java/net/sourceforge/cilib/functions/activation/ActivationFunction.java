@@ -21,7 +21,7 @@ public abstract class ActivationFunction extends F<Real, Real> implements Differ
      * {@inheritDoc }
      */
     @Override
-    ActivationFunction getClone();
+    public abstract ActivationFunction getClone();
 
     /**
      * Determine the gradient of the {@link ActivationFunction} at the given point.

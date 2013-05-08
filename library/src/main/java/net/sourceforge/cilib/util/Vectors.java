@@ -6,10 +6,10 @@
  */
 package net.sourceforge.cilib.util;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
-import java.util.Arrays;
-import java.util.List;
+import fj.F;
+import fj.F2;
+import fj.data.List;
+import fj.data.Option;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
@@ -84,8 +84,8 @@ public final class Vectors {
      * @param vectors The {@code Vector} instances to sum.
      * @return The resultant {@code Vector}.
      */
-    public static Vector sumOf(Vector... vectors) {
-        return sumOf(Arrays.asList(vectors));
+    public static Option<Vector> sumOf(Vector... vectors) {
+        return sumOf(List.list(vectors));
     }
 
     /**
@@ -94,20 +94,17 @@ public final class Vectors {
      * @param vectors The {@linkplain Vector} instances to sum.
      * @return The resultant {@linkplain Vector}.
      */
-    public static Vector sumOf(List<Vector> vectors) {
+    public static Option<Vector> sumOf(List<Vector> vectors) {
         if (vectors.isEmpty()) {
-            return null;
+            return Option.none();
         }
 
-        Vector result = vectors.get(0);
-
-        if (vectors.size() > 1) {
-            for(int i = 1; i < vectors.size(); i++) {
-                result = result.plus(vectors.get(i));
+        return Option.some(vectors.foldLeft1(new F2<Vector, Vector, Vector>() {
+            @Override
+            public Vector f(Vector a, Vector b) {
+                return a.plus(b);
             }
-        }
-
-        return result;
+        }));
     }
 
     /**
@@ -117,8 +114,8 @@ public final class Vectors {
      * @param vectors The {@linkplain Vector} instances to sum.
      * @return The resultant {@linkplain Vector}.
      */
-    public static Vector mean(Vector... vectors) {
-        return mean(Arrays.asList(vectors));
+    public static Option<Vector> mean(Vector... vectors) {
+        return mean(List.list(vectors));
     }
 
     /**
@@ -127,12 +124,13 @@ public final class Vectors {
      * @param vectors The {@linkplain Vector} instances to sum.
      * @return The resultant {@linkplain Vector}.
      */
-    public static Vector mean(List<Vector> vectors) {
-        return sumOf(vectors).divide(vectors.size());
-    }
-    
-    public static Vector mean(fj.data.List<Vector> vectors) {
-        return sumOf(Lists.newArrayList(vectors)).divide(vectors.length());
+    public static Option<Vector> mean(final List<Vector> vectors) {
+        return sumOf(vectors).map(new F<Vector, Vector> () {
+            @Override
+            public Vector f(Vector a) {
+                return a.divide(vectors.length());
+            }
+        });
     }
     
     /**
@@ -143,35 +141,33 @@ public final class Vectors {
      * @return The resultant {@linkplain Vector}.
      */
     public static List<Vector> orthonormalize(List<Vector> vectors) {
-        List<Vector> orthonormalBases = Lists.newArrayList();
-        List<Vector> result = Lists.newArrayList();
+        Vector u1 = Vector.copyOf(vectors.head());
+        List<Vector> orthonormalBases = List.single(u1);
 
-        Vector u1 = Vector.copyOf(vectors.get(0));
-        orthonormalBases.add(u1);
+        for (int i = 1; i < vectors.length(); i++) {
+            Vector ui = vectors.index(i);
 
-        for (int i = 1; i < vectors.size(); i++) {
-            Vector ui = vectors.get(i);
-
-            for (int j = 0; j < orthonormalBases.size(); j++) {
-                ui = ui.subtract(vectors.get(i).project(orthonormalBases.get(j)));
+            for (int j = 0; j < orthonormalBases.length(); j++) {
+                ui = ui.subtract(vectors.index(i).project(orthonormalBases.index(j)));
             }
 
             if (!ui.isZero()) {
-                orthonormalBases.add(ui);
+                orthonormalBases = orthonormalBases.snoc(ui);
             }
         }
-
-        for (Vector v : orthonormalBases) {
-            result.add(v.normalize());
-        }
-
-        return result;
+        
+        return orthonormalBases.map(new F<Vector, Vector>() {
+            @Override
+            public Vector f(Vector a) {
+                return a.normalize();
+            }
+        });
     }
 
-    public static <T extends Number> Vector transform(Vector vector, Function<Numeric, T> function) {
+    public static <T extends Number> Vector transform(Vector vector, F<Numeric, T> function) {
         Vector.Builder builder = Vector.newBuilder();
         for (Numeric n : vector) {
-            builder.addWithin(function.apply(n).doubleValue(), n.getBounds()); //??
+            builder.addWithin(function.f(n).doubleValue(), n.getBounds()); //??
         }
         return builder.build();
     }

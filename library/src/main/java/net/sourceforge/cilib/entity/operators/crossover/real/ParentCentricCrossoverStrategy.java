@@ -89,7 +89,7 @@ public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
         int k = solutions.size();
 
         //calculate mean of parents
-        Vector g = Vectors.mean(solutions);
+        Vector g = Vectors.mean(fj.data.List.iterableList(solutions)).valueE("Failed to obtain mean");
 
         //get each offspring
         for (int os = 0; os < numberOfOffspring; os++) {

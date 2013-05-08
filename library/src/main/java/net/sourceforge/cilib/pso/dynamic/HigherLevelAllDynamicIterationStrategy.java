@@ -7,8 +7,8 @@
 package net.sourceforge.cilib.pso.dynamic;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.RespondingMultiPopulationCriterionBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 
 /**
  * Dynamic iteration strategy for PSO in dynamic environments used by a higher
@@ -22,7 +22,7 @@ import net.sourceforge.cilib.algorithm.population.RespondingMultiPopulationCrite
  * @param <E> The {@link PopulationBasedAlgorithm} that will have it's entities'
  * positions added to the archive as potential solutions.
  */
-public class HigherLevelAllDynamicIterationStrategy<E extends PopulationBasedAlgorithm> extends HigherLevelDynamicIterationStrategy {
+public class HigherLevelAllDynamicIterationStrategy<E extends SinglePopulationBasedAlgorithm> extends HigherLevelDynamicIterationStrategy {
 
     private static final long serialVersionUID = -4417977245641438303L;
 
@@ -35,7 +35,7 @@ public class HigherLevelAllDynamicIterationStrategy<E extends PopulationBasedAlg
      * swarms</li> <ol> <li>Perform normal iteration for all swarms</li> </ol>
      */
     @Override
-    public void performIteration(PopulationBasedAlgorithm algorithm) {
+    public void performIteration(SinglePopulationBasedAlgorithm algorithm) {
         //get the higher level algorithm
         RespondingMultiPopulationCriterionBasedAlgorithm topLevelAlgorithm =
                 (RespondingMultiPopulationCriterionBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
@@ -43,7 +43,7 @@ public class HigherLevelAllDynamicIterationStrategy<E extends PopulationBasedAlg
         boolean hasChanged = false;
 
         //detecting whether a change has occurred in any of the swarms' environment
-        for (PopulationBasedAlgorithm popAlg : topLevelAlgorithm.getPopulations()) {
+        for (SinglePopulationBasedAlgorithm popAlg : topLevelAlgorithm.getPopulations()) {
             hasChanged = this.getDetectionStrategy().detect(popAlg);
             if (hasChanged) {
                 break;
@@ -52,13 +52,13 @@ public class HigherLevelAllDynamicIterationStrategy<E extends PopulationBasedAlg
 
         //respond to a change if it has occurred
         if (hasChanged) {
-            for (PopulationBasedAlgorithm popAlg : topLevelAlgorithm.getPopulations()) {
+            for (SinglePopulationBasedAlgorithm popAlg : topLevelAlgorithm.getPopulations()) {
                 this.getResponseStrategy().respond(popAlg);
             }
         }
 
 
-        for (PopulationBasedAlgorithm pAlg : topLevelAlgorithm.getPopulations()) {
+        for (SinglePopulationBasedAlgorithm pAlg : topLevelAlgorithm.getPopulations()) {
             pAlg.performIteration();
         }
     }

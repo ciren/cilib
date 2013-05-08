@@ -79,7 +79,7 @@ public class MultiPopRepeatingCrossoverSelection extends CrossoverSelection {
 
         //perform crossover and select particle to compare with
         Particle offspring = (Particle) crossoverStrategy.crossover(parents).get(0);
-        Particle selectedParticle = particleProvider.f(parents, offspring);
+        Particle selectedParticle = particleProvider.f(fj.data.List.iterableList(parents), offspring);
 
         //replace selectedEntity if offspring is better
         if (((Fitness) offspring.getProperties().get(fitnessType))

@@ -9,7 +9,7 @@ package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 import java.util.LinkedList;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
@@ -19,6 +19,7 @@ import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.MOFitness;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
+import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * When a change occurs in the environment, a specified number of sentries are
@@ -27,7 +28,7 @@ import net.sourceforge.cilib.problem.solution.OptimisationSolution;
  * is removed from the archive. All solutions within the archive is also
  * re-evaluated.
  */
-public class ArchiveChangeSeverityResponseStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm> {
+public class ArchiveChangeSeverityResponseStrategy<E extends SinglePopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy {
 
     private static final long serialVersionUID = 3044874503105791208L;
     protected ControlParameter numberOfSentries;
@@ -55,7 +56,7 @@ public class ArchiveChangeSeverityResponseStrategy<E extends PopulationBasedAlgo
      * {@inheritDoc}
      */
     @Override
-    public EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm> getClone() {
+    public EnvironmentChangeResponseStrategy getClone() {
         return this;
     }
 
@@ -68,7 +69,7 @@ public class ArchiveChangeSeverityResponseStrategy<E extends PopulationBasedAlgo
      * @param algorithm The algorithm to perform the response on.
      */
     @Override
-    protected void performReaction(PopulationBasedAlgorithm algorithm) {
+    protected <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void performReaction(A algorithm) {
         //check whether archive size is bigger than the number of sentries
         if (Archive.Provider.get().size() <= this.numberOfSentries.getParameter()) {
             this.setNumberOfSentries(ConstantControlParameter.of(Archive.Provider.get().size() / 2));
@@ -85,7 +86,7 @@ public class ArchiveChangeSeverityResponseStrategy<E extends PopulationBasedAlgo
             entity.calculateFitness();
         }
 
-        PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
+        A populationBasedAlgorithm = (A) AbstractAlgorithm.getAlgorithmList().get(0);
         Problem problem = populationBasedAlgorithm.getOptimisationProblem();
 
         //re-evaluating archive solutions

@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.problem.boundaryconstraint;
 
-import com.google.common.base.Function;
+import fj.F;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.EntityType.Particle;
@@ -49,10 +49,9 @@ public class BouncingBoundaryConstraint implements BoundaryConstraint {
             throw new UnsupportedOperationException("Cannot perform this boundary constrain on a " + entity.getClass().getSimpleName());
         }
 
-        Vector result = Vectors.transform((Vector) structuredType, new Function<Numeric, Double>() {
-
+        Vector result = Vectors.transform((Vector) structuredType, new F<Numeric, Double>() {
             @Override
-            public Double apply(Numeric from) {
+            public Double f(Numeric from) {
                 Bounds bounds = from.getBounds();
                 if (Double.compare(from.doubleValue(), bounds.getLowerBound()) < 0) {
                     return bounds.getLowerBound();

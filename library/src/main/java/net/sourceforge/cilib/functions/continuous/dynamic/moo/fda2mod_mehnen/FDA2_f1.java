@@ -17,7 +17,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 
-public class FDA2_f1 implements ContinuousFunction {
+public class FDA2_f1 extends ContinuousFunction {
 
     private static final long serialVersionUID = 3509865802519318920L;
 
@@ -27,7 +27,7 @@ public class FDA2_f1 implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
+    public Double f(Vector x) {
         return (double)(Math.abs(x.doubleValueOf(0)));
     }
 }

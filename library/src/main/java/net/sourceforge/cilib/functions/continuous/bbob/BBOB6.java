@@ -29,14 +29,14 @@ public class BBOB6 extends AbstractBBOB {
 	}
 
 	@Override
-	public Double apply(Vector input) {
+	public Double f(Vector input) {
 		initialise(input.size());
 
 		Vector z = input.subtract(xOpt);
-		return r.apply(z) + fOpt;
+		return r.f(z) + fOpt;
 	}
 
-	private class Sector implements ContinuousFunction {
+	private class Sector extends ContinuousFunction {
 		F<Numeric, Numeric> irregularMapping;
 
 		public Sector() {
@@ -44,7 +44,7 @@ public class BBOB6 extends AbstractBBOB {
 		}
 
 		@Override
-		public Double apply(Vector z) {
+		public Double f(Vector z) {
 			double sum = 0;
 
 			for (int i = 0; i < z.size(); i++) {
