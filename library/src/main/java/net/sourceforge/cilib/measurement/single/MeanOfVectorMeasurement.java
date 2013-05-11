@@ -13,11 +13,11 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Calculates the mean of a Vector returned by another measurement.
+ * Wrapper that calculates the mean of a Vector returned by another measurement.
  */
-public class MeanOfVectorMeasurement implements Measurement {
+public class MeanOfVectorMeasurement implements Measurement<Real> {
 
-    private Measurement measurement;
+    private Measurement<Vector> measurement;
 
     public MeanOfVectorMeasurement() {}
 
@@ -38,7 +38,7 @@ public class MeanOfVectorMeasurement implements Measurement {
      */
     @Override
     public Real getValue(Algorithm algorithm) {
-        Vector result = (Vector) measurement.getValue(algorithm);
+        Vector result = measurement.getValue(algorithm);
 
         double total = 0;
         for (Numeric curElement : result) {
@@ -53,7 +53,7 @@ public class MeanOfVectorMeasurement implements Measurement {
      * 
      * @param measurement The measurement to wrap.
      */
-    public void setMeasurement(Measurement measurement) {
+    public void setMeasurement(Measurement<Vector> measurement) {
         this.measurement = measurement;
     }
 }
