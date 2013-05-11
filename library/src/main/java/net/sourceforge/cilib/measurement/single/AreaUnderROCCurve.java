@@ -26,7 +26,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * 
  * Area under the curve is approximate using the trapezoidal rule. 
  */
-public class AreaUnderROCCurve implements Measurement {
+public class AreaUnderROCCurve implements Measurement<Vector> {
 
     private double lowerBound;
     private double upperBound;
