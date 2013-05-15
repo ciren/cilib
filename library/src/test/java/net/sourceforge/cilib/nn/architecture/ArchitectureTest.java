@@ -41,5 +41,5 @@ public class ArchitectureTest {
         WeightRetrievalVisitor visitor = new WeightRetrievalVisitor();
         network.getArchitecture().accept(visitor);
         Assert.assertEquals(22, visitor.getOutput().size());
-    }
+    }      
 }

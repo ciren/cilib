@@ -94,6 +94,35 @@ public class CascadeArchitectureBuilderTest {
         Assert.assertEquals(7, network.getArchitecture().getLayers().get(3).get(1).getNumWeights());
     }
 
+    @Test
+    public void testPresetDomain() {
+        NeuralNetwork network = new NeuralNetwork();
+        network.getArchitecture().setArchitectureBuilder(new CascadeArchitectureBuilder());
+        network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
+        network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(12));
+        network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        network.initialise();
+
+        Assert.assertEquals("R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^16,R(-3:3)^16",
+                            network.getArchitecture().getDomain().getDomainString());
+        Assert.assertEquals(80, ((Vector) network.getArchitecture().getDomain().getBuiltRepresentation()).size());
+    }  
+
+    @Test
+    public void testFaninDomain() {
+        NeuralNetwork network = new NeuralNetwork();
+        network.getArchitecture().setArchitectureBuilder(new CascadeArchitectureBuilder());
+        network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
+        network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(12));
+        network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
+        network.initialise();
+
+        Assert.assertEquals("R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.25:0.25)^16,R(-0.25:0.25)^16",
+                            network.getArchitecture().getDomain().getDomainString());
+        Assert.assertEquals(80, ((Vector) network.getArchitecture().getDomain().getBuiltRepresentation()).size());
+    }  
+
     @Test (expected = UnsupportedOperationException.class)
     public void testEnforceMinimumLayerSize() {
         NeuralNetwork network = new NeuralNetwork();
