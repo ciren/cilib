@@ -46,9 +46,7 @@ public class Queens extends DiscreteFunction {
     @Override
     public Integer f(Vector input) {
         int fitness = 0;
-        boolean[][] board = new boolean[boardSize][boardSize];
-
-        initialiseBoard(board, input);
+        boolean[][] board = initialiseBoard(input);
 
         if (numberOfQueens(board) != boardSize) {
             return 30000; // Should this not be a big number from somewhere else? Integer.MAX_VALUE?
@@ -99,10 +97,12 @@ public class Queens extends DiscreteFunction {
 
     /**
      * Initialise the current game state with the provided {@code Vector}.
-     * @param board The board to initialise.
+     *
      * @param x The {@code Vector} to base the initialisation on.
      */
-    private void initialiseBoard(boolean[][] board, Vector x) {
+    public boolean[][] initialiseBoard(Vector x) {
+        boolean[][] board = new boolean[boardSize][boardSize];
+
         int counter = 0;
 
         for (int row = 0; row < boardSize; row++) {
@@ -110,6 +110,8 @@ public class Queens extends DiscreteFunction {
                 board[row][col] = x.booleanValueOf(counter++);
             }
         }
+
+        return board;
     }
 
     /**
@@ -145,7 +147,7 @@ public class Queens extends DiscreteFunction {
      * @param board The board to inspect.
      * @return The number of queens.
      */
-    private int numberOfQueens(boolean[][] board) {
+    public int numberOfQueens(boolean[][] board) {
         int count = 0;
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
