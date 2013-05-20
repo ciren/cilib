@@ -173,6 +173,14 @@ public class VectorTest {
     }
 
     @Test
+    public void testSign() {
+        Vector v = Vector.of(1.0, -2.0, -3.0);
+
+        assertEquals(Vector.of(1.0, -1.0, -1.0), Vector.sign(v));
+        assertEquals(Vector.of(1.0, -2.0, -3.0), v);
+    }
+
+    @Test
     public void testVectorNorm() {
         Vector m = Vector.of(1.0, 1.0, 1.0, 1.0, 1.0);
         assertEquals(sqrt(5.0), m.norm(), 0.0);
