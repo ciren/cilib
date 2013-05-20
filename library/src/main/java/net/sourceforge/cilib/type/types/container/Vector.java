@@ -680,11 +680,12 @@ public class Vector implements StructuredType<Numeric>,
      * the sign of the input element.
      */
     public static Vector sign(Vector input) {
-        Vector result = input.getClone();
-        for (Numeric n : input) {
-            n = Real.valueOf(Math.signum(n.doubleValue()));
-        }
-        return result;
+        return input.map(new F<Numeric, Numeric> () {
+            @Override
+            public Numeric f(Numeric a) {
+                return Real.valueOf(Math.signum(a.doubleValue()));
+            }
+        });
     }
 
     /**
