@@ -90,6 +90,7 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
             }
 
             neuralNetwork.initialise();
+            
         } catch (CIlibIOException exception) {
             exception.printStackTrace();
         }
@@ -154,13 +155,7 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
         if (!initialised) {
             this.initialise();
         }
-        return initialiseDomain();
-    }
-
-    @VisibleForTesting
-    protected DomainRegistry initialiseDomain() {
-        solutionConversionStrategy.initialise(neuralNetwork);
-        return domainInitialisationStrategy.initialiseDomain(neuralNetwork);
+        return neuralNetwork.getArchitecture().getDomain();
     }
 
     /**

@@ -176,6 +176,6 @@ public class CascadeOutputLayerTrainingProblemTest {
         problem.setNeuralNetwork(network);
         problem.initialise();
 
-        assertEquals("R(-3:3)^12", problem.getDomain().getDomainString());
+        assertEquals("R(-3:3)^6,R(-3:3)^6", problem.getDomain().getDomainString());
     }
 }

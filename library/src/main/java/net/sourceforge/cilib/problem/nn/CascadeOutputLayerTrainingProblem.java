@@ -69,11 +69,13 @@ public class CascadeOutputLayerTrainingProblem extends NNTrainingProblem {
             numWeights += layers.get(curLayer).size();
         }
 
-        numWeights *= layers.get(layers.size()-1).size();
+        /*numWeights *= layers.get(layers.size()-1).size();
 
         String domainString = neuralNetwork.getArchitecture().getArchitectureBuilder().getLayerBuilder().getDomain();
         domainRegistry = new StringBasedDomainRegistry();
-        domainRegistry.setDomainString(domainString + "^" + numWeights);
+        domainRegistry.setDomainString(domainString + "^" + numWeights);*/
+        
+        domainRegistry = layers.get(layers.size()-1).getDomain();
     }
 
     /**

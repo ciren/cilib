@@ -12,6 +12,7 @@ import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
+import net.sourceforge.cilib.type.DomainRegistry;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,5 +58,11 @@ public class NNSlidingWindowTrainingProblemTest {
         pso.setOptimisationProblem(problem);
         pso.performInitialisation();
         pso.performIteration();
+    }
+
+    @Test
+    public void testDomain() {
+        DomainRegistry domainRegistry = problem.getDomain();
+        Assert.assertEquals(19, domainRegistry.getBuiltRepresentation().size());
     }
 }
