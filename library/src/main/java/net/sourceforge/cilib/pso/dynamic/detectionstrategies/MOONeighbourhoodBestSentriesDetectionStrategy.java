@@ -8,30 +8,32 @@ package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
 
 import java.util.Set;
-import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.population.HasNeighbourhood;
+import net.sourceforge.cilib.algorithm.population.HasTopology;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.MOFitness;
 
-public class MOONeighbourhoodBestSentriesDetectionStrategy<E extends SinglePopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
+public class MOONeighbourhoodBestSentriesDetectionStrategy extends EnvironmentChangeDetectionStrategy {
     private static final long serialVersionUID = 3598067152913033487L;
 
     public MOONeighbourhoodBestSentriesDetectionStrategy() {
         // super() is automatically called
     }
 
-    public MOONeighbourhoodBestSentriesDetectionStrategy(MOONeighbourhoodBestSentriesDetectionStrategy<E> rhs) {
+    public MOONeighbourhoodBestSentriesDetectionStrategy(MOONeighbourhoodBestSentriesDetectionStrategy rhs) {
         super(rhs);
     }
 
     @Override
-    public MOONeighbourhoodBestSentriesDetectionStrategy<E> getClone() {
-        return new MOONeighbourhoodBestSentriesDetectionStrategy<E>(this);
+    public MOONeighbourhoodBestSentriesDetectionStrategy getClone() {
+        return new MOONeighbourhoodBestSentriesDetectionStrategy(this);
     }
 
     @Override
-    public boolean detect(SinglePopulationBasedAlgorithm algorithm) {
+    public <A extends HasTopology & Algorithm & HasNeighbourhood> boolean detect(A algorithm) {
         if (algorithm.getIterations() % interval == 0) {
             Set<? extends Entity> sentries = Topologies.getNeighbourhoodBestEntities(algorithm.getTopology(), algorithm.getNeighbourhood());
 

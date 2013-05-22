@@ -10,7 +10,8 @@ import fj.data.Java;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.HasNeighbourhood;
+import net.sourceforge.cilib.algorithm.population.HasTopology;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.MOFitness;
@@ -23,8 +24,7 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
  * therefore the archive is not handled on the sub-algorithm level.
  *
  */
-public class MOORandomSentriesDetectionStrategy<E extends SinglePopulationBasedAlgorithm>
-        extends RandomSentriesDetectionStrategy<E> {
+public class MOORandomSentriesDetectionStrategy extends RandomSentriesDetectionStrategy {
 
     private static final long serialVersionUID = 4572728741093545926L;
 
@@ -40,7 +40,7 @@ public class MOORandomSentriesDetectionStrategy<E extends SinglePopulationBasedA
      * @param copy The instance that should be copied when creating the new
      * instance.
      */
-    public MOORandomSentriesDetectionStrategy(MOORandomSentriesDetectionStrategy<E> copy) {
+    public MOORandomSentriesDetectionStrategy(MOORandomSentriesDetectionStrategy copy) {
         super(copy);
     }
 
@@ -48,8 +48,8 @@ public class MOORandomSentriesDetectionStrategy<E extends SinglePopulationBasedA
      * {@inheritDoc}
      */
     @Override
-    public MOORandomSentriesDetectionStrategy<E> getClone() {
-        return new MOORandomSentriesDetectionStrategy<E>(this);
+    public MOORandomSentriesDetectionStrategy getClone() {
+        return new MOORandomSentriesDetectionStrategy(this);
     }
 
     /**
@@ -64,16 +64,14 @@ public class MOORandomSentriesDetectionStrategy<E extends SinglePopulationBasedA
      * @return true if a change has been detected, false otherwise
      */
     @Override
-    public boolean detect(E algorithm) {
-        int iterations = AbstractAlgorithm.get().getIterations();
-        //System.out.println("iteration here in detection " + iterations);
+    public <A extends HasTopology & Algorithm & HasNeighbourhood> boolean detect(A algorithm) {
     	if ((AbstractAlgorithm.get().getIterations() % interval == 0) && (AbstractAlgorithm.get().getIterations() != 0)) {
             List all = Java.List_ArrayList().f(algorithm.getTopology());
 
             for (int i = 0; i < numberOfSentries.getParameter(); i++) {
                 // select random sentry entity
                 int random = Rand.nextInt(all.size());
-                StandardParticle sentry = (StandardParticle)all.get(random);
+                StandardParticle sentry = (StandardParticle) all.get(random);
 
                 // check for change
                 //double previousFitness = sentry.getFitness().getValue();

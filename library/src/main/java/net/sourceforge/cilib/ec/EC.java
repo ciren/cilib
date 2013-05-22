@@ -31,7 +31,7 @@ public class EC<I extends Individual> extends SinglePopulationBasedAlgorithm<Ind
 
     private static final long serialVersionUID = -4324446523858690744L;
 
-    private IterationStrategy<EC> iterationStrategy;
+    private IterationStrategy iterationStrategy;
     private InitialisationStrategy strategyParameterInitialisation;
 
     /**
@@ -102,7 +102,7 @@ public class EC<I extends Individual> extends SinglePopulationBasedAlgorithm<Ind
      * {@code EC}.
      * @return The current {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy}.
      */
-    public IterationStrategy<EC> getIterationStrategy() {
+    public IterationStrategy getIterationStrategy() {
         return iterationStrategy;
     }
 

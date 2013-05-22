@@ -17,7 +17,6 @@
             <iterationStrategy class="niching.iterationstrategies.EnhancedSpeciation"/>
             <neighbourhood class="entity.topologies.SpeciationNeighbourhood">
                 <radius class="controlparameter.ConstantControlParameter" parameter="0.1"/>
-                <perCall value="true"/>
             </neighbourhood>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
         </algorithm>

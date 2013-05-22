@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.pso.dynamic;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.RespondingMultiPopulationCriterionBasedAlgorithm;
 
@@ -21,9 +22,13 @@ import net.sourceforge.cilib.algorithm.population.RespondingMultiPopulationCrite
  * @param <E> The {@link PopulationBasedAlgorithm} that will have it's entities'
  * positions added to the archive as potential solutions.
  */
-public class HigherLevelChangedDynamicIterationStrategy<E extends SinglePopulationBasedAlgorithm> extends HigherLevelDynamicIterationStrategy<E> {
+public class HigherLevelChangedDynamicIterationStrategy<E extends MultiPopulationBasedAlgorithm> extends HigherLevelDynamicIterationStrategy<E> {
 
     private static final long serialVersionUID = -4417977245641438303L;
+
+    public HigherLevelChangedDynamicIterationStrategy<E> getClone() {
+        return new HigherLevelChangedDynamicIterationStrategy<>();
+    }
 
     /**
      * Structure of Higher Level Dynamic Iteration Strategy with re-initialisation:
@@ -39,33 +44,32 @@ public class HigherLevelChangedDynamicIterationStrategy<E extends SinglePopulati
      */
     @Override
     public void performIteration(E algorithm) {
-    	//get the higher level algorithm
-    	RespondingMultiPopulationCriterionBasedAlgorithm topLevelAlgorithm =
-    		(RespondingMultiPopulationCriterionBasedAlgorithm)
-    			AbstractAlgorithm.getAlgorithmList().get(0);
+        //get the higher level algorithm
+        RespondingMultiPopulationCriterionBasedAlgorithm topLevelAlgorithm =
+                (RespondingMultiPopulationCriterionBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
 
         boolean hasChanged = false;
 
         //detecting whether a change has occurred in any of the swarms' environment
-    	for (SinglePopulationBasedAlgorithm popAlg: topLevelAlgorithm.getPopulations()) {
+        for (SinglePopulationBasedAlgorithm popAlg : topLevelAlgorithm.getPopulations()) {
             hasChanged = this.getDetectionStrategy().detect(popAlg);
-            if (hasChanged)
+            if (hasChanged) {
                 break;
-    	}
-
-        if (hasChanged) {
-            for (SinglePopulationBasedAlgorithm popAlg: topLevelAlgorithm.getPopulations()) {
-                boolean functionHasChanged = this.getDetectionStrategy().detect(popAlg);
-    		if (functionHasChanged) {
-                    this.getResponseStrategy().respond(popAlg);
-    		}
             }
         }
 
-        for (SinglePopulationBasedAlgorithm popAlg: topLevelAlgorithm.getPopulations()) {
-            popAlg.performIteration();
-    	}
-    }
+        if (hasChanged) {
+            for (SinglePopulationBasedAlgorithm popAlg : topLevelAlgorithm.getPopulations()) {
+                boolean functionHasChanged = this.getDetectionStrategy().detect(popAlg);
+                if (functionHasChanged) {
+                    this.getResponseStrategy().respond(popAlg);
+                }
+            }
+        }
 
+        for (SinglePopulationBasedAlgorithm popAlg : topLevelAlgorithm.getPopulations()) {
+            popAlg.performIteration();
+        }
+    }
 }
 

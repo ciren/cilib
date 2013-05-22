@@ -9,7 +9,8 @@ package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 import fj.F;
 import fj.data.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.HasNeighbourhood;
+import net.sourceforge.cilib.algorithm.population.HasTopology;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
@@ -26,7 +27,7 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
  *              College", year = "2001", number = "CSSE01-08" }
  * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
  */
-public class RandomSentriesDetectionStrategy<E extends SinglePopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
+public class RandomSentriesDetectionStrategy extends EnvironmentChangeDetectionStrategy {
     private static final long serialVersionUID = -7299802900616282412L;
 
     protected ControlParameter numberOfSentries;
@@ -35,14 +36,14 @@ public class RandomSentriesDetectionStrategy<E extends SinglePopulationBasedAlgo
         numberOfSentries = ConstantControlParameter.of(1.0);
     }
 
-    public RandomSentriesDetectionStrategy(RandomSentriesDetectionStrategy<E> rhs) {
+    public RandomSentriesDetectionStrategy(RandomSentriesDetectionStrategy rhs) {
         super(rhs);
         numberOfSentries = rhs.numberOfSentries.getClone();
     }
 
     @Override
-    public RandomSentriesDetectionStrategy<E> getClone() {
-        return new RandomSentriesDetectionStrategy<E>(this);
+    public RandomSentriesDetectionStrategy getClone() {
+        return new RandomSentriesDetectionStrategy(this);
     }
 
     /**
@@ -57,7 +58,7 @@ public class RandomSentriesDetectionStrategy<E extends SinglePopulationBasedAlgo
      * @return true if a change has been detected, false otherwise
      */
     @Override
-    public boolean detect(E algorithm) {
+    public <A extends HasTopology & Algorithm & HasNeighbourhood> boolean detect(A algorithm) {
         if (algorithm.getIterations() % interval == 0) {
             return List.<Entity>iterableList(new RandomSelector().on(algorithm.getTopology())
                 .select(Samples.first((int) numberOfSentries.getParameter())))

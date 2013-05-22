@@ -13,16 +13,16 @@ import net.sourceforge.cilib.moo.iterationstrategies.HigherLevelArchivingIterati
  * Extends {@link MultiPopulationCriterionBasedAlgorithm} so that the top-level algorithm has its
  * own iteration strategy. This enables a higher-level algorithm with sub-populations, such as
  * VEPSO, to control the response to a change in the environment at a higher level and it is
- * not limited to only calling the sub-population's response strategy.
+ * not limited to only calling the sub-population response strategy.
  * </p>
  *
  */
 public class RespondingMultiPopulationCriterionBasedAlgorithm extends MultiPopulationCriterionBasedAlgorithm {
 
-    private IterationStrategy<SinglePopulationBasedAlgorithm> iterationStrategy;
+    private IterationStrategy iterationStrategy;
 
     public RespondingMultiPopulationCriterionBasedAlgorithm() {
-        this.iterationStrategy = new HigherLevelArchivingIterationStrategy<SinglePopulationBasedAlgorithm>();
+        this.iterationStrategy = new HigherLevelArchivingIterationStrategy();
     }
 
     public RespondingMultiPopulationCriterionBasedAlgorithm(RespondingMultiPopulationCriterionBasedAlgorithm copy) {
@@ -40,14 +40,14 @@ public class RespondingMultiPopulationCriterionBasedAlgorithm extends MultiPopul
      */
     @Override
 	protected void algorithmIteration() {
-            this.getIterationStrategy().performIteration((SinglePopulationBasedAlgorithm)this);
+        this.getIterationStrategy().performIteration(this);
     }
 
     /**
      * Returns the current {@linkplain IterationStrategy}.
      * @return The current {@linkplain IterationStrategy}.
      */
-    public IterationStrategy<SinglePopulationBasedAlgorithm> getIterationStrategy() {
+    public IterationStrategy<MultiPopulationBasedAlgorithm> getIterationStrategy() {
         return iterationStrategy;
     }
 
@@ -55,7 +55,7 @@ public class RespondingMultiPopulationCriterionBasedAlgorithm extends MultiPopul
      * Sets the {@linkplain IterationStrategy} to be used.
      * @param iterationStrategy The value to set.
      */
-    public void setIterationStrategy(IterationStrategy<SinglePopulationBasedAlgorithm> iterationStrategy) {
+    public void setIterationStrategy(IterationStrategy<MultiPopulationBasedAlgorithm> iterationStrategy) {
         this.iterationStrategy = iterationStrategy;
     }
 

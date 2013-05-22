@@ -10,15 +10,16 @@ package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.population.HasNeighbourhood;
+import net.sourceforge.cilib.algorithm.population.HasTopology;
 
-import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 import net.sourceforge.cilib.pso.particle.Particle;
 
-public class RandomSentryDetectionStrategy<E extends SinglePopulationBasedAlgorithm> extends
-        EnvironmentChangeDetectionStrategy<E> {
+public class RandomSentryDetectionStrategy extends EnvironmentChangeDetectionStrategy {
     private static final long serialVersionUID = 6254159986113630555L;
 
     private int sentries;
@@ -32,7 +33,7 @@ public class RandomSentryDetectionStrategy<E extends SinglePopulationBasedAlgori
         theta = 0.001;
     }
 
-    public void Initialise(E algorithm){
+    public <A extends HasTopology & Algorithm> void Initialise(A algorithm){
         sentryIDs = new int[sentries];
         int populationSize = algorithm.getTopology().length();
 
@@ -64,13 +65,13 @@ public class RandomSentryDetectionStrategy<E extends SinglePopulationBasedAlgori
         this.initialised = true;
     }
 
-    public RandomSentryDetectionStrategy(RandomSentryDetectionStrategy<E> copy) {
+    public RandomSentryDetectionStrategy(RandomSentryDetectionStrategy copy) {
         this.sentries = copy.sentries;
         this.theta = copy.theta;
     }
 
-    public RandomSentryDetectionStrategy<E> getClone() {
-        return new RandomSentryDetectionStrategy<E>(this);
+    public RandomSentryDetectionStrategy getClone() {
+        return new RandomSentryDetectionStrategy(this);
     }
 
     /** Check for environment change:
@@ -80,7 +81,8 @@ public class RandomSentryDetectionStrategy<E extends SinglePopulationBasedAlgori
      * @param algorithm PSO algorithm that operates in a dynamic environment
      * @return true if any changes are detected, false otherwise
      */
-    public boolean detect(E algorithm) {
+    @Override
+    public <A extends HasTopology & Algorithm & HasNeighbourhood> boolean detect(A algorithm) {
         if(initialised == false){
             this.Initialise(algorithm);
         }

@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.pso.dynamic;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.RespondingMultiPopulationCriterionBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 
@@ -19,23 +20,27 @@ import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm
  * the swarm whose environment has changed.
  *
  *
- * @param <E> The {@link PopulationBasedAlgorithm} that will have it's entities'
+ * @param <E> The {@link PopulationBasedAlgorithm} that will have it's entities
  * positions added to the archive as potential solutions.
  */
-public class HigherLevelAllDynamicIterationStrategy<E extends SinglePopulationBasedAlgorithm> extends HigherLevelDynamicIterationStrategy {
+public class HigherLevelAllDynamicIterationStrategy<E extends MultiPopulationBasedAlgorithm> extends HigherLevelDynamicIterationStrategy<E> {
 
     private static final long serialVersionUID = -4417977245641438303L;
 
+    public HigherLevelAllDynamicIterationStrategy<E> getClone() {
+        return new HigherLevelAllDynamicIterationStrategy<>();
+    }
+
     /**
      * Structure of Higher Level Dynamic Iteration Strategy with
-     * re-initialisation:
+     * re-initialization:
      *
      * <ol> <li>Check for environment change in any of the swarms</li> <li>If
      * the environment has changed:</li> <ol> <li>Respond to change for all
      * swarms</li> <ol> <li>Perform normal iteration for all swarms</li> </ol>
      */
     @Override
-    public void performIteration(SinglePopulationBasedAlgorithm algorithm) {
+    public void performIteration(MultiPopulationBasedAlgorithm algorithm) {
         //get the higher level algorithm
         RespondingMultiPopulationCriterionBasedAlgorithm topLevelAlgorithm =
                 (RespondingMultiPopulationCriterionBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);

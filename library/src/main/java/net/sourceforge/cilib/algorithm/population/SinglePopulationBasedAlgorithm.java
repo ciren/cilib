@@ -21,7 +21,8 @@ import fj.data.List;
  * Base class for algorithms that focus on a single populations of entities.
  * These types of algorithms typically include PSO , EC, ACO etc.
  */
-public abstract class SinglePopulationBasedAlgorithm<E extends Entity> extends AbstractAlgorithm implements HasTopology<E>, ParticipatingAlgorithm {
+public abstract class SinglePopulationBasedAlgorithm<E extends Entity> extends AbstractAlgorithm
+    implements HasTopology<E>, HasNeighbourhood<E>, ParticipatingAlgorithm {
 
     private static final long serialVersionUID = -4095104893057340895L;
 
@@ -121,6 +122,7 @@ public abstract class SinglePopulationBasedAlgorithm<E extends Entity> extends A
     	this.neighbourhood = f;
     }
 
+    @Override
     public Neighbourhood<E> getNeighbourhood() {
     	return this.neighbourhood;
     }

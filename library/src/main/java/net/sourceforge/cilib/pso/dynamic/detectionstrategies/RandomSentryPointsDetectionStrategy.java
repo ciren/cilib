@@ -7,8 +7,10 @@
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
 import java.util.ArrayList;
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.population.HasNeighbourhood;
+import net.sourceforge.cilib.algorithm.population.HasTopology;
 
-import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 
@@ -24,7 +26,7 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
  *                      V. Dozier", pages = "429--434", year = "2000", }
  * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
  */
-public class RandomSentryPointsDetectionStrategy<E extends SinglePopulationBasedAlgorithm> extends RandomSentriesDetectionStrategy<E> {
+public class RandomSentryPointsDetectionStrategy extends RandomSentriesDetectionStrategy {
     private static final long serialVersionUID = -7908355064341601839L;
 
     protected ArrayList<Entity> sentries = null;
@@ -35,7 +37,7 @@ public class RandomSentryPointsDetectionStrategy<E extends SinglePopulationBased
         sentries = new ArrayList<Entity>(size);
     }
 
-    public RandomSentryPointsDetectionStrategy(RandomSentryPointsDetectionStrategy<E> rhs) {
+    public RandomSentryPointsDetectionStrategy(RandomSentryPointsDetectionStrategy rhs) {
         super(rhs);
         sentries = new ArrayList<Entity>(rhs.sentries.size());
 
@@ -45,8 +47,8 @@ public class RandomSentryPointsDetectionStrategy<E extends SinglePopulationBased
     }
 
     @Override
-    public RandomSentryPointsDetectionStrategy<E> getClone() {
-        return new RandomSentryPointsDetectionStrategy<E>(this);
+    public RandomSentryPointsDetectionStrategy getClone() {
+        return new RandomSentryPointsDetectionStrategy(this);
     }
 
     /**
@@ -64,7 +66,7 @@ public class RandomSentryPointsDetectionStrategy<E extends SinglePopulationBased
      * @return          true if a change has been detected, false otherwise.
      */
     @Override
-    public boolean detect(E algorithm) {
+    public <A extends HasTopology & Algorithm & HasNeighbourhood> boolean detect(A algorithm) {
         if (sentries.isEmpty()) {
             initialiseSentryPoints(algorithm.getTopology());
         }

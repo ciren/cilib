@@ -31,7 +31,7 @@ import net.sourceforge.cilib.type.types.Type;
  * @param <E>   The {@link PopulationBasedAlgorithm} that will have its
  *              {@link Entity}' positions added to the archive as potential solutions.
  */
-public class HigherLevelArchivingIterationStrategy<E extends SinglePopulationBasedAlgorithm> implements IterationStrategy<E> {
+public class HigherLevelArchivingIterationStrategy<E extends MultiPopulationBasedAlgorithm> implements IterationStrategy<E> {
 
     private HigherLevelDynamicIterationStrategy<E> iterationStrategy;
 
@@ -39,7 +39,7 @@ public class HigherLevelArchivingIterationStrategy<E extends SinglePopulationBas
      * Creates a new instance of HigherLevelArchivingIterationStrategy.
      */
     public HigherLevelArchivingIterationStrategy() {
-        this.iterationStrategy = new HigherLevelAllDynamicIterationStrategy<E>();
+        this.iterationStrategy = new HigherLevelAllDynamicIterationStrategy<>();
     }
 
     /**
@@ -47,7 +47,7 @@ public class HigherLevelArchivingIterationStrategy<E extends SinglePopulationBas
      * @param copy Instance to copy.
      */
     public HigherLevelArchivingIterationStrategy(HigherLevelArchivingIterationStrategy<E> copy) {
-        this.iterationStrategy = copy.iterationStrategy.getClone();
+        this.iterationStrategy = (HigherLevelDynamicIterationStrategy<E>) copy.getIterationStrategy().getClone();
     }
 
     /**
@@ -55,20 +55,20 @@ public class HigherLevelArchivingIterationStrategy<E extends SinglePopulationBas
      */
     @Override
     public HigherLevelArchivingIterationStrategy<E> getClone() {
-        return new HigherLevelArchivingIterationStrategy<E>(this);
+        return new HigherLevelArchivingIterationStrategy(this);
     }
 
-    public void setIterationStrategy(HigherLevelDynamicIterationStrategy iterationStrategy) {
+    public void setIterationStrategy(HigherLevelDynamicIterationStrategy<E> iterationStrategy) {
         this.iterationStrategy = iterationStrategy;
     }
 
-    public HigherLevelDynamicIterationStrategy getIterationStrategy() {
+    public HigherLevelDynamicIterationStrategy<E> getIterationStrategy() {
         return this.iterationStrategy;
     }
 
     protected void updateArchive(fj.data.List<? extends Entity> population) {
         Algorithm topLevelAlgorithm = AbstractAlgorithm.getAlgorithmList().get(0);
-        List<OptimisationSolution> optimisationSolutions = new ArrayList<OptimisationSolution>();
+        List<OptimisationSolution> optimisationSolutions = new ArrayList<>();
         for (Entity entity : population) {
             Type solution = entity.getCandidateSolution().getClone();
             optimisationSolutions.add(new OptimisationSolution(solution,
@@ -90,8 +90,9 @@ public class HigherLevelArchivingIterationStrategy<E extends SinglePopulationBas
         RespondingMultiPopulationCriterionBasedAlgorithm higherLevelAlgorithm =
         	(RespondingMultiPopulationCriterionBasedAlgorithm)AbstractAlgorithm.getAlgorithmList().get(0);
 
-        for (SinglePopulationBasedAlgorithm popAlg: higherLevelAlgorithm.getPopulations())
+        for (SinglePopulationBasedAlgorithm popAlg: higherLevelAlgorithm.getPopulations()) {
         	updateArchive(popAlg.getTopology());
+        }
     }
 
     public void setArchive(Archive archive) {

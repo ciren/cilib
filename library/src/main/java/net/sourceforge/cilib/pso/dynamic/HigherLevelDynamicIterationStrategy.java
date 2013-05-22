@@ -7,8 +7,9 @@
 package net.sourceforge.cilib.pso.dynamic;
 
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
-import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
+import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.dynamic.detectionstrategies.EnvironmentChangeDetectionStrategy;
 import net.sourceforge.cilib.pso.dynamic.detectionstrategies.MOORandomSentriesDetectionStrategy;
 import net.sourceforge.cilib.pso.dynamic.responsestrategies.ArchiveReevaluationResponseStrategy;
@@ -22,11 +23,11 @@ import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrateg
  * In each iteration, it checks for an environmental change, but the top-level
  * algorithm, such as VEPSO, handles the response for each sub-swarm.
  */
-public class HigherLevelDynamicIterationStrategy<E extends SinglePopulationBasedAlgorithm> implements IterationStrategy<E> {
+public abstract class HigherLevelDynamicIterationStrategy<E extends MultiPopulationBasedAlgorithm> implements IterationStrategy<E> {
 
     private static final long serialVersionUID = -4441422301948289718L;
-    private IterationStrategy<E> iterationStrategy;
-    private EnvironmentChangeDetectionStrategy<SinglePopulationBasedAlgorithm> detectionStrategy;
+    private IterationStrategy<PSO> iterationStrategy;
+    private EnvironmentChangeDetectionStrategy detectionStrategy;
     private EnvironmentChangeResponseStrategy responseStrategy;
     private EnvironmentChangeResponseStrategy archiveResponseStrategy;
 
@@ -39,9 +40,8 @@ public class HigherLevelDynamicIterationStrategy<E extends SinglePopulationBased
      * reinitialisationRatio is set to 0.5 (reinitialise one half of the swarm)
      */
     public HigherLevelDynamicIterationStrategy() {
-        this.iterationStrategy = (IterationStrategy<E>)new SynchronousIterationStrategy();
-        this.detectionStrategy = (EnvironmentChangeDetectionStrategy<SinglePopulationBasedAlgorithm>)
-        	new MOORandomSentriesDetectionStrategy<SinglePopulationBasedAlgorithm>();
+        this.iterationStrategy = new SynchronousIterationStrategy();
+        this.detectionStrategy = new MOORandomSentriesDetectionStrategy();
         this.responseStrategy = new PartialReinitialisationResponseStrategy();
         this.archiveResponseStrategy = new ArchiveReevaluationResponseStrategy();
     }
@@ -61,10 +61,9 @@ public class HigherLevelDynamicIterationStrategy<E extends SinglePopulationBased
      * {@inheritDoc}
      */
 //    @Override
-    @Override
-    public HigherLevelDynamicIterationStrategy getClone() {
-        return new HigherLevelDynamicIterationStrategy(this);
-    }
+//    public HigherLevelDynamicIterationStrategy getClone() {
+//        return new HigherLevelDynamicIterationStrategy(this);
+//    }
 
     /**
      * Structure of Dynamic iteration strategy with re-initialisation:
@@ -79,20 +78,20 @@ public class HigherLevelDynamicIterationStrategy<E extends SinglePopulationBased
      * </ol>
      */
     @Override
-    public void performIteration(E algorithm) {
-        boolean hasChanged = detectionStrategy.detect(algorithm);
-
-        if (hasChanged)
-            responseStrategy.respond(algorithm);
-
-        iterationStrategy.performIteration(algorithm);
-    }
+    public abstract void performIteration(E algorithm);// {
+//        boolean hasChanged = detectionStrategy.detect(algorithm);
+//
+//        if (hasChanged)
+//            responseStrategy.respond(algorithm);
+//
+//        iterationStrategy.performIteration(algorithm);
+//    }
 
     /**
      * Get the current {@linkplain IterationStrategy}.
      * @return The current {@linkplain IterationStrategy}.
      */
-    public IterationStrategy<E> getIterationStrategy() {
+    public IterationStrategy getIterationStrategy() {
         return iterationStrategy;
     }
 
@@ -100,7 +99,7 @@ public class HigherLevelDynamicIterationStrategy<E extends SinglePopulationBased
      * Set the {@linkplain IterationStrategy} to be used.
      * @param iterationStrategy The value to set.
      */
-    public void setIterationStrategy(IterationStrategy<E> iterationStrategy) {
+    public void setIterationStrategy(IterationStrategy iterationStrategy) {
         this.iterationStrategy = iterationStrategy;
     }
 
@@ -108,7 +107,7 @@ public class HigherLevelDynamicIterationStrategy<E extends SinglePopulationBased
      * Get the currently defined {@linkplain EnvironmentChangeDetectionStrategy}.
      * @return The current {@linkplain EnvironmentChangeDetectionStrategy}.
      */
-    public EnvironmentChangeDetectionStrategy<SinglePopulationBasedAlgorithm> getDetectionStrategy() {
+    public EnvironmentChangeDetectionStrategy getDetectionStrategy() {
         return detectionStrategy;
     }
 
@@ -116,7 +115,7 @@ public class HigherLevelDynamicIterationStrategy<E extends SinglePopulationBased
      * Set the {@linkplain EnvironmentChangeDetectionStrategy} to be used.
      * @param detectionStrategy The {@linkplain EnvironmentChangeDetectionStrategy} to set.
      */
-    public void setDetectionStrategy(EnvironmentChangeDetectionStrategy<SinglePopulationBasedAlgorithm> detectionStrategy) {
+    public void setDetectionStrategy(EnvironmentChangeDetectionStrategy detectionStrategy) {
         this.detectionStrategy = detectionStrategy;
     }
 

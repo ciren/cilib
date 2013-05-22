@@ -34,7 +34,7 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
 
     private static final long serialVersionUID = -4441422301948289718L;
     private IterationStrategy<PSO> iterationStrategy;
-    private EnvironmentChangeDetectionStrategy<PSO> detectionStrategy;
+    private EnvironmentChangeDetectionStrategy detectionStrategy;
     private EnvironmentChangeResponseStrategy responseStrategy;
 
     /**
@@ -47,7 +47,7 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
      */
     public DynamicIterationStrategy() {
         this.iterationStrategy = new SynchronousIterationStrategy();
-        this.detectionStrategy = new RandomSentryDetectionStrategy<PSO>();
+        this.detectionStrategy = new RandomSentryDetectionStrategy();
         this.responseStrategy = new PartialReinitialisationResponseStrategy();
     }
 
@@ -64,7 +64,7 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
     /**
      * {@inheritDoc}
      */
-//    @Override
+    @Override
     public DynamicIterationStrategy getClone() {
         return new DynamicIterationStrategy(this);
     }
@@ -112,7 +112,7 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
      * Get the currently defined {@linkplain EnvironmentChangeDetectionStrategy}.
      * @return The current {@linkplain EnvironmentChangeDetectionStrategy}.
      */
-    public EnvironmentChangeDetectionStrategy<PSO> getDetectionStrategy() {
+    public EnvironmentChangeDetectionStrategy getDetectionStrategy() {
         return detectionStrategy;
     }
 
@@ -120,7 +120,7 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
      * Set the {@linkplain EnvironmentChangeDetectionStrategy} to be used.
      * @param detectionStrategy The {@linkplain EnvironmentChangeDetectionStrategy} to set.
      */
-    public void setDetectionStrategy(EnvironmentChangeDetectionStrategy<PSO> detectionStrategy) {
+    public void setDetectionStrategy(EnvironmentChangeDetectionStrategy detectionStrategy) {
         this.detectionStrategy = detectionStrategy;
     }
 
