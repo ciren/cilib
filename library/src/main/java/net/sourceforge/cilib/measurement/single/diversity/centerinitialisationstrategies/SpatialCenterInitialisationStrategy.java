@@ -33,8 +33,6 @@ public class SpatialCenterInitialisationStrategy implements CenterInitialisation
             averageEntityPosition = averageEntityPosition.plus(entityContents);
         }
 
-        averageEntityPosition.divide(numberOfEntities);
-
-        return averageEntityPosition;
+        return averageEntityPosition.divide(numberOfEntities);
     }
 }
