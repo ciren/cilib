@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.SettableControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
@@ -21,7 +21,7 @@ public class UniformCrossoverStrategy implements DiscreteCrossoverStrategy {
 
     private static final long serialVersionUID = 8912494112973025634L;  
     private ProbabilityDistributionFunction random;
-    private SettableControlParameter crossoverPointProbability;
+    private ControlParameter crossoverPointProbability;
     private ArrayList<Integer> crossoverPoints;
 
     public UniformCrossoverStrategy() {
@@ -87,11 +87,11 @@ public class UniformCrossoverStrategy implements DiscreteCrossoverStrategy {
         return Arrays.asList(offspring1, offspring2);
     }
 
-    public void setCrossoverPointProbability(SettableControlParameter crossoverPointProbability) {
+    public void setCrossoverPointProbabilityParameter(ControlParameter crossoverPointProbability) {
         this.crossoverPointProbability = crossoverPointProbability;
     }
 
-    public SettableControlParameter getCrossoverPointProbability() {
+    public ControlParameter getCrossoverPointProbability() {
         return crossoverPointProbability;
     }
 
@@ -109,7 +109,7 @@ public class UniformCrossoverStrategy implements DiscreteCrossoverStrategy {
     }
     
     public void setCrossoverPointProbability(double crossoverPointProbability) {
-        this.crossoverPointProbability.setParameter(crossoverPointProbability);
+        this.crossoverPointProbability = ConstantControlParameter.of(crossoverPointProbability);
     }
 
     public List<Integer> getCrossoverPoints() {
