@@ -11,17 +11,23 @@ import net.sourceforge.cilib.type.types.Type;
 
 /**
  * This listener takes measurements whenever the target algorithm is started or
- * the target algorithm completes an iteration. The resulting measurement can be
- * retrieved afterwards.
+ * the target algorithm completes a certain interval of iteration. A measurement
+ * always taken after the last iteration, regardless of resolution. The resulting
+ * measurement can be retrieved afterwards.
  */
 public class MeasuringListener implements AlgorithmListener {
 
     private Measurement measurement;
     private Type lastMeasurement;
+    private int resolution;
 
-    public MeasuringListener() {}
+    public MeasuringListener() {
+        resolution = 1;
+    }
 
     public MeasuringListener(MeasuringListener rhs) {
+        resolution = rhs.resolution;
+        
         if (rhs.measurement != null)
             measurement = rhs.measurement.getClone();
 
@@ -44,17 +50,19 @@ public class MeasuringListener implements AlgorithmListener {
     }
 
     /**
-     * This has no effect.
+     * {@inheritDoc}
      */
     public void algorithmFinished(AlgorithmEvent e) {
-        //do nothing
+        if (e.getSource().getIterations() % resolution != 0)
+            lastMeasurement = measurement.getValue(e.getSource());
     }
 
     /**
      * {@inheritDoc}
      */
     public void iterationCompleted(AlgorithmEvent e) {
-        lastMeasurement = measurement.getValue(e.getSource());
+        if (e.getSource().getIterations() % resolution == 0)
+            lastMeasurement = measurement.getValue(e.getSource());
     }
 
     /**
@@ -71,5 +79,14 @@ public class MeasuringListener implements AlgorithmListener {
      */
     public Type getLastMeasurement() {
         return lastMeasurement;
+    }
+
+    /**
+     * Set the interval at which measurements should be taken.
+     * Default value is 1.
+     * @param resolution The resolution to set.
+     */
+    public void setResolution(int resolution) {
+        this.resolution = resolution;
     }
 }

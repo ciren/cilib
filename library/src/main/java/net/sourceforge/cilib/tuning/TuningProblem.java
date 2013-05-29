@@ -31,6 +31,7 @@ public class TuningProblem extends AbstractProblem {
     public TuningProblem() {
         this.measurement = new net.sourceforge.cilib.measurement.single.Fitness();
         this.samples = 1;
+        this.measuringListener = new MeasuringListener();
     }
     
     public TuningProblem(TuningProblem copy) {
@@ -38,6 +39,7 @@ public class TuningProblem extends AbstractProblem {
         this.samples = copy.samples;
         this.targetAlgorithm = copy.targetAlgorithm.getClone();
         this.problemsProvider = copy.problemsProvider;
+        this.measuringListener = copy.measuringListener.getClone();
     }
 
     @Override
@@ -105,5 +107,9 @@ public class TuningProblem extends AbstractProblem {
     @Override
     public Objective getObjective() {
         return ((AbstractProblem) currentProblem).getObjective();
+    }
+
+    public void setMeasuringListener(MeasuringListener measuringListener) {
+        this.measuringListener = measuringListener;
     }
 }
