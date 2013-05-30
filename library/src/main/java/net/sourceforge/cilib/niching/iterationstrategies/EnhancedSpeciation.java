@@ -51,6 +51,5 @@ public class EnhancedSpeciation extends AbstractIterationStrategy<PSO> {
                 return a;
             }
         }));
-//        algorithm.setTopology(newTopology);
     }
 }

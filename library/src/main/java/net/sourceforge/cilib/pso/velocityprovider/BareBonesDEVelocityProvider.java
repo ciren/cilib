@@ -86,7 +86,6 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
 
         Vector position1 = (Vector) positions.index(0).getCandidateSolution();
         Vector position2 = (Vector) positions.index(1).getCandidateSolution();
-//        Vector position3 = (Vector) positions.get(2).getContents();
 
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
@@ -97,7 +96,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
             if (this.rand2.getRandomNumber(0, 1) > this.crossoverProbability.getParameter()) {
                 builder.add(attractor + stepSize);
             } else {
-                builder.add(((Vector) particle.getPosition()).doubleValueOf(i)); //position3.getReal(i));
+                builder.add(((Vector) particle.getPosition()).doubleValueOf(i));
             }
         }
         return builder.build();

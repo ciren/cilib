@@ -132,7 +132,7 @@ public final class Vectors {
             }
         });
     }
-    
+
     /**
      * Uses the Gram-Schmidt process to orthonormalize a list of {@link Vector}
      * instances.
@@ -155,7 +155,7 @@ public final class Vectors {
                 orthonormalBases = orthonormalBases.snoc(ui);
             }
         }
-        
+
         return orthonormalBases.map(new F<Vector, Vector>() {
             @Override
             public Vector f(Vector a) {

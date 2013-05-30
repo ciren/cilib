@@ -73,8 +73,6 @@ public class MultiSwarmIterationStrategy extends AbstractIterationStrategy<Multi
 
     double calculateRadius() {
         double d = AbstractAlgorithm.get().getOptimisationProblem().getDomain().getDimension();
-        //    double X = ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresentation()).getNumeric(0).getBounds().getUpperBound()
-        //            - ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresentation()).getNumeric(0).getBounds().getLowerBound();
         double X = ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresentation()).get(0).getBounds().getUpperBound()
                 - ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresentation()).get(0).getBounds().getLowerBound();
         double M = ((MultiSwarm) (AbstractAlgorithm.get())).getPopulations().size();
@@ -134,7 +132,6 @@ public class MultiSwarmIterationStrategy extends AbstractIterationStrategy<Multi
     }
 
     public void reInitialise(PSO algorithm) {
-//        algorithm.getTopology().clear();
         algorithm.algorithmInitialisation();
     }
 }

@@ -140,7 +140,6 @@ public class SaDEIterationStrategy extends AbstractIterationStrategy<EC> {
                     offspringEntity.setCandidateSolution(offspringVector);
                     offspringEntity.calculateFitness();
                     return offspringEntity;
-                    //topology.set(i, offspringEntity); // Replace the parent with the offspring individual
                 } else {
                 	return current;
                 }

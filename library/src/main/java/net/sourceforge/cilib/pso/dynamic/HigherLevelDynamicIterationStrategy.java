@@ -58,14 +58,6 @@ public abstract class HigherLevelDynamicIterationStrategy<E extends MultiPopulat
     }
 
     /**
-     * {@inheritDoc}
-     */
-//    @Override
-//    public HigherLevelDynamicIterationStrategy getClone() {
-//        return new HigherLevelDynamicIterationStrategy(this);
-//    }
-
-    /**
      * Structure of Dynamic iteration strategy with re-initialisation:
      *
      * <ol>
@@ -78,14 +70,7 @@ public abstract class HigherLevelDynamicIterationStrategy<E extends MultiPopulat
      * </ol>
      */
     @Override
-    public abstract void performIteration(E algorithm);// {
-//        boolean hasChanged = detectionStrategy.detect(algorithm);
-//
-//        if (hasChanged)
-//            responseStrategy.respond(algorithm);
-//
-//        iterationStrategy.performIteration(algorithm);
-//    }
+    public abstract void performIteration(E algorithm);
 
     /**
      * Get the current {@linkplain IterationStrategy}.

@@ -74,8 +74,6 @@ public class SelfAdaptingMultiSwarmIterationStrategy extends AbstractIterationSt
      */
     double calculateRadius() {
         double d = AbstractAlgorithm.get().getOptimisationProblem().getDomain().getDimension();
-        //double X = ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresentation()).getNumeric(0).getBounds().getUpperBound()
-        //        - ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresentation()).getNumeric(0).getBounds().getLowerBound();
         double X = ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresentation()).boundsOf(0).getUpperBound()
                 - ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresentation()).boundsOf(0).getLowerBound();
 
@@ -94,7 +92,6 @@ public class SelfAdaptingMultiSwarmIterationStrategy extends AbstractIterationSt
 
     @Override
     public void performIteration(MultiSwarm ca) {
-        //public void performIteration(MultiSwarms ca) {
         int converged = 0;
         for (ListIterator it = ca.getPopulations().listIterator(); it.hasNext();) {
             SinglePopulationBasedAlgorithm currentAlgorithm = (SinglePopulationBasedAlgorithm) it.next();
@@ -108,7 +105,7 @@ public class SelfAdaptingMultiSwarmIterationStrategy extends AbstractIterationSt
             pba.setOptimisationProblem(ca.getOptimisationProblem());
             pba.performInitialisation();
             reInitialise((PSO) pba);
-            //    pba.setIterations(Algorithm.get().getIterations());
+
             ca.addPopulationBasedAlgorithm(pba);// add algorithm
         }// if
         else if (ca.getPopulations().size() - converged >= nexcess) { //must remove the worst unconverged swarm
@@ -156,7 +153,6 @@ public class SelfAdaptingMultiSwarmIterationStrategy extends AbstractIterationSt
     }
 
     public void reInitialise(PSO algorithm) {
-//        algorithm.getTopology().clear();
         algorithm.performInitialisation();
     }
 }

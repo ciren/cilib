@@ -4,7 +4,6 @@ simulator.sh
 simulator.bat
 .ensime*
 private.sbt
-*.xml
 .settings
 .classpath
 .cache

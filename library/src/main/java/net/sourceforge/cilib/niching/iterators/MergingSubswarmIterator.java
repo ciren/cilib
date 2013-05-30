@@ -61,7 +61,6 @@ public class MergingSubswarmIterator extends SubswarmIterator {
                     double d2 = distanceMeasure.distance((Vector) a.getBestSolution().getPosition(), e.getCandidateSolution());
 
                     if (d2 < granularity.getParameter()) {
-//                        ((Topology<Entity>) newA.getTopology()).add(e);
                         newA.setTopology(newA.getTopology().snoc(e));
 
                         if (e instanceof Particle) {
@@ -69,7 +68,6 @@ public class MergingSubswarmIterator extends SubswarmIterator {
                         }
 
                     } else {
-//                        ((Topology<Entity>) newB.getTopology()).add(e);
                     	newB.setTopology(newB.getTopology().snoc(e));
                     }
                 }

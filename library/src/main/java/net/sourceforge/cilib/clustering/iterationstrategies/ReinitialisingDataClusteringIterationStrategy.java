@@ -88,8 +88,9 @@ public class ReinitialisingDataClusteringIterationStrategy extends SinglePopulat
     private void reinitialisePosition(fj.data.List<ClusterParticle> topology) {
         int index = 0;
         for(int i = index; i < topology.length(); i+=reinitialisationInterval) {
-                topology.index(i).reinitialise();
-                assignDataPatternsToParticle(((CentroidHolder)topology.index(i).getCandidateSolution()), dataset);
+            ClusterParticle c = topology.index(i);
+            c.reinitialise();
+            assignDataPatternsToParticle(((CentroidHolder)c.getCandidateSolution()), dataset);
         }
     }
 

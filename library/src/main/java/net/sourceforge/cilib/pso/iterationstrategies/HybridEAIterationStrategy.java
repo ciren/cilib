@@ -26,10 +26,9 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
 import net.sourceforge.cilib.util.selection.weighting.CurrentFitness;
 import net.sourceforge.cilib.util.selection.weighting.EntityWeighting;
 
-import com.google.common.collect.Lists;
 
 /**
- * ﻿@article {springerlink:10.1007/s10015-010-0846-z,
+ * ???@article {springerlink:10.1007/s10015-010-0846-z,
  *  author = {Duong, Sam and Kinjo, Hiroshi and Uezato, Eiho and Yamamoto, Tetsuhiko},
  *  affiliation = {Faculty of Engineering, University of the Ryukyus, 1 Senbaru, Nishihara, Okinawa, 903-0213 Japan},
  *  title = {Particle swarm optimization with genetic recombination: a hybrid evolutionary algorithm},
@@ -97,14 +96,6 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
         		}
         	}
         }) ;
-        		
-//        		Lists.newArrayList();
-//        for (Particle p : topology) {
-//            List<Particle> o = crossover.crossover(topology);
-//            if (!o.isEmpty()) {
-//                offspring.add(o.get(0));
-//            }
-//        }
 
         fj.data.List<Particle> newTopology = fj.data.List.iterableList(selector.on(topology.append(offspring.map(new F<Particle, Particle>(){
         	public Particle f(Particle p) {
@@ -114,25 +105,7 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
                 return p;
         	}
         }))).select(Samples.first(size)));
-//        for (Particle p : offspring) {
-//            p.getProperties().put(EntityType.Particle.BEST_POSITION, p.getCandidateSolution());
-//            p.setNeighbourhoodBest(p);
-//            p.calculateFitness();
-//
-//            topology.add(p);
-//        }
 
-        // rank and eliminate
-//        fj.data.List<Particle> newTopology = topology;//.getClone();
-//        topology.clear();
-//        topology.addAll(selector.on(newTopology).select(Samples.first(size)));
-
-        // selector removes nbests
-//        for (Particle p : topology) {
-//            Particle nBest = Topologies.getNeighbourhoodBest(topology, p, algorithm.getNeighbourhood(), new SocialBestFitnessComparator());
-//            p.setNeighbourhoodBest(nBest);
-//        }
-        
         algorithm.setTopology(newTopology.map(new F<Particle, Particle>() {
         	public Particle f(Particle p) {
         		Particle nBest = Topologies.getNeighbourhoodBest(topology, p, algorithm.getNeighbourhood(), new SocialBestFitnessComparator());

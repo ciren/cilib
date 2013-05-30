@@ -50,7 +50,7 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
     @Override
     public void performIteration(final PSO pso) {
         final fj.data.List<Particle> topology = pso.getTopology();
-        
+
         final F<Particle, Particle> first = new F<Particle, Particle>() {
 			@Override
 			public Particle f(Particle current) {
@@ -70,11 +70,11 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
         				other.setNeighbourhoodBest(current);
         			}
         		}
-        		
+
         		return current;
         	}
         };
-        
-        pso.setTopology(topology.map(first.andThen(second)));
+
+        pso.setTopology(topology.map(first).map(second));
     }
 }

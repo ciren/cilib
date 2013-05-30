@@ -68,8 +68,8 @@ public class ABC extends SinglePopulationBasedAlgorithm<HoneyBee> {
         initialisationStrategy.setEntityNumber(100);
         initialisationStrategy.setEntityType(new WorkerBee());
 
-        workerBees = fj.data.List.nil();//new GBestTopology<HoneyBee>();
-        onlookerBees = fj.data.List.nil();//new GBestTopology<HoneyBee>();
+        workerBees = fj.data.List.nil();
+        onlookerBees = fj.data.List.nil();
 
         explorerBee = new ExplorerBee();
         dancingSelectionStrategy = new RouletteWheelSelector();
@@ -86,8 +86,11 @@ public class ABC extends SinglePopulationBasedAlgorithm<HoneyBee> {
     public ABC(ABC copy) {
         super(copy);
 
-        topology.append(workerBees);
-        topology.append(onlookerBees);
+        workerBees = copy.workerBees;
+        onlookerBees = copy.onlookerBees;
+        
+        topology.append(copy.workerBees);
+        topology.append(copy.onlookerBees);
 
         explorerBee = copy.explorerBee.getClone();
         dancingSelectionStrategy = new RouletteWheelSelector();

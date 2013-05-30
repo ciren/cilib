@@ -14,8 +14,8 @@ import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ZeroC
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.topologies.GBestNeighbourhood;
 import net.sourceforge.cilib.entity.topologies.Neighbourhood;
-import fj.F;
 import fj.data.List;
+import net.sourceforge.cilib.util.functions.Entities;
 
 /**
  * Base class for algorithms that focus on a single populations of entities.
@@ -47,12 +47,7 @@ public abstract class SinglePopulationBasedAlgorithm<E extends Entity> extends A
     protected SinglePopulationBasedAlgorithm(SinglePopulationBasedAlgorithm copy) {
         super(copy);
         this.initialisationStrategy = copy.initialisationStrategy.getClone();
-        this.topology = copy.topology.map(new F<E, E>() {
-            @Override
-            public E f(E e) {
-                return (E) e.getClone();
-            }
-        });
+        this.topology = copy.topology.map(Entities.clone_());
         this.neighbourhood = copy.neighbourhood;
         this.contributionSelection = copy.contributionSelection.getClone();
     }

@@ -62,8 +62,7 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
         List<Particle> swarm = ((List<Particle>) topologyProvider.f(swarms)).delete(gBest, Equal.equal(equalParticle.curry()));
 
         RadiusVisitor visitor = new RadiusVisitor();
-//        visitor.visit();
-        double nRadius = visitor.f(swarms.getMainSwarm().getTopology());//getResult();
+        double nRadius = visitor.f(swarms.getMainSwarm().getTopology());
 
         // get closest particle with dot < 0
         List<Particle> filteredSwarm = swarm.filter(dot(gBest).andThen(Doubles.ltZero));
@@ -103,21 +102,18 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
         // Create the new subswarm, set its optimisation problem, add the particles to it
         SinglePopulationBasedAlgorithm newSubswarm = swarmType.getClone();
         newSubswarm.setOptimisationProblem(swarms.getMainSwarm().getOptimisationProblem());
-//        newSubswarm.getTopology().clear();
-//        ((Topology<Particle>) newSubswarm.getTopology()).addAll(newTopology.toCollection());
         ((SinglePopulationBasedAlgorithm<Particle>) newSubswarm).setTopology(newSubswarm.getTopology().append(newTopology));
 
         // Remove the subswarms particles from the main swarm
         SinglePopulationBasedAlgorithm newMainSwarm = swarms.getMainSwarm().getClone();
         newMainSwarm.setTopology(List.nil());
         fj.data.List<Entity> local = swarms.getMainSwarm().getTopology();
-//        newMainSwarm.getTopology().clear();
+
         for(Entity e : local) {
             Particle p = (Particle) e;
 
             if (!newTopology.exists(equalParticle.f(p))) {
             	newMainSwarm.setTopology(newMainSwarm.getTopology().snoc(e.getClone()));
-//                ((fj.data.List<Entity>) newMainSwarm.getTopology()).add(e.getClone());
             }
         }
 

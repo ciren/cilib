@@ -10,9 +10,6 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
-import fj.F;
-import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Real;
 
 /**
  * ShiftedFunctionDecorator.
@@ -53,14 +50,11 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
      */
     @Override
     public Double f(Vector input) {
-        Vector tmp = horizontalShift.getParameter() == 0.0 ? input : input.map(new F<Numeric, Numeric>() {
-            @Override
-            public Numeric f(Numeric x) {
-                return Real.valueOf(x.doubleValue() - horizontalShift.getParameter());
-            }
-        });
+        shiftVector = randomShift
+                ? (shiftVector == null || input.size() != shiftVector.size()) ? Vector.newBuilder().copyOf(input).buildRandom() : shiftVector
+                : Vector.fill(horizontalShift.getParameter(), input.size());
 
-        return function.f(tmp) + verticalShift.getParameter();
+        return function.f(input.subtract(shiftVector)) + verticalShift.getParameter();
     }
 
     /**
@@ -90,7 +84,7 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
      * @param horizontalShift The amount of horizontal shift.
      */
     public void setHorizontalShift(ControlParameter horizontalShift) {
-        this.horizontalShift = horizontalShift;        
+        this.horizontalShift = horizontalShift;
     }
 
     /**

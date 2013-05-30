@@ -11,6 +11,7 @@ import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
 import fj.F;
 import fj.F2;
+import fj.Function;
 import fj.P2;
 import fj.data.List;
 
@@ -21,12 +22,7 @@ public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO
 
     private static final long serialVersionUID = -3511991873784185698L;
 
-    private F<Particle, Particle> additionalStep = new F<Particle, Particle>() {
-        @Override
-        public Particle f(Particle a) {
-            return a;
-        }
-    };
+    private F<Particle, Particle> additionalStep = Function.identity();
 
     /**
      * {@inheritDoc}
@@ -68,14 +64,15 @@ public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO
 	            item._1().calculateFitness();
 
 	            Particle newParticle = additionalStep.f(item._1());
-	            fj.data.List<Particle> intermediate = accum.append(topology.drop(item._2()+1));
+                List<Particle> result = accum.snoc(newParticle);
+	            fj.data.List<Particle> intermediate = result.append(topology.drop(item._2()+1));
 
-	            for (Particle other : algorithm.getNeighbourhood().f(intermediate, item._1())) {
-	                if (item._1().getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
+	            for (Particle other : algorithm.getNeighbourhood().f(intermediate, newParticle)) {
+	                if (newParticle.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
 	                    other.setNeighbourhoodBest(newParticle);
 	                }
 	            }
-	            return accum.snoc(newParticle);
+	            return result;
 			}
         }, List.<Particle>nil()));
     }

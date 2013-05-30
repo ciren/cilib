@@ -141,12 +141,10 @@ public class DDEIterationStrategy  extends AbstractIterationStrategy<EC> {
                 //select the best between the current entity and the offspring entity
                 if(Rand.nextDouble() > selectorParameter) {
                     if(bestOffspring.getFitness().compareTo(current.getFitness()) > 0 ){
-                        //topology.set(i, bestOffspring);
                         result = bestOffspring;
                     }
                 } else {
                     bestOffspring = nextGenerationSelectionStrategy.on(Arrays.asList(bestOffspring, current)).select();
-                    //                      topology.set(i, bestOffspring);
                     result = bestOffspring;
                 }
 

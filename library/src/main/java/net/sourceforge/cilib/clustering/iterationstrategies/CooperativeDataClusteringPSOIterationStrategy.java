@@ -114,7 +114,7 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
                     contextParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, contextParticle.getFitness()).getClone();
                 }
 
-                newTopology = fj.data.List.cons(particleWithContext, newTopology);//.snoc(particleWithContext);
+                newTopology = fj.data.List.cons(particleWithContext, newTopology);
             }
 
             if(elitist) {

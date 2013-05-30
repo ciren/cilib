@@ -29,9 +29,7 @@ public class TopologyBasedNormalisation implements DiversityNormalisation {
      */
     @Override
     public double getNormalisationParameter(SinglePopulationBasedAlgorithm algorithm) {
-//        algorithm.getTopology().accept(visitor);
-
-        return (Double) visitor.f(algorithm.getTopology());//getResult();
+        return (Double) visitor.f(algorithm.getTopology());
     }
 
     /**

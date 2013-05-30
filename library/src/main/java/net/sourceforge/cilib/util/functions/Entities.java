@@ -96,7 +96,7 @@ public final class Entities {
         };
     }
 
-    public static <E extends Entity> F2<? extends Problem, E, E> initialise() {
+    public static <E extends Entity> F2<Problem, E, E> initialise() {
         return new F2<Problem, E, E>() {
             @Override
             public E f(Problem a, E b) {

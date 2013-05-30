@@ -26,7 +26,7 @@ import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.TypeList;
 
 public class Niches implements Measurement<TypeList> {
-    
+
     private List<Particle> niches;
     private SpeciationNeighbourhood neighbourhood;
     private Double peakHeight;
@@ -47,7 +47,7 @@ public class Niches implements Measurement<TypeList> {
         this.error = copy.error;
         this.useMemoryInformation = copy.useMemoryInformation;
     }
-    
+
     public Niches getClone() {
         return new Niches(this);
     }
@@ -55,11 +55,11 @@ public class Niches implements Measurement<TypeList> {
     public TypeList getValue(Algorithm algorithm) {
         Preconditions.checkNotNull(peakHeight, "GlobalOptimaFitness must be set in GlobalOptimaCount measurement.");
         niches = Lists.newArrayList();
-        
+
         if (algorithm instanceof NichingAlgorithm) {
             NichingAlgorithm pba = (NichingAlgorithm) algorithm;
             Iterables.addAll(niches, pba.getTopology());
-            
+
             for (SinglePopulationBasedAlgorithm p : pba.getPopulations()) {
                 Iterables.addAll(niches, p.getTopology());
             }
@@ -67,7 +67,7 @@ public class Niches implements Measurement<TypeList> {
             SinglePopulationBasedAlgorithm pba = (SinglePopulationBasedAlgorithm) algorithm;
             Iterables.addAll(niches, pba.getTopology());
         }
-        
+
         if (useMemoryInformation) {
             for (int i = 0; i < niches.size(); i++) {
                 if (niches.get(i) instanceof Particle) {
@@ -79,7 +79,7 @@ public class Niches implements Measurement<TypeList> {
                 }
             }
         }
-        
+
         neighbourhood.setNeighbourhoodSize(ConstantControlParameter.of(niches.size()));
         ArrayList<Particle> es = Java.<Particle>List_ArrayList().f(fj.data.List.iterableList(Topologies.getNeighbourhoodBestEntities(fj.data.List.iterableList(niches), neighbourhood))
                 .filter(new F<Particle, Boolean>() {
@@ -98,7 +98,7 @@ public class Niches implements Measurement<TypeList> {
     public void setPeakHeight(double ph) {
         this.peakHeight = ph;
     }
-    
+
     public void setRadius(double r) {
         neighbourhood.setRadius(ConstantControlParameter.of(r));
     }

@@ -8,6 +8,7 @@ package net.sourceforge.cilib.util;
 
 import com.google.common.collect.Lists;
 import fj.F;
+import fj.data.Java;
 import java.util.List;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
@@ -53,7 +54,7 @@ public class Matrices {
         }
 
         //orthonormalize the random vectors
-//        vecs = Vectors.orthonormalize(fj.data.List.iterableList(vecs));
+        vecs = Java.<Vector>List_ArrayList().f(Vectors.orthonormalize(fj.data.List.iterableList(vecs)));
 
         //convert vectors to matrix
         for (Vector v : Vectors.orthonormalize(fj.data.List.iterableList(vecs))) {
