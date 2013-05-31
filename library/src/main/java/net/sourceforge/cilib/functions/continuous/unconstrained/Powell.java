@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * <p><b>Powell.</b></p>
@@ -30,13 +31,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-4, -5)^32
  *
  */
-public class Powell implements ContinuousFunction {
+public class Powell extends ContinuousFunction {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() % 4 == 0, "Powell function is only defined for 4*N dimensions");
 
         double sum = 0;

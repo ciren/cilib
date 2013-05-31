@@ -22,15 +22,15 @@ public class AsymmetricFunctionDecoratorTest {
         a.setFunction(s);
 
         Vector v = Vector.of(1.0, 2.0);
-        assertEquals(5.0, a.apply(v), 0.0);
+        assertEquals(5.0, a.f(v), 0.0);
 
         a.setBeta(ConstantControlParameter.of(1.0));
-        assertEquals(29.411, a.apply(v), 0.001);
+        assertEquals(29.411, a.f(v), 0.001);
 
         a.setBeta(ConstantControlParameter.of(2.0));
-        assertEquals(202.810, a.apply(v), 0.001);
+        assertEquals(202.810, a.f(v), 0.001);
 
         v.setReal(1, -2.0);
-        assertEquals(5.0, a.apply(v), 0.0);
+        assertEquals(5.0, a.f(v), 0.0);
     }
 }

@@ -6,12 +6,12 @@
  */
 package net.sourceforge.cilib.measurement.single.diversity.normalisation;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 
 /**
  * A strategy to normalise a diversity measurement.
  * 
  */
 public interface DiversityNormalisation {
-    double getNormalisationParameter(PopulationBasedAlgorithm algorithm);
+    double getNormalisationParameter(SinglePopulationBasedAlgorithm algorithm);
 }

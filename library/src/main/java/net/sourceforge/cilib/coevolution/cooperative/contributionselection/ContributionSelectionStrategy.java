@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.coevolution.cooperative.contributionselection;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgorithm;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
@@ -21,7 +21,7 @@ public interface ContributionSelectionStrategy extends Cloneable {
      * @param algorithm The {@linkplain PopulationBasedAlgorithm} to select the participant from.
      * @return The participating solution {@linkplain Vector}
      */
-    Vector getContribution(PopulationBasedAlgorithm algorithm);
+    Vector getContribution(SinglePopulationBasedAlgorithm algorithm);
 
     /**
      * {@inheritDoc}

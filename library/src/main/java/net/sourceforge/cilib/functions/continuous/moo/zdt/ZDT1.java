@@ -42,7 +42,7 @@ public final class ZDT1 extends MOOptimisationProblem {
     private static final long serialVersionUID = 3345180577731621477L;
     private static final String DOMAIN = "R(0:1)^30";
 
-    private static class ZDT1_h implements ContinuousFunction {
+    private static class ZDT1_h extends ContinuousFunction {
 
         private static final long serialVersionUID = 3672916606445089134L;
         private final ZDT_f1 f1;
@@ -54,12 +54,12 @@ public final class ZDT1 extends MOOptimisationProblem {
         }
 
         @Override
-        public Double apply(Vector input) {
-            return 1.0 - Math.sqrt(this.f1.apply(input) / this.g.apply(input));
+        public Double f(Vector input) {
+            return 1.0 - Math.sqrt(this.f1.f(input) / this.g.f(input));
         }
     }
 
-    private static class ZDT1_f2 implements ContinuousFunction {
+    private static class ZDT1_f2 extends ContinuousFunction {
 
         private static final long serialVersionUID = 5864890886162485183L;
         private final ZDT_g g;
@@ -71,8 +71,8 @@ public final class ZDT1 extends MOOptimisationProblem {
         }
 
         @Override
-        public Double apply(Vector input) {
-            return this.g.apply(input) * this.h.apply(input);
+        public Double f(Vector input) {
+            return this.g.f(input) * this.h.f(input);
         }
     }
 

@@ -22,7 +22,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * on Real-Parameter Optimization." (2013).
  * </p>
  */
-public class IllConditionedFunctionDecorator implements ContinuousFunction {
+public class IllConditionedFunctionDecorator extends ContinuousFunction {
 
     private ContinuousFunction function;
     private ControlParameter alpha;
@@ -32,7 +32,7 @@ public class IllConditionedFunctionDecorator implements ContinuousFunction {
     }
 
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Vector.Builder builder = Vector.newBuilder();
 
         for (int i = 0; i < input.size(); i++) {
@@ -40,7 +40,7 @@ public class IllConditionedFunctionDecorator implements ContinuousFunction {
             builder.add(x * Math.pow(alpha.getParameter(), i * 0.5 / (input.size() - 1)));
         }
 
-        return function.apply(builder.build());
+        return function.f(builder.build());
     }
 
     public void setFunction(ContinuousFunction function) {

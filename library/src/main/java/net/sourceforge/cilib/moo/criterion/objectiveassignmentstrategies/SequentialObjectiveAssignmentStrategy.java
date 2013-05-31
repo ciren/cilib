@@ -7,7 +7,8 @@
 package net.sourceforge.cilib.moo.criterion.objectiveassignmentstrategies;
 
 import java.util.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.moo.criterion.CriterionBasedMOProblemAdapter;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
 
@@ -39,7 +40,7 @@ public class SequentialObjectiveAssignmentStrategy implements ObjectiveAssignmen
     }
 
     @Override
-    public void assignObjectives(MOOptimisationProblem problem, List<PopulationBasedAlgorithm> populations) {
+    public void assignObjectives(MOOptimisationProblem problem, List<SinglePopulationBasedAlgorithm> populations) {
         if (problem.size() > populations.size()) {
             throw new IllegalArgumentException("There are more objectives than the number of populations required to solve this multi-objective problem.");
         }

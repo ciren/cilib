@@ -22,12 +22,12 @@ public class IllConditionedFunctionDecoratorTest {
         ic.setFunction(s);
 
         Vector v = Vector.of(1.0, 2.0);
-        assertEquals(5.0, ic.apply(v), 0.0);
+        assertEquals(5.0, ic.f(v), 0.0);
 
         ic.setAlpha(ConstantControlParameter.of(2.0));
-        assertEquals(9.0, ic.apply(v), 0.0000001);
+        assertEquals(9.0, ic.f(v), 0.0000001);
 
         ic.setAlpha(ConstantControlParameter.of(3.0));
-        assertEquals(13.0, ic.apply(v), 0.0000001);
+        assertEquals(13.0, ic.f(v), 0.0000001);
     }
 }

@@ -7,62 +7,67 @@
 package net.sourceforge.cilib.measurement.single;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import fj.F;
-import fj.data.List;
-import static fj.data.List.iterableList;
+import fj.data.Java;
+import java.util.ArrayList;
+import java.util.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.entity.topologies.SpeciationTopology;
+import net.sourceforge.cilib.entity.topologies.SpeciationNeighbourhood;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.niching.NichingAlgorithm;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.TypeList;
 
 public class Niches implements Measurement<TypeList> {
-    
-    private SpeciationTopology niches;
+
+    private List<Particle> niches;
+    private SpeciationNeighbourhood neighbourhood;
     private Double peakHeight;
     private Double error;
     private Boolean useMemoryInformation;
 
     public Niches() {
-        this.niches = new SpeciationTopology();
+        this.neighbourhood = new SpeciationNeighbourhood();
         this.peakHeight = null;
         this.error = 1e-4;
         this.useMemoryInformation = true;
     }
 
     private Niches(Niches copy) {
-        this.niches = copy.niches.getClone();
+        this.niches = copy.niches;
+        this.neighbourhood = copy.neighbourhood;
         this.peakHeight = copy.peakHeight;
         this.error = copy.error;
         this.useMemoryInformation = copy.useMemoryInformation;
     }
-    
+
     public Niches getClone() {
         return new Niches(this);
     }
 
     public TypeList getValue(Algorithm algorithm) {
         Preconditions.checkNotNull(peakHeight, "GlobalOptimaFitness must be set in GlobalOptimaCount measurement.");
-        niches.clear();
-        
+        niches = Lists.newArrayList();
+
         if (algorithm instanceof NichingAlgorithm) {
             NichingAlgorithm pba = (NichingAlgorithm) algorithm;
-            niches.addAll(pba.getTopology());
-            
-            for (PopulationBasedAlgorithm p : pba.getPopulations()) {
-                niches.addAll(p.getTopology());
+            Iterables.addAll(niches, pba.getTopology());
+
+            for (SinglePopulationBasedAlgorithm p : pba.getPopulations()) {
+                Iterables.addAll(niches, p.getTopology());
             }
         } else {
-            PopulationBasedAlgorithm pba = (PopulationBasedAlgorithm) algorithm;
-            niches.addAll(pba.getTopology());
+            SinglePopulationBasedAlgorithm pba = (SinglePopulationBasedAlgorithm) algorithm;
+            Iterables.addAll(niches, pba.getTopology());
         }
-        
+
         if (useMemoryInformation) {
             for (int i = 0; i < niches.size(); i++) {
                 if (niches.get(i) instanceof Particle) {
@@ -74,15 +79,15 @@ public class Niches implements Measurement<TypeList> {
                 }
             }
         }
-        
-        niches.setNeighbourhoodSize(ConstantControlParameter.of(niches.size()));
-        List<Entity> es = iterableList(Topologies.getNeighbourhoodBestEntities(niches))
+
+        neighbourhood.setNeighbourhoodSize(ConstantControlParameter.of(niches.size()));
+        ArrayList<Particle> es = Java.<Particle>List_ArrayList().f(fj.data.List.iterableList(Topologies.getNeighbourhoodBestEntities(fj.data.List.iterableList(niches), neighbourhood))
                 .filter(new F<Particle, Boolean>() {
                     @Override
                     public Boolean f(Particle a) {
                         return Math.abs(a.getFitness().getValue() - peakHeight) < error;
                     }
-                });
+                }));
         TypeList t = new TypeList();
         for (Entity e : es) {
             t.add(e.getCandidateSolution());
@@ -93,9 +98,9 @@ public class Niches implements Measurement<TypeList> {
     public void setPeakHeight(double ph) {
         this.peakHeight = ph;
     }
-    
+
     public void setRadius(double r) {
-        niches.setRadius(ConstantControlParameter.of(r));
+        neighbourhood.setRadius(ConstantControlParameter.of(r));
     }
 
     public void setError(Double error) {

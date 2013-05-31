@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Bounds;
@@ -50,13 +50,14 @@ public class DimensionBoundViolationsPerParticle implements Measurement<Real> {
      */
     @Override
     public Real getValue(Algorithm algorithm) {
-        PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
+        SinglePopulationBasedAlgorithm populationBasedAlgorithm = (SinglePopulationBasedAlgorithm) algorithm;
         double sumOfAverageViolations = 0.0;
-        int populationSize = populationBasedAlgorithm.getTopology().size();
+        int populationSize = populationBasedAlgorithm.getTopology().length();
         int numberOfViolations;
         int dimension = 0;
 
-        for (Entity populationEntity : populationBasedAlgorithm.getTopology()) {
+        fj.data.List<Entity> local = populationBasedAlgorithm.getTopology();
+        for (Entity populationEntity : local) {
             numberOfViolations = 0;
             dimension = populationEntity.getDimension();
 

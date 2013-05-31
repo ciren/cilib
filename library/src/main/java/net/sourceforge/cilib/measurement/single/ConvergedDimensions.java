@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
@@ -88,13 +88,14 @@ public class ConvergedDimensions implements Measurement<Real> {
      */
     @Override
     public Real getValue(Algorithm algorithm) {
-        PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
-        int populationSize = populationBasedAlgorithm.getTopology().size();
+        SinglePopulationBasedAlgorithm populationBasedAlgorithm = (SinglePopulationBasedAlgorithm) algorithm;
+        int populationSize = populationBasedAlgorithm.getTopology().length();
 
         int dimensions = 0;
         double sumOfAverageConvergedDimensions = 0.0;
-
-        for (Entity populationEntity : populationBasedAlgorithm.getTopology()) {
+        
+        fj.data.List<Entity> local = populationBasedAlgorithm.getTopology();
+        for (Entity populationEntity : local) {
             dimensions = populationEntity.getDimension();
 
             int dimension = 0;

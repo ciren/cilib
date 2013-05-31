@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.measurement.Measurement;
@@ -35,7 +35,7 @@ public class StoredFitness implements Measurement<Real> {
     @Override
     public Real getValue(Algorithm algorithm) {
         Fitness best = null;
-        PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm) algorithm;
+        SinglePopulationBasedAlgorithm<Entity> currentAlgorithm = (SinglePopulationBasedAlgorithm) algorithm;
         for (Entity e : currentAlgorithm.getTopology()) {
             if (best == null || ((Fitness) e.getProperties().get(EntityType.Particle.BEST_FITNESS)).compareTo(best) > 0) {
                 best = ((Fitness) e.getProperties().get(EntityType.Particle.BEST_FITNESS));

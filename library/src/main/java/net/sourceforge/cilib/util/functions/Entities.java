@@ -6,6 +6,8 @@
  */
 package net.sourceforge.cilib.util.functions;
 
+import com.google.common.collect.Lists;
+
 import fj.F;
 import fj.F2;
 import net.sourceforge.cilib.entity.Entity;
@@ -14,8 +16,20 @@ import net.sourceforge.cilib.entity.SocialEntity;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.container.StructuredType;
+import net.sourceforge.cilib.util.Cloneable;
 
 public final class Entities {
+    private Entities() {}
+
+    public static <E extends Cloneable> F<E, E> clone_() {
+        return new F<E, E>() {
+            @Override
+            public E f(E e) {
+                return (E) e.getClone();
+            }
+        };
+    }
+
     public static <E extends Entity> F<E, StructuredType> getCandidateSolution() {
         return new F<E, StructuredType>() {
             @Override
@@ -23,6 +37,15 @@ public final class Entities {
                 return a.getCandidateSolution();
             }
         };
+    }
+
+    public static <E, T extends Entity> java.util.List<E> getCandidateSolutions(java.util.List<T> list) {
+        return Lists.newArrayList(fj.data.List.iterableList(list).map(new F<T, E>() {
+            @Override
+            public E f(T e) {
+                return (E) e.getCandidateSolution();
+            }
+        }));
     }
 
     public static <E extends Entity> F2<StructuredType, E, E> setCandidateSolution() {
@@ -73,7 +96,7 @@ public final class Entities {
         };
     }
 
-    public static <E extends Entity> F2<? extends Problem, E, E> initialise() {
+    public static <E extends Entity> F2<Problem, E, E> initialise() {
         return new F2<Problem, E, E>() {
             @Override
             public E f(Problem a, E b) {

@@ -7,10 +7,13 @@
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
 import java.util.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+
+import fj.F;
+
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.Rand;
+import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * This reaction strategy reinitialises the specified
@@ -19,7 +22,7 @@ import net.sourceforge.cilib.math.random.generator.Rand;
  *
  * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
  */
-public class ReinitialisationReactionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy<E> {
+public class ReinitialisationReactionStrategy<E extends SinglePopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy {
     private static final long serialVersionUID = -7283513652737895281L;
 
     protected double reinitialisationRatio = 0.0;
@@ -44,9 +47,10 @@ public class ReinitialisationReactionStrategy<E extends PopulationBasedAlgorithm
      * {@inheritDoc}
      */
     @Override
-    public void performReaction(E algorithm) {
-        Topology<? extends Entity> entities = algorithm.getTopology();
-        int reinitialiseCount = (int) Math.floor(reinitialisationRatio * entities.size());
+	protected <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void performReaction(
+			A algorithm) {
+        fj.data.List<P> entities = algorithm.getTopology();
+        int reinitialiseCount = (int) Math.floor(reinitialisationRatio * entities.length());
 
         reinitialise(entities, reinitialiseCount);
     }
@@ -59,13 +63,20 @@ public class ReinitialisationReactionStrategy<E extends PopulationBasedAlgorithm
      * @param reinitialiseCount an<code>int<code> specifying how many entities should be
      *        reinitialised
      */
-    protected void reinitialise(List<? extends Entity> entities, int reinitialiseCount) {
+    protected <P extends Particle> void reinitialise(final fj.data.List<P> entities, int reinitialiseCount) {
+    	fj.data.List<P> local = entities;
+    	
         for (int i = 0; i < reinitialiseCount; i++) {
-            int random = Rand.nextInt(entities.size());
-            Entity entity = entities.get(random);
+            int random = Rand.nextInt(entities.length());
+            final Entity entity = entities.index(random);
             entity.getCandidateSolution().randomise();
             // remove the selected element from the all list preventing it from being selected again
-            entities.remove(random);
+            local = local.filter(new F<P, Boolean>() {
+				@Override
+				public Boolean f(P element) {
+					return (element.equals(entity)) ? false : true;
+				}
+            });
         }
     }
 

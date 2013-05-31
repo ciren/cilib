@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.functions.discrete;
 
 import java.util.ArrayList;
+
 import net.sourceforge.cilib.functions.DiscreteFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -14,7 +15,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Perform the knapsack problem optimisation.
  *
  */
-public class KnapSack implements DiscreteFunction {
+public class KnapSack extends DiscreteFunction {
 
     private static final long serialVersionUID = 79098409450300605L;
     private int capacity;
@@ -31,7 +32,7 @@ public class KnapSack implements DiscreteFunction {
      * {@inheritDoc}
      */
     @Override
-    public Integer apply(Vector x) {
+    public Integer f(Vector x) {
         double weight = 0.0;
 
         for (int i = 0; i < x.size(); i++) {

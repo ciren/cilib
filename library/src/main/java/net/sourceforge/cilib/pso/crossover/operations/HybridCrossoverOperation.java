@@ -6,12 +6,11 @@
  */
 package net.sourceforge.cilib.pso.crossover.operations;
 
-import com.google.common.collect.Lists;
 import java.util.List;
+
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.operators.crossover.real.ArithmeticCrossoverStrategy;
 import net.sourceforge.cilib.math.random.UniformDistribution;
@@ -25,6 +24,13 @@ import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
+
+import fj.F;
+import fj.F2;
+import fj.P;
+import fj.P2;
+
+import com.google.common.collect.Lists;
 
 /**
  * A crossover operation for PSOs that selects particles according to Lovbjerg
@@ -72,47 +78,63 @@ public class HybridCrossoverOperation extends PSOCrossoverOperation {
         return new HybridCrossoverOperation(this);
     }
 
+    private static <A> P2<fj.data.List<A>, fj.data.List<A>> partition(final fj.data.List<A> list, final F<A, Boolean> predicate) {
+        return list.foldLeft(new F2<P2<fj.data.List<A>, fj.data.List<A>>, A, P2<fj.data.List<A>, fj.data.List<A>>>() {
+            @Override
+            public P2<fj.data.List<A>, fj.data.List<A>> f(final P2<fj.data.List<A>, fj.data.List<A>> accum, final A element) {
+                if (predicate.f(element)) {
+                    return P.p(fj.data.List.cons(element, accum._1()), accum._2());
+                } else {
+                    return P.p(accum._1(), fj.data.List.cons(element, accum._2()));
+                }
+            };
+        }, P.p(fj.data.List.<A>nil(), fj.data.List.<A>nil()));
+    }
+
     @Override
-    public Topology<Particle> f(PSO pso) {
-        Topology<Particle> topology = pso.getTopology();
-        UniformDistribution uniform = new UniformDistribution();
-        List<Particle> parents = Lists.newArrayList();
-        List<Particle> offspring;
+    public fj.data.List<Particle> f(final PSO pso) {
+        final fj.data.List<Particle> topology = pso.getTopology();
+        final UniformDistribution uniform = new UniformDistribution();
 
-        Topology<Particle> newTopology = topology.getClone();
-        newTopology.clear();
-
-        for (Particle p : topology) {
-            if (uniform.getRandomNumber() < crossoverProbability.getParameter()) {
-                parents.add(p);
-            } else {
-                newTopology.add(p);
+        P2<fj.data.List<Particle>, fj.data.List<Particle>> pair = partition(topology, new F<Particle, Boolean>() {
+            public Boolean f(Particle p) {
+                return uniform.getRandomNumber() < crossoverProbability.getParameter();
             }
-        }
+        });
+
+        fj.data.List<Particle> parents = pair._1();
+        fj.data.List<Particle> newTopology = pair._2();
 
         while (!parents.isEmpty()) {
             int numberOfParents = particleCrossover.getCrossoverStrategy().getNumberOfParents();
 
             // need specific number of parents to perform crossover
-            if (parents.size() < numberOfParents) {
-                newTopology.addAll(parents);
+            if (parents.length() < numberOfParents) {
+                newTopology = newTopology.append(parents);
                 break;
             }
 
-            List<Particle> selectedParents = selector.on(parents).select(Samples.first(numberOfParents));
-            offspring = particleCrossover.crossover(selectedParents);
+            final List<Particle> selectedParents = selector.on(parents).select(Samples.first(numberOfParents));
+            final List<Particle> offspring = particleCrossover.crossover(selectedParents);
 
-            parents.removeAll(selectedParents);
+            parents = parents.removeAll(new F<Particle, Boolean>() {
+                @Override
+                public Boolean f(Particle p) {
+                    return selectedParents.contains(p);
+                }
+            });
 
-            newTopology.addAll(parentReplacementStrategy.f(selectedParents, offspring));
+            newTopology = newTopology.append(fj.data.List.iterableList(parentReplacementStrategy.f(selectedParents, offspring)));
         }
 
-        for (Particle p : newTopology) {
-            Particle nBest = Topologies.getNeighbourhoodBest(newTopology, p, new SocialBestFitnessComparator());
-            p.setNeighbourhoodBest(nBest);
-        }
-
-        return newTopology;
+        final fj.data.List<Particle> local = newTopology;
+        return newTopology.map(new F<Particle, Particle>() {
+            public Particle f(Particle p) {
+                Particle nBest = Topologies.getNeighbourhoodBest(local, p, pso.getNeighbourhood(), new SocialBestFitnessComparator());
+                p.setNeighbourhoodBest(nBest);
+                return p;
+            }
+        });
     }
 
     public void setCrossoverProbability(ControlParameter crossoverProbability) {

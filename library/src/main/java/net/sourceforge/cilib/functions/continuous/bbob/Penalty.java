@@ -14,7 +14,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 /**
  * Implementation to penalise a candidate position.
  */
-public class Penalty implements ContinuousFunction {
+public class Penalty extends ContinuousFunction {
 	private ControlParameter boundary;
 
     public Penalty() {
@@ -22,7 +22,7 @@ public class Penalty implements ContinuousFunction {
     }
 
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double sum = 0;
 
         for (int i = 0; i < input.size(); i++) {

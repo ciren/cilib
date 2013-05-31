@@ -8,14 +8,15 @@ package net.sourceforge.cilib.ec.iterationstrategies;
 
 import java.util.Arrays;
 import java.util.List;
+
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.ec.SaDEIndividual;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.creation.SaDECreationStrategy;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
+import fj.F;
 
 /**
  * This is the Self Adaptive Iteration Strategy described by A. K. Qin
@@ -80,70 +81,72 @@ public class SaDEIterationStrategy extends AbstractIterationStrategy<EC> {
      * @param ec The {@linkplain EC} on which to perform this iteration.
      */
     @Override
-    public void performIteration(EC ec) {
-        Topology<SaDEIndividual> topology = (Topology<SaDEIndividual>) ec.getTopology();
-        String strategyResult;
+    public void performIteration(final EC ec) {
+        final fj.data.List<SaDEIndividual> topology = ec.getTopology();
 
-        if(((SaDECreationStrategy)topology.get(0).getTrialVectorCreationStrategy()).probabilitiesChanged()) {
+        if(((SaDECreationStrategy)topology.head().getTrialVectorCreationStrategy()).probabilitiesChanged()) {
             totalAcceptedWithStrategy1 = 0;
             totalAcceptedWithStrategy2 = 0;
             totalRejectedWithStrategy1 = 0;
             totalRejectedWithStrategy2 = 0;
         }
 
-        for (int i = 0; i < topology.size(); i++) {
-            SaDEIndividual current = topology.get(i);
+        ec.setTopology(topology.map(new F<SaDEIndividual, SaDEIndividual>() {
+        	@Override
+            public SaDEIndividual f(SaDEIndividual current) {
+        		// Create the trial vector by applying mutation
+                SaDEIndividual targetEntity = targetVectorSelectionStrategy.on(topology).exclude(current).select();
 
-            // Create the trial vector by applying mutation
-            SaDEIndividual targetEntity = targetVectorSelectionStrategy.on(topology).exclude(current).select();
+                // Create the trial vector / entity
+                SaDEIndividual trialEntity = current.getTrialVectorCreationStrategy().create(targetEntity, current, topology);
 
-            // Create the trial vector / entity
-            SaDEIndividual trialEntity = current.getTrialVectorCreationStrategy().create(targetEntity, current, topology);
+                // Create the offspring by applying cross-over
+                List<SaDEIndividual> offspring = current.getCrossoverStrategy().crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
 
-            // Create the offspring by applying cross-over
-            List<SaDEIndividual> offspring = current.getCrossoverStrategy().crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
-
-            // Replace the parent (current) if the offspring is better
-            SaDEIndividual offspringEntity = offspring.get(0);
-            offspringEntity.setPreviousFitness(current.getFitness().getClone());
-            boundaryConstraint.enforce(offspringEntity);
-            offspringEntity.calculateFitness();
-
-            boolean acceptedOffspring = false;
-            if (offspringEntity.getFitness().compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent
-                acceptedOffspring = true;
-            }
-
-            strategyResult = ((SaDECreationStrategy) current.getTrialVectorCreationStrategy()).accepted(acceptedOffspring);
-
-            current.acceptParameters(acceptedOffspring, offspringEntity);
-
-            if(strategyResult.equalsIgnoreCase("Strategy 1 Accepted")) {
-                totalAcceptedWithStrategy1++;
-                //these are updated because the individual currently holds the creationStrategy, so it can only keep track of how many times its
-                //creationStrategy has been accepted and not how many times the creationStrategy itself has been chosen
-                ((SaDECreationStrategy) current.getTrialVectorCreationStrategy()).setTotalAcceptedWithStrategy1(totalAcceptedWithStrategy1);
-            } else if(strategyResult.equalsIgnoreCase("Strategy 2 Accepted")) {
-                totalAcceptedWithStrategy2++;
-                ((SaDECreationStrategy) current.getTrialVectorCreationStrategy()).setTotalAcceptedWithStrategy2(totalAcceptedWithStrategy2);
-            } else if(strategyResult.equalsIgnoreCase("Strategy 1 Rejected")) {
-                totalRejectedWithStrategy1++;
-                ((SaDECreationStrategy) current.getTrialVectorCreationStrategy()).setTotalRejectedWithStrategy1(totalRejectedWithStrategy1);
-            } else if(strategyResult.equalsIgnoreCase("Strategy 2 Rejected")) {
-                totalRejectedWithStrategy2++;
-                ((SaDECreationStrategy) current.getTrialVectorCreationStrategy()).setTotalRejectedWithStrategy2(totalRejectedWithStrategy2);
-            }
-
-            if (acceptedOffspring) { //Give the offspring Entity all properties of the parent
-                Vector offspringVector = (Vector) offspringEntity.getCandidateSolution();
-                offspringEntity = current.getClone();
-                offspringEntity.setCandidateSolution(offspringVector);
+                // Replace the parent (current) if the offspring is better
+                SaDEIndividual offspringEntity = offspring.get(0);
+                offspringEntity.setPreviousFitness(current.getFitness().getClone());
+                boundaryConstraint.enforce(offspringEntity);
                 offspringEntity.calculateFitness();
-                topology.set(i, offspringEntity); // Replace the parent with the offspring individual
-            }
-        }
 
-        if(ec.getIterations() == nextAdaptiveVariableRecalculation) {
+                boolean acceptedOffspring = false;
+                if (offspringEntity.getFitness().compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent
+                    acceptedOffspring = true;
+                }
+
+                String strategyResult = ((SaDECreationStrategy) current.getTrialVectorCreationStrategy()).accepted(acceptedOffspring);
+
+                current.acceptParameters(acceptedOffspring, offspringEntity);
+
+                if(strategyResult.equalsIgnoreCase("Strategy 1 Accepted")) {
+                    totalAcceptedWithStrategy1++;
+                    //these are updated because the individual currently holds the creationStrategy, so it can only keep track of how many times its
+                    //creationStrategy has been accepted and not how many times the creationStrategy itself has been chosen
+                    ((SaDECreationStrategy) current.getTrialVectorCreationStrategy()).setTotalAcceptedWithStrategy1(totalAcceptedWithStrategy1);
+                } else if(strategyResult.equalsIgnoreCase("Strategy 2 Accepted")) {
+                    totalAcceptedWithStrategy2++;
+                    ((SaDECreationStrategy) current.getTrialVectorCreationStrategy()).setTotalAcceptedWithStrategy2(totalAcceptedWithStrategy2);
+                } else if(strategyResult.equalsIgnoreCase("Strategy 1 Rejected")) {
+                    totalRejectedWithStrategy1++;
+                    ((SaDECreationStrategy) current.getTrialVectorCreationStrategy()).setTotalRejectedWithStrategy1(totalRejectedWithStrategy1);
+                } else if(strategyResult.equalsIgnoreCase("Strategy 2 Rejected")) {
+                    totalRejectedWithStrategy2++;
+                    ((SaDECreationStrategy) current.getTrialVectorCreationStrategy()).setTotalRejectedWithStrategy2(totalRejectedWithStrategy2);
+                }
+
+                if (acceptedOffspring) { //Give the offspring Entity all properties of the parent
+                    Vector offspringVector = (Vector) offspringEntity.getCandidateSolution();
+                    offspringEntity = current.getClone();
+                    offspringEntity.setCandidateSolution(offspringVector);
+                    offspringEntity.calculateFitness();
+                    return offspringEntity;
+                } else {
+                	return current;
+                }
+        	}
+        }));
+
+        if (ec.getIterations() == nextAdaptiveVariableRecalculation) {
             for (SaDEIndividual current : topology) {
                 current.getCrossoverProbabilityParameterAdaptationStrategy().recalculateAdaptiveVariables();
                 current.getScalingFactorParameterAdaptationStrategy().recalculateAdaptiveVariables();

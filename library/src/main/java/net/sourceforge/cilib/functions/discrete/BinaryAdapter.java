@@ -7,8 +7,8 @@
 package net.sourceforge.cilib.functions.discrete;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.types.container.Vector;
+import fj.F;
 
 /**
  * Class to convert a binary vector into a continuous vector for optimisation of
@@ -19,10 +19,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * TODO: This doesn't actually make sense... should rather be a problem that
  * does the needed mapping between spaces.
  */
-public class BinaryAdapter implements ContinuousFunction {
+public class BinaryAdapter extends ContinuousFunction {
     private static final long serialVersionUID = -329657439970469569L;
 
-    private Function<Vector, Number> function;
+    private F<Vector, Number> function;
     private int bitsPerDimension;
     private int precision;
 
@@ -43,9 +43,10 @@ public class BinaryAdapter implements ContinuousFunction {
      * @return The result of the evaluation.
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Vector decodedVector = this.decodeBitString(input);
-        return function.apply(decodedVector).doubleValue();
+
+        return function.f(decodedVector).doubleValue();
     }
 
 //    /**
@@ -101,15 +102,15 @@ public class BinaryAdapter implements ContinuousFunction {
     /**
      * @return Returns the function.
      */
-    public Function<Vector, Number> getFunction() {
+    public F<Vector, Number> getFunction() {
         return function;
     }
 
     /**
      * @param function The function to set.
      */
-    public void setFunction(Function<Vector, ? extends Number> function) {
-        this.function = (Function<Vector, Number>) function;
+    public void setFunction(F<Vector, ? extends Number> function) {
+        this.function = (F<Vector, Number>) function;
     }
 
 

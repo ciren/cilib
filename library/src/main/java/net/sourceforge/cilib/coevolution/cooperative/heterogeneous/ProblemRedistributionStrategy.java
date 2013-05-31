@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.coevolution.cooperative.heterogeneous;
 
 import java.util.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.ContextEntity;
 import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.ProblemDistributionStrategy;
@@ -33,7 +33,7 @@ public interface ProblemRedistributionStrategy extends Cloneable {
      * @param context               The current {@link ContextEntity} of the
      *                              {@link CooperativeCoevolutionAlgorithm}.
      */
-    void redistributeProblem(List<PopulationBasedAlgorithm> populations, Problem problem, ProblemDistributionStrategy distributionStrategy, Vector context);
+    void redistributeProblem(List<SinglePopulationBasedAlgorithm> populations, Problem problem, ProblemDistributionStrategy distributionStrategy, Vector context);
 
     /**
      * {@inheritDoc}

@@ -22,13 +22,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Computer Science. Paper 54.
  * </li></ul>
  */
-public class Order3Bipolar implements ContinuousFunction {
+public class Order3Bipolar extends ContinuousFunction {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double result = 0.0;
 
         for (int i = 0; i < input.size()-5; i+=6) {

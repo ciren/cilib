@@ -15,21 +15,22 @@ publishArtifact in Test := false
 parallelExecution in Test := false
 
 libraryDependencies ++= Seq(
-    "com.google.guava" % "guava" % "11.0.1",
-    "org.parboiled" % "parboiled-core" % "0.11.0",
-    "org.parboiled" % "parboiled-java" % "0.11.0",
+    "com.google.guava" % "guava" % "13.0.1",
+    "org.parboiled" % "parboiled-core" % "1.1.4",
+    "org.parboiled" % "parboiled-java" % "1.1.4",
     "org.functionaljava" % "functionaljava" % "3.1",
-    "junit" % "junit" % "4.10" % "test",
-    "org.mockito" % "mockito-all" % "1.8.4" % "test",
+    "org.mockito" % "mockito-all" % "1.9.5" % "test",
     "org.hamcrest" % "hamcrest-all" % "1.1" % "test",
     "com.novocode" % "junit-interface" % "0.10-M4" % "test"
 )
 
 javacOptions ++= Seq("-encoding", "UTF8", "-source", "1.7", "-target", "1.7")
 
-javacOptions in doc := Seq("-source", "1.7")
+javacOptions in doc := Seq("-encoding", "UTF-8", "-source", "1.7")
 
 scalacOptions += "-deprecation"
+
+//testOptions += Tests.Argument(TestFrameworks.JUnit, "-v")
 
 crossPaths := false
 
@@ -64,30 +65,21 @@ pomExtra := (
   <connection>scm:git:git@github.com:cilib/cilib.git</connection>
 </scm>
 <developers>
-  <developer>
-    <id>gpampara</id>
-    <name>Gary Pamparà</name>
-    <url>http://gpampara.github.com</url>
-  </developer>
-  <developer>
-    <id>filinep</id>
-    <name>Filipe Nepomuceno</name>
-    <url>http://github.com/filinep</url>
-  </developer>
-  <developer>
-    <id>benniel</id>
-    <name>Bennie Leonard</name>
-    <url>http://github.com/benniel</url>
-  </developer>
-  <developer>
-    <id>avanwyk</id>
-    <name>Andrich van Wyk</name>
-    <url>http://github.com/avanwyk</url>
-  </developer>
-  <developer>
-    <id>kgeorgieva</id>
-    <name>Kristina Georgieva</name>
-    <url>http://github.com/kgeorgieva</url>
-  </developer>
+  {
+    Seq(
+      ("gpampara", "Gary Pamparà"),
+      ("filinep", "Filipe Nepomuceno"),
+      ("benniel", "Bennie Leonard"),
+      ("avanwyk", "Andrich van Wyk"),
+      ("kgeorgieva", "Kristina Georgieva")
+    ).map {
+      case (id, name) =>
+        <developer>
+          <id>{id}</id>
+          <name>{name}</name>
+          <url>http://github.com/{id}</url>
+        </developer>
+    }
+  }
 </developers>)
 

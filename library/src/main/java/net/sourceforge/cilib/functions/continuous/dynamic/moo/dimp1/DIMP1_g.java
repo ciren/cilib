@@ -18,7 +18,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 
-public class DIMP1_g implements ContinuousFunction {
+public class DIMP1_g extends ContinuousFunction {
 
 
     //members
@@ -91,7 +91,7 @@ public class DIMP1_g implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
+    public Double f(Vector x) {
         this.tau = AbstractAlgorithm.get().getIterations();
     	return this.apply(this.tau, x);
     }

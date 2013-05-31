@@ -10,11 +10,10 @@ package net.sourceforge.cilib.entity.operators.creation;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.type.types.container.Vector;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -25,7 +24,6 @@ public class RandToBestCreationTest {
     public void randToBestCreationTest() {
         Rand.setSeed(0);
         RandToBestCreationStrategy creation = new RandToBestCreationStrategy();
-        Topology<Entity> testTopology = new GBestTopology<Entity>();
 
         Entity current = new Individual();
         Entity entityBest = new Individual();
@@ -33,11 +31,7 @@ public class RandToBestCreationTest {
         Entity entity1 = new Individual();
         Entity entity2 = new Individual();
 
-        testTopology.add(current);
-        testTopology.add(entityBest);
-        testTopology.add(entityRandom);
-        testTopology.add(entity1);
-        testTopology.add(entity2);
+        fj.data.List<Entity> testTopology = fj.data.List.list(current, entityBest, entityRandom, entity1, entity2);
 
         entityBest.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.0));
         entityBest.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(0.1));

@@ -11,6 +11,6 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 /**
  *
  */
-public interface DeratingFunction extends ContinuousFunction {
-    double getRadius();
+public abstract class DeratingFunction extends ContinuousFunction {
+    public abstract double getRadius();
 }

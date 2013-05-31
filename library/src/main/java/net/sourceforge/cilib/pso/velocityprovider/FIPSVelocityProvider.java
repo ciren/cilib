@@ -9,7 +9,6 @@ package net.sourceforge.cilib.pso.velocityprovider;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
@@ -44,14 +43,15 @@ public class FIPSVelocityProvider implements VelocityProvider {
     public Vector get(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getPosition();
-        Topology<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
+        PSO algorithm = (PSO) AbstractAlgorithm.get();
+        fj.data.List<Particle> topology = algorithm.getTopology();
 
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             double informationSum = 0.0;
             int numberOfNeighbours = 0;
 
-            for (Particle currentTarget : topology.neighbourhood(particle)) {
+            for (Particle currentTarget : algorithm.getNeighbourhood().f(topology, particle)) {
                 Vector currentTargetPosition = (Vector) currentTarget.getBestPosition();
 
                 double randomComponent = (this.cognitiveAcceleration.getParameter() + this.socialAcceleration.getParameter()) * Rand.nextDouble();

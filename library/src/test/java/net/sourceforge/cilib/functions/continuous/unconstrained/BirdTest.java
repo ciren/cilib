@@ -28,7 +28,7 @@ public class BirdTest {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(1,2);
-        assertEquals(6.8250541015507, function.apply(x), Maths.EPSILON);
+        assertEquals(6.8250541015507, function.f(x), Maths.EPSILON);
     }
 
     /**
@@ -36,6 +36,6 @@ public class BirdTest {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0));
+        function.f(Vector.of(1.0, 2.0, 3.0));
     }
 }

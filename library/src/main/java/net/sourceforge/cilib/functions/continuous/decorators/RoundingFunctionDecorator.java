@@ -6,11 +6,11 @@
  */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
-import fj.F;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
+import fj.F;
 
 /**
  * A decorator that makes a function non-continuous.
@@ -33,15 +33,15 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * 1-50. Available at: http://vg.perso.eisti.fr/These/Papiers/Bibli2/CEC05.pdf.
  * </p>
  */
-public class RoundingFunctionDecorator implements ContinuousFunction {
+public class RoundingFunctionDecorator extends ContinuousFunction {
     private ContinuousFunction function;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
-        return function.apply(input.map(new F<Numeric, Numeric>() {
+    public Double f(Vector input) {
+        return function.f(input.map(new F<Numeric, Numeric>() {
             @Override
             public Numeric f(Numeric f) {
                 if (Math.abs(f.doubleValue()) < 0.5) {
@@ -75,7 +75,7 @@ public class RoundingFunctionDecorator implements ContinuousFunction {
     }
 
     /**
-     * Gets the function that is decorated.
+     * Get the function that is decorated.
      * @return the decorated function.
      */
     public ContinuousFunction getFunction() {

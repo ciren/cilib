@@ -18,7 +18,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Transactions on Evolutionary Computation, 8(5): 425-442
  *
  */
-public class FDA3_h implements ContinuousFunction {
+public class FDA3_h extends ContinuousFunction {
 
     private static final long serialVersionUID = 3845365231540108577L;
     //members
@@ -103,7 +103,7 @@ public class FDA3_h implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
+    public Double f(Vector x) {
         int iteration = AbstractAlgorithm.get().getIterations();
         return this.apply(iteration, x);
     }

@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class WavesTest {
- 
+
     private ContinuousFunction function;
 
     @Before
@@ -27,24 +27,24 @@ public class WavesTest {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(-0.5,-1.2);
-        
-        assertEquals(-5.907363227, function.apply(x), 0.000000009);
+
+        assertEquals(-5.907363227, function.f(x), 0.000000009);
 
         x.setReal(0, 0.0);
         x.setReal(1, 0.0);
-        assertEquals(0.0, function.apply(x), 0.000000009);
-        
+        assertEquals(0.0, function.f(x), 0.000000009);
+
         x.setReal(0, 0.0);
         x.setReal(1, 1.2);
-        assertEquals(0.0, function.apply(x), 0.000000009);
-        
+        assertEquals(0.0, function.f(x), 0.000000009);
+
         x.setReal(0, 1.2);
         x.setReal(1, -1.2);
-        assertEquals(7.210944, function.apply(x), 0.000000009);
-        
+        assertEquals(7.210944, function.f(x), 0.000000009);
+
         x.setReal(0, 1.2);
         x.setReal(1, 0);
-        assertEquals(-0.046656, function.apply(x), 0.000000009);
+        assertEquals(-0.046656, function.f(x), 0.000000009);
     }
 
     /**
@@ -52,6 +52,6 @@ public class WavesTest {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0));
+        function.f(Vector.of(1.0, 2.0, 3.0));
     }
 }

@@ -19,19 +19,19 @@ import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Entities;
 import net.sourceforge.cilib.util.Vectors;
+import net.sourceforge.cilib.util.functions.Entities;
 
 /**
  * <p> Parent Centric Crossover Strategy </p>
  *
- * <p> References: </p> 
- * 
+ * <p> References: </p>
+ *
  * <p> Ono, I. & Kobayashi, S. A Real-coded Genetic
  * Algorithm for Function Optimization Using Unimodal Normal Distribution
  * Crossover. Proceedings of the Seventh International Conference on Genetic
  * Algorithms ICGA97 14, 246-253 (1997). </p>
- * 
+ *
  * <p> The code is based on the MOEA
  * Framework under the LGPL license: http://www.moeaframework.org </p>
  */
@@ -41,7 +41,7 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
     private int numberOfOffspring;
     private ControlParameter sigma1;
     private ControlParameter sigma2;
-    private GaussianDistribution random;
+    private final GaussianDistribution random;
     private boolean useIndividualProviders;
 
     /**
@@ -86,7 +86,7 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
         checkState(parentCollection.size() >= 3, "There must be a minimum of three parents to perform UNDX crossover.");
         checkState(numberOfOffspring > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
 
-        List<Vector> solutions = Entities.<Vector>getCandidateSolutions(parentCollection);
+        List<Vector> solutions = Entities.<Vector, E>getCandidateSolutions(parentCollection);
         List<E> offspring = Lists.newArrayListWithCapacity(numberOfOffspring);
         UniformDistribution randomParent = new UniformDistribution();
         final int k = solutions.size();
@@ -100,7 +100,7 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
             List<Vector> e_zeta = new ArrayList<Vector>();
 
             //calculate mean of parents except main parent
-            Vector g = Vectors.mean(solutions.subList(0, k - 1));
+            Vector g = Vectors.mean(fj.data.List.iterableList(solutions.subList(0, k - 1))).valueE("Error in getting mean");
 
             // basis vectors defined by parents
             for (int i = 0; i < k - 1; i++) {
@@ -119,15 +119,15 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
             final double D = solutions.get(k - 1).subtract(g).length();
 
             // create the remaining basis vectors
-            List<Vector> e_eta = Lists.newArrayList();
-            e_eta.add(solutions.get(k - 1).subtract(g));
+            fj.data.List<Vector> e_eta = fj.data.List.nil();
+            e_eta.snoc(solutions.get(k - 1).subtract(g));
 
             for (int i = 0; i < n - e_zeta.size() - 1; i++) {
                 Vector d = Vector.newBuilder().copyOf(g).buildRandom();
-                e_eta.add(d);
+                e_eta.snoc(d);
             }
 
-            e_eta = Vectors.orthonormalize(e_eta);
+            e_eta = Vectors.orthonormalize(fj.data.List.iterableList(e_eta));
 
             // construct the offspring
             Vector variables = Vector.copyOf(g);
@@ -137,8 +137,8 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
                     variables = variables.plus(e_zeta.get(i).multiply(random.getRandomNumber(0.0, sigma1.getParameter())));
                 }
 
-                for (int i = 0; i < e_eta.size(); i++) {
-                    variables = variables.plus(e_eta.get(i).multiply(D * random.getRandomNumber(0.0, sigma2.getParameter() / Math.sqrt(n))));
+                for (int i = 0; i < e_eta.length(); i++) {
+                    variables = variables.plus(e_eta.index(i).multiply(D * random.getRandomNumber(0.0, sigma2.getParameter() / Math.sqrt(n))));
                 }
             } else {
                 for (int i = 0; i < e_zeta.size(); i++) {
@@ -150,8 +150,8 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
                     }));
                 }
 
-                for (int i = 0; i < e_eta.size(); i++) {
-                    variables = variables.plus(e_eta.get(i).multiply(new P1<Number>() {
+                for (int i = 0; i < e_eta.length(); i++) {
+                    variables = variables.plus(e_eta.index(i).multiply(new P1<Number>() {
                         @Override
                         public Number _1() {
                             return D * random.getRandomNumber(0.0, sigma2.getParameter() / Math.sqrt(n));
@@ -162,7 +162,7 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
 
             E child = (E) parentCollection.get(parent).getClone();
             child.setCandidateSolution(variables);
-            
+
             offspring.add(child);
         }
 
@@ -213,11 +213,13 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
     public void setNumberOfParents(int numberOfParents) {
         this.numberOfParents = numberOfParents;
     }
-    
+
+    @Override
     public void setCrossoverPointProbability(double crossoverPointProbability) {
         throw new UnsupportedOperationException("Not applicable");
     }
-    
+
+    @Override
     public ControlParameter getCrossoverPointProbability() {
         throw new UnsupportedOperationException("Not applicable");
     }

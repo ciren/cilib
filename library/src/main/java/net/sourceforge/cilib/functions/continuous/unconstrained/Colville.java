@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * <p><b>The Colville Function.</b></p>
@@ -35,7 +36,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-10, 10)^4
  *
  */
-public class Colville implements ContinuousFunction {
+public class Colville extends ContinuousFunction {
 
     private static final long serialVersionUID = 4561331100889232057L;
 
@@ -43,7 +44,7 @@ public class Colville implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() == 4, "Colville function is only defined for 4 dimensions");
 
         double a = input.doubleValueOf(0);

@@ -20,7 +20,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * The problem has been adapted by Helbig and Engelbrecht to make it a DMOOP.
  *
  */
-public class HEF3_f2 implements ContinuousFunction {
+public class HEF3_f2 extends ContinuousFunction {
 
     private static final long serialVersionUID = 6369118486095689078L;
     //member
@@ -106,7 +106,7 @@ public class HEF3_f2 implements ContinuousFunction {
      * Evaluates the function. g*h
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         int iteration = AbstractAlgorithm.get().getIterations();
         return apply(iteration, input);
     }
@@ -115,7 +115,7 @@ public class HEF3_f2 implements ContinuousFunction {
      * Evaluates the function for a specific iteration. g*h
      */
     public Double apply(int iteration, Vector input) {
-        double g = ((HEF3_g) this.hef3_g).apply(input);
+        double g = ((HEF3_g) this.hef3_g).f(input);
         double h = ((HEF3_h) this.hef3_h).apply(iteration, input);
 
         double value = g * h;

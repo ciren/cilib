@@ -28,9 +28,9 @@ public class LevyTest {
     public void testEvaluate() {
         Vector x = Vector.of(1.0, 1.0, 1.0, -9.752356);
 
-        assertEquals(-21.502356, function.apply(x), 0.0000001);
+        assertEquals(-21.502356, function.f(x), 0.0000001);
 
         Vector y = Vector.of(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -4.754402);
-        assertEquals(-11.504403, function.apply(y), 0.0000001);
+        assertEquals(-11.504403, function.f(y), 0.0000001);
     }
 }

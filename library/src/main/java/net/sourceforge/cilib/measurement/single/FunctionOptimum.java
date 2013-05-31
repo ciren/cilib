@@ -6,12 +6,13 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
+import fj.F;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.functions.KnownOptimum;
-import net.sourceforge.cilib.functions.Function;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /*
  * Measurement to obtain the known optimum value of a function
@@ -32,7 +33,7 @@ public class FunctionOptimum implements Measurement<Real> {
      */
     @Override
     public Real getValue(Algorithm algorithm) {
-        Function f = ((FunctionOptimisationProblem)algorithm.getOptimisationProblem()).getFunction();
+        F<Vector, ? extends Number> f = ((FunctionOptimisationProblem)algorithm.getOptimisationProblem()).getFunction();
         return Real.valueOf(((KnownOptimum<Double>)f).getOptimum());
     }
 

@@ -7,10 +7,11 @@
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
 import java.util.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
@@ -22,7 +23,7 @@ import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
  *
  * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
  */
-public class ReevaluationReactionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy<E> {
+public class ReevaluationReactionStrategy<E extends SinglePopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy {
 
     private static final long serialVersionUID = -5549918743502730714L;
     protected double reevaluationRatio = 0.0;
@@ -50,9 +51,10 @@ public class ReevaluationReactionStrategy<E extends PopulationBasedAlgorithm> ex
      * {@inheritDoc}
      */
     @Override
-    public void performReaction(E algorithm) {
-        Topology<? extends Entity> entities = algorithm.getTopology();
-        int reevaluateCount = (int) Math.floor(reevaluationRatio * entities.size());
+	protected <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void performReaction(
+			A algorithm) {
+        fj.data.List<? extends Entity> entities = algorithm.getTopology();
+        int reevaluateCount = (int) Math.floor(reevaluationRatio * entities.length());
 
         reevaluate(entities, reevaluateCount);
     }
@@ -65,7 +67,7 @@ public class ReevaluationReactionStrategy<E extends PopulationBasedAlgorithm> ex
      * @param reevaluateCount an <code>int<code> specifying how many entities should be
      *        reevaluated
      */
-    protected void reevaluate(List<? extends Entity> entities, int reevaluateCount) {
+    protected void reevaluate(fj.data.List<? extends Entity> entities, int reevaluateCount) {
         RandomSelector selector = new RandomSelector();
         List<? extends Entity> subList = selector.on(entities).select(Samples.first(reevaluateCount));
         for (Entity entity : subList) {

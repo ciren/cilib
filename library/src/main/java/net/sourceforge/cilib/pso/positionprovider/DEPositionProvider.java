@@ -17,7 +17,6 @@ import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 
 /** Implementation of the DE PSO of Hendtlass.
  * TODO: can the DE strategies be incorporated somehow?
@@ -61,7 +60,7 @@ public class DEPositionProvider implements PositionProvider {
         Vector velocity = (Vector) particle.getVelocity();
 
         if (rand1.getRandomNumber() < differentialEvolutionProbability.getRandomNumber(0.8, 0.1)) {
-            return Vectors.sumOf(position, velocity);
+            return position.plus(velocity);
         } else {
             ArrayList<Vector> positions = new ArrayList<Vector>(3);
 
@@ -84,8 +83,8 @@ public class DEPositionProvider implements PositionProvider {
             int count = 0;
 
             while (count < 3) {
-                int random = Rand.nextInt(pso.getTopology().size());
-                Entity parent = pso.getTopology().get(random);
+                int random = Rand.nextInt(pso.getTopology().length());
+                Entity parent = pso.getTopology().index(random);
                 if (!positions.contains((Vector) parent.getCandidateSolution())) {
                     positions.add((Vector) parent.getCandidateSolution());
                     count++;

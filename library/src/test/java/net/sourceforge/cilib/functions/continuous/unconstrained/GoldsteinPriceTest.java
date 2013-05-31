@@ -31,11 +31,11 @@ public class GoldsteinPriceTest {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(0,-1);
-        assertEquals(3.0, function.apply(x), Maths.EPSILON);
+        assertEquals(3.0, function.f(x), Maths.EPSILON);
 
         x.setReal(0, 2.0);
         x.setReal(1, 2.0);
-        assertEquals(76728.0, function.apply(x), Maths.EPSILON);
+        assertEquals(76728.0, function.f(x), Maths.EPSILON);
     }
 
     /**
@@ -43,6 +43,6 @@ public class GoldsteinPriceTest {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0));
+        function.f(Vector.of(1.0, 2.0, 3.0));
     }
 }

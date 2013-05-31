@@ -18,7 +18,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class UniformMutationStrategy extends MutationStrategy {
 
     private static final long serialVersionUID = -3951730432882403768L;
-    private ControlParameter minStrategy, maxStrategy;
+    private final ControlParameter minStrategy, maxStrategy;
 
     public UniformMutationStrategy() {
         super();
@@ -44,7 +44,7 @@ public class UniformMutationStrategy extends MutationStrategy {
      * {@inheritDoc}
      */
     @Override
-    public void mutate(List<? extends Entity> entity) {
+    public <E extends Entity> List<E> mutate(List<E> entity) {
         for (ListIterator<? extends Entity> individual = entity.listIterator(); individual.hasNext();) {
             Entity current = individual.next();
             Vector chromosome = (Vector) current.getCandidateSolution();
@@ -56,5 +56,6 @@ public class UniformMutationStrategy extends MutationStrategy {
                 }
             }
         }
+        return entity;
     }
 }

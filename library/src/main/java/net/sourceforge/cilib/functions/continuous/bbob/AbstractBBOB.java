@@ -10,7 +10,7 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.KnownOptimum;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-public abstract class AbstractBBOB implements ContinuousFunction, KnownOptimum<Double>  {
+public abstract class AbstractBBOB extends ContinuousFunction implements KnownOptimum<Double>  {
 	protected Vector xOpt;
 	protected double fOpt;
 

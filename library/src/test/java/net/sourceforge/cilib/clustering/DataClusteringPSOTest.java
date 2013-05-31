@@ -14,9 +14,6 @@ import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.clustering.iterationstrategies.SinglePopulationDataClusteringIterationStrategy;
 import net.sourceforge.cilib.clustering.iterationstrategies.StandardDataClusteringIterationStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.TopologyBestContributionSelectionStrategy;
-import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.QuantisationErrorMinimisationProblem;
 import net.sourceforge.cilib.problem.boundaryconstraint.CentroidBoundaryConstraint;
@@ -26,6 +23,7 @@ import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
+
 import org.junit.Test;
 
 public class DataClusteringPSOTest {
@@ -45,7 +43,7 @@ public class DataClusteringPSOTest {
         strategy.setBoundaryConstraint(constraint);
         instance.setIterationStrategy(strategy);
         instance.setOptimisationProblem(problem);
-        DataDependantPopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy<ClusterParticle>();
+        DataDependantPopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy();
 
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
@@ -57,11 +55,11 @@ public class DataClusteringPSOTest {
 
         instance.performInitialisation();
 
-        ClusterParticle particleBefore = instance.getTopology().get(0).getClone();
+        ClusterParticle particleBefore = instance.getTopology().head().getClone();
 
         instance.run();
 
-        ClusterParticle particleAfter = instance.getTopology().get(0).getClone();
+        ClusterParticle particleAfter = instance.getTopology().head().getClone();
 
         Assert.assertFalse(particleAfter.getCandidateSolution().containsAll(particleBefore.getCandidateSolution()));
 
@@ -73,17 +71,18 @@ public class DataClusteringPSOTest {
     @Test
     public void testGetTopology() {
         DataClusteringPSO instance = new DataClusteringPSO();
-        Particle p = new ClusterParticle();
+        ClusterParticle p = new ClusterParticle();
         CentroidHolder holder = new CentroidHolder();
         holder.add(ClusterCentroid.of(1,2,3,4,5));
         holder.add(ClusterCentroid.of(1,3,5,9,8));
         p.setCandidateSolution(holder);
-        Topology topology = new GBestTopology();
-        topology.add(p);
+//        Topology topology = new GBestTopology();
+//        topology.add(p);
+        fj.data.List<ClusterParticle> list = fj.data.List.list(p);
 
-        instance.setTopology(topology);
+        instance.setTopology(list);
 
-        Assert.assertEquals(topology, instance.getTopology());
+        Assert.assertEquals(list, instance.getTopology());
     }
 
     /**
@@ -92,16 +91,17 @@ public class DataClusteringPSOTest {
     @Test
     public void testSetTopology() {
         DataClusteringPSO instance = new DataClusteringPSO();
-        Particle p = new ClusterParticle();
+        ClusterParticle p = new ClusterParticle();
         CentroidHolder holder = new CentroidHolder();
         holder.add(ClusterCentroid.of(1,2,3,4,5));
         p.setCandidateSolution(holder);
-        Topology topology = new GBestTopology();
-        topology.add(p);
+//        Topology topology = new GBestTopology();
+//        topology.add(p);
 
-        instance.setTopology(topology);
+        fj.data.List<ClusterParticle> list = fj.data.List.list(p);
+        instance.setTopology(list);
 
-        Assert.assertEquals(topology, instance.getTopology());
+        Assert.assertEquals(list, instance.getTopology());
     }
 
     /**
@@ -114,7 +114,7 @@ public class DataClusteringPSOTest {
         problem.setDomain("R(-5.12:5.12)");
         instance.setOptimisationProblem(problem);
         instance.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 1));
-        PopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy<ClusterParticle>();
+        PopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy();
         init.setEntityType(new ClusterParticle());
         instance.setInitialisationStrategy(init);
         instance.setSourceURL("library/src/test/resources/datasets/iris2.arff");

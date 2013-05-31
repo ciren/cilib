@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.measurement.single.diversity.centerinitialisationstrategies;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -19,6 +18,6 @@ public interface CenterInitialisationStrategy {
      * Get the population center.
      * @return the populationCenter
      */
-    Vector getCenter(Topology<? extends Entity> topology);
+    Vector getCenter(fj.data.List<? extends Entity> topology);
 
 }

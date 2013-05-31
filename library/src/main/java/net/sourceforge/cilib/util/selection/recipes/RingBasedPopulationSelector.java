@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.util.selection.recipes;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.util.selection.PartialSelection;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.arrangement.Arrangement;
@@ -15,7 +15,7 @@ import net.sourceforge.cilib.util.selection.arrangement.RingBasedArrangement;
 
 /**
  */
-public class RingBasedPopulationSelector implements Selector<PopulationBasedAlgorithm> {
+public class RingBasedPopulationSelector implements Selector<SinglePopulationBasedAlgorithm> {
 
     private static final long serialVersionUID = 8899308548978334236L;
 
@@ -23,7 +23,7 @@ public class RingBasedPopulationSelector implements Selector<PopulationBasedAlgo
      * {@inheritDoc}
      */
     @Override
-    public PartialSelection<PopulationBasedAlgorithm> on(Iterable<PopulationBasedAlgorithm> iterable) {
+    public PartialSelection<SinglePopulationBasedAlgorithm> on(Iterable<SinglePopulationBasedAlgorithm> iterable) {
         Arrangement ordering = new RingBasedArrangement(AbstractAlgorithm.get());
         return Selection.copyOf(iterable).orderBy(ordering);
     }

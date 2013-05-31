@@ -13,10 +13,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * R^1
  */
-public class PowerDeratingFunction implements DeratingFunction {
+public class PowerDeratingFunction extends DeratingFunction {
     private ControlParameter radius;
     private ControlParameter alpha;
-    
+
     public PowerDeratingFunction() {
         this.radius = ConstantControlParameter.of(0.25);
         this.alpha = ConstantControlParameter.of(2.0);
@@ -26,7 +26,7 @@ public class PowerDeratingFunction implements DeratingFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         if (input.size() != 1) {
             throw new RuntimeException("Derating functions may only be used in one dimension.");
         }
@@ -35,10 +35,10 @@ public class PowerDeratingFunction implements DeratingFunction {
             return 1.0;
         }
 
-        return input.doubleValueOf(0) >= radius.getParameter() ? 
+        return input.doubleValueOf(0) >= radius.getParameter() ?
                 1.0 : Math.pow(input.doubleValueOf(0) / radius.getParameter(), alpha.getParameter());
     }
-    
+
     /**
      * Set the value of the radius.
      * @param radius The value to set.

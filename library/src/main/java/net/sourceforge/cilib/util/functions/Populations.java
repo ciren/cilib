@@ -6,25 +6,24 @@
  */
 package net.sourceforge.cilib.util.functions;
 
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import fj.F;
 import fj.F2;
 import fj.data.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 
 public final class Populations {
     /**
      * Returns an empty population of the given population type;
      */
-    public static <P extends PopulationBasedAlgorithm> F<P, P> emptyPopulation() {
+    public static <P extends SinglePopulationBasedAlgorithm> F<P, P> emptyPopulation() {
         return new F<P, P>() {
             @Override
             public P f(P a) {
                 P tmp = (P) a.getClone();
-                tmp.getTopology().clear();
+                tmp.setTopology(List.nil());
                 return tmp;
             }
         };
@@ -33,11 +32,11 @@ public final class Populations {
     /**
      * Converts a swarm into a list of single entity populations.
      */
-    public static <P extends PopulationBasedAlgorithm, E extends Entity> F<P, List<P>> populationToAlgorithms() {
+    public static <P extends SinglePopulationBasedAlgorithm, E extends Entity> F<P, List<P>> populationToAlgorithms() {
         return new F<P, List<P>>() {
             @Override
             public List<P> f(final P a) {
-                return Populations.<P, E>entitiesToAlgorithms().f((Topology<E>) a.getTopology(), a);
+                return Populations.<P, E>entitiesToAlgorithms().f((Iterable<E>) a.getTopology(), a);
             }
         };
     }
@@ -45,13 +44,13 @@ public final class Populations {
     /**
      * Converts a single entity to a population of the given type.
      */
-    public static <P extends PopulationBasedAlgorithm, E extends Entity> F2<E, P, P> entityToAlgorithm() {
+    public static <P extends SinglePopulationBasedAlgorithm, E extends Entity> F2<E, P, P> entityToAlgorithm() {
         return new F2<E, P, P>() {
             @Override
             public P f(E e, P p) {
                 P tmp = (P) p.getClone();
-                tmp.getTopology().clear();
-                ((Topology<E>) tmp.getTopology()).add(e);
+                tmp.setTopology(List.single(e));
+                //((fj.data.List<E>) tmp.getTopology()).add(e);
 
                 return tmp;
             }
@@ -61,7 +60,7 @@ public final class Populations {
     /**
      * Converts a list of entities into single entity populations.
      */
-    public static <P extends PopulationBasedAlgorithm, E extends Entity> F2<Iterable<E>, P, List<P>> entitiesToAlgorithms() {
+    public static <P extends SinglePopulationBasedAlgorithm, E extends Entity> F2<Iterable<E>, P, List<P>> entitiesToAlgorithms() {
         return new F2<Iterable<E>, P, List<P>>() {
             @Override
             public List<P> f(Iterable<E> a, P b) {
@@ -77,14 +76,15 @@ public final class Populations {
      *
      * @return The enforced swarm.
      */
-    public static <P extends PopulationBasedAlgorithm> F<P, P> enforceTopology(final ParticleBehavior pb) {
+    public static <P extends SinglePopulationBasedAlgorithm> F<P, P> enforceTopology(final ParticleBehavior pb) {
         return new F<P, P>() {
             @Override
             public P f(P a) {
                 P tmp = (P) a.getClone();
 
-                if (!tmp.getTopology().isEmpty() && tmp.getTopology().get(0) instanceof Particle) {
-                    for (Entity e : tmp.getTopology()) {
+                if (!tmp.getTopology().isEmpty() && tmp.getTopology().head() instanceof Particle) {
+                	List<Particle> local = tmp.getTopology();
+                    for (Entity e : local) {
                         Particle p = (Particle) e;
                         p.setParticleBehavior(pb);
                     }

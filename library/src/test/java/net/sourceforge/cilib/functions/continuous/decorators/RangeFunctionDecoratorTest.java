@@ -21,14 +21,14 @@ public class RangeFunctionDecoratorTest {
         r.setFunction(s);
 
         Vector v = Vector.of(1.0, 2.0, 3.0, 4.0, 5.0);
-        assertEquals(s.apply(v), 55, 0.0);
+        assertEquals(s.f(v), 55, 0.0);
 
         r.setStart(ConstantControlParameter.of(0));
         r.setEnd(ConstantControlParameter.of(2));
-        assertEquals(r.apply(v), 5.0, 0.0);
+        assertEquals(r.f(v), 5.0, 0.0);
 
         r.setStart(ConstantControlParameter.of(2));
         r.setEnd(ConstantControlParameter.of(4));
-        assertEquals(r.apply(v), 25.0, 0.0);
+        assertEquals(r.f(v), 25.0, 0.0);
     }
 }

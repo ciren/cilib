@@ -17,7 +17,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * The problem has been adapted by Helbig and Engelbrecht to make it a DMOOP.
  *
  */
-public class HEF3_f1 implements ContinuousFunction {
+public class HEF3_f1 extends ContinuousFunction {
 
     private static final long serialVersionUID = 1914230427150406406L;
 
@@ -25,7 +25,7 @@ public class HEF3_f1 implements ContinuousFunction {
      * Evaluates the function
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double value = Math.abs(input.doubleValueOf(0));
         double sum = 0.0;
 

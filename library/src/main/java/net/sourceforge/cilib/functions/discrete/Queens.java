@@ -15,7 +15,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * the number of conflicts and penalises the fitness if there are.
  *
  */
-public class Queens implements DiscreteFunction {
+public class Queens extends DiscreteFunction {
 
     private static final long serialVersionUID = 8900436160526532438L;
     private final double[] xMoves = {1, 1, 1, 0, -1, -1, -1, 0};
@@ -44,7 +44,7 @@ public class Queens implements DiscreteFunction {
      *
      */
     @Override
-    public Integer apply(Vector input) {
+    public Integer f(Vector input) {
         int fitness = 0;
         boolean[][] board = new boolean[boardSize][boardSize];
 

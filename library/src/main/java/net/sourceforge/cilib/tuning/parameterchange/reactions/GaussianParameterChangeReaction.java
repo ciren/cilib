@@ -6,20 +6,20 @@
  */
 package net.sourceforge.cilib.tuning.parameterchange.reactions;
 
-import fj.F;
-import fj.Ord;
-import fj.P2;
-import fj.data.List;
-import static fj.data.List.*;
-import fj.data.Stream;
+import static fj.data.List.replicate;
+import static net.sourceforge.cilib.util.functions.Numerics.doubleValue;
+import static net.sourceforge.cilib.util.functions.Utils.pairwise;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.tuning.TuningAlgorithm;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
-import static net.sourceforge.cilib.util.functions.Numerics.*;
 import net.sourceforge.cilib.util.functions.Utils;
-import static net.sourceforge.cilib.util.functions.Utils.*;
+import fj.F;
+import fj.Ord;
+import fj.P2;
+import fj.data.List;
+import fj.data.Stream;
 
 public class GaussianParameterChangeReaction extends ParameterChangeReaction {
 
@@ -33,7 +33,7 @@ public class GaussianParameterChangeReaction extends ParameterChangeReaction {
         final GaussianDistribution gaussian = new GaussianDistribution();
         final List<Double> min = pars.foldLeft(pairwise(Ord.doubleOrd.min), replicate(pSize, Double.MAX_VALUE));
         final List<Double> max = pars.foldLeft(pairwise(Ord.doubleOrd.max), replicate(pSize, Double.MIN_VALUE));
-        
+
         return Stream.range(0, (int) count.getParameter()).map(new F<Integer, Vector>() {
             @Override
             public Vector f(Integer a) {

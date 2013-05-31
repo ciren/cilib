@@ -17,7 +17,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 
-public class DIMP1_f1 implements ContinuousFunction {
+public class DIMP1_f1 extends ContinuousFunction {
 
 
     //Domain("R(0, 1)");
@@ -26,8 +26,7 @@ public class DIMP1_f1 implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
-        double value = Math.abs(x.doubleValueOf(0));
-        return value;
+    public Double f(Vector x) {
+        return Math.abs(x.doubleValueOf(0));
     }
 }

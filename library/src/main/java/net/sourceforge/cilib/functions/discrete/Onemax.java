@@ -15,13 +15,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Intended for bit strings of arbitrary length
  *
 **/
-public class Onemax implements ContinuousFunction {
+public class Onemax extends ContinuousFunction {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double result = 0.0;
 
         for (int i = 0; i < input.size(); i++) {

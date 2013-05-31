@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.coevolution.cooperative.contributionselection;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -21,7 +21,7 @@ public class TopologyBestContributionSelectionStrategy implements
      * {@inheritDoc}
      */
     @Override
-    public Vector getContribution(PopulationBasedAlgorithm algorithm) {
+    public Vector getContribution(SinglePopulationBasedAlgorithm algorithm) {
         return (Vector) Topologies.getBestEntity(algorithm.getTopology()).getCandidateSolution();
     }
 

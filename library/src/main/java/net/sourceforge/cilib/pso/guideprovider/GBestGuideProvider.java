@@ -8,7 +8,6 @@ package net.sourceforge.cilib.pso.guideprovider;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
@@ -22,7 +21,7 @@ public class GBestGuideProvider implements GuideProvider {
 
     public StructuredType get(Particle particle) {
         PSO pso = (PSO) AbstractAlgorithm.get();
-        Topology<Particle> topology = pso.getTopology();
+        fj.data.List<Particle> topology = pso.getTopology();
         Particle gbest = Topologies.getBestEntity(topology, new SocialBestFitnessComparator());
 
         return gbest.getBestPosition();

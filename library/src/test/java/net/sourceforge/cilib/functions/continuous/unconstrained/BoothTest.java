@@ -27,11 +27,11 @@ public class BoothTest {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(1,2);
-        assertEquals(5.0, function.apply(x), 0.0);
+        assertEquals(5.0, function.f(x), 0.0);
 
         x.setReal(0, 1.0);
         x.setReal(1, 3.0);
-        assertEquals(0.0, function.apply(x), 0.0);
+        assertEquals(0.0, function.f(x), 0.0);
     }
 
     /**
@@ -39,6 +39,6 @@ public class BoothTest {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0));
+        function.f(Vector.of(1.0, 2.0, 3.0));
     }
 }

@@ -6,16 +6,20 @@
  */
 package net.sourceforge.cilib.ec.iterationstrategies;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+
+import com.google.common.collect.Lists;
+
+import fj.F;
+import fj.Ord;
+import fj.Ordering;
+
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.mutation.GaussianMutationStrategy;
 import net.sourceforge.cilib.entity.operators.mutation.MutationStrategy;
+import net.sourceforge.cilib.util.functions.Entities;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
@@ -40,50 +44,50 @@ public class EvolutionaryProgrammingIterationStrategy extends AbstractIterationS
     }
 
     @Override
-    public void performIteration(EC algorithm) {
-        Topology<Individual> topology = algorithm.getTopology();
-        List<Individual> offspring = new ArrayList();
-
-        for (Individual individual : topology) {
-            offspring.add(individual.getClone()); // Create an offspring by cloning the parent.
-        }
+    public void performIteration(final EC algorithm) {
+        fj.data.List<Individual> topology = algorithm.getTopology();
+        fj.data.List<Individual> offspring = topology.map(Entities.<Individual>clone_());
 
         // Apply the mutation
-        this.mutationStrategy.mutate(offspring);
+        this.mutationStrategy.mutate(Lists.newArrayList(offspring));
 
         for (Individual individual : offspring) {
             individual.calculateFitness();
         }
 
-        topology.addAll(offspring);
+        final fj.data.List<Individual> intermediate = topology.append(offspring);
+        final fj.data.List<IndividualScore> scores = topology.map(new F<Individual, IndividualScore>() {
+                @Override
+                public IndividualScore f(Individual current) {
+                    int score = getScore(current, intermediate);
+                    return new IndividualScore(current, score);
+                }
+            });
 
-        List<Individual> newPopulation = new ArrayList(algorithm.getInitialisationStrategy().getEntityNumber());
+        final fj.data.List<IndividualScore> sortedScores = scores.sort(Ord.<IndividualScore>ord(new F<IndividualScore, F<IndividualScore, Ordering>>() {
+                    @Override
+                    public F<IndividualScore, Ordering> f(final IndividualScore o1) {
+                        return new F<IndividualScore, Ordering>() {
+                            @Override
+                            public Ordering f(final IndividualScore o2) {
+                                int o1Score = o1.getScore();
+                                int o2Score = o2.getScore();
+                                return o1Score < o2Score ? Ordering.LT : o1Score == o2Score ? Ordering.EQ : Ordering.GT;
+                            }
+                        };
+                    }
+                }));
 
-        List<IndividualScore> scores = new ArrayList();
-        for (int i = 0; i < topology.size(); i++) {
-            Individual current = topology.get(i);
-            int score = getScore(current, topology);
-            scores.add(new IndividualScore(current, score));
-        }
+        algorithm.setTopology(sortedScores.map(new F<IndividualScore, Individual>() {
+                    @Override
+                        public Individual f(IndividualScore a) {
+                        return a.getEntity();
+                    }
+                }).take(algorithm.getInitialisationStrategy().getEntityNumber()));
 
-        Collections.sort(scores, new Comparator<IndividualScore>() {
-            @Override
-            public int compare(IndividualScore o1, IndividualScore o2) {
-                int thisVal = o1.getScore();
-                int anotherVal = o2.getScore();
-                return (thisVal<anotherVal ? -1 : (thisVal==anotherVal ? 0 : 1));
-            }
-        });
-
-        for (int i = 0; i < algorithm.getInitialisationStrategy().getEntityNumber(); i++) {
-            newPopulation.add(scores.get(i).getEntity());
-        }
-
-        topology.clear();
-        topology.addAll(newPopulation);
     }
 
-    private int getScore(Individual current, Topology<Individual> topology) {
+    private int getScore(Individual current, fj.data.List<Individual> topology) {
         int score = 0;
         List<Individual> selection = Selection.copyOf(topology)
                 .orderBy(new RandomArrangement())

@@ -29,11 +29,11 @@ public class DamavandiTest {
     public void testEvaluate() {
         Vector x = Vector.of(Real.valueOf(2.0000001),
                 Real.valueOf(2.0000001));
-        assertEquals(0.0, function.apply(x), 0.000000001);
+        assertEquals(0.0, function.f(x), 0.000000001);
 
         x.setReal(0, 7.0);
         x.setReal(1, 7.0);
-        assertEquals(2.0, function.apply(x), 0.0);
+        assertEquals(2.0, function.f(x), 0.0);
     }
 
     /**
@@ -41,6 +41,6 @@ public class DamavandiTest {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0));
+        function.f(Vector.of(1.0, 2.0, 3.0));
     }
 }

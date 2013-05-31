@@ -11,7 +11,6 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
@@ -53,7 +52,7 @@ public class RandToBestCreationStrategy extends RandCreationStrategy {
      * {@inheritDoc}
      */
     @Override
-    public <T extends Entity> T create(T targetEntity, T current, Topology<T> topology) {
+    public <T extends Entity> T create(T targetEntity, T current, fj.data.List<T> topology) {
         T bestEntity = Topologies.getBestEntity(topology);
         List<T> participants = Selection.copyOf(topology)
                 .exclude(targetEntity, bestEntity, current)

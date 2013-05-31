@@ -7,8 +7,8 @@
 package net.sourceforge.cilib.niching.creation;
 
 import fj.data.List;
-import java.util.Arrays;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.niching.NichingFunctionsTest;
@@ -28,16 +28,16 @@ public class ClosestNeighbourNicheCreationStrategyTest {
         Particle p3 = NichingFunctionsTest.createParticle(new MinimisationFitness(1.0), Vector.of(2.0, 2.0));
 
         PSO pso = new PSO();
-        pso.getTopology().addAll(Arrays.asList(p1, p2, p3));
+        pso.setTopology(fj.data.List.list(p1, p2, p3));
 
         ClosestNeighbourNicheCreationStrategy creator = new ClosestNeighbourNicheCreationStrategy();
         creator.setSwarmBehavior(new ParticleBehavior());
-        NichingSwarms swarms = creator.f(NichingSwarms.of(pso, List.<PopulationBasedAlgorithm>nil()), p1);
+        NichingSwarms swarms = creator.f(NichingSwarms.of(pso, List.<SinglePopulationBasedAlgorithm>nil()), p1);
 
-        Assert.assertEquals(1, swarms._1().getTopology().size());
-        Assert.assertEquals(Vector.of(2.0, 2.0), swarms._1().getTopology().get(0).getCandidateSolution());
-        Assert.assertEquals(2, swarms._2().head().getTopology().size());
-        Assert.assertEquals(Vector.of(0.0, 1.0), swarms._2().head().getTopology().get(0).getCandidateSolution());
-        Assert.assertEquals(Vector.of(1.0, 1.0), swarms._2().head().getTopology().get(1).getCandidateSolution());
+        Assert.assertEquals(1, swarms._1().getTopology().length());
+        Assert.assertEquals(Vector.of(2.0, 2.0), ((Entity)swarms._1().getTopology().head()).getCandidateSolution());
+        Assert.assertEquals(2, swarms._2().head().getTopology().length());
+        Assert.assertEquals(Vector.of(0.0, 1.0), ((Entity) swarms._2().head().getTopology().head()).getCandidateSolution());
+        Assert.assertEquals(Vector.of(1.0, 1.0), ((Entity) swarms._2().head().getTopology().index(1)).getCandidateSolution());
     }
 }

@@ -20,13 +20,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * moves remaining. Once the tour can continue, the move is replaced and evaluation
  * continues.
  */
-public class RepairingKnightsTour implements DiscreteFunction {
+public class RepairingKnightsTour extends DiscreteFunction {
     private static final long serialVersionUID = 6961834833997387285L;
     private int boardSize;
     private boolean cyclic;
     private String startingPos = null;
-    private int startX;
-    private int startY;
+    private final int startX;
+    private final int startY;
     private static final int[] MOVEMENT_X = {-2, -1,  1,  2, 2, 1, -1, -2};
     private static final int[] MOVEMENT_Y = {-1, -2, -2, -1, 1, 2, -2, -1};
 
@@ -45,7 +45,7 @@ public class RepairingKnightsTour implements DiscreteFunction {
      *
      */
     @Override
-    public Integer apply(Vector input) {
+    public Integer f(Vector input) {
         int fitness = 0;
 
         int row = startX;

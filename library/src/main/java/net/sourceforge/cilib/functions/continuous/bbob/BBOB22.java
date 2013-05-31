@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.functions.continuous.bbob;
 
-import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /*
@@ -21,8 +20,8 @@ public class BBOB22 extends AbstractBBOB {
 	}
 
 	@Override
-	public Double apply(Vector input) {
-		double value = bbob21.apply(input);
+	public Double f(Vector input) {
+		double value = bbob21.f(input);
 
 		this.xOpt = bbob21.getXOpt();
 		this.fOpt = bbob21.getOptimum();

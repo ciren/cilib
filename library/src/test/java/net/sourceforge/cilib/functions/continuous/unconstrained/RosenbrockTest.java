@@ -29,11 +29,11 @@ public class RosenbrockTest {
         Vector x = Vector.of(1,2,3);
         Vector y = Vector.of(3,2,1);
 
-        assertEquals(201.0, function.apply(x), 0.0);
-        assertEquals(5805.0, function.apply(y), 0.0);
+        assertEquals(201.0, function.f(x), 0.0);
+        assertEquals(5805.0, function.f(y), 0.0);
 
         Vector z = Vector.of(1,2,3,4);
-        assertEquals(2705.0, function.apply(z), 0.0);
+        assertEquals(2705.0, function.f(z), 0.0);
     }
 
 

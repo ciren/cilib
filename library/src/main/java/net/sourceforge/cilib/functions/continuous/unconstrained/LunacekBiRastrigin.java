@@ -6,15 +6,13 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import fj.F;
-import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.continuous.decorators.IllConditionedFunctionDecorator;
-import net.sourceforge.cilib.functions.continuous.decorators.RotatedFunctionDecorator;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.Vector;
+import fj.F;
 
 /**
  * Lunasec bi-Rastrigin function as specified in CEC2013.
@@ -31,7 +29,7 @@ import net.sourceforge.cilib.type.types.Real;
  * </p>
  *
  */
-public class LunacekBiRastrigin implements ContinuousFunction {
+public class LunacekBiRastrigin extends ContinuousFunction {
     private double mu0;
     private double d;
     private double horizontalScale;
@@ -49,7 +47,7 @@ public class LunacekBiRastrigin implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Vector xHat = input.map(new F<Numeric, Numeric>() {
             @Override
             public Numeric f(Numeric a) {
@@ -80,7 +78,7 @@ public class LunacekBiRastrigin implements ContinuousFunction {
         minSum2 *= s;
         minSum2 += this.d * input.size();
 
-        double biRastriginTerm = rastriginDecorator.apply(xHatLessMu0);
+        double biRastriginTerm = rastriginDecorator.f(xHatLessMu0);
 
         return Math.min(minSum1, minSum2) + biRastriginTerm;
     }

@@ -8,8 +8,6 @@ package net.sourceforge.cilib.functions.continuous.bbob;
 
 import net.sourceforge.cilib.type.types.container.Vector;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Before;
 import org.junit.Test;
 
 public class BBOBTest {
@@ -26,7 +24,7 @@ public class BBOBTest {
 	}
 
 	private void testApply(AbstractBBOB f) {
-		f.apply(Vector.fill(1, 10));
-		assertEquals(f.getOptimum(), f.apply(f.getXOpt()), 0.0);
+		f.f(Vector.fill(1, 10));
+		assertEquals(f.getOptimum(), f.f(f.getXOpt()), 0.0);
 	}
 }

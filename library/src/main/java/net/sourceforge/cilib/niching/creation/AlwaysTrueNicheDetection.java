@@ -6,12 +6,12 @@
  */
 package net.sourceforge.cilib.niching.creation;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 
 public class AlwaysTrueNicheDetection extends NicheDetection {
     @Override
-    public Boolean f(PopulationBasedAlgorithm a, Entity b) {
+    public Boolean f(SinglePopulationBasedAlgorithm a, Entity b) {
         return true;
     }
 }

@@ -43,7 +43,7 @@ public class DynamicOptimisationProblem extends AbstractProblem {
             function.changeEnvironment();
         }
 
-        return objective.evaluate(function.apply(solution).doubleValue());
+        return objective.evaluate(function.f(solution).doubleValue());
     }
 
     /**
@@ -62,7 +62,7 @@ public class DynamicOptimisationProblem extends AbstractProblem {
      * @return The error.
      */
     public double getError(Type solution) {
-        return function.getOptimum().doubleValue() - function.apply(solution).doubleValue();
+        return function.getOptimum().doubleValue() - function.f(solution).doubleValue();
     }
 
     public DynamicFunction<Type, ? extends Number> getFunction() {

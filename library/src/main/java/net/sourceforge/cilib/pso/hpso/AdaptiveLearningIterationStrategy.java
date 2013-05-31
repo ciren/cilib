@@ -6,22 +6,24 @@
  */
 package net.sourceforge.cilib.pso.hpso;
 
-import fj.Ord;
 import static fj.data.List.iterableList;
 import static fj.function.Doubles.sum;
+import static net.sourceforge.cilib.entity.EntityType.Particle.BEST_FITNESS;
+import static net.sourceforge.cilib.entity.EntityType.Particle.BEST_POSITION;
+import static net.sourceforge.cilib.niching.VectorBasedFunctions.equalParticle;
+import static net.sourceforge.cilib.niching.VectorBasedFunctions.sortByDistance;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import static net.sourceforge.cilib.entity.EntityType.Particle.*;
 import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
-import static net.sourceforge.cilib.niching.VectorBasedFunctions.*;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
@@ -34,6 +36,9 @@ import net.sourceforge.cilib.util.selection.recipes.RouletteWheelSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 import net.sourceforge.cilib.util.selection.weighting.ParticleBehaviorWeighting;
 import net.sourceforge.cilib.util.selection.weighting.SpecialisedRatio;
+import fj.Effect;
+import fj.Ord;
+import fj.P2;
 
 /**
  * Li and Yang's Adaptive Learning PSO-II (ALPSO-II)
@@ -122,7 +127,7 @@ public class AdaptiveLearningIterationStrategy extends AbstractIterationStrategy
 
     @Override
     public void performIteration(PSO algorithm) {
-        Topology<Particle> topology = algorithm.getTopology();
+        fj.data.List<Particle> topology = algorithm.getTopology();
 
         if (algorithm.getIterations() == 0) {
             initialise(topology, behaviorPool.size());
@@ -132,8 +137,8 @@ public class AdaptiveLearningIterationStrategy extends AbstractIterationStrategy
         fj.data.List<Particle> canLearnFromAbest = iterableList(topology)
                 .sort(ord).take((int) q.getParameter());
 
-        for(int k = 0; k < topology.size(); k++) {
-            Particle particle = topology.get(k);
+        for(int k = 0; k < topology.length(); k++) {
+            Particle particle = topology.index(k);
             ParticleProperties props = get(particle);
             boolean canLearn = canLearnFromAbest.exists(equalParticle.f(particle));
             double oldWeight = props.common.selectionRatio.get(0);
@@ -224,25 +229,25 @@ public class AdaptiveLearningIterationStrategy extends AbstractIterationStrategy
         }
 
         //update learningProbability
-        Particle bestImprov = topology.get(0);
+        Particle bestImprov = topology.index(0);
         for(Particle p : topology) {
             if(get(p).improvRatio > get(bestImprov).improvRatio) {
                 bestImprov = p;
             }
         }
 
-        for(int k = 0; k < topology.size(); k++) {
-            Particle p = topology.get(k);
+        for(int k = 0; k < topology.length(); k++) {
+            Particle p = topology.index(k);
             if(random.getRandomNumber() <= get(bestImprov).improvRatio/(get(bestImprov).improvRatio + get(p).improvRatio)) {
                 get(p).learningProbability = get(bestImprov).learningProbability;
             } else {
-                get(p).learningProbability = Math.max(1-Math.exp(-Math.pow(1.6*k/topology.size(), 4)), 0.05);
+                get(p).learningProbability = Math.max(1-Math.exp(-Math.pow(1.6*k/topology.length(), 4)), 0.05);
             }
         }
 
         //set one particle's best to abest so it can be measured and the rests neighbourhood best to abest
-        topology.get(0).getProperties().put(BEST_FITNESS, aBest.getBestFitness());
-        topology.get(0).getProperties().put(BEST_POSITION, aBest.getBestPosition());
+        topology.head().getProperties().put(BEST_FITNESS, aBest.getBestFitness());
+        topology.head().getProperties().put(BEST_POSITION, aBest.getBestPosition());
     }
 
     private void updateProgressAndReward(ParticleProperties.AdaptiveProperties props, int i, Particle p, Fitness f) {
@@ -287,27 +292,29 @@ public class AdaptiveLearningIterationStrategy extends AbstractIterationStrategy
         return new ArrayList<Double>(l);
     }
 
-    private void initialise(Topology<Particle> topology, int poolSize) {
+    private void initialise(final fj.data.List<Particle> topology, final int poolSize) {
         aBest = Topologies.getBestEntity(topology).getClone();
 
-        for(int k = 0; k < topology.size(); k++) {
-            Particle p = topology.get(k);
-            ParticleProperties props = new ParticleProperties();
+        topology.zipIndex().foreach(new Effect<P2<Particle, Integer>>() {
+			@Override
+			public void e(P2<Particle, Integer> p) {
+				ParticleProperties props = new ParticleProperties();
 
-            props.updateFrequency = Math.max(10*Math.exp(-Math.pow(1.6*k/topology.size(),4)), 1);
-            props.learningProbability = Math.max(1-Math.exp(-Math.pow(1.6*k/topology.size(), 4)), 0.05);
-            props.stagnation = 0;
-            props.improvRatio = 0.0;
+	            props.updateFrequency = Math.max(10*Math.exp(-Math.pow(1.6*p._2()/topology.length(),4)), 1);
+	            props.learningProbability = Math.max(1-Math.exp(-Math.pow(1.6*p._2()/topology.length(), 4)), 0.05);
+	            props.stagnation = 0;
+	            props.improvRatio = 0.0;
 
-            initAdaptiveProperties(props.common);
-            initAdaptiveProperties(props.prime);
+	            initAdaptiveProperties(props.common);
+	            initAdaptiveProperties(props.prime);
 
-            props.common.selectionRatio = resetList(1.0 / poolSize);
-            props.prime.selectionRatio = resetList(1.0 / poolSize);
+	            props.common.selectionRatio = resetList(1.0 / poolSize);
+	            props.prime.selectionRatio = resetList(1.0 / poolSize);
 
-            p.getProperties().put(Props.PROPS, props);
-            p.setNeighbourhoodBest(aBest);
-        }
+	            p._1().getProperties().put(Props.PROPS, props);
+	            p._1().setNeighbourhoodBest(aBest);
+			}
+        });
     }
 
     private void initAdaptiveProperties(ParticleProperties.AdaptiveProperties props) {

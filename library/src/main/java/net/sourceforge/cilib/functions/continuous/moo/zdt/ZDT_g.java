@@ -12,7 +12,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  *
  */
-final class ZDT_g implements ContinuousFunction {
+final class ZDT_g extends ContinuousFunction {
 
     private static final long serialVersionUID = -1677096322807541565L;
 
@@ -20,7 +20,7 @@ final class ZDT_g implements ContinuousFunction {
 
 
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double sum = 0.0;
         for (int i = 1; i < input.size(); ++i) {
             sum += input.doubleValueOf(i);

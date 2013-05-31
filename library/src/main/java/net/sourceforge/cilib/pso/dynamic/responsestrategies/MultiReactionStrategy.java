@@ -7,7 +7,11 @@
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
 import java.util.ArrayList;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+
+import com.google.common.collect.Lists;
+
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * This {@link EnvironmentChangeResponseStrategy reaction strategy} constructs a
@@ -17,17 +21,18 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
  *
  * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
  */
-public class MultiReactionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy<E> {
+public class MultiReactionStrategy<E extends SinglePopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy {
 
-    protected ArrayList< EnvironmentChangeResponseStrategy<E> > responses;
+    protected ArrayList<EnvironmentChangeResponseStrategy> responses;
 
     public MultiReactionStrategy() {
-        this.responses = new ArrayList< EnvironmentChangeResponseStrategy<E> >();
+        this.responses = Lists.newArrayList();
     }
 
     public MultiReactionStrategy(MultiReactionStrategy<E> rhs) {
         super(rhs);
-        for (EnvironmentChangeResponseStrategy<E> response : rhs.responses) {
+        
+        for (EnvironmentChangeResponseStrategy response : rhs.responses) {
             this.responses.add(response);
         }
     }
@@ -44,8 +49,9 @@ public class MultiReactionStrategy<E extends PopulationBasedAlgorithm> extends E
      * {@inheritDoc}
      */
     @Override
-    public void performReaction(E algorithm) {
-        for (EnvironmentChangeResponseStrategy<E> response : responses) {
+	protected <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void performReaction(
+			A algorithm) {
+        for (EnvironmentChangeResponseStrategy response : responses) {
             response.performReaction(algorithm);
         }
     }
@@ -56,7 +62,7 @@ public class MultiReactionStrategy<E extends PopulationBasedAlgorithm> extends E
      *
      * @param response The response strategy that has to be added.
      */
-    public void addResponseStrategy(EnvironmentChangeResponseStrategy<E> response) {
+    public void addResponseStrategy(EnvironmentChangeResponseStrategy response) {
         responses.add(response);
     }
 }

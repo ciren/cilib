@@ -22,14 +22,14 @@ public class BBOB4 extends AbstractBBOB {
 	}
 
 	@Override
-	public Double apply(Vector input) {
+	public Double f(Vector input) {
 		initialise(input.size());
 
 		Vector z = input.subtract(xOpt);
-		return irregular.apply(z) + fOpt;
+		return irregular.f(z) + fOpt;
 	}
 
-	private class Buche implements ContinuousFunction {
+	private class Buche extends ContinuousFunction {
 		private Rastrigin rastrigin;
 
 		public Buche() {
@@ -37,7 +37,7 @@ public class BBOB4 extends AbstractBBOB {
 		}
 
 		@Override
-		public Double apply(Vector input) {
+		public Double f(Vector input) {
 			Vector.Builder builder = Vector.newBuilder();
 
         	for (int i = 0; i < input.size(); i++) {
@@ -51,7 +51,7 @@ public class BBOB4 extends AbstractBBOB {
 	            }
         	}
 
-        	return rastrigin.apply(builder.build());
+        	return rastrigin.f(builder.build());
 		}
 	}
 }

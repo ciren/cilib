@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.problem.boundaryconstraint;
 
-import com.google.common.base.Function;
+import fj.F;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.Bounds;
@@ -38,10 +38,9 @@ public class ClampingBoundaryConstraint implements BoundaryConstraint {
     @Override
     public void enforce(Entity entity) {
         StructuredType<?> candidateSolution = entity.getCandidateSolution();
-        Vector result = Vectors.transform((Vector) candidateSolution, new Function<Numeric, Double>() {
-
+        Vector result = Vectors.transform((Vector) candidateSolution, new F<Numeric, Double>() {
             @Override
-            public Double apply(Numeric from) {
+            public Double f(Numeric from) {
                 Bounds bounds = from.getBounds();
                 if (Double.compare(from.doubleValue(), bounds.getLowerBound()) < 0) {
                     return bounds.getLowerBound();

@@ -18,7 +18,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 
-public class FDA2_g implements ContinuousFunction {
+public class FDA2_g extends ContinuousFunction {
 
     private static final long serialVersionUID = 8726700022515610264L;
 
@@ -28,7 +28,7 @@ public class FDA2_g implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
+    public Double f(Vector x) {
 
         double sum = 1.0;
 

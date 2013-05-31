@@ -66,10 +66,9 @@ public class BinaryInertiaPositionProvider implements PositionProvider {
         Vector.Builder builder = Vector.newBuilder();
 
         for (int i = 0; i < particle.getDimension(); i++) {
-            double result = sigmoid.apply(velocity.doubleValueOf(i));
+            double result = this.sigmoid.f(velocity.doubleValueOf(i));
             double min = 0.5 - delta.getParameter();
             double max = 0.5 + delta.getParameter();
-
             double newPosition = position.doubleValueOf(i);
 
             if (result < min) {

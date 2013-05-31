@@ -27,11 +27,11 @@ public class WeierstrassTest {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(0.0, 0.0, 0.0);
-        assertEquals(0.0, function.apply(x), 0.0);
+        assertEquals(0.0, function.f(x), 0.0);
 
         ((Weierstrass)function).setkMax(2);
         x.setReal(0, 0.1);
         x.setReal(1, 0.1);
-        assertEquals(1.786474508, function.apply(x), 0.0000001);
+        assertEquals(1.786474508, function.f(x), 0.0000001);
     }
 }

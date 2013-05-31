@@ -7,12 +7,14 @@
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.population.HasNeighbourhood;
+import net.sourceforge.cilib.algorithm.population.HasTopology;
 
 /**
  * Detection strategy that always return true. For environment that are constantly changing.
  */
-public class AlwaysTrueDetectionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
+public class AlwaysTrueDetectionStrategy extends EnvironmentChangeDetectionStrategy {
 
     /**
      *
@@ -22,12 +24,12 @@ public class AlwaysTrueDetectionStrategy<E extends PopulationBasedAlgorithm> ext
     public AlwaysTrueDetectionStrategy() {
     }
 
-    public AlwaysTrueDetectionStrategy(AlwaysTrueDetectionStrategy<E> copy) {
+    public AlwaysTrueDetectionStrategy(AlwaysTrueDetectionStrategy copy) {
     }
 
     @Override
-    public AlwaysTrueDetectionStrategy<E> clone() {
-        return new AlwaysTrueDetectionStrategy<E>(this);
+    public AlwaysTrueDetectionStrategy clone() {
+        return new AlwaysTrueDetectionStrategy(this);
     }
 
 
@@ -36,16 +38,14 @@ public class AlwaysTrueDetectionStrategy<E extends PopulationBasedAlgorithm> ext
      * @param algorithm PSO algorithm that operates in a dynamic environment
      * @return true
      */
-    public boolean detect(PopulationBasedAlgorithm algorithm) {
+    @Override
+    public <A extends HasTopology & Algorithm & HasNeighbourhood> boolean detect(A algorithm) {
         return true;
     }
 
     public AlwaysTrueDetectionStrategy getClone(){
         return new AlwaysTrueDetectionStrategy();
     }
-
-
-
 }
 
 

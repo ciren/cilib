@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.niching.creation;
 
 import fj.F2;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
@@ -19,14 +19,14 @@ import net.sourceforge.cilib.pso.particle.ParticleBehavior;
  */
 public abstract class NicheCreationStrategy extends F2<NichingSwarms, Entity, NichingSwarms> {
 
-    protected PopulationBasedAlgorithm swarmType;
+    protected SinglePopulationBasedAlgorithm swarmType;
     protected ParticleBehavior swarmBehavior;
 
-    public void setSwarmType(PopulationBasedAlgorithm swarm) {
+    public void setSwarmType(SinglePopulationBasedAlgorithm swarm) {
         this.swarmType = swarm;
     }
 
-    public PopulationBasedAlgorithm getSwarmType() {
+    public SinglePopulationBasedAlgorithm getSwarmType() {
         return swarmType;
     }
 

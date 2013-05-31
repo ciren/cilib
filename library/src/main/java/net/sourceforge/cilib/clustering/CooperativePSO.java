@@ -11,7 +11,7 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.population.AbstractCooperativeIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.clustering.iterationstrategies.CooperativeDataClusteringPSOIterationStrategy;
 import net.sourceforge.cilib.problem.ClusteringProblem;
@@ -86,7 +86,7 @@ public class CooperativePSO extends MultiPopulationBasedAlgorithm{
     @Override
     public Iterable<OptimisationSolution> getSolutions() {
         List<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
-        for (PopulationBasedAlgorithm currentAlgorithm : this.getPopulations()) {
+        for (SinglePopulationBasedAlgorithm currentAlgorithm : this.getPopulations()) {
              for (OptimisationSolution solution : currentAlgorithm.getSolutions()) {
                  solutions.add(solution);
              }
@@ -102,7 +102,7 @@ public class CooperativePSO extends MultiPopulationBasedAlgorithm{
         ClusteringProblem problem = (ClusteringProblem) getOptimisationProblem().getClone();//getCoevolutionOptimisationProblem();
         problem.setNumberOfClusters(subPopulationsAlgorithms.size());
 
-        for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
+        for (SinglePopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
             currentAlgorithm.setOptimisationProblem(problem);
             currentAlgorithm.performInitialisation();
         }

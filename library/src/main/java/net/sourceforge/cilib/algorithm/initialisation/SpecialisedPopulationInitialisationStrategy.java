@@ -15,9 +15,9 @@ import net.sourceforge.cilib.problem.Problem;
 /**
  * Initialise a specialised collection of {@link Entity}s.
  */
-public class SpecialisedPopulationInitialisationStrategy implements PopulationInitialisationStrategy<Entity> {
+public class SpecialisedPopulationInitialisationStrategy implements PopulationInitialisationStrategy {
     private static final long serialVersionUID = -9146471282965793922L;
-    private List<Entity> entityList;
+    private final List<Entity> entityList;
 
     /**
      * Create an instance of {@code SpecialisedPopulationInitialisationStrategy}.

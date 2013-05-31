@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * <p><b>Hartman6.</b></p>
@@ -24,7 +25,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(0,1)^6
  *
  */
-public class Hartman6 implements ContinuousFunction {
+public class Hartman6 extends ContinuousFunction {
 
     private final double A[][] = {
         {10.0, 3.00, 17.0, 3.50, 1.70, 8.00},
@@ -46,7 +47,7 @@ public class Hartman6 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() == 6, "Hartman6 function is only defined for 6 dimensions");
 
         double outerSum = 0.0;

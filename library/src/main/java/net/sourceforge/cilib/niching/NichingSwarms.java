@@ -6,27 +6,28 @@
  */
 package net.sourceforge.cilib.niching;
 
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.niching.NichingFunctions.NichingFunction;
 import fj.F;
 import fj.P;
 import fj.P2;
 import fj.data.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.niching.NichingFunctions.NichingFunction;
 
-public class NichingSwarms extends P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> {
+public class NichingSwarms extends P2<SinglePopulationBasedAlgorithm, List<SinglePopulationBasedAlgorithm>> {
     
-    final private PopulationBasedAlgorithm mainSwarm;
-    final private List<PopulationBasedAlgorithm> subswarms;
+    final private SinglePopulationBasedAlgorithm mainSwarm;
+    final private List<SinglePopulationBasedAlgorithm> subswarms;
     
-    public static NichingSwarms of(PopulationBasedAlgorithm ms, List<PopulationBasedAlgorithm> ss) {
+    public static NichingSwarms of(SinglePopulationBasedAlgorithm ms, List<SinglePopulationBasedAlgorithm> ss) {
         return new NichingSwarms(ms, ss);
     }
 
-    public static NichingSwarms of(PopulationBasedAlgorithm ms, java.util.List<PopulationBasedAlgorithm> ss) {
+    public static NichingSwarms of(SinglePopulationBasedAlgorithm ms, java.util.List<SinglePopulationBasedAlgorithm> ss) {
         return new NichingSwarms(ms, List.iterableList(ss));
     }
 
-    public static NichingSwarms of(P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> s) {
+    public static NichingSwarms of(P2<SinglePopulationBasedAlgorithm, List<SinglePopulationBasedAlgorithm>> s) {
         return new NichingSwarms(s._1(), s._2());
     }
 
@@ -34,33 +35,33 @@ public class NichingSwarms extends P2<PopulationBasedAlgorithm, List<PopulationB
         return new NichingSwarms(s._1(), s._2());
     }
     
-    private NichingSwarms(PopulationBasedAlgorithm ms, List<PopulationBasedAlgorithm> ss) {
+    private NichingSwarms(SinglePopulationBasedAlgorithm ms, List<SinglePopulationBasedAlgorithm> ss) {
         this.mainSwarm = ms;
         this.subswarms = ss;
     }
 
     @Override
-    public PopulationBasedAlgorithm _1() {
+    public SinglePopulationBasedAlgorithm _1() {
         return mainSwarm;
     }
 
     @Override
-    public List<PopulationBasedAlgorithm> _2() {
+    public List<SinglePopulationBasedAlgorithm> _2() {
         return subswarms;
     }
 
-    public PopulationBasedAlgorithm getMainSwarm() {
+    public SinglePopulationBasedAlgorithm getMainSwarm() {
         return mainSwarm;
     }
 
-    public List<PopulationBasedAlgorithm> getSubswarms() {
+    public List<SinglePopulationBasedAlgorithm> getSubswarms() {
         return subswarms;
     }
 
     /**
      * Performs an action only on the main swarm.
      */
-    public static NichingFunction onMainSwarm(final F<PopulationBasedAlgorithm, PopulationBasedAlgorithm> f) {
+    public static NichingFunction onMainSwarm(final F<SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm> f) {
         return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {
@@ -72,7 +73,7 @@ public class NichingSwarms extends P2<PopulationBasedAlgorithm, List<PopulationB
     /**
      * Performs an action only on the first sub-swarm.
      */
-    public static NichingFunction onFirstSubSwarm(final F<PopulationBasedAlgorithm, PopulationBasedAlgorithm> f) {
+    public static NichingFunction onFirstSubSwarm(final F<SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm> f) {
         return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {
@@ -80,7 +81,7 @@ public class NichingSwarms extends P2<PopulationBasedAlgorithm, List<PopulationB
                     return a;
                 }
 
-                return of(a._1(), List.cons(f.f(a._2().head()), a._2().orTail(P.p(List.<PopulationBasedAlgorithm>nil()))));
+                return of(a._1(), List.cons(f.f(a._2().head()), a._2().orTail(P.p(List.<SinglePopulationBasedAlgorithm>nil()))));
             }
         };
     }
@@ -88,7 +89,7 @@ public class NichingSwarms extends P2<PopulationBasedAlgorithm, List<PopulationB
     /**
      * Performs an action all of the sub-swarms.
      */
-    public static NichingFunction onSubswarms(final F<PopulationBasedAlgorithm, PopulationBasedAlgorithm> f) {
+    public static NichingFunction onSubswarms(final F<SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm> f) {
         return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {

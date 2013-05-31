@@ -17,7 +17,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * The default domain of the function is defined to be R(-100.0, 100.0)^30
  *
  */
-public class ContinuousStep implements ContinuousFunction {
+public class ContinuousStep extends ContinuousFunction {
 
     private static final long serialVersionUID = 4962101545621686038L;
 
@@ -25,7 +25,7 @@ public class ContinuousStep implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double sum = 0.0;
         for (int i = 0; i < input.size(); ++i) {
             sum += (input.doubleValueOf(i) + 0.5) * (input.doubleValueOf(i) + 0.5);

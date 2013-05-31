@@ -29,12 +29,12 @@ public class NorwegianTest {
         Vector x = Vector.of(1.0, 1.0, 1.0);
 
         //test global minimum
-        assertEquals(-1.0, function.apply(x), EPSILON);
+        assertEquals(-1.0, function.f(x), EPSILON);
 
         //test another point
         x.setReal(0, 0.5);
         x.setReal(1, 1.0);
         x.setReal(2, 0.5);
-        assertEquals(-0.845039, function.apply(x), EPSILON);
+        assertEquals(-0.845039, function.f(x), EPSILON);
     }
 }

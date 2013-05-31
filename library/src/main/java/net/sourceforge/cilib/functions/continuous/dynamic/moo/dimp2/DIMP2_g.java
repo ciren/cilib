@@ -18,7 +18,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 
-public class DIMP2_g implements ContinuousFunction {
+public class DIMP2_g extends ContinuousFunction {
 
     //members
     //number of generations for which t remains fixed
@@ -90,7 +90,7 @@ public class DIMP2_g implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
+    public Double f(Vector x) {
         this.tau = AbstractAlgorithm.get().getIterations();
     	return this.apply(this.tau, x);
     }

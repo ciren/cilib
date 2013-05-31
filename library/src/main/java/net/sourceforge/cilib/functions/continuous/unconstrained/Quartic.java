@@ -33,7 +33,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-1.28, 1.28)^30
  *
  */
-public class Quartic implements ContinuousFunction {
+public class Quartic extends ContinuousFunction {
 
     private static final long serialVersionUID = 1830591489569513511L;
 
@@ -41,7 +41,7 @@ public class Quartic implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double result = 0.0;
 
         for (int i = 0; i < input.size(); i++) {

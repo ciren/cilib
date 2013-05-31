@@ -8,10 +8,12 @@ package net.sourceforge.cilib.ec.iterationstrategies;
 
 import java.util.Arrays;
 import java.util.List;
+
+import fj.F;
+
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.ec.SaDEIndividual;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 
@@ -53,32 +55,35 @@ public class AdaptiveIterationStrategy extends AbstractIterationStrategy<EC> {
      * @param ec The {@linkplain EC} on which to perform this iteration.
      */
     @Override
-    public void performIteration(EC ec) {
-        Topology<SaDEIndividual> topology = (Topology<SaDEIndividual>) ec.getTopology();
+    public void performIteration(final EC ec) {
+        final fj.data.List<SaDEIndividual> topology = ec.getTopology();
 
-        for (int i = 0; i < topology.size(); i++) {
-            SaDEIndividual current = topology.get(i);
+        ec.setTopology(topology.map(new F<SaDEIndividual, SaDEIndividual>() {
+            @Override
+            public SaDEIndividual f(SaDEIndividual current) {
+                // Create the trial vector by applying mutation
+                SaDEIndividual targetEntity = targetVectorSelectionStrategy.on(topology).exclude(current).select();
 
-            // Create the trial vector by applying mutation
-            SaDEIndividual targetEntity = targetVectorSelectionStrategy.on(topology).exclude(current).select();
+                // Create the trial vector / entity
+                SaDEIndividual trialEntity = current.getTrialVectorCreationStrategy().create(targetEntity, current, topology);
 
-            // Create the trial vector / entity
-            SaDEIndividual trialEntity = current.getTrialVectorCreationStrategy().create(targetEntity, current, topology);
+                // Create the offspring by applying cross-over
+                List<SaDEIndividual> offspring = current.getCrossoverStrategy().crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
 
-            // Create the offspring by applying cross-over
-            List<SaDEIndividual> offspring = current.getCrossoverStrategy().crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
+                // Replace the parent (current) if the offspring is better
+                SaDEIndividual offspringEntity = offspring.get(0);
+                boundaryConstraint.enforce(offspringEntity);
+                offspringEntity.calculateFitness();
 
-            // Replace the parent (current) if the offspring is better
-            SaDEIndividual offspringEntity = offspring.get(0);
-            boundaryConstraint.enforce(offspringEntity);
-            offspringEntity.calculateFitness();
+                SaDEIndividual result = current;
+                if (offspringEntity.getFitness().compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent
+                    result = offspringEntity; // Replace the parent with the offspring individual
+                }
 
-            if (offspringEntity.getFitness().compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent
-                topology.set(i, offspringEntity); // Replace the parent with the offspring individual
+                result.updateParameters();
+                return result;
             }
-
-            topology.get(i).updateParameters();
-        }
+        }));
     }
 
     /**
@@ -97,5 +102,4 @@ public class AdaptiveIterationStrategy extends AbstractIterationStrategy<EC> {
     public void setTargetVectorSelectionStrategy(Selector targetVectorSelectionStrategy) {
         this.targetVectorSelectionStrategy = targetVectorSelectionStrategy;
     }
-
 }

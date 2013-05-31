@@ -27,10 +27,10 @@ public class MichalewiczTest {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(1.5, 1.3);
-        assertEquals(-0.07497735029244701, function.apply(x), 0.00000000000000001);
+        assertEquals(-0.07497735029244701, function.f(x), 0.00000000000000001);
 
         x.setReal(0, 0.0);
         x.setReal(1, 0.0);
-        assertEquals(0.0, function.apply(x), 0.0);
+        assertEquals(0.0, function.f(x), 0.0);
     }
 }

@@ -16,7 +16,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * The problem....
  *
  */
-public class KnightsCoverage implements DiscreteFunction {
+public class KnightsCoverage extends DiscreteFunction {
 
     private static final long serialVersionUID = -8039165934381145252L;
     private final int[] movesX = {1, 2, 2, 1, -1, -2, -2, -1};
@@ -32,7 +32,7 @@ public class KnightsCoverage implements DiscreteFunction {
      * {@inheritDoc}
      */
     @Override
-    public Integer apply(Vector input) {
+    public Integer f(Vector input) {
         int[][] board = new int[boardSize][boardSize];
 
         // Place the knights (represented by a -1)

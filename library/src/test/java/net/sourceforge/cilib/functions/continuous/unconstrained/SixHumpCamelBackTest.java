@@ -28,11 +28,11 @@ public class SixHumpCamelBackTest {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(-0.0898,0.7126);
-        assertEquals(-1.0316, function.apply(x), EPSILON);
+        assertEquals(-1.0316, function.f(x), EPSILON);
 
         x.setReal(0, 0.0898);
         x.setReal(1, -0.7126);
-        assertEquals(-1.0316, function.apply(x), EPSILON);
+        assertEquals(-1.0316, function.f(x), EPSILON);
     }
 
     /**
@@ -40,6 +40,6 @@ public class SixHumpCamelBackTest {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0));
+        function.f(Vector.of(1.0, 2.0, 3.0));
     }
 }

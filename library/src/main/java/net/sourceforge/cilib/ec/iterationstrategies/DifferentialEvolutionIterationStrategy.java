@@ -6,19 +6,20 @@
  */
 package net.sourceforge.cilib.ec.iterationstrategies;
 
-import com.google.common.collect.Lists;
 import java.util.Arrays;
 import java.util.List;
+
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.creation.CreationStrategy;
 import net.sourceforge.cilib.entity.operators.creation.RandCreationStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.de.DifferentialEvolutionBinomialCrossover;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
+
+import fj.F;
 
 /**
  * Evolutionary Strategy to implement the Differential Evolutionary Algorithm.
@@ -64,36 +65,32 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
      */
     @Override
     public void performIteration(EC ec) {
-        List<Individual> newTopology = Lists.newArrayList();
-        Topology<Individual> topology = ec.getTopology();
+        final fj.data.List<Individual> topology = ec.getTopology();
 
-        for (int i = 0; i < topology.size(); i++) {
-            Individual current = topology.get(i);
+        ec.setTopology(topology.map(new F<Individual, Individual>() {
+            @Override
+            public Individual f(Individual current) {
+                // Create the trial vector by applying mutation
+                Individual targetEntity = targetVectorSelectionStrategy.on(topology).exclude(current).select();
 
-            // Create the trial vector by applying mutation
-            Individual targetEntity = targetVectorSelectionStrategy.on(topology).exclude(current).select();
+                // Create the trial vector / entity
+                Individual trialEntity = trialVectorCreationStrategy.create(targetEntity, current, topology);
 
-            // Create the trial vector / entity
-            Individual trialEntity = trialVectorCreationStrategy.create(targetEntity, current, topology);
+                // Create the offspring by applying cross-over
+                List<Individual> offspring = crossoverStrategy.crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
 
-            // Create the offspring by applying cross-over
-            List<Individual> offspring = crossoverStrategy.crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
+                // Replace the parent (current) if the offspring is better
+                Individual offspringEntity = offspring.get(0);
+                boundaryConstraint.enforce(offspringEntity);
+                offspringEntity.calculateFitness();
 
-            // Replace the parent (current) if the offspring is better
-            Individual offspringEntity = offspring.get(0);
-            boundaryConstraint.enforce(offspringEntity);
-            offspringEntity.calculateFitness();
-
-            if (offspringEntity.getFitness().compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent
-                newTopology.add(offspringEntity); // Replace the parent with the offspring individual
-            } else {
-                newTopology.add(current);
+                if (offspringEntity.getFitness().compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent
+                    return offspringEntity; // Replace the parent with the offspring individual
+                } else {
+                    return current;
+                }
             }
-        }
-
-        // Replace the current topology with the new topology
-        topology.clear();
-        topology.addAll(newTopology);
+        }));
     }
 
     /**

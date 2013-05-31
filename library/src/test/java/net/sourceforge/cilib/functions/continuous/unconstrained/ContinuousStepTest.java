@@ -30,10 +30,10 @@ public class ContinuousStepTest {
     public void testEvaluate() {
         Vector x = Vector.of(5.0, 10.0);
 
-        assertEquals(140.5, function.apply(x), Maths.EPSILON);
+        assertEquals(140.5, function.f(x), Maths.EPSILON);
 
         x.setReal(0, -0.5);
         x.setReal(1, -0.5);
-        assertEquals(0.0, function.apply(x), Maths.EPSILON);
+        assertEquals(0.0, function.f(x), Maths.EPSILON);
     }
 }

@@ -19,7 +19,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * The problem has been adapted by Helbig and Engelbrecht to make it a DMOOP.
  *
  */
-public class HEF6_g implements ContinuousFunction {
+public class HEF6_g extends ContinuousFunction {
 
     private static final long serialVersionUID = -1402487469152275321L;
     //members
@@ -132,7 +132,7 @@ public class HEF6_g implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
+    public Double f(Vector x) {
         this.tau = AbstractAlgorithm.get().getIterations();
         return this.apply(this.tau, x);
     }

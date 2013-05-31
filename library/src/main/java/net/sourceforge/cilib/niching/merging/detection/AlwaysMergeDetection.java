@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.niching.merging.detection;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 
 /**
  * 
@@ -14,7 +14,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 public class AlwaysMergeDetection extends MergeDetection {
 
     @Override
-    public Boolean f(PopulationBasedAlgorithm a, PopulationBasedAlgorithm b) {
+    public Boolean f(SinglePopulationBasedAlgorithm a, SinglePopulationBasedAlgorithm b) {
         return true;
     }
 }

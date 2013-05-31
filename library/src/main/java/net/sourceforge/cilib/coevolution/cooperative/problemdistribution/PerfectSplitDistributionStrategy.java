@@ -9,7 +9,7 @@ package net.sourceforge.cilib.coevolution.cooperative.problemdistribution;
 import com.google.common.base.Preconditions;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
 import net.sourceforge.cilib.coevolution.cooperative.problem.DimensionAllocation;
@@ -37,7 +37,7 @@ public class PerfectSplitDistributionStrategy implements ProblemDistributionStra
      *                      {@linkplain CooperativeCoevolutionAlgorithm}.
      */
     @Override
-    public void performDistribution(List<PopulationBasedAlgorithm> populations,
+    public void performDistribution(List<SinglePopulationBasedAlgorithm> populations,
             Problem problem, Vector context) {
         Preconditions.checkArgument(populations.size() >= 2, "There should at least be two Cooperating populations in a Cooperative Algorithm");
         Preconditions.checkArgument(problem.getDomain().getDimension() % populations.size() == 0,

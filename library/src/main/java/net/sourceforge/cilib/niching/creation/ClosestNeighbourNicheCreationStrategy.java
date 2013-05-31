@@ -6,13 +6,11 @@
  */
 package net.sourceforge.cilib.niching.creation;
 
-import java.util.Arrays;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.LinearlyVaryingControlParameter;
 import net.sourceforge.cilib.controlparameter.UpdateOnIterationControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.ClosestEntityVisitor;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.niching.NichingSwarms;
@@ -26,6 +24,7 @@ import net.sourceforge.cilib.pso.velocityprovider.GCVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
+import fj.F;
 
 /**
  * <p>
@@ -68,20 +67,25 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
     }
 
     @Override
-    public NichingSwarms f(NichingSwarms a, Entity b) {
+    public NichingSwarms f(NichingSwarms a, final Entity b) {
         //There should be at least two particles
-        if (a.getMainSwarm().getTopology().size() <= 1 || !a.getMainSwarm().getTopology().contains(b)) {
+        fj.data.List<Entity> t = a.getMainSwarm().getTopology();
+        if (a.getMainSwarm().getTopology().length() <= 1 || !t.exists(new F<Entity, Boolean>() {
+                @Override
+            public Boolean f(Entity e) {
+                        return e.equals(b);
+                }
+        })) {
             return a;
         }
 
         // Get closest particle
-        ClosestEntityVisitor closestEntityVisitor = new ClosestEntityVisitor();
-        closestEntityVisitor.setTargetEntity(b);
-        a.getMainSwarm().accept(closestEntityVisitor);
+        ClosestEntityVisitor<Particle> closestEntityVisitor = new ClosestEntityVisitor<>();
+        closestEntityVisitor.setTargetEntity((Particle) b);
 
         // Clone particles
         Particle nicheMainParticle = (Particle) b.getClone();
-        Particle nicheClosestParticle = (Particle) closestEntityVisitor.getResult().getClone();
+        final Particle nicheClosestParticle = closestEntityVisitor.f(a.getMainSwarm().getTopology());
 
         // Set behavior and nBest
         nicheMainParticle.setNeighbourhoodBest(nicheMainParticle);
@@ -91,19 +95,19 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
         nicheClosestParticle.setParticleBehavior(swarmBehavior.getClone());
 
         // Create new subswarm
-        PopulationBasedAlgorithm newSubSwarm = swarmType.getClone();
+        SinglePopulationBasedAlgorithm newSubSwarm = swarmType.getClone();
         newSubSwarm.setOptimisationProblem(a.getMainSwarm().getOptimisationProblem());
-        newSubSwarm.getTopology().clear();
-        ((Topology<Particle>) newSubSwarm.getTopology()).addAll(Arrays.asList(nicheMainParticle, nicheClosestParticle));
+        newSubSwarm.setTopology(fj.data.List.list(nicheMainParticle, nicheClosestParticle));
 
         // Create new mainswarm
-        PopulationBasedAlgorithm newMainSwarm = a.getMainSwarm().getClone();
-        newMainSwarm.getTopology().clear();
-        for(Entity e : a.getMainSwarm().getTopology()) {
-            if (!e.equals(b) && !e.equals(closestEntityVisitor.getResult())) {
-                ((Topology<Entity>) newMainSwarm.getTopology()).add(e.getClone());
-            }
-        }
+        SinglePopulationBasedAlgorithm newMainSwarm = a.getMainSwarm().getClone();
+        fj.data.List<Entity> local = a.getMainSwarm().getTopology();
+        newMainSwarm.setTopology(local.filter(new F<Entity, Boolean>() {
+           @Override
+            public Boolean f(Entity e) {
+               return !e.equals(b) && !e.equals(nicheClosestParticle);
+           }
+        }));
 
         return NichingSwarms.of(newMainSwarm, a.getSubswarms().cons(newSubSwarm));
     }

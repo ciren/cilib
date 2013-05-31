@@ -49,7 +49,8 @@ public class NeuronTest {
                 return input;
             }
 
-			public Neuron getNeuron(int index) {
+			@Override
+            public Neuron getNeuron(int index) {
 				Neuron neuron = new Neuron();
 				neuron.setActivation(5);
 				return neuron;
@@ -59,7 +60,7 @@ public class NeuronTest {
         Vector weights = neuron.getWeights();
         double dotP = input.dot(weights);
         Sigmoid sigmoid = new Sigmoid();
-        double reference = sigmoid.apply(dotP);
+        double reference = sigmoid.f(dotP);
         Assert.assertEquals(reference, neuron.calculateActivation(source), Maths.EPSILON);
     }
 

@@ -10,7 +10,6 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.SettableControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 
@@ -105,7 +104,7 @@ public class SaDECreationStrategy implements CreationStrategy {
      * @param topology The topology from which individuals are selected in order to create the difference vector
      * @return trialEntity The trial vector
      */
-    public <T extends Entity> T create(T targetEntity, T current, Topology<T> topology) {
+    public <T extends Entity> T create(T targetEntity, T current, fj.data.List<T> topology) {
         randomValue = random.getRandomNumber(0,1);
 
         if((iterationToChange == AbstractAlgorithm.get().getIterations()) && !probabilitiesChanged) {

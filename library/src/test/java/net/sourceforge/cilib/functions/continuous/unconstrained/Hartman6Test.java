@@ -29,7 +29,7 @@ public class Hartman6Test {
         Vector x = Vector.of(0.20168952, 0.15001069, 0.47687398,
             0.27533243, 0.31165162, 0.65730054);
 
-        assertEquals(-3.3223, function.apply(x), 0.0001);
+        assertEquals(-3.3223, function.f(x), 0.0001);
     }
 
 
@@ -38,6 +38,6 @@ public class Hartman6Test {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0));
+        function.f(Vector.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0));
     }
 }

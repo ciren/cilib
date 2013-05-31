@@ -16,7 +16,7 @@
                     </velocityProvider>
                 </entityType>
             </initialisationStrategy>
-            <topology class="entity.topologies.GBestTopology"/>
+            <neighbourhood class="entity.topologies.GBestNeighbourhood"/>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="2000"/>
         </algorithm>
     </algorithms>

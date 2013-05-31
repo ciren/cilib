@@ -6,11 +6,11 @@
  */
 package net.sourceforge.cilib.niching.iterators;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 
 public class NullNicheIteration extends NicheIteration {
     @Override
-    public PopulationBasedAlgorithm f(PopulationBasedAlgorithm a) {
+    public SinglePopulationBasedAlgorithm f(SinglePopulationBasedAlgorithm a) {
         return a;
     }
 }

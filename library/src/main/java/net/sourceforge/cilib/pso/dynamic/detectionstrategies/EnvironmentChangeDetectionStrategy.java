@@ -7,7 +7,8 @@
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.HasNeighbourhood;
+import net.sourceforge.cilib.algorithm.population.HasTopology;
 import net.sourceforge.cilib.pso.dynamic.DynamicIterationStrategy;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -17,7 +18,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * detect whether the environment has change during the course of an
  * {@link Algorithm algorithm's} execution.
  */
-public abstract class EnvironmentChangeDetectionStrategy<E extends PopulationBasedAlgorithm> implements Cloneable {
+public abstract class EnvironmentChangeDetectionStrategy implements Cloneable {
     protected double epsilon = 0.0;
     protected int interval = 0;
 
@@ -26,7 +27,7 @@ public abstract class EnvironmentChangeDetectionStrategy<E extends PopulationBas
         interval = 10;
     }
 
-    public EnvironmentChangeDetectionStrategy(EnvironmentChangeDetectionStrategy<E> rhs) {
+    public EnvironmentChangeDetectionStrategy(EnvironmentChangeDetectionStrategy rhs) {
         epsilon = rhs.epsilon;
         interval = rhs.interval;
     }
@@ -35,14 +36,14 @@ public abstract class EnvironmentChangeDetectionStrategy<E extends PopulationBas
      * Clone the <tt>EnvironmentChangeDetectionStrategy</tt> object.
      * @return A cloned <tt>EnvironmentChangeDetectionStrategy</tt>
      */
-    public abstract EnvironmentChangeDetectionStrategy<E> getClone();
+    public abstract EnvironmentChangeDetectionStrategy getClone();
 
     /**
      * Check the environment in which the specified PSO algorithm is running for changes.
      * @param algorithm The <tt>PSO</tt> that runs in a dynamic environment.
      * @return true if any changes are detected, false otherwise
      */
-    public abstract boolean detect(E algorithm);
+    public abstract <E extends HasTopology & Algorithm & HasNeighbourhood> boolean detect(E algorithm);
 
     public void setEpsilon(double e) {
         if (e < 0.0) {

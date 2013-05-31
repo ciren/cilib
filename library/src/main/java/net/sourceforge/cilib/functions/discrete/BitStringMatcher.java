@@ -6,18 +6,20 @@
  */
 package net.sourceforge.cilib.functions.discrete;
 
-import com.google.common.base.Strings;
 import java.math.BigInteger;
+
 import net.sourceforge.cilib.functions.DiscreteFunction;
 import net.sourceforge.cilib.math.random.generator.RandomAdaptor;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Strings;
 
 /**
  * Discrete function to match the given bit string or a randomly generated bit
  * string.
  *
  */
-public class BitStringMatcher implements DiscreteFunction {
+public class BitStringMatcher extends DiscreteFunction {
 
     private static final long serialVersionUID = 7535776840908399415L;
     private String targetRandomString;
@@ -60,7 +62,7 @@ public class BitStringMatcher implements DiscreteFunction {
      * {@inheritDoc}
      */
     @Override
-    public Integer apply(Vector input) {
+    public Integer f(Vector input) {
         if (this.targetRandomString == null) {
             this.numberOfBits = input.size();
 

@@ -6,8 +6,10 @@
  */
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import fj.data.List;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.*;
+import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * This reaction strategy reinitialises the specified
@@ -15,7 +17,7 @@ import net.sourceforge.cilib.entity.*;
  *
  * @param <E> some {@link PopulationBasedAlgorithm}
  */
-public class ReinitialisationReevaluationReactionStrategy<E extends PopulationBasedAlgorithm> extends ReinitialisationReactionStrategy<E> {
+public class ReinitialisationReevaluationReactionStrategy<E extends SinglePopulationBasedAlgorithm> extends ReinitialisationReactionStrategy<E> {
 
     public ReinitialisationReevaluationReactionStrategy() {
         super();
@@ -36,9 +38,9 @@ public class ReinitialisationReevaluationReactionStrategy<E extends PopulationBa
      * {@inheritDoc}
      */
     @Override
-    public void performReaction(E algorithm) {
-        Topology<? extends Entity> entities = algorithm.getTopology();
-        int reinitializeCount = (int) Math.floor(reinitialisationRatio * entities.size());
+    public <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void performReaction(A algorithm) {
+        List<P> entities = algorithm.getTopology();
+        int reinitializeCount = (int) Math.floor(reinitialisationRatio * entities.length());
 
         reinitialise(entities, reinitializeCount);
 

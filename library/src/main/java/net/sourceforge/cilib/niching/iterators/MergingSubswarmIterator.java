@@ -6,21 +6,20 @@
  */
 package net.sourceforge.cilib.niching.iterators;
 
-import fj.F2;
-import fj.P;
-import fj.P2;
-import fj.data.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.niching.NichingFunctions.NichingFunction;
 import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.distancemeasure.DistanceMeasure;
 import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
+import fj.F2;
+import fj.P;
+import fj.P2;
+import fj.data.List;
 
 public class MergingSubswarmIterator extends SubswarmIterator {
 
@@ -47,28 +46,29 @@ public class MergingSubswarmIterator extends SubswarmIterator {
         return new MergingSubswarmIterator(this);
     }
 
-    private F2<PopulationBasedAlgorithm, PopulationBasedAlgorithm, P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm>>
+    private F2<SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm, P2<SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm>>
             mergeSingle(final ControlParameter granularity, final DistanceMeasure distanceMeasure) {
-        return new F2<PopulationBasedAlgorithm, PopulationBasedAlgorithm, P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm>>() {
+        return new F2<SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm, P2<SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm>>() {
             @Override
-            public P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm>
-                    f(PopulationBasedAlgorithm a, PopulationBasedAlgorithm b) {
-                PopulationBasedAlgorithm newA = a.getClone();
-                PopulationBasedAlgorithm newB = b.getClone();
-                newB.getTopology().clear();
+            public P2<SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm>
+                    f(SinglePopulationBasedAlgorithm a, SinglePopulationBasedAlgorithm b) {
+                SinglePopulationBasedAlgorithm newA = a.getClone();
+                SinglePopulationBasedAlgorithm newB = b.getClone();
+                newB.setTopology(List.nil());
 
-                for (Entity e : b.getTopology()) {
+                List<Entity> local = b.getTopology();
+                for (Entity e : local) {
                     double d2 = distanceMeasure.distance((Vector) a.getBestSolution().getPosition(), e.getCandidateSolution());
 
                     if (d2 < granularity.getParameter()) {
-                        ((Topology<Entity>) newA.getTopology()).add(e);
+                        newA.setTopology(newA.getTopology().snoc(e));
 
                         if (e instanceof Particle) {
-                            ((Particle) e).setParticleBehavior(((Particle) a.getTopology().get(0)).getParticleBehavior());
+                            ((Particle) e).setParticleBehavior(((Particle) a.getTopology().head()).getParticleBehavior());
                         }
 
                     } else {
-                        ((Topology<Entity>) newB.getTopology()).add(e);
+                    	newB.setTopology(newB.getTopology().snoc(e));
                     }
                 }
 
@@ -86,10 +86,10 @@ public class MergingSubswarmIterator extends SubswarmIterator {
                     return a;
                 }
 
-                PopulationBasedAlgorithm headSwarm = a.getSubswarms().head();
-                List<PopulationBasedAlgorithm> tailSwarms = List.nil();
+                SinglePopulationBasedAlgorithm headSwarm = a.getSubswarms().head();
+                List<SinglePopulationBasedAlgorithm> tailSwarms = List.nil();
 
-                for (PopulationBasedAlgorithm pba : a.getSubswarms().orTail(P.p(List.<PopulationBasedAlgorithm>nil()))) {
+                for (SinglePopulationBasedAlgorithm pba : a.getSubswarms().orTail(P.p(List.<SinglePopulationBasedAlgorithm>nil()))) {
                     if (headSwarm.getTopology().isEmpty()) {
                         tailSwarms = tailSwarms.cons(pba);
                         continue;
@@ -98,7 +98,7 @@ public class MergingSubswarmIterator extends SubswarmIterator {
                     double d1 = distanceMeasure.distance((Vector) pba.getBestSolution().getPosition(), (Vector) headSwarm.getBestSolution().getPosition());
 
                     if (d1 < granularity.getParameter()) {
-                        P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> merged;
+                        P2<SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm> merged;
 
                         if (pba.getBestSolution().compareTo(headSwarm.getBestSolution()) < 0) {
                             //head swarm is better
@@ -121,7 +121,7 @@ public class MergingSubswarmIterator extends SubswarmIterator {
 
                 NichingSwarms next = this.f(NichingSwarms.of(a.getMainSwarm(), tailSwarms));
 
-                List<PopulationBasedAlgorithm> newTail = next.getSubswarms();
+                List<SinglePopulationBasedAlgorithm> newTail = next.getSubswarms();
                 if (!headSwarm.getTopology().isEmpty()) {
                     newTail = newTail.cons(headSwarm);
                 }

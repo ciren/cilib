@@ -31,7 +31,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-100, 100)^30
  *
  */
-public class AbsoluteValue implements ContinuousFunction {
+public class AbsoluteValue extends ContinuousFunction {
 
     private static final long serialVersionUID = 1662988096338786773L;
 
@@ -39,7 +39,7 @@ public class AbsoluteValue implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double tmp = 0.0;
         for (int i = 0; i < input.size(); ++i) {
             tmp += Math.abs(input.doubleValueOf(i));

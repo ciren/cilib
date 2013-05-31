@@ -14,6 +14,6 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 public class WorstParentOffspringVelocityProvider extends OffspringVelocityProvider {
     @Override
     public StructuredType f(List<Particle> parent, Particle offspring) {
-        return new WorstParentParticleProvider().f(parent, offspring).getVelocity();
+        return new WorstParentParticleProvider().f(fj.data.List.iterableList(parent), offspring).getVelocity();
     }
 }

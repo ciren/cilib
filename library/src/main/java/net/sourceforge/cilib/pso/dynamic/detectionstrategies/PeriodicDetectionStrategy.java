@@ -6,26 +6,28 @@
  */
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.population.HasNeighbourhood;
+import net.sourceforge.cilib.algorithm.population.HasTopology;
 
-public class PeriodicDetectionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
+public class PeriodicDetectionStrategy extends EnvironmentChangeDetectionStrategy {
     private static final long serialVersionUID = 4079212153655661164L;
 
     public PeriodicDetectionStrategy() {
         // super() is automatically called
     }
 
-    public PeriodicDetectionStrategy(EnvironmentChangeDetectionStrategy<E> rhs) {
+    public PeriodicDetectionStrategy(EnvironmentChangeDetectionStrategy rhs) {
         super(rhs);
     }
 
     @Override
-    public PeriodicDetectionStrategy<E> getClone() {
-        return new PeriodicDetectionStrategy<E>(this);
+    public PeriodicDetectionStrategy getClone() {
+        return new PeriodicDetectionStrategy(this);
     }
 
     @Override
-    public boolean detect(PopulationBasedAlgorithm algorithm) {
+    public <A extends HasTopology & Algorithm & HasNeighbourhood> boolean detect(A algorithm) {
         if (algorithm.getIterations() != 0 && algorithm.getIterations() % interval == 0) {
             return true;
         }

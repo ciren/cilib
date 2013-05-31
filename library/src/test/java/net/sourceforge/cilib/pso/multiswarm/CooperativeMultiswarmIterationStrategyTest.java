@@ -37,7 +37,7 @@ public class CooperativeMultiswarmIterationStrategyTest {
         constraint.setDelegate(new RandomBoundaryConstraint());
         strategy.setBoundaryConstraint(constraint);
         instance.setOptimisationProblem(problem);
-        DataDependantPopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy<ClusterParticle>();
+        DataDependantPopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy();
 
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
@@ -55,11 +55,11 @@ public class CooperativeMultiswarmIterationStrategyTest {
 
         cooperative.performInitialisation();
 
-        ClusterParticle particleBefore = instance.getTopology().get(0).getClone();
+        ClusterParticle particleBefore = instance.getTopology().head().getClone();
 
         cooperative.run();
 
-        ClusterParticle particleAfter = instance.getTopology().get(0).getClone();
+        ClusterParticle particleAfter = instance.getTopology().head().getClone();
 
         Assert.assertFalse(particleAfter.getCandidateSolution().containsAll(particleBefore.getCandidateSolution()));
 

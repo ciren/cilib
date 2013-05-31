@@ -6,12 +6,12 @@
  */
 package net.sourceforge.cilib.pso.velocityprovider;
 
+import fj.data.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.RandomControlParameter;
 import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.pso.particle.Particle;
@@ -57,8 +57,8 @@ public class GlobalLocalBestVelocityProvider implements VelocityProvider {
 
     @Override
     public Vector get(Particle particle) {
-        PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get();
-        Topology<Particle> topology = (Topology<Particle>) algorithm.getTopology();
+        SinglePopulationBasedAlgorithm algorithm = (SinglePopulationBasedAlgorithm) AbstractAlgorithm.get();
+        fj.data.List<Particle> topology = (List<Particle>) algorithm.getTopology();
         Particle gBestParticle = Topologies.getBestEntity(topology, new SocialBestFitnessComparator());
         double accValue;
         double inertiaValue;
@@ -75,7 +75,7 @@ public class GlobalLocalBestVelocityProvider implements VelocityProvider {
                 average += p.getBestFitness().getValue();
             }
 
-            average /= topology.size();
+            average /= topology.length();
 
             inertiaValue = 1.1 - gBestParticle.getBestFitness().getValue() / average;
         } else {

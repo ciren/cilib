@@ -28,11 +28,11 @@ public class MultimodalFunction3Test {
         Vector x = Vector.of(0.16, 0.16);
 
         //test minimum
-        assertEquals(0.0, function.apply(x), 0.0000001);
+        assertEquals(0.0, function.f(x), 0.0000001);
 
         //test another point
         x.setReal(0, 0.08);
         x.setReal(1, 0.08);
-        assertEquals(2.0, function.apply(x), 0.001);
+        assertEquals(2.0, function.f(x), 0.001);
     }
 }

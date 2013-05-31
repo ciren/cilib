@@ -6,8 +6,9 @@
  */
 package net.sourceforge.cilib.functions.continuous.hybrid;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -16,9 +17,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * several continuous functions. The hybrid function value is the sum
  * of the individual function values.
  */
-public class SimpleHybridFunction implements ContinuousFunction {
+public class SimpleHybridFunction extends ContinuousFunction {
 
-    private List<ContinuousFunction> functions;
+    private final List<ContinuousFunction> functions;
 
     public SimpleHybridFunction() {
         this.functions = new ArrayList<ContinuousFunction>();
@@ -28,11 +29,11 @@ public class SimpleHybridFunction implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double result = 0.0;
 
         for(ContinuousFunction function : functions) {
-            result += function.apply(input);
+            result += function.f(input);
         }
 
         return result;

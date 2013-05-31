@@ -26,6 +26,6 @@ public class KnapSackTest {
         x.add(true);
         x.add(true);
         x.add(true);
-        assertEquals(5, Double.valueOf(k.apply(x.build())).intValue());
+        assertEquals(5, Double.valueOf(k.f(x.build())).intValue());
     }
 }

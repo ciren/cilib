@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.pso;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
@@ -67,7 +66,7 @@ public class PSO extends SinglePopulationBasedAlgorithm<Particle> {
         this.iterationStrategy = copy.iterationStrategy.getClone();
 
         for (Particle p : topology) {
-            Particle nBest = Topologies.getNeighbourhoodBest(topology, p, new SocialBestFitnessComparator());
+            Particle nBest = Topologies.getNeighbourhoodBest(topology, p, this.neighbourhood, new SocialBestFitnessComparator());
             p.setNeighbourhoodBest(nBest);
         }
     }
@@ -86,8 +85,7 @@ public class PSO extends SinglePopulationBasedAlgorithm<Particle> {
      */
     @Override
     public void algorithmInitialisation() {
-        topology.clear();
-        Iterables.addAll(topology, initialisationStrategy.initialise(optimisationProblem));
+        this.topology = fj.data.List.iterableList(initialisationStrategy.<Particle>initialise(optimisationProblem));
 
         for (Particle p : topology) {
             p.calculateFitness();
@@ -122,7 +120,7 @@ public class PSO extends SinglePopulationBasedAlgorithm<Particle> {
     @Override
     public List<OptimisationSolution> getSolutions() {
         List<OptimisationSolution> solutions = Lists.newLinkedList();
-        for (Particle e : Topologies.getNeighbourhoodBestEntities(topology, new SocialBestFitnessComparator<Particle>())) {
+        for (Particle e : Topologies.getNeighbourhoodBestEntities(topology, neighbourhood, new SocialBestFitnessComparator<Particle>())) {
             solutions.add(new OptimisationSolution(e.getBestPosition(), e.getBestFitness()));
         }
         return solutions;

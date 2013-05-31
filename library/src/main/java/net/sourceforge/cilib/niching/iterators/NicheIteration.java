@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.niching.iterators;
 
 import fj.F;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 
-public abstract class NicheIteration extends F<PopulationBasedAlgorithm, PopulationBasedAlgorithm> {
+public abstract class NicheIteration extends F<SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm> {
 }

@@ -6,10 +6,10 @@
  */
 package net.sourceforge.cilib.pso.guideprovider;
 
+import fj.data.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.DominantFitnessComparator;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -27,7 +27,7 @@ public class DominantGuideProvider implements GuideProvider {
     @Override
     public StructuredType get(Particle particle) {
         PSO pso = (PSO) AbstractAlgorithm.get();
-        Topology<Particle> topology = pso.getTopology();
+        List<Particle> topology = pso.getTopology();
         Particle gbest = Topologies.getBestEntity(topology, new DominantFitnessComparator());
 
         return gbest.getBestPosition();

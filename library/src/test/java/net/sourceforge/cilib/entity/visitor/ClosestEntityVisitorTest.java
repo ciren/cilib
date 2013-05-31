@@ -7,9 +7,8 @@
 package net.sourceforge.cilib.entity.visitor;
 
 import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.type.types.container.Vector;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -35,16 +34,13 @@ public class ClosestEntityVisitorTest {
         individual2.setCandidateSolution(vector2);
         individual3.setCandidateSolution(vector3);
 
-        Topology<Individual> topology = new GBestTopology<Individual>();
-        topology.add(individual1);
-        topology.add(individual2);
-        topology.add(individual3);
-
-        ClosestEntityVisitor visitor = new ClosestEntityVisitor();
+        fj.data.List<Individual> topology = fj.data.List.list(individual1, individual2, individual3);
+        
+        ClosestEntityVisitor<Individual> visitor = new ClosestEntityVisitor<>();
         visitor.setTargetEntity(individual1);
-        topology.accept(visitor);
-
-        Assert.assertTrue(individual2 == visitor.getResult());
+        Individual result = visitor.f(topology);
+        
+        Assert.assertTrue(individual2 == result);
     }
 
 }

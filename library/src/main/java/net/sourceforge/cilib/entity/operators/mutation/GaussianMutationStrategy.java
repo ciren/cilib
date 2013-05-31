@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.entity.operators.mutation;
 
 import java.util.List;
-import java.util.ListIterator;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
@@ -22,7 +21,7 @@ public class GaussianMutationStrategy extends MutationStrategy {
     private static final long serialVersionUID = -4219155909474892419L;
     private double mean;
     private ControlParameter deviationStrategy;
-    private ProbabilityDistributionFunction gaussian;
+    private final ProbabilityDistributionFunction gaussian;
 
     public GaussianMutationStrategy() {
         super();
@@ -50,9 +49,8 @@ public class GaussianMutationStrategy extends MutationStrategy {
      * {@inheritDoc}
      */
     @Override
-    public void mutate(List<? extends Entity> entity) {
-        for (ListIterator<? extends Entity> individual = entity.listIterator(); individual.hasNext();) {
-            Entity current = individual.next();
+    public <E extends Entity> List<E> mutate(List<E> entity) {
+        for (E current : entity) {
             Vector chromosome = (Vector) current.getCandidateSolution();
 
             for (int i = 0; i < chromosome.size(); i++) {
@@ -65,6 +63,7 @@ public class GaussianMutationStrategy extends MutationStrategy {
                 }
             }
         }
+        return entity;
     }
 
     public ControlParameter getDeviationStrategy() {

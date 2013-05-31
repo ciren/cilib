@@ -6,18 +6,16 @@
  */
 package net.sourceforge.cilib.niching;
 
-import com.google.common.collect.Lists;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
+import net.sourceforge.cilib.algorithm.population.HasTopology;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.initialisation.RandomInitialisationStrategy;
-import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.niching.creation.ClosestNeighbourNicheCreationStrategy;
 import net.sourceforge.cilib.niching.creation.MaintainedFitnessNicheDetection;
 import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
@@ -42,6 +40,8 @@ import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 import net.sourceforge.cilib.type.types.Int;
 
+import com.google.common.collect.Lists;
+
 /**
  * <p>
  * Generalized NichingAlgorithm algorithm.
@@ -54,11 +54,11 @@ import net.sourceforge.cilib.type.types.Int;
  * {@literal @}inproceedings{}
  * </pre>
  */
-public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements PopulationBasedAlgorithm {
+public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements HasTopology<Particle> {
     private static final long serialVersionUID = 3575627467034673738L;
 
     protected IterationStrategy<NichingAlgorithm> iterationStrategy;
-    protected PopulationBasedAlgorithm mainSwarm;
+    protected SinglePopulationBasedAlgorithm<Particle> mainSwarm;
     protected Entity entityType;
 
     protected NicheIteration mainSwarmIterator;
@@ -185,7 +185,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements P
             e.getProperties().put(EntityType.Coevolution.POPULATION_ID, Int.valueOf(0));
         }
 
-        this.entityType = this.mainSwarm.getTopology().get(0);
+        this.entityType = this.mainSwarm.getTopology().head();
     }
 
     @Override
@@ -212,7 +212,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements P
     @Override
     public java.util.List<OptimisationSolution> getSolutions() {
         java.util.List<OptimisationSolution> list = Lists.newArrayList();
-        for (PopulationBasedAlgorithm pba : subPopulationsAlgorithms) {
+        for (SinglePopulationBasedAlgorithm pba : subPopulationsAlgorithms) {
             list.add(pba.getBestSolution());
         }
         return list;
@@ -221,11 +221,11 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements P
     /**
      * Getters and setters for the strategies.
      */
-    public PopulationBasedAlgorithm getMainSwarm() {
+    public SinglePopulationBasedAlgorithm<Particle> getMainSwarm() {
         return this.mainSwarm;
     }
 
-    public void setMainSwarm(PopulationBasedAlgorithm mainSwarm) {
+    public void setMainSwarm(SinglePopulationBasedAlgorithm<Particle> mainSwarm) {
         this.mainSwarm = mainSwarm;
     }
 
@@ -329,15 +329,15 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements P
         return subSwarmIterator;
     }
 
-    public Topology<? extends Entity> getTopology() {
+    public fj.data.List<Particle> getTopology() {
         return mainSwarm.getTopology();
     }
 
-    public Object accept(TopologyVisitor visitor) {
-        return mainSwarm.accept(visitor);
+    public void setTopology(fj.data.List<Particle> topology) {
+    	this.mainSwarm.setTopology(topology);
     }
 
-    public void setInitialisationStrategy(PopulationInitialisationStrategy<? extends Entity> initialisationStrategy) {
+    public void setInitialisationStrategy(PopulationInitialisationStrategy initialisationStrategy) {
         mainSwarm.setInitialisationStrategy(initialisationStrategy);
     }
 

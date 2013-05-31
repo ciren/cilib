@@ -50,12 +50,12 @@ public final class ZDT4 extends MOOptimisationProblem {
     private static final long serialVersionUID = 6807423144357771198L;
     private static final String DOMAIN = "R(0:1)^1, R(-5:5)^9";
 
-    private static class ZDT4_g implements ContinuousFunction {
+    private static class ZDT4_g extends ContinuousFunction {
 
         private static final long serialVersionUID = -4693394582794280778L;
 
         @Override
-        public Double apply(Vector input) {
+        public Double f(Vector input) {
             double sum = 0.0;
             for (int i = 1; i < input.size(); ++i) {
                 sum += input.doubleValueOf(i) * input.doubleValueOf(i) - 10.0 * Math.cos(4.0 * Math.PI * input.doubleValueOf(i));
@@ -64,7 +64,7 @@ public final class ZDT4 extends MOOptimisationProblem {
         }
     }
 
-    private static class ZDT4_h implements ContinuousFunction {
+    private static class ZDT4_h extends ContinuousFunction {
 
         private static final long serialVersionUID = 3672916606445089134L;
         private final ZDT_f1 f1;
@@ -76,12 +76,12 @@ public final class ZDT4 extends MOOptimisationProblem {
         }
 
         @Override
-        public Double apply(Vector input) {
-            return 1.0 - Math.sqrt(this.f1.apply(input) / this.g.apply(input));
+        public Double f(Vector input) {
+            return 1.0 - Math.sqrt(this.f1.f(input) / this.g.f(input));
         }
     }
 
-    private static class ZDT4_f2 implements ContinuousFunction {
+    private static class ZDT4_f2 extends ContinuousFunction {
 
         private static final long serialVersionUID = -4303326355255421549L;
         private final ZDT4_g g;
@@ -93,8 +93,8 @@ public final class ZDT4 extends MOOptimisationProblem {
         }
 
         @Override
-        public Double apply(Vector input) {
-            return this.g.apply(input) * this.h.apply(input);
+        public Double f(Vector input) {
+            return this.g.f(input) * this.h.f(input);
         }
     }
 

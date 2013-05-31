@@ -25,6 +25,6 @@ public class SummationRangeFunctionDecoratorTest {
         sr.setGroupSize(2);
         sr.setLower(ConstantControlParameter.of(0));
         sr.setUpper(ConstantControlParameter.of(2));
-        assertEquals(30.0, sr.apply(v), 0.0);
+        assertEquals(30.0, sr.f(v), 0.0);
     }
 }

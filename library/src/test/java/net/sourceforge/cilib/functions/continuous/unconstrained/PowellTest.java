@@ -28,13 +28,13 @@ public class PowellTest {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(3.0, -1.0, 0.0, 1.0);
-        assertEquals(215.0, function.apply(x), 0.0);
+        assertEquals(215.0, function.f(x), 0.0);
 
         Vector y = Vector.of(1.0, 1.0, 1.0, 1.0);
-        assertEquals(122.0, function.apply(y), 0.0);
+        assertEquals(122.0, function.f(y), 0.0);
 
         Vector z = Vector.of(0.0, 0.0, 0.0, 0.0);
-        assertEquals(0.0, function.apply(z), 0.0);
+        assertEquals(0.0, function.f(z), 0.0);
     }
 
     /**
@@ -42,6 +42,6 @@ public class PowellTest {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0, 4.0, 5.0));
+        function.f(Vector.of(1.0, 2.0, 3.0, 4.0, 5.0));
     }
 }

@@ -8,7 +8,7 @@ package net.sourceforge.cilib.measurement.single;
 
 import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Bounds;
@@ -39,12 +39,12 @@ public class ParticleBoundViolations implements Measurement<Real> {
      */
     @Override
     public Real getValue(Algorithm algorithm) {
-        PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
+        SinglePopulationBasedAlgorithm populationBasedAlgorithm = (SinglePopulationBasedAlgorithm) algorithm;
 
-        Iterator<? extends Entity> populationIterator = populationBasedAlgorithm.getTopology().iterator();
+        Iterator<Entity> populationIterator = populationBasedAlgorithm.getTopology().iterator();
 
         int numberOfViolations = 0;
-        int populationSize = populationBasedAlgorithm.getTopology().size();
+        int populationSize = populationBasedAlgorithm.getTopology().length();
 
         while (populationIterator.hasNext()) {
             Entity entity = populationIterator.next();

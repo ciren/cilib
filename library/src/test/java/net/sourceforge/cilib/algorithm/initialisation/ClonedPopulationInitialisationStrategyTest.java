@@ -20,7 +20,7 @@ public class ClonedPopulationInitialisationStrategyTest {
         final Entity entity = mock(Entity.class);
         final Problem problem = mock(Problem.class);
 
-        final PopulationInitialisationStrategy<Entity> initialisationBuilder = new ClonedPopulationInitialisationStrategy<Entity>();
+        final PopulationInitialisationStrategy initialisationBuilder = new ClonedPopulationInitialisationStrategy();
         initialisationBuilder.setEntityType(entity);
         initialisationBuilder.setEntityNumber(20);
 

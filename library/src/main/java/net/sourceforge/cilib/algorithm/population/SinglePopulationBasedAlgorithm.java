@@ -12,27 +12,31 @@ import net.sourceforge.cilib.coevolution.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ZeroContributionSelectionStrategy;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
+import net.sourceforge.cilib.entity.topologies.GBestNeighbourhood;
+import net.sourceforge.cilib.entity.topologies.Neighbourhood;
+import fj.data.List;
+import net.sourceforge.cilib.util.functions.Entities;
 
 /**
  * Base class for algorithms that focus on a single populations of entities.
  * These types of algorithms typically include PSO , EC, ACO etc.
  */
-public abstract class SinglePopulationBasedAlgorithm<E extends Entity> extends AbstractAlgorithm implements PopulationBasedAlgorithm, ParticipatingAlgorithm {
+public abstract class SinglePopulationBasedAlgorithm<E extends Entity> extends AbstractAlgorithm
+    implements HasTopology<E>, HasNeighbourhood<E>, ParticipatingAlgorithm {
 
     private static final long serialVersionUID = -4095104893057340895L;
 
-    protected PopulationInitialisationStrategy<E> initialisationStrategy;
-    protected Topology<E> topology;
+    protected PopulationInitialisationStrategy initialisationStrategy;
+    protected List<E> topology;
+    protected Neighbourhood<E> neighbourhood;
     protected ContributionSelectionStrategy contributionSelection;
 
     /**
      * Create an empty {@linkplain PopulationBasedAlgorithm}.
      */
     protected SinglePopulationBasedAlgorithm() {
-        this.topology = new GBestTopology();
+        this.topology = List.<E>nil();
+        this.neighbourhood = new GBestNeighbourhood<>();
         this.contributionSelection = new ZeroContributionSelectionStrategy();
     }
 
@@ -43,7 +47,8 @@ public abstract class SinglePopulationBasedAlgorithm<E extends Entity> extends A
     protected SinglePopulationBasedAlgorithm(SinglePopulationBasedAlgorithm copy) {
         super(copy);
         this.initialisationStrategy = copy.initialisationStrategy.getClone();
-        this.topology = copy.topology.getClone();
+        this.topology = copy.topology.map(Entities.clone_());
+        this.neighbourhood = copy.neighbourhood;
         this.contributionSelection = copy.contributionSelection.getClone();
     }
 
@@ -63,7 +68,7 @@ public abstract class SinglePopulationBasedAlgorithm<E extends Entity> extends A
      * {@inheritDoc}
      */
     @Override
-    public Topology<E> getTopology() {
+    public List<E> getTopology() {
         return topology;
     }
 
@@ -71,7 +76,8 @@ public abstract class SinglePopulationBasedAlgorithm<E extends Entity> extends A
      * Set the <tt>Topology</tt> for the population-based algorithm.
      * @param topology The {@linkplain Topology} to be set.
      */
-    public void setTopology(Topology topology) {
+    @Override
+    public void setTopology(List<E> topology) {
         this.topology = topology;
     }
 
@@ -79,8 +85,7 @@ public abstract class SinglePopulationBasedAlgorithm<E extends Entity> extends A
      * Get the currently set {@linkplain PopulationInitialisationStrategy}.
      * @return The current {@linkplain PopulationInitialisationStrategy}.
      */
-    @Override
-    public PopulationInitialisationStrategy<E> getInitialisationStrategy() {
+    public PopulationInitialisationStrategy getInitialisationStrategy() {
         return initialisationStrategy;
     }
 
@@ -88,18 +93,8 @@ public abstract class SinglePopulationBasedAlgorithm<E extends Entity> extends A
      * Set the {@linkplain PopulationInitialisationStrategy} to be used.
      * @param initialisationStrategy The {@linkplain PopulationInitialisationStrategy} to use.
      */
-    @Override
     public void setInitialisationStrategy(PopulationInitialisationStrategy initialisationStrategy) {
         this.initialisationStrategy = initialisationStrategy;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Object accept(TopologyVisitor visitor) {
-        getTopology().accept(visitor);
-        return visitor.getResult();
     }
 
     /**
@@ -118,4 +113,12 @@ public abstract class SinglePopulationBasedAlgorithm<E extends Entity> extends A
         return contributionSelection;
     }
 
+    public void setNeighbourhood(Neighbourhood<E> f) {
+    	this.neighbourhood = f;
+    }
+
+    @Override
+    public Neighbourhood<E> getNeighbourhood() {
+    	return this.neighbourhood;
+    }
 }

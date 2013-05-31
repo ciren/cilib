@@ -7,8 +7,7 @@
 package net.sourceforge.cilib.algorithm.population.knowledgetransferstrategies;
 
 import java.util.List;
-import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
@@ -28,7 +27,7 @@ public class SelectiveKnowledgeTransferStrategy implements KnowledgeTransferStra
 
     private static final long serialVersionUID = 402688951924934682L;
 
-    private Selector<PopulationBasedAlgorithm> populationSelection;
+    private Selector<SinglePopulationBasedAlgorithm> populationSelection;
     private Selector<Entity> entitySelection;
 
     public SelectiveKnowledgeTransferStrategy() {
@@ -46,11 +45,11 @@ public class SelectiveKnowledgeTransferStrategy implements KnowledgeTransferStra
         return new SelectiveKnowledgeTransferStrategy(this);
     }
 
-    public void setPopulationSelection(Selector<PopulationBasedAlgorithm> populationSelection) {
+    public void setPopulationSelection(Selector<SinglePopulationBasedAlgorithm> populationSelection) {
         this.populationSelection = populationSelection;
     }
 
-    public Selector<PopulationBasedAlgorithm> getPopulationSelection() {
+    public Selector<SinglePopulationBasedAlgorithm> getPopulationSelection() {
         return this.populationSelection;
     }
 
@@ -63,8 +62,8 @@ public class SelectiveKnowledgeTransferStrategy implements KnowledgeTransferStra
     }
 
     @Override
-    public Type transferKnowledge(List<PopulationBasedAlgorithm> allPopulations) {
-        PopulationBasedAlgorithm population = this.populationSelection.on(allPopulations).select();
+    public Type transferKnowledge(List<SinglePopulationBasedAlgorithm> allPopulations) {
+        SinglePopulationBasedAlgorithm population = this.populationSelection.on(allPopulations).select();
         Entity entity = this.entitySelection.on((Iterable<Entity>) population.getTopology()).select();
         return entity.getProperties();
     }

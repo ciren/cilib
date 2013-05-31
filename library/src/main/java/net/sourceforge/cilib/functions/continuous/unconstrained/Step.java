@@ -14,7 +14,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-100.0, 100.0)^6
  */
-public class Step implements ContinuousFunction {
+public class Step extends ContinuousFunction {
 
     private static final long serialVersionUID = -3888436745417400797L;
 
@@ -22,7 +22,7 @@ public class Step implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double sum = 0.0;
 
         for (int i = 0; i < input.size(); i++) {

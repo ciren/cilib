@@ -12,7 +12,7 @@
                     <velocityProvider class="pso.velocityprovider.GCVelocityProvider"/>
                 </entityType>
             </initialisationStrategy>
-            <topology class="entity.topologies.GBestTopology"/>
+            <neighbourhood class="entity.topologies.GBestNeighbourhood"/>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100000">
                 <measurement class="measurement.single.FitnessEvaluations"/>
             </addStoppingCondition>
@@ -23,7 +23,7 @@
                     <velocityProvider class="pso.velocityprovider.GCVelocityProvider"/>
                 </entityType>
             </initialisationStrategy>
-            <topology class="entity.topologies.LBestTopology"/>
+            <neighbourhood class="entity.topologies.LBestNeighbourhood"/>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100000">
                 <measurement class="measurement.single.FitnessEvaluations"/>
             </addStoppingCondition>
@@ -34,25 +34,25 @@
                     <velocityProvider class="pso.velocityprovider.GCVelocityProvider"/>
                 </entityType>
             </initialisationStrategy>
-            <topology class="entity.topologies.VonNeumannTopology"/>
+            <neighbourhood class="entity.topologies.VonNeumannNeighbourhood"/>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100000">
                 <measurement class="measurement.single.FitnessEvaluations"/>
             </addStoppingCondition>
         </algorithm>
         <algorithm id="pso-gbest" class="pso.PSO">
-            <topology class="entity.topologies.GBestTopology"/>
+            <neighbourhood class="entity.topologies.GBestNeighbourhood"/>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100000">
                 <measurement class="measurement.single.FitnessEvaluations"/>
             </addStoppingCondition>
         </algorithm>
         <algorithm id="pso-lbest" class="pso.PSO">
-            <topology class="entity.topologies.LBestTopology"/>
+            <neighbourhood class="entity.topologies.LBestNeighbourhood"/>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100000">
                 <measurement class="measurement.single.FitnessEvaluations"/>
             </addStoppingCondition>
         </algorithm>
         <algorithm id="pso-vn" class="pso.PSO">
-            <topology class="entity.topologies.VonNeumannTopology"/>
+            <neighbourhood class="entity.topologies.VonNeumannNeighbourhood"/>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100000">
                 <measurement class="measurement.single.FitnessEvaluations"/>
             </addStoppingCondition>

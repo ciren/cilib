@@ -8,28 +8,31 @@ package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
 import java.util.LinkedList;
 import java.util.List;
+
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
+import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  *
  */
-public class ArchiveReevaluationResponseStrategy extends EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm> {
+public class ArchiveReevaluationResponseStrategy extends EnvironmentChangeResponseStrategy {
 
     private static final long serialVersionUID = 4757162276962451681L;
 
     @Override
-    public EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm> getClone() {
+    public EnvironmentChangeResponseStrategy getClone() {
         return this;
     }
 
     @Override
-    protected void performReaction(PopulationBasedAlgorithm algorithm) {
+	protected <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void performReaction(
+			A algorithm) {
         for (Entity entity : algorithm.getTopology()) {
             entity.getProperties().put(EntityType.Particle.BEST_FITNESS, entity.getFitnessCalculator().getFitness(entity));
             //entity.getProperties().put(EntityType.Particle.BEST_POSITION, entity.getCandidateSolution());
@@ -47,4 +50,5 @@ public class ArchiveReevaluationResponseStrategy extends EnvironmentChangeRespon
         Archive.Provider.get().clear();
         Archive.Provider.get().addAll(newList);
     }
+
 }

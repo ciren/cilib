@@ -28,11 +28,11 @@ public class NastyBenchmarkTest {
     public void testApply() {
         Vector x = Vector.of(3.0, 1.0, 6.0);
 
-        assertEquals(14.0, function.apply(x), Maths.EPSILON);
+        assertEquals(14.0, function.f(x), Maths.EPSILON);
 
         x.setReal(0, 1.0);
         x.setReal(1, 2.0);
         x.setReal(2, 3.0);
-        assertEquals(0.0, function.apply(x), Maths.EPSILON);
+        assertEquals(0.0, function.f(x), Maths.EPSILON);
     }
 }

@@ -12,13 +12,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Norwegian function.
  */
-public class Norwegian implements ContinuousFunction {
-    
+public class Norwegian extends ContinuousFunction {
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double product = 1.0;
         double value;
 

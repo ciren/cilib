@@ -55,8 +55,8 @@ import org.w3c.dom.*;
  */
 public class XMLObjectFactory {
 
-    private Document xmlDocument;
-    private Element xmlObjectDescription;
+    private final Document xmlDocument;
+    private final Element xmlObjectDescription;
 
     /**
      * Creates a new instance of <code>XMLObjectFactory</code> for constructing objects
@@ -245,6 +245,11 @@ public class XMLObjectFactory {
     }
 
     private void invokeSetMethod(Element xml, Object target, String property, Object value) {
+	if (property.equals("instance")) {
+	    System.out.println("we have found an instance request for the value of: " + value.toString());
+	    throw new Error("instance");
+	}
+
         String setMethodName = "set" + property.substring(0, 1).toUpperCase() + property.substring(1);
         Object[] parameters = {value};
         invokeMethod(xml, target, setMethodName, parameters);

@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.functions.continuous.dynamic;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.DynamicFunction;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
@@ -35,9 +34,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </pre>
  *
  */
-public class GeneralisedMovingPeaks implements ContinuousFunction, DynamicFunction<Vector, Double> {
+public class GeneralisedMovingPeaks extends DynamicFunction<Vector, Double> {
 
-    private ProbabilityDistributionFunction gaussian, uniform; //random providers.
+    private final ProbabilityDistributionFunction gaussian, uniform; //random providers.
     private int frequency; //the frequency (in iterations) with which the environment changes.
     private int peaks; //the number of peaks.
     private double widthSeverity, heightSeverity, shiftSeverity, lambda; //controls the severity and movement trends of peak movements.
@@ -79,7 +78,7 @@ public class GeneralisedMovingPeaks implements ContinuousFunction, DynamicFuncti
     }
 
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         //this is silly, but there's no way of knowing the dimensions of the problem until this method is called...
         if (movementDirections == null) {
             initialisePeaks(input.size());

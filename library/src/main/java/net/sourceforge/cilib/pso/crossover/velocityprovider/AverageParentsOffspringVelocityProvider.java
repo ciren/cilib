@@ -6,8 +6,8 @@
  */
 package net.sourceforge.cilib.pso.crossover.velocityprovider;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import fj.F;
 import java.util.List;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -21,11 +21,11 @@ import net.sourceforge.cilib.util.Vectors;
 public class AverageParentsOffspringVelocityProvider extends OffspringVelocityProvider {
     @Override
     public StructuredType f(List<Particle> parent, Particle offspring) {
-        return Vectors.mean(Lists.transform(parent, new Function<Particle, Vector>() {
+        return Vectors.mean(fj.data.List.iterableList(parent).map(new F<Particle, Vector>() {
             @Override
-            public Vector apply(Particle f) {
+            public Vector f(Particle f) {
                 return (Vector) f.getVelocity();
             }
-        }));
+        })).valueE("");
     }
 }

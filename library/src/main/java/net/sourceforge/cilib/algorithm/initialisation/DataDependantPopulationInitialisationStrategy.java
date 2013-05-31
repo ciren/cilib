@@ -27,11 +27,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * It sets the bounds of the StandardCentroidInitialisationStrategy and the dataset of the
  * DataPatternInitialisationStrategy and then initialises the population accordingly.
  */
-public class DataDependantPopulationInitialisationStrategy <E extends Entity> implements PopulationInitialisationStrategy<E>{
+public class DataDependantPopulationInitialisationStrategy implements PopulationInitialisationStrategy {
     private PopulationInitialisationStrategy delegate;
     private Entity prototypeEntity;
     private int entityNumber;
-    private DataTableBuilder tableBuilder;
+    private final DataTableBuilder tableBuilder;
     DataTable dataset;
 
     /*
@@ -62,8 +62,8 @@ public class DataDependantPopulationInitialisationStrategy <E extends Entity> im
      * @return the new instance of the DataDependantPopulationInitialisationStrategy
      */
     @Override
-    public DataDependantPopulationInitialisationStrategy<E> getClone() {
-        return new DataDependantPopulationInitialisationStrategy<E>(this);
+    public DataDependantPopulationInitialisationStrategy getClone() {
+        return new DataDependantPopulationInitialisationStrategy(this);
     }
 
     /*
@@ -93,7 +93,7 @@ public class DataDependantPopulationInitialisationStrategy <E extends Entity> im
      * @return The newly initialised population
      */
     @Override
-    public Iterable<E> initialise(Problem problem) {
+    public <E extends Entity> Iterable<E> initialise(Problem problem) {
         if(((ClusterParticle) prototypeEntity).getCentroidInitialisationStrategyCandidate() instanceof StandardCentroidInitialisationStrategy) {
             StandardCentroidInitialisationStrategy strategy = (StandardCentroidInitialisationStrategy) ((ClusterParticle) prototypeEntity).getCentroidInitialisationStrategyCandidate();
             strategy.setBounds(getBounds());

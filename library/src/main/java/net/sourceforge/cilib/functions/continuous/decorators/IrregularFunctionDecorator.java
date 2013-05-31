@@ -6,11 +6,11 @@
  */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
-import fj.F;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
+import fj.F;
 
 /**
  * Implementation to create an irregular function.
@@ -23,7 +23,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * on Real-Parameter Optimization." (2013).
  * </p>
  */
-public class IrregularFunctionDecorator implements ContinuousFunction {
+public class IrregularFunctionDecorator extends ContinuousFunction {
 
     private ContinuousFunction function;
     private F<Numeric, Numeric> mapping;
@@ -43,8 +43,8 @@ public class IrregularFunctionDecorator implements ContinuousFunction {
     }
 
     @Override
-    public Double apply(Vector input) {
-        return function.apply(input.map(mapping));
+    public Double f(Vector input) {
+        return function.f(input.map(mapping));
     }
 
     public void setFunction(ContinuousFunction function) {

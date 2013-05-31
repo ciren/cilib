@@ -6,18 +6,22 @@
  */
 package net.sourceforge.cilib.entity;
 
-import net.sourceforge.cilib.pso.particle.Particle;
+import static org.hamcrest.CoreMatchers.is;
+
 import java.util.Arrays;
 import java.util.Set;
+
 import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
 import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.entity.topologies.LBestTopology;
+import net.sourceforge.cilib.entity.topologies.LBestNeighbourhood;
+import net.sourceforge.cilib.entity.topologies.Neighbourhood;
 import net.sourceforge.cilib.problem.solution.MaximisationFitness;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
+import net.sourceforge.cilib.pso.dynamic.detectionstrategies.NeighbourhoodBestSentriesDetectionStrategy;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
-import static org.hamcrest.CoreMatchers.is;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -37,10 +41,7 @@ public class TopologiesTest {
         i2.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(1.0));
         i3.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(0.5));
 
-        Topology<Particle> topology = new LBestTopology<Particle>();
-        topology.add(i1);
-        topology.add(i2);
-        topology.add(i3);
+        fj.data.List<Particle> topology = fj.data.List.list(i1, i2, i3);
 
         Particle socialBest = Topologies.getBestEntity(topology, new SocialBestFitnessComparator<Particle>());
         Particle mostFit = Topologies.getBestEntity(topology, new AscendingFitnessComparator<Particle>());
@@ -60,9 +61,7 @@ public class TopologiesTest {
         p1.getProperties().put(EntityType.FITNESS, new MaximisationFitness(400.0));
         p2.getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.0));
 
-        Topology<Particle> topology = new GBestTopology<Particle>();
-        topology.add(p1);
-        topology.add(p2);
+        fj.data.List<Particle> topology = fj.data.List.list(p1, p2);
 
         Particle best = Topologies.getBestEntity(topology);
 
@@ -86,16 +85,13 @@ public class TopologiesTest {
         i3.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(0.0));
         i4.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(0.1));
 
-        Topology<Particle> topology = new LBestTopology<Particle>();
-        topology.add(i1);
-        topology.add(i2);
-        topology.add(i3);
-        topology.add(i4);
+        fj.data.List<Particle> topology = fj.data.List.list(i1, i2, i3, i4);
+        Neighbourhood<Particle> neighbourhood = new LBestNeighbourhood<>();
 
-        Particle socialBest = Topologies.getNeighbourhoodBest(topology, i1, new SocialBestFitnessComparator<Particle>());
-        Particle mostFit = Topologies.getNeighbourhoodBest(topology, i1, new AscendingFitnessComparator<Particle>());
-        Particle leastFit = Topologies.getNeighbourhoodBest(topology, i1, new DescendingFitnessComparator<Particle>());
-        Particle other = Topologies.getNeighbourhoodBest(topology, i2);
+        Particle socialBest = Topologies.getNeighbourhoodBest(topology, i1, neighbourhood, new SocialBestFitnessComparator<Particle>());
+        Particle mostFit = Topologies.getNeighbourhoodBest(topology, i1, neighbourhood, new AscendingFitnessComparator<Particle>());
+        Particle leastFit = Topologies.getNeighbourhoodBest(topology, i1, neighbourhood, new DescendingFitnessComparator<Particle>());
+        Particle other = Topologies.getNeighbourhoodBest(topology, i2, neighbourhood);
 
         Assert.assertThat(socialBest, is(i4));
         Assert.assertThat(mostFit, is(i4));
@@ -120,16 +116,13 @@ public class TopologiesTest {
         i3.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(0.0));
         i4.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(0.1));
 
-        Topology<Particle> topology = new LBestTopology<Particle>();
-        topology.add(i1);
-        topology.add(i2);
-        topology.add(i3);
-        topology.add(i4);
+        fj.data.List<Particle> topology = fj.data.List.list(i1, i2, i3, i4);
+        Neighbourhood<Particle> neighbourhood = new LBestNeighbourhood<>();
 
-        Set<Particle> socialBest = Topologies.getNeighbourhoodBestEntities(topology, new SocialBestFitnessComparator<Particle>());
-        Set<Particle> mostFit = Topologies.getNeighbourhoodBestEntities(topology, new AscendingFitnessComparator<Particle>());
-        Set<Particle> leastFit = Topologies.getNeighbourhoodBestEntities(topology, new DescendingFitnessComparator<Particle>());
-        Set<Particle> other = Topologies.getNeighbourhoodBestEntities(topology);
+        Set<Particle> socialBest = Topologies.getNeighbourhoodBestEntities(topology, neighbourhood, new SocialBestFitnessComparator<Particle>());
+        Set<Particle> mostFit = Topologies.getNeighbourhoodBestEntities(topology, neighbourhood, new AscendingFitnessComparator<Particle>());
+        Set<Particle> leastFit = Topologies.getNeighbourhoodBestEntities(topology, neighbourhood, new DescendingFitnessComparator<Particle>());
+        Set<Particle> other = Topologies.getNeighbourhoodBestEntities(topology, neighbourhood);
 
         Assert.assertTrue(socialBest.containsAll(Arrays.asList(i3, i4)));
         Assert.assertTrue(mostFit.containsAll(Arrays.asList(i3, i4)));

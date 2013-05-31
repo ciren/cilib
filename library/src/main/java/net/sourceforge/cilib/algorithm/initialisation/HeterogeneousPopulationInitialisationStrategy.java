@@ -25,11 +25,11 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
  * pool. The manner in which behaviors are selected from the behavior pool is
  * governed by the {@link Selector} (random by default).
  */
-public class HeterogeneousPopulationInitialisationStrategy implements PopulationInitialisationStrategy<Particle> {
+public class HeterogeneousPopulationInitialisationStrategy implements PopulationInitialisationStrategy {
 
     private List<ParticleBehavior> behaviorPool;
     private Selector<ParticleBehavior> selectionRecipe;
-    private PopulationInitialisationStrategy<Particle> delegate;
+    private PopulationInitialisationStrategy delegate;
 
     /**
      * Create an instance of the {@code ChargedPopulationInitialisationStrategy}.
@@ -37,7 +37,7 @@ public class HeterogeneousPopulationInitialisationStrategy implements Population
     public HeterogeneousPopulationInitialisationStrategy() {
         behaviorPool = new ArrayList<ParticleBehavior>();
         selectionRecipe = new RandomSelector<ParticleBehavior>();
-        delegate = new ClonedPopulationInitialisationStrategy<Particle>();
+        delegate = new ClonedPopulationInitialisationStrategy();
     }
 
     /**
@@ -66,7 +66,7 @@ public class HeterogeneousPopulationInitialisationStrategy implements Population
      * @throws InitialisationException if the initialisation cannot take place.
      */
     @Override
-    public Iterable<Particle> initialise(Problem problem) {
+    public <E extends Entity> Iterable<E> initialise(Problem problem) {
         Preconditions.checkNotNull(problem, "No problem has been specified");
         Preconditions.checkState(behaviorPool.size() > 0, "No particle behaviors have been added to the behavior pool.");
 
@@ -76,7 +76,7 @@ public class HeterogeneousPopulationInitialisationStrategy implements Population
             p.setParticleBehavior(selectionRecipe.on(behaviorPool).select());
         }
 
-        return clones;
+        return (Iterable<E>) clones;
     }
 
     /**
@@ -141,11 +141,11 @@ public class HeterogeneousPopulationInitialisationStrategy implements Population
         delegate.setEntityNumber(entityNumber);
     }
 
-    public void setDelegate(PopulationInitialisationStrategy<Particle> delegate) {
+    public void setDelegate(PopulationInitialisationStrategy delegate) {
         this.delegate = delegate;
     }
 
-    public PopulationInitialisationStrategy<Particle> getDelegate() {
+    public PopulationInitialisationStrategy getDelegate() {
         return delegate;
     }
 

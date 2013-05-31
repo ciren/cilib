@@ -16,7 +16,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(0, 1)^1
  *
  */
-public class MultimodalFunction1 implements ContinuousFunction {
+public class MultimodalFunction1 extends ContinuousFunction {
 
     private static final long serialVersionUID = -5261002551096587662L;
 
@@ -24,7 +24,7 @@ public class MultimodalFunction1 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double sum = 0.0;
         for (int i = 0; i < input.size(); ++i) {
             sum += Math.pow(Math.sin(5.0 * Math.PI * input.doubleValueOf(i)), 6.0);

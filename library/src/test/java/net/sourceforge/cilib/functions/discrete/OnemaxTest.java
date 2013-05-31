@@ -13,19 +13,19 @@ import org.junit.Test;
 
 public class OnemaxTest {
 
-    private Onemax func = new Onemax();
+    private final Onemax func = new Onemax();
 
     @Test
     public void testFunction() {
-        assertEquals(0.0, func.apply(Vector.of(0,0,0)), Maths.EPSILON);
-        assertEquals(1.0, func.apply(Vector.of(0,0,1)), Maths.EPSILON);
-        assertEquals(2.0, func.apply(Vector.of(0,1,1)), Maths.EPSILON);
-        assertEquals(3.0, func.apply(Vector.of(1,1,1)), Maths.EPSILON);
+        assertEquals(0.0, func.f(Vector.of(0,0,0)), Maths.EPSILON);
+        assertEquals(1.0, func.f(Vector.of(0,0,1)), Maths.EPSILON);
+        assertEquals(2.0, func.f(Vector.of(0,1,1)), Maths.EPSILON);
+        assertEquals(3.0, func.f(Vector.of(1,1,1)), Maths.EPSILON);
 
-        assertEquals(1.0, func.apply(Vector.of(0,1,0)), Maths.EPSILON);
-        assertEquals(2.0, func.apply(Vector.of(1,0,1)), Maths.EPSILON);
-        assertEquals(1.0, func.apply(Vector.of(1,0,0)), Maths.EPSILON);
-        assertEquals(2.0, func.apply(Vector.of(0,1,1)), Maths.EPSILON);
+        assertEquals(1.0, func.f(Vector.of(0,1,0)), Maths.EPSILON);
+        assertEquals(2.0, func.f(Vector.of(1,0,1)), Maths.EPSILON);
+        assertEquals(1.0, func.f(Vector.of(1,0,0)), Maths.EPSILON);
+        assertEquals(2.0, func.f(Vector.of(0,1,1)), Maths.EPSILON);
     }
 
 }

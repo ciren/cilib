@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.pso.guideprovider;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.pso.PSO;
@@ -37,8 +36,8 @@ public class RandomGuideProvider implements GuideProvider {
 
     @Override
     public StructuredType get(Particle particle) {
-        Topology<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
-        Particle other = topology.get((int) random.getRandomNumber(0, topology.size()));
+        fj.data.List<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
+        Particle other = topology.index((int) random.getRandomNumber(0, topology.length()));
 
         return other.getBestPosition();
     }

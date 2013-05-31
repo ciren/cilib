@@ -10,8 +10,6 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.problem.solution.MaximisationFitness;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
@@ -45,23 +43,20 @@ public class RouletteWheelSelectorTest {
         Assert.assertThat(selected, is(1));
     }
 
-    private static Topology<Individual> createDummyTopology() {
-        Topology<Individual> topology = new GBestTopology<Individual>();
+    private static fj.data.List<Individual> createDummyTopology() {
         Individual individual1 = new Individual();
         Individual individual2 = new Individual();
         Individual individual3 = new Individual();
-        topology.add(individual1);
-        topology.add(individual2);
-        topology.add(individual3);
-        return topology;
+        
+        return fj.data.List.list(individual1, individual2, individual3);
     }
 
     @Test
     public void minimisationSelection() {
-        Topology<Individual> topology = createDummyTopology();
-        topology.get(0).getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
-        topology.get(1).getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
-        topology.get(2).getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.00001)); // Should be the best entity
+        fj.data.List<Individual> topology = createDummyTopology();
+        topology.index(0).getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
+        topology.index(1).getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
+        topology.index(2).getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.00001)); // Should be the best entity
 
         RouletteWheelSelector<Individual> selection = new RouletteWheelSelector<Individual>(new EntityWeighting());
         Individual selected = selection.on(topology).select();
@@ -69,45 +64,45 @@ public class RouletteWheelSelectorTest {
         Assert.assertThat(selected, is(notNullValue()));
         Assert.assertThat(topology, hasItem(selected));
 
-        Assert.assertThat(selected, is(topology.get(2)));
+        Assert.assertThat(selected, is(topology.index(2)));
     }
 
     @Test
     public void maximisationSelection() {
-        Topology<Individual> topology = createDummyTopology();
-        topology.get(0).getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
-        topology.get(1).getProperties().put(EntityType.FITNESS, new MaximisationFitness(90000.0)); // Should be the best entity
-        topology.get(2).getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
+        fj.data.List<Individual> topology = createDummyTopology();
+        topology.index(0).getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
+        topology.index(1).getProperties().put(EntityType.FITNESS, new MaximisationFitness(90000.0)); // Should be the best entity
+        topology.index(2).getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
 
         RouletteWheelSelector<Individual> selection = new RouletteWheelSelector<Individual>(new EntityWeighting());
         Individual selected = selection.on(topology).select();
 
         Assert.assertThat(selected, is(notNullValue()));
         Assert.assertThat(topology, hasItem(selected));
-        Assert.assertThat(selected, is(topology.get(1)));
+        Assert.assertThat(selected, is(topology.index(1)));
     }
 
     @Test
     public void someNaNSelection() {
-        Topology<Individual> topology = createDummyTopology();
-        topology.get(0).getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
-        topology.get(1).getProperties().put(EntityType.FITNESS, new MaximisationFitness(90000.0)); // Should be the best entity
-        topology.get(2).getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
+        fj.data.List<Individual> topology = createDummyTopology();
+        topology.index(0).getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        topology.index(1).getProperties().put(EntityType.FITNESS, new MaximisationFitness(90000.0)); // Should be the best entity
+        topology.index(2).getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
 
         RouletteWheelSelector<Individual> selection = new RouletteWheelSelector<Individual>(new EntityWeighting());
         Individual selected = selection.on(topology).select();
 
         Assert.assertThat(selected, is(notNullValue()));
         Assert.assertThat(topology, hasItem(selected));
-        Assert.assertThat(selected, is(topology.get(1)));
+        Assert.assertThat(selected, is(topology.index(1)));
     }
 
     @Test
     public void allNaNSelection() {
-        Topology<Individual> topology = createDummyTopology();
-        topology.get(0).getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
-        topology.get(1).getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
-        topology.get(2).getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        fj.data.List<Individual> topology = createDummyTopology();
+        topology.index(0).getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        topology.index(1).getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        topology.index(2).getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
 
         RouletteWheelSelector<Individual> selection = new RouletteWheelSelector<Individual>(new EntityWeighting());
         Individual selected = selection.on(topology).select();

@@ -19,10 +19,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * EF(x1, x2,..., x_D) = F(x1, x2) + F(x2, x3) + ... + F(x_D - 1, x_D) + F(x_D , x1)
  * </p>
  */
-public class ExpandedFunctionDecorator implements ContinuousFunction {
+public class ExpandedFunctionDecorator extends ContinuousFunction {
     private ContinuousFunction function;
     private int splitSize;
-    
+
     /**
      * Default constructor.
      */
@@ -34,18 +34,18 @@ public class ExpandedFunctionDecorator implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         checkState(input.size() >= splitSize, "Input vector is too small, check that noOfSplits is correct.");
-        
+
         double sum = 0.0;
-        
+
         for (int i = splitSize; i < input.size(); i++) {
-            sum += function.apply(input.copyOfRange(i - splitSize, i + splitSize));
+            sum += function.f(input.copyOfRange(i - splitSize, i + splitSize));
         }
-        
+
         Vector finalAddition = Vector.newBuilder().copyOf(input.copyOfRange(input.size() - splitSize, input.size())).add(input.get(0)).build();
-        sum += function.apply(finalAddition);
-        
+        sum += function.f(finalAddition);
+
         return sum;
     }
 
@@ -67,7 +67,7 @@ public class ExpandedFunctionDecorator implements ContinuousFunction {
 
     /**
      * Sets the size of each split.
-     * @param noOfSplits 
+     * @param noOfSplits
      */
     public void setSplitSize(int noOfSplits) {
         this.splitSize = noOfSplits;

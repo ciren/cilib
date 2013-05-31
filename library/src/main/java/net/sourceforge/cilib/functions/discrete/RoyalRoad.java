@@ -5,11 +5,13 @@
  *  \___/_/_/_/_.___/
  */
 package net.sourceforge.cilib.functions.discrete;
-import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 
 /**
@@ -23,7 +25,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Sante Fe Institute
  * </li></ul>
  */
-public class RoyalRoad implements ContinuousFunction {
+public class RoyalRoad extends ContinuousFunction {
 
     private int k;
     private int b;
@@ -48,7 +50,7 @@ public class RoyalRoad implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() == Math.pow(2,k) * (b + g),
             "Royal Road function must be used with vectors of length " + Math.pow(2,k) * (b + g) + " for the given configuration.");
 

@@ -8,7 +8,7 @@
 package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
@@ -26,10 +26,11 @@ public class CollectiveFitness implements Measurement<Real> {
 
     @Override
     public Real getValue(Algorithm algorithm) {
-        PopulationBasedAlgorithm pba = (PopulationBasedAlgorithm) algorithm;
+        SinglePopulationBasedAlgorithm pba = (SinglePopulationBasedAlgorithm) algorithm;
 
         double collectiveFitness = 0.0;
-        for (Entity e : pba.getTopology()) {
+        fj.data.List<Entity> local = pba.getTopology();
+        for (Entity e : local) {
             collectiveFitness += e.getFitness().getValue();
         }
 

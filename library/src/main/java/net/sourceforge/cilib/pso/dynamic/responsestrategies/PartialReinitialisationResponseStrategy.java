@@ -6,20 +6,22 @@
  */
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
-import com.google.common.base.Function;
+import fj.F;
 import java.util.Iterator;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
-public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAlgorithm> extends ParticleReevaluationResponseStrategy<E> {
+
+public class PartialReinitialisationResponseStrategy extends ParticleReevaluationResponseStrategy {
 
     private static final long serialVersionUID = 4619744183683905269L;
     private double reinitialisationRatio;
@@ -29,13 +31,13 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
         reinitialisationRatio = 0.5;
     }
 
-    public PartialReinitialisationResponseStrategy(PartialReinitialisationResponseStrategy<E> copy) {
+    public PartialReinitialisationResponseStrategy(PartialReinitialisationResponseStrategy copy) {
         this.reinitialisationRatio = copy.reinitialisationRatio;
     }
 
     @Override
-    public PartialReinitialisationResponseStrategy<E> getClone() {
-        return new PartialReinitialisationResponseStrategy<E>(this);
+    public PartialReinitialisationResponseStrategy getClone() {
+        return new PartialReinitialisationResponseStrategy(this);
     }
 
     /**
@@ -44,15 +46,16 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
      * @param algorithm PSO algorithm that has to respond to environment change
      */
     @Override
-    public void respond(E algorithm) {
+	protected <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void performReaction(
+			A algorithm) {
 
-        Topology<? extends Entity> topology = algorithm.getTopology();
+        fj.data.List<? extends Entity> topology = algorithm.getTopology();
 
         // Reevaluate current position. Update personal best (done by reevaluate()).
         Iterator<? extends Entity> iterator = topology.iterator();
         int reinitCounter = 0;
         int keepCounter = 0;
-        int populationSize = algorithm.getTopology().size();
+        int populationSize = algorithm.getTopology().length();
         while (iterator.hasNext()) {
             DynamicParticle current = (DynamicParticle) iterator.next();
             ZeroTransformation zt = new ZeroTransformation();
@@ -93,10 +96,9 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
         this.reinitialisationRatio = reinitialisationRatio;
     }
 
-    private static class ZeroTransformation implements Function<Numeric, Number> {
-
+    private static class ZeroTransformation extends F<Numeric, Number> {
         @Override
-        public Number apply(Numeric from) {
+        public Number f(Numeric from) {
             return 0.0;
         }
     }
