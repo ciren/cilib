@@ -25,7 +25,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class NNPerformanceChangeStoppingCondition implements StoppingCondition<Algorithm> {
 
-    private ArrayList<Vector> previousResults;
+    protected ArrayList<Vector> previousResults;
     private NNPerformanceComparator comparator;
 
     public NNPerformanceChangeStoppingCondition() {
