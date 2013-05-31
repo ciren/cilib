@@ -86,18 +86,16 @@ public class ABC extends SinglePopulationBasedAlgorithm<HoneyBee> {
     public ABC(ABC copy) {
         super(copy);
 
-        workerBees = copy.workerBees;
-        onlookerBees = copy.onlookerBees;
-        
-        topology.append(copy.workerBees);
-        topology.append(copy.onlookerBees);
-
         explorerBee = copy.explorerBee.getClone();
         dancingSelectionStrategy = new RouletteWheelSelector();
 
         forageLimit = copy.forageLimit.getClone();
         workerBeePercentage = copy.workerBeePercentage.getClone();
         explorerBeeUpdateLimit = copy.explorerBeeUpdateLimit.getClone();
+
+        final int workerBeeCount = Double.valueOf(workerBeePercentage.getParameter() * topology.length()).intValue();
+        workerBees = topology.take(workerBeeCount);
+        onlookerBees = topology.drop(workerBeeCount);
     }
 
     /**
