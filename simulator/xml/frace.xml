@@ -44,6 +44,36 @@
                 <count value="100"/>
             </parameterProvider>
         </algorithm>
+
+		<algorithm id="frace2" class="tuning.TuningAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100"/>
+
+			<iterationStrategy class="tuning.FRaceIterationStrategy">
+				<minProblems class="controlparameter.ConstantControlParameter" parameter="1"/>
+				<minSolutions class="controlparameter.ConstantControlParameter" parameter="2"/>
+			</iterationStrategy>
+
+			<parameterProvider class="tuning.parameterlist.FFDParameterListProvider">
+				<addParameter class="tuning.parameters.DiscreteParameterGenerator">
+					<addParameter value="0.4"/>
+					<addParameter value="0.8"/>
+					<addParameter value="1.2"/>
+					<addParameter value="1.6"/>
+				</addParameter>
+				<addParameter class="tuning.parameters.DiscreteParameterGenerator">
+					<addParameter value="0.8"/>
+					<addParameter value="1.6"/>
+					<addParameter value="2.4"/>
+					<addParameter value="3.2"/>
+				</addParameter>
+				<addParameter class="tuning.parameters.DiscreteParameterGenerator">
+					<addParameter value="0.8"/>
+					<addParameter value="1.6"/>
+					<addParameter value="2.4"/>
+					<addParameter value="3.2"/>
+				</addParameter>
+			</parameterProvider>
+        </algorithm>
     </algorithms>
 
     <problems>
@@ -249,6 +279,13 @@
 
     <simulations>
         <simulation samples="1">
+            <algorithm idref="frace2"/>
+            <problem idref="tuning"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/i_f-race.txt"/>
+        </simulation>
+
+		<simulation samples="1">
             <algorithm idref="frace"/>
             <problem idref="tuning"/>
             <measurements idref="measurements" />
