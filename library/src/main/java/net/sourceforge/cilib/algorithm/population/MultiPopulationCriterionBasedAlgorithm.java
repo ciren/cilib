@@ -32,7 +32,6 @@ public class MultiPopulationCriterionBasedAlgorithm extends MultiPopulationBased
     private ObjectiveAssignmentStrategy objectiveAssignmentStrategy;
 
     public MultiPopulationCriterionBasedAlgorithm() {
-        super();
         this.objectiveAssignmentStrategy = new SequentialObjectiveAssignmentStrategy();
     }
 

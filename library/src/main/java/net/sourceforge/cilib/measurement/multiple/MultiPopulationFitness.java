@@ -8,7 +8,7 @@ package net.sourceforge.cilib.measurement.multiple;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.measurement.Measurement;
@@ -39,7 +39,7 @@ public class MultiPopulationFitness implements Measurement<Vector> {
     public Vector getValue(Algorithm algorithm) {
         Vector.Builder fitness = Vector.newBuilder();
         MultiPopulationBasedAlgorithm ca = (MultiPopulationBasedAlgorithm) algorithm;
-        for (PopulationBasedAlgorithm currentAlgorithm : ca) {
+        for (SinglePopulationBasedAlgorithm<Entity> currentAlgorithm : ca) {
             Fitness best = null;
             for (Entity e : currentAlgorithm.getTopology()) {
                 if (best == null || ((Fitness) e.getProperties().get(EntityType.Particle.BEST_FITNESS)).compareTo(best) > 0) {

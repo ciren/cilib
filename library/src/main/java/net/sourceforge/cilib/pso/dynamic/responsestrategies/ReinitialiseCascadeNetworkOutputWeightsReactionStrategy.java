@@ -6,12 +6,12 @@
  */
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.problem.nn.NNDataTrainingProblem;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -23,7 +23,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
  */
-public class ReinitialiseCascadeNetworkOutputWeightsReactionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy<E> {
+public class ReinitialiseCascadeNetworkOutputWeightsReactionStrategy<E extends SinglePopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy {
 
     public ReinitialiseCascadeNetworkOutputWeightsReactionStrategy() {
     }
@@ -43,7 +43,8 @@ public class ReinitialiseCascadeNetworkOutputWeightsReactionStrategy<E extends P
      * {@inheritDoc}
      */
     @Override
-    public void performReaction(E algorithm) {
+	protected <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void performReaction(
+			A algorithm) {
         NNDataTrainingProblem problem = (NNDataTrainingProblem) algorithm.getOptimisationProblem();
         NeuralNetwork network = problem.getNeuralNetwork();
 
@@ -58,7 +59,7 @@ public class ReinitialiseCascadeNetworkOutputWeightsReactionStrategy<E extends P
                               .get(network.getArchitecture().getArchitectureBuilder().getLayerConfigurations().size()-1).getSize();
         int nrOfweightsToDo = precedingLayersSize * outputLayerSize;
 
-        Topology<? extends Entity> entities = algorithm.getTopology();
+        fj.data.List<? extends Entity> entities = algorithm.getTopology();
 
         for (Entity entity : entities) {
             DynamicParticle particle = (DynamicParticle) entity;

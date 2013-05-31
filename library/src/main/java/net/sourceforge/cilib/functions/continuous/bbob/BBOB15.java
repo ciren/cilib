@@ -32,16 +32,16 @@ public class BBOB15 extends AbstractBBOB {
 	}
 
 	@Override
-	public Double apply(Vector input) {
+	public Double f(Vector input) {
 		initialise(input.size());
 
 		Vector z = input.subtract(xOpt);
 
 		r.setFunction(irregular);
-		return r.apply(z) + fOpt;
+		return r.f(z) + fOpt;
 	}
 
-	private class Inner implements ContinuousFunction {
+	private class Inner extends ContinuousFunction {
 		private Rastrigin rastrigin;
 
 		public Inner() {
@@ -49,9 +49,9 @@ public class BBOB15 extends AbstractBBOB {
 		}
 
 		@Override
-		public Double apply(Vector z) {
+		public Double f(Vector z) {
 			r.setFunction(rastrigin);
-			return r.apply(z);
+			return r.f(z);
 		}
 	}
 }

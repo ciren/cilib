@@ -15,7 +15,6 @@ import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
 
 /**
@@ -60,7 +59,7 @@ public class VelocityUpdateOffspringVelocityProvider extends OffspringVelocityPr
         Vector cognitiveComponent = Vector.copyOf(localGuide).subtract(position).multiply(cp(cognitiveAcceleration)).multiply(random());
         Vector socialComponent = Vector.copyOf(globalGuide).subtract(position).multiply(cp(socialAcceleration)).multiply(random());
 
-        return Vectors.sumOf(cognitiveComponent, socialComponent);
+        return cognitiveComponent.plus(socialComponent);
     }
 
     public void setCognitiveAcceleration(ControlParameter cognitiveComponent) {

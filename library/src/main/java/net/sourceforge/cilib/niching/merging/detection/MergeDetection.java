@@ -6,13 +6,13 @@
  */
 package net.sourceforge.cilib.niching.merging.detection;
 
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import fj.F2;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 
 /**
  * Merge detection strategies for Niching.
  * 
  * Used to merge two swarms into one.
  */
-public abstract class MergeDetection extends F2<PopulationBasedAlgorithm, PopulationBasedAlgorithm, Boolean> {
+public abstract class MergeDetection extends F2<SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm, Boolean> {
 }

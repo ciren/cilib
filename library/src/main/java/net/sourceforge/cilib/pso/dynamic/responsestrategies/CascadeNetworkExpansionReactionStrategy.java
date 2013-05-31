@@ -7,12 +7,13 @@
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
 import java.util.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.problem.nn.NNDataTrainingProblem;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
+import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
 
@@ -25,7 +26,7 @@ import net.sourceforge.cilib.type.types.Real;
  *
  * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
  */
-public class CascadeNetworkExpansionReactionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy<E> {
+public class CascadeNetworkExpansionReactionStrategy<E extends SinglePopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy {
     public CascadeNetworkExpansionReactionStrategy() {
     }
 
@@ -45,7 +46,7 @@ public class CascadeNetworkExpansionReactionStrategy<E extends PopulationBasedAl
      * {@inheritDoc}
      */
     @Override
-    public void performReaction(E algorithm) {
+    public <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void performReaction(A algorithm) {
         NNDataTrainingProblem problem = (NNDataTrainingProblem)algorithm.getOptimisationProblem();
         NeuralNetwork network = problem.getNeuralNetwork();
 
@@ -56,7 +57,7 @@ public class CascadeNetworkExpansionReactionStrategy<E extends PopulationBasedAl
         network.initialise();
 
         //add new weights to all the particles in a manner that preserves the old weights
-        List<? extends Entity> particles = algorithm.getTopology();
+        fj.data.List<? extends Entity> particles = algorithm.getTopology();
         int nrOfLayers = network.getArchitecture().getArchitectureBuilder().getLayerConfigurations().size();
         int hiddenLayerSize = nrOfLayers -2;
         int outputLayerSize = network.getArchitecture().getArchitectureBuilder().getLayerConfigurations().get(nrOfLayers-1).getSize();

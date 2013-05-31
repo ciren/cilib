@@ -19,7 +19,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * 2010.
  *
  */
-public class FDA3_g implements ContinuousFunction {
+public class FDA3_g extends ContinuousFunction {
 
     private static final long serialVersionUID = -7877031610187310320L;
     //members
@@ -92,7 +92,7 @@ public class FDA3_g implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
+    public Double f(Vector x) {
         this.tau = AbstractAlgorithm.get().getIterations();
         return this.apply(this.tau, x);
     }

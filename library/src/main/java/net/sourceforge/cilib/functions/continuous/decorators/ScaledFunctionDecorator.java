@@ -25,7 +25,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * g(x) is f(x) compressed in the vertical direction by a factor of 1/c
  *
  */
-public class ScaledFunctionDecorator implements ContinuousFunction {
+public class ScaledFunctionDecorator extends ContinuousFunction {
 
     private static final long serialVersionUID = -5316734133098401441L;
     private ContinuousFunction function;
@@ -44,14 +44,14 @@ public class ScaledFunctionDecorator implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Vector tmp = Vector.copyOf(input);
 
         for (int i = 0; i < input.size(); i++) {
             tmp.setReal(i, (horizontalScale.getParameter() * input.doubleValueOf(i)));
         }
 
-        return (verticalScale.getParameter() * function.apply(tmp));
+        return (verticalScale.getParameter() * function.f(tmp));
     }
 
     /**

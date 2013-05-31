@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.coevolution.cooperative.contributionselection;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -15,7 +15,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class ZeroContributionSelectionStrategy implements ContributionSelectionStrategy {
 
     @Override
-    public Vector getContribution(PopulationBasedAlgorithm algorithm) {
+    public Vector getContribution(SinglePopulationBasedAlgorithm algorithm) {
         throw new UnsupportedOperationException("Cannot obtain a contribution from a ZeroContributionSelectionStrategy." +
             "\nPlease specify the correct contribution strategy to use.");
     }

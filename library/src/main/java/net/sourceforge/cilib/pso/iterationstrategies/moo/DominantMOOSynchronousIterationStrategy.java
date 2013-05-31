@@ -6,10 +6,10 @@
  */
 package net.sourceforge.cilib.pso.iterationstrategies.moo;
 
+import fj.data.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.MOFitness;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
@@ -43,7 +43,7 @@ public class DominantMOOSynchronousIterationStrategy extends AbstractIterationSt
      */
     @Override
     public void performIteration(PSO pso) {
-        Topology<Particle> topology = pso.getTopology();
+        List<Particle> topology = pso.getTopology();
 
         for (Particle current : topology) {
             current.updateVelocity();
@@ -56,7 +56,7 @@ public class DominantMOOSynchronousIterationStrategy extends AbstractIterationSt
 
         for (Particle current : topology) {
             current.calculateFitness();
-            for (Particle other : topology.neighbourhood(current)) {
+            for (Particle other : pso.getNeighbourhood().f(topology, current)) {
                 Particle p1 = current.getNeighbourhoodBest().getClone();
                 Particle p2 = other.getNeighbourhoodBest().getClone();
                 OptimisationSolution s1 = new OptimisationSolution(p1.getCandidateSolution().getClone(), problem.getFitness(p1.getCandidateSolution().getClone()));

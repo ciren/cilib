@@ -27,10 +27,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class CooperativeCoevolutionProblemAdapter extends AbstractProblem {
 
     private static final long serialVersionUID = 3764040830993620887L;
-    private Problem problem;
-    //private DomainRegistry problemDomain;
+    private final Problem problem;
     private Vector context;
-    private DimensionAllocation problemAllocation;
+    private final DimensionAllocation problemAllocation;
 
     /**
      * Creates an CooperativeCoevolutionProblemAdapter, which is assigned to

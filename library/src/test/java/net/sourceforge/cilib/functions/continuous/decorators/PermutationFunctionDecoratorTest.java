@@ -21,10 +21,10 @@ public class PermutationFunctionDecoratorTest {
         p.setFunction(s);
 
         Vector v = Vector.of(1.0, 2.0);
-        assertEquals(s.apply(v), 126.453125, 0.0);
+        assertEquals(s.f(v), 126.453125, 0.0);
 
         // permute input vector, i.e (1.0, 2.0) -> (2.0, 1.0)
         Rand.setSeed(3);
-        assertEquals(p.apply(v), 14.203125, 0.0);
+        assertEquals(p.f(v), 14.203125, 0.0);
     }
 }

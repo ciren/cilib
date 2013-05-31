@@ -6,16 +6,12 @@
  */
 package net.sourceforge.cilib.pso.iterationstrategies;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
-import fj.P1;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.math.random.CauchyDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
@@ -26,6 +22,8 @@ import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
+import fj.F;
+import fj.P1;
 
 public class GBestMutationIterationStrategy extends AbstractIterationStrategy<PSO> {
 
@@ -56,15 +54,14 @@ public class GBestMutationIterationStrategy extends AbstractIterationStrategy<PS
     @Override
     public void performIteration(PSO algorithm) {
         delegate.performIteration(algorithm);
-        Topology<Particle> topology = algorithm.getTopology();
+        fj.data.List<Particle> topology = algorithm.getTopology();
 
         // calculate vAvg
-        Vector avgV = Vectors.mean(Lists.transform(topology, new Function<Particle, Vector>() {
-            @Override
-            public Vector apply(Particle f) {
-                return (Vector) f.getVelocity();
-            }
-        }));
+        Vector avgV = Vectors.mean(topology.map(new F<Particle, Vector>() {
+        	public Vector f(Particle p) {
+        		return (Vector) p.getVelocity();
+        	}
+        })).valueE("Error determining mean");
 
         Vector.Builder builder = Vector.newBuilder();
         for (Numeric n : avgV) {

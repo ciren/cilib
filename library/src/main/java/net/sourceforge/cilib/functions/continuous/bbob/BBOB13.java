@@ -26,14 +26,14 @@ public class BBOB13 extends AbstractBBOB {
 	}
 
 	@Override
-	public Double apply(Vector input) {
+	public Double f(Vector input) {
 		initialise(input.size());
 
 		Vector z = input.subtract(xOpt);
-		return r.apply(z) + fOpt;
+		return r.f(z) + fOpt;
 	}
 
-	private class Inner implements ContinuousFunction {
+	private class Inner extends ContinuousFunction {
 		private Spherical sphere;
 
 		public Inner() {
@@ -41,9 +41,9 @@ public class BBOB13 extends AbstractBBOB {
 		}
 
 		@Override
-		public Double apply(Vector z) {
+		public Double f(Vector z) {
 			return z.doubleValueOf(0) * z.doubleValueOf(0) + 100 *
-				Math.sqrt(sphere.apply(z.copyOfRange(1, z.size())));
+				Math.sqrt(sphere.f(z.copyOfRange(1, z.size())));
 		}
 	}
 }

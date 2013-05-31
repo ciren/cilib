@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ShubertTest {
- 
+
     private ContinuousFunction function;
 
     @Before
@@ -28,14 +28,14 @@ public class ShubertTest {
     public void testEvaluate() {
         Vector x = Vector.of(0,0);
 
-        assertEquals(19.875836249, function.apply(x), 0.000000009);
+        assertEquals(19.875836249, function.f(x), 0.000000009);
 
         x.setReal(0, -8.0);
         x.setReal(1, -8.0);
-        assertEquals(7.507985827, function.apply(x), 0.000000009);
+        assertEquals(7.507985827, function.f(x), 0.000000009);
 
         x.setReal(0, -7.2);
         x.setReal(1, -7.7);
-        assertEquals(-157.071676802, function.apply(x), 0.000000009);
-    }   
+        assertEquals(-157.071676802, function.f(x), 0.000000009);
+    }
 }

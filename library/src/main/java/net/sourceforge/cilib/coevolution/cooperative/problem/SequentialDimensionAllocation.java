@@ -13,7 +13,7 @@ package net.sourceforge.cilib.coevolution.cooperative.problem;
  */
 public class SequentialDimensionAllocation extends DimensionAllocation {
     private static final long serialVersionUID = 3575267573164099385L;
-    private int startIndex;
+    private final int startIndex;
 
     /**
      * Constructor
@@ -43,8 +43,8 @@ public class SequentialDimensionAllocation extends DimensionAllocation {
     /**
      * {@inheritDoc}
      */
+    @Override
     public SequentialDimensionAllocation getClone() {
         return new SequentialDimensionAllocation(this);
     }
-
 }

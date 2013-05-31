@@ -25,8 +25,7 @@ import net.sourceforge.cilib.pso.dynamic.ChargedParticle;
  *
  * @param <E> The {@code Entity} type.
  */
-public class ChargedPopulationInitialisationStrategy<E extends Entity>
-    implements PopulationInitialisationStrategy<E> {
+public class ChargedPopulationInitialisationStrategy implements PopulationInitialisationStrategy {
 
     private ChargedParticle prototypeEntity;
     private ControlParameter entityNumber;
@@ -48,10 +47,10 @@ public class ChargedPopulationInitialisationStrategy<E extends Entity>
      * <p/>
      * @param copy The instance to copy.
      */
-    public ChargedPopulationInitialisationStrategy(ChargedPopulationInitialisationStrategy<E> copy) {
-        this.entityNumber = copy.entityNumber.getClone();
-        this.chargedRatio = copy.chargedRatio.getClone();
-        this.chargeMagnitude = copy.chargeMagnitude.getClone();
+    public ChargedPopulationInitialisationStrategy(ChargedPopulationInitialisationStrategy copy) {
+        this.entityNumber = copy.entityNumber;
+        this.chargedRatio = copy.chargedRatio;
+        this.chargeMagnitude = copy.chargeMagnitude;
 
         if (prototypeEntity != null) {
             this.prototypeEntity = copy.prototypeEntity.getClone();
@@ -62,7 +61,7 @@ public class ChargedPopulationInitialisationStrategy<E extends Entity>
      * {@inheritDoc}
      */
     @Override
-    public ChargedPopulationInitialisationStrategy<E> getClone() {
+    public ChargedPopulationInitialisationStrategy getClone() {
         return new ChargedPopulationInitialisationStrategy(this);
     }
 
@@ -74,7 +73,7 @@ public class ChargedPopulationInitialisationStrategy<E extends Entity>
      * @throws InitialisationException if the initialisation cannot take place.
      */
     @Override
-    public Iterable<E> initialise(Problem problem) {
+    public <E extends Entity> Iterable<E> initialise(Problem problem) {
         Preconditions.checkNotNull(problem, "No problem has been specified");
         Preconditions.checkNotNull(prototypeEntity, "No prototype Entity object has been defined for the clone operation in the entity construction process.");
 

@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * UrsemF4 function.
@@ -16,7 +17,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-2, 2)^2
  *
  */
-public class UrsemF4 implements ContinuousFunction {
+public class UrsemF4 extends ContinuousFunction {
 
     private static final long serialVersionUID = 6177837410317967257L;
 
@@ -24,7 +25,7 @@ public class UrsemF4 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() == 2, "UrsemF4 function is only defined for 2 dimensions");
 
         double x = input.doubleValueOf(0);

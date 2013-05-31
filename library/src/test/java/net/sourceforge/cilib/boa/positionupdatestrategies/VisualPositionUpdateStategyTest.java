@@ -51,7 +51,7 @@ public class VisualPositionUpdateStategyTest {
 
     @Test
     public void testUpdatePosition() {
-        HoneyBee bee = abc.getWorkerBees().get(0);
+        HoneyBee bee = abc.getWorkerBees().head();
         abc.performIteration();
         Fitness oldFitness = bee.getFitness().getClone();
         abc.performIteration();

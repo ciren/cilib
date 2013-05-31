@@ -60,7 +60,7 @@ public class BinaryComplementaryPositionProvider implements PositionProvider {
 
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); i++) {
-            double result = this.sigmoid.apply(velocity.doubleValueOf(i));
+            double result = this.sigmoid.f(velocity.doubleValueOf(i));
             double rand = Math.random();
 
             // 2's complement update strategy

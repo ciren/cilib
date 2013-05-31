@@ -28,10 +28,10 @@ public class Neumaier3Test {
     public void testApply() {
         Vector x = Vector.of(0.0, 2.0);
 
-        assertEquals(2.0, function.apply(x), Maths.EPSILON);
+        assertEquals(2.0, function.f(x), Maths.EPSILON);
 
         x.setReal(0, 2.0);
         x.setReal(1, 2.0);
-        assertEquals(-2.0, function.apply(x), Maths.EPSILON);
+        assertEquals(-2.0, function.f(x), Maths.EPSILON);
     }
 }

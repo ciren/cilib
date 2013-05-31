@@ -6,13 +6,15 @@
  */
 package net.sourceforge.cilib.functions.continuous.moo.wfg;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
 import java.util.List;
+
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 
 /**
  *
@@ -32,7 +34,7 @@ public class WFG4 extends MOOptimisationProblem {
             ContinuousFunction function = new ContinuousFunction() {
 
                 @Override
-                public Double apply(Vector input) {
+                public Double f(Vector input) {
                     Vector y = Problems.WFG4(input, k, M);
                     return y.doubleValueOf(index);
                 }

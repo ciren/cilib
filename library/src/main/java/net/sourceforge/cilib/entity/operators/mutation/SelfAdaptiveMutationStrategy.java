@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.entity.operators.mutation;
 
-import com.google.common.base.Function;
+import fj.F;
 import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
@@ -22,8 +22,8 @@ import net.sourceforge.cilib.util.Vectors;
 public class SelfAdaptiveMutationStrategy extends MutationStrategy {
 
     private static final long serialVersionUID = -8942505730267916237L;
-    private ProbabilityDistributionFunction randomSingle;
-    private ProbabilityDistributionFunction randomDimension;
+    private final ProbabilityDistributionFunction randomSingle;
+    private final ProbabilityDistributionFunction randomDimension;
     private double tau;
     private double tauPrime;
 
@@ -40,7 +40,7 @@ public class SelfAdaptiveMutationStrategy extends MutationStrategy {
     }
 
     @Override
-    public void mutate(List<? extends Entity> offspringList) {
+    public <E extends Entity> List<E> mutate(List<E> offspringList) {
         initialiseConstants(offspringList);
 
         final double pre = tauPrime * randomSingle.getRandomNumber();
@@ -56,16 +56,16 @@ public class SelfAdaptiveMutationStrategy extends MutationStrategy {
             }
 
             // Update the strategy parameters
-            Vector newStrategy = Vectors.transform(strategy, new Function<Numeric, Double>() {
-
+            Vector newStrategy = Vectors.transform(strategy, new F<Numeric, Double>() {
                 @Override
-                public Double apply(Numeric from) {
+                public Double f(Numeric from) {
                     double exponent = pre + tau * randomDimension.getRandomNumber();
                     return from.doubleValue() * Math.exp(exponent);
                 }
             });
             offspring.getProperties().put(EntityType.STRATEGY_PARAMETERS, newStrategy);
         }
+        return offspringList;
     }
 
     private void initialiseConstants(List<? extends Entity> offspringList) {

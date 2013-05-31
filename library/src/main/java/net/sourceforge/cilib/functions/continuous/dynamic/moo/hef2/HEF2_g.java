@@ -17,13 +17,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * The problem has been adapted by Helbig and Engelbrecht to make it a DMOOP.
  *
  */
-public class HEF2_g implements ContinuousFunction {
+public class HEF2_g extends ContinuousFunction {
 
     /**
      * Evaluates the function
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double value = Math.abs(input.doubleValueOf(0));
         double sum = 0.0;
 

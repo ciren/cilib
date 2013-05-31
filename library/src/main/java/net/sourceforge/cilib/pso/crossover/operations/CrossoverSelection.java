@@ -6,13 +6,9 @@
  */
 package net.sourceforge.cilib.pso.crossover.operations;
 
-import com.google.common.collect.Maps;
-import fj.P;
-import fj.P3;
-import java.util.List;
 import java.util.Map;
+
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.crossover.real.ParentCentricCrossoverStrategy;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.PSO;
@@ -24,6 +20,14 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
+
+import com.google.common.collect.Maps;
+import com.google.common.collect.Lists;
+
+import fj.F;
+import fj.P;
+import fj.P3;
+import fj.data.List;
 
 /**
  * An operation used in the PSOCrossoverIterationStrategy which is responsible
@@ -51,11 +55,11 @@ public abstract class CrossoverSelection extends PSOCrossoverOperation {
 
     public P3<Boolean, Particle, Particle> select(PSO algorithm, Enum solutionType, Enum fitnessType) {
         boolean isBetter = false;
-        Topology<Particle> topology = algorithm.getTopology();
+        fj.data.List<Particle> topology = algorithm.getTopology();
 	Map<Particle, StructuredType> tmp = Maps.newHashMap();
 
         // get random particles
-        List<Particle> parents = selector.on(topology).select(Samples.first(crossoverStrategy.getNumberOfParents()).unique());
+        List<Particle> parents = fj.data.List.iterableList(selector.on(topology).select(Samples.first(crossoverStrategy.getNumberOfParents()).unique()));
 
         //put pbest as candidate solution for the crossover
         for (Particle e : parents) {
@@ -64,7 +68,7 @@ public abstract class CrossoverSelection extends PSOCrossoverOperation {
         }
 
         //perform crossover and select particle to compare with
-        Particle offspring = (Particle) crossoverStrategy.crossover(parents).get(0);
+        Particle offspring = crossoverStrategy.crossover(Lists.newArrayList(parents)).get(0);
         Particle selectedParticle = particleProvider.f(parents, offspring);
 
         //replace selectedEntity if offspring is better
@@ -108,13 +112,21 @@ public abstract class CrossoverSelection extends PSOCrossoverOperation {
     public abstract P3<Boolean, Particle, Particle> doAction(PSO algorithm, Enum solutionType, Enum fitnessType);
 
     @Override
-    public Topology<Particle> f(PSO algorithm) {
-        P3<Boolean, Particle, Particle> result = doAction(algorithm, EntityType.CANDIDATE_SOLUTION, EntityType.FITNESS);
+    public fj.data.List<Particle> f(PSO algorithm) {
+        final P3<Boolean, Particle, Particle> result = doAction(algorithm, EntityType.CANDIDATE_SOLUTION, EntityType.FITNESS);
 
         if (result._1()) {
-            int i = algorithm.getTopology().indexOf(result._2());
-            result._3().setNeighbourhoodBest(result._2().getNeighbourhoodBest());
-            algorithm.getTopology().set(i, result._3());
+            algorithm.setTopology(algorithm.getTopology().map(new F<Particle, Particle>() {
+                @Override
+                public Particle f(Particle a) {
+                    if (a.equals(result._2())) {
+                        result._3().setNeighbourhoodBest(result._2().getNeighbourhoodBest());
+                        return result._3();
+                    } else {
+                        return a;
+                    }
+                }
+            }));
         }
 
         return algorithm.getTopology();

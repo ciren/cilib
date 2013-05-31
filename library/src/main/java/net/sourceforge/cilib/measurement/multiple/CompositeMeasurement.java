@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.TypeList;
@@ -57,7 +57,7 @@ public class CompositeMeasurement implements Measurement<TypeList> {
 
         MultiPopulationBasedAlgorithm multi = (MultiPopulationBasedAlgorithm) algorithm;
 
-        for (PopulationBasedAlgorithm single : multi.getPopulations()) {
+        for (SinglePopulationBasedAlgorithm single : multi.getPopulations()) {
             for (Measurement<? extends Type> measurement : measurements) {
                 vector.add(measurement.getValue(single));
             }

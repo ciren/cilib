@@ -36,7 +36,7 @@ public class CooperativeDataClusteringPSOIterationStrategyTest {
         CentroidBoundaryConstraint constraint = new CentroidBoundaryConstraint();
         constraint.setDelegate(new RandomBoundaryConstraint());
         instance.setOptimisationProblem(problem);
-        DataDependantPopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy<ClusterParticle>();
+        DataDependantPopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy();
 
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
@@ -53,7 +53,7 @@ public class CooperativeDataClusteringPSOIterationStrategyTest {
         CentroidBoundaryConstraint constraint2 = new CentroidBoundaryConstraint();
         constraint2.setDelegate(new RandomBoundaryConstraint());
         instance2.setOptimisationProblem(problem2);
-        DataDependantPopulationInitialisationStrategy init2 = new DataDependantPopulationInitialisationStrategy<ClusterParticle>();
+        DataDependantPopulationInitialisationStrategy init2 = new DataDependantPopulationInitialisationStrategy();
 
         init2.setEntityType(new ClusterParticle());
         init2.setEntityNumber(2);
@@ -70,7 +70,7 @@ public class CooperativeDataClusteringPSOIterationStrategyTest {
         CentroidBoundaryConstraint constraint3 = new CentroidBoundaryConstraint();
         constraint3.setDelegate(new RandomBoundaryConstraint());
         instance3.setOptimisationProblem(problem3);
-        DataDependantPopulationInitialisationStrategy init3 = new DataDependantPopulationInitialisationStrategy<ClusterParticle>();
+        DataDependantPopulationInitialisationStrategy init3 = new DataDependantPopulationInitialisationStrategy();
 
         init3.setEntityType(new ClusterParticle());
         init3.setEntityNumber(2);
@@ -89,11 +89,11 @@ public class CooperativeDataClusteringPSOIterationStrategyTest {
 
         cooperative.performInitialisation();
 
-        ClusterParticle particleBefore = instance.getTopology().get(0).getClone();
+        ClusterParticle particleBefore = instance.getTopology().head().getClone();
 
         cooperative.run();
 
-        ClusterParticle particleAfter = instance.getTopology().get(0).getClone();
+        ClusterParticle particleAfter = instance.getTopology().head().getClone();
 
         Assert.assertFalse(particleAfter.getCandidateSolution().containsAll(particleBefore.getCandidateSolution()));
     }
@@ -113,7 +113,7 @@ public class CooperativeDataClusteringPSOIterationStrategyTest {
         constraint.setDelegate(new RandomBoundaryConstraint());
         strategy.setBoundaryConstraint(constraint);
         instance.setOptimisationProblem(problem);
-        DataDependantPopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy<ClusterParticle>();
+        DataDependantPopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy();
 
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
@@ -130,11 +130,11 @@ public class CooperativeDataClusteringPSOIterationStrategyTest {
 
         cooperative.performInitialisation();
 
-        ClusterParticle particleBefore = instance.getTopology().get(0).getClone();
+        ClusterParticle particleBefore = instance.getTopology().head().getClone();
 
         cooperative.run();
 
-        ClusterParticle particleAfter = instance.getTopology().get(0).getClone();
+        ClusterParticle particleAfter = instance.getTopology().head().getClone();
 
         Assert.assertFalse(particleAfter.getCandidateSolution().containsAll(particleBefore.getCandidateSolution()));
     }

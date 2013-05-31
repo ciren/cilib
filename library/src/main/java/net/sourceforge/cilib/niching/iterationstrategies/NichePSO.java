@@ -10,7 +10,7 @@ import com.google.common.collect.Lists;
 import fj.P2;
 import fj.data.List;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.niching.NichingAlgorithm;
 import static net.sourceforge.cilib.niching.NichingFunctions.*;
 import net.sourceforge.cilib.niching.NichingSwarms;
@@ -46,7 +46,7 @@ public class NichePSO extends AbstractIterationStrategy<NichingAlgorithm> {
      */
     @Override
     public void performIteration(NichingAlgorithm alg) {
-        P2<PopulationBasedAlgorithm, List<PopulationBasedAlgorithm>> newSwarms =
+        P2<SinglePopulationBasedAlgorithm, List<SinglePopulationBasedAlgorithm>> newSwarms =
                 onMainSwarm(alg.getMainSwarmIterator())
                 .andThen(alg.getSubSwarmIterator())
                 .andThen(merge(alg.getMergeDetector(),

@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * The Goldstein-Price function.<br><br>
@@ -21,7 +22,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  *
  */
-public class GoldsteinPrice implements ContinuousFunction {
+public class GoldsteinPrice extends ContinuousFunction {
 
     private static final long serialVersionUID = 5635493177950325746L;
 
@@ -29,7 +30,7 @@ public class GoldsteinPrice implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() == 2, "Goldstein-Price function is only defined for 2 dimensions");
 
         double x = input.doubleValueOf(0);

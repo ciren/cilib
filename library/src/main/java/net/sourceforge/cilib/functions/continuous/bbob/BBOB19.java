@@ -21,15 +21,15 @@ public class BBOB19 extends AbstractBBOB {
 	}
 
 	@Override
-	public Double apply(Vector input) {
+	public Double f(Vector input) {
 		initialise(input.size());
 
-		return r.apply(input) + fOpt;
+		return r.f(input) + fOpt;
 	}
 
-	private class Inner implements ContinuousFunction {
+	private class Inner extends ContinuousFunction {
 		@Override
-		public Double apply(Vector x) {
+		public Double f(Vector x) {
 			double sum = 0;
 
 			double factor = Math.max(1, Math.sqrt(x.size()) / 8);

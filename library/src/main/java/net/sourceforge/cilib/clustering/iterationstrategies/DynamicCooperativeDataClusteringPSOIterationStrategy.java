@@ -6,11 +6,11 @@
  */
 package net.sourceforge.cilib.clustering.iterationstrategies;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.clustering.CooperativePSO;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
-import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.util.changeDetection.ChangeDetectionStrategy;
 import net.sourceforge.cilib.util.changeDetection.IterationBasedChangeDetectionStrategy;
@@ -59,16 +59,16 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
      */
     @Override
     public void performIteration(CooperativePSO algorithm) {
-        Topology topology;
         if(changeDetectionStrategy.detectChange()) {
                this.reinitialiseContext(algorithm);
-               for(PopulationBasedAlgorithm currentAlgorithm : algorithm.getPopulations()) {
-                 topology = currentAlgorithm.getTopology();
+               for(SinglePopulationBasedAlgorithm currentAlgorithm : algorithm.getPopulations()) {
+                 fj.data.List<? extends Entity> topology = currentAlgorithm.getTopology();
 
-                 for(int i = 0; i < topology.size(); i+=reinitialisationInterval) {
-                    ((ClusterParticle) topology.get(i)).reinitialise();
-                    clearDataPatterns((ClusterParticle) topology.get(i));
-                    assignDataPatternsToParticle(((CentroidHolder)((ClusterParticle) topology.get(i)).getCandidateSolution()),
+                 for(int i = 0; i < topology.length(); i+=reinitialisationInterval) {
+                    ClusterParticle c = (ClusterParticle) topology.index(i);
+                    c.reinitialise();
+                    clearDataPatterns(c);
+                    assignDataPatternsToParticle(((CentroidHolder)(c).getCandidateSolution()),
                             ((SinglePopulationDataClusteringIterationStrategy)(((DataClusteringPSO) currentAlgorithm).getIterationStrategy())).getDataset());
                 }
              }
@@ -83,7 +83,7 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
      * @param currentAlgorithm The algorithm for which the context must be re-initialised
      */
     public void reinitialiseContext(CooperativePSO currentAlgorithm) {
-        contextParticle = ((DataClusteringPSO) currentAlgorithm.getPopulations().get(0)).getTopology().get(0).getClone();
+        contextParticle = ((DataClusteringPSO) currentAlgorithm.getPopulations().get(0)).getTopology().head().getClone();
         contextParticle.reinitialise();
         clearDataPatterns(contextParticle);
         assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);

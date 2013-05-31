@@ -6,22 +6,21 @@
  */
 package net.sourceforge.cilib.niching.creation;
 
-import fj.*;
-import fj.data.List;
-import fj.function.Doubles;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import static net.sourceforge.cilib.niching.VectorBasedFunctions.dot;
+import static net.sourceforge.cilib.niching.VectorBasedFunctions.equalParticle;
+import static net.sourceforge.cilib.niching.VectorBasedFunctions.filter;
+import static net.sourceforge.cilib.niching.VectorBasedFunctions.sortByDistance;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.niching.NichingSwarms;
-import static net.sourceforge.cilib.niching.VectorBasedFunctions.*;
 import net.sourceforge.cilib.niching.utils.JoinedTopologyProvider;
 import net.sourceforge.cilib.niching.utils.TopologyProvider;
 import net.sourceforge.cilib.pso.PSO;
@@ -35,6 +34,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.distancemeasure.DistanceMeasure;
 import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
 import net.sourceforge.cilib.util.functions.Populations;
+import fj.Equal;
+import fj.Ord;
+import fj.P1;
+import fj.data.List;
+import fj.function.Doubles;
 
 public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
     private DistanceMeasure distanceMeasure;
@@ -58,8 +62,7 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
         List<Particle> swarm = ((List<Particle>) topologyProvider.f(swarms)).delete(gBest, Equal.equal(equalParticle.curry()));
 
         RadiusVisitor visitor = new RadiusVisitor();
-        visitor.visit(swarms.getMainSwarm().getTopology());
-        double nRadius = visitor.getResult();
+        double nRadius = visitor.f(swarms.getMainSwarm().getTopology());
 
         // get closest particle with dot < 0
         List<Particle> filteredSwarm = swarm.filter(dot(gBest).andThen(Doubles.ltZero));
@@ -97,19 +100,20 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
         }
 
         // Create the new subswarm, set its optimisation problem, add the particles to it
-        PopulationBasedAlgorithm newSubswarm = swarmType.getClone();
+        SinglePopulationBasedAlgorithm newSubswarm = swarmType.getClone();
         newSubswarm.setOptimisationProblem(swarms.getMainSwarm().getOptimisationProblem());
-        newSubswarm.getTopology().clear();
-        ((Topology<Particle>) newSubswarm.getTopology()).addAll(newTopology.toCollection());
+        ((SinglePopulationBasedAlgorithm<Particle>) newSubswarm).setTopology(newSubswarm.getTopology().append(newTopology));
 
         // Remove the subswarms particles from the main swarm
-        PopulationBasedAlgorithm newMainSwarm = swarms.getMainSwarm().getClone();
-        newMainSwarm.getTopology().clear();
-        for(Entity e : swarms.getMainSwarm().getTopology()) {
+        SinglePopulationBasedAlgorithm newMainSwarm = swarms.getMainSwarm().getClone();
+        newMainSwarm.setTopology(List.nil());
+        fj.data.List<Entity> local = swarms.getMainSwarm().getTopology();
+
+        for(Entity e : local) {
             Particle p = (Particle) e;
 
             if (!newTopology.exists(equalParticle.f(p))) {
-                ((Topology<Entity>) newMainSwarm.getTopology()).add(e.getClone());
+            	newMainSwarm.setTopology(newMainSwarm.getTopology().snoc(e.getClone()));
             }
         }
 

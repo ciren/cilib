@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.functions.continuous.dynamic.moo.fda1;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -18,7 +17,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Transactions on Evolutionary Computation, 8(5): 425-442, 2003
  *
  */
-public class FDA1_f2 implements ContinuousFunction {
+public class FDA1_f2 extends ContinuousFunction {
 
     private static final long serialVersionUID = 6369118486095689078L;
     //member
@@ -104,21 +103,10 @@ public class FDA1_f2 implements ContinuousFunction {
      * Evaluates the function. g*h
      */
     @Override
-    public Double apply(Vector input) {
-        int iteration = AbstractAlgorithm.get().getIterations();
-        return apply(iteration, input);
-    }
-
-    /**
-     * Evaluates the function for a specific iteration. g*h
-     */
-    public Double apply(int iteration, Vector input) {
+    public Double f(Vector input) {
         Vector y = input.copyOfRange(1, input.size());
-        double g = ((FDA1_g) this.fda1_g).apply(iteration, y);
-        double h = ((FDA1_h) this.fda1_h).apply(iteration, input);
-
-        double value = g * h;
-
-        return value;
+        double g = this.fda1_g.f(y).doubleValue();
+        double h = this.fda1_h.f(input).doubleValue();
+        return g * h;
     }
 }

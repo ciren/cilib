@@ -36,14 +36,12 @@ public class BlendCrossoverStrategyTest {
         i1.setFitnessCalculator(new MockFitnessCalculator());
         i2.setFitnessCalculator(new MockFitnessCalculator());
 
-        List<Entity> parents = new ArrayList<Entity>();
-        parents.add(i1);
-        parents.add(i2);
-
+        fj.data.List<Individual> parents = fj.data.List.list(i1, i2);
+        
         CrossoverOperator crossoverStrategy = new CrossoverOperator();
         crossoverStrategy.setCrossoverStrategy(new BlendCrossoverStrategy());
         crossoverStrategy.setCrossoverProbability(ConstantControlParameter.of(1.0));
-        List<Entity> children = (List<Entity>) crossoverStrategy.crossover(parents);
+        List<Individual> children = crossoverStrategy.crossover(parents);
 
         Vector child1 = (Vector) children.get(0).getCandidateSolution();
         Vector child2 = (Vector) children.get(1).getCandidateSolution();

@@ -6,11 +6,11 @@
  */
 package net.sourceforge.cilib.niching.merging.detection;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 
 public class NeverMergeDetection extends MergeDetection {
     @Override
-    public Boolean f(PopulationBasedAlgorithm a, PopulationBasedAlgorithm b) {
+    public Boolean f(SinglePopulationBasedAlgorithm a, SinglePopulationBasedAlgorithm b) {
         return false;
     }
 }

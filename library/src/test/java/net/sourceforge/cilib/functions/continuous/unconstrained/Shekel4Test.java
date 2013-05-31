@@ -28,13 +28,13 @@ public class Shekel4Test {
         Vector x = Vector.of(4.0, 4.0, 4.0, 4.0);
 
         function.setN(5);
-        assertEquals(-10.1532, function.apply(x), 0.001);
+        assertEquals(-10.1532, function.f(x), 0.001);
 
         function.setN(7);
-        assertEquals(-10.40294, function.apply(x), 0.001);
+        assertEquals(-10.40294, function.f(x), 0.001);
 
         function.setN(10);
-        assertEquals(-10.53641, function.apply(x), 0.001);
+        assertEquals(-10.53641, function.f(x), 0.001);
     }
 
     /**
@@ -42,7 +42,7 @@ public class Shekel4Test {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0));
+        function.f(Vector.of(1.0, 2.0, 3.0));
     }
 
     /**

@@ -26,10 +26,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * 2005 Special Session on Real-Parameter Optimization. Natural Computing, 1-50.
  * Available at: http://vg.perso.eisti.fr/These/Papiers/Bibli2/CEC05.pdf.
  */
-public class NoisyFunctionDecorator implements ContinuousFunction {
+public class NoisyFunctionDecorator extends ContinuousFunction {
 
     private ContinuousFunction function;
-    private ProbabilityDistributionFunction randomNumber;
+    private final ProbabilityDistributionFunction randomNumber;
     private ControlParameter scale;
     private ControlParameter offset;
 
@@ -46,8 +46,8 @@ public class NoisyFunctionDecorator implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
-        return function.apply(input) * (offset.getParameter() + scale.getParameter() * Math.abs(randomNumber.getRandomNumber()));
+    public Double f(Vector input) {
+        return function.f(input) * (offset.getParameter() + scale.getParameter() * Math.abs(randomNumber.getRandomNumber()));
     }
 
     /**

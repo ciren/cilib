@@ -23,12 +23,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-100,100)^30
  * <p>
- * Implementation: 
+ * Implementation:
  * http://web.mysites.ntu.edu.sg/epnsugan/PublicSite/Shared%20Documents/Forms/AllItems.aspx?RootFolder=%2fepnsugan%2fPublicSite%2fShared%20Documents%2fCEC2005&FolderCTID=&View=%7bDAF31868%2d97D8%2d4779%2dAE49%2d9CEC4DC3F310%7
  * </p>
  *
  */
-public class SchwefelProblem1_2 implements ContinuousFunction {
+public class SchwefelProblem1_2 extends ContinuousFunction {
 
     private static final long serialVersionUID = -65519037071861168L;
 
@@ -36,7 +36,7 @@ public class SchwefelProblem1_2 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double prevSum;
         double currSum = 0.0;
         double outerSum = 0.0;

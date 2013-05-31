@@ -8,7 +8,7 @@ package net.sourceforge.cilib.measurement.single.diversity;
 
 import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -29,8 +29,8 @@ public class AverageDiversityAroundAllEntities extends Diversity {
      */
     @Override
     public Real getValue(Algorithm algorithm) {
-        PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
-        int numberOfEntities = populationBasedAlgorithm.getTopology().size();
+        SinglePopulationBasedAlgorithm populationBasedAlgorithm = (SinglePopulationBasedAlgorithm) algorithm;
+        int numberOfEntities = populationBasedAlgorithm.getTopology().length();
 
         Iterator<? extends Entity> populationCenterIterator = populationBasedAlgorithm.getTopology().iterator();
 

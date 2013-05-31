@@ -9,7 +9,7 @@ package net.sourceforge.cilib.coevolution.cooperative.problemdistribution;
 import static com.google.common.base.Preconditions.checkArgument;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
 import net.sourceforge.cilib.coevolution.cooperative.problem.DimensionAllocation;
@@ -36,7 +36,7 @@ public class ImperfectSplitDistributionStrategy implements ProblemDistributionSt
      * @param problem The problem that needs to be re-distributed.
      * @param context The context vector maintained by the {@linkplain CooperativeCoevolutionAlgorithm}.
      */
-    public void performDistribution(List<PopulationBasedAlgorithm> populations,
+    public void performDistribution(List<SinglePopulationBasedAlgorithm> populations,
         Problem problem, Vector context) {
         checkArgument(populations.size() >= 2, "There should at least be two Cooperating populations in a Cooperative Algorithm");
 

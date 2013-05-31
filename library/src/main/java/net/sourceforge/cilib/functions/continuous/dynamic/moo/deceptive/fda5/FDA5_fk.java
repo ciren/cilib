@@ -17,7 +17,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * optimization problems: test cases, approximations and applications, IEEE
  * Transactions on Evolutionary Computation, 8(5): 425-442
  */
-public class FDA5_fk implements ContinuousFunction {
+public class FDA5_fk extends ContinuousFunction {
 
     private static final long serialVersionUID = -7037264042756770881L;
     //members
@@ -200,7 +200,7 @@ public class FDA5_fk implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
+    public Double f(Vector x) {
         this.tau = AbstractAlgorithm.get().getIterations();
         return this.apply(this.tau, x);
     }

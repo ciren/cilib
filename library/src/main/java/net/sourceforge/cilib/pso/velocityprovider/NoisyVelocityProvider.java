@@ -39,7 +39,7 @@ public class NoisyVelocityProvider implements VelocityProvider {
         for (int i = 0; i < velocity.size(); i++) {
             builder.add(this.distribution.getRandomNumber());
         }
-        return Vectors.sumOf(velocity, builder.build());
+        return velocity.plus(builder.build());
     }
 
     @Override

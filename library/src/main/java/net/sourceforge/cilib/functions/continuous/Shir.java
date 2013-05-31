@@ -24,10 +24,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(0, 1)^30
  *
  */
-public class Shir implements ContinuousFunction {
+public class Shir extends ContinuousFunction {
 
     private static final long serialVersionUID = 8157687561496975789L;
-    private double l1, l2, l3, l4, l5, sharpness;
+    private final double l1, l2, l3, l4, l5, sharpness;
 
     /**
      * Create an instance of the function. The domain is set to "R(0, 1)^30" by default.
@@ -45,7 +45,7 @@ public class Shir implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double sinTerm;
         double expTerm;
         double product = 1.0;

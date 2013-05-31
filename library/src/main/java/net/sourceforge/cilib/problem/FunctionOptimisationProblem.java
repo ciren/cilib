@@ -6,10 +6,10 @@
  */
 package net.sourceforge.cilib.problem;
 
-import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
+import fj.F;
 
 /**
  * This class serves as a base class for function optimisation problems using a
@@ -20,7 +20,7 @@ public class FunctionOptimisationProblem extends AbstractProblem {
 
     private static final long serialVersionUID = 7944544624736580311L;
 
-    protected Function<Vector, ? extends Number> function;
+    protected F<Vector, ? extends Number> function;
 
     /**
      * Creates a new instance of {@code FunctionOptimisationProblem} with {@code null} function.
@@ -56,7 +56,7 @@ public class FunctionOptimisationProblem extends AbstractProblem {
      *
      * @param function The function.
      */
-    public void setFunction(Function<Vector, ? extends Number> function) {
+    public void setFunction(F<Vector, ? extends Number> function) {
         this.function = function;
     }
 
@@ -65,12 +65,12 @@ public class FunctionOptimisationProblem extends AbstractProblem {
      *
      * @return The function
      */
-    public Function<Vector, ? extends Number> getFunction() {
+    public F<Vector, ? extends Number> getFunction() {
         return function;
     }
 
     @Override
     protected Fitness calculateFitness(Type solution) {
-        return objective.evaluate(function.apply((Vector) solution).doubleValue());
+        return objective.evaluate(function.f((Vector) solution).doubleValue());
     }
 }

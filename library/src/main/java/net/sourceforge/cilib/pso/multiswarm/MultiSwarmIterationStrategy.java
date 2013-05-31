@@ -8,7 +8,7 @@ package net.sourceforge.cilib.pso.multiswarm;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.visitor.DiameterVisitor;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -73,26 +73,24 @@ public class MultiSwarmIterationStrategy extends AbstractIterationStrategy<Multi
 
     double calculateRadius() {
         double d = AbstractAlgorithm.get().getOptimisationProblem().getDomain().getDimension();
-        //    double X = ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresentation()).getNumeric(0).getBounds().getUpperBound()
-        //            - ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresentation()).getNumeric(0).getBounds().getLowerBound();
         double X = ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresentation()).get(0).getBounds().getUpperBound()
                 - ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresentation()).get(0).getBounds().getLowerBound();
         double M = ((MultiSwarm) (AbstractAlgorithm.get())).getPopulations().size();
         return X / (2 * Math.pow(M, 1 / d));
     }
 
-    boolean isConverged(PopulationBasedAlgorithm algorithm) {
+    boolean isConverged(SinglePopulationBasedAlgorithm algorithm) {
         double r = calculateRadius();
 
-        DiameterVisitor visitor = new DiameterVisitor();
-        double radius = (Double) ((PSO) algorithm).accept(visitor);
+        final DiameterVisitor visitor = new DiameterVisitor();
+        double radius = visitor.f(algorithm.getTopology());
         return radius <= r;
     }
 
     @Override
     public void performIteration(MultiSwarm ca) {
         int converged = 0;
-        for (PopulationBasedAlgorithm current : ca.getPopulations()) {
+        for (SinglePopulationBasedAlgorithm current : ca.getPopulations()) {
             if (isConverged(current)) {
                 converged++;
             }
@@ -100,8 +98,8 @@ public class MultiSwarmIterationStrategy extends AbstractIterationStrategy<Multi
 
         //all swarms have converged-> must re-initialise worst swarm
         if (converged == ca.getPopulations().size()) {
-            PopulationBasedAlgorithm weakest = null;
-            for (PopulationBasedAlgorithm current : ca.getPopulations()) {
+            SinglePopulationBasedAlgorithm weakest = null;
+            for (SinglePopulationBasedAlgorithm current : ca.getPopulations()) {
                 if (weakest == null || weakest.getBestSolution().compareTo(current.getBestSolution()) > 0) {
                     weakest = current;
                 }
@@ -109,12 +107,12 @@ public class MultiSwarmIterationStrategy extends AbstractIterationStrategy<Multi
             reInitialise((PSO) weakest);
         }
 
-        for (PopulationBasedAlgorithm current : ca.getPopulations()) {
+        for (SinglePopulationBasedAlgorithm current : ca.getPopulations()) {
             current.performIteration();
         }
 
-        for (PopulationBasedAlgorithm current : ca.getPopulations()) {
-            for (PopulationBasedAlgorithm other : ca.getPopulations()) {
+        for (SinglePopulationBasedAlgorithm current : ca.getPopulations()) {
+            for (SinglePopulationBasedAlgorithm other : ca.getPopulations()) {
                 Vector currentPosition, otherPosition;
                 if (!current.equals(other)) {
                     currentPosition = (Vector) ((PSO) current).getBestSolution().getPosition(); //getBestParticle().getPosition();
@@ -134,7 +132,6 @@ public class MultiSwarmIterationStrategy extends AbstractIterationStrategy<Multi
     }
 
     public void reInitialise(PSO algorithm) {
-        algorithm.getTopology().clear();
         algorithm.algorithmInitialisation();
     }
 }

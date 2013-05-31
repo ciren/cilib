@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * <p>
@@ -33,7 +34,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(0, 12)^2
  *
  */
-public class Damavandi implements ContinuousFunction {
+public class Damavandi extends ContinuousFunction {
 
     private static final long serialVersionUID = 2857754134712271398L;
 
@@ -41,7 +42,7 @@ public class Damavandi implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() == 2, "Damavandi function is only defined for 2 dimensions");
 
         double x1 = input.doubleValueOf(0);

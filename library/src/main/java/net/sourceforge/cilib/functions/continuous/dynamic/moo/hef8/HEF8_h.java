@@ -20,7 +20,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * The problem has been adapted by Helbig and Engelbrecht to make it a DMOOP.
  *
  */
-public class HEF8_h implements ContinuousFunction {
+public class HEF8_h extends ContinuousFunction {
 
     //members
     //number of generations for which t remains fixed
@@ -168,7 +168,7 @@ public class HEF8_h implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
+    public Double f(Vector x) {
         this.tau = AbstractAlgorithm.get().getIterations();
         return this.apply(this.tau, x);
     }
@@ -180,9 +180,9 @@ public class HEF8_h implements ContinuousFunction {
         double t = (1.0 / (double) n_t) * Math.floor((double) iteration / (double) this.tau_t);
         double H = 0.75 * Math.sin(0.5 * Math.PI * t) + 1.25;
 
-        double g = ((HEF8_g) this.hef8_g).apply(x);
+        double g = ((HEF8_g) this.hef8_g).f(x);
         //evaluate the hef8_f1 function
-        double f1 = this.hef8_f1.apply(x);
+        double f1 = this.hef8_f1.f(x);
 
         double value = 1.0;
         value -= Math.pow((double) f1 / (double) g, H);

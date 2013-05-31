@@ -8,7 +8,7 @@ package net.sourceforge.cilib.coevolution.cooperative.heterogeneous;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.ProblemDistributionStrategy;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -19,7 +19,7 @@ public class RecalculateProblemRedistributionTest {
 
     @Test
     public void RecalculateRedistributionTest() {
-        final List<PopulationBasedAlgorithm> populations = new ArrayList<PopulationBasedAlgorithm>();
+        final List<SinglePopulationBasedAlgorithm> populations = new ArrayList<SinglePopulationBasedAlgorithm>();
         final Problem problem = mock(Problem.class);
         final Vector contextEntity = mock(Vector.class);
 

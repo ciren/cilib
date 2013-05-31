@@ -6,23 +6,24 @@
  */
 package net.sourceforge.cilib.functions.discrete;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.DiscreteFunction;
 import net.sourceforge.cilib.problem.dataset.TextDataSetBuilder;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+import com.google.common.base.Preconditions;
+
 /**
  * Implementation of the Longest Common Subsequence problem.
  */
-public class LongestCommonSubsequence implements DiscreteFunction {
+public class LongestCommonSubsequence extends DiscreteFunction {
 
     private static final long serialVersionUID = -3586259608521073084L;
 
     private TextDataSetBuilder dataSetBuilder;
 
     @Override
-    public Integer apply(Vector input) {
+    public Integer f(Vector input) {
         Preconditions.checkNotNull(dataSetBuilder, "Dataset builder has not been set yet.");
         int l = length(input);
         int m = matches(input);

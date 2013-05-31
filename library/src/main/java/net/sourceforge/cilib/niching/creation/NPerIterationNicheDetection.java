@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.niching.creation;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 
 public class NPerIterationNicheDetection extends NicheDetection {
@@ -23,7 +23,7 @@ public class NPerIterationNicheDetection extends NicheDetection {
     }
 
     @Override
-    public Boolean f(PopulationBasedAlgorithm a, Entity b) {
+    public Boolean f(SinglePopulationBasedAlgorithm a, Entity b) {
         if (AbstractAlgorithm.get().getIterations() != iteration) {
             iteration = AbstractAlgorithm.get().getIterations();
             current = 0;

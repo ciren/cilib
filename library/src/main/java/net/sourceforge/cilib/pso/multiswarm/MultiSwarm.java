@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
@@ -42,14 +42,14 @@ public class MultiSwarm extends MultiPopulationBasedAlgorithm {
      */
     public int getPopulationSize() {
         int sum = 0;
-        for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
-            sum += currentAlgorithm.getTopology().size();
+        for (SinglePopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
+            sum += currentAlgorithm.getTopology().length();
         }
 
         return sum;
     }
 
-    public void setAlgorithm(PopulationBasedAlgorithm algorithm) {
+    public void setAlgorithm(SinglePopulationBasedAlgorithm algorithm) {
         subPopulationsAlgorithms.add(algorithm);
     }
 
@@ -60,7 +60,7 @@ public class MultiSwarm extends MultiPopulationBasedAlgorithm {
     @Override
     public void algorithmInitialisation()    {
         Problem problem = getOptimisationProblem();//getCoevolutionOptimisationProblem();
-        for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
+        for (SinglePopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
             currentAlgorithm.setOptimisationProblem(problem);
             currentAlgorithm.performInitialisation();
         }//for
@@ -69,7 +69,7 @@ public class MultiSwarm extends MultiPopulationBasedAlgorithm {
     @Override
     public OptimisationSolution getBestSolution() {
         OptimisationSolution bestSolution = subPopulationsAlgorithms.get(0).getBestSolution();
-        for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
+        for (SinglePopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
             if(bestSolution.compareTo(currentAlgorithm.getBestSolution())<0) {
                 bestSolution = currentAlgorithm.getBestSolution();
             }
@@ -84,7 +84,7 @@ public class MultiSwarm extends MultiPopulationBasedAlgorithm {
     @Override
     public List<OptimisationSolution> getSolutions() {
         List<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
-        for (PopulationBasedAlgorithm currentAlgorithm : this.getPopulations()) {
+        for (SinglePopulationBasedAlgorithm currentAlgorithm : this.getPopulations()) {
              for (OptimisationSolution solution : currentAlgorithm.getSolutions())
                  solutions.add(solution);
         }

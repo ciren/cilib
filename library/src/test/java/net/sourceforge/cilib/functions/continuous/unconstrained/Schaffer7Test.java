@@ -27,9 +27,9 @@ public class Schaffer7Test {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(0.0, 0.0, 0.0);
-        assertEquals(0.0, function.apply(x), 0.0);
+        assertEquals(0.0, function.f(x), 0.0);
 
         Vector y = Vector.of(1.0, 2.0, 3.0);
-        assertEquals(9.633, function.apply(y), 0.001);
+        assertEquals(9.633, function.f(y), 0.001);
     }
 }

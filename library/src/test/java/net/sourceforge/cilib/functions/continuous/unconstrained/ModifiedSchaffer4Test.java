@@ -29,11 +29,11 @@ public class ModifiedSchaffer4Test {
         Vector x = Vector.of(0.0, 1.253132);
 
         //test global minimum
-        assertEquals(0.292579, function.apply(x), EPSILON);
+        assertEquals(0.292579, function.f(x), EPSILON);
 
         //test another point
         x.setReal(0, 2.0);
         x.setReal(1, 3.0);
-        assertEquals(0.334273, function.apply(x), EPSILON);
+        assertEquals(0.334273, function.f(x), EPSILON);
     }
 }

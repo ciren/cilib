@@ -31,16 +31,16 @@ public class BBOB16 extends AbstractBBOB {
 	}
 
 	@Override
-	public Double apply(Vector input) {
+	public Double f(Vector input) {
 		initialise(input.size());
 
 		Vector z = input.subtract(xOpt);
 
 		r.setFunction(irregular);
-		return r.apply(z) + (10.0 / input.size()) * pen.apply(input) + fOpt;
+		return r.f(z) + (10.0 / input.size()) * pen.f(input) + fOpt;
 	}
 
-	private class Inner implements ContinuousFunction {
+	private class Inner extends ContinuousFunction {
 		private Weierstrass weierstrass;
 
 		public Inner() {
@@ -48,9 +48,9 @@ public class BBOB16 extends AbstractBBOB {
 		}
 
 		@Override
-		public Double apply(Vector z) {
+		public Double f(Vector z) {
 			r.setFunction(weierstrass);
-			return r.apply(z);
+			return r.f(z);
 		}
 	}
 }

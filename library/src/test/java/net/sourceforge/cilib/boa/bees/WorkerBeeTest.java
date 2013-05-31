@@ -6,13 +6,10 @@
  */
 package net.sourceforge.cilib.boa.bees;
 
-import com.google.common.collect.Iterables;
 import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.boa.bee.WorkerBee;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Rastrigin;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
@@ -33,8 +30,7 @@ public class WorkerBeeTest {
         WorkerBee clone = new WorkerBee();
         clone.setForageLimit(ConstantControlParameter.of(680));
         initStrategy.setEntityType(clone);
-        Topology<WorkerBee> population = new GBestTopology<WorkerBee>();
-        Iterables.addAll(population, initStrategy.initialise(problem));
+        fj.data.List<WorkerBee> population = fj.data.List.iterableList(initStrategy.<WorkerBee>initialise(problem));
 
         for (WorkerBee bee : population) {
             assertEquals(bee.getForageLimit().getParameter(), 680.0, 0.0001);

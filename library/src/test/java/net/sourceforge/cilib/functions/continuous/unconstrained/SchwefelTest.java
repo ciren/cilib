@@ -27,12 +27,12 @@ public class SchwefelTest {
         Vector x = Vector.of(1.0, 2.0, 3.0);
         Vector y = Vector.of(-1.0, -2.0, -3.0);
 
-        assertEquals(1251.170579, function.apply(x), 0.000001);
-        assertEquals(1262.726744, function.apply(y), 0.000001);
+        assertEquals(1251.170579, function.f(x), 0.000001);
+        assertEquals(1262.726744, function.f(y), 0.000001);
 
         x.setReal(0, 420.9687);
         x.setReal(1, 420.9687);
         x.setReal(2, 420.9687);
-        assertEquals(0.0, function.apply(x), 0.000000001);
+        assertEquals(0.0, function.f(x), 0.000000001);
     }
 }

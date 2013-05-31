@@ -29,11 +29,11 @@ public class EasomTest {
     public void testEvaluate() {
         Vector x = Vector.of(Real.valueOf(Math.PI),
                 Real.valueOf(Math.PI));
-        assertEquals(-1.0, function.apply(x), 0.0);
+        assertEquals(-1.0, function.f(x), 0.0);
 
         x.setReal(0, Math.PI/2.0);
         x.setReal(1, Math.PI/2.0);
-        assertEquals(0.0, function.apply(x), 0.0000000001);
+        assertEquals(0.0, function.f(x), 0.0000000001);
     }
 
     /**
@@ -41,6 +41,6 @@ public class EasomTest {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0));
+        function.f(Vector.of(1.0, 2.0, 3.0));
     }
 }

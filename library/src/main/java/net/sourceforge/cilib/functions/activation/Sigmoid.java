@@ -6,18 +6,19 @@
  */
 package net.sourceforge.cilib.functions.activation;
 
-import com.google.common.base.Objects;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Objects;
 
 /**
  * The generalized sigmoid function. The function is the general case of the sigmoid function
  * with the ability to specify the lambda of the function as well as an offset that should
  * be taken into consideration.
  */
-public class Sigmoid implements ActivationFunction {
+public class Sigmoid extends ActivationFunction {
 
     private ControlParameter lambda; // steepness
     private ControlParameter gamma;  // range
@@ -53,15 +54,15 @@ public class Sigmoid implements ActivationFunction {
      * {@inheritDoc}
      */
     @Override
-    public Real apply(Real input) {
-        return Real.valueOf(apply(input.doubleValue()));
+    public Real f(Real input) {
+        return Real.valueOf(f(input.doubleValue()));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public double apply(double input) {
+    public double f(double input) {
         return gamma.getParameter() / (1.0 + Math.exp(-1.0 * lambda.getParameter() * (input - offset.getParameter())));
     }
 

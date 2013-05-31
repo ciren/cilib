@@ -27,11 +27,11 @@ public class Bohachevsky3Test {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(1,2);
-        assertEquals(9.6, function.apply(x), 0.00000000000001);
+        assertEquals(9.6, function.f(x), 0.00000000000001);
 
         x.setReal(0, 0.0);
         x.setReal(1, 0.0);
-        assertEquals(0.0, function.apply(x), 0.0);
+        assertEquals(0.0, function.f(x), 0.0);
     }
 
     /**
@@ -39,6 +39,6 @@ public class Bohachevsky3Test {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0));
+        function.f(Vector.of(1.0, 2.0, 3.0));
     }
 }

@@ -6,16 +6,14 @@
  */
 package net.sourceforge.cilib.util.functions;
 
-import fj.F;
-import fj.F2;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
+import fj.F;
+import fj.F2;
 
 public final class Algorithms {
     public static <A extends Algorithm> F<A, OptimisationSolution> getBestSolution() {
@@ -139,19 +137,19 @@ public final class Algorithms {
         };
     }
 
-    public static <A extends PopulationBasedAlgorithm> F<A, Topology<? extends Entity>> getTopology() {
-        return new F<A, Topology<? extends Entity>>() {
+    public static <A extends SinglePopulationBasedAlgorithm> F<A, fj.data.List<? extends Entity>> getTopology() {
+        return new F<A, fj.data.List<? extends Entity>>() {
             @Override
-            public Topology<? extends Entity> f(A a) {
+            public fj.data.List<? extends Entity> f(A a) {
                 return a.getTopology();
             }
         };
     }
 
-    public static <A extends SinglePopulationBasedAlgorithm> F2<Topology<? extends Entity>, ? extends A, A> setTopology() {
-        return new F2<Topology<? extends Entity>, A, A>() {
+    public static <A extends SinglePopulationBasedAlgorithm> F2<fj.data.List<? extends Entity>, ? extends A, A> setTopology() {
+        return new F2<fj.data.List<? extends Entity>, A, A>() {
             @Override
-            public A f(Topology<? extends Entity> a, A b) {
+            public A f(fj.data.List<? extends Entity> a, A b) {
                 b.setTopology(a);
                 return b;
             }

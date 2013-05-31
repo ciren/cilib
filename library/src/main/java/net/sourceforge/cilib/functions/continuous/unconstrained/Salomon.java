@@ -35,7 +35,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-600, 600)^30
  *
  */
-public class Salomon implements ContinuousFunction {
+public class Salomon extends ContinuousFunction {
 
     private static final long serialVersionUID = -6002240316648057218L;
 
@@ -43,7 +43,7 @@ public class Salomon implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double sumSquares = 0.0;
 
         for (int i = 0; i < input.size(); i++) {

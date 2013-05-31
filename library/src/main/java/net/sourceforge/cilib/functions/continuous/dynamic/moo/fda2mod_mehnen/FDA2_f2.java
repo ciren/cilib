@@ -18,7 +18,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * seconed Italian Workshop on Evolutionary Computation, 2006.
  *
  */
-public class FDA2_f2 implements ContinuousFunction {
+public class FDA2_f2 extends ContinuousFunction {
 
     private static final long serialVersionUID = 7814549850032093196L;
     //member
@@ -102,7 +102,7 @@ public class FDA2_f2 implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
+    public Double f(Vector x) {
         int iteration = AbstractAlgorithm.get().getIterations();
         return this.apply(iteration, x);
     }
@@ -116,7 +116,7 @@ public class FDA2_f2 implements ContinuousFunction {
             y = x.copyOfRange(1, x.size());
         }
 
-        double g = this.fda2_g.apply(y);
+        double g = this.fda2_g.f(y);
         double h = ((FDA2_h) this.fda2_h).apply(iteration, x);
 
         double value = g * h;

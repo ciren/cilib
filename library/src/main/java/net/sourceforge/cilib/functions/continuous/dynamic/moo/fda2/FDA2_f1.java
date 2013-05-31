@@ -15,8 +15,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * and applications, IEEE Transactions on Evolutionary Computation, 8(5): 425-442, 2003
  *
  */
-
-public class FDA2_f1 implements ContinuousFunction {
+public class FDA2_f1 extends ContinuousFunction {
 
     private static final long serialVersionUID = 3509865802519318920L;
 
@@ -24,7 +23,7 @@ public class FDA2_f1 implements ContinuousFunction {
      * Evaluates the function.
      */
     @Override
-    public Double apply(Vector x) {
-        return (double)(Math.abs(x.doubleValueOf(0)));
+    public Double f(Vector input) {
+        return Math.abs(input.doubleValueOf(0));
     }
 }

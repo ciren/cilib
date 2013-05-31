@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * Ripple function.
@@ -17,7 +18,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(0, 1)^2
  *
  */
-public class Ripple implements ContinuousFunction {
+public class Ripple extends ContinuousFunction {
 
     private static final long serialVersionUID = 2956377362140947929L;
 
@@ -25,7 +26,7 @@ public class Ripple implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() == 2, "Ripple function is only defined for 2 dimensions");
 
         double x = input.doubleValueOf(0);

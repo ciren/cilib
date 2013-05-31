@@ -88,7 +88,7 @@ public final class StandardVelocityProvider implements VelocityProvider {
         Vector dampenedVelocity = Vector.copyOf(velocity).multiply(inertiaWeight.getParameter());
         Vector cognitiveComponent = Vector.copyOf(localGuide).subtract(position).multiply(cp(cognitiveAcceleration)).multiply(random());
         Vector socialComponent = Vector.copyOf(globalGuide).subtract(position).multiply(cp(socialAcceleration)).multiply(random());
-        return Vectors.sumOf(dampenedVelocity, cognitiveComponent, socialComponent);
+        return Vectors.sumOf(dampenedVelocity, cognitiveComponent, socialComponent).valueE("Cannot determine velocity");
     }
 
     /**

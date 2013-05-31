@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
@@ -56,7 +56,7 @@ public class MultiPopRepeatingCrossoverSelection extends CrossoverSelection {
         List<Particle> parents = new ArrayList<Particle>();
 
         MultiPopulationBasedAlgorithm algs = (MultiPopulationBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
-        List<PopulationBasedAlgorithm> pops = algs.getPopulations();
+        List<SinglePopulationBasedAlgorithm> pops = algs.getPopulations();
 
         if (pops.size() > 2) {
             pops = selector.on(pops).select(Samples.first(crossoverStrategy.getNumberOfParents()).unique());
@@ -65,7 +65,7 @@ public class MultiPopRepeatingCrossoverSelection extends CrossoverSelection {
             parents.add((Particle) selector.on(pops.get((int) random.getRandomNumber(0, pops.size())).getTopology()).select());
         }
 
-        for (PopulationBasedAlgorithm a : pops) {
+        for (SinglePopulationBasedAlgorithm a : pops) {
             parents.add((Particle) selector.on(a.getTopology()).select());
         }
 
@@ -79,7 +79,7 @@ public class MultiPopRepeatingCrossoverSelection extends CrossoverSelection {
 
         //perform crossover and select particle to compare with
         Particle offspring = (Particle) crossoverStrategy.crossover(parents).get(0);
-        Particle selectedParticle = particleProvider.f(parents, offspring);
+        Particle selectedParticle = particleProvider.f(fj.data.List.iterableList(parents), offspring);
 
         //replace selectedEntity if offspring is better
         if (((Fitness) offspring.getProperties().get(fitnessType))

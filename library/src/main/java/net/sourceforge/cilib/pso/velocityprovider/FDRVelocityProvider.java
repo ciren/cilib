@@ -11,7 +11,6 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.LinearlyVaryingControlParameter;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.PSO;
@@ -86,7 +85,7 @@ public class FDRVelocityProvider implements VelocityProvider {
 
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
-            Topology<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
+            fj.data.List<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
             Iterator<Particle> swarmIterator = topology.iterator();
             Particle fdrMaximizer = swarmIterator.next();
             double maxFDR = 0.0;

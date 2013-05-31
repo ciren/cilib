@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * The Himmelblau function.
@@ -28,7 +29,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @version 1.0
  */
-public class Himmelblau implements ContinuousFunction {
+public class Himmelblau extends ContinuousFunction {
 
     private static final long serialVersionUID = 7323733640884766707L;
 
@@ -36,7 +37,7 @@ public class Himmelblau implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() == 2, "Himmelblau function is only defined for 2 dimensions");
 
         double x = input.doubleValueOf(0);

@@ -26,19 +26,19 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Natural Computing, 1-50. Available at: http://vg.perso.eisti.fr/These/Papiers/Bibli2/CEC05.pdf.
  * </p>
  */
-public class SchwefelProblem2_6 implements ContinuousFunction {
+public class SchwefelProblem2_6 extends ContinuousFunction {
     private Vector optimum;
     private double[][] m_A;
 
     private double[] m_B;
     private double[] m_z;
-    
+
     private boolean initialised;
-    
+
     public SchwefelProblem2_6() {
         this.initialised = false;
     }
-    
+
     public void setMatrices(int dimensions) {
         Vector.Builder oBuilder = Vector.newBuilder();
         m_A = new double[dimensions][dimensions];
@@ -55,28 +55,28 @@ public class SchwefelProblem2_6 implements ContinuousFunction {
                 oBuilder.add(Rand.nextInt(201) - 100);
             }
         }
-        
+
         optimum = oBuilder.build();
-        
+
         for (int i = 0 ; i < dimensions ; i ++) {
             for (int j = 0 ; j < dimensions ; j ++) {
                 m_A[i][j] = Rand.nextInt(1001) - 500;
             }
         }
-        
+
         aTimesX(m_B, m_A, optimum);
     }
-    
+
     /**
      * Multiplies Matrix A by Vector x and stores it in result.
      * @param result
      * @param A
-     * @param x 
+     * @param x
      */
     private void aTimesX(double[] result, double[][] A, Vector x) {
         for (int i = 0 ; i < result.length ; i ++) {
             result[i] = 0.0;
-            
+
             for (int j = 0 ; j < result.length ; j ++) {
                 result[i] += (A[i][j] * x.doubleValueOf(j));
             }
@@ -87,19 +87,19 @@ public class SchwefelProblem2_6 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         if(!initialised) {
             setMatrices(input.size());
             initialised = true;
         }
-        
+
         double max = Double.NEGATIVE_INFINITY;
 
         aTimesX(m_z, m_A, input);
 
         for (int i = 0 ; i < input.size() ; i ++) {
             double temp = Math.abs(m_z[i] - m_B[i]);
-            
+
             if (max < temp) {
                 max = temp;
             }

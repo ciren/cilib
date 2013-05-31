@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * Schaffer's second function.
@@ -23,7 +24,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-100.0,100.0)^2
  */
-public class Schaffer2 implements ContinuousFunction {
+public class Schaffer2 extends ContinuousFunction {
 
     private static final long serialVersionUID = 7289010453718555694L;
 
@@ -31,7 +32,7 @@ public class Schaffer2 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() == 2, "Schaffer2 function is only defined for 2 dimensions");
 
         double sum_squares = input.doubleValueOf(0) * input.doubleValueOf(0) + input.doubleValueOf(1) * input.doubleValueOf(1);

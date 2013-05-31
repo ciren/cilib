@@ -50,7 +50,7 @@ public class NormalisedDiversity implements Measurement<Real> {
     public Real getValue(Algorithm algorithm) {
         PSO pso = (PSO) algorithm;
 
-        int numberParticles = pso.getTopology().size();
+        int numberParticles = pso.getTopology().length();
 
         Iterator<Particle> k = pso.getTopology().iterator();
         Particle particle = k.next();
@@ -82,8 +82,7 @@ public class NormalisedDiversity implements Measurement<Real> {
         double diversity = particleSum / numberParticles;
 
         DiameterVisitor diameterVisitor = new DiameterVisitor();
-        pso.accept(diameterVisitor);
-        double diameter = diameterVisitor.getResult();
+        double diameter = diameterVisitor.f(pso.getTopology());
 
         return Real.valueOf(diversity / diameter);
     }

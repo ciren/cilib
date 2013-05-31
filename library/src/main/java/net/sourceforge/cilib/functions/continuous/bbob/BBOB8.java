@@ -20,12 +20,12 @@ public class BBOB8 extends AbstractBBOB {
 	}
 
 	@Override
-	public Double apply(Vector input) {
+	public Double f(Vector input) {
 		initialise(input.size());
 
 		double factor = Math.max(1, Math.sqrt(input.size()) / 8);
 
 		Vector z = input.subtract(xOpt).multiply(factor).plus(Vector.fill(1, input.size()));
-		return rosenbrock.apply(z) + fOpt;
+		return rosenbrock.f(z) + fOpt;
 	}
 }

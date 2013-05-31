@@ -31,29 +31,29 @@ public class HimmelblauTest {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(3,2);
-        assertEquals(0.0, function.apply(x), EPSILON);
+        assertEquals(0.0, function.f(x), EPSILON);
 
         x.setReal(0, -2.805118);
         x.setReal(1, 3.131312);
-        assertEquals(0.0, function.apply(x), EPSILON);
+        assertEquals(0.0, function.f(x), EPSILON);
 
         x.setReal(0, -3.779301);
         x.setReal(1, -3.283185);
-        assertEquals(0.0, function.apply(x), EPSILON);
+        assertEquals(0.0, function.f(x), EPSILON);
 
         x.setReal(0, 3.584428);
         x.setReal(1, -1.848126);
-        assertEquals(0.0, function.apply(x), EPSILON);
+        assertEquals(0.0, function.f(x), EPSILON);
 
         //test one other point
         x.setReal(0, 2.0);
         x.setReal(1, 2.0);
-        assertEquals(26.0, function.apply(x), EPSILON);
+        assertEquals(26.0, function.f(x), EPSILON);
     }
 
     /** Test argument with invalid dimension */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0));
+        function.f(Vector.of(1.0, 2.0, 3.0));
     }
 }

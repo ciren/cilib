@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.niching.creation;
 
 import fj.data.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
@@ -79,7 +79,7 @@ public class MaintainedFitnessNicheDetection extends NicheDetection {
     }
 
     @Override
-    public Boolean f(PopulationBasedAlgorithm swarm, Entity entity) {
+    public Boolean f(SinglePopulationBasedAlgorithm swarm, Entity entity) {
         TypeList fitnesses = (TypeList) entity.getProperties().get(NicheEnum.NICHE_DETECTION_FITNESSES);
         
         if (fitnesses == null) {

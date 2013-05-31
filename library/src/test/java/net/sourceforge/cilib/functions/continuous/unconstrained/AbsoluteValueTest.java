@@ -27,11 +27,11 @@ public class AbsoluteValueTest {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(-1, 2, -3);
-        assertEquals(6.0, function.apply(x), 0.0);
+        assertEquals(6.0, function.f(x), 0.0);
 
         x.setReal(0, 0.0);
         x.setReal(1, 0.0);
         x.setReal(2, 0.0);
-        assertEquals(0.0, function.apply(x), 0.0);
+        assertEquals(0.0, function.f(x), 0.0);
     }
 }

@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.measurement.Measurement;
@@ -38,12 +38,12 @@ public class PbestBoundViolations implements Measurement<Real> {
      */
     @Override
     public Real getValue(Algorithm algorithm) {
-        PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
+        SinglePopulationBasedAlgorithm populationBasedAlgorithm = (SinglePopulationBasedAlgorithm) algorithm;
 
         int numberOfViolations = 0;
-        int populationSize = populationBasedAlgorithm.getTopology().size();
-
-        for (Entity populationEntity : populationBasedAlgorithm.getTopology()) {
+        int populationSize = populationBasedAlgorithm.getTopology().length();
+        fj.data.List<Entity> local = populationBasedAlgorithm.getTopology();
+        for (Entity populationEntity : local) {
             Vector pbest = (Vector) populationEntity.getProperties().get(EntityType.Particle.BEST_POSITION);
             if (pbest == null) {
                 throw new UnsupportedOperationException("Entity is not a particle.");

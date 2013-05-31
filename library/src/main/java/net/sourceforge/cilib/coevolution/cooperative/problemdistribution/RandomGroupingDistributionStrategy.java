@@ -10,7 +10,7 @@ import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.CooperativeCoevolutionAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
 import net.sourceforge.cilib.coevolution.cooperative.problem.RandomDimensionAllocation;
@@ -48,7 +48,7 @@ public class RandomGroupingDistributionStrategy implements
      *                      {@linkplain CooperativeCoevolutionAlgorithm}.
      */
     @Override
-    public void performDistribution(List<PopulationBasedAlgorithm> populations,
+    public void performDistribution(List<SinglePopulationBasedAlgorithm> populations,
             Problem problem, Vector context) {
         //need to do a completely random split depending on the number of sub populations
         Preconditions.checkArgument(populations.size() >= 2,

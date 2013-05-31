@@ -7,22 +7,22 @@
 package net.sourceforge.cilib.functions.continuous.decorators;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.types.container.Vector;
+import fj.F;
 
 /**
  * Function implementation to accept a function and to return the reciprocal
  * of that function value.
  *
  */
-public class InvertedFunctionDecorator implements ContinuousFunction {
+public class InvertedFunctionDecorator extends ContinuousFunction {
 
     private static final long serialVersionUID = -7506823207533866371L;
-    private Function<Vector, Double> function;
+    private F<Vector, Double> function;
 
     @Override
-    public Double apply(Vector input) {
-        double innerFunctionValue = function.apply(input);
+    public Double f(Vector input) {
+        double innerFunctionValue = function.f(input);
 
         if (innerFunctionValue == 0) {
             throw new ArithmeticException("Inner function evaluation equated to 0. Division by zero is undefined");
@@ -31,11 +31,11 @@ public class InvertedFunctionDecorator implements ContinuousFunction {
         return (1.0 / innerFunctionValue);
     }
 
-    public Function<Vector, Double> getFunction() {
+    public F<Vector, Double> getFunction() {
         return function;
     }
 
-    public void setFunction(Function function) {
+    public void setFunction(F<Vector, Double> function) {
         this.function = function;
     }
 }

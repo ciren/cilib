@@ -8,7 +8,6 @@ package net.sourceforge.cilib.clustering.iterationstrategies;
 
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
@@ -60,7 +59,7 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
      */
     @Override
     public void performIteration(DataClusteringPSO algorithm) {
-        Topology<ClusterParticle> topology = algorithm.getTopology();
+        fj.data.List<ClusterParticle> topology = algorithm.getTopology();
         double euclideanDistance;
         Vector addedPattern;
         clearCentroidDistanceValues(topology);
@@ -97,7 +96,7 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
         }
 
         for (ClusterParticle current : topology) {
-            for (ClusterParticle other : topology.neighbourhood(current)) {
+            for (ClusterParticle other : algorithm.getNeighbourhood().f(topology, current)) {
                 if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
                     other.setNeighbourhoodBest(current);
                 }
@@ -112,7 +111,7 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
      * Removes all data items assigned to each centroid in each particle in the topology
      * @param topology The topology whose centroids need to be cleaned
      */
-    private void clearCentroidDistanceValues(Topology<ClusterParticle> topology) {
+    private void clearCentroidDistanceValues(fj.data.List<ClusterParticle> topology) {
         CentroidHolder candidateSolution;
         for(ClusterParticle particle : topology) {
             candidateSolution = (CentroidHolder) particle.getCandidateSolution();

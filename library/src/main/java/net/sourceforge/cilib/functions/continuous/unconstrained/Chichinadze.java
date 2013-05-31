@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * <p><b>Chichinadze.</b></p>
@@ -34,10 +35,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </p>
  * R(-30, 30)^2
  */
-public class Chichinadze implements ContinuousFunction {
+public class Chichinadze extends ContinuousFunction {
 
 	@Override
-	public Double apply(Vector input) {
+	public Double f(Vector input) {
 		Preconditions.checkArgument(input.size() == 2, "Chichinadze function is only defined for 2 dimensions");
 
 		double x1 = input.get(0).doubleValue();

@@ -12,7 +12,7 @@ import fj.F;
 import fj.data.List;
 import java.util.Collections;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.niching.NichingAlgorithm;
 import static net.sourceforge.cilib.niching.NichingFunctions.*;
 import net.sourceforge.cilib.niching.NichingFunctions.NichingFunction;
@@ -46,16 +46,16 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
                 "DeratingNichePSO can only be used with DeratingOptimisationProblem.");
         DeratingOptimisationProblem problem = (DeratingOptimisationProblem) alg.getOptimisationProblem();
 
-        List<PopulationBasedAlgorithm> subswarms = List.<PopulationBasedAlgorithm>iterableList(alg.getPopulations());
-        subswarms = onMainSwarm(Algorithms.<PopulationBasedAlgorithm>initialise())
+        List<SinglePopulationBasedAlgorithm> subswarms = List.iterableList(alg.getPopulations());
+        subswarms = onMainSwarm(Algorithms.<SinglePopulationBasedAlgorithm>initialise())
             .andThen(phase1(alg))
             .andThen(onSubswarms(clearDeratingSolutions(problem)))
             .andThen(phase2(alg))
             .andThen(joinAndMerge(alg, subswarms))
-            .f(NichingSwarms.of(alg.getMainSwarm(), Collections.<PopulationBasedAlgorithm>emptyList()))._2();
+            .f(NichingSwarms.of(alg.getMainSwarm(), Collections.<SinglePopulationBasedAlgorithm>emptyList()))._2();
 
         problem.clearSolutions();
-        problem.addSolutions(subswarms.map(Solutions.getPosition().o(Algorithms.<PopulationBasedAlgorithm>getBestSolution())).toCollection());
+        problem.addSolutions(subswarms.map(Solutions.getPosition().o(Algorithms.<SinglePopulationBasedAlgorithm>getBestSolution())).toCollection());
         alg.setPopulations(Lists.newLinkedList(subswarms.toCollection()));
         alg.getMainSwarm().setOptimisationProblem(problem);
         // don't need to set the main swarm because it gets reinitialised
@@ -64,11 +64,11 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
     /**
      * Clear solutions so subswarms can optimize in original search space
      */
-    public static F<PopulationBasedAlgorithm, PopulationBasedAlgorithm>
+    public static F<SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm>
             clearDeratingSolutions(final DeratingOptimisationProblem problem) {
-        return new F<PopulationBasedAlgorithm, PopulationBasedAlgorithm>() {
+        return new F<SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm>() {
             @Override
-            public PopulationBasedAlgorithm f(PopulationBasedAlgorithm a) {
+            public SinglePopulationBasedAlgorithm f(SinglePopulationBasedAlgorithm a) {
                 problem.clearSolutions();
                 a.setOptimisationProblem(problem);
                 return a;
@@ -79,7 +79,7 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
     /**
      * Add new swarms to subswarms list and merge swarms if possible
      */
-    public static NichingFunction joinAndMerge(final NichingAlgorithm alg, final List<PopulationBasedAlgorithm> joiningList) {
+    public static NichingFunction joinAndMerge(final NichingAlgorithm alg, final List<SinglePopulationBasedAlgorithm> joiningList) {
         return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {
@@ -117,7 +117,7 @@ public class DeratingNichePSO extends AbstractIterationStrategy<NichingAlgorithm
         return new NichingFunction() {
             @Override
             public NichingSwarms f(NichingSwarms a) {
-                if (!a.getSubswarms().exists(Algorithms.<PopulationBasedAlgorithm>isFinished())) {
+                if (!a.getSubswarms().exists(Algorithms.<SinglePopulationBasedAlgorithm>isFinished())) {
                     return a;
                 }
 

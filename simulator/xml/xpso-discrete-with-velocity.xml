@@ -34,7 +34,7 @@
                     <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
                 </crossoverOperation>
             </iterationStrategy>
-            <topology class="entity.topologies.LBestTopology"/>
+            <neighbourhood class="entity.topologies.LBestNeighbourhood"/>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
         
@@ -50,7 +50,7 @@
                     <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
                 </crossoverOperation>
             </iterationStrategy>
-            <topology class="entity.topologies.LBestTopology"/>
+            <neighbourhood class="entity.topologies.LBestNeighbourhood"/>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
         
@@ -97,7 +97,7 @@
                     <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
                 </crossoverOperation>
             </iterationStrategy>
-            <topology class="entity.topologies.LBestTopology"/>
+            <neighbourhood class="entity.topologies.LBestNeighbourhood"/>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
         
@@ -113,7 +113,7 @@
                     <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
                 </crossoverOperation>
             </iterationStrategy>
-            <topology class="entity.topologies.LBestTopology"/>
+            <neighbourhood class="entity.topologies.LBestNeighbourhood"/>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
         
@@ -160,7 +160,7 @@
                     <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
                 </crossoverOperation>
             </iterationStrategy>
-            <topology class="entity.topologies.LBestTopology"/>
+            <neighbourhood class="entity.topologies.LBestNeighbourhood"/>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
         
@@ -176,7 +176,7 @@
                     <parentReplacementStrategy class="pso.crossover.parentupdate.AlwaysReplaceParentReplacementStrategy"/>
                 </crossoverOperation>
             </iterationStrategy>
-            <topology class="entity.topologies.LBestTopology"/>
+            <neighbourhood class="entity.topologies.LBestNeighbourhood"/>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
         </algorithm>
         

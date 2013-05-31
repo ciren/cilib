@@ -8,7 +8,7 @@ package net.sourceforge.cilib.moo.criterion.objectiveassignmentstrategies;
 
 import java.util.List;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationCriterionBasedAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -24,5 +24,5 @@ public interface ObjectiveAssignmentStrategy extends Cloneable {
     @Override
     public ObjectiveAssignmentStrategy getClone();
 
-    public void assignObjectives(MOOptimisationProblem problem, List<PopulationBasedAlgorithm> populations);
+    public void assignObjectives(MOOptimisationProblem problem, List<SinglePopulationBasedAlgorithm> populations);
 }

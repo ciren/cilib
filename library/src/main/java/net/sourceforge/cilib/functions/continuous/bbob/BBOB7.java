@@ -27,14 +27,14 @@ public class BBOB7 extends AbstractBBOB {
 	}
 
 	@Override
-	public Double apply(Vector input) {
+	public Double f(Vector input) {
 		initialise(input.size());
 
 		Vector z = input.subtract(xOpt);
-		return r.apply(z) + pen.apply(input) + fOpt;
+		return r.f(z) + pen.f(input) + fOpt;
 	}
 
-	private class StepEllipsoidal implements ContinuousFunction {
+	private class StepEllipsoidal extends ContinuousFunction {
 		private Elliptic elliptic;
 		private RotatedFunctionDecorator q;
 
@@ -45,7 +45,7 @@ public class BBOB7 extends AbstractBBOB {
 		}
 
 		@Override
-		public Double apply(Vector zHat) {
+		public Double f(Vector zHat) {
 			Vector zCurve = Vector.fill(1, zHat.size());
 			for (int i = 0; i < zHat.size(); i++) {
 				double zi = zHat.doubleValueOf(i);
@@ -53,7 +53,7 @@ public class BBOB7 extends AbstractBBOB {
 				zCurve.setReal(i, zi > 0.5 ? floored : floored / 10.0);
 			}
 
-			return 0.1 * Math.max(Math.abs(zHat.doubleValueOf(0) / 1E4), q.apply(zCurve));
+			return 0.1 * Math.max(Math.abs(zHat.doubleValueOf(0) / 1E4), q.f(zCurve));
 		}
 	}
 }

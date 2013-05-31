@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * <p><b>Bohachevsky 2.</b></p>
@@ -36,7 +37,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-100, 100)^2
  *
  */
-public class Bohachevsky2 implements ContinuousFunction {
+public class Bohachevsky2 extends ContinuousFunction {
 
     private static final long serialVersionUID = -1572998736995724677L;
 
@@ -44,7 +45,7 @@ public class Bohachevsky2 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() == 2, "Bohachevsky 2 function is only defined for 2 dimensions");
 
         double x = input.doubleValueOf(0);

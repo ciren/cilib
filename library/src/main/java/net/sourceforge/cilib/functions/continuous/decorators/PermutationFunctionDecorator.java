@@ -7,15 +7,15 @@
 package net.sourceforge.cilib.functions.continuous.decorators;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Creates a fixed permutation vector of indices.
  * Using the permuted indices, this decorator permutes the input
  * vector before applying the decorated function.
  */
-public class PermutationFunctionDecorator implements ContinuousFunction {
+public class PermutationFunctionDecorator extends ContinuousFunction {
 
     private ContinuousFunction function;
     private Vector permutedIndices;
@@ -31,7 +31,7 @@ public class PermutationFunctionDecorator implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         if (permutedIndices.size() != input.size()) {
             permutedIndices = Vector.newBuilder()
                 .range(0, input.size(), 1)
@@ -45,7 +45,7 @@ public class PermutationFunctionDecorator implements ContinuousFunction {
             newInput.add(input.get(index.intValue()));
         }
 
-        return function.apply(newInput.build());
+        return function.f(newInput.build());
     }
 
     /**

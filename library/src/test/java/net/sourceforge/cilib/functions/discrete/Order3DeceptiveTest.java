@@ -13,23 +13,23 @@ import org.junit.Test;
 
 public class Order3DeceptiveTest {
 
-    private Order3Deceptive func = new Order3Deceptive();
+    private final Order3Deceptive func = new Order3Deceptive();
 
     @Test
     public void testFunction() {
-        assertEquals(0.9, func.apply(Vector.of(0,0,0)), Maths.EPSILON);
-        assertEquals(0.6, func.apply(Vector.of(1,0,0)), Maths.EPSILON);
-        assertEquals(0.3, func.apply(Vector.of(1,1,0)), Maths.EPSILON);
-        assertEquals(1.0, func.apply(Vector.of(1,1,1)), Maths.EPSILON);
+        assertEquals(0.9, func.f(Vector.of(0,0,0)), Maths.EPSILON);
+        assertEquals(0.6, func.f(Vector.of(1,0,0)), Maths.EPSILON);
+        assertEquals(0.3, func.f(Vector.of(1,1,0)), Maths.EPSILON);
+        assertEquals(1.0, func.f(Vector.of(1,1,1)), Maths.EPSILON);
 
-        assertEquals(0.9, func.apply(Vector.of(0,0,0)), Maths.EPSILON);
-        assertEquals(0.6, func.apply(Vector.of(0,1,0)), Maths.EPSILON);
-        assertEquals(0.3, func.apply(Vector.of(0,1,1)), Maths.EPSILON);
+        assertEquals(0.9, func.f(Vector.of(0,0,0)), Maths.EPSILON);
+        assertEquals(0.6, func.f(Vector.of(0,1,0)), Maths.EPSILON);
+        assertEquals(0.3, func.f(Vector.of(0,1,1)), Maths.EPSILON);
 
-        assertEquals(1.8, func.apply(Vector.of(0,0,0,0,0,0)), Maths.EPSILON);
-        assertEquals(1.2, func.apply(Vector.of(1,0,0,1,0,0)), Maths.EPSILON);
-        assertEquals(0.6, func.apply(Vector.of(1,1,0,1,1,0)), Maths.EPSILON);
-        assertEquals(2.0, func.apply(Vector.of(1,1,1,1,1,1)), Maths.EPSILON);
+        assertEquals(1.8, func.f(Vector.of(0,0,0,0,0,0)), Maths.EPSILON);
+        assertEquals(1.2, func.f(Vector.of(1,0,0,1,0,0)), Maths.EPSILON);
+        assertEquals(0.6, func.f(Vector.of(1,1,0,1,1,0)), Maths.EPSILON);
+        assertEquals(2.0, func.f(Vector.of(1,1,1,1,1,1)), Maths.EPSILON);
     }
 
 }

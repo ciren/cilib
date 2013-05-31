@@ -6,23 +6,23 @@
  */
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
+import net.sourceforge.cilib.pso.particle.Particle;
 
-public class ParticleReevaluationResponseStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy<E> {
+public class ParticleReevaluationResponseStrategy extends EnvironmentChangeResponseStrategy {
 
     private static final long serialVersionUID = -4389695103800841288L;
 
     public ParticleReevaluationResponseStrategy() {
     }
 
-    public ParticleReevaluationResponseStrategy(ParticleReevaluationResponseStrategy<E> copy) {
+    public ParticleReevaluationResponseStrategy(ParticleReevaluationResponseStrategy copy) {
         super(copy);
     }
 
-    public ParticleReevaluationResponseStrategy<E> getClone() {
-        return new ParticleReevaluationResponseStrategy<E>(this);
+    public ParticleReevaluationResponseStrategy getClone() {
+        return new ParticleReevaluationResponseStrategy(this);
     }
 
     /**
@@ -30,7 +30,7 @@ public class ParticleReevaluationResponseStrategy<E extends PopulationBasedAlgor
      * @param algorithm PSO algorithm that has to respond to environment change
      */
     @Override
-    public void respond(E algorithm) {
+    public <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void respond(A algorithm) {
         reevaluateParticles(algorithm);
     }
 
@@ -38,19 +38,20 @@ public class ParticleReevaluationResponseStrategy<E extends PopulationBasedAlgor
      * Re-evaluate each particle's position, personal best and neighbourhood best.
      * @param algorithm PSO algorithm that has to respond to environment change
      */
-    protected void reevaluateParticles(E algorithm) {
-        Topology<DynamicParticle> topology = (Topology<DynamicParticle>) algorithm.getTopology();
+    protected <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void reevaluateParticles(A algorithm) {
+        fj.data.List<P> topology = algorithm.getTopology();
 
         // Reevaluate current position. Update personal best (done by reevaluate()).
-        for (DynamicParticle current : topology) {
-            current.reevaluate();
+        for (P current : topology) {
+            ((DynamicParticle) current).reevaluate();
         }
 
-        updateNeighbourhoodBestEntities(topology);
+        updateNeighbourhoodBestEntities(topology, algorithm.getNeighbourhood());
     }
 
-    @Override
-    protected void performReaction(E algorithm) {
-        reevaluateParticles(algorithm);
-    }
+	@Override
+	protected <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void performReaction(
+			A algorithm) {
+		reevaluateParticles(algorithm);
+	}
 }

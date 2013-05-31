@@ -27,10 +27,10 @@ public class GriewankTest {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(0,0);
-        assertEquals(0.0, function.apply(x), 0.0);
+        assertEquals(0.0, function.f(x), 0.0);
 
         x.setReal(0, Math.PI / 2);
         x.setReal(1, Math.PI / 2);
-        assertEquals(1.0012337, function.apply(x), 0.0000001);
+        assertEquals(1.0012337, function.f(x), 0.0000001);
     }
 }

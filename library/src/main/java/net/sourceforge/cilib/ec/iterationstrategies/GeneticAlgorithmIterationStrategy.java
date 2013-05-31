@@ -6,21 +6,19 @@
  */
 package net.sourceforge.cilib.ec.iterationstrategies;
 
-import com.google.common.collect.Lists;
-import java.util.Collections;
 import java.util.List;
-import java.util.ListIterator;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.CrossoverOperator;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.UniformCrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.mutation.GaussianMutationStrategy;
 import net.sourceforge.cilib.entity.operators.mutation.MutationStrategy;
+
+import com.google.common.collect.Lists;
 
 /**
  * TODO: Complete this javadoc.
@@ -66,11 +64,11 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
      */
     @Override
     public void performIteration(EC ec) {
-        Topology<Individual> population = ec.getTopology();
+        fj.data.List<Individual> population = ec.getTopology();
 
         // Perform crossover: Allow each individual to create an offspring
         List<Individual> crossedOver = Lists.newArrayList();
-        for (int i = 0, n = population.size(); i < n; i++) {
+        for (int i = 0, n = population.length(); i < n; i++) {
             crossedOver.addAll(crossover.crossover(ec.getTopology()));
         }
 
@@ -84,20 +82,10 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
         }
 
         // Perform new population selection
-        Topology<Individual> topology = ec.getTopology();
-        topology.addAll(crossedOver);
+        fj.data.List<Individual> local = ec.getTopology().append(fj.data.List.iterableList(crossedOver))
+            .sort(Individual.ordering);
 
-        Collections.sort(ec.getTopology());
-        ListIterator<? extends Entity> i = ec.getTopology().listIterator();
-
-        int count = 0;
-        int size = ec.getTopology().size() - ec.getInitialisationStrategy().getEntityNumber();
-
-        while (i.hasNext() && count < size) {
-            i.next();
-            i.remove();
-            count++;
-        }
+        ec.setTopology(local.take(ec.getInitialisationStrategy().getEntityNumber()));
     }
 
     /**

@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * <p><b>Bukin 6 Function.</b></p>
@@ -37,7 +38,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-15,-5),R(-3,3)
  *
  */
-public class Bukin6 implements ContinuousFunction {
+public class Bukin6 extends ContinuousFunction {
 
     private static final long serialVersionUID = -5557883529972004157L;
 
@@ -45,7 +46,7 @@ public class Bukin6 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() == 2, "Bukin 6 function is only defined for 2 dimensions");
 
         double x1 = input.doubleValueOf(0);

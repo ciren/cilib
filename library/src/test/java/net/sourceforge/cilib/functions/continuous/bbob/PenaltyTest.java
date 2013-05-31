@@ -27,10 +27,10 @@ public class PenaltyTest {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(1.0, 2.0, 3.0);
-        assertEquals(14.0, function.apply(x), 0.0);
+        assertEquals(14.0, function.f(x), 0.0);
 
         function.setBoundary(ConstantControlParameter.of(5.0));
         Vector y = Vector.of(5.0, 6.0, 7.0);
-        assertEquals(5.0, function.apply(y), 0.0);
+        assertEquals(5.0, function.f(y), 0.0);
     }
 }

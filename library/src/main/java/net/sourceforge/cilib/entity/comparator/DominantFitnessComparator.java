@@ -9,7 +9,7 @@ package net.sourceforge.cilib.entity.comparator;
 import java.io.Serializable;
 import java.util.Comparator;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.entity.SocialEntity;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
@@ -28,7 +28,7 @@ public class DominantFitnessComparator <E extends SocialEntity> implements Compa
      */
     @Override
     public int compare(E o1, E o2) {
-        PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
+        SinglePopulationBasedAlgorithm populationBasedAlgorithm = (SinglePopulationBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
         MOOptimisationProblem problem = ((MOOptimisationProblem)populationBasedAlgorithm.getOptimisationProblem());
 
         Particle p1 = (Particle)o1;

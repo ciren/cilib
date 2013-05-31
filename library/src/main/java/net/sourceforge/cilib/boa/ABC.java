@@ -6,9 +6,9 @@
  */
 package net.sourceforge.cilib.boa;
 
-import com.google.common.base.Preconditions;
 import java.util.Arrays;
 import java.util.List;
+
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.boa.bee.ExplorerBee;
@@ -17,13 +17,15 @@ import net.sourceforge.cilib.boa.bee.OnlookerBee;
 import net.sourceforge.cilib.boa.bee.WorkerBee;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.selection.recipes.RouletteWheelSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
+
+import com.google.common.base.Preconditions;
+
+import fj.F;
+import fj.P2;
 
 /**
  * <p>
@@ -49,8 +51,8 @@ import net.sourceforge.cilib.util.selection.recipes.Selector;
 public class ABC extends SinglePopulationBasedAlgorithm<HoneyBee> {
 
     private static final long serialVersionUID = 7918711449442012960L;
-    private Topology<HoneyBee> workerBees;              //keeps references to the worker bees
-    private Topology<HoneyBee> onlookerBees;            //keeps references to the onlooker bees
+    private fj.data.List<HoneyBee> workerBees;              //keeps references to the worker bees
+    private fj.data.List<HoneyBee> onlookerBees;            //keeps references to the onlooker bees
     private ExplorerBee explorerBee;                    //explorer bee
     private Selector<HoneyBee> dancingSelectionStrategy;//bee dancing selection strategy
     private ControlParameter workerBeePercentage;       //control parameter for number of worker bees
@@ -66,9 +68,8 @@ public class ABC extends SinglePopulationBasedAlgorithm<HoneyBee> {
         initialisationStrategy.setEntityNumber(100);
         initialisationStrategy.setEntityType(new WorkerBee());
 
-        workerBees = new GBestTopology<HoneyBee>();
-        onlookerBees = new GBestTopology<HoneyBee>();
-        topology = new GBestTopology<HoneyBee>();
+        workerBees = fj.data.List.nil();
+        onlookerBees = fj.data.List.nil();
 
         explorerBee = new ExplorerBee();
         dancingSelectionStrategy = new RouletteWheelSelector();
@@ -84,11 +85,6 @@ public class ABC extends SinglePopulationBasedAlgorithm<HoneyBee> {
      */
     public ABC(ABC copy) {
         super(copy);
-        workerBees = copy.workerBees.getClone();
-        onlookerBees = copy.onlookerBees.getClone();
-        topology.clear();
-        topology.addAll(workerBees);
-        topology.addAll(onlookerBees);
 
         explorerBee = copy.explorerBee.getClone();
         dancingSelectionStrategy = new RouletteWheelSelector();
@@ -96,6 +92,10 @@ public class ABC extends SinglePopulationBasedAlgorithm<HoneyBee> {
         forageLimit = copy.forageLimit.getClone();
         workerBeePercentage = copy.workerBeePercentage.getClone();
         explorerBeeUpdateLimit = copy.explorerBeeUpdateLimit.getClone();
+
+        final int workerBeeCount = Double.valueOf(workerBeePercentage.getParameter() * topology.length()).intValue();
+        workerBees = topology.take(workerBeeCount);
+        onlookerBees = topology.drop(workerBeeCount);
     }
 
     /**
@@ -111,27 +111,17 @@ public class ABC extends SinglePopulationBasedAlgorithm<HoneyBee> {
      */
     @Override
     public void algorithmInitialisation() {
-        Iterable<? extends Entity> bees = this.initialisationStrategy.initialise(this.optimisationProblem);
-        //Iterables.addAll(getTopology(), particles); // Use this instead?
-        for (Entity bee : bees) {
-            topology.add((HoneyBee) bee);
-        }
+        topology = fj.data.List.iterableList(initialisationStrategy.<HoneyBee>initialise(optimisationProblem));
 
-        int i;
-        int numWorkerBees = (int) (workerBeePercentage.getParameter() * topology.size());
-        for (i = 0; i < numWorkerBees; i++) {
-            WorkerBee bee = (WorkerBee) topology.get(i);
-            bee.setForageLimit(this.forageLimit.getClone());
-            this.workerBees.add(topology.get(i));
-        }
+        int numWorkerBees = (int) (workerBeePercentage.getParameter() * topology.length());
+        P2<fj.data.List<HoneyBee>, fj.data.List<HoneyBee>> split = topology.splitAt(numWorkerBees);
+        this.workerBees = split._1();
+        this.onlookerBees = split._2().map(new F<HoneyBee, HoneyBee>() {
+            public HoneyBee f(HoneyBee b) {
+                return new OnlookerBee((WorkerBee) b);
+            }
+	});
 
-        for (int j = 0; j < initialisationStrategy.getEntityNumber() - numWorkerBees; j++) {
-            WorkerBee worker = (WorkerBee) topology.get(i);
-            OnlookerBee onlooker = new OnlookerBee(worker);
-            topology.remove(i);
-            topology.add(onlooker);
-            onlookerBees.add(onlooker);
-        }
         explorerBee.setExplorerBeeUpdateLimit(this.explorerBeeUpdateLimit);
     }
 
@@ -286,7 +276,7 @@ public class ABC extends SinglePopulationBasedAlgorithm<HoneyBee> {
      * Get the {@code Topology}  containing the onlooker bees.
      * @return the {@code Topology} containing the onlooker bees.
      */
-    public Topology<HoneyBee> getOnlookerBees() {
+    public fj.data.List<HoneyBee> getOnlookerBees() {
         return onlookerBees;
     }
 
@@ -294,7 +284,7 @@ public class ABC extends SinglePopulationBasedAlgorithm<HoneyBee> {
      * Set the {@code Topology}  containing the onlooker bees.
      * @param onlookerBees the new {@code Topology} containing the onlooker bees.
      */
-    public void setOnlookerBees(Topology<HoneyBee> onlookerBees) {
+    public void setOnlookerBees(fj.data.List<HoneyBee> onlookerBees) {
         this.onlookerBees = onlookerBees;
     }
 
@@ -302,7 +292,7 @@ public class ABC extends SinglePopulationBasedAlgorithm<HoneyBee> {
      * Get the {@code Topology}  containing the worker bees.
      * @return the {@code Topology} containing the worker bees.
      */
-    public Topology<HoneyBee> getWorkerBees() {
+    public fj.data.List<HoneyBee> getWorkerBees() {
         return workerBees;
     }
 
@@ -310,7 +300,7 @@ public class ABC extends SinglePopulationBasedAlgorithm<HoneyBee> {
      * Set the {@code Topology}  containing the worker bees.
      * @param workerBees the new {@code Topology} containing the worker bees.
      */
-    public void setWorkerBees(Topology<HoneyBee> workerBees) {
+    public void setWorkerBees(fj.data.List<HoneyBee> workerBees) {
         this.workerBees = workerBees;
     }
 }

@@ -8,13 +8,13 @@ package net.sourceforge.cilib.functions.continuous.decorators;
 
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Applies the decorated function to a specified range of the input vector.
  */
-public class RangeFunctionDecorator implements ContinuousFunction {
+public class RangeFunctionDecorator extends ContinuousFunction {
 
     private ContinuousFunction function;
     private ControlParameter start;
@@ -24,13 +24,13 @@ public class RangeFunctionDecorator implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         int fromIndex = Real.valueOf(start.getParameter()).intValue();
         int toIndex = Real.valueOf(end.getParameter()).intValue();
 
         Vector rangedInput = input.copyOfRange(fromIndex, toIndex);
 
-        return function.apply(rangedInput);
+        return function.f(rangedInput);
     }
 
     /**

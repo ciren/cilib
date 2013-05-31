@@ -20,7 +20,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Natural Computing, 1-50.
  * </p>
  */
-public class Weierstrass implements ContinuousFunction {
+public class Weierstrass extends ContinuousFunction {
     private double a;
     private double b;
     private int kMax;
@@ -41,7 +41,7 @@ public class Weierstrass implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double tmp = 0;
 
         for (int i = 0; i < input.size(); i++) {

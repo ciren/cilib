@@ -25,16 +25,16 @@ public class BBOB12 extends AbstractBBOB {
 	}
 
 	@Override
-	public Double apply(Vector input) {
+	public Double f(Vector input) {
 		initialise(input.size());
 
 		Vector z = input.subtract(xOpt);
 
 		r.setFunction(asymmetric);
-		return r.apply(z) + fOpt;
+		return r.f(z) + fOpt;
 	}
 
-	private class Inner implements ContinuousFunction {
+	private class Inner extends ContinuousFunction {
 		private BentCigar bentCigar;
 
 		public Inner() {
@@ -42,9 +42,9 @@ public class BBOB12 extends AbstractBBOB {
 		}
 
 		@Override
-		public Double apply(Vector input) {
+		public Double f(Vector input) {
 			r.setFunction(bentCigar);
-			return r.apply(input);
+			return r.f(input);
 		}
 	}
 }

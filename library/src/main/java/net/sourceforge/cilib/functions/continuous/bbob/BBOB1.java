@@ -20,10 +20,10 @@ public class BBOB1 extends AbstractBBOB {
 	}
 
 	@Override
-	public Double apply(Vector input) {
+	public Double f(Vector input) {
 		initialise(input.size());
 
 		Vector z = input.subtract(xOpt);
-		return sphere.apply(z) + fOpt;
+		return sphere.f(z) + fOpt;
 	}
 }

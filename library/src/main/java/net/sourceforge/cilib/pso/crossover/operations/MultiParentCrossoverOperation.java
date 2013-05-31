@@ -6,11 +6,11 @@
  */
 package net.sourceforge.cilib.pso.crossover.operations;
 
+import fj.F;
 import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.crossover.real.MultiParentCrossoverStrategy;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
@@ -63,24 +63,25 @@ public class MultiParentCrossoverOperation extends PSOCrossoverOperation {
     }
 
     @Override
-    public Topology<Particle> f(PSO pso) {
-        Topology<Particle> topology = pso.getTopology();
+    public fj.data.List<Particle> f(PSO pso) {
+        final fj.data.List<Particle> topology = pso.getTopology();
 
-        for (int i = 0; i < topology.size(); i++) {
-            Particle p = topology.get(i);
+        return topology.map(new F<Particle, Particle>() {
+			@Override
+			public Particle f(Particle p) {
+				if (random.getRandomNumber() < crossoverProbability.getParameter()) {
+	                List<Particle> parents = selector.on(topology).select(Samples.first(crossover.getNumberOfParents() - 1));
+	                parents.add(0, p);
 
-            if (random.getRandomNumber() < crossoverProbability.getParameter()) {
-                List<Particle> parents = selector.on(topology).select(Samples.first(crossover.getNumberOfParents() - 1));
-                parents.add(0, p);
+	                Particle offspring = crossover.crossover(parents).get(0);
+	                offspring.setNeighbourhoodBest(offspring);
 
-                Particle offspring = crossover.crossover(parents).get(0);
-                offspring.setNeighbourhoodBest(offspring);
-
-                topology.set(i, parentReplacementStrategy.f(Arrays.asList(p), Arrays.asList(offspring)).get(0));
-            }
-        }
-
-        return topology;
+	                return parentReplacementStrategy.f(Arrays.asList(p), Arrays.asList(offspring)).get(0);
+	            } else {
+	            	return p;
+	            }
+			}
+        });
     }
 
     public ParticleCrossoverStrategy getCrossover() {

@@ -23,7 +23,7 @@ public class CauchyMutationStrategy extends MutationStrategy {
     private static final long serialVersionUID = 8576581034467137106L;
     private double location;
     private ControlParameter scaleStrategy;
-    private ProbabilityDistributionFunction cauchy;
+    private final ProbabilityDistributionFunction cauchy;
 
     public CauchyMutationStrategy() {
         super();
@@ -51,7 +51,7 @@ public class CauchyMutationStrategy extends MutationStrategy {
      * {@inheritDoc}
      */
     @Override
-    public void mutate(List<? extends Entity> entity) {
+    public <E extends Entity> List<E> mutate(List<E> entity) {
         for (Entity current : entity) {
             Vector chromosome = (Vector) current.getCandidateSolution();
 
@@ -65,7 +65,7 @@ public class CauchyMutationStrategy extends MutationStrategy {
                 }
             }
         }
-
+        return entity;
     }
 
     public double getLocation() {

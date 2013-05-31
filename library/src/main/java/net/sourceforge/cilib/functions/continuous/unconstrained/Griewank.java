@@ -26,7 +26,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(-600, 600)^30
  *
  */
-public class Griewank implements ContinuousFunction {
+public class Griewank extends ContinuousFunction {
 
     private static final long serialVersionUID = 1095225532651577254L;
 
@@ -34,7 +34,7 @@ public class Griewank implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double sumsq = 0;
         double prod = 1;
         for (int i = 0; i < input.size(); ++i) {

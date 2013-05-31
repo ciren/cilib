@@ -12,7 +12,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This is a container class to store information about individual functions used
- * in hybrid composite functions of the CEC2005 benchmark functions. Rotation and 
+ * in hybrid composite functions of the CEC2005 benchmark functions. Rotation and
  * shifting is done through here rather than using separate decorator classes.
  * <p>
  * Parameters that must be set:
@@ -36,9 +36,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Natural Computing, 1-50. Available at: http://vg.perso.eisti.fr/These/Papiers/Bibli2/CEC05.pdf.
  * </p>
  */
-public class SingleFunction implements ContinuousFunction {
+public class SingleFunction extends ContinuousFunction {
     private ContinuousFunction function;
-    private RotatedFunctionDecorator rotationFunction;
+    private final RotatedFunctionDecorator rotationFunction;
     private double sigma;
     private double weight;
     private double lambda;
@@ -49,7 +49,7 @@ public class SingleFunction implements ContinuousFunction {
     private Vector shiftVector;
     private boolean initialised;
     private boolean randomShift;
-    
+
     /**
      * Default constructor.
      */
@@ -122,7 +122,7 @@ public class SingleFunction implements ContinuousFunction {
 
     public double getfMax() {
         return fmax;
-    }    
+    }
 
     public void setShifted(Vector shifted) {
         this.shifted = shifted;
@@ -147,7 +147,7 @@ public class SingleFunction implements ContinuousFunction {
     public void setMatrixType(String type) {
         rotationFunction.setMatrixType(type);
     }
-    
+
     /**
      * Sets the condition for the linear transformation matrix if it's used.
      * @param condition The condition of the matrix.
@@ -155,10 +155,10 @@ public class SingleFunction implements ContinuousFunction {
     public void setCondition(int condition) {
         rotationFunction.setCondition(condition);
     }
-    
+
     /**
      * Shifts the input vector.
-     * @param input 
+     * @param input
      */
     public void shift(Vector input) {
         if (shiftVector == null) {
@@ -175,13 +175,13 @@ public class SingleFunction implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         //need to get input's size to set fMax
         if (!initialised) {
-            setfMax(Math.abs(rotationFunction.apply(Vector.fill(5.0, input.size()).divide(lambda))));
+            setfMax(Math.abs(rotationFunction.f(Vector.fill(5.0, input.size()).divide(lambda))));
             initialised = true;
         }
 
-        return rotationFunction.apply(shifted.divide(lambda)) / getfMax();
+        return rotationFunction.f(shifted.divide(lambda)) / getfMax();
     }
 }

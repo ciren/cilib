@@ -53,7 +53,7 @@ public class CrossoverOperator implements Operator {
         return new CrossoverOperator(this);
     }
 
-    public <E extends Entity> List<E> crossover(List<E> parentCollection) {
+    public <E extends Entity> List<E> crossover(fj.data.List<E> parentCollection) {
         if (randomDistribution.getRandomNumber() < crossoverProbability.getParameter()) {
             return crossoverStrategy.crossover(selectionStrategy
                     .on(parentCollection).select(Samples

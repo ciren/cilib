@@ -15,7 +15,7 @@ import net.sourceforge.cilib.math.random.generator.Rand;
 public class BBOB5 extends AbstractBBOB {
 
 	@Override
-	public Double apply(Vector input) {
+	public Double f(Vector input) {
 		int size = input.size();
 
 		if (xOpt.size() != size) {

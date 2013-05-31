@@ -6,9 +6,8 @@
  */
 package net.sourceforge.cilib.ff;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import java.util.List;
+
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
@@ -18,6 +17,8 @@ import net.sourceforge.cilib.ff.firefly.Firefly;
 import net.sourceforge.cilib.ff.firefly.StandardFirefly;
 import net.sourceforge.cilib.ff.iterationstrategies.StandardFireflyIterationStrategy;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
+
+import com.google.common.collect.Lists;
 
 /**
  * <p>
@@ -71,8 +72,7 @@ public class FFA extends SinglePopulationBasedAlgorithm<Firefly> {
      */
     @Override
     public void algorithmInitialisation() {
-        topology.clear();
-        Iterables.addAll(topology, initialisationStrategy.initialise(optimisationProblem));
+    	topology = fj.data.List.iterableList(initialisationStrategy.<Firefly>initialise(optimisationProblem));
 
         for (Firefly f : topology) {
             f.calculateFitness();
@@ -121,7 +121,7 @@ public class FFA extends SinglePopulationBasedAlgorithm<Firefly> {
     @Override
     public List<OptimisationSolution> getSolutions() {
         List<OptimisationSolution> solutions = Lists.newLinkedList();
-        for (Firefly e : Topologies.getNeighbourhoodBestEntities(topology, new DescendingFitnessComparator<Firefly>())) {
+        for (Firefly e : Topologies.getNeighbourhoodBestEntities(topology, neighbourhood, new DescendingFitnessComparator<Firefly>())) {
             solutions.add(new OptimisationSolution(e.getPosition(), e.getFitness()));
         }
         return solutions;

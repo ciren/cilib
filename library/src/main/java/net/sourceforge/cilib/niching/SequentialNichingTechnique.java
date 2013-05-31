@@ -6,26 +6,26 @@
  */
 package net.sourceforge.cilib.niching;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
+
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.DeratingOptimisationProblem;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-public class SequentialNichingTechnique extends AbstractAlgorithm implements PopulationBasedAlgorithm {
-    private PopulationBasedAlgorithm algorithm;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
+
+public class SequentialNichingTechnique<E extends Entity> extends SinglePopulationBasedAlgorithm<E> {
+    private SinglePopulationBasedAlgorithm algorithm;
     private ControlParameter threshold;
     protected List<OptimisationSolution> solutions;
 
@@ -53,7 +53,7 @@ public class SequentialNichingTechnique extends AbstractAlgorithm implements Pop
 
     @Override
     protected void algorithmIteration() {
-        AbstractAlgorithm alg = (AbstractAlgorithm) algorithm.getClone();
+        AbstractAlgorithm alg = algorithm.getClone();
         alg.setOptimisationProblem(optimisationProblem);
         alg.performInitialisation();
 
@@ -70,7 +70,7 @@ public class SequentialNichingTechnique extends AbstractAlgorithm implements Pop
     }
 
     @Override
-    public Topology<? extends Entity> getTopology() {
+    public fj.data.List<E> getTopology() {
         return algorithm.getTopology();
     }
 
@@ -85,13 +85,7 @@ public class SequentialNichingTechnique extends AbstractAlgorithm implements Pop
     }
 
     @Override
-    public Object accept(TopologyVisitor visitor) {
-        visitor.visit(algorithm.getTopology());
-        return visitor.getResult();
-    }
-
-    @Override
-    public void setInitialisationStrategy(PopulationInitialisationStrategy<? extends Entity> initialisationStrategy) {
+    public void setInitialisationStrategy(PopulationInitialisationStrategy initialisationStrategy) {
         algorithm.setInitialisationStrategy(initialisationStrategy);
     }
 
@@ -107,11 +101,11 @@ public class SequentialNichingTechnique extends AbstractAlgorithm implements Pop
         optimisationProblem = problem;
     }
 
-    public void setAlgorithm(PopulationBasedAlgorithm algorithm) {
+    public void setAlgorithm(SinglePopulationBasedAlgorithm algorithm) {
         this.algorithm = algorithm;
     }
 
-    public PopulationBasedAlgorithm getAlgorithm() {
+    public SinglePopulationBasedAlgorithm getAlgorithm() {
         return algorithm;
     }
 

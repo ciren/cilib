@@ -6,26 +6,25 @@
  */
 package net.sourceforge.cilib.niching;
 
-import fj.F;
-import fj.P;
-import fj.P2;
-import fj.data.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
 import net.sourceforge.cilib.niching.creation.NicheDetection;
 import net.sourceforge.cilib.niching.merging.MergeStrategy;
 import net.sourceforge.cilib.niching.merging.StandardMergeStrategy;
 import net.sourceforge.cilib.niching.merging.detection.MergeDetection;
 import net.sourceforge.cilib.util.functions.Populations;
+import fj.F;
+import fj.P;
+import fj.P2;
+import fj.data.List;
 
 /**
  * These are generic functions used in NichingFunctions algorithms. e.g. Merging, absorption, sub-population creation. They
  * use given strategies to accomplish a task and can be seen as higher order functions.
  */
 public final class NichingFunctions {
-    
+
     public abstract static class NichingFunction extends F<NichingSwarms, NichingSwarms> {
     }
 
@@ -50,16 +49,16 @@ public final class NichingFunctions {
                     return swarms;
                 }
 
-                PopulationBasedAlgorithm newMainSwarm = swarms.getSubswarms().tail()
+                SinglePopulationBasedAlgorithm newMainSwarm = swarms.getSubswarms().tail()
                         .filter(mergeDetection.f(swarms.getSubswarms().head()))
                         .foldLeft(mainSwarmMergeStrategy, swarms.getMainSwarm());
 
-                PopulationBasedAlgorithm mergedSwarms = swarms.getSubswarms().tail()
+                SinglePopulationBasedAlgorithm mergedSwarms = swarms.getSubswarms().tail()
                         .filter(mergeDetection.f(swarms.getSubswarms().head()))
                         .foldLeft(subSwarmsMergeStrategy, swarms.getSubswarms().head());
 
                 NichingSwarms newSwarms =
-                        this.f(NichingSwarms.of(newMainSwarm, 
+                        this.f(NichingSwarms.of(newMainSwarm,
                         swarms.getSubswarms().tail().removeAll(mergeDetection.f(swarms.getSubswarms().head()))));
 
                 return NichingSwarms.of(newSwarms.getMainSwarm(), List.cons(mergedSwarms, newSwarms.getSubswarms()));
@@ -79,27 +78,27 @@ public final class NichingFunctions {
      * @return A tuple containing the main swarm in the first element and the sub-swarm with absorbed entities in
      * the second element.
      */
-    public static F<NichingSwarms, P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm>> absorbSingleSwarm(
+    public static F<NichingSwarms, P2<SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm>> absorbSingleSwarm(
             final MergeDetection absorptionDetection,
             final MergeStrategy mainSwarmAbsorptionStrategy,
             final MergeStrategy subSwarmsAbsorptionStrategy) {
-        return new F<NichingSwarms, P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm>>() {
+        return new F<NichingSwarms, P2<SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm>>() {
 
             @Override
-            public P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> f(NichingSwarms swarms) {
-                PopulationBasedAlgorithm newSubSwarm = swarms.getSubswarms()
+            public P2<SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm> f(NichingSwarms swarms) {
+                SinglePopulationBasedAlgorithm newSubSwarm = swarms.getSubswarms()
                         .filter(absorptionDetection.f(swarms.getMainSwarm()))
                         .foldLeft(subSwarmsAbsorptionStrategy, swarms.getMainSwarm());
 
-                PopulationBasedAlgorithm unmergedSwarms = swarms.getSubswarms()
+                SinglePopulationBasedAlgorithm unmergedSwarms = swarms.getSubswarms()
                         .removeAll(absorptionDetection.f(swarms.getMainSwarm()))
                         .foldLeft(new StandardMergeStrategy(), Populations.emptyPopulation().f(swarms.getSubswarms().head()));
 
-                PopulationBasedAlgorithm mergedSwarms = swarms.getSubswarms()
+                SinglePopulationBasedAlgorithm mergedSwarms = swarms.getSubswarms()
                         .filter(absorptionDetection.f(swarms.getMainSwarm()))
                         .foldLeft(new StandardMergeStrategy(), Populations.emptyPopulation().f(swarms.getSubswarms().head()));
 
-                PopulationBasedAlgorithm newMainSwarm = mainSwarmAbsorptionStrategy.f(unmergedSwarms, mergedSwarms);
+                SinglePopulationBasedAlgorithm newMainSwarm = mainSwarmAbsorptionStrategy.f(unmergedSwarms, mergedSwarms);
 
                 return P.p(newMainSwarm, newSubSwarm);
             }
@@ -130,7 +129,7 @@ public final class NichingFunctions {
                     return swarms;
                 }
 
-                P2<PopulationBasedAlgorithm, PopulationBasedAlgorithm> newPopulations =
+                P2<SinglePopulationBasedAlgorithm, SinglePopulationBasedAlgorithm> newPopulations =
                         absorbSingleSwarm(absorptionDetection, mainSwarmAbsorptionStrategy, subSwarmsAbsorptionStrategy)
                         .f(NichingSwarms.of(swarms.getSubswarms().head(), Populations.populationToAlgorithms().f(swarms.getMainSwarm())));
 
@@ -157,7 +156,7 @@ public final class NichingFunctions {
 
             @Override
             public NichingSwarms f(NichingSwarms swarms) {
-                List<Entity> entities = List.<Entity>iterableList((Topology<Entity>) swarms.getMainSwarm().getTopology());
+                List<Entity> entities = swarms.getMainSwarm().getTopology();
                 List<Entity> filteredEntities = entities.filter(nicheDetection.f(swarms.getMainSwarm()));
 
                 NichingSwarms createdSwarms = swarms;
@@ -165,8 +164,8 @@ public final class NichingFunctions {
                     createdSwarms = creationStrategy.f(createdSwarms, e);
                 }
 
-                PopulationBasedAlgorithm newMainSwarm = createdSwarms.getMainSwarm();
-                List<PopulationBasedAlgorithm> currentSubswarm = createdSwarms.getSubswarms();
+                SinglePopulationBasedAlgorithm newMainSwarm = createdSwarms.getMainSwarm();
+                List<SinglePopulationBasedAlgorithm> currentSubswarm = createdSwarms.getSubswarms();
                 for (int i = 0; i < createdSwarms.getSubswarms().length() - swarms.getSubswarms().length(); i++) {
                     newMainSwarm = mainSwarmCreationMergingStrategy.f(newMainSwarm, currentSubswarm.head());
                     currentSubswarm = currentSubswarm.tail();

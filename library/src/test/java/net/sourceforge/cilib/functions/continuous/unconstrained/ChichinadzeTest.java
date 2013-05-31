@@ -27,7 +27,7 @@ public class ChichinadzeTest {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(5.90133, 0.5);
-        assertEquals(-43.31586206998933, function.apply(x), 0);
+        assertEquals(-43.31586206998933, function.f(x), 0);
     }
 
     /**
@@ -35,6 +35,6 @@ public class ChichinadzeTest {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0));
+        function.f(Vector.of(1.0, 2.0, 3.0));
     }
 }

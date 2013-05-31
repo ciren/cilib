@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.functions.continuous.bbob;
 
-import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Katsuura;
 import net.sourceforge.cilib.functions.continuous.decorators.AsymmetricFunctionDecorator;
 import net.sourceforge.cilib.functions.continuous.decorators.RotatedFunctionDecorator;
@@ -30,9 +29,9 @@ public class BBOB23 extends AbstractBBOB {
 	}
 
 	@Override
-	public Double apply(Vector input) {
+	public Double f(Vector input) {
 		initialise(input.size());
 
-		return r.apply(input.subtract(xOpt)) + pen.apply(input) + fOpt;
+		return r.f(input.subtract(xOpt)) + pen.f(input) + fOpt;
 	}
 }

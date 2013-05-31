@@ -42,7 +42,6 @@ public abstract class SinglePopulationDataClusteringIterationStrategy extends Ab
         window = new SlidingWindow();
         reinitialisationInterval = 1;
         dimensions = 0;
-
     }
 
     /*

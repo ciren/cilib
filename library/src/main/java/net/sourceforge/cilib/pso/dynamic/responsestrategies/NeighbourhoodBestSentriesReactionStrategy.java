@@ -6,11 +6,12 @@
  */
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topologies;
+import net.sourceforge.cilib.pso.particle.Particle;
 
-public class NeighbourhoodBestSentriesReactionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy<E> {
+public class NeighbourhoodBestSentriesReactionStrategy<E extends SinglePopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy {
     private static final long serialVersionUID = -2142727048293776335L;
 
     public NeighbourhoodBestSentriesReactionStrategy(NeighbourhoodBestSentriesReactionStrategy<E> rhs) {
@@ -23,8 +24,9 @@ public class NeighbourhoodBestSentriesReactionStrategy<E extends PopulationBased
     }
 
     @Override
-    public void performReaction(PopulationBasedAlgorithm algorithm) {
-        for (Entity entity : Topologies.getNeighbourhoodBestEntities(algorithm.getTopology())) {
+	protected <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void performReaction(
+			A algorithm) {
+        for (Entity entity : Topologies.getNeighbourhoodBestEntities(algorithm.getTopology(), algorithm.getNeighbourhood())) {
             entity.getCandidateSolution().randomise();
             // TODO: What is the influence of reevaluation?
 //            entity.calculateFitness(false);

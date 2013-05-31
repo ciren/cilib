@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.coevolution.cooperative.heterogeneous;
 
 import java.util.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.PerfectSplitDistributionStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.ProblemDistributionStrategy;
 import net.sourceforge.cilib.problem.Problem;
@@ -26,7 +26,7 @@ public class RecalculateProblemRedistributionStrategy implements
     /**
      * {@inheritDoc}
      */
-    public void redistributeProblem(List<PopulationBasedAlgorithm> populations, Problem problem, ProblemDistributionStrategy distributionStrategy, Vector context) {
+    public void redistributeProblem(List<SinglePopulationBasedAlgorithm> populations, Problem problem, ProblemDistributionStrategy distributionStrategy, Vector context) {
         distributionStrategy.performDistribution(populations, problem, context);
     }
 

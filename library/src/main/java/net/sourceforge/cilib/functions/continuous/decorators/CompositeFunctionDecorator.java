@@ -17,7 +17,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * returns F_outer(F_inner(input))
  * </p>
  */
-public class CompositeFunctionDecorator implements ContinuousFunction {
+public class CompositeFunctionDecorator extends ContinuousFunction {
     private ContinuousFunction innerFunction;
     private ContinuousFunction outerFunction;
 
@@ -25,8 +25,8 @@ public class CompositeFunctionDecorator implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
-        return outerFunction.apply(Vector.of(innerFunction.apply(input)));
+    public Double f(Vector input) {
+        return outerFunction.f(Vector.of(innerFunction.f(input)));
     }
 
     /**
@@ -44,7 +44,7 @@ public class CompositeFunctionDecorator implements ContinuousFunction {
     public void setInnerFunction(ContinuousFunction function) {
         this.innerFunction = function;
     }
-    
+
     /**
      * Get the decorated function.
      * @return The decorated function.

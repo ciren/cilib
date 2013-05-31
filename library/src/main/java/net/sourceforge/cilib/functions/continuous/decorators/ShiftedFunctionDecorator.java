@@ -29,7 +29,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *             (c < 0) means that g(x) is f(x) shifted c units downwards
  *
  */
-public class ShiftedFunctionDecorator implements ContinuousFunction {
+public class ShiftedFunctionDecorator extends ContinuousFunction {
 
     private static final long serialVersionUID = 8687711759870298103L;
     private ContinuousFunction function;
@@ -49,16 +49,12 @@ public class ShiftedFunctionDecorator implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
-        if (randomShift) {
-            if (shiftVector == null || input.size() != shiftVector.size()) {
-                shiftVector = Vector.newBuilder().copyOf(input).buildRandom();
-            }
-        } else {
-            shiftVector = Vector.fill(horizontalShift.getParameter(), input.size());
-        }
-        
-        return function.apply(input.subtract(shiftVector)) + verticalShift.getParameter();
+    public Double f(Vector input) {
+        shiftVector = randomShift
+                ? (shiftVector == null || input.size() != shiftVector.size()) ? Vector.newBuilder().copyOf(input).buildRandom() : shiftVector
+                : Vector.fill(horizontalShift.getParameter(), input.size());
+
+        return function.f(input.subtract(shiftVector)) + verticalShift.getParameter();
     }
 
     /**
@@ -88,7 +84,7 @@ public class ShiftedFunctionDecorator implements ContinuousFunction {
      * @param horizontalShift The amount of horizontal shift.
      */
     public void setHorizontalShift(ControlParameter horizontalShift) {
-        this.horizontalShift = horizontalShift;        
+        this.horizontalShift = horizontalShift;
     }
 
     /**

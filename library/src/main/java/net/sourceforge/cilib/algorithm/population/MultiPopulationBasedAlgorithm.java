@@ -6,9 +6,11 @@
  */
 package net.sourceforge.cilib.algorithm.population;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.iterator.AlgorithmIterator;
 import net.sourceforge.cilib.algorithm.iterator.SequentialAlgorithmIterator;
@@ -27,18 +29,18 @@ import net.sourceforge.cilib.algorithm.iterator.SequentialAlgorithmIterator;
  * </ul>
  *
  */
-public abstract class MultiPopulationBasedAlgorithm extends AbstractAlgorithm implements Iterable<PopulationBasedAlgorithm> {
+public abstract class MultiPopulationBasedAlgorithm extends AbstractAlgorithm implements Iterable<SinglePopulationBasedAlgorithm> {
     private static final long serialVersionUID = -5311450612897848103L;
 
-    protected List<PopulationBasedAlgorithm> subPopulationsAlgorithms;
-    protected AlgorithmIterator<PopulationBasedAlgorithm> algorithmIterator;
+    protected List<SinglePopulationBasedAlgorithm> subPopulationsAlgorithms;
+    protected AlgorithmIterator<SinglePopulationBasedAlgorithm> algorithmIterator;
 
     /**
      * Create an instance of {@linkplain MultiPopulationBasedAlgorithm}.
      */
     public MultiPopulationBasedAlgorithm() {
-        this.subPopulationsAlgorithms = new ArrayList<PopulationBasedAlgorithm>();
-        this.algorithmIterator = new SequentialAlgorithmIterator<PopulationBasedAlgorithm>();
+        this.subPopulationsAlgorithms = Lists.newArrayList();
+        this.algorithmIterator = new SequentialAlgorithmIterator<SinglePopulationBasedAlgorithm>();
         this.algorithmIterator.setAlgorithms(this.subPopulationsAlgorithms);
     }
 
@@ -48,9 +50,9 @@ public abstract class MultiPopulationBasedAlgorithm extends AbstractAlgorithm im
      */
     public MultiPopulationBasedAlgorithm(MultiPopulationBasedAlgorithm copy) {
         super(copy);
-        subPopulationsAlgorithms = new ArrayList<PopulationBasedAlgorithm>();
+        subPopulationsAlgorithms = Lists.newArrayList();
 
-        for (PopulationBasedAlgorithm algorithm : copy.subPopulationsAlgorithms) {
+        for (SinglePopulationBasedAlgorithm algorithm : copy.subPopulationsAlgorithms) {
             subPopulationsAlgorithms.add(algorithm.getClone());
         }
 
@@ -62,7 +64,7 @@ public abstract class MultiPopulationBasedAlgorithm extends AbstractAlgorithm im
      * {@inheritDoc}
      */
     @Override
-    public Iterator<PopulationBasedAlgorithm> iterator() {
+    public Iterator<SinglePopulationBasedAlgorithm> iterator() {
         return this.algorithmIterator.getClone();
     }
 
@@ -76,7 +78,7 @@ public abstract class MultiPopulationBasedAlgorithm extends AbstractAlgorithm im
      * Get the {@linkplain List} of current sub-populations.
      * @return The {@linkplain List} of {@linkplain PopulationBasedAlgorithm}.
      */
-    public List<PopulationBasedAlgorithm> getPopulations() {
+    public List<SinglePopulationBasedAlgorithm> getPopulations() {
         return subPopulationsAlgorithms;
     }
 
@@ -85,7 +87,7 @@ public abstract class MultiPopulationBasedAlgorithm extends AbstractAlgorithm im
      * {@linkplain MultiPopulationBasedAlgorithm} should maintain.
      * @param populationBasedAlgorithms The {@linkplain List} of {@linkplain PopulationBasedAlgorithm}s to set.
      */
-    public void setPopulations(List<PopulationBasedAlgorithm> populationBasedAlgorithms) {
+    public void setPopulations(List<SinglePopulationBasedAlgorithm> populationBasedAlgorithms) {
         this.subPopulationsAlgorithms = populationBasedAlgorithms;
     }
 
@@ -93,7 +95,7 @@ public abstract class MultiPopulationBasedAlgorithm extends AbstractAlgorithm im
      * Add a {@linkplain PopulationBasedAlgorithm} to the list of maintained sub-populations.
      * @param algorithm The {@linkplain PopulationBasedAlgorithm} to add to the current collection.
      */
-    public void addPopulationBasedAlgorithm(PopulationBasedAlgorithm algorithm) {
+    public void addPopulationBasedAlgorithm(SinglePopulationBasedAlgorithm algorithm) {
         this.subPopulationsAlgorithms.add(algorithm);
     }
 
@@ -102,7 +104,7 @@ public abstract class MultiPopulationBasedAlgorithm extends AbstractAlgorithm im
      * instances.
      * @param algorithm The instance to remove from the collection.
      */
-    public void removePopulationBasedalgorithm(PopulationBasedAlgorithm algorithm) {
+    public void removePopulationBasedalgorithm(SinglePopulationBasedAlgorithm algorithm) {
         this.subPopulationsAlgorithms.remove(algorithm);
     }
 
@@ -111,7 +113,7 @@ public abstract class MultiPopulationBasedAlgorithm extends AbstractAlgorithm im
      * {@linkplain PopulationBasedAlgorithm}s.
      * @return An {@linkplain AlgorithmIterator} over the current collection.
      */
-    public AlgorithmIterator<PopulationBasedAlgorithm> getAlgorithmIterator() {
+    public AlgorithmIterator<SinglePopulationBasedAlgorithm> getAlgorithmIterator() {
         return algorithmIterator;
     }
 
@@ -119,7 +121,7 @@ public abstract class MultiPopulationBasedAlgorithm extends AbstractAlgorithm im
      * Set the type of iterator to be used.
      * @param algorithmIterator The iterator instance to set.
      */
-    public void setAlgorithmIterator(AlgorithmIterator<PopulationBasedAlgorithm> algorithmIterator) {
+    public void setAlgorithmIterator(AlgorithmIterator<SinglePopulationBasedAlgorithm> algorithmIterator) {
         this.algorithmIterator = algorithmIterator;
         this.algorithmIterator.setAlgorithms(this.subPopulationsAlgorithms);
     }

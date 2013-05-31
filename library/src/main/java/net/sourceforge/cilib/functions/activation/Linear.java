@@ -14,21 +14,20 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * is unbounded, the linear function has no active range, and
  * these values are set to positive and negative max double.
  */
-public class Linear implements ActivationFunction {
+public class Linear extends ActivationFunction {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Real apply(Real input) {
+    public Real f(Real input) {
         return input;
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
-    public double apply(double input) {
+    public double f(double input) {
         return input;
     }
 

@@ -20,6 +20,8 @@ import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.google.common.collect.Lists;
+
 /**
  *
  */
@@ -36,14 +38,12 @@ public class OnePointCrossoverStrategyTest {
         i1.setFitnessCalculator(new MockFitnessCalculator());
         i2.setFitnessCalculator(new MockFitnessCalculator());
 
-        List<Entity> parents = new ArrayList<Entity>();
-        parents.add(i1);
-        parents.add(i2);
+        List<Individual> parents = Lists.newArrayList(i1, i2);
 
         CrossoverOperator crossoverStrategy = new CrossoverOperator();
         crossoverStrategy.setCrossoverStrategy(new OnePointCrossoverStrategy());
         crossoverStrategy.setCrossoverProbability(ConstantControlParameter.of(1.0));
-        List<Entity> children = (List<Entity>) crossoverStrategy.crossover(parents);
+        List<Individual> children = crossoverStrategy.crossover(fj.data.List.iterableList(parents));
 
         Vector child1 = (Vector) children.get(0).getCandidateSolution();
         Vector child2 = (Vector) children.get(1).getCandidateSolution();

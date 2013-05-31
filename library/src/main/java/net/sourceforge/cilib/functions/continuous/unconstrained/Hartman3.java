@@ -6,9 +6,10 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import com.google.common.base.Preconditions;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import com.google.common.base.Preconditions;
 
 /**
  * <p><b>Hartman3.</b></p>
@@ -24,7 +25,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(0,1)^3
  *
  */
-public class Hartman3 implements ContinuousFunction {
+public class Hartman3 extends ContinuousFunction {
 
     private final double A[][] = {
         {3.0, 10.0, 30.0},
@@ -46,7 +47,7 @@ public class Hartman3 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() == 3, "Hartman3 function is only defined for 3 dimensions");
 
         double outerSum = 0.0;

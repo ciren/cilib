@@ -6,17 +6,17 @@
  */
 package net.sourceforge.cilib.entity.operators.creation;
 
-import fj.P1;
 import java.util.Iterator;
 import java.util.List;
+
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.SettableControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
+import fj.P1;
 
 public class RandCreationStrategy implements CreationStrategy {
 
@@ -54,7 +54,7 @@ public class RandCreationStrategy implements CreationStrategy {
      * {@inheritDoc}
      */
     @Override
-    public <T extends Entity> T create(T targetEntity, T current, Topology<T> topology) {
+    public <T extends Entity> T create(T targetEntity, T current, fj.data.List<T> topology) {
         int number = Double.valueOf(this.numberOfDifferenceVectors.getParameter()).intValue();
         List<T> participants = Selection.copyOf(topology)
                 .exclude(targetEntity, current)

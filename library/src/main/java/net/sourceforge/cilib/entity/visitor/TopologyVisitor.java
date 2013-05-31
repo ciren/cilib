@@ -6,9 +6,8 @@
  */
 package net.sourceforge.cilib.entity.visitor;
 
-import net.sourceforge.cilib.util.Visitor;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
+import fj.F;
 
 /**
  * Interface for all visitor instances that visit an entire {@link Topology}
@@ -17,18 +16,5 @@ import net.sourceforge.cilib.entity.Topology;
  * radius calculations of the provided topologies.
  *
  */
-public interface TopologyVisitor extends Visitor<Topology<? extends Entity>> {
-    /**
-     * Perfrom the visit operation on the provided {@link Topology}.
-     * @param topology The {@link Topology} to visit.
-     */
-    @Override
-    public void visit(Topology<? extends Entity> topology);
-
-    /**
-     * Get the result of the visitor after it has performed the visit()
-     * action.
-     * @return The result of the visit()
-     */
-    public Object getResult();
+public abstract class TopologyVisitor<E extends Entity, A> extends F<fj.data.List<E>, A> {
 }

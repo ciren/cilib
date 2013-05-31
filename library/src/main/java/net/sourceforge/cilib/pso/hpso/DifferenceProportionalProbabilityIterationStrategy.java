@@ -121,18 +121,18 @@ public class DifferenceProportionalProbabilityIterationStrategy implements Itera
      */
     private void setRigidParticles(PSO algorithm) {
         if(algorithm.getIterations() == 0) {
-            checkState(algorithm.getTopology().size() >= behaviorPool.size() * rigidCountPerBehavior.getParameter(), "There are not enough particles for your chosen rigid particle count and behavior count.");
+            checkState(algorithm.getTopology().length() >= behaviorPool.size() * rigidCountPerBehavior.getParameter(), "There are not enough particles for your chosen rigid particle count and behavior count.");
 
             //assuming the behaviors in the intialisationstrategy are the same as the behaviors in behaviorpool
             setBehaviorPool(((HeterogeneousPopulationInitialisationStrategy) algorithm.getInitialisationStrategy()).getBehaviorPool());
-            List<Particle> top = algorithm.getTopology();
+            fj.data.List<Particle> top = algorithm.getTopology();
 
             for(int j = 0; j < behaviorPool.size(); j++) {
                 List<Particle> rigidParticleList = new ArrayList<Particle>();
 
                 for(int i = 0; i < rigidCountPerBehavior.getParameter(); i++) {
-                    top.get(i + (int) rigidCountPerBehavior.getParameter()*j).setParticleBehavior(behaviorPool.get(j));
-                    rigidParticleList.add(top.get(i + (int) rigidCountPerBehavior.getParameter() * j));
+                    top.index(i + (int) rigidCountPerBehavior.getParameter()*j).setParticleBehavior(behaviorPool.get(j));
+                    rigidParticleList.add(top.index(i + (int) rigidCountPerBehavior.getParameter() * j));
                 }
 
                 rigidParticles.put(behaviorPool.get(j), rigidParticleList);

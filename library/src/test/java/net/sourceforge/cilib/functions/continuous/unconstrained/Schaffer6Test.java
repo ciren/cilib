@@ -27,10 +27,10 @@ public class Schaffer6Test {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(0.0, 0.0);
-        assertEquals(0.0, function.apply(x), 0.0);
+        assertEquals(0.0, function.f(x), 0.0);
 
         x.setReal(0, 1.0);
         x.setReal(1, 2.0);
-        assertEquals(0.487876218701666, function.apply(x), 0.0000000001);
+        assertEquals(0.487876218701666, function.f(x), 0.0000000001);
     }
 }

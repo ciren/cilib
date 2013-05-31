@@ -15,7 +15,6 @@ import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 
 /**
  * Velocity update for the Coherence PSO.
@@ -23,10 +22,10 @@ import net.sourceforge.cilib.util.Vectors;
 public class CoherenceVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = -9051938755796130230L;
-    private ControlParameter scalingFactor;
-    private ProbabilityDistributionFunction randomNumber;
-    private Sigmoid sigmoid;
-    private VelocityProvider delegate;
+    private final ControlParameter scalingFactor;
+    private final ProbabilityDistributionFunction randomNumber;
+    private final Sigmoid sigmoid;
+    private final VelocityProvider delegate;
 
     /**
      * Create an instance of {@linkplain CoherenceVelocityProvider}.
@@ -84,7 +83,7 @@ public class CoherenceVelocityProvider implements VelocityProvider {
         double swarmCenterVelocity = averageVelocity.norm();
         double swarmCoherence = calculateSwarmCoherence(swarmCenterVelocity, averageParticleVelocity);
 
-        double sigmoidValue = this.sigmoid.apply(swarmCoherence);
+        double sigmoidValue = this.sigmoid.f(swarmCoherence);
 
         Vector standardVelocity = this.delegate.get(particle);
 
@@ -95,7 +94,7 @@ public class CoherenceVelocityProvider implements VelocityProvider {
         }
         Vector coherence = builder.build();
 
-        return Vectors.sumOf(standardVelocity, coherence);
+        return standardVelocity.plus(coherence);
 
 
 //        float social = socialRandomGenerator.nextFloat();

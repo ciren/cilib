@@ -6,16 +6,15 @@
  */
 package net.sourceforge.cilib.niching.iterationstrategies;
 
-import fj.F;
-import fj.data.List;
-import java.util.Collection;
 import java.util.Set;
+
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
+import fj.F;
 
 /**
  * Reinitialises redundant particles but leaves the neighbourhood bests intact.
@@ -41,8 +40,8 @@ public class EnhancedSpeciation extends AbstractIterationStrategy<PSO> {
     public void performIteration(PSO algorithm) {
         delegate.performIteration(algorithm);
 
-        final Set<Particle> nBests = (Set<Particle>) Topologies.getNeighbourhoodBestEntities(algorithm.getTopology());
-        Collection<Particle> newTopology =  List.iterableList(algorithm.getTopology()).map(new F<Particle, Particle>() {
+        final Set<Particle> nBests = (Set<Particle>) Topologies.getNeighbourhoodBestEntities(algorithm.getTopology(), algorithm.getNeighbourhood());
+        algorithm.setTopology(algorithm.getTopology().map(new F<Particle, Particle>() {
             @Override
             public Particle f(Particle a) {
                 if (a.getFitness().compareTo(a.getNeighbourhoodBest().getFitness()) == 0 && !nBests.contains(a)) {
@@ -51,8 +50,6 @@ public class EnhancedSpeciation extends AbstractIterationStrategy<PSO> {
 
                 return a;
             }
-        }).toCollection();
-        algorithm.getTopology().clear();
-        algorithm.getTopology().addAll(newTopology);
+        }));
     }
 }

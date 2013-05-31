@@ -33,7 +33,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(0, 3.141592653589793)^10
  *
  */
-public class Michalewicz implements ContinuousFunction {
+public class Michalewicz extends ContinuousFunction {
 
     private static final long serialVersionUID = -4391269929189674709L;
     /**
@@ -46,7 +46,7 @@ public class Michalewicz implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double sumsq = 0.0;
 
         for (int i = 0; i < input.size(); i++) {
