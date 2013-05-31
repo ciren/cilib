@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>
+        <algorithm id="gbest" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100000">
+                <measurement class="measurement.single.FitnessEvaluations"/>
+            </addStoppingCondition>
+
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityNumber value="25"/>
+                <entityType class="pso.particle.StandardParticle">
+                    <velocityProvider class="pso.velocityprovider.ConstrictionVelocityProvider"/>
+                </entityType>
+            </initialisationStrategy>
+
+            <iterationStrategy class="pso.iterationstrategies.PSPGIterationStrategy">
+                <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy"/>
+
+                <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
+                    <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
+                        <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
+                        <numberOfOffspring class="controlparameter.ConstantControlParameter" parameter="3"/>
+                        <parentProvider class="entity.operators.crossover.parentprovider.BestParentProvider"/>
+                        <sigma1 class="controlparameter.ConstantControlParameter" parameter="0.1"/>
+                        <sigma2 class="controlparameter.ConstantControlParameter" parameter="0.1"/>
+                    </crossoverStrategy>
+                </crossoverStrategy>
+
+                <iterationProbability class="controlparameter.ConstantControlParameter" parameter="0.05"/>
+            </iterationStrategy>
+        </algorithm>
+    </algorithms>
+
+    <problems>
+        <problem id="schwefel" class="problem.FunctionOptimisationProblem" domain="R(-10:10)^30">
+            <function class="functions.continuous.unconstrained.SchwefelProblem2_22"/>
+        </problem>
+        <problem id="rosenbrock" class="problem.FunctionOptimisationProblem" domain="R(-30:30)^30">
+            <function class="functions.continuous.unconstrained.Rosenbrock"/>
+        </problem>
+        <problem id="rastrigin" class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
+            <function class="functions.continuous.unconstrained.Rastrigin"/>
+        </problem>
+        <problem id="griewank" class="problem.FunctionOptimisationProblem" domain="R(-600:600)^30">
+            <function class="functions.continuous.unconstrained.Griewank"/>
+        </problem>
+        <problem id="quadric" class="problem.FunctionOptimisationProblem" domain="R(-1.28:1.28)^30">
+            <function class="functions.continuous.unconstrained.Quadric"/>
+        </problem>
+        <problem id="ackley" class="problem.FunctionOptimisationProblem" domain="R(32:32)^30">
+            <function class="functions.continuous.unconstrained.Ackley"/>
+        </problem>
+        <problem id="step" class="problem.FunctionOptimisationProblem" domain="R(-100:100)^30">
+            <function class="functions.continuous.unconstrained.Step"/>
+        </problem>
+    </problems>
+
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.Fitness"/>
+    </measurements>
+
+    <simulations>
+        <simulation samples="10">
+            <algorithm idref="gbest"/>
+            <problem idref="schwefel"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/pspg-schwefel.txt" />
+        </simulation>
+        <simulation samples="10">
+            <algorithm idref="gbest"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/pspg-rosenbrock.txt"/>
+        </simulation>
+        <simulation samples="10">
+            <algorithm idref="gbest"/>
+            <problem idref="rastrigin"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/pspg-rastrigin.txt"/>
+        </simulation>
+        <simulation samples="10">
+            <algorithm idref="gbest"/>
+            <problem idref="griewank"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/pspg-griewank.txt"/>
+        </simulation>
+        <simulation samples="10">
+            <algorithm idref="gbest"/>
+            <problem idref="quadric"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/pspg-quadric.txt"/>
+        </simulation>
+        <simulation samples="10">
+            <algorithm idref="gbest"/>
+            <problem idref="step"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/pspg-step.txt"/>
+        </simulation>
+        <simulation samples="10">
+            <algorithm idref="gbest"/>
+            <problem idref="ackley"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/pspg-ackley.txt"/>
+        </simulation>
+    </simulations>
+</simulator>

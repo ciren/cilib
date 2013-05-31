@@ -72,6 +72,7 @@ public class DiscreteVelocityCrossoverStrategy implements CrossoverStrategy {
         return (List<E>) offspring;
     }
 
+    @Override
     public int getNumberOfParents() {
         return crossoverStrategy.getNumberOfParents();
     }
