@@ -7,9 +7,9 @@
 package net.sourceforge.cilib.controlparameter.adaptation;
 
 import java.util.ArrayList;
+import net.sourceforge.cilib.controlparameter.AdaptableControlParameter;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.SettableControlParameter;
-import net.sourceforge.cilib.controlparameter.initialisation.RandomBoundedParameterInitialisationStrategy;
+import net.sourceforge.cilib.controlparameter.initialisation.RandomParameterInitialisationStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 
@@ -31,18 +31,18 @@ public class SaDEParameterAdaptationStrategy implements ParameterAdaptationStrat
     private ArrayList<Double> learningExperience;
     private double mean;
     private GaussianDistribution random;
-    private RandomBoundedParameterInitialisationStrategy initialisationStrategy;
+    private RandomParameterInitialisationStrategy initialisationStrategy;
 
     /*
      * Default constructor for SaDEParameterAdaptationStrategy
      */
     public SaDEParameterAdaptationStrategy() {
-        learningExperience = new ArrayList<Double>();
+        learningExperience = new ArrayList<>();
         mean = 0.0;
         random = new GaussianDistribution();
         random.setMean(ConstantControlParameter.of(0.5));
         random.setDeviation(ConstantControlParameter.of(0.1));
-        initialisationStrategy = new RandomBoundedParameterInitialisationStrategy();
+        initialisationStrategy = new RandomParameterInitialisationStrategy();
     }
 
     /*
@@ -60,6 +60,7 @@ public class SaDEParameterAdaptationStrategy implements ParameterAdaptationStrat
      * Clone method for SaDEParameterAdaptationStrategy
      * @return The new instance of this SaDEParameterAdaptationStrategy
      */
+    @Override
     public ParameterAdaptationStrategy getClone() {
         return new SaDEParameterAdaptationStrategy(this);
     }
@@ -71,11 +72,11 @@ public class SaDEParameterAdaptationStrategy implements ParameterAdaptationStrat
      * @param parameter The parameter to be changed
      */
     @Override
-    public void change(SettableControlParameter parameter) {
+    public void change(AdaptableControlParameter parameter) {
         random.setMean(ConstantControlParameter.of(mean));
         initialisationStrategy.setRandom(random);
 
-        SettableControlParameter newParameter = parameter.getClone();
+        AdaptableControlParameter newParameter = parameter.getClone();
         initialisationStrategy.initialise(newParameter);
         parameter.update(newParameter.getParameter());
     }
@@ -84,6 +85,7 @@ public class SaDEParameterAdaptationStrategy implements ParameterAdaptationStrat
      * Recalculates the mean for future changes in the parameter
      * @return The new mean value
      */
+    @Override
     public double recalculateAdaptiveVariables() {
         if(learningExperience.size() > 0) {
             mean = 0.0;
@@ -107,7 +109,8 @@ public class SaDEParameterAdaptationStrategy implements ParameterAdaptationStrat
      * @param acceptedParameter The parameter that was accepted
      */
 
-    public void accepted(SettableControlParameter parameter, Entity entity, boolean accepted) {
+    @Override
+    public void accepted(AdaptableControlParameter parameter, Entity entity, boolean accepted) {
         if(accepted)
             learningExperience.add(parameter.getParameter());
     }
@@ -164,7 +167,7 @@ public class SaDEParameterAdaptationStrategy implements ParameterAdaptationStrat
      * Returns the initialisation strategy used in the adaptation step.
      * @return The initialisation Strategy
      */
-    public RandomBoundedParameterInitialisationStrategy getInitialisationStrategy() {
+    public RandomParameterInitialisationStrategy getInitialisationStrategy() {
         return initialisationStrategy;
     }
 
@@ -172,7 +175,7 @@ public class SaDEParameterAdaptationStrategy implements ParameterAdaptationStrat
      * Sets the initialisation strategy tot he one received as a parameter
      * @param initialisationStrategy The new initialisation strategy
      */
-    public void setInitialisationStrategy(RandomBoundedParameterInitialisationStrategy initialisationStrategy) {
+    public void setInitialisationStrategy(RandomParameterInitialisationStrategy initialisationStrategy) {
         this.initialisationStrategy = initialisationStrategy;
     }
 

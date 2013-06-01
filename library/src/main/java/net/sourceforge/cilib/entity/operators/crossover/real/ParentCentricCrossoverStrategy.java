@@ -19,7 +19,6 @@ import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.parentprovider.ParentProvider;
 import net.sourceforge.cilib.entity.operators.crossover.parentprovider.RandomParentProvider;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
-import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 import net.sourceforge.cilib.util.functions.Entities;
@@ -38,31 +37,31 @@ import net.sourceforge.cilib.util.functions.Entities;
  */
 public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
 
-    private int numberOfOffspring;
+    private ControlParameter numberOfOffspring;
+    private ControlParameter numberOfParents;
     private ControlParameter sigma1;
     private ControlParameter sigma2;
     private final GaussianDistribution random;
     private boolean useIndividualProviders;
-    private int numberOfParents;
     private ParentProvider parentProvider;
 
     public ParentCentricCrossoverStrategy() {
-        this.numberOfOffspring = 1;
+        this.numberOfOffspring = ConstantControlParameter.of(1);
         this.sigma1 = ConstantControlParameter.of(0.1);
         this.sigma2 = ConstantControlParameter.of(0.1);
         this.random = new GaussianDistribution();
         this.useIndividualProviders = true;
-        this.numberOfParents = 3;
+        this.numberOfParents = ConstantControlParameter.of(3);
         this.parentProvider = new RandomParentProvider();
     }
 
     public ParentCentricCrossoverStrategy(ParentCentricCrossoverStrategy copy) {
-        this.numberOfOffspring = copy.numberOfOffspring;
+        this.numberOfOffspring = copy.numberOfOffspring.getClone();
         this.sigma1 = copy.sigma1.getClone();
         this.sigma2 = copy.sigma2.getClone();
         this.random = copy.random;
         this.useIndividualProviders = copy.useIndividualProviders;
-        this.numberOfParents = copy.numberOfParents;
+        this.numberOfParents = copy.numberOfParents.getClone();
         this.parentProvider = copy.parentProvider.getClone();
     }
 
@@ -81,10 +80,9 @@ public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
     @Override
     public <E extends Entity> List<E> crossover(List<E> parentCollection) {
         Preconditions.checkArgument(parentCollection.size() >= 2, "ParentCentricCrossoverStrategy requires at least 2 parents.");
-        Preconditions.checkState(numberOfOffspring > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
+        Preconditions.checkState(numberOfOffspring.getParameter() > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
 
         List<Vector> solutions = Entities.<Vector, E>getCandidateSolutions(parentCollection);
-        UniformDistribution randomParent = new UniformDistribution();
         List<E> offspring = Lists.newArrayList();
         int k = solutions.size();
 
@@ -92,13 +90,13 @@ public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
         Vector g = Vectors.mean(fj.data.List.iterableList(solutions)).valueE("Failed to obtain mean");
 
         //get each offspring
-        for (int os = 0; os < numberOfOffspring; os++) {
+        for (int os = 0; os < numberOfOffspring.getParameter(); os++) {
             // to allow the same parent to be selected by the parentProvider
             solutions = Entities.<Vector, E>getCandidateSolutions(parentCollection);
             int parent = parentCollection.indexOf(parentProvider.f((List<Entity>) parentCollection));
             Collections.swap(solutions, parent, k - 1);
 
-            List<Vector> e_eta = new ArrayList<Vector>();
+            List<Vector> e_eta = new ArrayList<>();
             e_eta.add(solutions.get(k - 1).subtract(g));
 
             double D = 0.0;
@@ -180,7 +178,7 @@ public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
      *
      * @param numberOfOffspring The number of offspring required
      */
-    public void setNumberOfOffspring(int numberOfOffspring) {
+    public void setNumberOfOffspring(ControlParameter numberOfOffspring) {
         this.numberOfOffspring = numberOfOffspring;
     }
 
@@ -195,10 +193,10 @@ public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
 
     @Override
     public int getNumberOfParents() {
-        return numberOfParents;
+        return (int) numberOfParents.getParameter();
     }
 
-    public void setNumberOfParents(int numberOfParents) {
+    public void setNumberOfParents(ControlParameter numberOfParents) {
         this.numberOfParents = numberOfParents;
     }
 
@@ -208,16 +206,6 @@ public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
 
     public void setParentProvider(ParentProvider parentProvider) {
         this.parentProvider = parentProvider;
-    }
-
-    @Override
-    public void setCrossoverPointProbability(double crossoverPointProbability) {
-        throw new UnsupportedOperationException("Not applicable");
-    }
-
-    @Override
-    public ControlParameter getCrossoverPointProbability() {
-        throw new UnsupportedOperationException("Not applicable");
     }
 
 }

@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.controlparameter.adaptation;
 
 import junit.framework.Assert;
-import net.sourceforge.cilib.controlparameter.StandardUpdatableControlParameter;
+import net.sourceforge.cilib.controlparameter.AdaptableControlParameter;
 import net.sourceforge.cilib.ec.SaDEIndividual;
 import net.sourceforge.cilib.math.random.CauchyDistribution;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
@@ -17,7 +17,7 @@ public class SaNSDEParameterAdaptationStrategyTest {
     @Test
     public void changeTest() {
         SaNSDEParameterAdaptationStrategy strategy = new SaNSDEParameterAdaptationStrategy();
-        StandardUpdatableControlParameter parameter = new StandardUpdatableControlParameter();
+        AdaptableControlParameter parameter = new AdaptableControlParameter();
         parameter.setParameter(5.0);
         double scalingFactorRecorded = strategy.getScalingFactorProbability();
         strategy.change(parameter);
@@ -28,7 +28,7 @@ public class SaNSDEParameterAdaptationStrategyTest {
     @Test
     public void acceptedTest() {
         SaNSDEParameterAdaptationStrategy strategy = new SaNSDEParameterAdaptationStrategy();
-        StandardUpdatableControlParameter parameter = new StandardUpdatableControlParameter();
+        AdaptableControlParameter parameter = new AdaptableControlParameter();
         parameter.setParameter(5.0);
         strategy.accepted(parameter, new SaDEIndividual(), true);
         

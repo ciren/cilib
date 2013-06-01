@@ -38,6 +38,7 @@ import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
  * </p>
  */
 public class ParticleCrossoverStrategy implements CrossoverStrategy {
+    
     private OffspringVelocityProvider velocityProvider;
     private OffspringPBestProvider pbestProvider;
     private CrossoverStrategy crossoverStrategy;
@@ -118,11 +119,4 @@ public class ParticleCrossoverStrategy implements CrossoverStrategy {
         return crossoverStrategy.getNumberOfParents();
     }
 
-    public void setCrossoverPointProbability(double crossoverPointProbability) {
-        crossoverStrategy.setCrossoverPointProbability(crossoverPointProbability);
-    }
-
-    public ControlParameter getCrossoverPointProbability() {
-        return crossoverStrategy.getCrossoverPointProbability();
-    }
 }

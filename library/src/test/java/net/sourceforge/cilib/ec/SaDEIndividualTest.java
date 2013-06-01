@@ -8,13 +8,11 @@ package net.sourceforge.cilib.ec;
 
 import org.junit.Assert;
 import org.junit.Test;
-import net.sourceforge.cilib.ec.SaDEIndividual;
 import net.sourceforge.cilib.controlparameter.adaptation.SaDEParameterAdaptationStrategy;
 import net.sourceforge.cilib.controlparameter.initialisation.RandomParameterInitialisationStrategy;
-import net.sourceforge.cilib.controlparameter.SettableControlParameter;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
-import net.sourceforge.cilib.controlparameter.StandardUpdatableControlParameter;
+import net.sourceforge.cilib.controlparameter.AdaptableControlParameter;
 import net.sourceforge.cilib.entity.operators.creation.RandCreationStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.de.DifferentialEvolutionBinomialCrossover;
 
@@ -25,9 +23,9 @@ public class SaDEIndividualTest {
         SaDEIndividual individual = new SaDEIndividual();
         RandCreationStrategy creationStrategy = new RandCreationStrategy();
         DifferentialEvolutionBinomialCrossover crossoverStrategy = new DifferentialEvolutionBinomialCrossover();
-        StandardUpdatableControlParameter param = new StandardUpdatableControlParameter();
+        AdaptableControlParameter param = new AdaptableControlParameter();
         param.setParameter(5.0);
-        creationStrategy.setScaleParameter(param);
+        creationStrategy.setScaleControlParameter(param);
         crossoverStrategy.setCrossoverPointProbability(param.getClone());
         individual.setTrialVectorCreationStrategy(creationStrategy);
         individual.setCrossoverStrategy(crossoverStrategy);
@@ -36,8 +34,8 @@ public class SaDEIndividualTest {
             problem.setDomain("R(-5.12:5.12)^30");
             problem.setFunction(new Spherical());
         individual.initialise(problem);
-        ((SettableControlParameter) individual.getTrialVectorCreationStrategy().getScaleParameter()).setParameter(5.0);
-        ((SettableControlParameter) individual.getCrossoverStrategy().getCrossoverPointProbability()).setParameter(5.0);
+        ((AdaptableControlParameter) individual.getTrialVectorCreationStrategy().getScaleParameter()).setParameter(5.0);
+        ((AdaptableControlParameter) individual.getCrossoverStrategy().getCrossoverPointProbability()).setParameter(5.0);
 
         individual.updateParameters();
 
@@ -49,7 +47,7 @@ public class SaDEIndividualTest {
     public void acceptParametersTest() {
        SaDEIndividual individual = new SaDEIndividual();
        individual.getTrialVectorCreationStrategy().setScaleParameter(2.0);
-       individual.getCrossoverStrategy().setCrossoverPointProbability(3.0);
+       individual.getCrossoverStrategy().setCrossoverPointProbability(new AdaptableControlParameter(3.0));
        individual.acceptParameters(true, individual);
 
        double scalingFactorExperience = ((SaDEParameterAdaptationStrategy) individual.getScalingFactorParameterAdaptationStrategy()).getLearningExperience().get(0);

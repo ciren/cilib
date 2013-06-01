@@ -6,11 +6,11 @@
  */
 package net.sourceforge.cilib.controlparameter.initialisation;
 
-import net.sourceforge.cilib.controlparameter.SettableControlParameter;
+import net.sourceforge.cilib.controlparameter.AdaptableControlParameter;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 
-public class RandomParameterInitialisationStrategy implements ControlParameterInitialisationStrategy<SettableControlParameter> {
+public class RandomParameterInitialisationStrategy implements ControlParameterInitialisationStrategy {
     private ProbabilityDistributionFunction random;
     
     public RandomParameterInitialisationStrategy() {
@@ -21,14 +21,14 @@ public class RandomParameterInitialisationStrategy implements ControlParameterIn
         random = copy.random;
     }
     
-    public ControlParameterInitialisationStrategy getClone() {
+    @Override
+    public RandomParameterInitialisationStrategy getClone() {
         return new RandomParameterInitialisationStrategy(this);
     }
 
     @Override
-    public void initialise(SettableControlParameter parameter) {
-        double value = random.getRandomNumber();
-        parameter.setParameter(value);
+    public void initialise(AdaptableControlParameter parameter) {
+        parameter.setParameter(random.getRandomNumber());
     }
 
     public ProbabilityDistributionFunction getRandom() {

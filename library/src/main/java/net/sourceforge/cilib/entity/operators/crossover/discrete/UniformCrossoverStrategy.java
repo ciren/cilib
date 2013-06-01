@@ -4,36 +4,33 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.entity.operators.crossover;
+package net.sourceforge.cilib.entity.operators.crossover.discrete;
 
 import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.SettableControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
-import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.entity.operators.crossover.DiscreteCrossoverStrategy;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 public class UniformCrossoverStrategy implements DiscreteCrossoverStrategy {
 
     private static final long serialVersionUID = 8912494112973025634L;  
-    private ProbabilityDistributionFunction random;
-    private SettableControlParameter crossoverPointProbability;
+    private ControlParameter crossoverPointProbability;
     private ArrayList<Integer> crossoverPoints;
 
     public UniformCrossoverStrategy() {
-        this.random = new UniformDistribution();
         this.crossoverPointProbability = ConstantControlParameter.of(0.5);
-        this.crossoverPoints = new ArrayList<Integer>();
+        this.crossoverPoints = new ArrayList<>();
     }
 
     public UniformCrossoverStrategy(UniformCrossoverStrategy copy) {
-        this.random = copy.random;
         this.crossoverPointProbability = copy.crossoverPointProbability.getClone();
-        this.crossoverPoints = new ArrayList<Integer>(copy.crossoverPoints);
+        this.crossoverPoints = new ArrayList<>(copy.crossoverPoints);
     }
 
     @Override
@@ -48,7 +45,7 @@ public class UniformCrossoverStrategy implements DiscreteCrossoverStrategy {
         crossoverPoints.clear();
 
         for (int i = 0; i < minDimension; i++) {
-            if (random.getRandomNumber() < crossoverPointProbability.getParameter()) {
+            if (Rand.nextDouble() < crossoverPointProbability.getParameter()) {
                 crossoverPoints.add(i);
             }
         }
@@ -87,31 +84,22 @@ public class UniformCrossoverStrategy implements DiscreteCrossoverStrategy {
         return Arrays.asList(offspring1, offspring2);
     }
 
-    public void setCrossoverPointProbability(SettableControlParameter crossoverPointProbability) {
+    @Override
+    public void setCrossoverPointProbability(ControlParameter crossoverPointProbability) {
         this.crossoverPointProbability = crossoverPointProbability;
     }
 
-    public SettableControlParameter getCrossoverPointProbability() {
+    @Override
+    public ControlParameter getCrossoverPointProbability() {
         return crossoverPointProbability;
-    }
-
-    public void setRandom(ProbabilityDistributionFunction random) {
-        this.random = random;
-    }
-
-    public ProbabilityDistributionFunction getRandom() {
-        return random;
     }
 
     @Override
     public int getNumberOfParents() {
         return 2;
     }
-    
-    public void setCrossoverPointProbability(double crossoverPointProbability) {
-        this.crossoverPointProbability.setParameter(crossoverPointProbability);
-    }
 
+    @Override
     public List<Integer> getCrossoverPoints() {
         return crossoverPoints;
     }

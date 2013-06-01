@@ -10,13 +10,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.SettableControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.arrangement.RandomArrangement;
 import fj.P1;
+import net.sourceforge.cilib.controlparameter.AdaptableControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 
 /**
  * A creation strategy for DE where the difference vector is computed by
@@ -26,8 +27,8 @@ import fj.P1;
 public class RandPerDimensionCreationStrategy implements CreationStrategy {
 
     private static final long serialVersionUID = 930740770470361009L;
-    protected SettableControlParameter scaleParameter;
-    protected SettableControlParameter numberOfDifferenceVectors;
+    protected ControlParameter scaleParameter;
+    protected ControlParameter numberOfDifferenceVectors;
 
     /**
      * Create a new instance of {@code CurrentToRandCreationStrategy}.
@@ -120,7 +121,7 @@ public class RandPerDimensionCreationStrategy implements CreationStrategy {
      * Get the number of difference vectors to create.
      * @return The {@code ControlParameter} describing the number of difference vectors.
      */
-    public SettableControlParameter getNumberOfDifferenceVectors() {
+    public ControlParameter getNumberOfDifferenceVectors() {
         return numberOfDifferenceVectors;
     }
 
@@ -128,7 +129,7 @@ public class RandPerDimensionCreationStrategy implements CreationStrategy {
      * Set the number of difference vectors to create.
      * @param numberOfDifferenceVectors The value to set.
      */
-    public void setNumberOfDifferenceVectors(SettableControlParameter numberOfDifferenceVectors) {
+    public void setNumberOfDifferenceVectors(ControlParameter numberOfDifferenceVectors) {
         this.numberOfDifferenceVectors = numberOfDifferenceVectors;
     }
 
@@ -136,7 +137,8 @@ public class RandPerDimensionCreationStrategy implements CreationStrategy {
      * Get the current scale parameter, used within the creation.
      * @return The {@code ControlParameter} representing the scale parameter.
      */
-    public SettableControlParameter getScaleParameter() {
+    @Override
+    public ControlParameter getScaleParameter() {
         return scaleParameter;
     }
 
@@ -144,11 +146,12 @@ public class RandPerDimensionCreationStrategy implements CreationStrategy {
      * Set the scale parameter for the creation strategy.
      * @param scaleParameter The value to set.
      */
-    public void setScaleParameter(SettableControlParameter scaleParameter) {
+    public void setScaleControlParameter(ControlParameter scaleParameter) {
         this.scaleParameter = scaleParameter;
     }
 
+    @Override
     public void setScaleParameter(double scaleParameterValue) {
-        this.scaleParameter.setParameter(scaleParameterValue);
+        this.scaleParameter = new AdaptableControlParameter(scaleParameterValue);
     }
 }

@@ -9,11 +9,9 @@ package net.sourceforge.cilib.controlparameter.adaptation;
 import java.util.ArrayList;
 import org.junit.Assert;
 import org.junit.Test;
-import net.sourceforge.cilib.controlparameter.adaptation.SaDEParameterAdaptationStrategy;
-import net.sourceforge.cilib.controlparameter.SettableControlParameter;
-import net.sourceforge.cilib.controlparameter.StandardUpdatableControlParameter;
+import net.sourceforge.cilib.controlparameter.AdaptableControlParameter;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
-import net.sourceforge.cilib.controlparameter.initialisation.RandomBoundedParameterInitialisationStrategy;
+import net.sourceforge.cilib.controlparameter.initialisation.RandomParameterInitialisationStrategy;
 import net.sourceforge.cilib.ec.ParameterisedIndividual;
 
 public class SaDEParameterAdaptationStrategyTest {
@@ -21,7 +19,7 @@ public class SaDEParameterAdaptationStrategyTest {
     @Test
     public void changeTest() {
         SaDEParameterAdaptationStrategy strategy = new SaDEParameterAdaptationStrategy();
-        SettableControlParameter parameter = new StandardUpdatableControlParameter();
+        AdaptableControlParameter parameter = new AdaptableControlParameter();
         parameter.setParameter(5.2);
         strategy.change(parameter);
 
@@ -47,7 +45,7 @@ public class SaDEParameterAdaptationStrategyTest {
     @Test
     public void acceptedTest() {
         SaDEParameterAdaptationStrategy strategy = new SaDEParameterAdaptationStrategy();
-        SettableControlParameter parameter = new StandardUpdatableControlParameter();
+        AdaptableControlParameter parameter = new AdaptableControlParameter();
         parameter.setParameter(5.2);
         strategy.accepted(parameter,new ParameterisedIndividual(), true);
         double result = strategy.getLearningExperience().get(0);
@@ -121,7 +119,7 @@ public class SaDEParameterAdaptationStrategyTest {
     @Test
     public void getInitialisationStrategy() {
        SaDEParameterAdaptationStrategy strategy = new SaDEParameterAdaptationStrategy();
-       RandomBoundedParameterInitialisationStrategy initStrategy = new RandomBoundedParameterInitialisationStrategy();
+       RandomParameterInitialisationStrategy initStrategy = new RandomParameterInitialisationStrategy();
        strategy.setInitialisationStrategy(initStrategy);
 
        Assert.assertEquals(initStrategy, strategy.getInitialisationStrategy());
@@ -130,7 +128,7 @@ public class SaDEParameterAdaptationStrategyTest {
     @Test
     public void setInitialisationStrategy() {
        SaDEParameterAdaptationStrategy strategy = new SaDEParameterAdaptationStrategy();
-       RandomBoundedParameterInitialisationStrategy initStrategy = new RandomBoundedParameterInitialisationStrategy();
+       RandomParameterInitialisationStrategy initStrategy = new RandomParameterInitialisationStrategy();
        strategy.setInitialisationStrategy(initStrategy);
 
        Assert.assertEquals(initStrategy, strategy.getInitialisationStrategy());

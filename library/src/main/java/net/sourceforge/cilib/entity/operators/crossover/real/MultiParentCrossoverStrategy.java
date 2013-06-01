@@ -9,38 +9,28 @@ package net.sourceforge.cilib.entity.operators.crossover.real;
 import com.google.common.base.Preconditions;
 import java.util.Arrays;
 import java.util.List;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
-import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 public class MultiParentCrossoverStrategy implements CrossoverStrategy {
     
-    private ProbabilityDistributionFunction random;
+    public MultiParentCrossoverStrategy() {}
     
-    public MultiParentCrossoverStrategy() {
-        this.random = new UniformDistribution();
-    }
-    
-    public MultiParentCrossoverStrategy(MultiParentCrossoverStrategy copy) {
-        this.random = copy.random;
-    }
-
     @Override
-    public CrossoverStrategy getClone() {
-        return new MultiParentCrossoverStrategy(this);
+    public MultiParentCrossoverStrategy getClone() {
+        return this;
     }
 
     @Override
     public <E extends Entity> List<E> crossover(List<E> parentCollection) {
         Preconditions.checkArgument(parentCollection.size() == 4, "MultiParentCrossoverStrategy requires 4 parents.");
         
-        double a1 = random.getRandomNumber();
-        double a2 = random.getRandomNumber();
-        double a3 = random.getRandomNumber();
-        double a4 = random.getRandomNumber();
+        double a1 = Rand.nextDouble();
+        double a2 = Rand.nextDouble();
+        double a3 = Rand.nextDouble();
+        double a4 = Rand.nextDouble();
         double sum = a1 + a2 + a3 + a4;
         
         a1 = 5 * (a1/sum) - 1;
@@ -59,24 +49,9 @@ public class MultiParentCrossoverStrategy implements CrossoverStrategy {
         return Arrays.asList(offspring);
     }
 
-    public ProbabilityDistributionFunction getRandom() {
-        return random;
-    }
-
-    public void setRandom(ProbabilityDistributionFunction random) {
-        this.random = random;
-    }
-
     @Override
     public int getNumberOfParents() {
         return 4;
     }
-    
-    public void setCrossoverPointProbability(double crossoverPointProbability) {
-        throw new UnsupportedOperationException("Not applicable");
-    }
-    
-    public ControlParameter getCrossoverPointProbability() {
-        throw new UnsupportedOperationException("Not applicable");
-    }
+
 }

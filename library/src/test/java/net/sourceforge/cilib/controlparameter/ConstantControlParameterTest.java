@@ -26,11 +26,4 @@ public class ConstantControlParameterTest {
         Assert.assertTrue(5.3 == parameter.getParameter());
     }
 
-    @Test
-    public void updateTest() {
-       ConstantControlParameter parameter = new ConstantControlParameter();
-        parameter.setParameter(5.3);
-        parameter.update(2.3);
-        Assert.assertTrue(5.3 == parameter.getParameter());
-    }
 }
