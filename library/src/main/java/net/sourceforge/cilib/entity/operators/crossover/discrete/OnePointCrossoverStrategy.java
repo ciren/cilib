@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.entity.operators.crossover;
+package net.sourceforge.cilib.entity.operators.crossover.discrete;
 
 import com.google.common.base.Preconditions;
 import java.util.ArrayList;
@@ -12,25 +12,22 @@ import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
-import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.entity.operators.crossover.DiscreteCrossoverStrategy;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 public class OnePointCrossoverStrategy implements DiscreteCrossoverStrategy {
 
     private static final long serialVersionUID = 7313531386910938748L;
 
-    private ProbabilityDistributionFunction random;
     private List<Integer> crossoverPoints;
 
     public OnePointCrossoverStrategy() {
-        this.random = new UniformDistribution();
-        this.crossoverPoints = new ArrayList<Integer>();
+        this.crossoverPoints = new ArrayList<>();
     }
 
     public OnePointCrossoverStrategy(OnePointCrossoverStrategy copy) {
-        this.random = copy.random;
-        this.crossoverPoints = new ArrayList<Integer>(copy.crossoverPoints);
+        this.crossoverPoints = new ArrayList<>(copy.crossoverPoints);
     }
 
     @Override
@@ -44,7 +41,7 @@ public class OnePointCrossoverStrategy implements DiscreteCrossoverStrategy {
 
         // Select the pivot point where crossover will occur
         int maxLength = Math.min(parentCollection.get(0).getDimension(), parentCollection.get(1).getDimension());
-        crossoverPoints = Arrays.asList(Double.valueOf(random.getRandomNumber(0, maxLength + 1)).intValue());
+        crossoverPoints = Arrays.asList(Rand.nextInt(maxLength));
 
         return crossover(parentCollection, crossoverPoints);
     }
@@ -75,23 +72,17 @@ public class OnePointCrossoverStrategy implements DiscreteCrossoverStrategy {
         return Arrays.asList(offspring1, offspring2);
     }
 
-    public void setRandom(ProbabilityDistributionFunction random) {
-        this.random = random;
-    }
-
-    public ProbabilityDistributionFunction getRandom() {
-        return random;
-    }
-
     @Override
     public int getNumberOfParents() {
         return 2;
     }
 
-    public void setCrossoverPointProbability(double crossoverPointProbability) {
+    @Override
+    public void setCrossoverPointProbability(ControlParameter crossoverPointProbability) {
         throw new UnsupportedOperationException("Not applicable");
     }
 
+    @Override
     public ControlParameter getCrossoverPointProbability() {
         throw new UnsupportedOperationException("Not applicable");
     }

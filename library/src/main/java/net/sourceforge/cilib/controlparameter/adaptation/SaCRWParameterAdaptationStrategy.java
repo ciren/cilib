@@ -7,9 +7,9 @@
 package net.sourceforge.cilib.controlparameter.adaptation;
 
 import java.util.ArrayList;
+import net.sourceforge.cilib.controlparameter.AdaptableControlParameter;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.SettableControlParameter;
-import net.sourceforge.cilib.controlparameter.initialisation.RandomBoundedParameterInitialisationStrategy;
+import net.sourceforge.cilib.controlparameter.initialisation.RandomParameterInitialisationStrategy;
 import net.sourceforge.cilib.ec.SaDEIndividual;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
@@ -26,20 +26,20 @@ public class SaCRWParameterAdaptationStrategy implements ParameterAdaptationStra
     private double fitnessDifference;
     private double crossoverMean;
     private GaussianDistribution random;
-    private RandomBoundedParameterInitialisationStrategy initialisationStrategy;
+    private RandomParameterInitialisationStrategy initialisationStrategy;
 
     /*
      * Default constructor for the SaCRWParameterAdaptationStrategy
      */
     public SaCRWParameterAdaptationStrategy() {
-        learningExperience = new ArrayList<Double>();
-        fitnessDifferences = new ArrayList<Double>();
+        learningExperience = new ArrayList<>();
+        fitnessDifferences = new ArrayList<>();
         fitnessDifference = 0;
         crossoverMean = 0.0;
         random = new GaussianDistribution();
         random.setMean(ConstantControlParameter.of(0.5));
         random.setDeviation(ConstantControlParameter.of(0.1));
-        initialisationStrategy = new RandomBoundedParameterInitialisationStrategy();
+        initialisationStrategy = new RandomParameterInitialisationStrategy();
     }
 
     /*
@@ -59,7 +59,8 @@ public class SaCRWParameterAdaptationStrategy implements ParameterAdaptationStra
      * Clone method for the SaCRWParameterAdaptationStrategy
      * @return A new instance of this SaCRWParameterAdaptationStrategy
      */
-    public ParameterAdaptationStrategy getClone() {
+    @Override
+    public SaCRWParameterAdaptationStrategy getClone() {
         return new SaCRWParameterAdaptationStrategy(this);
     }
 
@@ -68,11 +69,12 @@ public class SaCRWParameterAdaptationStrategy implements ParameterAdaptationStra
      * rate CR self-adaptation strategy.
      * @param parameter The parameter to be changed
      */
-    public void change(SettableControlParameter parameter) {
+    @Override
+    public void change(AdaptableControlParameter parameter) {
         random.setMean(ConstantControlParameter.of(crossoverMean));
         initialisationStrategy.setRandom(random);
 
-        SettableControlParameter newParameter = parameter.getClone();
+        AdaptableControlParameter newParameter = parameter.getClone();
         initialisationStrategy.initialise(newParameter);
         parameter.update(newParameter.getParameter());
     }
@@ -85,7 +87,8 @@ public class SaCRWParameterAdaptationStrategy implements ParameterAdaptationStra
      * @param entity The entity that was accepted/rejected which holds the accepted/rejected parameter
      * @param accepted Whether the parameter was accepted or not
      */
-    public void accepted(SettableControlParameter parameter, Entity entity, boolean accepted) {
+    @Override
+    public void accepted(AdaptableControlParameter parameter, Entity entity, boolean accepted) {
         if(accepted) {
             learningExperience.add(parameter.getParameter());
             fitnessDifference = ((SaDEIndividual) entity).getPreviousFitness().getValue() -
@@ -99,6 +102,7 @@ public class SaCRWParameterAdaptationStrategy implements ParameterAdaptationStra
      * and the fitnessDifferences accumulated so far
      * @return The new value of the crossoverMean
      */
+    @Override
     public double recalculateAdaptiveVariables() {
         double fitnessSum = 0;
         int parameterIndex = 0;
@@ -187,7 +191,7 @@ public class SaCRWParameterAdaptationStrategy implements ParameterAdaptationStra
      * Gets the initialisationStrategy used to change the parameter
      * @return The initialisationStrategy
      */
-    public RandomBoundedParameterInitialisationStrategy getInitialisationStrategy() {
+    public RandomParameterInitialisationStrategy getInitialisationStrategy() {
         return initialisationStrategy;
     }
 
@@ -196,7 +200,7 @@ public class SaCRWParameterAdaptationStrategy implements ParameterAdaptationStra
      * as a parameter
      * @param initialisationStrategy The initialisationStrategy
      */
-    public void setInitialisationStrategy(RandomBoundedParameterInitialisationStrategy initialisationStrategy) {
+    public void setInitialisationStrategy(RandomParameterInitialisationStrategy initialisationStrategy) {
         this.initialisationStrategy = initialisationStrategy;
     }
 

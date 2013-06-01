@@ -6,8 +6,8 @@
  */
 package net.sourceforge.cilib.controlparameter.adaptation;
 
+import net.sourceforge.cilib.controlparameter.AdaptableControlParameter;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.SettableControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.CauchyDistribution;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
@@ -68,6 +68,7 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
      * Clone method for SaNSDEParameterAdaptationStrategy
      * @return A new instance of this SaNSDEParameterAdaptationStrategy
      */
+    @Override
     public ParameterAdaptationStrategy getClone() {
         return new SaNSDEParameterAdaptationStrategy(this);
     }
@@ -76,7 +77,8 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
      * Changes the parameter using the same method as the NSDEParameterAdaptationStrategy
      * @param parameter The parameter to be changed
      */
-    public void change(SettableControlParameter parameter) {
+    @Override
+    public void change(AdaptableControlParameter parameter) {
         if(Rand.nextDouble() < scalingFactorProbability) {
             parameter.update(random.getRandomNumber());
             probabilityChosen = true;
@@ -92,7 +94,8 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
      * @param entity The entity that uses the above parameter
      * @param accepted Whether the parameter was accepted or rejected
      */
-    public void accepted(SettableControlParameter parameter, Entity entity, boolean accepted) {
+    @Override
+    public void accepted(AdaptableControlParameter parameter, Entity entity, boolean accepted) {
         if(accepted) {
             //learningExperience.add(acceptedParameter.getParameter());
             if(probabilityChosen) {
@@ -114,6 +117,7 @@ public class SaNSDEParameterAdaptationStrategy implements ParameterAdaptationStr
      * accepted and rejected parameters using each strategy.
      * @return The new scaling factor probability
      */
+    @Override
     public double recalculateAdaptiveVariables() {
         double nominator = totalAcceptedWithProbability * (totalAcceptedWithCauchy + totalRejectedWithCauchy);
         double denominator = totalAcceptedWithCauchy * (totalAcceptedWithProbability + totalRejectedWithProbability)

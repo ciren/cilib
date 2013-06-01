@@ -11,7 +11,7 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.operations.DiscreteCrossoverOperation">
                     <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.OnePointCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.OnePointCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.PBestGuideProvider"/>
@@ -26,7 +26,7 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.operations.DiscreteCrossoverOperation">
                     <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.OnePointCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.OnePointCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.GBestGuideProvider"/>
@@ -42,7 +42,7 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.operations.DiscreteCrossoverOperation">
                     <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.OnePointCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.OnePointCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.NBestGuideProvider"/>
@@ -58,7 +58,7 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.operations.DiscreteCrossoverOperation">
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.OnePointCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.OnePointCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider"/>
                     </crossoverStrategy>
@@ -74,7 +74,7 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.operations.DiscreteCrossoverOperation">
                     <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.TwoPointCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.TwoPointCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.PBestGuideProvider"/>
@@ -89,7 +89,7 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.operations.DiscreteCrossoverOperation">
                     <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.TwoPointCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.TwoPointCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.GBestGuideProvider"/>
@@ -105,7 +105,7 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.operations.DiscreteCrossoverOperation">
                     <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.TwoPointCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.TwoPointCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.NBestGuideProvider"/>
@@ -121,7 +121,7 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.operations.DiscreteCrossoverOperation">
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.TwoPointCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.TwoPointCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider"/>
                     </crossoverStrategy>
@@ -137,7 +137,7 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.operations.DiscreteCrossoverOperation">
                     <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.UniformCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.PBestGuideProvider"/>
@@ -152,7 +152,7 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.operations.DiscreteCrossoverOperation">
                     <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.UniformCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.GBestGuideProvider"/>
@@ -168,7 +168,7 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.operations.DiscreteCrossoverOperation">
                     <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.UniformCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.NBestGuideProvider"/>
@@ -184,7 +184,7 @@
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
                 <crossoverOperation class="pso.crossover.operations.DiscreteCrossoverOperation">
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.UniformCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider"/>
                     </crossoverStrategy>
@@ -201,7 +201,7 @@
             <iterationStrategy class="pso.iterationstrategies.ASynchronousIterationStrategy">
                 <additionalStep class="pso.crossover.CrossoverReplaceFunction">
                     <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.OnePointCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.OnePointCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.PBestGuideProvider"/>
@@ -216,7 +216,7 @@
             <iterationStrategy class="pso.iterationstrategies.ASynchronousIterationStrategy">
                 <additionalStep class="pso.crossover.CrossoverReplaceFunction">
                     <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.OnePointCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.OnePointCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.GBestGuideProvider"/>
@@ -231,7 +231,7 @@
             <iterationStrategy class="pso.iterationstrategies.ASynchronousIterationStrategy">
                 <additionalStep class="pso.crossover.CrossoverReplaceFunction">
                     <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.OnePointCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.OnePointCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.NBestGuideProvider"/>
@@ -246,7 +246,7 @@
             <iterationStrategy class="pso.iterationstrategies.ASynchronousIterationStrategy">
                 <additionalStep class="pso.crossover.CrossoverReplaceFunction">
                     <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.OnePointCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.OnePointCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.ArithmeticGuideProvider"/>
@@ -261,7 +261,7 @@
             <iterationStrategy class="pso.iterationstrategies.ASynchronousIterationStrategy">
                 <additionalStep class="pso.crossover.CrossoverReplaceFunction">
                     <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.UniformCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.PBestGuideProvider"/>
@@ -276,7 +276,7 @@
             <iterationStrategy class="pso.iterationstrategies.ASynchronousIterationStrategy">
                 <additionalStep class="pso.crossover.CrossoverReplaceFunction">
                     <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.UniformCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.GBestGuideProvider"/>
@@ -291,7 +291,7 @@
             <iterationStrategy class="pso.iterationstrategies.ASynchronousIterationStrategy">
                 <additionalStep class="pso.crossover.CrossoverReplaceFunction">
                     <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.UniformCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.NBestGuideProvider"/>
@@ -306,7 +306,7 @@
             <iterationStrategy class="pso.iterationstrategies.ASynchronousIterationStrategy">
                 <additionalStep class="pso.crossover.CrossoverReplaceFunction">
                     <crossoverStrategy class="pso.crossover.DiscreteVelocityCrossoverStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.UniformCrossoverStrategy"/>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                     </crossoverStrategy>
                     <parentProvider class="pso.guideprovider.ArithmeticGuideProvider"/>

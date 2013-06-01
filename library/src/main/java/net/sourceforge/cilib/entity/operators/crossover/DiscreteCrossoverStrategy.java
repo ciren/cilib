@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.entity.operators.crossover;
 
 import java.util.List;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 
 public interface DiscreteCrossoverStrategy extends CrossoverStrategy {
@@ -17,5 +18,9 @@ public interface DiscreteCrossoverStrategy extends CrossoverStrategy {
     public <E extends Entity> List<E> crossover(List<E> parentCollection, List<Integer> crossoverPoints);
 
     public List<Integer> getCrossoverPoints();
+    
+    public void setCrossoverPointProbability(ControlParameter crossoverPointProbability);
+
+    public ControlParameter getCrossoverPointProbability();
 
 }

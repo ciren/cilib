@@ -6,8 +6,8 @@
  */
 package net.sourceforge.cilib.controlparameter.adaptation;
 
+import net.sourceforge.cilib.controlparameter.AdaptableControlParameter;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.SettableControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.CauchyDistribution;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
@@ -49,6 +49,7 @@ public class NSDEParameterAdaptationStrategy implements ParameterAdaptationStrat
      * Clone method of NSDEParameterAdaptationStrategy
      * @return A new instance of this NSDEParameterAdaptationStrategy
      */
+    @Override
     public ParameterAdaptationStrategy getClone() {
         return new NSDEParameterAdaptationStrategy(this);
     }
@@ -58,7 +59,8 @@ public class NSDEParameterAdaptationStrategy implements ParameterAdaptationStrat
      * DE with Neighbourhood Search
      * @param parameter The parameter to be changed
      */
-    public void change(SettableControlParameter parameter) {
+    @Override
+    public void change(AdaptableControlParameter parameter) {
         if(Rand.nextDouble() < scalingFactorProbability) {
             parameter.update(random.getRandomNumber());
         } else {
@@ -69,13 +71,15 @@ public class NSDEParameterAdaptationStrategy implements ParameterAdaptationStrat
     /*
      * This function is not applicable to the DE with Neighbourhood Search
      */
-    public void accepted(SettableControlParameter parameter, Entity entity, boolean accepted) {
+    @Override
+    public void accepted(AdaptableControlParameter parameter, Entity entity, boolean accepted) {
         throw new UnsupportedOperationException("Not necessary for this adaptation strategy");
     }
 
     /*
      * This function is not applicable to the DE with Neighbourhood Search
      */
+    @Override
     public double recalculateAdaptiveVariables() {
         throw new UnsupportedOperationException("No adaptive variables to be recalculated");
     }

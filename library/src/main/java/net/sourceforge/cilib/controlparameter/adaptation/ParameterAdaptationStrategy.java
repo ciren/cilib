@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.controlparameter.adaptation;
 
-import net.sourceforge.cilib.controlparameter.SettableControlParameter;
+import net.sourceforge.cilib.controlparameter.AdaptableControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -18,9 +18,9 @@ public interface ParameterAdaptationStrategy extends Cloneable {
     @Override
     ParameterAdaptationStrategy getClone();
 
-    public void change(SettableControlParameter parameter);
+    public void change(AdaptableControlParameter parameter);
     
-    public void accepted(SettableControlParameter parameter, Entity entity, boolean accepted);
+    public void accepted(AdaptableControlParameter parameter, Entity entity, boolean accepted);
     
     public double recalculateAdaptiveVariables();
 }

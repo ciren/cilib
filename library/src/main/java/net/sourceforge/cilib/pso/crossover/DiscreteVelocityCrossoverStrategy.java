@@ -9,12 +9,11 @@ package net.sourceforge.cilib.pso.crossover;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.DiscreteCrossoverStrategy;
-import net.sourceforge.cilib.entity.operators.crossover.OnePointCrossoverStrategy;
+import net.sourceforge.cilib.entity.operators.crossover.discrete.OnePointCrossoverStrategy;
 import net.sourceforge.cilib.pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider;
 import net.sourceforge.cilib.pso.crossover.pbestupdate.OffspringPBestProvider;
 import net.sourceforge.cilib.pso.particle.Particle;
@@ -35,14 +34,16 @@ public class DiscreteVelocityCrossoverStrategy implements CrossoverStrategy {
         this.pbestProvider = copy.pbestProvider;
     }
 
+    @Override
     public CrossoverStrategy getClone() {
         return new DiscreteVelocityCrossoverStrategy(this);
     }
 
+    @Override
     public <E extends Entity> List<E> crossover(List<E> parentCollection) {
         List<Particle> parents = (List<Particle>) parentCollection;
         List<Particle> offspring = crossoverStrategy.crossover(parents);
-        List<Particle> offspringVelocity = new ArrayList<Particle>();
+        List<Particle> offspringVelocity = new ArrayList<>();
         Particle nBest = new ElitistSelector<Particle>().on(parents).select();
 
         for (Particle p : parents) {
@@ -72,6 +73,7 @@ public class DiscreteVelocityCrossoverStrategy implements CrossoverStrategy {
         return (List<E>) offspring;
     }
 
+    @Override
     public int getNumberOfParents() {
         return crossoverStrategy.getNumberOfParents();
     }
@@ -92,11 +94,4 @@ public class DiscreteVelocityCrossoverStrategy implements CrossoverStrategy {
         return pbestProvider;
     }
 
-    public void setCrossoverPointProbability(double crossoverPointProbability) {
-        throw new UnsupportedOperationException("Not applicable");
-    }
-
-    public ControlParameter getCrossoverPointProbability() {
-        throw new UnsupportedOperationException("Not applicable");
-    }
 }
