@@ -38,9 +38,9 @@ import net.sourceforge.cilib.util.functions.Entities;
 public class SimplexCrossoverStrategy implements CrossoverStrategy {
 
     private ControlParameter numberOfOffspring;
+    private ControlParameter numberOfParents;
     private ControlParameter epsilon;
     private boolean useDefaultEpsilon;
-    private ControlParameter numberOfParents;
 
     /**
      * Default constructor.
@@ -147,8 +147,8 @@ public class SimplexCrossoverStrategy implements CrossoverStrategy {
         this.numberOfOffspring = numberOfOffspring;
     }
 
-    public ControlParameter getNumberOfOffspring() {
-        return numberOfOffspring;
+    public int getNumberOfOffspring() {
+        return (int) numberOfOffspring.getParameter();
     }
 
     @Override
@@ -160,13 +160,4 @@ public class SimplexCrossoverStrategy implements CrossoverStrategy {
         this.numberOfParents = numberOfParents;
     }
 
-    @Override
-    public void setCrossoverPointProbability(double crossoverPointProbability) {
-        throw new UnsupportedOperationException("Not applicable");
-    }
-
-    @Override
-    public ControlParameter getCrossoverPointProbability() {
-        throw new UnsupportedOperationException("Not applicable");
-    }
 }

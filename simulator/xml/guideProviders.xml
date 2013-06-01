@@ -40,8 +40,8 @@
                 <entityType class="pso.particle.StandardParticle">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
 		                <globalGuideProvider class="pso.guideprovider.AlternateCrossoverGuideProvider">
-		                    <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy">
-		                        <crossoverPointProbabilityParameter class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+		                    <crossoverStrategy class="entity.operators.crossover.discrete.UniformCrossoverStrategy">
+		                        <crossoverPointProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
 		                    </crossoverStrategy>
 		                    <parent1 class="pso.guideprovider.PBestGuideProvider"/>
 		                    <parent2 class="pso.guideprovider.CurrentPositionGuideProvider"/>
@@ -57,8 +57,8 @@
                 <entityType class="pso.particle.StandardParticle">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
 		                <globalGuideProvider class="pso.guideprovider.AlternateCrossoverGuideProvider">
-		                    <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy">
-		                        <crossoverPointProbabilityParameter class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+		                    <crossoverStrategy class="entity.operators.crossover.discrete.UniformCrossoverStrategy">
+		                        <crossoverPointProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
 		                    </crossoverStrategy>
 		                    <parent1 class="pso.guideprovider.GBestGuideProvider"/>
 		                    <parent2 class="pso.guideprovider.CurrentPositionGuideProvider"/>
@@ -74,8 +74,8 @@
                 <entityType class="pso.particle.StandardParticle">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
 		                <globalGuideProvider class="pso.guideprovider.AlternateCrossoverGuideProvider">
-		                    <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy">
-		                        <crossoverPointProbabilityParameter class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+		                    <crossoverStrategy class="entity.operators.crossover.discrete.UniformCrossoverStrategy">
+		                        <crossoverPointProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
 		                    </crossoverStrategy>
 		                    <parent1 class="pso.guideprovider.GBestGuideProvider"/>
 		                    <parent2 class="pso.guideprovider.PBestGuideProvider"/>

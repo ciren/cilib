@@ -7,8 +7,9 @@
 package net.sourceforge.cilib.entity.operators.creation;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+import net.sourceforge.cilib.controlparameter.AdaptableControlParameter;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.SettableControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
@@ -45,7 +46,7 @@ public class SaDECreationStrategy implements CreationStrategy {
     private int learningPeriod;
     private double iterationToChange;
     private boolean probabilitiesChanged;
-    private SettableControlParameter scaleParameter;
+    private ControlParameter scaleParameter;
 
     /*
      * Default constructor for SaDECreationStrategy
@@ -90,6 +91,7 @@ public class SaDECreationStrategy implements CreationStrategy {
      * Clone method for SaDECreationStrategy
      * @return a new instance of the current SaDECreationStrategy
      */
+    @Override
     public CreationStrategy getClone() {
         return new SaDECreationStrategy(this);
     }
@@ -104,6 +106,7 @@ public class SaDECreationStrategy implements CreationStrategy {
      * @param topology The topology from which individuals are selected in order to create the difference vector
      * @return trialEntity The trial vector
      */
+    @Override
     public <T extends Entity> T create(T targetEntity, T current, fj.data.List<T> topology) {
         randomValue = random.getRandomNumber(0,1);
 
@@ -248,19 +251,21 @@ public class SaDECreationStrategy implements CreationStrategy {
         return learningPeriod;
     }
 
-    public void setScaleControlParameter(SettableControlParameter scaleParameter) {
+    public void setScaleControlParameter(ControlParameter scaleParameter) {
         this.scaleParameter = scaleParameter;
         strategy1.setScaleParameter(scaleParameter.getParameter());
         strategy2.setScaleParameter(scaleParameter.getParameter());
     }
 
+    @Override
     public void setScaleParameter(double scaleParameter) {
-        this.scaleParameter.setParameter(scaleParameter);
+        this.scaleParameter = new AdaptableControlParameter(scaleParameter);
         strategy1.setScaleParameter(scaleParameter);
         strategy2.setScaleParameter(scaleParameter);
     }
 
-    public SettableControlParameter getScaleParameter() {
+    @Override
+    public ControlParameter getScaleParameter() {
         return scaleParameter;
     }
 

@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.controlparameter.initialisation;
 
-import net.sourceforge.cilib.controlparameter.SettableControlParameter;
+import net.sourceforge.cilib.controlparameter.AdaptableControlParameter;
 import net.sourceforge.cilib.util.Cloneable;
 
 /*
@@ -17,6 +17,6 @@ public interface ControlParameterInitialisationStrategy<E> extends Cloneable {
     @Override
     ControlParameterInitialisationStrategy getClone();
 
-    void initialise(SettableControlParameter parameter);
+    void initialise(AdaptableControlParameter parameter);
 
 }

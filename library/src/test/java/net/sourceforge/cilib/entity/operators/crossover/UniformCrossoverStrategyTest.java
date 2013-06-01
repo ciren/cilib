@@ -10,13 +10,13 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.operators.CrossoverOperator;
+import net.sourceforge.cilib.entity.operators.crossover.discrete.UniformCrossoverStrategy;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 import org.junit.Assert;
 import org.junit.Test;
-
 import java.util.List;
 
 /**

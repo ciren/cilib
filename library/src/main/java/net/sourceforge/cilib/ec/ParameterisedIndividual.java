@@ -6,10 +6,11 @@
  */
 package net.sourceforge.cilib.ec;
 
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.operators.creation.CreationStrategy;
 import net.sourceforge.cilib.entity.operators.creation.RandCreationStrategy;
-import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
+import net.sourceforge.cilib.entity.operators.crossover.DiscreteCrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.de.DifferentialEvolutionBinomialCrossover;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
@@ -29,7 +30,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 public class ParameterisedIndividual extends Individual{
     protected CreationStrategy trialVectorCreationStrategy;
-    protected CrossoverStrategy crossoverStrategy;
+    protected DiscreteCrossoverStrategy crossoverStrategy;
     protected Individual parameterHoldingIndividual;
     protected int totalOffspring;
     private BoundaryConstraint parameterConstraint;
@@ -106,7 +107,8 @@ public class ParameterisedIndividual extends Individual{
         initialisationStrategy.initialise(Property.BEST_POSITION, parameterHoldingIndividual);
 
         trialVectorCreationStrategy.setScaleParameter(((Vector) parameterHoldingIndividual.getPosition()).get(0).doubleValue());
-        crossoverStrategy.setCrossoverPointProbability(((Vector) parameterHoldingIndividual.getPosition()).get(1).doubleValue());
+        double xoverProbability = ((Vector) parameterHoldingIndividual.getPosition()).get(1).doubleValue();
+        crossoverStrategy.setCrossoverPointProbability(ConstantControlParameter.of(xoverProbability));
         totalOffspring = ((Vector) parameterHoldingIndividual.getPosition()).get(2).intValue();
     }
 
@@ -118,11 +120,7 @@ public class ParameterisedIndividual extends Individual{
      */
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder();
-        str.append(getPosition().toString());
-        str.append(parameterHoldingIndividual.getPosition().toString());
-        str.append(get(Property.STRATEGY_PARAMETERS));
-        return str.toString();
+        return getPosition().toString() + parameterHoldingIndividual.getPosition().toString() + get(Property.STRATEGY_PARAMETERS);
     }
 
     /*
@@ -145,7 +143,7 @@ public class ParameterisedIndividual extends Individual{
      * Gets the Crossover Strategy
      * @return The Crossover Strategy
      */
-    public CrossoverStrategy getCrossoverStrategy() {
+    public DiscreteCrossoverStrategy getCrossoverStrategy() {
         return crossoverStrategy;
     }
 
@@ -153,7 +151,7 @@ public class ParameterisedIndividual extends Individual{
      * Sets the Crossover Strategy
      * @param The new Crossover Strategy
      */
-    public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {
+    public void setCrossoverStrategy(DiscreteCrossoverStrategy crossoverStrategy) {
         this.crossoverStrategy = crossoverStrategy;
     }
 
@@ -172,8 +170,10 @@ public class ParameterisedIndividual extends Individual{
     public void setParameterHoldingIndividual(Individual parameterHoldingIndividual) {
         parameterConstraint.enforce(parameterHoldingIndividual);
         this.parameterHoldingIndividual = parameterHoldingIndividual;
+
         trialVectorCreationStrategy.setScaleParameter(((Vector) parameterHoldingIndividual.getPosition()).get(0).doubleValue());
-        crossoverStrategy.setCrossoverPointProbability(((Vector) parameterHoldingIndividual.getPosition()).get(1).doubleValue());
+        double xoverProbability = ((Vector) parameterHoldingIndividual.getPosition()).get(1).doubleValue();
+        crossoverStrategy.setCrossoverPointProbability(ConstantControlParameter.of(xoverProbability));
         totalOffspring = ((Vector) parameterHoldingIndividual.getPosition()).get(2).intValue();
     }
 
@@ -246,7 +246,7 @@ public class ParameterisedIndividual extends Individual{
      * @param The new Crossover Probability Bounds
      */
     public void setCrossoverProbabilityLowerBound(double bound) {
-        this.crossoverProbabilityBounds = new Bounds(bound, crossoverProbabilityBounds.getUpperBound());;
+        this.crossoverProbabilityBounds = new Bounds(bound, crossoverProbabilityBounds.getUpperBound());
     }
 
     /*

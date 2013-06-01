@@ -7,31 +7,30 @@
 package net.sourceforge.cilib.entity.operators.crossover.de;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.SettableControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
-import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.entity.operators.crossover.DiscreteCrossoverStrategy;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-public class DifferentialEvolutionExponentialCrossover implements CrossoverStrategy {
+public class DifferentialEvolutionExponentialCrossover implements DiscreteCrossoverStrategy {
 
     private static final long serialVersionUID = -4811879014933329926L;
 
-    private ProbabilityDistributionFunction random;
-    private SettableControlParameter crossoverPointProbability;
+    private ControlParameter crossoverPointProbability;
+    private List<Integer> crossoverPoints;
 
     public DifferentialEvolutionExponentialCrossover() {
-        this.random = new UniformDistribution();
+        this.crossoverPoints = new ArrayList<>();
         this.crossoverPointProbability = ConstantControlParameter.of(0.5);
     }
 
     public DifferentialEvolutionExponentialCrossover(DifferentialEvolutionExponentialCrossover copy) {
-        this.random = copy.random;
+        this.crossoverPoints = new ArrayList<>(copy.crossoverPoints);
         this.crossoverPointProbability = copy.crossoverPointProbability.getClone();
     }
 
@@ -59,11 +58,32 @@ public class DifferentialEvolutionExponentialCrossover implements CrossoverStrat
 
         Vector parentVector = (Vector) parentCollection.get(0).getPosition();
         Vector trialVector = (Vector) parentCollection.get(1).getPosition();
-        Vector.Builder offspringVector = Vector.newBuilder();
-        List<Integer> points = getMutationPoints(trialVector.size());
 
-        for (int i = 0; i < trialVector.size(); i++) {
-            if (points.contains(i)) {
+        int dimension = Math.min(trialVector.size(), parentVector.size());
+        int j = Rand.nextInt(dimension);
+
+        crossoverPoints.clear();
+        do {
+            crossoverPoints.add(j);
+            j = (j + 1) % dimension;
+        } while (Rand.nextDouble() < crossoverPointProbability.getParameter() && (crossoverPoints.size() < dimension));
+
+
+        return crossover(parentCollection, crossoverPoints);
+    }
+    
+    @Override
+    public <E extends Entity> List<E> crossover(List<E> parentCollection, List<Integer> crossoverPoints) {
+        Preconditions.checkArgument(parentCollection.size() == 2, "DifferentialEvolutionExponentialCrossover requires 2 parents.");
+
+        Vector parentVector = (Vector) parentCollection.get(0).getPosition();
+        Vector trialVector = (Vector) parentCollection.get(1).getPosition();
+
+        Vector.Builder offspringVector = Vector.newBuilder();
+        int dimension = Math.min(trialVector.size(), parentVector.size());
+
+        for (int i = 0; i < dimension; i++) {
+            if (crossoverPoints.contains(i)) {
                 offspringVector.add(trialVector.get(i));
             } else {
                 offspringVector.add(parentVector.get(i));
@@ -76,36 +96,13 @@ public class DifferentialEvolutionExponentialCrossover implements CrossoverStrat
         return Arrays.asList(offspring);
     }
 
-    /**
-     * Determine the points of mutation.
-     * @param dimension The maximum size of the {@linkplain Entity}.
-     * @return A {@linkplain List} of points defining the mutation points.
-     */
-    private List<Integer> getMutationPoints(int dimension) {
-        List<Integer> points = Lists.newArrayList();
-        int j = Double.valueOf(random.getRandomNumber(0, dimension)).intValue();
-
-        do {
-            points.add(j);
-            j = (j + 1) % dimension;
-        } while (random.getRandomNumber() < crossoverPointProbability.getParameter() && (points.size() < dimension));
-
-        return points;
-    }
-
-    public void setRandom(ProbabilityDistributionFunction random) {
-        this.random = random;
-    }
-
-    public ProbabilityDistributionFunction getRandom() {
-        return random;
-    }
-
-    public void setCrossoverPointProbability(SettableControlParameter crossoverPointProbability) {
+    @Override
+    public void setCrossoverPointProbability(ControlParameter crossoverPointProbability) {
         this.crossoverPointProbability = crossoverPointProbability;
     }
 
-    public SettableControlParameter getCrossoverPointProbability() {
+    @Override
+    public ControlParameter getCrossoverPointProbability() {
         return crossoverPointProbability;
     }
 
@@ -114,7 +111,8 @@ public class DifferentialEvolutionExponentialCrossover implements CrossoverStrat
         return 2;
     }
 
-    public void setCrossoverPointProbability(double crossoverPointProbability) {
-        this.crossoverPointProbability.setParameter(crossoverPointProbability);
+    @Override
+    public List<Integer> getCrossoverPoints() {
+        return crossoverPoints;
     }
 }

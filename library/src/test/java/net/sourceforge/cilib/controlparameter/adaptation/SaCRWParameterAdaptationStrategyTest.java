@@ -8,19 +8,19 @@ package net.sourceforge.cilib.controlparameter.adaptation;
 
 import java.util.ArrayList;
 import junit.framework.Assert;
+import net.sourceforge.cilib.entity.Property;
 import org.junit.Test;
-import net.sourceforge.cilib.controlparameter.StandardUpdatableControlParameter;
+import net.sourceforge.cilib.controlparameter.AdaptableControlParameter;
 import net.sourceforge.cilib.ec.SaDEIndividual;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.entity.Property;
-import net.sourceforge.cilib.controlparameter.initialisation.RandomBoundedParameterInitialisationStrategy;
+import net.sourceforge.cilib.controlparameter.initialisation.RandomParameterInitialisationStrategy;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 
 public class SaCRWParameterAdaptationStrategyTest {
     @Test
     public void changeTest() {
         SaCRWParameterAdaptationStrategy strategy = new SaCRWParameterAdaptationStrategy();
-        StandardUpdatableControlParameter parameter = new StandardUpdatableControlParameter();
+        AdaptableControlParameter parameter = new AdaptableControlParameter();
         parameter.setParameter(5.0);
         strategy.change(parameter);
         Assert.assertTrue(parameter.getParameter() != 5.0);
@@ -32,7 +32,7 @@ public class SaCRWParameterAdaptationStrategyTest {
         SaDEIndividual individual = new SaDEIndividual();
         individual.put(Property.FITNESS, new MinimisationFitness(2.0));
         individual.setPreviousFitness(new MinimisationFitness(3.0));
-        StandardUpdatableControlParameter parameter = new StandardUpdatableControlParameter();
+        AdaptableControlParameter parameter = new AdaptableControlParameter();
         parameter.setParameter(5.0);
 
         strategy.accepted(parameter, individual, true);
@@ -134,7 +134,7 @@ public class SaCRWParameterAdaptationStrategyTest {
     @Test
     public void getInitialisationStrategyTest() {
         SaCRWParameterAdaptationStrategy strategy = new SaCRWParameterAdaptationStrategy();
-        RandomBoundedParameterInitialisationStrategy init = new RandomBoundedParameterInitialisationStrategy();
+        RandomParameterInitialisationStrategy init = new RandomParameterInitialisationStrategy();
         strategy.setInitialisationStrategy(init);
 
         Assert.assertEquals(init, strategy.getInitialisationStrategy());
@@ -143,7 +143,7 @@ public class SaCRWParameterAdaptationStrategyTest {
     @Test
     public void setInitialisationStrategyTest() {
         SaCRWParameterAdaptationStrategy strategy = new SaCRWParameterAdaptationStrategy();
-        RandomBoundedParameterInitialisationStrategy init = new RandomBoundedParameterInitialisationStrategy();
+        RandomParameterInitialisationStrategy init = new RandomParameterInitialisationStrategy();
         strategy.setInitialisationStrategy(init);
 
         Assert.assertEquals(init, strategy.getInitialisationStrategy());

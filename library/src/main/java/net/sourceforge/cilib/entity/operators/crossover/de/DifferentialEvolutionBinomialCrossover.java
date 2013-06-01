@@ -7,32 +7,33 @@
 package net.sourceforge.cilib.entity.operators.crossover.de;
 
 import com.google.common.base.Preconditions;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.SettableControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
-import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.entity.operators.crossover.DiscreteCrossoverStrategy;
+import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Binomial crossover operator.
  */
-public class DifferentialEvolutionBinomialCrossover implements CrossoverStrategy {
+public class DifferentialEvolutionBinomialCrossover implements DiscreteCrossoverStrategy {
 
     private static final long serialVersionUID = -2939023704055943968L;
-    private ProbabilityDistributionFunction random;
-    private SettableControlParameter crossoverPointProbability;
+    
+    private ControlParameter crossoverPointProbability;
+    private List<Integer> crossoverPoints;
 
     public DifferentialEvolutionBinomialCrossover() {
-        this.random = new UniformDistribution();
+        this.crossoverPoints = new ArrayList<>();
         this.crossoverPointProbability = ConstantControlParameter.of(0.5);
     }
 
     public DifferentialEvolutionBinomialCrossover(DifferentialEvolutionBinomialCrossover copy) {
-        this.random = copy.random;
+        this.crossoverPoints = new ArrayList<>(copy.crossoverPoints);
         this.crossoverPointProbability = copy.crossoverPointProbability.getClone();
     }
 
@@ -71,13 +72,30 @@ public class DifferentialEvolutionBinomialCrossover implements CrossoverStrategy
 
         Vector parentVector = (Vector) parentCollection.get(0).getPosition();
         Vector trialVector = (Vector) parentCollection.get(1).getPosition();
-        Vector.Builder offspringVector = Vector.newBuilder();
 
         //this is the index of the dimension that will always be included
-        int i = Double.valueOf(random.getRandomNumber(0, parentVector.size())).intValue();
+        int i = Rand.nextInt(Math.min(parentVector.size(), trialVector.size()));
+
+        crossoverPoints.clear();
+        for (int j = 0; j < parentVector.size(); j++) {
+            if (Rand.nextDouble() < crossoverPointProbability.getParameter() || j == i) {
+                crossoverPoints.add(j);
+            }
+        }
+
+        return crossover(parentCollection, crossoverPoints);
+    }
+    
+    @Override
+    public <E extends Entity> List<E> crossover(List<E> parentCollection, List<Integer> crossoverPoints) {
+        Preconditions.checkArgument(parentCollection.size() == 2, "DifferentialEvolutionBinomialCrossover requires 2 parents.");
+
+        Vector parentVector = (Vector) parentCollection.get(0).getPosition();
+        Vector trialVector = (Vector) parentCollection.get(1).getPosition();
+        Vector.Builder offspringVector = Vector.newBuilder();
 
         for (int j = 0; j < parentVector.size(); j++) {
-            if (random.getRandomNumber() < crossoverPointProbability.getParameter() || j == i) {
+            if (crossoverPoints.contains(j)) {
                 offspringVector.add(trialVector.get(j));
             } else {
                 offspringVector.add(parentVector.get(j));
@@ -90,19 +108,13 @@ public class DifferentialEvolutionBinomialCrossover implements CrossoverStrategy
         return Arrays.asList(offspring);
     }
 
-    public void setRandom(ProbabilityDistributionFunction random) {
-        this.random = random;
-    }
-
-    public ProbabilityDistributionFunction getRandom() {
-        return random;
-    }
-
-    public void setCrossoverPointProbability(SettableControlParameter crossoverPointProbability) {
+    @Override
+    public void setCrossoverPointProbability(ControlParameter crossoverPointProbability) {
         this.crossoverPointProbability = crossoverPointProbability;
     }
 
-    public SettableControlParameter getCrossoverPointProbability() {
+    @Override
+    public ControlParameter getCrossoverPointProbability() {
         return crossoverPointProbability;
     }
 
@@ -111,12 +123,9 @@ public class DifferentialEvolutionBinomialCrossover implements CrossoverStrategy
         return 2;
     }
 
-    public void setCrossoverPointProbability(double crossoverPointProbability) {
-        this.crossoverPointProbability.setParameter(crossoverPointProbability);
-    }
-
-    public void setCrossoverProbabilityParameter(SettableControlParameter crossoverPointProbability) {
-        this.crossoverPointProbability = crossoverPointProbability;
+    @Override
+    public List<Integer> getCrossoverPoints() {
+        return crossoverPoints;
     }
 
 }

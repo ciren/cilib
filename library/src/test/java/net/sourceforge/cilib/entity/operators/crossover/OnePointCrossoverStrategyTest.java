@@ -6,6 +6,7 @@
  */
 package net.sourceforge.cilib.entity.operators.crossover;
 
+import net.sourceforge.cilib.entity.operators.crossover.discrete.OnePointCrossoverStrategy;
 import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;

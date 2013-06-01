@@ -46,10 +46,8 @@
                                 <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
                                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
+                                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10" />
                                         </crossoverStrategy>
-                                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
-                                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
                                     </crossoverStrategy>
                                     <comparator class="entity.comparator.BoltzmannComparator">
                                         <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1" />
@@ -110,10 +108,8 @@
                                 <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
                                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
+                                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10" />
                                         </crossoverStrategy>
-                                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
-                                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
                                     </crossoverStrategy>
                                     <comparator class="entity.comparator.BoltzmannComparator">
                                         <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1" />
@@ -176,10 +172,8 @@
                                 <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
                                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
+                                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10" />
                                         </crossoverStrategy>
-                                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
-                                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
                                     </crossoverStrategy>
                                     <comparator class="entity.comparator.BoltzmannComparator">
                                         <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1" />
@@ -244,10 +238,8 @@
                                 <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
                                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
+                                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10" />
                                         </crossoverStrategy>
-                                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
-                                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
                                     </crossoverStrategy>
                                     <comparator class="entity.comparator.BoltzmannComparator">
                                         <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1" />
@@ -312,15 +304,13 @@
                                 <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
                                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
+                                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10" />
                                         </crossoverStrategy>
-                                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
-                                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                                    </crossoverStrategy>
-                                    <comparator class="entity.comparator.BoltzmannComparator">
-                                        <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1" />
-                                        <distribution class="math.random.UniformDistribution" />
-                                    </comparator>
+                                        </crossoverStrategy>>
+                                        <comparator class="entity.comparator.BoltzmannComparator">
+                                            <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1" />
+                                            <distribution class="math.random.UniformDistribution" />
+                                        </comparator>
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
@@ -378,11 +368,9 @@
                                 <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
                                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
+                                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10" />
                                         </crossoverStrategy>
-                                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
-                                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                                    </crossoverStrategy>
+                                    </crossoverStrategy>>
                                     <comparator class="entity.comparator.BoltzmannComparator">
                                         <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1" />
                                         <distribution class="math.random.UniformDistribution" />
@@ -446,11 +434,9 @@
                                 <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
                                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
+                                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10" />
                                         </crossoverStrategy>
-                                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
-                                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                                    </crossoverStrategy>
+                                    </crossoverStrategy>>
                                     <comparator class="entity.comparator.BoltzmannComparator">
                                         <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1" />
                                         <distribution class="math.random.UniformDistribution" />
@@ -516,11 +502,9 @@
                                 <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
                                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
+                                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10" />
                                         </crossoverStrategy>
-                                        <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
-                                        <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
-                                    </crossoverStrategy>
+                                    </crossoverStrategy>>
                                     <comparator class="entity.comparator.BoltzmannComparator">
                                         <tempSchedule class="controlparameter.LinearlyVaryingControlParameter" initialValue="100" finalValue="1" />
                                         <distribution class="math.random.UniformDistribution" />
@@ -548,7 +532,7 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <personalBestUpdateStrategy class="pso.pbestupdate.CrossoverPersonalBestUpdateStrategy">
-                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy"/>
+                        <crossoverStrategy class="entity.operators.crossover.discrete.UniformCrossoverStrategy"/>
                     </personalBestUpdateStrategy>
                 </entityType>
             </initialisationStrategy>
@@ -675,4 +659,3 @@
         </simulation>
     </simulations>
 </simulator>
-

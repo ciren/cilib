@@ -7,28 +7,28 @@
 package net.sourceforge.cilib.controlparameter;
 
 import org.junit.Test;
-import net.sourceforge.cilib.controlparameter.StandardUpdatableControlParameter;
+import net.sourceforge.cilib.controlparameter.AdaptableControlParameter;
 import org.junit.Assert;
 
-public class StandardUpdatableControlParameterTest {
+public class AdaptableControlParameterTest {
 
     @Test
     public void getParameterTest() {
-        StandardUpdatableControlParameter parameter = new StandardUpdatableControlParameter();
+        AdaptableControlParameter parameter = new AdaptableControlParameter();
         parameter.setParameter(2.1);
         Assert.assertTrue(2.1 == parameter.getParameter());
     }
 
     @Test
     public void setParameterTest() {
-       StandardUpdatableControlParameter parameter = new StandardUpdatableControlParameter();
+       AdaptableControlParameter parameter = new AdaptableControlParameter();
         parameter.setParameter(2.1);
         Assert.assertTrue(2.1 == parameter.getParameter());
     }
 
     @Test
     public void update() {
-        StandardUpdatableControlParameter parameter = new StandardUpdatableControlParameter();
+        AdaptableControlParameter parameter = new AdaptableControlParameter();
         parameter.setParameter(2.1);
         parameter.update(6.4);
         Assert.assertTrue(6.4 == parameter.getParameter());

@@ -8,14 +8,14 @@ package net.sourceforge.cilib.controlparameter.adaptation;
 
 import junit.framework.Assert;
 import org.junit.Test;
-import net.sourceforge.cilib.controlparameter.StandardUpdatableControlParameter;
+import net.sourceforge.cilib.controlparameter.AdaptableControlParameter;
 
 public class NSDEParameterAdaptationStrategyTest {
     @Test
     public void changeTest() {
         NSDEParameterAdaptationStrategy strategy = new NSDEParameterAdaptationStrategy();
         strategy.setScalingFactorProbability(1.0);
-        StandardUpdatableControlParameter parameter = new StandardUpdatableControlParameter();
+        AdaptableControlParameter parameter = new AdaptableControlParameter();
         parameter.setParameter(5.0);
 
         strategy.change(parameter);

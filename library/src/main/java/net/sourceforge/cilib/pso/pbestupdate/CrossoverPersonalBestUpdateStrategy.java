@@ -9,7 +9,7 @@ package net.sourceforge.cilib.pso.pbestupdate;
 import java.util.Arrays;
 import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
-import net.sourceforge.cilib.entity.operators.crossover.OnePointCrossoverStrategy;
+import net.sourceforge.cilib.entity.operators.crossover.discrete.OnePointCrossoverStrategy;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Int;

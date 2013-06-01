@@ -6,13 +6,14 @@
  */
 package net.sourceforge.cilib.pso.guideprovider;
 
-import java.util.Arrays;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
-import net.sourceforge.cilib.entity.operators.crossover.UniformCrossoverStrategy;
+import net.sourceforge.cilib.entity.operators.crossover.discrete.UniformCrossoverStrategy;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
+
+import java.util.Arrays;
 
 /**
  * This guide provider generates an offspring particle from specific parents
