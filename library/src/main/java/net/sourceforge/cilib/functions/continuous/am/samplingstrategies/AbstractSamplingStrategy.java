@@ -4,20 +4,19 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.functions.sampling;
+package net.sourceforge.cilib.functions.continuous.am.samplingstrategies;
 
 import java.util.ArrayList;
-import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Abstract class for continuous function sampling.
+ * Abstract class to construct sampling points for AM sampling strategies
  */
-public abstract class ContinuousFunctionSampler implements Sampler<ContinuousFunction, Vector> {
+public abstract class AbstractSamplingStrategy implements SamplingStrategy {
     protected Vector constructInputVector(double x, Vector values) {
-        ArrayList<Numeric> inputValues = new ArrayList<Numeric>(values);
+        ArrayList<Numeric> inputValues = new ArrayList<>(values);
 
         inputValues.add(0, Real.valueOf(x));
         Numeric[] arr = inputValues.toArray(new Numeric[0]);

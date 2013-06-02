@@ -13,8 +13,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * The standard modulation function used in angle modulation problems.
  */
-public class StandardAngleModulationFunction implements ContinuousFunction {
-    public Double apply(Vector input) {
+public class StandardAngleModulationFunction extends ContinuousFunction {
+    public Double f(Vector input) {
         Preconditions.checkState(input.size() == 5, "This function is only defined for five dimensions.");
         
         double x = input.doubleValueOf(0);

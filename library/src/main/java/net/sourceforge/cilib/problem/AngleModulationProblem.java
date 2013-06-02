@@ -122,7 +122,7 @@ public class AngleModulationProblem extends AbstractProblem {
 
     @Override
     protected Fitness calculateFitness(Type solution) {
-        String bitString = generatingFunction.apply((Vector) solution);
+        String bitString = generatingFunction.f((Vector) solution);
         Vector expandedVector = decodeBitString(bitString, generatingFunction.getBitsPerDimension());
         return generatingFunction.getDelegate().getFitness(expandedVector);
     }
