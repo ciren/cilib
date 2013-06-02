@@ -101,7 +101,7 @@ public class PSPGIterationStrategy extends AbstractIterationStrategy<PSO> {
         algorithm.setTopology(topology.map(new F<Particle, Particle>() {
             @Override
             public Particle f(Particle a) {
-                if (rp.contains(a)) {
+                if (rp.contains(a) && iter.hasNext()) {
                     return iter.next();
                 }
                 
