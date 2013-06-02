@@ -7,7 +7,6 @@
 package net.sourceforge.cilib.pso.guideprovider;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -17,7 +16,7 @@ import net.sourceforge.cilib.util.selection.recipes.TournamentSelector;
 
 public class SelectionGuideProvider implements GuideProvider {
     
-    private Selector<? extends Particle> selector;
+    private Selector<Particle> selector;
     private boolean perDimension;
     private GuideProvider component;
     
@@ -33,12 +32,14 @@ public class SelectionGuideProvider implements GuideProvider {
         this.component = other.component.getClone();
     }
 
+    @Override
     public SelectionGuideProvider getClone() {
         return new SelectionGuideProvider(this);
     }
 
+    @Override
     public StructuredType get(Particle particle) {
-        Topology topology = ((PSO) AbstractAlgorithm.get()).getTopology();
+        fj.data.List<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
         
         if (perDimension) {
             Vector.Builder builder = Vector.newBuilder();
@@ -52,7 +53,7 @@ public class SelectionGuideProvider implements GuideProvider {
         return component.get(selector.on(topology).select());
     }
 
-    public void setSelector(Selector<? extends Particle> selector) {
+    public void setSelector(Selector<Particle> selector) {
         this.selector = selector;
     }
 
