@@ -7,14 +7,15 @@
 package net.sourceforge.cilib.pso.iterationstrategies;
 
 import com.google.common.collect.Lists;
+import fj.F;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.operators.crossover.parentprovider.BestParentProvider;
@@ -75,11 +76,11 @@ public class PSPGIterationStrategy extends AbstractIterationStrategy<PSO> {
     }
 
     private void crossoverStep(PSO algorithm) {
-        Topology<Particle> topology = algorithm.getTopology();
+        fj.data.List<Particle> topology = algorithm.getTopology();
         Particle gbest = Topologies.getBestEntity(topology, new SocialBestFitnessComparator<>());
         
         // Get parents
-        List<Particle> parents = Lists.newArrayList(new RandomSelector<Particle>()
+        final List<Particle> parents = Lists.newArrayList(new RandomSelector<Particle>()
                 .on(topology)
                 .exclude(gbest)
                 .select(Samples.first(crossoverStrategy.getNumberOfParents() - 1)));
@@ -89,21 +90,28 @@ public class PSPGIterationStrategy extends AbstractIterationStrategy<PSO> {
         Collections.sort(parents, new DescendingFitnessComparator<>());
         
         // Get particles to replace
-        List<Particle> rp = Lists.newArrayList(new RandomSelector<Particle>()
+        final List<Particle> rp = Lists.newArrayList(new RandomSelector<Particle>()
                 .on(topology)
                 .exclude(gbest)
                 .select(Samples.first(crossoverStrategy.getNumberOfParents() - 1)));
         rp.add(gbest);
         
         // Replace particles
-        int counter = 0;
-        for (Particle p : rp) {
-            topology.set(topology.indexOf(p), parents.get(counter++));
-        }
+        final Iterator<Particle> iter = parents.iterator();
+        algorithm.setTopology(topology.map(new F<Particle, Particle>() {
+            @Override
+            public Particle f(Particle a) {
+                if (rp.contains(a)) {
+                    return iter.next();
+                }
+                
+                return a;
+            }
+        }));
         
         // Update nhood
-        for (Particle current : topology) {
-            for (Particle other : topology.neighbourhood(current)) {
+        for (Particle current : algorithm.getTopology()) {
+            for (Particle other : algorithm.getNeighbourhood().f(topology, current)) {
                 if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
                     other.setNeighbourhoodBest(current);
                 }
