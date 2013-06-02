@@ -4,15 +4,15 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.functions.continuous.decorators;
+package net.sourceforge.cilib.problem;
 
 import net.sourceforge.cilib.functions.continuous.unconstrained.Rastrigin;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
+import net.sourceforge.cilib.functions.continuous.am.AMBitGeneratingFunction;
+import net.sourceforge.cilib.problem.decorators.MinMaxAngleModulationProblem;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -20,15 +20,21 @@ public class AngleModulationTest {
 
     @Test
     public void testObjectDimensionality() {
-        AngleModulation angle = new AngleModulation();
+        AngleModulationProblem angle = new AngleModulationProblem();
+        
+        MinMaxAngleModulationProblem mmangle = new MinMaxAngleModulationProblem();
+        mmangle.setDelegate(angle);
+        
         Vector builtRepresentation = (Vector) angle.getDomain().getBuiltRepresentation();
-
         assertEquals(4, builtRepresentation.size());
+        
+        builtRepresentation = (Vector) mmangle.getDomain().getBuiltRepresentation();
+        assertEquals(6, builtRepresentation.size());
     }
 
     @Test(expected = ArithmeticException.class)
     public void testSetPrecision() {
-        AngleModulation angle = new AngleModulation();
+        AMBitGeneratingFunction angle = new AMBitGeneratingFunction();
         angle.setPrecision(4);
         assertEquals(4, angle.getPrecision());
 
@@ -40,26 +46,31 @@ public class AngleModulationTest {
 
     @Test
     public void testCalcuateRequiredBits() {
-        AngleModulation angle = new AngleModulation();
+        AMBitGeneratingFunction angle = new AMBitGeneratingFunction();
 
         DomainRegistry registry = new StringBasedDomainRegistry();
         registry.setDomainString("R(-5.12:5.12)^30");
 
         angle.setPrecision(3);
-        assertEquals(14, angle.getRequiredNumberOfBits(registry));
+        assertEquals(14, angle.calculateBitsPerDimension(registry));
 
         angle.setPrecision(2);
-        assertEquals(10, angle.getRequiredNumberOfBits(registry));
+        assertEquals(10, angle.calculateBitsPerDimension(registry));
     }
 
     @Test
     public void testSetDecoratedFunctionDomain() {
-        AngleModulation angle = new AngleModulation();
+        AMBitGeneratingFunction bgf = new AMBitGeneratingFunction();
+        AngleModulationProblem AM = new AngleModulationProblem();
+        
         FunctionOptimisationProblem delegate = new FunctionOptimisationProblem();
         delegate.setDomain("R(-5.12:5.12)^30");
         delegate.setFunction(new Rastrigin());
-        angle.setProblem(delegate);
-        Assert.assertTrue(angle.getProblem().getFunction() instanceof Rastrigin);
+        bgf.setDelegate(delegate);
+        
+        AM.setGeneratingFunction(bgf);
+        
+        Assert.assertTrue(AM.getGeneratingFunction().getDelegate().getFunction() instanceof Rastrigin);
     }
 
     /**
@@ -69,24 +80,20 @@ public class AngleModulationTest {
      */
     @Test
     public void testConversionToBitRepresentationLength() {
-        AngleModulation angle = new AngleModulation();
+        AngleModulationProblem angle = new AngleModulationProblem();
         FunctionOptimisationProblem delegate = new FunctionOptimisationProblem();
         delegate.setDomain("R(-5.12:5.12)^30");
         delegate.setFunction(new Rastrigin());
-        angle.setProblem(delegate);
+        angle.getGeneratingFunction().setDelegate(delegate);
 
         Vector testVector = Vector.of(0,1,1,0);
-        String converted = angle.generateBitString(testVector, 14);
+        String converted = angle.getGeneratingFunction().f(testVector);
         assertEquals(420, converted.length());
     }
 
     @Test
     public void testBinaryConversion() {
-        AngleModulation angle = new AngleModulation();
-        FunctionOptimisationProblem delegate = new FunctionOptimisationProblem();
-        delegate.setDomain("R(-5.12:5.12)^30");
-        delegate.setFunction(new Rastrigin());
-        angle.setProblem(delegate);
+        AngleModulationProblem angle = new AngleModulationProblem();
 
         String test = "1111";
         String test2 = "1010";

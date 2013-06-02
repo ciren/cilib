@@ -12,59 +12,28 @@
                 <entityNumber value="50"/>
                 <entityType class="ec.Individual"/>
             </initialisationStrategy>
-            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="50000"/>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
     </algorithms>
     <problems>
-        <problem id="spherical" class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
-            <function class="functions.continuous.decorators.AngleModulation" precision="2" domain="R(-1.0:1.0)^4">
-            <function class="functions.continuous.unconstrained.Spherical"/>
-            </function>
-        </problem>
-        <problem id="rosenbrock" class="problem.FunctionOptimisationProblem" domain="R(-2.048:2.048)^30">
-            <function class="functions.continuous.decorators.AngleModulation" precision="3" domain="R(-1.0:1.0)^4">
-            <function class="functions.continuous.unconstrained.Rosenbrock"/>
-            </function>
-        </problem>
-        <problem id="griewank" class="problem.FunctionOptimisationProblem" domain="R(-300.0:300.0)^30">
-            <function class="functions.continuous.decorators.AngleModulation" precision="3" domain="R(-1.0:1.0)^4">
-            <function class="functions.continuous.unconstrained.Griewank" />
-            </function>
-        </problem>
-        <problem id="ackley" class="problem.FunctionOptimisationProblem" domain="R(-30.0:30.0)^30">
-            <function class="functions.continuous.decorators.AngleModulation" precision="2" domain="R(-1.0:1.0)^4">
-            <function class="functions.continuous.unconstrained.Ackley"/>
-            </function>
-        </problem>
+	<problem id="AMRastrigin" class="problem.AngleModulationProblem" domain="R(-2:2)^4">
+            <generatingFunction class="functions.continuous.am.AMBitGeneratingFunction" precision="2">
+		<delegate class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
+                    <function class="functions.continuous.unconstrained.Rastrigin"/>
+                </delegate>
+            </generatingFunction>
+	</problem>
     </problems>
     <measurements id="measurements" class="simulator.MeasurementSuite" resolution="10">
         <addMeasurement class="measurement.single.Fitness"/>
         <addMeasurement class="measurement.single.Solution"/>
     </measurements>
     <simulations>
-        <!--   <simulation samples="1">
-            <algorithm idref="de"/>
-            <problem idref="spherical"/>
-            <measurements idref="measurements" />
-            <output format="TXT" file="data/de-spherical-@iteration@.txt"/>
-        </simulation>
         <simulation samples="1">
             <algorithm idref="de"/>
-            <problem idref="rosenbrock"/>
+            <problem idref="AMRastrigin"/>
             <measurements idref="measurements" />
-            <output format="TXT" file="data/de-rosenbrock.txt"/>
+            <output format="TXT" file="data/amde-rastrigin"/>
         </simulation>
-        <simulation samples="1">
-            <algorithm idref="de"/>
-            <problem idref="griewank"/>
-            <measurements idref="measurements" />
-            <output format="TXT" file="data/de-griewank.txt"/>
-        </simulation>
-        <simulation samples="1">
-            <algorithm idref="de"/>
-            <problem idref="ackley"/>
-            <measurements idref="measurements" />
-            <output format="TXT" file="data/de-ackley.txt"/>
-        </simulation>-->
     </simulations>
 </simulator>

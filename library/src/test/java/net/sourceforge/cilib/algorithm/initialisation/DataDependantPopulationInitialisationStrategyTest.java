@@ -6,6 +6,8 @@
  */
 package net.sourceforge.cilib.algorithm.initialisation;
 
+import fj.F;
+import fj.data.Array;
 import java.util.ArrayList;
 import junit.framework.Assert;
 import net.sourceforge.cilib.clustering.SlidingWindow;
@@ -26,7 +28,7 @@ public class DataDependantPopulationInitialisationStrategyTest {
         ClusterParticle type  = new ClusterParticle();
         DataDependantPopulationInitialisationStrategy instance = new DataDependantPopulationInitialisationStrategy();
         instance.setEntityType(type);
-
+        
         Assert.assertEquals(instance.getEntityType(), type);
     }
 
