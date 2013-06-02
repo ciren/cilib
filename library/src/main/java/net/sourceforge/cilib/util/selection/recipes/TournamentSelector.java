@@ -96,6 +96,6 @@ public class TournamentSelector<E extends Comparable> implements Selector<E> {
         int size = Iterables.size(iterable);
         int tournamentSize = Double.valueOf(this.tournamentProportion.getParameter() * size).intValue();
         List<E> intermediate = Selection.copyOf(iterable).orderBy(new RandomArrangement()).select(Samples.last(tournamentSize));
-        return Selection.copyOf(intermediate).orderBy(new SortedArrangement()).orderBy(new ReverseArrangement());
+        return Selection.copyOf(intermediate).orderBy(new SortedArrangement(comparator)).orderBy(new ReverseArrangement());
     }
 }

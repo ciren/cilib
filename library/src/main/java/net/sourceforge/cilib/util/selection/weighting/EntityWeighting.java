@@ -6,6 +6,8 @@
  */
 package net.sourceforge.cilib.util.selection.weighting;
 
+import net.sourceforge.cilib.util.selection.weighting.fitness.CurrentFitness;
+import net.sourceforge.cilib.util.selection.weighting.fitness.EntityFitness;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
