@@ -25,7 +25,7 @@ import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.util.selection.recipes.RouletteWheelSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 import net.sourceforge.cilib.util.selection.weighting.ParticleBehaviorWeighting;
-import net.sourceforge.cilib.util.selection.weighting.SpecialisedRatio;
+import net.sourceforge.cilib.util.selection.weighting.behavior.SpecialisedRatio;
 
 /**
  * Iteration strategy for adaptive dynamic heterogeneous particle swarms (HPSO).

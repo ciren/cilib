@@ -9,17 +9,17 @@ package net.sourceforge.cilib.util.selection;
 /**
  *
  */
-public class WeightedObject implements Comparable<WeightedObject> {
+public class WeightedObject<T> implements Comparable<WeightedObject> {
 
-    private final Object object;
+    private final T object;
     private final double weight;
 
-    public WeightedObject(Object object, double weight) {
+    public WeightedObject(T object, double weight) {
         this.object = object;
         this.weight = weight;
     }
 
-    public Object getObject() {
+    public T getObject() {
         return object;
     }
 

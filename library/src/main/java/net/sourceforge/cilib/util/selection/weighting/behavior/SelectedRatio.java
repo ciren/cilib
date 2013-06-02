@@ -4,16 +4,16 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.util.selection.weighting;
+package net.sourceforge.cilib.util.selection.weighting.behavior;
 
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 
 /**
- * Obtains the ratio of the ParticleBehavior based on how often it a Particle's personal best improves.
+ * Obtains the ratio of the ParticleBehavior based on how often it gets selected.
  */
-public class SuccessRatio implements ParticleBehaviorRatio {
+public class SelectedRatio implements ParticleBehaviorRatio {
     @Override
     public double getRatio(ParticleBehavior particleBehavior) {
-        return particleBehavior.getSuccessCounter();
+        return particleBehavior.getSelectedCounter();
     }
 }

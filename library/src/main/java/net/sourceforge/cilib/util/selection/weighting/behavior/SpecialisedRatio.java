@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.util.selection.weighting;
+package net.sourceforge.cilib.util.selection.weighting.behavior;
 
 import static com.google.common.base.Preconditions.checkState;
 import java.util.List;

@@ -35,7 +35,7 @@ import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
 import net.sourceforge.cilib.util.selection.recipes.RouletteWheelSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 import net.sourceforge.cilib.util.selection.weighting.ParticleBehaviorWeighting;
-import net.sourceforge.cilib.util.selection.weighting.SpecialisedRatio;
+import net.sourceforge.cilib.util.selection.weighting.behavior.SpecialisedRatio;
 import fj.Effect;
 import fj.Ord;
 import fj.P2;
