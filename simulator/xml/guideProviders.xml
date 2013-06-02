@@ -1,0 +1,276 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>
+        <algorithm id="gbest" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <globalGuideProvider class="pso.guideprovider.GBestGuideProvider"/>
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.0"/>
+                    </velocityProvider>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
+        <algorithm id="weighted" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <globalGuideProvider class="pso.guideprovider.WeightedGuideProvider">
+                        <c1 class="controlparameter.ConstantControlParameter" parameter="1.0"/>
+                        <c2 class="controlparameter.ConstantControlParameter" parameter="2.0"/>
+                        <component1 class="pso.guideprovider.PBestGuideProvider"/>
+                        <component2 class="pso.guideprovider.GBestGuideProvider"/>
+                    </globalGuideProvider>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
+        <algorithm id="xover-pbest-pos" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <globalGuideProvider class="pso.guideprovider.AlternateCrossoverGuideProvider">
+                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy">
+                            <crossoverPointProbabilityParameter class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                        </crossoverStrategy>
+                        <parent1 class="pso.guideprovider.PBestGuideProvider"/>
+                        <parent2 class="pso.guideprovider.CurrentPositionGuideProvider"/>
+                    </globalGuideProvider>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
+        <algorithm id="xover-gbest-pos" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <globalGuideProvider class="pso.guideprovider.AlternateCrossoverGuideProvider">
+                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy">
+                            <crossoverPointProbabilityParameter class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                        </crossoverStrategy>
+                        <parent1 class="pso.guideprovider.GBestGuideProvider"/>
+                        <parent2 class="pso.guideprovider.CurrentPositionGuideProvider"/>
+                    </globalGuideProvider>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
+        <algorithm id="xover-gbest-pbest" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <globalGuideProvider class="pso.guideprovider.AlternateCrossoverGuideProvider">
+                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy">
+                            <crossoverPointProbabilityParameter class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                        </crossoverStrategy>
+                        <parent1 class="pso.guideprovider.GBestGuideProvider"/>
+                        <parent2 class="pso.guideprovider.PBestGuideProvider"/>
+                    </globalGuideProvider>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
+        <algorithm id="selection-tournament-perEntity-pos" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
+                        <selector class="util.selection.recipes.TournamentSelector"/>
+                        <component class="pso.guideprovider.CurrentPositionGuideProvider"/>
+                        <perDimension value="false"/>
+                    </globalGuideProvider>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
+        <algorithm id="selection-tournament-perEntity-pbest" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
+                        <selector class="util.selection.recipes.TournamentSelector"/>
+                        <component class="pso.guideprovider.PBestGuideProvider"/>
+                        <perDimension value="false"/>
+                    </globalGuideProvider>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
+        <algorithm id="selection-tournament-perDimension-pos" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
+                        <selector class="util.selection.recipes.TournamentSelector"/>
+                        <component class="pso.guideprovider.CurrentPositionGuideProvider"/>
+                        <perDimension value="true"/>
+                    </globalGuideProvider>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
+        <algorithm id="selection-tournament-perDimension-pbest" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
+                        <selector class="util.selection.recipes.TournamentSelector"/>
+                        <component class="pso.guideprovider.PBestGuideProvider"/>
+                        <perDimension value="true"/>
+                    </globalGuideProvider>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
+        <algorithm id="selection-roulette-perEntity-pos" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
+                        <selector class="util.selection.recipes.RouletteWheelSelector"/>
+                        <component class="pso.guideprovider.CurrentPositionGuideProvider"/>
+                        <perDimension value="false"/>
+                    </globalGuideProvider>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
+        <algorithm id="selection-roulette-perEntity-pbest" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
+                        <selector class="util.selection.recipes.RouletteWheelSelector"/>
+                        <component class="pso.guideprovider.PBestGuideProvider"/>
+                        <perDimension value="false"/>
+                    </globalGuideProvider>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
+        <algorithm id="selection-roulette-perDimension-pos" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
+                        <selector class="util.selection.recipes.RouletteWheelSelector"/>
+                        <component class="pso.guideprovider.CurrentPositionGuideProvider"/>
+                        <perDimension value="true"/>
+                    </globalGuideProvider>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+
+        <algorithm id="selection-roulette-perDimension-pbest" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
+                        <selector class="util.selection.recipes.RouletteWheelSelector"/>
+                        <component class="pso.guideprovider.PBestGuideProvider"/>
+                        <perDimension value="true"/>
+                    </globalGuideProvider>
+                </entityType>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+        </algorithm>
+    </algorithms>
+
+    <problems>
+        <problem id="rosenbrock" class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^10">
+            <function class="functions.continuous.unconstrained.Spherical"/>
+        </problem>
+    </problems>
+
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="100">
+        <addMeasurement class="measurement.single.Fitness"/>
+    </measurements>
+
+    <simulations>
+        <simulation samples="1">
+            <algorithm idref="gbest"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/gbest-gp.txt" />
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="weighted"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/weighted-gp.txt" />
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="xover-pbest-pos"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xover-pbest-pos-gp.txt" />
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="xover-gbest-pos"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xover-gbest-pos-gp.txt" />
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="xover-gbest-pbest"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/xover-gbest-pbest-gp.txt" />
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="selection-tournament-perEntity-pos"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/selection-tournament-perEntity-pos-gp.txt" />
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="selection-tournament-perEntity-pbest"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/selection-tournament-perEntity-pbest-gp.txt" />
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="selection-tournament-perDimension-pos"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/selection-tournament-perDimension-pos-gp.txt" />
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="selection-tournament-perDimension-pbest"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/selection-tournament-perDimension-pbest-gp.txt" />
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="selection-roulette-perEntity-pos"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/selection-roulette-perEntity-pos-gp.txt" />
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="selection-roulette-perEntity-pbest"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/selection-roulette-perEntity-pbest-gp.txt" />
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="selection-roulette-perDimension-pos"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/selection-roulette-perDimension-pos-gp.txt" />
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="selection-roulette-perDimension-pbest"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/selection-roulette-perDimension-pbest-gp.txt" />
+        </simulation>
+    </simulations>
+</simulator>
