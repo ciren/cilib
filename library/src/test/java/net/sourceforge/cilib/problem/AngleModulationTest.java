@@ -87,7 +87,7 @@ public class AngleModulationTest {
         angle.getGeneratingFunction().setDelegate(delegate);
 
         Vector testVector = Vector.of(0,1,1,0);
-        String converted = angle.getGeneratingFunction().apply(testVector);
+        String converted = angle.getGeneratingFunction().f(testVector);
         assertEquals(420, converted.length());
     }
 

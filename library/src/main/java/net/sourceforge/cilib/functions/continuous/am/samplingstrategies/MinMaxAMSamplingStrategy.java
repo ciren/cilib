@@ -4,41 +4,41 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.functions.sampling;
+package net.sourceforge.cilib.functions.continuous.am.samplingstrategies;
 
 import com.google.common.base.Preconditions;
-import net.sourceforge.cilib.functions.ContinuousFunction;
+import fj.data.Array;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Samples a continuous function at fixed intervals in the range [min, max).
+ * Calculates sampling points at fixed intervals in the range [min, max).
  */
-public class MinMaxFunctionSampler extends ContinuousFunctionSampler {
+public class MinMaxAMSamplingStrategy extends AbstractSamplingStrategy {
     private double min = Double.NaN;
     private double max = Double.NaN;
 
-    public MinMaxFunctionSampler() {
+    public MinMaxAMSamplingStrategy() {
     }
 
-    public MinMaxFunctionSampler(double min, double max) {
+    public MinMaxAMSamplingStrategy(double min, double max) {
         this.min = min;
         this.max = max;
     }
         
-    public Vector getSamples(ContinuousFunction f, Vector values, int samples) {
+    @Override
+    public Array<Vector> getSamplePoints(int samples, Vector values) {
         Preconditions.checkState(!((Double)min).isNaN(), "No minimum value is specified");
         Preconditions.checkState(!((Double)max).isNaN(), "No maximum value is specified");
         
         double interval = Math.abs(max - min) / samples;
-        Double[] sampleValues = new Double[samples];
+        Vector[] points = new Vector[samples];
         
         int count = 0;        
         for (double i = min; count < samples; i += interval) {
-            Vector inputVector = constructInputVector(i, values);
-            sampleValues[count++] = f.apply(inputVector);
+            points[count++] = constructInputVector(i, values);
         }
         
-        return Vector.of(sampleValues);
+        return Array.array(points);
     }
 
     public double getMin() {

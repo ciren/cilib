@@ -6,41 +6,43 @@
  */
 package net.sourceforge.cilib.functions.continuous.am;
 
+import fj.F;
+import fj.data.Array;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.Function;
-import net.sourceforge.cilib.functions.sampling.ContinuousFunctionSampler;
-import net.sourceforge.cilib.functions.sampling.StandardAngleModulationSampler;
+import net.sourceforge.cilib.functions.continuous.am.samplingstrategies.SamplingStrategy;
+import net.sourceforge.cilib.functions.continuous.am.samplingstrategies.StandardAMSamplingStrategy;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * A bit generating function that wraps a normal function
  * to perform angle modulation.
  */
-public class AMBitGeneratingFunction implements Function<Vector, String> {
+public class AMBitGeneratingFunction extends F<Vector, String> {
     protected FunctionOptimisationProblem delegate;
     protected ContinuousFunction modulationFunction;
-    protected ContinuousFunctionSampler sampler;
+    protected SamplingStrategy sampler;
     protected int bitsPerDimension, precision;
 
     public AMBitGeneratingFunction() {
         this.modulationFunction = new StandardAngleModulationFunction();
-        this.sampler = new StandardAngleModulationSampler();
+        this.sampler = new StandardAMSamplingStrategy();
         this.bitsPerDimension = 0;
         this.precision = 3;
     }
     
     @Override
-    public String apply(Vector input) {
+    public String f(Vector input) {
         StringBuilder str = new StringBuilder();
         
         int bits = bitsPerDimension * delegate.getDomain().getDimension();
-        Vector sampleValues = sampler.getSamples(modulationFunction, input, bits);
+        Array samplePoints = sampler.getSamplePoints(bits, input);
+        
+        Array<Double> sampleValues = samplePoints.map(modulationFunction);
 
-        for (Numeric n : sampleValues) {
-            str.append(n.doubleValue() > 0.0 ? '1' : '0');
+        for (Double d : sampleValues) {
+            str.append(d.doubleValue() > 0.0 ? '1' : '0');
         }
         
         return str.toString();
@@ -59,7 +61,7 @@ public class AMBitGeneratingFunction implements Function<Vector, String> {
         this.modulationFunction = f;
     }
 
-    public void setSampler(ContinuousFunctionSampler s) {
+    public void setSampler(SamplingStrategy s) {
         this.sampler = s;
     }
 

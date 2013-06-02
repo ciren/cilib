@@ -6,9 +6,7 @@
  */
 package net.sourceforge.cilib.problem.decorators;
 
-import net.sourceforge.cilib.functions.sampling.ContinuousFunctionSampler;
-import net.sourceforge.cilib.functions.sampling.MinMaxFunctionSampler;
-import net.sourceforge.cilib.problem.AbstractProblem;
+import net.sourceforge.cilib.functions.continuous.am.samplingstrategies.MinMaxAMSamplingStrategy;
 import net.sourceforge.cilib.problem.AngleModulationProblem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.DomainRegistry;
@@ -19,7 +17,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Decorates an AngleModulationProblem with additional dimensions to optimize
  * the sampling range of the generating function.
  */
-public class MinMaxAngleModulationProblem extends AbstractProblem {
+public class MinMaxAngleModulationProblem extends AngleModulationProblem {
     private AngleModulationProblem delegate;
 
     public MinMaxAngleModulationProblem() {    
@@ -30,7 +28,7 @@ public class MinMaxAngleModulationProblem extends AbstractProblem {
     }
 
     @Override
-    public AbstractProblem getClone() {
+    public AngleModulationProblem getClone() {
         return new MinMaxAngleModulationProblem(this);
     }
     
@@ -59,8 +57,10 @@ public class MinMaxAngleModulationProblem extends AbstractProblem {
         double min = solutionVector.doubleValueOf(solutionVector.size() - 2);
         double max = solutionVector.doubleValueOf(solutionVector.size() - 1);
         
-        delegate.getGeneratingFunction().setSampler(new MinMaxFunctionSampler(min, max));
+        delegate.getGeneratingFunction().setSampler(new MinMaxAMSamplingStrategy(min, max));
         
-        return delegate.calculateFitness(partialSolution);
+        String bitString = delegate.getGeneratingFunction().f(Vector.of(partialSolution));
+        Vector expandedVector = delegate.decodeBitString(bitString, delegate.getGeneratingFunction().getBitsPerDimension());
+        return delegate.getGeneratingFunction().getDelegate().getFitness(expandedVector);
     }
 }

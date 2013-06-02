@@ -32,7 +32,7 @@
 	</problem>
         <problem id="AMRastrigin_minmax_sampling" class="problem.AngleModulationProblem" domain="R(-2:2)^5">
             <generatingFunction class="functions.continuous.am.AMBitGeneratingFunction" precision="2">
-		<sampler class="functions.sampling.MinMaxFunctionSampler" min="0.0" max="20.0"/>
+		<sampler class="functions.continuous.am.samplingstrategies.MinMaxAMSamplingStrategy" min="0.0" max="20.0"/>
 		<modulationFunction class="functions.continuous.am.AmplitudeAngleModulationFunction"/>
                 <delegate class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
                     <function class="functions.continuous.unconstrained.Rastrigin"/>
