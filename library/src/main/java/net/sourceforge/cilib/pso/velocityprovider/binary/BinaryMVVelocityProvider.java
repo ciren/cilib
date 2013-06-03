@@ -9,10 +9,12 @@ package net.sourceforge.cilib.pso.velocityprovider.binary;
 import fj.P1;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.type.types.Blackboard;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -29,7 +31,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public final class BinaryMVVelocityProvider implements VelocityProvider {
 
-    private static enum Velocity { V0, V1 };
+    private static class Velocity {
+        public static Property<StructuredType> V0 = new Property();
+        public static Property<StructuredType> V1 = new Property();
+    };
 
     protected ControlParameter inertiaWeight;
     protected ControlParameter c1;
@@ -69,8 +74,8 @@ public final class BinaryMVVelocityProvider implements VelocityProvider {
         if ((properties.get(Velocity.V0) == null)
             || (properties.get(Velocity.V1) == null)) {
 
-            particle.getProperties().put(Velocity.V0, particle.getPosition());
-            particle.getProperties().put(Velocity.V1, particle.getPosition());
+            particle.put(Velocity.V0, particle.getPosition());
+            particle.put(Velocity.V1, particle.getPosition());
         }
 
         Vector v0 = (Vector) properties.get(Velocity.V0);
@@ -102,8 +107,8 @@ public final class BinaryMVVelocityProvider implements VelocityProvider {
             .plus(dg1.build().multiply(cp(c2)).multiply(random()));
 
         // update the particle's v0 and v1 velocities
-        particle.getProperties().put(Velocity.V0, v0);
-        particle.getProperties().put(Velocity.V1, v1);
+        particle.put(Velocity.V0, v0);
+        particle.put(Velocity.V1, v1);
 
         // return combined velocity
         Vector.Builder combined = Vector.newBuilder();

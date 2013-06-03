@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
@@ -49,11 +49,11 @@ public class ArchiveRepeatingCrossoverSelection extends CrossoverSelection {
     }
 
     @Override
-    public P3<Boolean, Particle, Particle> select(PSO algorithm, Enum solutionType, Enum fitnessType) {
+    public P3<Boolean, Particle, Particle> select(PSO algorithm, Property solutionType, Property fitnessType) {
         boolean isBetter = false;
 
-        List<Particle> parents = new ArrayList<Particle>();
-        List<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
+        List<Particle> parents = new ArrayList<>();
+        List<OptimisationSolution> solutions = new ArrayList<>();
         Archive archive = Archive.Provider.get();
 
         //select 3 non-dominated solutions and create dummy particles to perform crossover
@@ -70,12 +70,12 @@ public class ArchiveRepeatingCrossoverSelection extends CrossoverSelection {
         //create particle from each solution
         for (OptimisationSolution sol : solutions) {
             Particle p = new StandardParticle();
-            p.getProperties().put(EntityType.CANDIDATE_SOLUTION, sol.getPosition());
-            p.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
-            p.getProperties().put(EntityType.Particle.BEST_POSITION, sol.getPosition());
+            p.put(Property.CANDIDATE_SOLUTION, (StructuredType) sol.getPosition());
+            p.put(Property.BEST_FITNESS, InferiorFitness.instance());
+            p.put(Property.BEST_POSITION, (StructuredType) sol.getPosition());
             p.calculateFitness();
-            p.getProperties().put(EntityType.Particle.BEST_FITNESS, p.getFitness());
-            p.getProperties().put(EntityType.PREVIOUS_FITNESS, p.getFitness());
+            p.put(Property.BEST_FITNESS, p.getFitness());
+            p.put(Property.PREVIOUS_FITNESS, p.getFitness());
             parents.add(p);
         }
 
@@ -84,7 +84,7 @@ public class ArchiveRepeatingCrossoverSelection extends CrossoverSelection {
         //put pbest as candidate solution for the crossover
         for (Particle e : parents) {
             tmp.put(e, e.getCandidateSolution());
-            e.getProperties().put(EntityType.CANDIDATE_SOLUTION, e.getProperties().get(solutionType));
+            e.put(Property.CANDIDATE_SOLUTION, e.<StructuredType>get(solutionType));
         }
 
         //perform crossover and select particle to compare with
@@ -92,8 +92,8 @@ public class ArchiveRepeatingCrossoverSelection extends CrossoverSelection {
         Particle selectedParticle = particleProvider.f(fj.data.List.iterableList(parents), offspring);
 
         //replace selectedEntity if offspring is better
-        if (((Fitness) offspring.getProperties().get(fitnessType))
-                .compareTo((Fitness) selectedParticle.getProperties().get(fitnessType)) > 0) {
+        if (((Fitness) offspring.get(fitnessType))
+                .compareTo((Fitness) selectedParticle.get(fitnessType)) > 0) {
             isBetter = true;
         }
 
@@ -109,7 +109,7 @@ public class ArchiveRepeatingCrossoverSelection extends CrossoverSelection {
     }
 
     @Override
-    public P3<Boolean, Particle, Particle> doAction(PSO algorithm, Enum solutionType, Enum fitnessType) {
+    public P3<Boolean, Particle, Particle> doAction(PSO algorithm, Property solutionType, Property fitnessType) {
         int counter = 0;
         boolean isBetter;
         P3<Boolean, Particle, Particle> result;

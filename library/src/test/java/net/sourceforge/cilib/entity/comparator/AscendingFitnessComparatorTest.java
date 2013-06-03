@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.problem.solution.MaximisationFitness;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import static org.hamcrest.Matchers.is;
@@ -35,9 +35,9 @@ public class AscendingFitnessComparatorTest {
         Entity entity2 = new Individual();
         Entity entity3 = new Individual();
 
-        entity1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.0));
-        entity2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
-        entity3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.0));
+        entity1.put(Property.FITNESS, new MinimisationFitness(0.0));
+        entity2.put(Property.FITNESS, new MinimisationFitness(1.0));
+        entity3.put(Property.FITNESS, new MinimisationFitness(2.0));
 
         List<Entity> entities = Arrays.asList(entity1, entity2, entity3);
         Collections.sort(entities, new AscendingFitnessComparator());
@@ -56,9 +56,9 @@ public class AscendingFitnessComparatorTest {
         Entity entity2 = new Individual();
         Entity entity3 = new Individual();
 
-        entity1.getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.0));
-        entity2.getProperties().put(EntityType.FITNESS, new MaximisationFitness(1.0));
-        entity3.getProperties().put(EntityType.FITNESS, new MaximisationFitness(2.0));
+        entity1.put(Property.FITNESS, new MaximisationFitness(0.0));
+        entity2.put(Property.FITNESS, new MaximisationFitness(1.0));
+        entity3.put(Property.FITNESS, new MaximisationFitness(2.0));
 
         List<Entity> entities = Arrays.asList(entity1, entity2, entity3);
         Collections.sort(entities, new AscendingFitnessComparator());

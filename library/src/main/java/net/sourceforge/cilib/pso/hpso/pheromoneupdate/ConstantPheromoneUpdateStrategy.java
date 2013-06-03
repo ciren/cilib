@@ -9,7 +9,7 @@ package net.sourceforge.cilib.pso.hpso.pheromoneupdate;
 import net.sourceforge.cilib.util.Cloneable;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.particle.Particle;
 
@@ -62,7 +62,7 @@ public class ConstantPheromoneUpdateStrategy implements PheromoneUpdateStrategy,
      */
     @Override
     public double updatePheromone(Particle e) {
-        int compResult = ((Fitness)e.getProperties().get(EntityType.PREVIOUS_FITNESS)).compareTo(e.getFitness());
+        int compResult = ((Fitness)e.get(Property.PREVIOUS_FITNESS)).compareTo(e.getFitness());
         double result = compResult < 0 ? this.better.getParameter() :
             (compResult == 0 ? this.same.getParameter() : this.worse.getParameter());
         return result;

@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.pso.pbestupdate;
 
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
@@ -33,17 +33,17 @@ public class StandardPersonalBestUpdateStrategyTest {
     public void updatePersonalBest() {
         Particle particle = new StandardParticle();
 
-        particle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(200.0));
-        particle.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(300.0));
-        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(0.0));
-        particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
+        particle.put(Property.FITNESS, new MinimisationFitness(200.0));
+        particle.put(Property.BEST_FITNESS, new MinimisationFitness(300.0));
+        particle.put(Property.CANDIDATE_SOLUTION, Vector.of(0.0));
+        particle.put(Property.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
 
         StandardPersonalBestUpdateStrategy strategy = new StandardPersonalBestUpdateStrategy();
         strategy.updatePersonalBest(particle);
 
         Assert.assertThat(particle.getBestFitness(), is(particle.getFitness()));
         Assert.assertThat(particle.getBestPosition(), is(particle.getPosition()));
-        Assert.assertEquals(((Int)particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER)).intValue(), 0);
+        Assert.assertEquals(((Int)particle.get(Property.PBEST_STAGNATION_COUNTER)).intValue(), 0);
     }
 
     /**
@@ -56,16 +56,16 @@ public class StandardPersonalBestUpdateStrategyTest {
     public void updatePersonalBestFails() {
         Particle particle = new StandardParticle();
 
-        particle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(200.0));
-        particle.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(100.0));
-        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(0.0));
-        particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
+        particle.put(Property.FITNESS, new MinimisationFitness(200.0));
+        particle.put(Property.BEST_FITNESS, new MinimisationFitness(100.0));
+        particle.put(Property.CANDIDATE_SOLUTION, Vector.of(0.0));
+        particle.put(Property.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
 
         StandardPersonalBestUpdateStrategy strategy = new StandardPersonalBestUpdateStrategy();
         strategy.updatePersonalBest(particle);
 
         Assert.assertThat(particle.getBestFitness(), is(not(particle.getFitness())));
         Assert.assertThat(particle.getBestPosition(), is(not(particle.getPosition())));
-        Assert.assertEquals(((Int)particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER)).intValue(), 1);
+        Assert.assertEquals(((Int)particle.get(Property.PBEST_STAGNATION_COUNTER)).intValue(), 1);
     }
 }

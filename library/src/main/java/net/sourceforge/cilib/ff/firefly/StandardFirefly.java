@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.ff.firefly;
 
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 
@@ -51,10 +51,10 @@ public class StandardFirefly extends AbstractFirefly {
      */
     @Override
     public void initialise(Problem problem) {
-        this.getProperties().put(EntityType.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresentation().getClone());
-        this.positionInitialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, this);
+        put(Property.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresentation().getClone());
+        this.positionInitialisationStrategy.initialise(Property.CANDIDATE_SOLUTION, this);
 
-        this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        put(Property.FITNESS, InferiorFitness.instance());
     }
 
     /**
@@ -62,6 +62,6 @@ public class StandardFirefly extends AbstractFirefly {
      */
     @Override
     public void reinitialise() {
-        this.positionInitialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, this);
+        this.positionInitialisationStrategy.initialise(Property.CANDIDATE_SOLUTION, this);
     }
 }

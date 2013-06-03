@@ -8,7 +8,7 @@ package net.sourceforge.cilib.pso.positionprovider;
 
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.particle.Particle;
@@ -22,11 +22,11 @@ public class LinearPositionProviderTest {
     @Test
     public void testGet() {
         Particle particle = new StandardParticle();
-        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION,
+        particle.put(Property.CANDIDATE_SOLUTION,
                     Vector.of(Real.valueOf(1.0, new Bounds(-5.0, 5.0)),
                               Real.valueOf(2.0, new Bounds(-5.0, 5.0))));
 
-        particle.getProperties().put(EntityType.Particle.VELOCITY,
+        particle.put(Property.VELOCITY,
                     Vector.of(Real.valueOf(0.0, new Bounds(-10.0, 10.0)),
                               Real.valueOf(0.0, new Bounds(-10.0, 10.0))));
 

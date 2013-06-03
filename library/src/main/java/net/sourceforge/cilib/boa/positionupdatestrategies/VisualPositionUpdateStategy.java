@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.boa.positionupdatestrategies;
 
 import net.sourceforge.cilib.boa.bee.HoneyBee;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -49,7 +49,7 @@ public class VisualPositionUpdateStategy implements BeePositionUpdateStrategy {
         Fitness newFitness = bee.getFitness();
         if (newFitness.compareTo(oldFitness) < 0) {
             bee.setPosition(oldPosition);
-            bee.getProperties().put(EntityType.FITNESS, oldFitness);
+            bee.put(Property.FITNESS, oldFitness);
             return false;
         }
 

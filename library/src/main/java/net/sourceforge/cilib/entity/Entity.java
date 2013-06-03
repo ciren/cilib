@@ -96,7 +96,13 @@ public interface Entity extends Comparable<Entity>, Cloneable {
      *
      * @return The {@linkplain Blackboard} containing the properties.
      */
-    Blackboard<Enum<?>, Type> getProperties();
+    Blackboard<Property, Type> getProperties();
+    
+    <T extends Type> T get(Property<T> p);
+    
+    <T extends Type> void put(Property<T> p, T v);
+    
+    <T extends Type> boolean has(Property<T> p);
 
     /**
      * Get the identifier associated with the {@linkplain Entity} instance.

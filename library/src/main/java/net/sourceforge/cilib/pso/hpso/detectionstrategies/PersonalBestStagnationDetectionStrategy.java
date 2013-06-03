@@ -8,7 +8,7 @@ package net.sourceforge.cilib.pso.hpso.detectionstrategies;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Int;
 
@@ -57,10 +57,10 @@ public class PersonalBestStagnationDetectionStrategy implements BehaviorChangeTr
      */
     @Override
     public boolean detect(Particle entity) {
-        int counter = ((Int)entity.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER)).intValue();
+        int counter = ((Int)entity.get(Property.PBEST_STAGNATION_COUNTER)).intValue();
 
         if (counter > windowSize.getParameter()) {
-            entity.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
+            entity.put(Property.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
             return true;
         }
 

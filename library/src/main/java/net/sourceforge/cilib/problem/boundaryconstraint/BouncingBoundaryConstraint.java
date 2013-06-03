@@ -8,8 +8,8 @@ package net.sourceforge.cilib.problem.boundaryconstraint;
 
 import fj.F;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.EntityType.Particle;
+import net.sourceforge.cilib.entity.Property;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
@@ -43,7 +43,7 @@ public class BouncingBoundaryConstraint implements BoundaryConstraint {
      */
     @Override
     public void enforce(Entity entity) {
-        StructuredType<?> structuredType = (StructuredType<?>) entity.getProperties().get(EntityType.Particle.VELOCITY);
+        StructuredType<?> structuredType = (StructuredType<?>) entity.get(Property.VELOCITY);
 
         if (structuredType == null) {
             throw new UnsupportedOperationException("Cannot perform this boundary constrain on a " + entity.getClass().getSimpleName());
@@ -61,6 +61,6 @@ public class BouncingBoundaryConstraint implements BoundaryConstraint {
                 return from.doubleValue();
             }
         });
-        entity.getProperties().put(EntityType.Particle.VELOCITY, result);
+        entity.put(Property.VELOCITY, result);
     }
 }

@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.measurement.single.diversity;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
@@ -57,7 +57,7 @@ public class EntropyDiversityTest {
         //move a single particle to the edge of the search space in one dimension
         Vector position = Vector.newBuilder().repeat(30, Real.valueOf(0.0)).build();
         position.setReal(0, -5.12);
-        pso.getTopology().head().getProperties().put(EntityType.CANDIDATE_SOLUTION, position);
+        pso.getTopology().head().put(Property.CANDIDATE_SOLUTION, position);
 
         //
         //the diversity of the swarm is taken as the average entropy over all
@@ -97,7 +97,7 @@ public class EntropyDiversityTest {
         //move a single particle to the edge of the search space in one dimension
         Vector position = Vector.newBuilder().repeat(30, Real.valueOf(0.0)).build();
         position.setReal(0, -5.12);
-        pso.getTopology().head().getProperties().put(EntityType.CANDIDATE_SOLUTION, position);
+        pso.getTopology().head().put(Property.CANDIDATE_SOLUTION, position);
 
         //
         //the diversity of the swarm is taken as the maximum entropy over all
@@ -128,7 +128,7 @@ public class EntropyDiversityTest {
         Real position = Real.valueOf(0.0);
 
         for(Entity e : algorithm.getTopology()) {
-            e.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.newBuilder().repeat(dimensions, position).build());
+            e.put(Property.CANDIDATE_SOLUTION, Vector.newBuilder().repeat(dimensions, position).build());
         }
     }
 }

@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.pso.pbestupdate;
 
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.type.types.Types;
@@ -36,7 +36,7 @@ public class BoundedMOOStandardPersonalBestUpdateStrategy extends MOOStandardPer
     @Override
     public void updatePersonalBest(Particle particle) {
         if (!Types.isInsideBounds(particle.getPosition())) {
-            particle.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+            particle.put(Property.FITNESS, InferiorFitness.instance());
             return;
         }
 

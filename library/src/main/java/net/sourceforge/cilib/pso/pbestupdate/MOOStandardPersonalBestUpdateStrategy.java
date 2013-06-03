@@ -8,7 +8,7 @@ package net.sourceforge.cilib.pso.pbestupdate;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.Int;
@@ -46,14 +46,14 @@ public class MOOStandardPersonalBestUpdateStrategy implements PersonalBestUpdate
         Problem problem = topLevelAlgorithm.getOptimisationProblem();
 
         if ((particle.getBestFitness() == null) || (problem.getFitness(particle.getPosition()).compareTo(problem.getFitness(particle.getBestPosition())) > 0)) {
-            particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
-            particle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getFitness());
-            particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition().getClone());
+            particle.put(Property.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
+            particle.put(Property.BEST_FITNESS, particle.getFitness());
+            particle.put(Property.BEST_POSITION, particle.getPosition().getClone());
             return;
         }
 
         //PBest didn't change. Increment stagnation counter.
-        int count = ((Int)particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER)).intValue();
-        particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER,  Int.valueOf(++count));
+        int count = ((Int)particle.get(Property.PBEST_STAGNATION_COUNTER)).intValue();
+        particle.put(Property.PBEST_STAGNATION_COUNTER,  Int.valueOf(++count));
     }
 }

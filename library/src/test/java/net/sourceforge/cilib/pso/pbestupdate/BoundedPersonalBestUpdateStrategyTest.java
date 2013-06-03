@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.pso.pbestupdate;
 
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
@@ -31,9 +31,9 @@ public class BoundedPersonalBestUpdateStrategyTest {
         Real real = Real.valueOf(0.0, new Bounds(-5.0, 5.0));
         Particle particle = new StandardParticle();
 
-        particle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(200.0));
-        particle.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(300.0));
-        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(real));
+        particle.put(Property.FITNESS, new MinimisationFitness(200.0));
+        particle.put(Property.BEST_FITNESS, new MinimisationFitness(300.0));
+        particle.put(Property.CANDIDATE_SOLUTION, Vector.of(real));
 
         BoundedPersonalBestUpdateStrategy strategy = new BoundedPersonalBestUpdateStrategy();
         strategy.updatePersonalBest(particle);
@@ -47,9 +47,9 @@ public class BoundedPersonalBestUpdateStrategyTest {
         Real real = Real.valueOf(-10.0, new Bounds(-5.0, 5.0));
         Particle particle = new StandardParticle();
 
-        particle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(200.0));
-        particle.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(300.0));
-        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(real));
+        particle.put(Property.FITNESS, new MinimisationFitness(200.0));
+        particle.put(Property.BEST_FITNESS, new MinimisationFitness(300.0));
+        particle.put(Property.CANDIDATE_SOLUTION, Vector.of(real));
 
         Type previousBestPosition = particle.getBestPosition();
 

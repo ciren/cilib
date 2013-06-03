@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.pso.particle;
 
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
@@ -24,8 +24,8 @@ public class StandardParticle extends AbstractParticle {
     /** Creates a new instance of StandardParticle. */
     public StandardParticle() {
         super();
-        this.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.of());
-        this.getProperties().put(EntityType.Particle.VELOCITY, Vector.of());
+        put(Property.BEST_POSITION, Vector.of());
+        put(Property.VELOCITY, Vector.of());
     }
 
     /**
@@ -69,7 +69,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public Fitness getBestFitness() {
-        return (Fitness) this.getProperties().get(EntityType.Particle.BEST_FITNESS);
+        return (Fitness) get(Property.BEST_FITNESS);
     }
 
     /**
@@ -77,7 +77,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public Vector getBestPosition() {
-        return (Vector) this.getProperties().get(EntityType.Particle.BEST_POSITION);
+        return (Vector) get(Property.BEST_POSITION);
     }
 
     /**
@@ -101,7 +101,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public Vector getVelocity() {
-        return (Vector) this.getProperties().get(EntityType.Particle.VELOCITY);
+        return (Vector) get(Property.VELOCITY);
     }
 
     /**
@@ -109,21 +109,21 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void initialise(Problem problem) {
-        this.getProperties().put(EntityType.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresentation().getClone());
-        this.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf(getPosition()));
-        this.getProperties().put(EntityType.Particle.VELOCITY, Vector.copyOf(getPosition()));
+        put(Property.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresentation().getClone());
+        put(Property.BEST_POSITION, Vector.copyOf(getPosition()));
+        put(Property.VELOCITY, Vector.copyOf(getPosition()));
 
-        this.positionInitialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, this);
-        this.personalBestInitialisationStrategy.initialise(EntityType.Particle.BEST_POSITION, this);
-        this.velocityInitialisationStrategy.initialise(EntityType.Particle.VELOCITY, this);
+        this.positionInitialisationStrategy.initialise(Property.CANDIDATE_SOLUTION, this);
+        this.personalBestInitialisationStrategy.initialise(Property.BEST_POSITION, this);
+        this.velocityInitialisationStrategy.initialise(Property.VELOCITY, this);
 
-        this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
-        this.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
-        this.getProperties().put(EntityType.PREVIOUS_FITNESS, InferiorFitness.instance());
+        put(Property.FITNESS, InferiorFitness.instance());
+        put(Property.BEST_FITNESS, InferiorFitness.instance());
+        put(Property.PREVIOUS_FITNESS, InferiorFitness.instance());
         this.neighbourhoodBest = this;
 
-        this.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
-        this.getProperties().put(EntityType.PREVIOUS_SOLUTION, getCandidateSolution());
+        put(Property.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
+        put(Property.PREVIOUS_SOLUTION, getCandidateSolution());
     }
 
     /**
@@ -131,8 +131,8 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void updatePosition() {
-        getProperties().put(EntityType.PREVIOUS_SOLUTION, getCandidateSolution());
-        getProperties().put(EntityType.CANDIDATE_SOLUTION, this.behavior.getPositionProvider().get(this));
+        put(Property.PREVIOUS_SOLUTION, getCandidateSolution());
+        put(Property.CANDIDATE_SOLUTION, this.behavior.getPositionProvider().get(this));
     }
 
     /**
@@ -157,7 +157,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void updateVelocity() {
-        getProperties().put(EntityType.Particle.VELOCITY, this.behavior.getVelocityProvider().get(this));
+        put(Property.VELOCITY, this.behavior.getVelocityProvider().get(this));
     }
 
     /**
@@ -165,7 +165,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void reinitialise() {
-        this.positionInitialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, this);
-        this.velocityInitialisationStrategy.initialise(EntityType.Particle.VELOCITY, this);
+        this.positionInitialisationStrategy.initialise(Property.CANDIDATE_SOLUTION, this);
+        this.velocityInitialisationStrategy.initialise(Property.VELOCITY, this);
     }
 }

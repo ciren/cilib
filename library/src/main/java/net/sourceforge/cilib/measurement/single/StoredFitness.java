@@ -9,7 +9,7 @@ package net.sourceforge.cilib.measurement.single;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.Real;
@@ -37,8 +37,8 @@ public class StoredFitness implements Measurement<Real> {
         Fitness best = null;
         SinglePopulationBasedAlgorithm<Entity> currentAlgorithm = (SinglePopulationBasedAlgorithm) algorithm;
         for (Entity e : currentAlgorithm.getTopology()) {
-            if (best == null || ((Fitness) e.getProperties().get(EntityType.Particle.BEST_FITNESS)).compareTo(best) > 0) {
-                best = ((Fitness) e.getProperties().get(EntityType.Particle.BEST_FITNESS));
+            if (best == null || ((Fitness) e.get(Property.BEST_FITNESS)).compareTo(best) > 0) {
+                best = ((Fitness) e.get(Property.BEST_FITNESS));
             }
         }
         return Real.valueOf(best.getValue());

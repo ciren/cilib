@@ -9,7 +9,7 @@ package net.sourceforge.cilib.niching.creation;
 import fj.Ord;
 import fj.Ordering;
 import fj.data.List;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.niching.VectorBasedFunctions;
 import net.sourceforge.cilib.problem.solution.Fitness;
@@ -87,9 +87,9 @@ public class VectorBasedNicheCreationStrategyTest {
         Particle particle = new StandardParticle();
 
         particle.setCandidateSolution(position);
-        particle.getProperties().put(EntityType.FITNESS, fitness);
-        particle.getProperties().put(EntityType.Particle.BEST_POSITION, pBest);
-        particle.getProperties().put(EntityType.Particle.BEST_FITNESS, fitness);
+        particle.put(Property.FITNESS, fitness);
+        particle.put(Property.BEST_POSITION, pBest);
+        particle.put(Property.BEST_FITNESS, fitness);
 
         return particle;
     }

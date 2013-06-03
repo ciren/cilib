@@ -10,7 +10,7 @@ import java.util.Iterator;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
@@ -76,7 +76,7 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
      */
     @Override
     public void enforce(Entity entity) {
-        StructuredType<?> s = (StructuredType<?>) entity.getProperties().get(EntityType.Particle.VELOCITY);
+        StructuredType<?> s = (StructuredType<?>) entity.get(Property.VELOCITY);
 
         if (s == null) {
             throw new UnsupportedOperationException("Cannot perform this boundary constrain on a "
@@ -115,8 +115,8 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
                 velocityBuilder.add(velocity);
             }
         }
-        entity.getProperties().put(EntityType.CANDIDATE_SOLUTION, positionBuilder.build());
-        entity.getProperties().put(EntityType.Particle.VELOCITY, velocityBuilder.build());
+        entity.put(Property.CANDIDATE_SOLUTION, positionBuilder.build());
+        entity.put(Property.VELOCITY, velocityBuilder.build());
     }
 
     /**

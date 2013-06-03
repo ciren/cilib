@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.pso.velocityprovider;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Numeric;
@@ -22,9 +22,9 @@ public class ClampingVelocityProviderTest {
 
     private Particle createParticle(Vector vector) {
         Particle particle = new StandardParticle();
-        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, vector);
-        particle.getProperties().put(EntityType.Particle.VELOCITY, Vector.of(0.0));
-        particle.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf(vector));
+        particle.put(Property.CANDIDATE_SOLUTION, vector);
+        particle.put(Property.VELOCITY, Vector.of(0.0));
+        particle.put(Property.BEST_POSITION, Vector.copyOf(vector));
         return particle;
     }
 

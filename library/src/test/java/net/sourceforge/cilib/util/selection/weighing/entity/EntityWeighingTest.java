@@ -10,7 +10,7 @@ import com.google.common.collect.Lists;
 import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.problem.solution.MaximisationFitness;
@@ -88,7 +88,7 @@ public class EntityWeighingTest {
 
     private Individual createIndividual(Fitness fitness) {
         Individual i = new Individual();
-        i.getProperties().put(EntityType.FITNESS, fitness);
+        i.put(Property.FITNESS, fitness);
         return i;
     }
 }

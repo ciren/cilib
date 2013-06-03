@@ -9,7 +9,7 @@ package net.sourceforge.cilib.entity.operators.creation;
 
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -33,14 +33,14 @@ public class RandToBestCreationTest {
 
         fj.data.List<Entity> testTopology = fj.data.List.list(current, entityBest, entityRandom, entity1, entity2);
 
-        entityBest.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.0));
-        entityBest.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(0.1));
-        entityRandom.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
-        entityRandom.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(0.2));
-        entity1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.0));
-        entity1.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(0.3));
-        entity2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(3.0));
-        entity2.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(0.4));
+        entityBest.put(Property.FITNESS, new MinimisationFitness(0.0));
+        entityBest.put(Property.CANDIDATE_SOLUTION, Vector.of(0.1));
+        entityRandom.put(Property.FITNESS, new MinimisationFitness(1.0));
+        entityRandom.put(Property.CANDIDATE_SOLUTION, Vector.of(0.2));
+        entity1.put(Property.FITNESS, new MinimisationFitness(2.0));
+        entity1.put(Property.CANDIDATE_SOLUTION, Vector.of(0.3));
+        entity2.put(Property.FITNESS, new MinimisationFitness(3.0));
+        entity2.put(Property.CANDIDATE_SOLUTION, Vector.of(0.4));
 
         Entity resultEntity = creation.create(entityRandom, current, testTopology);
 

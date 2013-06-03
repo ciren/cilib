@@ -8,7 +8,7 @@ package net.sourceforge.cilib.hs;
 
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
@@ -73,7 +73,7 @@ public class Harmony extends AbstractEntity {
         harmony.randomise();
 
         setCandidateSolution(harmony);
-        this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        put(Property.FITNESS, InferiorFitness.instance());
     }
 
     /**

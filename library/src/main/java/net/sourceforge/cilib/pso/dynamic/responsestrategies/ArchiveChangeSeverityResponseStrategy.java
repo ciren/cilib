@@ -13,7 +13,7 @@ import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.Problem;
@@ -82,7 +82,7 @@ public class ArchiveChangeSeverityResponseStrategy<E extends SinglePopulationBas
 
         //re-evaluating entities' fitness
         for (Entity entity : algorithm.getTopology()) {
-            entity.getProperties().put(EntityType.Particle.BEST_FITNESS, entity.getFitnessCalculator().getFitness(entity));
+            entity.put(Property.BEST_FITNESS, entity.getFitnessCalculator().getFitness(entity));
             entity.calculateFitness();
         }
 

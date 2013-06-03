@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.entity.initialisation;
 
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
@@ -51,8 +52,8 @@ public class StandardCentroidInitialisationStrategy <E extends Entity> extends D
      * @param entity The entity to be initialised
      */
     @Override
-    public void initialise(Enum<?> key, E entity) {
-        CentroidHolder centroidHolder = (CentroidHolder) entity.getProperties().get(key);
+    public void initialise(Property key, E entity) {
+        CentroidHolder centroidHolder = (CentroidHolder) entity.get(key);
         Entity particle;
         int index;
         Real r;
@@ -81,7 +82,7 @@ public class StandardCentroidInitialisationStrategy <E extends Entity> extends D
             centroid.copy((Vector) particle.getCandidateSolution());
         }
 
-        entity.getProperties().put(key, (Type) centroidHolder);
+        entity.put(key, (Type) centroidHolder);
 
     }
 
@@ -90,8 +91,8 @@ public class StandardCentroidInitialisationStrategy <E extends Entity> extends D
      * @param key The key stating which property of the entity must be reinitialised
      * @param entity The entity to be reinitialised
      */
-    public void reinitialise(Enum<?> key, E entity) {
-        CentroidHolder centroidHolder = (CentroidHolder) entity.getProperties().get(key);
+    public void reinitialise(Property key, E entity) {
+        CentroidHolder centroidHolder = (CentroidHolder) entity.get(key);
         Entity particle;
 
         for(ClusterCentroid centroid : centroidHolder) {
@@ -103,7 +104,7 @@ public class StandardCentroidInitialisationStrategy <E extends Entity> extends D
             centroid.copy((Vector) particle.getCandidateSolution());
         }
 
-        entity.getProperties().put(key, (Type) centroidHolder);
+        entity.put(key, (Type) centroidHolder);
     }
 
 }

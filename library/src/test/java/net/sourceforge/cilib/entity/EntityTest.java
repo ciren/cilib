@@ -28,9 +28,9 @@ public class EntityTest {
         Individual i2 = new Individual();
         Individual i3 = new Individual();
 
-        i1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(300.0));
-        i2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(200.0));
-        i3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(100.0));
+        i1.put(Property.FITNESS, new MinimisationFitness(300.0));
+        i2.put(Property.FITNESS, new MinimisationFitness(200.0));
+        i3.put(Property.FITNESS, new MinimisationFitness(100.0));
 
         List<Individual> list = Arrays.asList(i1, i2, i3);
         Collections.sort(list);
@@ -44,9 +44,9 @@ public class EntityTest {
         Individual i2 = new Individual();
         Individual i3 = new Individual();
 
-        i1.getProperties().put(EntityType.FITNESS, new MaximisationFitness(300.0));
-        i2.getProperties().put(EntityType.FITNESS, new MaximisationFitness(200.0));
-        i3.getProperties().put(EntityType.FITNESS, new MaximisationFitness(100.0));
+        i1.put(Property.FITNESS, new MaximisationFitness(300.0));
+        i2.put(Property.FITNESS, new MaximisationFitness(200.0));
+        i3.put(Property.FITNESS, new MaximisationFitness(100.0));
 
         List<Individual> list = Arrays.asList(i1, i2, i3);
         Collections.sort(list);
@@ -59,10 +59,10 @@ public class EntityTest {
         Set<Entity> set = new HashSet<Entity>();
 
         Entity entity1 = new Individual();
-        entity1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.0));
+        entity1.put(Property.FITNESS, new MinimisationFitness(2.0));
         set.add(entity1);
 
-        entity1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(3.0));
+        entity1.put(Property.FITNESS, new MinimisationFitness(3.0));
         set.add(entity1);
 
         Assert.assertEquals(1, set.size());

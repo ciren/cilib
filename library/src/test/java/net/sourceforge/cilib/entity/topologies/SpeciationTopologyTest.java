@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import static net.sourceforge.cilib.niching.NichingFunctionsTest.createParticle;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.pso.particle.Particle;
@@ -27,9 +27,9 @@ public class SpeciationTopologyTest {
         Particle particle = new StandardParticle();
 
         particle.setCandidateSolution(position);
-        particle.getProperties().put(EntityType.FITNESS, fitness);
-        particle.getProperties().put(EntityType.Particle.BEST_POSITION, position);
-        particle.getProperties().put(EntityType.Particle.BEST_FITNESS, fitness);
+        particle.put(Property.FITNESS, fitness);
+        particle.put(Property.BEST_POSITION, position);
+        particle.put(Property.BEST_FITNESS, fitness);
 
         return particle;
     }

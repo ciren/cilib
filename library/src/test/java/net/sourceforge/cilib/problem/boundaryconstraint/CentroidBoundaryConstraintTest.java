@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.problem.boundaryconstraint;
 
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
@@ -31,8 +31,8 @@ public class CentroidBoundaryConstraintTest {
 
         ClusterParticle particle = new ClusterParticle();
         particle.setCandidateSolution(candidateSolutionBuilder);
-        particle.getProperties().put(EntityType.Particle.VELOCITY, candidateSolutionBuilder);
-        particle.getProperties().put(EntityType.Particle.BEST_POSITION, candidateSolutionBuilder);
+        particle.put(Property.VELOCITY, candidateSolutionBuilder);
+        particle.put(Property.BEST_POSITION, candidateSolutionBuilder);
 
         CentroidBoundaryConstraint constraint = new CentroidBoundaryConstraint();
         constraint.setDelegate(new ClampingBoundaryConstraint());

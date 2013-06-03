@@ -8,7 +8,7 @@ package net.sourceforge.cilib.pso.pbestupdate;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.Problem;
@@ -44,42 +44,42 @@ public class RelaxedNonDominatedPersonalBestUpdateStrategy implements PersonalBe
 
         if (particle.getFitness().getClass().getName().matches("MinimisationFitness")) {
          if ((particle.getBestFitness() == null) || (problem.getFitness(particle.getPosition()).compareTo(problem.getFitness(particle.getBestPosition())) > 0)) {
-            particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
-            particle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getFitness().getClone());
-            particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition().getClone());
+            particle.put(Property.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
+            particle.put(Property.BEST_FITNESS, particle.getFitness().getClone());
+            particle.put(Property.BEST_POSITION, particle.getPosition().getClone());
             return;
          }
          else if ((particle.getBestFitness() == null) || (problem.getFitness(particle.getPosition()).compareTo(problem.getFitness(particle.getBestPosition())) == 0)) {
             int random = Rand.nextInt(2);
             if (random == 1) {
-                particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
-                particle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getFitness().getClone());
-                particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition().getClone());
+                particle.put(Property.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
+                particle.put(Property.BEST_FITNESS, particle.getFitness().getClone());
+                particle.put(Property.BEST_POSITION, particle.getPosition().getClone());
                 return;
             }
          }
         }
          else if (particle.getFitness().getClass().getName().matches("StandardMOFitness")) {
              if ((((MOFitness)particle.getBestFitness()) == null) || (((MOFitness)problem.getFitness(particle.getPosition())).compareTo(((MOFitness)problem.getFitness(particle.getBestPosition()))) > 0)) {
-                particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
-                particle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getFitness().getClone());
-                particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition().getClone());
+                particle.put(Property.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
+                particle.put(Property.BEST_FITNESS, particle.getFitness().getClone());
+                particle.put(Property.BEST_POSITION, particle.getPosition().getClone());
                 return;
             }
             else if ((((MOFitness)particle.getBestFitness()) == null) || (((MOFitness)problem.getFitness(particle.getPosition())).compareTo(((MOFitness)problem.getFitness(particle.getBestPosition()))) == 0)) {
                 int random = Rand.nextInt(20);
                 if (random > 10) {
-                    particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
-                    particle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getFitness().getClone());
-                    particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition().getClone());
+                    particle.put(Property.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
+                    particle.put(Property.BEST_FITNESS, particle.getFitness().getClone());
+                    particle.put(Property.BEST_POSITION, particle.getPosition().getClone());
                     return;
                 }
             }
         }
 
         //PBest didn't change. Increment stagnation counter.
-        int count = ((Int)particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER)).intValue();
-        particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER,  Int.valueOf(++count));
+        int count = ((Int)particle.get(Property.PBEST_STAGNATION_COUNTER)).intValue();
+        particle.put(Property.PBEST_STAGNATION_COUNTER,  Int.valueOf(++count));
     }
 
 }
