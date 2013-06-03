@@ -143,7 +143,7 @@ public final class Transitions {
         Preconditions.checkArgument(M >= 2);
         Preconditions.checkArgument(k % (M - 1) == 0);
 
-        Vector w = Vector.copyOf(Collections.nCopies(n, 1.0));
+        Vector w = Vector.copyOfIterable(Collections.nCopies(n, 1.0));
 
         Vector.Builder t = Vector.newBuilder();
 
@@ -227,7 +227,7 @@ public final class Transitions {
         Preconditions.checkArgument(k >= 1);
         Preconditions.checkArgument(k < n);
 
-        Vector w = Vector.copyOf(Collections.nCopies(n, 1.0));
+        Vector w = Vector.copyOfIterable(Collections.nCopies(n, 1.0));
 
         Vector.Builder t = Vector.newBuilder();
 
@@ -254,7 +254,7 @@ public final class Transitions {
         Preconditions.checkArgument(k >= 1);
         Preconditions.checkArgument(k < n);
 
-        Vector w = Vector.copyOf(Collections.nCopies(n, 1.0));
+        Vector w = Vector.copyOfIterable(Collections.nCopies(n, 1.0));
 
         Vector.Builder t = Vector.newBuilder();
 
@@ -279,7 +279,7 @@ public final class Transitions {
 
         Preconditions.checkArgument(Misc.vector_in_01(y));
 
-        Vector w = Vector.copyOf(Collections.<Double>nCopies(n, 1.0));
+        Vector w = Vector.copyOfIterable(Collections.<Double>nCopies(n, 1.0));
 
         Vector.Builder t = Vector.newBuilder();
 

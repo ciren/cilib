@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.pso.dynamic;
 
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.type.types.Int;
@@ -55,17 +55,17 @@ public class ChargedParticle extends DynamicParticle {
 
     @Override
     public void initialise(Problem problem) {
-        this.getProperties().put(EntityType.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresentation().getClone());
-        this.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf((Vector) getCandidateSolution()));
-        this.getProperties().put(EntityType.Particle.VELOCITY, Vector.copyOf((Vector) getCandidateSolution()));
+        put(Property.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresentation().getClone());
+        put(Property.BEST_POSITION, Vector.copyOf((Vector) getPosition()));
+        put(Property.VELOCITY, Vector.copyOf((Vector) getPosition()));
 
-        this.positionInitialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, this);
-        this.personalBestInitialisationStrategy.initialise(EntityType.Particle.BEST_POSITION, this);
-        this.velocityInitialisationStrategy.initialise(EntityType.Particle.VELOCITY, this);
+        this.positionInitialisationStrategy.initialise(Property.CANDIDATE_SOLUTION, this);
+        this.personalBestInitialisationStrategy.initialise(Property.BEST_POSITION, this);
+        this.velocityInitialisationStrategy.initialise(Property.VELOCITY, this);
 
-        this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
-        this.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
+        put(Property.FITNESS, InferiorFitness.instance());
+        put(Property.BEST_FITNESS, InferiorFitness.instance());
         this.neighbourhoodBest = this;
-        this.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
+        put(Property.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
     }
 }

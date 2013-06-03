@@ -11,7 +11,6 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 
 /**
  * Implementation of the predator velocity provider.
@@ -61,7 +60,7 @@ public final class PredatorVelocityProvider implements VelocityProvider {
      */
     @Override
     public Vector get(Particle particle) {
-        Vector position = (Vector) particle.getCandidateSolution();
+        Vector position = (Vector) particle.getPosition();
         Vector globalGuide = (Vector) particle.getGlobalGuide();
 
         double phi4 = acceleration.getParameter() * Rand.nextDouble();

@@ -9,7 +9,7 @@ package net.sourceforge.cilib.boa.bee;
 import net.sourceforge.cilib.boa.positionupdatestrategies.BeePositionUpdateStrategy;
 import net.sourceforge.cilib.boa.positionupdatestrategies.VisualPositionUpdateStategy;
 import net.sourceforge.cilib.entity.AbstractEntity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -93,27 +93,11 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
      * {@inheritDoc}
      */
     @Override
-    public Vector getPosition() {
-        return (Vector) this.getCandidateSolution();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setPosition(Vector position) {
-        this.setCandidateSolution(position);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void initialise(Problem problem) {
         Vector candidate = Vector.newBuilder().copyOf(problem.getDomain().getBuiltRepresentation()).buildRandom();
-        this.setCandidateSolution(candidate);
+        this.setPosition(candidate);
         this.dimension = candidate.size();
-        this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        put(Property.FITNESS, InferiorFitness.instance());
     }
 
     /**

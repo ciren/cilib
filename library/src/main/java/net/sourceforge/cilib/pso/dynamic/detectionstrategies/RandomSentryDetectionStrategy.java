@@ -59,7 +59,7 @@ public class RandomSentryDetectionStrategy extends EnvironmentChangeDetectionStr
         for (Integer nextSentryIndex : sentryIndexes) {
             Particle nextSentry = (Particle) algorithm.getTopology().index(nextSentryIndex);
             double oldSentryFitness = nextSentry.getFitness().getValue();
-            double newSentryFitness = algorithm.getOptimisationProblem().getFitness(nextSentry.getCandidateSolution()).getValue();
+            double newSentryFitness = algorithm.getOptimisationProblem().getFitness(nextSentry.getPosition()).getValue();
 
             if (Math.abs(oldSentryFitness - newSentryFitness) >=  theta) {
                 envChangeOccured = true;

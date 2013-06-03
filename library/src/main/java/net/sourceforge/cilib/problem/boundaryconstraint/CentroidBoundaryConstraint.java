@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.problem.boundaryconstraint;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
@@ -50,10 +50,10 @@ public class CentroidBoundaryConstraint implements BoundaryConstraint{
      */
     @Override
     public void enforce(Entity entity) {
-        //System.out.println("Class: " + entity.getCandidateSolution().getClass().toString() + ", " + entity.getCandidateSolution());
-        CentroidHolder holder = (CentroidHolder) entity.getCandidateSolution().getClone();
-        CentroidHolder velocity = (CentroidHolder) entity.getProperties().get(EntityType.Particle.VELOCITY).getClone();
-        CentroidHolder bestPosition = (CentroidHolder) entity.getProperties().get(EntityType.Particle.BEST_POSITION).getClone();
+        //System.out.println("Class: " + entity.getPosition().getClass().toString() + ", " + entity.getPosition());
+        CentroidHolder holder = (CentroidHolder) entity.getPosition().getClone();
+        CentroidHolder velocity = (CentroidHolder) entity.get(Property.VELOCITY).getClone();
+        CentroidHolder bestPosition = (CentroidHolder) entity.get(Property.BEST_POSITION).getClone();
         CentroidHolder newSolution = new CentroidHolder();
         StandardParticle newParticle;
         ClusterCentroid centr;
@@ -61,17 +61,17 @@ public class CentroidBoundaryConstraint implements BoundaryConstraint{
         int index = 0;
         for(ClusterCentroid centroid : holder) {
             newParticle = new StandardParticle();
-            newParticle.setCandidateSolution(centroid.toVector());
-            newParticle.getProperties().put(EntityType.Particle.VELOCITY, velocity.get(index).toVector());
-            newParticle.getProperties().put(EntityType.Particle.BEST_POSITION, bestPosition.get(index).toVector());
+            newParticle.setPosition(centroid.toVector());
+            newParticle.put(Property.VELOCITY, velocity.get(index).toVector());
+            newParticle.put(Property.BEST_POSITION, bestPosition.get(index).toVector());
 
             delegate.enforce(newParticle);
             centr = new ClusterCentroid();
-            centr.copy((Vector) newParticle.getCandidateSolution());
+            centr.copy((Vector) newParticle.getPosition());
             newSolution.add(centr);
             index++;
         }
-        entity.setCandidateSolution(newSolution);
+        entity.setPosition(newSolution);
     }
 
     /*

@@ -19,7 +19,7 @@ public final class Particles {
         return new F<P, Vector>() {
             @Override
             public Vector f(P a) {
-                return (Vector) a.getCandidateSolution();
+                return (Vector) a.getPosition();
             }
         };
     }

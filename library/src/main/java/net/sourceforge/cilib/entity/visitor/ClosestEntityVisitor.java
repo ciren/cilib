@@ -69,7 +69,7 @@ public class ClosestEntityVisitor<E extends Entity> extends TopologyVisitor<E, E
                 continue;
             }
 
-            double distance = distanceMeasure.distance(targetEntity.getCandidateSolution(), entity.getCandidateSolution());
+            double distance = distanceMeasure.distance(targetEntity.getPosition(), entity.getPosition());
             if (distance < closest) {
                 closestEntity = entity;
                 closest = distance;

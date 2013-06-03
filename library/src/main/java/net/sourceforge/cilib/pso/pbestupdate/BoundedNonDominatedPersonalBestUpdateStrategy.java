@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.pso.pbestupdate;
 
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.type.types.Types;
@@ -36,8 +36,8 @@ public class BoundedNonDominatedPersonalBestUpdateStrategy extends NonDominatedP
      */
     @Override
     public void updatePersonalBest(Particle particle) {
-        if (!Types.isInsideBounds(particle.getCandidateSolution())) {
-            particle.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        if (!Types.isInsideBounds(particle.getPosition())) {
+            particle.put(Property.FITNESS, InferiorFitness.instance());
             return;
         }
 

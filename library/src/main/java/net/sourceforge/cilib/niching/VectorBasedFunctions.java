@@ -22,8 +22,8 @@ public final class VectorBasedFunctions {
             @Override
             public Double f(Particle p) {
                 Vector gBest = (Vector) nBest.getBestPosition();
-                Vector vg = gBest.subtract((Vector) p.getCandidateSolution());
-                Vector vp = ((Vector) p.getBestPosition()).subtract((Vector) p.getCandidateSolution());
+                Vector vg = gBest.subtract((Vector) p.getPosition());
+                Vector vp = ((Vector) p.getBestPosition()).subtract((Vector) p.getPosition());
 
                 return vp.dot(vg);
             }
@@ -34,8 +34,8 @@ public final class VectorBasedFunctions {
         return new F2<Particle, Particle, Ordering>() {
             @Override
             public Ordering f(Particle a, Particle b) {
-                double aDist = distance.distance(a.getCandidateSolution(), nBest.getBestPosition());
-                double bDist = distance.distance(b.getCandidateSolution(), nBest.getBestPosition());
+                double aDist = distance.distance(a.getPosition(), nBest.getBestPosition());
+                double bDist = distance.distance(b.getPosition(), nBest.getBestPosition());
 
                 return Ordering.values()[Double.compare(aDist, bDist) + 1];
             }
@@ -47,7 +47,7 @@ public final class VectorBasedFunctions {
         public Boolean f(Particle a, Particle b) {
             return a.getBestPosition().equals(b.getBestPosition())
                     && a.getBestFitness().equals(b.getBestFitness())
-                    && a.getCandidateSolution().equals(b.getCandidateSolution())
+                    && a.getPosition().equals(b.getPosition())
                     && a.getFitness().equals(b.getFitness());
         }
     };
@@ -56,7 +56,7 @@ public final class VectorBasedFunctions {
         return new F<Particle, Boolean>() {
             @Override
             public Boolean f(Particle p) {
-                double pRadius = distanceMeasure.distance(p.getCandidateSolution(), nBest.getBestPosition());
+                double pRadius = distanceMeasure.distance(p.getPosition(), nBest.getBestPosition());
 
                 return pRadius < nRadius && dot(nBest).f(p) > 0;
             }

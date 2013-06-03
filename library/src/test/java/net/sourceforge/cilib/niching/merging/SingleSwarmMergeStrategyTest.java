@@ -34,6 +34,6 @@ public class SingleSwarmMergeStrategyTest {
         SingleSwarmMergeStrategy merge = new SingleSwarmMergeStrategy();
 
         Assert.assertEquals(3, merge.f(pso2, pso1).getTopology().length());
-        Assert.assertEquals(Topologies.getBestEntity(merge.f(pso2, pso1).getTopology()).getCandidateSolution(), Topologies.getBestEntity(pso2.getTopology()).getCandidateSolution());
+        Assert.assertEquals(Topologies.getBestEntity(merge.f(pso2, pso1).getTopology()).getPosition(), Topologies.getBestEntity(pso2.getTopology()).getPosition());
     }
 }

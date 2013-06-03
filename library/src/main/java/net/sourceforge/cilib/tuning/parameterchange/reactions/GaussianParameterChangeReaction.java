@@ -25,8 +25,8 @@ public class GaussianParameterChangeReaction extends ParameterChangeReaction {
 
     @Override
     public List<Vector> f(final TuningAlgorithm alg) {
-        final List<List<Double>> pars = alg.getParameterList().map(Utils.<Numeric,Iterable>iterableList()
-            .andThen(List.<Numeric,Double>map_().f(doubleValue())));
+        final List<List<Double>> pars = alg.getParameterList().map(Utils.<Numeric, Vector>iterableList()
+                .andThen(List.<Numeric, Double>map_().f(doubleValue())));
         final int size = pars.length();
         final int pSize = pars.head().length();
         final UniformDistribution uniform = new UniformDistribution();
@@ -37,15 +37,15 @@ public class GaussianParameterChangeReaction extends ParameterChangeReaction {
         return Stream.range(0, (int) count.getParameter()).map(new F<Integer, Vector>() {
             @Override
             public Vector f(Integer a) {
-                return Vector.copyOf(pars.drop((int) (size * uniform.getRandomNumber())).head()
-                    .zip(min)
-                    .zip(max)
-                    .map(new F<P2<P2<Double, Double>, Double>, Double>() {
-                        @Override
-                        public Double f(P2<P2<Double, Double>, Double> a) {
-                            return gaussian.getRandomNumber(a._1()._1(), (a._2() - a._1()._2()) * (1.0 - alg.getPercentageComplete()));
-                        }
-                }));
+                return Vector.copyOfIterable(pars.drop((int) (size * uniform.getRandomNumber())).head()
+                        .zip(min)
+                        .zip(max)
+                        .map(new F<P2<P2<Double, Double>, Double>, Double>() {
+                            @Override
+                            public Double f(P2<P2<Double, Double>, Double> a) {
+                                return gaussian.getRandomNumber(a._1()._1(), (a._2() - a._1()._2()) * (1.0 - alg.getPercentageComplete()));
+                            }
+                        }));
             }
         }).toList();
     }

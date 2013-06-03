@@ -28,7 +28,7 @@ public class RandomParameterGenerator extends ParameterGenerator {
 
     @Override
     public Vector _1() {
-        return Vector.copyOf(
+        return Vector.copyOfIterable(
             range(0, count).map(new F<Integer, Double>(){
                 @Override
                 public Double f(Integer a) {

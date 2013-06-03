@@ -32,7 +32,7 @@ public class EntityBasedFitnessCalculator implements FitnessCalculator<Entity> {
     @Override
     public Fitness getFitness(Entity entity) {
         Algorithm algorithm = AbstractAlgorithm.get();
-        return algorithm.getOptimisationProblem().getFitness(entity.getCandidateSolution());
+        return algorithm.getOptimisationProblem().getFitness(entity.getPosition());
     }
 
 }

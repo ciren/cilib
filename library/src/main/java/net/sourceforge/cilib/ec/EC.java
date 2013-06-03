@@ -13,7 +13,7 @@ import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.ec.iterationstrategies.GeneticAlgorithmIterationStrategy;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.initialisation.InitialisationStrategy;
 import net.sourceforge.cilib.entity.initialisation.NullInitialisationStrategy;
@@ -72,7 +72,7 @@ public class EC<I extends Individual> extends SinglePopulationBasedAlgorithm<Ind
                     @Override
                     public Individual f(Individual i) {
                         i.calculateFitness();
-                        strategyParameterInitialisation.initialise(EntityType.STRATEGY_PARAMETERS, i);
+                        strategyParameterInitialisation.initialise(Property.STRATEGY_PARAMETERS, i);
                         return i;
                     }
                 });
@@ -92,7 +92,7 @@ public class EC<I extends Individual> extends SinglePopulationBasedAlgorithm<Ind
     @Override
     public OptimisationSolution getBestSolution() {
         Entity bestEntity = Topologies.getBestEntity(topology);
-        OptimisationSolution solution = new OptimisationSolution(bestEntity.getCandidateSolution().getClone(), bestEntity.getFitness());
+        OptimisationSolution solution = new OptimisationSolution(bestEntity.getPosition().getClone(), bestEntity.getFitness());
 
         return solution;
     }

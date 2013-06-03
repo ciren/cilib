@@ -68,7 +68,7 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
                     ClusterParticle c = (ClusterParticle) topology.index(i);
                     c.reinitialise();
                     clearDataPatterns(c);
-                    assignDataPatternsToParticle(((CentroidHolder)(c).getCandidateSolution()),
+                    assignDataPatternsToParticle(((CentroidHolder)(c).getPosition()),
                             ((SinglePopulationDataClusteringIterationStrategy)(((DataClusteringPSO) currentAlgorithm).getIterationStrategy())).getDataset());
                 }
              }
@@ -86,7 +86,7 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
         contextParticle = ((DataClusteringPSO) currentAlgorithm.getPopulations().get(0)).getTopology().head().getClone();
         contextParticle.reinitialise();
         clearDataPatterns(contextParticle);
-        assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);
+        assignDataPatternsToParticle((CentroidHolder) contextParticle.getPosition(), table);
         contextParticle.calculateFitness();
     }
 

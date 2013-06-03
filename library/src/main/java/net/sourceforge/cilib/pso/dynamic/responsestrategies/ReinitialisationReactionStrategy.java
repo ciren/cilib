@@ -16,9 +16,9 @@ import net.sourceforge.cilib.pso.particle.Particle;
 /**
  * This reaction strategy reinitialises the specified
  * {@link #setReinitialisationRatio(double) ratio} of randomly chosen entities in the given
- * {@link Topology}.
+ * Topology.
  *
- * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
+ * @param <E> some PopulationBasedAlgorithm population based algorithm
  */
 public class ReinitialisationReactionStrategy<E extends SinglePopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy {
     private static final long serialVersionUID = -7283513652737895281L;
@@ -67,7 +67,7 @@ public class ReinitialisationReactionStrategy<E extends SinglePopulationBasedAlg
         for (int i = 0; i < reinitialiseCount; i++) {
             int random = Rand.nextInt(entities.length());
             final Entity entity = entities.index(random);
-            entity.getCandidateSolution().randomise();
+            entity.getPosition().randomise();
             // remove the selected element from the all list preventing it from being selected again
             local = local.filter(new F<P, Boolean>() {
 				@Override

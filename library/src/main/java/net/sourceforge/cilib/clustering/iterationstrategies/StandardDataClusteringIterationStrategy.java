@@ -67,7 +67,7 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
         Vector pattern;
 
         for(ClusterParticle particle : topology) {
-            CentroidHolder candidateSolution = (CentroidHolder) particle.getCandidateSolution();
+            CentroidHolder candidateSolution = (CentroidHolder) particle.getPosition();
             for(int i = 0; i < dataset.size(); i++) {
                 euclideanDistance = Double.POSITIVE_INFINITY;
                 addedPattern = Vector.of();
@@ -86,7 +86,7 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
                 candidateSolution.get(patternIndex).addDataItem(euclideanDistance, addedPattern);
             }
 
-            particle.setCandidateSolution(candidateSolution);
+            particle.setPosition(candidateSolution);
 
             particle.calculateFitness();
             particle.updateVelocity();
@@ -114,7 +114,7 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
     private void clearCentroidDistanceValues(fj.data.List<ClusterParticle> topology) {
         CentroidHolder candidateSolution;
         for(ClusterParticle particle : topology) {
-            candidateSolution = (CentroidHolder) particle.getCandidateSolution();
+            candidateSolution = (CentroidHolder) particle.getPosition();
 
             for(ClusterCentroid centroid : candidateSolution) {
                 centroid.clearDataItems();

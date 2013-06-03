@@ -59,8 +59,8 @@ public class DominantMOOSynchronousIterationStrategy extends AbstractIterationSt
             for (Particle other : pso.getNeighbourhood().f(topology, current)) {
                 Particle p1 = current.getNeighbourhoodBest().getClone();
                 Particle p2 = other.getNeighbourhoodBest().getClone();
-                OptimisationSolution s1 = new OptimisationSolution(p1.getCandidateSolution().getClone(), problem.getFitness(p1.getCandidateSolution().getClone()));
-                OptimisationSolution s2 = new OptimisationSolution(p2.getCandidateSolution().getClone(), problem.getFitness(p2.getCandidateSolution().getClone()));
+                OptimisationSolution s1 = new OptimisationSolution(p1.getPosition().getClone(), problem.getFitness(p1.getPosition().getClone()));
+                OptimisationSolution s2 = new OptimisationSolution(p2.getPosition().getClone(), problem.getFitness(p2.getPosition().getClone()));
                 MOFitness fitness1 = (MOFitness)s1.getFitness();
                 MOFitness fitness2 = (MOFitness)s2.getFitness();
 //                System.out.println("fitness1 = ");

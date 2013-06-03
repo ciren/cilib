@@ -30,29 +30,29 @@ public final class Entities {
         };
     }
 
-    public static <E extends Entity> F<E, StructuredType> getCandidateSolution() {
+    public static <E extends Entity> F<E, StructuredType> getPosition() {
         return new F<E, StructuredType>() {
             @Override
             public StructuredType f(E a) {
-                return a.getCandidateSolution();
+                return a.getPosition();
             }
         };
     }
 
-    public static <E, T extends Entity> java.util.List<E> getCandidateSolutions(java.util.List<T> list) {
+    public static <E, T extends Entity> java.util.List<E> getPositions(java.util.List<T> list) {
         return Lists.newArrayList(fj.data.List.iterableList(list).map(new F<T, E>() {
             @Override
             public E f(T e) {
-                return (E) e.getCandidateSolution();
+                return (E) e.getPosition();
             }
         }));
     }
 
-    public static <E extends Entity> F2<StructuredType, E, E> setCandidateSolution() {
+    public static <E extends Entity> F2<StructuredType, E, E> setPosition() {
         return new F2<StructuredType, E, E>() {
             @Override
             public E f(StructuredType a, E b) {
-                b.setCandidateSolution(a);
+                b.setPosition(a);
                 return b;
             }
         };

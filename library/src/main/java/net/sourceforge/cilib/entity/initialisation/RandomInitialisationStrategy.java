@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.entity.initialisation;
 
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.type.types.Randomisable;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -23,8 +24,8 @@ public class RandomInitialisationStrategy<E extends Entity> implements Initialis
     }
 
     @Override
-    public void initialise(Enum<?> key, E entity) {
-        Type type = entity.getProperties().get(key);
+    public void initialise(Property key, E entity) {
+        Type type = entity.get(key);
 
         if (type instanceof Randomisable) {
             Randomisable randomisable = (Randomisable) type;

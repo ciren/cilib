@@ -28,17 +28,17 @@ public class PerElementReinitialisation extends ReinitialisationBoundary {
     @Override
     public void enforce(Entity entity) {
         try {
-            enforce((Vector) entity.getCandidateSolution());
+            enforce((Vector) entity.getPosition());
         }
         catch (ClassCastException cce) {
-            enforce((Numeric) entity.getCandidateSolution());
+            enforce((Numeric) entity.getPosition());
         }
     }
 
     /**
      * This method only randomises those elements inside the given {@linkplain Type} object that are out of bounds.
      * NOTE: This method is recursive so that it can handle <tt>Vectors</tt> inside <tt>Vectors</tt>.
-     * @param type the {@linkplain Type} object whose individual elements should be randomised if they are out of bounds
+     * @param vector the {@linkplain Type} object whose individual elements should be randomised if they are out of bounds
      */
     private void enforce(Vector vector) {
         for (Type element : vector) {

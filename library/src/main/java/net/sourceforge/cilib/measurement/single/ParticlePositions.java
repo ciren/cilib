@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
-import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.pso.PSO;
@@ -32,13 +31,9 @@ public class ParticlePositions implements Measurement<StringType> {
      */
     @Override
     public StringType getValue(Algorithm algorithm) {
-        StringBuilder tmp = new StringBuilder();
-
-        PSO pso = (PSO) algorithm;
-        //Iterator i = pso.getTopology().particles();
-        Iterator<Particle> i = pso.getTopology().iterator();
-        while (i.hasNext()) {
-            Particle particle = i.next();
+        final StringBuilder tmp = new StringBuilder();
+        final PSO pso = (PSO) algorithm;
+        for (Particle particle : pso.getTopology()) {
             tmp.append("\nParticle: ");
             tmp.append(" Current Fitness: ");
             tmp.append(particle.getFitness().getValue());
@@ -46,7 +41,7 @@ public class ParticlePositions implements Measurement<StringType> {
             tmp.append(particle.getBestFitness().getValue());
             tmp.append(" Position: ");
 
-            Vector v = (Vector) particle.getCandidateSolution();
+            Vector v = (Vector) particle.getPosition();
             for (int j = 0; j < particle.getDimension(); ++j) {
                 tmp.append(v.doubleValueOf(j));
                 tmp.append(" ");

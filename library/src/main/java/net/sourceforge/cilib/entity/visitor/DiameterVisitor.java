@@ -16,7 +16,7 @@ import fj.data.List;
 
 /**
  * Visitor to determine the size of the diameter of the provided
- * {@linkplain Topology}.
+ * Topology.
  */
 public class DiameterVisitor<E extends Entity> extends TopologyVisitor<E, Double> {
 
@@ -52,7 +52,7 @@ public class DiameterVisitor<E extends Entity> extends TopologyVisitor<E, Double
             public Double f(final E outer) {
                 return list.map(new F<E, Double>() {
                     public Double f(final E inner) {
-                        return distanceMeasure.distance((Vector) outer.getCandidateSolution(), (Vector) inner.getCandidateSolution());
+                        return distanceMeasure.distance(outer.getPosition(), inner.getPosition());
                     }
                 }).maximum(Ord.doubleOrd);
             }

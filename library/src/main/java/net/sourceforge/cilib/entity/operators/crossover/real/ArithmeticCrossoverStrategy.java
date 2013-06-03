@@ -40,13 +40,13 @@ public class ArithmeticCrossoverStrategy implements CrossoverStrategy {
         E o1 = (E) parentCollection.get(0).getClone();
         E o2 = (E) parentCollection.get(1).getClone();
         
-        Vector o1Vec = (Vector) o1.getCandidateSolution();
-        Vector o2Vec = (Vector) o2.getCandidateSolution();
+        Vector o1Vec = (Vector) o1.getPosition();
+        Vector o2Vec = (Vector) o2.getPosition();
         
         double value = lambda.getParameter();
 
-        o1.setCandidateSolution(o1Vec.multiply(value).plus(o2Vec.multiply(1.0 - value)));
-        o2.setCandidateSolution(o2Vec.multiply(value).plus(o1Vec.multiply(1.0 - value)));
+        o1.setPosition(o1Vec.multiply(value).plus(o2Vec.multiply(1.0 - value)));
+        o2.setPosition(o2Vec.multiply(value).plus(o1Vec.multiply(1.0 - value)));
 
         return Arrays.asList(o1, o2);
     }

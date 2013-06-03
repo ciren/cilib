@@ -9,7 +9,7 @@ package net.sourceforge.cilib.entity.comparator;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.problem.solution.MaximisationFitness;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
@@ -39,9 +39,9 @@ public class SocialBestFitnessComparatorTest {
         Particle p2 = new StandardParticle();
         Particle p3 = new StandardParticle();
 
-        p1.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(0.0));
-        p2.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(1.0));
-        p3.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(3.0));
+        p1.put(Property.BEST_FITNESS, new MinimisationFitness(0.0));
+        p2.put(Property.BEST_FITNESS, new MinimisationFitness(1.0));
+        p3.put(Property.BEST_FITNESS, new MinimisationFitness(3.0));
 
         List<Particle> entities = Arrays.asList(p1, p2, p3);
         Collections.sort(entities, new SocialBestFitnessComparator());
@@ -63,9 +63,9 @@ public class SocialBestFitnessComparatorTest {
         Particle p2 = new StandardParticle();
         Particle p3 = new StandardParticle();
 
-        p1.getProperties().put(EntityType.Particle.BEST_FITNESS, new MaximisationFitness(0.0));
-        p2.getProperties().put(EntityType.Particle.BEST_FITNESS, new MaximisationFitness(1.0));
-        p3.getProperties().put(EntityType.Particle.BEST_FITNESS, new MaximisationFitness(3.0));
+        p1.put(Property.BEST_FITNESS, new MaximisationFitness(0.0));
+        p2.put(Property.BEST_FITNESS, new MaximisationFitness(1.0));
+        p3.put(Property.BEST_FITNESS, new MaximisationFitness(3.0));
 
         List<Particle> entities = Arrays.asList(p1, p2, p3);
         Collections.sort(entities, new SocialBestFitnessComparator());
@@ -86,9 +86,9 @@ public class SocialBestFitnessComparatorTest {
         Particle p2 = new StandardParticle();
         Particle p3 = new StandardParticle();
 
-        p1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.0));
-        p2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
-        p3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(3.0));
+        p1.put(Property.FITNESS, new MinimisationFitness(0.0));
+        p2.put(Property.FITNESS, new MinimisationFitness(1.0));
+        p3.put(Property.FITNESS, new MinimisationFitness(3.0));
 
         p1.setNeighbourhoodBestUpdateStrategy(new IterationNeighbourhoodBestUpdateStrategy());
         p2.setNeighbourhoodBestUpdateStrategy(new IterationNeighbourhoodBestUpdateStrategy());
@@ -113,9 +113,9 @@ public class SocialBestFitnessComparatorTest {
         Particle p2 = new StandardParticle();
         Particle p3 = new StandardParticle();
 
-        p1.getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.0));
-        p2.getProperties().put(EntityType.FITNESS, new MaximisationFitness(1.0));
-        p3.getProperties().put(EntityType.FITNESS, new MaximisationFitness(3.0));
+        p1.put(Property.FITNESS, new MaximisationFitness(0.0));
+        p2.put(Property.FITNESS, new MaximisationFitness(1.0));
+        p3.put(Property.FITNESS, new MaximisationFitness(3.0));
 
         p1.setNeighbourhoodBestUpdateStrategy(new IterationNeighbourhoodBestUpdateStrategy());
         p2.setNeighbourhoodBestUpdateStrategy(new IterationNeighbourhoodBestUpdateStrategy());

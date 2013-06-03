@@ -66,7 +66,7 @@ public class DissipativeStep {
                 /*particle.getPosition()[i] = randomGenerator.nextDouble()
                 //* (d.getUpperBound() - d.getLowerBound()) + d.getLowerBound();
                 * (component.getUpperBound() - component.getLowerBound()) + component.getLowerBound();*/
-                Vector position = (Vector) particle.getCandidateSolution();
+                Vector position = (Vector) particle.getPosition();
                 position.setReal(i, Rand.nextDouble()*(component.getBounds().getUpperBound() - component.getBounds().getLowerBound())+ component.getBounds().getLowerBound());
             }
         }

@@ -59,11 +59,11 @@ public class AlternateCrossoverGuideProvider implements GuideProvider {
     public StructuredType get(Particle particle) {
         PSO pso = (PSO) AbstractAlgorithm.get();
         Particle p1 = particle.getClone();
-        p1.setCandidateSolution(parent1.get(particle));
+        p1.setPosition(parent1.get(particle));
         Particle p2 = particle.getClone();
-        p2.setCandidateSolution(parent2.get(particle));
+        p2.setPosition(parent2.get(particle));
 
-        return crossover.crossover(Arrays.asList(p1, p2)).get(0).getCandidateSolution();
+        return crossover.crossover(Arrays.asList(p1, p2)).get(0).getPosition();
     }
     
     public void setCrossoverStrategy(CrossoverStrategy crossover) {

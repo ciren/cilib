@@ -14,7 +14,7 @@ import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
@@ -68,13 +68,13 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
         List<Particle> filteredSwarm = swarm.filter(dot(gBest).andThen(Doubles.ltZero));
         if(!filteredSwarm.isEmpty()) {
             Particle closest = filteredSwarm.minimum(Ord.ord(sortByDistance(gBest, distanceMeasure)));
-            nRadius = distanceMeasure.distance(closest.getCandidateSolution(), gBest.getCandidateSolution());
+            nRadius = distanceMeasure.distance(closest.getPosition(), gBest.getPosition());
             newTopology = newTopology.append(swarm.filter(filter(distanceMeasure, gBest, nRadius)));
         }
 
         // to prevent new particles from having the same position as the gBest
         if (nRadius == 0) {
-            nRadius = ((Vector) gBest.getCandidateSolution()).get(0).getBounds().getUpperBound();
+            nRadius = ((Vector) gBest.getPosition()).get(0).getBounds().getUpperBound();
         }
 
         // Add particles until the swarm has at least 3 particles
@@ -86,16 +86,16 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
             Particle newP = gBest.getClone();
 
             // new position within the niche
-            Vector solution = (Vector) newP.getCandidateSolution();
+            Vector solution = (Vector) newP.getPosition();
             solution = solution.multiply(new P1<Number>() {
                 @Override
                 public Number _1() {
                     return uniform.getRandomNumber(-nicheRadius, nicheRadius);
                 }
-            }).plus((Vector) gBest.getCandidateSolution());
+            }).plus((Vector) gBest.getPosition());
 
-            newP.setCandidateSolution(solution);
-            newP.getProperties().put(EntityType.Coevolution.POPULATION_ID, Int.valueOf(swarms.getSubswarms().length() + 1));
+            newP.setPosition(solution);
+            newP.put(Property.POPULATION_ID, Int.valueOf(swarms.getSubswarms().length() + 1));
             newTopology = newTopology.cons(newP);
         }
 

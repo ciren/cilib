@@ -64,8 +64,8 @@ public class BlendCrossoverStrategy implements CrossoverStrategy {
         E offspring1 = (E) parentCollection.get(0).getClone();
         E offspring2 = (E) parentCollection.get(1).getClone();
 
-        Vector parentChromosome1 = (Vector) parentCollection.get(0).getCandidateSolution();
-        Vector parentChromosome2 = (Vector) parentCollection.get(1).getCandidateSolution();
+        Vector parentChromosome1 = (Vector) parentCollection.get(0).getPosition();
+        Vector parentChromosome2 = (Vector) parentCollection.get(1).getPosition();
         Vector.Builder offspringChromosome1 = Vector.newBuilder();
         Vector.Builder offspringChromosome2 = Vector.newBuilder();
 
@@ -83,8 +83,8 @@ public class BlendCrossoverStrategy implements CrossoverStrategy {
             offspringChromosome2.add(Real.valueOf(value2, parentChromosome1.boundsOf(i)));
         }
 
-        offspring1.setCandidateSolution(offspringChromosome1.build());
-        offspring2.setCandidateSolution(offspringChromosome2.build());
+        offspring1.setPosition(offspringChromosome1.build());
+        offspring2.setPosition(offspringChromosome2.build());
 
         return Arrays.asList(offspring1, offspring2);
     }

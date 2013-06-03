@@ -61,7 +61,7 @@ public class DataClusteringPSOTest {
 
         ClusterParticle particleAfter = instance.getTopology().head().getClone();
 
-        Assert.assertFalse(particleAfter.getCandidateSolution().containsAll(particleBefore.getCandidateSolution()));
+        Assert.assertFalse(particleAfter.getPosition().containsAll(particleBefore.getPosition()));
 
     }
 
@@ -75,9 +75,7 @@ public class DataClusteringPSOTest {
         CentroidHolder holder = new CentroidHolder();
         holder.add(ClusterCentroid.of(1,2,3,4,5));
         holder.add(ClusterCentroid.of(1,3,5,9,8));
-        p.setCandidateSolution(holder);
-//        Topology topology = new GBestTopology();
-//        topology.add(p);
+        p.setPosition(holder);
         fj.data.List<ClusterParticle> list = fj.data.List.list(p);
 
         instance.setTopology(list);
@@ -94,9 +92,7 @@ public class DataClusteringPSOTest {
         ClusterParticle p = new ClusterParticle();
         CentroidHolder holder = new CentroidHolder();
         holder.add(ClusterCentroid.of(1,2,3,4,5));
-        p.setCandidateSolution(holder);
-//        Topology topology = new GBestTopology();
-//        topology.add(p);
+        p.setPosition(holder);
 
         fj.data.List<ClusterParticle> list = fj.data.List.list(p);
         instance.setTopology(list);

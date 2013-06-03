@@ -14,7 +14,7 @@ import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.clustering.iterationstrategies.SinglePopulationDataClusteringIterationStrategy;
 import net.sourceforge.cilib.clustering.iterationstrategies.StandardDataClusteringIterationStrategy;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.QuantisationErrorMinimisationProblem;
 import net.sourceforge.cilib.problem.boundaryconstraint.CentroidBoundaryConstraint;
@@ -106,7 +106,7 @@ public class CooperativePSOTest {
 
         ClusterParticle particleAfter = instance.getTopology().head().getClone();
 
-        Assert.assertFalse(particleAfter.getCandidateSolution().containsAll(particleBefore.getCandidateSolution()));
+        Assert.assertFalse(particleAfter.getPosition().containsAll(particleBefore.getPosition()));
     }
 
     /**
@@ -119,10 +119,10 @@ public class CooperativePSOTest {
         CentroidHolder holder = new CentroidHolder();
         holder.add(ClusterCentroid.of(1,2,3,4,5));
         holder.add(ClusterCentroid.of(5,4,3,2,1));
-        particle.setCandidateSolution(holder);
-        particle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.0));
-        particle.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(2.0));
-        particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getCandidateSolution());
+        particle.setPosition(holder);
+        particle.put(Property.FITNESS, new MinimisationFitness(2.0));
+        particle.put(Property.BEST_FITNESS, new MinimisationFitness(2.0));
+        particle.put(Property.BEST_POSITION, particle.getPosition());
         particle.setNeighbourhoodBest(particle);
 //        standard.getTopology().add(particle);
 
@@ -130,10 +130,10 @@ public class CooperativePSOTest {
         CentroidHolder otherHolder = new CentroidHolder();
         otherHolder.add(ClusterCentroid.of(6,7,8,9,10));
         otherHolder.add(ClusterCentroid.of(10,9,8,7,6));
-        otherParticle.setCandidateSolution(otherHolder);
-        otherParticle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
-        otherParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(1.0));
-        otherParticle.getProperties().put(EntityType.Particle.BEST_POSITION, otherParticle.getCandidateSolution());
+        otherParticle.setPosition(otherHolder);
+        otherParticle.put(Property.FITNESS, new MinimisationFitness(1.0));
+        otherParticle.put(Property.BEST_FITNESS, new MinimisationFitness(1.0));
+        otherParticle.put(Property.BEST_POSITION, otherParticle.getPosition());
         otherParticle.setNeighbourhoodBest(otherParticle);
 //        standard.getTopology().add(otherParticle);
 
@@ -144,10 +144,10 @@ public class CooperativePSOTest {
         CentroidHolder otherHolder2 = new CentroidHolder();
         otherHolder2.add(ClusterCentroid.of(3,2,3,4,5));
         otherHolder2.add(ClusterCentroid.of(5,10,3,7,1));
-        particle2.setCandidateSolution(holder);
-        particle2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.1));
-        particle2.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(2.1));
-        particle2.getProperties().put(EntityType.Particle.BEST_POSITION, particle2.getCandidateSolution());
+        particle2.setPosition(holder);
+        particle2.put(Property.FITNESS, new MinimisationFitness(2.1));
+        particle2.put(Property.BEST_FITNESS, new MinimisationFitness(2.1));
+        particle2.put(Property.BEST_POSITION, particle2.getPosition());
         particle2.setNeighbourhoodBest(particle2);
 //        standard2.getTopology().add(particle2);
 
@@ -155,10 +155,10 @@ public class CooperativePSOTest {
         CentroidHolder holder2 = new CentroidHolder();
         holder2.add(ClusterCentroid.of(9,7,2,9,10));
         holder2.add(ClusterCentroid.of(11,9,5,7,6));
-        otherParticle2.setCandidateSolution(holder2);
-        otherParticle2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(3.0));
-        otherParticle2.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(3.0));
-        otherParticle2.getProperties().put(EntityType.Particle.BEST_POSITION, otherParticle.getCandidateSolution());
+        otherParticle2.setPosition(holder2);
+        otherParticle2.put(Property.FITNESS, new MinimisationFitness(3.0));
+        otherParticle2.put(Property.BEST_FITNESS, new MinimisationFitness(3.0));
+        otherParticle2.put(Property.BEST_POSITION, otherParticle.getPosition());
         otherParticle2.setNeighbourhoodBest(otherParticle2);
 //        standard2.getTopology().add(otherParticle2);
 
@@ -177,7 +177,7 @@ public class CooperativePSOTest {
         Assert.assertTrue(!list.isEmpty());
         boolean contains = false;
         for(CentroidHolder centroidHolder : holders) {
-            if(centroidHolder.containsAll(otherParticle.getCandidateSolution())){
+            if(centroidHolder.containsAll(otherParticle.getPosition())){
                 contains = true;
             }
         }
@@ -186,7 +186,7 @@ public class CooperativePSOTest {
 
         contains = false;
         for(CentroidHolder centroidHolder : holders) {
-            if(centroidHolder.containsAll(particle2.getCandidateSolution())){
+            if(centroidHolder.containsAll(particle2.getPosition())){
                 contains = true;
             }
         }

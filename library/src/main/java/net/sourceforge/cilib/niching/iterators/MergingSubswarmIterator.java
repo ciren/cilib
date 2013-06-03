@@ -58,7 +58,7 @@ public class MergingSubswarmIterator extends SubswarmIterator {
 
                 List<Entity> local = b.getTopology();
                 for (Entity e : local) {
-                    double d2 = distanceMeasure.distance((Vector) a.getBestSolution().getPosition(), e.getCandidateSolution());
+                    double d2 = distanceMeasure.distance((Vector) a.getBestSolution().getPosition(), e.getPosition());
 
                     if (d2 < granularity.getParameter()) {
                         newA.setTopology(newA.getTopology().snoc(e));

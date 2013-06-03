@@ -28,7 +28,7 @@ public class ParameterisedIndividualTest {
 
         ParameterisedIndividual individual = new ParameterisedIndividual();
         individual.initialise(problem);
-        Assert.assertTrue(!individual.getCandidateSolution().isEmpty());
+        Assert.assertTrue(!individual.getPosition().isEmpty());
     }
 
     @Test
@@ -67,7 +67,7 @@ public class ParameterisedIndividualTest {
     public void getParameterHoldingIndividual() {
         ParameterisedIndividual individual = new ParameterisedIndividual();
         Individual individual2 = new Individual();
-        individual2.setCandidateSolution(Vector.of(5,2,4));
+        individual2.setPosition(Vector.of(5,2,4));
         individual.setParameterHoldingIndividual(individual2);
         Assert.assertEquals(individual2, individual.getParameterHoldingIndividual());
     }
@@ -76,7 +76,7 @@ public class ParameterisedIndividualTest {
     public void setParameterHoldingIndividual() {
         ParameterisedIndividual individual = new ParameterisedIndividual();
         Individual individual2 = new Individual();
-        individual2.setCandidateSolution(Vector.of(5,2,4));
+        individual2.setPosition(Vector.of(5,2,4));
         individual.setParameterHoldingIndividual(individual2);
         Assert.assertEquals(individual2, individual.getParameterHoldingIndividual());
     }

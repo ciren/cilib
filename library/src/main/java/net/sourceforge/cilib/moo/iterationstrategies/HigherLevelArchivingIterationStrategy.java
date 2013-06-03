@@ -28,7 +28,7 @@ import net.sourceforge.cilib.type.types.Type;
  * VEPSO, to let all swarms respond to a change if a change has been detected in
  * the environment of any of the swarms.
  *
- * @param <E>   The {@link PopulationBasedAlgorithm} that will have its
+ * @param <E>   The PopulationBasedAlgorithm that will have its
  *              {@link Entity}' positions added to the archive as potential solutions.
  */
 public class HigherLevelArchivingIterationStrategy<E extends MultiPopulationBasedAlgorithm> implements IterationStrategy<E> {
@@ -70,7 +70,7 @@ public class HigherLevelArchivingIterationStrategy<E extends MultiPopulationBase
         Algorithm topLevelAlgorithm = AbstractAlgorithm.getAlgorithmList().index(0);
         List<OptimisationSolution> optimisationSolutions = new ArrayList<>();
         for (Entity entity : population) {
-            Type solution = entity.getCandidateSolution().getClone();
+            Type solution = entity.getPosition().getClone();
             optimisationSolutions.add(new OptimisationSolution(solution,
                     topLevelAlgorithm.getOptimisationProblem().getFitness(solution)));
         }

@@ -49,7 +49,7 @@ public class ParticleBoundViolations implements Measurement<Real> {
         while (populationIterator.hasNext()) {
             Entity entity = populationIterator.next();
 
-            Iterator positionIterator = entity.getCandidateSolution().iterator();
+            Iterator positionIterator = entity.getPosition().iterator();
 
             while (positionIterator.hasNext()) {
                 Numeric position = (Numeric) positionIterator.next();

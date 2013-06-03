@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.entity.initialisation;
 
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.io.ARFFFileReader;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.DataTableBuilder;
@@ -22,7 +23,7 @@ import net.sourceforge.cilib.type.types.container.ClusterCentroid;
  * This class initialises a ClusterParticle to contain a CentroidHolder as the candidate solution, velocity and best position
  * It initialises ClusterCentroids to the positions of existing data patterns
  */
-public class DataPatternInitialisationStrategy <E extends Entity> extends DataDependantInitialisationStrategy<E> {
+public class DataPatternInitialisationStrategy<E extends Entity> extends DataDependantInitialisationStrategy<E> {
     private ProbabilityDistributionFunction random;
     private PatternConversionOperator patternConversionOperator;
 
@@ -61,18 +62,18 @@ public class DataPatternInitialisationStrategy <E extends Entity> extends DataDe
      * @param entity The entity to be initialised
      */
     @Override
-    public void initialise(Enum<?> key, E entity) {
+    public void initialise(Property key, E entity) {
         int index = (int) random.getRandomNumber(0, dataset.size());
         CentroidHolder holder = new CentroidHolder();
         ClusterCentroid centroid;
 
-        for(int i=0; i< ((CentroidHolder) entity.getProperties().get(key)).size(); i++) {
+        for(int i=0; i< ((CentroidHolder) entity.get(key)).size(); i++) {
             centroid = new ClusterCentroid();
             centroid.copy(((StandardPattern) dataset.getRow(index)).getVector());
             holder.add(centroid);
         }
 
-        entity.getProperties().put(key, holder);
+        entity.put(key, holder);
     }
 
     /*

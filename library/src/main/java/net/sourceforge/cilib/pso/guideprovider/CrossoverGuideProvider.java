@@ -8,7 +8,7 @@ package net.sourceforge.cilib.pso.guideprovider;
 
 import fj.P3;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.crossover.operations.CrossoverSelection;
 import net.sourceforge.cilib.pso.crossover.operations.RepeatingCrossoverSelection;
@@ -26,8 +26,8 @@ public class CrossoverGuideProvider implements GuideProvider {
 
     private GuideProvider delegate;
     private CrossoverSelection crossoverSelection;
-    private Enum positionComponent;
-    private Enum fitnessComponent;
+    private Property positionComponent;
+    private Property fitnessComponent;
 
     /**
      * Default constructor.
@@ -35,8 +35,8 @@ public class CrossoverGuideProvider implements GuideProvider {
     public CrossoverGuideProvider() {
         this.delegate = new NBestGuideProvider();
         this.crossoverSelection = new RepeatingCrossoverSelection();
-        this.positionComponent = EntityType.Particle.BEST_POSITION;
-        this.fitnessComponent = EntityType.Particle.BEST_FITNESS;
+        this.positionComponent = Property.BEST_POSITION;
+        this.fitnessComponent = Property.BEST_FITNESS;
     }
 
     /**
@@ -68,7 +68,7 @@ public class CrossoverGuideProvider implements GuideProvider {
         P3<Boolean, Particle, Particle> result = crossoverSelection.doAction(pso, positionComponent, fitnessComponent);
 
         if (result._1()) {
-            return result._3().getCandidateSolution();
+            return result._3().getPosition();
         }
 
         return delegate.get(particle);
@@ -92,11 +92,11 @@ public class CrossoverGuideProvider implements GuideProvider {
 
     public void setComponent(String type) {
         if ("pbest".equalsIgnoreCase(type)) {
-            fitnessComponent = EntityType.Particle.BEST_FITNESS;
-            positionComponent = EntityType.Particle.BEST_POSITION;
+            fitnessComponent = Property.BEST_FITNESS;
+            positionComponent = Property.BEST_POSITION;
         } else {
-            fitnessComponent = EntityType.FITNESS;
-            positionComponent = EntityType.CANDIDATE_SOLUTION;
+            fitnessComponent = Property.FITNESS;
+            positionComponent = Property.CANDIDATE_SOLUTION;
         }
     }
 }

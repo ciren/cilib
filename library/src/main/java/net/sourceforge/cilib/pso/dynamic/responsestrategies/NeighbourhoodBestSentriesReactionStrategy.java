@@ -27,7 +27,7 @@ public class NeighbourhoodBestSentriesReactionStrategy<E extends SinglePopulatio
 	protected <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void performReaction(
 			A algorithm) {
         for (Entity entity : Topologies.getNeighbourhoodBestEntities(algorithm.getTopology(), algorithm.getNeighbourhood())) {
-            entity.getCandidateSolution().randomise();
+            entity.getPosition().randomise();
             // TODO: What is the influence of reevaluation?
 //            entity.calculateFitness(false);
         }

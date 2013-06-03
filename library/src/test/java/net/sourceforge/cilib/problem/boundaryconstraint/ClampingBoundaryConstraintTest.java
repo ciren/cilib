@@ -29,12 +29,12 @@ public class ClampingBoundaryConstraintTest {
         candidateSolutionBuilder.add(Real.valueOf(6.0, bounds));
 
         Individual i = new Individual();
-        i.setCandidateSolution(candidateSolutionBuilder.build());
+        i.setPosition(candidateSolutionBuilder.build());
 
         ClampingBoundaryConstraint clampingBoundaryConstraint = new ClampingBoundaryConstraint();
         clampingBoundaryConstraint.enforce(i);
 
-        Vector solution = (Vector) i.getCandidateSolution();
+        Vector solution = (Vector) i.getPosition();
         Assert.assertThat(solution.doubleValueOf(0), is(-5.0));
         Assert.assertThat(solution.doubleValueOf(1), is(3.0));
         Assert.assertThat(solution.doubleValueOf(2), is(5.0 - Maths.EPSILON));
@@ -43,11 +43,11 @@ public class ClampingBoundaryConstraintTest {
     @Test
     public void integerUpperBound() {
         Individual individual = new Individual();
-        individual.setCandidateSolution(Vector.newBuilder().addWithin(5, new Bounds(0, 4)).build());
+        individual.setPosition(Vector.newBuilder().addWithin(5, new Bounds(0, 4)).build());
 
         ClampingBoundaryConstraint clampingBoundaryConstraint = new ClampingBoundaryConstraint();
         clampingBoundaryConstraint.enforce(individual);
 
-        Assert.assertThat(((Vector) individual.getCandidateSolution()).intValueOf(0), is(4));
+        Assert.assertThat(((Vector) individual.getPosition()).intValueOf(0), is(4));
     }
 }

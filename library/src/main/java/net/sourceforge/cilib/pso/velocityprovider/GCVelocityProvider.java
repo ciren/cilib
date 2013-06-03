@@ -123,7 +123,7 @@ public class GCVelocityProvider implements VelocityProvider {
 
         if (particle == globalBest) {
             final Vector velocity = (Vector) particle.getVelocity();
-            final Vector position = (Vector) particle.getCandidateSolution();
+            final Vector position = (Vector) particle.getPosition();
             final Vector globalGuide = (Vector) particle.getGlobalGuide();
 
             Vector.Builder builder = Vector.newBuilder();
@@ -165,7 +165,7 @@ public class GCVelocityProvider implements VelocityProvider {
                 this.failureCount++;
             }
 
-            updateRho((Vector) particle.getCandidateSolution());
+            updateRho((Vector) particle.getPosition());
             return;
         }
 

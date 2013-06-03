@@ -59,11 +59,11 @@ public class CrossoverVelocityProvider implements VelocityProvider {
         Entity parent2 = particle.getClone();
         Entity parent3 = particle.getClone();
 
-        parent2.setCandidateSolution(particle.getBestPosition());
-        parent3.setCandidateSolution(particle.getNeighbourhoodBest().getBestPosition());
+        parent2.setPosition(particle.getBestPosition());
+        parent3.setPosition(particle.getNeighbourhoodBest().getBestPosition());
 
         return (Vector) crossoverStrategy.crossover(Arrays.asList(parent1, parent2, parent3))
-                .get(0).getCandidateSolution();
+                .get(0).getPosition();
     }
 
     /**

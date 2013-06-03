@@ -10,6 +10,7 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.boa.ABC;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * A worker bee that forages for food and updates the hive information by dancing.
@@ -65,7 +66,7 @@ public class WorkerBee extends AbstractBee {
                 failureCount = 0;
                 ExplorerBee explorerBee = algorithm.getExplorerBee();
                 if (explorerBee.searchAllowed(algorithm.getIterations())) {
-                    this.setPosition(explorerBee.getNewPosition(algorithm.getIterations(), this.getPosition()));
+                    this.setPosition(explorerBee.getNewPosition(algorithm.getIterations(), (Vector) this.getPosition()));
                 }
             }
         }

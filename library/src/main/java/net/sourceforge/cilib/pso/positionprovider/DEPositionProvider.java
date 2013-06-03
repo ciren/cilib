@@ -56,7 +56,7 @@ public class DEPositionProvider implements PositionProvider {
 
     @Override
     public Vector get(Particle particle) {
-        Vector position = (Vector) particle.getCandidateSolution();
+        Vector position = (Vector) particle.getPosition();
         Vector velocity = (Vector) particle.getVelocity();
 
         if (rand1.getRandomNumber() < differentialEvolutionProbability.getRandomNumber(0.8, 0.1)) {
@@ -85,8 +85,8 @@ public class DEPositionProvider implements PositionProvider {
             while (count < 3) {
                 int random = Rand.nextInt(pso.getTopology().length());
                 Entity parent = pso.getTopology().index(random);
-                if (!positions.contains((Vector) parent.getCandidateSolution())) {
-                    positions.add((Vector) parent.getCandidateSolution());
+                if (!positions.contains((Vector) parent.getPosition())) {
+                    positions.add((Vector) parent.getPosition());
                     count++;
                 }
             }
@@ -110,10 +110,10 @@ public class DEPositionProvider implements PositionProvider {
 
             //position should only become the offspring if its fitness is better
             Fitness trialFitness = pso.getOptimisationProblem().getFitness(dePosition);
-            Fitness currentFitness = pso.getOptimisationProblem().getFitness(particle.getCandidateSolution());
+            Fitness currentFitness = pso.getOptimisationProblem().getFitness(particle.getPosition());
 
             if (trialFitness.compareTo(currentFitness) > 0) {
-                particle.setCandidateSolution(dePosition);
+                particle.setPosition(dePosition);
             }
             return dePosition;
         }

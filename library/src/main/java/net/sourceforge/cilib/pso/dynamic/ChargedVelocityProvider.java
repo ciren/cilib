@@ -48,7 +48,7 @@ public class ChargedVelocityProvider implements VelocityProvider {
 
     @Override
     public Vector get(Particle particle) {
-        Vector position = (Vector) particle.getCandidateSolution();
+        Vector position = (Vector) particle.getPosition();
 
         PSO pso = (PSO) AbstractAlgorithm.get();
 
@@ -63,7 +63,7 @@ public class ChargedVelocityProvider implements VelocityProvider {
 
                 double qi = ((ChargedParticle) particle).getCharge();
                 double qj = ((ChargedParticle) other).getCharge();
-                Vector rij = position.subtract((Vector) other.getCandidateSolution());
+                Vector rij = position.subtract((Vector) other.getPosition());
                 double magnitude = rij.norm();
 
                 if (this.pCore.getParameter() <= magnitude && magnitude <= this.p.getParameter()) {

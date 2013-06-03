@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.real.ParentCentricCrossoverStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
@@ -73,11 +73,11 @@ public class DistinctCrossoverVelocityProvider implements VelocityProvider {
 
         for (Vector v : parents) {
             Entity parent = particle.getClone();
-            parent.setCandidateSolution(v);
+            parent.setPosition(v);
             entityParents.add(parent);
         }
 
-        return (Vector) crossover.crossover(entityParents).get(0).getCandidateSolution();
+        return (Vector) crossover.crossover(entityParents).get(0).getPosition();
     }
 
     /**
@@ -90,7 +90,7 @@ public class DistinctCrossoverVelocityProvider implements VelocityProvider {
     public Vector get(Particle particle) {
         particle.setPositionProvider(new LinearPositionProvider());
 
-        Vector solution = (Vector) particle.getCandidateSolution();
+        Vector solution = (Vector) particle.getPosition();
         Vector pBest = (Vector) particle.getBestPosition();
         Vector nBest = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
@@ -100,7 +100,7 @@ public class DistinctCrossoverVelocityProvider implements VelocityProvider {
             return applyCrossover(particle, Lists.newLinkedList(solutions), mainCrossover);
         }
 
-        Vector prevPos = (Vector) particle.getProperties().get(EntityType.PREVIOUS_SOLUTION);
+        Vector prevPos = (Vector) particle.get(Property.PREVIOUS_SOLUTION);
         solutions.add(prevPos);
 
         if (solutions.size() == 3) {

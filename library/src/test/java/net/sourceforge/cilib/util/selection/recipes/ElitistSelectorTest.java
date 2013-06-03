@@ -9,7 +9,7 @@ package net.sourceforge.cilib.util.selection.recipes;
 import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.problem.solution.MaximisationFitness;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import org.junit.Assert;
@@ -50,9 +50,9 @@ public class ElitistSelectorTest {
     @Test
     public void minimisationSelection() {
         fj.data.List<Individual> topology = createDummyTopology();
-        topology.index(0).getProperties().put(EntityType.FITNESS, new MinimisationFitness(99.0));
-        topology.index(1).getProperties().put(EntityType.FITNESS, new MinimisationFitness(8.0));
-        topology.index(2).getProperties().put(EntityType.FITNESS, new MinimisationFitness(9.0));
+        topology.index(0).put(Property.FITNESS, new MinimisationFitness(99.0));
+        topology.index(1).put(Property.FITNESS, new MinimisationFitness(8.0));
+        topology.index(2).put(Property.FITNESS, new MinimisationFitness(9.0));
 
         ElitistSelector<Individual> selection = new ElitistSelector<Individual>();
         Individual selected = selection.on(topology).select();
@@ -65,9 +65,9 @@ public class ElitistSelectorTest {
     @Test
     public void maximisationSelection() {
         fj.data.List<Individual> topology = createDummyTopology();
-        topology.index(0).getProperties().put(EntityType.FITNESS, new MaximisationFitness(99.0));
-        topology.index(1).getProperties().put(EntityType.FITNESS, new MaximisationFitness(8.0));
-        topology.index(2).getProperties().put(EntityType.FITNESS, new MaximisationFitness(9.0));
+        topology.index(0).put(Property.FITNESS, new MaximisationFitness(99.0));
+        topology.index(1).put(Property.FITNESS, new MaximisationFitness(8.0));
+        topology.index(2).put(Property.FITNESS, new MaximisationFitness(9.0));
 
         ElitistSelector<Individual> selection = new ElitistSelector<Individual>();
         Individual selected = selection.on(topology).select();

@@ -39,7 +39,7 @@ public class VectorBasedPositionProvider implements PositionProvider {
         Vector newPos = delegate.get(particle);
 
         Particle tmp = particle.getClone();
-        tmp.setCandidateSolution(newPos);
+        tmp.setPosition(newPos);
         Fitness newFitness = particle.getFitnessCalculator().getFitness(tmp);
 
         final UniformDistribution uniform = new UniformDistribution();
@@ -49,7 +49,7 @@ public class VectorBasedPositionProvider implements PositionProvider {
                 return uniform.getRandomNumber(-granularity.getParameter(), granularity.getParameter());
             }
         }).plus(newPos);
-        tmp.setCandidateSolution(newPos);
+        tmp.setPosition(newPos);
         Fitness newPBestFitness = particle.getFitnessCalculator().getFitness(tmp);
 
         if (newPBestFitness.compareTo(newFitness) < 0) {
@@ -62,7 +62,7 @@ public class VectorBasedPositionProvider implements PositionProvider {
                 .subtract(newPos).dot(newPBest.subtract(newPos));
 
         if (dot < 0) {
-            return (Vector) particle.getCandidateSolution();
+            return (Vector) particle.getPosition();
         }
 
         return newPos;

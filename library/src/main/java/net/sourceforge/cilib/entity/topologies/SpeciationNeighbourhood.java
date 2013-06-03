@@ -47,7 +47,7 @@ public class SpeciationNeighbourhood<E extends Entity> extends Neighbourhood<E> 
         List<E> neighbours = sorted.filter(new F<E, Boolean>() {
             @Override
             public Boolean f(E a) {
-                return distance.distance(a.getCandidateSolution(), sorted.head().getCandidateSolution()) < radius.getParameter();
+                return distance.distance(a.getPosition(), sorted.head().getPosition()) < radius.getParameter();
             }
         }).take((int) n.getParameter());
 

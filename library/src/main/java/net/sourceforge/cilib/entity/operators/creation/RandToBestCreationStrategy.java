@@ -60,13 +60,13 @@ public class RandToBestCreationStrategy extends RandCreationStrategy {
                 .select(Samples.first((int) numberOfDifferenceVectors.getParameter()).unique());
         Vector differenceVector = determineDistanceVector(participants);
 
-        Vector targetVector = ((Vector) targetEntity.getCandidateSolution()).multiply(1 - greedynessParameter.getParameter());
-        Vector bestVector = ((Vector) bestEntity.getCandidateSolution()).multiply(greedynessParameter.getParameter());
+        Vector targetVector = ((Vector) targetEntity.getPosition()).multiply(1 - greedynessParameter.getParameter());
+        Vector bestVector = ((Vector) bestEntity.getPosition()).multiply(greedynessParameter.getParameter());
 
         Vector trialVector = bestVector.plus(targetVector.plus(differenceVector.multiply(scaleParameter.getParameter())));
 
         T trialEntity = (T) current.getClone();
-        trialEntity.setCandidateSolution(trialVector);
+        trialEntity.setPosition(trialVector);
 
         return trialEntity;
     }

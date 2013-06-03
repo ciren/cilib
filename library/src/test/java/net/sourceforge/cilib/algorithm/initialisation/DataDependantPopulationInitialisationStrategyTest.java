@@ -72,8 +72,8 @@ public class DataDependantPopulationInitialisationStrategyTest {
             if(entity instanceof ClusterParticle) {
                 isCorrectType = true;
                 ClusterParticle newEntity = (ClusterParticle) entity;
-                numberOfClusters = newEntity.getCandidateSolution().size();
-                dimensions = ((CentroidHolder) newEntity.getCandidateSolution()).get(0).size();
+                numberOfClusters = newEntity.getPosition().size();
+                dimensions = ((CentroidHolder) newEntity.getPosition()).get(0).size();
             }
             size++;
         }

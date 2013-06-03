@@ -25,9 +25,9 @@ public final class Shapes {
         if (degenerate) {
             List<Double> A = Lists.newArrayList(Collections.nCopies(M - 1, 0.0));
             A.set(0, 1.0);
-            return Vector.copyOf(A);
+            return Vector.copyOfIterable(A);
         } else {
-            return Vector.copyOf(Collections.nCopies(M - 1, 1.0));
+            return Vector.copyOfIterable(Collections.nCopies(M - 1, 1.0));
         }
     }
 

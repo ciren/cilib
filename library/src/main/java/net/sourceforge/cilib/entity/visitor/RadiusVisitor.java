@@ -75,7 +75,7 @@ public class RadiusVisitor extends TopologyVisitor<Entity, Double> {
 
         return topology.foldLeft(new F2<Double, Entity, Double>() {
             public Double f(Double acc, Entity v) {
-                double distance = distanceMeasure.distance(center, (Vector) v.getCandidateSolution());
+                double distance = distanceMeasure.distance(center, v.getPosition());
                 return (distance > acc) ? distance : acc;
             }
         }, 0.0);

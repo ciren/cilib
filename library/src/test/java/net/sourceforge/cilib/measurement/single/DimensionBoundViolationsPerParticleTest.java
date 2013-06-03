@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
@@ -32,10 +32,10 @@ public class DimensionBoundViolationsPerParticleTest {
         Particle p4 = new StandardParticle();
 
         Bounds bounds = new Bounds(0.0, 2.0);
-        p1.getProperties().put(EntityType.CANDIDATE_SOLUTION, vectorOf(bounds, 0.5, -1.0, 2.1));
-        p2.getProperties().put(EntityType.CANDIDATE_SOLUTION, vectorOf(bounds, 1.0, 2.0, 2.0));
-        p3.getProperties().put(EntityType.CANDIDATE_SOLUTION, vectorOf(bounds, -1.0,0.0,1.0));
-        p4.getProperties().put(EntityType.CANDIDATE_SOLUTION, vectorOf(bounds, 3.0,2.0,-1.0));
+        p1.put(Property.CANDIDATE_SOLUTION, vectorOf(bounds, 0.5, -1.0, 2.1));
+        p2.put(Property.CANDIDATE_SOLUTION, vectorOf(bounds, 1.0, 2.0, 2.0));
+        p3.put(Property.CANDIDATE_SOLUTION, vectorOf(bounds, -1.0,0.0,1.0));
+        p4.put(Property.CANDIDATE_SOLUTION, vectorOf(bounds, 3.0,2.0,-1.0));
 
         final fj.data.List<Particle> topology = fj.data.List.list(p1, p2, p3, p4);
 

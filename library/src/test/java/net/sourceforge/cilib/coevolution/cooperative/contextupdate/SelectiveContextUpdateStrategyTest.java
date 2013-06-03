@@ -30,7 +30,7 @@ public class SelectiveContextUpdateStrategyTest {
 
          Vector testContext = Vector.of(1,1);
 
-         contextEntity.setCandidateSolution(testContext);
+         contextEntity.setPosition(testContext);
          contextEntity.setFitnessCalculator(test);
          Vector solution = Vector.of(0);
          DimensionAllocation allocation = new SequentialDimensionAllocation(0, 1);
@@ -38,13 +38,13 @@ public class SelectiveContextUpdateStrategyTest {
          SelectiveContextUpdateStrategy strategy = new SelectiveContextUpdateStrategy();
          strategy.updateContext(contextEntity, solution, allocation);
 
-         assertEquals(0.0, contextEntity.getCandidateSolution().get(0).doubleValue(), 0.0);
+         assertEquals(0.0, contextEntity.getPosition().get(0).doubleValue(), 0.0);
          assertEquals(1.0, contextEntity.getFitness().getValue(), 0.0);
 
          Vector otherSolution = Vector.of(3);
          strategy.updateContext(contextEntity, otherSolution, allocation);
 
-         assertEquals(0.0, contextEntity.getCandidateSolution().get(0).doubleValue(), 0.0);
+         assertEquals(0.0, contextEntity.getPosition().get(0).doubleValue(), 0.0);
          assertEquals(1.0, contextEntity.getFitness().getValue(), 0.0);
 
          verify(test, atLeast(2)).getFitness(any(ContextEntity.class));

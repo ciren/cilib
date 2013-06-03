@@ -152,8 +152,8 @@ public class SaDDEIterationStrategy extends AbstractIterationStrategy<EC> {
 	                currentOffspring.calculateFitness();
 
 	                //set the parameters of the tempOffspring
-	                if(((Vector) currentOffspring.getCandidateSolution()).get(currentOffspring.getDimension() - 1) ==
-	                     ((Vector) trialEntity.getCandidateSolution()).get(trialEntity.getDimension() - 1)) {
+	                if(((Vector) currentOffspring.getPosition()).get(currentOffspring.getDimension() - 1) ==
+	                     ((Vector) trialEntity.getPosition()).get(trialEntity.getDimension() - 1)) {
 	                            currentOffspring.setParameterHoldingIndividual(targetParameters.getClone());
 
 	                } else {

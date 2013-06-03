@@ -37,7 +37,7 @@ public class SobolParameterListProvider extends ParameterListProvider {
             @Override
             public Vector f(Integer a) {
                 final double[] p = sobol.nextPoint();
-                return Vector.copyOf(parameters.zipIndex()
+                return Vector.copyOfIterable(parameters.zipIndex()
                     .map(new F<P2<TuningBounds, Integer>, Double>() {
                         @Override
                         public Double f(P2<TuningBounds, Integer> a) {

@@ -9,7 +9,7 @@ package net.sourceforge.cilib.niching.creation;
 import fj.Ord;
 import fj.Ordering;
 import fj.data.List;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.niching.VectorBasedFunctions;
 import net.sourceforge.cilib.problem.solution.Fitness;
@@ -66,7 +66,7 @@ public class VectorBasedNicheCreationStrategyTest {
         assertEquals(Ordering.EQ, VectorBasedFunctions.sortByDistance(nBest, distanceMeasure).f(p1).f(p2));
         assertEquals(Ordering.LT, VectorBasedFunctions.sortByDistance(nBest, distanceMeasure).f(p1).f(p3));
         assertEquals(Ordering.GT, VectorBasedFunctions.sortByDistance(nBest, distanceMeasure).f(p3).f(p1));
-        assertEquals(List.list(p2, p3).minimum(Ord.ord(VectorBasedFunctions.sortByDistance(nBest, distanceMeasure))).getCandidateSolution(), Vector.of(1.0, -1.0));
+        assertEquals(List.list(p2, p3).minimum(Ord.ord(VectorBasedFunctions.sortByDistance(nBest, distanceMeasure))).getPosition(), Vector.of(1.0, -1.0));
     }
 
     @Test
@@ -86,10 +86,10 @@ public class VectorBasedNicheCreationStrategyTest {
     public static Particle createParticle(Fitness fitness, Vector position, Vector pBest) {
         Particle particle = new StandardParticle();
 
-        particle.setCandidateSolution(position);
-        particle.getProperties().put(EntityType.FITNESS, fitness);
-        particle.getProperties().put(EntityType.Particle.BEST_POSITION, pBest);
-        particle.getProperties().put(EntityType.Particle.BEST_FITNESS, fitness);
+        particle.setPosition(position);
+        particle.put(Property.FITNESS, fitness);
+        particle.put(Property.BEST_POSITION, pBest);
+        particle.put(Property.BEST_FITNESS, fitness);
 
         return particle;
     }

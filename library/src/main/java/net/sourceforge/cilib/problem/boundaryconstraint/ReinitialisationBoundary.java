@@ -32,7 +32,7 @@ public class ReinitialisationBoundary implements BoundaryConstraint {
      */
     @Override
     public void enforce(Entity entity) {
-        if (!Types.isInsideBounds(entity.getCandidateSolution())) {
+        if (!Types.isInsideBounds(entity.getPosition())) {
             entity.reinitialise();
         }
     }

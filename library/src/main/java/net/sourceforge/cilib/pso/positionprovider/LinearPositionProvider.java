@@ -35,7 +35,7 @@ public class LinearPositionProvider implements PositionProvider {
     @Override
     public Vector get(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
-        Vector position = (Vector) particle.getCandidateSolution();
+        Vector position = (Vector) particle.getPosition();
         Vector.Builder builder = Vector.newBuilder();
 
         for(int n = 0; n < position.size(); n++)

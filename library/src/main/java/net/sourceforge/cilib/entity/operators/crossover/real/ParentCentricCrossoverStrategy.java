@@ -83,7 +83,7 @@ public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
         Preconditions.checkArgument(parentCollection.size() >= 2, "ParentCentricCrossoverStrategy requires at least 2 parents.");
         Preconditions.checkState(numberOfOffspring.getParameter() > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
 
-        List<Vector> solutions = Entities.<Vector, E>getCandidateSolutions(parentCollection);
+        List<Vector> solutions = Entities.<Vector, E>getPositions(parentCollection);
         UniformDistribution randomParent = new UniformDistribution();
         List<E> offspring = Lists.newArrayList();
         int k = solutions.size();
@@ -94,7 +94,7 @@ public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
         //get each offspring
         for (int os = 0; os < numberOfOffspring.getParameter(); os++) {
             // to allow the same parent to be selected by the parentProvider
-            solutions = Entities.<Vector, E>getCandidateSolutions(parentCollection);
+            solutions = Entities.<Vector, E>getPositions(parentCollection);
             int parent = parentCollection.indexOf(parentProvider.f((List<Entity>) parentCollection));
             Collections.swap(solutions, parent, k - 1);
 
@@ -149,7 +149,7 @@ public class ParentCentricCrossoverStrategy implements CrossoverStrategy {
             }
 
             E result = (E) parentCollection.get(parent).getClone();
-            result.setCandidateSolution(child);
+            result.setPosition(child);
 
             offspring.add(result);
         }

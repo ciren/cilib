@@ -83,7 +83,7 @@ public class DimensionalEntropyMeasurement extends EntropyMeasurement {
 
                 while(populationIterator.hasNext()) {
                     e = populationIterator.next();
-                    Vector entityPosition = (Vector) e.getCandidateSolution();
+                    Vector entityPosition = (Vector) e.getPosition();
                     double position = entityPosition.get(d).doubleValue();
 
                     if(position <= intervalUppderBound && position >= intervalLowerBound) {

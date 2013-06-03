@@ -101,7 +101,7 @@ public class FeasibilitySelector <E extends Individual> implements Selector<E>{
            temp = (E) current.getClone();
 
            constraint.enforce(temp);
-           difference = euclideanDistanceMeasure.distance(temp.getCandidateSolution(), current.getCandidateSolution());
+           difference = euclideanDistanceMeasure.distance(temp.getPosition(), current.getPosition());
 
            if(difference == 0) {
                feasibleEntities.add(current);

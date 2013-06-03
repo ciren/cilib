@@ -10,7 +10,7 @@ import fj.F;
 import fj.Ord;
 import fj.Ordering;
 import net.sourceforge.cilib.entity.AbstractEntity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.initialisation.InitialisationStrategy;
 import net.sourceforge.cilib.entity.initialisation.RandomInitialisationStrategy;
 import net.sourceforge.cilib.problem.Problem;
@@ -42,9 +42,9 @@ public class Individual extends AbstractEntity {
      * Create an instance of {@linkplain Individual}.
      */
     public Individual() {
-        this.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of());
-        this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
-        initialisationStrategy = new RandomInitialisationStrategy<Individual>();
+        put(Property.CANDIDATE_SOLUTION, Vector.of());
+        put(Property.FITNESS, InferiorFitness.instance());
+        initialisationStrategy = new RandomInitialisationStrategy<>();
     }
 
     /**
@@ -68,7 +68,7 @@ public class Individual extends AbstractEntity {
      * Resets the fitness to <code>InferiorFitness</code>.
      */
     public void resetFitness() {
-        this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        put(Property.FITNESS, InferiorFitness.instance());
     }
 
     /**
@@ -78,14 +78,14 @@ public class Individual extends AbstractEntity {
     public void initialise(Problem problem) {
         // ID initialisation is done in the clone method...
         // which is always enforced due to the semantics of the performInitialisation methods
-        this.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.newBuilder().copyOf(problem.getDomain().getBuiltRepresentation()).build());
+        put(Property.CANDIDATE_SOLUTION, Vector.newBuilder().copyOf(problem.getDomain().getBuiltRepresentation()).build());
 
-        this.initialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, this);
+        this.initialisationStrategy.initialise(Property.CANDIDATE_SOLUTION, this);
 
-        Vector strategy = Vector.fill(0.0, this.getCandidateSolution().size());
+        Vector strategy = Vector.fill(0.0, this.getPosition().size());
 
-        this.getProperties().put(EntityType.STRATEGY_PARAMETERS, strategy);
-        this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        put(Property.STRATEGY_PARAMETERS, strategy);
+        put(Property.FITNESS, InferiorFitness.instance());
     }
 
     /**
@@ -97,8 +97,8 @@ public class Individual extends AbstractEntity {
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
-        str.append(getCandidateSolution().toString());
-        str.append(getProperties().get(EntityType.STRATEGY_PARAMETERS));
+        str.append(getPosition().toString());
+        str.append(get(Property.STRATEGY_PARAMETERS));
         return str.toString();
     }
 

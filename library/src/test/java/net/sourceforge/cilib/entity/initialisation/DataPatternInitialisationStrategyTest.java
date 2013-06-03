@@ -6,11 +6,10 @@
  */
 package net.sourceforge.cilib.entity.initialisation;
 
-import net.sourceforge.cilib.entity.initialisation.DataPatternInitialisationStrategy;
 import junit.framework.Assert;
 import net.sourceforge.cilib.clustering.SlidingWindow;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
@@ -32,15 +31,15 @@ public class DataPatternInitialisationStrategyTest {
         ClusterParticle particle  = new ClusterParticle();
         CentroidHolder holder = new CentroidHolder();
         holder.add(ClusterCentroid.of(0,0));
-        particle.setCandidateSolution(holder);
+        particle.setPosition(holder);
 
         DataPatternInitialisationStrategy strategy = new DataPatternInitialisationStrategy();
         strategy.setDataset(table);
-        strategy.initialise(EntityType.CANDIDATE_SOLUTION, particle);
+        strategy.initialise(Property.CANDIDATE_SOLUTION, particle);
 
-        Assert.assertTrue((((CentroidHolder)particle.getCandidateSolution()).get(0).containsAll(ClusterCentroid.of(1.0,1.0,1.0,2.0)))
-                || (((CentroidHolder)particle.getCandidateSolution()).get(0).containsAll(ClusterCentroid.of(2.0,3.0,4.0,2.0)))
-                || (((CentroidHolder)particle.getCandidateSolution()).get(0).containsAll(ClusterCentroid.of(1.0,1.0,1.0,1.0))));
+        Assert.assertTrue((((CentroidHolder)particle.getPosition()).get(0).containsAll(ClusterCentroid.of(1.0,1.0,1.0,2.0)))
+                || (((CentroidHolder)particle.getPosition()).get(0).containsAll(ClusterCentroid.of(2.0,3.0,4.0,2.0)))
+                || (((CentroidHolder)particle.getPosition()).get(0).containsAll(ClusterCentroid.of(1.0,1.0,1.0,1.0))));
     }
 
     /**

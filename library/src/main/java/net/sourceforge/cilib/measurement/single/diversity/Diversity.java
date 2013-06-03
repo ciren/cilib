@@ -59,7 +59,7 @@ public class Diversity implements Measurement<Real> {
         double distanceSum = 0.0;
 
         while (populationIterator.hasNext()) {
-            Vector currentEntityPosition = (Vector) (((Entity) populationIterator.next()).getCandidateSolution());
+            Vector currentEntityPosition = (Vector) (((Entity) populationIterator.next()).getPosition());
             distanceSum += distanceMeasure.distance(center, currentEntityPosition);
         }
 

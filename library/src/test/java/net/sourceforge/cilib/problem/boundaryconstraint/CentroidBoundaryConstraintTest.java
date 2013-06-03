@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.problem.boundaryconstraint;
 
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
@@ -30,15 +30,15 @@ public class CentroidBoundaryConstraintTest {
         candidateSolutionBuilder.add(ClusterCentroid.of(Real.valueOf(6.0, bounds)));
 
         ClusterParticle particle = new ClusterParticle();
-        particle.setCandidateSolution(candidateSolutionBuilder);
-        particle.getProperties().put(EntityType.Particle.VELOCITY, candidateSolutionBuilder);
-        particle.getProperties().put(EntityType.Particle.BEST_POSITION, candidateSolutionBuilder);
+        particle.setPosition(candidateSolutionBuilder);
+        particle.put(Property.VELOCITY, candidateSolutionBuilder);
+        particle.put(Property.BEST_POSITION, candidateSolutionBuilder);
 
         CentroidBoundaryConstraint constraint = new CentroidBoundaryConstraint();
         constraint.setDelegate(new ClampingBoundaryConstraint());
         constraint.enforce(particle);
 
-        CentroidHolder solution = (CentroidHolder) particle.getCandidateSolution();
+        CentroidHolder solution = (CentroidHolder) particle.getPosition();
         Assert.assertTrue(solution.get(0).get(0).doubleValue() == -5.0);
         Assert.assertTrue(solution.get(1).get(0).doubleValue() == 3.0);
         Assert.assertTrue(solution.get(2).get(0).doubleValue() == (5.0 - Maths.EPSILON));

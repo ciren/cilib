@@ -95,7 +95,7 @@ public class CooperativeDataClusteringPSOIterationStrategyTest {
 
         ClusterParticle particleAfter = instance.getTopology().head().getClone();
 
-        Assert.assertFalse(particleAfter.getCandidateSolution().containsAll(particleBefore.getCandidateSolution()));
+        Assert.assertFalse(particleAfter.getPosition().containsAll(particleBefore.getPosition()));
     }
 
     /**
@@ -136,6 +136,6 @@ public class CooperativeDataClusteringPSOIterationStrategyTest {
 
         ClusterParticle particleAfter = instance.getTopology().head().getClone();
 
-        Assert.assertFalse(particleAfter.getCandidateSolution().containsAll(particleBefore.getCandidateSolution()));
+        Assert.assertFalse(particleAfter.getPosition().containsAll(particleBefore.getPosition()));
     }
 }

@@ -13,7 +13,7 @@ import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.clustering.iterationstrategies.SinglePopulationDataClusteringIterationStrategy;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 
 /**
@@ -73,35 +73,35 @@ public class CooperativeMultiswarmIterationStrategy extends AbstractCooperativeI
                 if(!((DataClusteringPSO) currentAlgorithm).isExplorer()) {
                     for(ClusterParticle particle : ((DataClusteringPSO) currentAlgorithm).getTopology()) {
                         clearDataPatterns(contextParticle);
-                        assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);
+                        assignDataPatternsToParticle((CentroidHolder) contextParticle.getPosition(), table);
                         contextParticle.calculateFitness();
 
                         ClusterParticle particleWithContext = new ClusterParticle();
-                        particleWithContext.setCandidateSolution(contextParticle.getCandidateSolution().getClone());
-                        particleWithContext.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getBestPosition().getClone());
-                        particleWithContext.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getBestFitness().getClone());
-                        particleWithContext.getProperties().put(EntityType.Particle.VELOCITY, particle.getVelocity().getClone());
+                        particleWithContext.setPosition(contextParticle.getPosition().getClone());
+                        particleWithContext.put(Property.BEST_POSITION, particle.getBestPosition().getClone());
+                        particleWithContext.put(Property.BEST_FITNESS, particle.getBestFitness().getClone());
+                        particleWithContext.put(Property.VELOCITY, particle.getVelocity().getClone());
                         particleWithContext.setNeighbourhoodBest(contextParticle);
-                        ((CentroidHolder) particleWithContext.getCandidateSolution()).set(populationIndex, ((CentroidHolder) particle.getCandidateSolution()).get(populationIndex).getClone());
-                        particleWithContext.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER).getClone());
+                        ((CentroidHolder) particleWithContext.getPosition()).set(populationIndex, ((CentroidHolder) particle.getPosition()).get(populationIndex).getClone());
+                        particleWithContext.put(Property.PBEST_STAGNATION_COUNTER, particle.get(Property.PBEST_STAGNATION_COUNTER).getClone());
                         particleWithContext.setCentroidInitialisationStrategy(particle.getCentroidInitialisationStrategyCandidate().getClone());
 
                         clearDataPatterns(particleWithContext);
-                        assignDataPatternsToParticle((CentroidHolder) particleWithContext.getCandidateSolution(), table);
+                        assignDataPatternsToParticle((CentroidHolder) particleWithContext.getPosition(), table);
                         particleWithContext.calculateFitness();
 
                         if(particleWithContext.getFitness().compareTo(particleWithContext.getBestFitness()) > 0) {
-                            particleWithContext.getProperties().put(EntityType.Particle.BEST_POSITION, particleWithContext.getCandidateSolution().getClone());
-                            particleWithContext.getProperties().put(EntityType.Particle.BEST_FITNESS, particleWithContext.getFitness().getClone());
+                            particleWithContext.put(Property.BEST_POSITION, particleWithContext.getPosition().getClone());
+                            particleWithContext.put(Property.BEST_FITNESS, particleWithContext.getFitness().getClone());
                         }
 
                         if(particleWithContext.getBestFitness().compareTo(contextParticle.getFitness()) > 0) {
-                               ((CentroidHolder) contextParticle.getCandidateSolution()).set(populationIndex, ((CentroidHolder) particleWithContext.getCandidateSolution()).get(populationIndex).getClone());
+                               ((CentroidHolder) contextParticle.getPosition()).set(populationIndex, ((CentroidHolder) particleWithContext.getPosition()).get(populationIndex).getClone());
                         }
 
                         if(contextParticle.getFitness().compareTo(contextParticle.getBestFitness()) > 0) {
-                            contextParticle.getProperties().put(EntityType.Particle.BEST_POSITION, contextParticle.getCandidateSolution().getClone());
-                            contextParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, contextParticle.getFitness().getClone());
+                            contextParticle.put(Property.BEST_POSITION, contextParticle.getPosition().getClone());
+                            contextParticle.put(Property.BEST_FITNESS, contextParticle.getFitness().getClone());
                         }
 
                         particle = particleWithContext.getClone();
@@ -114,8 +114,8 @@ public class CooperativeMultiswarmIterationStrategy extends AbstractCooperativeI
         }
 
         if(elitist) {
-            contextParticle.getProperties().put(EntityType.CANDIDATE_SOLUTION, contextParticle.getBestPosition().getClone());
-            contextParticle.getProperties().put(EntityType.FITNESS, contextParticle.getBestFitness().getClone());
+            contextParticle.put(Property.CANDIDATE_SOLUTION, contextParticle.getBestPosition().getClone());
+            contextParticle.put(Property.FITNESS, contextParticle.getBestFitness().getClone());
         }
 
         MultiSwarm multiswarm = convertCooperativePSOToMultiswarm(algorithm);

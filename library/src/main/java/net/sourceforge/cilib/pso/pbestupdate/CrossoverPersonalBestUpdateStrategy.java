@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.pso.pbestupdate;
 
 import java.util.Arrays;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.OnePointCrossoverStrategy;
 import net.sourceforge.cilib.problem.solution.Fitness;
@@ -38,23 +38,23 @@ public class CrossoverPersonalBestUpdateStrategy implements PersonalBestUpdateSt
         Particle p1 = particle.getClone();
         Particle p2 = particle.getClone();
 
-        p1.setCandidateSolution(particle.getCandidateSolution());
-        p2.setCandidateSolution(particle.getBestPosition());
+        p1.setPosition(particle.getPosition());
+        p2.setPosition(particle.getBestPosition());
 
         Particle tmp = crossoverStrategy.crossover(Arrays.asList(p1, p2)).get(0);
         Fitness tmpFitness = particle.getFitnessCalculator().getFitness(tmp);
 
         if (tmpFitness.compareTo(particle.getBestFitness()) > 0) {
             particle.getParticleBehavior().incrementSuccessCounter();
-            particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
-            particle.getProperties().put(EntityType.Particle.BEST_FITNESS, tmpFitness);
-            particle.getProperties().put(EntityType.Particle.BEST_POSITION, tmp.getCandidateSolution());
+            particle.put(Property.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
+            particle.put(Property.BEST_FITNESS, tmpFitness);
+            particle.put(Property.BEST_POSITION, tmp.getPosition());
             return;
         }
 
         //PBest didn't change. Increment stagnation counter.
-        int count = ((Int)particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER)).intValue();
-        particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER,  Int.valueOf(++count));
+        int count = ((Int)particle.get(Property.PBEST_STAGNATION_COUNTER)).intValue();
+        particle.put(Property.PBEST_STAGNATION_COUNTER,  Int.valueOf(++count));
     }
 
     public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {

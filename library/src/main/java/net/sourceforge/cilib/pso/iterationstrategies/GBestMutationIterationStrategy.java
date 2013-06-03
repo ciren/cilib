@@ -10,7 +10,7 @@ import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.math.random.CauchyDistribution;
@@ -87,12 +87,12 @@ public class GBestMutationIterationStrategy extends AbstractIterationStrategy<PS
             }
         }));
 
-        mutated.setCandidateSolution(pos);
+        mutated.setPosition(pos);
         mutated.calculateFitness();
 
         if (gBest.getBestFitness().compareTo(mutated.getFitness()) < 0) {
-            gBest.getProperties().put(EntityType.Particle.BEST_FITNESS, mutated.getBestFitness());
-            gBest.getProperties().put(EntityType.Particle.BEST_POSITION, mutated.getBestPosition());
+            gBest.put(Property.BEST_FITNESS, mutated.getBestFitness());
+            gBest.put(Property.BEST_POSITION, mutated.getBestPosition());
         }
     }
 

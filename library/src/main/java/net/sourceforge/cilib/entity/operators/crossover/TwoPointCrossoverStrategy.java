@@ -59,8 +59,8 @@ public class TwoPointCrossoverStrategy implements DiscreteCrossoverStrategy {
         int p1 = crossoverPoints.get(0);
         int p2 = crossoverPoints.get(1);
 
-        Vector offspringVector1 = (Vector) offspring1.getCandidateSolution();
-        Vector offspringVector2 = (Vector) offspring2.getCandidateSolution();
+        Vector offspringVector1 = (Vector) offspring1.getPosition();
+        Vector offspringVector2 = (Vector) offspring2.getPosition();
 
         Vector.Builder offspringVector1Builder = Vector.newBuilder();
         Vector.Builder offspringVector2Builder = Vector.newBuilder();
@@ -74,8 +74,8 @@ public class TwoPointCrossoverStrategy implements DiscreteCrossoverStrategy {
         offspringVector1Builder.copyOf(offspringVector1.copyOfRange(p2, offspringVector2.size()));
         offspringVector2Builder.copyOf(offspringVector2.copyOfRange(p2, offspringVector1.size()));
 
-        offspring1.setCandidateSolution(offspringVector1Builder.build());
-        offspring2.setCandidateSolution(offspringVector2Builder.build());
+        offspring1.setPosition(offspringVector1Builder.build());
+        offspring2.setPosition(offspringVector2Builder.build());
 
         return Arrays.asList(offspring1, offspring2);
     }

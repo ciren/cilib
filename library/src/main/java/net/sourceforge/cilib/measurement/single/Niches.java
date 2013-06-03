@@ -17,7 +17,7 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.topologies.SpeciationNeighbourhood;
 import net.sourceforge.cilib.measurement.Measurement;
@@ -71,10 +71,10 @@ public class Niches implements Measurement<TypeList> {
         if (useMemoryInformation) {
             for (int i = 0; i < niches.size(); i++) {
                 if (niches.get(i) instanceof Particle) {
-                    Particle p = (Particle) niches.get(i);
+                    Particle p = niches.get(i);
                     Particle clone = p.getClone();
-                    clone.setCandidateSolution(clone.getBestPosition());
-                    clone.getProperties().put(EntityType.Particle.BEST_FITNESS, clone.getBestFitness());
+                    clone.setPosition(clone.getBestPosition());
+                    clone.put(Property.BEST_FITNESS, clone.getBestFitness());
                     niches.set(i, clone);
                 }
             }
@@ -90,7 +90,7 @@ public class Niches implements Measurement<TypeList> {
                 }));
         TypeList t = new TypeList();
         for (Entity e : es) {
-            t.add(e.getCandidateSolution());
+            t.add(e.getPosition());
         }
         return t;
     }

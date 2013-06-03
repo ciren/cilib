@@ -21,6 +21,6 @@ public class GBestCenterInitialisationStrategy implements CenterInitialisationSt
      */
     @Override
     public Vector getCenter(fj.data.List<? extends Entity> topology) {
-        return (Vector) Topologies.getBestEntity(topology).getCandidateSolution();
+        return (Vector) Topologies.getBestEntity(topology).getPosition();
     }
 }

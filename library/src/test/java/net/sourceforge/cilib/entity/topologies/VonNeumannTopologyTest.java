@@ -6,24 +6,19 @@
  */
 package net.sourceforge.cilib.entity.topologies;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
-
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
-import net.sourceforge.cilib.entity.Topologies;
+import fj.F;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.particle.AbstractParticle;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import fj.F;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+import static org.junit.Assert.*;
 
 public class VonNeumannTopologyTest {
 
@@ -179,11 +174,6 @@ public class VonNeumannTopologyTest {
 
         @Override
         public void initialise(Problem problem) {
-            throw new UnsupportedOperationException("Mocked object - not allowed");
-        }
-
-        @Override
-        public Vector getCandidateSolution() {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
 

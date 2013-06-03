@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.pso.dynamic;
 
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 
 /**
@@ -36,8 +36,8 @@ public class DynamicParticle extends StandardParticle {
      */
     public void reevaluate() {
         DynamicParticle dp = this.getClone();
-        dp.getProperties().put(EntityType.CANDIDATE_SOLUTION, dp.getBestPosition());
-        this.getProperties().put(EntityType.Particle.BEST_FITNESS, getFitnessCalculator().getFitness(dp));
+        dp.put(Property.CANDIDATE_SOLUTION, dp.getBestPosition());
+        put(Property.BEST_FITNESS, getFitnessCalculator().getFitness(dp));
 
         this.calculateFitness();
     }

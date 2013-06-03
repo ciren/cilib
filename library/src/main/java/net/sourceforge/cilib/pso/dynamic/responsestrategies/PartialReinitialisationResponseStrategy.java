@@ -11,7 +11,7 @@ import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
@@ -62,15 +62,15 @@ public class PartialReinitialisationResponseStrategy extends ParticleReevaluatio
 
             //makes sure the charged particles are randomly positioned across the topology
             if (reinitCounter < Math.floor(populationSize * reinitialisationRatio) && Rand.nextDouble() < reinitialisationRatio && current != Topologies.getBestEntity(algorithm.getTopology())) {
-                ((Vector) current.getCandidateSolution()).randomise();
-                current.getProperties().put(EntityType.Particle.VELOCITY, Vectors.transform(current.getVelocity(), zt));
-                current.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf((Vector) current.getCandidateSolution()));
+                current.getPosition().randomise();
+                current.put(Property.VELOCITY, Vectors.transform(current.getVelocity(), zt));
+                current.put(Property.BEST_POSITION, Vector.copyOf((Vector) current.getPosition()));
                 ++reinitCounter;
             }//if
             else if (keepCounter > Math.floor(populationSize * (1.0 - reinitialisationRatio)) && current != Topologies.getBestEntity(algorithm.getTopology())) {
-                ((Vector) current.getCandidateSolution()).randomise();
-                current.getProperties().put(EntityType.Particle.VELOCITY, Vectors.transform(current.getVelocity(), zt));
-                current.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf((Vector) current.getCandidateSolution()));
+                current.getPosition().randomise();
+                current.put(Property.VELOCITY, Vectors.transform(current.getVelocity(), zt));
+                current.put(Property.BEST_POSITION, Vector.copyOf((Vector) current.getPosition()));
                 ++reinitCounter;
             }//else if
             else {

@@ -36,13 +36,13 @@ public interface Entity extends Comparable<Entity>, Cloneable {
      *
      * @return The {@linkplain Type} representing the contents of the {@linkplain Entity}.
      */
-    StructuredType getCandidateSolution();
+    StructuredType getPosition();
 
     /**
      * Set the candidate solution of the current {@linkplain Entity} to the provided {@linkplain Type}.
      * @param type the {@linkplain Type} to be set as the contents of the {@linkplain Entity}.
      */
-    void setCandidateSolution(StructuredType type);
+    void setPosition(StructuredType type);
 
     /**
      * Calculate the fitness of the {@linkplain Entity} incrementing the
@@ -96,7 +96,13 @@ public interface Entity extends Comparable<Entity>, Cloneable {
      *
      * @return The {@linkplain Blackboard} containing the properties.
      */
-    Blackboard<Enum<?>, Type> getProperties();
+    Blackboard<Property, Type> getProperties();
+    
+    <T extends Type> T get(Property<T> p);
+    
+    <T extends Type> void put(Property<T> p, T v);
+    
+    <T extends Type> boolean has(Property<T> p);
 
     /**
      * Get the current {@code FitnessCalculator} for the current {@code Entity}.

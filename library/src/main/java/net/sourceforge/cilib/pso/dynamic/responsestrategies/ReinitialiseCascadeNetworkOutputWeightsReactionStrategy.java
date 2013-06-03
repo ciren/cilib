@@ -21,7 +21,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * vector are reinitialised, the elements in the velocity vector are set to zero
  * and the elements in the personal best vector are left as is.
  *
- * @param <E> some {@link PopulationBasedAlgorithm population based algorithm}
+ * @param <E> some PopulationBasedAlgorithm population based algorithm
  */
 public class ReinitialiseCascadeNetworkOutputWeightsReactionStrategy<E extends SinglePopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy {
 
@@ -64,7 +64,7 @@ public class ReinitialiseCascadeNetworkOutputWeightsReactionStrategy<E extends S
         for (Entity entity : entities) {
             DynamicParticle particle = (DynamicParticle) entity;
 
-            Vector position = (Vector) particle.getCandidateSolution();
+            Vector position = (Vector) particle.getPosition();
             Vector velocity = (Vector) particle.getVelocity();
             for (int curElement = position.size() - nrOfweightsToDo; curElement < position.size(); ++curElement) {
                 ((Real) position.get(curElement)).randomise();

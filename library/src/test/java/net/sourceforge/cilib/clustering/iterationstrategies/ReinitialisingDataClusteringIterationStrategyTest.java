@@ -52,7 +52,7 @@ public class ReinitialisingDataClusteringIterationStrategyTest {
 
         ClusterParticle particleAfter = instance.getTopology().head().getClone();
 
-        Assert.assertFalse(particleAfter.getCandidateSolution().containsAll(particleBefore.getCandidateSolution()));
+        Assert.assertFalse(particleAfter.getPosition().containsAll(particleBefore.getPosition()));
     }
 
     /**

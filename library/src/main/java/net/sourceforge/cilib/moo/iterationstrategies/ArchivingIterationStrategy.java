@@ -27,7 +27,7 @@ import net.sourceforge.cilib.type.types.Types;
  * </p>
  *
  *
- * @param <E> The {@link PopulationBasedAlgorithm} that will have it's entities' positions added to
+ * @param <E> The PopulationBasedAlgorithm that will have it's entities' positions added to
  * the archive as potential solutions.
  */
 public class ArchivingIterationStrategy<E extends SinglePopulationBasedAlgorithm> implements IterationStrategy<E> {
@@ -59,8 +59,8 @@ public class ArchivingIterationStrategy<E extends SinglePopulationBasedAlgorithm
         Algorithm topLevelAlgorithm = AbstractAlgorithm.getAlgorithmList().index(0);
         List<OptimisationSolution> optimisationSolutions = new ArrayList<>();
         for (Entity entity : population) {
-            if(Types.isInsideBounds(entity.getCandidateSolution())){
-                Type solution = entity.getCandidateSolution().getClone();
+            if(Types.isInsideBounds(entity.getPosition())){
+                Type solution = entity.getPosition().getClone();
                 optimisationSolutions.add(new OptimisationSolution(solution,
                     topLevelAlgorithm.getOptimisationProblem().getFitness(solution)));
             }

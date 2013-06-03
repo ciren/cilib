@@ -8,7 +8,7 @@ package net.sourceforge.cilib.entity.initialisation;
 
 import net.sourceforge.cilib.entity.initialisation.ConstantInitialisationStrategy;
 import net.sourceforge.cilib.entity.initialisation.DomainPercentageInitialisationStrategy;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Bounds;
@@ -34,11 +34,11 @@ public class DomainPercentageInitialisationStrategyTest {
                 .build();
 
         Particle particle = new StandardParticle();
-        particle.getProperties().put(EntityType.Particle.VELOCITY, vector);
+        particle.put(Property.VELOCITY, vector);
 
         DomainPercentageInitialisationStrategy<Particle> strategy = new DomainPercentageInitialisationStrategy<Particle>();
         strategy.setVelocityInitialisationStrategy(new ConstantInitialisationStrategy(1.0));
-        strategy.initialise(EntityType.Particle.VELOCITY, particle);
+        strategy.initialise(Property.VELOCITY, particle);
 
         Vector velocity = (Vector) particle.getVelocity();
         for (int i = 0; i < velocity.size(); i++) {

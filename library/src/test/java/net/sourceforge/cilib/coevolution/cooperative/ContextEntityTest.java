@@ -16,13 +16,13 @@ public class ContextEntityTest {
     public void CopyFromTest(){
         ContextEntity testEntity = new ContextEntity();
         Vector context = Vector.of(0.0, 0.0, 0.0, 0.0);
-        testEntity.setCandidateSolution(context);
+        testEntity.setPosition(context);
         Vector data = Vector.of(1, 2);
 
         SequentialDimensionAllocation allocation = new SequentialDimensionAllocation(1, 2);
 
         testEntity.copyFrom(data, allocation);
-        context = testEntity.getCandidateSolution();
+        context = testEntity.getPosition();
 
         assertEquals(0.0, context.get(0).doubleValue(),0);
         assertEquals(1.0, context.get(1).doubleValue(),0);

@@ -66,8 +66,8 @@ public class UniformCrossoverStrategy implements DiscreteCrossoverStrategy {
 
         int minDimension = Math.min(offspring1.getDimension(), offspring2.getDimension());
 
-        Vector parentChromosome1 = (Vector) offspring1.getCandidateSolution();
-        Vector parentChromosome2 = (Vector) offspring2.getCandidateSolution();
+        Vector parentChromosome1 = (Vector) offspring1.getPosition();
+        Vector parentChromosome2 = (Vector) offspring2.getPosition();
         Vector.Builder offspringChromosome1Builder = Vector.newBuilder();
         Vector.Builder offspringChromosome2Builder = Vector.newBuilder();
 
@@ -81,8 +81,8 @@ public class UniformCrossoverStrategy implements DiscreteCrossoverStrategy {
             }
         }
 
-        offspring1.setCandidateSolution(offspringChromosome1Builder.build());
-        offspring2.setCandidateSolution(offspringChromosome2Builder.build());
+        offspring1.setPosition(offspringChromosome1Builder.build());
+        offspring2.setPosition(offspringChromosome2Builder.build());
 
         return Arrays.asList(offspring1, offspring2);
     }

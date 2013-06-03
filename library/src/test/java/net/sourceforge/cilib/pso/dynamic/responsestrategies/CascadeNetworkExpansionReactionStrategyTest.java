@@ -62,7 +62,7 @@ public class CascadeNetworkExpansionReactionStrategyTest {
         Assert.assertEquals(5, problem.getNeuralNetwork().getWeights().size());
 
         for (int i = 0; i < Topologies.getBestEntity(pso.getTopology()).getDimension(); ++i) {
-            ((Vector) Topologies.getBestEntity(pso.getTopology()).getCandidateSolution()).set(i, Real.valueOf(0.0));
+            ((Vector) Topologies.getBestEntity(pso.getTopology()).getPosition()).set(i, Real.valueOf(0.0));
             ((Vector) Topologies.getBestEntity(pso.getTopology()).getVelocity()).set(i, Real.valueOf(0.0));
             ((Vector) Topologies.getBestEntity(pso.getTopology()).getBestPosition()).set(i, Real.valueOf(0.0));
         }
@@ -71,7 +71,7 @@ public class CascadeNetworkExpansionReactionStrategyTest {
         Assert.assertEquals(11, problem.getNeuralNetwork().getWeights().size());
         Assert.assertEquals(Vector.of(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0.0, 0.0, 0.0, 0.0, 0.0,
                                       Double.NaN),
-                            (Vector)Topologies.getBestEntity(pso.getTopology()).getCandidateSolution());
+                            (Vector)Topologies.getBestEntity(pso.getTopology()).getPosition());
         Assert.assertEquals(Vector.of(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0.0, 0.0, 0.0, 0.0, 0.0,
                                       Double.NaN),
                             (Vector)Topologies.getBestEntity(pso.getTopology()).getVelocity());
@@ -80,7 +80,7 @@ public class CascadeNetworkExpansionReactionStrategyTest {
                             (Vector)Topologies.getBestEntity(pso.getTopology()).getBestPosition());
 
         for (int i = 0; i < Topologies.getBestEntity(pso.getTopology()).getDimension(); ++i) {
-            ((Vector) Topologies.getBestEntity(pso.getTopology()).getCandidateSolution()).set(i, Real.valueOf(0.0));
+            ((Vector) Topologies.getBestEntity(pso.getTopology()).getPosition()).set(i, Real.valueOf(0.0));
             ((Vector) Topologies.getBestEntity(pso.getTopology()).getVelocity()).set(i, Real.valueOf(0.0));
             ((Vector) Topologies.getBestEntity(pso.getTopology()).getBestPosition()).set(i, Real.valueOf(0.0));
         }
@@ -89,7 +89,7 @@ public class CascadeNetworkExpansionReactionStrategyTest {
         Assert.assertEquals(18, problem.getNeuralNetwork().getWeights().size());
         Assert.assertEquals(Vector.of(0.0, 0.0, 0.0, 0.0, 0.0, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN,
                                       Double.NaN, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.NaN),
-                            (Vector)Topologies.getBestEntity(pso.getTopology()).getCandidateSolution());
+                            (Vector)Topologies.getBestEntity(pso.getTopology()).getPosition());
         Assert.assertEquals(Vector.of(0.0, 0.0, 0.0, 0.0, 0.0, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN,
                                       Double.NaN, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.NaN),
                             (Vector)Topologies.getBestEntity(pso.getTopology()).getVelocity());
@@ -98,7 +98,7 @@ public class CascadeNetworkExpansionReactionStrategyTest {
                             (Vector)Topologies.getBestEntity(pso.getTopology()).getBestPosition());
 
         for (int i = 0; i < Topologies.getBestEntity(pso.getTopology()).getDimension(); ++i) {
-            ((Vector) Topologies.getBestEntity(pso.getTopology()).getCandidateSolution()).set(i, Real.valueOf(0.0));
+            ((Vector) Topologies.getBestEntity(pso.getTopology()).getPosition()).set(i, Real.valueOf(0.0));
             ((Vector) Topologies.getBestEntity(pso.getTopology()).getVelocity()).set(i, Real.valueOf(0.0));
             ((Vector) Topologies.getBestEntity(pso.getTopology()).getBestPosition()).set(i, Real.valueOf(0.0));
         }
@@ -108,7 +108,7 @@ public class CascadeNetworkExpansionReactionStrategyTest {
         Assert.assertEquals(Vector.of(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
                                       0.0, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0.0, 0.0,
                                       0.0, 0.0, 0.0, 0.0, 0.0, Double.NaN),
-                            (Vector)Topologies.getBestEntity(pso.getTopology()).getCandidateSolution());
+                            (Vector)Topologies.getBestEntity(pso.getTopology()).getPosition());
         Assert.assertEquals(Vector.of(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
                                       0.0, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0.0, 0.0,
                                       0.0, 0.0, 0.0, 0.0, 0.0, Double.NaN),
@@ -156,7 +156,7 @@ public class CascadeNetworkExpansionReactionStrategyTest {
         Assert.assertEquals(8, problem.getNeuralNetwork().getWeights().size());
 
         for (int i = 0; i < Topologies.getBestEntity(pso.getTopology()).getDimension(); ++i) {
-            ((Vector) Topologies.getBestEntity(pso.getTopology()).getCandidateSolution()).set(i, Real.valueOf(0.0));
+            ((Vector) Topologies.getBestEntity(pso.getTopology()).getPosition()).set(i, Real.valueOf(0.0));
             ((Vector) Topologies.getBestEntity(pso.getTopology()).getVelocity()).set(i, Real.valueOf(0.0));
             ((Vector) Topologies.getBestEntity(pso.getTopology()).getBestPosition()).set(i, Real.valueOf(0.0));
         }
@@ -165,7 +165,7 @@ public class CascadeNetworkExpansionReactionStrategyTest {
         Assert.assertEquals(14, problem.getNeuralNetwork().getWeights().size());
         Assert.assertEquals(Vector.of(Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0.0, 0.0, 0.0, 0.0, Double.NaN, 0.0,
                                       0.0, 0.0, 0.0, Double.NaN),
-                            (Vector)Topologies.getBestEntity(pso.getTopology()).getCandidateSolution());
+                            (Vector)Topologies.getBestEntity(pso.getTopology()).getPosition());
         Assert.assertEquals(Vector.of(Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0.0, 0.0, 0.0, 0.0, Double.NaN, 0.0,
                                       0.0, 0.0, 0.0, Double.NaN),
                             (Vector)Topologies.getBestEntity(pso.getTopology()).getVelocity());
@@ -174,7 +174,7 @@ public class CascadeNetworkExpansionReactionStrategyTest {
                             (Vector)Topologies.getBestEntity(pso.getTopology()).getBestPosition());
 
         for (int i = 0; i < Topologies.getBestEntity(pso.getTopology()).getDimension(); ++i) {
-            ((Vector) Topologies.getBestEntity(pso.getTopology()).getCandidateSolution()).set(i, Real.valueOf(0.0));
+            ((Vector) Topologies.getBestEntity(pso.getTopology()).getPosition()).set(i, Real.valueOf(0.0));
             ((Vector) Topologies.getBestEntity(pso.getTopology()).getVelocity()).set(i, Real.valueOf(0.0));
             ((Vector) Topologies.getBestEntity(pso.getTopology()).getBestPosition()).set(i, Real.valueOf(0.0));
         }
@@ -184,7 +184,7 @@ public class CascadeNetworkExpansionReactionStrategyTest {
         Assert.assertEquals(Vector.of(0.0, 0.0, 0.0, 0.0, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0.0,
                                       0.0, 0.0, 0.0, 0.0, Double.NaN, 0.0, 0.0, 0.0, 0.0, 0.0,
                                       Double.NaN),
-                            (Vector)Topologies.getBestEntity(pso.getTopology()).getCandidateSolution());
+                            (Vector)Topologies.getBestEntity(pso.getTopology()).getPosition());
         Assert.assertEquals(Vector.of(0.0, 0.0, 0.0, 0.0, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0.0,
                                       0.0, 0.0, 0.0, 0.0, Double.NaN, 0.0, 0.0, 0.0, 0.0, 0.0,
                                       Double.NaN),
@@ -195,7 +195,7 @@ public class CascadeNetworkExpansionReactionStrategyTest {
                             (Vector)Topologies.getBestEntity(pso.getTopology()).getBestPosition());
 
         for (int i = 0; i < Topologies.getBestEntity(pso.getTopology()).getDimension(); ++i) {
-            ((Vector) Topologies.getBestEntity(pso.getTopology()).getCandidateSolution()).set(i, Real.valueOf(0.0));
+            ((Vector) Topologies.getBestEntity(pso.getTopology()).getPosition()).set(i, Real.valueOf(0.0));
             ((Vector) Topologies.getBestEntity(pso.getTopology()).getVelocity()).set(i, Real.valueOf(0.0));
             ((Vector) Topologies.getBestEntity(pso.getTopology()).getBestPosition()).set(i, Real.valueOf(0.0));
         }
@@ -205,7 +205,7 @@ public class CascadeNetworkExpansionReactionStrategyTest {
         Assert.assertEquals(Vector.of(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.NaN,
                                       Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0.0, 0.0, 0.0, 0.0, 0.0,
                                       0.0, Double.NaN, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.NaN),
-                            (Vector)Topologies.getBestEntity(pso.getTopology()).getCandidateSolution());
+                            (Vector)Topologies.getBestEntity(pso.getTopology()).getPosition());
         Assert.assertEquals(Vector.of(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.NaN,
                                       Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0.0, 0.0, 0.0, 0.0, 0.0,
                                       0.0, Double.NaN, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.NaN),

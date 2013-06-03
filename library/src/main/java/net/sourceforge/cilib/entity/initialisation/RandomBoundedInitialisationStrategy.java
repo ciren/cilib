@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.type.types.Type;
@@ -19,8 +20,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @param <E> The entity type.
  */
-public class RandomBoundedInitialisationStrategy<E extends Entity> implements
-        InitialisationStrategy<E> {
+public class RandomBoundedInitialisationStrategy<E extends Entity> implements InitialisationStrategy<E> {
 
     private static final long serialVersionUID = -7926839076670354209L;
     protected ControlParameter lowerBound;
@@ -32,7 +32,7 @@ public class RandomBoundedInitialisationStrategy<E extends Entity> implements
         this.lowerBound = ConstantControlParameter.of(0.1);
         this.upperBound = ConstantControlParameter.of(0.1);
         this.random = new UniformDistribution();
-        boundsPerDimension = new ArrayList<ControlParameter[]>();
+        boundsPerDimension = new ArrayList<>();
     }
 
     public RandomBoundedInitialisationStrategy(RandomBoundedInitialisationStrategy copy) {
@@ -48,8 +48,8 @@ public class RandomBoundedInitialisationStrategy<E extends Entity> implements
     }
 
     @Override
-    public void initialise(Enum<?> key, E entity) {
-        Type type = entity.getProperties().get(key);
+    public void initialise(Property key, E entity) {
+        Type type = entity.get(key);
         Vector velocity = (Vector) type;
 
         for (int i = 0; i < velocity.size(); i++) {

@@ -135,9 +135,9 @@ public class SaDEIterationStrategy extends AbstractIterationStrategy<EC> {
                 }
 
                 if (acceptedOffspring) { //Give the offspring Entity all properties of the parent
-                    Vector offspringVector = (Vector) offspringEntity.getCandidateSolution();
+                    Vector offspringVector = (Vector) offspringEntity.getPosition();
                     offspringEntity = current.getClone();
-                    offspringEntity.setCandidateSolution(offspringVector);
+                    offspringEntity.setPosition(offspringVector);
                     offspringEntity.calculateFitness();
                     return offspringEntity;
                 } else {

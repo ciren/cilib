@@ -38,7 +38,7 @@ public final class Matrix implements Type {
      */
     public boolean isSquare() {
         Preconditions.checkState(this.contents.length >= 1);
-        return (contents.length == contents[0].length) ? true : false;
+        return contents.length == contents[0].length;
     }
 
     /**
@@ -63,7 +63,7 @@ public final class Matrix implements Type {
             rowList.add(d);
         }
 
-        return Vector.copyOf(rowList);
+        return Vector.copyOfIterable(rowList);
     }
 
     /**

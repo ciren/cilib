@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import static net.sourceforge.cilib.niching.NichingFunctionsTest.createParticle;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.pso.particle.Particle;
@@ -26,10 +26,10 @@ public class SpeciationTopologyTest {
     public static Particle createParticle(Fitness fitness, Vector position) {
         Particle particle = new StandardParticle();
 
-        particle.setCandidateSolution(position);
-        particle.getProperties().put(EntityType.FITNESS, fitness);
-        particle.getProperties().put(EntityType.Particle.BEST_POSITION, position);
-        particle.getProperties().put(EntityType.Particle.BEST_FITNESS, fitness);
+        particle.setPosition(position);
+        particle.put(Property.FITNESS, fitness);
+        particle.put(Property.BEST_POSITION, position);
+        particle.put(Property.BEST_FITNESS, fitness);
 
         return particle;
     }
@@ -123,11 +123,11 @@ public class SpeciationTopologyTest {
 //        ControlParameter radius = ConstantControlParameter.of(10.0);
 //
 //        Particle p1 = new StandardParticle();
-//        p1.setCandidateSolution(Vector.of(10.0, 10.0));
+//        p1.setPosition(Vector.of(10.0, 10.0));
 //        Particle p2 = new StandardParticle();
-//        p2.setCandidateSolution(Vector.of(5.0, 5.0));
+//        p2.setPosition(Vector.of(5.0, 5.0));
 //        Particle other = new StandardParticle();
-//        other.setCandidateSolution(Vector.of(0.0, 0.0));
+//        other.setPosition(Vector.of(0.0, 0.0));
 //
 //        assertFalse(new SpeciationNeighbourhood<Particle>(distance, radius, other).f(P.p(p1, 1)));
 //        assertTrue(SpeciationTopology.inRadius(distance, radius, other).f(P.p(p2, 1)));
@@ -141,11 +141,11 @@ public class SpeciationTopologyTest {
 //    @Test
 //    public void testExists() {
 //        Entity p1 = new StandardParticle();
-//        p1.setCandidateSolution(Vector.of(10.0, 10.0));
+//        p1.setPosition(Vector.of(10.0, 10.0));
 //        Entity p2 = new StandardParticle();
-//        p2.setCandidateSolution(Vector.of(5.0, 5.0));
+//        p2.setPosition(Vector.of(5.0, 5.0));
 //        Entity other = new StandardParticle();
-//        other.setCandidateSolution(Vector.of(0.0, 0.0));
+//        other.setPosition(Vector.of(0.0, 0.0));
 //
 //        assertTrue(SpeciationTopology.exists(1).f(P.p(p1, 1)));
 //        assertFalse(SpeciationTopology.exists(1).f(P.p(p1, 2)));

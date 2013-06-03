@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.ec;
 
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.operators.creation.CreationStrategy;
 import net.sourceforge.cilib.entity.operators.creation.RandCreationStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
@@ -83,31 +83,31 @@ public class ParameterisedIndividual extends Individual{
      */
     @Override
     public void initialise(Problem problem) {
-        this.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.newBuilder().copyOf(problem.getDomain().getBuiltRepresentation()).buildRandom());
+        put(Property.CANDIDATE_SOLUTION, Vector.newBuilder().copyOf(problem.getDomain().getBuiltRepresentation()).buildRandom());
 
-        this.initialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, this);
+        this.initialisationStrategy.initialise(Property.CANDIDATE_SOLUTION, this);
 
-        Vector strategy = Vector.fill(0.0, this.getCandidateSolution().size());
+        Vector strategy = Vector.fill(0.0, this.getPosition().size());
 
-        this.getProperties().put(EntityType.STRATEGY_PARAMETERS, strategy);
-        this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        put(Property.STRATEGY_PARAMETERS, strategy);
+        put(Property.FITNESS, InferiorFitness.instance());
 
         //Parameters: Scaling Factor, Crossover Probability, Total Offspring
         parameterHoldingIndividual = new Individual();
-        parameterHoldingIndividual.setCandidateSolution(Vector.of(Real.valueOf(0,scalingFactorBounds),
+        parameterHoldingIndividual.setPosition(Vector.of(Real.valueOf(0,scalingFactorBounds),
                 Real.valueOf(0, crossoverProbabilityBounds),Real.valueOf(0, totalOffspringBounds)));
-        parameterHoldingIndividual.getProperties().put(EntityType.Particle.VELOCITY, Vector.of(Real.valueOf(0,scalingFactorBounds),
+        parameterHoldingIndividual.put(Property.VELOCITY, Vector.of(Real.valueOf(0,scalingFactorBounds),
                 Real.valueOf(0, crossoverProbabilityBounds),Real.valueOf(0, totalOffspringBounds)));
-        parameterHoldingIndividual.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.of(Real.valueOf(0,scalingFactorBounds),
+        parameterHoldingIndividual.put(Property.BEST_POSITION, Vector.of(Real.valueOf(0,scalingFactorBounds),
                 Real.valueOf(0, crossoverProbabilityBounds),Real.valueOf(0, totalOffspringBounds)));
 
-        initialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, parameterHoldingIndividual);
-        initialisationStrategy.initialise(EntityType.Particle.VELOCITY, parameterHoldingIndividual);
-        initialisationStrategy.initialise(EntityType.Particle.BEST_POSITION, parameterHoldingIndividual);
+        initialisationStrategy.initialise(Property.CANDIDATE_SOLUTION, parameterHoldingIndividual);
+        initialisationStrategy.initialise(Property.VELOCITY, parameterHoldingIndividual);
+        initialisationStrategy.initialise(Property.BEST_POSITION, parameterHoldingIndividual);
 
-        trialVectorCreationStrategy.setScaleParameter(((Vector) parameterHoldingIndividual.getCandidateSolution()).get(0).doubleValue());
-        crossoverStrategy.setCrossoverPointProbability(((Vector) parameterHoldingIndividual.getCandidateSolution()).get(1).doubleValue());
-        totalOffspring = ((Vector) parameterHoldingIndividual.getCandidateSolution()).get(2).intValue();
+        trialVectorCreationStrategy.setScaleParameter(((Vector) parameterHoldingIndividual.getPosition()).get(0).doubleValue());
+        crossoverStrategy.setCrossoverPointProbability(((Vector) parameterHoldingIndividual.getPosition()).get(1).doubleValue());
+        totalOffspring = ((Vector) parameterHoldingIndividual.getPosition()).get(2).intValue();
     }
 
     /**
@@ -119,9 +119,9 @@ public class ParameterisedIndividual extends Individual{
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
-        str.append(getCandidateSolution().toString());
-        str.append(parameterHoldingIndividual.getCandidateSolution().toString());
-        str.append(getProperties().get(EntityType.STRATEGY_PARAMETERS));
+        str.append(getPosition().toString());
+        str.append(parameterHoldingIndividual.getPosition().toString());
+        str.append(get(Property.STRATEGY_PARAMETERS));
         return str.toString();
     }
 
@@ -172,9 +172,9 @@ public class ParameterisedIndividual extends Individual{
     public void setParameterHoldingIndividual(Individual parameterHoldingIndividual) {
         parameterConstraint.enforce(parameterHoldingIndividual);
         this.parameterHoldingIndividual = parameterHoldingIndividual;
-        trialVectorCreationStrategy.setScaleParameter(((Vector) parameterHoldingIndividual.getCandidateSolution()).get(0).doubleValue());
-        crossoverStrategy.setCrossoverPointProbability(((Vector) parameterHoldingIndividual.getCandidateSolution()).get(1).doubleValue());
-        totalOffspring = ((Vector) parameterHoldingIndividual.getCandidateSolution()).get(2).intValue();
+        trialVectorCreationStrategy.setScaleParameter(((Vector) parameterHoldingIndividual.getPosition()).get(0).doubleValue());
+        crossoverStrategy.setCrossoverPointProbability(((Vector) parameterHoldingIndividual.getPosition()).get(1).doubleValue());
+        totalOffspring = ((Vector) parameterHoldingIndividual.getPosition()).get(2).intValue();
     }
 
     /*

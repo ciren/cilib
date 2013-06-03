@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.entity.initialisation;
 
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
@@ -28,7 +28,7 @@ public class StandardPBestPositionInitialisationStrategy implements Initialisati
     }
 
     @Override
-    public void initialise(Enum<?> key, Particle entity) {
-        entity.getProperties().put(EntityType.Particle.BEST_POSITION, entity.getCandidateSolution().getClone());
+    public void initialise(Property key, Particle entity) {
+        entity.put(Property.BEST_POSITION, entity.getPosition().getClone());
     }
 }

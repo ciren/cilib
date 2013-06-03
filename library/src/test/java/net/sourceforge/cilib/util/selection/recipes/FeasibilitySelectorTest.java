@@ -16,7 +16,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.problem.boundaryconstraint.ClampingBoundaryConstraint;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 
 public class FeasibilitySelectorTest {
 
@@ -31,8 +31,8 @@ public class FeasibilitySelectorTest {
         candidateSolutionBuilder.add(Real.valueOf(-6.0, bounds));
         candidateSolutionBuilder.add(Real.valueOf(7.0, bounds));
         candidateSolutionBuilder.add(Real.valueOf(12.5, bounds));
-        individual1.setCandidateSolution(candidateSolutionBuilder.build());
-        individual1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.0));
+        individual1.setPosition(candidateSolutionBuilder.build());
+        individual1.put(Property.FITNESS, new MinimisationFitness(2.0));
 
         Individual individual2 = new Individual();
         Bounds bounds2 = new Bounds(-10.0, 7.0);
@@ -40,8 +40,8 @@ public class FeasibilitySelectorTest {
         candidateSolutionBuilder2.add(Real.valueOf(-6.0, bounds2));
         candidateSolutionBuilder2.add(Real.valueOf(6.0, bounds2));
         candidateSolutionBuilder2.add(Real.valueOf(-5.5, bounds2));
-        individual2.setCandidateSolution(candidateSolutionBuilder2.build());
-        individual2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(5.2));
+        individual2.setPosition(candidateSolutionBuilder2.build());
+        individual2.put(Property.FITNESS, new MinimisationFitness(5.2));
 
         ArrayList list = new ArrayList();
         list.add(individual1);
@@ -49,7 +49,7 @@ public class FeasibilitySelectorTest {
 
         Individual resultingBest = (Individual) selector.on(list).select();
 
-        Assert.assertTrue(((Vector) individual2.getCandidateSolution()).containsAll((Vector) resultingBest.getCandidateSolution()));
+        Assert.assertTrue(((Vector) individual2.getPosition()).containsAll((Vector) resultingBest.getPosition()));
 
         Individual individual3 = new Individual();
         Bounds bounds3 = new Bounds(-5.0, 5.0);
@@ -57,8 +57,8 @@ public class FeasibilitySelectorTest {
         candidateSolutionBuilder3.add(Real.valueOf(-3.0, bounds3));
         candidateSolutionBuilder3.add(Real.valueOf(-2.0, bounds3));
         candidateSolutionBuilder3.add(Real.valueOf(1.5, bounds3));
-        individual3.setCandidateSolution(candidateSolutionBuilder3.build());
-        individual3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.1));
+        individual3.setPosition(candidateSolutionBuilder3.build());
+        individual3.put(Property.FITNESS, new MinimisationFitness(2.1));
 
         ArrayList feasibleList = new ArrayList();
         feasibleList.add(individual2);
@@ -66,7 +66,7 @@ public class FeasibilitySelectorTest {
 
         Individual resultingFeasible = (Individual) selector.on(feasibleList).select();
 
-        Assert.assertTrue(((Vector) individual3.getCandidateSolution()).containsAll((Vector) resultingFeasible.getCandidateSolution()));
+        Assert.assertTrue(((Vector) individual3.getPosition()).containsAll((Vector) resultingFeasible.getPosition()));
 
         Individual individual4 = new Individual();
         Bounds bounds4 = new Bounds(-5.0, 5.0);
@@ -74,8 +74,8 @@ public class FeasibilitySelectorTest {
         candidateSolutionBuilder4.add(Real.valueOf(-6.0, bounds4));
         candidateSolutionBuilder4.add(Real.valueOf(6.0, bounds4));
         candidateSolutionBuilder4.add(Real.valueOf(-5.5, bounds4));
-        individual4.setCandidateSolution(candidateSolutionBuilder4.build());
-        individual4.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.1));
+        individual4.setPosition(candidateSolutionBuilder4.build());
+        individual4.put(Property.FITNESS, new MinimisationFitness(2.1));
 
         ArrayList infeasibleList = new ArrayList();
         infeasibleList.add(individual1);
@@ -83,7 +83,7 @@ public class FeasibilitySelectorTest {
 
         Individual resultingInfeasible = (Individual) selector.on(infeasibleList).select();
 
-        Assert.assertTrue(((Vector) individual4.getCandidateSolution()).containsAll((Vector) resultingInfeasible.getCandidateSolution()));
+        Assert.assertTrue(((Vector) individual4.getPosition()).containsAll((Vector) resultingInfeasible.getPosition()));
     }
 
     @Test
@@ -97,8 +97,8 @@ public class FeasibilitySelectorTest {
         candidateSolutionBuilder.add(Real.valueOf(-4.0, bounds));
         candidateSolutionBuilder.add(Real.valueOf(3.0, bounds));
         candidateSolutionBuilder.add(Real.valueOf(3.5, bounds));
-        individual1.setCandidateSolution(candidateSolutionBuilder.build());
-        individual1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.0));
+        individual1.setPosition(candidateSolutionBuilder.build());
+        individual1.put(Property.FITNESS, new MinimisationFitness(2.0));
 
         Individual individual2 = new Individual();
         Bounds bounds2 = new Bounds(-10.0, 8.0);
@@ -106,8 +106,8 @@ public class FeasibilitySelectorTest {
         candidateSolutionBuilder2.add(Real.valueOf(-7.0, bounds2));
         candidateSolutionBuilder2.add(Real.valueOf(6.0, bounds2));
         candidateSolutionBuilder2.add(Real.valueOf(-9.5, bounds2));
-        individual2.setCandidateSolution(candidateSolutionBuilder2.build());
-        individual2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(5.2));
+        individual2.setPosition(candidateSolutionBuilder2.build());
+        individual2.put(Property.FITNESS, new MinimisationFitness(5.2));
 
         ArrayList list = new ArrayList();
         list.add(individual1);
@@ -130,8 +130,8 @@ public class FeasibilitySelectorTest {
         candidateSolutionBuilder.add(Real.valueOf(-6.0, bounds));
         candidateSolutionBuilder.add(Real.valueOf(7.0, bounds));
         candidateSolutionBuilder.add(Real.valueOf(12.5, bounds));
-        individual1.setCandidateSolution(candidateSolutionBuilder.build());
-        individual1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.0));
+        individual1.setPosition(candidateSolutionBuilder.build());
+        individual1.put(Property.FITNESS, new MinimisationFitness(2.0));
 
         Individual individual2 = new Individual();
         Bounds bounds2 = new Bounds(-5.0, 5.0);
@@ -139,8 +139,8 @@ public class FeasibilitySelectorTest {
         candidateSolutionBuilder2.add(Real.valueOf(-6.0, bounds2));
         candidateSolutionBuilder2.add(Real.valueOf(6.0, bounds2));
         candidateSolutionBuilder2.add(Real.valueOf(-5.5, bounds2));
-        individual2.setCandidateSolution(candidateSolutionBuilder2.build());
-        individual2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(5.2));
+        individual2.setPosition(candidateSolutionBuilder2.build());
+        individual2.put(Property.FITNESS, new MinimisationFitness(5.2));
 
         ArrayList list = new ArrayList();
         list.add(individual1);
@@ -148,7 +148,7 @@ public class FeasibilitySelectorTest {
 
         Individual resultingBest = (Individual) selector.on(list).select();
 
-        Assert.assertTrue(((Vector) individual2.getCandidateSolution()).containsAll((Vector) resultingBest.getCandidateSolution()));
+        Assert.assertTrue(((Vector) individual2.getPosition()).containsAll((Vector) resultingBest.getPosition()));
     }
 
 }

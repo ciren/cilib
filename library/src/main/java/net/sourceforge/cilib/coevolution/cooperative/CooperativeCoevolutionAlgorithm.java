@@ -89,7 +89,7 @@ public class CooperativeCoevolutionAlgorithm extends MultiPopulationBasedAlgorit
         /*use the problem distribution class to allocate segments of the problem to the different algorithms, this class gives each sub population
         a wrapped problem, which contains the original problem and the current context vector*/
         context.initialise(optimisationProblem);
-        problemDistribution.performDistribution(subPopulationsAlgorithms, optimisationProblem, context.getCandidateSolution());
+        problemDistribution.performDistribution(subPopulationsAlgorithms, optimisationProblem, context.getPosition());
 
         //Initialise each sub population, and add the randomised solution vector from each population to the current context.
         for (SinglePopulationBasedAlgorithm algorithm : subPopulationsAlgorithms) {
@@ -111,7 +111,7 @@ public class CooperativeCoevolutionAlgorithm extends MultiPopulationBasedAlgorit
             //get the optimisation problem from the algorithm
             CooperativeCoevolutionProblemAdapter problem = (CooperativeCoevolutionProblemAdapter) algorithmIterator.next().getOptimisationProblem();
             //update the context solution to point to the current context
-            problem.updateContext(context.getCandidateSolution());
+            problem.updateContext(context.getPosition());
             //perform an iteration of the sub population algorithm
             algorithmIterator.current().performIteration();
             //select the contribution from the population
@@ -124,7 +124,7 @@ public class CooperativeCoevolutionAlgorithm extends MultiPopulationBasedAlgorit
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        return new OptimisationSolution(Vector.copyOf(context.getCandidateSolution()), context.getFitness());
+        return new OptimisationSolution(Vector.copyOf(context.getPosition()), context.getFitness());
     }
 
     /**

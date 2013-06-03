@@ -62,7 +62,7 @@ public class RandCreationStrategy implements CreationStrategy {
                 .select(Samples.first(number).unique());
         Vector differenceVector = determineDistanceVector(participants);
 
-        Vector targetVector = (Vector) targetEntity.getCandidateSolution();
+        Vector targetVector = (Vector) targetEntity.getPosition();
         Vector trialVector = targetVector.plus(differenceVector.multiply(new P1<Number>() {
             @Override
             public Number _1() {
@@ -71,7 +71,7 @@ public class RandCreationStrategy implements CreationStrategy {
         }));
 
         T trialEntity = (T) current.getClone();
-        trialEntity.setCandidateSolution(trialVector);
+        trialEntity.setPosition(trialVector);
 
         return trialEntity;
     }
@@ -85,12 +85,12 @@ public class RandCreationStrategy implements CreationStrategy {
      * @return A {@linkplain Vector} representing the resultant of all calculated difference vectors.
      */
     protected <T extends Entity> Vector determineDistanceVector(List<T> participants) {
-        Vector distanceVector = Vector.fill(0.0, participants.get(0).getCandidateSolution().size());
+        Vector distanceVector = Vector.fill(0.0, participants.get(0).getPosition().size());
         Iterator<T> iterator = participants.iterator();
 
         while (iterator.hasNext()) {
-            Vector first = (Vector) iterator.next().getCandidateSolution();
-            Vector second = (Vector) iterator.next().getCandidateSolution();
+            Vector first = (Vector) iterator.next().getPosition();
+            Vector second = (Vector) iterator.next().getPosition();
 
             Vector difference = first.subtract(second);
             distanceVector = distanceVector.plus(difference);

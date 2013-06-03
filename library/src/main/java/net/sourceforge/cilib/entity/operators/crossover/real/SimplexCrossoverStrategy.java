@@ -80,7 +80,7 @@ public class SimplexCrossoverStrategy implements CrossoverStrategy {
         Preconditions.checkArgument(parentCollection.size() >= 3, "ParentCentricCrossoverStrategy requires at least 3 parents.");
         Preconditions.checkState(numberOfOffspring.getParameter() > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
 
-        List<Vector> solutions = Entities.<Vector, E>getCandidateSolutions(parentCollection);
+        List<Vector> solutions = Entities.<Vector, E>getPositions(parentCollection);
         List<Vector> simplexVertices = Lists.newArrayList();
         List<E> offspring = Lists.newArrayList();
         ProbabilityDistributionFunction random = new UniformDistribution();
@@ -111,7 +111,7 @@ public class SimplexCrossoverStrategy implements CrossoverStrategy {
             Vector variables = simplexVertices.get(n - 1).plus(offsetVectors.get(n - 1));
 
             E child = (E) parentCollection.get(n - 1).getClone();
-            child.setCandidateSolution(variables);
+            child.setPosition(variables);
 
             offspring.add(child);
         }

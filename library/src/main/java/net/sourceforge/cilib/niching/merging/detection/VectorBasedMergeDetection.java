@@ -18,8 +18,8 @@ public class VectorBasedMergeDetection extends MergeDetection {
     public Boolean f(SinglePopulationBasedAlgorithm a, SinglePopulationBasedAlgorithm b) {
         Particle p1 = (Particle) Topologies.getBestEntity(a.getTopology(), new SocialBestFitnessComparator());
         Particle p2 = (Particle) Topologies.getBestEntity(b.getTopology(), new SocialBestFitnessComparator());
-        Vector v1 = ((Vector) p1.getBestPosition()).subtract((Vector) p1.getCandidateSolution());
-        Vector v2 = ((Vector) p2.getBestPosition()).subtract((Vector) p2.getCandidateSolution());
+        Vector v1 = ((Vector) p1.getBestPosition()).subtract((Vector) p1.getPosition());
+        Vector v2 = ((Vector) p2.getBestPosition()).subtract((Vector) p2.getPosition());
 
         return v1.dot(v2) > 0;
    }

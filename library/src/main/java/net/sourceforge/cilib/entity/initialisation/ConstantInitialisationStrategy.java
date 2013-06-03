@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.entity.initialisation;
 
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -37,8 +38,8 @@ public class ConstantInitialisationStrategy<E extends Entity> implements Initial
     }
 
     @Override
-    public void initialise(Enum<?> key, E entity) {
-        Type type = entity.getProperties().get(key);
+    public void initialise(Property key, E entity) {
+        Type type = entity.get(key);
 
         if (type instanceof Vector) {
             Vector vector = (Vector) type;

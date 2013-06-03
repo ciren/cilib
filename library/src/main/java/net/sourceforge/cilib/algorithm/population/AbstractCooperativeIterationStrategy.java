@@ -9,7 +9,7 @@ package net.sourceforge.cilib.algorithm.population;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.StandardDataTable;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
@@ -98,7 +98,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
      */
     public ClusterParticle getContextParticle() {
         clearDataPatterns(contextParticle);
-        assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);
+        assignDataPatternsToParticle((CentroidHolder) contextParticle.getPosition(), table);
         contextParticle.calculateFitness();
         return contextParticle;
     }
@@ -123,11 +123,11 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
             }
         }
 
-        contextParticle.setCandidateSolution(solution);
-        contextParticle.getProperties().put(EntityType.Particle.VELOCITY, velocity);
-        contextParticle.getProperties().put(EntityType.Particle.BEST_POSITION, bestPosition);
-        contextParticle.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
-        contextParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
+        contextParticle.setPosition(solution);
+        contextParticle.put(Property.VELOCITY, velocity);
+        contextParticle.put(Property.BEST_POSITION, bestPosition);
+        contextParticle.put(Property.FITNESS, InferiorFitness.instance());
+        contextParticle.put(Property.BEST_FITNESS, InferiorFitness.instance());
         contextinitialised = true;
     }
 
@@ -137,7 +137,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
      * @param particle The particle whose centroids must be cleared
      */
     public void clearDataPatterns(ClusterParticle particle) {
-        for(ClusterCentroid centroid : (CentroidHolder) particle.getCandidateSolution()) {
+        for(ClusterCentroid centroid : (CentroidHolder) particle.getPosition()) {
             centroid.clearDataItems();
         }
     }

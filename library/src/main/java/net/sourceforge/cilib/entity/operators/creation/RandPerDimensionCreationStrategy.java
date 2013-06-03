@@ -65,7 +65,7 @@ public class RandPerDimensionCreationStrategy implements CreationStrategy {
                 .select(Samples.all());
         Vector differenceVector = determineDistanceVector(participants);
 
-        Vector targetVector = (Vector) targetEntity.getCandidateSolution();
+        Vector targetVector = (Vector) targetEntity.getPosition();
         Vector trialVector = targetVector.plus(differenceVector.multiply(new P1<Number>() {
             @Override
             public Number _1() {
@@ -74,7 +74,7 @@ public class RandPerDimensionCreationStrategy implements CreationStrategy {
         }));
 
         T trialEntity = (T) current.getClone();
-        trialEntity.setCandidateSolution(trialVector);
+        trialEntity.setPosition(trialVector);
 
         return trialEntity;
     }
@@ -88,7 +88,7 @@ public class RandPerDimensionCreationStrategy implements CreationStrategy {
      * @return A {@linkplain Vector} representing the resultant of all calculated difference vectors.
      */
     protected <T extends Entity> Vector determineDistanceVector(List<T> participants) {
-        Vector distanceVector = Vector.fill(0.0, participants.get(0).getCandidateSolution().size());
+        Vector distanceVector = Vector.fill(0.0, participants.get(0).getPosition().size());
         Iterator<Entity> iterator;
         int number = Double.valueOf(this.numberOfDifferenceVectors.getParameter()).intValue();
         List<Entity> currentParticipants;
@@ -104,8 +104,8 @@ public class RandPerDimensionCreationStrategy implements CreationStrategy {
             iterator = currentParticipants.iterator();
 
             while (iterator.hasNext()) {
-                first = (Vector) iterator.next().getCandidateSolution();
-                second = (Vector) iterator.next().getCandidateSolution();
+                first = (Vector) iterator.next().getPosition();
+                second = (Vector) iterator.next().getPosition();
 
                 difference = first.doubleValueOf(d) - second.doubleValueOf(d);
 

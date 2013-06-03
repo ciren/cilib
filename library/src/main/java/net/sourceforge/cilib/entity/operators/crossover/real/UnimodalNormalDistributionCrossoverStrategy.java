@@ -86,7 +86,7 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
         checkState(parentCollection.size() >= 3, "There must be a minimum of three parents to perform UNDX crossover.");
         checkState(numberOfOffspring.getParameter() > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
 
-        List<Vector> solutions = Entities.<Vector, E>getCandidateSolutions(parentCollection);
+        List<Vector> solutions = Entities.<Vector, E>getPositions(parentCollection);
         List<E> offspring = Lists.newArrayListWithCapacity((int) numberOfOffspring.getParameter());
         UniformDistribution randomParent = new UniformDistribution();
         final int k = solutions.size();
@@ -161,7 +161,7 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
             }
 
             E child = (E) parentCollection.get(parent).getClone();
-            child.setCandidateSolution(variables);
+            child.setPosition(variables);
 
             offspring.add(child);
         }

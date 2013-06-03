@@ -53,7 +53,7 @@ public class CauchyMutationStrategy extends MutationStrategy {
     @Override
     public <E extends Entity> List<E> mutate(List<E> entity) {
         for (Entity current : entity) {
-            Vector chromosome = (Vector) current.getCandidateSolution();
+            Vector chromosome = (Vector) current.getPosition();
 
             if (this.getMutationProbability().getParameter() >= this.getRandomDistribution().getRandomNumber()) {
                 for (int i = 0; i < chromosome.size(); i++) {

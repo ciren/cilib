@@ -89,7 +89,7 @@ public abstract class AbstractFirefly extends AbstractEntity implements Firefly 
      */
     @Override
     public Vector getPosition() {
-        return (Vector) this.getCandidateSolution();
+        return (Vector) super.getPosition();
     }
 
     /**
@@ -97,7 +97,7 @@ public abstract class AbstractFirefly extends AbstractEntity implements Firefly 
      */
     @Override
     public void setPosition(Vector position) {
-        this.setCandidateSolution(position);
+        super.setPosition(position);
     }
 
     /**

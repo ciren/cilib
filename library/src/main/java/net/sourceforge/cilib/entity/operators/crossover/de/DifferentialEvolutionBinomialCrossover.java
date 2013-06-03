@@ -69,8 +69,8 @@ public class DifferentialEvolutionBinomialCrossover implements CrossoverStrategy
     public <E extends Entity> List<E> crossover(List<E> parentCollection) {
         Preconditions.checkArgument(parentCollection.size() == 2, "DifferentialEvolutionBinomialCrossover requires 2 parents.");
 
-        Vector parentVector = (Vector) parentCollection.get(0).getCandidateSolution();
-        Vector trialVector = (Vector) parentCollection.get(1).getCandidateSolution();
+        Vector parentVector = (Vector) parentCollection.get(0).getPosition();
+        Vector trialVector = (Vector) parentCollection.get(1).getPosition();
         Vector.Builder offspringVector = Vector.newBuilder();
 
         //this is the index of the dimension that will always be included
@@ -85,7 +85,7 @@ public class DifferentialEvolutionBinomialCrossover implements CrossoverStrategy
         }
 
         E offspring = (E) parentCollection.get(0).getClone();
-        offspring.setCandidateSolution(offspringVector.build());
+        offspring.setPosition(offspringVector.build());
 
         return Arrays.asList(offspring);
     }

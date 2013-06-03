@@ -17,7 +17,7 @@ import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.problem.solution.Fitness;
@@ -50,7 +50,7 @@ public class MultiPopRepeatingCrossoverSelection extends CrossoverSelection {
     }
 
     @Override
-    public P3<Boolean, Particle, Particle> select(PSO algorithm, Enum solutionType, Enum fitnessType) {
+    public P3<Boolean, Particle, Particle> select(PSO algorithm, Property solutionType, Property fitnessType) {
         boolean isBetter = false;
 
         List<Particle> parents = new ArrayList<>();
@@ -73,8 +73,8 @@ public class MultiPopRepeatingCrossoverSelection extends CrossoverSelection {
 
         //put pbest as candidate solution for the crossover
         for (Particle e : parents) {
-            tmp.put(e, e.getCandidateSolution());
-            e.getProperties().put(EntityType.CANDIDATE_SOLUTION, e.getNeighbourhoodBest().getBestPosition());
+            tmp.put(e, e.getPosition());
+            e.put(Property.CANDIDATE_SOLUTION, e.getNeighbourhoodBest().getBestPosition());
         }
 
         //perform crossover and select particle to compare with
@@ -82,14 +82,14 @@ public class MultiPopRepeatingCrossoverSelection extends CrossoverSelection {
         Particle selectedParticle = particleProvider.f(fj.data.List.iterableList(parents), offspring);
 
         //replace selectedEntity if offspring is better
-        if (((Fitness) offspring.getProperties().get(fitnessType))
-                .compareTo((Fitness) selectedParticle.getProperties().get(fitnessType)) > 0) {
+        if (((Fitness) offspring.get(fitnessType))
+                .compareTo((Fitness) selectedParticle.get(fitnessType)) > 0) {
             isBetter = true;
         }
 
         // revert solutions
         for (Particle e : parents) {
-            e.setCandidateSolution(tmp.get(e));
+            e.setPosition(tmp.get(e));
         }
 
         if (isBetter && offspring.getNeighbourhoodBest() == null) {
@@ -99,7 +99,7 @@ public class MultiPopRepeatingCrossoverSelection extends CrossoverSelection {
     }
 
     @Override
-    public P3<Boolean, Particle, Particle> doAction(PSO algorithm, Enum solutionType, Enum fitnessType) {
+    public P3<Boolean, Particle, Particle> doAction(PSO algorithm, Property solutionType, Property fitnessType) {
         int counter = 0;
         boolean isBetter;
         P3<Boolean, Particle, Particle> result;

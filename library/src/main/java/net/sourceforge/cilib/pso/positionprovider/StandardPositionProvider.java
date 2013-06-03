@@ -42,7 +42,7 @@ public class StandardPositionProvider implements PositionProvider {
      */
     @Override
     public Vector get(Particle particle) {
-        Vector position = (Vector) particle.getCandidateSolution();
+        Vector position = (Vector) particle.getPosition();
         Vector velocity = (Vector) particle.getVelocity();
         return position.plus(velocity);
     }

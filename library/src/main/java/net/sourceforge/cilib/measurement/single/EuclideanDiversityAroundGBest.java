@@ -37,7 +37,7 @@ public class EuclideanDiversityAroundGBest implements Measurement<Real> {
 
         fj.data.List<Entity> topology = populationBasedAlgorithm.getTopology();
         for (Entity entity : topology) {
-            diameter += distance.distance(center, (Vector) entity.getCandidateSolution());
+            diameter += distance.distance(center, (Vector) entity.getPosition());
         }
 
         return Real.valueOf(diameter / topology.length());

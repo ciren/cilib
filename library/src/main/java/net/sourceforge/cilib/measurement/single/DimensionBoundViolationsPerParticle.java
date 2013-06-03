@@ -54,14 +54,12 @@ public class DimensionBoundViolationsPerParticle implements Measurement<Real> {
         double sumOfAverageViolations = 0.0;
         int populationSize = populationBasedAlgorithm.getTopology().length();
         int numberOfViolations;
-        int dimension = 0;
 
         fj.data.List<Entity> local = populationBasedAlgorithm.getTopology();
         for (Entity populationEntity : local) {
             numberOfViolations = 0;
-            dimension = populationEntity.getDimension();
 
-            for (Numeric position : (Vector) populationEntity.getCandidateSolution()) {
+            for (Numeric position : (Vector) populationEntity.getPosition()) {
                 Bounds bounds = position.getBounds();
 
                 if (!bounds.isInsideBounds(position.doubleValue())) {

@@ -11,7 +11,7 @@ import java.util.Arrays;
 import net.sourceforge.cilib.algorithm.initialisation.ChargedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.niching.creation.ClosestNeighbourNicheCreationStrategy;
 import net.sourceforge.cilib.niching.creation.MaintainedFitnessNicheDetection;
@@ -88,14 +88,14 @@ public class NichingFunctionsTest {
 
         Assert.assertEquals(2, merged._1().getTopology().length());
         Assert.assertEquals(3, merged._2().getTopology().length());
-        Assert.assertEquals(Vector.of(0.4, 0.4), ((Entity)merged._2().getTopology().index(2)).getCandidateSolution());
+        Assert.assertEquals(Vector.of(0.4, 0.4), ((Entity)merged._2().getTopology().index(2)).getPosition());
 
         merged = NichingFunctions.absorbSingleSwarm(new RadiusOverlapMergeDetection(), new SingleSwarmMergeStrategy(), new StandardMergeStrategy())
                 .f(NichingSwarms.of(pso2, Populations.populationToAlgorithms().f(mainSwarm)));
 
         Assert.assertEquals(2, merged._1().getTopology().length());
         Assert.assertEquals(3, merged._2().getTopology().length());
-        Assert.assertEquals(Vector.of(100, 11), ((Entity)merged._2().getTopology().index(2)).getCandidateSolution());
+        Assert.assertEquals(Vector.of(100, 11), ((Entity)merged._2().getTopology().index(2)).getPosition());
     }
 
     @Test
@@ -151,8 +151,8 @@ public class NichingFunctionsTest {
         Assert.assertEquals(2, a.length());
         Assert.assertEquals(1, a.head().getTopology().length());
         Assert.assertEquals(1, a.tail().head().getTopology().length());
-        Assert.assertEquals(Vector.of(1.0, 1.0), ((Entity) a.head().getTopology().head()).getCandidateSolution());
-        Assert.assertEquals(Vector.of(2.0, 2.0), ((Entity) a.tail().head().getTopology().head()).getCandidateSolution());
+        Assert.assertEquals(Vector.of(1.0, 1.0), ((Entity) a.head().getTopology().head()).getPosition());
+        Assert.assertEquals(Vector.of(2.0, 2.0), ((Entity) a.tail().head().getTopology().head()).getPosition());
         Assert.assertEquals(ChargedPopulationInitialisationStrategy.class, a.head().getInitialisationStrategy().getClass());
     }
 
@@ -168,8 +168,8 @@ public class NichingFunctionsTest {
         Assert.assertEquals(2, a.length());
         Assert.assertEquals(1, a.head().getTopology().length());
         Assert.assertEquals(1, a.tail().head().getTopology().length());
-        Assert.assertEquals(Vector.of(1.0, 1.0), ((Entity) a.head().getTopology().head()).getCandidateSolution());
-        Assert.assertEquals(Vector.of(2.0, 2.0), ((Entity) a.tail().head().getTopology().head()).getCandidateSolution());
+        Assert.assertEquals(Vector.of(1.0, 1.0), ((Entity) a.head().getTopology().head()).getPosition());
+        Assert.assertEquals(Vector.of(2.0, 2.0), ((Entity) a.tail().head().getTopology().head()).getPosition());
         Assert.assertEquals(ChargedPopulationInitialisationStrategy.class, a.head().getInitialisationStrategy().getClass());
     }
 
@@ -237,17 +237,17 @@ public class NichingFunctionsTest {
         Assert.assertEquals(1, merged._1().getTopology().length());
         Assert.assertEquals(3, merged._2().length());
         Assert.assertEquals(2, merged._2().head().getTopology().length());
-        Assert.assertEquals(Vector.of(0.0, 0.0), ((Entity) merged._2().head().getTopology().head()).getCandidateSolution());
-        Assert.assertEquals(Vector.of(0.4, 0.4), ((Entity) merged._2().head().getTopology().index(1)).getCandidateSolution());
+        Assert.assertEquals(Vector.of(0.0, 0.0), ((Entity) merged._2().head().getTopology().head()).getPosition());
+        Assert.assertEquals(Vector.of(0.4, 0.4), ((Entity) merged._2().head().getTopology().index(1)).getPosition());
     }
 
     public static Particle createParticle(Fitness fitness, Vector position) {
         Particle particle = new StandardParticle();
 
-        particle.setCandidateSolution(position);
-        particle.getProperties().put(EntityType.FITNESS, fitness);
-        particle.getProperties().put(EntityType.Particle.BEST_POSITION, position);
-        particle.getProperties().put(EntityType.Particle.BEST_FITNESS, fitness);
+        particle.setPosition(position);
+        particle.put(Property.FITNESS, fitness);
+        particle.put(Property.BEST_POSITION, position);
+        particle.put(Property.BEST_FITNESS, fitness);
 
         return particle;
     }

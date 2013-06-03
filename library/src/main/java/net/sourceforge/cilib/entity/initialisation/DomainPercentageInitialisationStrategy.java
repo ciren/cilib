@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.entity.initialisation;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -16,8 +16,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * operation where the velocity is first randomised and then scaled by a percentage.
  * @param <E> The entity type.
  */
-public class DomainPercentageInitialisationStrategy<E extends Entity> implements
-        InitialisationStrategy<E> {
+public class DomainPercentageInitialisationStrategy<E extends Entity> implements InitialisationStrategy<E> {
 
     private static final long serialVersionUID = -7178323673738508287L;
     private InitialisationStrategy velocityInitialisationStrategy;
@@ -39,9 +38,9 @@ public class DomainPercentageInitialisationStrategy<E extends Entity> implements
     }
 
     @Override
-    public void initialise(Enum<?> key, E entity) {
-        this.velocityInitialisationStrategy.initialise(EntityType.Particle.VELOCITY, entity);
-        Type type = entity.getProperties().get(key);
+    public void initialise(Property key, E entity) {
+        this.velocityInitialisationStrategy.initialise(Property.VELOCITY, entity);
+        Type type = entity.get(key);
         Vector vector = (Vector) type;
 
         for (int i = 0; i < vector.size(); ++i) {

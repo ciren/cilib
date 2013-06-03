@@ -74,7 +74,7 @@ public class CrossoverReplaceFunction extends F<Particle, Particle> {
         if (uniform.getRandomNumber() < crossoverProbability.getParameter()) {
             Particle parent = p.getClone();
             Vector parentSolution = (Vector) parentProvider.get(p);
-            parent.setCandidateSolution(parentSolution);
+            parent.setPosition(parentSolution);
 
             List<Particle> offspring = crossoverStrategy.crossover(Arrays.asList(p, parent));
 

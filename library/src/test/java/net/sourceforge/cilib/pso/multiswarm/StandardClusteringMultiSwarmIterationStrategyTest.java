@@ -86,9 +86,9 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
         candidateSolution2.add(ClusterCentroid.of(1,2,5,2));
 
         ClusterParticle particle = new ClusterParticle();
-        particle.setCandidateSolution(candidateSolution);
+        particle.setPosition(candidateSolution);
         ClusterParticle particle2 = new ClusterParticle();
-        particle2.setCandidateSolution(candidateSolution2);
+        particle2.setPosition(candidateSolution2);
 
         pso.setTopology(fj.data.List.list(particle, particle2));
 
@@ -100,9 +100,9 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
         candidateSolution22.add(ClusterCentroid.of(20,12,4,6));
 
         ClusterParticle particle12 = new ClusterParticle();
-        particle12.setCandidateSolution(candidateSolution12);
+        particle12.setPosition(candidateSolution12);
         ClusterParticle particle22 = new ClusterParticle();
-        particle22.setCandidateSolution(candidateSolution22);
+        particle22.setPosition(candidateSolution22);
 
         pso2.setTopology(fj.data.List.list(particle12, particle22));
 
@@ -161,7 +161,7 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
 
         ClusterParticle particleAfter = instance.getTopology().head().getClone();
 
-        Assert.assertFalse(particleAfter.getCandidateSolution().containsAll(particleBefore.getCandidateSolution()));
+        Assert.assertFalse(particleAfter.getPosition().containsAll(particleBefore.getPosition()));
     }
 
     /**
@@ -199,8 +199,8 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
         ClusterParticle particleAfter1 = instance.getTopology().index(0).getClone();
         ClusterParticle particleAfter2 = instance.getTopology().index(1).getClone();
 
-        assertFalse(particleAfter1.getCandidateSolution().containsAll(particleBefore1.getCandidateSolution()));
-        assertFalse(particleAfter2.getCandidateSolution().containsAll(particleBefore2.getCandidateSolution()));
+        assertFalse(particleAfter1.getPosition().containsAll(particleBefore1.getPosition()));
+        assertFalse(particleAfter2.getPosition().containsAll(particleBefore2.getPosition()));
     }
 
     /**

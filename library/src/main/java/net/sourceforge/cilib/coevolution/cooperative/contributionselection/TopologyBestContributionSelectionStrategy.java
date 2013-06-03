@@ -11,7 +11,7 @@ import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Select the contribution based on the topology best entity of the {@linkplain PopulationBasedAlgorithm}.
+ * Select the contribution based on the topology best entity of the {@linkplain SinglePopulationBasedAlgorithm}.
  */
 public class TopologyBestContributionSelectionStrategy implements
         ContributionSelectionStrategy {
@@ -22,7 +22,7 @@ public class TopologyBestContributionSelectionStrategy implements
      */
     @Override
     public Vector getContribution(SinglePopulationBasedAlgorithm algorithm) {
-        return (Vector) Topologies.getBestEntity(algorithm.getTopology()).getCandidateSolution();
+        return (Vector) Topologies.getBestEntity(algorithm.getTopology()).getPosition();
     }
 
     /**

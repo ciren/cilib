@@ -12,7 +12,7 @@ import org.junit.Test;
 import net.sourceforge.cilib.controlparameter.StandardUpdatableControlParameter;
 import net.sourceforge.cilib.ec.SaDEIndividual;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.controlparameter.initialisation.RandomBoundedParameterInitialisationStrategy;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 
@@ -30,7 +30,7 @@ public class SaCRWParameterAdaptationStrategyTest {
     public void acceptedTest() {
         SaCRWParameterAdaptationStrategy strategy = new SaCRWParameterAdaptationStrategy();
         SaDEIndividual individual = new SaDEIndividual();
-        individual.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.0));
+        individual.put(Property.FITNESS, new MinimisationFitness(2.0));
         individual.setPreviousFitness(new MinimisationFitness(3.0));
         StandardUpdatableControlParameter parameter = new StandardUpdatableControlParameter();
         parameter.setParameter(5.0);

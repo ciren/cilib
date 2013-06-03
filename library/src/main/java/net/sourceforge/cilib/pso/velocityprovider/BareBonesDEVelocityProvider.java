@@ -84,8 +84,8 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
         //select three random individuals, all different and different from particle
         ProbabilityDistributionFunction pdf = new UniformDistribution();
 
-        Vector position1 = (Vector) positions.index(0).getCandidateSolution();
-        Vector position2 = (Vector) positions.index(1).getCandidateSolution();
+        Vector position1 = (Vector) positions.index(0).getPosition();
+        Vector position2 = (Vector) positions.index(1).getPosition();
 
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
@@ -96,7 +96,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
             if (this.rand2.getRandomNumber(0, 1) > this.crossoverProbability.getParameter()) {
                 builder.add(attractor + stepSize);
             } else {
-                builder.add(((Vector) particle.getCandidateSolution()).doubleValueOf(i));
+                builder.add(((Vector) particle.getPosition()).doubleValueOf(i));
             }
         }
         return builder.build();
@@ -106,7 +106,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
      * Get a list of individuals that are suitable to be used within
      * the recombination arithmetic operator.
      *
-     * @param topology The {@link Topology} containing the entities.
+     * @param topology The list containing the entities.
      * @return A list of unique entities.
      */
     public static fj.data.List<Entity> getRandomParentEntities(fj.data.List<? extends Entity> topology) {

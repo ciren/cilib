@@ -55,7 +55,7 @@ public class VisualPositionUpdateStategyTest {
         abc.performIteration();
         Fitness oldFitness = bee.getFitness().getClone();
         abc.performIteration();
-        Vector currentPosition = bee.getPosition();
+        Vector currentPosition = (Vector) bee.getPosition();
         Assert.assertEquals(10, currentPosition.size());
         for (int i = 0; i < currentPosition.size(); i++) {
             Assert.assertTrue(((Real) currentPosition.get(i)).doubleValue() != Double.NaN);

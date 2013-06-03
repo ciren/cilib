@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.niching.utils;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.util.functions.Algorithms;
@@ -26,7 +26,7 @@ public class JoinedTopologyProvider extends TopologyProvider {
                         return List.iterableList(((List<Entity>)a).filter(new F<Entity, Boolean>() {
                             @Override
                             public Boolean f(Entity a) {
-                                return ((Int) a.getProperties().get(EntityType.Coevolution.POPULATION_ID)).intValue() == 0;
+                                return ((Int) a.get(Property.POPULATION_ID)).intValue() == 0;
                             }                            
                         }));
                     }

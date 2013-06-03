@@ -60,7 +60,7 @@ public class TwoStepPositionProvider implements PositionProvider {
         Vector velocity = (Vector) particle.getVelocity();
         double beta = this.beta.getParameter();
 
-        Vector position = (Vector) particle.getCandidateSolution();
+        Vector position = (Vector) particle.getPosition();
         Vector position1 = position.plus(velocity);
         Vector position2 = position.plus(velocity.multiply(beta));
 

@@ -35,12 +35,12 @@ public class CrossoverDistinctPositionProvider extends DistinctPositionProvider 
         Particle p2 = particle.getClone();
         Particle p3 = particle.getClone();
 
-        p1.setCandidateSolution(particle.getCandidateSolution());
-        p2.setCandidateSolution(particle.getBestPosition());
-        p3.setCandidateSolution(particle.getNeighbourhoodBest().getBestPosition());
+        p1.setPosition(particle.getPosition());
+        p2.setPosition(particle.getBestPosition());
+        p3.setPosition(particle.getNeighbourhoodBest().getBestPosition());
 
         return (Vector) crossoverStrategy.crossover(Arrays.asList(p1, p2, p3))
-                .get(0).getCandidateSolution();
+                .get(0).getPosition();
     }
 
     public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {

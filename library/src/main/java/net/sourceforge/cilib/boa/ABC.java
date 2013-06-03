@@ -141,7 +141,7 @@ public class ABC extends SinglePopulationBasedAlgorithm<HoneyBee> {
 
         for (HoneyBee bee : onlookerBees) {
             HoneyBee selectedBee = dancingSelectionStrategy.on(workerBees).select();
-            bee.setPosition(Vector.copyOf(selectedBee.getPosition()));
+            bee.setPosition(Vector.copyOf((Vector) selectedBee.getPosition()));
             bee.updatePosition();
             if (bestBee == null) {
                 bestBee = bee;

@@ -42,7 +42,7 @@ public class FIPSVelocityProvider implements VelocityProvider {
     @Override
     public Vector get(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
-        Vector position = (Vector) particle.getCandidateSolution();
+        Vector position = (Vector) particle.getPosition();
         PSO algorithm = (PSO) AbstractAlgorithm.get();
         fj.data.List<Particle> topology = algorithm.getTopology();
 

@@ -112,7 +112,7 @@ public class Vector implements StructuredType<Numeric>,
      * @param iterable The given elements contained within an {@code Iterable}.
      * @return a new {@code Vector} instance, containing the given elements.
      */
-    public static Vector copyOf(Iterable<? extends Number> iterable) {
+    public static Vector copyOfIterable(Iterable<? extends Number> iterable) {
         if (iterable instanceof Collection) {
             @SuppressWarnings("unchecked")
             Collection<? extends Number> coll = (Collection<? extends Number>) iterable;

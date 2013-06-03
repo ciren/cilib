@@ -52,7 +52,7 @@ public class VelocityUpdateOffspringVelocityProvider extends OffspringVelocityPr
 
     @Override
     public StructuredType f(List<Particle> parents, Particle offspring) {
-        Vector position = (Vector) offspring.getCandidateSolution();
+        Vector position = (Vector) offspring.getPosition();
         Vector localGuide = (Vector) new ElitistSelector<Particle>().on(parents).select().getBestPosition();
         Vector globalGuide = (Vector) AbstractAlgorithm.get().getBestSolution().getPosition();
 

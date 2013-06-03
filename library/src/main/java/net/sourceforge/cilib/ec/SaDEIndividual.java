@@ -12,7 +12,7 @@ import net.sourceforge.cilib.controlparameter.adaptation.SaDEParameterAdaptation
 import net.sourceforge.cilib.controlparameter.initialisation.ControlParameterInitialisationStrategy;
 import net.sourceforge.cilib.controlparameter.initialisation.RandomParameterInitialisationStrategy;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.operators.creation.CreationStrategy;
 import net.sourceforge.cilib.entity.operators.creation.RandCreationStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
@@ -79,14 +79,14 @@ public class SaDEIndividual extends ParameterisedIndividual{
       */
      @Override
      public void initialise(Problem problem) {
-        this.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.newBuilder().copyOf(problem.getDomain().getBuiltRepresentation()).buildRandom());
+        put(Property.CANDIDATE_SOLUTION, Vector.newBuilder().copyOf(problem.getDomain().getBuiltRepresentation()).buildRandom());
 
-        this.initialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, this);
+        this.initialisationStrategy.initialise(Property.CANDIDATE_SOLUTION, this);
 
-        Vector strategy = Vector.fill(0.0, this.getCandidateSolution().size());
+        Vector strategy = Vector.fill(0.0, this.getPosition().size());
 
-        this.getProperties().put(EntityType.STRATEGY_PARAMETERS, strategy);
-        this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        put(Property.STRATEGY_PARAMETERS, strategy);
+        put(Property.FITNESS, InferiorFitness.instance());
 
          scalingFactorInitialisationStrategy.initialise((SettableControlParameter) trialVectorCreationStrategy.getScaleParameter());
 

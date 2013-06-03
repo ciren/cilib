@@ -51,7 +51,7 @@ public class GaussianMutationStrategy extends MutationStrategy {
     @Override
     public <E extends Entity> List<E> mutate(List<E> entity) {
         for (E current : entity) {
-            Vector chromosome = (Vector) current.getCandidateSolution();
+            Vector chromosome = (Vector) current.getPosition();
 
             for (int i = 0; i < chromosome.size(); i++) {
                 double random = this.getRandomDistribution().getRandomNumber();

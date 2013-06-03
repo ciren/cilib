@@ -57,8 +57,8 @@ public class DifferentialEvolutionExponentialCrossover implements CrossoverStrat
     public <E extends Entity> List<E> crossover(List<E> parentCollection) {
         Preconditions.checkArgument(parentCollection.size() == 2, "DifferentialEvolutionExponentialCrossover requires 2 parents.");
 
-        Vector parentVector = (Vector) parentCollection.get(0).getCandidateSolution();
-        Vector trialVector = (Vector) parentCollection.get(1).getCandidateSolution();
+        Vector parentVector = (Vector) parentCollection.get(0).getPosition();
+        Vector trialVector = (Vector) parentCollection.get(1).getPosition();
         Vector.Builder offspringVector = Vector.newBuilder();
         List<Integer> points = getMutationPoints(trialVector.size());
 
@@ -71,7 +71,7 @@ public class DifferentialEvolutionExponentialCrossover implements CrossoverStrat
         }
 
         E offspring = (E) parentCollection.get(0).getClone();
-        offspring.setCandidateSolution(offspringVector.build());
+        offspring.setPosition(offspringVector.build());
 
         return Arrays.asList(offspring);
     }

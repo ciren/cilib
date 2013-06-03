@@ -30,9 +30,9 @@ public class ClosestEntityVisitorTest {
         Vector vector2 = Vector.of(1.0, 1.0, 1.0, 1.0, 1.0);
         Vector vector3 = Vector.of(2.0, 2.0, 2.0, 2.0, 2.0);
 
-        individual1.setCandidateSolution(vector1);
-        individual2.setCandidateSolution(vector2);
-        individual3.setCandidateSolution(vector3);
+        individual1.setPosition(vector1);
+        individual2.setPosition(vector2);
+        individual3.setPosition(vector3);
 
         fj.data.List<Individual> topology = fj.data.List.list(individual1, individual2, individual3);
         

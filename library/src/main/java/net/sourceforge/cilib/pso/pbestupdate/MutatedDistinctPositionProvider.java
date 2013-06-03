@@ -33,7 +33,7 @@ public class MutatedDistinctPositionProvider extends DistinctPositionProvider {
 
     @Override
     public Vector f(Particle particle) {
-        return ((Vector) particle.getCandidateSolution()).map(new F<Numeric, Numeric>() {
+        return ((Vector) particle.getPosition()).map(new F<Numeric, Numeric>() {
             public Numeric f(Numeric input) {
                 return Real.valueOf(input.doubleValue() + distribution.getRandomNumber(), input.getBounds());
             }

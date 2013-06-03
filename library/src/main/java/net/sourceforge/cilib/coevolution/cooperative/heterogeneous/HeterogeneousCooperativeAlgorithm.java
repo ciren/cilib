@@ -57,7 +57,7 @@ public class HeterogeneousCooperativeAlgorithm extends CooperativeCoevolutionAlg
         super.algorithmIteration();
 
         if ((getIterations() + 1) % (int)problemAllocationSwapIteration.getParameter() == 0) {
-             redistributionStrategy.redistributeProblem(subPopulationsAlgorithms, optimisationProblem, problemDistribution, context.getCandidateSolution());
+             redistributionStrategy.redistributeProblem(subPopulationsAlgorithms, optimisationProblem, problemDistribution, context.getPosition());
         }
     }
 

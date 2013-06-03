@@ -33,17 +33,17 @@ public interface HoneyBee extends Entity {
      */
     void updatePosition();
 
-    /**
-     * Gets the bee's position (contents).
-     * @return the position.
-     */
-    Vector getPosition();
-
-    /**
-     * Sets the bee's position (contents).
-     * @param position The value to set.
-     */
-    void setPosition(Vector position);
+//    /**
+//     * Gets the bee's position (contents).
+//     * @return the position.
+//     */
+//    Vector getPosition();
+//
+//    /**
+//     * Sets the bee's position (contents).
+//     * @param position The value to set.
+//     */
+//    void setPosition(Vector position);
 
     /**
      * Getter method for the position update strategy.

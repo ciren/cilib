@@ -16,7 +16,7 @@ public class CurrentPositionGuideProvider implements GuideProvider {
     }
 
     public StructuredType get(Particle particle) {
-        return particle.getCandidateSolution();
+        return particle.getPosition();
     }
 
 }

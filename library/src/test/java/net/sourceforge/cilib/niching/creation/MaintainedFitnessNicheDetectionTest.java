@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.niching.creation;
 
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.niching.NichingFunctionsTest;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
@@ -24,23 +24,23 @@ public class MaintainedFitnessNicheDetectionTest {
 
         MaintainedFitnessNicheDetection detection = new MaintainedFitnessNicheDetection();
         Assert.assertFalse(detection.f(null, p1));
-        p1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.999999));
+        p1.put(Property.FITNESS, new MinimisationFitness(2.999999));
         p1 = p1.getClone();
         Assert.assertFalse(detection.f(null, p1));
-        p1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.999998));
+        p1.put(Property.FITNESS, new MinimisationFitness(2.999998));
         p1 = p1.getClone();
         Assert.assertTrue(detection.f(null, p1));
 
         Assert.assertFalse(detection.f(null, p2));
-        p2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.999999));
+        p2.put(Property.FITNESS, new MinimisationFitness(2.999999));
         p2 = p2.getClone();
         Assert.assertFalse(detection.f(null, p2));
-        p2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.999998));
+        p2.put(Property.FITNESS, new MinimisationFitness(2.999998));
         p2 = p2.getClone();
         Assert.assertTrue(detection.f(null, p2));
         p2 = p2.getClone();
         detection.f(null, p2);
-        Assert.assertEquals(3, ((TypeList) p2.getProperties().get(MaintainedFitnessNicheDetection.NicheEnum.NICHE_DETECTION_FITNESSES)).size());
+        Assert.assertEquals(3, ((TypeList) p2.get(Property.NICHE_DETECTION_FITNESSES)).size());
     }
 
 }

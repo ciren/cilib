@@ -176,14 +176,14 @@ public class HS extends AbstractAlgorithm implements SingularAlgorithm {
         //calculate a new harmony
         Harmony newHarmony = new Harmony();
         newHarmony.initialise(getOptimisationProblem());
-        Vector newHarmonyVector = (Vector) newHarmony.getCandidateSolution();
+        Vector newHarmonyVector = (Vector) newHarmony.getPosition();
 
         Problem problem = getOptimisationProblem();
 //        Real newHarmonyValue;
         for (int i = 0; i < problem.getDomain().getDimension(); ++i) {
             if (uniform1.getRandomNumber() < harmonyMemoryConsideringRate.getParameter()) {
                 Harmony selectedHarmony = this.harmonyMemory.get((int) uniform2.getRandomNumber(0, harmonyMemory.size() - 1));
-                Vector selectedHarmonyContents = (Vector) selectedHarmony.getCandidateSolution();
+                Vector selectedHarmonyContents = (Vector) selectedHarmony.getPosition();
                 double newHarmonyValue = selectedHarmonyContents.doubleValueOf(i);
                 Bounds bounds = selectedHarmonyContents.boundsOf(i);
                 if (uniform1.getRandomNumber() < pitchAdjustingRate.getParameter()) {
@@ -211,7 +211,7 @@ public class HS extends AbstractAlgorithm implements SingularAlgorithm {
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        return new OptimisationSolution(this.harmonyMemory.get/*First()*/(0).getCandidateSolution(), this.harmonyMemory.get(0).getFitness());
+        return new OptimisationSolution(this.harmonyMemory.get/*First()*/(0).getPosition(), this.harmonyMemory.get(0).getFitness());
     }
 
     /**

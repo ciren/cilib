@@ -48,13 +48,13 @@ public class MultiParentCrossoverStrategy implements CrossoverStrategy {
         a3 = 5 * (a3/sum) - 1;
         a4 = 5 * (a4/sum) - 1;
         
-        Vector v1 = (Vector) parentCollection.get(0).getCandidateSolution();
-        Vector v2 = (Vector) parentCollection.get(1).getCandidateSolution();
-        Vector v3 = (Vector) parentCollection.get(2).getCandidateSolution();
-        Vector v4 = (Vector) parentCollection.get(3).getCandidateSolution();
+        Vector v1 = (Vector) parentCollection.get(0).getPosition();
+        Vector v2 = (Vector) parentCollection.get(1).getPosition();
+        Vector v3 = (Vector) parentCollection.get(2).getPosition();
+        Vector v4 = (Vector) parentCollection.get(3).getPosition();
         
         E offspring = (E) parentCollection.get(0).getClone();
-        offspring.setCandidateSolution(v1.multiply(a1).plus(v2.multiply(a2)).plus(v3.multiply(a3)).plus(v4.multiply(a4)));
+        offspring.setPosition(v1.multiply(a1).plus(v2.multiply(a2)).plus(v3.multiply(a3)).plus(v4.multiply(a4)));
 
         return Arrays.asList(offspring);
     }

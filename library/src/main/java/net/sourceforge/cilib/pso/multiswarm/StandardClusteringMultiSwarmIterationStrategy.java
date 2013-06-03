@@ -106,12 +106,12 @@ public class StandardClusteringMultiSwarmIterationStrategy extends AbstractItera
         for(ClusterParticle particle : ((DataClusteringPSO) algorithm).getTopology()) {
             for(ClusterParticle particle2 : ((DataClusteringPSO) algorithm).getTopology()) {
                 ClusterParticle particleCopy = particle2.getClone();
-                if(!particle.getCandidateSolution().containsAll(particleCopy.getCandidateSolution())) {
-                    for(int i = 0; i < ((CentroidHolder) particle.getCandidateSolution()).size(); i++) {
-                        ClusterCentroid closestCentroid = getClosestCentroid((((CentroidHolder) particle.getCandidateSolution()).get(i)),
-                                ((CentroidHolder) particleCopy.getCandidateSolution()));
-                        particleCopy.getCandidateSolution().remove(closestCentroid);
-                        if(dm.distance(((CentroidHolder) particle.getCandidateSolution()).get(i), closestCentroid) > r) {
+                if(!particle.getPosition().containsAll(particleCopy.getPosition())) {
+                    for(int i = 0; i < particle.getPosition().size(); i++) {
+                        ClusterCentroid closestCentroid = getClosestCentroid((((CentroidHolder) particle.getPosition()).get(i)),
+                                ((CentroidHolder) particleCopy.getPosition()));
+                        particleCopy.getPosition().remove(closestCentroid);
+                        if(dm.distance(((CentroidHolder) particle.getPosition()).get(i), closestCentroid) > r) {
                             return false;
                         }
                     }
@@ -220,7 +220,7 @@ public class StandardClusteringMultiSwarmIterationStrategy extends AbstractItera
     public void reInitialise(DataClusteringPSO algorithm) {
         for(ClusterParticle particle : algorithm.getTopology()) {
             particle.reinitialise();
-            assignDataPatternsToParticle((CentroidHolder) particle.getCandidateSolution(),
+            assignDataPatternsToParticle((CentroidHolder) particle.getPosition(),
                     ((SinglePopulationDataClusteringIterationStrategy) algorithm.getIterationStrategy()).getWindow().getCurrentDataset());
         }
     }

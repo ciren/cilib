@@ -17,7 +17,7 @@ public class IndividualTest {
     public void testClone() {
         Vector genes = Vector.of(1,2,3,4,5);
         Individual i = new Individual();
-        i.setCandidateSolution(genes);
+        i.setPosition(genes);
 
         Individual clone = i.getClone();
 
@@ -25,7 +25,7 @@ public class IndividualTest {
         assertEquals(5, clone.getDimension());
         assertEquals(i.getDimension(), clone.getDimension());
 
-        Vector cloneVector = (Vector) clone.getCandidateSolution();
+        Vector cloneVector = (Vector) clone.getPosition();
 
         for (int k = 0; k < cloneVector.size(); k++) {
             assertEquals(genes.get(k), cloneVector.get(k));

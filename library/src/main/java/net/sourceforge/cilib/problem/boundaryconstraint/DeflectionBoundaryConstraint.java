@@ -10,7 +10,7 @@ import java.util.Iterator;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -54,7 +54,7 @@ public class DeflectionBoundaryConstraint implements BoundaryConstraint {
      */
     @Override
     public void enforce(Entity entity) {
-        StructuredType<?> structuredType = (StructuredType<?>) entity.getProperties().get(EntityType.Particle.VELOCITY);
+        StructuredType<?> structuredType = (StructuredType<?>) entity.get(Property.VELOCITY);
 
         if (structuredType == null) {
             throw new UnsupportedOperationException("Cannot perform this boundary constrain on a "
@@ -64,7 +64,7 @@ public class DeflectionBoundaryConstraint implements BoundaryConstraint {
         Vector.Builder newVelocity = Vector.newBuilder();
         Vector.Builder newPosition = Vector.newBuilder();
 
-        Iterator<?> pIterator = entity.getCandidateSolution().iterator();
+        Iterator<?> pIterator = entity.getPosition().iterator();
         Iterator<?> vIterator = structuredType.iterator();
 
         while (pIterator.hasNext()) {
@@ -85,8 +85,8 @@ public class DeflectionBoundaryConstraint implements BoundaryConstraint {
             }
         }
 
-        entity.getProperties().put(EntityType.CANDIDATE_SOLUTION, newPosition.build());
-        entity.getProperties().put(EntityType.Particle.VELOCITY, newVelocity.build());
+        entity.put(Property.CANDIDATE_SOLUTION, newPosition.build());
+        entity.put(Property.VELOCITY, newVelocity.build());
     }
 
     /**

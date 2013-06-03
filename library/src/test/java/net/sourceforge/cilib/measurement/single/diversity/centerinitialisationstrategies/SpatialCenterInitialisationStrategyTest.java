@@ -19,9 +19,9 @@ public class SpatialCenterInitialisationStrategyTest {
         StandardParticle p2 = new StandardParticle();
         StandardParticle p3 = new StandardParticle();
 
-        p1.setCandidateSolution(Vector.of(1, 1, 1));
-        p2.setCandidateSolution(Vector.of(2, 2, 2));
-        p3.setCandidateSolution(Vector.of(3, 3, 3));
+        p1.setPosition(Vector.of(1, 1, 1));
+        p2.setPosition(Vector.of(2, 2, 2));
+        p3.setPosition(Vector.of(3, 3, 3));
 
         List<StandardParticle> topology = List.list(p1, p2, p3);
 

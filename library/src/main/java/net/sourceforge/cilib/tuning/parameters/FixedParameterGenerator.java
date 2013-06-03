@@ -43,7 +43,7 @@ public class FixedParameterGenerator extends ParameterGenerator {
     @Override
     public Vector _1() {
         final double inc = bounds.getRange() / count;
-        return Vector.copyOf(List.range(0, count)
+        return Vector.copyOfIterable(List.range(0, count)
             .map(new F<Integer, Double>() {
                 @Override
                 public Double f(Integer a) {

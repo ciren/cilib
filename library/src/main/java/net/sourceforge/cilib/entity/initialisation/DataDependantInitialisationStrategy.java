@@ -9,13 +9,14 @@ package net.sourceforge.cilib.entity.initialisation;
 import java.util.ArrayList;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.io.ARFFFileReader;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.DataTableBuilder;
 import net.sourceforge.cilib.io.StandardDataTable;
 
 
-public abstract class DataDependantInitialisationStrategy <E extends Entity> implements InitialisationStrategy<E>{
+public abstract class DataDependantInitialisationStrategy<E extends Entity> implements InitialisationStrategy<E> {
     protected DataTableBuilder tableBuilder;
     protected InitialisationStrategy<E> initialisationStrategy;
     protected DataTable dataset;
@@ -23,11 +24,11 @@ public abstract class DataDependantInitialisationStrategy <E extends Entity> imp
     protected ArrayList<ControlParameter[]> bounds;
 
     public DataDependantInitialisationStrategy() {
-        initialisationStrategy = new RandomBoundedInitialisationStrategy<E>();
+        initialisationStrategy = new RandomBoundedInitialisationStrategy();
         tableBuilder = new DataTableBuilder(new ARFFFileReader());
         dataset = new StandardDataTable();
         windowSize = 0;
-        bounds = new ArrayList<ControlParameter[]>();
+        bounds = new ArrayList<>();
     }
 
     public DataDependantInitialisationStrategy(DataDependantInitialisationStrategy copy) {
@@ -39,7 +40,7 @@ public abstract class DataDependantInitialisationStrategy <E extends Entity> imp
     }
 
     @Override
-    public abstract void initialise(Enum<?> key, E entity);
+    public abstract void initialise(Property key, E entity);
 
     public void setBounds(ArrayList<ControlParameter[]> newBounds) {
         bounds = newBounds;

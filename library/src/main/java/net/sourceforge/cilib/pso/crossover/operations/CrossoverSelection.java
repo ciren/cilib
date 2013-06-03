@@ -8,7 +8,7 @@ package net.sourceforge.cilib.pso.crossover.operations;
 
 import java.util.Map;
 
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.operators.crossover.real.ParentCentricCrossoverStrategy;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.PSO;
@@ -53,7 +53,7 @@ public abstract class CrossoverSelection extends PSOCrossoverOperation {
         this.particleProvider = copy.particleProvider;
     }
 
-    public P3<Boolean, Particle, Particle> select(PSO algorithm, Enum solutionType, Enum fitnessType) {
+    public P3<Boolean, Particle, Particle> select(PSO algorithm, Property solutionType, Property fitnessType) {
         boolean isBetter = false;
         fj.data.List<Particle> topology = algorithm.getTopology();
 	Map<Particle, StructuredType> tmp = Maps.newHashMap();
@@ -63,8 +63,8 @@ public abstract class CrossoverSelection extends PSOCrossoverOperation {
 
         //put pbest as candidate solution for the crossover
         for (Particle e : parents) {
-            tmp.put(e, e.getCandidateSolution());
-            e.getProperties().put(EntityType.CANDIDATE_SOLUTION, e.getProperties().get(solutionType));
+            tmp.put(e, e.getPosition());
+            e.put(Property.CANDIDATE_SOLUTION, e.<StructuredType>get(solutionType));
         }
 
         //perform crossover and select particle to compare with
@@ -72,14 +72,14 @@ public abstract class CrossoverSelection extends PSOCrossoverOperation {
         Particle selectedParticle = particleProvider.f(parents, offspring);
 
         //replace selectedEntity if offspring is better
-        if (((Fitness) offspring.getProperties().get(fitnessType))
-                .compareTo((Fitness) selectedParticle.getProperties().get(fitnessType)) > 0) {
+        if (((Fitness) offspring.get(fitnessType))
+                .compareTo((Fitness) selectedParticle.get(fitnessType)) > 0) {
             isBetter = true;
         }
 
         // revert solutions
         for (Particle e : parents) {
-	    e.setCandidateSolution(tmp.get(e));
+	        e.setPosition(tmp.get(e));
         }
 
         return P.p(isBetter, selectedParticle, offspring);
@@ -109,11 +109,11 @@ public abstract class CrossoverSelection extends PSOCrossoverOperation {
         this.selector = selector;
     }
 
-    public abstract P3<Boolean, Particle, Particle> doAction(PSO algorithm, Enum solutionType, Enum fitnessType);
+    public abstract P3<Boolean, Particle, Particle> doAction(PSO algorithm, Property solutionType, Property fitnessType);
 
     @Override
     public fj.data.List<Particle> f(PSO algorithm) {
-        final P3<Boolean, Particle, Particle> result = doAction(algorithm, EntityType.CANDIDATE_SOLUTION, EntityType.FITNESS);
+        final P3<Boolean, Particle, Particle> result = doAction(algorithm, Property.CANDIDATE_SOLUTION, Property.FITNESS);
 
         if (result._1()) {
             algorithm.setTopology(algorithm.getTopology().map(new F<Particle, Particle>() {

@@ -27,7 +27,7 @@ public class SelectiveContextUpdateStrategy implements ContextUpdateStrategy {
         testContext.copyFrom(solution, allocation);
         testContext.calculateFitness();
         if (testContext.getFitness().compareTo(context.getFitness()) > 0) {
-            context.setCandidateSolution(testContext.getCandidateSolution());
+            context.setPosition(testContext.getPosition());
             context.setFitness(testContext.getFitness());
         }
     }

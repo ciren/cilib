@@ -22,7 +22,7 @@ public class CrossoverOffspringPBestProvider extends OffspringPBestProvider {
 
     @Override
     public StructuredType f(List<Particle> parent, Particle offspring) {
-        return crossoverStrategy.crossover(parent).get(0).getCandidateSolution();
+        return crossoverStrategy.crossover(parent).get(0).getPosition();
     }
 
     public CrossoverStrategy getCrossoverStrategy() {
