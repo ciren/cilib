@@ -44,10 +44,7 @@ public class RandomInitialisationStrategyTest {
         final Particle particle = mock(Particle.class);
         final StructuredType<?> randomisable = mock(StructuredType.class);
 
-        final Blackboard<Property, Type> blackboard = new Blackboard<>();
-        blackboard.put(Property.CANDIDATE_SOLUTION, randomisable);
-
-        when(particle.getProperties()).thenReturn(blackboard);
+        when(particle.get(Property.CANDIDATE_SOLUTION)).thenReturn(randomisable);
         RandomInitialisationStrategy<Particle> strategy = new RandomInitialisationStrategy<>();
 
         strategy.initialise(Property.CANDIDATE_SOLUTION, particle);
