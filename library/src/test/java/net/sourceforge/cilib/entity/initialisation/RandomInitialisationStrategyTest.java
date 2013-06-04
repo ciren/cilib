@@ -40,6 +40,19 @@ public class RandomInitialisationStrategyTest {
     }
 
     @Test
+    public void randomised() {
+        final Particle particle = mock(Particle.class);
+        final StructuredType<?> randomisable = mock(StructuredType.class);
+
+        when(particle.get(Property.CANDIDATE_SOLUTION)).thenReturn(randomisable);
+        RandomInitialisationStrategy<Particle> strategy = new RandomInitialisationStrategy<>();
+
+        strategy.initialise(Property.CANDIDATE_SOLUTION, particle);
+
+        verify(randomisable).randomise();
+    }
+
+    @Test
     public void testSetBoundsPerDimension() {
         RandomBoundedInitialisationStrategy instance = new RandomBoundedInitialisationStrategy();
 
