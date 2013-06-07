@@ -91,7 +91,7 @@ public class CooperativeMultiswarmIterationStrategy extends AbstractCooperativeI
                         particleWithContext.calculateFitness();
 
                         if(particleWithContext.getFitness().compareTo(particleWithContext.getBestFitness()) > 0) {
-                            particleWithContext.getProperties().put(EntityType.Particle.BEST_POSITION, particleWithContext.getPosition().getClone());
+                            particleWithContext.getProperties().put(EntityType.Particle.BEST_POSITION, particleWithContext.getCandidateSolution().getClone());
                             particleWithContext.getProperties().put(EntityType.Particle.BEST_FITNESS, particleWithContext.getFitness().getClone());
                         }
 
@@ -100,7 +100,7 @@ public class CooperativeMultiswarmIterationStrategy extends AbstractCooperativeI
                         }
 
                         if(contextParticle.getFitness().compareTo(contextParticle.getBestFitness()) > 0) {
-                            contextParticle.getProperties().put(EntityType.Particle.BEST_POSITION, contextParticle.getPosition().getClone());
+                            contextParticle.getProperties().put(EntityType.Particle.BEST_POSITION, contextParticle.getCandidateSolution().getClone());
                             contextParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, contextParticle.getFitness().getClone());
                         }
 

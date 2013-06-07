@@ -62,15 +62,15 @@ public class PartialReinitialisationResponseStrategy extends ParticleReevaluatio
 
             //makes sure the charged particles are randomly positioned across the topology
             if (reinitCounter < Math.floor(populationSize * reinitialisationRatio) && Rand.nextDouble() < reinitialisationRatio && current != Topologies.getBestEntity(algorithm.getTopology())) {
-                current.getPosition().randomise();
+                ((Vector) current.getCandidateSolution()).randomise();
                 current.getProperties().put(EntityType.Particle.VELOCITY, Vectors.transform(current.getVelocity(), zt));
-                current.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf(current.getPosition()));
+                current.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf((Vector) current.getCandidateSolution()));
                 ++reinitCounter;
             }//if
             else if (keepCounter > Math.floor(populationSize * (1.0 - reinitialisationRatio)) && current != Topologies.getBestEntity(algorithm.getTopology())) {
-                current.getPosition().randomise();
+                ((Vector) current.getCandidateSolution()).randomise();
                 current.getProperties().put(EntityType.Particle.VELOCITY, Vectors.transform(current.getVelocity(), zt));
-                current.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf(current.getPosition()));
+                current.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf((Vector) current.getCandidateSolution()));
                 ++reinitCounter;
             }//else if
             else {

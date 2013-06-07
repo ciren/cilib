@@ -46,7 +46,7 @@ public class InitialiseNaNElementsReactionStrategy<E extends SinglePopulationBas
         for (Entity entity : entities) {
             DynamicParticle particle = (DynamicParticle) entity;
             //initialise position
-            Vector position = (Vector) particle.getPosition();
+            Vector position = (Vector) particle.getCandidateSolution();
             for (int curElement = 0; curElement < position.size(); ++curElement) {
                 if (Double.isNaN(position.doubleValueOf(curElement))) {
                     position.get(curElement).randomise();

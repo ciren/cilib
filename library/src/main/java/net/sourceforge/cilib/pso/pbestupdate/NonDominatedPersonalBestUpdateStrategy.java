@@ -43,18 +43,18 @@ public class NonDominatedPersonalBestUpdateStrategy implements PersonalBestUpdat
         Problem problem = topLevelAlgorithm.getOptimisationProblem();
 
         if (particle.getFitness().getClass().getName().matches("MinimisationFitness")) {
-         if ((particle.getBestFitness() == null) || (problem.getFitness(particle.getPosition()).compareTo(problem.getFitness(particle.getBestPosition())) >= 0)) {
+         if ((particle.getBestFitness() == null) || (problem.getFitness(particle.getCandidateSolution()).compareTo(problem.getFitness(particle.getBestPosition())) >= 0)) {
             particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
             particle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getFitness().getClone());
-            particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition().getClone());
+            particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getCandidateSolution().getClone());
             return;
          }
         }
          else if (particle.getFitness().getClass().getName().matches("StandardMOFitness")) {
-             if ((((MOFitness)particle.getBestFitness()) == null) || (((MOFitness)problem.getFitness(particle.getPosition())).compareTo(((MOFitness)problem.getFitness(particle.getBestPosition()))) >= 0)) {
+             if ((((MOFitness)particle.getBestFitness()) == null) || (((MOFitness)problem.getFitness(particle.getCandidateSolution())).compareTo(((MOFitness)problem.getFitness(particle.getBestPosition()))) >= 0)) {
                 particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
                 particle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getFitness().getClone());
-                particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition().getClone());
+                particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getCandidateSolution().getClone());
                 return;
             }
          }

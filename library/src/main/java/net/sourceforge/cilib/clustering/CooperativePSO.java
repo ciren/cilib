@@ -67,7 +67,7 @@ public class CooperativePSO extends MultiPopulationBasedAlgorithm{
     protected void algorithmIteration() {
         iterationStrategy.performIteration(this);
         ClusterParticle particle = ((AbstractCooperativeIterationStrategy) iterationStrategy).getContextParticle();
-        bestSolution = new OptimisationSolution(particle.getPosition(), particle.getFitness());
+        bestSolution = new OptimisationSolution(particle.getCandidateSolution(), particle.getFitness());
     }
 
     /*

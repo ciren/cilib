@@ -129,7 +129,7 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
         }
 
         Vector velocity = (Vector) particle.getVelocity();
-        Vector position = (Vector) particle.getPosition();
+        Vector position = (Vector) particle.getCandidateSolution();
         Vector localGuide = (Vector) particle.getLocalGuide();
         Vector globalGuide = (Vector) particle.getGlobalGuide();
 
