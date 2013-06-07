@@ -16,6 +16,6 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 public class CurrentPositionOffspringPBestProvider extends OffspringPBestProvider {
     @Override
     public StructuredType f(List<Particle> parent, Particle offspring) {
-        return offspring.getPosition();
+        return offspring.getCandidateSolution();
     }
 }

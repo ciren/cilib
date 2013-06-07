@@ -28,12 +28,6 @@ public interface Particle extends Entity, SocialEntity, MemoryBasedEntity {
     Particle getClone();
 
     /**
-     * Get the current position of the {@linkplain Particle}.
-     * @return The {@linkplain Type} representing the position.
-     */
-    StructuredType getPosition();
-
-    /**
      * Get the current velocity of the {@linkplain Particle}.
      * @return The {@linkplain Type} representing the velocity.
      */

@@ -29,6 +29,6 @@ public class StandardPBestPositionInitialisationStrategy implements Initialisati
 
     @Override
     public void initialise(Enum<?> key, Particle entity) {
-        entity.getProperties().put(EntityType.Particle.BEST_POSITION, entity.getPosition().getClone());
+        entity.getProperties().put(EntityType.Particle.BEST_POSITION, entity.getCandidateSolution().getClone());
     }
 }

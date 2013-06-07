@@ -56,7 +56,7 @@ public class InitialiseNaNElementsReactionStrategyTest {
         Assert.assertEquals(5, problem.getNeuralNetwork().getWeights().size());
 
         for (int i = 0; i < Topologies.getBestEntity(pso.getTopology()).getDimension(); ++i) {
-            ((Vector) Topologies.getBestEntity(pso.getTopology()).getPosition()).set(i, Real.valueOf(0.0));
+            ((Vector) Topologies.getBestEntity(pso.getTopology()).getCandidateSolution()).set(i, Real.valueOf(0.0));
             ((Vector) Topologies.getBestEntity(pso.getTopology()).getVelocity()).set(i, Real.valueOf(0.0));
             ((Vector) Topologies.getBestEntity(pso.getTopology()).getBestPosition()).set(i, Real.valueOf(0.0));
         }
@@ -65,7 +65,7 @@ public class InitialiseNaNElementsReactionStrategyTest {
         Assert.assertEquals(11, problem.getNeuralNetwork().getWeights().size());
         Assert.assertEquals(Vector.of(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0.0, 0.0, 0.0, 0.0, 0.0,
                                       Double.NaN),
-                            (Vector) Topologies.getBestEntity(pso.getTopology()).getPosition());
+                            (Vector) Topologies.getBestEntity(pso.getTopology()).getCandidateSolution());
         Assert.assertEquals(Vector.of(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0.0, 0.0, 0.0, 0.0, 0.0,
                                       Double.NaN),
                             (Vector) Topologies.getBestEntity(pso.getTopology()).getVelocity());
@@ -76,7 +76,7 @@ public class InitialiseNaNElementsReactionStrategyTest {
         secondReaction.performReaction(pso);
         Assert.assertEquals(11, ((Vector) pso.getBestSolution().getPosition()).size());
         Assert.assertEquals(11, problem.getNeuralNetwork().getWeights().size());
-        Vector position = (Vector) Topologies.getBestEntity(pso.getTopology()).getPosition();
+        Vector position = (Vector) Topologies.getBestEntity(pso.getTopology()).getCandidateSolution();
         for (int curElement = 0; curElement < position.size(); ++curElement) {
             Assert.assertTrue(!Double.isNaN(position.doubleValueOf(curElement)));
         }

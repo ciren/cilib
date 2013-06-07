@@ -45,10 +45,10 @@ public class MOOStandardPersonalBestUpdateStrategy implements PersonalBestUpdate
         Algorithm topLevelAlgorithm = AbstractAlgorithm.getAlgorithmList().get(0);
         Problem problem = topLevelAlgorithm.getOptimisationProblem();
 
-        if ((particle.getBestFitness() == null) || (problem.getFitness(particle.getPosition()).compareTo(problem.getFitness(particle.getBestPosition())) > 0)) {
+        if ((particle.getBestFitness() == null) || (problem.getFitness(particle.getCandidateSolution()).compareTo(problem.getFitness(particle.getBestPosition())) > 0)) {
             particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
             particle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getFitness());
-            particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition().getClone());
+            particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getCandidateSolution().getClone());
             return;
         }
 

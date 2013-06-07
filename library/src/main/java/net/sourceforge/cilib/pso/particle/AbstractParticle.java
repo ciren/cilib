@@ -108,13 +108,6 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public abstract Fitness getBestFitness();
 
     /**
-     * Get the position of the {@code Particle}.
-     * @return A {@link StructuredType} representing the {@code Particle}'s position.
-     */
-    @Override
-    public abstract StructuredType getPosition();
-
-    /**
      * Get the best position of the {@code Particle}.
      * @return A {@link StructuredType} representing the {@code Particle}'s best position.
      */
