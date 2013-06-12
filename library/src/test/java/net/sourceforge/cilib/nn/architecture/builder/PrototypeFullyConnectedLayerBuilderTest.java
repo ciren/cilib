@@ -8,6 +8,9 @@ package net.sourceforge.cilib.nn.architecture.builder;
 
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.nn.architecture.Layer;
+import net.sourceforge.cilib.nn.domain.FaninNeuronDomain;
+import net.sourceforge.cilib.nn.domain.PresetNeuronDomain;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -24,7 +27,11 @@ public class PrototypeFullyConnectedLayerBuilderTest {
         LayerConfiguration configuration2 = new LayerConfiguration(layerSize, false);
 
         PrototypeFullyConnectedLayerBuilder builder = new PrototypeFullyConnectedLayerBuilder();
-        builder.setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        builder.setDomainProvider(domainProvider);
         Layer layer = builder.buildLayer(configuration1, previousLayerSize);
 
         Assert.assertEquals(layerSize + 1, layer.size());
@@ -60,6 +67,7 @@ public class PrototypeFullyConnectedLayerBuilderTest {
         LayerConfiguration configuration2 = new LayerConfiguration(layerSize, false);
 
         PrototypeFullyConnectedLayerBuilder builder = new PrototypeFullyConnectedLayerBuilder();
+        builder.setDomainProvider(new FaninNeuronDomain());
         Layer layer = builder.buildLayer(configuration1, previousLayerSize);
 
         Assert.assertEquals(layerSize + 1, layer.size());

@@ -54,20 +54,9 @@ public class PrototypeFullyConnectedLayerBuilder extends LayerBuilder {
         boolean bias = layerConfiguration.isBias();
 
         //determine correct domain registry
-        DomainRegistry domainRegistry = null;
-        String domainString = this.getDomainRegistry().getDomainString();
-        if (domainString == null) {
-            //domain is determined from fanin
-            double bound = 1/Math.sqrt(previousLayerAbsoluteSize);
-            domainRegistry = new StringBasedDomainRegistry();
-            domainRegistry.setDomainString("R(" + (-bound) + ":" + bound + ")");
-        }
-        else {
-            domainRegistry = this.getDomainRegistry().getClone();
-        }
+        DomainRegistry domainRegistry = domainProvider.generateDomain(previousLayerAbsoluteSize);
 
         //set domain for prototype neuron
-        domainRegistry.setDomainString(domainRegistry.getDomainString() + "^" + previousLayerAbsoluteSize);
         prototypeNeuron.setDomain(domainRegistry.getDomainString());
 
         //get prototype weight vector

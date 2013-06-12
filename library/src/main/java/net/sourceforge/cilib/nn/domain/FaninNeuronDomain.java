@@ -12,7 +12,7 @@ import net.sourceforge.cilib.type.StringBasedDomainRegistry;
  * Generates neuron domain from the neuron's fanin. Particularly, the domain is
  * R(-1/sqrt(fanin):1/sqrt(fanin))^fanin
  */
-public class FaninNeuronDomain {
+public class FaninNeuronDomain implements NeuronDomainProvider {
 
     /**
      * {@inheritDoc }

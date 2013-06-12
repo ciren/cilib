@@ -7,8 +7,11 @@
 package net.sourceforge.cilib.nn.architecture.builder;
 
 import net.sourceforge.cilib.math.Maths;
+import net.sourceforge.cilib.nn.domain.FaninNeuronDomain;
+import net.sourceforge.cilib.nn.domain.PresetNeuronDomain;
 import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -21,7 +24,11 @@ public class FeedForwardArchitectureBuilderTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3, false));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
-        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network.initialise();
 
         //assert num layers
@@ -57,7 +64,11 @@ public class FeedForwardArchitectureBuilderTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3, false));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
-        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network.initialise();
         
         Assert.assertEquals("R(-3:3)^6,R(-3:3)^6,R(-3:3)^6,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^3,R(-3:3)^3",
@@ -72,6 +83,7 @@ public class FeedForwardArchitectureBuilderTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(4, false));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(new FaninNeuronDomain());
         network.initialise();
         
         Assert.assertEquals("R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4",

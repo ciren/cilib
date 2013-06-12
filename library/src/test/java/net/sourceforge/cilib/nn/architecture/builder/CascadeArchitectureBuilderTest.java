@@ -7,8 +7,11 @@
 package net.sourceforge.cilib.nn.architecture.builder;
 
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.nn.domain.FaninNeuronDomain;
+import net.sourceforge.cilib.nn.domain.PresetNeuronDomain;
 import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -29,7 +32,11 @@ public class CascadeArchitectureBuilderTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
-        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network.initialise();
 
         //assert number of layers
@@ -66,7 +73,11 @@ public class CascadeArchitectureBuilderTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
-        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network.initialise();
 
         //assert number of layers
@@ -101,7 +112,11 @@ public class CascadeArchitectureBuilderTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(12));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
-        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network.initialise();
 
         Assert.assertEquals("R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^4,R(-3:3)^16,R(-3:3)^16",
@@ -116,6 +131,7 @@ public class CascadeArchitectureBuilderTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(12));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(new FaninNeuronDomain());
         network.initialise();
 
         Assert.assertEquals("R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.5:0.5)^4,R(-0.25:0.25)^16,R(-0.25:0.25)^16",
@@ -130,7 +146,11 @@ public class CascadeArchitectureBuilderTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(0));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
-        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network.initialise();
     }
 }

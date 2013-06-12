@@ -14,7 +14,7 @@ import net.sourceforge.cilib.type.StringBasedDomainRegistry;
  * reflects the domain for one weight. This prototype is repeated for each
  * weight.
  */
-public class PresetNeuronDomain {
+public class PresetNeuronDomain implements NeuronDomainProvider {
 
     private DomainRegistry weightDomainPrototype;
 

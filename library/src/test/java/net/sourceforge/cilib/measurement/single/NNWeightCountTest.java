@@ -9,8 +9,10 @@ package net.sourceforge.cilib.measurement.single;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
+import net.sourceforge.cilib.nn.domain.PresetNeuronDomain;
 import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.problem.nn.NNDataTrainingProblem;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Matchers;
@@ -36,7 +38,11 @@ public class NNWeightCountTest {
         network1.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
         network1.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
         network1.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(6));
-        network1.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        network1.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network1.initialise();
         problem.setNeuralNetwork(network1);
 
@@ -48,7 +54,7 @@ public class NNWeightCountTest {
         network2.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network2.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
         network2.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
-        network2.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        network2.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network2.initialise();
         problem.setNeuralNetwork(network2);
 

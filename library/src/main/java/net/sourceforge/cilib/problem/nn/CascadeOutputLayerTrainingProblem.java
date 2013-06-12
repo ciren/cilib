@@ -64,16 +64,6 @@ public class CascadeOutputLayerTrainingProblem extends NNTrainingProblem {
         generateCache();
 
         List<Layer> layers = neuralNetwork.getArchitecture().getLayers();
-        int numWeights = 0;
-        for (int curLayer = 0; curLayer < layers.size()-1; ++curLayer) {
-            numWeights += layers.get(curLayer).size();
-        }
-
-        /*numWeights *= layers.get(layers.size()-1).size();
-
-        String domainString = neuralNetwork.getArchitecture().getArchitectureBuilder().getLayerBuilder().getDomain();
-        domainRegistry = new StringBasedDomainRegistry();
-        domainRegistry.setDomainString(domainString + "^" + numWeights);*/
         
         domainRegistry = layers.get(layers.size()-1).getDomain();
     }
