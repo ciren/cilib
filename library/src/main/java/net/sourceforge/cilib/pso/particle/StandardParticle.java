@@ -103,15 +103,6 @@ public class StandardParticle extends AbstractParticle {
      * {@inheritDoc}
      */
     @Override
-    public void updatePosition(StructuredType newPosition) {
-        getProperties().put(EntityType.PREVIOUS_SOLUTION, getCandidateSolution());
-        getProperties().put(EntityType.CANDIDATE_SOLUTION, newPosition);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void calculateFitness() {
         super.calculateFitness();
         this.personalBestUpdateStrategy.updatePersonalBest(this);
@@ -123,14 +114,6 @@ public class StandardParticle extends AbstractParticle {
     @Override
     public void setNeighbourhoodBest(Particle particle) {
         neighbourhoodBest = particle;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateVelocity(StructuredType newVelocity) {
-        getProperties().put(EntityType.Particle.VELOCITY, newVelocity);
     }
 
     /**
