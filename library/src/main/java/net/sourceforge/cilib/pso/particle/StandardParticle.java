@@ -11,6 +11,7 @@ import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.type.types.Int;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -102,9 +103,9 @@ public class StandardParticle extends AbstractParticle {
      * {@inheritDoc}
      */
     @Override
-    public void updatePosition() {
+    public void updatePosition(StructuredType newPosition) {
         getProperties().put(EntityType.PREVIOUS_SOLUTION, getCandidateSolution());
-        getProperties().put(EntityType.CANDIDATE_SOLUTION, this.behavior.getPositionProvider().get(this));
+        getProperties().put(EntityType.CANDIDATE_SOLUTION, newPosition);
     }
 
     /**
@@ -128,8 +129,8 @@ public class StandardParticle extends AbstractParticle {
      * {@inheritDoc}
      */
     @Override
-    public void updateVelocity() {
-        getProperties().put(EntityType.Particle.VELOCITY, this.behavior.getVelocityProvider().get(this));
+    public void updateVelocity(StructuredType newVelocity) {
+        getProperties().put(EntityType.Particle.VELOCITY, newVelocity);
     }
 
     /**

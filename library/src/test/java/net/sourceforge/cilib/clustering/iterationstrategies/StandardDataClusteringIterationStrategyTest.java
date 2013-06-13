@@ -53,5 +53,6 @@ public class StandardDataClusteringIterationStrategyTest {
         ClusterParticle particleAfter = instance.getTopology().head().getClone();
 
         Assert.assertFalse(particleAfter.getCandidateSolution().containsAll(particleBefore.getCandidateSolution()));
+        Assert.assertFalse(particleAfter.getVelocity().containsAll(particleBefore.getVelocity()));
     }
 }
