@@ -21,6 +21,7 @@ import net.sourceforge.cilib.pso.pbestupdate.StandardPersonalBestUpdateStrategy;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.calculator.EntityBasedFitnessCalculator;
 
 /**
@@ -123,74 +124,20 @@ public class ClusterParticle extends AbstractParticle{
         return neighbourhoodBest;
     }
 
-    /*
-     * Changes the current position of the ClusterParticle accordingly
+    /**
+     * {@inheritDoc}
      */
     @Override
-    public void updatePosition() {
-        CentroidHolder newCandidateSolution = new CentroidHolder();
-        ClusterCentroid newCentroid;
-        Particle particle;
-        Particle neighbourhoodBestParticle;
-        int index = 0;
-        for(ClusterCentroid centroid : (CentroidHolder) getCandidateSolution()) {
-            particle = new StandardParticle();
-            neighbourhoodBestParticle = new StandardParticle();
-            particle.setCandidateSolution(centroid.toVector());
-            particle.getProperties().put(EntityType.Particle.VELOCITY, this.getVelocity().get(index).toVector());
-            particle.getProperties().put(EntityType.Particle.BEST_POSITION, this.getBestPosition().get(index).toVector());
-            particle.getProperties().put(EntityType.Particle.BEST_FITNESS, this.getBestFitness());
-            particle.getProperties().put(EntityType.FITNESS, this.getFitness());
-
-            neighbourhoodBestParticle.setCandidateSolution(((CentroidHolder) getNeighbourhoodBest().getCandidateSolution()).get(index).toVector());
-            neighbourhoodBestParticle.getProperties().put(EntityType.Particle.VELOCITY, getNeighbourhoodBest().getVelocity().get(index).toVector());
-            neighbourhoodBestParticle.getProperties().put(EntityType.Particle.BEST_POSITION, getNeighbourhoodBest().getBestPosition().get(index).toVector());
-            neighbourhoodBestParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, getNeighbourhoodBest().getBestFitness());
-            neighbourhoodBestParticle.getProperties().put(EntityType.FITNESS, getNeighbourhoodBest().getFitness());
-
-            particle.setNeighbourhoodBest(neighbourhoodBestParticle);
-            newCentroid = new ClusterCentroid();
-            newCentroid.copy(this.behavior.getPositionProvider().get(particle));
-            newCandidateSolution.add(newCentroid);
-            index++;
-        }
-
-        this.setCandidateSolution(newCandidateSolution);
-
+    public void updatePosition(StructuredType newPosition) {
+        getProperties().put(EntityType.PREVIOUS_SOLUTION, getCandidateSolution());
+        getProperties().put(EntityType.CANDIDATE_SOLUTION, newPosition);
     }
 
-    /*
-     * Changes the velocity of the ClusterParticle accordingly
+    /**
+     * {@inheritDoc}
      */
     @Override
-    public void updateVelocity() {
-        CentroidHolder newVelocity = new CentroidHolder();
-        ClusterCentroid newCentroid;
-        Particle particle;
-        int index = 0;
-        Particle neighbourhoodBestParticle;
-        for(ClusterCentroid centroid : (CentroidHolder) getCandidateSolution()) {
-            particle = new StandardParticle();
-            neighbourhoodBestParticle = new StandardParticle();
-            particle.setCandidateSolution(centroid.toVector());
-            particle.getProperties().put(EntityType.Particle.VELOCITY, this.getVelocity().get(index).toVector());
-            particle.getProperties().put(EntityType.Particle.BEST_POSITION, this.getBestPosition().get(index).toVector());
-            particle.getProperties().put(EntityType.Particle.BEST_FITNESS, this.getBestFitness());
-            particle.getProperties().put(EntityType.FITNESS, this.getFitness());
-
-            neighbourhoodBestParticle.setCandidateSolution(((CentroidHolder) getNeighbourhoodBest().getCandidateSolution()).get(index).toVector());
-            neighbourhoodBestParticle.getProperties().put(EntityType.Particle.VELOCITY, getNeighbourhoodBest().getVelocity().get(index).toVector());
-            neighbourhoodBestParticle.getProperties().put(EntityType.Particle.BEST_POSITION, getNeighbourhoodBest().getBestPosition().get(index).toVector());
-            neighbourhoodBestParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, getNeighbourhoodBest().getBestFitness());
-            neighbourhoodBestParticle.getProperties().put(EntityType.FITNESS, getNeighbourhoodBest().getFitness());
-
-            particle.setNeighbourhoodBest(neighbourhoodBestParticle);
-            newCentroid = new ClusterCentroid();
-            newCentroid.copy(this.behavior.getVelocityProvider().get(particle));
-            newVelocity.add(newCentroid);
-            index++;
-        }
-
+    public void updateVelocity(StructuredType newVelocity) {
         getProperties().put(EntityType.Particle.VELOCITY, newVelocity);
     }
 

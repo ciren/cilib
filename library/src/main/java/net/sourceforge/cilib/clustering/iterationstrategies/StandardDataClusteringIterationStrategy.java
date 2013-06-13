@@ -8,7 +8,10 @@ package net.sourceforge.cilib.clustering.iterationstrategies;
 
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -89,8 +92,70 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
             particle.setCandidateSolution(candidateSolution);
 
             particle.calculateFitness();
-            particle.updateVelocity();
-            particle.updatePosition();
+
+            //update velocity
+            {
+                CentroidHolder newVelocity = new CentroidHolder();
+                ClusterCentroid newCentroid;
+                Particle tmpParticle;
+                int index = 0;
+                Particle neighbourhoodBestParticle;
+                for(ClusterCentroid centroid : (CentroidHolder) particle.getCandidateSolution()) {
+                    tmpParticle = new StandardParticle();
+                    neighbourhoodBestParticle = new StandardParticle();
+                    tmpParticle.setCandidateSolution(centroid.toVector());
+                    tmpParticle.getProperties().put(EntityType.Particle.VELOCITY, particle.getVelocity().get(index).toVector());
+                    tmpParticle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getBestPosition().get(index).toVector());
+                    tmpParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getBestFitness());
+                    tmpParticle.getProperties().put(EntityType.FITNESS, particle.getFitness());
+
+                    neighbourhoodBestParticle.setCandidateSolution(((CentroidHolder) particle.getNeighbourhoodBest().getCandidateSolution()).get(index).toVector());
+                    neighbourhoodBestParticle.getProperties().put(EntityType.Particle.VELOCITY, particle.getNeighbourhoodBest().getVelocity().get(index).toVector());
+                    neighbourhoodBestParticle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getNeighbourhoodBest().getBestPosition().get(index).toVector());
+                    neighbourhoodBestParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getNeighbourhoodBest().getBestFitness());
+                    neighbourhoodBestParticle.getProperties().put(EntityType.FITNESS, particle.getNeighbourhoodBest().getFitness());
+
+                    tmpParticle.setNeighbourhoodBest(neighbourhoodBestParticle);
+                    newCentroid = new ClusterCentroid();
+                    newCentroid.copy(particle.getParticleBehavior().getVelocityProvider().get(tmpParticle));
+                    newVelocity.add(newCentroid);
+                    index++;
+                }
+                
+                particle.updateVelocity(newVelocity);
+            }
+
+            //update position
+            {
+                CentroidHolder newCandidateSolution = new CentroidHolder();
+                ClusterCentroid newCentroid;
+                Particle tmpParticle;
+                Particle neighbourhoodBestParticle;
+                int index = 0;
+                for(ClusterCentroid centroid : (CentroidHolder) particle.getCandidateSolution()) {
+                    tmpParticle = new StandardParticle();
+                    neighbourhoodBestParticle = new StandardParticle();
+                    tmpParticle.setCandidateSolution(centroid.toVector());
+                    tmpParticle.getProperties().put(EntityType.Particle.VELOCITY, particle.getVelocity().get(index).toVector());
+                    tmpParticle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getBestPosition().get(index).toVector());
+                    tmpParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getBestFitness());
+                    tmpParticle.getProperties().put(EntityType.FITNESS, particle.getFitness());
+
+                    neighbourhoodBestParticle.setCandidateSolution(((CentroidHolder) particle.getNeighbourhoodBest().getCandidateSolution()).get(index).toVector());
+                    neighbourhoodBestParticle.getProperties().put(EntityType.Particle.VELOCITY, particle.getNeighbourhoodBest().getVelocity().get(index).toVector());
+                    neighbourhoodBestParticle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getNeighbourhoodBest().getBestPosition().get(index).toVector());
+                    neighbourhoodBestParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getNeighbourhoodBest().getBestFitness());
+                    neighbourhoodBestParticle.getProperties().put(EntityType.FITNESS, particle.getNeighbourhoodBest().getFitness());
+
+                    tmpParticle.setNeighbourhoodBest(neighbourhoodBestParticle);
+                    newCentroid = new ClusterCentroid();
+                    newCentroid.copy(particle.getParticleBehavior().getPositionProvider().get(tmpParticle));
+                    newCandidateSolution.add(newCentroid);
+                    index++;
+                }
+                
+                particle.updatePosition(newCandidateSolution);
+            }
 
             boundaryConstraint.enforce(particle);
         }

@@ -133,13 +133,13 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * Update the position of the {@code Particle}.
      */
     @Override
-    public abstract void updatePosition();
+    public abstract void updatePosition(StructuredType newPosition);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract void updateVelocity();
+    public abstract void updateVelocity(StructuredType newVelocity);
 
     /**
      * Get the current {@link PositionProvider} associated with this {@code Particle}.
