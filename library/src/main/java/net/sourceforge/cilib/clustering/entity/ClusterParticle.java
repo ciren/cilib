@@ -124,23 +124,6 @@ public class ClusterParticle extends AbstractParticle{
         return neighbourhoodBest;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updatePosition(StructuredType newPosition) {
-        getProperties().put(EntityType.PREVIOUS_SOLUTION, getCandidateSolution());
-        getProperties().put(EntityType.CANDIDATE_SOLUTION, newPosition);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateVelocity(StructuredType newVelocity) {
-        getProperties().put(EntityType.Particle.VELOCITY, newVelocity);
-    }
-
     /*
      * Initialises the ClusterParticle
      * @param problem The optimisation problem being dealt with

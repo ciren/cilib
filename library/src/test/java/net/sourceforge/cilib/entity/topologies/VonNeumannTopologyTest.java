@@ -209,16 +209,6 @@ public class VonNeumannTopologyTest {
         }
 
         @Override
-        public void updatePosition(StructuredType newPosition) {
-            throw new UnsupportedOperationException("Mocked object - not allowed");
-        }
-
-        @Override
-        public void updateVelocity(StructuredType newVelocity) {
-            throw new UnsupportedOperationException("Mocked object - not allowed");
-        }
-
-        @Override
         public void reinitialise() {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
