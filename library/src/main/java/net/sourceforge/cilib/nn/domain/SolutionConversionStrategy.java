@@ -12,7 +12,7 @@ import net.sourceforge.cilib.type.types.Type;
 
 public interface SolutionConversionStrategy {
 
-    SolutionConversionStrategy initialise(NeuralNetwork neuralNetwork);
+    //SolutionConversionStrategy initialise(NeuralNetwork neuralNetwork);
 
     ArchitectureVisitor interpretSolution(Type solution);
 }

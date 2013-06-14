@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.nn.domain;
 
-import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

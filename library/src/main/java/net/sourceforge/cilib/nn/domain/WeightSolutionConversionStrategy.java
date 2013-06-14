@@ -14,10 +14,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 public class WeightSolutionConversionStrategy implements SolutionConversionStrategy {
 
-    @Override
+    /*@Override
     public SolutionConversionStrategy initialise(NeuralNetwork neuralNetwork) {
         return this;
-    }
+    }*/
 
     @Override
     public ArchitectureVisitor interpretSolution(Type solution) {
