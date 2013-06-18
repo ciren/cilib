@@ -9,6 +9,8 @@ package net.sourceforge.cilib.pso.velocityprovider;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.random.generator.Rand;
+import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -85,6 +87,8 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
 
     private ControlParameter kappa;
     private ControlParameter constrictionCoefficient;
+    
+    private GuideProvider globalGuideProvider;
 
     /**
      * Default constructor. The values given to the control parameters attempt to
@@ -97,6 +101,8 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
 
         this.kappa = ConstantControlParameter.of(1.0);
         this.constrictionCoefficient = null;
+        
+        this.globalGuideProvider = new NBestGuideProvider();
     }
 
     /**
@@ -107,6 +113,8 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
         this.socialAcceleration = copy.socialAcceleration.getClone();
         this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
         this.kappa = copy.kappa.getClone();
+        
+        this.globalGuideProvider = copy.globalGuideProvider.getClone();
     }
 
     /**
@@ -131,7 +139,7 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getCandidateSolution();
         Vector localGuide = (Vector) particle.getLocalGuide();
-        Vector globalGuide = (Vector) particle.getGlobalGuide();
+        Vector globalGuide = (Vector) globalGuideProvider.get(particle);
 
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
@@ -225,5 +233,13 @@ public class ConstrictionVelocityProvider implements VelocityProvider {
      */
     public void setConstrictionCoefficient(ControlParameter constrictionCoefficient) {
         this.constrictionCoefficient = constrictionCoefficient;
+    }
+
+    /**
+     * Sets the GuideProvider responsible for retrieving a particle's global guide.
+     * @param globalGuideProvider The guide provider to set.
+     */
+    public void setGlobalGuideProvider(GuideProvider globalGuideProvider) {
+        this.globalGuideProvider = globalGuideProvider;
     }
 }

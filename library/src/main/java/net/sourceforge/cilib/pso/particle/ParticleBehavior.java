@@ -26,7 +26,6 @@ public class ParticleBehavior implements Comparable<ParticleBehavior>, Cloneable
     private VelocityProvider velocityProvider;
 
     private GuideProvider localGuideProvider;
-    private GuideProvider globalGuideProvider;
 
     private int successCounter;
     private int selectedCounter;
@@ -40,7 +39,6 @@ public class ParticleBehavior implements Comparable<ParticleBehavior>, Cloneable
         this.velocityProvider = new StandardVelocityProvider();
 
         this.localGuideProvider = new PBestGuideProvider();
-        this.globalGuideProvider = new NBestGuideProvider();
 
         this.successCounter = 0;
         this.selectedCounter = 0;
@@ -69,7 +67,6 @@ public class ParticleBehavior implements Comparable<ParticleBehavior>, Cloneable
         this.positionProvider = copy.positionProvider.getClone();
         this.velocityProvider = copy.velocityProvider.getClone();
         this.localGuideProvider = copy.localGuideProvider.getClone();
-        this.globalGuideProvider = copy.globalGuideProvider.getClone();
         this.selectedCounter = copy.selectedCounter;
         this.successCounter = copy.successCounter;
     }
@@ -115,22 +112,6 @@ public class ParticleBehavior implements Comparable<ParticleBehavior>, Cloneable
      */
     public void setVelocityProvider(VelocityProvider velocityProvider) {
         this.velocityProvider = velocityProvider;
-    }
-
-    /**
-     * Get the current global <tt>GuideProvider</tt>.
-     * @return The currently associated global <tt>GuideProvider</tt>.
-     */
-    public GuideProvider getGlobalGuideProvider() {
-        return this.globalGuideProvider;
-    }
-
-    /**
-     * Set the <tt>GuideProvider</tt>.
-     * @param globalGuideProvider The global <tt>GuideProvider</tt> to use.
-     */
-    public void setGlobalGuideProvider(GuideProvider globalGuideProvider) {
-        this.globalGuideProvider = globalGuideProvider;
     }
 
     /**

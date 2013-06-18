@@ -33,8 +33,6 @@ public interface Particle extends Entity, SocialEntity, MemoryBasedEntity {
      */
     StructuredType getVelocity();
 
-    StructuredType getGlobalGuide();
-
     StructuredType getLocalGuide();
 
     /**
