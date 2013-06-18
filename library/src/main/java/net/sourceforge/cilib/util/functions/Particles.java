@@ -33,14 +33,14 @@ public final class Particles {
         };
     }
 
-    public static <P extends Particle> F<P, Vector> getGlobalGuide() {
+    /*public static <P extends Particle> F<P, Vector> getGlobalGuide() {
         return new F<P, Vector>() {
             @Override
             public Vector f(P a) {
                 return (Vector) a.getGlobalGuide();
             }
         };
-    }
+    }*/
 
     public static <P extends Particle> F<P, Vector> getLocalGuide() {
         return new F<P, Vector>() {

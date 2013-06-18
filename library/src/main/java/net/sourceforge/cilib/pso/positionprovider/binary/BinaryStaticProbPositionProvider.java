@@ -8,6 +8,8 @@ package net.sourceforge.cilib.pso.positionprovider.binary;
 
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.LinearlyVaryingControlParameter;
+import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.positionprovider.PositionProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -31,12 +33,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class BinaryStaticProbPositionProvider implements PositionProvider {
 
     private ControlParameter a;
+    private GuideProvider globalGuideProvider;
 
     /**
      * Create an instance of {@linkplain BinaryStaticProbPositionProvider}.
      */
     public BinaryStaticProbPositionProvider() {
         this.a = new LinearlyVaryingControlParameter(0.5, 0.33);
+        this.globalGuideProvider = new NBestGuideProvider();
     }
 
     /**
@@ -45,6 +49,7 @@ public class BinaryStaticProbPositionProvider implements PositionProvider {
      */
     public BinaryStaticProbPositionProvider(BinaryStaticProbPositionProvider copy) {
         this.a = copy.a.getClone();
+        this.globalGuideProvider = copy.globalGuideProvider.getClone();
     }
 
     /**
@@ -63,7 +68,7 @@ public class BinaryStaticProbPositionProvider implements PositionProvider {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getCandidateSolution();
         Vector pbest = (Vector) particle.getLocalGuide();
-        Vector gbest = (Vector) particle.getGlobalGuide();
+        Vector gbest = (Vector) globalGuideProvider.get(particle);
         Vector.Builder builder = Vector.newBuilder();
 
         double limit = 0.5 * (1 + a.getParameter());
@@ -97,5 +102,13 @@ public class BinaryStaticProbPositionProvider implements PositionProvider {
     */
     public void setA(ControlParameter a) {
         this.a = a;
+    }
+
+    /**
+     * Sets the GuideProvider responsible for retrieving a particle's global guide.
+     * @param globalGuideProvider The guide provider to set.
+     */
+    public void setGlobalGuideProvider(GuideProvider globalGuideProvider) {
+        this.globalGuideProvider = globalGuideProvider;
     }
 }

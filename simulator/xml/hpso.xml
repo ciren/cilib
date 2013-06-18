@@ -306,10 +306,10 @@
                             <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
                             <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.0"/>
                             <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
+                            <globalGuideProvider class="pso.guideprovider.RandomGuideProvider"/>
                         </delegate>
                         <vMax class="controlparameter.DomainProportionalControlParameter" proportion="0.5"/>
                     </velocityProvider>
-                    <globalGuideProvider class="pso.guideprovider.RandomGuideProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">
@@ -354,10 +354,10 @@
                             <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
                             <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.0"/>
                             <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.9" finalValue="0.4"/>
+                            <globalGuideProvider class="pso.guideprovider.RandomGuideProvider"/>
                         </delegate>
                         <vMax class="controlparameter.DomainProportionalControlParameter" proportion="0.5"/>
                     </velocityProvider>
-                    <globalGuideProvider class="pso.guideprovider.RandomGuideProvider"/>
                 </addBehavior>
 
                 <addBehavior class="pso.particle.ParticleBehavior">

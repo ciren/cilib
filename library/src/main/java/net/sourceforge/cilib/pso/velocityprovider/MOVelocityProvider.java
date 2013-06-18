@@ -9,6 +9,8 @@ package net.sourceforge.cilib.pso.velocityprovider;
 import fj.P1;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -23,6 +25,8 @@ public final class MOVelocityProvider implements VelocityProvider {
     protected ControlParameter inertiaWeight;
     protected ControlParameter socialAcceleration;
     protected ControlParameter cognitiveAcceleration;
+    
+    private GuideProvider globalGuideProvider;
 
     /** Creates a new instance of StandardVelocityUpdate. */
     public MOVelocityProvider() {
@@ -35,6 +39,8 @@ public final class MOVelocityProvider implements VelocityProvider {
         this.inertiaWeight = inertia;
         this.socialAcceleration = social;
         this.cognitiveAcceleration = cog;
+        
+        this.globalGuideProvider = new NBestGuideProvider();
     }
 
     /**
@@ -45,6 +51,7 @@ public final class MOVelocityProvider implements VelocityProvider {
         this.inertiaWeight = copy.inertiaWeight.getClone();
         this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
         this.socialAcceleration = copy.socialAcceleration.getClone();
+        this.globalGuideProvider = copy.globalGuideProvider.getClone();
     }
 
     /**
@@ -66,7 +73,7 @@ public final class MOVelocityProvider implements VelocityProvider {
         Vector position = (Vector) particle.getCandidateSolution();
         Vector gbest = (Vector) particle.getNeighbourhoodBest().getCandidateSolution();
         Vector localGuide = (Vector) particle.getLocalGuide();
-        Vector globalGuide = (Vector) particle.getGlobalGuide();
+        Vector globalGuide = (Vector) globalGuideProvider.get(particle);
 
         int min = Math.min(localGuide.size(), globalGuide.size());
         int i = 0;
@@ -138,5 +145,13 @@ public final class MOVelocityProvider implements VelocityProvider {
      */
     public void setSocialAcceleration(ControlParameter socialComponent) {
         this.socialAcceleration = socialComponent;
+    }
+
+    /**
+     * Sets the GuideProvider responsible for retrieving a particle's global guide.
+     * @param globalGuideProvider The guide provider to set.
+     */
+    public void setGlobalGuideProvider(GuideProvider globalGuideProvider) {
+        this.globalGuideProvider = globalGuideProvider;
     }
 }

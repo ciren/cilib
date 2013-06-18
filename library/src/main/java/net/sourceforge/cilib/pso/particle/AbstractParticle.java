@@ -95,15 +95,6 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public abstract StructuredType getVelocity();
 
     /**
-     * Get the global guide of the {@code Particle}.
-     * @return A {@link StructuredType} representing the {@code Particle}'s global guide.
-     */
-    @Override
-    public StructuredType getGlobalGuide() {
-        return this.behavior.getGlobalGuideProvider().get(this);
-    }
-
-    /**
      * Get the local guide of the {@code Particle}.
      * @return A {@link StructuredType} representing the {@code Particle}'s local guide.
      */
@@ -175,22 +166,6 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     @Override
     public void setVelocityProvider(VelocityProvider velocityProvider) {
         this.behavior.setVelocityProvider(velocityProvider);
-    }
-
-    /**
-     * Get the current global {@link GuideProvider} associated with this {@code Particle}.
-     * @return The currently associated global {@link GuideProvider}.
-     */
-    public GuideProvider getGlobalGuideProvider() {
-        return this.behavior.getGlobalGuideProvider();
-    }
-
-    /**
-     * Set the {@link GuideProvider} for the {@code Particle}.
-     * @param globalGuideProvider The global {@link GuideProvider} to use.
-     */
-    public void setGlobalGuideProvider(GuideProvider globalGuideProvider) {
-        this.behavior.setGlobalGuideProvider(globalGuideProvider);
     }
 
     /**
