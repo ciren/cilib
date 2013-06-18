@@ -18,9 +18,9 @@
 		                            <entitySelection class="util.selection.recipes.TournamentSelector"/>
 		                        </knowledgeTransferStrategy>
 	                        </globalGuideProvider>
+    	                    <localGuideProvider class="pso.guideprovider.PBestGuideProvider"/>
                         </velocityProvider>
-	                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/> 	      
-	                    <localGuideProvider class="pso.guideprovider.PBestGuideProvider"/>
+	                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
 	                </particleBehavior>
 	                <neighbourhoodBestUpdateStrategy class="pso.positionprovider.RelaxedNonDominatedNeighbourhoodBestUpdateStrategy"/>
 	                <personalBestUpdateStrategy class="pso.pbestupdate.MOOStandardPersonalBestUpdateStrategy"/>

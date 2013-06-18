@@ -12,6 +12,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
 import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.PBestGuideProvider;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.type.types.Blackboard;
@@ -38,6 +39,7 @@ public final class BinaryMVVelocityProvider implements VelocityProvider {
     protected ControlParameter c2;
     
     private GuideProvider globalGuideProvider;
+    private GuideProvider localGuideProvider;
 
     public BinaryMVVelocityProvider() {
         this(ConstantControlParameter.of(0.729844),
@@ -51,6 +53,7 @@ public final class BinaryMVVelocityProvider implements VelocityProvider {
         this.c2 = c2;
         
         this.globalGuideProvider = new NBestGuideProvider();
+        this.localGuideProvider = new PBestGuideProvider();
     }
 
     public BinaryMVVelocityProvider(BinaryMVVelocityProvider copy) {
@@ -58,6 +61,7 @@ public final class BinaryMVVelocityProvider implements VelocityProvider {
         this.c1 = copy.c1.getClone();
         this.c2 = copy.c2.getClone();
         this.globalGuideProvider = copy.globalGuideProvider.getClone();
+        this.localGuideProvider = copy.localGuideProvider.getClone();
     }
 
     /**
@@ -84,7 +88,7 @@ public final class BinaryMVVelocityProvider implements VelocityProvider {
         Vector v1 = (Vector) properties.get(Velocity.V1);
 
         // get local and global bests
-        Vector pbest = (Vector) particle.getLocalGuide();
+        Vector pbest = (Vector) localGuideProvider.get(particle);
         Vector gbest = (Vector) globalGuideProvider.get(particle);
 
         // update both velocities (v0 and v1)
@@ -203,5 +207,13 @@ public final class BinaryMVVelocityProvider implements VelocityProvider {
      */
     public void setGlobalGuideProvider(GuideProvider globalGuideProvider) {
         this.globalGuideProvider = globalGuideProvider;
+    }
+
+    /**
+     * Sets the GuideProvider responsible for retrieving a particle's local guide.
+     * @param localGuideProvider The guide provider to set.
+     */
+    public void setLocalGuideProvider(GuideProvider localGuideProvider) {
+        this.localGuideProvider = localGuideProvider;
     }
 }

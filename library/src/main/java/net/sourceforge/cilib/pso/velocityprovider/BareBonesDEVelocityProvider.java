@@ -18,6 +18,7 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
 import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.PBestGuideProvider;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -40,6 +41,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
     private ControlParameter crossoverProbability;
     
     private GuideProvider globalGuideProvider;
+    private GuideProvider localGuideProvider;
 
     /**
      * Create a new instance of the {@linkplain BareBonesDEVelocityProvider}.
@@ -52,6 +54,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
         this.social = ConstantControlParameter.of(1);
         this.crossoverProbability = ConstantControlParameter.of(0.5);
         this.globalGuideProvider = new NBestGuideProvider();
+        this.localGuideProvider = new PBestGuideProvider();
     }
 
     /**
@@ -66,6 +69,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
         this.social = copy.social.getClone();
         this.crossoverProbability = copy.crossoverProbability.getClone();
         this.globalGuideProvider = copy.globalGuideProvider.getClone();
+        this.localGuideProvider = copy.localGuideProvider.getClone();
     }
 
     /**
@@ -81,7 +85,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
      */
     @Override
     public Vector get(Particle particle) {
-        Vector localGuide = (Vector) particle.getLocalGuide();
+        Vector localGuide = (Vector) localGuideProvider.get(particle);
         Vector globalGuide = (Vector) globalGuideProvider.get(particle);
 
         PSO pso = (PSO) AbstractAlgorithm.get();
@@ -223,5 +227,13 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
      */
     public void setGlobalGuideProvider(GuideProvider globalGuideProvider) {
         this.globalGuideProvider = globalGuideProvider;
+    }
+
+    /**
+     * Sets the GuideProvider responsible for retrieving a particle's local guide.
+     * @param localGuideProvider The guide provider to set.
+     */
+    public void setLocalGuideProvider(GuideProvider localGuideProvider) {
+        this.localGuideProvider = localGuideProvider;
     }
 }

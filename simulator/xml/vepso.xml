@@ -10,8 +10,8 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
 	    	<entityNumber value="25"/>
                 <entityType class="pso.particle.StandardParticle">
-                    <localGuideProvider class="pso.guideprovider.PBestGuideProvider"/>
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <localGuideProvider class="pso.guideprovider.PBestGuideProvider"/>
                         <globalGuideProvider class="pso.guideprovider.VEPSOGuideProvider">
                             <knowledgeTransferStrategy class="algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy">
                                 <populationSelection class="util.selection.recipes.RingBasedPopulationSelector"/>
@@ -33,8 +33,8 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
 	    	<entityNumber value="25"/>
                 <entityType class="pso.particle.StandardParticle">
-                    <localGuideProvider class="pso.guideprovider.PBestGuideProvider"/>
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                        <localGuideProvider class="pso.guideprovider.PBestGuideProvider"/>
                         <globalGuideProvider class="pso.guideprovider.VEPSOGuideProvider">
                             <knowledgeTransferStrategy class="algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy">
                                 <populationSelection class="util.selection.recipes.RandomSelector"/>
