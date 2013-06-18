@@ -94,7 +94,7 @@ public class FFA extends SinglePopulationBasedAlgorithm<Firefly> {
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        Firefly bestEntity = Topologies.getBestEntity(topology, new DescendingFitnessComparator<Firefly>());
+        Firefly bestEntity = Topologies.getBestEntity(topology);
         return new OptimisationSolution(bestEntity.getPosition(), bestEntity.getFitness());
     }
 
@@ -121,7 +121,7 @@ public class FFA extends SinglePopulationBasedAlgorithm<Firefly> {
     @Override
     public List<OptimisationSolution> getSolutions() {
         List<OptimisationSolution> solutions = Lists.newLinkedList();
-        for (Firefly e : Topologies.getNeighbourhoodBestEntities(topology, neighbourhood, new DescendingFitnessComparator<Firefly>())) {
+        for (Firefly e : Topologies.getNeighbourhoodBestEntities(topology, neighbourhood)) {
             solutions.add(new OptimisationSolution(e.getPosition(), e.getFitness()));
         }
         return solutions;
