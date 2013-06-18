@@ -33,8 +33,6 @@ public interface Particle extends Entity, SocialEntity, MemoryBasedEntity {
      */
     StructuredType getVelocity();
 
-    StructuredType getLocalGuide();
-
     /**
      * Get the current best particle within the {@linkplain Particle}s neighbourhood.
      * @return The neighbourhood best particle.

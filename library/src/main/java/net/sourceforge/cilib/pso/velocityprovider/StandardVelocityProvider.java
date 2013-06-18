@@ -12,6 +12,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
 import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.PBestGuideProvider;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
@@ -28,6 +29,7 @@ public final class StandardVelocityProvider implements VelocityProvider {
     protected ControlParameter cognitiveAcceleration;
 
     private GuideProvider globalGuideProvider;
+    private GuideProvider localGuideProvider;
 
     /** Creates a new instance of StandardVelocityUpdate. */
     public StandardVelocityProvider() {
@@ -40,8 +42,9 @@ public final class StandardVelocityProvider implements VelocityProvider {
         this.inertiaWeight = inertia;
         this.socialAcceleration = social;
         this.cognitiveAcceleration = cog;
-        
+
         this.globalGuideProvider = new NBestGuideProvider();
+        this.localGuideProvider = new PBestGuideProvider();
     }
 
     /**
@@ -53,6 +56,7 @@ public final class StandardVelocityProvider implements VelocityProvider {
         this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
         this.socialAcceleration = copy.socialAcceleration.getClone();
         this.globalGuideProvider = copy.globalGuideProvider.getClone();
+        this.localGuideProvider = copy.localGuideProvider.getClone();
     }
 
     /**
@@ -89,7 +93,7 @@ public final class StandardVelocityProvider implements VelocityProvider {
     public Vector get(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getCandidateSolution();
-        Vector localGuide = (Vector) particle.getLocalGuide();
+        Vector localGuide = (Vector) localGuideProvider.get(particle);
         Vector globalGuide = (Vector) globalGuideProvider.get(particle);
 
         Vector dampenedVelocity = Vector.copyOf(velocity).multiply(inertiaWeight.getParameter());
@@ -156,5 +160,13 @@ public final class StandardVelocityProvider implements VelocityProvider {
      */
     public void setGlobalGuideProvider(GuideProvider globalGuideProvider) {
         this.globalGuideProvider = globalGuideProvider;
+    }
+
+    /**
+     * Sets the GuideProvider responsible for retrieving a particle's local guide.
+     * @param localGuideProvider The guide provider to set.
+     */
+    public void setLocalGuideProvider(GuideProvider localGuideProvider) {
+        this.localGuideProvider = localGuideProvider;
     }
 }

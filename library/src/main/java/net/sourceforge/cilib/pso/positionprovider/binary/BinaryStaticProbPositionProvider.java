@@ -10,6 +10,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.LinearlyVaryingControlParameter;
 import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
 import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.PBestGuideProvider;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.positionprovider.PositionProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -34,6 +35,7 @@ public class BinaryStaticProbPositionProvider implements PositionProvider {
 
     private ControlParameter a;
     private GuideProvider globalGuideProvider;
+    private GuideProvider localGuideProvider;
 
     /**
      * Create an instance of {@linkplain BinaryStaticProbPositionProvider}.
@@ -41,6 +43,7 @@ public class BinaryStaticProbPositionProvider implements PositionProvider {
     public BinaryStaticProbPositionProvider() {
         this.a = new LinearlyVaryingControlParameter(0.5, 0.33);
         this.globalGuideProvider = new NBestGuideProvider();
+        this.localGuideProvider = new PBestGuideProvider();
     }
 
     /**
@@ -50,6 +53,7 @@ public class BinaryStaticProbPositionProvider implements PositionProvider {
     public BinaryStaticProbPositionProvider(BinaryStaticProbPositionProvider copy) {
         this.a = copy.a.getClone();
         this.globalGuideProvider = copy.globalGuideProvider.getClone();
+        this.localGuideProvider = copy.localGuideProvider.getClone();
     }
 
     /**
@@ -67,7 +71,7 @@ public class BinaryStaticProbPositionProvider implements PositionProvider {
     public Vector get(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getCandidateSolution();
-        Vector pbest = (Vector) particle.getLocalGuide();
+        Vector pbest = (Vector) localGuideProvider.get(particle);
         Vector gbest = (Vector) globalGuideProvider.get(particle);
         Vector.Builder builder = Vector.newBuilder();
 
@@ -110,5 +114,13 @@ public class BinaryStaticProbPositionProvider implements PositionProvider {
      */
     public void setGlobalGuideProvider(GuideProvider globalGuideProvider) {
         this.globalGuideProvider = globalGuideProvider;
+    }
+
+    /**
+     * Sets the GuideProvider responsible for retrieving a particle's local guide.
+     * @param localGuideProvider The guide provider to set.
+     */
+    public void setLocalGuideProvider(GuideProvider localGuideProvider) {
+        this.localGuideProvider = localGuideProvider;
     }
 }
