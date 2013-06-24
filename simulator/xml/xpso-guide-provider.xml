@@ -11,7 +11,7 @@
         <algorithm id="xpso-undx-guide-repeating" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -26,7 +26,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
@@ -35,7 +35,7 @@
         <algorithm id="xpso-undx-guide-boltzmann" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -52,8 +52,8 @@
                                     <particleProvider class="pso.crossover.particleprovider.GBestParticleProvider"/>
                                 </crossoverSelection>
                             </globalGuideProvider>
-                        </velocityProvider>>
-                    </particleBehavior>
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
@@ -63,7 +63,7 @@
         <algorithm id="xpso-pcx-guide-repeating" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -78,7 +78,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
@@ -87,7 +87,7 @@
         <algorithm id="xpso-pcx-guide-boltzmann" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -105,8 +105,8 @@
                                     <particleProvider class="pso.crossover.particleprovider.GBestParticleProvider"/>
                                 </crossoverSelection>
                             </globalGuideProvider>
-                            </velocityProvider>>
-                    </particleBehavior>
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
@@ -116,7 +116,7 @@
         <algorithm id="xpso-spx-guide-repeating" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -131,7 +131,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
@@ -140,7 +140,7 @@
         <algorithm id="xpso-spx-guide-boltzmann" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -157,8 +157,8 @@
                                     <particleProvider class="pso.crossover.particleprovider.GBestParticleProvider"/>
                                 </crossoverSelection>
                             </globalGuideProvider>
-                        </velocityProvider>>
-                    </particleBehavior>
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
@@ -168,7 +168,7 @@
         <algorithm id="xpso-pcx-guide-repeating-particle-positions" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="position"/>
@@ -183,7 +183,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
@@ -192,7 +192,7 @@
         <algorithm id="xpso-pcx-guide-boltzmann-particle-positions" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="position"/>
@@ -209,8 +209,8 @@
                                     <particleProvider class="pso.crossover.particleprovider.GBestParticleProvider"/>
                                 </crossoverSelection>
                             </globalGuideProvider>
-                            </velocityProvider>>
-                    </particleBehavior>
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />

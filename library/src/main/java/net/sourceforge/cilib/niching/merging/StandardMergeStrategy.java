@@ -7,9 +7,9 @@
 package net.sourceforge.cilib.niching.merging;
 
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.behaviour.Behaviour;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 
 /**
  * Takes all the entities of the second sub-swarm, puts them in the first sub-swarm
@@ -25,10 +25,10 @@ public class StandardMergeStrategy extends MergeStrategy {
 
         Particle p;
         if (!newSwarm.getTopology().isEmpty() && (p = (Particle) newSwarm.getTopology().head()) instanceof Particle) {
-            ParticleBehavior pb = p.getParticleBehavior();
+            Behaviour pb = p.getBehaviour();
             fj.data.List<Entity> local = newSwarm.getTopology();
             for (Entity e : local) {
-                ((Particle) e).setParticleBehavior(pb);
+                e.setBehaviour(pb);
             }
         }
 

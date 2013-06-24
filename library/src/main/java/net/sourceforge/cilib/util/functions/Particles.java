@@ -9,7 +9,6 @@ package net.sourceforge.cilib.util.functions;
 import fj.F;
 import fj.F2;
 import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.positionprovider.PositionProvider;
 import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -69,43 +68,6 @@ public final class Particles {
             public P f(P a, StructuredType b) {
                 a.updatePosition(b);
                 return a;
-            }
-        };
-    }
-
-    public static <P extends Particle> F<P, ? extends VelocityProvider> getVelocityProvider() {
-        return new F<P, VelocityProvider>() {
-            @Override
-            public VelocityProvider f(P a) {
-                return a.getVelocityProvider();
-            }
-        };
-    }
-
-    public static <P extends Particle> F<P, ? extends PositionProvider> getPositionProvider() {
-        return new F<P, PositionProvider>() {
-            @Override
-            public PositionProvider f(P a) {
-                return a.getPositionProvider();
-            }
-        };
-    }
-
-    public static <P extends Particle> F<P, ParticleBehavior> getParticleBehavior() {
-        return new F<P, ParticleBehavior>() {
-            @Override
-            public ParticleBehavior f(P a) {
-                return a.getParticleBehavior();
-            }
-        };
-    }
-
-    public static <P extends Particle> F2<ParticleBehavior, P, P> setParticleBehavior() {
-        return new F2<ParticleBehavior, P, P>() {
-            @Override
-            public P f(ParticleBehavior a, P b) {
-                b.setParticleBehavior(a);
-                return b;
             }
         };
     }

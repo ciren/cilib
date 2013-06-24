@@ -54,10 +54,7 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
         final F<Particle, Particle> first = new F<Particle, Particle>() {
 			@Override
 			public Particle f(Particle current) {
-				current.updateVelocity(current.getParticleBehavior().getVelocityProvider().get(current));
-	            current.updatePosition(current.getParticleBehavior().getPositionProvider().get(current));
-
-	            boundaryConstraint.enforce(current);
+				current.getBehaviour().performIteration(current);
 	            return current;
 			}
         };

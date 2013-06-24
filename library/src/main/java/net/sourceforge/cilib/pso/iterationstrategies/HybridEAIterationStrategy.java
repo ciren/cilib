@@ -78,10 +78,8 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
 
         // pos/vel update
         for (Particle current : topology) {
-            current.updateVelocity(current.getParticleBehavior().getVelocityProvider().get(current));
-	        current.updatePosition(current.getParticleBehavior().getPositionProvider().get(current));
-
-            boundaryConstraint.enforce(current);
+            current.getBehaviour().performIteration(current);
+            
             current.calculateFitness();
         }
 

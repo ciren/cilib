@@ -10,15 +10,16 @@ import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.LinearlyVaryingControlParameter;
 import net.sourceforge.cilib.controlparameter.UpdateOnIterationControlParameter;
+import net.sourceforge.cilib.entity.behaviour.Behaviour;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.visitor.ClosestEntityVisitor;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.problem.boundaryconstraint.ClampingBoundaryConstraint;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.behaviour.StandardParticleBehaviour;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.velocityprovider.ClampingVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.GCVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
@@ -62,8 +63,8 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
         gcVelocityProvider.setDelegate(delegate);
         gcVelocityProvider.setRho(ConstantControlParameter.of(0.01));
 
-        this.swarmBehavior = new ParticleBehavior();
-        this.swarmBehavior.setVelocityProvider(gcVelocityProvider);
+        this.swarmBehavior = new StandardParticleBehaviour();
+        ((StandardParticleBehaviour) this.swarmBehavior).setVelocityProvider(gcVelocityProvider);
     }
 
     @Override
@@ -91,8 +92,8 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
         nicheMainParticle.setNeighbourhoodBest(nicheMainParticle);
         nicheClosestParticle.setNeighbourhoodBest(nicheMainParticle);
 
-        nicheMainParticle.setParticleBehavior(swarmBehavior.getClone());
-        nicheClosestParticle.setParticleBehavior(swarmBehavior.getClone());
+        nicheMainParticle.setBehaviour(swarmBehavior.getClone());
+        nicheClosestParticle.setBehaviour(swarmBehavior.getClone());
 
         // Create new subswarm
         SinglePopulationBasedAlgorithm newSubSwarm = swarmType.getClone();

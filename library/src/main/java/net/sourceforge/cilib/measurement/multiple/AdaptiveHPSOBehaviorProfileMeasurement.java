@@ -10,11 +10,11 @@ import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.initialisation.HeterogeneousPopulationInitialisationStrategy;
+import net.sourceforge.cilib.entity.behaviour.Behaviour;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.hpso.HeterogeneousIterationStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -47,8 +47,8 @@ public class AdaptiveHPSOBehaviorProfileMeasurement implements Measurement<Vecto
         fj.data.List<Particle> topology = pso.getTopology();
         HeterogeneousIterationStrategy strategy = (HeterogeneousIterationStrategy) pso.getIterationStrategy();
         HeterogeneousPopulationInitialisationStrategy initStrategy = (HeterogeneousPopulationInitialisationStrategy) pso.getInitialisationStrategy();
-        List<ParticleBehavior> initialBehaviorPool = initStrategy.getBehaviorPool();
-        List<ParticleBehavior> behaviorPool = strategy.getBehaviorPool();
+        List<Behaviour> initialBehaviorPool = initStrategy.getBehaviorPool();
+        List<Behaviour> behaviorPool = strategy.getBehaviorPool();
 
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < behaviorPool.size(); i++) {
@@ -58,7 +58,7 @@ public class AdaptiveHPSOBehaviorProfileMeasurement implements Measurement<Vecto
         Vector profile = builder.build();
         for (Particle p : topology) {
             for (int i = 0; i < profile.size(); i++) {
-                if (p.getParticleBehavior() == behaviorPool.get(i) || p.getParticleBehavior() == initialBehaviorPool.get(i)) {
+                if (p.getBehaviour() == behaviorPool.get(i) || p.getBehaviour() == initialBehaviorPool.get(i)) {
                     profile.setInt(i, profile.get(i).intValue() + 1);
                 }
             }

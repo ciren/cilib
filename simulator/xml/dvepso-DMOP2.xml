@@ -10,7 +10,7 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="30"/>
 	            <entityType class="pso.particle.StandardParticle">
-	                <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
 	                    <velocityProvider class="pso.velocityprovider.MOVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.VEPSOGuideProvider">
 		                        <knowledgeTransferStrategy class="algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy">
@@ -21,7 +21,7 @@
     	                    <localGuideProvider class="pso.guideprovider.PBestGuideProvider"/>
                         </velocityProvider>
 	                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-	                </particleBehavior>
+	                </behaviour>
 	                <neighbourhoodBestUpdateStrategy class="pso.positionprovider.RelaxedNonDominatedNeighbourhoodBestUpdateStrategy"/>
 	                <personalBestUpdateStrategy class="pso.pbestupdate.MOOStandardPersonalBestUpdateStrategy"/>
                 </entityType>

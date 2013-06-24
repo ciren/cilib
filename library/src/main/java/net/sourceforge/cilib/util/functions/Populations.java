@@ -7,9 +7,9 @@
 package net.sourceforge.cilib.util.functions;
 
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.behaviour.Behaviour;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import fj.F;
 import fj.F2;
 import fj.data.List;
@@ -76,7 +76,7 @@ public final class Populations {
      *
      * @return The enforced swarm.
      */
-    public static <P extends SinglePopulationBasedAlgorithm> F<P, P> enforceTopology(final ParticleBehavior pb) {
+    public static <P extends SinglePopulationBasedAlgorithm> F<P, P> enforceTopology(final Behaviour pb) {
         return new F<P, P>() {
             @Override
             public P f(P a) {
@@ -85,8 +85,7 @@ public final class Populations {
                 if (!tmp.getTopology().isEmpty() && tmp.getTopology().head() instanceof Particle) {
                 	List<Particle> local = tmp.getTopology();
                     for (Entity e : local) {
-                        Particle p = (Particle) e;
-                        p.setParticleBehavior(pb);
+                        e.setBehaviour(pb);
                     }
                 }
 

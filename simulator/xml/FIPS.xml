@@ -12,12 +12,14 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="40"/>
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.FIPSVelocityProvider">
-                        <!--<inertiaWeight class="ControlParameterUpdateStrategies.LinearDecreasingUpdateStrategy" range="R(0.2,1.0)" />-->
-                        <!-- TODO: Revisit, constant ?
-                        <randomComponent class="pso.parameterupdatestrategies.FIPSAcceleration" parameter="1.0"/>
-                        -->
-                    </velocityProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.FIPSVelocityProvider">
+                            <!--<inertiaWeight class="ControlParameterUpdateStrategies.LinearDecreasingUpdateStrategy" range="R(0.2,1.0)" />-->
+                            <!-- TODO: Revisit, constant ?
+                            <randomComponent class="pso.parameterupdatestrategies.FIPSAcceleration" parameter="1.0"/>
+                            -->
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
         </algorithm>

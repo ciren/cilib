@@ -11,7 +11,7 @@
         <algorithm id="xpso-pcx-guide-repeating-xover-pbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -25,7 +25,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                         <positionProvider class="pso.pbestupdate.CrossoverDistinctPositionProvider">
                             <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
@@ -39,7 +39,7 @@
         <algorithm id="xpso-pcx-guide-boltzmann-xover-pbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -56,7 +56,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                         <positionProvider class="pso.pbestupdate.CrossoverDistinctPositionProvider">
                             <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
@@ -71,7 +71,7 @@
         <algorithm id="xpso-pcx-guide-repeating-bounded-xover-pbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -85,7 +85,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy">
                         <delegate class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                             <positionProvider class="pso.pbestupdate.CrossoverDistinctPositionProvider">
@@ -101,7 +101,7 @@
         <algorithm id="xpso-pcx-guide-boltzmann-bounded-xover-pbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -118,7 +118,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy">
                         <delegate class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                             <positionProvider class="pso.pbestupdate.CrossoverDistinctPositionProvider">
@@ -135,7 +135,7 @@
         <algorithm id="xpso-pcx-guide-repeating-mutation-pbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -149,7 +149,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                         <positionProvider class="pso.pbestupdate.MutatedDistinctPositionProvider">
                             <distribution class="math.random.GaussianDistribution">
@@ -165,7 +165,7 @@
         <algorithm id="xpso-pcx-guide-boltzmann-mutation-pbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -182,7 +182,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                         <positionProvider class="pso.pbestupdate.MutatedDistinctPositionProvider">
                             <distribution class="math.random.GaussianDistribution">
@@ -199,7 +199,7 @@
         <algorithm id="xpso-pcx-guide-repeating-bounded-mutation-pbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -213,7 +213,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy">
                         <delegate class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                             <positionProvider class="pso.pbestupdate.MutatedDistinctPositionProvider">
@@ -231,7 +231,7 @@
         <algorithm id="xpso-pcx-guide-boltzmann-bounded-mutation-pbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -248,7 +248,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy">
                         <delegate class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                             <positionProvider class="pso.pbestupdate.MutatedDistinctPositionProvider">
@@ -268,7 +268,7 @@
         <algorithm id="xpso-pcx-guide-repeating-xover-pbest-zero-vel" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -282,7 +282,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                         <positionProvider class="pso.pbestupdate.CrossoverDistinctPositionProvider">
                             <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
@@ -297,7 +297,7 @@
         <algorithm id="xpso-pcx-guide-boltzmann-xover-pbest-zero-vel" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -314,7 +314,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                         <positionProvider class="pso.pbestupdate.CrossoverDistinctPositionProvider">
                             <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
@@ -330,7 +330,7 @@
         <algorithm id="xpso-pcx-guide-repeating-bounded-xover-pbest-zero-vel" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -344,7 +344,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy">
                         <delegate class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                             <positionProvider class="pso.pbestupdate.CrossoverDistinctPositionProvider">
@@ -361,7 +361,7 @@
         <algorithm id="xpso-pcx-guide-boltzmann-bounded-xover-pbest-zero-vel" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -378,7 +378,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy">
                         <delegate class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                             <positionProvider class="pso.pbestupdate.CrossoverDistinctPositionProvider">
@@ -396,7 +396,7 @@
         <algorithm id="xpso-pcx-guide-repeating-mutation-pbest-zero-vel" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -410,7 +410,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                         <positionProvider class="pso.pbestupdate.MutatedDistinctPositionProvider">
                             <distribution class="math.random.GaussianDistribution">
@@ -427,7 +427,7 @@
         <algorithm id="xpso-pcx-guide-boltzmann-mutation-pbest-zero-vel" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -444,7 +444,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                         <positionProvider class="pso.pbestupdate.MutatedDistinctPositionProvider">
                             <distribution class="math.random.GaussianDistribution">
@@ -462,7 +462,7 @@
         <algorithm id="xpso-pcx-guide-repeating-bounded-mutation-pbest-zero-vel" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -476,7 +476,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy">
                         <delegate class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                             <positionProvider class="pso.pbestupdate.MutatedDistinctPositionProvider">
@@ -495,7 +495,7 @@
         <algorithm id="xpso-pcx-guide-boltzmann-bounded-mutation-pbest-zero-vel" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.CrossoverGuideProvider">
                                 <component value="pbest"/>
@@ -512,7 +512,7 @@
                                 </crossoverSelection>
                             </globalGuideProvider>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy">
                         <delegate class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                             <positionProvider class="pso.pbestupdate.MutatedDistinctPositionProvider">

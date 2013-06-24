@@ -8,21 +8,21 @@ package net.sourceforge.cilib.util.selection.weighting.behavior;
 
 import static com.google.common.base.Preconditions.checkState;
 import java.util.List;
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
+import net.sourceforge.cilib.entity.behaviour.Behaviour;
 
 public class SpecialisedRatio implements ParticleBehaviorRatio {
-    private List<ParticleBehavior> behaviors;
+    private List<Behaviour> behaviors;
     private List<Double> weights;
 
     @Override
-    public double getRatio(ParticleBehavior particleBehavior) {
+    public double getRatio(Behaviour particleBehavior) {
         checkState(behaviors.size() > 0, "You must add particle behaviors to the behavior pool first.");
         checkState(weights.size() == behaviors.size(), "Make sure the behavior pool is the same size as the weights list.");
 
         return weights.get(behaviors.indexOf(particleBehavior));
     }
 
-    public void setBehaviors(List<ParticleBehavior> behaviors) {
+    public void setBehaviors(List<Behaviour> behaviors) {
         this.behaviors = behaviors;
     }
 

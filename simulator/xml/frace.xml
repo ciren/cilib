@@ -9,11 +9,13 @@
         <algorithm id="pso" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <inertiaWeight class="tuning.TuningControlParameter" index="0"/>
-                        <cognitiveAcceleration class="tuning.TuningControlParameter" index="1"/>
-                        <socialAcceleration class="tuning.TuningControlParameter" index="2"/>
-                    </velocityProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                            <inertiaWeight class="tuning.TuningControlParameter" index="0"/>
+                            <cognitiveAcceleration class="tuning.TuningControlParameter" index="1"/>
+                            <socialAcceleration class="tuning.TuningControlParameter" index="2"/>
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100"/>

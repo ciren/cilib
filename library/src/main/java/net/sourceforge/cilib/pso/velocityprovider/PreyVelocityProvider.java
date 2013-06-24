@@ -14,6 +14,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.LinearlyVaryingControlParameter;
 import net.sourceforge.cilib.math.random.generator.Rand;
+import net.sourceforge.cilib.pso.behaviour.StandardParticleBehaviour;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -140,7 +141,7 @@ public final class PreyVelocityProvider implements VelocityProvider {
         List<Particle> predators = Lists.newArrayList();
 
         for (Particle p : pso.getTopology()) {
-            if (p.getVelocityProvider() instanceof PredatorVelocityProvider) {
+            if (((StandardParticleBehaviour) p.getBehaviour()).getVelocityProvider() instanceof PredatorVelocityProvider) {
                 predators.add(p);
             }
         }

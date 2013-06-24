@@ -64,7 +64,7 @@ public class MergingSubswarmIterator extends SubswarmIterator {
                         newA.setTopology(newA.getTopology().snoc(e));
 
                         if (e instanceof Particle) {
-                            ((Particle) e).setParticleBehavior(((Particle) a.getTopology().head()).getParticleBehavior());
+                            e.setBehaviour(((Entity) a.getTopology().head()).getBehaviour());
                         }
 
                     } else {

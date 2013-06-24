@@ -12,6 +12,7 @@ import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.math.random.generator.Rand;
+import net.sourceforge.cilib.pso.behaviour.StandardParticleBehaviour;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
@@ -74,14 +75,14 @@ public class ConstrictionVelocityProviderTest {
         Rand.setSeed(0);
         ConstrictionVelocityProvider velocityProvider = new ConstrictionVelocityProvider();
         Particle particle = createParticle(Vector.of(0.0));
-        particle.setVelocityProvider(velocityProvider);
+        ((StandardParticleBehaviour) particle.getBehaviour()).setVelocityProvider(velocityProvider);
         Particle nBest = createParticle(Vector.of(1.0));
         particle.setNeighbourhoodBest(nBest);
         nBest.setNeighbourhoodBest(nBest);
         Particle clone = particle.getClone();
 
-        particle.getVelocityProvider().get(particle);
-        clone.getVelocityProvider().get(particle);
+        ((StandardParticleBehaviour) particle.getBehaviour()).getVelocityProvider().get(particle);
+        ((StandardParticleBehaviour) clone.getBehaviour()).getVelocityProvider().get(particle);
 
         double kappa = 1.0;
         double c1 = 2.05;
@@ -93,8 +94,8 @@ public class ConstrictionVelocityProviderTest {
         Assert.assertEquals(chi, velocityProvider.getConstrictionCoefficient().getParameter(), Maths.EPSILON);
         //verify it is the same for two particles.
 
-        Assert.assertEquals(((ConstrictionVelocityProvider) particle.getVelocityProvider()).getConstrictionCoefficient().getParameter(),
-                ((ConstrictionVelocityProvider) clone.getVelocityProvider()).getConstrictionCoefficient().getParameter(), Maths.EPSILON);
+        Assert.assertEquals(((ConstrictionVelocityProvider) ((StandardParticleBehaviour) particle.getBehaviour()).getVelocityProvider()).getConstrictionCoefficient().getParameter(),
+                ((ConstrictionVelocityProvider) ((StandardParticleBehaviour) clone.getBehaviour()).getVelocityProvider()).getConstrictionCoefficient().getParameter(), Maths.EPSILON);
     }
 
     private Particle createParticle(Vector vector) {

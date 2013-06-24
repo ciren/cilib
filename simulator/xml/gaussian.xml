@@ -13,8 +13,10 @@
                 <neighbourhood class="entity.topologies.VonNeumannNeighbourhood"/>
                 <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                     <entityType class="pso.particle.StandardParticle">
-                        <positionProvider class="pso.positionprovider.LinearPositionProvider" />
-                        <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
+                        <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                            <positionProvider class="pso.positionprovider.LinearPositionProvider" />
+                            <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider"/>
+                        </behaviour>
                     </entityType>
                 </initialisationStrategy>
                 <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="100"/>

@@ -16,6 +16,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.Topologies;
+import net.sourceforge.cilib.entity.behaviour.Behaviour;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
 import net.sourceforge.cilib.math.random.UniformDistribution;
@@ -24,8 +25,8 @@ import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.niching.utils.JoinedTopologyProvider;
 import net.sourceforge.cilib.niching.utils.TopologyProvider;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.behaviour.StandardParticleBehaviour;
 import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
@@ -49,8 +50,8 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
         distanceMeasure = new EuclideanDistanceMeasure();
         topologyProvider = new JoinedTopologyProvider();
         minSwarmSize = ConstantControlParameter.of(3.0);
-        swarmBehavior = new ParticleBehavior();
-        swarmBehavior.setVelocityProvider(new StandardVelocityProvider(ConstantControlParameter.of(0.8), ConstantControlParameter.of(1.0), ConstantControlParameter.of(1.0)));
+        swarmBehavior = new StandardParticleBehaviour();
+        ((StandardParticleBehaviour) swarmBehavior).setVelocityProvider(new StandardVelocityProvider(ConstantControlParameter.of(0.8), ConstantControlParameter.of(1.0), ConstantControlParameter.of(1.0)));
         swarmType = new PSO();
         swarmType.addStoppingCondition(new MeasuredStoppingCondition(new Iterations(), new Maximum(), 500));
     }

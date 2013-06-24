@@ -12,6 +12,7 @@ import net.sourceforge.cilib.algorithm.initialisation.HeterogeneousPopulationIni
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.behaviour.Behaviour;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.pso.PSO;
@@ -21,7 +22,6 @@ import net.sourceforge.cilib.pso.hpso.pheromoneupdate.ConstantPheromoneUpdateStr
 import net.sourceforge.cilib.pso.hpso.pheromoneupdate.PheromoneUpdateStrategy;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.util.selection.recipes.RouletteWheelSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 import net.sourceforge.cilib.util.selection.weighting.ParticleBehaviorWeighting;
@@ -38,8 +38,8 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
     private List<Double> pheromoneConcentration;
     private PheromoneUpdateStrategy pheromoneUpdateStrategy;
 
-    private List<ParticleBehavior> behaviorPool;
-    private Selector<ParticleBehavior> behaviorSelectionRecipe;
+    private List<Behaviour> behaviorPool;
+    private Selector<Behaviour> behaviorSelectionRecipe;
     private IterationStrategy<PSO> iterationStrategy;
     private BehaviorChangeTriggerDetectionStrategy detectionStrategy;
     private ControlParameter minPeromone;
@@ -49,7 +49,7 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
      */
     public PheromoneIterationStrategy() {
         this.minPeromone = ConstantControlParameter.of(0.01);
-        this.behaviorPool = new ArrayList<ParticleBehavior>();
+        this.behaviorPool = new ArrayList<Behaviour>();
         this.pheromoneConcentration = new ArrayList<Double>();
         this.pheromoneUpdateStrategy = new ConstantPheromoneUpdateStrategy();
 
@@ -60,7 +60,7 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
         weighting.setBehaviors(behaviorPool);
         weighting.setWeights(pheromoneConcentration);
 
-        this.behaviorSelectionRecipe = new RouletteWheelSelector<ParticleBehavior>(new ParticleBehaviorWeighting(weighting));
+        this.behaviorSelectionRecipe = new RouletteWheelSelector<Behaviour>(new ParticleBehaviorWeighting(weighting));
     }
 
     /**
@@ -75,7 +75,7 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
         this.iterationStrategy = copy.iterationStrategy.getClone();
         this.detectionStrategy = copy.detectionStrategy.getClone();
         this.behaviorSelectionRecipe = copy.behaviorSelectionRecipe;
-        this.behaviorPool = new ArrayList<ParticleBehavior>(copy.behaviorPool);
+        this.behaviorPool = new ArrayList<Behaviour>(copy.behaviorPool);
     }
 
     /**
@@ -102,12 +102,12 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
      */
     @Override
     public void performIteration(PSO algorithm) {
-        ParticleBehavior behavior;
+        Behaviour behavior;
         for(Particle p : algorithm.getTopology()) {
             if (detectionStrategy.detect(p)) {
                 behavior = behaviorSelectionRecipe.on(behaviorPool).select();
                 behavior.incrementSelectedCounter();
-                p.setParticleBehavior(behavior);
+                p.setBehaviour(behavior);
             }
         }
 
@@ -116,13 +116,13 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
         //update the pheromoneConcentration levels
         for(Entity e : algorithm.getTopology()) {
             Particle p = (Particle)e;
-            int index = behaviorPool.indexOf(p.getParticleBehavior());
+            int index = behaviorPool.indexOf(p.getBehaviour());
 
             //in case behavior is in init strategy still, assumes same ordering of behaviors
             if(index == -1) {
                 index = ((HeterogeneousPopulationInitialisationStrategy)
                             algorithm.getInitialisationStrategy())
-                            .getBehaviorPool().indexOf(p.getParticleBehavior());
+                            .getBehaviorPool().indexOf(p.getBehaviour());
             }
 
             double deltaP = pheromoneUpdateStrategy.updatePheromone(p);
@@ -135,7 +135,7 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
             sumPheromone += d;
         }
 
-        for(ParticleBehavior pb : behaviorPool) {
+        for(Behaviour pb : behaviorPool) {
             int index = behaviorPool.indexOf(pb);
             pheromoneConcentration.set(index, (sumPheromone - pheromoneConcentration.get(index)) * pheromoneConcentration.get(index) / sumPheromone);
         }
@@ -154,7 +154,7 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
      * {@inheritDoc}
      */
     @Override
-    public void addBehavior(ParticleBehavior behavior) {
+    public void addBehavior(Behaviour behavior) {
         behaviorPool.add(behavior);
         setBehaviorPool(behaviorPool);
     }
@@ -163,11 +163,11 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
      * {@inheritDoc}
      */
     @Override
-    public void setBehaviorPool(List<ParticleBehavior> pool) {
+    public void setBehaviorPool(List<Behaviour> pool) {
         pheromoneConcentration.clear();
         behaviorPool = pool;
 
-        for(ParticleBehavior pb : behaviorPool) {
+        for(Behaviour pb : behaviorPool) {
             pheromoneConcentration.add(new Double(1.0 / behaviorPool.size()));
         }
     }
@@ -176,7 +176,7 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
      * {@inheritDoc}
      */
     @Override
-    public List<ParticleBehavior> getBehaviorPool() {
+    public List<Behaviour> getBehaviorPool() {
         return behaviorPool;
     }
 
@@ -202,7 +202,7 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
         this.detectionStrategy = detectionStrategy;
     }
 
-    public void setBehaviorSelectionRecipe(Selector<ParticleBehavior> behaviorSelectionRecipe) {
+    public void setBehaviorSelectionRecipe(Selector<Behaviour> behaviorSelectionRecipe) {
         this.behaviorSelectionRecipe = behaviorSelectionRecipe;
     }
 
@@ -222,7 +222,7 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
         return detectionStrategy;
     }
 
-    public Selector<ParticleBehavior> getBehaviorSelectionRecipe() {
+    public Selector<Behaviour> getBehaviorSelectionRecipe() {
         return behaviorSelectionRecipe;
     }
 

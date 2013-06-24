@@ -6,6 +6,7 @@
  */
 package net.sourceforge.cilib.entity;
 
+import net.sourceforge.cilib.entity.behaviour.Behaviour;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.Blackboard;
@@ -23,7 +24,7 @@ public abstract class AbstractEntity implements Entity {
 
     private static final long serialVersionUID = 3104817182593047611L;
 
-    private long id;
+    protected Behaviour behaviour;
     private final Blackboard<Property, Type> properties;
     private FitnessCalculator<Entity> fitnessCalculator;
 
@@ -42,6 +43,9 @@ public abstract class AbstractEntity implements Entity {
     protected AbstractEntity(AbstractEntity copy) {
         this.properties = copy.properties.getClone();
         this.fitnessCalculator = copy.fitnessCalculator.getClone();
+
+        if (copy.behaviour != null) //TODO: this shouldn't be null. Remove when all algorithms have behaviours.
+            this.behaviour = copy.behaviour.getClone();
     }
 
     /**
@@ -149,4 +153,13 @@ public abstract class AbstractEntity implements Entity {
         return getFitness().compareTo(o.getFitness());
     }
 
+    @Override
+    public void setBehaviour(Behaviour behaviour) {
+        this.behaviour = behaviour;
+    }
+
+    @Override
+    public Behaviour getBehaviour() {
+        return behaviour;
+    }
 }

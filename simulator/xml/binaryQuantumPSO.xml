@@ -10,14 +10,16 @@
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="200" />
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-        			<positionProvider class="pso.positionprovider.binary.BinaryQuantumPositionProvider" />
-                    <velocityProvider class="pso.velocityprovider.binary.BinaryQuantumVelocityProvider">
-                        <alpha class="controlparameter.ConstantControlParameter" parameter="0.3"/>
-                        <beta class="controlparameter.ConstantControlParameter" parameter="0.7"/>
-                        <selfAcceleration class="controlparameter.ConstantControlParameter" parameter="0.2"/>
-                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.2"/>
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.6"/>
-                    </velocityProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+            			<positionProvider class="pso.positionprovider.binary.BinaryQuantumPositionProvider" />
+                        <velocityProvider class="pso.velocityprovider.binary.BinaryQuantumVelocityProvider">
+                            <alpha class="controlparameter.ConstantControlParameter" parameter="0.3"/>
+                            <beta class="controlparameter.ConstantControlParameter" parameter="0.7"/>
+                            <selfAcceleration class="controlparameter.ConstantControlParameter" parameter="0.2"/>
+                            <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.2"/>
+                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.6"/>
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
         </algorithm>

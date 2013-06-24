@@ -24,9 +24,9 @@ import net.sourceforge.cilib.niching.merging.detection.RadiusOverlapMergeDetecti
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.behaviour.StandardParticleBehaviour;
 import net.sourceforge.cilib.pso.dynamic.QuantumVelocityProvider;
 import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -185,7 +185,7 @@ public class NichingFunctionsTest {
 
     @Test
     public void testEnforceTopology() {
-        ParticleBehavior pb = new ParticleBehavior();
+        StandardParticleBehaviour pb = new StandardParticleBehaviour();
         pb.setVelocityProvider(new QuantumVelocityProvider());
 
         PSO pso = new PSO();
@@ -196,12 +196,12 @@ public class NichingFunctionsTest {
                 ));
 
         Assert.assertNull(pso.getTopology().head().getNeighbourhoodBest());
-        Assert.assertEquals(StandardVelocityProvider.class, pso.getTopology().head().getVelocityProvider().getClass());
+        Assert.assertEquals(StandardVelocityProvider.class, ((StandardParticleBehaviour) pso.getTopology().head().getBehaviour()).getVelocityProvider().getClass());
 
         SinglePopulationBasedAlgorithm a = Populations.enforceTopology(pb).f(pso);
 
         Assert.assertNotNull(((Particle) a.getTopology().head()).getNeighbourhoodBest());
-        Assert.assertEquals(QuantumVelocityProvider.class, ((Particle) a.getTopology().head()).getVelocityProvider().getClass());
+        Assert.assertEquals(QuantumVelocityProvider.class, ((StandardParticleBehaviour) ((Particle) a.getTopology().head()).getBehaviour()).getVelocityProvider().getClass());
     }
 
     @Test
@@ -226,7 +226,7 @@ public class NichingFunctionsTest {
 
         NicheDetection detector = new MaintainedFitnessNicheDetection();
         NicheCreationStrategy creator = new ClosestNeighbourNicheCreationStrategy();
-        ((ClosestNeighbourNicheCreationStrategy) creator).setSwarmBehavior(new ParticleBehavior());
+        ((ClosestNeighbourNicheCreationStrategy) creator).setSwarmBehavior(new StandardParticleBehaviour());
         MergeStrategy merger = new SingleSwarmMergeStrategy();
 
         NichingSwarms merged = NichingFunctions.createNiches(detector, creator, merger)

@@ -6,6 +6,7 @@
  */
 package net.sourceforge.cilib.entity;
 
+import net.sourceforge.cilib.entity.behaviour.Behaviour;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.Blackboard;
@@ -110,5 +111,9 @@ public interface Entity extends Comparable<Entity>, Cloneable {
      * @return The {@code FitnessCalculator} associated with this {@code Entity}.
      */
     FitnessCalculator getFitnessCalculator();
+
+    public void setBehaviour(Behaviour behaviour);
+
+    public Behaviour getBehaviour();
 
 }

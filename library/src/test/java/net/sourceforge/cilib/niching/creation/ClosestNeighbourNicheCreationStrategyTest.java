@@ -14,7 +14,7 @@ import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.niching.NichingFunctionsTest;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
+import net.sourceforge.cilib.pso.behaviour.StandardParticleBehaviour;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,7 +31,7 @@ public class ClosestNeighbourNicheCreationStrategyTest {
         pso.setTopology(fj.data.List.list(p1, p2, p3));
 
         ClosestNeighbourNicheCreationStrategy creator = new ClosestNeighbourNicheCreationStrategy();
-        creator.setSwarmBehavior(new ParticleBehavior());
+        creator.setSwarmBehavior(new StandardParticleBehaviour());
         NichingSwarms swarms = creator.f(NichingSwarms.of(pso, List.<SinglePopulationBasedAlgorithm>nil()), p1);
 
         Assert.assertEquals(1, swarms._1().getTopology().length());

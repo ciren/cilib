@@ -10,15 +10,17 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
 	    	<entityNumber value="25"/>
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <localGuideProvider class="pso.guideprovider.PBestGuideProvider"/>
-                        <globalGuideProvider class="pso.guideprovider.VEPSOGuideProvider">
-                            <knowledgeTransferStrategy class="algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy">
-                                <populationSelection class="util.selection.recipes.RingBasedPopulationSelector"/>
-                                <entitySelection class="util.selection.recipes.ElitistSelector"/>
-                            </knowledgeTransferStrategy>
-                        </globalGuideProvider>
-                    </velocityProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                            <localGuideProvider class="pso.guideprovider.PBestGuideProvider"/>
+                            <globalGuideProvider class="pso.guideprovider.VEPSOGuideProvider">
+                                <knowledgeTransferStrategy class="algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy">
+                                    <populationSelection class="util.selection.recipes.RingBasedPopulationSelector"/>
+                                    <entitySelection class="util.selection.recipes.ElitistSelector"/>
+                                </knowledgeTransferStrategy>
+                            </globalGuideProvider>
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <iterationStrategy class="moo.iterationstrategies.ArchivingIterationStrategy">
@@ -33,22 +35,24 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
 	    	<entityNumber value="25"/>
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <localGuideProvider class="pso.guideprovider.PBestGuideProvider"/>
-                        <globalGuideProvider class="pso.guideprovider.VEPSOGuideProvider">
-                            <knowledgeTransferStrategy class="algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy">
-                                <populationSelection class="util.selection.recipes.RandomSelector"/>
-                                <entitySelection class="util.selection.recipes.ElitistSelector"/>
-                            </knowledgeTransferStrategy>
-                        </globalGuideProvider>
-                    </velocityProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                            <localGuideProvider class="pso.guideprovider.PBestGuideProvider"/>
+                            <globalGuideProvider class="pso.guideprovider.VEPSOGuideProvider">
+                                <knowledgeTransferStrategy class="algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy">
+                                    <populationSelection class="util.selection.recipes.RandomSelector"/>
+                                    <entitySelection class="util.selection.recipes.ElitistSelector"/>
+                                </knowledgeTransferStrategy>
+                            </globalGuideProvider>
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <iterationStrategy class="moo.iterationstrategies.ArchivingIterationStrategy">
                 <archive class="moo.archive.constrained.SetBasedConstrainedArchive" capacity="10000"/>
                 <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
-		    <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
-		</iterationStrategy>
+		            <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+		        </iterationStrategy>
             </iterationStrategy>
         </algorithm>
         

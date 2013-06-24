@@ -59,9 +59,7 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
         reinitialised = false;
 
         for(ClusterParticle particle : topology) {
-            particle.updateVelocity(particle.getVelocityProvider().get(particle));
-            particle.updatePosition(particle.getPositionProvider().get(particle));
-            boundaryConstraint.enforce(particle);
+            particle.getBehaviour().performIteration(particle);
 
             particle.calculateFitness();
         }

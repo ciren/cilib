@@ -46,10 +46,7 @@ public class DominantMOOSynchronousIterationStrategy extends AbstractIterationSt
         List<Particle> topology = pso.getTopology();
 
         for (Particle current : topology) {
-            current.updateVelocity(current.getParticleBehavior().getVelocityProvider().get(current));
-	        current.updatePosition(current.getParticleBehavior().getPositionProvider().get(current)); // TODO: replace with visitor (will simplify particle interface)
-
-            boundaryConstraint.enforce(current);
+            current.getBehaviour().performIteration(current);
         }
 
         Problem problem = AbstractAlgorithm.getAlgorithmList().head().getOptimisationProblem();

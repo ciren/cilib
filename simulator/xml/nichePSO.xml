@@ -12,10 +12,12 @@
             <mainSwarm class="pso.PSO">
                 <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                     <entityType class="pso.particle.StandardParticle">
-                        <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                            <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.2"/>
-                        </velocityProvider>
+                        <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                            <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                                <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
+                                <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.2"/>
+                            </velocityProvider>
+                        </behaviour>
                         <velocityInitialisationStrategy class="entity.initialisation.RandomInitialisationStrategy"/>
                     </entityType>
                     <entityNumber value="30"/>
@@ -33,7 +35,7 @@
                     </iterationStrategy>
                 </swarmType>
 
-                <swarmBehavior class="pso.particle.ParticleBehavior">
+                <swarmBehavior class="pso.behaviour.StandardParticleBehaviour">
                     <velocityProvider class="pso.velocityprovider.GCVelocityProvider">
                         <rho class="controlparameter.ConstantControlParameter" parameter="0.001"/>
                         <delegate class="pso.velocityprovider.ClampingVelocityProvider">
@@ -45,6 +47,7 @@
                             </delegate>
                         </delegate>
                     </velocityProvider>
+                    <boundaryConstraint class="problem.boundaryconstraint.ReinitialisationBoundary"/>
                 </swarmBehavior>
             </nicheCreator>
 

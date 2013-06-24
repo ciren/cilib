@@ -13,7 +13,7 @@
                 <entityType class="pso.particle.StandardParticle">
                     <!--PBest cant be same as position for UNDX because of orthonormalize function-->
                     <personalBestInitialisationStrategy class="entity.initialisation.RandomInitialisationStrategy" />
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
                             <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
@@ -21,7 +21,7 @@
                                 <sigma2 class="controlparameter.ConstantControlParameter" parameter="1"/>
                             </crossoverStrategy>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
@@ -33,7 +33,7 @@
                 <entityType class="pso.particle.StandardParticle">
                     <!--PBest cant be same as position for UNDX because of orthonormalize function-->
                     <personalBestInitialisationStrategy class="entity.initialisation.RandomInitialisationStrategy" />
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
                             <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
@@ -41,7 +41,7 @@
                                 <sigma2 class="controlparameter.ConstantControlParameter" parameter="1"/>
                             </crossoverStrategy>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                         <positionProvider class="pso.pbestupdate.CrossoverDistinctPositionProvider">
                             <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy" />
@@ -58,7 +58,7 @@
                 <entityType class="pso.particle.StandardParticle">
                     <!--PBest cant be same as position for UNDX because of orthonormalize function-->
                     <personalBestInitialisationStrategy class="entity.initialisation.RandomInitialisationStrategy" />
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
                             <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
@@ -66,7 +66,7 @@
                                 <sigma2 class="controlparameter.ConstantControlParameter" parameter="1"/>
                             </crossoverStrategy>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy">
                         <delegate class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                             <positionProvider class="pso.pbestupdate.CrossoverDistinctPositionProvider">
@@ -84,7 +84,7 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <personalBestInitialisationStrategy class="entity.initialisation.RandomInitialisationStrategy" />
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.DistinctCrossoverVelocityProvider">
                             <mainCrossover class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
@@ -98,7 +98,7 @@
                                 <parentProvider class="entity.operators.crossover.parentprovider.BestParentProvider"/>
                             </alternateCrossover>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
@@ -110,7 +110,7 @@
                 <entityType class="pso.particle.StandardParticle">
                     <!--PBest cant be same as position for UNDX because of orthonormalize function-->
                     <personalBestInitialisationStrategy class="entity.initialisation.RandomInitialisationStrategy" />
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
                             <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
@@ -118,7 +118,7 @@
                                 <sigma2 class="controlparameter.ConstantControlParameter" parameter="1"/>
                             </crossoverStrategy>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                         <positionProvider class="pso.pbestupdate.MutatedDistinctPositionProvider">
                             <distribution class="math.random.GaussianDistribution">
@@ -137,7 +137,7 @@
                 <entityType class="pso.particle.StandardParticle">
                     <!--PBest cant be same as position for UNDX because of orthonormalize function-->
                     <personalBestInitialisationStrategy class="entity.initialisation.RandomInitialisationStrategy" />
-                    <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
                         <positionProvider class="pso.positionprovider.LinearPositionProvider" />
                         <velocityProvider class="pso.velocityprovider.CrossoverVelocityProvider">
                             <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
@@ -145,7 +145,7 @@
                                 <sigma2 class="controlparameter.ConstantControlParameter" parameter="1"/>
                             </crossoverStrategy>
                         </velocityProvider>
-                    </particleBehavior>
+                    </behaviour>
                     <personalBestUpdateStrategy class="pso.pbestupdate.BoundedPersonalBestUpdateStrategy">
                         <delegate class="pso.pbestupdate.DistinctPersonalBestUpdateStrategy">
                             <positionProvider class="pso.pbestupdate.MutatedDistinctPositionProvider">

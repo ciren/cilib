@@ -10,27 +10,31 @@
             <initialisationStrategy class="algorithm.initialisation.SpecialisedPopulationInitialisationStrategy">
                 <setEntityTypes>
                     <entity class="pso.particle.StandardParticle">
-                        <velocityProvider class="pso.velocityprovider.PredatorVelocityProvider" />
+                        <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                            <velocityProvider class="pso.velocityprovider.PredatorVelocityProvider" />
+                        </behaviour>
                     </entity>
                     <n value="1" />
                 </setEntityTypes>
                 <setEntityTypes>
                     <entity class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.PreyVelocityProvider">
-                        <delegate class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter"
-                                parameter="2" />
-                            <socialAcceleration class="controlparameter.ConstantControlParameter"
-                                parameter="2" />
-                            <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter">
-                                <initialValue value="0.5"/>
-                                <finalValue value="0.0"/>
-                            </inertiaWeight>
-                        </delegate>
-                        <a class="controlparameter.ConstantControlParameter" parameter="1" />
-                        <b class="controlparameter.ConstantControlParameter" parameter="1" />
-                        <fear class="controlparameter.ConstantControlParameter" parameter="0.0005" />
-                    </velocityProvider>
+                        <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                            <velocityProvider class="pso.velocityprovider.PreyVelocityProvider">
+                                <delegate class="pso.velocityprovider.StandardVelocityProvider">
+                                    <cognitiveAcceleration class="controlparameter.ConstantControlParameter"
+                                        parameter="2" />
+                                    <socialAcceleration class="controlparameter.ConstantControlParameter"
+                                        parameter="2" />
+                                    <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter">
+                                        <initialValue value="0.5"/>
+                                        <finalValue value="0.0"/>
+                                    </inertiaWeight>
+                                </delegate>
+                                <a class="controlparameter.ConstantControlParameter" parameter="1" />
+                                <b class="controlparameter.ConstantControlParameter" parameter="1" />
+                                <fear class="controlparameter.ConstantControlParameter" parameter="0.0005" />
+                            </velocityProvider>
+                        </behaviour>
                     </entity>
                     <n value="20" />
                 </setEntityTypes>
