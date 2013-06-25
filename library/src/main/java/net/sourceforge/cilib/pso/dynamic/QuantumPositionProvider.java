@@ -62,7 +62,7 @@ public class QuantumPositionProvider implements PositionProvider {
     public Vector get(Particle particle) {
         ChargedParticle checkChargeParticle = (ChargedParticle) particle;
         if (checkChargeParticle.getCharge() < EPSILON) { // the particle is neutral
-            return this.delegate.get(particle);
+            return (Vector) this.delegate.get(particle);
         } else { // the particle is charged
             //based on the Pythagorean theorem,
             //the following code breaks the square of the radius distance into smaller

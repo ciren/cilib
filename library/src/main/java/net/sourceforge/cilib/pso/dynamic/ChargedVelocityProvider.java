@@ -75,7 +75,7 @@ public class ChargedVelocityProvider implements VelocityProvider {
 
         Vector acceleration = builder.build();
 
-        Vector velocity = this.delegate.get(particle);
+        Vector velocity = (Vector) this.delegate.get(particle);
 
         return velocity.plus(acceleration);
     }

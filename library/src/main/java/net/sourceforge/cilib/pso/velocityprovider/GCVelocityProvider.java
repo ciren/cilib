@@ -139,7 +139,7 @@ public class GCVelocityProvider implements VelocityProvider {
             result = builder.build();
         }
         else {
-            result =  this.delegate.get(particle);
+            result = (Vector) this.delegate.get(particle);
         }
 
         updateControlParameters(particle);

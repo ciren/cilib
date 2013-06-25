@@ -6,6 +6,8 @@
  */
 package net.sourceforge.cilib.clustering.entity;
 
+import net.sourceforge.cilib.clustering.StandardDataClusteringPositionProvider;
+import net.sourceforge.cilib.clustering.StandardDataClusteringVelocityProvider;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.initialisation.InitialisationStrategy;
 import net.sourceforge.cilib.entity.initialisation.RandomBoundedInitialisationStrategy;
@@ -50,6 +52,9 @@ public class ClusterParticle extends AbstractParticle{
         centroidInitialisationStrategyVelocity = new StandardCentroidInitialisationStrategy();
         numberOfClusters = 1;
         isCharged = false;
+
+        behavior.setVelocityProvider(new StandardDataClusteringVelocityProvider());
+        behavior.setPositionProvider(new StandardDataClusteringPositionProvider());
     }
 
     /*
