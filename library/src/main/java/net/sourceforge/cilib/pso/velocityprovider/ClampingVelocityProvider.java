@@ -43,7 +43,7 @@ public class ClampingVelocityProvider implements VelocityProvider {
 
     @Override
     public Vector get(Particle particle) {
-        Vector velocity = this.delegate.get(particle);
+        Vector velocity = (Vector) this.delegate.get(particle);
         Vector.Builder builder = Vector.newBuilder();
         for (Numeric value : velocity) {
             builder.add(Math.min(Math.max(-vMax.getParameter(), value.doubleValue()), vMax.getParameter()));

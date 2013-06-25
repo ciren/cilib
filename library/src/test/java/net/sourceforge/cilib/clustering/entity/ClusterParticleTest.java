@@ -212,6 +212,52 @@ public class ClusterParticleTest {
     }
 
     /**
+     * Test of updatePosition method, of class ClusterParticle.
+     */
+    @Test
+    public void testUpdatePosition() {
+        ClusterParticle instance = new ClusterParticle();
+        CentroidHolder holder = new CentroidHolder();
+        ClusterCentroid centroid = ClusterCentroid.of(1,2,3,4,5,6);
+        centroid.setDataItemDistances(new double[]{1,2,3,4});
+        holder.add(centroid);
+        holder.add(centroid);
+        holder.add(centroid);
+        instance.setCandidateSolution(holder.getClone());
+        instance.getProperties().put(EntityType.Particle.VELOCITY, holder);
+        instance.getProperties().put(EntityType.Particle.BEST_POSITION, holder);
+        instance.getProperties().put(EntityType.FITNESS, new MinimisationFitness(6.0));
+        instance.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(6.0));
+        instance.setNeighbourhoodBest(instance);
+        instance.updatePosition(instance.getPositionProvider().get(instance));
+
+        Assert.assertNotSame(instance.getCandidateSolution(), holder);
+    }
+
+    /**
+     * Test of updateVelocity method, of class ClusterParticle.
+     */
+    @Test
+    public void testUpdateVelocity() {
+        ClusterParticle instance = new ClusterParticle();
+        CentroidHolder holder = new CentroidHolder();
+        ClusterCentroid centroid = ClusterCentroid.of(1,2,3,4,5,6);
+        centroid.setDataItemDistances(new double[]{1,2,3,4});
+        holder.add(centroid);
+        holder.add(centroid);
+        holder.add(centroid);
+        instance.setCandidateSolution(holder.getClone());
+        instance.getProperties().put(EntityType.Particle.VELOCITY, holder);
+        instance.getProperties().put(EntityType.Particle.BEST_POSITION, holder);
+        instance.getProperties().put(EntityType.FITNESS, new MinimisationFitness(6.0));
+        instance.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(6.0));
+        instance.setNeighbourhoodBest(instance);
+        instance.updateVelocity(instance.getVelocityProvider().get(instance));
+
+        Assert.assertNotSame(instance.getVelocity(), holder);
+    }
+
+    /**
      * Test of initialise method, of class ClusterParticle.
      */
     @Test

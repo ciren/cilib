@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.pso.positionprovider;
 
 import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.Cloneable;
 
 
@@ -30,6 +30,6 @@ public interface PositionProvider extends Cloneable {
      *
      * @param particle The <tt>Particle</tt> to perform the position update on.
      */
-    Vector get(Particle particle);
+    StructuredType get(Particle particle);
 
 }
