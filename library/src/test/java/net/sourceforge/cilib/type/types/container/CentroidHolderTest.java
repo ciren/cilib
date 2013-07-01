@@ -4,14 +4,14 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.type.types.container;
+package net.cilib.type.types.container;
 
 import org.junit.Assert;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class CentroidHolderTest {
-    
+
     /**
      * Test of size method, of class CentroidHolder.
      */
@@ -43,7 +43,7 @@ public class CentroidHolderTest {
         centroids.add(ClusterCentroid.of(2,8,0,5));
         instance.addAll(centroids);
         instance.add(x);
-        
+
         Assert.assertTrue(instance.contains(x));
     }
 
@@ -85,7 +85,7 @@ public class CentroidHolderTest {
         centroids.add(ClusterCentroid.of(5,8,9,3));
         centroids.add(ClusterCentroid.of(2,8,0,5));
         instance.addAll(centroids);
-        
+
         Assert.assertTrue(instance.containsAll(centroids));
     }
 
@@ -99,7 +99,7 @@ public class CentroidHolderTest {
         centroids.add(ClusterCentroid.of(5,8,9,3));
         centroids.add(ClusterCentroid.of(2,8,0,5));
         instance.addAll(centroids);
-        
+
         Assert.assertTrue(instance.containsAll(centroids));
     }
 
@@ -127,7 +127,7 @@ public class CentroidHolderTest {
         centroids.add(c2);
         instance.addAll(centroids);
         instance.randomise();
-        
+
         Assert.assertFalse(instance.get(0).containsAll(Vector.of(5,8,9,3)));
         Assert.assertFalse(instance.get(1).containsAll(Vector.of(2,8,0,5)));
     }
@@ -143,7 +143,7 @@ public class CentroidHolderTest {
         centroids.add(c1);
         centroids.add(ClusterCentroid.of(2,8,0,5));
         instance.addAll(centroids);
-        
+
         Assert.assertEquals(instance.get(0), c1);
     }
 }

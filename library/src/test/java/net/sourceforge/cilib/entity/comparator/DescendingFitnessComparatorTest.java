@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.entity.comparator;
+package net.cilib.entity.comparator;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -13,11 +13,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.problem.solution.MaximisationFitness;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
+import net.cilib.ec.Individual;
+import net.cilib.entity.Entity;
+import net.cilib.entity.EntityType;
+import net.cilib.problem.solution.MaximisationFitness;
+import net.cilib.problem.solution.MinimisationFitness;
 
 import org.junit.Test;
 

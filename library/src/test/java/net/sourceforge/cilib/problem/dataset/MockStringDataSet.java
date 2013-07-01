@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.problem.dataset;
+package net.cilib.problem.dataset;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

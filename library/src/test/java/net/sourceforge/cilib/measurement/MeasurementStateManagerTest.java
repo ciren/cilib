@@ -4,14 +4,14 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.measurement;
+package net.cilib.measurement;
 
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.type.types.Type;
+import net.cilib.algorithm.Algorithm;
+import net.cilib.pso.PSO;
+import net.cilib.type.types.Type;
 import org.junit.Assert;
 import org.junit.Test;
 

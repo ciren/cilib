@@ -4,16 +4,16 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.stoppingcondition.nnperformancecomparators;
+package net.cilib.stoppingcondition.nnperformancecomparators;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
 import java.util.ArrayList;
-import net.sourceforge.cilib.io.StandardPatternDataTable;
-import net.sourceforge.cilib.io.pattern.StandardPattern;
-import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.io.StandardPatternDataTable;
+import net.cilib.io.pattern.StandardPattern;
+import net.cilib.math.Maths;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.container.Vector;
 
 /*
  These tests are mostly arbitrary. The expected output values were determined

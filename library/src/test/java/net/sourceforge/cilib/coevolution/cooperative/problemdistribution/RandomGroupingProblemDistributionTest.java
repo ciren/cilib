@@ -4,20 +4,20 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.coevolution.cooperative.problemdistribution;
+package net.cilib.coevolution.cooperative.problemdistribution;
 
 import java.util.Arrays;
 import java.util.List;
-import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
-import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
-import net.sourceforge.cilib.math.random.generator.Rand;
-import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.StringBasedDomainRegistry;
-import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
+import net.cilib.math.random.generator.Rand;
+import net.cilib.problem.Problem;
+import net.cilib.pso.PSO;
+import net.cilib.type.DomainRegistry;
+import net.cilib.type.StringBasedDomainRegistry;
+import net.cilib.type.types.Bounds;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.container.Vector;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;

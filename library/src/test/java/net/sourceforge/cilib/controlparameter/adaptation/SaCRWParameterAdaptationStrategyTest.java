@@ -4,17 +4,17 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.controlparameter.adaptation;
+package net.cilib.controlparameter.adaptation;
 
 import java.util.ArrayList;
 import junit.framework.Assert;
 import org.junit.Test;
-import net.sourceforge.cilib.controlparameter.StandardUpdatableControlParameter;
-import net.sourceforge.cilib.ec.SaDEIndividual;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.controlparameter.initialisation.RandomBoundedParameterInitialisationStrategy;
-import net.sourceforge.cilib.math.random.GaussianDistribution;
+import net.cilib.controlparameter.StandardUpdatableControlParameter;
+import net.cilib.ec.SaDEIndividual;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.entity.EntityType;
+import net.cilib.controlparameter.initialisation.RandomBoundedParameterInitialisationStrategy;
+import net.cilib.math.random.GaussianDistribution;
 
 public class SaCRWParameterAdaptationStrategyTest {
     @Test

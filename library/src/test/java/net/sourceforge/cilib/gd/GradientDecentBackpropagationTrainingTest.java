@@ -4,16 +4,16 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.gd;
+package net.cilib.gd;
 
-import net.sourceforge.cilib.io.ARFFFileReader;
-import net.sourceforge.cilib.measurement.generic.Iterations;
-import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
-import net.sourceforge.cilib.problem.nn.NNDataTrainingProblem;
-import net.sourceforge.cilib.stoppingcondition.Maximum;
-import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
-import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.io.ARFFFileReader;
+import net.cilib.measurement.generic.Iterations;
+import net.cilib.nn.architecture.builder.LayerConfiguration;
+import net.cilib.problem.nn.NNDataTrainingProblem;
+import net.cilib.stoppingcondition.Maximum;
+import net.cilib.stoppingcondition.MeasuredStoppingCondition;
+import net.cilib.stoppingcondition.StoppingCondition;
+import net.cilib.type.types.container.Vector;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,7 +50,7 @@ public class GradientDecentBackpropagationTrainingTest {
             training.algorithmIteration();
             builder.add(training.getBestSolution().getFitness().getValue());
         }
-        
+
         Vector errors = builder.build();
         // asserts?
     }

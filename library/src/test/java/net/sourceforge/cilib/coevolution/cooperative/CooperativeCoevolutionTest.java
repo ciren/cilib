@@ -4,25 +4,25 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.coevolution.cooperative;
+package net.cilib.coevolution.cooperative;
 
 import java.util.List;
-import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
-import net.sourceforge.cilib.coevolution.cooperative.contextupdate.SelectiveContextUpdateStrategy;
-import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
-import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
-import net.sourceforge.cilib.coevolution.cooperative.problem.SequentialDimensionAllocation;
-import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.ProblemDistributionStrategy;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.problem.solution.InferiorFitness;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.problem.solution.OptimisationSolution;
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.StringBasedDomainRegistry;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.calculator.FitnessCalculator;
+import net.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.cilib.coevolution.cooperative.contextupdate.SelectiveContextUpdateStrategy;
+import net.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
+import net.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
+import net.cilib.coevolution.cooperative.problem.SequentialDimensionAllocation;
+import net.cilib.coevolution.cooperative.problemdistribution.ProblemDistributionStrategy;
+import net.cilib.entity.Entity;
+import net.cilib.problem.Problem;
+import net.cilib.problem.solution.InferiorFitness;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.problem.solution.OptimisationSolution;
+import net.cilib.pso.PSO;
+import net.cilib.type.DomainRegistry;
+import net.cilib.type.StringBasedDomainRegistry;
+import net.cilib.type.types.container.Vector;
+import net.cilib.util.calculator.FitnessCalculator;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import static org.mockito.Matchers.any;
@@ -83,9 +83,9 @@ public class CooperativeCoevolutionTest {
         testAlgorithm.setOptimisationProblem(problem);
 
         testAlgorithm.performInitialisation();
-        
+
         testAlgorithm.performIteration();
-        
+
         //ensure that the solutions from the sub populations have been copied into the context vector
         assertEquals(4.0, testAlgorithm.getContext().getCandidateSolution().get(0).doubleValue(), 0.0);
         assertEquals(2.0, testAlgorithm.getContext().getCandidateSolution().get(1).doubleValue(), 0.0);

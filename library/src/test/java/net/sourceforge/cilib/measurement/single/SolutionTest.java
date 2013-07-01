@@ -4,13 +4,13 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.measurement.single;
+package net.cilib.measurement.single;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.solution.InferiorFitness;
-import net.sourceforge.cilib.problem.solution.OptimisationSolution;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.algorithm.Algorithm;
+import net.cilib.measurement.Measurement;
+import net.cilib.problem.solution.InferiorFitness;
+import net.cilib.problem.solution.OptimisationSolution;
+import net.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;

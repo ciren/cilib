@@ -4,21 +4,21 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.moo.archive.solutionweighing;
+package net.cilib.moo.archive.solutionweighing;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import net.sourceforge.cilib.problem.MOOptimisationProblem;
-import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.problem.solution.OptimisationSolution;
-import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.WeightedObject;
+import net.cilib.problem.MOOptimisationProblem;
+import net.cilib.problem.Problem;
+import net.cilib.problem.solution.Fitness;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.problem.solution.OptimisationSolution;
+import net.cilib.type.DomainRegistry;
+import net.cilib.type.types.Type;
+import net.cilib.type.types.container.Vector;
+import net.cilib.util.selection.Selection;
+import net.cilib.util.selection.WeightedObject;
 import static org.hamcrest.core.Is.is;
 import org.junit.Assert;
 import static org.junit.Assert.assertThat;
@@ -60,7 +60,7 @@ public class SolutionWeighingTest {
         public DomainRegistry getDomain() {
             return null;
         }
-        
+
         @Override
         public void setDomain(String domain) {
         }

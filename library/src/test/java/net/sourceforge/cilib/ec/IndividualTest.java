@@ -4,10 +4,10 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.ec;
+package net.cilib.ec;
 
-import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.ec.Individual;
+import net.cilib.type.types.container.Vector;
 import static org.junit.Assert.*;
 import org.junit.Test;
 

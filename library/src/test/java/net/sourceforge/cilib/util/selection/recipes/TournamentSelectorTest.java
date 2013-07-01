@@ -4,15 +4,15 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.util.selection.recipes;
+package net.cilib.util.selection.recipes;
 
 import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
-import net.sourceforge.cilib.math.random.generator.Rand;
-import net.sourceforge.cilib.math.random.generator.RandomAdaptor;
+import net.cilib.controlparameter.ConstantControlParameter;
+import net.cilib.controlparameter.ProportionalControlParameter;
+import net.cilib.math.random.generator.Rand;
+import net.cilib.math.random.generator.RandomAdaptor;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;

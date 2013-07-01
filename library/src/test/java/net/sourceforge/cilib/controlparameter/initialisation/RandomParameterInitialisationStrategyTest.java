@@ -4,11 +4,11 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.controlparameter.initialisation;
+package net.cilib.controlparameter.initialisation;
 
 import junit.framework.Assert;
 import org.junit.Test;
-import net.sourceforge.cilib.math.random.GaussianDistribution;
+import net.cilib.math.random.GaussianDistribution;
 
 public class RandomParameterInitialisationStrategyTest {
 

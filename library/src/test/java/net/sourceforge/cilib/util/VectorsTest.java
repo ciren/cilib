@@ -4,19 +4,19 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.util;
+package net.cilib.util;
 
 import fj.data.List;
 import fj.data.Option;
-import net.sourceforge.cilib.type.types.Bounds;
+import net.cilib.type.types.Bounds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.Types;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.cilib.type.types.Numeric;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.Type;
+import net.cilib.type.types.Types;
+import net.cilib.type.types.container.Vector;
+import net.cilib.math.random.UniformDistribution;
 
 import org.junit.Assert;
 import org.junit.Before;

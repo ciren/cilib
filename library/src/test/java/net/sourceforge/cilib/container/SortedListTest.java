@@ -4,15 +4,15 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.container;
+package net.cilib.container;
 
-import net.sourceforge.cilib.type.types.container.SortedList;
+import net.cilib.type.types.container.SortedList;
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 
 
 import java.util.List;
-import net.sourceforge.cilib.type.types.Int;
+import net.cilib.type.types.Int;
 
 import org.junit.Test;
 

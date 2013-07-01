@@ -4,19 +4,19 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.entity.operators.crossover.real;
+package net.cilib.entity.operators.crossover.real;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.operators.CrossoverOperator;
-import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.solution.InferiorFitness;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.calculator.FitnessCalculator;
+import net.cilib.controlparameter.ConstantControlParameter;
+import net.cilib.ec.Individual;
+import net.cilib.entity.Entity;
+import net.cilib.entity.EntityType;
+import net.cilib.entity.operators.CrossoverOperator;
+import net.cilib.problem.solution.Fitness;
+import net.cilib.problem.solution.InferiorFitness;
+import net.cilib.type.types.container.Vector;
+import net.cilib.util.calculator.FitnessCalculator;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -37,7 +37,7 @@ public class BlendCrossoverStrategyTest {
         i2.setFitnessCalculator(new MockFitnessCalculator());
 
         fj.data.List<Individual> parents = fj.data.List.list(i1, i2);
-        
+
         CrossoverOperator crossoverStrategy = new CrossoverOperator();
         crossoverStrategy.setCrossoverStrategy(new BlendCrossoverStrategy());
         crossoverStrategy.setCrossoverProbability(ConstantControlParameter.of(1.0));

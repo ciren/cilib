@@ -4,16 +4,16 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.coevolution.cooperative.contributionselection;
+package net.cilib.coevolution.cooperative.contributionselection;
 
 import static org.junit.Assert.assertEquals;
-import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.cilib.entity.EntityType;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.pso.PSO;
+import net.cilib.pso.particle.Particle;
+import net.cilib.pso.particle.StandardParticle;
+import net.cilib.type.types.container.Vector;
 
 import org.junit.Test;
 

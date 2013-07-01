@@ -4,15 +4,15 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.cooperative.algorithmiterators;
+package net.cilib.cooperative.algorithmiterators;
 
 import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-import net.sourceforge.cilib.algorithm.iterator.AlgorithmIterator;
-import net.sourceforge.cilib.algorithm.iterator.SequentialAlgorithmIterator;
-import net.sourceforge.cilib.pso.PSO;
+import net.cilib.algorithm.iterator.AlgorithmIterator;
+import net.cilib.algorithm.iterator.SequentialAlgorithmIterator;
+import net.cilib.pso.PSO;
 
 import org.junit.Test;
 

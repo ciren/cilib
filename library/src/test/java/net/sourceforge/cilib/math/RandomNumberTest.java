@@ -4,14 +4,14 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.math;
+package net.cilib.math;
 
-import net.sourceforge.cilib.math.random.GaussianDistribution;
-import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
-import net.sourceforge.cilib.math.random.UniformDistribution;
-import net.sourceforge.cilib.math.random.DiscreteUniformDistribution;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.type.types.Real;
+import net.cilib.math.random.GaussianDistribution;
+import net.cilib.math.random.ProbabilityDistributionFunction;
+import net.cilib.math.random.UniformDistribution;
+import net.cilib.math.random.DiscreteUniformDistribution;
+import net.cilib.type.types.container.Vector;
+import net.cilib.type.types.Real;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 

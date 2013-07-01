@@ -4,16 +4,16 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.moo.archive.constrained;
+package net.cilib.moo.archive.constrained;
 
 import java.util.*;
-import net.sourceforge.cilib.moo.archive.Archive;
-import net.sourceforge.cilib.problem.*;
-import net.sourceforge.cilib.problem.solution.*;
-import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.moo.archive.Archive;
+import net.cilib.problem.*;
+import net.cilib.problem.solution.*;
+import net.cilib.type.DomainRegistry;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.Type;
+import net.cilib.type.types.container.Vector;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;

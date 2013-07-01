@@ -4,12 +4,12 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.problem.solution;
+package net.cilib.problem.solution;
 
-import net.sourceforge.cilib.problem.MOOptimisationProblem;
-import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.Type;
+import net.cilib.problem.MOOptimisationProblem;
+import net.cilib.problem.Problem;
+import net.cilib.type.DomainRegistry;
+import net.cilib.type.types.Type;
 import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -4,11 +4,11 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.io;
+package net.cilib.io;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import net.sourceforge.cilib.io.exception.CIlibIOException;
+import net.cilib.io.exception.CIlibIOException;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

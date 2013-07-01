@@ -4,19 +4,19 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.io.transform;
+package net.cilib.io.transform;
 
 import java.util.Arrays;
 
-import net.sourceforge.cilib.io.DataTable;
-import net.sourceforge.cilib.io.StandardDataTable;
-import net.sourceforge.cilib.io.StandardPatternDataTable;
-import net.sourceforge.cilib.io.exception.CIlibIOException;
-import net.sourceforge.cilib.type.types.Bit;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.StringType;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.io.DataTable;
+import net.cilib.io.StandardDataTable;
+import net.cilib.io.StandardPatternDataTable;
+import net.cilib.io.exception.CIlibIOException;
+import net.cilib.type.types.Bit;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.StringType;
+import net.cilib.type.types.Type;
+import net.cilib.type.types.container.Vector;
 
 import org.junit.Test;
 import static org.junit.Assert.assertThat;

@@ -4,11 +4,11 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.nn.architecture;
+package net.cilib.nn.architecture;
 
-import net.sourceforge.cilib.nn.NeuralNetwork;
-import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
-import net.sourceforge.cilib.nn.architecture.visitors.WeightRetrievalVisitor;
+import net.cilib.nn.NeuralNetwork;
+import net.cilib.nn.architecture.builder.LayerConfiguration;
+import net.cilib.nn.architecture.visitors.WeightRetrievalVisitor;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

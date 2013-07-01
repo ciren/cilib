@@ -4,13 +4,13 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.type.parser;
+package net.cilib.type.parser;
 
 import static org.hamcrest.CoreMatchers.is;
-import net.sourceforge.cilib.type.types.StringType;
-import net.sourceforge.cilib.type.types.container.StructuredType;
-import net.sourceforge.cilib.type.types.container.TypeList;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.type.types.StringType;
+import net.cilib.type.types.container.StructuredType;
+import net.cilib.type.types.container.TypeList;
+import net.cilib.type.types.container.Vector;
 
 import org.junit.Assert;
 import org.junit.Test;

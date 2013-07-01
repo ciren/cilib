@@ -4,18 +4,18 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.clustering;
+package net.cilib.clustering;
 
 import junit.framework.Assert;
-import net.sourceforge.cilib.io.DataTableBuilder;
-import net.sourceforge.cilib.io.DelimitedTextFileReader;
-import net.sourceforge.cilib.io.pattern.StandardPattern;
-import net.sourceforge.cilib.io.transform.PatternConversionOperator;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.io.DataTableBuilder;
+import net.cilib.io.DelimitedTextFileReader;
+import net.cilib.io.pattern.StandardPattern;
+import net.cilib.io.transform.PatternConversionOperator;
+import net.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 public class SlidingWindowTest {
-    
+
     /**
      * Test of slideWindow method, of class SlidingWindow.
      */
@@ -26,17 +26,17 @@ public class SlidingWindowTest {
         window.setWindowSize(1);
         window.setSlideFrequency(1);
         window.initialiseWindow();
-        
+
         Vector beforeSlide =  ((StandardPattern) window.getCurrentDataset().getRow(0)).getVector();
         Vector expectedBeforeSlide = Vector.of(1.0,1.0,1.0,2.0);
-        
+
         Assert.assertTrue(beforeSlide.containsAll(expectedBeforeSlide));
-        
+
         window.slideWindow();
-        
+
         Vector afterSlide =  ((StandardPattern) window.getCurrentDataset().getRow(0)).getVector();
         Vector expectedAfterSlide = Vector.of(2.0,3.0,4.0,2.0);
-        
+
         Assert.assertTrue(afterSlide.containsAll(expectedAfterSlide));
     }
 
@@ -49,14 +49,14 @@ public class SlidingWindowTest {
         window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
         window.setWindowSize(2);
         window.initialiseWindow();
-        
+
         int totalPatternsInWindow = window.getCurrentDataset().size();
         Vector firstValue =  ((StandardPattern) window.getCurrentDataset().getRow(0)).getVector();
         Vector secondValue =  ((StandardPattern) window.getCurrentDataset().getRow(1)).getVector();
-        
+
         Vector expectedValue1 = Vector.of(1.0,1.0,1.0,2.0);
         Vector expectedValue2 = Vector.of(2.0,3.0,4.0,2.0);
-        
+
         Assert.assertEquals(2, totalPatternsInWindow);
         Assert.assertTrue(firstValue.containsAll(expectedValue1));
         Assert.assertTrue(secondValue.containsAll(expectedValue2));
@@ -109,7 +109,7 @@ public class SlidingWindowTest {
     public void testGetSourceURL() {
         SlidingWindow window = new SlidingWindow();
         window.setSourceURL("library/src/test/resources/datasets");
-        Assert.assertTrue(window.getSourceURL().contains("library/src/test/resources/datasets") || 
+        Assert.assertTrue(window.getSourceURL().contains("library/src/test/resources/datasets") ||
                 window.getSourceURL().contains("library\\src\\test\\resources\\datasets"));
     }
 
@@ -120,7 +120,7 @@ public class SlidingWindowTest {
     public void testSetSourceURL() {
         SlidingWindow window = new SlidingWindow();
         window.setSourceURL("library/src/test/resources/datasets");
-        Assert.assertTrue(window.getSourceURL().contains("library/src/test/resources/datasets") || 
+        Assert.assertTrue(window.getSourceURL().contains("library/src/test/resources/datasets") ||
                 window.getSourceURL().contains("library\\src\\test\\resources\\datasets"));
     }
 
@@ -155,11 +155,11 @@ public class SlidingWindowTest {
         window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
         window.setWindowSize(1);
         window.initialiseWindow();
-        
+
         int totalPatterns = window.getCurrentDataset().size();
         Vector result =  ((StandardPattern) window.getCurrentDataset().getRow(0)).getVector();
         Vector expected = Vector.of(1.0,1.0,1.0,2.0);
-        
+
         Assert.assertTrue(result.containsAll(expected));
         Assert.assertEquals(1, totalPatterns);
     }
@@ -173,11 +173,11 @@ public class SlidingWindowTest {
         window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
         window.setWindowSize(1);
         window.initialiseWindow();
-        
+
         int totalPatterns = window.getCurrentDataset().size();
         Vector result =  ((StandardPattern) window.getCurrentDataset().getRow(0)).getVector();
         Vector expected = Vector.of(1.0,1.0,1.0,2.0);
-        
+
         Assert.assertTrue(result.containsAll(expected));
         Assert.assertEquals(1, totalPatterns);
     }

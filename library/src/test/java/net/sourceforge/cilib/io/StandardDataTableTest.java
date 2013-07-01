@@ -4,12 +4,12 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.io;
+package net.cilib.io;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import net.sourceforge.cilib.type.types.StringType;
+import net.cilib.type.types.StringType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;

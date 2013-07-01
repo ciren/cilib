@@ -4,14 +4,14 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.math;
+package net.cilib.math;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import net.sourceforge.cilib.math.random.generator.Rand;
+import net.cilib.math.random.generator.Rand;
 import static org.hamcrest.CoreMatchers.is;
 import org.junit.Assert;
 import org.junit.Test;

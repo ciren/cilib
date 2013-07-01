@@ -4,16 +4,16 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.measurement.single.moo;
+package net.cilib.measurement.single.moo;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.moo.archive.Archive;
-import net.sourceforge.cilib.problem.solution.Fitnesses;
-import net.sourceforge.cilib.problem.solution.MOFitness;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.problem.solution.OptimisationSolution;
-import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.Type;
+import net.cilib.algorithm.Algorithm;
+import net.cilib.moo.archive.Archive;
+import net.cilib.problem.solution.Fitnesses;
+import net.cilib.problem.solution.MOFitness;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.problem.solution.OptimisationSolution;
+import net.cilib.type.types.Int;
+import net.cilib.type.types.Type;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import org.junit.AfterClass;

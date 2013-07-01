@@ -4,11 +4,11 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.nn.domain;
+package net.cilib.nn.domain;
 
-import net.sourceforge.cilib.nn.architecture.visitors.ArchitectureVisitor;
-import net.sourceforge.cilib.nn.architecture.visitors.WeightSettingVisitor;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.nn.architecture.visitors.ArchitectureVisitor;
+import net.cilib.nn.architecture.visitors.WeightSettingVisitor;
+import net.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

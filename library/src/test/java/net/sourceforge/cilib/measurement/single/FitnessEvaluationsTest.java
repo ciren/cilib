@@ -4,12 +4,12 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.measurement.single;
+package net.cilib.measurement.single;
 
-import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
-import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.type.types.Int;
+import net.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.cilib.measurement.Measurement;
+import net.cilib.problem.Problem;
+import net.cilib.type.types.Int;
 import static org.hamcrest.CoreMatchers.is;
 import org.junit.Assert;
 import org.junit.Test;

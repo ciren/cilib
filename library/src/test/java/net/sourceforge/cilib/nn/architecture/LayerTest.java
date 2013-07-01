@@ -4,11 +4,11 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.nn.architecture;
+package net.cilib.nn.architecture;
 
-import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.nn.components.Neuron;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.math.Maths;
+import net.cilib.nn.components.Neuron;
+import net.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +49,7 @@ public class LayerTest {
     public void testIsBias() {
         Assert.assertEquals(false, layer.isBias());
     }
-	
+
     @Test
     public void testGetClone() {
         Layer newLayer = layer.getClone();

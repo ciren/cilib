@@ -4,14 +4,14 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.niching.creation;
+package net.cilib.niching.creation;
 
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.niching.NichingFunctionsTest;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.type.types.container.TypeList;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.entity.EntityType;
+import net.cilib.pso.particle.Particle;
+import net.cilib.niching.NichingFunctionsTest;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.type.types.container.TypeList;
+import net.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 

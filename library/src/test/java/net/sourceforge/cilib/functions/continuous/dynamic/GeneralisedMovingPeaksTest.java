@@ -4,14 +4,14 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.functions.continuous.dynamic;
+package net.cilib.functions.continuous.dynamic;
 
-import net.sourceforge.cilib.measurement.generic.Iterations;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
-import net.sourceforge.cilib.problem.objective.Maximise;
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.stoppingcondition.Maximum;
-import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
+import net.cilib.measurement.generic.Iterations;
+import net.cilib.problem.FunctionOptimisationProblem;
+import net.cilib.problem.objective.Maximise;
+import net.cilib.pso.PSO;
+import net.cilib.stoppingcondition.Maximum;
+import net.cilib.stoppingcondition.MeasuredStoppingCondition;
 import org.junit.Test;
 
 /**

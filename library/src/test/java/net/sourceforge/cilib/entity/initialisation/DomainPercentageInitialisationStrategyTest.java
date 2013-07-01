@@ -4,15 +4,15 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.entity.initialisation;
+package net.cilib.entity.initialisation;
 
-import net.sourceforge.cilib.entity.initialisation.ConstantInitialisationStrategy;
-import net.sourceforge.cilib.entity.initialisation.DomainPercentageInitialisationStrategy;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.entity.initialisation.ConstantInitialisationStrategy;
+import net.cilib.entity.initialisation.DomainPercentageInitialisationStrategy;
+import net.cilib.entity.EntityType;
+import net.cilib.pso.particle.Particle;
+import net.cilib.pso.particle.StandardParticle;
+import net.cilib.type.types.Bounds;
+import net.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;

@@ -4,10 +4,10 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.nn.architecture.builder;
+package net.cilib.nn.architecture.builder;
 
-import net.sourceforge.cilib.functions.activation.ActivationFunction;
-import net.sourceforge.cilib.functions.activation.Sigmoid;
+import net.cilib.functions.activation.ActivationFunction;
+import net.cilib.functions.activation.Sigmoid;
 import org.junit.Assert;
 import org.junit.Test;
 

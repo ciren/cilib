@@ -4,14 +4,14 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.io.transform;
+package net.cilib.io.transform;
 
 import java.util.List;
-import net.sourceforge.cilib.io.DataTable;
-import net.sourceforge.cilib.io.DataTableBuilder;
-import net.sourceforge.cilib.io.DelimitedTextFileReader;
-import net.sourceforge.cilib.io.exception.CIlibIOException;
-import net.sourceforge.cilib.type.types.StringType;
+import net.cilib.io.DataTable;
+import net.cilib.io.DataTableBuilder;
+import net.cilib.io.DelimitedTextFileReader;
+import net.cilib.io.exception.CIlibIOException;
+import net.cilib.type.types.StringType;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -35,7 +35,7 @@ public class ShuffleOperatorTest {
         dataTableBuilder.buildDataTable();
         DataTable<List<StringType>, List<StringType>> dataTable = dataTableBuilder.getDataTable();
         DataTable<List<StringType>, List<StringType>> reference = (DataTable<List<StringType>, List<StringType>>) dataTable.getClone();
-        
+
         ShuffleOperator operator = new ShuffleOperator();
         operator.operate(dataTable);
 

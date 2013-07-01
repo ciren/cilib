@@ -4,22 +4,22 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.boa.positionupdatestrategies;
+package net.cilib.boa.positionupdatestrategies;
 
-import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
-import net.sourceforge.cilib.boa.ABC;
-import net.sourceforge.cilib.boa.bee.HoneyBee;
-import net.sourceforge.cilib.boa.bee.WorkerBee;
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.functions.continuous.unconstrained.Rastrigin;
-import net.sourceforge.cilib.measurement.generic.Iterations;
-import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
-import net.sourceforge.cilib.stoppingcondition.Maximum;
-import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
-import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
+import net.cilib.boa.ABC;
+import net.cilib.boa.bee.HoneyBee;
+import net.cilib.boa.bee.WorkerBee;
+import net.cilib.controlparameter.ConstantControlParameter;
+import net.cilib.functions.continuous.unconstrained.Rastrigin;
+import net.cilib.measurement.generic.Iterations;
+import net.cilib.problem.solution.Fitness;
+import net.cilib.problem.FunctionOptimisationProblem;
+import net.cilib.stoppingcondition.Maximum;
+import net.cilib.stoppingcondition.MeasuredStoppingCondition;
+import net.cilib.stoppingcondition.StoppingCondition;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

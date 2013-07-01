@@ -4,10 +4,10 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.functions.continuous.bbob;
+package net.cilib.functions.continuous.bbob;
 
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.cilib.type.types.container.Vector;
+import net.cilib.controlparameter.ConstantControlParameter;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;

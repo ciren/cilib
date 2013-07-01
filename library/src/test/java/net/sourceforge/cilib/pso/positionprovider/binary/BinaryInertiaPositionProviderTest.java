@@ -4,16 +4,16 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.pso.positionprovider.binary;
+package net.cilib.pso.positionprovider.binary;
 
-import net.sourceforge.cilib.pso.positionprovider.binary.BinaryInertiaPositionProvider;
-import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.cilib.pso.positionprovider.binary.BinaryInertiaPositionProvider;
+import net.cilib.type.types.Bounds;
+import net.cilib.type.types.Real;
+import net.cilib.entity.EntityType;
+import net.cilib.type.types.container.Vector;
+import net.cilib.pso.particle.StandardParticle;
+import net.cilib.pso.particle.Particle;
+import net.cilib.controlparameter.ConstantControlParameter;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

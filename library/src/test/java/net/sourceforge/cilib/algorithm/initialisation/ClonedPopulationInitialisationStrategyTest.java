@@ -4,10 +4,10 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.algorithm.initialisation;
+package net.cilib.algorithm.initialisation;
 
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.problem.Problem;
+import net.cilib.entity.Entity;
+import net.cilib.problem.Problem;
 import org.junit.Ignore;
 import org.junit.Test;
 import static org.mockito.Mockito.*;

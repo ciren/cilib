@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.pso.particle;
+package net.cilib.pso.particle;
 
 import static org.junit.Assert.*;
 

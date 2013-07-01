@@ -4,18 +4,18 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.nn.architecture.visitors;
+package net.cilib.nn.architecture.visitors;
 
-import net.sourceforge.cilib.functions.activation.Sigmoid;
-import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.nn.NeuralNetwork;
-import net.sourceforge.cilib.nn.NeuralNetworksTestHelper;
-import net.sourceforge.cilib.nn.architecture.Layer;
-import net.sourceforge.cilib.nn.components.BiasNeuron;
-import net.sourceforge.cilib.nn.components.Neuron;
-import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.functions.activation.Sigmoid;
+import net.cilib.math.Maths;
+import net.cilib.nn.NeuralNetwork;
+import net.cilib.nn.NeuralNetworksTestHelper;
+import net.cilib.nn.architecture.Layer;
+import net.cilib.nn.components.BiasNeuron;
+import net.cilib.nn.components.Neuron;
+import net.cilib.type.types.Bounds;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.container.Vector;
 import org.junit.Before;
 import org.junit.Test;
 

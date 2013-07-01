@@ -4,11 +4,11 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.functions.continuous.hybrid.cec2013;
+package net.cilib.functions.continuous.hybrid.cec2013;
 
-import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.functions.continuous.unconstrained.Spherical;
+import net.cilib.controlparameter.ConstantControlParameter;
+import net.cilib.type.types.container.Vector;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;

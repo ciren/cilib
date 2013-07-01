@@ -4,10 +4,10 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.coevolution.cooperative;
+package net.cilib.coevolution.cooperative;
 
-import net.sourceforge.cilib.coevolution.cooperative.problem.SequentialDimensionAllocation;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.coevolution.cooperative.problem.SequentialDimensionAllocation;
+import net.cilib.type.types.container.Vector;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 

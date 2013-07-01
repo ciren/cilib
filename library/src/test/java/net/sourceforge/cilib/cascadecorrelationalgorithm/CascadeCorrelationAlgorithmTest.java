@@ -4,25 +4,25 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.cascadecorrelationalgorithm;
+package net.cilib.cascadecorrelationalgorithm;
 
 import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.io.pattern.StandardPattern;
-import net.sourceforge.cilib.io.StandardPatternDataTable;
-import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
-import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
-import net.sourceforge.cilib.nn.architecture.visitors.CascadeVisitor;
-import net.sourceforge.cilib.nn.architecture.Layer;
-import net.sourceforge.cilib.nn.NeuralNetwork;
-import net.sourceforge.cilib.problem.nn.NNTrainingProblem;
-import net.sourceforge.cilib.problem.solution.MaximisationFitness;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.problem.solution.OptimisationSolution;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.algorithm.AbstractAlgorithm;
+import net.cilib.io.pattern.StandardPattern;
+import net.cilib.io.StandardPatternDataTable;
+import net.cilib.math.Maths;
+import net.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
+import net.cilib.nn.architecture.builder.LayerConfiguration;
+import net.cilib.nn.architecture.visitors.CascadeVisitor;
+import net.cilib.nn.architecture.Layer;
+import net.cilib.nn.NeuralNetwork;
+import net.cilib.problem.nn.NNTrainingProblem;
+import net.cilib.problem.solution.MaximisationFitness;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.problem.solution.OptimisationSolution;
+import net.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -54,7 +54,7 @@ public class CascadeCorrelationAlgorithmTest {
         input = Vector.of(0.2, 0.4);
         pattern = new StandardPattern(input, output);
         trainingSet.addRow(pattern);
-        
+
         final NNTrainingProblem problem = mock(NNTrainingProblem.class);
         when(problem.getTrainingSet()).thenReturn(trainingSet);
         when(problem.getValidationSet()).thenReturn(new StandardPatternDataTable());
@@ -64,7 +64,7 @@ public class CascadeCorrelationAlgorithmTest {
         ArrayList<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
         solutions.add(new OptimisationSolution(Vector.of(1.0, 1.0, 1.0), new MaximisationFitness(0.0)));
         solutions.add(new OptimisationSolution(Vector.of(2.0, 2.0, 2.0), new MaximisationFitness(0.0)));
-        
+
         final AbstractAlgorithm p1Alg = mock(AbstractAlgorithm.class);
         final AbstractAlgorithm p1AlgClone = mock(AbstractAlgorithm.class);
         when(p1Alg.getClone()).thenReturn(p1AlgClone);
@@ -102,7 +102,7 @@ public class CascadeCorrelationAlgorithmTest {
         assertEquals(0.0, resultWeights.doubleValueOf(13), Maths.EPSILON);
         assertTrue(Double.isNaN(resultWeights.doubleValueOf(14)));
         assertTrue(Double.isNaN(resultWeights.doubleValueOf(15)));
-        
+
         solutions.clear();
         solutions.add(new OptimisationSolution(Vector.of(1.0, 1.0, 1.0, 1.0, 1.0), new MaximisationFitness(0.0)));
         network.setWeights(Vector.of(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
@@ -153,7 +153,7 @@ public class CascadeCorrelationAlgorithmTest {
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
         network.setOperationVisitor(new CascadeVisitor());
         network.initialise();
-        
+
         network.setWeights(Vector.of(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN));
 
         StandardPatternDataTable trainingSet = new StandardPatternDataTable();
@@ -164,7 +164,7 @@ public class CascadeCorrelationAlgorithmTest {
         input = Vector.of(0.2, 0.4);
         pattern = new StandardPattern(input, output);
         trainingSet.addRow(pattern);
-        
+
         final NNTrainingProblem problem = mock(NNTrainingProblem.class);
         when(problem.getTrainingSet()).thenReturn(trainingSet);
         when(problem.getValidationSet()).thenReturn(new StandardPatternDataTable());
@@ -202,7 +202,7 @@ public class CascadeCorrelationAlgorithmTest {
         network.initialise();
         network.setWeights(Vector.of(2.0,2.0,2.0,2.0,2.0,2.0,0.0,0.0,0.0,Double.NaN,
                                      Double.NaN,0.0,0.0,0.0,Double.NaN,Double.NaN));
-        
+
         when(p2AlgClone.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0), new MinimisationFitness(0.0)));
         cascadeAlg.phase2();
 
@@ -242,7 +242,7 @@ public class CascadeCorrelationAlgorithmTest {
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
         network.setOperationVisitor(new CascadeVisitor());
         network.initialise();
-        
+
         network.setWeights(Vector.of(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN));
 
         StandardPatternDataTable trainingSet = new StandardPatternDataTable();
@@ -253,7 +253,7 @@ public class CascadeCorrelationAlgorithmTest {
         input = Vector.of(0.2, 0.4);
         pattern = new StandardPattern(input, output);
         trainingSet.addRow(pattern);
-        
+
         final NNTrainingProblem problem = mock(NNTrainingProblem.class);
         when(problem.getTrainingSet()).thenReturn(trainingSet);
         when(problem.getValidationSet()).thenReturn(new StandardPatternDataTable());
@@ -263,7 +263,7 @@ public class CascadeCorrelationAlgorithmTest {
         ArrayList<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
         solutions.add(new OptimisationSolution(Vector.of(1.0, 1.0, 1.0), new MaximisationFitness(0.0)));
         solutions.add(new OptimisationSolution(Vector.of(2.0, 2.0, 2.0), new MaximisationFitness(0.0)));
-        
+
         final AbstractAlgorithm p1Alg = mock(AbstractAlgorithm.class);
         final AbstractAlgorithm p1AlgClone = mock(AbstractAlgorithm.class);
         when(p1Alg.getClone()).thenReturn(p1AlgClone);
@@ -301,7 +301,7 @@ public class CascadeCorrelationAlgorithmTest {
         assertEquals(3.0, resultWeights.doubleValueOf(5), Maths.EPSILON);
 
         network.setWeights(Vector.of(0.0,0.0,0.0,0.0,0.0,0.0));
-        
+
         when(p2AlgClone.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0), new MinimisationFitness(0.0)));
         cascadeAlg.performIteration();
 
@@ -400,7 +400,7 @@ public class CascadeCorrelationAlgorithmTest {
         assertEquals(0.9, cascadeAlg.getBestSolution().getFitness().getValue(), Maths.EPSILON);
         assertEquals(1, Lists.<OptimisationSolution>newLinkedList(cascadeAlg.getSolutions()).size());
         assertEquals(0.9, Lists.<OptimisationSolution>newLinkedList(cascadeAlg.getSolutions()).get(0).getFitness().getValue(), Maths.EPSILON);
-        
+
         solutions.clear();
         solutions.add(new OptimisationSolution(Vector.of(1.0, 1.0, 1.0, 1.0, 1.0, 1.0), new MaximisationFitness(0.0)));
         when(p2AlgClone.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0,

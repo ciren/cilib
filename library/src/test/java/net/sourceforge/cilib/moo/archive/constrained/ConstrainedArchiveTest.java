@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.moo.archive.constrained;
+package net.cilib.moo.archive.constrained;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -13,17 +13,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.MOOptimisationProblem;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.problem.AbstractProblem;
-import net.sourceforge.cilib.problem.solution.OptimisationSolution;
-import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.problem.solution.Fitness;
+import net.cilib.problem.MOOptimisationProblem;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.problem.AbstractProblem;
+import net.cilib.problem.solution.OptimisationSolution;
+import net.cilib.type.DomainRegistry;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.Type;
+import net.cilib.type.types.container.Vector;
 
-import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
+import net.cilib.util.selection.recipes.RandomSelector;
 import org.junit.Test;
 
 /**

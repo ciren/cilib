@@ -4,14 +4,14 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.measurement.single.diversity;
+package net.cilib.measurement.single.diversity;
 
 import fj.data.List;
-import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.type.types.Real;
+import net.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.cilib.type.types.container.Vector;
+import net.cilib.pso.particle.Particle;
+import net.cilib.pso.particle.StandardParticle;
+import net.cilib.type.types.Real;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;

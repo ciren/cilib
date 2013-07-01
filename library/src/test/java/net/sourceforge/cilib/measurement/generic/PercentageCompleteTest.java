@@ -4,11 +4,11 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.measurement.generic;
+package net.cilib.measurement.generic;
 
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.stoppingcondition.Maximum;
-import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
+import net.cilib.pso.PSO;
+import net.cilib.stoppingcondition.Maximum;
+import net.cilib.stoppingcondition.MeasuredStoppingCondition;
 import org.junit.Assert;
 import org.junit.Test;
 

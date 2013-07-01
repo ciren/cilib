@@ -4,14 +4,14 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.util.selection.recipes;
+package net.cilib.util.selection.recipes;
 
 import com.google.common.collect.Lists;
 import java.util.List;
-import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.problem.solution.MaximisationFitness;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
+import net.cilib.ec.Individual;
+import net.cilib.entity.EntityType;
+import net.cilib.problem.solution.MaximisationFitness;
+import net.cilib.problem.solution.MinimisationFitness;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,7 +43,7 @@ public class ElitistSelectorTest {
         Individual individual1 = new Individual();
         Individual individual2 = new Individual();
         Individual individual3 = new Individual();
-       
+
         return fj.data.List.list(individual1, individual2, individual3);
     }
 

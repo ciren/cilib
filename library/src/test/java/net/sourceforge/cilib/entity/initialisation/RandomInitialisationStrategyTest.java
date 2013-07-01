@@ -4,20 +4,20 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.entity.initialisation;
+package net.cilib.entity.initialisation;
 
-import net.sourceforge.cilib.entity.initialisation.RandomInitialisationStrategy;
-import net.sourceforge.cilib.entity.initialisation.RandomBoundedInitialisationStrategy;
+import net.cilib.entity.initialisation.RandomInitialisationStrategy;
+import net.cilib.entity.initialisation.RandomBoundedInitialisationStrategy;
 import java.util.ArrayList;
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.type.types.Blackboard;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.StructuredType;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.controlparameter.ConstantControlParameter;
+import net.cilib.controlparameter.ControlParameter;
+import net.cilib.entity.EntityType;
+import net.cilib.pso.particle.Particle;
+import net.cilib.pso.particle.StandardParticle;
+import net.cilib.type.types.Blackboard;
+import net.cilib.type.types.Type;
+import net.cilib.type.types.container.StructuredType;
+import net.cilib.type.types.container.Vector;
 import static org.hamcrest.CoreMatchers.*;
 import org.junit.Assert;
 import org.junit.Test;

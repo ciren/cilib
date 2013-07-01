@@ -4,16 +4,16 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.algorithm.initialisation;
+package net.cilib.algorithm.initialisation;
 
 import java.util.ArrayList;
 import junit.framework.Assert;
-import net.sourceforge.cilib.clustering.SlidingWindow;
-import net.sourceforge.cilib.clustering.entity.ClusterParticle;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.io.DataTable;
-import net.sourceforge.cilib.problem.QuantisationErrorMinimisationProblem;
-import net.sourceforge.cilib.type.types.container.CentroidHolder;
+import net.cilib.clustering.SlidingWindow;
+import net.cilib.clustering.entity.ClusterParticle;
+import net.cilib.controlparameter.ControlParameter;
+import net.cilib.io.DataTable;
+import net.cilib.problem.QuantisationErrorMinimisationProblem;
+import net.cilib.type.types.container.CentroidHolder;
 import org.junit.Test;
 
 public class DataDependantPopulationInitialisationStrategyTest {

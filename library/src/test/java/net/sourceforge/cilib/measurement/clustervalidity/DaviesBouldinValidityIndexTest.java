@@ -4,15 +4,15 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.measurement.clustervalidity;
+package net.cilib.measurement.clustervalidity;
 
 import junit.framework.Assert;
-import net.sourceforge.cilib.type.types.container.ClusterCentroid;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.type.types.container.ClusterCentroid;
+import net.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 public class DaviesBouldinValidityIndexTest {
-    
+
     /**
      * Test of getMaximumInterclusterDistance method, of class DaviesBouldinValidityIndex.
      */
@@ -26,9 +26,9 @@ public class DaviesBouldinValidityIndexTest {
         cluster2.addDataItem(0, Vector.of(2,2.5));
         cluster2.addDataItem(0, Vector.of(4,1.5));
         DunnValidityIndex instance = new DunnValidityIndex();
-        
+
         double distance = instance.getMaximumInterclusterDistance(cluster1);
-        
+
         Assert.assertEquals(Math.round(3.1320919526731650539273262067644 * 1e10) / 1e10, Math.round(distance * 1e10) / 1e10);
     }
 }

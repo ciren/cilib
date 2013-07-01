@@ -4,15 +4,15 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.coevolution.cooperative.contextupdate;
+package net.cilib.coevolution.cooperative.contextupdate;
 
-import net.sourceforge.cilib.coevolution.cooperative.ContextEntity;
-import net.sourceforge.cilib.coevolution.cooperative.problem.DimensionAllocation;
-import net.sourceforge.cilib.coevolution.cooperative.problem.SequentialDimensionAllocation;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.calculator.FitnessCalculator;
+import net.cilib.coevolution.cooperative.ContextEntity;
+import net.cilib.coevolution.cooperative.problem.DimensionAllocation;
+import net.cilib.coevolution.cooperative.problem.SequentialDimensionAllocation;
+import net.cilib.entity.Entity;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.type.types.container.Vector;
+import net.cilib.util.calculator.FitnessCalculator;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import static org.mockito.Mockito.*;

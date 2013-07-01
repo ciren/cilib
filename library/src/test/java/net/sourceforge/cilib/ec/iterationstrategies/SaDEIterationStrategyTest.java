@@ -4,12 +4,12 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.ec.iterationstrategies;
+package net.cilib.ec.iterationstrategies;
 
 import junit.framework.Assert;
 import org.junit.Test;
-import net.sourceforge.cilib.ec.iterationstrategies.SaDEIterationStrategy;
-import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
+import net.cilib.ec.iterationstrategies.SaDEIterationStrategy;
+import net.cilib.util.selection.recipes.RandomSelector;
 
 public class SaDEIterationStrategyTest {
 

@@ -4,20 +4,20 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.problem.boundaryconstraint;
+package net.cilib.problem.boundaryconstraint;
 
-import net.sourceforge.cilib.clustering.entity.ClusterParticle;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.CentroidHolder;
-import net.sourceforge.cilib.type.types.container.ClusterCentroid;
+import net.cilib.clustering.entity.ClusterParticle;
+import net.cilib.entity.EntityType;
+import net.cilib.math.Maths;
+import net.cilib.type.types.Bounds;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.container.CentroidHolder;
+import net.cilib.type.types.container.ClusterCentroid;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class CentroidBoundaryConstraintTest {
-    
+
     /**
      * Test of enforce method, of class CentroidBoundaryConstraint.
      */
@@ -53,6 +53,6 @@ public class CentroidBoundaryConstraintTest {
         CentroidBoundaryConstraint instance = new CentroidBoundaryConstraint();
         instance.setDelegate(constraint);
         Assert.assertEquals(constraint, instance.delegate);
-        
+
     }
 }

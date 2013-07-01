@@ -4,12 +4,12 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.nn;
+package net.cilib.nn;
 
-import net.sourceforge.cilib.nn.architecture.Architecture;
-import net.sourceforge.cilib.nn.architecture.builder.FeedForwardArchitectureBuilder;
-import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
-import net.sourceforge.cilib.nn.architecture.builder.PrototypeFullyConnectedLayerBuilder;
+import net.cilib.nn.architecture.Architecture;
+import net.cilib.nn.architecture.builder.FeedForwardArchitectureBuilder;
+import net.cilib.nn.architecture.builder.LayerConfiguration;
+import net.cilib.nn.architecture.builder.PrototypeFullyConnectedLayerBuilder;
 
 /**
  * Helper object for neural network testing.

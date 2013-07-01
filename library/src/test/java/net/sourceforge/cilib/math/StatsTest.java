@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.math;
+package net.cilib.math;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -27,7 +27,7 @@ public class StatsTest {
         Double expResult = 2.0;
         Double result = Stats.median(a);
         assertEquals(expResult, result);
-        
+
         a = Arrays.asList(1.0, 9.0, 3.0);
         expResult = 3.0;
         result = Stats.median(a);
@@ -55,16 +55,16 @@ public class StatsTest {
         Iterable<Double> a = Arrays.asList(1.0, 6.0, 2.0);
         Iterable<Double> expResult = Arrays.asList(1.0, 3.0, 2.0);
         Iterable result = Stats.rank(a);
-        
+
         Iterator<Double> i = result.iterator();
         for (Double e : expResult) {
             assertEquals(e, i.next());
         }
-        
+
         a = Arrays.asList(9.0, 6.0, 2.0, 4.0, 2.0);
         expResult = Arrays.asList(5.0, 4.0, 1.5, 3.0, 1.5);
         result = Stats.rank(a);
-        
+
         i = result.iterator();
         for (Double e : expResult) {
             assertEquals(e, i.next());

@@ -4,19 +4,19 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.io;
+package net.cilib.io;
 
 import java.util.Arrays;
 import java.util.List;
-import net.sourceforge.cilib.io.exception.CIlibIOException;
-import net.sourceforge.cilib.io.pattern.StandardPattern;
-import net.sourceforge.cilib.io.transform.TypeConversionOperator;
-import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.StringType;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.TypeList;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.io.exception.CIlibIOException;
+import net.cilib.io.pattern.StandardPattern;
+import net.cilib.io.transform.TypeConversionOperator;
+import net.cilib.type.types.Numeric;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.StringType;
+import net.cilib.type.types.Type;
+import net.cilib.type.types.container.TypeList;
+import net.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -33,7 +33,7 @@ public class StandardPatternDataTableTest {
 
     /**
      * Constructs some test data we can use to test the class.
-     * @throws CIlibIOException 
+     * @throws CIlibIOException
      */
     @BeforeClass
     public static void setupTestData() throws CIlibIOException {

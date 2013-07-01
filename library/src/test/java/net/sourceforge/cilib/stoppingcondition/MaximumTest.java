@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.stoppingcondition;
+package net.cilib.stoppingcondition;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class MaximumTest {
         assertEquals(1.0, instance.getPercentage(2.0, 2.0), 0.0);
         assertEquals(1.0, instance.getPercentage(3.0, 2.0), 0.0);
     }
-    
+
     @Test(expected=IllegalArgumentException.class)
     public void testGetPercentageFail() {
         Maximum instance = new Maximum();

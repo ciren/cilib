@@ -4,13 +4,13 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.io;
+package net.cilib.io;
 
 import java.util.List;
-import net.sourceforge.cilib.io.exception.CIlibIOException;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.io.exception.CIlibIOException;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.Type;
+import net.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -4,9 +4,9 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.type.types;
+package net.cilib.type.types;
 
-import net.sourceforge.cilib.math.random.generator.Rand;
+import net.cilib.math.random.generator.Rand;
 import static org.junit.Assert.*;
 import org.junit.Test;
 

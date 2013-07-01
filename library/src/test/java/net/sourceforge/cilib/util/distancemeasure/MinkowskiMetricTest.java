@@ -4,12 +4,12 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.util.distancemeasure;
+package net.cilib.util.distancemeasure;
 
-import net.sourceforge.cilib.util.distancemeasure.DistanceMeasure;
-import net.sourceforge.cilib.util.distancemeasure.MinkowskiMetric;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.util.distancemeasure.DistanceMeasure;
+import net.cilib.util.distancemeasure.MinkowskiMetric;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.container.Vector;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 

@@ -4,11 +4,11 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.controlparameter.adaptation;
+package net.cilib.controlparameter.adaptation;
 
 import junit.framework.Assert;
 import org.junit.Test;
-import net.sourceforge.cilib.controlparameter.StandardUpdatableControlParameter;
+import net.cilib.controlparameter.StandardUpdatableControlParameter;
 
 public class NSDEParameterAdaptationStrategyTest {
     @Test
