@@ -4,9 +4,9 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.type.parser;
+package net.cilib.type.parser;
 
-import net.sourceforge.cilib.type.types.Real;
+import net.cilib.type.types.Real;
 import org.junit.Assert;
 import org.junit.Test;
 import org.parboiled.Parboiled;
@@ -45,7 +45,7 @@ public class DomainParserGrammarTest {
         s.pop();
         Assert.assertThat(s.peek().getBounds().getLowerBound(), equalTo(-1.0));
     }
-    
+
     @Test
     public void boundless() {
         DomainParserGrammar.DomainGrammar parser = Parboiled.createParser(DomainParserGrammar.DomainGrammar.class);

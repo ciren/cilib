@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.stoppingcondition;
+package net.cilib.stoppingcondition;
 
 import static org.junit.Assert.*;
 import org.junit.Test;

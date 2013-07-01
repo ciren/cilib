@@ -4,33 +4,33 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.niching;
+package net.cilib.niching;
 
 import java.util.Arrays;
 
-import net.sourceforge.cilib.algorithm.initialisation.ChargedPopulationInitialisationStrategy;
-import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.niching.creation.ClosestNeighbourNicheCreationStrategy;
-import net.sourceforge.cilib.niching.creation.MaintainedFitnessNicheDetection;
-import net.sourceforge.cilib.niching.creation.NicheCreationStrategy;
-import net.sourceforge.cilib.niching.creation.NicheDetection;
-import net.sourceforge.cilib.niching.merging.MergeStrategy;
-import net.sourceforge.cilib.niching.merging.SingleSwarmMergeStrategy;
-import net.sourceforge.cilib.niching.merging.StandardMergeStrategy;
-import net.sourceforge.cilib.niching.merging.detection.RadiusOverlapMergeDetection;
-import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.dynamic.QuantumVelocityProvider;
-import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
-import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.functions.Populations;
+import net.cilib.algorithm.initialisation.ChargedPopulationInitialisationStrategy;
+import net.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.cilib.entity.Entity;
+import net.cilib.entity.EntityType;
+import net.cilib.math.Maths;
+import net.cilib.niching.creation.ClosestNeighbourNicheCreationStrategy;
+import net.cilib.niching.creation.MaintainedFitnessNicheDetection;
+import net.cilib.niching.creation.NicheCreationStrategy;
+import net.cilib.niching.creation.NicheDetection;
+import net.cilib.niching.merging.MergeStrategy;
+import net.cilib.niching.merging.SingleSwarmMergeStrategy;
+import net.cilib.niching.merging.StandardMergeStrategy;
+import net.cilib.niching.merging.detection.RadiusOverlapMergeDetection;
+import net.cilib.problem.solution.Fitness;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.pso.PSO;
+import net.cilib.pso.dynamic.QuantumVelocityProvider;
+import net.cilib.pso.particle.Particle;
+import net.cilib.pso.particle.ParticleBehavior;
+import net.cilib.pso.particle.StandardParticle;
+import net.cilib.pso.velocityprovider.StandardVelocityProvider;
+import net.cilib.type.types.container.Vector;
+import net.cilib.util.functions.Populations;
 
 import org.junit.Assert;
 import org.junit.Test;

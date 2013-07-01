@@ -4,19 +4,19 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.util.selection.recipes;
+package net.cilib.util.selection.recipes;
 
 import java.util.ArrayList;
 import org.junit.Assert;
 import org.junit.Test;
-import net.sourceforge.cilib.util.selection.recipes.FeasibilitySelector;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.problem.boundaryconstraint.ClampingBoundaryConstraint;
-import net.sourceforge.cilib.entity.EntityType;
+import net.cilib.util.selection.recipes.FeasibilitySelector;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.type.types.Bounds;
+import net.cilib.type.types.container.Vector;
+import net.cilib.ec.Individual;
+import net.cilib.type.types.Real;
+import net.cilib.problem.boundaryconstraint.ClampingBoundaryConstraint;
+import net.cilib.entity.EntityType;
 
 public class FeasibilitySelectorTest {
 

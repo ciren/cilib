@@ -4,15 +4,15 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.boa.bees;
+package net.cilib.boa.bees;
 
 import static org.junit.Assert.assertEquals;
-import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
-import net.sourceforge.cilib.boa.bee.WorkerBee;
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.continuous.unconstrained.Rastrigin;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
+import net.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
+import net.cilib.boa.bee.WorkerBee;
+import net.cilib.controlparameter.ConstantControlParameter;
+import net.cilib.functions.ContinuousFunction;
+import net.cilib.functions.continuous.unconstrained.Rastrigin;
+import net.cilib.problem.FunctionOptimisationProblem;
 
 import org.junit.Test;
 

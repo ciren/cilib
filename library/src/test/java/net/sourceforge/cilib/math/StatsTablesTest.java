@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.math;
+package net.cilib.math;
 
 import java.util.Arrays;
 import static org.junit.Assert.*;
@@ -76,7 +76,7 @@ public class StatsTablesTest {
         {2.04, 2.75, 3.65},
         {2.04, 2.75, 3.64}
     };
-    
+
     @Test
     public void testChiSquaredDistribution() {
         Double[] p = new Double[]{0.05, 0.01, 0.001};
@@ -86,7 +86,7 @@ public class StatsTablesTest {
             }
         }
     }
-    
+
     @Test
     public void testTDistribution() {
         Double[] p = new Double[]{0.025, 0.005, 0.0005};

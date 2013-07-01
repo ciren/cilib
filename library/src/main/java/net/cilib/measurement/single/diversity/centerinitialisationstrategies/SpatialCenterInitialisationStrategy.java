@@ -1,0 +1,38 @@
+/**           __  __
+ *    _____ _/ /_/ /_    Computational Intelligence Library (CIlib)
+ *   / ___/ / / / __ \   (c) CIRG @ UP
+ *  / /__/ / / / /_/ /   http://cilib.net
+ *  \___/_/_/_/_.___/
+ */
+package net.cilib.measurement.single.diversity.centerinitialisationstrategies;
+
+import java.util.Iterator;
+
+import net.cilib.entity.Entity;
+import net.cilib.type.types.container.Vector;
+
+/**
+ * Returns the center of a given topology where the center is the average position
+ * of all entities in the topology.
+ */
+public class SpatialCenterInitialisationStrategy implements CenterInitialisationStrategy {
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Vector getCenter(fj.data.List<? extends Entity> topology) {
+        int numberOfEntities = topology.length();
+        Iterator<? extends Entity> averageIterator = topology.iterator();
+        Entity entity = averageIterator.next();
+        Vector averageEntityPosition = (Vector) entity.getCandidateSolution().getClone();
+
+        while (averageIterator.hasNext()) {
+            entity = averageIterator.next();
+            Vector entityContents = (Vector) entity.getCandidateSolution();
+            averageEntityPosition = averageEntityPosition.plus(entityContents);
+        }
+
+        return averageEntityPosition.divide(numberOfEntities);
+    }
+}

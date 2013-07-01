@@ -4,11 +4,11 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.measurement.single.diversity.centerinitialisationstrategies;
+package net.cilib.measurement.single.diversity.centerinitialisationstrategies;
 
 import fj.data.List;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.pso.particle.StandardParticle;
+import net.cilib.type.types.container.Vector;
+import net.cilib.pso.particle.StandardParticle;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 

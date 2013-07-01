@@ -4,27 +4,27 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.clustering.entity;
+package net.cilib.clustering.entity;
 
 import java.util.ArrayList;
 
 import junit.framework.Assert;
-import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
-import net.sourceforge.cilib.algorithm.initialisation.DataDependantPopulationInitialisationStrategy;
-import net.sourceforge.cilib.clustering.DataClusteringPSO;
-import net.sourceforge.cilib.clustering.SlidingWindow;
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.initialisation.StandardCentroidInitialisationStrategy;
-import net.sourceforge.cilib.measurement.generic.Iterations;
-import net.sourceforge.cilib.problem.ClusteringProblem;
-import net.sourceforge.cilib.problem.QuantisationErrorMinimisationProblem;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.stoppingcondition.Maximum;
-import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
-import net.sourceforge.cilib.type.types.container.CentroidHolder;
-import net.sourceforge.cilib.type.types.container.ClusterCentroid;
+import net.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
+import net.cilib.algorithm.initialisation.DataDependantPopulationInitialisationStrategy;
+import net.cilib.clustering.DataClusteringPSO;
+import net.cilib.clustering.SlidingWindow;
+import net.cilib.controlparameter.ConstantControlParameter;
+import net.cilib.controlparameter.ControlParameter;
+import net.cilib.entity.EntityType;
+import net.cilib.entity.initialisation.StandardCentroidInitialisationStrategy;
+import net.cilib.measurement.generic.Iterations;
+import net.cilib.problem.ClusteringProblem;
+import net.cilib.problem.QuantisationErrorMinimisationProblem;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.stoppingcondition.Maximum;
+import net.cilib.stoppingcondition.MeasuredStoppingCondition;
+import net.cilib.type.types.container.CentroidHolder;
+import net.cilib.type.types.container.ClusterCentroid;
 
 import org.junit.Test;
 

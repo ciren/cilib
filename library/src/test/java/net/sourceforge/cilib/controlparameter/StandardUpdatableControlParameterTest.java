@@ -4,10 +4,10 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.controlparameter;
+package net.cilib.controlparameter;
 
 import org.junit.Test;
-import net.sourceforge.cilib.controlparameter.StandardUpdatableControlParameter;
+import net.cilib.controlparameter.StandardUpdatableControlParameter;
 import org.junit.Assert;
 
 public class StandardUpdatableControlParameterTest {

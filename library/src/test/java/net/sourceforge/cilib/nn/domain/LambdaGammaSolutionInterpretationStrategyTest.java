@@ -4,10 +4,10 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.nn.domain;
+package net.cilib.nn.domain;
 
-import net.sourceforge.cilib.nn.NeuralNetwork;
-import net.sourceforge.cilib.nn.NeuralNetworksTestHelper;
+import net.cilib.nn.NeuralNetwork;
+import net.cilib.nn.NeuralNetworksTestHelper;
 import org.junit.Before;
 import org.junit.Test;
 

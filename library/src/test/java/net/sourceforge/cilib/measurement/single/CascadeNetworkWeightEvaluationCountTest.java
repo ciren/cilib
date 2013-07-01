@@ -4,24 +4,24 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.cascadecorrelationalgorithm;
+package net.cilib.cascadecorrelationalgorithm;
 
 import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
-import net.sourceforge.cilib.cascadecorrelationalgorithm.CascadeCorrelationAlgorithm;
-import net.sourceforge.cilib.io.pattern.StandardPattern;
-import net.sourceforge.cilib.io.StandardPatternDataTable;
-import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.measurement.single.CascadeNetworkWeightEvaluationCount;
-import net.sourceforge.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
-import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
-import net.sourceforge.cilib.nn.architecture.visitors.CascadeVisitor;
-import net.sourceforge.cilib.nn.NeuralNetwork;
-import net.sourceforge.cilib.problem.nn.NNTrainingProblem;
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.cascadecorrelationalgorithm.CascadeCorrelationAlgorithm;
+import net.cilib.io.pattern.StandardPattern;
+import net.cilib.io.StandardPatternDataTable;
+import net.cilib.math.Maths;
+import net.cilib.measurement.single.CascadeNetworkWeightEvaluationCount;
+import net.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
+import net.cilib.nn.architecture.builder.LayerConfiguration;
+import net.cilib.nn.architecture.visitors.CascadeVisitor;
+import net.cilib.nn.NeuralNetwork;
+import net.cilib.problem.nn.NNTrainingProblem;
+import net.cilib.pso.PSO;
+import net.cilib.stoppingcondition.MeasuredStoppingCondition;
+import net.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -56,7 +56,7 @@ public class CascadeNetworkWeightEvaluationCountTest {
         input = Vector.of(0.2, 0.4);
         pattern = new StandardPattern(input, output);
         trainingSet.addRow(pattern);
-        
+
         final NNTrainingProblem problem = mock(NNTrainingProblem.class);
         when(problem.getTrainingSet()).thenReturn(trainingSet);
         when(problem.getValidationSet()).thenReturn(new StandardPatternDataTable());
@@ -74,13 +74,13 @@ public class CascadeNetworkWeightEvaluationCountTest {
         assertEquals(0, measurement1.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
         assertEquals(0, measurement2.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
         assertEquals(0, measurement3.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
-        
+
         cascadeAlg.phase1();
 
         assertEquals(60060, measurement1.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
         assertEquals(60060 + 20020, measurement2.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
         assertEquals((60060 + 20020)/2.0, measurement3.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
-        
+
         cascadeAlg.phase1();
 
         assertEquals(60060 + 80080, measurement1.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
@@ -105,7 +105,7 @@ public class CascadeNetworkWeightEvaluationCountTest {
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
         network.setOperationVisitor(new CascadeVisitor());
         network.initialise();
-        
+
         final NNTrainingProblem problem = mock(NNTrainingProblem.class);
         when(problem.getTrainingSet()).thenReturn(new StandardPatternDataTable());
         when(problem.getValidationSet()).thenReturn(new StandardPatternDataTable());
@@ -119,11 +119,11 @@ public class CascadeNetworkWeightEvaluationCountTest {
         cascadeAlg.setOptimisationProblem(problem);
         cascadeAlg.setPhase2Algorithm(p2Alg);
         cascadeAlg.performInitialisation();
-        
+
         assertEquals(0, measurement1.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
         assertEquals(0, measurement2.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
         assertEquals(0, measurement3.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
-        
+
         cascadeAlg.phase2();
 
         assertEquals(120120, measurement1.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
@@ -132,7 +132,7 @@ public class CascadeNetworkWeightEvaluationCountTest {
 
         network.getArchitecture().getArchitectureBuilder().addLayer(1, new LayerConfiguration(2));
         network.initialise();
-        
+
         cascadeAlg.phase2();
 
         assertEquals(120120 + 200200, measurement1.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
@@ -159,7 +159,7 @@ public class CascadeNetworkWeightEvaluationCountTest {
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
         network.setOperationVisitor(new CascadeVisitor());
         network.initialise();
-        
+
         StandardPatternDataTable trainingSet = new StandardPatternDataTable();
         Vector input = Vector.of(0.1, 0.2);
         Vector output = Vector.of(0, 0);
@@ -168,7 +168,7 @@ public class CascadeNetworkWeightEvaluationCountTest {
         input = Vector.of(0.2, 0.4);
         pattern = new StandardPattern(input, output);
         trainingSet.addRow(pattern);
-        
+
         final NNTrainingProblem problem = mock(NNTrainingProblem.class);
         when(problem.getTrainingSet()).thenReturn(trainingSet);
         when(problem.getValidationSet()).thenReturn(new StandardPatternDataTable());
@@ -187,7 +187,7 @@ public class CascadeNetworkWeightEvaluationCountTest {
         assertEquals(0, measurement1.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
         assertEquals(0, measurement2.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
         assertEquals(0, measurement3.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
-        
+
         cascadeAlg.performIteration();
 
         assertEquals(120120, measurement1.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
@@ -199,7 +199,7 @@ public class CascadeNetworkWeightEvaluationCountTest {
         assertEquals(120120 + 60060 + 160160, measurement1.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
         assertEquals(120120 + 60060 + 160160 + 40040 + 20020 + 40040, measurement2.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
         assertEquals((120120 + 60060 + 160160 + 40040 + 20020 + 40040)/2.0, measurement3.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);
-        
+
         cascadeAlg.performIteration();
 
         assertEquals(120120 + 60060 + 160160 + 80080 + 200200, measurement1.getValue(cascadeAlg).doubleValue(), Maths.EPSILON);

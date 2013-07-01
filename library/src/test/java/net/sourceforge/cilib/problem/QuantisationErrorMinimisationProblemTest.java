@@ -4,15 +4,15 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.problem;
+package net.cilib.problem;
 
 import junit.framework.Assert;
-import net.sourceforge.cilib.clustering.entity.ClusterParticle;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.type.types.container.CentroidHolder;
-import net.sourceforge.cilib.type.types.container.ClusterCentroid;
+import net.cilib.clustering.entity.ClusterParticle;
+import net.cilib.entity.EntityType;
+import net.cilib.problem.solution.Fitness;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.type.types.container.CentroidHolder;
+import net.cilib.type.types.container.ClusterCentroid;
 import org.junit.Test;
 
 public class QuantisationErrorMinimisationProblemTest {

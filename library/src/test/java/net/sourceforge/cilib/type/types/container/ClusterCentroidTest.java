@@ -4,15 +4,15 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.type.types.container;
+package net.cilib.type.types.container;
 
 import junit.framework.Assert;
-import net.sourceforge.cilib.type.types.Int;
+import net.cilib.type.types.Int;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class ClusterCentroidTest {
-    
+
     /**
      * Test of copy method, of class ClusterCentroid.
      */
@@ -76,7 +76,7 @@ public class ClusterCentroidTest {
         ClusterCentroid instance = new ClusterCentroid();
         Vector numbers = Vector.of(5,8,9,2,3);
         instance.addAll(numbers);
-        
+
         Assert.assertTrue(instance.containsAll(numbers));
     }
 
@@ -90,7 +90,7 @@ public class ClusterCentroidTest {
         Vector numbers = Vector.of(5,8,9,3);
         instance.addAll(numbers);
         instance.add(x);
-        
+
         Assert.assertTrue(instance.contains(x));
     }
 
@@ -102,7 +102,7 @@ public class ClusterCentroidTest {
         ClusterCentroid instance = new ClusterCentroid();
         Vector numbers = Vector.of(5,8,9,3);
         instance.addAll(numbers);
-        
+
          Assert.assertTrue(instance.containsAll(numbers));
     }
 
@@ -137,7 +137,7 @@ public class ClusterCentroidTest {
         ClusterCentroid instance = new ClusterCentroid();
         instance.addAll(Vector.of(1,5,6,7,9,5,2));
         instance.randomise();
-        
+
         Assert.assertFalse(instance.containsAll(Vector.of(1,5,6,7,9,5,2)));
     }
 
@@ -149,7 +149,7 @@ public class ClusterCentroidTest {
         ClusterCentroid instance = new ClusterCentroid();
         double[] array = {2.0,5.0,3.0,4.2};
         instance.setDataItemDistances(array);
-        
+
         Assert.assertEquals(array, instance.getDataItemDistances());
     }
 
@@ -161,7 +161,7 @@ public class ClusterCentroidTest {
         ClusterCentroid instance = new ClusterCentroid();
         double[] array = {2.0,5.0,3.0,4.2};
         instance.setDataItemDistances(array);
-        
+
         Assert.assertEquals(array, instance.getDataItemDistances());
     }
 
@@ -173,7 +173,7 @@ public class ClusterCentroidTest {
         ClusterCentroid instance = new ClusterCentroid();
         Vector pattern = Vector.of(1,2,3,4);
         instance.addDataItem(5.0, pattern);
-        
+
         Assert.assertEquals(5.0, instance.getDataItemDistances()[0]);
         Assert.assertEquals(instance.getDataItems().get(0), pattern);
     }

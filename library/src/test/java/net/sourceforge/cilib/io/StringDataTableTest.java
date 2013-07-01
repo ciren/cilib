@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.io;
+package net.cilib.io;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,9 +13,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class StringDataTableTest {
-    
+
     private static StringDataTable stringDataTable;
-    
+
     @BeforeClass
     public static void intialise() {
         stringDataTable = new StringDataTable();
@@ -23,14 +23,14 @@ public class StringDataTableTest {
         stringDataTable.addRow("AGCAGTGTATCC");
         stringDataTable.addRow("CGGGCTATGCCG");
     }
-    
-    
+
+
     @AfterClass
     public static void destroy() {
         stringDataTable = null;
     }
-    
-    
+
+
     /**
      * Test the length of the longest and shortest strings. Using the given
      * dataSetBuilder, the lengths and the returned strings should be the same.

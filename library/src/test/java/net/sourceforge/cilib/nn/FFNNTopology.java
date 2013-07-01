@@ -4,15 +4,15 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.nn;
+package net.cilib.nn;
 
 import java.util.ArrayList;
 
-import net.sourceforge.cilib.nn.architecture.NeuralInputSource;
-import net.sourceforge.cilib.nn.components.PatternInputSource;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.TypeList;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.nn.architecture.NeuralInputSource;
+import net.cilib.nn.components.PatternInputSource;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.container.TypeList;
+import net.cilib.type.types.container.Vector;
 
 /**
  * This is a basic Feedforward Neural network implementation. Its sole purpose is to illustrate the
@@ -85,7 +85,7 @@ public class FFNNTopology {
 
     /*
      * (non-Javadoc)
-     * @see net.sourceforge.cilib.NeuralNetwork.Foundation.NeuralNetworkTopology#evaluate(net.sourceforge.cilib.NeuralNetwork.Foundation.NNPattern)
+     * @see net.cilib.NeuralNetwork.Foundation.NeuralNetworkTopology#evaluate(net.cilib.NeuralNetwork.Foundation.NNPattern)
      */
     public TypeList evaluate(NeuralInputSource p) {
         // Still need to check here for right length vector then exception
@@ -144,7 +144,7 @@ public class FFNNTopology {
 
     /*
      * (non-Javadoc)
-     * @see net.sourceforge.cilib.NeuralNetwork.Foundation.NeuralNetworkTopology#getWeights()
+     * @see net.cilib.NeuralNetwork.Foundation.NeuralNetworkTopology#getWeights()
      */
     public Vector getWeights() {
         Vector.Builder temp = Vector.newBuilder();
@@ -156,7 +156,7 @@ public class FFNNTopology {
 
     /*
      * (non-Javadoc)
-     * @see net.sourceforge.cilib.NeuralNetwork.Foundation.NeuralNetworkTopology#setWeights(java.lang.Object)
+     * @see net.cilib.NeuralNetwork.Foundation.NeuralNetworkTopology#setWeights(java.lang.Object)
      */
     public void setWeights(Vector w) {
         if (w.size() != this.weights.length) {

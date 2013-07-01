@@ -4,17 +4,17 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.measurement.single.moo;
+package net.cilib.measurement.single.moo;
 
 import junit.framework.Assert;
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.moo.archive.Archive;
-import net.sourceforge.cilib.problem.solution.Fitnesses;
-import net.sourceforge.cilib.problem.solution.MOFitness;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.problem.solution.OptimisationSolution;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
+import net.cilib.algorithm.Algorithm;
+import net.cilib.moo.archive.Archive;
+import net.cilib.problem.solution.Fitnesses;
+import net.cilib.problem.solution.MOFitness;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.problem.solution.OptimisationSolution;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.Type;
 import org.junit.After;
 import org.junit.Test;
 import static org.mockito.Mockito.*;

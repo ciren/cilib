@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.simulator;
+package net.cilib.simulator;
 
 import java.io.File;
 import java.io.FilenameFilter;

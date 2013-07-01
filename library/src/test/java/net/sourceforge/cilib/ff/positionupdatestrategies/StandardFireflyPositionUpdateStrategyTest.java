@@ -4,14 +4,14 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.ff.positionupdatestrategies;
+package net.cilib.ff.positionupdatestrategies;
 
-import net.sourceforge.cilib.ff.firefly.*;
-import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.math.Maths;
+import net.cilib.ff.firefly.*;
+import net.cilib.type.types.Bounds;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.container.Vector;
+import net.cilib.controlparameter.ConstantControlParameter;
+import net.cilib.math.Maths;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

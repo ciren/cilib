@@ -4,11 +4,11 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.entity.operators.creation;
+package net.cilib.entity.operators.creation;
 
 import org.junit.Test;
-import net.sourceforge.cilib.entity.operators.creation.SaDECreationStrategy;
-import net.sourceforge.cilib.math.random.GaussianDistribution;
+import net.cilib.entity.operators.creation.SaDECreationStrategy;
+import net.cilib.math.random.GaussianDistribution;
 import org.junit.Assert;
 import org.junit.Test;
 

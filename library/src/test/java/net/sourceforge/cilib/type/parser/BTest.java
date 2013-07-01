@@ -4,12 +4,12 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.type.parser;
+package net.cilib.type.parser;
 
 import static org.junit.Assert.assertTrue;
-import net.sourceforge.cilib.type.types.Bit;
-import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.Type;
+import net.cilib.type.types.Bit;
+import net.cilib.type.types.Bounds;
+import net.cilib.type.types.Type;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.problem.solution;
+package net.cilib.problem.solution;
 
 import static org.junit.Assert.assertEquals;
 

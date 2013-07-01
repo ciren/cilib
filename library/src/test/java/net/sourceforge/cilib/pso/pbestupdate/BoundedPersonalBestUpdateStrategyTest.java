@@ -4,17 +4,17 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.pso.pbestupdate;
+package net.cilib.pso.pbestupdate;
 
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.problem.solution.InferiorFitness;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.entity.EntityType;
+import net.cilib.pso.particle.Particle;
+import net.cilib.problem.solution.InferiorFitness;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.pso.particle.StandardParticle;
+import net.cilib.type.types.Bounds;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.Type;
+import net.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 

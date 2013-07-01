@@ -4,20 +4,20 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.stoppingcondition;
+package net.cilib.stoppingcondition;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.functions.activation.Linear;
-import net.sourceforge.cilib.io.pattern.StandardPattern;
-import net.sourceforge.cilib.io.StandardPatternDataTable;
-import net.sourceforge.cilib.measurement.generic.Iterations;
-import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
-import net.sourceforge.cilib.nn.NeuralNetwork;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.problem.nn.NNDataTrainingProblem;
-import net.sourceforge.cilib.problem.solution.OptimisationSolution;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.type.types.Real;
+import net.cilib.algorithm.Algorithm;
+import net.cilib.functions.activation.Linear;
+import net.cilib.io.pattern.StandardPattern;
+import net.cilib.io.StandardPatternDataTable;
+import net.cilib.measurement.generic.Iterations;
+import net.cilib.nn.architecture.builder.LayerConfiguration;
+import net.cilib.nn.NeuralNetwork;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.problem.nn.NNDataTrainingProblem;
+import net.cilib.problem.solution.OptimisationSolution;
+import net.cilib.type.types.container.Vector;
+import net.cilib.type.types.Real;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -52,10 +52,10 @@ public class PerExpansionNNPerformanceChangeStoppingConditionTest {
 
         NNDataTrainingProblem problem = new NNDataTrainingProblem();
         problem.setValidationSet(validationSet);
-        
+
         Algorithm algorithm = Mockito.mock(Algorithm.class);
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
-        
+
         PerExpansionNNPerformanceChangeStoppingCondition instance = new PerExpansionNNPerformanceChangeStoppingCondition();
 
         NeuralNetwork badNetwork = new NeuralNetwork();
@@ -88,36 +88,36 @@ public class PerExpansionNNPerformanceChangeStoppingConditionTest {
 
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
         Mockito.when(algorithm.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(1.0, 0.5, 1.0, 0.0), new MinimisationFitness(1.0)));
-        
+
         assertFalse(instance.apply(algorithm));
-        
+
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
         Mockito.when(algorithm.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(1.0, 0.5, 1.0, 0.0), new MinimisationFitness(1.0)));
-        
+
         assertFalse(instance.apply(algorithm));
 
         //good expansion
         problem.setNeuralNetwork(goodNetwork);
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
         Mockito.when(algorithm.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(-8.0, 5.5, 8.0, 5.5, 1.0, 1.0, 0.0), new MinimisationFitness(1.0)));
-        
+
         assertFalse(instance.apply(algorithm));
 
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
         Mockito.when(algorithm.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 5.0), new MinimisationFitness(1.0)));
-        
+
         assertFalse(instance.apply(algorithm));
-        
+
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
         Mockito.when(algorithm.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 5.0), new MinimisationFitness(1.0)));
-        
+
         assertFalse(instance.apply(algorithm));
 
         //bad expansion
         problem.setNeuralNetwork(finalNetwork);
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
         Mockito.when(algorithm.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 5.0), new MinimisationFitness(1.0)));
-        
+
         assertTrue(instance.apply(algorithm));
     }
 }

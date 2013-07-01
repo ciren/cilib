@@ -4,20 +4,20 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.pso.dynamic.responsestrategies;
+package net.cilib.pso.dynamic.responsestrategies;
 
-import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.io.ARFFFileReader;
-import net.sourceforge.cilib.io.transform.PatternConversionOperator;
-import net.sourceforge.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
-import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
-import net.sourceforge.cilib.nn.architecture.visitors.CascadeVisitor;
-import net.sourceforge.cilib.problem.nn.NNDataTrainingProblem;
-import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.type.types.Real;
+import net.cilib.entity.Topologies;
+import net.cilib.io.ARFFFileReader;
+import net.cilib.io.transform.PatternConversionOperator;
+import net.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
+import net.cilib.nn.architecture.builder.LayerConfiguration;
+import net.cilib.nn.architecture.visitors.CascadeVisitor;
+import net.cilib.problem.nn.NNDataTrainingProblem;
+import net.cilib.pso.dynamic.DynamicParticle;
+import net.cilib.pso.PSO;
+import net.cilib.stoppingcondition.MeasuredStoppingCondition;
+import net.cilib.type.types.container.Vector;
+import net.cilib.type.types.Real;
 import org.junit.Assert;
 import org.junit.Test;
 

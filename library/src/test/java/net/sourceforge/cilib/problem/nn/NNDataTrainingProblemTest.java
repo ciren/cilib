@@ -4,13 +4,13 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.problem.nn;
+package net.cilib.problem.nn;
 
-import net.sourceforge.cilib.io.ARFFFileReader;
-import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
-import net.sourceforge.cilib.type.DomainRegistry;
+import net.cilib.io.ARFFFileReader;
+import net.cilib.nn.architecture.builder.LayerConfiguration;
+import net.cilib.pso.PSO;
+import net.cilib.stoppingcondition.MeasuredStoppingCondition;
+import net.cilib.type.DomainRegistry;
 import org.junit.Before;
 import org.junit.Test;
 

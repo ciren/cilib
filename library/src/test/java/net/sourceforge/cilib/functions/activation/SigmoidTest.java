@@ -4,11 +4,11 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.functions.activation;
+package net.cilib.functions.activation;
 
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.type.types.Real;
+import net.cilib.controlparameter.ConstantControlParameter;
+import net.cilib.math.Maths;
+import net.cilib.type.types.Real;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

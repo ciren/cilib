@@ -4,13 +4,13 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.nn.architecture.visitors;
+package net.cilib.nn.architecture.visitors;
 
-import net.sourceforge.cilib.io.pattern.StandardPattern;
-import net.sourceforge.cilib.nn.NeuralNetwork;
-import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.io.pattern.StandardPattern;
+import net.cilib.nn.NeuralNetwork;
+import net.cilib.nn.architecture.builder.LayerConfiguration;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 

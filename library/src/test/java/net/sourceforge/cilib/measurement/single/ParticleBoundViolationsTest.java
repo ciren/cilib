@@ -4,20 +4,20 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.measurement.single;
+package net.cilib.measurement.single;
 
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.cilib.entity.EntityType;
+import net.cilib.measurement.Measurement;
+import net.cilib.pso.particle.Particle;
+import net.cilib.pso.particle.StandardParticle;
+import net.cilib.type.types.Bounds;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.container.Vector;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -4,10 +4,10 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.stoppingcondition;
+package net.cilib.stoppingcondition;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.measurement.generic.Iterations;
+import net.cilib.algorithm.Algorithm;
+import net.cilib.measurement.generic.Iterations;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -23,11 +23,11 @@ public class MaintainedStoppingConditionTest {
         Mockito.when(algorithm.getIterations()).thenReturn(0, 1, 0, 1, 2);
         MaintainedStoppingCondition instance = new MaintainedStoppingCondition(
                 new MeasuredStoppingCondition(new Iterations(), new Maximum(), 1), 2);
-        
+
         assertFalse(instance.apply(algorithm));
         assertEquals(instance.getPercentageCompleted(algorithm), 0.0, 0.0);
         assertFalse(instance.apply(algorithm));
-        assertEquals(instance.getPercentageCompleted(algorithm), 0.5, 0.0);        
+        assertEquals(instance.getPercentageCompleted(algorithm), 0.5, 0.0);
         // if it gets reset percentage should not decrease
         assertFalse(instance.apply(algorithm));
         assertEquals(instance.getPercentageCompleted(algorithm), 0.5, 0.0);

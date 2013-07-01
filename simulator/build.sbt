@@ -10,7 +10,7 @@ scalacOptions += "-deprecation"
 
 parallelExecution in Test := false
 
-mainClass := Some("net.sourceforge.cilib.simulator.Main")
+mainClass := Some("net.cilib.simulator.Main")
 
 libraryDependencies ++= Seq(
     "junit" % "junit" % "4.10" % "test",

@@ -4,14 +4,14 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.niching.merging;
+package net.cilib.niching.merging;
 
-import net.sourceforge.cilib.entity.Topologies;
-import net.sourceforge.cilib.niching.NichingFunctionsTest;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.entity.Topologies;
+import net.cilib.niching.NichingFunctionsTest;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.pso.PSO;
+import net.cilib.pso.particle.Particle;
+import net.cilib.type.types.container.Vector;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -4,14 +4,14 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.entity.initialisation;
+package net.cilib.entity.initialisation;
 
-import net.sourceforge.cilib.entity.initialisation.ConstantInitialisationStrategy;
-import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.entity.initialisation.ConstantInitialisationStrategy;
+import net.cilib.ec.Individual;
+import net.cilib.entity.EntityType;
+import net.cilib.math.Maths;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;

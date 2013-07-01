@@ -4,17 +4,17 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.clustering.iterationstrategies;
+package net.cilib.clustering.iterationstrategies;
 
 import junit.framework.Assert;
-import net.sourceforge.cilib.algorithm.initialisation.DataDependantPopulationInitialisationStrategy;
-import net.sourceforge.cilib.algorithm.population.IterationStrategy;
-import net.sourceforge.cilib.clustering.DataClusteringPSO;
-import net.sourceforge.cilib.clustering.entity.ClusterParticle;
-import net.sourceforge.cilib.problem.QuantisationErrorMinimisationProblem;
-import net.sourceforge.cilib.problem.boundaryconstraint.CentroidBoundaryConstraint;
-import net.sourceforge.cilib.problem.boundaryconstraint.RandomBoundaryConstraint;
-import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
+import net.cilib.algorithm.initialisation.DataDependantPopulationInitialisationStrategy;
+import net.cilib.algorithm.population.IterationStrategy;
+import net.cilib.clustering.DataClusteringPSO;
+import net.cilib.clustering.entity.ClusterParticle;
+import net.cilib.problem.QuantisationErrorMinimisationProblem;
+import net.cilib.problem.boundaryconstraint.CentroidBoundaryConstraint;
+import net.cilib.problem.boundaryconstraint.RandomBoundaryConstraint;
+import net.cilib.stoppingcondition.MeasuredStoppingCondition;
 import org.junit.Test;
 
 public class ReinitialisingDataClusteringIterationStrategyTest {

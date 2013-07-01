@@ -4,24 +4,24 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.clustering.iterationstrategies;
+package net.cilib.clustering.iterationstrategies;
 
 import junit.framework.Assert;
-import net.sourceforge.cilib.algorithm.initialisation.DataDependantPopulationInitialisationStrategy;
-import net.sourceforge.cilib.algorithm.population.IterationStrategy;
-import net.sourceforge.cilib.clustering.DataClusteringPSO;
-import net.sourceforge.cilib.clustering.SlidingWindow;
-import net.sourceforge.cilib.clustering.entity.ClusterParticle;
-import net.sourceforge.cilib.io.DataTable;
-import net.sourceforge.cilib.io.pattern.StandardPattern;
-import net.sourceforge.cilib.problem.QuantisationErrorMinimisationProblem;
-import net.sourceforge.cilib.problem.boundaryconstraint.CentroidBoundaryConstraint;
-import net.sourceforge.cilib.problem.boundaryconstraint.RandomBoundaryConstraint;
-import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
-import net.sourceforge.cilib.type.types.container.CentroidHolder;
-import net.sourceforge.cilib.type.types.container.ClusterCentroid;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
+import net.cilib.algorithm.initialisation.DataDependantPopulationInitialisationStrategy;
+import net.cilib.algorithm.population.IterationStrategy;
+import net.cilib.clustering.DataClusteringPSO;
+import net.cilib.clustering.SlidingWindow;
+import net.cilib.clustering.entity.ClusterParticle;
+import net.cilib.io.DataTable;
+import net.cilib.io.pattern.StandardPattern;
+import net.cilib.problem.QuantisationErrorMinimisationProblem;
+import net.cilib.problem.boundaryconstraint.CentroidBoundaryConstraint;
+import net.cilib.problem.boundaryconstraint.RandomBoundaryConstraint;
+import net.cilib.stoppingcondition.MeasuredStoppingCondition;
+import net.cilib.type.types.container.CentroidHolder;
+import net.cilib.type.types.container.ClusterCentroid;
+import net.cilib.type.types.container.Vector;
+import net.cilib.util.distancemeasure.EuclideanDistanceMeasure;
 import static org.junit.Assert.*;
 import org.junit.Test;
 

@@ -4,19 +4,19 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.ec;
+package net.cilib.ec;
 
 import org.junit.Assert;
 import org.junit.Test;
-import net.sourceforge.cilib.ec.SaDEIndividual;
-import net.sourceforge.cilib.controlparameter.adaptation.SaDEParameterAdaptationStrategy;
-import net.sourceforge.cilib.controlparameter.initialisation.RandomParameterInitialisationStrategy;
-import net.sourceforge.cilib.controlparameter.SettableControlParameter;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
-import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
-import net.sourceforge.cilib.controlparameter.StandardUpdatableControlParameter;
-import net.sourceforge.cilib.entity.operators.creation.RandCreationStrategy;
-import net.sourceforge.cilib.entity.operators.crossover.de.DifferentialEvolutionBinomialCrossover;
+import net.cilib.ec.SaDEIndividual;
+import net.cilib.controlparameter.adaptation.SaDEParameterAdaptationStrategy;
+import net.cilib.controlparameter.initialisation.RandomParameterInitialisationStrategy;
+import net.cilib.controlparameter.SettableControlParameter;
+import net.cilib.problem.FunctionOptimisationProblem;
+import net.cilib.functions.continuous.unconstrained.Spherical;
+import net.cilib.controlparameter.StandardUpdatableControlParameter;
+import net.cilib.entity.operators.creation.RandCreationStrategy;
+import net.cilib.entity.operators.crossover.de.DifferentialEvolutionBinomialCrossover;
 
 public class SaDEIndividualTest {
 

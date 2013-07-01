@@ -4,13 +4,13 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.io;
+package net.cilib.io;
 
 import java.util.List;
-import net.sourceforge.cilib.io.exception.CIlibIOException;
-import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
+import net.cilib.io.exception.CIlibIOException;
+import net.cilib.type.types.Int;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.Type;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +36,7 @@ public class ARFFFileReaderTest {
         Assert.assertEquals(table.getNumColums(), 5);
         Assert.assertEquals("iris", reader.getRelationName());
     }
-    
+
     @Test
     public void testTyping() {
         List<Type> row = table.getRow(0);

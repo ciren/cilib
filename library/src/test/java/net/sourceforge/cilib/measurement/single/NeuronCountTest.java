@@ -4,13 +4,13 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.measurement.single;
+package net.cilib.measurement.single;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
-import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
-import net.sourceforge.cilib.nn.NeuralNetwork;
-import net.sourceforge.cilib.problem.nn.NNDataTrainingProblem;
+import net.cilib.algorithm.Algorithm;
+import net.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
+import net.cilib.nn.architecture.builder.LayerConfiguration;
+import net.cilib.nn.NeuralNetwork;
+import net.cilib.problem.nn.NNDataTrainingProblem;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Matchers;

@@ -4,10 +4,10 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.nn.components;
+package net.cilib.nn.components;
 
-import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.nn.architecture.NeuralInputSource;
+import net.cilib.math.Maths;
+import net.cilib.nn.architecture.NeuralInputSource;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

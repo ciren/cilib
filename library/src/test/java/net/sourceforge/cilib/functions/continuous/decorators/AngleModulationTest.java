@@ -4,13 +4,13 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.functions.continuous.decorators;
+package net.cilib.functions.continuous.decorators;
 
-import net.sourceforge.cilib.functions.continuous.unconstrained.Rastrigin;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
-import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.StringBasedDomainRegistry;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.functions.continuous.unconstrained.Rastrigin;
+import net.cilib.problem.FunctionOptimisationProblem;
+import net.cilib.type.DomainRegistry;
+import net.cilib.type.StringBasedDomainRegistry;
+import net.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertEquals;

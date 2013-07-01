@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.nn;
+package net.cilib.nn;
 
 import org.junit.Before;
 import org.junit.Test;

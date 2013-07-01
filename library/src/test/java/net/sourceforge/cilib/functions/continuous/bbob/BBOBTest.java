@@ -4,9 +4,9 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.functions.continuous.bbob;
+package net.cilib.functions.continuous.bbob;
 
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.type.types.container.Vector;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class BBOBTest {
 		// f19 - f24: xOpt doesn't result in fOpt
 		for (int i = 1; i <= 18; i++) {
 			if (i != 9) {
-				String className = "net.sourceforge.cilib.functions.continuous.bbob.BBOB" + i;
+				String className = "net.cilib.functions.continuous.bbob.BBOB" + i;
 				testApply((AbstractBBOB)Class.forName(className).newInstance());
 			}
 		}

@@ -4,17 +4,17 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.boa;
+package net.cilib.boa;
 
 import java.util.HashMap;
-import net.sourceforge.cilib.boa.bee.HoneyBee;
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.functions.continuous.unconstrained.Ackley;
-import net.sourceforge.cilib.measurement.generic.Iterations;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
-import net.sourceforge.cilib.stoppingcondition.Maximum;
-import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
-import net.sourceforge.cilib.type.types.Type;
+import net.cilib.boa.bee.HoneyBee;
+import net.cilib.controlparameter.ConstantControlParameter;
+import net.cilib.functions.continuous.unconstrained.Ackley;
+import net.cilib.measurement.generic.Iterations;
+import net.cilib.problem.FunctionOptimisationProblem;
+import net.cilib.stoppingcondition.Maximum;
+import net.cilib.stoppingcondition.MeasuredStoppingCondition;
+import net.cilib.type.types.Type;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 

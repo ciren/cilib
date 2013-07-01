@@ -4,15 +4,15 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.coevolution.cooperative.heterogeneous;
+package net.cilib.coevolution.cooperative.heterogeneous;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
-import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.ProblemDistributionStrategy;
-import net.sourceforge.cilib.math.random.generator.Rand;
-import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
+import net.cilib.coevolution.cooperative.problemdistribution.ProblemDistributionStrategy;
+import net.cilib.math.random.generator.Rand;
+import net.cilib.problem.Problem;
+import net.cilib.type.types.container.Vector;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 

@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.util.selection.arrangement;
+package net.cilib.util.selection.arrangement;
 
 import com.google.common.collect.Lists;
 import java.util.List;

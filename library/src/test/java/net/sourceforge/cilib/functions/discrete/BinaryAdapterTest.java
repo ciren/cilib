@@ -4,13 +4,13 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.functions.discrete;
+package net.cilib.functions.discrete;
 
-import net.sourceforge.cilib.functions.continuous.unconstrained.Rastrigin;
-import net.sourceforge.cilib.type.types.Bit;
-import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.functions.continuous.unconstrained.Rastrigin;
+import net.cilib.type.types.Bit;
+import net.cilib.type.types.Numeric;
+import net.cilib.type.types.Type;
+import net.cilib.type.types.container.Vector;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
@@ -61,7 +61,7 @@ public class BinaryAdapterTest {
         for (int i = 0; i < 4; i++) {
             bitVectorB.add(Bit.valueOf(true));
         }
-        
+
         Vector bitVector = bitVectorB.build();
 
         assertEquals(4, bitVector.size());
@@ -104,7 +104,7 @@ public class BinaryAdapterTest {
         for (int i = 0; i < 8; i++) {
             bitVectorB.add(Bit.valueOf(true));
         }
-        
+
         Vector bitVector = bitVectorB.build();
 
         assertEquals(8, bitVector.size());
@@ -146,7 +146,7 @@ public class BinaryAdapterTest {
         for (int i = 0; i < 8; i++) {
             bitVectorB.add(Bit.valueOf(true));
         }
-        
+
         Vector bitVector = bitVectorB.build();
 
         assertEquals(8, bitVector.size());

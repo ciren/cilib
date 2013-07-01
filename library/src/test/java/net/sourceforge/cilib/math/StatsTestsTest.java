@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.math;
+package net.cilib.math;
 
 import fj.data.List;
 import java.util.Arrays;
@@ -24,7 +24,7 @@ public class StatsTestsTest {
         Double expResult = 8.8462;
         Double result = StatsTests.friedman(0.05, a)._1();
         assertEquals(expResult, result, 0.0001);
-        
+
         Iterable<Integer> expLResult = Arrays.asList(0,1,2);
         assertEquals(List.iterableList(expLResult), List.iterableList(StatsTests.postHoc(0.05, result, a)));
     }

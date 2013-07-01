@@ -4,17 +4,17 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.entity.initialisation;
+package net.cilib.entity.initialisation;
 
-import net.sourceforge.cilib.entity.initialisation.StandardCentroidInitialisationStrategy;
+import net.cilib.entity.initialisation.StandardCentroidInitialisationStrategy;
 import java.util.ArrayList;
 import junit.framework.Assert;
-import net.sourceforge.cilib.clustering.entity.ClusterParticle;
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.type.types.container.CentroidHolder;
-import net.sourceforge.cilib.type.types.container.ClusterCentroid;
+import net.cilib.clustering.entity.ClusterParticle;
+import net.cilib.controlparameter.ConstantControlParameter;
+import net.cilib.controlparameter.ControlParameter;
+import net.cilib.entity.EntityType;
+import net.cilib.type.types.container.CentroidHolder;
+import net.cilib.type.types.container.ClusterCentroid;
 import org.junit.Test;
 
 public class StandardCentroidInitialisationStrategyTest {

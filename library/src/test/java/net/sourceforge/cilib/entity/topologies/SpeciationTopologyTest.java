@@ -4,18 +4,18 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.entity.topologies;
+package net.cilib.entity.topologies;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import static net.sourceforge.cilib.niching.NichingFunctionsTest.createParticle;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.controlparameter.ConstantControlParameter;
+import static net.cilib.niching.NichingFunctionsTest.createParticle;
+import net.cilib.entity.EntityType;
+import net.cilib.problem.solution.Fitness;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.pso.particle.Particle;
+import net.cilib.pso.particle.StandardParticle;
+import net.cilib.type.types.container.Vector;
 
 import org.junit.Test;
 

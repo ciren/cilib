@@ -4,20 +4,20 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.problem.nn;
+package net.cilib.problem.nn;
 
-import net.sourceforge.cilib.functions.activation.Linear;
-import net.sourceforge.cilib.io.pattern.StandardPattern;
-import net.sourceforge.cilib.io.StandardPatternDataTable;
-import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
-import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
-import net.sourceforge.cilib.nn.architecture.Layer;
-import net.sourceforge.cilib.nn.components.Neuron;
-import net.sourceforge.cilib.nn.NeuralNetwork;
-import net.sourceforge.cilib.problem.solution.MaximisationFitness;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.type.StringBasedDomainRegistry;
+import net.cilib.functions.activation.Linear;
+import net.cilib.io.pattern.StandardPattern;
+import net.cilib.io.StandardPatternDataTable;
+import net.cilib.math.Maths;
+import net.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
+import net.cilib.nn.architecture.builder.LayerConfiguration;
+import net.cilib.nn.architecture.Layer;
+import net.cilib.nn.components.Neuron;
+import net.cilib.nn.NeuralNetwork;
+import net.cilib.problem.solution.MaximisationFitness;
+import net.cilib.type.types.container.Vector;
+import net.cilib.type.StringBasedDomainRegistry;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
@@ -44,11 +44,11 @@ public class CascadeHiddenNeuronCorrelationProblemTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2, new Linear()));
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
         network.initialise();
-        
+
         Vector weights = Vector.of(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,
                                    1.1);
         network.setWeights(weights);
-        
+
         problem.setNeuralNetwork(network);
         problem.initialise();
 
@@ -81,7 +81,7 @@ public class CascadeHiddenNeuronCorrelationProblemTest {
         assertEquals(-0.2, layer.getNeuron(3).getActivation(), Maths.EPSILON);
         assertEquals(-0.46, layer.getNeuron(4).getActivation(), Maths.EPSILON);
         assertEquals(-0.7, layer.getNeuron(5).getActivation(), Maths.EPSILON);
-        
+
         network = new NeuralNetwork();
         network.getArchitecture().setArchitectureBuilder(new CascadeArchitectureBuilder());
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2, new Linear()));
@@ -94,7 +94,7 @@ public class CascadeHiddenNeuronCorrelationProblemTest {
         weights = Vector.of(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,
                                    1.1,1.2,1.3,1.4,1.5,1.6,1.7);
         network.setWeights(weights);
-        
+
         problem.setNeuralNetwork(network);
         problem.initialise();
 
@@ -194,7 +194,7 @@ public class CascadeHiddenNeuronCorrelationProblemTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2, new Linear()));
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
         network.initialise();
-        
+
         Vector weights = Vector.of(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,
                                    1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0,
                                    2.1);

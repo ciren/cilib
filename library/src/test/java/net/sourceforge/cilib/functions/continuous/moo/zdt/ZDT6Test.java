@@ -4,11 +4,11 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.functions.continuous.moo.zdt;
+package net.cilib.functions.continuous.moo.zdt;
 
-import net.sourceforge.cilib.problem.solution.MOFitness;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.problem.solution.MOFitness;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;

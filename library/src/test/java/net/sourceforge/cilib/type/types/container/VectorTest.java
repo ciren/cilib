@@ -4,18 +4,18 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.type.types.container;
+package net.cilib.type.types.container;
 
 import com.google.common.base.Predicate;
 import fj.F;
 import fj.F2;
 import static java.lang.Math.sqrt;
 import java.util.Arrays;
-import net.sourceforge.cilib.type.types.Bit;
-import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.math.random.generator.Rand;
+import net.cilib.type.types.Bit;
+import net.cilib.type.types.Bounds;
+import net.cilib.type.types.Numeric;
+import net.cilib.type.types.Real;
+import net.cilib.math.random.generator.Rand;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;

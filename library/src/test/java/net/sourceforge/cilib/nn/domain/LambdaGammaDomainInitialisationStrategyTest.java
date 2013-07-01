@@ -4,15 +4,15 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.nn.domain;
+package net.cilib.nn.domain;
 
-import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.nn.NeuralNetwork;
-import net.sourceforge.cilib.nn.NeuralNetworks;
-import net.sourceforge.cilib.nn.NeuralNetworksTestHelper;
-import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.StructuredType;
+import net.cilib.math.Maths;
+import net.cilib.nn.NeuralNetwork;
+import net.cilib.nn.NeuralNetworks;
+import net.cilib.nn.NeuralNetworksTestHelper;
+import net.cilib.type.DomainRegistry;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.container.StructuredType;
 import org.junit.Before;
 import org.junit.Test;
 

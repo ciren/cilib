@@ -4,14 +4,14 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.util.selection.arrangement;
+package net.cilib.util.selection.arrangement;
 
 import com.google.common.collect.Lists;
 import java.util.List;
-import net.sourceforge.cilib.math.random.generator.Rand;
-import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.WeightedObject;
-import net.sourceforge.cilib.util.selection.weighting.LinearWeighting;
+import net.cilib.math.random.generator.Rand;
+import net.cilib.util.selection.Selection;
+import net.cilib.util.selection.WeightedObject;
+import net.cilib.util.selection.weighting.LinearWeighting;
 import static org.hamcrest.CoreMatchers.*;
 import org.junit.Assert;
 import org.junit.Test;

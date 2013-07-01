@@ -4,14 +4,14 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.ec.iterationstrategies;
+package net.cilib.ec.iterationstrategies;
 
 import org.junit.Assert;
 import org.junit.Test;
-import net.sourceforge.cilib.entity.operators.creation.RandCreationStrategy;
-import net.sourceforge.cilib.entity.operators.crossover.de.DifferentialEvolutionBinomialCrossover;
-import net.sourceforge.cilib.math.random.UniformDistribution;
-import net.sourceforge.cilib.util.selection.recipes.FeasibilitySelector;
+import net.cilib.entity.operators.creation.RandCreationStrategy;
+import net.cilib.entity.operators.crossover.de.DifferentialEvolutionBinomialCrossover;
+import net.cilib.math.random.UniformDistribution;
+import net.cilib.util.selection.recipes.FeasibilitySelector;
 
 public class DDEIterationStrategyTest {
 

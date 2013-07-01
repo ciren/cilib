@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.util.selection.arrangement;
+package net.cilib.util.selection.arrangement;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -21,7 +21,7 @@ public class ReverseArrangementTest {
     @Test
     public void arrangement() {
         List<Integer> elements = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        
+
         List<Integer> expected = Lists.newArrayList(elements);
         Collections.reverse(expected);
 

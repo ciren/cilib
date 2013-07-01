@@ -4,15 +4,15 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.problem;
+package net.cilib.problem;
 
 import static org.junit.Assert.assertSame;
 
 import java.util.Random;
 
-import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.continuous.unconstrained.Ackley;
-import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
+import net.cilib.functions.ContinuousFunction;
+import net.cilib.functions.continuous.unconstrained.Ackley;
+import net.cilib.functions.continuous.unconstrained.Spherical;
 
 import org.junit.Before;
 import org.junit.Test;

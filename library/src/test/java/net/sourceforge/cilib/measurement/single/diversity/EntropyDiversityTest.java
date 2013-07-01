@@ -4,18 +4,18 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.measurement.single.diversity;
+package net.cilib.measurement.single.diversity;
 
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
-import net.sourceforge.cilib.measurement.generic.Iterations;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.stoppingcondition.Maximum;
-import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.entity.Entity;
+import net.cilib.entity.EntityType;
+import net.cilib.functions.continuous.unconstrained.Spherical;
+import net.cilib.measurement.generic.Iterations;
+import net.cilib.problem.FunctionOptimisationProblem;
+import net.cilib.pso.PSO;
+import net.cilib.stoppingcondition.Maximum;
+import net.cilib.stoppingcondition.MeasuredStoppingCondition;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.container.Vector;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;

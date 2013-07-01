@@ -4,18 +4,18 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.ec;
+package net.cilib.ec;
 
 import junit.framework.Assert;
 import org.junit.Test;
-import net.sourceforge.cilib.entity.operators.creation.RandCreationStrategy;
-import net.sourceforge.cilib.entity.operators.crossover.de.DifferentialEvolutionBinomialCrossover;
-import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
-import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.problem.boundaryconstraint.BouncingBoundaryConstraint;
-import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
-import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
+import net.cilib.entity.operators.creation.RandCreationStrategy;
+import net.cilib.entity.operators.crossover.de.DifferentialEvolutionBinomialCrossover;
+import net.cilib.problem.boundaryconstraint.BoundaryConstraint;
+import net.cilib.type.types.Bounds;
+import net.cilib.problem.boundaryconstraint.BouncingBoundaryConstraint;
+import net.cilib.type.types.container.Vector;
+import net.cilib.problem.FunctionOptimisationProblem;
+import net.cilib.functions.continuous.unconstrained.Spherical;
 
 
 public class ParameterisedIndividualTest {

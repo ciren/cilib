@@ -4,16 +4,16 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.nn;
+package net.cilib.nn;
 
-import net.sourceforge.cilib.io.exception.CIlibIOException;
-import net.sourceforge.cilib.io.pattern.StandardPattern;
-import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
-import net.sourceforge.cilib.nn.architecture.visitors.FeedForwardVisitor;
-import net.sourceforge.cilib.nn.components.PatternInputSource;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.io.exception.CIlibIOException;
+import net.cilib.io.pattern.StandardPattern;
+import net.cilib.math.Maths;
+import net.cilib.nn.architecture.builder.LayerConfiguration;
+import net.cilib.nn.architecture.visitors.FeedForwardVisitor;
+import net.cilib.nn.components.PatternInputSource;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

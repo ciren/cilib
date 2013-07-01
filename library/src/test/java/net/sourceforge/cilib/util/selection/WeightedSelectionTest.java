@@ -4,13 +4,13 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.util.selection;
+package net.cilib.util.selection;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
-import net.sourceforge.cilib.util.selection.arrangement.Arrangement;
+import net.cilib.util.selection.arrangement.Arrangement;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;

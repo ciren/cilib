@@ -4,12 +4,12 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.functions.continuous.moo.wfg;
+package net.cilib.functions.continuous.moo.wfg;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 

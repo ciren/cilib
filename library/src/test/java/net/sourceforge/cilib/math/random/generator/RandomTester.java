@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.math.random.generator;
+package net.cilib.math.random.generator;
 
 public interface RandomTester {
     void addSample(double number);

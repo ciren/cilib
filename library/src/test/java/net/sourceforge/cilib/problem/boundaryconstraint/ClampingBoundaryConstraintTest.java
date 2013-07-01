@@ -4,13 +4,13 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.problem.boundaryconstraint;
+package net.cilib.problem.boundaryconstraint;
 
-import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.cilib.ec.Individual;
+import net.cilib.math.Maths;
+import net.cilib.type.types.Bounds;
+import net.cilib.type.types.Real;
+import net.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import static org.hamcrest.CoreMatchers.is;
 import org.junit.Test;

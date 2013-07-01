@@ -4,19 +4,19 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.util.selection.weighing.entity;
+package net.cilib.util.selection.weighing.entity;
 
 import com.google.common.collect.Lists;
 import java.util.Arrays;
 import java.util.List;
-import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.problem.solution.Fitness;
-import net.sourceforge.cilib.problem.solution.InferiorFitness;
-import net.sourceforge.cilib.problem.solution.MaximisationFitness;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.util.selection.WeightedObject;
-import net.sourceforge.cilib.util.selection.weighting.EntityWeighting;
+import net.cilib.ec.Individual;
+import net.cilib.entity.EntityType;
+import net.cilib.problem.solution.Fitness;
+import net.cilib.problem.solution.InferiorFitness;
+import net.cilib.problem.solution.MaximisationFitness;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.util.selection.WeightedObject;
+import net.cilib.util.selection.weighting.EntityWeighting;
 import org.junit.Assert;
 import org.junit.Test;
 

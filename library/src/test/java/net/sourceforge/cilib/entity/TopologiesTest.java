@@ -4,23 +4,23 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.entity;
+package net.cilib.entity;
 
 import static org.hamcrest.CoreMatchers.is;
 
 import java.util.Arrays;
 import java.util.Set;
 
-import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
-import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
-import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
-import net.sourceforge.cilib.entity.topologies.LBestNeighbourhood;
-import net.sourceforge.cilib.entity.topologies.Neighbourhood;
-import net.sourceforge.cilib.problem.solution.MaximisationFitness;
-import net.sourceforge.cilib.problem.solution.MinimisationFitness;
-import net.sourceforge.cilib.pso.dynamic.detectionstrategies.NeighbourhoodBestSentriesDetectionStrategy;
-import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.StandardParticle;
+import net.cilib.entity.comparator.AscendingFitnessComparator;
+import net.cilib.entity.comparator.DescendingFitnessComparator;
+import net.cilib.entity.comparator.SocialBestFitnessComparator;
+import net.cilib.entity.topologies.LBestNeighbourhood;
+import net.cilib.entity.topologies.Neighbourhood;
+import net.cilib.problem.solution.MaximisationFitness;
+import net.cilib.problem.solution.MinimisationFitness;
+import net.cilib.pso.dynamic.detectionstrategies.NeighbourhoodBestSentriesDetectionStrategy;
+import net.cilib.pso.particle.Particle;
+import net.cilib.pso.particle.StandardParticle;
 
 import org.junit.Assert;
 import org.junit.Test;
