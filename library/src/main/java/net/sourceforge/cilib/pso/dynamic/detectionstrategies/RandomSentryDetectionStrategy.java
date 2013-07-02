@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
 
+import fj.P2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -18,54 +19,29 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.util.selection.Samples;
+import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 
 public class RandomSentryDetectionStrategy extends EnvironmentChangeDetectionStrategy {
     private static final long serialVersionUID = 6254159986113630555L;
 
     private int sentries;
     private double theta;
-    private int[] sentryIDs;
     private boolean initialised = false;
-    ArrayList<Particle> sentryList;
+    fj.data.List<Integer> sentryIndexes;
 
     public RandomSentryDetectionStrategy() {
         sentries = 1;
         theta = 0.001;
     }
 
-    public <A extends HasTopology & Algorithm> void Initialise(A algorithm){
-        sentryIDs = new int[sentries];
-        int populationSize = algorithm.getTopology().length();
-
-        //randomly select the sentries among the particles
-        for(int i=0; i<sentries; i++){
-            sentryIDs[i] = Math.abs(Rand.nextInt()%populationSize);
-            for(int j=0;j<i;j++){//doesn't pick the same entity twice
-                if(sentryIDs[j]==sentryIDs[i]){
-                    --i;
-                    break;
-                }
-            }//for
-        }//for
-        Arrays.sort(sentryIDs);
-
-        fj.data.List<? extends Entity> topology = algorithm.getTopology();
-        this.sentryList = new ArrayList<Particle>();
-        Iterator<? extends Entity> iterator = topology.iterator();
-
-        int sentryCounter = 0;
-        while (iterator.hasNext() && sentryCounter<sentries) {
-            DynamicParticle current = (DynamicParticle) iterator.next();
-            if(current.getId() == (new Integer(this.sentryIDs[sentryCounter]))){
-                sentryList.add(current);
-                ++sentryCounter;
-            }//if
-        }//while
-
+    public <A extends HasTopology & Algorithm> void initialise(A algorithm){
+        sentryIndexes = fj.data.List.iterableList(new RandomSelector<P2<Particle,Integer>>().on(algorithm.getTopology().zipIndex()).select(Samples.first(sentries))).map(P2.<Particle,Integer>__2());
         this.initialised = true;
     }
 
     public RandomSentryDetectionStrategy(RandomSentryDetectionStrategy copy) {
+        super(copy);
         this.sentries = copy.sentries;
         this.theta = copy.theta;
     }
@@ -84,11 +60,12 @@ public class RandomSentryDetectionStrategy extends EnvironmentChangeDetectionStr
     @Override
     public <A extends HasTopology & Algorithm & HasNeighbourhood> boolean detect(A algorithm) {
         if(initialised == false){
-            this.Initialise(algorithm);
+            this.initialise(algorithm);
         }
         boolean envChangeOccured = false;
 
-        for (Particle nextSentry : sentryList) {
+        for (Integer nextSentryIndex : sentryIndexes) {
+            Particle nextSentry = (Particle) algorithm.getTopology().index(nextSentryIndex); 
             double oldSentryFitness = nextSentry.getFitness().getValue();
             double newSentryFitness = algorithm.getOptimisationProblem().getFitness(nextSentry.getPosition()).getValue();
 
