@@ -227,27 +227,6 @@ public class VonNeumannTopologyTest {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
 
-        @Override
-        public boolean equals(Object object) {
-            if (this == object) {
-                return true;
-            }
-
-            if ((object == null) || (this.getClass() != object.getClass())) {
-                return false;
-            }
-
-            DumbParticle other = (DumbParticle) object;
-            return this.name.equals(other.name);
-        }
-
-        @Override
-        public int hashCode() {
-            int hash = 7;
-            hash = 31 * hash + (this.name == null ? 0 : this.name.hashCode());
-            return hash;
-        }
-
     }
 
 }

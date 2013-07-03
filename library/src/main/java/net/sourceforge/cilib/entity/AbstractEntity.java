@@ -23,7 +23,6 @@ public abstract class AbstractEntity implements Entity {
 
     private static final long serialVersionUID = 3104817182593047611L;
 
-    private long id;
     private final Blackboard<Enum<?>, Type> properties;
     private FitnessCalculator<Entity> fitnessCalculator;
 
@@ -31,7 +30,6 @@ public abstract class AbstractEntity implements Entity {
      * Initialise the candidate solution of the {@linkplain Entity}.
      */
     protected AbstractEntity() {
-        this.id = EntityIdFactory.getNextId();
         this.properties = new Blackboard();
         this.fitnessCalculator = new EntityBasedFitnessCalculator();
     }
@@ -41,42 +39,8 @@ public abstract class AbstractEntity implements Entity {
      * @param copy The instance to copy.
      */
     protected AbstractEntity(AbstractEntity copy) {
-        this.id = EntityIdFactory.getNextId();
         this.properties = copy.properties.getClone();
         this.fitnessCalculator = copy.fitnessCalculator.getClone();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * It doesn't make sense to compare the meta data of the entity.
-     * In other words, the properties of the entity may vary, but the entity
-     * is still the same entity.
-     *
-     * @param object The object to compare equality.
-     */
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-
-        if ((object == null) || (this.getClass() != object.getClass())) {
-            return false;
-        }
-
-        AbstractEntity other = (AbstractEntity) object;
-        return this.id == other.id;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 31 * hash + (int)(id ^ (id >>> 32));
-        return hash;
     }
 
     /**
@@ -142,14 +106,6 @@ public abstract class AbstractEntity implements Entity {
      */
     public void setFitnessCalculator(FitnessCalculator fitnessCalculator) {
         this.fitnessCalculator = fitnessCalculator;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public long getId() {
-        return this.id;
     }
 
     @Override

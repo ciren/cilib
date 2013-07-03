@@ -67,33 +67,6 @@ public class Individual extends AbstractEntity {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-
-        if ((object == null) || (this.getClass() != object.getClass())) {
-            return false;
-        }
-
-        Individual other = (Individual) object;
-        return super.equals(other);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 31 * hash + super.hashCode();
-        return hash;
-    }
-
-    /**
      * Resets the fitness to <code>InferiorFitness</code>.
      */
     public void resetFitness() {
