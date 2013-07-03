@@ -10,7 +10,6 @@ import com.google.common.base.Preconditions;
 import fj.Equal;
 import fj.data.List;
 import fj.function.Booleans;
-import net.sourceforge.cilib.entity.EntityIdFactory;
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
@@ -156,7 +155,6 @@ public abstract class AbstractAlgorithm implements Algorithm {
     public void cleanUp() {
         // Cleanup thread-local variables -- very ugly hack!!!
         currentAlgorithmStack.remove();
-        EntityIdFactory.remove();
         Archive.Provider.remove();
     }
 

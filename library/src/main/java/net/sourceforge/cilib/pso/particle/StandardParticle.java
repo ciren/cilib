@@ -44,26 +44,6 @@ public class StandardParticle extends AbstractParticle {
            return new StandardParticle(this);
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-
-        if ((object == null) || (this.getClass() != object.getClass())) {
-            return false;
-        }
-
-        StandardParticle other = (StandardParticle) object;
-        return super.equals(object) &&
-            (this.neighbourhoodBest == null ? true : this.neighbourhoodBest.equals(other.neighbourhoodBest));
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
     /**
      * {@inheritDoc}
      */

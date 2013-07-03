@@ -99,13 +99,6 @@ public interface Entity extends Comparable<Entity>, Cloneable {
     Blackboard<Enum<?>, Type> getProperties();
 
     /**
-     * Get the identifier associated with the {@linkplain Entity} instance.
-     *
-     * @return The associated identifier.
-     */
-    long getId();
-
-    /**
      * Get the current {@code FitnessCalculator} for the current {@code Entity}.
      *
      * @return The {@code FitnessCalculator} associated with this {@code Entity}.
