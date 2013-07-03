@@ -93,7 +93,7 @@ public class FDRVelocityProvider implements VelocityProvider {
             while (swarmIterator.hasNext()) {
                 Particle currentTarget = swarmIterator.next();
 
-                if (currentTarget.getId() != particle.getId()) {
+                if (currentTarget != particle) {
                     Fitness currentTargetFitness = currentTarget.getBestFitness();
                     Vector currentTargetPosition = (Vector) currentTarget.getBestPosition();
 
