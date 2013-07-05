@@ -14,7 +14,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <!-- This is where you change the pbest and velocity strategies -->
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
@@ -49,7 +49,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider" />
@@ -68,7 +68,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.RandomOffspringVelocityProvider" />
@@ -87,7 +87,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.WorstParentOffspringVelocityProvider" />
@@ -106,7 +106,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
@@ -125,7 +125,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider" />
@@ -144,7 +144,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.RandomOffspringVelocityProvider" />
@@ -163,7 +163,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.CurrentPositionOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.WorstParentOffspringVelocityProvider" />
@@ -182,7 +182,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.RandomOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
@@ -201,7 +201,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.RandomOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider" />
@@ -220,7 +220,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.RandomOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.RandomOffspringVelocityProvider" />
@@ -239,7 +239,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.RandomOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.WorstParentOffspringVelocityProvider" />
@@ -258,7 +258,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.NoisyPositionOffspringPBestProvider">
                             <delegate class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider"/>
@@ -279,7 +279,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.NoisyPositionOffspringPBestProvider">
                             <delegate class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider"/>
@@ -300,7 +300,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.NoisyPositionOffspringPBestProvider">
                             <delegate class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider"/>
@@ -321,7 +321,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.NoisyPositionOffspringPBestProvider">
                             <delegate class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider"/>
@@ -342,7 +342,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.CrossoverOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
@@ -361,7 +361,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.CrossoverOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.ZeroOffspringVelocityProvider" />
@@ -380,7 +380,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.CrossoverOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.RandomOffspringVelocityProvider" />
@@ -399,7 +399,7 @@
 
                     <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                         <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                            <numberOfParents value="3" />
+                            <numberOfParents class="controlparameter.ConstantControlParameter" parameter="3"/>
                         </crossoverStrategy>
                         <pbestProvider class="pso.crossover.pbestupdate.CrossoverOffspringPBestProvider" />
                         <velocityProvider class="pso.crossover.velocityprovider.WorstParentOffspringVelocityProvider" />

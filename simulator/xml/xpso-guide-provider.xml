@@ -39,7 +39,7 @@
                             <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
                                 <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                                     <crossoverStrategy class="entity.operators.crossover.real.UnimodalNormalDistributionCrossoverStrategy">
-                                        <numberOfParents value="10" />
+                                        <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
                                     </crossoverStrategy>
                                     <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                                     <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
@@ -89,7 +89,7 @@
                             <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
                                 <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                                     <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                                        <numberOfParents value="10" />
+                                        <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
                                     </crossoverStrategy>
                                     <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                                     <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
@@ -139,7 +139,7 @@
                             <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
                                 <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                                     <crossoverStrategy class="entity.operators.crossover.real.SimplexCrossoverStrategy">
-                                        <numberOfParents value="10" />
+                                        <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
                                     </crossoverStrategy>
                                     <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                                     <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />
@@ -189,7 +189,7 @@
                             <crossoverSelection class="pso.crossover.operations.BoltzmannCrossoverSelection">
                                 <crossoverStrategy class="pso.crossover.ParticleCrossoverStrategy">
                                     <crossoverStrategy class="entity.operators.crossover.real.ParentCentricCrossoverStrategy">
-                                        <numberOfParents value="10" />
+                                        <numberOfParents class="controlparameter.ConstantControlParameter" parameter="10"/>
                                     </crossoverStrategy>
                                     <pbestProvider class="pso.crossover.pbestupdate.IdentityOffspringPBestProvider" />
                                     <velocityProvider class="pso.crossover.velocityprovider.IdentityOffspringVelocityProvider" />

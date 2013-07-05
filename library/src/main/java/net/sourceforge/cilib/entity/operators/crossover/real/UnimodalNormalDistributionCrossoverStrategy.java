@@ -37,8 +37,8 @@ import net.sourceforge.cilib.util.functions.Entities;
  */
 public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStrategy {
 
-    private int numberOfParents;
-    private int numberOfOffspring;
+    private ControlParameter numberOfParents;
+    private ControlParameter numberOfOffspring;
     private ControlParameter sigma1;
     private ControlParameter sigma2;
     private final GaussianDistribution random;
@@ -48,8 +48,8 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
      * Default constructor.
      */
     public UnimodalNormalDistributionCrossoverStrategy() {
-        this.numberOfParents = 3;
-        this.numberOfOffspring = 1;
+        this.numberOfParents = ConstantControlParameter.of(3);
+        this.numberOfOffspring = ConstantControlParameter.of(1);
         this.sigma1 = ConstantControlParameter.of(0.1);
         this.sigma2 = ConstantControlParameter.of(0.1);
         this.random = new GaussianDistribution();
@@ -84,20 +84,20 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
     @Override
     public <E extends Entity> List<E> crossover(List<E> parentCollection) {
         checkState(parentCollection.size() >= 3, "There must be a minimum of three parents to perform UNDX crossover.");
-        checkState(numberOfOffspring > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
+        checkState(numberOfOffspring.getParameter() > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
 
         List<Vector> solutions = Entities.<Vector, E>getCandidateSolutions(parentCollection);
-        List<E> offspring = Lists.newArrayListWithCapacity(numberOfOffspring);
+        List<E> offspring = Lists.newArrayListWithCapacity((int) numberOfOffspring.getParameter());
         UniformDistribution randomParent = new UniformDistribution();
         final int k = solutions.size();
         final int n = solutions.get(0).size();
 
-        for (int os = 0; os < numberOfOffspring; os++) {
+        for (int os = 0; os < numberOfOffspring.getParameter(); os++) {
             //get index of main parent and put its solution at the end of the list
             int parent = (int) randomParent.getRandomNumber(0.0, k);
             Collections.swap(solutions, parent, k - 1);
 
-            List<Vector> e_zeta = new ArrayList<Vector>();
+            List<Vector> e_zeta = new ArrayList<>();
 
             //calculate mean of parents except main parent
             Vector g = Vectors.mean(fj.data.List.iterableList(solutions.subList(0, k - 1))).valueE("Error in getting mean");
@@ -192,7 +192,7 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
      *
      * @param numberOfOffspring The number of offspring required
      */
-    public void setNumberOfOffspring(int numberOfOffspring) {
+    public void setNumberOfOffspring(ControlParameter numberOfOffspring) {
         this.numberOfOffspring = numberOfOffspring;
     }
 
@@ -207,10 +207,10 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
 
     @Override
     public int getNumberOfParents() {
-        return numberOfParents;
+        return (int) numberOfParents.getParameter();
     }
 
-    public void setNumberOfParents(int numberOfParents) {
+    public void setNumberOfParents(ControlParameter numberOfParents) {
         this.numberOfParents = numberOfParents;
     }
 
