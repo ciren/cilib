@@ -37,19 +37,19 @@ import net.sourceforge.cilib.util.functions.Entities;
  */
 public class SimplexCrossoverStrategy implements CrossoverStrategy {
 
-    private int numberOfOffspring;
+    private ControlParameter numberOfOffspring;
     private ControlParameter epsilon;
     private boolean useDefaultEpsilon;
-    private int numberOfParents;
+    private ControlParameter numberOfParents;
 
     /**
      * Default constructor.
      */
     public SimplexCrossoverStrategy() {
-        this.numberOfOffspring = 1;
+        this.numberOfOffspring = ConstantControlParameter.of(1);
         this.epsilon = ConstantControlParameter.of(0.1);
         this.useDefaultEpsilon = true;
-        this.numberOfParents = 3;
+        this.numberOfParents = ConstantControlParameter.of(3);
     }
 
     /**
@@ -58,10 +58,10 @@ public class SimplexCrossoverStrategy implements CrossoverStrategy {
      * @param copy
      */
     public SimplexCrossoverStrategy(SimplexCrossoverStrategy copy) {
-        this.numberOfOffspring = copy.numberOfOffspring;
+        this.numberOfOffspring = copy.numberOfOffspring.getClone();
         this.epsilon = copy.epsilon.getClone();
         this.useDefaultEpsilon = copy.useDefaultEpsilon;
-        this.numberOfParents = copy.numberOfParents;
+        this.numberOfParents = copy.numberOfParents.getClone();
     }
 
     /**
@@ -78,7 +78,7 @@ public class SimplexCrossoverStrategy implements CrossoverStrategy {
     @Override
     public <E extends Entity> List<E> crossover(List<E> parentCollection) {
         Preconditions.checkArgument(parentCollection.size() >= 3, "ParentCentricCrossoverStrategy requires at least 3 parents.");
-        Preconditions.checkState(numberOfOffspring > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
+        Preconditions.checkState(numberOfOffspring.getParameter() > 0, "At least one offspring must be generated. Check 'numberOfOffspring'.");
 
         List<Vector> solutions = Entities.<Vector, E>getCandidateSolutions(parentCollection);
         List<Vector> simplexVertices = Lists.newArrayList();
@@ -96,7 +96,7 @@ public class SimplexCrossoverStrategy implements CrossoverStrategy {
             simplexVertices.add(mean.plus(v.subtract(mean).multiply(epsilon.getParameter())));
         }
 
-        for (int os = 0; os < numberOfOffspring; os++) {
+        for (int os = 0; os < numberOfOffspring.getParameter(); os++) {
             // calculate offset vectors
             List<Vector> offsetVectors = Lists.newArrayList();
             offsetVectors.add(mean.subtract(mean)); // add a zero vector (using mean - mean to preserve bounds)
@@ -143,20 +143,20 @@ public class SimplexCrossoverStrategy implements CrossoverStrategy {
      *
      * @param numberOfOffspring The number of offspring required
      */
-    public void setNumberOfOffspring(int numberOfOffspring) {
+    public void setNumberOfOffspring(ControlParameter numberOfOffspring) {
         this.numberOfOffspring = numberOfOffspring;
     }
 
-    public int getNumberOfOffspring() {
+    public ControlParameter getNumberOfOffspring() {
         return numberOfOffspring;
     }
 
     @Override
     public int getNumberOfParents() {
-        return numberOfParents;
+        return (int) numberOfParents.getParameter();
     }
 
-    public void setNumberOfParents(int numberOfParents) {
+    public void setNumberOfParents(ControlParameter numberOfParents) {
         this.numberOfParents = numberOfParents;
     }
 
