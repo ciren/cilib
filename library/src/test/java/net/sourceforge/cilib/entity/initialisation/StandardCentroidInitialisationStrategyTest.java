@@ -12,7 +12,7 @@ import junit.framework.Assert;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import org.junit.Test;
@@ -38,7 +38,7 @@ public class StandardCentroidInitialisationStrategyTest {
         holder.add(ClusterCentroid.of(0,0));
         holder.add(ClusterCentroid.of(0,0));
         particle.setCandidateSolution(holder);
-        instance.initialise(EntityType.CANDIDATE_SOLUTION, particle);
+        instance.initialise(Property.CANDIDATE_SOLUTION, particle);
 
         Assert.assertTrue(particle.getCandidateSolution() instanceof CentroidHolder);
         Assert.assertTrue((((CentroidHolder) particle.getCandidateSolution()).get(0).get(0).doubleValue() < 3.0) &&
@@ -66,10 +66,10 @@ public class StandardCentroidInitialisationStrategyTest {
         holder.add(ClusterCentroid.of(0,0));
         holder.add(ClusterCentroid.of(0,0));
         particle.setCandidateSolution(holder);
-        instance.initialise(EntityType.CANDIDATE_SOLUTION, particle);
+        instance.initialise(Property.CANDIDATE_SOLUTION, particle);
 
         CentroidHolder solutionBefore = (CentroidHolder) particle.getCandidateSolution().getClone();
-        instance.reinitialise(EntityType.CANDIDATE_SOLUTION, particle);
+        instance.reinitialise(Property.CANDIDATE_SOLUTION, particle);
         CentroidHolder solutionAfter = (CentroidHolder) particle.getCandidateSolution().getClone();
 
         Assert.assertFalse(solutionAfter.containsAll(solutionBefore));

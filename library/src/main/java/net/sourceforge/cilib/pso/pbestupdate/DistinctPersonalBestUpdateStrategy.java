@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.pso.pbestupdate;
 
 import java.util.Arrays;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.crossover.velocityprovider.IdentityOffspringVelocityProvider;
 import net.sourceforge.cilib.pso.crossover.velocityprovider.OffspringVelocityProvider;
@@ -39,7 +39,7 @@ public class DistinctPersonalBestUpdateStrategy implements PersonalBestUpdateStr
     public void updatePersonalBest(Particle particle) {
         if (particle.getFitness().compareTo(particle.getBestFitness()) > 0) {
             particle.getParticleBehavior().incrementSuccessCounter();
-            particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
+            particle.put(Property.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
 
             Particle temp = particle.getClone();
             temp.setCandidateSolution(positionProvider.f(particle));
@@ -47,24 +47,24 @@ public class DistinctPersonalBestUpdateStrategy implements PersonalBestUpdateStr
             Fitness tempFitness = particle.getFitnessCalculator().getFitness(temp);
 
             if (tempFitness.compareTo(particle.getFitness()) > 0) {
-                particle.getProperties().put(EntityType.Particle.BEST_FITNESS, tempFitness);
-                particle.getProperties().put(EntityType.Particle.BEST_POSITION, temp.getCandidateSolution());
+                particle.put(Property.BEST_FITNESS, tempFitness);
+                particle.put(Property.BEST_POSITION, temp.getCandidateSolution());
             } else {
-                particle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getFitness());
-                particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getCandidateSolution());
+                particle.put(Property.BEST_FITNESS, particle.getFitness());
+                particle.put(Property.BEST_POSITION, particle.getCandidateSolution());
 
-                particle.getProperties().put(EntityType.FITNESS, tempFitness);
-                particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, temp.getCandidateSolution());
+                particle.put(Property.FITNESS, tempFitness);
+                particle.put(Property.CANDIDATE_SOLUTION, temp.getCandidateSolution());
 
-                particle.getProperties().put(EntityType.Particle.VELOCITY, (Vector) velocityProvider.f(Arrays.asList(temp), particle));
+                particle.put(Property.VELOCITY, (Vector) velocityProvider.f(Arrays.asList(temp), particle));
             }
 
             return;
         }
 
         //PBest didn't change. Increment stagnation counter.
-        int count = ((Int)particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER)).intValue();
-        particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER,  Int.valueOf(++count));
+        int count = ((Int)particle.get(Property.PBEST_STAGNATION_COUNTER)).intValue();
+        particle.put(Property.PBEST_STAGNATION_COUNTER,  Int.valueOf(++count));
     }
 
     public DistinctPositionProvider getPositionProvider() {

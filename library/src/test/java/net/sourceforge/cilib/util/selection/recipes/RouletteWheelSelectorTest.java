@@ -9,7 +9,7 @@ package net.sourceforge.cilib.util.selection.recipes;
 import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.problem.solution.MaximisationFitness;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
@@ -54,9 +54,9 @@ public class RouletteWheelSelectorTest {
     @Test
     public void minimisationSelection() {
         fj.data.List<Individual> topology = createDummyTopology();
-        topology.index(0).getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
-        topology.index(1).getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
-        topology.index(2).getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.00001)); // Should be the best entity
+        topology.index(0).put(Property.FITNESS, new MinimisationFitness(10000.0));
+        topology.index(1).put(Property.FITNESS, new MinimisationFitness(10000.0));
+        topology.index(2).put(Property.FITNESS, new MinimisationFitness(0.00001)); // Should be the best entity
 
         RouletteWheelSelector<Individual> selection = new RouletteWheelSelector<Individual>(new EntityWeighting());
         Individual selected = selection.on(topology).select();
@@ -70,9 +70,9 @@ public class RouletteWheelSelectorTest {
     @Test
     public void maximisationSelection() {
         fj.data.List<Individual> topology = createDummyTopology();
-        topology.index(0).getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
-        topology.index(1).getProperties().put(EntityType.FITNESS, new MaximisationFitness(90000.0)); // Should be the best entity
-        topology.index(2).getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
+        topology.index(0).put(Property.FITNESS, new MaximisationFitness(0.5));
+        topology.index(1).put(Property.FITNESS, new MaximisationFitness(90000.0)); // Should be the best entity
+        topology.index(2).put(Property.FITNESS, new MaximisationFitness(0.5));
 
         RouletteWheelSelector<Individual> selection = new RouletteWheelSelector<Individual>(new EntityWeighting());
         Individual selected = selection.on(topology).select();
@@ -85,9 +85,9 @@ public class RouletteWheelSelectorTest {
     @Test
     public void someNaNSelection() {
         fj.data.List<Individual> topology = createDummyTopology();
-        topology.index(0).getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
-        topology.index(1).getProperties().put(EntityType.FITNESS, new MaximisationFitness(90000.0)); // Should be the best entity
-        topology.index(2).getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
+        topology.index(0).put(Property.FITNESS, InferiorFitness.instance());
+        topology.index(1).put(Property.FITNESS, new MaximisationFitness(90000.0)); // Should be the best entity
+        topology.index(2).put(Property.FITNESS, new MaximisationFitness(0.5));
 
         RouletteWheelSelector<Individual> selection = new RouletteWheelSelector<Individual>(new EntityWeighting());
         Individual selected = selection.on(topology).select();
@@ -100,9 +100,9 @@ public class RouletteWheelSelectorTest {
     @Test
     public void allNaNSelection() {
         fj.data.List<Individual> topology = createDummyTopology();
-        topology.index(0).getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
-        topology.index(1).getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
-        topology.index(2).getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        topology.index(0).put(Property.FITNESS, InferiorFitness.instance());
+        topology.index(1).put(Property.FITNESS, InferiorFitness.instance());
+        topology.index(2).put(Property.FITNESS, InferiorFitness.instance());
 
         RouletteWheelSelector<Individual> selection = new RouletteWheelSelector<Individual>(new EntityWeighting());
         Individual selected = selection.on(topology).select();

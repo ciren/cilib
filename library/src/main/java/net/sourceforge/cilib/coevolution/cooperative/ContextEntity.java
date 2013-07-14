@@ -8,7 +8,7 @@ package net.sourceforge.cilib.coevolution.cooperative;
 
 import net.sourceforge.cilib.coevolution.cooperative.problem.DimensionAllocation;
 import net.sourceforge.cilib.entity.AbstractEntity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
@@ -26,8 +26,8 @@ public class ContextEntity extends AbstractEntity {
      * Constructor
      */
     public ContextEntity(){
-        getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of());
-        getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        put(Property.CANDIDATE_SOLUTION, Vector.of());
+        put(Property.FITNESS, InferiorFitness.instance());
     }
 
     /**
@@ -77,7 +77,7 @@ public class ContextEntity extends AbstractEntity {
      * Clear the context vector.
      */
     public void clear(){
-        getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of());
+        put(Property.CANDIDATE_SOLUTION, Vector.of());
     }
 
     /**
@@ -105,7 +105,7 @@ public class ContextEntity extends AbstractEntity {
      */
     @Override
     public void initialise(Problem problem) {
-        getProperties().put(EntityType.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresentation().getClone());
+        put(Property.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresentation().getClone());
         getCandidateSolution().randomise();
     }
 
@@ -128,7 +128,7 @@ public class ContextEntity extends AbstractEntity {
      * @param f The new {@linkplain Fitness} value.
      */
     public void setFitness(Fitness f){
-        getProperties().put(EntityType.FITNESS, f);
+        put(Property.FITNESS, f);
     }
 
     @Override

@@ -9,6 +9,7 @@ package net.sourceforge.cilib.pso.crossover.operations;
 import fj.P3;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
 
@@ -34,7 +35,7 @@ public class RepeatingCrossoverSelection extends CrossoverSelection {
     }
 
     @Override
-    public P3<Boolean, Particle, Particle> doAction(PSO algorithm, Enum solutionType, Enum fitnessType) {
+    public P3<Boolean, Particle, Particle> doAction(PSO algorithm, Property solutionType, Property fitnessType) {
         int counter = 0;
         boolean isBetter;
         P3<Boolean, Particle, Particle> result;

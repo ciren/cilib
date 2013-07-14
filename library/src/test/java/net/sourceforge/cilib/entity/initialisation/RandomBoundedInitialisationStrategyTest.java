@@ -8,7 +8,7 @@ package net.sourceforge.cilib.entity.initialisation;
 
 import net.sourceforge.cilib.entity.initialisation.RandomBoundedInitialisationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Int;
@@ -30,12 +30,12 @@ public class RandomBoundedInitialisationStrategyTest {
                 Int.valueOf(7));
 
         Particle particle = new StandardParticle();
-        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, vector);
+        particle.put(Property.CANDIDATE_SOLUTION, vector);
 
         RandomBoundedInitialisationStrategy<Particle> strategy = new RandomBoundedInitialisationStrategy<Particle>();
         strategy.lowerBound = (ConstantControlParameter.of(-5.0));
         strategy.upperBound = (ConstantControlParameter.of(5.0));
-        strategy.initialise(EntityType.CANDIDATE_SOLUTION, particle);
+        strategy.initialise(Property.CANDIDATE_SOLUTION, particle);
 
         for (int i = 0; i < vector.size(); i++) {
             Numeric numeric = vector.get(i);

@@ -14,7 +14,7 @@ import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.initialisation.RandomInitialisationStrategy;
 import net.sourceforge.cilib.niching.creation.ClosestNeighbourNicheCreationStrategy;
 import net.sourceforge.cilib.niching.creation.MaintainedFitnessNicheDetection;
@@ -182,7 +182,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements H
         this.mainSwarm.performInitialisation();
 
         for (Entity e : mainSwarm.getTopology()) {
-            e.getProperties().put(EntityType.Coevolution.POPULATION_ID, Int.valueOf(0));
+            e.put(Property.POPULATION_ID, Int.valueOf(0));
         }
 
         this.entityType = this.mainSwarm.getTopology().head();
@@ -329,10 +329,12 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements H
         return subSwarmIterator;
     }
 
+    @Override
     public fj.data.List<Particle> getTopology() {
         return mainSwarm.getTopology();
     }
 
+    @Override
     public void setTopology(fj.data.List<Particle> topology) {
     	this.mainSwarm.setTopology(topology);
     }

@@ -14,7 +14,7 @@ import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
@@ -95,7 +95,7 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
             }).plus((Vector) gBest.getCandidateSolution());
 
             newP.setCandidateSolution(solution);
-            newP.getProperties().put(EntityType.Coevolution.POPULATION_ID, Int.valueOf(swarms.getSubswarms().length() + 1));
+            newP.put(Property.POPULATION_ID, Int.valueOf(swarms.getSubswarms().length() + 1));
             newTopology = newTopology.cons(newP);
         }
 

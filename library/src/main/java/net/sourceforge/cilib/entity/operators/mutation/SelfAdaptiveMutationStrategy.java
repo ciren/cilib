@@ -9,7 +9,7 @@ package net.sourceforge.cilib.entity.operators.mutation;
 import fj.F;
 import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.type.types.Numeric;
@@ -47,7 +47,7 @@ public class SelfAdaptiveMutationStrategy extends MutationStrategy {
 
         for (Entity offspring : offspringList) {
             Vector candidateSolution = (Vector) offspring.getCandidateSolution();
-            Vector strategy = (Vector) offspring.getProperties().get(EntityType.STRATEGY_PARAMETERS);
+            Vector strategy = (Vector) offspring.get(Property.STRATEGY_PARAMETERS);
 
             // Update the offspring
             for (int i = 0; i < candidateSolution.size(); i++) {
@@ -63,7 +63,7 @@ public class SelfAdaptiveMutationStrategy extends MutationStrategy {
                     return from.doubleValue() * Math.exp(exponent);
                 }
             });
-            offspring.getProperties().put(EntityType.STRATEGY_PARAMETERS, newStrategy);
+            offspring.put(Property.STRATEGY_PARAMETERS, newStrategy);
         }
         return offspringList;
     }

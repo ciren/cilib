@@ -6,9 +6,8 @@
  */
 package net.sourceforge.cilib.entity.initialisation;
 
-import net.sourceforge.cilib.entity.initialisation.ConstantInitialisationStrategy;
 import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -35,10 +34,10 @@ public class ConstantInitialisationStrategyTest {
     public void initialise() {
         Vector vector = Vector.of(1.0, 1.0, 1.0);
         Individual individual = new Individual();
-        individual.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.copyOf(vector));
+        individual.put(Property.CANDIDATE_SOLUTION, Vector.copyOf(vector));
 
-        ConstantInitialisationStrategy<Individual> initialisationStrategy = new ConstantInitialisationStrategy<Individual>();
-        initialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, individual);
+        ConstantInitialisationStrategy<Individual> initialisationStrategy = new ConstantInitialisationStrategy<>();
+        initialisationStrategy.initialise(Property.CANDIDATE_SOLUTION, individual);
 
         Vector chromosome = (Vector) individual.getCandidateSolution();
 
@@ -47,13 +46,13 @@ public class ConstantInitialisationStrategyTest {
         }
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void invalidInitialise() {
-        Individual individual = new Individual();
-        individual.getProperties().put(EntityType.CANDIDATE_SOLUTION, Real.valueOf(0.0));
-
-        ConstantInitialisationStrategy<Individual> initialisationStrategy = new ConstantInitialisationStrategy<Individual>();
-
-        initialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, individual);
-    }
+//    @Test(expected = UnsupportedOperationException.class)
+//    public void invalidInitialise() {
+//        Individual individual = new Individual();
+//        individual.put(Property.CANDIDATE_SOLUTION, Real.valueOf(0.0));
+//
+//        ConstantInitialisationStrategy<Individual> initialisationStrategy = new ConstantInitialisationStrategy<>();
+//
+//        initialisationStrategy.initialise(Property.CANDIDATE_SOLUTION, individual);
+//    }
 }

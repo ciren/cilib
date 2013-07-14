@@ -10,7 +10,7 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -42,8 +42,8 @@ public class MultiPopulationFitness implements Measurement<Vector> {
         for (SinglePopulationBasedAlgorithm<Entity> currentAlgorithm : ca) {
             Fitness best = null;
             for (Entity e : currentAlgorithm.getTopology()) {
-                if (best == null || ((Fitness) e.getProperties().get(EntityType.Particle.BEST_FITNESS)).compareTo(best) > 0) {
-                    best = ((Fitness) e.getProperties().get(EntityType.Particle.BEST_FITNESS));
+                if (best == null || ((Fitness) e.get(Property.BEST_FITNESS)).compareTo(best) > 0) {
+                    best = ((Fitness) e.get(Property.BEST_FITNESS));
                 }
             }
             fitness.add(best.getValue());

@@ -12,7 +12,7 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.operators.CrossoverOperator;
@@ -99,7 +99,7 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
 
         fj.data.List<Particle> newTopology = fj.data.List.iterableList(selector.on(topology.append(offspring.map(new F<Particle, Particle>(){
         	public Particle f(Particle p) {
-        		p.getProperties().put(EntityType.Particle.BEST_POSITION, p.getCandidateSolution());
+        		p.put(Property.BEST_POSITION, p.getCandidateSolution());
                 p.setNeighbourhoodBest(p);
                 p.calculateFitness();
                 return p;

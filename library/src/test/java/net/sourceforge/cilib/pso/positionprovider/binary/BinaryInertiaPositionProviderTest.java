@@ -9,7 +9,7 @@ package net.sourceforge.cilib.pso.positionprovider.binary;
 import net.sourceforge.cilib.pso.positionprovider.binary.BinaryInertiaPositionProvider;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.particle.Particle;
@@ -34,7 +34,7 @@ public class BinaryInertiaPositionProviderTest {
         Vector updatedPosition;
 
         // initialise position [1.0, 0.0]
-        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION,
+        particle.put(Property.CANDIDATE_SOLUTION,
             Vector.of(Real.valueOf(1.0, bBounds), Real.valueOf(0.0, bBounds)));
 
         // zero velocity
@@ -75,6 +75,6 @@ public class BinaryInertiaPositionProviderTest {
     }
 
     private void changeVelocity(Particle p, Vector velocity) {
-        p.getProperties().put(EntityType.Particle.VELOCITY, velocity);
+        p.put(Property.VELOCITY, velocity);
     }
 }

@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.DiscreteCrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.OnePointCrossoverStrategy;
@@ -55,15 +55,15 @@ public class DiscreteVelocityCrossoverStrategy implements CrossoverStrategy {
 
         Iterator<Particle> vIter = offspringVelocity.iterator();
         for (Particle p : offspring) {
-            p.getProperties().put(EntityType.Particle.BEST_POSITION, pbestProvider.f(parents, p));
+            p.put(Property.BEST_POSITION, pbestProvider.f(parents, p));
 
             Particle pbCalc = p.getClone();
             pbCalc.setNeighbourhoodBest(nBest);
             pbCalc.setCandidateSolution(p.getBestPosition());
             pbCalc.calculateFitness();
 
-            p.getProperties().put(EntityType.Particle.BEST_FITNESS, pbCalc.getFitness());
-            p.getProperties().put(EntityType.Particle.VELOCITY, vIter.next().getCandidateSolution());
+            p.put(Property.BEST_FITNESS, pbCalc.getFitness());
+            p.put(Property.VELOCITY, vIter.next().getCandidateSolution());
 
             p.setNeighbourhoodBest(nBest);
             p.calculateFitness();

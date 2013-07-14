@@ -9,6 +9,7 @@ package net.sourceforge.cilib.pso.crossover.operations;
 import fj.P;
 import fj.P3;
 import java.util.Comparator;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.comparator.BoltzmannComparator;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
@@ -32,7 +33,7 @@ public class BoltzmannCrossoverSelection extends CrossoverSelection {
     }
 
     @Override
-    public P3<Boolean, Particle, Particle> doAction(PSO algorithm, Enum solutionType, Enum fitnessType) {
+    public P3<Boolean, Particle, Particle> doAction(PSO algorithm, Property solutionType, Property fitnessType) {
         P3<Boolean, Particle, Particle> result = select(algorithm, solutionType, fitnessType);
         Particle selectedParticle = result._2();
         Particle offspring = result._3();

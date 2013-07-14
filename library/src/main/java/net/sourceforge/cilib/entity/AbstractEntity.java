@@ -24,7 +24,7 @@ public abstract class AbstractEntity implements Entity {
     private static final long serialVersionUID = 3104817182593047611L;
 
     private long id;
-    private final Blackboard<Enum<?>, Type> properties;
+    private final Blackboard<Property, Type> properties;
     private FitnessCalculator<Entity> fitnessCalculator;
 
     /**
@@ -84,8 +84,23 @@ public abstract class AbstractEntity implements Entity {
      * @return The properties within a {@linkplain Blackboard}.
      */
     @Override
-    public final Blackboard<Enum<?>, Type> getProperties() {
+    public final Blackboard<Property, Type> getProperties() {
         return properties;
+    }
+    
+    @Override
+    public final <T extends Type> T get(Property<T> p) {
+        return (T) properties.get(p);
+    }
+    
+    @Override
+    public final <T extends Type> void put(Property<T> p, T v) {
+        properties.put(p, v);
+    }
+    
+    @Override
+    public final <T extends Type> boolean has(Property<T> p) {
+        return get(p) != null;
     }
 
     /**
@@ -95,7 +110,7 @@ public abstract class AbstractEntity implements Entity {
      */
     @Override
     public StructuredType getCandidateSolution() {
-        return (StructuredType) properties.get(EntityType.CANDIDATE_SOLUTION);
+        return get(Property.CANDIDATE_SOLUTION);
     }
 
     /**
@@ -105,7 +120,7 @@ public abstract class AbstractEntity implements Entity {
      */
     @Override
     public Fitness getFitness() {
-        return (Fitness) properties.get(EntityType.FITNESS);
+        return get(Property.FITNESS);
     }
 
     /**
@@ -116,7 +131,7 @@ public abstract class AbstractEntity implements Entity {
      */
     @Override
     public void setCandidateSolution(StructuredType candidateSolution) {
-        properties.put(EntityType.CANDIDATE_SOLUTION, candidateSolution);
+        put(Property.CANDIDATE_SOLUTION, candidateSolution);
     }
 
     /**
@@ -157,8 +172,8 @@ public abstract class AbstractEntity implements Entity {
 
     @Override
     public void calculateFitness() {
-        properties.put(EntityType.PREVIOUS_FITNESS, getFitness().getClone());
-        properties.put(EntityType.FITNESS, fitnessCalculator.getFitness(this));
+        put(Property.PREVIOUS_FITNESS, getFitness().getClone());
+        put(Property.FITNESS, fitnessCalculator.getFitness(this));
     }
 
     @Override

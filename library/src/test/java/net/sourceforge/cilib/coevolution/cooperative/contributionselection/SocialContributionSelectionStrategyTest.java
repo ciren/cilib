@@ -8,7 +8,7 @@ package net.sourceforge.cilib.coevolution.cooperative.contributionselection;
 
 import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
@@ -27,22 +27,22 @@ public class SocialContributionSelectionStrategyTest {
         Particle e2 = new StandardParticle();
         Particle e3 = new StandardParticle();
 
-        e1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.0));
-        e2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.5));
-        e3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
+        e1.put(Property.FITNESS, new MinimisationFitness(2.0));
+        e2.put(Property.FITNESS, new MinimisationFitness(1.5));
+        e3.put(Property.FITNESS, new MinimisationFitness(1.0));
 
-        e1.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(1.0));
-        e2.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(0.0));
-        e3.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(0.5));
+        e1.put(Property.BEST_FITNESS, new MinimisationFitness(1.0));
+        e2.put(Property.BEST_FITNESS, new MinimisationFitness(0.0));
+        e3.put(Property.BEST_FITNESS, new MinimisationFitness(0.5));
 
         Vector v1 = Vector.of(1);
-        e1.getProperties().put(EntityType.Particle.BEST_POSITION, v1);
+        e1.put(Property.BEST_POSITION, v1);
 
         Vector v2 = Vector.of(2);
-        e2.getProperties().put(EntityType.Particle.BEST_POSITION, v2);
+        e2.put(Property.BEST_POSITION, v2);
 
         Vector v3 = Vector.of(3);
-        e3.getProperties().put(EntityType.Particle.BEST_POSITION, v3);
+        e3.put(Property.BEST_POSITION, v3);
 
         algorithm.setTopology(fj.data.List.list(e1,e2,e3));
 //        ((Topology<Particle>)algorithm.getTopology()).add(e1);

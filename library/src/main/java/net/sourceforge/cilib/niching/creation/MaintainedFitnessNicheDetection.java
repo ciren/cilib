@@ -11,6 +11,7 @@ import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
@@ -34,10 +35,6 @@ import net.sourceforge.cilib.util.functions.Numerics;
  */
 public class MaintainedFitnessNicheDetection extends NicheDetection {
     
-    public enum NicheEnum{
-        NICHE_DETECTION_FITNESSES
-    }
-
     private ControlParameter threshold;
     private ControlParameter stationaryCounter;
 
@@ -80,13 +77,13 @@ public class MaintainedFitnessNicheDetection extends NicheDetection {
 
     @Override
     public Boolean f(SinglePopulationBasedAlgorithm swarm, Entity entity) {
-        TypeList fitnesses = (TypeList) entity.getProperties().get(NicheEnum.NICHE_DETECTION_FITNESSES);
+        TypeList fitnesses = (TypeList) entity.get(Property.NICHE_DETECTION_FITNESSES);
         
         if (fitnesses == null) {
             TypeList fitness = new TypeList();
             
             fitness.add(Real.valueOf(entity.getFitness().getValue()));
-            entity.getProperties().put(NicheEnum.NICHE_DETECTION_FITNESSES, fitness);
+            entity.put(Property.NICHE_DETECTION_FITNESSES, fitness);
             
             return false;
         }

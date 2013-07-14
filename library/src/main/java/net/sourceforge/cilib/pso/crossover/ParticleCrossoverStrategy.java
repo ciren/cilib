@@ -9,7 +9,7 @@ package net.sourceforge.cilib.pso.crossover;
 import java.util.List;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.real.ParentCentricCrossoverStrategy;
@@ -72,15 +72,15 @@ public class ParticleCrossoverStrategy implements CrossoverStrategy {
         Particle nBest = new ElitistSelector<Particle>(new SocialBestFitnessComparator()).on(parents).select();
 
         for (Particle p : offspring) {
-            p.getProperties().put(EntityType.Particle.BEST_POSITION, pbestProvider.f(parents, p));
+            p.put(Property.BEST_POSITION, pbestProvider.f(parents, p));
 
             Particle pbCalc = p.getClone();
             pbCalc.setNeighbourhoodBest(nBest);
             pbCalc.setCandidateSolution(p.getBestPosition());
             pbCalc.calculateFitness();
 
-            p.getProperties().put(EntityType.Particle.BEST_FITNESS, pbCalc.getFitness());
-            p.getProperties().put(EntityType.Particle.VELOCITY, velocityProvider.f(parents, p));
+            p.put(Property.BEST_FITNESS, pbCalc.getFitness());
+            p.put(Property.VELOCITY, velocityProvider.f(parents, p));
 
             p.setNeighbourhoodBest(nBest);
             p.calculateFitness();

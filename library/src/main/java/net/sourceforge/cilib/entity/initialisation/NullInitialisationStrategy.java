@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.entity.initialisation;
 
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Property;
 
 /**
  * An initialisation strategy the performs no actions.
@@ -30,7 +31,7 @@ public final class NullInitialisationStrategy<E extends Entity> implements Initi
      * {@inheritDoc}
      */
     @Override
-    public void initialise(Enum<?> key, E entity) {
+    public void initialise(Property key, E entity) {
         // Intentionally do nothing.
     }
 

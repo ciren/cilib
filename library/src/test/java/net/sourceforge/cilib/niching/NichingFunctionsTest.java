@@ -11,7 +11,7 @@ import java.util.Arrays;
 import net.sourceforge.cilib.algorithm.initialisation.ChargedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.niching.creation.ClosestNeighbourNicheCreationStrategy;
 import net.sourceforge.cilib.niching.creation.MaintainedFitnessNicheDetection;
@@ -245,9 +245,9 @@ public class NichingFunctionsTest {
         Particle particle = new StandardParticle();
 
         particle.setCandidateSolution(position);
-        particle.getProperties().put(EntityType.FITNESS, fitness);
-        particle.getProperties().put(EntityType.Particle.BEST_POSITION, position);
-        particle.getProperties().put(EntityType.Particle.BEST_FITNESS, fitness);
+        particle.put(Property.FITNESS, fitness);
+        particle.put(Property.BEST_POSITION, position);
+        particle.put(Property.BEST_FITNESS, fitness);
 
         return particle;
     }

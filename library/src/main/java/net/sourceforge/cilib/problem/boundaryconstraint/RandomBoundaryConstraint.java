@@ -8,7 +8,7 @@ package net.sourceforge.cilib.problem.boundaryconstraint;
 
 import java.util.Iterator;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -51,7 +51,7 @@ public class RandomBoundaryConstraint implements BoundaryConstraint {
      */
     @Override
     public void enforce(Entity entity) {
-        StructuredType<?> velocity = (StructuredType<?>) entity.getProperties().get(EntityType.Particle.VELOCITY);
+        StructuredType<?> velocity = (StructuredType<?>) entity.get(Property.VELOCITY);
 
         if (velocity == null) {
             throw new UnsupportedOperationException("Cannot perform this boundary constrain on a "
@@ -79,8 +79,8 @@ public class RandomBoundaryConstraint implements BoundaryConstraint {
             }
         }
 
-        entity.getProperties().put(EntityType.CANDIDATE_SOLUTION, newPosition.build());
-        entity.getProperties().put(EntityType.Particle.VELOCITY, newVelocity.build());
+        entity.put(Property.CANDIDATE_SOLUTION, newPosition.build());
+        entity.put(Property.VELOCITY, newVelocity.build());
     }
 
     /**

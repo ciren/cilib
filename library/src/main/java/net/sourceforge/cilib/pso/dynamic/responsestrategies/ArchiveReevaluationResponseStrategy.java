@@ -12,7 +12,7 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
@@ -34,8 +34,8 @@ public class ArchiveReevaluationResponseStrategy extends EnvironmentChangeRespon
 	protected <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void performReaction(
 			A algorithm) {
         for (Entity entity : algorithm.getTopology()) {
-            entity.getProperties().put(EntityType.Particle.BEST_FITNESS, entity.getFitnessCalculator().getFitness(entity));
-            //entity.getProperties().put(EntityType.Particle.BEST_POSITION, entity.getCandidateSolution());
+            entity.put(Property.BEST_FITNESS, entity.getFitnessCalculator().getFitness(entity));
+            //entity.put(Property.BEST_POSITION, entity.getCandidateSolution());
             entity.calculateFitness();
         }
 

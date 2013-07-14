@@ -11,7 +11,7 @@ import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationCriterionBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.knowledgetransferstrategies.KnowledgeTransferStrategy;
 import net.sourceforge.cilib.algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy;
-import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.moo.criterion.CriterionBasedMOProblemAdapter;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Blackboard;
@@ -75,7 +75,7 @@ public class VEPSOGuideProvider implements GuideProvider {
     @Override
     public StructuredType get(Particle particle) {
         MultiPopulationBasedAlgorithm topLevelAlgorithm = (MultiPopulationBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
-        Blackboard<Enum<?>, Type> knowledge = (Blackboard<Enum<?>, Type>) this.knowledgeTransferStrategy.transferKnowledge(topLevelAlgorithm.getPopulations());
-        return (StructuredType) knowledge.get(EntityType.Particle.BEST_POSITION);
+        Blackboard<Property, Type> knowledge = (Blackboard<Property, Type>) this.knowledgeTransferStrategy.transferKnowledge(topLevelAlgorithm.getPopulations());
+        return (StructuredType) knowledge.get(Property.BEST_POSITION);
     }
 }
