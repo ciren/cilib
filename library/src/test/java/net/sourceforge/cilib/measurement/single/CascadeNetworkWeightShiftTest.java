@@ -11,11 +11,13 @@ import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.nn.architecture.visitors.CascadeVisitor;
+import net.sourceforge.cilib.nn.domain.PresetNeuronDomain;
 import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.problem.nn.NNTrainingProblem;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -32,7 +34,11 @@ public class CascadeNetworkWeightShiftTest {
         network1.getArchitecture().setArchitectureBuilder(new CascadeArchitectureBuilder());
         network1.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network1.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
-        network1.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        network1.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network1.setOperationVisitor(new CascadeVisitor());
         network1.initialise();
         
@@ -41,7 +47,7 @@ public class CascadeNetworkWeightShiftTest {
         network2.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network2.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
         network2.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
-        network2.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        network2.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network2.setOperationVisitor(new CascadeVisitor());
         network2.initialise();
         
@@ -51,7 +57,7 @@ public class CascadeNetworkWeightShiftTest {
         network3.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
         network3.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1));
         network3.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
-        network3.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        network3.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network3.setOperationVisitor(new CascadeVisitor());
         network3.initialise();
         
@@ -62,7 +68,7 @@ public class CascadeNetworkWeightShiftTest {
         network4.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1));
         network4.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1));
         network4.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
-        network4.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        network4.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network4.setOperationVisitor(new CascadeVisitor());
         network4.initialise();
 

@@ -13,8 +13,6 @@ import net.sourceforge.cilib.nn.NeuralNetworksTestHelper;
 import net.sourceforge.cilib.nn.architecture.Layer;
 import net.sourceforge.cilib.nn.components.BiasNeuron;
 import net.sourceforge.cilib.nn.components.Neuron;
-import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,57 +23,20 @@ public class LambdaGammaVisitorTest {
 
     private NeuralNetwork neuralNetwork;
     private Vector solution;
-    private int weightCount;
-    private int activationFunctionCount;
 
     @Before
     public void setup() {
         neuralNetwork = NeuralNetworksTestHelper.createFFNN(3, 2, 1);
-
-        final Vector.Builder builder = Vector.newBuilder();
-        final Vector weights = neuralNetwork.getWeights();
-        weightCount = weights.size();
-        activationFunctionCount = 3; // hidden + output
-        Bounds bounds = new Bounds(0.0, 1.0);
-        builder.copyOf(weights);
-        builder.add(Real.valueOf(1.0, bounds)).add(Real.valueOf(1.1, bounds)).add(Real.valueOf(1.2, bounds));
-        builder.add(Real.valueOf(0.7, bounds)).add(Real.valueOf(0.8, bounds)).add(Real.valueOf(0.9, bounds));
-        solution = builder.build();
-    }
-
-    @Test
-    public void shouldExtractWeights() {
-        final Vector vector = new LambdaGammaVisitor(solution, weightCount, activationFunctionCount).extractWeights(solution);
-        assertEquals(neuralNetwork.getWeights(), vector);
-    }
-
-    @Test
-    public void shouldExtractLambdas() {
-        final Vector vector = new LambdaGammaVisitor(solution, weightCount, activationFunctionCount).extractLambdas(solution);
-        final Vector expected = Vector.of(1.0, 1.1, 1.2);
-        for (int i = 0; i < expected.size(); i++) {
-            assertEquals(expected.get(i).doubleValue(), vector.get(i).doubleValue(), Maths.EPSILON);
-        }
-    }
-
-    @Test
-    public void shouldExtractGammas() {
-        final Vector vector = new LambdaGammaVisitor(solution, weightCount, activationFunctionCount).extractGammas(solution);
-        final Vector expected = Vector.of(0.7, 0.8, 0.9);
-        for (int i = 0; i < expected.size(); i++) {
-            assertEquals(expected.get(i).doubleValue(), vector.get(i).doubleValue(), Maths.EPSILON);
-        }
     }
 
     @Test
     public void shouldVisit() {
-        final Vector.Builder builder = Vector.newBuilder();
-        solution = builder.copyOf(solution).buildRandom();
+        solution = Vector.of(1.1, 1.2, 1.3, 1.4, 0.1, 0.4, 1.5, 1.6, 1.7, 1.8, 0.2, 0.5, 1.9, 2.0, 2.1, 0.3, 0.6);
 
-        final LambdaGammaVisitor lambdaGammaVisitor = new LambdaGammaVisitor(solution, weightCount, activationFunctionCount);
-        final Vector weights = lambdaGammaVisitor.extractWeights(solution);
-        final Vector lambdas = lambdaGammaVisitor.extractLambdas(solution);
-        final Vector gammas = lambdaGammaVisitor.extractGammas(solution);
+        LambdaGammaVisitor lambdaGammaVisitor = new LambdaGammaVisitor(solution);
+        Vector weights = Vector.of(1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1);
+        Vector lambdas = Vector.of(0.1, 0.2, 0.3);
+        Vector gammas = Vector.of(0.4, 0.5, 0.6);
 
         lambdaGammaVisitor.visit(neuralNetwork.getArchitecture());
 

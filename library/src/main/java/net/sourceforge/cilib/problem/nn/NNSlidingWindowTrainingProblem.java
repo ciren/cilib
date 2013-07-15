@@ -191,11 +191,7 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
         if (!initialised) {
             this.initialise();
         }
-        int numWeights = NeuralNetworks.countWeights(neuralNetwork);
-        String domainString = neuralNetwork.getArchitecture().getArchitectureBuilder().getLayerBuilder().getDomain();
-        StringBasedDomainRegistry stringBasedDomainRegistry = new StringBasedDomainRegistry();
-        stringBasedDomainRegistry.setDomainString(domainString + "^" + numWeights);
-        return stringBasedDomainRegistry;
+        return neuralNetwork.getArchitecture().getDomain();
     }
 
     /**

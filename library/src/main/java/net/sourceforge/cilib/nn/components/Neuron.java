@@ -10,6 +10,8 @@ import net.sourceforge.cilib.functions.activation.ActivationFunction;
 import net.sourceforge.cilib.functions.activation.Sigmoid;
 import net.sourceforge.cilib.nn.architecture.NeuralInputSource;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -22,6 +24,7 @@ public class Neuron implements Cloneable {
     private double activation; // the stored activation after the last calculateActivation call.
     private ActivationFunction activationFunction; // the neuron's activation function.
     private Vector weights; // the set of input weights for the neuron.
+    protected DomainRegistry domainRegistry;
 
     /**
      * Default constructor.
@@ -32,6 +35,7 @@ public class Neuron implements Cloneable {
         activation = 0.0;
         activationFunction = new Sigmoid();
         weights = Vector.of();
+        domainRegistry = new StringBasedDomainRegistry();
     }
 
     /**
@@ -46,6 +50,8 @@ public class Neuron implements Cloneable {
             activationFunction = neuron.getActivationFunction().getClone();
         else
             activationFunction = null;
+
+        domainRegistry = neuron.domainRegistry.getClone();
     }
 
     /**
@@ -132,5 +138,21 @@ public class Neuron implements Cloneable {
 
     public boolean isBias() {
         return false;
+    }
+
+    /**
+     * Gets the domain of the Neuron.
+     * @return The domain.
+     */
+    public DomainRegistry getDomain() {
+        return domainRegistry;
+    }
+
+    /**
+     * Sets the domain string that represents the Neuron's domain.
+     * @param domainString The domain string.
+     */
+    public void setDomain(String domainString) {
+        this.domainRegistry.setDomainString(domainString);
     }
 }

@@ -85,9 +85,7 @@ public class CascadeHiddenNeuronCorrelationProblem extends NNTrainingProblem {
             numWeights += layers.get(curLayer).size();
         }
 
-        String domainString = neuralNetwork.getArchitecture().getArchitectureBuilder().getLayerBuilder().getDomain();
-        domainRegistry = new StringBasedDomainRegistry();
-        domainRegistry.setDomainString(domainString + "^" + numWeights);
+        domainRegistry = neuralNetwork.getArchitecture().getArchitectureBuilder().getLayerBuilder().getDomainProvider().generateDomain(numWeights);
     }
 
     /**
@@ -104,8 +102,6 @@ public class CascadeHiddenNeuronCorrelationProblem extends NNTrainingProblem {
 
         weightEvaluationCount += ((Vector) solution).size(); 
         neuron.setWeights((Vector) solution);
-
-        //System.out.println(((Vector) solution).size() + " " + activationCache.get(0).size());
 
         //calculate activations
         double[] activations = new double[trainingSet.size()];

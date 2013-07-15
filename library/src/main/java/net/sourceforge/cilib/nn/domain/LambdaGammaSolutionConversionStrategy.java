@@ -15,26 +15,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 public class LambdaGammaSolutionConversionStrategy implements SolutionConversionStrategy {
 
-    private int activationFuncCount = 0;
-    private int weightCount = 0;
-
-    @Override
+    /*@Override
     public SolutionConversionStrategy initialise(NeuralNetwork neuralNetwork) {
-        activationFuncCount = NeuralNetworks.countActivationFunctions(neuralNetwork);
-        weightCount = NeuralNetworks.countWeights(neuralNetwork);
         return this;
-    }
+    }*/
 
     @Override
     public ArchitectureVisitor interpretSolution(Type solution) {
-        return new LambdaGammaVisitor((Vector)solution, weightCount, activationFuncCount);
-    }
-
-    protected int getActivationFuncCount() {
-        return activationFuncCount;
-    }
-
-    protected int getWeightCount() {
-        return weightCount;
+        return new LambdaGammaVisitor((Vector)solution);
     }
 }

@@ -11,6 +11,8 @@ import net.sourceforge.cilib.nn.components.BiasNeuron;
 import net.sourceforge.cilib.nn.components.Neuron;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 
 /**
  * Class is a concrete extension of the abstract {@link LayerBuilder}. It constructs
@@ -51,29 +53,30 @@ public class PrototypeFullyConnectedLayerBuilder extends LayerBuilder {
         int layerSize = layerConfiguration.getSize();
         boolean bias = layerConfiguration.isBias();
 
+        //determine correct domain registry
+        DomainRegistry domainRegistry = domainProvider.generateDomain(previousLayerAbsoluteSize);
+
+        //set domain for prototype neuron
+        prototypeNeuron.setDomain(domainRegistry.getDomainString());
+
+        //get prototype weight vector
+        Vector prototypeWeightVector = null;
+        try {
+            prototypeWeightVector = (Vector) domainRegistry.getBuiltRepresentation();
+        }
+        catch(ClassCastException exception) {
+            throw new UnsupportedOperationException("The domain string of the neural network weights has to be real valued");
+        }
+
+        //add neurons to layer
         Layer layer = new Layer();
         for (int i = 0; i < layerSize; i++) {
-            Neuron newNeuron = (Neuron) prototypeNeuron.getClone();
-            Real domainReal = null;
-            try {
-                domainReal = (Real)((Vector)this.getDomainRegistry().getBuiltRepresentation()).get(0);
-            }
-            catch(ClassCastException exception) {
-                throw new UnsupportedOperationException("The domain string of the neural network weights has to be real valued");
-            }
+            Neuron newNeuron = prototypeNeuron.getClone();
 
-            Real weight = Real.valueOf(domainReal.doubleValue(), domainReal.getBounds());
-            Vector.Builder weights = Vector.newBuilder().copyOf(newNeuron.getWeights());
-            weights.add(weight);
-            
-            for (int j = 1; j < previousLayerAbsoluteSize; j++) {
-                Real newWeight = weight.getClone();
-                weights.add(newWeight);
-            }
-
-            Vector builtWeights = weights.build();
-            this.getWeightInitialisationStrategy().initialise(builtWeights);
-            newNeuron.setWeights(builtWeights);
+            Vector weights = prototypeWeightVector.getClone();
+            //TODO: initialisation should be done by training algorithm
+            this.getWeightInitialisationStrategy().initialise(weights);
+            newNeuron.setWeights(weights);
             layer.add(newNeuron);
         }
         if (bias) {

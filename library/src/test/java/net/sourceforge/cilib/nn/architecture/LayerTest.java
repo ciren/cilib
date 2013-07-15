@@ -7,8 +7,11 @@
 package net.sourceforge.cilib.nn.architecture;
 
 import net.sourceforge.cilib.math.Maths;
+import net.sourceforge.cilib.nn.components.BiasNeuron;
 import net.sourceforge.cilib.nn.components.Neuron;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +29,7 @@ public class LayerTest {
         layer = new Layer();
         layer.setBias(false);
         Neuron neuron = new Neuron();
+        neuron.setDomain("R(-1:3.3)^4");
         refActivations = Vector.of(-0.1, 0.7, 0.3, -0.5);
         for (int i = 0; i < refActivations.size(); i++) {
             neuron.setActivation(refActivations.doubleValueOf(i));
@@ -48,6 +52,25 @@ public class LayerTest {
     @Test
     public void testIsBias() {
         Assert.assertEquals(false, layer.isBias());
+    }
+	
+    @Test
+    public void testDomain() {
+        Assert.assertEquals("R(-1:3.3)^4,R(-1:3.3)^4,R(-1:3.3)^4,R(-1:3.3)^4", layer.getDomain().getDomainString());
+        Assert.assertEquals(16, ((Vector) layer.getDomain().getBuiltRepresentation()).size());
+
+        Layer layer2 = new Layer();
+        layer2.setBias(true);
+        Neuron neuron = new Neuron();
+        neuron.setDomain("R(-1:3.3)^4");
+        refActivations = Vector.of(-0.1, 0.7, 0.3, -0.5);
+        for (int i = 0; i < refActivations.size(); i++) {
+            neuron.setActivation(refActivations.doubleValueOf(i));
+            layer2.add((Neuron) neuron.getClone());
+        }
+        layer2.add(new BiasNeuron());
+        Assert.assertEquals("R(-1:3.3)^4,R(-1:3.3)^4,R(-1:3.3)^4,R(-1:3.3)^4", layer2.getDomain().getDomainString());
+        Assert.assertEquals(16, ((Vector) layer2.getDomain().getBuiltRepresentation()).size());
     }
 	
     @Test

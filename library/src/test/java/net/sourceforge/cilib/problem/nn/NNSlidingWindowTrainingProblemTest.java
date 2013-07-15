@@ -9,9 +9,12 @@ package net.sourceforge.cilib.problem.nn;
 import net.sourceforge.cilib.io.ARFFFileReader;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
+import net.sourceforge.cilib.nn.domain.PresetNeuronDomain;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
+import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +41,11 @@ public class NNSlidingWindowTrainingProblemTest {
         problem.getNeuralNetwork().getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(4));
         problem.getNeuralNetwork().getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
         problem.getNeuralNetwork().getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1));
-        problem.getNeuralNetwork().getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        problem.getNeuralNetwork().getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         problem.initialise();
     }
 
@@ -57,5 +64,11 @@ public class NNSlidingWindowTrainingProblemTest {
         pso.setOptimisationProblem(problem);
         pso.performInitialisation();
         pso.performIteration();
+    }
+
+    @Test
+    public void testDomain() {
+        DomainRegistry domainRegistry = problem.getDomain();
+        Assert.assertEquals(19, domainRegistry.getBuiltRepresentation().size());
     }
 }

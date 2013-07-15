@@ -10,6 +10,8 @@ import net.sourceforge.cilib.nn.architecture.Architecture;
 import net.sourceforge.cilib.nn.architecture.builder.FeedForwardArchitectureBuilder;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.nn.architecture.builder.PrototypeFullyConnectedLayerBuilder;
+import net.sourceforge.cilib.nn.domain.PresetNeuronDomain;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 
 /**
  * Helper object for neural network testing.
@@ -23,7 +25,11 @@ public final class NeuralNetworksTestHelper {
         architectureBuilder.addLayer(new LayerConfiguration(hidden));
         architectureBuilder.addLayer(new LayerConfiguration(output));
         final PrototypeFullyConnectedLayerBuilder layerBuilder = new PrototypeFullyConnectedLayerBuilder();
-        layerBuilder.setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        layerBuilder.setDomainProvider(domainProvider);
         architectureBuilder.setLayerBuilder(layerBuilder);
         architecture.setArchitectureBuilder(architectureBuilder);
         architecture.initialise();

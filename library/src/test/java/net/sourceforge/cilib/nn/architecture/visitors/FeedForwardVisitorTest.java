@@ -12,8 +12,10 @@ import net.sourceforge.cilib.nn.FFNNTopology;
 import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.nn.components.PatternInputSource;
+import net.sourceforge.cilib.nn.domain.PresetNeuronDomain;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -33,7 +35,11 @@ public class FeedForwardVisitorTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(5,true));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3,true));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1));
-        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network.initialise();
 
         network.setWeights(topology.getWeights());
