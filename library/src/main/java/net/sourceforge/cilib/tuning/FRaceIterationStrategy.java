@@ -63,8 +63,7 @@ public class FRaceIterationStrategy extends AbstractIterationStrategy<TuningAlgo
             }
         }));
         
-        // (+1 because iterations start at 0)
-        if (alg.getIterations() + 1 >= minProblems.getParameter() && parameterList.length() > 1) {
+        if (results.length() >= minProblems.getParameter() && parameterList.length() > 1) {
             List<List<Double>> data = results
                 .map(List.<OptimisationSolution,Double>map_().f(getFitness()
                     .andThen(getValue())
@@ -83,7 +82,7 @@ public class FRaceIterationStrategy extends AbstractIterationStrategy<TuningAlgo
                             return indexes.map(flip(Utils.<OptimisationSolution>index()).f(a));
                         }
                     });
-                } else {
+                } else if (indexes.isNotEmpty() && indexes.length() < minSolutions.getParameter()) {
                     final List<List<Double>> ranks = iterableList(data)
                         .map(Stats.rank.andThen(Utils.<Double,Iterable>iterableList()));
                     final List<Integer> newIndexes = ranks.foldLeft(Utils.<Double>pairwise(add), replicate(data.head().length(), 0.0))
