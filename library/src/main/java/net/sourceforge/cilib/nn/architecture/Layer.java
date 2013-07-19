@@ -9,6 +9,8 @@ package net.sourceforge.cilib.nn.architecture;
 import java.util.ArrayList;
 import net.sourceforge.cilib.nn.components.Neuron;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -83,5 +85,30 @@ public class Layer extends ArrayList<Neuron> implements NeuralInputSource, Clone
     @Override
 	public Neuron getNeuron(int index) {
 		return this.get(index);
+    }
+
+    /**
+     * Gets the domain of the Layer. This is calculated by concatenating the
+     * domains of the Neurons in the Layer.
+     * @return The domain.
+     */
+    public StringBasedDomainRegistry getDomain() {
+        String dString = new String();
+        
+        if (get(0).getDomain() != null) {
+            dString += get(0).getDomain().getDomainString();
+        }
+
+        for (int curNeuron = 1; curNeuron < size(); ++curNeuron) {
+            DomainRegistry nDomain = get(curNeuron).getDomain();
+            if (nDomain.getDomainString() != null) {
+                dString += "," + nDomain.getDomainString();
+            }
+        }
+
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString(dString);
+
+        return domain;
     }
 }

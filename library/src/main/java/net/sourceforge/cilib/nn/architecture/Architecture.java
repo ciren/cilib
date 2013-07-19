@@ -13,6 +13,8 @@ import java.util.List;
 import net.sourceforge.cilib.nn.architecture.builder.ArchitectureBuilder;
 import net.sourceforge.cilib.nn.architecture.builder.FeedForwardArchitectureBuilder;
 import net.sourceforge.cilib.nn.architecture.visitors.ArchitectureVisitor;
+import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 
 /**
  * Represents a neural network architecture and encapsulates a
@@ -107,6 +109,31 @@ public class Architecture {
                 return new ActivationLayerIterator();
             }
         };
+    }
+
+    /**
+     * Gets the domain of the Architecture. This is calculated by concatenating
+     * the domains of the Layers in the Architecture.
+     * @return The domain.
+     */
+    public StringBasedDomainRegistry getDomain() {
+        String dString = new String();
+        
+        if (layers.get(1).getDomain() != null) {
+            dString += layers.get(1).getDomain().getDomainString();
+        }
+
+        for (int curLayer = 2; curLayer < layers.size(); ++curLayer) {
+            DomainRegistry nDomain = layers.get(curLayer).getDomain();
+            if (nDomain.getDomainString() != null) {
+                dString += "," + nDomain.getDomainString();
+            }
+        }
+
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString(dString);
+
+        return domain;
     }
 
     private class ActivationLayerIterator extends AbstractIterator<Layer> {

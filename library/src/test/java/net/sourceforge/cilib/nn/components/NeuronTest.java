@@ -10,6 +10,8 @@ import net.sourceforge.cilib.functions.activation.Sigmoid;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.nn.architecture.NeuralInputSource;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -70,9 +72,12 @@ public class NeuronTest {
         Assert.assertEquals(neuron.getActivation(), clone.getActivation(), Maths.EPSILON);
         Assert.assertEquals(neuron.getActivationFunction(), clone.getActivationFunction());
         Assert.assertEquals(neuron.getWeights(), clone.getWeights());
+        Assert.assertTrue(clone.getDomain().getDomainString() == null);
 
+        clone.setDomain("R(1:5)^7");
         clone.setActivationFunction(null);
         Neuron clone2 = clone.getClone();
         Assert.assertTrue(clone2.getActivationFunction() == null);
+        Assert.assertEquals("R(1:5)^7", clone2.getDomain().getDomainString());
     }
 }

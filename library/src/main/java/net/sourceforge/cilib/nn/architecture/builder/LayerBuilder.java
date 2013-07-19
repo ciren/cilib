@@ -9,6 +9,7 @@ package net.sourceforge.cilib.nn.architecture.builder;
 import net.sourceforge.cilib.nn.architecture.Layer;
 import net.sourceforge.cilib.nn.components.RandomWeightInitialisationStrategy;
 import net.sourceforge.cilib.nn.components.WeightInitialisationStrategy;
+import net.sourceforge.cilib.nn.domain.NeuronDomainProvider;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.util.Cloneable;
@@ -22,7 +23,7 @@ import net.sourceforge.cilib.util.Cloneable;
 public abstract class LayerBuilder implements Cloneable {
 
     private WeightInitialisationStrategy weightInitialisationStrategy;
-    private DomainRegistry domainRegistry;
+    protected NeuronDomainProvider domainProvider;
 
     /**
      * Default constructor. The default weight initialisation strategy is the
@@ -31,12 +32,10 @@ public abstract class LayerBuilder implements Cloneable {
      */
     public LayerBuilder() {
         weightInitialisationStrategy = new RandomWeightInitialisationStrategy();
-        domainRegistry = new StringBasedDomainRegistry();
     }
 
     public LayerBuilder(LayerBuilder rhs) {
         weightInitialisationStrategy = new RandomWeightInitialisationStrategy();
-        domainRegistry = new StringBasedDomainRegistry();
     }
 
     public abstract LayerBuilder getClone();
@@ -67,34 +66,18 @@ public abstract class LayerBuilder implements Cloneable {
     }
 
     /**
-     * Gets the domain registry.
-     * @return the domain registry.
+     * Gets the domain provider used to generate the domain of each neuron.
+     * @return the domain provider.
      */
-    public DomainRegistry getDomainRegistry() {
-        return domainRegistry;
+    public NeuronDomainProvider getDomainProvider() {
+        return domainProvider;
     }
 
     /**
-     * Sets the domain registry.
-     * @param domainRegistry the new domain registry.
+     * Sets the domain provider used to generate the domain of each neuron.
+     * @param provider the domain provider to set.
      */
-    public void setDomainRegistry(DomainRegistry domainRegistry) {
-        this.domainRegistry = domainRegistry;
-    }
-
-    /**
-     * Convenience method for getting the domain registry's domain string.
-     * @return the domain registry's domain string.
-     */
-    public String getDomain() {
-        return domainRegistry.getDomainString();
-    }
-
-    /**
-     * Convenience method for setting the domain registry's domain string.
-     * @param domain the domain registry's domain string.
-     */
-    public void setDomain(String domain) {
-        this.domainRegistry.setDomainString(domain);
+    public void setDomainProvider(NeuronDomainProvider provider) {
+        this.domainProvider = provider;
     }
 }

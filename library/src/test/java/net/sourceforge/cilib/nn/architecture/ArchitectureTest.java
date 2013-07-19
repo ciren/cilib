@@ -9,6 +9,8 @@ package net.sourceforge.cilib.nn.architecture;
 import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.nn.architecture.visitors.WeightRetrievalVisitor;
+import net.sourceforge.cilib.nn.domain.PresetNeuronDomain;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +25,11 @@ public class ArchitectureTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(5));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1));
-        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network.initialise();
     }
 
@@ -41,5 +47,5 @@ public class ArchitectureTest {
         WeightRetrievalVisitor visitor = new WeightRetrievalVisitor();
         network.getArchitecture().accept(visitor);
         Assert.assertEquals(22, visitor.getOutput().size());
-    }
+    }      
 }

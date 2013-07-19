@@ -6,8 +6,15 @@
  */
 package net.sourceforge.cilib.nn.domain;
 
+import net.sourceforge.cilib.functions.activation.Sigmoid;
+import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.nn.NeuralNetworksTestHelper;
+import net.sourceforge.cilib.nn.architecture.Layer;
+import net.sourceforge.cilib.nn.architecture.visitors.ArchitectureVisitor;
+import net.sourceforge.cilib.nn.components.BiasNeuron;
+import net.sourceforge.cilib.nn.components.Neuron;
+import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,10 +30,33 @@ public class LambdaGammaSolutionInterpretationStrategyTest {
     }
 
     @Test
-    public void shouldInitialise() {
+    public void shouldCreateVisitor() {
+        Vector solution = Vector.of(1.1, 1.2, 1.3, 1.4, 0.1, 0.4, 1.5, 1.6, 1.7, 1.8, 0.2, 0.5, 1.9, 2.0, 2.1, 0.3, 0.6);
+
         LambdaGammaSolutionConversionStrategy lambdaGammaSolutionInterpretationStrategy = new LambdaGammaSolutionConversionStrategy();
-        lambdaGammaSolutionInterpretationStrategy.initialise(neuralNetwork);
-        assertEquals(11, lambdaGammaSolutionInterpretationStrategy.getWeightCount());
-        assertEquals(3, lambdaGammaSolutionInterpretationStrategy.getActivationFuncCount());
+        ArchitectureVisitor lambdaGammaVisitor = lambdaGammaSolutionInterpretationStrategy.interpretSolution(solution);
+        Vector weights = Vector.of(1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1);
+        Vector lambdas = Vector.of(0.1, 0.2, 0.3);
+        Vector gammas = Vector.of(0.4, 0.5, 0.6);
+
+        lambdaGammaVisitor.visit(neuralNetwork.getArchitecture());
+
+        int lambdaIdx = 0;
+        int gammaIdx = 0;
+        int weightIdx = 0;
+
+        for (Layer layer : neuralNetwork.getArchitecture().getActivationLayers()) {
+            for (Neuron neuron : layer) {
+                if (!(neuron instanceof BiasNeuron)) {
+                    assertEquals(lambdas.get(lambdaIdx++).doubleValue(), ((Sigmoid) neuron.getActivationFunction()).getLambda().getParameter(), Maths.EPSILON);
+                    assertEquals(gammas.get(gammaIdx++).doubleValue(), ((Sigmoid) neuron.getActivationFunction()).getGamma().getParameter(), Maths.EPSILON);
+                }
+                Vector neuronWeights = neuron.getWeights();
+                int size = neuronWeights.size();
+                for (int j = 0; j < size; j++) {
+                    assertEquals(weights.get(weightIdx++), neuronWeights.get(j));
+                }
+            }
+        }
     }
 }

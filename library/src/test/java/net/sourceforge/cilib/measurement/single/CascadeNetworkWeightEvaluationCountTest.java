@@ -17,11 +17,13 @@ import net.sourceforge.cilib.measurement.single.CascadeNetworkWeightEvaluationCo
 import net.sourceforge.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.nn.architecture.visitors.CascadeVisitor;
+import net.sourceforge.cilib.nn.domain.PresetNeuronDomain;
 import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.problem.nn.NNTrainingProblem;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -44,7 +46,11 @@ public class CascadeNetworkWeightEvaluationCountTest {
         network.getArchitecture().setArchitectureBuilder(new CascadeArchitectureBuilder());
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
-        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network.setOperationVisitor(new CascadeVisitor());
         network.initialise();
 
@@ -102,7 +108,11 @@ public class CascadeNetworkWeightEvaluationCountTest {
         network.getArchitecture().setArchitectureBuilder(new CascadeArchitectureBuilder());
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
-        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network.setOperationVisitor(new CascadeVisitor());
         network.initialise();
         
@@ -156,7 +166,11 @@ public class CascadeNetworkWeightEvaluationCountTest {
         network.getArchitecture().setArchitectureBuilder(new CascadeArchitectureBuilder());
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2));
-        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network.setOperationVisitor(new CascadeVisitor());
         network.initialise();
         

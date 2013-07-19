@@ -34,7 +34,6 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
     private static final long serialVersionUID = -8765101028460476990L;
 
     private DataTableBuilder dataTableBuilder;
-    private DomainInitialisationStrategy domainInitialisationStrategy;
     private SolutionConversionStrategy solutionConversionStrategy;
     private int previousShuffleIteration;
     private boolean initialised;
@@ -45,7 +44,6 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
     public NNDataTrainingProblem() {
         super();
         dataTableBuilder = new DataTableBuilder(new DelimitedTextFileReader());
-        domainInitialisationStrategy = new WeightBasedDomainInitialisationStrategy();
         solutionConversionStrategy = new WeightSolutionConversionStrategy();
         previousShuffleIteration = -1;
         initialised = false;
@@ -90,6 +88,7 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
             }
 
             neuralNetwork.initialise();
+            
         } catch (CIlibIOException exception) {
             exception.printStackTrace();
         }
@@ -154,13 +153,7 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
         if (!initialised) {
             this.initialise();
         }
-        return initialiseDomain();
-    }
-
-    @VisibleForTesting
-    protected DomainRegistry initialiseDomain() {
-        solutionConversionStrategy.initialise(neuralNetwork);
-        return domainInitialisationStrategy.initialiseDomain(neuralNetwork);
+        return neuralNetwork.getArchitecture().getDomain();
     }
 
     /**
@@ -197,14 +190,6 @@ public class NNDataTrainingProblem extends NNTrainingProblem {
      */
     public void setSourceURL(String sourceURL) {
         dataTableBuilder.setSourceURL(sourceURL);
-    }
-
-    public DomainInitialisationStrategy getDomainInitialisationStrategy() {
-        return domainInitialisationStrategy;
-    }
-
-    public void setDomainInitialisationStrategy(DomainInitialisationStrategy domainInitialisationStrategy) {
-        this.domainInitialisationStrategy = domainInitialisationStrategy;
     }
 
     public SolutionConversionStrategy getSolutionConversionStrategy() {
