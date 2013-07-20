@@ -29,7 +29,7 @@ import net.sourceforge.cilib.math.random.generator.Rand;
  *
  * R(0:K)^2
  */
-public class Yang3 implements ContinuousFunction {
+public class Yang3 extends ContinuousFunction {
     private ControlParameter alpha;
     private ControlParameter beta;
     private ControlParameter K;
@@ -44,7 +44,7 @@ public class Yang3 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         Preconditions.checkArgument(input.size() == 2, "Yang3 function is only defined for 2 dimensions");
 
         double x = input.doubleValueOf(0);
