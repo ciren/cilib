@@ -26,6 +26,6 @@ public class Yang2Test {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(0, 0, 0);
-        assertEquals(0, function.apply(x), 0.0);
+        assertEquals(0, function.f(x), 0.0);
     }
 }

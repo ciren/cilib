@@ -26,7 +26,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
  *
  * R(-20:20)^D
  */
-public class Yang1 implements ContinuousFunction {
+public class Yang1 extends ContinuousFunction {
     private ControlParameter beta;
     private ControlParameter m;
 
@@ -39,7 +39,7 @@ public class Yang1 implements ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double sum1 = 0;
         double sum2 = 0;
         double product = 1;
