@@ -24,12 +24,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * R(-2pi:2pi)^D
  */
-public class Yang2 implements ContinuousFunction {
+public class Yang2 extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double sum1 = 0;
         double sum2 = 0;
 

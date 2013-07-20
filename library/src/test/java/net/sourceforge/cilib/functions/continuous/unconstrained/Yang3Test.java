@@ -30,7 +30,7 @@ public class Yang3Test {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(Math.PI, Math.PI);
-        double z = function.apply(x);
+        double z = function.f(x);
         double K = 10.0;
         assertThat(z, is(greaterThanOrEqualTo(-(K * K + 5))));
         assertThat(z, is(lessThanOrEqualTo(-5.0)));
@@ -41,6 +41,6 @@ public class Yang3Test {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.apply(Vector.of(1.0, 2.0, 3.0));
+        function.f(Vector.of(1.0, 2.0, 3.0));
     }
 }

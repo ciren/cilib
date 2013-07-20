@@ -26,6 +26,6 @@ public class Yang1Test {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(Math.PI, Math.PI, Math.PI);
-        assertEquals(-1, function.apply(x), 0.0001);
+        assertEquals(-1, function.f(x), 0.0001);
     }
 }

@@ -24,12 +24,12 @@ import net.sourceforge.cilib.math.random.generator.Rand;
  *
  * R(-5:5)^D
  */
-public class Yang4 implements ContinuousFunction {
+public class Yang4 extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double apply(Vector input) {
+    public Double f(Vector input) {
         double sum = 0;
         for (int i = 0; i < input.size(); i++) {
             sum += Rand.nextDouble()
