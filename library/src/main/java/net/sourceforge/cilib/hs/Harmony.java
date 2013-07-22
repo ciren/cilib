@@ -37,35 +37,6 @@ public class Harmony extends AbstractEntity {
 
     /**
      * {@inheritDoc}
-     *
-     * @param object The object to compare.
-     */
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-
-        if ((object == null) || (this.getClass() != object.getClass())) {
-            return false;
-        }
-
-        Harmony other = (Harmony) object;
-        return super.equals(other);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 31 * hash + super.hashCode();
-        return hash;
-    }
-
-    /**
-     * {@inheritDoc}
      */
     @Override
     public void initialise(Problem problem) {

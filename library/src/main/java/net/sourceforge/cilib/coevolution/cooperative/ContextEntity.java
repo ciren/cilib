@@ -47,33 +47,6 @@ public class ContextEntity extends AbstractEntity {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-
-        if ((object == null) || (this.getClass() != object.getClass())) {
-            return false;
-        }
-
-        ContextEntity other = (ContextEntity) object;
-        return super.equals(other);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 31 * hash + super.hashCode();
-        return hash;
-    }
-
-    /**
      * Clear the context vector.
      */
     public void clear(){

@@ -39,29 +39,6 @@ public class ChargedParticle extends DynamicParticle {
         return new ChargedParticle(this);
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-
-        if ((object == null) || (this.getClass() != object.getClass())) {
-            return false;
-        }
-
-        ChargedParticle other = (ChargedParticle) object;
-        return super.equals(object)
-                && (Double.valueOf(this.charge).equals(Double.valueOf(other.charge)));
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 31 * hash + super.hashCode();
-        hash = 31 * hash + Double.valueOf(charge).hashCode();
-        return hash;
-    }
-
     /**
      * @return the charge
      */
