@@ -97,15 +97,6 @@ public class ClusterParticle extends AbstractParticle{
     }
 
     /*
-     * Returns the current position of the ClusterParticle
-     * @return position The current value of the Candidate Solution
-     */
-    @Override
-    public CentroidHolder getPosition() {
-        return (CentroidHolder) getCandidateSolution();
-    }
-
-    /*
      * Returns the best position acquired by the ClusterParticle so far
      * @return The Personal Best position
      */

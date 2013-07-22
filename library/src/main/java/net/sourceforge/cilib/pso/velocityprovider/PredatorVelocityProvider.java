@@ -61,7 +61,7 @@ public final class PredatorVelocityProvider implements VelocityProvider {
      */
     @Override
     public Vector get(Particle particle) {
-        Vector position = (Vector) particle.getPosition();
+        Vector position = (Vector) particle.getCandidateSolution();
         Vector globalGuide = (Vector) particle.getGlobalGuide();
 
         double phi4 = acceleration.getParameter() * Rand.nextDouble();

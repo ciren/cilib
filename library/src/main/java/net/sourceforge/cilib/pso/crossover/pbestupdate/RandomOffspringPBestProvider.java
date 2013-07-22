@@ -18,6 +18,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class RandomOffspringPBestProvider extends OffspringPBestProvider {
     @Override
     public StructuredType f(List<Particle> parent, Particle offspring) {
-        return Vector.newBuilder().copyOf(offspring.getPosition()).buildRandom();
+        return Vector.newBuilder().copyOf((Vector) offspring.getCandidateSolution()).buildRandom();
     }
 }

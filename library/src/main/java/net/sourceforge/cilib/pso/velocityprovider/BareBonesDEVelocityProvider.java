@@ -96,7 +96,7 @@ public class BareBonesDEVelocityProvider implements VelocityProvider {
             if (this.rand2.getRandomNumber(0, 1) > this.crossoverProbability.getParameter()) {
                 builder.add(attractor + stepSize);
             } else {
-                builder.add(((Vector) particle.getPosition()).doubleValueOf(i));
+                builder.add(((Vector) particle.getCandidateSolution()).doubleValueOf(i));
             }
         }
         return builder.build();

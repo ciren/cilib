@@ -43,7 +43,7 @@ public class StandardPersonalBestUpdateStrategy implements PersonalBestUpdateStr
             particle.getParticleBehavior().incrementSuccessCounter();
             particle.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
             particle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getFitness());
-            particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition().getClone());
+            particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getCandidateSolution().getClone());
             return;
         }
 

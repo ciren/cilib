@@ -61,7 +61,7 @@ public class BinaryStaticProbPositionProvider implements PositionProvider {
     @Override
     public Vector get(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
-        Vector position = (Vector) particle.getPosition();
+        Vector position = (Vector) particle.getCandidateSolution();
         Vector pbest = (Vector) particle.getLocalGuide();
         Vector gbest = (Vector) particle.getGlobalGuide();
         Vector.Builder builder = Vector.newBuilder();

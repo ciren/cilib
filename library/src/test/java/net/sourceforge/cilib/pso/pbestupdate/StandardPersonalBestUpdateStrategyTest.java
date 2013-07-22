@@ -42,7 +42,7 @@ public class StandardPersonalBestUpdateStrategyTest {
         strategy.updatePersonalBest(particle);
 
         Assert.assertThat(particle.getBestFitness(), is(particle.getFitness()));
-        Assert.assertThat(particle.getBestPosition(), is(particle.getPosition()));
+        Assert.assertThat(particle.getBestPosition(), is(particle.getCandidateSolution()));
         Assert.assertEquals(((Int)particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER)).intValue(), 0);
     }
 
@@ -65,7 +65,7 @@ public class StandardPersonalBestUpdateStrategyTest {
         strategy.updatePersonalBest(particle);
 
         Assert.assertThat(particle.getBestFitness(), is(not(particle.getFitness())));
-        Assert.assertThat(particle.getBestPosition(), is(not(particle.getPosition())));
+        Assert.assertThat(particle.getBestPosition(), is(not(particle.getCandidateSolution())));
         Assert.assertEquals(((Int)particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER)).intValue(), 1);
     }
 }
