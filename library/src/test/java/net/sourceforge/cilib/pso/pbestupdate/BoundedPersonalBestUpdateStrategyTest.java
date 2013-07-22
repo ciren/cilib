@@ -39,7 +39,7 @@ public class BoundedPersonalBestUpdateStrategyTest {
         strategy.updatePersonalBest(particle);
 
         Assert.assertThat(particle.getBestFitness(), is(particle.getFitness()));
-        Assert.assertThat(particle.getBestPosition(), is(particle.getPosition()));
+        Assert.assertThat(particle.getBestPosition(), is(particle.getCandidateSolution()));
     }
 
     @Test

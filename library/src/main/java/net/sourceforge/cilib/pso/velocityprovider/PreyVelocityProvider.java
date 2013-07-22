@@ -81,7 +81,7 @@ public final class PreyVelocityProvider implements VelocityProvider {
      */
     @Override
     public Vector get(Particle particle) {
-        Vector position = (Vector) particle.getPosition();
+        Vector position = (Vector) particle.getCandidateSolution();
         Vector standardVelocity = delegate.get(particle);
         Vector.Builder builder = Vector.newBuilder();
         List<Particle> predators = getPredators();
@@ -102,7 +102,7 @@ public final class PreyVelocityProvider implements VelocityProvider {
                 double predatorPosition = 0;
 
                 for (Particle p : predators) {
-                    Vector predatorPos = (Vector)p.getPosition();
+                    Vector predatorPos = (Vector)p.getCandidateSolution();
                     double xp = predatorPos.doubleValueOf(i);
                     if (Math.abs(x - xp) < min) {
                         predatorPosition = xp;

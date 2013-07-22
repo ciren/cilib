@@ -34,7 +34,7 @@ public class RandomInitialisationStrategyTest {
         RandomInitialisationStrategy<Particle> strategy = new RandomInitialisationStrategy<Particle>();
         strategy.initialise(EntityType.CANDIDATE_SOLUTION, particle);
 
-        Vector position = (Vector) particle.getPosition();
+        Vector position = (Vector) particle.getCandidateSolution();
 
         for (int i = 0; i < particle.getDimension(); i++) {
             Assert.assertThat(expected.doubleValueOf(i), is(not(equalTo(position.doubleValueOf(i)))));

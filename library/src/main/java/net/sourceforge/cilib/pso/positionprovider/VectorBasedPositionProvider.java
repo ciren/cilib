@@ -62,7 +62,7 @@ public class VectorBasedPositionProvider implements PositionProvider {
                 .subtract(newPos).dot(newPBest.subtract(newPos));
 
         if (dot < 0) {
-            return (Vector) particle.getPosition();
+            return (Vector) particle.getCandidateSolution();
         }
 
         return newPos;
