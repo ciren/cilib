@@ -14,6 +14,7 @@ import net.sourceforge.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.nn.architecture.Layer;
 import net.sourceforge.cilib.nn.components.Neuron;
+import net.sourceforge.cilib.nn.domain.PresetNeuronDomain;
 import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -43,7 +44,11 @@ public class CascadeOutputLayerTrainingProblemTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2, new Linear()));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1, new Linear()));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2, new Linear()));
-        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network.initialise();
         
         Vector weights = Vector.of(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,
@@ -77,7 +82,7 @@ public class CascadeOutputLayerTrainingProblemTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1, new Linear()));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1, new Linear()));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2, new Linear()));
-        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network.initialise();
 
         weights = Vector.of(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,
@@ -116,7 +121,11 @@ public class CascadeOutputLayerTrainingProblemTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1, new Linear()));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(1, new Linear()));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2, new Linear()));
-        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network.initialise();
 
         Vector weights = Vector.of(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.0,0.0,0.0,
@@ -154,7 +163,11 @@ public class CascadeOutputLayerTrainingProblemTest {
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2, new Linear()));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3, new Linear()));
         network.getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(2, new Linear()));
-        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3:3)");
+        StringBasedDomainRegistry domain = new StringBasedDomainRegistry();
+        domain.setDomainString("R(-3:3)");
+        PresetNeuronDomain domainProvider = new PresetNeuronDomain();
+        domainProvider.setWeightDomainPrototype(domain);
+        network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomainProvider(domainProvider);
         network.initialise();
         
         Vector weights = Vector.of(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,
@@ -176,6 +189,6 @@ public class CascadeOutputLayerTrainingProblemTest {
         problem.setNeuralNetwork(network);
         problem.initialise();
 
-        assertEquals("R(-3:3)^12", problem.getDomain().getDomainString());
+        assertEquals("R(-3:3)^6,R(-3:3)^6", problem.getDomain().getDomainString());
     }
 }

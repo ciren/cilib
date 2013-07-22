@@ -59,7 +59,8 @@ public class StringBasedDomainRegistry implements DomainRegistry {
     @Override
     public void setDomainString(String domainString) {
         this.domainString = domainString;
-        this.builtRepresenation = net.sourceforge.cilib.type.parser.DomainParser.parse(domainString);
+        if (domainString != null)
+            this.builtRepresenation = net.sourceforge.cilib.type.parser.DomainParser.parse(domainString);
     }
 
     /**
