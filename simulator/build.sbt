@@ -10,7 +10,11 @@ scalacOptions += "-deprecation"
 
 parallelExecution in Test := false
 
-mainClass := Some("net.sourceforge.cilib.simulator.Main")
+javacOptions ++= Seq("-encoding", "UTF8", "-source", "1.7", "-target", "1.7")
+
+javacOptions in doc := Seq("-encoding", "UTF-8", "-source", "1.7")
+
+mainClass := Some("net.cilib.Main")
 
 libraryDependencies ++= Seq(
     "junit" % "junit" % "4.10" % "test",
@@ -22,9 +26,9 @@ libraryDependencies ++= Seq(
 autoScalaLibrary := false
 
 // Handle the scala compiler dependency
-//libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
-//    deps :+ ("org.scala-lang" % "scala-compiler" % sv)
-//}
+libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
+    deps :+ ("org.scala-lang" % "scala-compiler" % sv)
+}
 
 resourceDirectory in Test <<= baseDirectory { _ / "simulator" }
 
