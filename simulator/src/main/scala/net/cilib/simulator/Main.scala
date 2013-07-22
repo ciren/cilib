@@ -1,4 +1,5 @@
 package net.cilib
+package simulator
 
 import scala.tools.nsc._
 import interpreter._
@@ -10,10 +11,11 @@ object Main {
   def main(args: Array[String]): Unit = {
     val interpreter = new InterpreterWrapper() {
       def prompt = "cilib> "
-      def welcomeMsg = """Welcome to Awesomeness!
-This is my version of the Scala interpreter"""
+      def welcomeMsg = """Welcome to CIlib!
+                         |Type in expressions to have them evaluated""".stripMargin
       def helpMsg = """This is printed *before* the help for eveyr command!"""
-//       bind("josh", new MyClass("josh"))
+      // bind("name", instance)
+      autoImport("net.cilib.simulator.Simulation._")
       autoImport("net.sourceforge.cilib._")
     }
 
@@ -22,34 +24,42 @@ This is my version of the Scala interpreter"""
 }
 
 object ScriptEngine {
-  def compileAndRun(file: String) = {
-    import java.nio.file.Files
-    val tmpDir = Files.createTempDirectory("cilib-simulator").toFile()
+  import scala.tools.nsc.reporters.ConsoleReporter
 
-    println("Compiling provided script into directory: " + tmpDir.getAbsolutePath)
+  private var reporter: ConsoleReporter = _
+
+  def compileAndRun(file: String) = {
+    val tmpDir = java.nio.file.Files.createTempDirectory("cilib-simulator").toFile()
+
+    println("Compiling provided script into: " + tmpDir.getAbsolutePath)
 
     val settings = new Settings(s => {
-      sys.error("errors report: " + s)
-    })
+        import scala.reflect.internal.util.FakePos
+        reporter.error(FakePos("scalac"), s)
+      })
+
+    reporter = new ConsoleReporter(settings)
+
 //    settings.sourcepath.tryToSet(h.sourceDir.getAbsolutePath :: Nil)
 //    val cp = done.map(_.targetDir) ++ classPaths
     settings.classpath.tryToSet(getClass.getClassLoader match {
-      case cl: java.net.URLClassLoader => cl.getURLs.toList.map(_.toString)
-      case _ => sys.error("?????")
-    })
-  //List(cp.map(_.getAbsolutePath).mkString(File.pathSeparator)))
+        case cl: java.net.URLClassLoader => cl.getURLs.toList.map(_.toString)
+        case _ => sys.error("Class loader is not a URLClassLoader?")
+      })
+    //List(cp.map(_.getAbsolutePath).mkString(File.pathSeparator)))
     settings.outdir.tryToSet(tmpDir.getAbsolutePath :: Nil)
 
-    val g = new Global(settings, new CompilationReporter)
+    val g = new Global(settings, reporter)
     val run = new g.Run
 
     val contents = scala.io.Source.fromFile(file).getLines.toList.mkString("\n")
     val runnableScriptTmpl = s"""class Eval {
-  def run: Unit = {
-    ${contents}
-  }
-}
-"""
+                                |  def run: Unit = {
+                                |    ${contents}
+                                |  }
+                                |}
+                                |""".stripMargin
+
     val src = new FileWriter(new File(tmpDir, "Eval.scala"))
     try {
       src.write(runnableScriptTmpl)
@@ -59,31 +69,20 @@ object ScriptEngine {
 
     run.compile(List(new File(tmpDir, "Eval.scala").getAbsolutePath))
 
-    val loader = new java.net.URLClassLoader(Array(tmpDir.getAbsoluteFile.toURI.toURL), getClass.getClassLoader)
-    val clazz: Class[_] = loader.loadClass("Eval")
-    val instance = clazz.newInstance
-    val method = clazz.getMethod("run")
+    if (reporter.hasErrors) {
+      reporter.flush
+      sys.exit
+    } else {
+      val loader = new java.net.URLClassLoader(Array(tmpDir.getAbsoluteFile.toURI.toURL), getClass.getClassLoader)
+      val clazz = loader.loadClass("Eval")
+      val instance = clazz.newInstance
+      val method = clazz.getMethod("run")
 
-    println("Compilation successful... Executing script")
-    method.invoke(instance)
-  }
-
-  import scala.tools.nsc.reporters.Reporter
-  import scala.tools.nsc.ast._
-  import reflect.internal.util.Position
-
-  private class CompilationReporter extends Reporter// with Logging
-  {
-    protected def info0(pos: Position, msg: String, severity: Severity, force: Boolean): Unit = {
-      val m = "At line " + pos.safeLine + ": " + msg
-      sys.error(m)
-      if (severity == ERROR)
-        throw new Error("error during compilation : %s".format(m))
+      println("Compilation successful...")
+      println("Executing script...")
+      method.invoke(instance)
     }
-
-    override def hasErrors: Boolean = false
   }
-
 }
 
 trait InterpreterWrapper {

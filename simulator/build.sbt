@@ -14,7 +14,7 @@ javacOptions ++= Seq("-encoding", "UTF8", "-source", "1.7", "-target", "1.7")
 
 javacOptions in doc := Seq("-encoding", "UTF-8", "-source", "1.7")
 
-mainClass := Some("net.cilib.Main")
+mainClass := Some("net.cilib.simulator.Main")
 
 libraryDependencies ++= Seq(
     "junit" % "junit" % "4.10" % "test",
@@ -27,8 +27,12 @@ autoScalaLibrary := false
 
 // Handle the scala compiler dependency
 libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
-    deps :+ ("org.scala-lang" % "scala-compiler" % sv)
+    deps :+ ("org.scala-lang" % "scala-compiler" % sv) :+ ("org.scala-lang" % "jline" % sv)
 }
 
 resourceDirectory in Test <<= baseDirectory { _ / "simulator" }
 
+// jansi is already packaged up inside org.scala-lang/jline
+excludedJars in assembly <<= (fullClasspath in assembly) map { cp =>
+  cp filter { c => List("jansi") exists { c.data.getName contains _ } }
+}
