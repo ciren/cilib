@@ -17,24 +17,55 @@ This is my version of the Scala interpreter"""
       autoImport("net.sourceforge.cilib._")
     }
 
-    if (args.isEmpty) interpreter.startInterpreting else ScriptEngine.compile(args(0))
+    if (args.isEmpty) interpreter.startInterpreting else ScriptEngine.compileAndRun(args(0))
   }
 }
 
 object ScriptEngine {
-  def compile(file: String) = {
+  def compileAndRun(file: String) = {
+    import java.nio.file.Files
+    val tmpDir = Files.createTempDirectory("cilib-simulator").toFile()
+
+    println("Compiling provided script into directory: " + tmpDir.getAbsolutePath)
+
     val settings = new Settings(s => {
-        sys.error("errors report: " + s)
-      })
+      sys.error("errors report: " + s)
+    })
 //    settings.sourcepath.tryToSet(h.sourceDir.getAbsolutePath :: Nil)
 //    val cp = done.map(_.targetDir) ++ classPaths
-//    settings.classpath.tryToSet(List(cp.map(_.getAbsolutePath).mkString(File.pathSeparator)))
-//    settings.outdir.tryToSet(h.targetDir.getAbsolutePath :: Nil)
+    settings.classpath.tryToSet(getClass.getClassLoader match {
+      case cl: java.net.URLClassLoader => cl.getURLs.toList.map(_.toString)
+      case _ => sys.error("?????")
+    })
+  //List(cp.map(_.getAbsolutePath).mkString(File.pathSeparator)))
+    settings.outdir.tryToSet(tmpDir.getAbsolutePath :: Nil)
 
     val g = new Global(settings, new CompilationReporter)
     val run = new g.Run
 
-    run.compile(List(file))
+    val contents = scala.io.Source.fromFile(file).getLines.toList.mkString("\n")
+    val runnableScriptTmpl = s"""class Eval {
+  def run: Unit = {
+    ${contents}
+  }
+}
+"""
+    val src = new FileWriter(new File(tmpDir, "Eval.scala"))
+    try {
+      src.write(runnableScriptTmpl)
+    } finally {
+      src.close
+    }
+
+    run.compile(List(new File(tmpDir, "Eval.scala").getAbsolutePath))
+
+    val loader = new java.net.URLClassLoader(Array(tmpDir.getAbsoluteFile.toURI.toURL), getClass.getClassLoader)
+    val clazz: Class[_] = loader.loadClass("Eval")
+    val instance = clazz.newInstance
+    val method = clazz.getMethod("run")
+
+    println("Compilation successful... Executing script")
+    method.invoke(instance)
   }
 
   import scala.tools.nsc.reporters.Reporter
