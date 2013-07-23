@@ -40,8 +40,8 @@ object ScriptEngine {
 
     reporter = new ConsoleReporter(settings)
 
-//    settings.sourcepath.tryToSet(h.sourceDir.getAbsolutePath :: Nil)
-//    val cp = done.map(_.targetDir) ++ classPaths
+    //settings.sourcepath.tryToSet(h.sourceDir.getAbsolutePath :: Nil)
+    //val cp = done.map(_.targetDir) ++ classPaths
     settings.classpath.tryToSet(getClass.getClassLoader match {
         case cl: java.net.URLClassLoader => cl.getURLs.toList.map(_.toString)
         case _ => sys.error("Class loader is not a URLClassLoader?")
@@ -54,6 +54,7 @@ object ScriptEngine {
 
     val contents = scala.io.Source.fromFile(file).getLines.toList.mkString("\n")
     val runnableScriptTmpl = s"""class Eval {
+                                |  import net.cilib.simulator.Simulation._
                                 |  def run: Unit = {
                                 |    ${contents}
                                 |  }
@@ -79,7 +80,7 @@ object ScriptEngine {
       val method = clazz.getMethod("run")
 
       println("Compilation successful...")
-      println("Executing script...")
+      println("Executing compiled specification...")
       method.invoke(instance)
     }
   }
@@ -117,7 +118,6 @@ trait InterpreterWrapper {
    */
   protected def addScriptFile(fileName : String): Unit =
     files = fileName :: files
-
 
   /**
    * This class actually runs the interpreter loop.
