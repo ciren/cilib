@@ -24,8 +24,6 @@ import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * <p>
@@ -38,7 +36,7 @@ public class MeasurementCombiner {
 
     private final File file;
 
-    MeasurementCombiner(File file) {
+    public MeasurementCombiner(File file) {
         this.file = file;
     }
 
@@ -73,7 +71,7 @@ public class MeasurementCombiner {
             throw new RuntimeException(ex);
         }
     }
-    
+
     private long countLines(File file) {
         LineNumberReader reader = null;
         try {
@@ -90,7 +88,7 @@ public class MeasurementCombiner {
                 ex.printStackTrace();
             }
         }
-        
+
         return 0;
     }
 
@@ -108,9 +106,9 @@ public class MeasurementCombiner {
         Collections.sort(partials, new Comparator<File>() {
             public int compare(File t, File t1) {
                 return Long.compare(countLines(t1), countLines(t));
-            }            
+            }
         });
-        
+
         for (File f : partials) {
             try {
                 InputStreamReader is = new InputStreamReader(new FileInputStream(f), Charset.forName("UTF-8"));

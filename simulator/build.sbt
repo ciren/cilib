@@ -17,6 +17,7 @@ javacOptions in doc := Seq("-encoding", "UTF-8", "-source", "1.7")
 mainClass := Some("net.cilib.simulator.Main")
 
 libraryDependencies ++= Seq(
+    "org.scalaz" %% "scalaz-core" % "7.0.2",
     "junit" % "junit" % "4.10" % "test",
     "com.novocode" % "junit-interface" % "0.10-M4" % "test",
     "org.mockito" % "mockito-all" % "1.9.5" % "test",

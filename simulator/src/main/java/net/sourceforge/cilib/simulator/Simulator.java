@@ -74,8 +74,8 @@ public class Simulator {
         this.measurementFactory = measurementFactory;
         this.combiner = combiner;
         this.samples = samples;
-        this.progressListeners = new CopyOnWriteArrayList<ProgressListener>();
-        this.progress = new ConcurrentHashMap<Simulation, Double>();
+        this.progressListeners = new CopyOnWriteArrayList<>();
+        this.progress = new ConcurrentHashMap<>();
         this.simulations = new Simulation[samples];
         this.seeder = seeder;
     }
@@ -104,7 +104,7 @@ public class Simulator {
      */
     public void execute() {
         ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        CompletionService<Simulation> completionService = new ExecutorCompletionService<Simulation>(executor);
+        CompletionService<Simulation> completionService = new ExecutorCompletionService<>(executor);
         for (int i = 0; i < samples; ++i) {
             completionService.submit(simulations[i], simulations[i]); // The return value is explicitly null.
         }

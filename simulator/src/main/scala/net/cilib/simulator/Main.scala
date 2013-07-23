@@ -30,6 +30,7 @@ object ScriptEngine {
 
   def compileAndRun(file: String) = {
     val tmpDir = java.nio.file.Files.createTempDirectory("cilib-simulator").toFile()
+    tmpDir.deleteOnExit
 
     println("Compiling provided script into: " + tmpDir.getAbsolutePath)
 
@@ -83,6 +84,32 @@ object ScriptEngine {
       println("Executing compiled specification...")
       method.invoke(instance)
     }
+
+    deleteContents(tmpDir.toPath)
+  }
+
+  import java.nio.file.Path
+
+  def deleteContents(d: Path) = {
+    import java.nio.file.Files
+    import java.nio.file.attribute.BasicFileAttributes
+
+    java.nio.file.Files.walkFileTree(d, new java.nio.file.SimpleFileVisitor[Path] {
+        override def visitFile(file: Path, attrs: BasicFileAttributes) = {
+          Files.delete(file)
+          java.nio.file.FileVisitResult.CONTINUE
+        }
+
+        override def visitFileFailed(file: Path, ex: IOException) = {
+          Files.delete(file)
+          java.nio.file.FileVisitResult.CONTINUE
+        }
+
+        override def postVisitDirectory(dir: Path, ex: IOException) = {
+          Files.delete(dir)
+          java.nio.file.FileVisitResult.CONTINUE
+        }
+      })
   }
 }
 
