@@ -1,10 +1,9 @@
 package net.cilib
 package simulator
 
-import net.sourceforge.cilib.algorithm.AlgorithmListener
-
 object Simulation {
   import net.sourceforge.cilib.algorithm.AbstractAlgorithm
+  import net.sourceforge.cilib.algorithm.AlgorithmListener
   import net.sourceforge.cilib.problem.Problem
   import net.sourceforge.cilib.simulator.MeasurementSuite
 
@@ -29,12 +28,12 @@ object Simulation {
     val descriptions = m.getDescriptions
     val combiner = new net.sourceforge.cilib.simulator.MeasurementCombiner(new java.io.File(file))
 
-    class Listener(measurements: MeasurementSuite, alg: AbstractAlgorithm) extends AlgorithmListener {
+    class Listener(measurements: MeasurementSuite) extends AlgorithmListener {
       def algorithmFinished(e: net.sourceforge.cilib.algorithm.AlgorithmEvent): Unit = ()
       def algorithmStarted(e: net.sourceforge.cilib.algorithm.AlgorithmEvent): Unit = ()
       def getClone(): net.sourceforge.cilib.algorithm.AlgorithmListener = this
       def iterationCompleted(e: net.sourceforge.cilib.algorithm.AlgorithmEvent): Unit =
-        measurements.measure(alg)
+        measurements.measure(e.getSource)
     }
 
     import scala.collection.JavaConversions._
@@ -43,7 +42,7 @@ object Simulation {
     combiner.combine(descriptions, ListBuffer((1 to samples).par.map(_ => {
         val algorithm = s()
         val measurements = m
-        algorithm.alg.addAlgorithmListener(new Listener(measurements, algorithm.alg))
+        algorithm.alg.addAlgorithmListener(new Listener(measurements))
         measurements.initialise
         algorithm.run
         measurements.close
