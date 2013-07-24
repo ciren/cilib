@@ -58,8 +58,8 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
      * {@linkplain AlgorithmEvent}s that are generated.
      */
     protected AbstractAlgorithm() {
-        stoppingConditions = new ArrayList<StoppingCondition<Algorithm>>();
-        algorithmListeners = new ArrayList<AlgorithmListener>();
+        stoppingConditions = new ArrayList<>();
+        algorithmListeners = new ArrayList<>();
 
         running = false;
         initialised = false;

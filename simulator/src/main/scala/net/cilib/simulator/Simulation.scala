@@ -1,6 +1,8 @@
 package net.cilib
 package simulator
 
+import scalaz._
+
 object Simulation {
   import net.sourceforge.cilib.algorithm.AbstractAlgorithm
   import net.sourceforge.cilib.algorithm.AlgorithmListener
@@ -32,8 +34,11 @@ object Simulation {
       def algorithmFinished(e: net.sourceforge.cilib.algorithm.AlgorithmEvent): Unit = ()
       def algorithmStarted(e: net.sourceforge.cilib.algorithm.AlgorithmEvent): Unit = ()
       def getClone(): net.sourceforge.cilib.algorithm.AlgorithmListener = this
-      def iterationCompleted(e: net.sourceforge.cilib.algorithm.AlgorithmEvent): Unit =
-        measurements.measure(e.getSource)
+      def iterationCompleted(e: net.sourceforge.cilib.algorithm.AlgorithmEvent): Unit = {
+        if (e.getSource.getIterations % resolution == 0) {
+          measurements.measure(e.getSource)
+        }
+      }
     }
 
     import scala.collection.JavaConversions._
