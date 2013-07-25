@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.stoppingcondition;
 
-import com.google.common.base.Predicate;
+import fj.F;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -20,17 +20,29 @@ import net.sourceforge.cilib.util.Cloneable;
  * Stopping conditions are also useful for implementing graphical progress bars and varying inertia
  * weights etc.
  */
-public interface StoppingCondition<T extends Algorithm> extends Predicate<T>, Cloneable {
+public abstract class StoppingCondition extends F<Algorithm, Boolean> implements Cloneable {
 
     /**
      * Determines the percentage complete for the associated algorithm.
      * @return the percentage completed as a fraction {@literal (0 <= i <= 1.0)}.
      */
-    public double getPercentageCompleted(T algorithm);
+    public abstract double getPercentageCompleted(Algorithm algorithm);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public StoppingCondition<T> getClone();
+    public abstract StoppingCondition getClone();
+
+    public static final F<StoppingCondition, F<Algorithm, Boolean>> toFunc = new F<StoppingCondition, F<Algorithm, Boolean>>() {
+        @Override
+        public F<Algorithm, Boolean> f(final StoppingCondition s) {
+            return new F<Algorithm, Boolean>() {
+                @Override
+                public Boolean f(Algorithm a) {
+                    return s.f(a);
+                }
+            };
+        }
+    };
 }

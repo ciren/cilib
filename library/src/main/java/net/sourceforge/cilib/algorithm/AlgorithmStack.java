@@ -6,8 +6,7 @@
  */
 package net.sourceforge.cilib.algorithm;
 
-import com.google.common.collect.ImmutableList;
-import java.util.List;
+import fj.data.List;
 import java.util.Stack;
 
 /**
@@ -21,7 +20,7 @@ public class AlgorithmStack {
      * Create a new {@linkplain AlgorithmStack} instance.
      */
     public AlgorithmStack() {
-        this.algorithmStack = new Stack<Algorithm>();
+        this.algorithmStack = new Stack<>();
     }
 
     /**
@@ -61,6 +60,6 @@ public class AlgorithmStack {
      * @return An immutable list of algorithms instances.
      */
     public synchronized List<Algorithm> asList() {
-        return ImmutableList.copyOf(this.algorithmStack);
+        return List.iterableList(algorithmStack);
     }
 }

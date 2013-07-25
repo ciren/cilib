@@ -74,7 +74,7 @@ public class VEPSOGuideProvider implements GuideProvider {
     @SuppressWarnings("unchecked")
     @Override
     public StructuredType get(Particle particle) {
-        MultiPopulationBasedAlgorithm topLevelAlgorithm = (MultiPopulationBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
+        MultiPopulationBasedAlgorithm topLevelAlgorithm = (MultiPopulationBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().head();
         Blackboard<Enum<?>, Type> knowledge = (Blackboard<Enum<?>, Type>) this.knowledgeTransferStrategy.transferKnowledge(topLevelAlgorithm.getPopulations());
         return (StructuredType) knowledge.get(EntityType.Particle.BEST_POSITION);
     }

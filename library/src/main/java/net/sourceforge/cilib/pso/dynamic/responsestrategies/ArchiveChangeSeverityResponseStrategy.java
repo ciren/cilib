@@ -75,7 +75,7 @@ public class ArchiveChangeSeverityResponseStrategy<E extends SinglePopulationBas
             this.setNumberOfSentries(ConstantControlParameter.of(Archive.Provider.get().size() / 2));
         }
         //old archive values
-        List<OptimisationSolution> oldList = new LinkedList<OptimisationSolution>();
+        List<OptimisationSolution> oldList = new LinkedList<>();
         for (OptimisationSolution solution : Archive.Provider.get()) {
             oldList.add(solution);
         }
@@ -86,11 +86,11 @@ public class ArchiveChangeSeverityResponseStrategy<E extends SinglePopulationBas
             entity.calculateFitness();
         }
 
-        A populationBasedAlgorithm = (A) AbstractAlgorithm.getAlgorithmList().get(0);
+        A populationBasedAlgorithm = (A) AbstractAlgorithm.getAlgorithmList().head();
         Problem problem = populationBasedAlgorithm.getOptimisationProblem();
 
         //re-evaluating archive solutions
-        List<OptimisationSolution> newList = new LinkedList<OptimisationSolution>();
+        List<OptimisationSolution> newList = new LinkedList<>();
         for (OptimisationSolution solution : Archive.Provider.get()) {
             OptimisationSolution os = new OptimisationSolution(solution.getPosition(), problem.getFitness(solution.getPosition()));
             newList.add(os);

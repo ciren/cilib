@@ -16,7 +16,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * is detected in the NN architecture. When an expansion is detected, the global
  * best NN from the previous iteration is compared to the global best NN just
  * before the previous expansion.
- * 
+ *
  * Please note: this stopping condition has a delay of one iteration in some
  * algorithms. User must manually remove the extra data produced in the output
  * files.
@@ -39,7 +39,7 @@ public class PerExpansionNNPerformanceChangeStoppingCondition extends NNPerforma
         previousNetworkSize = rhs.previousNetworkSize;
         mustStop = rhs.mustStop;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -52,13 +52,13 @@ public class PerExpansionNNPerformanceChangeStoppingCondition extends NNPerforma
      * {@inheritDoc}
      */
     @Override
-    public boolean apply(Algorithm algorithm) {
+    public Boolean f(Algorithm algorithm) {
         int newNetworkSize = (new NeuronCount()).getValue(algorithm).intValue();
 
         //initialisation
         if (resultsToRestore == null) {
             previousNetworkSize = newNetworkSize;
-            super.apply(algorithm);
+            super.f(algorithm);
             resultsToRestore = previousResults;
             return false;
         }
@@ -67,13 +67,13 @@ public class PerExpansionNNPerformanceChangeStoppingCondition extends NNPerforma
             previousNetworkSize = newNetworkSize;
             resultsToRestore = previousResults;
             boolean resultToReturn = mustStop;
-            mustStop = super.apply(algorithm);
+            mustStop = super.f(algorithm);
             return resultToReturn;
         }
         //no new expansion
         else {
             previousResults = resultsToRestore;
-            mustStop = super.apply(algorithm);
+            mustStop = super.f(algorithm);
             return false;
         }
     }

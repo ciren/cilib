@@ -39,7 +39,7 @@ public class RelaxedNonDominatedPersonalBestUpdateStrategy implements PersonalBe
      */
     @Override
     public void updatePersonalBest(Particle particle) {
-        Algorithm topLevelAlgorithm = AbstractAlgorithm.getAlgorithmList().get(0);
+        Algorithm topLevelAlgorithm = AbstractAlgorithm.getAlgorithmList().head();
         Problem problem = topLevelAlgorithm.getOptimisationProblem();
 
         if (particle.getFitness().getClass().getName().matches("MinimisationFitness")) {

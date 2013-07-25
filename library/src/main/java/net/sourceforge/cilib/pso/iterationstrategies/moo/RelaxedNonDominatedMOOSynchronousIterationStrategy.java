@@ -54,7 +54,7 @@ public class RelaxedNonDominatedMOOSynchronousIterationStrategy extends Abstract
             boundaryConstraint.enforce(current);
         }
 
-        Problem problem = AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
+        Problem problem = AbstractAlgorithm.getAlgorithmList().head().getOptimisationProblem();
         for (Particle current : topology) {
             current.calculateFitness();
             for (Particle other : pso.getNeighbourhood().f(topology, current)) {

@@ -167,7 +167,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements H
     }
 
     /**
-     * Initialise the main swarm..
+     * Initialize the main swarm..
      *
      * @see MultiPopulationBasedAlgorithm#performInitialisation()
      */

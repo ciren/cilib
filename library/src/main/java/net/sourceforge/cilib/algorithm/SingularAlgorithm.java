@@ -13,6 +13,6 @@ package net.sourceforge.cilib.algorithm;
  * Examples of such algorithms will include <tt>KMeans</tt>, <tt>Gradient Decent</tt> etc.
  *
  */
-public interface SingularAlgorithm extends Algorithm, Stoppable {
+public interface SingularAlgorithm extends Algorithm {
 
 }

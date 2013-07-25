@@ -20,10 +20,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Algorithm is complete if no significant improvement in NN performance is observed.
  * Statistical tests such as the (Wilcoxon signed-rank test) can be used to determine
  * the significance of an improvement.
- * 
+ *
  * This class keeps memory of the performance of the NN from previous stopping condition test.
  */
-public class NNPerformanceChangeStoppingCondition implements StoppingCondition<Algorithm> {
+public class NNPerformanceChangeStoppingCondition extends StoppingCondition {
 
     protected ArrayList<Vector> previousResults;
     private NNPerformanceComparator comparator;
@@ -37,7 +37,7 @@ public class NNPerformanceChangeStoppingCondition implements StoppingCondition<A
         previousResults = rhs.previousResults;
         comparator = rhs.comparator;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -60,14 +60,14 @@ public class NNPerformanceChangeStoppingCondition implements StoppingCondition<A
      * @result true if algorithm is complete.
      */
     @Override
-    public boolean apply(Algorithm algorithm) {
+    public Boolean f(Algorithm algorithm) {
         NNTrainingProblem problem = (NNTrainingProblem) algorithm.getOptimisationProblem();
         StandardPatternDataTable validationSet = problem.getValidationSet();
         NeuralNetwork currentNetwork = problem.getNeuralNetwork();
         currentNetwork.setWeights((Vector) algorithm.getBestSolution().getPosition());
 
         //calculate output set for the new architecture
-        ArrayList<Vector> currentResults = new ArrayList<Vector>();
+        ArrayList<Vector> currentResults = new ArrayList<>();
         for (StandardPattern curPattern : validationSet) {
             Vector output = currentNetwork.evaluatePattern(curPattern);
             currentResults.add(output);
