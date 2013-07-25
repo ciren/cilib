@@ -8,8 +8,8 @@ package net.sourceforge.cilib.algorithm;
 
 import com.google.common.base.Preconditions;
 import fj.Equal;
-import fj.Monoid;
 import fj.data.List;
+import fj.function.Booleans;
 import net.sourceforge.cilib.entity.EntityIdFactory;
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.Problem;
@@ -216,7 +216,7 @@ public abstract class AbstractAlgorithm implements Algorithm {
      */
     @Override
     public final boolean isFinished() {
-        return Monoid.disjunctionMonoid.sumLeft(List.single((Algorithm) this).apply(stoppingConditions.map(StoppingCondition.toFunc)));
+        return Booleans.or(List.single((Algorithm) this).apply(stoppingConditions.map(StoppingCondition.toFunc)));
     }
 
     /**
