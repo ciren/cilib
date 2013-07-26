@@ -26,13 +26,14 @@ public class PerElementReinitialisation extends ReinitialisationBoundary {
      * {@inheritDoc}
      */
     @Override
-    public void enforce(Entity entity) {
+    public Entity enforce(Entity entity) {
         try {
             enforce((Vector) entity.getCandidateSolution());
         }
         catch (ClassCastException cce) {
             enforce((Numeric) entity.getCandidateSolution());
         }
+        return entity;
     }
 
     /**

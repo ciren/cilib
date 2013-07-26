@@ -42,7 +42,7 @@ public class BouncingBoundaryConstraint implements BoundaryConstraint {
      * {@inheritDoc}
      */
     @Override
-    public void enforce(Entity entity) {
+    public <E extends Entity> E enforce(E entity) {
         StructuredType<?> structuredType = (StructuredType<?>) entity.getProperties().get(EntityType.Particle.VELOCITY);
 
         if (structuredType == null) {
@@ -62,5 +62,6 @@ public class BouncingBoundaryConstraint implements BoundaryConstraint {
             }
         });
         entity.getProperties().put(EntityType.Particle.VELOCITY, result);
+        return entity;
     }
 }

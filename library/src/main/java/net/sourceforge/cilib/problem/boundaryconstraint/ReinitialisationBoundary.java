@@ -31,10 +31,11 @@ public class ReinitialisationBoundary implements BoundaryConstraint {
      * {@inheritDoc}
      */
     @Override
-    public void enforce(Entity entity) {
+    public Entity enforce(Entity entity) {
         if (!Types.isInsideBounds(entity.getCandidateSolution())) {
             entity.reinitialise();
         }
+        return entity;
     }
 
 }

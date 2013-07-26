@@ -75,7 +75,7 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
      * {@inheritDoc}
      */
     @Override
-    public void enforce(Entity entity) {
+    public Entity enforce(Entity entity) {
         StructuredType<?> s = (StructuredType<?>) entity.getProperties().get(EntityType.Particle.VELOCITY);
 
         if (s == null) {
@@ -117,6 +117,7 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
         }
         entity.getProperties().put(EntityType.CANDIDATE_SOLUTION, positionBuilder.build());
         entity.getProperties().put(EntityType.Particle.VELOCITY, velocityBuilder.build());
+        return entity;
     }
 
     /**

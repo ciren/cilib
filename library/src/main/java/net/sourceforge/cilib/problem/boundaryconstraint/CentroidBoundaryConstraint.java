@@ -49,8 +49,7 @@ public class CentroidBoundaryConstraint implements BoundaryConstraint{
      * @param entity The entity to be bound constrained
      */
     @Override
-    public void enforce(Entity entity) {
-        //System.out.println("Class: " + entity.getCandidateSolution().getClass().toString() + ", " + entity.getCandidateSolution());
+    public <E extends Entity> E enforce(E entity) {
         CentroidHolder holder = (CentroidHolder) entity.getCandidateSolution().getClone();
         CentroidHolder velocity = (CentroidHolder) entity.getProperties().get(EntityType.Particle.VELOCITY).getClone();
         CentroidHolder bestPosition = (CentroidHolder) entity.getProperties().get(EntityType.Particle.BEST_POSITION).getClone();
@@ -72,6 +71,7 @@ public class CentroidBoundaryConstraint implements BoundaryConstraint{
             index++;
         }
         entity.setCandidateSolution(newSolution);
+        return entity;
     }
 
     /*

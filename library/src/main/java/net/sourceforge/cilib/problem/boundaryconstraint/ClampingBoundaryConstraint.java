@@ -36,7 +36,7 @@ public class ClampingBoundaryConstraint implements BoundaryConstraint {
      * {@inheritDoc}
      */
     @Override
-    public void enforce(Entity entity) {
+    public Entity enforce(Entity entity) {
         StructuredType<?> candidateSolution = entity.getCandidateSolution();
         Vector result = Vectors.transform((Vector) candidateSolution, new F<Numeric, Double>() {
             @Override
@@ -51,5 +51,6 @@ public class ClampingBoundaryConstraint implements BoundaryConstraint {
             }
         });
         entity.setCandidateSolution(result);
+        return entity;
     }
 }

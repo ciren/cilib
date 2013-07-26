@@ -57,8 +57,7 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
 				current.updateVelocity();
 	            current.updatePosition();
 
-	            boundaryConstraint.enforce(current);
-	            return current;
+	            return boundaryConstraint.enforce(current);
 			}
         };
 

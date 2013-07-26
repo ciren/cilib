@@ -31,8 +31,9 @@ public class UnconstrainedBoundary implements BoundaryConstraint {
      * @param entity The entity to which no constraint is to be applied.
      */
     @Override
-    public void enforce(Entity entity) {
+    public Entity enforce(Entity entity) {
         // Do nothing as there is no boundary constraint to enforce
+        return entity;
     }
 
 }

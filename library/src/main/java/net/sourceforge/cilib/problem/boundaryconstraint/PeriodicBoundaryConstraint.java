@@ -46,7 +46,7 @@ public class PeriodicBoundaryConstraint implements BoundaryConstraint {
      * {@inheritDoc}
      */
     @Override
-    public void enforce(Entity entity) {
+    public Entity enforce(Entity entity) {
         StructuredType<?> velocity = (StructuredType<?>) entity.getProperties().get(EntityType.Particle.VELOCITY);
 
         if (velocity == null) {
@@ -75,5 +75,6 @@ public class PeriodicBoundaryConstraint implements BoundaryConstraint {
             }
         }
         entity.getProperties().put(EntityType.CANDIDATE_SOLUTION, positionBuilder.build());
+        return entity;
     }
 }

@@ -53,7 +53,7 @@ public class DeflectionBoundaryConstraint implements BoundaryConstraint {
      * {@inheritDoc}
      */
     @Override
-    public void enforce(Entity entity) {
+    public Entity enforce(Entity entity) {
         StructuredType<?> structuredType = (StructuredType<?>) entity.getProperties().get(EntityType.Particle.VELOCITY);
 
         if (structuredType == null) {
@@ -87,6 +87,8 @@ public class DeflectionBoundaryConstraint implements BoundaryConstraint {
 
         entity.getProperties().put(EntityType.CANDIDATE_SOLUTION, newPosition.build());
         entity.getProperties().put(EntityType.Particle.VELOCITY, newVelocity.build());
+
+        return entity;
     }
 
     /**
