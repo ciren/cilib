@@ -72,7 +72,7 @@ public class CooperativeMultiswarmIterationStrategy extends AbstractCooperativeI
 
                 if(!((DataClusteringPSO) currentAlgorithm).isExplorer()) {
                     for(ClusterParticle particle : ((DataClusteringPSO) currentAlgorithm).getTopology()) {
-                        clearDataPatterns(contextParticle);
+                        ((CentroidHolder) contextParticle.getCandidateSolution()).clearAllCentroidDataItems();
                         assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);
                         contextParticle.calculateFitness();
 
@@ -86,7 +86,7 @@ public class CooperativeMultiswarmIterationStrategy extends AbstractCooperativeI
                         particleWithContext.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER).getClone());
                         particleWithContext.setCentroidInitialisationStrategy(particle.getCentroidInitialisationStrategyCandidate().getClone());
 
-                        clearDataPatterns(particleWithContext);
+                        ((CentroidHolder) particleWithContext.getCandidateSolution()).clearAllCentroidDataItems();
                         assignDataPatternsToParticle((CentroidHolder) particleWithContext.getCandidateSolution(), table);
                         particleWithContext.calculateFitness();
 

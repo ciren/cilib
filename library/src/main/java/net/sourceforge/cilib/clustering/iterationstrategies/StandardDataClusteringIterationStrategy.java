@@ -62,12 +62,12 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
         fj.data.List<ClusterParticle> topology = algorithm.getTopology();
         double euclideanDistance;
         Vector addedPattern;
-        clearCentroidDistanceValues(topology);
         reinitialised = false;
         Vector pattern;
 
         for(ClusterParticle particle : topology) {
             CentroidHolder candidateSolution = (CentroidHolder) particle.getCandidateSolution();
+            candidateSolution.clearAllCentroidDataItems();
             for(int i = 0; i < dataset.size(); i++) {
                 euclideanDistance = Double.POSITIVE_INFINITY;
                 addedPattern = Vector.of();
@@ -106,21 +106,4 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
         dataset = window.slideWindow();
 
     }
-
-    /*
-     * Removes all data items assigned to each centroid in each particle in the topology
-     * @param topology The topology whose centroids need to be cleaned
-     */
-    private void clearCentroidDistanceValues(fj.data.List<ClusterParticle> topology) {
-        CentroidHolder candidateSolution;
-        for(ClusterParticle particle : topology) {
-            candidateSolution = (CentroidHolder) particle.getCandidateSolution();
-
-            for(ClusterCentroid centroid : candidateSolution) {
-                centroid.clearDataItems();
-            }
-        }
-    }
-
-
 }
