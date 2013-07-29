@@ -202,7 +202,7 @@
                         <function class="functions.continuous.unconstrained.Spherical"/>
                     </addFunction>
                 </function>
-                <!--verticalShift class="controlparameter.ConstantControlParameter" parameter="120"/-->
+                <verticalShift class="controlparameter.ConstantControlParameter" parameter="120"/>
             </function>
         </problem>
 
@@ -771,7 +771,7 @@
     </measurements>
 
     <simulations>
-        <simulation samples="5">
+        <!--simulation samples="5">
             <algorithm idref="pso"/>
             <problem idref="f1"/>
             <measurements idref="measurements" />
@@ -860,8 +860,8 @@
             <problem idref="f15"/>
             <measurements idref="measurements" />
             <output format="TXT" file="data/cec2005-pso-f15.txt"/>
-        </simulation>
-        <simulation samples="5">
+        </simulation-->
+        <simulation samples="1">
             <algorithm idref="pso"/>
             <problem idref="f16"/>
             <measurements idref="measurements" />

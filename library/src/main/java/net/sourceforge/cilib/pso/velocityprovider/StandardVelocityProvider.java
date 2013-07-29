@@ -17,7 +17,7 @@ import net.sourceforge.cilib.util.Vectors;
 /**
  * Implementation of the standard / default velocity update equation.
  */
-public final class StandardVelocityProvider implements VelocityProvider {
+public class StandardVelocityProvider implements VelocityProvider {
 
     private static final long serialVersionUID = 8204479765311251730L;
 

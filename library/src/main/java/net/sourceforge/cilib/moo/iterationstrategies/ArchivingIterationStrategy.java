@@ -30,10 +30,10 @@ import net.sourceforge.cilib.type.types.Types;
  * @param <E> The {@link PopulationBasedAlgorithm} that will have it's entities' positions added to
  * the archive as potential solutions.
  */
-public class ArchivingIterationStrategy<E extends SinglePopulationBasedAlgorithm> implements IterationStrategy<E> {
+public class ArchivingIterationStrategy<E extends SinglePopulationBasedAlgorithm<? extends Entity>> implements IterationStrategy<E> {
 
     private static final long serialVersionUID = 4029628616324259998L;
-    private IterationStrategy<SinglePopulationBasedAlgorithm> iterationStrategy;
+    private IterationStrategy<E> iterationStrategy;
 
     public ArchivingIterationStrategy() {
     }
@@ -47,11 +47,11 @@ public class ArchivingIterationStrategy<E extends SinglePopulationBasedAlgorithm
         return new ArchivingIterationStrategy<E>(this);
     }
 
-    public void setIterationStrategy(IterationStrategy<SinglePopulationBasedAlgorithm> iterationStrategy) {
+    public void setIterationStrategy(IterationStrategy<E> iterationStrategy) {
         this.iterationStrategy = iterationStrategy;
     }
 
-    public IterationStrategy<SinglePopulationBasedAlgorithm> getIterationStrategy() {
+    public IterationStrategy<E> getIterationStrategy() {
         return this.iterationStrategy;
     }
 

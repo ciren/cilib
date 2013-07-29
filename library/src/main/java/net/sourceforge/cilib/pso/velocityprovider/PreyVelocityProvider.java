@@ -33,7 +33,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * 2006. CEC 2006. IEEE Congress on. IEEE, 2006.
  * </li></ul>
  */
-public final class PreyVelocityProvider implements VelocityProvider {
+public class PreyVelocityProvider implements VelocityProvider {
     protected VelocityProvider delegate;
     protected ControlParameter acceleration;
     protected ControlParameter fear;

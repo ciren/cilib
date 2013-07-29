@@ -57,7 +57,7 @@ public class UniformDistribution implements ProbabilityDistributionFunction {
     @Override
     public double getRandomNumber(double... bounds) {
         checkArgument(bounds.length == 2, "The Uniform distribution requires two parameters.");
-        checkArgument(bounds[1] > bounds[0], "The lower bound (first parameter) must be less than upper bound (second parameter).");
+        //checkArgument(bounds[1] > bounds[0], "The lower bound (first parameter) must be less than upper bound (second parameter).");
 
         double r = Rand.nextDouble();
         return ((bounds[1] - bounds[0]) * r + bounds[0]);

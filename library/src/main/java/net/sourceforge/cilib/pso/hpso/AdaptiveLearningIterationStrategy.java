@@ -315,6 +315,7 @@ public class AdaptiveLearningIterationStrategy extends AbstractIterationStrategy
 	            p._1().setNeighbourhoodBest(aBest);
 			}
         });
+        weighting.setBehaviors(behaviorPool);
     }
 
     private void initAdaptiveProperties(ParticleProperties.AdaptiveProperties props) {

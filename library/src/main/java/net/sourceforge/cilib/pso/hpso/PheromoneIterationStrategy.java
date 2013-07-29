@@ -156,7 +156,11 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
     @Override
     public void addBehavior(ParticleBehavior behavior) {
         behaviorPool.add(behavior);
-        setBehaviorPool(behaviorPool);
+        pheromoneConcentration.clear();
+
+        for(ParticleBehavior pb : behaviorPool) {
+            pheromoneConcentration.add(new Double(1.0 / behaviorPool.size()));
+        }
     }
 
     /**
@@ -164,11 +168,9 @@ public class PheromoneIterationStrategy implements IterationStrategy<PSO>, Heter
      */
     @Override
     public void setBehaviorPool(List<ParticleBehavior> pool) {
-        pheromoneConcentration.clear();
-        behaviorPool = pool;
-
-        for(ParticleBehavior pb : behaviorPool) {
-            pheromoneConcentration.add(new Double(1.0 / behaviorPool.size()));
+        behaviorPool.clear();
+        for (ParticleBehavior pb : pool) {
+            addBehavior(pb);
         }
     }
 
