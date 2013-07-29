@@ -145,7 +145,6 @@ public abstract class SinglePopulationDataClusteringIterationStrategy extends Ab
     public void assignDataPatternsToParticle(CentroidHolder candidateSolution, DataTable dataset) {
         double euclideanDistance;
         Vector addedPattern;
-        DistanceMeasure aDistanceMeasure = new EuclideanDistanceMeasure();
         Vector pattern;
 
         for(int i = 0; i < dataset.size(); i++) {
@@ -155,8 +154,8 @@ public abstract class SinglePopulationDataClusteringIterationStrategy extends Ab
                 int centroidIndex = 0;
                 int patternIndex = 0;
                 for(ClusterCentroid centroid : candidateSolution) {
-                    if(aDistanceMeasure.distance(centroid.toVector(), pattern) < euclideanDistance) {
-                        euclideanDistance = aDistanceMeasure.distance(centroid.toVector(), pattern);
+                    if(distanceMeasure.distance(centroid.toVector(), pattern) < euclideanDistance) {
+                        euclideanDistance = distanceMeasure.distance(centroid.toVector(), pattern);
                         addedPattern = Vector.copyOf(pattern);
                         patternIndex = centroidIndex;
                     }
