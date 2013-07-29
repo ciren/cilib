@@ -97,7 +97,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
      * @return contextParticle The context particle
      */
     public ClusterParticle getContextParticle() {
-        clearDataPatterns(contextParticle);
+        ((CentroidHolder) contextParticle.getPosition()).clearAllCentroidDataItems();
         assignDataPatternsToParticle((CentroidHolder) contextParticle.getPosition(), table);
         contextParticle.calculateFitness();
         return contextParticle;
@@ -129,17 +129,6 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
         contextParticle.put(Property.FITNESS, InferiorFitness.instance());
         contextParticle.put(Property.BEST_FITNESS, InferiorFitness.instance());
         contextinitialised = true;
-    }
-
-
-    /*
-     * Removes all data patterns held by cluster centroids held by the particle received
-     * @param particle The particle whose centroids must be cleared
-     */
-    public void clearDataPatterns(ClusterParticle particle) {
-        for(ClusterCentroid centroid : (CentroidHolder) particle.getPosition()) {
-            centroid.clearDataItems();
-        }
     }
 
     public boolean getIsElitist() {

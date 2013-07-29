@@ -78,7 +78,7 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
             newTopology = fj.data.List.nil();
 
             for(ClusterParticle particle : ((DataClusteringPSO) currentAlgorithm).getTopology()) {
-                clearDataPatterns(contextParticle);
+                ((CentroidHolder) contextParticle.getPosition()).clearAllCentroidDataItems();
                 assignDataPatternsToParticle((CentroidHolder) contextParticle.getPosition(), table);
                 contextParticle.calculateFitness();
 
@@ -92,7 +92,7 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
                 particleWithContext.put(Property.PBEST_STAGNATION_COUNTER, particle.get(Property.PBEST_STAGNATION_COUNTER).getClone());
                 particleWithContext.setCentroidInitialisationStrategy(particle.getCentroidInitialisationStrategyCandidate().getClone());
 
-                clearDataPatterns(particleWithContext);
+                ((CentroidHolder) particleWithContext.getPosition()).clearAllCentroidDataItems();
                 assignDataPatternsToParticle((CentroidHolder) particleWithContext.getPosition(), table);
                 particleWithContext.calculateFitness();
 

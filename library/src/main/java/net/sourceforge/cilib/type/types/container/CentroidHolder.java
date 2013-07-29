@@ -320,4 +320,12 @@ public class CentroidHolder implements StructuredType<ClusterCentroid>{
         components[index] = centroid.getClone();
     }
 
+    /**
+     * Clear all the data patterns assigned to each centroid.
+     */
+    public void clearAllCentroidDataItems() {
+        for(ClusterCentroid centroid : this) {
+            centroid.clearDataItems();
+        }
+    }
 }

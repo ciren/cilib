@@ -67,7 +67,8 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
                  for(int i = 0; i < topology.length(); i+=reinitialisationInterval) {
                     ClusterParticle c = (ClusterParticle) topology.index(i);
                     c.reinitialise();
-                    clearDataPatterns(c);
+
+                    ((CentroidHolder) c.getPosition()).clearAllCentroidDataItems();
                     assignDataPatternsToParticle(((CentroidHolder)(c).getPosition()),
                             ((SinglePopulationDataClusteringIterationStrategy)(((DataClusteringPSO) currentAlgorithm).getIterationStrategy())).getDataset());
                 }
@@ -85,7 +86,8 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
     public void reinitialiseContext(CooperativePSO currentAlgorithm) {
         contextParticle = ((DataClusteringPSO) currentAlgorithm.getPopulations().get(0)).getTopology().head().getClone();
         contextParticle.reinitialise();
-        clearDataPatterns(contextParticle);
+
+        ((CentroidHolder) contextParticle.getPosition()).clearAllCentroidDataItems();
         assignDataPatternsToParticle((CentroidHolder) contextParticle.getPosition(), table);
         contextParticle.calculateFitness();
     }
