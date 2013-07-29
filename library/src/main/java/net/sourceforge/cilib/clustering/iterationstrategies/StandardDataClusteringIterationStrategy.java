@@ -68,23 +68,8 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
         for(ClusterParticle particle : topology) {
             CentroidHolder candidateSolution = (CentroidHolder) particle.getCandidateSolution();
             candidateSolution.clearAllCentroidDataItems();
-            for(int i = 0; i < dataset.size(); i++) {
-                euclideanDistance = Double.POSITIVE_INFINITY;
-                addedPattern = Vector.of();
-                pattern = ((StandardPattern) dataset.getRow(i)).getVector();
-                int centroidIndex = 0;
-                int patternIndex = 0;
-                for(ClusterCentroid centroid : candidateSolution) {
-                    if(distanceMeasure.distance(centroid.toVector(), pattern) < euclideanDistance) {
-                        euclideanDistance = distanceMeasure.distance(centroid.toVector(), pattern);
-                        addedPattern = Vector.copyOf(pattern);
-                        patternIndex = centroidIndex;
-                    }
-                    centroidIndex++;
-                }
 
-                candidateSolution.get(patternIndex).addDataItem(euclideanDistance, addedPattern);
-            }
+            assignDataPatternsToParticle(candidateSolution, dataset);
 
             particle.setCandidateSolution(candidateSolution);
 
