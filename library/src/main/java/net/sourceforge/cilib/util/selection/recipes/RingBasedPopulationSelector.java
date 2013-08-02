@@ -10,7 +10,6 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.util.selection.PartialSelection;
 import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.arrangement.Arrangement;
 import net.sourceforge.cilib.util.selection.arrangement.RingBasedArrangement;
 
 /**
@@ -24,7 +23,6 @@ public class RingBasedPopulationSelector implements Selector<SinglePopulationBas
      */
     @Override
     public PartialSelection<SinglePopulationBasedAlgorithm> on(Iterable<SinglePopulationBasedAlgorithm> iterable) {
-        Arrangement ordering = new RingBasedArrangement(AbstractAlgorithm.get());
-        return Selection.copyOf(iterable).orderBy(ordering);
+        return Selection.copyOf(iterable).orderBy(new RingBasedArrangement(AbstractAlgorithm.get()));
     }
 }

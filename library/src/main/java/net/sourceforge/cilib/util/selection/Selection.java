@@ -16,7 +16,7 @@ import java.util.List;
 import net.sourceforge.cilib.util.selection.arrangement.Arrangement;
 import net.sourceforge.cilib.util.selection.weighting.Weighting;
 
-public final class Selection<T> implements WeighableSelection<T>, PartialSelection<T> {
+public final class Selection<T> implements PartialSelection<T> {
 
     private final Object[] elements;
 
@@ -55,7 +55,6 @@ public final class Selection<T> implements WeighableSelection<T>, PartialSelecti
         return new Selection<T>(copyOfInternal(result));
     }
 
-    @Override
     public WeightedSelection<T> weigh(Weighting weighing) {
         List<T> list = (List<T>) Lists.newArrayList(elements);
         List<WeightedObject> result = Lists.newArrayList(weighing.weigh(list));
