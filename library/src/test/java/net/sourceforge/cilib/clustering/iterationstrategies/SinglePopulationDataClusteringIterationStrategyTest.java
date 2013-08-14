@@ -34,7 +34,10 @@ public class SinglePopulationDataClusteringIterationStrategyTest {
     public void testPerformIteration() {
         DataClusteringPSO instance = new DataClusteringPSO();
 
+        SlidingWindow window = new SlidingWindow();
+        window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
         QuantisationErrorMinimisationProblem problem = new QuantisationErrorMinimisationProblem();
+        problem.setWindow(window);
         problem.setDomain("R(-5.12:5.12)");
         IterationStrategy strategy = new StandardDataClusteringIterationStrategy();
         CentroidBoundaryConstraint constraint = new CentroidBoundaryConstraint();
@@ -47,7 +50,6 @@ public class SinglePopulationDataClusteringIterationStrategyTest {
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
         instance.setInitialisationStrategy(init);
-        instance.setSourceURL("library/src/test/resources/datasets/iris2.arff");
 
         instance.setOptimisationProblem(problem);
         instance.addStoppingCondition(new MeasuredStoppingCondition());
@@ -61,35 +63,6 @@ public class SinglePopulationDataClusteringIterationStrategyTest {
         ClusterParticle particleAfter = instance.getTopology().head().getClone();
 
         Assert.assertFalse(particleAfter.getCandidateSolution().containsAll(particleBefore.getCandidateSolution()));
-    }
-
-    /**
-     * Test of getDistanceMeasure method, of class SinglePopulationDataClusteringIterationStrategy.
-     */
-    @Test
-    public void testGetDistanceMeasure() {
-        SinglePopulationDataClusteringIterationStrategy instance = new StandardDataClusteringIterationStrategy();
-        Assert.assertTrue(instance.getDistanceMeasure() instanceof EuclideanDistanceMeasure);
-    }
-
-    /**
-     * Test of getDataset method, of class SinglePopulationDataClusteringIterationStrategy.
-     */
-    @Test
-    public void testGetDataset() {
-        SinglePopulationDataClusteringIterationStrategy instance = new StandardDataClusteringIterationStrategy();
-        SlidingWindow window = new SlidingWindow();
-        window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
-        window.setWindowSize(1);
-        window.initialiseWindow();
-        instance.setWindow(window);
-
-        Assert.assertEquals(instance.getDataset().size(), 1);
-
-        Vector beforeSlide =  ((StandardPattern) instance.getDataset().getRow(0)).getVector();
-        Vector expectedBeforeSlide = Vector.of(1.0,1.0,1.0,2.0);
-
-        Assert.assertTrue(beforeSlide.containsAll(expectedBeforeSlide));
     }
 
     /**
@@ -122,59 +95,6 @@ public class SinglePopulationDataClusteringIterationStrategyTest {
         instance.setDimensions(2);
 
         assertEquals(instance.dimensions, 2);
-    }
-
-    /**
-     * Test of setWindow method, of class SinglePopulationDataClusteringIterationStrategy.
-     */
-    @Test
-    public void testSetWindow() {
-        SinglePopulationDataClusteringIterationStrategy instance = new StandardDataClusteringIterationStrategy();
-        SlidingWindow window = new SlidingWindow();
-        window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
-        window.setWindowSize(1);
-        instance.setWindow(window);
-
-        Assert.assertEquals(window, instance.getWindow());
-    }
-
-    /**
-     * Test of getWindow method, of class SinglePopulationDataClusteringIterationStrategy.
-     */
-    @Test
-    public void testGetWindow() {
-        SinglePopulationDataClusteringIterationStrategy instance = new StandardDataClusteringIterationStrategy();
-        SlidingWindow window = new SlidingWindow();
-        window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
-        window.setWindowSize(1);
-        instance.setWindow(window);
-
-        Assert.assertEquals(window, instance.getWindow());
-    }
-
-    /**
-     * Test of assignDataPatternsToParticle method, of class SinglePopulationDataClusteringIterationStrategy.
-     */
-    @Test
-    public void testAssignDataPatternsToParticle() {
-        SinglePopulationDataClusteringIterationStrategy instance = new StandardDataClusteringIterationStrategy();
-        CentroidHolder candidateSolution = new CentroidHolder();
-        SlidingWindow window = new SlidingWindow();
-        window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
-        window.setWindowSize(3);
-        instance.setWindow(window);
-        instance.getWindow().initialiseWindow();
-
-        candidateSolution.add(ClusterCentroid.of(1.25,1.1,1.3,1.9));
-        candidateSolution.add(ClusterCentroid.of(1.92,2.6,3.1,1.8));
-        candidateSolution.add(ClusterCentroid.of(0.9,1.1,0.85,0.79));
-
-        DataTable dataset = instance.getWindow().getCurrentDataset();
-
-        instance.assignDataPatternsToParticle(candidateSolution, dataset);
-        Assert.assertTrue(candidateSolution.get(0).getDataItems().contains(Vector.of(1.0,1.0,1.0,2.0)));
-        Assert.assertTrue(candidateSolution.get(1).getDataItems().contains(Vector.of(2.0,3.0,4.0,2.0)));
-        Assert.assertTrue(candidateSolution.get(2).getDataItems().contains(Vector.of(1.0,1.0,1.0,1.0)));
     }
 
 }

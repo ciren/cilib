@@ -11,6 +11,7 @@ import net.sourceforge.cilib.algorithm.initialisation.DataDependantPopulationIni
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.clustering.CooperativePSO;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
+import net.sourceforge.cilib.clustering.SlidingWindow;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.QuantisationErrorMinimisationProblem;
@@ -29,7 +30,10 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategyTest {
     public void testPerformIteration() {
         DataClusteringPSO instance = new DataClusteringPSO();
 
+        SlidingWindow window = new SlidingWindow();
+        window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
         QuantisationErrorMinimisationProblem problem = new QuantisationErrorMinimisationProblem();
+        problem.setWindow(window);
         problem.setDomain("R(-5.12:5.12)");
         IterationStrategy strategy = new StandardDataClusteringIterationStrategy();
         CentroidBoundaryConstraint constraint = new CentroidBoundaryConstraint();
@@ -42,7 +46,6 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategyTest {
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
         instance.setInitialisationStrategy(init);
-        instance.setSourceURL("library/src/test/resources/datasets/iris2.arff");
 
         instance.setOptimisationProblem(problem);
         instance.addStoppingCondition(new MeasuredStoppingCondition());

@@ -13,6 +13,7 @@ import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.io.StandardDataTable;
+import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 
 /**
@@ -29,7 +30,6 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
         super();
         contextParticle = new ClusterParticle();
         contextinitialised = false;
-        table = new StandardDataTable();
     }
 
     /*
@@ -40,7 +40,6 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
         super(copy);
         contextParticle = copy.contextParticle;
         contextinitialised = copy.contextinitialised;
-        table = copy.table;
     }
 
     /*
@@ -61,14 +60,11 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
     @Override
     public void performIteration(CooperativePSO algorithm) {
         int populationIndex = 0;
-        table = new StandardDataTable();
         DataClusteringPSO pso ;
         fj.data.List<ClusterParticle> newTopology;
         ClusterParticle particleWithContext;
 
         for(SinglePopulationBasedAlgorithm currentAlgorithm : algorithm.getPopulations()) {
-
-            table = ((SinglePopulationDataClusteringIterationStrategy) ((DataClusteringPSO) currentAlgorithm).getIterationStrategy()).getDataset();
 
             if(!contextinitialised) {
                 initialiseContextParticle(algorithm);
@@ -79,11 +75,11 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
 
             for(ClusterParticle particle : ((DataClusteringPSO) currentAlgorithm).getTopology()) {
                 ((CentroidHolder) contextParticle.getCandidateSolution()).clearAllCentroidDataItems();
-                assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);
                 contextParticle.calculateFitness();
 
                 particleWithContext = new ClusterParticle();
                 particleWithContext.setCandidateSolution(contextParticle.getCandidateSolution().getClone());
+                particleWithContext.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
                 particleWithContext.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getBestPosition().getClone());
                 particleWithContext.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getBestFitness().getClone());
                 particleWithContext.getProperties().put(EntityType.Particle.VELOCITY, particle.getVelocity().getClone());
@@ -93,7 +89,6 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
                 particleWithContext.setCentroidInitialisationStrategy(particle.getCentroidInitialisationStrategyCandidate().getClone());
 
                 ((CentroidHolder) particleWithContext.getCandidateSolution()).clearAllCentroidDataItems();
-                assignDataPatternsToParticle((CentroidHolder) particleWithContext.getCandidateSolution(), table);
                 particleWithContext.calculateFitness();
 
 

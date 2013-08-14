@@ -60,24 +60,15 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
     @Override
     public void performIteration(DataClusteringPSO algorithm) {
         fj.data.List<ClusterParticle> topology = algorithm.getTopology();
-        double euclideanDistance;
-        Vector addedPattern;
         reinitialised = false;
-        Vector pattern;
 
         for(ClusterParticle particle : topology) {
-            CentroidHolder candidateSolution = (CentroidHolder) particle.getCandidateSolution();
-            candidateSolution.clearAllCentroidDataItems();
-
-            assignDataPatternsToParticle(candidateSolution, dataset);
-
-            particle.setCandidateSolution(candidateSolution);
-
-            particle.calculateFitness();
             particle.updateVelocity();
             particle.updatePosition();
 
             boundaryConstraint.enforce(particle);
+
+            particle.calculateFitness();
         }
 
         for (ClusterParticle current : topology) {
@@ -87,8 +78,5 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
                 }
             }
         }
-
-        dataset = window.slideWindow();
-
     }
 }

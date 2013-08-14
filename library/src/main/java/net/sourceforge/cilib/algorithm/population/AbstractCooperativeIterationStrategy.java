@@ -26,7 +26,6 @@ import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
 public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> extends AbstractIterationStrategy<E> {
     protected ClusterParticle contextParticle;
     protected boolean contextinitialised;
-    protected DataTable table;
     protected boolean elitist;
     /*
      * Default constructor for AbstractCooperativeIterationStrategy
@@ -34,7 +33,6 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
     public AbstractCooperativeIterationStrategy() {
         contextParticle = new ClusterParticle();
         contextinitialised = false;
-        table = new StandardDataTable();
         elitist = false;
     }
 
@@ -45,7 +43,6 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
     public AbstractCooperativeIterationStrategy(AbstractCooperativeIterationStrategy copy) {
         contextParticle = copy.contextParticle;
         contextinitialised = copy.contextinitialised;
-        table = copy.table;
         elitist = copy.elitist;
     }
 
@@ -62,43 +59,11 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
     public abstract void performIteration(E algorithm);
 
     /*
-     * Adds the data patterns closest to a centroid to its data pattern list
-     * @param candidateSolution The solution holding all the centroids
-     * @param dataset The dataset holding all the data patterns
-     */
-    public void assignDataPatternsToParticle(CentroidHolder candidateSolution, DataTable dataset) {
-        double euclideanDistance;
-        Vector addedPattern;
-        DistanceMeasure distanceMeasure = new EuclideanDistanceMeasure();
-        int centroidIndex;
-        int patternIndex;
-
-        for(int i = 0; i < dataset.size(); i++) {
-                euclideanDistance = Double.POSITIVE_INFINITY;
-                addedPattern = Vector.of();
-                Vector pattern = ((StandardPattern) dataset.getRow(i)).getVector();
-                centroidIndex = 0;
-                patternIndex = 0;
-                for(ClusterCentroid centroid : candidateSolution) {
-                    if(distanceMeasure.distance(centroid.toVector(), pattern) < euclideanDistance) {
-                        euclideanDistance = distanceMeasure.distance(centroid.toVector(), pattern);
-                        addedPattern = Vector.copyOf(pattern);
-                        patternIndex = centroidIndex;
-                    }
-                    centroidIndex++;
-                }
-
-                candidateSolution.get(patternIndex).addDataItem(euclideanDistance, addedPattern);
-            }
-    }
-
-    /*
      * Returns the context particle
      * @return contextParticle The context particle
      */
     public ClusterParticle getContextParticle() {
         ((CentroidHolder) contextParticle.getCandidateSolution()).clearAllCentroidDataItems();
-        assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);
         contextParticle.calculateFitness();
         return contextParticle;
     }

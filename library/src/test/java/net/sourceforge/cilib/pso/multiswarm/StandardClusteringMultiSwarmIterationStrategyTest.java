@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.pso.multiswarm;
 
-import junit.framework.Assert;
 import net.sourceforge.cilib.algorithm.initialisation.DataDependantPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
@@ -18,6 +17,8 @@ import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.QuantisationErrorMinimisationProblem;
 import net.sourceforge.cilib.problem.boundaryconstraint.CentroidBoundaryConstraint;
 import net.sourceforge.cilib.problem.boundaryconstraint.RandomBoundaryConstraint;
+import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
@@ -25,6 +26,9 @@ import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import net.sourceforge.cilib.type.types.container.Vector;
 import static org.junit.Assert.*;
 import org.junit.Test;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class StandardClusteringMultiSwarmIterationStrategyTest {
 
@@ -36,7 +40,7 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
         StandardClusteringMultiSwarmIterationStrategy instance = new StandardClusteringMultiSwarmIterationStrategy();
         instance.setExclusionRadius(5.2);
 
-        Assert.assertEquals(instance.getExclusionRadius(), 5.2);
+        assertEquals(5.2, instance.getExclusionRadius(), 0.0000001);
     }
 
     /**
@@ -47,7 +51,7 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
         StandardClusteringMultiSwarmIterationStrategy instance = new StandardClusteringMultiSwarmIterationStrategy();
         instance.setExclusionRadius(5.2);
 
-        Assert.assertEquals(instance.getExclusionRadius(), 5.2);
+        assertEquals(5.2, instance.getExclusionRadius(), 0.0000001);
     }
 
     /**
@@ -59,16 +63,19 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
         multiswarm.addPopulationBasedAlgorithm(new DataClusteringPSO());
         multiswarm.addPopulationBasedAlgorithm(new DataClusteringPSO());
 
+        SlidingWindow window = new SlidingWindow();
+        window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
         QuantisationErrorMinimisationProblem problem = new QuantisationErrorMinimisationProblem();
+        problem.setWindow(window);
         problem.setDomain("R(-10:10)");
-        problem.setDimension(5);
 
         multiswarm.setOptimisationProblem(problem);
 
+        System.err.println("here");
         StandardClusteringMultiSwarmIterationStrategy msStrategy = new StandardClusteringMultiSwarmIterationStrategy();
         double result = msStrategy.calculateRadius(multiswarm);
 
-        Assert.assertEquals(8.7055056329612413913627001747975, result);
+        assertEquals(8.4089642, result, 0.00001);
     }
 
     /**
@@ -109,9 +116,11 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
         multiswarm.addPopulationBasedAlgorithm(pso);
         multiswarm.addPopulationBasedAlgorithm(pso2);
 
+        SlidingWindow window = new SlidingWindow();
+        window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
         QuantisationErrorMinimisationProblem problem = new QuantisationErrorMinimisationProblem();
+        problem.setWindow(window);
         problem.setDomain("R(-10:10)");
-        problem.setDimension(5);
 
         multiswarm.setOptimisationProblem(problem);
 
@@ -119,8 +128,8 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
         boolean firstPSO = msStrategy.isConverged(pso, multiswarm);
         boolean secondPSO = msStrategy.isConverged(pso2, multiswarm);
 
-        Assert.assertTrue(firstPSO);
-        Assert.assertFalse(secondPSO);
+        assertTrue(firstPSO);
+        assertFalse(secondPSO);
     }
 
     /**
@@ -130,7 +139,10 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
     public void testPerformIteration() {
         DataClusteringPSO instance = new DataClusteringPSO();
 
+        SlidingWindow window = new SlidingWindow();
+        window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
         QuantisationErrorMinimisationProblem problem = new QuantisationErrorMinimisationProblem();
+        problem.setWindow(window);
         problem.setDomain("R(-5.12:5.12)");
         IterationStrategy strategy = new StandardClusteringMultiSwarmIterationStrategy();
         CentroidBoundaryConstraint constraint = new CentroidBoundaryConstraint();
@@ -142,7 +154,6 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
         instance.setInitialisationStrategy(init);
-        instance.setSourceURL("library/src/test/resources/datasets/iris2.arff");
 
         instance.setOptimisationProblem(problem);
         instance.addStoppingCondition(new MeasuredStoppingCondition());
@@ -161,7 +172,7 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
 
         ClusterParticle particleAfter = instance.getTopology().head().getClone();
 
-        Assert.assertFalse(particleAfter.getCandidateSolution().containsAll(particleBefore.getCandidateSolution()));
+        assertFalse(particleAfter.getCandidateSolution().containsAll(particleBefore.getCandidateSolution()));
     }
 
     /**
@@ -171,30 +182,44 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
     public void testReInitialise() {
         DataClusteringPSO instance = new DataClusteringPSO();
 
+        SlidingWindow window = new SlidingWindow();
+        window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
         QuantisationErrorMinimisationProblem problem = new QuantisationErrorMinimisationProblem();
+        problem.setWindow(window);
         problem.setDomain("R(-5.12:5.12)");
         IterationStrategy strategy = new StandardClusteringMultiSwarmIterationStrategy();
         CentroidBoundaryConstraint constraint = new CentroidBoundaryConstraint();
         constraint.setDelegate(new RandomBoundaryConstraint());
         strategy.setBoundaryConstraint(constraint);
-        instance.setOptimisationProblem(problem);
         DataDependantPopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy();
 
-        init.setEntityType(new ClusterParticle());
+        VelocityProvider vProvider = mock(VelocityProvider.class);
+        when(vProvider.get(any(Particle.class))).thenReturn(Vector.of(0.0, 0.0, 0.0, 0.0));
+        when(vProvider.getClone()).thenReturn(vProvider);
+
+        ClusterParticle particle = new ClusterParticle();
+        particle.setVelocityProvider(vProvider);
+        init.setEntityType(particle);
         init.setEntityNumber(2);
         instance.setInitialisationStrategy(init);
-        instance.setSourceURL("library/src/test/resources/datasets/iris2.arff");
 
         instance.setOptimisationProblem(problem);
         instance.addStoppingCondition(new MeasuredStoppingCondition());
 
-        instance.performInitialisation();
+        MultiSwarm ms = new MultiSwarm();
+        ms.addPopulationBasedAlgorithm(instance);
+        ms.setOptimisationProblem(problem);
+
+        ms.performInitialisation();
 
         ClusterParticle particleBefore1 = instance.getTopology().index(0).getClone();
         ClusterParticle particleBefore2 = instance.getTopology().index(1).getClone();
 
         StandardClusteringMultiSwarmIterationStrategy msStrategy = new StandardClusteringMultiSwarmIterationStrategy();
-        msStrategy.reInitialise(instance);
+        msStrategy.setExclusionRadius(Double.POSITIVE_INFINITY);
+        ms.setMultiSwarmIterationStrategy((IterationStrategy) msStrategy);
+
+        ms.performIteration();
 
         ClusterParticle particleAfter1 = instance.getTopology().index(0).getClone();
         ClusterParticle particleAfter2 = instance.getTopology().index(1).getClone();
@@ -203,31 +228,4 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
         assertFalse(particleAfter2.getCandidateSolution().containsAll(particleBefore2.getCandidateSolution()));
     }
 
-    /**
-     * Test of assignDataPatternsToParticle method, of class StandardClusteringMultiSwarmIterationStrategy.
-     */
-    @Test
-    public void testAssignDataPatternsToParticle() {
-        StandardClusteringMultiSwarmIterationStrategy instance = new StandardClusteringMultiSwarmIterationStrategy();
-        DataClusteringPSO pso = new DataClusteringPSO();
-        StandardDataClusteringIterationStrategy standardStrategy = new StandardDataClusteringIterationStrategy();
-
-        CentroidHolder candidateSolution = new CentroidHolder();
-        SlidingWindow window = new SlidingWindow();
-        window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
-        window.setWindowSize(3);
-        standardStrategy.setWindow(window);
-        standardStrategy.getWindow().initialiseWindow();
-
-        candidateSolution.add(ClusterCentroid.of(1.25,1.1,1.3,1.9));
-        candidateSolution.add(ClusterCentroid.of(1.92,2.6,3.1,1.8));
-        candidateSolution.add(ClusterCentroid.of(0.9,1.1,0.85,0.79));
-
-        DataTable dataset = standardStrategy.getWindow().getCurrentDataset();
-
-        instance.assignDataPatternsToParticle(candidateSolution, dataset);
-        Assert.assertTrue(candidateSolution.get(0).getDataItems().contains(Vector.of(1.0,1.0,1.0,2.0)));
-        Assert.assertTrue(candidateSolution.get(1).getDataItems().contains(Vector.of(2.0,3.0,4.0,2.0)));
-        Assert.assertTrue(candidateSolution.get(2).getDataItems().contains(Vector.of(1.0,1.0,1.0,1.0)));
-    }
 }

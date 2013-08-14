@@ -8,7 +8,6 @@ package net.sourceforge.cilib.clustering.entity;
 
 import java.util.ArrayList;
 
-import junit.framework.Assert;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.initialisation.DataDependantPopulationInitialisationStrategy;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
@@ -18,14 +17,15 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.initialisation.StandardCentroidInitialisationStrategy;
 import net.sourceforge.cilib.measurement.generic.Iterations;
-import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.QuantisationErrorMinimisationProblem;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
+import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ClusterParticleTest {
@@ -71,11 +71,9 @@ public class ClusterParticleTest {
         CentroidHolder holder = new CentroidHolder();
         instance.getProperties().put(EntityType.FITNESS, new MinimisationFitness(12.0));
         instance.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(12.0));
-        ClusterCentroid centroid = ClusterCentroid.of(1,2,3,4);
-        centroid.setDataItemDistances(new double[]{2,2,4});
-        holder.add(centroid);
-        holder.add(centroid);
-        holder.add(centroid);
+        holder.add(ClusterCentroid.of(2,2,2,3));
+        holder.add(ClusterCentroid.of(3,4,5,3));
+        holder.add(ClusterCentroid.of(0,0,0,0));
         instance.setCandidateSolution(holder);
         CentroidHolder clearHolder =  new CentroidHolder();
         ClusterCentroid clearCentroid = ClusterCentroid.of(0,0,0,0);
@@ -87,12 +85,14 @@ public class ClusterParticleTest {
         instance.setNeighbourhoodBest(instance);
         instance.getProperties().put(EntityType.Particle.BEST_POSITION, instance.getCandidateSolution());
 
+        instance.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
+
         DataClusteringPSO pso = new DataClusteringPSO();
         QuantisationErrorMinimisationProblem problem = new QuantisationErrorMinimisationProblem();
         SlidingWindow window = new SlidingWindow();
-        pso.setSourceURL("library/src/test/resources/datasets/iris2.arff");
+        window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
         window.setWindowSize(3);
-        pso.setWindow(window);
+        problem.setWindow(window);
         problem.setDomain("R(-5.12:5.12)");
 
         pso.setOptimisationProblem(problem);
@@ -110,7 +110,7 @@ public class ClusterParticleTest {
         pso.setTopology(fj.data.List.list(instance));
         pso.run();
 
-        Assert.assertEquals(Math.round(instance.getFitness().getValue() * 1e10) / 1e10,  Math.round(3.1291362326128439920284548286519 * 1e10) / 1e10);
+        Assert.assertEquals(2.0, instance.getFitness().getValue(), 0.000001);
     }
 
     /**
@@ -121,7 +121,7 @@ public class ClusterParticleTest {
         ClusterParticle instance = new ClusterParticle();
         instance.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(6.0));
 
-        Assert.assertEquals(instance.getBestFitness().getValue(), 6.0);
+        Assert.assertEquals(instance.getBestFitness().getValue(), 6.0, 0.0000000001);
     }
 
     /**
@@ -262,10 +262,12 @@ public class ClusterParticleTest {
      */
     @Test
     public void testInitialise() {
-        ClusteringProblem problem = new QuantisationErrorMinimisationProblem();
+        SlidingWindow window = new SlidingWindow();
+        window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
+        QuantisationErrorMinimisationProblem problem = new QuantisationErrorMinimisationProblem();
+        problem.setWindow(window);
         problem.setDomain("R(-5.12:5.12)");
         problem.setNumberOfClusters(2);
-        problem.setDimension(5);
 
         ClusterParticle instance = new ClusterParticle();
         StandardCentroidInitialisationStrategy strategy = new StandardCentroidInitialisationStrategy();
@@ -296,9 +298,9 @@ public class ClusterParticleTest {
         instance.initialise(problem);
 
         Assert.assertEquals(instance.getDimension(), 2);
-        Assert.assertTrue(((CentroidHolder) instance.getCandidateSolution()).get(0).size() == 5);
+        Assert.assertEquals(((CentroidHolder) instance.getCandidateSolution()).get(0).size(), 4);
         Assert.assertEquals(instance.getBestPosition().size(), 2);
-        Assert.assertTrue(((CentroidHolder) instance.getBestPosition()).get(0).size() == 5);
+        Assert.assertEquals(((CentroidHolder) instance.getBestPosition()).get(0).size(), 4);
     }
 
     /**
@@ -308,11 +310,13 @@ public class ClusterParticleTest {
     public void testReinitialise() {
         ClusterParticle instance = new ClusterParticle();
 
-        ClusteringProblem problem = new QuantisationErrorMinimisationProblem();
+        SlidingWindow window = new SlidingWindow();
+        window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
+        QuantisationErrorMinimisationProblem problem = new QuantisationErrorMinimisationProblem();
+        problem.setWindow(window);
         problem.setDomain("R(-5.12:5.12)");
         problem.setNumberOfClusters(2);
-        problem.setDimension(5);
-
+        
         StandardCentroidInitialisationStrategy strategy = new StandardCentroidInitialisationStrategy();
         ArrayList bounds = new ArrayList();
         ControlParameter[] params = new ControlParameter[2];

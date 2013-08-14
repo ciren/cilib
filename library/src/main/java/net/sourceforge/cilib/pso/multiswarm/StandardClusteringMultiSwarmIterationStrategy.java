@@ -220,37 +220,7 @@ public class StandardClusteringMultiSwarmIterationStrategy extends AbstractItera
     public void reInitialise(DataClusteringPSO algorithm) {
         for(ClusterParticle particle : algorithm.getTopology()) {
             particle.reinitialise();
-            assignDataPatternsToParticle((CentroidHolder) particle.getCandidateSolution(),
-                    ((SinglePopulationDataClusteringIterationStrategy) algorithm.getIterationStrategy()).getWindow().getCurrentDataset());
+            particle.calculateFitness();
         }
-    }
-
-     /*
-     * Adds the data patterns closest to a centroid to its data pattern list
-     * @param candidateSolution The solution holding all the centroids
-     * @param dataset The dataset holding all the data patterns
-     */
-    public void assignDataPatternsToParticle(CentroidHolder candidateSolution, DataTable dataset) {
-        double euclideanDistance;
-        Vector addedPattern;
-        DistanceMeasure aDistanceMeasure = new EuclideanDistanceMeasure();
-
-        for(int i = 0; i < dataset.size(); i++) {
-                euclideanDistance = Double.POSITIVE_INFINITY;
-                addedPattern = Vector.of();
-                Vector pattern = ((StandardPattern) dataset.getRow(i)).getVector();
-                int centroidIndex = 0;
-                int patternIndex = 0;
-                for(ClusterCentroid centroid : candidateSolution) {
-                    if(aDistanceMeasure.distance(centroid.toVector(), pattern) < euclideanDistance) {
-                        euclideanDistance = aDistanceMeasure.distance(centroid.toVector(), pattern);
-                        addedPattern = Vector.copyOf(pattern);
-                        patternIndex = centroidIndex;
-                    }
-                    centroidIndex++;
-                }
-
-                candidateSolution.get(patternIndex).addDataItem(euclideanDistance, addedPattern);
-            }
     }
 }

@@ -8,6 +8,7 @@ package net.sourceforge.cilib.clustering;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.io.ARFFFileReader;
 import net.sourceforge.cilib.io.DataTable;
 import net.sourceforge.cilib.io.DataTableBuilder;
@@ -39,6 +40,8 @@ public class SlidingWindow {
     private int slidingTime;
     private boolean isTemporal;
     private int slideFrequency;
+    private int previousIteration;
+    private boolean initialised;
     
     /*
      * Default constructor for the SlidingWindow
@@ -54,7 +57,8 @@ public class SlidingWindow {
         isTemporal = true;
         slideFrequency = 0;
         slideSize = 0;
-        
+        previousIteration = 0;
+        initialised = false;
     }
     
     /*
@@ -72,6 +76,8 @@ public class SlidingWindow {
         isTemporal = copy.isTemporal;
         slideFrequency = copy.slideFrequency;
         slideSize = copy.slideSize;
+        previousIteration = copy.previousIteration;
+        initialised = copy.initialised;
     }
     
     /*
@@ -86,6 +92,10 @@ public class SlidingWindow {
      * @return true if it has not finished, false otherwise
      */
     private boolean hasNotFinished() {
+        if (!initialised) {
+            initialiseWindow();
+        }
+        
             return currentIndex < completeDataset.size();
     }
     
@@ -95,6 +105,10 @@ public class SlidingWindow {
      * window is currently placed
      */
     public DataTable slideWindow() {
+        if (!initialised) {
+            initialiseWindow();
+        }
+        
         if(hasNotFinished()) {
             if(slidingTime == getIterationToChange()) {
                 currentDataset = new StandardPatternDataTable();
@@ -112,7 +126,10 @@ public class SlidingWindow {
                 slidingTime = 0;
                 
             } else {
-                slidingTime++;
+                if (AbstractAlgorithm.get().getIterations() > previousIteration) {
+                    previousIteration = AbstractAlgorithm.get().getIterations();
+                    slidingTime++;
+                }
             }
         }
         return currentDataset;
@@ -125,7 +142,7 @@ public class SlidingWindow {
      * Sets the boolean isTemporal.
      * Sets the counts.
      */
-    public DataTable initialiseWindow() {
+    public void initialiseWindow() {
         tableBuilder.addDataOperator(new TypeConversionOperator());
         tableBuilder.addDataOperator(patternConverstionOperator);
         try {
@@ -153,9 +170,8 @@ public class SlidingWindow {
         }
         
         currentIndex+= slideSize;
-        slidingTime++;
-        
-        return currentDataset;
+
+        initialised = true;
     }
     
     /*
@@ -245,6 +261,10 @@ public class SlidingWindow {
      * @return the current dataset builder.
      */
     public DataTable getCurrentDataset() {
+        if (!initialised) {
+            initialiseWindow();
+        }
+        
         return currentDataset;
     }
     
@@ -253,6 +273,10 @@ public class SlidingWindow {
      * @return the current dataset builder.
      */
     public DataTable getCompleteDataset() {
+        if (!initialised) {
+            initialiseWindow();
+        }
+        
         return completeDataset;
     }
     
