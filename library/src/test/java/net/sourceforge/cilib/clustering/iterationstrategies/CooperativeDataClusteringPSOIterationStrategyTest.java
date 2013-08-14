@@ -11,6 +11,7 @@ import net.sourceforge.cilib.algorithm.initialisation.DataDependantPopulationIni
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.clustering.CooperativePSO;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
+import net.sourceforge.cilib.clustering.SlidingWindow;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.measurement.generic.Iterations;
@@ -31,7 +32,10 @@ public class CooperativeDataClusteringPSOIterationStrategyTest {
     public void testPerformIteration() {
         DataClusteringPSO instance = new DataClusteringPSO();
 
+        SlidingWindow window = new SlidingWindow();
+        window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
         QuantisationErrorMinimisationProblem problem = new QuantisationErrorMinimisationProblem();
+        problem.setWindow(window);
         problem.setDomain("R(-5.12:5.12)");
         CentroidBoundaryConstraint constraint = new CentroidBoundaryConstraint();
         constraint.setDelegate(new RandomBoundaryConstraint());
@@ -41,7 +45,6 @@ public class CooperativeDataClusteringPSOIterationStrategyTest {
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
         instance.setInitialisationStrategy(init);
-        instance.setSourceURL("library/src/test/resources/datasets/iris2.arff");
 
         instance.setOptimisationProblem(problem);
         instance.addStoppingCondition(new MeasuredStoppingCondition());
@@ -49,6 +52,7 @@ public class CooperativeDataClusteringPSOIterationStrategyTest {
         DataClusteringPSO instance2 = new DataClusteringPSO();
 
         QuantisationErrorMinimisationProblem problem2 = new QuantisationErrorMinimisationProblem();
+        problem2.setWindow(window);
         problem2.setDomain("R(-5.12:5.12)");
         CentroidBoundaryConstraint constraint2 = new CentroidBoundaryConstraint();
         constraint2.setDelegate(new RandomBoundaryConstraint());
@@ -58,7 +62,6 @@ public class CooperativeDataClusteringPSOIterationStrategyTest {
         init2.setEntityType(new ClusterParticle());
         init2.setEntityNumber(2);
         instance2.setInitialisationStrategy(init2);
-        instance2.setSourceURL("library/src/test/resources/datasets/iris2.arff");
 
         instance2.setOptimisationProblem(problem2);
         instance2.addStoppingCondition(new MeasuredStoppingCondition());
@@ -66,6 +69,7 @@ public class CooperativeDataClusteringPSOIterationStrategyTest {
         DataClusteringPSO instance3 = new DataClusteringPSO();
 
         QuantisationErrorMinimisationProblem problem3 = new QuantisationErrorMinimisationProblem();
+        problem3.setWindow(window);
         problem3.setDomain("R(-5.12:5.12)");
         CentroidBoundaryConstraint constraint3 = new CentroidBoundaryConstraint();
         constraint3.setDelegate(new RandomBoundaryConstraint());
@@ -75,7 +79,6 @@ public class CooperativeDataClusteringPSOIterationStrategyTest {
         init3.setEntityType(new ClusterParticle());
         init3.setEntityNumber(2);
         instance3.setInitialisationStrategy(init3);
-        instance3.setSourceURL("library/src/test/resources/datasets/iris2.arff");
 
         instance3.setOptimisationProblem(problem3);
         instance3.addStoppingCondition(new MeasuredStoppingCondition());
@@ -106,7 +109,10 @@ public class CooperativeDataClusteringPSOIterationStrategyTest {
         Rand.setSeed(0);
         DataClusteringPSO instance = new DataClusteringPSO();
 
+        SlidingWindow window = new SlidingWindow();
+        window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
         QuantisationErrorMinimisationProblem problem = new QuantisationErrorMinimisationProblem();
+        problem.setWindow(window);
         problem.setDomain("R(-5.12:5.12)");
         IterationStrategy strategy = new StandardDataClusteringIterationStrategy();
         CentroidBoundaryConstraint constraint = new CentroidBoundaryConstraint();
@@ -118,7 +124,6 @@ public class CooperativeDataClusteringPSOIterationStrategyTest {
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
         instance.setInitialisationStrategy(init);
-        instance.setSourceURL("library/src/test/resources/datasets/iris2.arff");
 
         instance.setOptimisationProblem(problem);
         instance.addStoppingCondition(new MeasuredStoppingCondition());

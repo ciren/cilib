@@ -21,7 +21,6 @@ import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.pbestupdate.StandardPersonalBestUpdateStrategy;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
-import net.sourceforge.cilib.util.calculator.EntityBasedFitnessCalculator;
 
 /**
  * This is an entity developed to deal with CentroidHolders
@@ -83,9 +82,7 @@ public class ClusterParticle extends AbstractParticle{
      */
     @Override
     public void calculateFitness() {
-        EntityBasedFitnessCalculator f = new EntityBasedFitnessCalculator();
-        Fitness fitness = f.getFitness(this);
-        put(Property.FITNESS, fitness);
+        super.calculateFitness();
         this.personalBestUpdateStrategy.updatePersonalBest(this);
     }
 

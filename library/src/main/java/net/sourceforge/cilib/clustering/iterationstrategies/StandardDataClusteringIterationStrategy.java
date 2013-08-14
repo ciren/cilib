@@ -8,10 +8,6 @@ package net.sourceforge.cilib.clustering.iterationstrategies;
 
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
-import net.sourceforge.cilib.io.pattern.StandardPattern;
-import net.sourceforge.cilib.type.types.container.CentroidHolder;
-import net.sourceforge.cilib.type.types.container.ClusterCentroid;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This class handles an iteration of the data clustering algorithm described in :
@@ -60,24 +56,14 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
     @Override
     public void performIteration(DataClusteringPSO algorithm) {
         fj.data.List<ClusterParticle> topology = algorithm.getTopology();
-        double euclideanDistance;
-        Vector addedPattern;
         reinitialised = false;
-        Vector pattern;
 
         for(ClusterParticle particle : topology) {
-            CentroidHolder candidateSolution = (CentroidHolder) particle.getPosition();
-            candidateSolution.clearAllCentroidDataItems();
-
-            assignDataPatternsToParticle(candidateSolution, dataset);
-
-            particle.setPosition(candidateSolution);
-
-            particle.calculateFitness();
-
             particle.updateVelocity(particle.getVelocityProvider().get(particle));
             particle.updatePosition(particle.getPositionProvider().get(particle));
             boundaryConstraint.enforce(particle);
+
+            particle.calculateFitness();
         }
 
         for (ClusterParticle current : topology) {
@@ -87,8 +73,5 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
                 }
             }
         }
-
-        dataset = window.slideWindow();
-
     }
 }

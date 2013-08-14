@@ -12,7 +12,6 @@ import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
-import net.sourceforge.cilib.clustering.iterationstrategies.SinglePopulationDataClusteringIterationStrategy;
 import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 
@@ -62,7 +61,6 @@ public class CooperativeMultiswarmIterationStrategy extends AbstractCooperativeI
         int populationIndex = 0;
         
         for(SinglePopulationBasedAlgorithm currentAlgorithm : algorithm.getPopulations()) {
-                table = ((SinglePopulationDataClusteringIterationStrategy) ((DataClusteringPSO) currentAlgorithm).getIterationStrategy()).getDataset();
 
                 if(!contextinitialised) {
                     ((DataClusteringPSO) currentAlgorithm).setIsExplorer(true);
@@ -72,8 +70,6 @@ public class CooperativeMultiswarmIterationStrategy extends AbstractCooperativeI
 
                 if(!((DataClusteringPSO) currentAlgorithm).isExplorer()) {
                     for(ClusterParticle particle : ((DataClusteringPSO) currentAlgorithm).getTopology()) {
-                        ((CentroidHolder) contextParticle.getPosition()).clearAllCentroidDataItems();
-                        assignDataPatternsToParticle((CentroidHolder) contextParticle.getPosition(), table);
                         contextParticle.calculateFitness();
 
                         ClusterParticle particleWithContext = new ClusterParticle();
@@ -86,8 +82,6 @@ public class CooperativeMultiswarmIterationStrategy extends AbstractCooperativeI
                         particleWithContext.put(Property.PBEST_STAGNATION_COUNTER, particle.get(Property.PBEST_STAGNATION_COUNTER).getClone());
                         particleWithContext.setCentroidInitialisationStrategy(particle.getCentroidInitialisationStrategyCandidate().getClone());
 
-                        ((CentroidHolder) particleWithContext.getPosition()).clearAllCentroidDataItems();
-                        assignDataPatternsToParticle((CentroidHolder) particleWithContext.getPosition(), table);
                         particleWithContext.calculateFitness();
 
                         if(particleWithContext.getFitness().compareTo(particleWithContext.getBestFitness()) > 0) {

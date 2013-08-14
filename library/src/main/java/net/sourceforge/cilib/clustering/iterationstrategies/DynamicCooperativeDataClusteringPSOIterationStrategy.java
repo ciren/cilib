@@ -11,7 +11,6 @@ import net.sourceforge.cilib.clustering.CooperativePSO;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.util.changeDetection.ChangeDetectionStrategy;
 import net.sourceforge.cilib.util.changeDetection.IterationBasedChangeDetectionStrategy;
 
@@ -65,13 +64,10 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
                  fj.data.List<? extends Entity> topology = currentAlgorithm.getTopology();
 
                  for(int i = 0; i < topology.length(); i+=reinitialisationInterval) {
-                    ClusterParticle c = (ClusterParticle) topology.index(i);
-                    c.reinitialise();
-
-                    ((CentroidHolder) c.getPosition()).clearAllCentroidDataItems();
-                    assignDataPatternsToParticle(((CentroidHolder)(c).getPosition()),
-                            ((SinglePopulationDataClusteringIterationStrategy)(((DataClusteringPSO) currentAlgorithm).getIterationStrategy())).getDataset());
-                }
+                     ClusterParticle c = (ClusterParticle) topology.index(i);
+                     c.reinitialise();
+                     c.calculateFitness();
+                 }
              }
 
         }
@@ -86,9 +82,6 @@ public class DynamicCooperativeDataClusteringPSOIterationStrategy extends Cooper
     public void reinitialiseContext(CooperativePSO currentAlgorithm) {
         contextParticle = ((DataClusteringPSO) currentAlgorithm.getPopulations().get(0)).getTopology().head().getClone();
         contextParticle.reinitialise();
-
-        ((CentroidHolder) contextParticle.getPosition()).clearAllCentroidDataItems();
-        assignDataPatternsToParticle((CentroidHolder) contextParticle.getPosition(), table);
         contextParticle.calculateFitness();
     }
 

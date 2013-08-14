@@ -6,12 +6,18 @@
  */
 package net.sourceforge.cilib.clustering;
 
-import junit.framework.Assert;
+import net.sourceforge.cilib.algorithm.initialisation.DataDependantPopulationInitialisationStrategy;
+import net.sourceforge.cilib.clustering.entity.ClusterParticle;
+import net.sourceforge.cilib.clustering.iterationstrategies.StandardDataClusteringIterationStrategy;
 import net.sourceforge.cilib.io.DataTableBuilder;
 import net.sourceforge.cilib.io.DelimitedTextFileReader;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.io.transform.PatternConversionOperator;
+import net.sourceforge.cilib.problem.QuantisationErrorMinimisationProblem;
+import net.sourceforge.cilib.problem.boundaryconstraint.CentroidBoundaryConstraint;
+import net.sourceforge.cilib.problem.boundaryconstraint.RandomBoundaryConstraint;
 import net.sourceforge.cilib.type.types.container.Vector;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class SlidingWindowTest {
@@ -25,19 +31,43 @@ public class SlidingWindowTest {
         window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
         window.setWindowSize(1);
         window.setSlideFrequency(1);
-        window.initialiseWindow();
+
+        DataClusteringPSO pso = new DataClusteringPSO();
+        QuantisationErrorMinimisationProblem problem = new QuantisationErrorMinimisationProblem();
+        problem.setDomain("R(-5.12:5.12)");
+        problem.setWindow(window);
+        StandardDataClusteringIterationStrategy strategy = new StandardDataClusteringIterationStrategy();
+        CentroidBoundaryConstraint constraint = new CentroidBoundaryConstraint();
+        constraint.setDelegate(new RandomBoundaryConstraint());
+        strategy.setBoundaryConstraint(constraint);
+        pso.setIterationStrategy(strategy);
+        pso.setOptimisationProblem(problem);
+        DataDependantPopulationInitialisationStrategy init = new DataDependantPopulationInitialisationStrategy();
+
+        init.setEntityType(new ClusterParticle());
+        init.setEntityNumber(2);
+        pso.setInitialisationStrategy(init);
+
+        pso.setOptimisationProblem(problem);
+
+        pso.performInitialisation();
+
         
         Vector beforeSlide =  ((StandardPattern) window.getCurrentDataset().getRow(0)).getVector();
         Vector expectedBeforeSlide = Vector.of(1.0,1.0,1.0,2.0);
         
-        Assert.assertTrue(beforeSlide.containsAll(expectedBeforeSlide));
+        Assert.assertEquals(expectedBeforeSlide, beforeSlide);
         
-        window.slideWindow();
+        pso.performIteration();
+
+        Assert.assertEquals(expectedBeforeSlide, beforeSlide);
+
+        pso.performIteration();
         
         Vector afterSlide =  ((StandardPattern) window.getCurrentDataset().getRow(0)).getVector();
         Vector expectedAfterSlide = Vector.of(2.0,3.0,4.0,2.0);
         
-        Assert.assertTrue(afterSlide.containsAll(expectedAfterSlide));
+        Assert.assertEquals(expectedAfterSlide, afterSlide);
     }
 
     /**

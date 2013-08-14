@@ -11,9 +11,6 @@ import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
-import net.sourceforge.cilib.clustering.iterationstrategies.SinglePopulationDataClusteringIterationStrategy;
-import net.sourceforge.cilib.io.DataTable;
-import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -87,7 +84,7 @@ public class StandardClusteringMultiSwarmIterationStrategy extends AbstractItera
         double dimensions = algorithm.getOptimisationProblem().getDomain().getDimension();
         double X = ((Vector) algorithm.getOptimisationProblem().getDomain().getBuiltRepresentation()).get(0).getBounds().getUpperBound()
                 - ((Vector) algorithm.getOptimisationProblem().getDomain().getBuiltRepresentation()).get(0).getBounds().getLowerBound();
-        double populationSize = ((MultiSwarm) algorithm).getPopulations().size();
+        double populationSize = algorithm.getPopulations().size();
         return X / (2 * Math.pow(populationSize, 1 / dimensions));
     }
 
@@ -99,8 +96,6 @@ public class StandardClusteringMultiSwarmIterationStrategy extends AbstractItera
      */
     boolean isConverged(SinglePopulationBasedAlgorithm algorithm, MultiPopulationBasedAlgorithm ca) {
         double r = calculateRadius(ca);
-        int converged = 0;
-
         DistanceMeasure dm = new EuclideanDistanceMeasure();
 
         for(ClusterParticle particle : ((DataClusteringPSO) algorithm).getTopology()) {
@@ -179,12 +174,12 @@ public class StandardClusteringMultiSwarmIterationStrategy extends AbstractItera
             for (SinglePopulationBasedAlgorithm other : ca.getPopulations()) {
                 CentroidHolder currentPosition, otherPosition;
                 if (!current.equals(other)) {
-                    currentPosition = (CentroidHolder) ((DataClusteringPSO) current).getBestSolution().getPosition(); //getBestParticle().getPosition();
-                    otherPosition = (CentroidHolder) ((DataClusteringPSO) other).getBestSolution().getPosition();
+                    currentPosition = (CentroidHolder) current.getBestSolution().getPosition(); //getBestParticle().getPosition();
+                    otherPosition = (CentroidHolder) other.getBestSolution().getPosition();
                     boolean aDistanceIsSmallerThanRadius = aDistanceIsSmallerThanRadius(currentPosition, otherPosition);
 
                     if (aDistanceIsSmallerThanRadius) {
-                        if (((DataClusteringPSO) current).getBestSolution().getFitness().compareTo(((DataClusteringPSO) other).getBestSolution().getFitness()) > 0) {
+                        if (current.getBestSolution().getFitness().compareTo(other.getBestSolution().getFitness()) > 0) {
                             reInitialise((DataClusteringPSO) current);
                         } else {
                             reInitialise((DataClusteringPSO) other);
@@ -220,37 +215,7 @@ public class StandardClusteringMultiSwarmIterationStrategy extends AbstractItera
     public void reInitialise(DataClusteringPSO algorithm) {
         for(ClusterParticle particle : algorithm.getTopology()) {
             particle.reinitialise();
-            assignDataPatternsToParticle((CentroidHolder) particle.getPosition(),
-                    ((SinglePopulationDataClusteringIterationStrategy) algorithm.getIterationStrategy()).getWindow().getCurrentDataset());
+            particle.calculateFitness();
         }
-    }
-
-     /*
-     * Adds the data patterns closest to a centroid to its data pattern list
-     * @param candidateSolution The solution holding all the centroids
-     * @param dataset The dataset holding all the data patterns
-     */
-    public void assignDataPatternsToParticle(CentroidHolder candidateSolution, DataTable dataset) {
-        double euclideanDistance;
-        Vector addedPattern;
-        DistanceMeasure aDistanceMeasure = new EuclideanDistanceMeasure();
-
-        for(int i = 0; i < dataset.size(); i++) {
-                euclideanDistance = Double.POSITIVE_INFINITY;
-                addedPattern = Vector.of();
-                Vector pattern = ((StandardPattern) dataset.getRow(i)).getVector();
-                int centroidIndex = 0;
-                int patternIndex = 0;
-                for(ClusterCentroid centroid : candidateSolution) {
-                    if(aDistanceMeasure.distance(centroid.toVector(), pattern) < euclideanDistance) {
-                        euclideanDistance = aDistanceMeasure.distance(centroid.toVector(), pattern);
-                        addedPattern = Vector.copyOf(pattern);
-                        patternIndex = centroidIndex;
-                    }
-                    centroidIndex++;
-                }
-
-                candidateSolution.get(patternIndex).addDataItem(euclideanDistance, addedPattern);
-            }
     }
 }

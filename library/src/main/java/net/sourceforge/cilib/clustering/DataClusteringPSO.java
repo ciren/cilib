@@ -43,7 +43,6 @@ import com.google.common.collect.Lists;
  */
 public class DataClusteringPSO extends SinglePopulationBasedAlgorithm<ClusterParticle> {
 
-    private SlidingWindow window;
     private IterationStrategy<DataClusteringPSO> iterationStrategy;
     private boolean isExplorer;
     private final int numberOfCentroids;
@@ -53,7 +52,6 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm<ClusterPar
      */
     public DataClusteringPSO() {
         initialisationStrategy = new DataDependantPopulationInitialisationStrategy();
-        window = new SlidingWindow();
         iterationStrategy = new StandardDataClusteringIterationStrategy();
         isExplorer = false;
         numberOfCentroids = 1;
@@ -65,7 +63,6 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm<ClusterPar
      */
     public DataClusteringPSO(DataClusteringPSO copy) {
         super(copy);
-        window = copy.window.getClone();
         iterationStrategy = copy.iterationStrategy.getClone();
         isExplorer = copy.isExplorer;
         numberOfCentroids = copy.numberOfCentroids;
@@ -93,17 +90,12 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm<ClusterPar
      */
     @Override
     public void algorithmInitialisation() {
-        DataTable dataset = window.initialiseWindow();
-
-        Vector pattern = ((StandardPattern) dataset.getRow(0)).getVector();
-        ((ClusteringProblem) this.optimisationProblem).setDimension(pattern.size());
-
-        ((DataDependantPopulationInitialisationStrategy) initialisationStrategy).setDataset(window.getCompleteDataset());
+        ClusteringProblem problem = (ClusteringProblem) this.optimisationProblem;
+        
+        ((DataDependantPopulationInitialisationStrategy) initialisationStrategy).setDataset(problem.getWindow().getCompleteDataset());
         Iterable<ClusterParticle> particles = this.initialisationStrategy.initialise(this.getOptimisationProblem());
 
         topology = fj.data.List.iterableList(particles);
-
-        ((SinglePopulationDataClusteringIterationStrategy) iterationStrategy).setWindow(window);
 
         for(ClusterParticle particle : topology) {
             particle.calculateFitness();
@@ -132,25 +124,6 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm<ClusterPar
         }
         return solutions;
 
-    }
-
-    /*
-     * Sets the window's source URL. This source URL is the path to the file containing
-     * the dataset to be clustered.
-     * @param sourceURL The path to the dataset
-     */
-    public void setSourceURL(String sourceURL) {
-        window.setSourceURL(sourceURL);
-    }
-
-    /*
-     * Sets the SlidingWindow to the one received as a parameter
-     * @param slidingWindow The new sliding window
-     */
-    public void setWindow(SlidingWindow slidingWindow) {
-        String url = window.getSourceURL();
-        window = slidingWindow;
-        window.setSourceURL(url);
     }
 
     /*

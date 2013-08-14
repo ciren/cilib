@@ -9,7 +9,6 @@ package net.sourceforge.cilib.clustering.iterationstrategies;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
-import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.util.changeDetection.ChangeDetectionStrategy;
 import net.sourceforge.cilib.util.changeDetection.IterationBasedChangeDetectionStrategy;
 
@@ -61,7 +60,6 @@ public class ReinitialisingDataClusteringIterationStrategy extends SinglePopulat
             reinitialised = true;
         }
 
-        delegate.setWindow(this.window);
         delegate.performIteration(algorithm);
     }
 
@@ -90,7 +88,7 @@ public class ReinitialisingDataClusteringIterationStrategy extends SinglePopulat
         for(int i = index; i < topology.length(); i+=reinitialisationInterval) {
             ClusterParticle c = topology.index(i);
             c.reinitialise();
-            assignDataPatternsToParticle(((CentroidHolder)c.getPosition()), dataset);
+            c.calculateFitness();
         }
     }
 
