@@ -149,7 +149,7 @@ public class SaDDEIterationStrategy extends AbstractIterationStrategy<EC> {
 	                // Create the offspring by applying cross-over
 	                ParameterisedIndividual currentOffspring = current.getCrossoverStrategy()
 	                        .crossover(Arrays.asList(current, trialEntity)).get(0); // Order is VERY important here!!
-	                currentOffspring.calculateFitness();
+	                currentOffspring.updateFitness(currentOffspring.getBehaviour().getFitnessCalculator().getFitness(currentOffspring));
 
 	                //set the parameters of the tempOffspring
 	                if(((Vector) currentOffspring.getPosition()).get(currentOffspring.getDimension() - 1) ==

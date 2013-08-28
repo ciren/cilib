@@ -83,8 +83,8 @@ public class ArchiveChangeSeverityResponseStrategy<E extends SinglePopulationBas
 
         //re-evaluating entities' fitness
         for (Entity entity : algorithm.getTopology()) {
-            entity.put(Property.BEST_FITNESS, entity.getFitnessCalculator().getFitness(entity));
-            entity.calculateFitness();
+            entity.put(Property.BEST_FITNESS, entity.getBehaviour().getFitnessCalculator().getFitness(entity));
+            entity.updateFitness(entity.getBehaviour().getFitnessCalculator().getFitness(entity));
         }
 
         Algorithm populationBasedAlgorithm = AbstractAlgorithm.getAlgorithmList().head();

@@ -78,13 +78,13 @@ public class ParticleCrossoverStrategy implements CrossoverStrategy {
             Particle pbCalc = p.getClone();
             pbCalc.setNeighbourhoodBest(nBest);
             pbCalc.setPosition(p.getBestPosition());
-            pbCalc.calculateFitness();
+            pbCalc.updateFitness(pbCalc.getBehaviour().getFitnessCalculator().getFitness(pbCalc));
 
             p.put(Property.BEST_FITNESS, pbCalc.getFitness());
             p.put(Property.VELOCITY, velocityProvider.f(parents, p));
 
             p.setNeighbourhoodBest(nBest);
-            p.calculateFitness();
+            p.updateFitness(p.getBehaviour().getFitnessCalculator().getFitness(p));
         }
 
         return (List<E>) offspring;

@@ -163,7 +163,7 @@ public class GCVelocityProvider implements VelocityProvider {
         PSO pso = (PSO) AbstractAlgorithm.get();
 
         if (particle == Topologies.getBestEntity(pso.getTopology(), new SocialBestFitnessComparator<Particle>())) {
-            Fitness newFitness = particle.getFitnessCalculator().getFitness(particle);
+            Fitness newFitness = particle.getBehaviour().getFitnessCalculator().getFitness(particle);
 
             if (!newFitness.equals(oldFitness)) {
                 this.failureCount = 0;

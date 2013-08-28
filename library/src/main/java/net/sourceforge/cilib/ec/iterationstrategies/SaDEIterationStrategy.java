@@ -107,7 +107,7 @@ public class SaDEIterationStrategy extends AbstractIterationStrategy<EC> {
                 SaDEIndividual offspringEntity = offspring.get(0);
                 offspringEntity.setPreviousFitness(current.getFitness().getClone());
                 boundaryConstraint.enforce(offspringEntity);
-                offspringEntity.calculateFitness();
+                offspringEntity.updateFitness(offspringEntity.getBehaviour().getFitnessCalculator().getFitness(offspringEntity));
 
                 boolean acceptedOffspring = false;
                 if (offspringEntity.getFitness().compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent
@@ -138,7 +138,7 @@ public class SaDEIterationStrategy extends AbstractIterationStrategy<EC> {
                     Vector offspringVector = (Vector) offspringEntity.getPosition();
                     offspringEntity = current.getClone();
                     offspringEntity.setPosition(offspringVector);
-                    offspringEntity.calculateFitness();
+                    offspringEntity.updateFitness(offspringEntity.getBehaviour().getFitnessCalculator().getFitness(offspringEntity));
                     return offspringEntity;
                 } else {
                 	return current;

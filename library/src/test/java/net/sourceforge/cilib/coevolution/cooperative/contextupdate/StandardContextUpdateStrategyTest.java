@@ -31,7 +31,7 @@ public class StandardContextUpdateStrategyTest {
         Vector testContext = Vector.of(1, 1);
 
         contextEntity.setPosition(testContext);
-        contextEntity.setFitnessCalculator(test);
+        contextEntity.getBehaviour().setFitnessCalculator(test);
         contextEntity.setFitness(new MinimisationFitness(0.0));
 
         Vector solution = Vector.of(0);

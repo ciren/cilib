@@ -98,7 +98,7 @@ public class DataClusteringPSO extends SinglePopulationBasedAlgorithm<ClusterPar
         topology = fj.data.List.iterableList(particles);
 
         for(ClusterParticle particle : topology) {
-            particle.calculateFitness();
+            particle.updateFitness(particle.getBehaviour().getFitnessCalculator().getFitness(particle));
         }
     }
 

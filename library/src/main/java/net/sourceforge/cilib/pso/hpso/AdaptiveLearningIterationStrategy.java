@@ -168,7 +168,6 @@ public class AdaptiveLearningIterationStrategy extends AbstractIterationStrategy
 
             //update particle
             particle.getBehaviour().performIteration(particle);
-            particle.calculateFitness();
 
             //if particle improved
             if (particle.getFitness().compareTo(prevFitness) > 0) {
@@ -183,7 +182,7 @@ public class AdaptiveLearningIterationStrategy extends AbstractIterationStrategy
 
                         aBestVector.setReal(j, ((Vector)particle.getPosition()).doubleValueOf(j));
                         aBestClone.setPosition(aBestVector);
-                        Fitness fitness = particle.getFitnessCalculator().getFitness(aBestClone);
+                        Fitness fitness = particle.getBehaviour().getFitnessCalculator().getFitness(aBestClone);
 
                         if(fitness.compareTo(aBest.getBestFitness()) > 0) {
                             aBest.put(BEST_POSITION, aBestVector);

@@ -45,7 +45,7 @@ public class MOONeighbourhoodBestSentriesDetectionStrategy extends EnvironmentCh
             for (Entity sentry : sentries) {
                 if (sentry.getFitness().getClass().getName().matches("MinimisationFitness")) {
                     Fitness previousFitness = sentry.getFitness();
-                    sentry.calculateFitness();
+                    sentry.updateFitness(sentry.getBehaviour().getFitnessCalculator().getFitness(sentry));
                     Fitness currentFitness = sentry.getFitness();
 
                     if (Math.abs(previousFitness.getValue() - currentFitness.getValue()) >= epsilon) {
@@ -55,7 +55,7 @@ public class MOONeighbourhoodBestSentriesDetectionStrategy extends EnvironmentCh
                 }
                 else if (sentry.getFitness().getClass().getName().matches("StandardMOFitness")) {
                         MOFitness previousFitness = (MOFitness)sentry.getFitness();
-                        sentry.calculateFitness();
+                        sentry.updateFitness(sentry.getBehaviour().getFitnessCalculator().getFitness(sentry));
                         MOFitness currentFitness = (MOFitness)sentry.getFitness();
 
                         for (int k=0; k < previousFitness.getDimension(); k++)

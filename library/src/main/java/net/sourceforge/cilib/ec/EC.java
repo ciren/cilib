@@ -71,7 +71,7 @@ public class EC<I extends Individual> extends SinglePopulationBasedAlgorithm<Ind
                 .map(new F<Individual, Individual>() {
                     @Override
                     public Individual f(Individual i) {
-                        i.calculateFitness();
+                        i.updateFitness(i.getBehaviour().getFitnessCalculator().getFitness(i));
                         strategyParameterInitialisation.initialise(Property.STRATEGY_PARAMETERS, i);
                         return i;
                     }

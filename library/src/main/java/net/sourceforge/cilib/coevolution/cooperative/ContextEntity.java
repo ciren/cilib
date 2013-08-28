@@ -9,6 +9,7 @@ package net.sourceforge.cilib.coevolution.cooperative;
 import net.sourceforge.cilib.coevolution.cooperative.problem.DimensionAllocation;
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Property;
+import net.sourceforge.cilib.entity.behaviour.DoNothingBehaviour;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
@@ -28,6 +29,7 @@ public class ContextEntity extends AbstractEntity {
     public ContextEntity(){
         put(Property.CANDIDATE_SOLUTION, Vector.of());
         put(Property.FITNESS, InferiorFitness.instance());
+        behaviour = new DoNothingBehaviour();
     }
 
     /**

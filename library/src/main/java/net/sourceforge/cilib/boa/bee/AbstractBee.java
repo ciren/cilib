@@ -10,6 +10,7 @@ import net.sourceforge.cilib.boa.positionupdatestrategies.BeePositionUpdateStrat
 import net.sourceforge.cilib.boa.positionupdatestrategies.VisualPositionUpdateStategy;
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Property;
+import net.sourceforge.cilib.entity.behaviour.DoNothingBehaviour;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -32,6 +33,7 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
     public AbstractBee() {
         this.positionUpdateStrategy = new VisualPositionUpdateStategy();
         this.targetSelectionStrategy = new RandomSelector();
+        this.behaviour = new DoNothingBehaviour();
     }
 
     /**

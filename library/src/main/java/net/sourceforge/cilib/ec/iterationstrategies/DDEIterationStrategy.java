@@ -126,7 +126,7 @@ public class DDEIterationStrategy  extends AbstractIterationStrategy<EC> {
                     Individual currentOffspring = crossoverStrategy
                         .crossover(Arrays.asList(current, trialEntity)).get(0); // Order is VERY important here!!
                     boundaryConstraint.enforce(currentOffspring);
-                    currentOffspring.calculateFitness();
+                    currentOffspring.updateFitness(currentOffspring.getBehaviour().getFitnessCalculator().getFitness(currentOffspring));
 
                     //Select the best offspring so far
                     if(o > 0) {

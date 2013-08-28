@@ -53,7 +53,7 @@ public class NonDominatedMOOSynchronousIterationStrategy extends AbstractIterati
 
         Problem problem = AbstractAlgorithm.getAlgorithmList().head().getOptimisationProblem();
         for (Particle current : topology) {
-            current.calculateFitness();
+            current.updateFitness(current.getBehaviour().getFitnessCalculator().getFitness(current));
             for (Particle other : pso.getNeighbourhood().f(topology, current)) {
                 Particle p1 = current.getNeighbourhoodBest().getClone();
                 Particle p2 = other.getNeighbourhoodBest().getClone();

@@ -78,7 +78,7 @@ public class CooperativeCoevolutionTest {
         when(calculator.getFitness(any(ContextEntity.class))).thenReturn(InferiorFitness.instance(), new MinimisationFitness(2.0), new MinimisationFitness(1.0));
         when(calculator.getClone()).thenReturn(calculator);
 
-        testAlgorithm.getContext().setFitnessCalculator(calculator);
+        testAlgorithm.getContext().getBehaviour().setFitnessCalculator(calculator);
         testAlgorithm.setContextUpdate(new SelectiveContextUpdateStrategy());
         testAlgorithm.setOptimisationProblem(problem);
 

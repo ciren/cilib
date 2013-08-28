@@ -57,7 +57,7 @@ public abstract class AbstractCooperativeIterationStrategy<E extends Algorithm> 
      */
     public ClusterParticle getContextParticle() {
         ((CentroidHolder) contextParticle.getPosition()).clearAllCentroidDataItems();
-        contextParticle.calculateFitness();
+        contextParticle.updateFitness(contextParticle.getBehaviour().getFitnessCalculator().getFitness(contextParticle));
         return contextParticle;
     }
 

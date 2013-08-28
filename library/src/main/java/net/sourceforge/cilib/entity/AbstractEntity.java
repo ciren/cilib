@@ -26,14 +26,12 @@ public abstract class AbstractEntity implements Entity {
 
     protected Behaviour behaviour;
     private final Blackboard<Property, Type> properties;
-    private FitnessCalculator<Entity> fitnessCalculator;
 
     /**
      * Initialise the candidate solution of the {@linkplain Entity}.
      */
     protected AbstractEntity() {
         this.properties = new Blackboard();
-        this.fitnessCalculator = new EntityBasedFitnessCalculator();
     }
 
     /**
@@ -42,7 +40,6 @@ public abstract class AbstractEntity implements Entity {
      */
     protected AbstractEntity(AbstractEntity copy) {
         this.properties = copy.properties.getClone();
-        this.fitnessCalculator = copy.fitnessCalculator.getClone();
 
         this.behaviour = copy.behaviour;
     }
@@ -110,30 +107,13 @@ public abstract class AbstractEntity implements Entity {
         return getFitness();
     }
 
-    /**
-     * Get the current {@code FitnessCalculator} for the current {@code Entity}.
-     * @return The {@code FitnessCalculator} associated with this {@code Entity}.
-     */
-    @Override
-    public FitnessCalculator<Entity> getFitnessCalculator() {
-        return fitnessCalculator;
-    }
-
-    /**
-     * Set the {@code FitnessCalculator} for the current {@code Entity}.
-     * @param fitnessCalculator The value to set.
-     */
-    public void setFitnessCalculator(FitnessCalculator fitnessCalculator) {
-        this.fitnessCalculator = fitnessCalculator;
-    }
-
     @Override
     public abstract AbstractEntity getClone();
 
     @Override
-    public void calculateFitness() {
-        put(Property.PREVIOUS_FITNESS, getFitness().getClone());
-        put(Property.FITNESS, fitnessCalculator.getFitness(this));
+    public void updateFitness(Fitness newFitness) {
+        properties.put(Property.PREVIOUS_FITNESS, getFitness().getClone());
+        properties.put(Property.FITNESS, newFitness);
     }
 
     @Override

@@ -40,7 +40,7 @@ public class VectorBasedPositionProvider implements PositionProvider {
 
         Particle tmp = particle.getClone();
         tmp.setPosition(newPos);
-        Fitness newFitness = particle.getFitnessCalculator().getFitness(tmp);
+        Fitness newFitness = particle.getBehaviour().getFitnessCalculator().getFitness(tmp);
 
         final UniformDistribution uniform = new UniformDistribution();
         Vector newPBest = newPos.multiply(new P1<Number>() {
@@ -50,7 +50,7 @@ public class VectorBasedPositionProvider implements PositionProvider {
             }
         }).plus(newPos);
         tmp.setPosition(newPos);
-        Fitness newPBestFitness = particle.getFitnessCalculator().getFitness(tmp);
+        Fitness newPBestFitness = particle.getBehaviour().getFitnessCalculator().getFitness(tmp);
 
         if (newPBestFitness.compareTo(newFitness) < 0) {
             Vector tmpVector = Vector.copyOf(newPos);

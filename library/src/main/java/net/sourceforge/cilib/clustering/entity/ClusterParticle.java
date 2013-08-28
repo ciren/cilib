@@ -77,13 +77,14 @@ public class ClusterParticle extends AbstractParticle{
     }
 
     /*
-     * Calculates the fitness of the ClusterParticle accordingly
-     * Sets the fitness after it is calculated
+     * Updates the fitness of the ClusterParticle\
      * Updates the Personal Best values
+     * 
+     * @param newFitness The new fitness to update with.
      */
     @Override
-    public void calculateFitness() {
-        super.calculateFitness();
+    public void updateFitness(Fitness newFitness) {
+        super.updateFitness(newFitness);
         this.personalBestUpdateStrategy.updatePersonalBest(this);
     }
 

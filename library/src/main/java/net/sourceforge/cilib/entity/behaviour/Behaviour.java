@@ -8,6 +8,7 @@ package net.sourceforge.cilib.entity.behaviour;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.util.Cloneable;
+import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 
 /**
  * Interface for behaviours of entities. These are the behaviours that makes
@@ -27,6 +28,15 @@ public interface Behaviour extends Comparable<Behaviour>, Cloneable {
      * @param entity The {@link Entity} to have the behaviour applied.
      */
     public Entity performIteration(Entity entity);
+
+    /**
+     * Gets the fitness calculator.
+     * 
+     * @return The fitness calculator.
+     */
+    public FitnessCalculator getFitnessCalculator();
+
+    public void setFitnessCalculator(FitnessCalculator fitnessCalculator);
 
     /**
      * Increment the number of times this behavior was successful

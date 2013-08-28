@@ -46,10 +46,11 @@ public interface Entity extends Comparable<Entity>, Cloneable {
     void setPosition(StructuredType type);
 
     /**
-     * Calculate the fitness of the {@linkplain Entity} incrementing the
-     * number of fitness evaluations for the algorithm.
+     * Updates the fitness of the {@linkplain Entity}.
+     *
+     * @param newFitness The new fitness to update with.
      */
-    void calculateFitness();
+    void updateFitness(Fitness newFitness);
 
     /**
      * Returns the {@linkplain Entity} fitness.
@@ -104,13 +105,6 @@ public interface Entity extends Comparable<Entity>, Cloneable {
     <T extends Type> void put(Property<T> p, T v);
     
     <T extends Type> boolean has(Property<T> p);
-
-    /**
-     * Get the current {@code FitnessCalculator} for the current {@code Entity}.
-     *
-     * @return The {@code FitnessCalculator} associated with this {@code Entity}.
-     */
-    FitnessCalculator getFitnessCalculator();
 
     public void setBehaviour(Behaviour behaviour);
 

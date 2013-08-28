@@ -79,8 +79,6 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
         // pos/vel update
         for (Particle current : topology) {
             current.getBehaviour().performIteration(current);
-            
-            current.calculateFitness();
         }
 
         // crossover
@@ -99,7 +97,7 @@ public class HybridEAIterationStrategy extends AbstractIterationStrategy<PSO> {
         	public Particle f(Particle p) {
         		p.put(Property.BEST_POSITION, p.getPosition());
                 p.setNeighbourhoodBest(p);
-                p.calculateFitness();
+                p.updateFitness(p.getBehaviour().getFitnessCalculator().getFitness(p));
                 return p;
         	}
         }))).select(Samples.first(size)));

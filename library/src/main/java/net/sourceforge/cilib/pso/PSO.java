@@ -88,7 +88,7 @@ public class PSO extends SinglePopulationBasedAlgorithm<Particle> {
         this.topology = fj.data.List.iterableList(initialisationStrategy.<Particle>initialise(optimisationProblem));
 
         for (Particle p : topology) {
-            p.calculateFitness();
+            p.updateFitness(p.getBehaviour().getFitnessCalculator().getFitness(p));
         }
     }
 

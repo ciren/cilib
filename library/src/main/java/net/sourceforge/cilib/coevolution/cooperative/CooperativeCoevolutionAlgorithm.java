@@ -97,7 +97,7 @@ public class CooperativeCoevolutionAlgorithm extends MultiPopulationBasedAlgorit
             algorithm.performInitialisation();
             context.copyFrom((Vector) algorithm.getBestSolution().getPosition(), problem.getProblemAllocation());
         }
-        context.calculateFitness();
+        context.updateFitness(context.getBehaviour().getFitnessCalculator().getFitness(context));
     }
 
     /**

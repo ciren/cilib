@@ -59,8 +59,6 @@ public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO
 			public List<Particle> f(List<Particle> accum, P2<Particle, Integer> item) {
 				item._1().getBehaviour().performIteration(item._1());
                 
-	            item._1().calculateFitness();
-
 	            Particle newParticle = additionalStep.f(item._1());
                 List<Particle> result = accum.snoc(newParticle);
 	            fj.data.List<Particle> intermediate = result.append(topology.drop(item._2()+1));

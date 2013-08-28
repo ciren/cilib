@@ -65,7 +65,7 @@ public abstract class EnvironmentChangeResponseStrategy implements Cloneable {
      */
     protected <P extends Particle> void updateNeighbourhoodBestEntities(fj.data.List<P> topology, Neighbourhood<P> neighbourhood) {
         for (P current : topology) {
-            current.calculateFitness();
+            current.updateFitness(current.getBehaviour().getFitnessCalculator().getFitness(current));
             for (P other : neighbourhood.f(topology, current)) {
                 if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
                     other.setNeighbourhoodBest(current);

@@ -60,8 +60,6 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
 
         for(ClusterParticle particle : topology) {
             particle.getBehaviour().performIteration(particle);
-
-            particle.calculateFitness();
         }
 
         for (ClusterParticle current : topology) {

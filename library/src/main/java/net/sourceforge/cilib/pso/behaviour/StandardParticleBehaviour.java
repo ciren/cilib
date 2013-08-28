@@ -19,6 +19,7 @@ import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
  * 1-update velocity
  * 2-update position
  * 3-enforce boundary constraints
+ * 4-calculate fitness
  */
 public class StandardParticleBehaviour extends AbstractBehaviour {
 
@@ -63,6 +64,9 @@ public class StandardParticleBehaviour extends AbstractBehaviour {
         ((Particle) entity).updatePosition(positionProvider.get((Particle) entity));
 
         boundaryConstraint.enforce(entity);
+        
+        entity.updateFitness(fitnessCalculator.getFitness(entity));
+        
         return (Particle) entity;
     }
     

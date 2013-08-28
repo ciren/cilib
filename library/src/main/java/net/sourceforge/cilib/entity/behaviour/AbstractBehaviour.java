@@ -9,12 +9,15 @@ package net.sourceforge.cilib.entity.behaviour;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.problem.boundaryconstraint.UnconstrainedBoundary;
+import net.sourceforge.cilib.util.calculator.EntityBasedFitnessCalculator;
+import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 
 /**
  * Implementation of the synchronous iteration strategy for PSO.
  */
 public abstract class AbstractBehaviour implements Behaviour {
     protected BoundaryConstraint boundaryConstraint;
+    protected FitnessCalculator<Entity> fitnessCalculator;
 
     private int successCounter;
     private int selectedCounter;
@@ -25,6 +28,7 @@ public abstract class AbstractBehaviour implements Behaviour {
      */
     public AbstractBehaviour() {
         this.boundaryConstraint = new UnconstrainedBoundary();
+        this.fitnessCalculator = new EntityBasedFitnessCalculator();
         
         this.successCounter = 0;
         this.selectedCounter = 0;
@@ -37,6 +41,7 @@ public abstract class AbstractBehaviour implements Behaviour {
      */
     public AbstractBehaviour(AbstractBehaviour copy) {
         this.boundaryConstraint = copy.boundaryConstraint.getClone();
+        this.fitnessCalculator = copy.fitnessCalculator.getClone();
         
         this.selectedCounter = copy.selectedCounter;
         this.successCounter = copy.successCounter;
@@ -62,6 +67,22 @@ public abstract class AbstractBehaviour implements Behaviour {
      */
     public void setBoundaryConstraint(BoundaryConstraint boundaryConstraint) {
         this.boundaryConstraint = boundaryConstraint;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public FitnessCalculator getFitnessCalculator() {
+        return fitnessCalculator;
+    }
+
+    /**
+     * Sets the fitness calculator.
+     * 
+     * @param fitnessCalculator The fitness calculator to set.
+     */
+    public void setFitnessCalculator(FitnessCalculator fitnessCalculator) {
+        this.fitnessCalculator = fitnessCalculator;
     }
 
     /**

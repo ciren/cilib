@@ -42,7 +42,7 @@ public class CrossoverPersonalBestUpdateStrategy implements PersonalBestUpdateSt
         p2.setPosition(particle.getBestPosition());
 
         Particle tmp = crossoverStrategy.crossover(Arrays.asList(p1, p2)).get(0);
-        Fitness tmpFitness = particle.getFitnessCalculator().getFitness(tmp);
+        Fitness tmpFitness = particle.getBehaviour().getFitnessCalculator().getFitness(tmp);
 
         if (tmpFitness.compareTo(particle.getBestFitness()) > 0) {
             particle.getBehaviour().incrementSuccessCounter();

@@ -215,7 +215,7 @@ public class StandardClusteringMultiSwarmIterationStrategy extends AbstractItera
     public void reInitialise(DataClusteringPSO algorithm) {
         for(ClusterParticle particle : algorithm.getTopology()) {
             particle.reinitialise();
-            particle.calculateFitness();
+            particle.updateFitness(particle.getBehaviour().getFitnessCalculator().getFitness(particle));
         }
     }
 }

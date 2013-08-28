@@ -25,7 +25,7 @@ public class StandardContextUpdateStrategy implements ContextUpdateStrategy {
     public void updateContext(ContextEntity context, Vector solution,
             DimensionAllocation allocation) {
         context.copyFrom(solution, allocation);
-        context.calculateFitness();
+        context.updateFitness(context.getBehaviour().getFitnessCalculator().getFitness(context));
     }
 
     /**

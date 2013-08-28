@@ -73,7 +73,7 @@ public class AdaptiveIterationStrategy extends AbstractIterationStrategy<EC> {
                 // Replace the parent (current) if the offspring is better
                 SaDEIndividual offspringEntity = offspring.get(0);
                 boundaryConstraint.enforce(offspringEntity);
-                offspringEntity.calculateFitness();
+                offspringEntity.updateFitness(offspringEntity.getBehaviour().getFitnessCalculator().getFitness(offspringEntity));
 
                 SaDEIndividual result = current;
                 if (offspringEntity.getFitness().compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent

@@ -88,7 +88,7 @@ public class GBestMutationIterationStrategy extends AbstractIterationStrategy<PS
         }));
 
         mutated.setPosition(pos);
-        mutated.calculateFitness();
+        mutated.updateFitness(mutated.getBehaviour().getFitnessCalculator().getFitness(mutated));
 
         if (gBest.getBestFitness().compareTo(mutated.getFitness()) < 0) {
             gBest.put(Property.BEST_FITNESS, mutated.getBestFitness());

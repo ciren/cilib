@@ -7,8 +7,12 @@
 package net.sourceforge.cilib.pso.behaviour;
 
 import net.sourceforge.cilib.entity.Property;
+import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 import net.sourceforge.cilib.math.Maths;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.boundaryconstraint.ClampingBoundaryConstraint;
+import net.sourceforge.cilib.problem.solution.InferiorFitness;
+import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.positionprovider.PositionProvider;
@@ -35,7 +39,10 @@ public class StandardParticleBehaviourTest {
 
         StandardParticle particle = new StandardParticle();
         particle.getProperties().put(Property.VELOCITY, zero);
+        particle.getProperties().put(Property.FITNESS, InferiorFitness.instance());
+        particle.getProperties().put(Property.BEST_FITNESS, InferiorFitness.instance());
         particle.setPosition(zero);
+        particle.setNeighbourhoodBest(particle);
 
         VelocityProvider vProvider = mock(VelocityProvider.class);
         when(vProvider.get(any(Particle.class))).thenReturn(velocity);
@@ -47,8 +54,22 @@ public class StandardParticleBehaviourTest {
         behaviour.setVelocityProvider(vProvider);
         behaviour.setPositionProvider(pProvider);
         behaviour.setBoundaryConstraint(new ClampingBoundaryConstraint());
+
+        particle.setBehaviour(behaviour);
+
+        PSO pso = new PSO();
+        FunctionOptimisationProblem problem = new FunctionOptimisationProblem();
+        problem.setFunction(new Spherical());
+        problem.setDomain("R(-5.12:5.12)^2");
+        pso.setOptimisationProblem(problem);
+        pso.getInitialisationStrategy().setEntityNumber(1);
+        pso.getInitialisationStrategy().setEntityType(particle);
+
+        pso.performInitialisation();
+
+        pso.setTopology(fj.data.List.list((Particle) particle));
         
-        behaviour.performIteration(particle);
+        pso.performIteration();
 
         assertEquals(velocity, particle.getVelocity());
         assertEquals(5.2, ((Vector) particle.getPosition()).doubleValueOf(0), Maths.EPSILON);

@@ -66,7 +66,7 @@ public class RandomSentriesDetectionStrategy extends EnvironmentChangeDetectionS
                     @Override
                     public Boolean f(Entity sentry) {
                         double previousFitness = sentry.getFitness().getValue();
-                        sentry.calculateFitness();
+                        sentry.updateFitness(sentry.getBehaviour().getFitnessCalculator().getFitness(sentry));
                         double currentFitness = sentry.getFitness().getValue();
 
                         return Math.abs(previousFitness - currentFitness) >= epsilon;

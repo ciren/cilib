@@ -61,7 +61,6 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
 
         final F<Particle, Particle> second = new F<Particle, Particle>() {
         	public Particle f(Particle current) {
-        		current.calculateFitness();
         		for (Particle other : pso.getNeighbourhood().f(topology, current)) {
         			if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
         				other.setNeighbourhoodBest(current);

@@ -33,7 +33,7 @@ public class TopologyBestSentryDetectionStrategy extends EnvironmentChangeDetect
         if (algorithm.getIterations() % interval == 0) {
             Entity sentry = Topologies.getBestEntity(algorithm.getTopology());
             double previousFitness = sentry.getFitness().getValue();
-            sentry.calculateFitness();
+            sentry.updateFitness(sentry.getBehaviour().getFitnessCalculator().getFitness(sentry));
             double currentFitness = sentry.getFitness().getValue();
 
             if (Math.abs(previousFitness - currentFitness) >=  epsilon) {

@@ -25,7 +25,7 @@ public class SelectiveContextUpdateStrategy implements ContextUpdateStrategy {
             DimensionAllocation allocation) {
         ContextEntity testContext = context.getClone();
         testContext.copyFrom(solution, allocation);
-        testContext.calculateFitness();
+        testContext.updateFitness(testContext.getBehaviour().getFitnessCalculator().getFitness(testContext));
         if (testContext.getFitness().compareTo(context.getFitness()) > 0) {
             context.setPosition(testContext.getPosition());
             context.setFitness(testContext.getFitness());

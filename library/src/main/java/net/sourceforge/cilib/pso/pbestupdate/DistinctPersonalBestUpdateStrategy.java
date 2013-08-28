@@ -44,7 +44,7 @@ public class DistinctPersonalBestUpdateStrategy implements PersonalBestUpdateStr
             Particle temp = particle.getClone();
             temp.setPosition(positionProvider.f(particle));
 
-            Fitness tempFitness = particle.getFitnessCalculator().getFitness(temp);
+            Fitness tempFitness = particle.getBehaviour().getFitnessCalculator().getFitness(temp);
 
             if (tempFitness.compareTo(particle.getFitness()) > 0) {
                 particle.put(Property.BEST_FITNESS, tempFitness);
