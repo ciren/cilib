@@ -83,7 +83,7 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
 
         // Perform new population selection
         fj.data.List<Individual> local = ec.getTopology().append(fj.data.List.iterableList(crossedOver))
-            .sort(Individual.ordering);
+            .sort(Individual.ordering).reverse();
 
         ec.setTopology(local.take(ec.getInitialisationStrategy().getEntityNumber()));
     }
