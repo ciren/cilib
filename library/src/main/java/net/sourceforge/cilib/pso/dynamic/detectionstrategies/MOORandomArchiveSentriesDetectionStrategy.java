@@ -67,7 +67,7 @@ public class MOORandomArchiveSentriesDetectionStrategy extends RandomSentriesDet
     public <A extends HasTopology & Algorithm & HasNeighbourhood> boolean detect(A algorithm) {
         if ((AbstractAlgorithm.get().getIterations() % interval == 0) && (AbstractAlgorithm.get().getIterations() != 0)) {
 
-            A populationBasedAlgorithm = (A) AbstractAlgorithm.getAlgorithmList().head();
+            Algorithm populationBasedAlgorithm = AbstractAlgorithm.getAlgorithmList().head();
             Problem problem = populationBasedAlgorithm.getOptimisationProblem();
 
             java.util.List<OptimisationSolution> currentSolutions = new LinkedList<>();

@@ -6,7 +6,6 @@
  */
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
-import java.util.List;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.nn.NeuralNetwork;

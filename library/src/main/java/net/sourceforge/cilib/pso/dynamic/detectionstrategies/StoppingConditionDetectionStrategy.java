@@ -44,8 +44,7 @@ public class StoppingConditionDetectionStrategy extends EnvironmentChangeDetecti
      */
     @Override
     public <A extends HasTopology & Algorithm & HasNeighbourhood> boolean detect(A algorithm) {
-        if (stoppingCondition.f(algorithm))
-        {
+        if (stoppingCondition.f(algorithm)) {
             stoppingCondition = originalStoppingCondition.getClone();
             return true;
         }

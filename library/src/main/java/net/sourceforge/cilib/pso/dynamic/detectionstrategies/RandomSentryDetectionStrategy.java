@@ -6,18 +6,10 @@
  */
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
-
 import fj.P2;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.HasNeighbourhood;
 import net.sourceforge.cilib.algorithm.population.HasTopology;
-
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.math.random.generator.Rand;
-import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
@@ -65,11 +57,11 @@ public class RandomSentryDetectionStrategy extends EnvironmentChangeDetectionStr
         boolean envChangeOccured = false;
 
         for (Integer nextSentryIndex : sentryIndexes) {
-            Particle nextSentry = (Particle) algorithm.getTopology().index(nextSentryIndex); 
+            Particle nextSentry = (Particle) algorithm.getTopology().index(nextSentryIndex);
             double oldSentryFitness = nextSentry.getFitness().getValue();
             double newSentryFitness = algorithm.getOptimisationProblem().getFitness(nextSentry.getPosition()).getValue();
 
-            if(Math.abs(oldSentryFitness - newSentryFitness) >=  theta) {
+            if (Math.abs(oldSentryFitness - newSentryFitness) >=  theta) {
                 envChangeOccured = true;
                 break;
             }

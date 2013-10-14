@@ -9,6 +9,7 @@ package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 import java.util.LinkedList;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -86,7 +87,7 @@ public class ArchiveChangeSeverityResponseStrategy<E extends SinglePopulationBas
             entity.calculateFitness();
         }
 
-        A populationBasedAlgorithm = (A) AbstractAlgorithm.getAlgorithmList().head();
+        Algorithm populationBasedAlgorithm = AbstractAlgorithm.getAlgorithmList().head();
         Problem problem = populationBasedAlgorithm.getOptimisationProblem();
 
         //re-evaluating archive solutions
