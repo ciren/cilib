@@ -44,8 +44,7 @@ public abstract class AbstractEntity implements Entity {
         this.properties = copy.properties.getClone();
         this.fitnessCalculator = copy.fitnessCalculator.getClone();
 
-        if (copy.behaviour != null) //TODO: this shouldn't be null. Remove when all algorithms have behaviours.
-            this.behaviour = copy.behaviour.getClone();
+        this.behaviour = copy.behaviour;
     }
 
     /**
