@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.container.Vector;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -27,7 +28,7 @@ public class MichalewiczTest {
     @Test
     public void testEvaluate() {
         Vector x = Vector.of(1.5, 1.3);
-        assertEquals(-0.07497735029244701, function.f(x), 0.00000000000000001);
+        assertEquals(-0.07497735029244701, function.f(x), Maths.EPSILON);
 
         x.setReal(0, 0.0);
         x.setReal(1, 0.0);
