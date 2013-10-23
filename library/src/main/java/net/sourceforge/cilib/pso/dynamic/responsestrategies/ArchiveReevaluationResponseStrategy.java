@@ -19,7 +19,9 @@ import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
- *
+ * This strategy re-evaluates the solutions in the archive after a change occurred
+ * in the environment. If solutions have become dominated after the change, 
+ * they are removed from the archive.
  */
 public class ArchiveReevaluationResponseStrategy extends EnvironmentChangeResponseStrategy {
 
@@ -39,9 +41,9 @@ public class ArchiveReevaluationResponseStrategy extends EnvironmentChangeRespon
             entity.calculateFitness();
         }
 
-        Problem problem = AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
+        Problem problem = AbstractAlgorithm.getAlgorithmList().head().getOptimisationProblem();
 
-        List<OptimisationSolution> newList = new LinkedList<OptimisationSolution>();
+        List<OptimisationSolution> newList = new LinkedList<>();
         for (OptimisationSolution solution : Archive.Provider.get()) {
             OptimisationSolution os = new OptimisationSolution(solution.getPosition(), problem.getFitness(solution.getPosition()));
             newList.add(os);

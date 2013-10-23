@@ -21,7 +21,7 @@ public interface Algorithm extends Runnable, Cloneable {
     void performIteration();
 
     /**
-     * Perform the needed initialisation required before the execution of the algorithm
+     * Perform the needed initialization required before the execution of the algorithm
      * starts.
      */
     void performInitialisation();
@@ -34,7 +34,7 @@ public interface Algorithm extends Runnable, Cloneable {
 
     /**
      * Obtain the collection of best solutions. This result does not actually make sense in normal
-     * {@code PopulationBasedAlgorithm}s, but rather in a MultiObjective optimisation.
+     * {@code PopulationBasedAlgorithm}s, but rather in a MultiObjective optimization.
      * @return An {@code Iterable} containing the solutions.
      */
     Iterable<OptimisationSolution> getSolutions();
@@ -48,10 +48,10 @@ public interface Algorithm extends Runnable, Cloneable {
     int getIterations();
 
     /**
-     * Set the optimisation {@link Problem} to be solved.
+     * Set the optimization {@link Problem} to be solved.
      * <p>
      * By default, the problem is {@code null}<code>null</code>. It is necessary
-     * to set the optimisation problem before calling {@link #performInitialisation()}.
+     * to set the optimization problem before calling {@link #performInitialisation()}.
      *
      * @param problem an implementation of the {@link Problem} interface.
      */

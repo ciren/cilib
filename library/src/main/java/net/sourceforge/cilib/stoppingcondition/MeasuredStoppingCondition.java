@@ -17,16 +17,16 @@ import net.sourceforge.cilib.type.types.Numeric;
  * iterations is greater than or equal to 1000, MeasuredStoppingCondition(new Diversity(), new Minimum(), 0.01)
  * stops it when the population's diversity is less than or equal to 0.01, etc.
  */
-public class MeasuredStoppingCondition implements StoppingCondition<Algorithm> {
-    
+public class MeasuredStoppingCondition extends StoppingCondition {
+
     private CompletionCalculator predicate;
     private double target;
     private Measurement<? extends Numeric> measurement;
-    
+
     public MeasuredStoppingCondition() {
         this(new Iterations(), new Maximum(), 1000);
     }
-    
+
     public MeasuredStoppingCondition(MeasuredStoppingCondition rhs) {
         this.measurement = rhs.measurement.getClone();
         this.predicate = rhs.predicate;
@@ -53,7 +53,7 @@ public class MeasuredStoppingCondition implements StoppingCondition<Algorithm> {
     }
 
     @Override
-    public boolean apply(Algorithm algorithm) {
+    public Boolean f(Algorithm algorithm) {
         return predicate.apply(measurement.getValue(algorithm).doubleValue(), target);
     }
 

@@ -7,9 +7,7 @@
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
 import java.util.List;
-
 import fj.F;
-
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.generator.Rand;
@@ -65,7 +63,7 @@ public class ReinitialisationReactionStrategy<E extends SinglePopulationBasedAlg
      */
     protected <P extends Particle> void reinitialise(final fj.data.List<P> entities, int reinitialiseCount) {
     	fj.data.List<P> local = entities;
-    	
+
         for (int i = 0; i < reinitialiseCount; i++) {
             int random = Rand.nextInt(entities.length());
             final Entity entity = entities.index(random);

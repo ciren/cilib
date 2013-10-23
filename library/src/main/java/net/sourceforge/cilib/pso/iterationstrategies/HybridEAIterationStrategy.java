@@ -23,7 +23,7 @@ import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
 import net.sourceforge.cilib.util.selection.recipes.RouletteWheelSelector;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
-import net.sourceforge.cilib.util.selection.weighting.CurrentFitness;
+import net.sourceforge.cilib.util.selection.weighting.fitness.CurrentFitness;
 import net.sourceforge.cilib.util.selection.weighting.EntityWeighting;
 
 

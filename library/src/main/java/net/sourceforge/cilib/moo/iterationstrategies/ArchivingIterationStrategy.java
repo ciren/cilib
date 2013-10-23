@@ -44,7 +44,7 @@ public class ArchivingIterationStrategy<E extends SinglePopulationBasedAlgorithm
 
     @Override
     public ArchivingIterationStrategy<E> getClone() {
-        return new ArchivingIterationStrategy<E>(this);
+        return new ArchivingIterationStrategy<>(this);
     }
 
     public void setIterationStrategy(IterationStrategy<SinglePopulationBasedAlgorithm> iterationStrategy) {
@@ -56,8 +56,8 @@ public class ArchivingIterationStrategy<E extends SinglePopulationBasedAlgorithm
     }
 
     protected void updateArchive(fj.data.List<? extends Entity> population) {
-        Algorithm topLevelAlgorithm = AbstractAlgorithm.getAlgorithmList().get(0);
-        List<OptimisationSolution> optimisationSolutions = new ArrayList<OptimisationSolution>();
+        Algorithm topLevelAlgorithm = AbstractAlgorithm.getAlgorithmList().index(0);
+        List<OptimisationSolution> optimisationSolutions = new ArrayList<>();
         for (Entity entity : population) {
             if(Types.isInsideBounds(entity.getCandidateSolution())){
                 Type solution = entity.getCandidateSolution().getClone();

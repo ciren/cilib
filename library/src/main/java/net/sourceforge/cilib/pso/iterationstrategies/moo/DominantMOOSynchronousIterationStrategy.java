@@ -52,7 +52,7 @@ public class DominantMOOSynchronousIterationStrategy extends AbstractIterationSt
             boundaryConstraint.enforce(current);
         }
 
-        Problem problem = AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
+        Problem problem = AbstractAlgorithm.getAlgorithmList().head().getOptimisationProblem();
 
         for (Particle current : topology) {
             current.calculateFitness();

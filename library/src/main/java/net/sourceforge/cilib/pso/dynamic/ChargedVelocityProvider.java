@@ -57,7 +57,7 @@ public class ChargedVelocityProvider implements VelocityProvider {
         for (int i = 0; i < particle.getDimension(); ++i) {
             double accSum = 0;
             for (Particle other : pso.getNeighbourhood().f(pso.getTopology(), particle)) {
-                if (particle.getId() == other.getId()) {
+                if (particle == other) {
                     continue;
                 }
 

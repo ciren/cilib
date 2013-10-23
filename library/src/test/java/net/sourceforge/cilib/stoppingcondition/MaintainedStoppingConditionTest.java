@@ -23,17 +23,17 @@ public class MaintainedStoppingConditionTest {
         Mockito.when(algorithm.getIterations()).thenReturn(0, 1, 0, 1, 2);
         MaintainedStoppingCondition instance = new MaintainedStoppingCondition(
                 new MeasuredStoppingCondition(new Iterations(), new Maximum(), 1), 2);
-        
-        assertFalse(instance.apply(algorithm));
+
+        assertFalse(instance.f(algorithm));
         assertEquals(instance.getPercentageCompleted(algorithm), 0.0, 0.0);
-        assertFalse(instance.apply(algorithm));
-        assertEquals(instance.getPercentageCompleted(algorithm), 0.5, 0.0);        
+        assertFalse(instance.f(algorithm));
+        assertEquals(instance.getPercentageCompleted(algorithm), 0.5, 0.0);
         // if it gets reset percentage should not decrease
-        assertFalse(instance.apply(algorithm));
+        assertFalse(instance.f(algorithm));
         assertEquals(instance.getPercentageCompleted(algorithm), 0.5, 0.0);
-        assertFalse(instance.apply(algorithm));
+        assertFalse(instance.f(algorithm));
         assertEquals(instance.getPercentageCompleted(algorithm), 0.5, 0.0);
-        assertTrue(instance.apply(algorithm));
+        assertTrue(instance.f(algorithm));
         assertEquals(instance.getPercentageCompleted(algorithm), 1.0, 0.0);
     }
 }

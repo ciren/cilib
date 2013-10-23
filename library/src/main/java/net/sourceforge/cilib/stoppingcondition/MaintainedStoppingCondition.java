@@ -13,24 +13,24 @@ import net.sourceforge.cilib.measurement.single.diversity.Diversity;
  * A stopping condition that defines an algorithm to be complete if a given stopping condition has been maintained
  * for a number of consecutive iterations.
  */
-public class MaintainedStoppingCondition implements StoppingCondition<Algorithm> {
-    
+public class MaintainedStoppingCondition extends StoppingCondition {
+
     private int consecutiveIterations;
     private int count;
-    private StoppingCondition<Algorithm> condition;
+    private StoppingCondition condition;
     private double percentage;
-    
+
     public MaintainedStoppingCondition() {
         this(new MeasuredStoppingCondition(new Diversity(), new Minimum(), 1.0), 10);
     }
-    
+
     public MaintainedStoppingCondition(MaintainedStoppingCondition rhs) {
         this.consecutiveIterations = rhs.consecutiveIterations;
         this.condition = rhs.condition.getClone();
         this.count = rhs.count;
         this.percentage = rhs.percentage;
     }
-    
+
     public MaintainedStoppingCondition(StoppingCondition condition, int consecutiveIterations) {
         this.consecutiveIterations = consecutiveIterations;
         this.condition = condition;
@@ -45,7 +45,7 @@ public class MaintainedStoppingCondition implements StoppingCondition<Algorithm>
     public MaintainedStoppingCondition getClone() {
         return new MaintainedStoppingCondition(this);
     }
-    
+
     @Override
     public double getPercentageCompleted(Algorithm algorithm) {
         percentage = Math.max(percentage, count / (double) consecutiveIterations);
@@ -53,12 +53,12 @@ public class MaintainedStoppingCondition implements StoppingCondition<Algorithm>
     }
 
     @Override
-    public boolean apply(Algorithm algorithm) {
-        count = condition.apply(algorithm) ? count + 1 : 0;
+    public Boolean f(Algorithm algorithm) {
+        count = condition.f(algorithm) ? count + 1 : 0;
         return count >= consecutiveIterations;
     }
 
-    public StoppingCondition<Algorithm> getCondition() {
+    public StoppingCondition getCondition() {
         return condition;
     }
 
@@ -70,7 +70,7 @@ public class MaintainedStoppingCondition implements StoppingCondition<Algorithm>
         this.consecutiveIterations = consecutiveIterations;
     }
 
-    public void setCondition(StoppingCondition<Algorithm> condition) {
+    public void setCondition(StoppingCondition condition) {
         this.condition = condition;
     }
 }

@@ -258,7 +258,7 @@
                     <crossoverProbability class="controlparameter.ConstantControlParameter" parameter="0.1" />
                     <selectionStrategy class="util.selection.recipes.RouletteWheelSelector">
                         <weighing class="util.selection.weighting.EntityWeighting">
-                            <entityFitness class="util.selection.weighting.CurrentFitness" />
+                            <entityFitness class="util.selection.weighting.fitness.CurrentFitness" />
                         </weighing>
                     </selectionStrategy>
                 </crossoverStrategy>

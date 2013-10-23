@@ -53,9 +53,9 @@ public class MultiPopRepeatingCrossoverSelection extends CrossoverSelection {
     public P3<Boolean, Particle, Particle> select(PSO algorithm, Enum solutionType, Enum fitnessType) {
         boolean isBetter = false;
 
-        List<Particle> parents = new ArrayList<Particle>();
+        List<Particle> parents = new ArrayList<>();
 
-        MultiPopulationBasedAlgorithm algs = (MultiPopulationBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
+        MultiPopulationBasedAlgorithm algs = (MultiPopulationBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().index(0);
         List<SinglePopulationBasedAlgorithm> pops = algs.getPopulations();
 
         if (pops.size() > 2) {

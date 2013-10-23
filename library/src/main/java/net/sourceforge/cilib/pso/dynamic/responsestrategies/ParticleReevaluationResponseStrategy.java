@@ -49,9 +49,9 @@ public class ParticleReevaluationResponseStrategy extends EnvironmentChangeRespo
         updateNeighbourhoodBestEntities(topology, algorithm.getNeighbourhood());
     }
 
-	@Override
-	protected <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void performReaction(
-			A algorithm) {
-		reevaluateParticles(algorithm);
-	}
+    @Override
+    protected <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void performReaction(
+                    A algorithm) {
+            reevaluateParticles(algorithm);
+    }
 }

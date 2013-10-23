@@ -17,8 +17,8 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
  * Once it triggers, the stopping condition is reset to its original state.
  */
 public class StoppingConditionDetectionStrategy extends EnvironmentChangeDetectionStrategy {
-    StoppingCondition<Algorithm> originalStoppingCondition;
-    StoppingCondition<Algorithm> stoppingCondition;
+    StoppingCondition originalStoppingCondition;
+    StoppingCondition stoppingCondition;
 
     public StoppingConditionDetectionStrategy() {
         originalStoppingCondition = new MeasuredStoppingCondition();
@@ -44,8 +44,7 @@ public class StoppingConditionDetectionStrategy extends EnvironmentChangeDetecti
      */
     @Override
     public <A extends HasTopology & Algorithm & HasNeighbourhood> boolean detect(A algorithm) {
-        if (stoppingCondition.apply(algorithm))
-        {
+        if (stoppingCondition.f(algorithm)) {
             stoppingCondition = originalStoppingCondition.getClone();
             return true;
         }
@@ -57,7 +56,7 @@ public class StoppingConditionDetectionStrategy extends EnvironmentChangeDetecti
      * Sets the stopping condition.
      * @param stoppingCondition The stopping condition.
      */
-    public void setStoppingCondition(StoppingCondition<Algorithm> stoppingCondition) {
+    public void setStoppingCondition(StoppingCondition stoppingCondition) {
         originalStoppingCondition = stoppingCondition;
         this.stoppingCondition = originalStoppingCondition.getClone();
     }

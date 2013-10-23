@@ -79,7 +79,7 @@ public class RankBasedSelector<E extends Comparable> implements Selector<E> {
     @Override
     public PartialSelection<E> on(Iterable<E> iterable) {
         int size = Iterables.size(iterable);
-        List<E> list = Selection.copyOf(iterable).orderBy(new SortedArrangement()).select(Samples.last(Rand.nextInt(size)+1));
+        List<E> list = Selection.copyOf(iterable).orderBy(new SortedArrangement(comparator)).select(Samples.last(Rand.nextInt(size)+1));
         return Selection.copyOf(list).orderBy(new RandomArrangement());
     }
 }
