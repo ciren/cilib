@@ -42,7 +42,7 @@ public class MOOStandardPersonalBestUpdateStrategy implements PersonalBestUpdate
     @Override
     public void updatePersonalBest(Particle particle) {
 
-        Algorithm topLevelAlgorithm = AbstractAlgorithm.getAlgorithmList().get(0);
+        Algorithm topLevelAlgorithm = AbstractAlgorithm.getAlgorithmList().head();
         Problem problem = topLevelAlgorithm.getOptimisationProblem();
 
         if ((particle.getBestFitness() == null) || (problem.getFitness(particle.getCandidateSolution()).compareTo(problem.getFitness(particle.getBestPosition())) > 0)) {

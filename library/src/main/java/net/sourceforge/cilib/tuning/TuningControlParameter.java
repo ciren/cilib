@@ -10,12 +10,12 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 
 public class TuningControlParameter implements ControlParameter {
-    
+
     private int index;
 
     @Override
     public double getParameter() {
-        TuningAlgorithm algorithm = (TuningAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
+        TuningAlgorithm algorithm = (TuningAlgorithm) AbstractAlgorithm.getAlgorithmList().head();
         return algorithm.getCurrentParameters().doubleValueOf(index);
     }
 

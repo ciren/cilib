@@ -124,19 +124,6 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
     }
 
     /**
-     * Removes a restart condition.
-     * <p>
-     * Equivalent to calling
-     * {@link Stoppable#removeStoppingCondition(StoppingCondition)} on
-     * the algorithm set in {@link #setTargetAlgorithm(Algorithm)}.
-     *
-     * @param condition the {@link StoppingCondition} to be removed.
-     */
-    public void removeRestartCondition(StoppingCondition condition) {
-        algorithm.removeStoppingCondition(condition);
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -250,7 +237,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
 
     }
 
-    private class SingleIteration implements StoppingCondition<Algorithm> {
+    private class SingleIteration extends StoppingCondition {
         private static final long serialVersionUID = 7136206631115015558L;
 
         private int iteration;
@@ -269,7 +256,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
             }
         }
 
-        public boolean apply(Algorithm input) {
+        public Boolean f(Algorithm input) {
             return iteration != algorithm.getIterations();
         }
 

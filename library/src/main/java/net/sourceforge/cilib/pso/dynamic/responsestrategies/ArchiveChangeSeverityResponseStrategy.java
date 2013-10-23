@@ -9,6 +9,7 @@ package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 import java.util.LinkedList;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -75,7 +76,7 @@ public class ArchiveChangeSeverityResponseStrategy<E extends SinglePopulationBas
             this.setNumberOfSentries(ConstantControlParameter.of(Archive.Provider.get().size() / 2));
         }
         //old archive values
-        List<OptimisationSolution> oldList = new LinkedList<OptimisationSolution>();
+        List<OptimisationSolution> oldList = new LinkedList<>();
         for (OptimisationSolution solution : Archive.Provider.get()) {
             oldList.add(solution);
         }
@@ -86,11 +87,11 @@ public class ArchiveChangeSeverityResponseStrategy<E extends SinglePopulationBas
             entity.calculateFitness();
         }
 
-        A populationBasedAlgorithm = (A) AbstractAlgorithm.getAlgorithmList().get(0);
+        Algorithm populationBasedAlgorithm = AbstractAlgorithm.getAlgorithmList().head();
         Problem problem = populationBasedAlgorithm.getOptimisationProblem();
 
         //re-evaluating archive solutions
-        List<OptimisationSolution> newList = new LinkedList<OptimisationSolution>();
+        List<OptimisationSolution> newList = new LinkedList<>();
         for (OptimisationSolution solution : Archive.Provider.get()) {
             OptimisationSolution os = new OptimisationSolution(solution.getPosition(), problem.getFitness(solution.getPosition()));
             newList.add(os);

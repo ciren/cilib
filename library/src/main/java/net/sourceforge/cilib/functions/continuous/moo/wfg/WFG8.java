@@ -10,7 +10,6 @@ import java.util.List;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
-import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import com.google.common.base.Joiner;
@@ -19,30 +18,30 @@ import com.google.common.collect.Lists;
 /**
  *
  */
-public class WFG8 extends MOOptimisationProblem {
+public class WFG8 extends WFGProblem {
 
     private static final long serialVersionUID = 385737378832520022L;
+    
+    public WFG8() { }
 
-    private static final int M = 3;
-    private static final int k = 2 * (M - 1);
-    private static final int l = 20;
-
-    public WFG8() {
-
-        for (int i = 0; i < M; ++i) {
+    @Override
+    protected void initialize() {
+        clear();
+        final int k = 2 * (this.m - 1);
+        for (int i = 0; i < this.m; ++i) {
             final int index = i;
             ContinuousFunction function = new ContinuousFunction() {
 
                 @Override
                 public Double f(Vector input) {
-                    Vector y = Problems.WFG8(input, k, M);
+                    Vector y = Problems.WFG8(input, k, m);
                     return y.doubleValueOf(index);
                 }
             };
             FunctionOptimisationProblem wfg8_fm = new FunctionOptimisationProblem();
             wfg8_fm.setFunction(function);
             List<String> domain = Lists.newArrayList();
-            for (int j = 0; j < k + l; ++j) {
+            for (int j = 0; j < k + this.l; ++j) {
                 domain.add("R(0:" + 2 * (j + 1) + ")");
             }
             wfg8_fm.setDomain(Joiner.on(", ").join(domain));

@@ -4,7 +4,7 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.util.selection.weighting;
+package net.sourceforge.cilib.util.selection.weighting.fitness;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.solution.Fitness;

@@ -54,10 +54,10 @@ public class PerExpansionNNPerformanceChangeStoppingConditionTest {
 
         NNDataTrainingProblem problem = new NNDataTrainingProblem();
         problem.setValidationSet(validationSet);
-        
+
         Algorithm algorithm = Mockito.mock(Algorithm.class);
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
-        
+
         PerExpansionNNPerformanceChangeStoppingCondition instance = new PerExpansionNNPerformanceChangeStoppingCondition();
 
         NeuralNetwork badNetwork = new NeuralNetwork();
@@ -90,40 +90,40 @@ public class PerExpansionNNPerformanceChangeStoppingConditionTest {
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
         Mockito.when(algorithm.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(0.0, 0.0, 0.0, 5.0), new MinimisationFitness(1.0)));
 
-        assertFalse(instance.apply(algorithm));
+        assertFalse(instance.f(algorithm));
 
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
         Mockito.when(algorithm.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(1.0, 0.5, 1.0, 0.0), new MinimisationFitness(1.0)));
-        
-        assertFalse(instance.apply(algorithm));
-        
+
+        assertFalse(instance.f(algorithm));
+
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
         Mockito.when(algorithm.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(1.0, 0.5, 1.0, 0.0), new MinimisationFitness(1.0)));
-        
-        assertFalse(instance.apply(algorithm));
+
+        assertFalse(instance.f(algorithm));
 
         //good expansion
         problem.setNeuralNetwork(goodNetwork);
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
         Mockito.when(algorithm.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(-8.0, 5.5, 8.0, 5.5, 1.0, 1.0, 0.0), new MinimisationFitness(1.0)));
-        
-        assertFalse(instance.apply(algorithm));
+
+        assertFalse(instance.f(algorithm));
 
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
         Mockito.when(algorithm.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 5.0), new MinimisationFitness(1.0)));
-        
-        assertFalse(instance.apply(algorithm));
-        
+
+        assertFalse(instance.f(algorithm));
+
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
         Mockito.when(algorithm.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 5.0), new MinimisationFitness(1.0)));
-        
-        assertFalse(instance.apply(algorithm));
+
+        assertFalse(instance.f(algorithm));
 
         //bad expansion
         problem.setNeuralNetwork(finalNetwork);
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
         Mockito.when(algorithm.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 5.0), new MinimisationFitness(1.0)));
-        
-        assertTrue(instance.apply(algorithm));
+
+        assertTrue(instance.f(algorithm));
     }
 }

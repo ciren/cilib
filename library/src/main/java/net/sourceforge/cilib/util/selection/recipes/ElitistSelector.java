@@ -27,7 +27,7 @@ import net.sourceforge.cilib.util.selection.arrangement.SortedArrangement;
 public class ElitistSelector<E extends Comparable> implements Selector<E> {
 
     private static final long serialVersionUID = -5432603299031620114L;
-    private Comparator<E> comparator;
+    protected Comparator<E> comparator;
 
     /**
      * Create a new instance with a defined comparator being
@@ -71,7 +71,7 @@ public class ElitistSelector<E extends Comparable> implements Selector<E> {
 
     @Override
     public PartialSelection<E> on(Iterable<E> iterable) {
-        return Selection.copyOf(iterable).orderBy(new SortedArrangement())
+        return Selection.copyOf(iterable).orderBy(new SortedArrangement(comparator))
                 .orderBy(new ReverseArrangement());
     }
 }

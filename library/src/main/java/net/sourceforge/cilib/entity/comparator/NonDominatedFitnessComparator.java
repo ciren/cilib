@@ -28,7 +28,7 @@ public class NonDominatedFitnessComparator <E extends SocialEntity> implements C
      */
     @Override
     public int compare(E o1, E o2) {
-        SinglePopulationBasedAlgorithm populationBasedAlgorithm = (SinglePopulationBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
+        SinglePopulationBasedAlgorithm populationBasedAlgorithm = (SinglePopulationBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().index(0);
         MOOptimisationProblem problem = ((MOOptimisationProblem)populationBasedAlgorithm.getOptimisationProblem());
 
         Particle p1 = (Particle)o1;

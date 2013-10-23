@@ -12,6 +12,8 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.HasNeighbourhood;
 import net.sourceforge.cilib.algorithm.population.HasTopology;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.MOFitness;
@@ -24,15 +26,17 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
  * therefore the archive is not handled on the sub-algorithm level.
  *
  */
-public class MOORandomSentriesDetectionStrategy extends RandomSentriesDetectionStrategy {
+public class MOORandomSentriesDetectionStrategy extends EnvironmentChangeDetectionStrategy {
 
     private static final long serialVersionUID = 4572728741093545926L;
-
+    
+    protected ControlParameter numberOfSentries;
+    
     /**
      * Creates a new instance of RandomMOOSentriesDetectionStrategy.
      */
     public MOORandomSentriesDetectionStrategy() {
-        //super is called automatically
+        numberOfSentries = ConstantControlParameter.of(1.0);
     }
 
     /**
@@ -42,6 +46,7 @@ public class MOORandomSentriesDetectionStrategy extends RandomSentriesDetectionS
      */
     public MOORandomSentriesDetectionStrategy(MOORandomSentriesDetectionStrategy copy) {
         super(copy);
+        numberOfSentries = copy.numberOfSentries.getClone();
     }
 
     /**
@@ -104,18 +109,7 @@ public class MOORandomSentriesDetectionStrategy extends RandomSentriesDetectionS
                     System.out.println("Detected a change");
                     return true;
                 }
-
-                /*System.out.println(sentry.getFitness().getClass().getName());
-                MOFitness previousFitness = (MOFitness)sentry.getFitness();
-                sentry.calculateFitness();
-                MOFitness currentFitness = (MOFitness)sentry.getFitness();
-
-                for (int k=0; k < previousFitness.getDimension(); k++)
-                	if (Math.abs(previousFitness.getFitness(k).getValue() -
-                			currentFitness.getFitness(k).getValue()) >= epsilon) {
-                		return true;
-                }*/
-
+                
                 // remove the selected element from the all list preventing it from being selected again
                 all.remove(random);
             }
@@ -123,4 +117,15 @@ public class MOORandomSentriesDetectionStrategy extends RandomSentriesDetectionS
         return false;
     }
 
+    public void setNumberOfSentries(ControlParameter parameter) {
+        if (parameter.getParameter() <= 0) {
+            throw new IllegalArgumentException("It doesn't make sense to have <= 0 sentry points");
+        }
+
+        numberOfSentries = parameter;
+    }
+
+    public ControlParameter getNumberOfSentries() {
+        return numberOfSentries;
+    }
 }

@@ -37,13 +37,13 @@ public class MeasurementSuite {
 
     /** Creates a new instance of MeasurementSuite. */
     public MeasurementSuite() {
-        measurements = new ArrayList<Measurement<?>>();
+        measurements = new ArrayList<>();
         resolution = 1;
         measurementStateManager = new MeasurementStateManager();
     }
 
     /**
-     * Initialise the require output buffers for the {@linkplain MeasurementSuite}.
+     * Initialize the require output buffers for the {@linkplain MeasurementSuite}.
      */
     public void initialise() {
         try {

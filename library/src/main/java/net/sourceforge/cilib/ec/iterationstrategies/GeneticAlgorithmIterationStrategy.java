@@ -13,12 +13,14 @@ import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.CrossoverOperator;
-import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.UniformCrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.mutation.GaussianMutationStrategy;
 import net.sourceforge.cilib.entity.operators.mutation.MutationStrategy;
 
 import com.google.common.collect.Lists;
+import net.sourceforge.cilib.util.selection.Samples;
+import net.sourceforge.cilib.util.selection.recipes.ElitistSelector;
+import net.sourceforge.cilib.util.selection.recipes.Selector;
 
 /**
  * TODO: Complete this javadoc.
@@ -28,6 +30,7 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
     private static final long serialVersionUID = -2429984051022079804L;
     private CrossoverOperator crossover;
     private MutationStrategy mutationStrategy;
+    private Selector<Individual> populationSelector;
 
     /**
      * Create an instance of the {@linkplain IterationStrategy}. Default cross-over
@@ -38,6 +41,7 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
         this.crossover = new CrossoverOperator();
         this.crossover.setCrossoverStrategy(new UniformCrossoverStrategy());
         this.mutationStrategy = new GaussianMutationStrategy();
+        this.populationSelector = new ElitistSelector<>();
     }
 
     /**
@@ -47,6 +51,7 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
     public GeneticAlgorithmIterationStrategy(GeneticAlgorithmIterationStrategy copy) {
         this.crossover = copy.crossover.getClone();
         this.mutationStrategy = copy.mutationStrategy.getClone();
+        this.populationSelector = copy.populationSelector;
     }
 
     /**
@@ -65,10 +70,11 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
     @Override
     public void performIteration(EC ec) {
         fj.data.List<Individual> population = ec.getTopology();
+        int populationSize = population.length();
 
         // Perform crossover: Allow each individual to create an offspring
         List<Individual> crossedOver = Lists.newArrayList();
-        for (int i = 0, n = population.length(); i < n; i++) {
+        for (int i = 0, n = populationSize; i < n; i++) {
             crossedOver.addAll(crossover.crossover(ec.getTopology()));
         }
 
@@ -82,10 +88,9 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
         }
 
         // Perform new population selection
-        fj.data.List<Individual> local = ec.getTopology().append(fj.data.List.iterableList(crossedOver))
-            .sort(Individual.ordering);
-
-        ec.setTopology(local.take(ec.getInitialisationStrategy().getEntityNumber()));
+        ec.setTopology(fj.data.List.iterableList(populationSelector
+            .on(population.append(fj.data.List.iterableList(crossedOver)))
+            .select(Samples.first(populationSize))));
     }
 
     /**
@@ -118,5 +123,13 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
      */
     public void setMutationStrategy(MutationStrategy mutationStrategy) {
         this.mutationStrategy = mutationStrategy;
+    }
+
+    public Selector<Individual> getPopulationSelector() {
+        return populationSelector;
+    }
+
+    public void setPopulationSelector(Selector<Individual> populationSelector) {
+        this.populationSelector = populationSelector;
     }
 }

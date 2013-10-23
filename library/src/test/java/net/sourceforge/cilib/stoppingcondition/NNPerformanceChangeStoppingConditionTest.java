@@ -10,7 +10,6 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.functions.activation.Linear;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.io.StandardPatternDataTable;
-import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.nn.domain.PresetNeuronDomain;
 import net.sourceforge.cilib.nn.NeuralNetwork;
@@ -54,10 +53,10 @@ public class NNPerformanceChangeStoppingConditionTest {
 
         NNDataTrainingProblem problem = new NNDataTrainingProblem();
         problem.setValidationSet(validationSet);
-        
+
         Algorithm algorithm = Mockito.mock(Algorithm.class);
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
-        
+
         NNPerformanceChangeStoppingCondition instance = new NNPerformanceChangeStoppingCondition();
 
         NeuralNetwork badNetwork = new NeuralNetwork();
@@ -79,13 +78,13 @@ public class NNPerformanceChangeStoppingConditionTest {
         goodNetwork.initialise();
 
         assertTrue(instance.getPreviousResults() == null);
-        
+
         //from no network to really bad network
         problem.setNeuralNetwork(badNetwork);
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
         Mockito.when(algorithm.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(0.0, 0.0, 0.0, 5.0), new MinimisationFitness(1.0)));
 
-        assertFalse(instance.apply(algorithm));
+        assertFalse(instance.f(algorithm));
         assertTrue(instance.getPreviousResults() != null);
         assertEquals(19, instance.getPreviousResults().size());
         assertTrue(instance.getPercentageCompleted(algorithm) < 1.0);
@@ -94,18 +93,18 @@ public class NNPerformanceChangeStoppingConditionTest {
         //from really bad network to bad network
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
         Mockito.when(algorithm.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(1.0, 0.5, 1.0, 0.0), new MinimisationFitness(1.0)));
-        
-        assertFalse(instance.apply(algorithm));
+
+        assertFalse(instance.f(algorithm));
         assertTrue(instance.getPreviousResults() != null);
         assertEquals(19, instance.getPreviousResults().size());
         assertTrue(instance.getPercentageCompleted(algorithm) < 1.0);
         assertTrue(instance.getPercentageCompleted(algorithm) >= 0.0);
-        
+
         //from bad network to bad network
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
         Mockito.when(algorithm.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(1.0, 0.5, 1.0, 0.0), new MinimisationFitness(1.0)));
-        
-        assertTrue(instance.apply(algorithm));
+
+        assertTrue(instance.f(algorithm));
         assertTrue(instance.getPreviousResults() != null);
         assertEquals(19, instance.getPreviousResults().size());
         assertTrue(instance.getPercentageCompleted(algorithm) == 1.0);
@@ -114,8 +113,8 @@ public class NNPerformanceChangeStoppingConditionTest {
         problem.setNeuralNetwork(goodNetwork);
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
         Mockito.when(algorithm.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(-8.0, 5.5, 8.0, 5.5, 1.0, 1.0, 0.0), new MinimisationFitness(1.0)));
-        
-        assertFalse(instance.apply(algorithm));
+
+        assertFalse(instance.f(algorithm));
         assertTrue(instance.getPreviousResults() != null);
         assertEquals(19, instance.getPreviousResults().size());
         assertTrue(instance.getPercentageCompleted(algorithm) < 1.0);
@@ -125,8 +124,8 @@ public class NNPerformanceChangeStoppingConditionTest {
         problem.setNeuralNetwork(badNetwork);
         Mockito.when(algorithm.getOptimisationProblem()).thenReturn(problem);
         Mockito.when(algorithm.getBestSolution()).thenReturn(new OptimisationSolution(Vector.of(0.0, 0.0, 0.0, 5.0), new MinimisationFitness(1.0)));
-        
-        assertTrue(instance.apply(algorithm));
+
+        assertTrue(instance.f(algorithm));
         assertTrue(instance.getPreviousResults() != null);
         assertEquals(19, instance.getPreviousResults().size());
         assertTrue(instance.getPercentageCompleted(algorithm) == 1.0);

@@ -43,7 +43,7 @@ public class HigherLevelAllDynamicIterationStrategy<E extends MultiPopulationBas
     public void performIteration(MultiPopulationBasedAlgorithm algorithm) {
         //get the higher level algorithm
         RespondingMultiPopulationCriterionBasedAlgorithm topLevelAlgorithm =
-                (RespondingMultiPopulationCriterionBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
+                (RespondingMultiPopulationCriterionBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().index(0);
 
         boolean hasChanged = false;
 

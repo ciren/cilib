@@ -17,7 +17,7 @@ import net.sourceforge.cilib.util.distancemeasure.ManhattanDistanceMeasure;
  * distance from the current best is less then the specified minimum for more then the specified
  * maximum consecutive minimum change, then the algorithm is assumed to have stalled.
  */
-public class OptimiserStalled implements StoppingCondition<Algorithm> {
+public class OptimiserStalled extends StoppingCondition {
     private static final long serialVersionUID = 4017249915571841835L;
 
     protected double minChange;
@@ -84,16 +84,13 @@ public class OptimiserStalled implements StoppingCondition<Algorithm> {
         double distance = distMeasure.distance((Vector) previousBest.getPosition(), (Vector) algorithm.getBestSolution().getPosition());
 
         // compare to see change
-        if (distance < minChange)
-            minChangeCounter++;
-        else
-            minChangeCounter = 0;
+        minChangeCounter = (distance < minChange) ? minChangeCounter + 1 : 0;
 
         return minChangeCounter / maxConsecutiveMinChange;
     }
 
     @Override
-    public boolean apply(Algorithm input) {
+    public Boolean f(Algorithm input) {
         if (getPercentageCompleted(input) == 1.0)
             return true;
 

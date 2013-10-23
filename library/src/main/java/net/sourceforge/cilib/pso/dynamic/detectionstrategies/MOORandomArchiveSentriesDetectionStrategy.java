@@ -23,7 +23,7 @@ import net.sourceforge.cilib.problem.solution.OptimisationSolution;
  * environment has occurred. It should only be used for MOO problems.
  *
  */
-public class MOORandomArchiveSentriesDetectionStrategy extends RandomSentriesDetectionStrategy {
+public class MOORandomArchiveSentriesDetectionStrategy extends MOORandomSentriesDetectionStrategy {
 
     /**
      * Creates a new instance of RandomMOOSentriesDetectionStrategy.
@@ -63,15 +63,15 @@ public class MOORandomArchiveSentriesDetectionStrategy extends RandomSentriesDet
      * @return true if a change has been detected, false otherwise
      */
 
-    @Override
-    public <A extends HasTopology & Algorithm & HasNeighbourhood> boolean detect(A algorithm) {
+    
+    public <A extends HasTopology & Algorithm & HasNeighbourhood> boolean detect(Algorithm algorithm) {
         if ((AbstractAlgorithm.get().getIterations() % interval == 0) && (AbstractAlgorithm.get().getIterations() != 0)) {
 
-            A populationBasedAlgorithm = (A) AbstractAlgorithm.getAlgorithmList().get(0);
+            Algorithm populationBasedAlgorithm = AbstractAlgorithm.getAlgorithmList().head();
             Problem problem = populationBasedAlgorithm.getOptimisationProblem();
 
-            java.util.List<OptimisationSolution> currentSolutions = new LinkedList<OptimisationSolution>();
-            java.util.List<OptimisationSolution> newSolutions = new LinkedList<OptimisationSolution>();
+            java.util.List<OptimisationSolution> currentSolutions = new LinkedList<>();
+            java.util.List<OptimisationSolution> newSolutions = new LinkedList<>();
 
             for (OptimisationSolution solution : Archive.Provider.get()) {
                 OptimisationSolution os = new OptimisationSolution(solution.getPosition(), problem.getFitness(solution.getPosition()));

@@ -67,7 +67,7 @@ public class HigherLevelArchivingIterationStrategy<E extends MultiPopulationBase
     }
 
     protected void updateArchive(fj.data.List<? extends Entity> population) {
-        Algorithm topLevelAlgorithm = AbstractAlgorithm.getAlgorithmList().get(0);
+        Algorithm topLevelAlgorithm = AbstractAlgorithm.getAlgorithmList().index(0);
         List<OptimisationSolution> optimisationSolutions = new ArrayList<>();
         for (Entity entity : population) {
             Type solution = entity.getCandidateSolution().getClone();
@@ -88,7 +88,7 @@ public class HigherLevelArchivingIterationStrategy<E extends MultiPopulationBase
         this.getIterationStrategy().performIteration(algorithm);
 
         RespondingMultiPopulationCriterionBasedAlgorithm higherLevelAlgorithm =
-        	(RespondingMultiPopulationCriterionBasedAlgorithm)AbstractAlgorithm.getAlgorithmList().get(0);
+        	(RespondingMultiPopulationCriterionBasedAlgorithm)AbstractAlgorithm.getAlgorithmList().index(0);
 
         for (SinglePopulationBasedAlgorithm popAlg: higherLevelAlgorithm.getPopulations()) {
         	updateArchive(popAlg.getTopology());

@@ -6,12 +6,7 @@
  */
 package net.sourceforge.cilib.util.selection.recipes;
 
-import java.util.Comparator;
-import net.sourceforge.cilib.util.selection.PartialSelection;
-import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.arrangement.DistanceComparator;
-import net.sourceforge.cilib.util.selection.arrangement.ReverseArrangement;
-import net.sourceforge.cilib.util.selection.arrangement.SortedArrangement;
 
 /**
  * This class is similar to {@link ElitistSelector}, but where a
@@ -21,10 +16,7 @@ import net.sourceforge.cilib.util.selection.arrangement.SortedArrangement;
  *
  * @param <E> The selection type.
  */
-public class DistanceBasedElitistSelector<E extends Comparable<? super E>> implements Selector<E> {
-
-    private static final long serialVersionUID = -5432603299031620114L;
-    private Comparator<E> comparator;
+public class DistanceBasedElitistSelector<E extends Comparable<? super E>> extends ElitistSelector<E> {
 
     /**
      * Create a new instance with a defined comparator being
@@ -34,45 +26,4 @@ public class DistanceBasedElitistSelector<E extends Comparable<? super E>> imple
         this.comparator = new DistanceComparator();
     }
 
-    /**
-     * Create a new instance with the provided {@link Comparator}.
-     *
-     * @param comparator The comparator to set.
-     */
-    public DistanceBasedElitistSelector(Comparator<E> comparator) {
-        this.comparator = comparator;
-    }
-
-    /**
-     * Create a copy of the provided instance.
-     *
-     * @param copy The instance to copy.
-     */
-    public DistanceBasedElitistSelector(ElitistSelector<E> copy) {
-        this.comparator = copy.getComparator();
-    }
-
-    /**
-     * Set the comparator to be used.
-     *
-     * @param comparator The value to set.
-     */
-    public void setComparator(Comparator<E> comparator) {
-        this.comparator = comparator;
-    }
-
-    /**
-     * Get the current comparator.
-     *
-     * @return The current comparator instance.
-     */
-    public Comparator<E> getComparator() {
-        return this.comparator;
-    }
-
-    @Override
-    public PartialSelection<E> on(Iterable<E> iterable) {
-        return Selection.copyOf(iterable).orderBy(new SortedArrangement())
-                .orderBy(new ReverseArrangement());
-    }
 }
