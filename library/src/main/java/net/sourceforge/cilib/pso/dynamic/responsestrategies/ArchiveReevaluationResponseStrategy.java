@@ -19,7 +19,9 @@ import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
- *
+ * This strategy re-evaluates the solutions in the archive after a change occurred
+ * in the environment. If solutions have become dominated after the change, 
+ * they are removed from the archive.
  */
 public class ArchiveReevaluationResponseStrategy extends EnvironmentChangeResponseStrategy {
 

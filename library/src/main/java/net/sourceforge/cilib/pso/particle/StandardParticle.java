@@ -72,14 +72,6 @@ public class StandardParticle extends AbstractParticle {
      * {@inheritDoc}
      */
     @Override
-    public Vector getPosition() {
-        return (Vector) getCandidateSolution();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Vector getVelocity() {
         return (Vector) this.getProperties().get(EntityType.Particle.VELOCITY);
     }
@@ -90,8 +82,8 @@ public class StandardParticle extends AbstractParticle {
     @Override
     public void initialise(Problem problem) {
         this.getProperties().put(EntityType.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresentation().getClone());
-        this.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf(getPosition()));
-        this.getProperties().put(EntityType.Particle.VELOCITY, Vector.copyOf(getPosition()));
+        this.getProperties().put(EntityType.Particle.BEST_POSITION, Vector.copyOf((Vector) getCandidateSolution()));
+        this.getProperties().put(EntityType.Particle.VELOCITY, Vector.copyOf((Vector) getCandidateSolution()));
 
         this.positionInitialisationStrategy.initialise(EntityType.CANDIDATE_SOLUTION, this);
         this.personalBestInitialisationStrategy.initialise(EntityType.Particle.BEST_POSITION, this);

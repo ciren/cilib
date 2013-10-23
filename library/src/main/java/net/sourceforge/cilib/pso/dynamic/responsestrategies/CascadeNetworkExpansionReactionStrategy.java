@@ -13,6 +13,7 @@ import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 import net.sourceforge.cilib.problem.nn.NNDataTrainingProblem;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
 
@@ -66,13 +67,13 @@ public class CascadeNetworkExpansionReactionStrategy<E extends SinglePopulationB
         }
         for (Entity curParticle : particles) {
             DynamicParticle curDynamicParticle = (DynamicParticle)curParticle;
-            Bounds bounds = curDynamicParticle.getPosition().get(0).getBounds();
+            Bounds bounds = ((Vector) curDynamicParticle.getCandidateSolution()).get(0).getBounds();
 
             //add weights of new neuron
             int addPosition = inputLayerSize * (hiddenLayerSize-1);
             addPosition += (hiddenLayerSize-2)*(hiddenLayerSize-1)/2;
             for (int i = 0; i < inputLayerSize + hiddenLayerSize-1; ++i) {
-                curDynamicParticle.getPosition().insert(addPosition, Real.valueOf(Double.NaN, bounds));
+                ((Vector) curDynamicParticle.getCandidateSolution()).insert(addPosition, Real.valueOf(Double.NaN, bounds));
                 curDynamicParticle.getBestPosition().insert(addPosition, Real.valueOf(Double.NaN, bounds));
                 curDynamicParticle.getVelocity().insert(addPosition, Real.valueOf(Double.NaN, bounds));
             }
@@ -83,7 +84,7 @@ public class CascadeNetworkExpansionReactionStrategy<E extends SinglePopulationB
             for (int curOutput = 0; curOutput < outputLayerSize; ++curOutput) {
                 addPosition = startAddPosition + (curOutput+1)*(inputLayerSize + hiddenLayerSize) -1;
 
-                curDynamicParticle.getPosition().insert(addPosition, Real.valueOf(Double.NaN, bounds));
+                ((Vector) curDynamicParticle.getCandidateSolution()).insert(addPosition, Real.valueOf(Double.NaN, bounds));
                 curDynamicParticle.getBestPosition().insert(addPosition, Real.valueOf(Double.NaN, bounds));
                 curDynamicParticle.getVelocity().insert(addPosition, Real.valueOf(Double.NaN, bounds));
             }

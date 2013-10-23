@@ -62,7 +62,7 @@ public class BinaryInertiaPositionProvider implements PositionProvider {
     public Vector get(Particle particle) {
 
         Vector velocity = (Vector) particle.getVelocity();
-        Vector position = (Vector) particle.getPosition();
+        Vector position = (Vector) particle.getCandidateSolution();
         Vector.Builder builder = Vector.newBuilder();
 
         for (int i = 0; i < particle.getDimension(); i++) {

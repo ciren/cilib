@@ -177,12 +177,12 @@ public class AdaptiveLearningIterationStrategy extends AbstractIterationStrategy
                 updateProgressAndReward(props.common, i, particle, prevFitness);
 
                 //gbestupdate with abest
-                for(int j = 0; j < particle.getPosition().size(); j++) {
+                for(int j = 0; j < particle.getCandidateSolution().size(); j++) {
                     if(random.getRandomNumber() < props.learningProbability) {
                         Particle aBestClone = aBest.getClone();
                         Vector aBestVector = (Vector) aBestClone.getBestPosition();
 
-                        aBestVector.setReal(j, ((Vector)particle.getPosition()).doubleValueOf(j));
+                        aBestVector.setReal(j, ((Vector)particle.getCandidateSolution()).doubleValueOf(j));
                         aBestClone.setCandidateSolution(aBestVector);
                         Fitness fitness = particle.getFitnessCalculator().getFitness(aBestClone);
 
@@ -202,7 +202,7 @@ public class AdaptiveLearningIterationStrategy extends AbstractIterationStrategy
 
                 //set abest
                 if(aBest.getBestFitness().compareTo(particle.getFitness()) < 0) {
-                    aBest.getProperties().put(BEST_POSITION, particle.getPosition().getClone());
+                    aBest.getProperties().put(BEST_POSITION, particle.getCandidateSolution().getClone());
                     aBest.getProperties().put(BEST_FITNESS, particle.getFitness().getClone());
                 }
             }

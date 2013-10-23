@@ -98,10 +98,10 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
 
 
                 if(particleWithContext.getFitness().compareTo(particleWithContext.getBestFitness()) > 0) {
-                    particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition());
+                    particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getCandidateSolution());
                     particle.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getFitness());
 
-                    particleWithContext.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition());
+                    particleWithContext.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getCandidateSolution());
                     particleWithContext.getProperties().put(EntityType.Particle.BEST_FITNESS, particle.getFitness());
                 }
 
@@ -110,7 +110,7 @@ public class CooperativeDataClusteringPSOIterationStrategy extends AbstractCoope
                 }
 
                 if(contextParticle.getFitness().compareTo(contextParticle.getBestFitness()) > 0) {
-                    contextParticle.getProperties().put(EntityType.Particle.BEST_POSITION, contextParticle.getPosition()).getClone();
+                    contextParticle.getProperties().put(EntityType.Particle.BEST_POSITION, contextParticle.getCandidateSolution()).getClone();
                     contextParticle.getProperties().put(EntityType.Particle.BEST_FITNESS, contextParticle.getFitness()).getClone();
                 }
 

@@ -155,7 +155,7 @@ public class ClusterParticleTest {
         holder.add(centroid);
         instance.setCandidateSolution(holder);
 
-        Assert.assertEquals(instance.getPosition(), holder);
+        Assert.assertEquals(instance.getCandidateSolution(), holder);
     }
 
     /**

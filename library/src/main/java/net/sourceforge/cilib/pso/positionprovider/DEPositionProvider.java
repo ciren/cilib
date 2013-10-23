@@ -56,7 +56,7 @@ public class DEPositionProvider implements PositionProvider {
 
     @Override
     public Vector get(Particle particle) {
-        Vector position = (Vector) particle.getPosition();
+        Vector position = (Vector) particle.getCandidateSolution();
         Vector velocity = (Vector) particle.getVelocity();
 
         if (rand1.getRandomNumber() < differentialEvolutionProbability.getRandomNumber(0.8, 0.1)) {

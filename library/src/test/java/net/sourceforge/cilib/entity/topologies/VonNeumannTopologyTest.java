@@ -183,7 +183,7 @@ public class VonNeumannTopologyTest {
         }
 
         @Override
-        public Vector getPosition() {
+        public Vector getCandidateSolution() {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
 

@@ -79,7 +79,7 @@ public class FDRVelocityProvider implements VelocityProvider {
      */
     @Override
     public Vector get(Particle particle) {
-        Vector position = (Vector) particle.getPosition();
+        Vector position = (Vector) particle.getCandidateSolution();
 
         Vector standardVelocity = this.delegate.get(particle);
 

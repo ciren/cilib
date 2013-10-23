@@ -46,7 +46,7 @@ public class ParticlePositions implements Measurement<StringType> {
             tmp.append(particle.getBestFitness().getValue());
             tmp.append(" Position: ");
 
-            Vector v = (Vector) particle.getPosition();
+            Vector v = (Vector) particle.getCandidateSolution();
             for (int j = 0; j < particle.getDimension(); ++j) {
                 tmp.append(v.doubleValueOf(j));
                 tmp.append(" ");
