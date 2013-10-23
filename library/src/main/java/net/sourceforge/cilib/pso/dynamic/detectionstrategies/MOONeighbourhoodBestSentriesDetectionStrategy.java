@@ -16,6 +16,10 @@ import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.MOFitness;
 
+/*
+ * This class uses the neighbourhood best as sentry particle to determine 
+ * whether a change has occurred in the environment.
+ */
 public class MOONeighbourhoodBestSentriesDetectionStrategy extends EnvironmentChangeDetectionStrategy {
     private static final long serialVersionUID = 3598067152913033487L;
 
