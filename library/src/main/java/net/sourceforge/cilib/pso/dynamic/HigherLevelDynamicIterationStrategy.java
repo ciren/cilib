@@ -11,7 +11,7 @@ import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.dynamic.detectionstrategies.EnvironmentChangeDetectionStrategy;
-import net.sourceforge.cilib.pso.dynamic.detectionstrategies.MOORandomSentriesDetectionStrategy;
+import net.sourceforge.cilib.pso.dynamic.detectionstrategies.MOORandomArchiveSentriesDetectionStrategy;
 import net.sourceforge.cilib.pso.dynamic.responsestrategies.ArchiveReevaluationResponseStrategy;
 import net.sourceforge.cilib.pso.dynamic.responsestrategies.EnvironmentChangeResponseStrategy;
 import net.sourceforge.cilib.pso.dynamic.responsestrategies.PartialReinitialisationResponseStrategy;
@@ -41,7 +41,7 @@ public abstract class HigherLevelDynamicIterationStrategy<E extends MultiPopulat
      */
     public HigherLevelDynamicIterationStrategy() {
         this.iterationStrategy = new SynchronousIterationStrategy();
-        this.detectionStrategy = new MOORandomSentriesDetectionStrategy();
+        this.detectionStrategy = new MOORandomArchiveSentriesDetectionStrategy();
         this.responseStrategy = new PartialReinitialisationResponseStrategy();
         this.archiveResponseStrategy = new ArchiveReevaluationResponseStrategy();
     }
