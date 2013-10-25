@@ -26,7 +26,6 @@ public class DataPatternInitialisationStrategyTest {
         SlidingWindow window = new SlidingWindow();
         window.setWindowSize(3);
         window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
-        window.initialiseWindow();
         DataTable table = window.getCurrentDataset();
 
         ClusterParticle particle  = new ClusterParticle();
@@ -51,7 +50,6 @@ public class DataPatternInitialisationStrategyTest {
         SlidingWindow window = new SlidingWindow();
         window.setWindowSize(3);
         window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
-        window.initialiseWindow();
         DataTable table = window.getCurrentDataset();
 
         DataPatternInitialisationStrategy strategy = new DataPatternInitialisationStrategy();
@@ -68,7 +66,6 @@ public class DataPatternInitialisationStrategyTest {
         SlidingWindow window = new SlidingWindow();
         window.setWindowSize(3);
         window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
-        window.initialiseWindow();
         DataTable table = window.getCurrentDataset();
 
         DataPatternInitialisationStrategy strategy = new DataPatternInitialisationStrategy();

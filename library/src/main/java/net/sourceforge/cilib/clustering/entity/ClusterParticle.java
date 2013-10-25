@@ -81,9 +81,7 @@ public class ClusterParticle extends AbstractParticle{
     @Override
     public void calculateFitness() {
 
-        EntityBasedFitnessCalculator f = new EntityBasedFitnessCalculator();
-        Fitness fitness = f.getFitness(this);
-        this.getProperties().put(EntityType.FITNESS, fitness);
+        super.calculateFitness();
         this.personalBestUpdateStrategy.updatePersonalBest(this);
     }
 

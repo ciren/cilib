@@ -62,7 +62,6 @@ public class CooperativeMultiswarmIterationStrategy extends AbstractCooperativeI
         int populationIndex = 0;
         
         for(SinglePopulationBasedAlgorithm currentAlgorithm : algorithm.getPopulations()) {
-                table = ((SinglePopulationDataClusteringIterationStrategy) ((DataClusteringPSO) currentAlgorithm).getIterationStrategy()).getDataset();
 
                 if(!contextinitialised) {
                     ((DataClusteringPSO) currentAlgorithm).setIsExplorer(true);
@@ -72,8 +71,6 @@ public class CooperativeMultiswarmIterationStrategy extends AbstractCooperativeI
 
                 if(!((DataClusteringPSO) currentAlgorithm).isExplorer()) {
                     for(ClusterParticle particle : ((DataClusteringPSO) currentAlgorithm).getTopology()) {
-                        clearDataPatterns(contextParticle);
-                        assignDataPatternsToParticle((CentroidHolder) contextParticle.getCandidateSolution(), table);
                         contextParticle.calculateFitness();
 
                         ClusterParticle particleWithContext = new ClusterParticle();
@@ -86,8 +83,6 @@ public class CooperativeMultiswarmIterationStrategy extends AbstractCooperativeI
                         particleWithContext.getProperties().put(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER, particle.getProperties().get(EntityType.Particle.Count.PBEST_STAGNATION_COUNTER).getClone());
                         particleWithContext.setCentroidInitialisationStrategy(particle.getCentroidInitialisationStrategyCandidate().getClone());
 
-                        clearDataPatterns(particleWithContext);
-                        assignDataPatternsToParticle((CentroidHolder) particleWithContext.getCandidateSolution(), table);
                         particleWithContext.calculateFitness();
 
                         if(particleWithContext.getFitness().compareTo(particleWithContext.getBestFitness()) > 0) {

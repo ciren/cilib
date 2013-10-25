@@ -50,11 +50,10 @@ public class DataDependantPopulationInitialisationStrategyTest {
         QuantisationErrorMinimisationProblem problem = new QuantisationErrorMinimisationProblem();
         problem.setDomain("R(-5:5)");
         problem.setNumberOfClusters(3);
-        problem.setDimension(4);
         SlidingWindow window = new SlidingWindow();
         window.setWindowSize(3);
         window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
-        window.initialiseWindow();
+        problem.setWindow(window);
         DataTable table = window.getCurrentDataset();
 
         DataDependantPopulationInitialisationStrategy instance = new DataDependantPopulationInitialisationStrategy();
@@ -137,7 +136,6 @@ public class DataDependantPopulationInitialisationStrategyTest {
         SlidingWindow window = new SlidingWindow();
         window.setWindowSize(3);
         window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
-        window.initialiseWindow();
         DataTable table = window.getCurrentDataset();
 
         DataDependantPopulationInitialisationStrategy instance = new DataDependantPopulationInitialisationStrategy();
@@ -166,7 +164,6 @@ public class DataDependantPopulationInitialisationStrategyTest {
         SlidingWindow window = new SlidingWindow();
         window.setWindowSize(3);
         window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
-        window.initialiseWindow();
         DataTable table = window.getCurrentDataset();
 
         DataDependantPopulationInitialisationStrategy instance = new DataDependantPopulationInitialisationStrategy();

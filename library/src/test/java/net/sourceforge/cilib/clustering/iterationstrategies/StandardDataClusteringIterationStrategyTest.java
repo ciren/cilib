@@ -10,6 +10,7 @@ import junit.framework.Assert;
 import net.sourceforge.cilib.algorithm.initialisation.DataDependantPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
+import net.sourceforge.cilib.clustering.SlidingWindow;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
 import net.sourceforge.cilib.problem.QuantisationErrorMinimisationProblem;
 import net.sourceforge.cilib.problem.boundaryconstraint.CentroidBoundaryConstraint;
@@ -26,7 +27,10 @@ public class StandardDataClusteringIterationStrategyTest {
     public void testPerformIteration() {
         DataClusteringPSO instance = new DataClusteringPSO();
 
+        SlidingWindow window = new SlidingWindow();
+        window.setSourceURL("library/src/test/resources/datasets/iris2.arff");
         QuantisationErrorMinimisationProblem problem = new QuantisationErrorMinimisationProblem();
+        problem.setWindow(window);
         problem.setDomain("R(-5.12:5.12)");
         IterationStrategy strategy = new StandardDataClusteringIterationStrategy();
         CentroidBoundaryConstraint constraint = new CentroidBoundaryConstraint();
@@ -39,7 +43,6 @@ public class StandardDataClusteringIterationStrategyTest {
         init.setEntityType(new ClusterParticle());
         init.setEntityNumber(2);
         instance.setInitialisationStrategy(init);
-        instance.setSourceURL("library/src/test/resources/datasets/iris2.arff");
 
         instance.setOptimisationProblem(problem);
         instance.addStoppingCondition(new MeasuredStoppingCondition());

@@ -60,39 +60,15 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
     @Override
     public void performIteration(DataClusteringPSO algorithm) {
         fj.data.List<ClusterParticle> topology = algorithm.getTopology();
-        double euclideanDistance;
-        Vector addedPattern;
-        clearCentroidDistanceValues(topology);
         reinitialised = false;
-        Vector pattern;
 
         for(ClusterParticle particle : topology) {
-            CentroidHolder candidateSolution = (CentroidHolder) particle.getCandidateSolution();
-            for(int i = 0; i < dataset.size(); i++) {
-                euclideanDistance = Double.POSITIVE_INFINITY;
-                addedPattern = Vector.of();
-                pattern = ((StandardPattern) dataset.getRow(i)).getVector();
-                int centroidIndex = 0;
-                int patternIndex = 0;
-                for(ClusterCentroid centroid : candidateSolution) {
-                    if(distanceMeasure.distance(centroid.toVector(), pattern) < euclideanDistance) {
-                        euclideanDistance = distanceMeasure.distance(centroid.toVector(), pattern);
-                        addedPattern = Vector.copyOf(pattern);
-                        patternIndex = centroidIndex;
-                    }
-                    centroidIndex++;
-                }
-
-                candidateSolution.get(patternIndex).addDataItem(euclideanDistance, addedPattern);
-            }
-
-            particle.setCandidateSolution(candidateSolution);
-
-            particle.calculateFitness();
             particle.updateVelocity();
             particle.updatePosition();
 
             boundaryConstraint.enforce(particle);
+
+            particle.calculateFitness();
         }
 
         for (ClusterParticle current : topology) {
@@ -102,25 +78,5 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
                 }
             }
         }
-
-        dataset = window.slideWindow();
-
     }
-
-    /*
-     * Removes all data items assigned to each centroid in each particle in the topology
-     * @param topology The topology whose centroids need to be cleaned
-     */
-    private void clearCentroidDistanceValues(fj.data.List<ClusterParticle> topology) {
-        CentroidHolder candidateSolution;
-        for(ClusterParticle particle : topology) {
-            candidateSolution = (CentroidHolder) particle.getCandidateSolution();
-
-            for(ClusterCentroid centroid : candidateSolution) {
-                centroid.clearDataItems();
-            }
-        }
-    }
-
-
 }
