@@ -21,14 +21,13 @@
     	                    <localGuideProvider class="pso.guideprovider.PBestGuideProvider"/>
                         </velocityProvider>
 	                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+        	            <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
 	                </behaviour>
 	                <neighbourhoodBestUpdateStrategy class="pso.positionprovider.RelaxedNonDominatedNeighbourhoodBestUpdateStrategy"/>
 	                <personalBestUpdateStrategy class="pso.pbestupdate.MOOStandardPersonalBestUpdateStrategy"/>
                 </entityType>
 	        </initialisationStrategy>
-            <iterationStrategy class="pso.iterationstrategies.moo.RelaxedNonDominatedMOOSynchronousIterationStrategy">
-	            <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>               
-            </iterationStrategy>
+            <iterationStrategy class="pso.iterationstrategies.moo.RelaxedNonDominatedMOOSynchronousIterationStrategy"/>
         </algorithm>
 
         <algorithm id="dvepso-default2obj" class="algorithm.population.RespondingMultiPopulationCriterionBasedAlgorithm">

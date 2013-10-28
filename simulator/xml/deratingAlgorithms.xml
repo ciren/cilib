@@ -14,18 +14,26 @@
             <mainSwarm class="pso.PSO">
                 <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="500"/>
 
-                <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
-                    <boundaryConstraint class="problem.boundaryconstraint.ReinitialisationBoundary"/>
-                </iterationStrategy>
+                <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                    <entityType class="pso.particle.StandardParticle">
+                        <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                            <boundaryConstraint class="problem.boundaryconstraint.ReinitialisationBoundary"/>
+                        </behaviour>
+                    </entityType>
+                </initialisationStrategy>
+
+                <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy"/>
             </mainSwarm>
 
             <!-- Set the subswarm type and behavior here -->
             <nicheCreator class="niching.creation.ClosestNeighbourNicheCreationStrategy">
                 <swarmType class="pso.PSO">
-                    <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
-                        <boundaryConstraint class="problem.boundaryconstraint.ReinitialisationBoundary"/>
-                    </iterationStrategy>
+                    <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy"/>
                 </swarmType>
+
+                <swarmBehavior class="pso.behaviour.StandardParticleBehaviour">
+                    <boundaryConstraint class="problem.boundaryconstraint.ReinitialisationBoundary"/>
+                </swarmBehavior>
             </nicheCreator>
 
             <nicheDetector class="niching.creation.MaintainedFitnessNicheDetection">

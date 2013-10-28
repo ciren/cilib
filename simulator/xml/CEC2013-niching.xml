@@ -17,22 +17,19 @@
                                 <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
                                 <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.2"/>
                             </velocityProvider>
+                            <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
                         </behaviour>
                         <velocityInitialisationStrategy class="entity.initialisation.RandomInitialisationStrategy"/>
                     </entityType>
                     <entityNumber value="30"/>
                 </initialisationStrategy>
 
-                <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
-                    <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
-                </iterationStrategy>
+                <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy"/>
             </mainSwarm>
 
             <nicheCreator class="niching.creation.ClosestNeighbourNicheCreationStrategy">
                 <swarmType class="pso.PSO">
-                    <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
-                        <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
-                    </iterationStrategy>
+                    <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy"/>
                 </swarmType>
 
                 <swarmBehavior class="pso.behaviour.StandardParticleBehaviour">
@@ -47,6 +44,7 @@
                             </delegate>
                         </delegate>
                     </velocityProvider>
+                    <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
                 </swarmBehavior>
             </nicheCreator>
 
