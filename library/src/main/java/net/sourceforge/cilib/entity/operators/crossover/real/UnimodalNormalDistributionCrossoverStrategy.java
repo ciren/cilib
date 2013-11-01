@@ -120,11 +120,11 @@ public class UnimodalNormalDistributionCrossoverStrategy implements CrossoverStr
 
             // create the remaining basis vectors
             fj.data.List<Vector> e_eta = fj.data.List.nil();
-            e_eta.snoc(solutions.get(k - 1).subtract(g));
+            e_eta = e_eta.snoc(solutions.get(k - 1).subtract(g));
 
             for (int i = 0; i < n - e_zeta.size() - 1; i++) {
                 Vector d = Vector.newBuilder().copyOf(g).buildRandom();
-                e_eta.snoc(d);
+                e_eta = e_eta.snoc(d);
             }
 
             e_eta = Vectors.orthonormalize(fj.data.List.iterableList(e_eta));
