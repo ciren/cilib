@@ -72,13 +72,15 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
             dataTableBuilder.addDataOperator(patternConversionOperator);
             dataTableBuilder.buildDataTable();
             dataTable = dataTableBuilder.getDataTable();
-
-            int trainingSize = (int)(windowSize * trainingSetPercentage);
-            int generalisationSize = windowSize - trainingSize;
+            
+            int trainingSize = (int) (windowSize * trainingSetPercentage);
+            int validationSize = (int) (windowSize * validationSetPercentage);
+            int generalisationSize = windowSize - trainingSize - validationSize;
 
             StandardPatternDataTable candidateSet = new StandardPatternDataTable();
             trainingSet = new StandardPatternDataTable();
             generalisationSet = new StandardPatternDataTable();
+            validationSet = new StandardPatternDataTable();
 
             for (int i = 0; i < windowSize; i++) { // fetch patterns to fill the initial window
                 candidateSet.addRow((StandardPattern) dataTable.removeRow(0));
@@ -87,13 +89,16 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
             ShuffleOperator initialShuffler = new ShuffleOperator();
             initialShuffler.operate(candidateSet);
 
-
             for (int i = 0; i < trainingSize; i++) {
-                trainingSet.addRow((StandardPattern) candidateSet.getRow(i));
+                trainingSet.addRow((StandardPattern) dataTable.getRow(i));
             }
 
-            for (int i = trainingSize; i < generalisationSize + trainingSize; i++) {
-                generalisationSet.addRow((StandardPattern) candidateSet.getRow(i));
+            for (int i = trainingSize; i < validationSize + trainingSize; i++) {
+                validationSet.addRow((StandardPattern) dataTable.getRow(i));
+            }
+
+            for (int i = validationSize + trainingSize; i < generalisationSize + validationSize + trainingSize; i++) {
+                generalisationSet.addRow((StandardPattern) dataTable.getRow(i));
             }
 
             neuralNetwork.initialise();
@@ -148,11 +153,17 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
                 initialShuffler.operate(candidateSet);
 
                 int trainingStepSize = (int)(stepSize * trainingSetPercentage);
-                int generalisationStepSize = stepSize - trainingStepSize;
+                int validationStepSize = (int)(stepSize * validationSetPercentage);
+                int generalisationStepSize = stepSize - trainingStepSize - validationStepSize;
 
                 for (int t = 0; t < trainingStepSize; t++){
                     trainingSet.removeRow(0);
                     trainingSet.addRow(candidateSet.removeRow(0));
+                }
+
+                for (int t = 0; t < validationStepSize; t++){
+                    validationSet.removeRow(0);
+                    validationSet.addRow(candidateSet.removeRow(0));
                 }
 
                 for (int t = 0; t < generalisationStepSize; t++){
