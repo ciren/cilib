@@ -90,15 +90,15 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
             initialShuffler.operate(candidateSet);
 
             for (int i = 0; i < trainingSize; i++) {
-                trainingSet.addRow((StandardPattern) dataTable.getRow(i));
+                trainingSet.addRow((StandardPattern) candidateSet.getRow(i));
             }
 
             for (int i = trainingSize; i < validationSize + trainingSize; i++) {
-                validationSet.addRow((StandardPattern) dataTable.getRow(i));
+                validationSet.addRow((StandardPattern) candidateSet.getRow(i));
             }
 
             for (int i = validationSize + trainingSize; i < generalisationSize + validationSize + trainingSize; i++) {
-                generalisationSet.addRow((StandardPattern) dataTable.getRow(i));
+                generalisationSet.addRow((StandardPattern) candidateSet.getRow(i));
             }
 
             neuralNetwork.initialise();
