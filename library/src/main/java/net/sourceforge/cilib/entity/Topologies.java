@@ -56,6 +56,24 @@ public final class Topologies {
     }
 
     /**
+     * Gather the best entity of each neighbourhood (in this {@link Topology}) in a
+     * {@link Set} (duplicates are not allowed) and return them. A single {@link Entity} may
+     * dominate in more than one neighbourhood, but we just want unique entities.
+     */
+    public static <T extends Entity> Set<T> getNicheBestEntities(List<T> p, Neighbourhood<E> neighbourhood, Comparator<? super T> c) {
+        Set<E> nBests = new LinkedHashSet<E>(p.length());
+
+        for (E e : p) {
+            E best = getBestEntity(p.niche(e), c);
+            if (best != null) {
+                nBests.add(best);
+            }
+        }
+
+        return nBests;
+    }
+
+    /**
      * Returns the current best entity from a given topology based on the current
      * fitness of the entities.
      */

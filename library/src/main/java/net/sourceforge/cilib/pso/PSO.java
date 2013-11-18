@@ -120,7 +120,11 @@ public class PSO extends SinglePopulationBasedAlgorithm<Particle> {
     @Override
     public List<OptimisationSolution> getSolutions() {
         List<OptimisationSolution> solutions = Lists.newLinkedList();
+/*<<<<<<< HEAD
         for (Particle e : Topologies.getNeighbourhoodBestEntities(topology, neighbourhood, new SocialBestFitnessComparator<Particle>())) {
+=======*/
+        for (Particle e : Topologies.getNicheBestEntities(topology, new SocialBestFitnessComparator<Particle>())) {
+//>>>>>>> Refactored the getSolutions method in PSO as well as related topology implementations.
             solutions.add(new OptimisationSolution(e.getBestPosition(), e.getBestFitness()));
         }
         return solutions;
