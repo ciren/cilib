@@ -24,8 +24,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class MSEValidationError implements Measurement {
 
-    private static final long serialVersionUID = -1014032196750640716L;
-
     /**
      * {@inheritDoc }
      */
