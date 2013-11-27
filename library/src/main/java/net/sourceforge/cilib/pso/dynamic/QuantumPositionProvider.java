@@ -72,7 +72,7 @@ public class QuantumPositionProvider implements PositionProvider {
             //This ensures that the quantum particles are placed randomly within the
             //multidimensional sphere determined by the quantum radius.
 
-            this.nucleus = (Vector) AbstractAlgorithm.get().getBestSolution().getPosition();
+            this.nucleus = (Vector) particle.getGlobalGuide();
 
             double distance = Math.pow(this.radius.getParameter(), 2); //square of the radius
             int dimensions = particle.getDimension();
@@ -88,7 +88,7 @@ public class QuantumPositionProvider implements PositionProvider {
             }//if
             //deals with first dimension
             Vector.Builder builder = Vector.newBuilder();
-            builder.add(this.nucleus.doubleValueOf(0) + sign * this.randomiser.getRandomNumber(0, Math.sqrt(pieces[0])));
+            builder.addWithin(this.nucleus.doubleValueOf(0) + sign * this.randomiser.getRandomNumber(0, Math.sqrt(pieces[0])), this.nucleus.boundsOf(0));
             //deals with the other dimensions
             for (int i = 1; i < dimensions; i++) {
                 sign = 1;
@@ -98,7 +98,7 @@ public class QuantumPositionProvider implements PositionProvider {
                 double rad = Math.sqrt(pieces[i] - pieces[i - 1]);
                 double dis = this.randomiser.getRandomNumber(0, rad);
                 double newpos = this.nucleus.doubleValueOf(i) + sign * dis;
-                builder.add(newpos);
+                builder.addWithin(newpos, this.nucleus.boundsOf(i));
             }//for
             return builder.build();
         }//else

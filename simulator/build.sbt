@@ -10,6 +10,8 @@ scalacOptions += "-deprecation"
 
 parallelExecution in Test := false
 
+test in assembly := {}
+
 mainClass := Some("net.sourceforge.cilib.simulator.Main")
 
 libraryDependencies ++= Seq(
