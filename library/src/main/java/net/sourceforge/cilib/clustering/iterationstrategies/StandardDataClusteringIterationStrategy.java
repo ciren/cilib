@@ -8,7 +8,10 @@ package net.sourceforge.cilib.clustering.iterationstrategies;
 
 import net.sourceforge.cilib.clustering.DataClusteringPSO;
 import net.sourceforge.cilib.clustering.entity.ClusterParticle;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
 import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -89,9 +92,9 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
             particle.setCandidateSolution(candidateSolution);
 
             particle.calculateFitness();
-            particle.updateVelocity();
-            particle.updatePosition();
 
+            particle.updateVelocity(particle.getVelocityProvider().get(particle));
+            particle.updatePosition(particle.getPositionProvider().get(particle));
             boundaryConstraint.enforce(particle);
         }
 

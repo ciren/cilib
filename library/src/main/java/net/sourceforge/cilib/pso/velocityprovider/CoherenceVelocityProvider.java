@@ -85,7 +85,7 @@ public class CoherenceVelocityProvider implements VelocityProvider {
 
         double sigmoidValue = this.sigmoid.f(swarmCoherence);
 
-        Vector standardVelocity = this.delegate.get(particle);
+        Vector standardVelocity = (Vector) this.delegate.get(particle);
 
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {

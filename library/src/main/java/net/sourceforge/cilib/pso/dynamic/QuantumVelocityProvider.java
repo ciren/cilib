@@ -9,7 +9,7 @@ package net.sourceforge.cilib.pso.dynamic;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
  * VelocityProvider for QSO (Quantum PSO). Implemented according
@@ -52,12 +52,12 @@ public class QuantumVelocityProvider implements VelocityProvider {
      * @param particle the particle to update position of
      */
     @Override
-    public Vector get(Particle particle) {
+    public StructuredType get(Particle particle) {
         ChargedParticle checkChargeParticle = (ChargedParticle) particle;
         if (checkChargeParticle.getCharge() < EPSILON) {    // the particle is neutral
             return this.delegate.get(particle);
         }
-        return (Vector) particle.getVelocity().getClone();
+        return particle.getVelocity().getClone();
     }
 
         public void setDelegate(VelocityProvider delegate) {

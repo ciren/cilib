@@ -8,7 +8,7 @@ package net.sourceforge.cilib.pso.velocityprovider;
 
 
 import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -27,5 +27,5 @@ public interface VelocityProvider extends Cloneable {
      * Perform the velocity update operation on the specified <tt>Particle</tt>.
      * @param particle The <tt>Particle</tt> to apply the operation on.
      */
-    Vector get(Particle particle);
+    StructuredType get(Particle particle);
 }
