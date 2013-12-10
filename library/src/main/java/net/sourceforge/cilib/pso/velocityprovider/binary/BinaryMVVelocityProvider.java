@@ -11,6 +11,9 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.math.random.generator.Rand;
+import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.PBestGuideProvider;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.type.types.Blackboard;
@@ -39,6 +42,9 @@ public final class BinaryMVVelocityProvider implements VelocityProvider {
     protected ControlParameter inertiaWeight;
     protected ControlParameter c1;
     protected ControlParameter c2;
+    
+    private GuideProvider globalGuideProvider;
+    private GuideProvider localGuideProvider;
 
     public BinaryMVVelocityProvider() {
         this(ConstantControlParameter.of(0.729844),
@@ -50,12 +56,17 @@ public final class BinaryMVVelocityProvider implements VelocityProvider {
         this.inertiaWeight = inertia;
         this.c1 = c1;
         this.c2 = c2;
+        
+        this.globalGuideProvider = new NBestGuideProvider();
+        this.localGuideProvider = new PBestGuideProvider();
     }
 
     public BinaryMVVelocityProvider(BinaryMVVelocityProvider copy) {
         this.inertiaWeight = copy.inertiaWeight.getClone();
         this.c1 = copy.c1.getClone();
         this.c2 = copy.c2.getClone();
+        this.globalGuideProvider = copy.globalGuideProvider.getClone();
+        this.localGuideProvider = copy.localGuideProvider.getClone();
     }
 
     /**
@@ -82,8 +93,8 @@ public final class BinaryMVVelocityProvider implements VelocityProvider {
         Vector v1 = (Vector) properties.get(Velocity.V1);
 
         // get local and global bests
-        Vector pbest = (Vector) particle.getLocalGuide();
-        Vector gbest = (Vector) particle.getGlobalGuide();
+        Vector pbest = (Vector) localGuideProvider.get(particle);
+        Vector gbest = (Vector) globalGuideProvider.get(particle);
 
         // update both velocities (v0 and v1)
         Vector.Builder dp0 = Vector.newBuilder();
@@ -193,5 +204,21 @@ public final class BinaryMVVelocityProvider implements VelocityProvider {
      */
     public void c2(ControlParameter c2) {
         this.c2 = c2;
+    }
+
+    /**
+     * Sets the GuideProvider responsible for retrieving a particle's global guide.
+     * @param globalGuideProvider The guide provider to set.
+     */
+    public void setGlobalGuideProvider(GuideProvider globalGuideProvider) {
+        this.globalGuideProvider = globalGuideProvider;
+    }
+
+    /**
+     * Sets the GuideProvider responsible for retrieving a particle's local guide.
+     * @param localGuideProvider The guide provider to set.
+     */
+    public void setLocalGuideProvider(GuideProvider localGuideProvider) {
+        this.localGuideProvider = localGuideProvider;
     }
 }

@@ -15,6 +15,8 @@ import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -61,6 +63,8 @@ public class GCVelocityProvider implements VelocityProvider {
     private Fitness oldFitness;
     private ControlParameter rhoExpandCoefficient;
     private ControlParameter rhoContractCoefficient;
+    
+    private GuideProvider globalGuideProvider;
 
     /**
      * Create an instance of the GC Velocity Update strategy.
@@ -81,6 +85,8 @@ public class GCVelocityProvider implements VelocityProvider {
         this.oldFitness = InferiorFitness.instance();
         this.rhoExpandCoefficient = ConstantControlParameter.of(1.2);
         this.rhoContractCoefficient = ConstantControlParameter.of(0.5);
+        
+        this.globalGuideProvider = new NBestGuideProvider();
     }
 
     /**
@@ -102,6 +108,8 @@ public class GCVelocityProvider implements VelocityProvider {
         this.oldFitness = copy.oldFitness.getClone();
         this.rhoExpandCoefficient = copy.rhoExpandCoefficient.getClone();
         this.rhoContractCoefficient = copy.rhoContractCoefficient.getClone();
+        
+        this.globalGuideProvider = copy.globalGuideProvider.getClone();
     }
 
     /**
@@ -124,7 +132,7 @@ public class GCVelocityProvider implements VelocityProvider {
         if (particle == globalBest) {
             final Vector velocity = (Vector) particle.getVelocity();
             final Vector position = (Vector) particle.getPosition();
-            final Vector globalGuide = (Vector) particle.getGlobalGuide();
+            final Vector globalGuide = (Vector) globalGuideProvider.get(particle);
 
             Vector.Builder builder = Vector.newBuilder();
             for (int i = 0; i < velocity.size(); ++i) {

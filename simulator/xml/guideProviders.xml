@@ -9,10 +9,10 @@
         <algorithm id="gbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <globalGuideProvider class="pso.guideprovider.GBestGuideProvider"/>
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                         <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="0.0"/>
                         <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.0"/>
+                        <globalGuideProvider class="pso.guideprovider.GBestGuideProvider"/>
                     </velocityProvider>
                 </entityType>
             </initialisationStrategy>
@@ -22,12 +22,14 @@
         <algorithm id="weighted" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <globalGuideProvider class="pso.guideprovider.WeightedGuideProvider">
-                        <c1 class="controlparameter.ConstantControlParameter" parameter="1.0"/>
-                        <c2 class="controlparameter.ConstantControlParameter" parameter="2.0"/>
-                        <component1 class="pso.guideprovider.PBestGuideProvider"/>
-                        <component2 class="pso.guideprovider.GBestGuideProvider"/>
-                    </globalGuideProvider>
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+		                <globalGuideProvider class="pso.guideprovider.WeightedGuideProvider">
+		                    <c1 class="controlparameter.ConstantControlParameter" parameter="1.0"/>
+		                    <c2 class="controlparameter.ConstantControlParameter" parameter="2.0"/>
+		                    <component1 class="pso.guideprovider.PBestGuideProvider"/>
+		                    <component2 class="pso.guideprovider.GBestGuideProvider"/>
+		                </globalGuideProvider>
+                    </velocityProvider>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
@@ -36,13 +38,15 @@
         <algorithm id="xover-pbest-pos" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <globalGuideProvider class="pso.guideprovider.AlternateCrossoverGuideProvider">
-                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy">
-                            <crossoverPointProbabilityParameter class="controlparameter.ConstantControlParameter" parameter="0.5"/>
-                        </crossoverStrategy>
-                        <parent1 class="pso.guideprovider.PBestGuideProvider"/>
-                        <parent2 class="pso.guideprovider.CurrentPositionGuideProvider"/>
-                    </globalGuideProvider>
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+		                <globalGuideProvider class="pso.guideprovider.AlternateCrossoverGuideProvider">
+		                    <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy">
+		                        <crossoverPointProbabilityParameter class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+		                    </crossoverStrategy>
+		                    <parent1 class="pso.guideprovider.PBestGuideProvider"/>
+		                    <parent2 class="pso.guideprovider.CurrentPositionGuideProvider"/>
+		                </globalGuideProvider>
+                    </velocityProvider>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
@@ -51,13 +55,15 @@
         <algorithm id="xover-gbest-pos" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <globalGuideProvider class="pso.guideprovider.AlternateCrossoverGuideProvider">
-                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy">
-                            <crossoverPointProbabilityParameter class="controlparameter.ConstantControlParameter" parameter="0.5"/>
-                        </crossoverStrategy>
-                        <parent1 class="pso.guideprovider.GBestGuideProvider"/>
-                        <parent2 class="pso.guideprovider.CurrentPositionGuideProvider"/>
-                    </globalGuideProvider>
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+		                <globalGuideProvider class="pso.guideprovider.AlternateCrossoverGuideProvider">
+		                    <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy">
+		                        <crossoverPointProbabilityParameter class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+		                    </crossoverStrategy>
+		                    <parent1 class="pso.guideprovider.GBestGuideProvider"/>
+		                    <parent2 class="pso.guideprovider.CurrentPositionGuideProvider"/>
+		                </globalGuideProvider>
+                    </velocityProvider>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
@@ -66,13 +72,15 @@
         <algorithm id="xover-gbest-pbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <globalGuideProvider class="pso.guideprovider.AlternateCrossoverGuideProvider">
-                        <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy">
-                            <crossoverPointProbabilityParameter class="controlparameter.ConstantControlParameter" parameter="0.5"/>
-                        </crossoverStrategy>
-                        <parent1 class="pso.guideprovider.GBestGuideProvider"/>
-                        <parent2 class="pso.guideprovider.PBestGuideProvider"/>
-                    </globalGuideProvider>
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+		                <globalGuideProvider class="pso.guideprovider.AlternateCrossoverGuideProvider">
+		                    <crossoverStrategy class="entity.operators.crossover.UniformCrossoverStrategy">
+		                        <crossoverPointProbabilityParameter class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+		                    </crossoverStrategy>
+		                    <parent1 class="pso.guideprovider.GBestGuideProvider"/>
+		                    <parent2 class="pso.guideprovider.PBestGuideProvider"/>
+		                </globalGuideProvider>
+                    </velocityProvider>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
@@ -81,11 +89,13 @@
         <algorithm id="selection-tournament-perEntity-pos" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
-                        <selector class="util.selection.recipes.TournamentSelector"/>
-                        <component class="pso.guideprovider.CurrentPositionGuideProvider"/>
-                        <perDimension value="false"/>
-                    </globalGuideProvider>
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+		                <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
+		                    <selector class="util.selection.recipes.TournamentSelector"/>
+		                    <component class="pso.guideprovider.CurrentPositionGuideProvider"/>
+		                    <perDimension value="false"/>
+		                </globalGuideProvider>
+                    </velocityProvider>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
@@ -94,11 +104,13 @@
         <algorithm id="selection-tournament-perEntity-pbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
-                        <selector class="util.selection.recipes.TournamentSelector"/>
-                        <component class="pso.guideprovider.PBestGuideProvider"/>
-                        <perDimension value="false"/>
-                    </globalGuideProvider>
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+		                <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
+		                    <selector class="util.selection.recipes.TournamentSelector"/>
+		                    <component class="pso.guideprovider.PBestGuideProvider"/>
+		                    <perDimension value="false"/>
+		                </globalGuideProvider>
+                    </velocityProvider>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
@@ -107,11 +119,13 @@
         <algorithm id="selection-tournament-perDimension-pos" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
-                        <selector class="util.selection.recipes.TournamentSelector"/>
-                        <component class="pso.guideprovider.CurrentPositionGuideProvider"/>
-                        <perDimension value="true"/>
-                    </globalGuideProvider>
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+		                <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
+		                    <selector class="util.selection.recipes.TournamentSelector"/>
+		                    <component class="pso.guideprovider.CurrentPositionGuideProvider"/>
+		                    <perDimension value="true"/>
+		                </globalGuideProvider>
+                    </velocityProvider>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
@@ -120,11 +134,13 @@
         <algorithm id="selection-tournament-perDimension-pbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
-                        <selector class="util.selection.recipes.TournamentSelector"/>
-                        <component class="pso.guideprovider.PBestGuideProvider"/>
-                        <perDimension value="true"/>
-                    </globalGuideProvider>
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+		                <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
+		                    <selector class="util.selection.recipes.TournamentSelector"/>
+		                    <component class="pso.guideprovider.PBestGuideProvider"/>
+		                    <perDimension value="true"/>
+		                </globalGuideProvider>
+                    </velocityProvider>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
@@ -133,11 +149,13 @@
         <algorithm id="selection-roulette-perEntity-pos" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
-                        <selector class="util.selection.recipes.RouletteWheelSelector"/>
-                        <component class="pso.guideprovider.CurrentPositionGuideProvider"/>
-                        <perDimension value="false"/>
-                    </globalGuideProvider>
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+		                <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
+		                    <selector class="util.selection.recipes.RouletteWheelSelector"/>
+		                    <component class="pso.guideprovider.CurrentPositionGuideProvider"/>
+		                    <perDimension value="false"/>
+		                </globalGuideProvider>
+                    </velocityProvider>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
@@ -146,11 +164,13 @@
         <algorithm id="selection-roulette-perEntity-pbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
-                        <selector class="util.selection.recipes.RouletteWheelSelector"/>
-                        <component class="pso.guideprovider.PBestGuideProvider"/>
-                        <perDimension value="false"/>
-                    </globalGuideProvider>
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+		                <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
+		                    <selector class="util.selection.recipes.RouletteWheelSelector"/>
+		                    <component class="pso.guideprovider.PBestGuideProvider"/>
+		                    <perDimension value="false"/>
+		                </globalGuideProvider>
+                    </velocityProvider>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
@@ -159,11 +179,13 @@
         <algorithm id="selection-roulette-perDimension-pos" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
-                        <selector class="util.selection.recipes.RouletteWheelSelector"/>
-                        <component class="pso.guideprovider.CurrentPositionGuideProvider"/>
-                        <perDimension value="true"/>
-                    </globalGuideProvider>
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+		                <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
+		                    <selector class="util.selection.recipes.RouletteWheelSelector"/>
+		                    <component class="pso.guideprovider.CurrentPositionGuideProvider"/>
+		                    <perDimension value="true"/>
+		                </globalGuideProvider>
+                    </velocityProvider>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
@@ -172,11 +194,13 @@
         <algorithm id="selection-roulette-perDimension-pbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
-                        <selector class="util.selection.recipes.RouletteWheelSelector"/>
-                        <component class="pso.guideprovider.PBestGuideProvider"/>
-                        <perDimension value="true"/>
-                    </globalGuideProvider>
+                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+		                <globalGuideProvider class="pso.guideprovider.SelectionGuideProvider">
+		                    <selector class="util.selection.recipes.RouletteWheelSelector"/>
+		                    <component class="pso.guideprovider.PBestGuideProvider"/>
+		                    <perDimension value="true"/>
+		                </globalGuideProvider>
+                    </velocityProvider>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>

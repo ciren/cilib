@@ -9,6 +9,8 @@ package net.sourceforge.cilib.pso.velocityprovider;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.random.generator.Rand;
+import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -30,6 +32,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public final class PredatorVelocityProvider implements VelocityProvider {
     protected ControlParameter acceleration;
+    
+    private GuideProvider globalGuideProvider;
 
     public PredatorVelocityProvider() {
         this(ConstantControlParameter.of(4.1));
@@ -37,6 +41,8 @@ public final class PredatorVelocityProvider implements VelocityProvider {
 
     public PredatorVelocityProvider(ControlParameter acceleration) {
         this.acceleration = acceleration;
+        
+        this.globalGuideProvider = new NBestGuideProvider();
     }
 
     /**
@@ -45,6 +51,7 @@ public final class PredatorVelocityProvider implements VelocityProvider {
      */
     public PredatorVelocityProvider(PredatorVelocityProvider copy) {
         this.acceleration = copy.acceleration.getClone();
+       this.globalGuideProvider = copy.globalGuideProvider.getClone();
     }
 
     /**
@@ -61,7 +68,7 @@ public final class PredatorVelocityProvider implements VelocityProvider {
     @Override
     public Vector get(Particle particle) {
         Vector position = (Vector) particle.getPosition();
-        Vector globalGuide = (Vector) particle.getGlobalGuide();
+        Vector globalGuide = (Vector) globalGuideProvider.get(particle);
 
         double phi4 = acceleration.getParameter() * Rand.nextDouble();
         return globalGuide.subtract(position).multiply(phi4);
@@ -85,5 +92,13 @@ public final class PredatorVelocityProvider implements VelocityProvider {
      */
     public void setAcceleration(ControlParameter acceleration) {
         this.acceleration = acceleration;
+    }
+
+    /**
+     * Sets the GuideProvider responsible for retrieving a particle's global guide.
+     * @param globalGuideProvider The guide provider to set.
+     */
+    public void setGlobalGuideProvider(GuideProvider globalGuideProvider) {
+        this.globalGuideProvider = globalGuideProvider;
     }
 }

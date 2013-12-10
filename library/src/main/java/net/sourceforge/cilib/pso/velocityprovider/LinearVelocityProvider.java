@@ -10,6 +10,9 @@ package net.sourceforge.cilib.pso.velocityprovider;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.random.generator.Rand;
+import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.PBestGuideProvider;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -25,6 +28,9 @@ public class LinearVelocityProvider implements VelocityProvider {
     protected ControlParameter inertiaWeight;
     protected ControlParameter socialAcceleration;
     protected ControlParameter cognitiveAcceleration;
+    
+    private GuideProvider globalGuideProvider;
+    private GuideProvider localGuideProvider;
 
     /**
      * Create an instance of {@linkplain LinearVelocityProvider}.
@@ -35,12 +41,17 @@ public class LinearVelocityProvider implements VelocityProvider {
         this.inertiaWeight = ConstantControlParameter.of(0.729844);
         this.socialAcceleration = ConstantControlParameter.of(1.496180);
         this.cognitiveAcceleration = ConstantControlParameter.of(1.496180);
+        
+        this.globalGuideProvider = new NBestGuideProvider();
+        this.localGuideProvider = new PBestGuideProvider();
     }
 
     public LinearVelocityProvider(LinearVelocityProvider copy) {
         this.inertiaWeight = copy.inertiaWeight.getClone();
         this.socialAcceleration = copy.socialAcceleration.getClone();
         this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
+        this.globalGuideProvider = copy.globalGuideProvider.getClone();
+        this.localGuideProvider = copy.localGuideProvider.getClone();
     }
 
     @Override
@@ -55,8 +66,8 @@ public class LinearVelocityProvider implements VelocityProvider {
     public Vector get(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getPosition();
-        Vector localGuide = (Vector) particle.getLocalGuide();
-        Vector globalGuide = (Vector) particle.getGlobalGuide();
+        Vector localGuide = (Vector) localGuideProvider.get(particle);
+        Vector globalGuide = (Vector) globalGuideProvider.get(particle);
 
         float social = Rand.nextFloat();
         float cognitive = Rand.nextFloat();
@@ -69,5 +80,21 @@ public class LinearVelocityProvider implements VelocityProvider {
             builder.add(value);
         }
         return builder.build();
+    }
+
+    /**
+     * Sets the GuideProvider responsible for retrieving a particle's global guide.
+     * @param globalGuideProvider The guide provider to set.
+     */
+    public void setGlobalGuideProvider(GuideProvider globalGuideProvider) {
+        this.globalGuideProvider = globalGuideProvider;
+    }
+
+    /**
+     * Sets the GuideProvider responsible for retrieving a particle's local guide.
+     * @param localGuideProvider The guide provider to set.
+     */
+    public void setLocalGuideProvider(GuideProvider localGuideProvider) {
+        this.localGuideProvider = localGuideProvider;
     }
 }

@@ -8,6 +8,9 @@ package net.sourceforge.cilib.pso.velocityprovider.binary;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.PBestGuideProvider;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -33,6 +36,9 @@ public final class BinaryQuantumVelocityProvider implements VelocityProvider {
     protected ControlParameter selfAcceleration;
     protected ControlParameter socialAcceleration;
     protected ControlParameter cognitiveAcceleration;
+    
+    private GuideProvider globalGuideProvider;
+    private GuideProvider localGuideProvider;
 
     public BinaryQuantumVelocityProvider() {
         this(ConstantControlParameter.of(0.3),
@@ -54,6 +60,9 @@ public final class BinaryQuantumVelocityProvider implements VelocityProvider {
         this.selfAcceleration = selfAcceleration;
         this.socialAcceleration = socialAcceleration;
         this.cognitiveAcceleration = cognitiveAcceleration;
+        
+        this.globalGuideProvider = new NBestGuideProvider();
+        this.localGuideProvider = new PBestGuideProvider();
     }
 
     public BinaryQuantumVelocityProvider(BinaryQuantumVelocityProvider copy) {
@@ -62,6 +71,8 @@ public final class BinaryQuantumVelocityProvider implements VelocityProvider {
         this.selfAcceleration = copy.selfAcceleration.getClone();
         this.socialAcceleration = copy.socialAcceleration.getClone();
         this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
+        this.globalGuideProvider = copy.globalGuideProvider.getClone();
+        this.localGuideProvider = copy.localGuideProvider.getClone();
     }
 
     /**
@@ -75,8 +86,8 @@ public final class BinaryQuantumVelocityProvider implements VelocityProvider {
     @Override
     public Vector get(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
-        Vector pbest = (Vector) particle.getLocalGuide();
-        Vector gbest = (Vector) particle.getGlobalGuide();
+        Vector pbest = (Vector) localGuideProvider.get(particle);
+        Vector gbest = (Vector) globalGuideProvider.get(particle);
 
         Vector.Builder groupBest = Vector.newBuilder();
         Vector.Builder selfBest = Vector.newBuilder();
@@ -192,4 +203,19 @@ public final class BinaryQuantumVelocityProvider implements VelocityProvider {
         this.socialAcceleration = socialAcceleration;
     }
 
+    /**
+     * Sets the GuideProvider responsible for retrieving a particle's global guide.
+     * @param globalGuideProvider The guide provider to set.
+     */
+    public void setGlobalGuideProvider(GuideProvider globalGuideProvider) {
+        this.globalGuideProvider = globalGuideProvider;
+    }
+
+    /**
+     * Sets the GuideProvider responsible for retrieving a particle's local guide.
+     * @param localGuideProvider The guide provider to set.
+     */
+    public void setLocalGuideProvider(GuideProvider localGuideProvider) {
+        this.localGuideProvider = localGuideProvider;
+    }
 }

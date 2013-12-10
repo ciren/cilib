@@ -11,6 +11,9 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.random.GaussianDistribution;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.generator.Rand;
+import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.PBestGuideProvider;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -24,15 +27,21 @@ public class BareBonesVelocityProvider implements VelocityProvider {
 
     private ProbabilityDistributionFunction distribution;
     private ControlParameter exploitProbability;
+    private GuideProvider globalGuideProvider;
+    private GuideProvider localGuideProvider;
 
     public BareBonesVelocityProvider() {
         this.distribution = new GaussianDistribution();
         this.exploitProbability = ConstantControlParameter.of(0.5);
+        this.globalGuideProvider = new NBestGuideProvider();
+        this.localGuideProvider = new PBestGuideProvider();
     }
 
     public BareBonesVelocityProvider(BareBonesVelocityProvider copy) {
         this.distribution = copy.distribution;
         this.exploitProbability = copy.exploitProbability.getClone();
+        this.globalGuideProvider = copy.globalGuideProvider.getClone();
+        this.localGuideProvider = copy.localGuideProvider.getClone();
     }
 
     /**
@@ -45,8 +54,8 @@ public class BareBonesVelocityProvider implements VelocityProvider {
 
     @Override
     public Vector get(Particle particle) {
-        Vector localGuide = (Vector) particle.getLocalGuide();
-        Vector globalGuide = (Vector) particle.getGlobalGuide();
+        Vector localGuide = (Vector) localGuideProvider.get(particle);
+        Vector globalGuide = (Vector) globalGuideProvider.get(particle);
 
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
@@ -80,5 +89,21 @@ public class BareBonesVelocityProvider implements VelocityProvider {
 
     public ProbabilityDistributionFunction getDistribution() {
         return this.distribution;
+    }
+
+    /**
+     * Sets the GuideProvider responsible for retrieving a particle's global guide.
+     * @param globalGuideProvider The guide provider to set.
+     */
+    public void setGlobalGuideProvider(GuideProvider globalGuideProvider) {
+        this.globalGuideProvider = globalGuideProvider;
+    }
+
+    /**
+     * Sets the GuideProvider responsible for retrieving a particle's local guide.
+     * @param localGuideProvider The guide provider to set.
+     */
+    public void setLocalGuideProvider(GuideProvider localGuideProvider) {
+        this.localGuideProvider = localGuideProvider;
     }
 }
