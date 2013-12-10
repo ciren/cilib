@@ -6,6 +6,8 @@
  */
 package net.sourceforge.cilib.algorithm.initialisation;
 
+import fj.F;
+import fj.data.Array;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Problem;
 import org.junit.Ignore;
@@ -19,7 +21,7 @@ public class ClonedPopulationInitialisationStrategyTest {
     public void initialiseClonedTopology() {
         final Entity entity = mock(Entity.class);
         final Problem problem = mock(Problem.class);
-
+        
         final PopulationInitialisationStrategy initialisationBuilder = new ClonedPopulationInitialisationStrategy();
         initialisationBuilder.setEntityType(entity);
         initialisationBuilder.setEntityNumber(20);

@@ -7,8 +7,8 @@
 <simulator>
     <algorithms>
         <algorithm id="pso" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="4000"/>
-            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
+	    <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="40"/>
                 <entityType class="pso.particle.StandardParticle">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
@@ -23,28 +23,40 @@
         </algorithm>
     </algorithms>
     <problems>
-	<problem id="AMRastrigin" class="functions.continuous.decorators.AngleModulation"  precision="2">
-            <problem class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
-                <!--<function class="functions.continuous.decorators.AngleModulation" precision="2">-->
-                <function class="functions.continuous.unconstrained.Rastrigin"/>
-                <!--</function>-->
-            </problem>
+	<problem id="AMRastrigin" class="problem.AngleModulationProblem" domain="R(-2:2)^4">
+            <generatingFunction class="functions.continuous.am.AMBitGeneratingFunction" precision="2">
+		<delegate class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
+                    <function class="functions.continuous.unconstrained.Rastrigin"/>
+                </delegate>
+            </generatingFunction>
 	</problem>
-        <problem id="AMRastrigin_multipleGenerators" class="functions.continuous.decorators.AngleModulation"  precision="2">
-            <numberOfGenerators value="3"/>
-            <problem class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
-                <function class="functions.continuous.unconstrained.Rastrigin"/>
-            </problem>
+        <problem id="AMRastrigin_minmax_sampling" class="problem.AngleModulationProblem" domain="R(-2:2)^5">
+            <generatingFunction class="functions.continuous.am.AMBitGeneratingFunction" precision="2">
+		<sampler class="functions.continuous.am.samplingstrategies.MinMaxAMSamplingStrategy" min="0.0" max="20.0"/>
+		<modulationFunction class="functions.continuous.am.AmplitudeAngleModulationFunction"/>
+                <delegate class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
+                    <function class="functions.continuous.unconstrained.Rastrigin"/>
+                </delegate>
+            </generatingFunction>
+	</problem>
+	<problem id="MinMaxAMRastrigin" class="problem.decorators.MinMaxAngleModulationProblem">
+	    <delegate class="problem.AngleModulationProblem" domain="R(-2:2.0)^4">
+		<generatingFunction class="functions.continuous.am.AMBitGeneratingFunction" precision="2">
+		    <delegate class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^30">
+		        <function class="functions.continuous.unconstrained.Rastrigin"/>
+		    </delegate>
+		</generatingFunction>
+	    </delegate>
 	</problem>
     </problems>
     <measurements>
-        <measurements id="measurements" class="simulator.MeasurementSuite" resolution="1">
+        <measurements id="measurements" class="simulator.MeasurementSuite" resolution="10">
             <addMeasurement class="measurement.single.Fitness"/>
             <addMeasurement class="measurement.single.Solution"/>
         </measurements>
     </measurements>
     <simulations>
-        <simulation  samples="1">
+        <simulation  samples="1"> 
             <algorithm idref="pso"/>
             <problem idref="AMRastrigin"/>
             <measurements idref="measurements"/>
@@ -52,9 +64,15 @@
         </simulation>
         <simulation  samples="1">
             <algorithm idref="pso"/>
-            <problem idref="AMRastrigin_multipleGenerators"/>
+            <problem idref="AMRastrigin_minmax_sampling"/>
             <measurements idref="measurements"/>
-            <output format="TXT"  file="data/ampso-multiple-generators-rastrigin.txt"/>
+            <output format="TXT"  file="data/ampso-rastrigin-variable-amplitude-minmax-sampling.txt"/>
+        </simulation>
+        <simulation  samples="1">
+            <algorithm idref="pso"/>
+            <problem idref="MinMaxAMRastrigin"/>
+            <measurements idref="measurements"/>
+            <output format="TXT"  file="data/minmax-ampso-rastrigin.txt"/>
         </simulation>
     </simulations>
 </simulator>

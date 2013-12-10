@@ -7,19 +7,20 @@
 package net.sourceforge.cilib.problem.nn;
 
 import net.sourceforge.cilib.functions.activation.Linear;
-import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.io.StandardPatternDataTable;
+import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.math.Maths;
+import net.sourceforge.cilib.nn.NeuralNetwork;
+import net.sourceforge.cilib.nn.architecture.Layer;
 import net.sourceforge.cilib.nn.architecture.builder.CascadeArchitectureBuilder;
 import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
-import net.sourceforge.cilib.nn.architecture.Layer;
 import net.sourceforge.cilib.nn.components.Neuron;
 import net.sourceforge.cilib.nn.domain.PresetNeuronDomain;
-import net.sourceforge.cilib.nn.NeuralNetwork;
 import net.sourceforge.cilib.problem.solution.MaximisationFitness;
-import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
+import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 
 public class CascadeHiddenNeuronCorrelationProblemTest {
