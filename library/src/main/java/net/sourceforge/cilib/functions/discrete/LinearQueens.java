@@ -19,7 +19,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
  * the correct number of queens, the delegate {@link Queens} problem is used to
  * calculate the fitness by determining the number of conflicts.
  */
-public class LinearQueens implements DiscreteFunction {
+public class LinearQueens extends DiscreteFunction {
     private ControlParameter penalty;
     private Queens delegate;
 
@@ -50,7 +50,7 @@ public class LinearQueens implements DiscreteFunction {
      * @return          the fitness of the input {@code Vector}
      */
     @Override
-    public Integer apply(Vector input) {
+    public Integer f(Vector input) {
         boolean[][] board = delegate.initialiseBoard(input);
         int numQueens = delegate.numberOfQueens(board);
         int boardSize = delegate.getBoardSize();
@@ -59,7 +59,7 @@ public class LinearQueens implements DiscreteFunction {
             return (int)penalty.getParameter() * Math.abs(numQueens - boardSize);
         }
 
-        return delegate.apply(input);
+        return delegate.f(input);
     }
 
     /**
