@@ -33,7 +33,9 @@ public class StringBasedDomainRegistry implements DomainRegistry {
      */
     public StringBasedDomainRegistry(StringBasedDomainRegistry copy) {
         this.domainString = copy.domainString;
-        this.builtRepresenation = DomainParser.parse(this.domainString);
+        if (copy.builtRepresenation != null) {
+            this.builtRepresenation = DomainParser.parse(this.domainString);
+        }
     }
 
     /**
@@ -59,7 +61,9 @@ public class StringBasedDomainRegistry implements DomainRegistry {
     @Override
     public void setDomainString(String domainString) {
         this.domainString = domainString;
-        this.builtRepresenation = DomainParser.parse(domainString);
+        if (domainString != null) {
+            this.builtRepresenation = DomainParser.parse(domainString);
+        }
     }
 
     /**
