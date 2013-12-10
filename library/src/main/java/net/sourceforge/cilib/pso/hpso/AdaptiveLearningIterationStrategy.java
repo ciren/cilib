@@ -167,8 +167,8 @@ public class AdaptiveLearningIterationStrategy extends AbstractIterationStrategy
             Fitness prevPBest = (Fitness) particle.get(BEST_FITNESS);
 
             //update particle
-            particle.updateVelocity();
-            particle.updatePosition();
+            particle.updateVelocity(particle.getParticleBehavior().getVelocityProvider().get(particle));
+            particle.updatePosition(particle.getParticleBehavior().getPositionProvider().get(particle));
 
             boundaryConstraint.enforce(particle);
             particle.calculateFitness();

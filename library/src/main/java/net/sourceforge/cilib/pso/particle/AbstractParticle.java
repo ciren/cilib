@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.pso.particle;
 
 import net.sourceforge.cilib.entity.AbstractEntity;
-import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.initialisation.ConstantInitialisationStrategy;
 import net.sourceforge.cilib.entity.initialisation.InitialisationStrategy;
 import net.sourceforge.cilib.entity.initialisation.RandomInitialisationStrategy;
@@ -130,16 +130,21 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public abstract Particle getNeighbourhoodBest();
 
     /**
-     * Update the position of the {@code Particle}.
+     * {@inheritDoc}
      */
     @Override
-    public abstract void updatePosition();
+    public void updatePosition(StructuredType newPosition) {
+        put(Property.PREVIOUS_SOLUTION, getPosition());
+        put(Property.CANDIDATE_SOLUTION, newPosition);
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract void updateVelocity();
+    public void updateVelocity(StructuredType newVelocity) {
+        put(Property.VELOCITY, newVelocity);
+    }
 
     /**
      * Get the current {@link PositionProvider} associated with this {@code Particle}.

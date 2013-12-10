@@ -82,7 +82,7 @@ public final class PreyVelocityProvider implements VelocityProvider {
     @Override
     public Vector get(Particle particle) {
         Vector position = (Vector) particle.getPosition();
-        Vector standardVelocity = delegate.get(particle);
+        Vector standardVelocity = (Vector) delegate.get(particle);
         Vector.Builder builder = Vector.newBuilder();
         List<Particle> predators = getPredators();
 

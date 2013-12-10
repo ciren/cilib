@@ -229,7 +229,7 @@ public class ClusterParticleTest {
         instance.put(Property.FITNESS, new MinimisationFitness(6.0));
         instance.put(Property.BEST_FITNESS, new MinimisationFitness(6.0));
         instance.setNeighbourhoodBest(instance);
-        instance.updatePosition();
+        instance.updatePosition(instance.getPositionProvider().get(instance));
 
         Assert.assertNotSame(instance.getPosition(), holder);
     }
@@ -252,7 +252,7 @@ public class ClusterParticleTest {
         instance.put(Property.FITNESS, new MinimisationFitness(6.0));
         instance.put(Property.BEST_FITNESS, new MinimisationFitness(6.0));
         instance.setNeighbourhoodBest(instance);
-        instance.updateVelocity();
+        instance.updateVelocity(instance.getVelocityProvider().get(instance));
 
         Assert.assertNotSame(instance.getVelocity(), holder);
     }

@@ -52,12 +52,12 @@ public interface Particle extends Entity, SocialEntity, MemoryBasedEntity {
     /**
      * Update the current position of the {@linkplain Particle}.
      */
-    void updatePosition();
+    void updatePosition(StructuredType newPosition);
 
     /**
      * Update the velocity of the {@linkplain Particle}.
      */
-    void updateVelocity();
+    void updateVelocity(StructuredType newVelocity);
 
     /**
      * Get the strategy that will be used to update the velocity.

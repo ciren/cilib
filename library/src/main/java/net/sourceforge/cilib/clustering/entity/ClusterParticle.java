@@ -6,6 +6,8 @@
  */
 package net.sourceforge.cilib.clustering.entity;
 
+import net.sourceforge.cilib.clustering.StandardDataClusteringPositionProvider;
+import net.sourceforge.cilib.clustering.StandardDataClusteringVelocityProvider;
 import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.initialisation.InitialisationStrategy;
 import net.sourceforge.cilib.entity.initialisation.RandomBoundedInitialisationStrategy;
@@ -16,11 +18,9 @@ import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
 import net.sourceforge.cilib.pso.particle.AbstractParticle;
 import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.pbestupdate.StandardPersonalBestUpdateStrategy;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.CentroidHolder;
-import net.sourceforge.cilib.type.types.container.ClusterCentroid;
 import net.sourceforge.cilib.util.calculator.EntityBasedFitnessCalculator;
 
 /**
@@ -49,6 +49,9 @@ public class ClusterParticle extends AbstractParticle{
         centroidInitialisationStrategyVelocity = new StandardCentroidInitialisationStrategy();
         numberOfClusters = 1;
         isCharged = false;
+
+        behavior.setVelocityProvider(new StandardDataClusteringVelocityProvider());
+        behavior.setPositionProvider(new StandardDataClusteringPositionProvider());
     }
 
     /*
@@ -123,77 +126,6 @@ public class ClusterParticle extends AbstractParticle{
     }
 
     /*
-     * Changes the current position of the ClusterParticle accordingly
-     */
-    @Override
-    public void updatePosition() {
-        CentroidHolder newCandidateSolution = new CentroidHolder();
-        ClusterCentroid newCentroid;
-        Particle particle;
-        Particle neighbourhoodBestParticle;
-        int index = 0;
-        for(ClusterCentroid centroid : (CentroidHolder) getPosition()) {
-            particle = new StandardParticle();
-            neighbourhoodBestParticle = new StandardParticle();
-            particle.setPosition(centroid.toVector());
-            particle.put(Property.VELOCITY, this.getVelocity().get(index).toVector());
-            particle.put(Property.BEST_POSITION, this.getBestPosition().get(index).toVector());
-            particle.put(Property.BEST_FITNESS, this.getBestFitness());
-            particle.put(Property.FITNESS, this.getFitness());
-
-            neighbourhoodBestParticle.setPosition(((CentroidHolder) getNeighbourhoodBest().getPosition()).get(index).toVector());
-            neighbourhoodBestParticle.put(Property.VELOCITY, getNeighbourhoodBest().getVelocity().get(index).toVector());
-            neighbourhoodBestParticle.put(Property.BEST_POSITION, getNeighbourhoodBest().getBestPosition().get(index).toVector());
-            neighbourhoodBestParticle.put(Property.BEST_FITNESS, getNeighbourhoodBest().getBestFitness());
-            neighbourhoodBestParticle.put(Property.FITNESS, getNeighbourhoodBest().getFitness());
-
-            particle.setNeighbourhoodBest(neighbourhoodBestParticle);
-            newCentroid = new ClusterCentroid();
-            newCentroid.copy(this.behavior.getPositionProvider().get(particle));
-            newCandidateSolution.add(newCentroid);
-            index++;
-        }
-
-        this.setPosition(newCandidateSolution);
-
-    }
-
-    /*
-     * Changes the velocity of the ClusterParticle accordingly
-     */
-    @Override
-    public void updateVelocity() {
-        CentroidHolder newVelocity = new CentroidHolder();
-        ClusterCentroid newCentroid;
-        Particle particle;
-        int index = 0;
-        Particle neighbourhoodBestParticle;
-        for(ClusterCentroid centroid : (CentroidHolder) getPosition()) {
-            particle = new StandardParticle();
-            neighbourhoodBestParticle = new StandardParticle();
-            particle.setPosition(centroid.toVector());
-            particle.put(Property.VELOCITY, this.getVelocity().get(index).toVector());
-            particle.put(Property.BEST_POSITION, this.getBestPosition().get(index).toVector());
-            particle.put(Property.BEST_FITNESS, this.getBestFitness());
-            particle.put(Property.FITNESS, this.getFitness());
-
-            neighbourhoodBestParticle.setPosition(((CentroidHolder) getNeighbourhoodBest().getPosition()).get(index).toVector());
-            neighbourhoodBestParticle.put(Property.VELOCITY, getNeighbourhoodBest().getVelocity().get(index).toVector());
-            neighbourhoodBestParticle.put(Property.BEST_POSITION, getNeighbourhoodBest().getBestPosition().get(index).toVector());
-            neighbourhoodBestParticle.put(Property.BEST_FITNESS, getNeighbourhoodBest().getBestFitness());
-            neighbourhoodBestParticle.put(Property.FITNESS, getNeighbourhoodBest().getFitness());
-
-            particle.setNeighbourhoodBest(neighbourhoodBestParticle);
-            newCentroid = new ClusterCentroid();
-            newCentroid.copy(this.behavior.getVelocityProvider().get(particle));
-            newVelocity.add(newCentroid);
-            index++;
-        }
-
-        put(Property.VELOCITY, newVelocity);
-    }
-
-    /*
      * Initialises the ClusterParticle
      * @param problem The optimisation problem being dealt with
      */
@@ -202,8 +134,8 @@ public class ClusterParticle extends AbstractParticle{
         numberOfClusters = ((ClusteringProblem) problem).getNumberOfClusters();
 
         put(Property.CANDIDATE_SOLUTION, new CentroidHolder(numberOfClusters, problem.getDomain().getDimension()));
-        put(Property.BEST_POSITION,  new CentroidHolder(numberOfClusters, problem.getDomain().getDimension()));
-        put(Property.VELOCITY,  new CentroidHolder(numberOfClusters, problem.getDomain().getDimension()));
+        put(Property.BEST_POSITION, new CentroidHolder(numberOfClusters, problem.getDomain().getDimension()));
+        put(Property.VELOCITY, new CentroidHolder(numberOfClusters, problem.getDomain().getDimension()));
 
         if(centroidInitialisationStrategyCandidate instanceof StandardCentroidInitialisationStrategy)
             ((StandardCentroidInitialisationStrategy) centroidInitialisationStrategyCandidate).setInitialisationStrategy(positionInitialisationStrategy);

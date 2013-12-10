@@ -36,7 +36,7 @@ public class VectorBasedPositionProvider implements PositionProvider {
 
     @Override
     public Vector get(Particle particle) {
-        Vector newPos = delegate.get(particle);
+        Vector newPos = (Vector) delegate.get(particle);
 
         Particle tmp = particle.getClone();
         tmp.setPosition(newPos);

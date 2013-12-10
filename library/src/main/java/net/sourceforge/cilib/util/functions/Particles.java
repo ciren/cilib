@@ -12,6 +12,7 @@ import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.positionprovider.PositionProvider;
 import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 public final class Particles {
@@ -70,21 +71,21 @@ public final class Particles {
         };
     }
 
-    public static <P extends Particle> F<P, P> updatePosition() {
-        return new F<P, P>() {
+    public static <P extends Particle> F2<P, StructuredType, P> updatePosition() {
+        return new F2<P, StructuredType, P>() {
             @Override
-            public P f(P a) {
-                a.updatePosition();
+            public P f(P a, StructuredType b) {
+                a.updatePosition(b);
                 return a;
             }
         };
     }
 
-    public static <P extends Particle> F<P, P> updateVelocity() {
-        return new F<P, P>() {
+    public static <P extends Particle> F2<P, StructuredType, P> updateVelocity() {
+        return new F2<P, StructuredType, P>() {
             @Override
-            public P f(P a) {
-                a.updatePosition();
+            public P f(P a, StructuredType b) {
+                a.updatePosition(b);
                 return a;
             }
         };

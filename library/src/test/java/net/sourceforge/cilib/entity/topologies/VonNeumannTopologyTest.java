@@ -11,6 +11,7 @@ import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.particle.AbstractParticle;
 import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Before;
 import org.junit.Test;
@@ -194,16 +195,6 @@ public class VonNeumannTopologyTest {
 
         @Override
         public Particle getNeighbourhoodBest() {
-            throw new UnsupportedOperationException("Mocked object - not allowed");
-        }
-
-        @Override
-        public void updatePosition() {
-            throw new UnsupportedOperationException("Mocked object - not allowed");
-        }
-
-        @Override
-        public void updateVelocity() {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
 

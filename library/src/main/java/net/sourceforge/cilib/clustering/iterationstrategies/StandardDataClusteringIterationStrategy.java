@@ -89,9 +89,9 @@ public class StandardDataClusteringIterationStrategy extends SinglePopulationDat
             particle.setPosition(candidateSolution);
 
             particle.calculateFitness();
-            particle.updateVelocity();
-            particle.updatePosition();
 
+            particle.updateVelocity(particle.getVelocityProvider().get(particle));
+            particle.updatePosition(particle.getPositionProvider().get(particle));
             boundaryConstraint.enforce(particle);
         }
 
