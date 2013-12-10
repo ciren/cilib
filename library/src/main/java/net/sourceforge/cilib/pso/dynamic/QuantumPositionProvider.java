@@ -12,6 +12,8 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
+import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
+import net.sourceforge.cilib.pso.guideprovider.NBestGuideProvider;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.positionprovider.PositionProvider;
 import net.sourceforge.cilib.pso.positionprovider.StandardPositionProvider;
@@ -34,17 +36,20 @@ public class QuantumPositionProvider implements PositionProvider {
     private Vector nucleus;
 
     private PositionProvider delegate;
+    private GuideProvider globalGuide;
 
     public QuantumPositionProvider() {
         this.radius = ConstantControlParameter.of(5);
         this.randomiser = new UniformDistribution();
         this.delegate = new StandardPositionProvider();
+        this.globalGuide = new NBestGuideProvider();
     }
 
     public QuantumPositionProvider(QuantumPositionProvider copy) {
         this.radius = copy.radius;
         this.randomiser = copy.randomiser;
         this.delegate = copy.delegate.getClone();
+        this.globalGuide = copy.globalGuide.getClone();
     }
 
     @Override
@@ -72,7 +77,7 @@ public class QuantumPositionProvider implements PositionProvider {
             //This ensures that the quantum particles are placed randomly within the
             //multidimensional sphere determined by the quantum radius.
 
-            this.nucleus = (Vector) particle.getGlobalGuide();
+            this.nucleus = (Vector) globalGuide.get(particle);
 
             double distance = Math.pow(this.radius.getParameter(), 2); //square of the radius
             int dimensions = particle.getDimension();
